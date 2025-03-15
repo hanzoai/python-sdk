@@ -1,6 +1,6 @@
 # Hanzo AI Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/Hanzo_AI.svg)](https://pypi.org/project/Hanzo_AI/)
+[![PyPI version](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 
 The Hanzo AI Python library provides convenient access to the Hanzo AI REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -15,12 +15,9 @@ The REST API documentation can be found on [docs.hanzo-ai.com](https://docs.Hanz
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/hanzoai/python-sdk.git
+# install from PyPI
+pip install --pre hanzoai
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainless.com/docs/guides/publish), this will become: `pip install --pre Hanzo_AI`
 
 ## Usage
 
