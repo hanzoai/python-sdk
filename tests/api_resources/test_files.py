@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         file = client.files.create(
             provider="provider",
             file=b"raw file contents",
@@ -28,7 +28,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         file = client.files.create(
             provider="provider",
             file=b"raw file contents",
@@ -39,7 +39,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.files.with_raw_response.create(
             provider="provider",
             file=b"raw file contents",
@@ -53,7 +53,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.files.with_streaming_response.create(
             provider="provider",
             file=b"raw file contents",
@@ -69,7 +69,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_create(self, client: HanzoAI) -> None:
+    def test_path_params_create(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             client.files.with_raw_response.create(
                 provider="",
@@ -79,7 +79,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: HanzoAI) -> None:
+    def test_method_retrieve(self, client: Hanzo) -> None:
         file = client.files.retrieve(
             file_id="file_id",
             provider="provider",
@@ -88,7 +88,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.files.with_raw_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -101,7 +101,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.files.with_streaming_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -116,7 +116,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_retrieve(self, client: HanzoAI) -> None:
+    def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             client.files.with_raw_response.retrieve(
                 file_id="file_id",
@@ -131,7 +131,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         file = client.files.list(
             provider="provider",
         )
@@ -139,7 +139,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_with_all_params(self, client: Hanzo) -> None:
         file = client.files.list(
             provider="provider",
             purpose="purpose",
@@ -148,7 +148,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.files.with_raw_response.list(
             provider="provider",
         )
@@ -160,7 +160,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.files.with_streaming_response.list(
             provider="provider",
         ) as response:
@@ -174,7 +174,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_list(self, client: HanzoAI) -> None:
+    def test_path_params_list(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             client.files.with_raw_response.list(
                 provider="",
@@ -182,7 +182,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         file = client.files.delete(
             file_id="file_id",
             provider="provider",
@@ -191,7 +191,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.files.with_raw_response.delete(
             file_id="file_id",
             provider="provider",
@@ -204,7 +204,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.files.with_streaming_response.delete(
             file_id="file_id",
             provider="provider",
@@ -219,7 +219,7 @@ class TestFiles:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_delete(self, client: HanzoAI) -> None:
+    def test_path_params_delete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             client.files.with_raw_response.delete(
                 file_id="file_id",
@@ -238,7 +238,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.create(
             provider="provider",
             file=b"raw file contents",
@@ -248,7 +248,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.create(
             provider="provider",
             file=b"raw file contents",
@@ -259,7 +259,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.files.with_raw_response.create(
             provider="provider",
             file=b"raw file contents",
@@ -273,7 +273,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.files.with_streaming_response.create(
             provider="provider",
             file=b"raw file contents",
@@ -289,7 +289,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_create(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             await async_client.files.with_raw_response.create(
                 provider="",
@@ -299,7 +299,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.retrieve(
             file_id="file_id",
             provider="provider",
@@ -308,7 +308,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.files.with_raw_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -321,7 +321,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.files.with_streaming_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -336,7 +336,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             await async_client.files.with_raw_response.retrieve(
                 file_id="file_id",
@@ -351,7 +351,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.list(
             provider="provider",
         )
@@ -359,7 +359,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.list(
             provider="provider",
             purpose="purpose",
@@ -368,7 +368,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.files.with_raw_response.list(
             provider="provider",
         )
@@ -380,7 +380,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.files.with_streaming_response.list(
             provider="provider",
         ) as response:
@@ -394,7 +394,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_list(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             await async_client.files.with_raw_response.list(
                 provider="",
@@ -402,7 +402,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.delete(
             file_id="file_id",
             provider="provider",
@@ -411,7 +411,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.files.with_raw_response.delete(
             file_id="file_id",
             provider="provider",
@@ -424,7 +424,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.files.with_streaming_response.delete(
             file_id="file_id",
             provider="provider",
@@ -439,7 +439,7 @@ class TestAsyncFiles:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
             await async_client.files.with_raw_response.delete(
                 file_id="file_id",

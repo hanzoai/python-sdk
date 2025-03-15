@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class HanzoAIError(Exception):
+class HanzoError(Exception):
     pass
 
 
-class APIError(HanzoAIError):
+class APIError(HanzoError):
     message: str
     request: httpx.Request
 

@@ -8,8 +8,8 @@ from typing import Any, TypeVar, Iterator, cast
 from datetime import date, datetime
 from typing_extensions import Literal, get_args, get_origin, assert_type
 
-from Hanzo_AI._types import Omit, NoneType
-from Hanzo_AI._utils import (
+from hanzoai._types import Omit, NoneType
+from hanzoai._utils import (
     is_dict,
     is_list,
     is_list_type,
@@ -18,8 +18,8 @@ from Hanzo_AI._utils import (
     is_annotated_type,
     is_type_alias_type,
 )
-from Hanzo_AI._compat import PYDANTIC_V2, field_outer_type, get_model_fields
-from Hanzo_AI._models import BaseModel
+from hanzoai._compat import PYDANTIC_V2, field_outer_type, get_model_fields
+from hanzoai._models import BaseModel
 
 BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
 
