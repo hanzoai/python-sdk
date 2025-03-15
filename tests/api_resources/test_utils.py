@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import (
+from hanzoai.types import (
     UtilTokenCounterResponse,
     UtilTransformRequestResponse,
 )
@@ -22,7 +22,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_get_supported_openai_params(self, client: HanzoAI) -> None:
+    def test_method_get_supported_openai_params(self, client: Hanzo) -> None:
         util = client.utils.get_supported_openai_params(
             model="model",
         )
@@ -30,7 +30,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_get_supported_openai_params(self, client: HanzoAI) -> None:
+    def test_raw_response_get_supported_openai_params(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.get_supported_openai_params(
             model="model",
         )
@@ -42,7 +42,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_get_supported_openai_params(self, client: HanzoAI) -> None:
+    def test_streaming_response_get_supported_openai_params(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.get_supported_openai_params(
             model="model",
         ) as response:
@@ -56,7 +56,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_token_counter(self, client: HanzoAI) -> None:
+    def test_method_token_counter(self, client: Hanzo) -> None:
         util = client.utils.token_counter(
             model="model",
         )
@@ -64,7 +64,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_token_counter_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_token_counter_with_all_params(self, client: Hanzo) -> None:
         util = client.utils.token_counter(
             model="model",
             messages=[{}],
@@ -74,7 +74,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_token_counter(self, client: HanzoAI) -> None:
+    def test_raw_response_token_counter(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.token_counter(
             model="model",
         )
@@ -86,7 +86,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_token_counter(self, client: HanzoAI) -> None:
+    def test_streaming_response_token_counter(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.token_counter(
             model="model",
         ) as response:
@@ -100,7 +100,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_transform_request(self, client: HanzoAI) -> None:
+    def test_method_transform_request(self, client: Hanzo) -> None:
         util = client.utils.transform_request(
             call_type="embedding",
             request_body={},
@@ -109,7 +109,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_transform_request(self, client: HanzoAI) -> None:
+    def test_raw_response_transform_request(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.transform_request(
             call_type="embedding",
             request_body={},
@@ -122,7 +122,7 @@ class TestUtils:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_transform_request(self, client: HanzoAI) -> None:
+    def test_streaming_response_transform_request(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.transform_request(
             call_type="embedding",
             request_body={},
@@ -141,7 +141,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_get_supported_openai_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.get_supported_openai_params(
             model="model",
         )
@@ -149,7 +149,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_get_supported_openai_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.get_supported_openai_params(
             model="model",
         )
@@ -161,7 +161,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_get_supported_openai_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.get_supported_openai_params(
             model="model",
         ) as response:
@@ -175,7 +175,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_token_counter(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_token_counter(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.token_counter(
             model="model",
         )
@@ -183,7 +183,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_token_counter_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_token_counter_with_all_params(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.token_counter(
             model="model",
             messages=[{}],
@@ -193,7 +193,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_token_counter(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_token_counter(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.token_counter(
             model="model",
         )
@@ -205,7 +205,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_token_counter(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_token_counter(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.token_counter(
             model="model",
         ) as response:
@@ -219,7 +219,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_transform_request(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_transform_request(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.transform_request(
             call_type="embedding",
             request_body={},
@@ -228,7 +228,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_transform_request(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_transform_request(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.transform_request(
             call_type="embedding",
             request_body={},
@@ -241,7 +241,7 @@ class TestAsyncUtils:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_transform_request(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_transform_request(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.transform_request(
             call_type="embedding",
             request_body={},

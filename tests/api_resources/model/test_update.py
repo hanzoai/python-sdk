@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI._utils import parse_datetime
+from hanzoai._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,13 +19,13 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_full(self, client: HanzoAI) -> None:
+    def test_method_full(self, client: Hanzo) -> None:
         update = client.model.update.full()
         assert_matches_type(object, update, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_full_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_full_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.full(
             litellm_params={
                 "api_base": "api_base",
@@ -78,7 +78,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_full(self, client: HanzoAI) -> None:
+    def test_raw_response_full(self, client: Hanzo) -> None:
         response = client.model.update.with_raw_response.full()
 
         assert response.is_closed is True
@@ -88,7 +88,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_full(self, client: HanzoAI) -> None:
+    def test_streaming_response_full(self, client: Hanzo) -> None:
         with client.model.update.with_streaming_response.full() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -100,7 +100,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_partial(self, client: HanzoAI) -> None:
+    def test_method_partial(self, client: Hanzo) -> None:
         update = client.model.update.partial(
             model_id="model_id",
         )
@@ -108,7 +108,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_partial_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_partial_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.partial(
             model_id="model_id",
             litellm_params={
@@ -162,7 +162,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_partial(self, client: HanzoAI) -> None:
+    def test_raw_response_partial(self, client: Hanzo) -> None:
         response = client.model.update.with_raw_response.partial(
             model_id="model_id",
         )
@@ -174,7 +174,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_partial(self, client: HanzoAI) -> None:
+    def test_streaming_response_partial(self, client: Hanzo) -> None:
         with client.model.update.with_streaming_response.partial(
             model_id="model_id",
         ) as response:
@@ -188,7 +188,7 @@ class TestUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_partial(self, client: HanzoAI) -> None:
+    def test_path_params_partial(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model_id` but received ''"):
             client.model.update.with_raw_response.partial(
                 model_id="",
@@ -200,13 +200,13 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_full(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_full(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.full()
         assert_matches_type(object, update, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_full_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_full_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.full(
             litellm_params={
                 "api_base": "api_base",
@@ -259,7 +259,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_full(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_full(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.update.with_raw_response.full()
 
         assert response.is_closed is True
@@ -269,7 +269,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_full(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_full(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.update.with_streaming_response.full() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -281,7 +281,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_partial(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_partial(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.partial(
             model_id="model_id",
         )
@@ -289,7 +289,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_partial_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_partial_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.partial(
             model_id="model_id",
             litellm_params={
@@ -343,7 +343,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_partial(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_partial(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.update.with_raw_response.partial(
             model_id="model_id",
         )
@@ -355,7 +355,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_partial(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_partial(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.update.with_streaming_response.partial(
             model_id="model_id",
         ) as response:
@@ -369,7 +369,7 @@ class TestAsyncUpdate:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_partial(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_partial(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model_id` but received ''"):
             await async_client.model.update.with_raw_response.partial(
                 model_id="",

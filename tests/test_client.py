@@ -21,12 +21,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI, APIResponseValidationError
-from Hanzo_AI._types import Omit
-from Hanzo_AI._models import BaseModel, FinalRequestOptions
-from Hanzo_AI._constants import RAW_RESPONSE_HEADER
-from Hanzo_AI._exceptions import HanzoAIError, APIStatusError, APITimeoutError, APIResponseValidationError
-from Hanzo_AI._base_client import (
+from hanzoai import Hanzo, AsyncHanzo, APIResponseValidationError
+from hanzoai._types import Omit
+from hanzoai._models import BaseModel, FinalRequestOptions
+from hanzoai._constants import RAW_RESPONSE_HEADER
+from hanzoai._exceptions import HanzoError, APIStatusError, APITimeoutError, APIResponseValidationError
+from hanzoai._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -49,7 +49,7 @@ def _low_retry_timeout(*_args: Any, **_kwargs: Any) -> float:
     return 0.1
 
 
-def _get_open_connections(client: HanzoAI | AsyncHanzoAI) -> int:
+def _get_open_connections(client: Hanzo | AsyncHanzo) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -57,8 +57,8 @@ def _get_open_connections(client: HanzoAI | AsyncHanzoAI) -> int:
     return len(pool._requests)
 
 
-class TestHanzoAI:
-    client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+class TestHanzo:
+    client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -105,7 +105,7 @@ class TestHanzoAI:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = HanzoAI(
+        client = Hanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -139,7 +139,7 @@ class TestHanzoAI:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = HanzoAI(
+        client = Hanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -230,10 +230,10 @@ class TestHanzoAI:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "Hanzo_AI/_legacy_response.py",
-                        "Hanzo_AI/_response.py",
+                        "hanzoai/_legacy_response.py",
+                        "hanzoai/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "Hanzo_AI/_compat.py",
+                        "hanzoai/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -264,7 +264,7 @@ class TestHanzoAI:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0))
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0))
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -273,7 +273,7 @@ class TestHanzoAI:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = HanzoAI(
+            client = Hanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -283,7 +283,7 @@ class TestHanzoAI:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = HanzoAI(
+            client = Hanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -293,7 +293,7 @@ class TestHanzoAI:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = HanzoAI(
+            client = Hanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -304,7 +304,7 @@ class TestHanzoAI:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                HanzoAI(
+                Hanzo(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -312,14 +312,14 @@ class TestHanzoAI:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = HanzoAI(
+        client = Hanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = HanzoAI(
+        client2 = Hanzo(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -333,17 +333,17 @@ class TestHanzoAI:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Ocp-Apim-Subscription-Key") == api_key
 
-        with pytest.raises(HanzoAIError):
-            with update_env(**{"HANZO_AI_API_KEY": Omit()}):
-                client2 = HanzoAI(base_url=base_url, api_key=None, _strict_response_validation=True)
+        with pytest.raises(HanzoError):
+            with update_env(**{"HANZO_API_KEY": Omit()}):
+                client2 = Hanzo(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = HanzoAI(
+        client = Hanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -457,7 +457,7 @@ class TestHanzoAI:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: HanzoAI) -> None:
+    def test_multipart_repeating_array(self, client: Hanzo) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="get",
@@ -544,7 +544,7 @@ class TestHanzoAI:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = HanzoAI(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
+        client = Hanzo(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -552,15 +552,15 @@ class TestHanzoAI:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(HANZO_AI_BASE_URL="http://localhost:5000/from/env"):
-            client = HanzoAI(api_key=api_key, _strict_response_validation=True)
+        with update_env(HANZO_BASE_URL="http://localhost:5000/from/env"):
+            client = Hanzo(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            HanzoAI(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
-            HanzoAI(
+            Hanzo(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Hanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -569,7 +569,7 @@ class TestHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: HanzoAI) -> None:
+    def test_base_url_trailing_slash(self, client: Hanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -582,8 +582,8 @@ class TestHanzoAI:
     @pytest.mark.parametrize(
         "client",
         [
-            HanzoAI(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
-            HanzoAI(
+            Hanzo(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Hanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -592,7 +592,7 @@ class TestHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: HanzoAI) -> None:
+    def test_base_url_no_trailing_slash(self, client: Hanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -605,8 +605,8 @@ class TestHanzoAI:
     @pytest.mark.parametrize(
         "client",
         [
-            HanzoAI(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
-            HanzoAI(
+            Hanzo(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Hanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -615,7 +615,7 @@ class TestHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: HanzoAI) -> None:
+    def test_absolute_request_url(self, client: Hanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -626,7 +626,7 @@ class TestHanzoAI:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -637,7 +637,7 @@ class TestHanzoAI:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -658,7 +658,7 @@ class TestHanzoAI:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
+            Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -667,12 +667,12 @@ class TestHanzoAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -700,14 +700,14 @@ class TestHanzoAI:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -717,7 +717,7 @@ class TestHanzoAI:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/").mock(return_value=httpx.Response(500))
@@ -728,12 +728,12 @@ class TestHanzoAI:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
         self,
-        client: HanzoAI,
+        client: Hanzo,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -759,11 +759,9 @@ class TestHanzoAI:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_omit_retry_count_header(
-        self, client: HanzoAI, failures_before_success: int, respx_mock: MockRouter
-    ) -> None:
+    def test_omit_retry_count_header(self, client: Hanzo, failures_before_success: int, respx_mock: MockRouter) -> None:
         client = client.with_options(max_retries=4)
 
         nb_retries = 0
@@ -782,10 +780,10 @@ class TestHanzoAI:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: HanzoAI, failures_before_success: int, respx_mock: MockRouter
+        self, client: Hanzo, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -805,8 +803,8 @@ class TestHanzoAI:
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
 
-class TestAsyncHanzoAI:
-    client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+class TestAsyncHanzo:
+    client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -855,7 +853,7 @@ class TestAsyncHanzoAI:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = AsyncHanzoAI(
+        client = AsyncHanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -889,7 +887,7 @@ class TestAsyncHanzoAI:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = AsyncHanzoAI(
+        client = AsyncHanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -980,10 +978,10 @@ class TestAsyncHanzoAI:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "Hanzo_AI/_legacy_response.py",
-                        "Hanzo_AI/_response.py",
+                        "hanzoai/_legacy_response.py",
+                        "hanzoai/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "Hanzo_AI/_compat.py",
+                        "hanzoai/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1014,7 +1012,7 @@ class TestAsyncHanzoAI:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncHanzoAI(
+        client = AsyncHanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -1025,7 +1023,7 @@ class TestAsyncHanzoAI:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncHanzoAI(
+            client = AsyncHanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1035,7 +1033,7 @@ class TestAsyncHanzoAI:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncHanzoAI(
+            client = AsyncHanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1045,7 +1043,7 @@ class TestAsyncHanzoAI:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncHanzoAI(
+            client = AsyncHanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1056,7 +1054,7 @@ class TestAsyncHanzoAI:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncHanzoAI(
+                AsyncHanzo(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -1064,14 +1062,14 @@ class TestAsyncHanzoAI:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = AsyncHanzoAI(
+        client = AsyncHanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = AsyncHanzoAI(
+        client2 = AsyncHanzo(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -1085,17 +1083,17 @@ class TestAsyncHanzoAI:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Ocp-Apim-Subscription-Key") == api_key
 
-        with pytest.raises(HanzoAIError):
-            with update_env(**{"HANZO_AI_API_KEY": Omit()}):
-                client2 = AsyncHanzoAI(base_url=base_url, api_key=None, _strict_response_validation=True)
+        with pytest.raises(HanzoError):
+            with update_env(**{"HANZO_API_KEY": Omit()}):
+                client2 = AsyncHanzo(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = AsyncHanzoAI(
+        client = AsyncHanzo(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1209,7 +1207,7 @@ class TestAsyncHanzoAI:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncHanzoAI) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncHanzo) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="get",
@@ -1296,9 +1294,7 @@ class TestAsyncHanzoAI:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = AsyncHanzoAI(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
-        )
+        client = AsyncHanzo(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -1306,17 +1302,17 @@ class TestAsyncHanzoAI:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(HANZO_AI_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncHanzoAI(api_key=api_key, _strict_response_validation=True)
+        with update_env(HANZO_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncHanzo(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1325,7 +1321,7 @@ class TestAsyncHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: AsyncHanzoAI) -> None:
+    def test_base_url_trailing_slash(self, client: AsyncHanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1338,10 +1334,10 @@ class TestAsyncHanzoAI:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1350,7 +1346,7 @@ class TestAsyncHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: AsyncHanzoAI) -> None:
+    def test_base_url_no_trailing_slash(self, client: AsyncHanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1363,10 +1359,10 @@ class TestAsyncHanzoAI:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1375,7 +1371,7 @@ class TestAsyncHanzoAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: AsyncHanzoAI) -> None:
+    def test_absolute_request_url(self, client: AsyncHanzo) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1386,7 +1382,7 @@ class TestAsyncHanzoAI:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1398,7 +1394,7 @@ class TestAsyncHanzoAI:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1420,7 +1416,7 @@ class TestAsyncHanzoAI:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncHanzoAI(
+            AsyncHanzo(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
@@ -1432,12 +1428,12 @@ class TestAsyncHanzoAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1466,14 +1462,14 @@ class TestAsyncHanzoAI:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -1483,7 +1479,7 @@ class TestAsyncHanzoAI:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/").mock(return_value=httpx.Response(500))
@@ -1494,13 +1490,13 @@ class TestAsyncHanzoAI:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
-        async_client: AsyncHanzoAI,
+        async_client: AsyncHanzo,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -1526,11 +1522,11 @@ class TestAsyncHanzoAI:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
-        self, async_client: AsyncHanzoAI, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncHanzo, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1550,11 +1546,11 @@ class TestAsyncHanzoAI:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("Hanzo_AI._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncHanzoAI, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncHanzo, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1584,8 +1580,8 @@ class TestAsyncHanzoAI:
         import nest_asyncio
         import threading
 
-        from Hanzo_AI._utils import asyncify
-        from Hanzo_AI._base_client import get_platform 
+        from hanzoai._utils import asyncify
+        from hanzoai._base_client import get_platform 
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()

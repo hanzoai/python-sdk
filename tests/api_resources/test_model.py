@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI._utils import parse_datetime
+from hanzoai._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         model = client.model.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -29,7 +29,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         model = client.model.create(
             litellm_params={
                 "model": "model",
@@ -82,7 +82,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.model.with_raw_response.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -96,7 +96,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.model.with_streaming_response.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -112,7 +112,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         model = client.model.delete(
             id="id",
         )
@@ -120,7 +120,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.model.with_raw_response.delete(
             id="id",
         )
@@ -132,7 +132,7 @@ class TestModel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.model.with_streaming_response.delete(
             id="id",
         ) as response:
@@ -150,7 +150,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         model = await async_client.model.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -160,7 +160,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         model = await async_client.model.create(
             litellm_params={
                 "model": "model",
@@ -213,7 +213,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.with_raw_response.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -227,7 +227,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.with_streaming_response.create(
             litellm_params={"model": "model"},
             model_info={"id": "id"},
@@ -243,7 +243,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         model = await async_client.model.delete(
             id="id",
         )
@@ -251,7 +251,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.with_raw_response.delete(
             id="id",
         )
@@ -263,7 +263,7 @@ class TestAsyncModel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.with_streaming_response.delete(
             id="id",
         ) as response:

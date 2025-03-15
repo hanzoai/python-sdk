@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from Hanzo_AI._types import FileTypes
-from Hanzo_AI._utils import extract_files
+from hanzoai._types import FileTypes
+from hanzoai._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:
