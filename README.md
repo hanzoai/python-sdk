@@ -6,8 +6,6 @@ The Hanzo Python library provides convenient access to the Hanzo REST API from a
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-It is generated with [Stainless](https://www.stainless.com/).
-
 ## Documentation
 
 The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai). The full API of this library can be found in [api.md](api.md).
@@ -16,7 +14,7 @@ The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai
 
 ```sh
 # install from PyPI
-pip install --pre hanzoai
+pip install hanzoai
 ```
 
 ## Usage
@@ -36,7 +34,7 @@ response = client.get_home()
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `HANZO_API_KEY="My API Key"` to your `.env` file
+to add `HANZO_API_KEY="sk-xxxxxxx` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
