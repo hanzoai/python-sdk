@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         azure = client.azure.create(
             "endpoint",
         )
@@ -26,7 +26,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.azure.with_raw_response.create(
             "endpoint",
         )
@@ -38,7 +38,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.azure.with_streaming_response.create(
             "endpoint",
         ) as response:
@@ -52,7 +52,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_create(self, client: HanzoAI) -> None:
+    def test_path_params_create(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             client.azure.with_raw_response.create(
                 "",
@@ -60,7 +60,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: HanzoAI) -> None:
+    def test_method_update(self, client: Hanzo) -> None:
         azure = client.azure.update(
             "endpoint",
         )
@@ -68,7 +68,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: HanzoAI) -> None:
+    def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.azure.with_raw_response.update(
             "endpoint",
         )
@@ -80,7 +80,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: HanzoAI) -> None:
+    def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.azure.with_streaming_response.update(
             "endpoint",
         ) as response:
@@ -94,7 +94,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_update(self, client: HanzoAI) -> None:
+    def test_path_params_update(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             client.azure.with_raw_response.update(
                 "",
@@ -102,7 +102,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         azure = client.azure.delete(
             "endpoint",
         )
@@ -110,7 +110,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.azure.with_raw_response.delete(
             "endpoint",
         )
@@ -122,7 +122,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.azure.with_streaming_response.delete(
             "endpoint",
         ) as response:
@@ -136,7 +136,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_delete(self, client: HanzoAI) -> None:
+    def test_path_params_delete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             client.azure.with_raw_response.delete(
                 "",
@@ -144,7 +144,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_call(self, client: HanzoAI) -> None:
+    def test_method_call(self, client: Hanzo) -> None:
         azure = client.azure.call(
             "endpoint",
         )
@@ -152,7 +152,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_call(self, client: HanzoAI) -> None:
+    def test_raw_response_call(self, client: Hanzo) -> None:
         response = client.azure.with_raw_response.call(
             "endpoint",
         )
@@ -164,7 +164,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_call(self, client: HanzoAI) -> None:
+    def test_streaming_response_call(self, client: Hanzo) -> None:
         with client.azure.with_streaming_response.call(
             "endpoint",
         ) as response:
@@ -178,7 +178,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_call(self, client: HanzoAI) -> None:
+    def test_path_params_call(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             client.azure.with_raw_response.call(
                 "",
@@ -186,7 +186,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_patch(self, client: HanzoAI) -> None:
+    def test_method_patch(self, client: Hanzo) -> None:
         azure = client.azure.patch(
             "endpoint",
         )
@@ -194,7 +194,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_patch(self, client: HanzoAI) -> None:
+    def test_raw_response_patch(self, client: Hanzo) -> None:
         response = client.azure.with_raw_response.patch(
             "endpoint",
         )
@@ -206,7 +206,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_patch(self, client: HanzoAI) -> None:
+    def test_streaming_response_patch(self, client: Hanzo) -> None:
         with client.azure.with_streaming_response.patch(
             "endpoint",
         ) as response:
@@ -220,7 +220,7 @@ class TestAzure:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_patch(self, client: HanzoAI) -> None:
+    def test_path_params_patch(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             client.azure.with_raw_response.patch(
                 "",
@@ -232,7 +232,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         azure = await async_client.azure.create(
             "endpoint",
         )
@@ -240,7 +240,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.azure.with_raw_response.create(
             "endpoint",
         )
@@ -252,7 +252,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.azure.with_streaming_response.create(
             "endpoint",
         ) as response:
@@ -266,7 +266,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_create(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             await async_client.azure.with_raw_response.create(
                 "",
@@ -274,7 +274,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update(self, async_client: AsyncHanzo) -> None:
         azure = await async_client.azure.update(
             "endpoint",
         )
@@ -282,7 +282,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.azure.with_raw_response.update(
             "endpoint",
         )
@@ -294,7 +294,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.azure.with_streaming_response.update(
             "endpoint",
         ) as response:
@@ -308,7 +308,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             await async_client.azure.with_raw_response.update(
                 "",
@@ -316,7 +316,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         azure = await async_client.azure.delete(
             "endpoint",
         )
@@ -324,7 +324,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.azure.with_raw_response.delete(
             "endpoint",
         )
@@ -336,7 +336,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.azure.with_streaming_response.delete(
             "endpoint",
         ) as response:
@@ -350,7 +350,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             await async_client.azure.with_raw_response.delete(
                 "",
@@ -358,7 +358,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_call(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_call(self, async_client: AsyncHanzo) -> None:
         azure = await async_client.azure.call(
             "endpoint",
         )
@@ -366,7 +366,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_call(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_call(self, async_client: AsyncHanzo) -> None:
         response = await async_client.azure.with_raw_response.call(
             "endpoint",
         )
@@ -378,7 +378,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_call(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_call(self, async_client: AsyncHanzo) -> None:
         async with async_client.azure.with_streaming_response.call(
             "endpoint",
         ) as response:
@@ -392,7 +392,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_call(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_call(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             await async_client.azure.with_raw_response.call(
                 "",
@@ -400,7 +400,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_patch(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_patch(self, async_client: AsyncHanzo) -> None:
         azure = await async_client.azure.patch(
             "endpoint",
         )
@@ -408,7 +408,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_patch(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_patch(self, async_client: AsyncHanzo) -> None:
         response = await async_client.azure.with_raw_response.patch(
             "endpoint",
         )
@@ -420,7 +420,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_patch(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_patch(self, async_client: AsyncHanzo) -> None:
         async with async_client.azure.with_streaming_response.patch(
             "endpoint",
         ) as response:
@@ -434,7 +434,7 @@ class TestAsyncAzure:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_patch(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_patch(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
             await async_client.azure.with_raw_response.patch(
                 "",

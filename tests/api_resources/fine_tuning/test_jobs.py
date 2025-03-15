@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         job = client.fine_tuning.jobs.create(
             custom_llm_provider="openai",
             model="model",
@@ -28,7 +28,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         job = client.fine_tuning.jobs.create(
             custom_llm_provider="openai",
             model="model",
@@ -47,7 +47,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.fine_tuning.jobs.with_raw_response.create(
             custom_llm_provider="openai",
             model="model",
@@ -61,7 +61,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.fine_tuning.jobs.with_streaming_response.create(
             custom_llm_provider="openai",
             model="model",
@@ -77,7 +77,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: HanzoAI) -> None:
+    def test_method_retrieve(self, client: Hanzo) -> None:
         job = client.fine_tuning.jobs.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -86,7 +86,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.fine_tuning.jobs.with_raw_response.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -99,7 +99,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.fine_tuning.jobs.with_streaming_response.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -114,7 +114,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_retrieve(self, client: HanzoAI) -> None:
+    def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `fine_tuning_job_id` but received ''"):
             client.fine_tuning.jobs.with_raw_response.retrieve(
                 fine_tuning_job_id="",
@@ -123,7 +123,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         job = client.fine_tuning.jobs.list(
             custom_llm_provider="openai",
         )
@@ -131,7 +131,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_with_all_params(self, client: Hanzo) -> None:
         job = client.fine_tuning.jobs.list(
             custom_llm_provider="openai",
             after="after",
@@ -141,7 +141,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.fine_tuning.jobs.with_raw_response.list(
             custom_llm_provider="openai",
         )
@@ -153,7 +153,7 @@ class TestJobs:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.fine_tuning.jobs.with_streaming_response.list(
             custom_llm_provider="openai",
         ) as response:
@@ -171,7 +171,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.create(
             custom_llm_provider="openai",
             model="model",
@@ -181,7 +181,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.create(
             custom_llm_provider="openai",
             model="model",
@@ -200,7 +200,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.fine_tuning.jobs.with_raw_response.create(
             custom_llm_provider="openai",
             model="model",
@@ -214,7 +214,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.fine_tuning.jobs.with_streaming_response.create(
             custom_llm_provider="openai",
             model="model",
@@ -230,7 +230,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -239,7 +239,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.fine_tuning.jobs.with_raw_response.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -252,7 +252,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.fine_tuning.jobs.with_streaming_response.retrieve(
             fine_tuning_job_id="fine_tuning_job_id",
             custom_llm_provider="openai",
@@ -267,7 +267,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `fine_tuning_job_id` but received ''"):
             await async_client.fine_tuning.jobs.with_raw_response.retrieve(
                 fine_tuning_job_id="",
@@ -276,7 +276,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.list(
             custom_llm_provider="openai",
         )
@@ -284,7 +284,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.list(
             custom_llm_provider="openai",
             after="after",
@@ -294,7 +294,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.fine_tuning.jobs.with_raw_response.list(
             custom_llm_provider="openai",
         )
@@ -306,7 +306,7 @@ class TestAsyncJobs:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.fine_tuning.jobs.with_streaming_response.list(
             custom_llm_provider="openai",
         ) as response:
