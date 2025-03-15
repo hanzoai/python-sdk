@@ -1,11 +1,11 @@
 [project]
 name = "hanzoai"
-version = "0.1.0-alpha.1"
+version = "1.0.0"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Hanzo", email = "dev-feedback@hanzo.ai" },
+{ name = "Hanzo", email = "dev@hanzo.ai" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
