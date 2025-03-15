@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import OrganizationTableWithMembers
+from hanzoai.types import OrganizationTableWithMembers
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: HanzoAI) -> None:
+    def test_method_retrieve(self, client: Hanzo) -> None:
         info = client.organization.info.retrieve(
             organization_id="organization_id",
         )
@@ -27,7 +27,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.organization.info.with_raw_response.retrieve(
             organization_id="organization_id",
         )
@@ -39,7 +39,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.organization.info.with_streaming_response.retrieve(
             organization_id="organization_id",
         ) as response:
@@ -53,7 +53,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_deprecated(self, client: HanzoAI) -> None:
+    def test_method_deprecated(self, client: Hanzo) -> None:
         info = client.organization.info.deprecated(
             organizations=["string"],
         )
@@ -61,7 +61,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_deprecated(self, client: HanzoAI) -> None:
+    def test_raw_response_deprecated(self, client: Hanzo) -> None:
         response = client.organization.info.with_raw_response.deprecated(
             organizations=["string"],
         )
@@ -73,7 +73,7 @@ class TestInfo:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_deprecated(self, client: HanzoAI) -> None:
+    def test_streaming_response_deprecated(self, client: Hanzo) -> None:
         with client.organization.info.with_streaming_response.deprecated(
             organizations=["string"],
         ) as response:
@@ -91,7 +91,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         info = await async_client.organization.info.retrieve(
             organization_id="organization_id",
         )
@@ -99,7 +99,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.info.with_raw_response.retrieve(
             organization_id="organization_id",
         )
@@ -111,7 +111,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.info.with_streaming_response.retrieve(
             organization_id="organization_id",
         ) as response:
@@ -125,7 +125,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_deprecated(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_deprecated(self, async_client: AsyncHanzo) -> None:
         info = await async_client.organization.info.deprecated(
             organizations=["string"],
         )
@@ -133,7 +133,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_deprecated(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_deprecated(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.info.with_raw_response.deprecated(
             organizations=["string"],
         )
@@ -145,7 +145,7 @@ class TestAsyncInfo:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_deprecated(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_deprecated(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.info.with_streaming_response.deprecated(
             organizations=["string"],
         ) as response:

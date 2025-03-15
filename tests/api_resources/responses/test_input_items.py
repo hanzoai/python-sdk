@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         input_item = client.responses.input_items.list(
             "response_id",
         )
@@ -26,7 +26,7 @@ class TestInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.responses.input_items.with_raw_response.list(
             "response_id",
         )
@@ -38,7 +38,7 @@ class TestInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.responses.input_items.with_streaming_response.list(
             "response_id",
         ) as response:
@@ -52,7 +52,7 @@ class TestInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_list(self, client: HanzoAI) -> None:
+    def test_path_params_list(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             client.responses.input_items.with_raw_response.list(
                 "",
@@ -64,7 +64,7 @@ class TestAsyncInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         input_item = await async_client.responses.input_items.list(
             "response_id",
         )
@@ -72,7 +72,7 @@ class TestAsyncInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.responses.input_items.with_raw_response.list(
             "response_id",
         )
@@ -84,7 +84,7 @@ class TestAsyncInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.responses.input_items.with_streaming_response.list(
             "response_id",
         ) as response:
@@ -98,7 +98,7 @@ class TestAsyncInputItems:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_list(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             await async_client.responses.input_items.with_raw_response.list(
                 "",

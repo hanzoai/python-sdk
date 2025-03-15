@@ -7,15 +7,15 @@ from typing import Any, Optional, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import (
+from hanzoai.types import (
     KeyListResponse,
     KeyBlockResponse,
     GenerateKeyResponse,
     KeyCheckHealthResponse,
 )
-from Hanzo_AI._utils import parse_datetime
+from hanzoai._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -25,7 +25,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: HanzoAI) -> None:
+    def test_method_update(self, client: Hanzo) -> None:
         key = client.key.update(
             key="key",
         )
@@ -33,7 +33,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_update_with_all_params(self, client: Hanzo) -> None:
         key = client.key.update(
             key="key",
             aliases={},
@@ -68,7 +68,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: HanzoAI) -> None:
+    def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.update(
             key="key",
         )
@@ -80,7 +80,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: HanzoAI) -> None:
+    def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.update(
             key="key",
         ) as response:
@@ -94,13 +94,13 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         key = client.key.list()
         assert_matches_type(KeyListResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_with_all_params(self, client: Hanzo) -> None:
         key = client.key.list(
             include_team_keys=True,
             key_alias="key_alias",
@@ -115,7 +115,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.list()
 
         assert response.is_closed is True
@@ -125,7 +125,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -137,13 +137,13 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         key = client.key.delete()
         assert_matches_type(object, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         key = client.key.delete(
             key_aliases=["string"],
             keys=["string"],
@@ -153,7 +153,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.delete()
 
         assert response.is_closed is True
@@ -163,7 +163,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.delete() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -175,7 +175,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_block(self, client: HanzoAI) -> None:
+    def test_method_block(self, client: Hanzo) -> None:
         key = client.key.block(
             key="key",
         )
@@ -183,7 +183,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_block_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_block_with_all_params(self, client: Hanzo) -> None:
         key = client.key.block(
             key="key",
             litellm_changed_by="litellm-changed-by",
@@ -192,7 +192,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_block(self, client: HanzoAI) -> None:
+    def test_raw_response_block(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.block(
             key="key",
         )
@@ -204,7 +204,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_block(self, client: HanzoAI) -> None:
+    def test_streaming_response_block(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.block(
             key="key",
         ) as response:
@@ -218,13 +218,13 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_check_health(self, client: HanzoAI) -> None:
+    def test_method_check_health(self, client: Hanzo) -> None:
         key = client.key.check_health()
         assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_check_health(self, client: HanzoAI) -> None:
+    def test_raw_response_check_health(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.check_health()
 
         assert response.is_closed is True
@@ -234,7 +234,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_check_health(self, client: HanzoAI) -> None:
+    def test_streaming_response_check_health(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.check_health() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -246,13 +246,13 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_generate(self, client: HanzoAI) -> None:
+    def test_method_generate(self, client: Hanzo) -> None:
         key = client.key.generate()
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_generate_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_generate_with_all_params(self, client: Hanzo) -> None:
         key = client.key.generate(
             aliases={},
             allowed_cache_controls=[{}],
@@ -287,7 +287,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_generate(self, client: HanzoAI) -> None:
+    def test_raw_response_generate(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.generate()
 
         assert response.is_closed is True
@@ -297,7 +297,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_generate(self, client: HanzoAI) -> None:
+    def test_streaming_response_generate(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.generate() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -309,7 +309,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_regenerate_by_key(self, client: HanzoAI) -> None:
+    def test_method_regenerate_by_key(self, client: Hanzo) -> None:
         key = client.key.regenerate_by_key(
             path_key="key",
         )
@@ -317,7 +317,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_regenerate_by_key_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_regenerate_by_key_with_all_params(self, client: Hanzo) -> None:
         key = client.key.regenerate_by_key(
             path_key="key",
             aliases={},
@@ -354,7 +354,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_regenerate_by_key(self, client: HanzoAI) -> None:
+    def test_raw_response_regenerate_by_key(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.regenerate_by_key(
             path_key="key",
         )
@@ -366,7 +366,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_regenerate_by_key(self, client: HanzoAI) -> None:
+    def test_streaming_response_regenerate_by_key(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.regenerate_by_key(
             path_key="key",
         ) as response:
@@ -380,7 +380,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_regenerate_by_key(self, client: HanzoAI) -> None:
+    def test_path_params_regenerate_by_key(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             client.key.with_raw_response.regenerate_by_key(
                 path_key="",
@@ -389,13 +389,13 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info(self, client: Hanzo) -> None:
         key = client.key.retrieve_info()
         assert_matches_type(object, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info_with_all_params(self, client: Hanzo) -> None:
         key = client.key.retrieve_info(
             key="key",
         )
@@ -403,7 +403,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve_info(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -413,7 +413,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -425,7 +425,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_unblock(self, client: HanzoAI) -> None:
+    def test_method_unblock(self, client: Hanzo) -> None:
         key = client.key.unblock(
             key="key",
         )
@@ -433,7 +433,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_unblock_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_unblock_with_all_params(self, client: Hanzo) -> None:
         key = client.key.unblock(
             key="key",
             litellm_changed_by="litellm-changed-by",
@@ -442,7 +442,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_unblock(self, client: HanzoAI) -> None:
+    def test_raw_response_unblock(self, client: Hanzo) -> None:
         response = client.key.with_raw_response.unblock(
             key="key",
         )
@@ -454,7 +454,7 @@ class TestKey:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_unblock(self, client: HanzoAI) -> None:
+    def test_streaming_response_unblock(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.unblock(
             key="key",
         ) as response:
@@ -472,7 +472,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.update(
             key="key",
         )
@@ -480,7 +480,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.update(
             key="key",
             aliases={},
@@ -515,7 +515,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.update(
             key="key",
         )
@@ -527,7 +527,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.update(
             key="key",
         ) as response:
@@ -541,13 +541,13 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.list()
         assert_matches_type(KeyListResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.list(
             include_team_keys=True,
             key_alias="key_alias",
@@ -562,7 +562,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.list()
 
         assert response.is_closed is True
@@ -572,7 +572,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -584,13 +584,13 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.delete()
         assert_matches_type(object, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.delete(
             key_aliases=["string"],
             keys=["string"],
@@ -600,7 +600,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.delete()
 
         assert response.is_closed is True
@@ -610,7 +610,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.delete() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -622,7 +622,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_block(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_block(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.block(
             key="key",
         )
@@ -630,7 +630,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_block_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_block_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.block(
             key="key",
             litellm_changed_by="litellm-changed-by",
@@ -639,7 +639,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_block(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_block(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.block(
             key="key",
         )
@@ -651,7 +651,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_block(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_block(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.block(
             key="key",
         ) as response:
@@ -665,13 +665,13 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_check_health(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_check_health(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.check_health()
         assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_check_health(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_check_health(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.check_health()
 
         assert response.is_closed is True
@@ -681,7 +681,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_check_health(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_check_health(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.check_health() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -693,13 +693,13 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_generate(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_generate(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.generate()
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_generate_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_generate_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.generate(
             aliases={},
             allowed_cache_controls=[{}],
@@ -734,7 +734,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_generate(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_generate(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.generate()
 
         assert response.is_closed is True
@@ -744,7 +744,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_generate(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_generate(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.generate() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -756,7 +756,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_regenerate_by_key(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.regenerate_by_key(
             path_key="key",
         )
@@ -764,7 +764,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_regenerate_by_key_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_regenerate_by_key_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.regenerate_by_key(
             path_key="key",
             aliases={},
@@ -801,7 +801,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_regenerate_by_key(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.regenerate_by_key(
             path_key="key",
         )
@@ -813,7 +813,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_regenerate_by_key(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.regenerate_by_key(
             path_key="key",
         ) as response:
@@ -827,7 +827,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_regenerate_by_key(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             await async_client.key.with_raw_response.regenerate_by_key(
                 path_key="",
@@ -836,13 +836,13 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.retrieve_info()
         assert_matches_type(object, key, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.retrieve_info(
             key="key",
         )
@@ -850,7 +850,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -860,7 +860,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -872,7 +872,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_unblock(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_unblock(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.unblock(
             key="key",
         )
@@ -880,7 +880,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_unblock_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_unblock_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.unblock(
             key="key",
             litellm_changed_by="litellm-changed-by",
@@ -889,7 +889,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_unblock(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_unblock(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.unblock(
             key="key",
         )
@@ -901,7 +901,7 @@ class TestAsyncKey:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_unblock(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_unblock(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.unblock(
             key="key",
         ) as response:

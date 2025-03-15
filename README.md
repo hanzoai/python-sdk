@@ -1,8 +1,8 @@
-# Hanzo AI Python API library
+# Hanzo Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 
-The Hanzo AI Python library provides convenient access to the Hanzo AI REST API from any Python 3.8+
+The Hanzo Python library provides convenient access to the Hanzo REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.hanzo-ai.com](https://docs.Hanzo-AI.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -25,10 +25,10 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
-client = HanzoAI(
-    api_key=os.environ.get("HANZO_AI_API_KEY"),  # This is the default and can be omitted
+client = Hanzo(
+    api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
 )
 
 response = client.get_home()
@@ -36,20 +36,20 @@ response = client.get_home()
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `HANZO_AI_API_KEY="My API Key"` to your `.env` file
+to add `HANZO_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncHanzoAI` instead of `HanzoAI` and use `await` with each API call:
+Simply import `AsyncHanzo` instead of `Hanzo` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from Hanzo_AI import AsyncHanzoAI
+from hanzoai import AsyncHanzo
 
-client = AsyncHanzoAI(
-    api_key=os.environ.get("HANZO_AI_API_KEY"),  # This is the default and can be omitted
+client = AsyncHanzo(
+    api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
 )
 
 
@@ -76,9 +76,9 @@ Typed requests and responses provide autocomplete and documentation within your 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
-client = HanzoAI()
+client = Hanzo()
 
 model = client.model.create(
     litellm_params={
@@ -126,9 +126,9 @@ Request parameters that correspond to file uploads can be passed as `bytes`, a [
 
 ```python
 from pathlib import Path
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
-client = HanzoAI()
+client = Hanzo()
 
 client.audio.transcriptions.create(
     file=Path("/path/to/file"),
@@ -139,27 +139,27 @@ The async client uses the exact same interface. If you pass a [`PathLike`](https
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `Hanzo_AI.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `hanzoai.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `Hanzo_AI.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `hanzoai.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `Hanzo_AI.APIError`.
+All errors inherit from `hanzoai.APIError`.
 
 ```python
-import Hanzo_AI
-from Hanzo_AI import HanzoAI
+import hanzoai
+from hanzoai import Hanzo
 
-client = HanzoAI()
+client = Hanzo()
 
 try:
     client.get_home()
-except Hanzo_AI.APIConnectionError as e:
+except hanzoai.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except Hanzo_AI.RateLimitError as e:
+except hanzoai.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except Hanzo_AI.APIStatusError as e:
+except hanzoai.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -187,10 +187,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
 # Configure the default for all requests:
-client = HanzoAI(
+client = Hanzo(
     # default is 2
     max_retries=0,
 )
@@ -205,16 +205,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
 # Configure the default for all requests:
-client = HanzoAI(
+client = Hanzo(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = HanzoAI(
+client = Hanzo(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -232,10 +232,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `HANZO_AI_LOG` to `info`.
+You can enable logging by setting the environment variable `HANZO_LOG` to `info`.
 
 ```shell
-$ export HANZO_AI_LOG=info
+$ export HANZO_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -257,9 +257,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
-client = HanzoAI()
+client = Hanzo()
 response = client.with_raw_response.get_home()
 print(response.headers.get('X-My-Header'))
 
@@ -267,9 +267,9 @@ client = response.parse()  # get the object that `get_home()` would have returne
 print(client)
 ```
 
-These methods return an [`APIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/Hanzo_AI/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/Hanzo_AI/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -331,10 +331,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from Hanzo_AI import HanzoAI, DefaultHttpxClient
+from hanzoai import Hanzo, DefaultHttpxClient
 
-client = HanzoAI(
-    # Or use the `HANZO_AI_BASE_URL` env var
+client = Hanzo(
+    # Or use the `HANZO_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -354,9 +354,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from Hanzo_AI import HanzoAI
+from hanzoai import Hanzo
 
-with HanzoAI() as client:
+with Hanzo() as client:
   # make requests here
   ...
 
@@ -382,8 +382,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import Hanzo_AI
-print(Hanzo_AI.__version__)
+import hanzoai
+print(hanzoai.__version__)
 ```
 
 ## Requirements
