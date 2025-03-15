@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestCancel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_cancel(self, client: HanzoAI) -> None:
+    def test_method_cancel(self, client: Hanzo) -> None:
         cancel = client.batches.cancel.cancel(
             batch_id="batch_id",
         )
@@ -26,7 +26,7 @@ class TestCancel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_cancel_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_cancel_with_all_params(self, client: Hanzo) -> None:
         cancel = client.batches.cancel.cancel(
             batch_id="batch_id",
             provider="provider",
@@ -35,7 +35,7 @@ class TestCancel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_cancel(self, client: HanzoAI) -> None:
+    def test_raw_response_cancel(self, client: Hanzo) -> None:
         response = client.batches.cancel.with_raw_response.cancel(
             batch_id="batch_id",
         )
@@ -47,7 +47,7 @@ class TestCancel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_cancel(self, client: HanzoAI) -> None:
+    def test_streaming_response_cancel(self, client: Hanzo) -> None:
         with client.batches.cancel.with_streaming_response.cancel(
             batch_id="batch_id",
         ) as response:
@@ -61,7 +61,7 @@ class TestCancel:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_cancel(self, client: HanzoAI) -> None:
+    def test_path_params_cancel(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
             client.batches.cancel.with_raw_response.cancel(
                 batch_id="",
@@ -73,7 +73,7 @@ class TestAsyncCancel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_cancel(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_cancel(self, async_client: AsyncHanzo) -> None:
         cancel = await async_client.batches.cancel.cancel(
             batch_id="batch_id",
         )
@@ -81,7 +81,7 @@ class TestAsyncCancel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_cancel_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_cancel_with_all_params(self, async_client: AsyncHanzo) -> None:
         cancel = await async_client.batches.cancel.cancel(
             batch_id="batch_id",
             provider="provider",
@@ -90,7 +90,7 @@ class TestAsyncCancel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_cancel(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_cancel(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.cancel.with_raw_response.cancel(
             batch_id="batch_id",
         )
@@ -102,7 +102,7 @@ class TestAsyncCancel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_cancel(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_cancel(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.cancel.with_streaming_response.cancel(
             batch_id="batch_id",
         ) as response:
@@ -116,7 +116,7 @@ class TestAsyncCancel:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_cancel(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_cancel(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
             await async_client.batches.cancel.with_raw_response.cancel(
                 batch_id="",

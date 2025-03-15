@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,13 +18,13 @@ class TestModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info(self, client: Hanzo) -> None:
         model_group = client.model_group.retrieve_info()
         assert_matches_type(object, model_group, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info_with_all_params(self, client: Hanzo) -> None:
         model_group = client.model_group.retrieve_info(
             model_group="model_group",
         )
@@ -32,7 +32,7 @@ class TestModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve_info(self, client: Hanzo) -> None:
         response = client.model_group.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -42,7 +42,7 @@ class TestModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.model_group.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -58,13 +58,13 @@ class TestAsyncModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
         model_group = await async_client.model_group.retrieve_info()
         assert_matches_type(object, model_group, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         model_group = await async_client.model_group.retrieve_info(
             model_group="model_group",
         )
@@ -72,7 +72,7 @@ class TestAsyncModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model_group.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -82,7 +82,7 @@ class TestAsyncModelGroup:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.model_group.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

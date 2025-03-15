@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from Hanzo_AI._utils import PropertyInfo
-from Hanzo_AI._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
-from Hanzo_AI._models import BaseModel, construct_type
+from hanzoai._utils import PropertyInfo
+from hanzoai._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
+from hanzoai._models import BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

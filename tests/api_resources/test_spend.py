@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import (
+from hanzoai.types import (
     SpendListLogsResponse,
     SpendListTagsResponse,
 )
@@ -22,13 +22,13 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_calculate_spend(self, client: HanzoAI) -> None:
+    def test_method_calculate_spend(self, client: Hanzo) -> None:
         spend = client.spend.calculate_spend()
         assert_matches_type(object, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_calculate_spend_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_calculate_spend_with_all_params(self, client: Hanzo) -> None:
         spend = client.spend.calculate_spend(
             completion_response={},
             messages=[{}],
@@ -38,7 +38,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_calculate_spend(self, client: HanzoAI) -> None:
+    def test_raw_response_calculate_spend(self, client: Hanzo) -> None:
         response = client.spend.with_raw_response.calculate_spend()
 
         assert response.is_closed is True
@@ -48,7 +48,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_calculate_spend(self, client: HanzoAI) -> None:
+    def test_streaming_response_calculate_spend(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.calculate_spend() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,13 +60,13 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_logs(self, client: HanzoAI) -> None:
+    def test_method_list_logs(self, client: Hanzo) -> None:
         spend = client.spend.list_logs()
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_logs_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_logs_with_all_params(self, client: Hanzo) -> None:
         spend = client.spend.list_logs(
             api_key="api_key",
             end_date="end_date",
@@ -78,7 +78,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list_logs(self, client: HanzoAI) -> None:
+    def test_raw_response_list_logs(self, client: Hanzo) -> None:
         response = client.spend.with_raw_response.list_logs()
 
         assert response.is_closed is True
@@ -88,7 +88,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list_logs(self, client: HanzoAI) -> None:
+    def test_streaming_response_list_logs(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.list_logs() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -100,13 +100,13 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_tags(self, client: HanzoAI) -> None:
+    def test_method_list_tags(self, client: Hanzo) -> None:
         spend = client.spend.list_tags()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_tags_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_tags_with_all_params(self, client: Hanzo) -> None:
         spend = client.spend.list_tags(
             end_date="end_date",
             start_date="start_date",
@@ -115,7 +115,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list_tags(self, client: HanzoAI) -> None:
+    def test_raw_response_list_tags(self, client: Hanzo) -> None:
         response = client.spend.with_raw_response.list_tags()
 
         assert response.is_closed is True
@@ -125,7 +125,7 @@ class TestSpend:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list_tags(self, client: HanzoAI) -> None:
+    def test_streaming_response_list_tags(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.list_tags() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -141,13 +141,13 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_calculate_spend(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_calculate_spend(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.calculate_spend()
         assert_matches_type(object, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_calculate_spend_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_calculate_spend_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.calculate_spend(
             completion_response={},
             messages=[{}],
@@ -157,7 +157,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_calculate_spend(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_calculate_spend(self, async_client: AsyncHanzo) -> None:
         response = await async_client.spend.with_raw_response.calculate_spend()
 
         assert response.is_closed is True
@@ -167,7 +167,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_calculate_spend(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_calculate_spend(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.calculate_spend() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -179,13 +179,13 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_logs(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_logs(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_logs()
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_logs_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_logs_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_logs(
             api_key="api_key",
             end_date="end_date",
@@ -197,7 +197,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list_logs(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list_logs(self, async_client: AsyncHanzo) -> None:
         response = await async_client.spend.with_raw_response.list_logs()
 
         assert response.is_closed is True
@@ -207,7 +207,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list_logs(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list_logs(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.list_logs() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -219,13 +219,13 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_tags(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_tags(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_tags()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_tags_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_tags_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_tags(
             end_date="end_date",
             start_date="start_date",
@@ -234,7 +234,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list_tags(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list_tags(self, async_client: AsyncHanzo) -> None:
         response = await async_client.spend.with_raw_response.list_tags()
 
         assert response.is_closed is True
@@ -244,7 +244,7 @@ class TestAsyncSpend:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list_tags(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list_tags(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.list_tags() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

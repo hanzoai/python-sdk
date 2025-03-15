@@ -7,14 +7,14 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 import pytest
 from pytest_asyncio import is_async_test
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("Hanzo_AI").setLevel(logging.DEBUG)
+logging.getLogger("hanzoai").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests
@@ -32,20 +32,20 @@ api_key = "My API Key"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[HanzoAI]:
+def client(request: FixtureRequest) -> Iterator[Hanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with HanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncHanzoAI]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncHanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncHanzoAI(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    async with AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
