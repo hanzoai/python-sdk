@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import (
+from hanzoai.types import (
     UserCreateResponse,
 )
 
@@ -21,13 +21,13 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         user = client.user.create()
         assert_matches_type(UserCreateResponse, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         user = client.user.create(
             aliases={},
             allowed_cache_controls=[{}],
@@ -61,7 +61,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.user.with_raw_response.create()
 
         assert response.is_closed is True
@@ -71,7 +71,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -83,13 +83,13 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: HanzoAI) -> None:
+    def test_method_update(self, client: Hanzo) -> None:
         user = client.user.update()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_update_with_all_params(self, client: Hanzo) -> None:
         user = client.user.update(
             aliases={},
             allowed_cache_controls=[{}],
@@ -120,7 +120,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: HanzoAI) -> None:
+    def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.user.with_raw_response.update()
 
         assert response.is_closed is True
@@ -130,7 +130,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: HanzoAI) -> None:
+    def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.update() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -142,13 +142,13 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         user = client.user.list()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_list_with_all_params(self, client: Hanzo) -> None:
         user = client.user.list(
             page=1,
             page_size=1,
@@ -159,7 +159,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.user.with_raw_response.list()
 
         assert response.is_closed is True
@@ -169,7 +169,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -181,7 +181,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         user = client.user.delete(
             user_ids=["string"],
         )
@@ -189,7 +189,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         user = client.user.delete(
             user_ids=["string"],
             litellm_changed_by="litellm-changed-by",
@@ -198,7 +198,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.user.with_raw_response.delete(
             user_ids=["string"],
         )
@@ -210,7 +210,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.delete(
             user_ids=["string"],
         ) as response:
@@ -224,13 +224,13 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info(self, client: Hanzo) -> None:
         user = client.user.retrieve_info()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve_info_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_retrieve_info_with_all_params(self, client: Hanzo) -> None:
         user = client.user.retrieve_info(
             user_id="user_id",
         )
@@ -238,7 +238,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve_info(self, client: Hanzo) -> None:
         response = client.user.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -248,7 +248,7 @@ class TestUser:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve_info(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -264,13 +264,13 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.create()
         assert_matches_type(UserCreateResponse, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.create(
             aliases={},
             allowed_cache_controls=[{}],
@@ -304,7 +304,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.user.with_raw_response.create()
 
         assert response.is_closed is True
@@ -314,7 +314,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -326,13 +326,13 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.update()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.update(
             aliases={},
             allowed_cache_controls=[{}],
@@ -363,7 +363,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.user.with_raw_response.update()
 
         assert response.is_closed is True
@@ -373,7 +373,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.update() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -385,13 +385,13 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.list()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.list(
             page=1,
             page_size=1,
@@ -402,7 +402,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.user.with_raw_response.list()
 
         assert response.is_closed is True
@@ -412,7 +412,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -424,7 +424,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
         )
@@ -432,7 +432,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
             litellm_changed_by="litellm-changed-by",
@@ -441,7 +441,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.user.with_raw_response.delete(
             user_ids=["string"],
         )
@@ -453,7 +453,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.delete(
             user_ids=["string"],
         ) as response:
@@ -467,13 +467,13 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.retrieve_info()
         assert_matches_type(object, user, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.retrieve_info(
             user_id="user_id",
         )
@@ -481,7 +481,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.user.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
@@ -491,7 +491,7 @@ class TestAsyncUser:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

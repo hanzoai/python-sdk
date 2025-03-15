@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from Hanzo_AI._types import Base64FileInput
-from Hanzo_AI._utils import (
+from hanzoai._types import Base64FileInput
+from hanzoai._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from Hanzo_AI._compat import PYDANTIC_V2
-from Hanzo_AI._models import BaseModel
+from hanzoai._compat import PYDANTIC_V2
+from hanzoai._models import BaseModel
 
 _T = TypeVar("_T")
 

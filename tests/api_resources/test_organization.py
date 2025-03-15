@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from Hanzo_AI.types import (
+from hanzoai.types import (
     OrganizationListResponse,
     OrganizationCreateResponse,
     OrganizationDeleteResponse,
@@ -26,7 +26,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         organization = client.organization.create(
             organization_alias="organization_alias",
         )
@@ -34,7 +34,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.create(
             organization_alias="organization_alias",
             budget_duration="budget_duration",
@@ -53,7 +53,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.create(
             organization_alias="organization_alias",
         )
@@ -65,7 +65,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.create(
             organization_alias="organization_alias",
         ) as response:
@@ -79,13 +79,13 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: HanzoAI) -> None:
+    def test_method_update(self, client: Hanzo) -> None:
         organization = client.organization.update()
         assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_update_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.update(
             budget_id="budget_id",
             metadata={},
@@ -99,7 +99,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: HanzoAI) -> None:
+    def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.update()
 
         assert response.is_closed is True
@@ -109,7 +109,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: HanzoAI) -> None:
+    def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -121,13 +121,13 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         organization = client.organization.list()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.list()
 
         assert response.is_closed is True
@@ -137,7 +137,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -149,7 +149,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         organization = client.organization.delete(
             organization_ids=["string"],
         )
@@ -157,7 +157,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.delete(
             organization_ids=["string"],
         )
@@ -169,7 +169,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.delete(
             organization_ids=["string"],
         ) as response:
@@ -183,7 +183,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_add_member(self, client: HanzoAI) -> None:
+    def test_method_add_member(self, client: Hanzo) -> None:
         organization = client.organization.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -192,7 +192,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_add_member_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_add_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.add_member(
             member=[
                 {
@@ -208,7 +208,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_add_member(self, client: HanzoAI) -> None:
+    def test_raw_response_add_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -221,7 +221,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_add_member(self, client: HanzoAI) -> None:
+    def test_streaming_response_add_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -236,7 +236,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete_member(self, client: HanzoAI) -> None:
+    def test_method_delete_member(self, client: Hanzo) -> None:
         organization = client.organization.delete_member(
             organization_id="organization_id",
         )
@@ -244,7 +244,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete_member_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_delete_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.delete_member(
             organization_id="organization_id",
             user_email="user_email",
@@ -254,7 +254,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete_member(self, client: HanzoAI) -> None:
+    def test_raw_response_delete_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.delete_member(
             organization_id="organization_id",
         )
@@ -266,7 +266,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete_member(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.delete_member(
             organization_id="organization_id",
         ) as response:
@@ -280,7 +280,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_member(self, client: HanzoAI) -> None:
+    def test_method_update_member(self, client: Hanzo) -> None:
         organization = client.organization.update_member(
             organization_id="organization_id",
         )
@@ -288,7 +288,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_member_with_all_params(self, client: HanzoAI) -> None:
+    def test_method_update_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.update_member(
             organization_id="organization_id",
             max_budget_in_organization=0,
@@ -300,7 +300,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update_member(self, client: HanzoAI) -> None:
+    def test_raw_response_update_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.update_member(
             organization_id="organization_id",
         )
@@ -312,7 +312,7 @@ class TestOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update_member(self, client: HanzoAI) -> None:
+    def test_streaming_response_update_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.update_member(
             organization_id="organization_id",
         ) as response:
@@ -330,7 +330,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.create(
             organization_alias="organization_alias",
         )
@@ -338,7 +338,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.create(
             organization_alias="organization_alias",
             budget_duration="budget_duration",
@@ -357,7 +357,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.create(
             organization_alias="organization_alias",
         )
@@ -369,7 +369,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.create(
             organization_alias="organization_alias",
         ) as response:
@@ -383,13 +383,13 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update()
         assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update(
             budget_id="budget_id",
             metadata={},
@@ -403,7 +403,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.update()
 
         assert response.is_closed is True
@@ -413,7 +413,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -425,13 +425,13 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.list()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.list()
 
         assert response.is_closed is True
@@ -441,7 +441,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -453,7 +453,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete(
             organization_ids=["string"],
         )
@@ -461,7 +461,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.delete(
             organization_ids=["string"],
         )
@@ -473,7 +473,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.delete(
             organization_ids=["string"],
         ) as response:
@@ -487,7 +487,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_add_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_add_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -496,7 +496,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_add_member_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_add_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.add_member(
             member=[
                 {
@@ -512,7 +512,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_add_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_add_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -525,7 +525,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_add_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_add_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -540,7 +540,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete_member(
             organization_id="organization_id",
         )
@@ -548,7 +548,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete_member_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete_member(
             organization_id="organization_id",
             user_email="user_email",
@@ -558,7 +558,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.delete_member(
             organization_id="organization_id",
         )
@@ -570,7 +570,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.delete_member(
             organization_id="organization_id",
         ) as response:
@@ -584,7 +584,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
         )
@@ -592,7 +592,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_member_with_all_params(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
             max_budget_in_organization=0,
@@ -604,7 +604,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.update_member(
             organization_id="organization_id",
         )
@@ -616,7 +616,7 @@ class TestAsyncOrganization:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update_member(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update_member(
             organization_id="organization_id",
         ) as response:

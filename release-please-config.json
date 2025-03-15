@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/Hanzo_AI/_version.py"
+    "src/hanzoai/_version.py"
   ]
 }
