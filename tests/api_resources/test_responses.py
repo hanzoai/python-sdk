@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,13 +18,13 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         response = client.responses.create()
         assert_matches_type(object, response, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         http_response = client.responses.with_raw_response.create()
 
         assert http_response.is_closed is True
@@ -34,7 +34,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.responses.with_streaming_response.create() as http_response:
             assert not http_response.is_closed
             assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -46,7 +46,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: HanzoAI) -> None:
+    def test_method_retrieve(self, client: Hanzo) -> None:
         response = client.responses.retrieve(
             "response_id",
         )
@@ -54,7 +54,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo) -> None:
         http_response = client.responses.with_raw_response.retrieve(
             "response_id",
         )
@@ -66,7 +66,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.responses.with_streaming_response.retrieve(
             "response_id",
         ) as http_response:
@@ -80,7 +80,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_retrieve(self, client: HanzoAI) -> None:
+    def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             client.responses.with_raw_response.retrieve(
                 "",
@@ -88,7 +88,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         response = client.responses.delete(
             "response_id",
         )
@@ -96,7 +96,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         http_response = client.responses.with_raw_response.delete(
             "response_id",
         )
@@ -108,7 +108,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.responses.with_streaming_response.delete(
             "response_id",
         ) as http_response:
@@ -122,7 +122,7 @@ class TestResponses:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_delete(self, client: HanzoAI) -> None:
+    def test_path_params_delete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             client.responses.with_raw_response.delete(
                 "",
@@ -134,13 +134,13 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.responses.create()
         assert_matches_type(object, response, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         http_response = await async_client.responses.with_raw_response.create()
 
         assert http_response.is_closed is True
@@ -150,7 +150,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.responses.with_streaming_response.create() as http_response:
             assert not http_response.is_closed
             assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -162,7 +162,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.responses.retrieve(
             "response_id",
         )
@@ -170,7 +170,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         http_response = await async_client.responses.with_raw_response.retrieve(
             "response_id",
         )
@@ -182,7 +182,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.responses.with_streaming_response.retrieve(
             "response_id",
         ) as http_response:
@@ -196,7 +196,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             await async_client.responses.with_raw_response.retrieve(
                 "",
@@ -204,7 +204,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.responses.delete(
             "response_id",
         )
@@ -212,7 +212,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         http_response = await async_client.responses.with_raw_response.delete(
             "response_id",
         )
@@ -224,7 +224,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.responses.with_streaming_response.delete(
             "response_id",
         ) as http_response:
@@ -238,7 +238,7 @@ class TestAsyncResponses:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             await async_client.responses.with_raw_response.delete(
                 "",

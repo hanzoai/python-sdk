@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from Hanzo_AI import HanzoAI, AsyncHanzoAI
+from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_create(self, client: HanzoAI) -> None:
+    def test_method_create(self, client: Hanzo) -> None:
         credential = client.credentials.create(
             credential_info={},
             credential_name="credential_name",
@@ -28,7 +28,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_create(self, client: HanzoAI) -> None:
+    def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.create(
             credential_info={},
             credential_name="credential_name",
@@ -42,7 +42,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_create(self, client: HanzoAI) -> None:
+    def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.create(
             credential_info={},
             credential_name="credential_name",
@@ -58,7 +58,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: HanzoAI) -> None:
+    def test_method_retrieve(self, client: Hanzo) -> None:
         credential = client.credentials.retrieve(
             "credential_name",
         )
@@ -66,7 +66,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: HanzoAI) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.retrieve(
             "credential_name",
         )
@@ -78,7 +78,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: HanzoAI) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.retrieve(
             "credential_name",
         ) as response:
@@ -92,7 +92,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_retrieve(self, client: HanzoAI) -> None:
+    def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.with_raw_response.retrieve(
                 "",
@@ -100,7 +100,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: HanzoAI) -> None:
+    def test_method_update(self, client: Hanzo) -> None:
         credential = client.credentials.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -111,7 +111,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: HanzoAI) -> None:
+    def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -126,7 +126,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: HanzoAI) -> None:
+    def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -143,7 +143,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_update(self, client: HanzoAI) -> None:
+    def test_path_params_update(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_credential_name` but received ''"):
             client.credentials.with_raw_response.update(
                 path_credential_name="",
@@ -154,13 +154,13 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_list(self, client: HanzoAI) -> None:
+    def test_method_list(self, client: Hanzo) -> None:
         credential = client.credentials.list()
         assert_matches_type(object, credential, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_list(self, client: HanzoAI) -> None:
+    def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.list()
 
         assert response.is_closed is True
@@ -170,7 +170,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_list(self, client: HanzoAI) -> None:
+    def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -182,7 +182,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: HanzoAI) -> None:
+    def test_method_delete(self, client: Hanzo) -> None:
         credential = client.credentials.delete(
             "credential_name",
         )
@@ -190,7 +190,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: HanzoAI) -> None:
+    def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.delete(
             "credential_name",
         )
@@ -202,7 +202,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: HanzoAI) -> None:
+    def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.delete(
             "credential_name",
         ) as response:
@@ -216,7 +216,7 @@ class TestCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_delete(self, client: HanzoAI) -> None:
+    def test_path_params_delete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             client.credentials.with_raw_response.delete(
                 "",
@@ -228,7 +228,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_create(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.create(
             credential_info={},
             credential_name="credential_name",
@@ -238,7 +238,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.create(
             credential_info={},
             credential_name="credential_name",
@@ -252,7 +252,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.create(
             credential_info={},
             credential_name="credential_name",
@@ -268,7 +268,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.retrieve(
             "credential_name",
         )
@@ -276,7 +276,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.retrieve(
             "credential_name",
         )
@@ -288,7 +288,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.retrieve(
             "credential_name",
         ) as response:
@@ -302,7 +302,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.with_raw_response.retrieve(
                 "",
@@ -310,7 +310,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_update(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -321,7 +321,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -336,7 +336,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.update(
             path_credential_name="credential_name",
             credential_info={},
@@ -353,7 +353,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_credential_name` but received ''"):
             await async_client.credentials.with_raw_response.update(
                 path_credential_name="",
@@ -364,13 +364,13 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_list(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.list()
         assert_matches_type(object, credential, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.list()
 
         assert response.is_closed is True
@@ -380,7 +380,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -392,7 +392,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.delete(
             "credential_name",
         )
@@ -400,7 +400,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.delete(
             "credential_name",
         )
@@ -412,7 +412,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.delete(
             "credential_name",
         ) as response:
@@ -426,7 +426,7 @@ class TestAsyncCredentials:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncHanzoAI) -> None:
+    async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
             await async_client.credentials.with_raw_response.delete(
                 "",

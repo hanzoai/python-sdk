@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from Hanzo_AI._qs import Querystring, stringify
+from hanzoai._qs import Querystring, stringify
 
 
 def test_empty() -> None:

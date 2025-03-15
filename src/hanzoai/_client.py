@@ -67,7 +67,7 @@ from .resources import (
     eu_assemblyai,
 )
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import HanzoAIError, APIStatusError
+from ._exceptions import HanzoError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -92,10 +92,10 @@ from .resources.responses import responses
 from .resources.fine_tuning import fine_tuning
 from .resources.organization import organization
 
-__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "HanzoAI", "AsyncHanzoAI", "Client", "AsyncClient"]
+__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Hanzo", "AsyncHanzo", "Client", "AsyncClient"]
 
 
-class HanzoAI(SyncAPIClient):
+class Hanzo(SyncAPIClient):
     models: models.ModelsResource
     openai: openai.OpenAIResource
     engines: engines.EnginesResource
@@ -144,8 +144,8 @@ class HanzoAI(SyncAPIClient):
     delete: delete.DeleteResource
     files: files.FilesResource
     budget: budget.BudgetResource
-    with_raw_response: HanzoAIWithRawResponse
-    with_streaming_response: HanzoAIWithStreamedResponse
+    with_raw_response: HanzoWithRawResponse
+    with_streaming_response: HanzoWithStreamedResponse
 
     # client options
     api_key: str
@@ -173,22 +173,22 @@ class HanzoAI(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous HanzoAI client instance.
+        """Construct a new synchronous Hanzo client instance.
 
-        This automatically infers the `api_key` argument from the `HANZO_AI_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `HANZO_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("HANZO_AI_API_KEY")
+            api_key = os.environ.get("HANZO_API_KEY")
         if api_key is None:
-            raise HanzoAIError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the HANZO_AI_API_KEY environment variable"
+            raise HanzoError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the HANZO_API_KEY environment variable"
             )
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("HANZO_AI_BASE_URL")
+            base_url = os.environ.get("HANZO_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.example.com"
+            base_url = f"https://api.hanzo.ai"
 
         super().__init__(
             version=__version__,
@@ -249,8 +249,8 @@ class HanzoAI(SyncAPIClient):
         self.delete = delete.DeleteResource(self)
         self.files = files.FilesResource(self)
         self.budget = budget.BudgetResource(self)
-        self.with_raw_response = HanzoAIWithRawResponse(self)
-        self.with_streaming_response = HanzoAIWithStreamedResponse(self)
+        self.with_raw_response = HanzoWithRawResponse(self)
+        self.with_streaming_response = HanzoWithStreamedResponse(self)
 
     @property
     @override
@@ -376,7 +376,7 @@ class HanzoAI(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncHanzoAI(AsyncAPIClient):
+class AsyncHanzo(AsyncAPIClient):
     models: models.AsyncModelsResource
     openai: openai.AsyncOpenAIResource
     engines: engines.AsyncEnginesResource
@@ -425,8 +425,8 @@ class AsyncHanzoAI(AsyncAPIClient):
     delete: delete.AsyncDeleteResource
     files: files.AsyncFilesResource
     budget: budget.AsyncBudgetResource
-    with_raw_response: AsyncHanzoAIWithRawResponse
-    with_streaming_response: AsyncHanzoAIWithStreamedResponse
+    with_raw_response: AsyncHanzoWithRawResponse
+    with_streaming_response: AsyncHanzoWithStreamedResponse
 
     # client options
     api_key: str
@@ -454,22 +454,22 @@ class AsyncHanzoAI(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncHanzoAI client instance.
+        """Construct a new async AsyncHanzo client instance.
 
-        This automatically infers the `api_key` argument from the `HANZO_AI_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `HANZO_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("HANZO_AI_API_KEY")
+            api_key = os.environ.get("HANZO_API_KEY")
         if api_key is None:
-            raise HanzoAIError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the HANZO_AI_API_KEY environment variable"
+            raise HanzoError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the HANZO_API_KEY environment variable"
             )
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("HANZO_AI_BASE_URL")
+            base_url = os.environ.get("HANZO_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.example.com"
+            base_url = f"https://api.hanzo.ai"
 
         super().__init__(
             version=__version__,
@@ -530,8 +530,8 @@ class AsyncHanzoAI(AsyncAPIClient):
         self.delete = delete.AsyncDeleteResource(self)
         self.files = files.AsyncFilesResource(self)
         self.budget = budget.AsyncBudgetResource(self)
-        self.with_raw_response = AsyncHanzoAIWithRawResponse(self)
-        self.with_streaming_response = AsyncHanzoAIWithStreamedResponse(self)
+        self.with_raw_response = AsyncHanzoWithRawResponse(self)
+        self.with_streaming_response = AsyncHanzoWithStreamedResponse(self)
 
     @property
     @override
@@ -657,8 +657,8 @@ class AsyncHanzoAI(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class HanzoAIWithRawResponse:
-    def __init__(self, client: HanzoAI) -> None:
+class HanzoWithRawResponse:
+    def __init__(self, client: Hanzo) -> None:
         self.models = models.ModelsResourceWithRawResponse(client.models)
         self.openai = openai.OpenAIResourceWithRawResponse(client.openai)
         self.engines = engines.EnginesResourceWithRawResponse(client.engines)
@@ -713,8 +713,8 @@ class HanzoAIWithRawResponse:
         )
 
 
-class AsyncHanzoAIWithRawResponse:
-    def __init__(self, client: AsyncHanzoAI) -> None:
+class AsyncHanzoWithRawResponse:
+    def __init__(self, client: AsyncHanzo) -> None:
         self.models = models.AsyncModelsResourceWithRawResponse(client.models)
         self.openai = openai.AsyncOpenAIResourceWithRawResponse(client.openai)
         self.engines = engines.AsyncEnginesResourceWithRawResponse(client.engines)
@@ -769,8 +769,8 @@ class AsyncHanzoAIWithRawResponse:
         )
 
 
-class HanzoAIWithStreamedResponse:
-    def __init__(self, client: HanzoAI) -> None:
+class HanzoWithStreamedResponse:
+    def __init__(self, client: Hanzo) -> None:
         self.models = models.ModelsResourceWithStreamingResponse(client.models)
         self.openai = openai.OpenAIResourceWithStreamingResponse(client.openai)
         self.engines = engines.EnginesResourceWithStreamingResponse(client.engines)
@@ -825,8 +825,8 @@ class HanzoAIWithStreamedResponse:
         )
 
 
-class AsyncHanzoAIWithStreamedResponse:
-    def __init__(self, client: AsyncHanzoAI) -> None:
+class AsyncHanzoWithStreamedResponse:
+    def __init__(self, client: AsyncHanzo) -> None:
         self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
         self.openai = openai.AsyncOpenAIResourceWithStreamingResponse(client.openai)
         self.engines = engines.AsyncEnginesResourceWithStreamingResponse(client.engines)
@@ -881,6 +881,6 @@ class AsyncHanzoAIWithStreamedResponse:
         )
 
 
-Client = HanzoAI
+Client = Hanzo
 
-AsyncClient = AsyncHanzoAI
+AsyncClient = AsyncHanzo
