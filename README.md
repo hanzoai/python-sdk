@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai
 
 ```sh
 # install from PyPI
-pip install --pre hanzoai
+pip install hanzoai
 ```
 
 ## Usage
