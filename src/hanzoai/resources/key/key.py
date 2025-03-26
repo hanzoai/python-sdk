@@ -90,7 +90,7 @@ class KeyResource(SyncAPIResource):
         temp_budget_increase: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -113,7 +113,7 @@ class KeyResource(SyncAPIResource):
         - tags: Optional[List[str]] - Tags for organizing keys (Enterprise only)
         - enforced_params: Optional[List[str]] - List of enforced params for the key
           (Enterprise only).
-          [Docs](https://docs.litellm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
+          [Docs](https://docs.llm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
         - spend: Optional[float] - Amount spent by key
         - max_budget: Optional[float] - Max budget for key
         - model_max_budget: Optional[Dict[str, BudgetConfig]] - Model-specific budgets
@@ -137,7 +137,7 @@ class KeyResource(SyncAPIResource):
         - guardrails: Optional[List[str]] - List of active guardrails for the key
         - blocked: Optional[bool] - Whether the key is blocked
         - aliases: Optional[dict] - Model aliases for the key -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] Key-specific config.
         - temp_budget_increase: Optional[float] - Temporary budget increase for the key
           (Enterprise only).
@@ -158,9 +158,8 @@ class KeyResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -170,7 +169,7 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/key/update",
             body=maybe_transform(
@@ -289,7 +288,7 @@ class KeyResource(SyncAPIResource):
         *,
         key_aliases: Optional[List[str]] | NotGiven = NOT_GIVEN,
         keys: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -325,9 +324,8 @@ class KeyResource(SyncAPIResource):
         Raises: HTTPException: If an error occurs during key deletion.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -337,7 +335,7 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/key/delete",
             body=maybe_transform(
@@ -357,7 +355,7 @@ class KeyResource(SyncAPIResource):
         self,
         *,
         key: str,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -384,9 +382,8 @@ class KeyResource(SyncAPIResource):
         Note: This is an admin-only endpoint. Only proxy admins can block keys.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -396,7 +393,7 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/key/block",
             body=maybe_transform({"key": key}, key_block_params.KeyBlockParams),
@@ -495,7 +492,7 @@ class KeyResource(SyncAPIResource):
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -506,7 +503,7 @@ class KeyResource(SyncAPIResource):
         """
         Generate an API key based on the provided data.
 
-        Docs: https://docs.litellm.ai/docs/proxy/virtual_keys
+        Docs: https://docs.llm.ai/docs/proxy/virtual_keys
 
         Parameters:
 
@@ -524,12 +521,12 @@ class KeyResource(SyncAPIResource):
           key is allowed to call all models)
         - aliases: Optional[dict] - Any alias mappings, on top of anything in the
           config.yaml model list. -
-          https://docs.litellm.ai/docs/proxy/virtual_keys#managing-auth---upgradedowngrade-models
+          https://docs.llm.ai/docs/proxy/virtual_keys#managing-auth---upgradedowngrade-models
         - config: Optional[dict] - any key-specific configs, overrides config in
           config.yaml
         - spend: Optional[int] - Amount spent by key. Default is 0. Will be updated by
           proxy whenever key is used.
-          https://docs.litellm.ai/docs/proxy/virtual_keys#managing-auth---tracking-spend
+          https://docs.llm.ai/docs/proxy/virtual_keys#managing-auth---tracking-spend
         - send_invite_email: Optional[bool] - Whether to send an invite email to the
           user_id, with the generate key
         - max_budget: Optional[float] - Specify max budget for a given key.
@@ -539,8 +536,8 @@ class KeyResource(SyncAPIResource):
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - metadata: Optional[dict] - Metadata for key, store information for key.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - guardrails: Optional[List[str]] - List of active guardrails for the key
         - permissions: Optional[dict] - key-specific permissions. Currently just used
           for turning off pii masking (if connected). Example - {"pii": false}
@@ -555,7 +552,7 @@ class KeyResource(SyncAPIResource):
           specific tpm limit.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request
+          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request
         - blocked: Optional[bool] - Whether the key is blocked.
         - rpm_limit: Optional[int] - Specify rpm limit for a given key (Requests per
           minute)
@@ -564,12 +561,12 @@ class KeyResource(SyncAPIResource):
         - soft_budget: Optional[float] - Specify soft budget for a given key. Will
           trigger a slack alert when this soft budget is reached.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - enforced_params: Optional[List[str]] - List of enforced params for the key
           (Enterprise only).
-          [Docs](https://docs.litellm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
+          [Docs](https://docs.llm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
 
         Examples:
 
@@ -589,9 +586,8 @@ class KeyResource(SyncAPIResource):
           for same user id.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -601,7 +597,7 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/key/generate",
             body=maybe_transform(
@@ -674,7 +670,7 @@ class KeyResource(SyncAPIResource):
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -735,9 +731,8 @@ class KeyResource(SyncAPIResource):
         Note: This is an Enterprise feature. It requires a premium license to use.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -749,7 +744,7 @@ class KeyResource(SyncAPIResource):
         """
         if not path_key:
             raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             f"/key/{path_key}/regenerate",
             body=maybe_transform(
@@ -849,7 +844,7 @@ class KeyResource(SyncAPIResource):
         self,
         *,
         key: str,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -876,9 +871,8 @@ class KeyResource(SyncAPIResource):
         Note: This is an admin-only endpoint. Only proxy admins can unblock keys.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -888,7 +882,7 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/key/unblock",
             body=maybe_transform({"key": key}, key_unblock_params.KeyUnblockParams),
@@ -949,7 +943,7 @@ class AsyncKeyResource(AsyncAPIResource):
         temp_budget_increase: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -972,7 +966,7 @@ class AsyncKeyResource(AsyncAPIResource):
         - tags: Optional[List[str]] - Tags for organizing keys (Enterprise only)
         - enforced_params: Optional[List[str]] - List of enforced params for the key
           (Enterprise only).
-          [Docs](https://docs.litellm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
+          [Docs](https://docs.llm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
         - spend: Optional[float] - Amount spent by key
         - max_budget: Optional[float] - Max budget for key
         - model_max_budget: Optional[Dict[str, BudgetConfig]] - Model-specific budgets
@@ -996,7 +990,7 @@ class AsyncKeyResource(AsyncAPIResource):
         - guardrails: Optional[List[str]] - List of active guardrails for the key
         - blocked: Optional[bool] - Whether the key is blocked
         - aliases: Optional[dict] - Model aliases for the key -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] Key-specific config.
         - temp_budget_increase: Optional[float] - Temporary budget increase for the key
           (Enterprise only).
@@ -1017,9 +1011,8 @@ class AsyncKeyResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1029,7 +1022,7 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/key/update",
             body=await async_maybe_transform(
@@ -1148,7 +1141,7 @@ class AsyncKeyResource(AsyncAPIResource):
         *,
         key_aliases: Optional[List[str]] | NotGiven = NOT_GIVEN,
         keys: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1184,9 +1177,8 @@ class AsyncKeyResource(AsyncAPIResource):
         Raises: HTTPException: If an error occurs during key deletion.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1196,7 +1188,7 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/key/delete",
             body=await async_maybe_transform(
@@ -1216,7 +1208,7 @@ class AsyncKeyResource(AsyncAPIResource):
         self,
         *,
         key: str,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1243,9 +1235,8 @@ class AsyncKeyResource(AsyncAPIResource):
         Note: This is an admin-only endpoint. Only proxy admins can block keys.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1255,7 +1246,7 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/key/block",
             body=await async_maybe_transform({"key": key}, key_block_params.KeyBlockParams),
@@ -1354,7 +1345,7 @@ class AsyncKeyResource(AsyncAPIResource):
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1365,7 +1356,7 @@ class AsyncKeyResource(AsyncAPIResource):
         """
         Generate an API key based on the provided data.
 
-        Docs: https://docs.litellm.ai/docs/proxy/virtual_keys
+        Docs: https://docs.llm.ai/docs/proxy/virtual_keys
 
         Parameters:
 
@@ -1383,12 +1374,12 @@ class AsyncKeyResource(AsyncAPIResource):
           key is allowed to call all models)
         - aliases: Optional[dict] - Any alias mappings, on top of anything in the
           config.yaml model list. -
-          https://docs.litellm.ai/docs/proxy/virtual_keys#managing-auth---upgradedowngrade-models
+          https://docs.llm.ai/docs/proxy/virtual_keys#managing-auth---upgradedowngrade-models
         - config: Optional[dict] - any key-specific configs, overrides config in
           config.yaml
         - spend: Optional[int] - Amount spent by key. Default is 0. Will be updated by
           proxy whenever key is used.
-          https://docs.litellm.ai/docs/proxy/virtual_keys#managing-auth---tracking-spend
+          https://docs.llm.ai/docs/proxy/virtual_keys#managing-auth---tracking-spend
         - send_invite_email: Optional[bool] - Whether to send an invite email to the
           user_id, with the generate key
         - max_budget: Optional[float] - Specify max budget for a given key.
@@ -1398,8 +1389,8 @@ class AsyncKeyResource(AsyncAPIResource):
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - metadata: Optional[dict] - Metadata for key, store information for key.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - guardrails: Optional[List[str]] - List of active guardrails for the key
         - permissions: Optional[dict] - key-specific permissions. Currently just used
           for turning off pii masking (if connected). Example - {"pii": false}
@@ -1414,7 +1405,7 @@ class AsyncKeyResource(AsyncAPIResource):
           specific tpm limit.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request
+          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request
         - blocked: Optional[bool] - Whether the key is blocked.
         - rpm_limit: Optional[int] - Specify rpm limit for a given key (Requests per
           minute)
@@ -1423,12 +1414,12 @@ class AsyncKeyResource(AsyncAPIResource):
         - soft_budget: Optional[float] - Specify soft budget for a given key. Will
           trigger a slack alert when this soft budget is reached.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - enforced_params: Optional[List[str]] - List of enforced params for the key
           (Enterprise only).
-          [Docs](https://docs.litellm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
+          [Docs](https://docs.llm.ai/docs/proxy/enterprise#enforce-required-params-for-llm-requests)
 
         Examples:
 
@@ -1448,9 +1439,8 @@ class AsyncKeyResource(AsyncAPIResource):
           for same user id.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1460,7 +1450,7 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/key/generate",
             body=await async_maybe_transform(
@@ -1533,7 +1523,7 @@ class AsyncKeyResource(AsyncAPIResource):
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1594,9 +1584,8 @@ class AsyncKeyResource(AsyncAPIResource):
         Note: This is an Enterprise feature. It requires a premium license to use.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1608,7 +1597,7 @@ class AsyncKeyResource(AsyncAPIResource):
         """
         if not path_key:
             raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             f"/key/{path_key}/regenerate",
             body=await async_maybe_transform(
@@ -1708,7 +1697,7 @@ class AsyncKeyResource(AsyncAPIResource):
         self,
         *,
         key: str,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1735,9 +1724,8 @@ class AsyncKeyResource(AsyncAPIResource):
         Note: This is an admin-only endpoint. Only proxy admins can unblock keys.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1747,7 +1735,7 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/key/unblock",
             body=await async_maybe_transform({"key": key}, key_unblock_params.KeyUnblockParams),

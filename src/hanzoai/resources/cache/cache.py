@@ -63,8 +63,8 @@ class CacheResource(SyncAPIResource):
     ) -> object:
         """Endpoint for deleting a key from the cache.
 
-        All responses from litellm proxy
-        have `x-litellm-cache-key` in the headers
+        All responses from llm proxy have
+        `x-llm-cache-key` in the headers
 
         Parameters:
 
@@ -170,8 +170,8 @@ class AsyncCacheResource(AsyncAPIResource):
     ) -> object:
         """Endpoint for deleting a key from the cache.
 
-        All responses from litellm proxy
-        have `x-litellm-cache-key` in the headers
+        All responses from llm proxy have
+        `x-llm-cache-key` in the headers
 
         Parameters:
 

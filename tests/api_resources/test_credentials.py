@@ -22,7 +22,17 @@ class TestCredentials:
         credential = client.credentials.create(
             credential_info={},
             credential_name="credential_name",
+        )
+        assert_matches_type(object, credential, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
+        credential = client.credentials.create(
+            credential_info={},
+            credential_name="credential_name",
             credential_values={},
+            model_id="model_id",
         )
         assert_matches_type(object, credential, path=["response"])
 
@@ -32,7 +42,6 @@ class TestCredentials:
         response = client.credentials.with_raw_response.create(
             credential_info={},
             credential_name="credential_name",
-            credential_values={},
         )
 
         assert response.is_closed is True
@@ -46,7 +55,6 @@ class TestCredentials:
         with client.credentials.with_streaming_response.create(
             credential_info={},
             credential_name="credential_name",
-            credential_values={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -55,102 +63,6 @@ class TestCredentials:
             assert_matches_type(object, credential, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_method_retrieve(self, client: Hanzo) -> None:
-        credential = client.credentials.retrieve(
-            "credential_name",
-        )
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_raw_response_retrieve(self, client: Hanzo) -> None:
-        response = client.credentials.with_raw_response.retrieve(
-            "credential_name",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        credential = response.parse()
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_streaming_response_retrieve(self, client: Hanzo) -> None:
-        with client.credentials.with_streaming_response.retrieve(
-            "credential_name",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            credential = response.parse()
-            assert_matches_type(object, credential, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_path_params_retrieve(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            client.credentials.with_raw_response.retrieve(
-                "",
-            )
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_method_update(self, client: Hanzo) -> None:
-        credential = client.credentials.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        )
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_raw_response_update(self, client: Hanzo) -> None:
-        response = client.credentials.with_raw_response.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        credential = response.parse()
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_streaming_response_update(self, client: Hanzo) -> None:
-        with client.credentials.with_streaming_response.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            credential = response.parse()
-            assert_matches_type(object, credential, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_path_params_update(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_credential_name` but received ''"):
-            client.credentials.with_raw_response.update(
-                path_credential_name="",
-                credential_info={},
-                body_credential_name="",
-                credential_values={},
-            )
 
     @pytest.mark.skip()
     @parametrize
@@ -232,7 +144,17 @@ class TestAsyncCredentials:
         credential = await async_client.credentials.create(
             credential_info={},
             credential_name="credential_name",
+        )
+        assert_matches_type(object, credential, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
+        credential = await async_client.credentials.create(
+            credential_info={},
+            credential_name="credential_name",
             credential_values={},
+            model_id="model_id",
         )
         assert_matches_type(object, credential, path=["response"])
 
@@ -242,7 +164,6 @@ class TestAsyncCredentials:
         response = await async_client.credentials.with_raw_response.create(
             credential_info={},
             credential_name="credential_name",
-            credential_values={},
         )
 
         assert response.is_closed is True
@@ -256,7 +177,6 @@ class TestAsyncCredentials:
         async with async_client.credentials.with_streaming_response.create(
             credential_info={},
             credential_name="credential_name",
-            credential_values={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -265,102 +185,6 @@ class TestAsyncCredentials:
             assert_matches_type(object, credential, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
-        credential = await async_client.credentials.retrieve(
-            "credential_name",
-        )
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
-        response = await async_client.credentials.with_raw_response.retrieve(
-            "credential_name",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        credential = await response.parse()
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
-        async with async_client.credentials.with_streaming_response.retrieve(
-            "credential_name",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            credential = await response.parse()
-            assert_matches_type(object, credential, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `credential_name` but received ''"):
-            await async_client.credentials.with_raw_response.retrieve(
-                "",
-            )
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_method_update(self, async_client: AsyncHanzo) -> None:
-        credential = await async_client.credentials.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        )
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
-        response = await async_client.credentials.with_raw_response.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        credential = await response.parse()
-        assert_matches_type(object, credential, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
-        async with async_client.credentials.with_streaming_response.update(
-            path_credential_name="credential_name",
-            credential_info={},
-            body_credential_name="credential_name",
-            credential_values={},
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            credential = await response.parse()
-            assert_matches_type(object, credential, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_credential_name` but received ''"):
-            await async_client.credentials.with_raw_response.update(
-                path_credential_name="",
-                credential_info={},
-                body_credential_name="",
-                credential_values={},
-            )
 
     @pytest.mark.skip()
     @parametrize

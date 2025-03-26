@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import List, Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -15,7 +16,6 @@ from .info import (
     AsyncInfoResourceWithStreamingResponse,
 )
 from ...types import (
-    UserRoles,
     organization_create_params,
     organization_delete_params,
     organization_update_params,
@@ -37,13 +37,12 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.user_roles import UserRoles
 from ...types.organization_list_response import OrganizationListResponse
 from ...types.organization_create_response import OrganizationCreateResponse
 from ...types.organization_delete_response import OrganizationDeleteResponse
-from ...types.organization_membership_table import OrganizationMembershipTable
-from ...types.organization_table_with_members import OrganizationTableWithMembers
+from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_add_member_response import OrganizationAddMemberResponse
+from ...types.organization_update_member_response import OrganizationUpdateMemberResponse
 
 __all__ = ["OrganizationResource", "AsyncOrganizationResource"]
 
@@ -124,13 +123,13 @@ class OrganizationResource(SyncAPIResource):
         - blocked: _bool_ - Flag indicating if the org is blocked or not - will stop all
           calls from keys with this org_id.
         - tags: _Optional[List[str]]_ - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: _Optional[str]_ - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
 
         Case 1: Create new org **without** a budget_id
 
@@ -210,7 +209,7 @@ class OrganizationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationTableWithMembers:
+    ) -> OrganizationUpdateResponse:
         """
         Update an organization
 
@@ -240,7 +239,7 @@ class OrganizationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=OrganizationUpdateResponse,
         )
 
     def list(
@@ -330,7 +329,7 @@ class OrganizationResource(SyncAPIResource):
 
         - organization_id: str (required)
         - member: Union[List[Member], Member] (required)
-          - role: Literal[LitellmUserRoles] (required)
+          - role: Literal[LLMUserRoles] (required)
           - user_id: Optional[str]
           - user_email: Optional[str]
 
@@ -343,7 +342,7 @@ class OrganizationResource(SyncAPIResource):
             "organization_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
             "member": {
                 "role": "internal_user",
-                "user_id": "krrish247652@berri.ai"
+                "user_id": "dev247652@hanzo.ai"
             },
             "max_budget_in_organization": 100.0
         }'
@@ -353,8 +352,8 @@ class OrganizationResource(SyncAPIResource):
 
         1. Check if organization exists
         2. Creates a new Internal User if the user_id or user_email is not found in
-           LiteLLM_UserTable
-        3. Add Internal User to the `LiteLLM_OrganizationMembership` table
+           LLM_UserTable
+        3. Add Internal User to the `LLM_OrganizationMembership` table
 
         Args:
           extra_headers: Send extra headers
@@ -427,7 +426,18 @@ class OrganizationResource(SyncAPIResource):
         *,
         organization_id: str,
         max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
-        role: Optional[UserRoles] | NotGiven = NOT_GIVEN,
+        role: Optional[
+            Literal[
+                "proxy_admin",
+                "proxy_admin_viewer",
+                "org_admin",
+                "internal_user",
+                "internal_user_viewer",
+                "team",
+                "customer",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -436,7 +446,7 @@ class OrganizationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -476,7 +486,7 @@ class OrganizationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 
@@ -556,13 +566,13 @@ class AsyncOrganizationResource(AsyncAPIResource):
         - blocked: _bool_ - Flag indicating if the org is blocked or not - will stop all
           calls from keys with this org_id.
         - tags: _Optional[List[str]]_ - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: _Optional[str]_ - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
 
         Case 1: Create new org **without** a budget_id
 
@@ -642,7 +652,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationTableWithMembers:
+    ) -> OrganizationUpdateResponse:
         """
         Update an organization
 
@@ -672,7 +682,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=OrganizationUpdateResponse,
         )
 
     async def list(
@@ -762,7 +772,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
 
         - organization_id: str (required)
         - member: Union[List[Member], Member] (required)
-          - role: Literal[LitellmUserRoles] (required)
+          - role: Literal[LLMUserRoles] (required)
           - user_id: Optional[str]
           - user_email: Optional[str]
 
@@ -775,7 +785,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
             "organization_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
             "member": {
                 "role": "internal_user",
-                "user_id": "krrish247652@berri.ai"
+                "user_id": "dev247652@hanzo.ai"
             },
             "max_budget_in_organization": 100.0
         }'
@@ -785,8 +795,8 @@ class AsyncOrganizationResource(AsyncAPIResource):
 
         1. Check if organization exists
         2. Creates a new Internal User if the user_id or user_email is not found in
-           LiteLLM_UserTable
-        3. Add Internal User to the `LiteLLM_OrganizationMembership` table
+           LLM_UserTable
+        3. Add Internal User to the `LLM_OrganizationMembership` table
 
         Args:
           extra_headers: Send extra headers
@@ -859,7 +869,18 @@ class AsyncOrganizationResource(AsyncAPIResource):
         *,
         organization_id: str,
         max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
-        role: Optional[UserRoles] | NotGiven = NOT_GIVEN,
+        role: Optional[
+            Literal[
+                "proxy_admin",
+                "proxy_admin_viewer",
+                "org_admin",
+                "internal_user",
+                "internal_user_viewer",
+                "team",
+                "customer",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -868,7 +889,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -908,7 +929,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 

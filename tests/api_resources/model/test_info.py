@@ -26,7 +26,7 @@ class TestInfo:
     @parametrize
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         info = client.model.info.list(
-            litellm_model_id="litellm_model_id",
+            llm_model_id="llm_model_id",
         )
         assert_matches_type(object, info, path=["response"])
 
@@ -66,7 +66,7 @@ class TestAsyncInfo:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         info = await async_client.model.info.list(
-            litellm_model_id="litellm_model_id",
+            llm_model_id="llm_model_id",
         )
         assert_matches_type(object, info, path=["response"])
 
