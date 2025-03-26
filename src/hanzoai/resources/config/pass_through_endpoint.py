@@ -70,7 +70,7 @@ class PassThroughEndpointResource(SyncAPIResource):
           headers: Key-value pairs of headers to be forwarded with the request. You can set any key
               value pair here and it will be forwarded to your target endpoint
 
-          path: The route to be added to the LiteLLM Proxy Server.
+          path: The route to be added to the LLM Proxy Server.
 
           target: The URL to which requests for this path should be forwarded.
 
@@ -250,7 +250,7 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
           headers: Key-value pairs of headers to be forwarded with the request. You can set any key
               value pair here and it will be forwarded to your target endpoint
 
-          path: The route to be added to the LiteLLM Proxy Server.
+          path: The route to be added to the LLM Proxy Server.
 
           target: The URL to which requests for this path should be forwarded.
 

@@ -8,22 +8,22 @@ from typing_extensions import Required, TypeAlias, TypedDict
 from .model_info_param import ModelInfoParam
 from .configurable_clientside_params_custom_auth_param import ConfigurableClientsideParamsCustomAuthParam
 
-__all__ = ["ModelCreateParams", "LitellmParams", "LitellmParamsConfigurableClientsideAuthParam"]
+__all__ = ["ModelCreateParams", "LlmParams", "LlmParamsConfigurableClientsideAuthParam"]
 
 
 class ModelCreateParams(TypedDict, total=False):
-    litellm_params: Required[LitellmParams]
-    """LiteLLM Params with 'model' requirement - used for completions"""
+    llm_params: Required[LlmParams]
+    """LLM Params with 'model' requirement - used for completions"""
 
     model_info: Required[ModelInfoParam]
 
     model_name: Required[str]
 
 
-LitellmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
+LlmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
 
 
-class LitellmParamsTyped(TypedDict, total=False):
+class LlmParamsTyped(TypedDict, total=False):
     model: Required[str]
 
     api_base: Optional[str]
@@ -40,7 +40,7 @@ class LitellmParamsTyped(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    configurable_clientside_auth_params: Optional[List[LitellmParamsConfigurableClientsideAuthParam]]
+    configurable_clientside_auth_params: Optional[List[LlmParamsConfigurableClientsideAuthParam]]
 
     custom_llm_provider: Optional[str]
 
@@ -48,7 +48,7 @@ class LitellmParamsTyped(TypedDict, total=False):
 
     input_cost_per_token: Optional[float]
 
-    litellm_trace_id: Optional[str]
+    llm_trace_id: Optional[str]
 
     max_budget: Optional[float]
 
@@ -87,4 +87,4 @@ class LitellmParamsTyped(TypedDict, total=False):
     watsonx_region_name: Optional[str]
 
 
-LitellmParams: TypeAlias = Union[LitellmParamsTyped, Dict[str, object]]
+LlmParams: TypeAlias = Union[LlmParamsTyped, Dict[str, object]]

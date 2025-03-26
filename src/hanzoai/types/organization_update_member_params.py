@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Required, TypedDict
-
-from .user_roles import UserRoles
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["OrganizationUpdateMemberParams"]
 
@@ -15,7 +13,17 @@ class OrganizationUpdateMemberParams(TypedDict, total=False):
 
     max_budget_in_organization: Optional[float]
 
-    role: Optional[UserRoles]
+    role: Optional[
+        Literal[
+            "proxy_admin",
+            "proxy_admin_viewer",
+            "org_admin",
+            "internal_user",
+            "internal_user_viewer",
+            "team",
+            "customer",
+        ]
+    ]
     """
     Admin Roles: PROXY_ADMIN: admin over the platform PROXY_ADMIN_VIEW_ONLY: can
     login, view all own keys, view all spend ORG_ADMIN: admin over a specific

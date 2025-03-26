@@ -30,7 +30,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.customer_list_response import CustomerListResponse
-from ..types.lite_llm_end_user_table import LiteLlmEndUserTable
+from ..types.customer_retrieve_info_response import CustomerRetrieveInfoResponse
 
 __all__ = ["CustomerResource", "AsyncCustomerResource"]
 
@@ -119,7 +119,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/new'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_id" : "ishaan-jaff-3",
+                "user_id" : "z-jaff-3",
                 "allowed_region": "eu",
                 "budget_id": "free_tier",
                 "default_model": "azure/gpt-3.5-turbo-eu" <- all calls from this user, use this model?
@@ -217,7 +217,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "budget_id": "paid_tier"
         }'
 
@@ -302,7 +302,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/delete'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_ids" :["ishaan-jaff-5"]
+                "user_ids" :["z-jaff-5"]
         }'
 
         See below for all params
@@ -383,7 +383,7 @@ class CustomerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LiteLlmEndUserTable:
+    ) -> CustomerRetrieveInfoResponse:
         """Get information about an end-user.
 
         An `end_user` is a customer (external user)
@@ -396,7 +396,7 @@ class CustomerResource(SyncAPIResource):
         Example curl:
 
         ```
-        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-litellm-user-4'         -H 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-llm-user-4'         -H 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -421,7 +421,7 @@ class CustomerResource(SyncAPIResource):
                     {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
                 ),
             ),
-            cast_to=LiteLlmEndUserTable,
+            cast_to=CustomerRetrieveInfoResponse,
         )
 
     def unblock(
@@ -551,7 +551,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/new'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_id" : "ishaan-jaff-3",
+                "user_id" : "z-jaff-3",
                 "allowed_region": "eu",
                 "budget_id": "free_tier",
                 "default_model": "azure/gpt-3.5-turbo-eu" <- all calls from this user, use this model?
@@ -649,7 +649,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "budget_id": "paid_tier"
         }'
 
@@ -734,7 +734,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/delete'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_ids" :["ishaan-jaff-5"]
+                "user_ids" :["z-jaff-5"]
         }'
 
         See below for all params
@@ -815,7 +815,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LiteLlmEndUserTable:
+    ) -> CustomerRetrieveInfoResponse:
         """Get information about an end-user.
 
         An `end_user` is a customer (external user)
@@ -828,7 +828,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         Example curl:
 
         ```
-        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-litellm-user-4'         -H 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-llm-user-4'         -H 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -853,7 +853,7 @@ class AsyncCustomerResource(AsyncAPIResource):
                     {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
                 ),
             ),
-            cast_to=LiteLlmEndUserTable,
+            cast_to=CustomerRetrieveInfoResponse,
         )
 
     async def unblock(

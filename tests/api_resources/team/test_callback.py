@@ -76,7 +76,7 @@ class TestCallback:
             callback_name="callback_name",
             callback_vars={"foo": "string"},
             callback_type="success",
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, callback, path=["response"])
 
@@ -184,7 +184,7 @@ class TestAsyncCallback:
             callback_name="callback_name",
             callback_vars={"foo": "string"},
             callback_type="success",
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, callback, path=["response"])
 

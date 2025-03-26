@@ -20,7 +20,7 @@ or products provided by Hanzo please follow the respective company's security re
 
 ### Hanzo Terms and Policies
 
-Please contact dev-feedback@hanzo.ai for any questions or concerns regarding security of our services.
+Please contact dev@hanzo.ai for any questions or concerns regarding security of our services.
 
 ---
 
