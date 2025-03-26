@@ -10,3 +10,5 @@ __all__ = ["ModelListParams"]
 
 class ModelListParams(TypedDict, total=False):
     return_wildcard_routes: Optional[bool]
+
+    team_id: Optional[str]
