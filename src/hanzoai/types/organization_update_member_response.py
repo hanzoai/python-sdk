@@ -1,16 +1,16 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
-from typing_extensions import Literal, TypeAlias
+from typing import Optional
+from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["CustomerListResponse", "CustomerListResponseItem", "CustomerListResponseItemLlmBudgetTable"]
+__all__ = ["OrganizationUpdateMemberResponse", "LlmBudgetTable"]
 
 
-class CustomerListResponseItemLlmBudgetTable(BaseModel):
+class LlmBudgetTable(BaseModel):
     budget_duration: Optional[str] = None
 
     max_budget: Optional[float] = None
@@ -26,21 +26,22 @@ class CustomerListResponseItemLlmBudgetTable(BaseModel):
     tpm_limit: Optional[int] = None
 
 
-class CustomerListResponseItem(BaseModel):
-    blocked: bool
+class OrganizationUpdateMemberResponse(BaseModel):
+    created_at: datetime
+
+    organization_id: str
+
+    updated_at: datetime
 
     user_id: str
 
-    alias: Optional[str] = None
+    budget_id: Optional[str] = None
 
-    allowed_model_region: Optional[Literal["eu", "us"]] = None
-
-    default_model: Optional[str] = None
-
-    llm_budget_table: Optional[CustomerListResponseItemLlmBudgetTable] = None
+    llm_budget_table: Optional[LlmBudgetTable] = None
     """Represents user-controllable params for a LLM_BudgetTable record"""
 
     spend: Optional[float] = None
 
+    user: Optional[object] = None
 
-CustomerListResponse: TypeAlias = List[CustomerListResponseItem]
+    user_role: Optional[str] = None

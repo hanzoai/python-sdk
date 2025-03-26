@@ -16,7 +16,7 @@ class PassThroughEndpointCreateParams(TypedDict, total=False):
     """
 
     path: Required[str]
-    """The route to be added to the LiteLLM Proxy Server."""
+    """The route to be added to the LLM Proxy Server."""
 
     target: Required[str]
     """The URL to which requests for this path should be forwarded."""

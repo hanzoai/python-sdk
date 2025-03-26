@@ -66,7 +66,7 @@ class SpendResource(SyncAPIResource):
         Calculate spend **before** making call:
 
         Note: If you see a spend of $0.0 you need to set custom_pricing for your model:
-        https://docs.litellm.ai/docs/proxy/custom_pricing
+        https://docs.llm.ai/docs/proxy/custom_pricing
 
         ```
         curl --location 'http://localhost:4000/spend/calculate'
@@ -174,7 +174,7 @@ class SpendResource(SyncAPIResource):
         Example Request for specific user_id
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=ishaan@berri.ai" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=z@hanzo.ai" -H "Authorization: Bearer sk-1234"
         ```
 
         Args:
@@ -231,7 +231,7 @@ class SpendResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SpendListTagsResponse:
         """
-        LiteLLM Enterprise - View Spend Per Request Tag
+        LLM Enterprise - View Spend Per Request Tag
 
         Example Request:
 
@@ -316,7 +316,7 @@ class AsyncSpendResource(AsyncAPIResource):
         Calculate spend **before** making call:
 
         Note: If you see a spend of $0.0 you need to set custom_pricing for your model:
-        https://docs.litellm.ai/docs/proxy/custom_pricing
+        https://docs.llm.ai/docs/proxy/custom_pricing
 
         ```
         curl --location 'http://localhost:4000/spend/calculate'
@@ -424,7 +424,7 @@ class AsyncSpendResource(AsyncAPIResource):
         Example Request for specific user_id
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=ishaan@berri.ai" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=z@hanzo.ai" -H "Authorization: Bearer sk-1234"
         ```
 
         Args:
@@ -481,7 +481,7 @@ class AsyncSpendResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SpendListTagsResponse:
         """
-        LiteLLM Enterprise - View Spend Per Request Tag
+        LLM Enterprise - View Spend Per Request Tag
 
         Example Request:
 

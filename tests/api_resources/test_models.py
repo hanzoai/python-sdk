@@ -27,6 +27,7 @@ class TestModels:
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         model = client.models.list(
             return_wildcard_routes=True,
+            team_id="team_id",
         )
         assert_matches_type(object, model, path=["response"])
 
@@ -67,6 +68,7 @@ class TestAsyncModels:
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         model = await async_client.models.list(
             return_wildcard_routes=True,
+            team_id="team_id",
         )
         assert_matches_type(object, model, path=["response"])
 
