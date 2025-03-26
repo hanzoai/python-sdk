@@ -57,8 +57,8 @@ class ModelGroupResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Get information about all the deployments on litellm proxy, including
-        config.yaml descriptions (except api key and api base)
+        Get information about all the deployments on llm proxy, including config.yaml
+        descriptions (except api key and api base)
 
         - /model_group/info returns all model groups. End users of proxy should use
           /model_group/info since those models will be used for /chat/completions,
@@ -87,7 +87,7 @@ class ModelGroupResource(SyncAPIResource):
         ```
 
         Learn how to use and set wildcard models
-        [here](https://docs.litellm.ai/docs/wildcard_routing)
+        [here](https://docs.llm.ai/docs/wildcard_routing)
 
         Example Response:
 
@@ -256,8 +256,8 @@ class AsyncModelGroupResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Get information about all the deployments on litellm proxy, including
-        config.yaml descriptions (except api key and api base)
+        Get information about all the deployments on llm proxy, including config.yaml
+        descriptions (except api key and api base)
 
         - /model_group/info returns all model groups. End users of proxy should use
           /model_group/info since those models will be used for /chat/completions,
@@ -286,7 +286,7 @@ class AsyncModelGroupResource(AsyncAPIResource):
         ```
 
         Learn how to use and set wildcard models
-        [here](https://docs.litellm.ai/docs/wildcard_routing)
+        [here](https://docs.llm.ai/docs/wildcard_routing)
 
         Example Response:
 

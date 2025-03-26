@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
-from ..types import credential_create_params, credential_update_params
+from ..types import credential_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -48,7 +50,8 @@ class CredentialsResource(SyncAPIResource):
         *,
         credential_info: object,
         credential_name: str,
-        credential_values: object,
+        credential_values: Optional[object] | NotGiven = NOT_GIVEN,
+        model_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -77,89 +80,9 @@ class CredentialsResource(SyncAPIResource):
                     "credential_info": credential_info,
                     "credential_name": credential_name,
                     "credential_values": credential_values,
+                    "model_id": model_id,
                 },
                 credential_create_params.CredentialCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    def retrieve(
-        self,
-        credential_name: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """[BETA] endpoint.
-
-        This might change unexpectedly.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
-        return self._get(
-            f"/credentials/{credential_name}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    def update(
-        self,
-        path_credential_name: str,
-        *,
-        credential_info: object,
-        body_credential_name: str,
-        credential_values: object,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """[BETA] endpoint.
-
-        This might change unexpectedly.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not path_credential_name:
-            raise ValueError(
-                f"Expected a non-empty value for `path_credential_name` but received {path_credential_name!r}"
-            )
-        return self._put(
-            f"/credentials/{path_credential_name}",
-            body=maybe_transform(
-                {
-                    "credential_info": credential_info,
-                    "body_credential_name": body_credential_name,
-                    "credential_values": credential_values,
-                },
-                credential_update_params.CredentialUpdateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -246,7 +169,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
         *,
         credential_info: object,
         credential_name: str,
-        credential_values: object,
+        credential_values: Optional[object] | NotGiven = NOT_GIVEN,
+        model_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -275,89 +199,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
                     "credential_info": credential_info,
                     "credential_name": credential_name,
                     "credential_values": credential_values,
+                    "model_id": model_id,
                 },
                 credential_create_params.CredentialCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    async def retrieve(
-        self,
-        credential_name: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """[BETA] endpoint.
-
-        This might change unexpectedly.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
-        return await self._get(
-            f"/credentials/{credential_name}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
-    async def update(
-        self,
-        path_credential_name: str,
-        *,
-        credential_info: object,
-        body_credential_name: str,
-        credential_values: object,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """[BETA] endpoint.
-
-        This might change unexpectedly.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not path_credential_name:
-            raise ValueError(
-                f"Expected a non-empty value for `path_credential_name` but received {path_credential_name!r}"
-            )
-        return await self._put(
-            f"/credentials/{path_credential_name}",
-            body=await async_maybe_transform(
-                {
-                    "credential_info": credential_info,
-                    "body_credential_name": body_credential_name,
-                    "credential_values": credential_values,
-                },
-                credential_update_params.CredentialUpdateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -426,12 +270,6 @@ class CredentialsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             credentials.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            credentials.retrieve,
-        )
-        self.update = to_raw_response_wrapper(
-            credentials.update,
-        )
         self.list = to_raw_response_wrapper(
             credentials.list,
         )
@@ -446,12 +284,6 @@ class AsyncCredentialsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             credentials.create,
-        )
-        self.retrieve = async_to_raw_response_wrapper(
-            credentials.retrieve,
-        )
-        self.update = async_to_raw_response_wrapper(
-            credentials.update,
         )
         self.list = async_to_raw_response_wrapper(
             credentials.list,
@@ -468,12 +300,6 @@ class CredentialsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             credentials.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            credentials.retrieve,
-        )
-        self.update = to_streamed_response_wrapper(
-            credentials.update,
-        )
         self.list = to_streamed_response_wrapper(
             credentials.list,
         )
@@ -488,12 +314,6 @@ class AsyncCredentialsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             credentials.create,
-        )
-        self.retrieve = async_to_streamed_response_wrapper(
-            credentials.retrieve,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            credentials.update,
         )
         self.list = async_to_streamed_response_wrapper(
             credentials.list,

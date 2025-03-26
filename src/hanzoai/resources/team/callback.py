@@ -105,7 +105,7 @@ class CallbackResource(SyncAPIResource):
         callback_name: str,
         callback_vars: Dict[str, str],
         callback_type: Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -156,9 +156,8 @@ class CallbackResource(SyncAPIResource):
         the secret key sk-xxxxx
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -170,7 +169,7 @@ class CallbackResource(SyncAPIResource):
         """
         if not team_id:
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             f"/team/{team_id}/callback",
             body=maybe_transform(
@@ -266,7 +265,7 @@ class AsyncCallbackResource(AsyncAPIResource):
         callback_name: str,
         callback_vars: Dict[str, str],
         callback_type: Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -317,9 +316,8 @@ class AsyncCallbackResource(AsyncAPIResource):
         the secret key sk-xxxxx
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -331,7 +329,7 @@ class AsyncCallbackResource(AsyncAPIResource):
         """
         if not team_id:
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             f"/team/{team_id}/callback",
             body=await async_maybe_transform(
