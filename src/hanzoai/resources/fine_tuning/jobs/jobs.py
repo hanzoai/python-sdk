@@ -145,7 +145,7 @@ class JobsResource(SyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LiteLLM provider
+        - `custom_llm_provider`: Name of the LLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to retrieve.
 
         Args:
@@ -193,7 +193,7 @@ class JobsResource(SyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LiteLLM provider
+        - `custom_llm_provider`: Name of the LLM provider
         - `after`: Identifier for the last job from the previous pagination request.
         - `limit`: Number of fine-tuning jobs to retrieve (default is 20).
 
@@ -337,7 +337,7 @@ class AsyncJobsResource(AsyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LiteLLM provider
+        - `custom_llm_provider`: Name of the LLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to retrieve.
 
         Args:
@@ -385,7 +385,7 @@ class AsyncJobsResource(AsyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LiteLLM provider
+        - `custom_llm_provider`: Name of the LLM provider
         - `after`: Identifier for the last job from the previous pagination request.
         - `limit`: Number of fine-tuning jobs to retrieve (default is 20).
 

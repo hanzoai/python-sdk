@@ -10,8 +10,8 @@ import pytest
 from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 from hanzoai.types import (
-    LiteLlmEndUserTable,
     CustomerListResponse,
+    CustomerRetrieveInfoResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -231,7 +231,7 @@ class TestCustomer:
         customer = client.customer.retrieve_info(
             end_user_id="end_user_id",
         )
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -243,7 +243,7 @@ class TestCustomer:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         customer = response.parse()
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -255,7 +255,7 @@ class TestCustomer:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             customer = response.parse()
-            assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+            assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -508,7 +508,7 @@ class TestAsyncCustomer:
         customer = await async_client.customer.retrieve_info(
             end_user_id="end_user_id",
         )
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -520,7 +520,7 @@ class TestAsyncCustomer:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         customer = await response.parse()
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -532,7 +532,7 @@ class TestAsyncCustomer:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             customer = await response.parse()
-            assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+            assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

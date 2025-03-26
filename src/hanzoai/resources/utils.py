@@ -63,7 +63,7 @@ class UtilsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Returns supported openai params for a given litellm model name
+        """Returns supported openai params for a given llm model name
 
         e.g.
 
@@ -272,7 +272,7 @@ class AsyncUtilsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Returns supported openai params for a given litellm model name
+        """Returns supported openai params for a given llm model name
 
         e.g.
 

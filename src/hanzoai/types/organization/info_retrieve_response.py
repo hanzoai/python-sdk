@@ -2,25 +2,16 @@
 
 from typing import List, Union, Optional
 from datetime import datetime
-from typing_extensions import TypeAlias
 
 from pydantic import Field as FieldInfo
 
-from .member import Member
-from .._models import BaseModel
+from .. import member
+from ..._models import BaseModel
 
-__all__ = [
-    "OrganizationDeleteResponse",
-    "OrganizationDeleteResponseItem",
-    "OrganizationDeleteResponseItemLlmBudgetTable",
-    "OrganizationDeleteResponseItemMember",
-    "OrganizationDeleteResponseItemMemberLlmBudgetTable",
-    "OrganizationDeleteResponseItemTeam",
-    "OrganizationDeleteResponseItemTeamLlmModelTable",
-]
+__all__ = ["InfoRetrieveResponse", "LlmBudgetTable", "Member", "MemberLlmBudgetTable", "Team", "TeamLlmModelTable"]
 
 
-class OrganizationDeleteResponseItemLlmBudgetTable(BaseModel):
+class LlmBudgetTable(BaseModel):
     budget_duration: Optional[str] = None
 
     max_budget: Optional[float] = None
@@ -36,7 +27,7 @@ class OrganizationDeleteResponseItemLlmBudgetTable(BaseModel):
     tpm_limit: Optional[int] = None
 
 
-class OrganizationDeleteResponseItemMemberLlmBudgetTable(BaseModel):
+class MemberLlmBudgetTable(BaseModel):
     budget_duration: Optional[str] = None
 
     max_budget: Optional[float] = None
@@ -52,7 +43,7 @@ class OrganizationDeleteResponseItemMemberLlmBudgetTable(BaseModel):
     tpm_limit: Optional[int] = None
 
 
-class OrganizationDeleteResponseItemMember(BaseModel):
+class Member(BaseModel):
     created_at: datetime
 
     organization_id: str
@@ -63,7 +54,7 @@ class OrganizationDeleteResponseItemMember(BaseModel):
 
     budget_id: Optional[str] = None
 
-    llm_budget_table: Optional[OrganizationDeleteResponseItemMemberLlmBudgetTable] = None
+    llm_budget_table: Optional[MemberLlmBudgetTable] = None
     """Represents user-controllable params for a LLM_BudgetTable record"""
 
     spend: Optional[float] = None
@@ -73,7 +64,7 @@ class OrganizationDeleteResponseItemMember(BaseModel):
     user_role: Optional[str] = None
 
 
-class OrganizationDeleteResponseItemTeamLlmModelTable(BaseModel):
+class TeamLlmModelTable(BaseModel):
     created_by: str
 
     updated_by: str
@@ -81,7 +72,7 @@ class OrganizationDeleteResponseItemTeamLlmModelTable(BaseModel):
     api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)
 
 
-class OrganizationDeleteResponseItemTeam(BaseModel):
+class Team(BaseModel):
     team_id: str
 
     admins: Optional[List[object]] = None
@@ -94,7 +85,7 @@ class OrganizationDeleteResponseItemTeam(BaseModel):
 
     created_at: Optional[datetime] = None
 
-    llm_model_table: Optional[OrganizationDeleteResponseItemTeamLlmModelTable] = None
+    llm_model_table: Optional[TeamLlmModelTable] = None
 
     max_budget: Optional[float] = None
 
@@ -102,7 +93,7 @@ class OrganizationDeleteResponseItemTeam(BaseModel):
 
     members: Optional[List[object]] = None
 
-    members_with_roles: Optional[List[Member]] = None
+    members_with_roles: Optional[List[member.Member]] = None
 
     metadata: Optional[object] = None
 
@@ -121,7 +112,7 @@ class OrganizationDeleteResponseItemTeam(BaseModel):
     tpm_limit: Optional[int] = None
 
 
-class OrganizationDeleteResponseItem(BaseModel):
+class InfoRetrieveResponse(BaseModel):
     budget_id: str
 
     created_at: datetime
@@ -134,10 +125,10 @@ class OrganizationDeleteResponseItem(BaseModel):
 
     updated_by: str
 
-    llm_budget_table: Optional[OrganizationDeleteResponseItemLlmBudgetTable] = None
+    llm_budget_table: Optional[LlmBudgetTable] = None
     """Represents user-controllable params for a LLM_BudgetTable record"""
 
-    members: Optional[List[OrganizationDeleteResponseItemMember]] = None
+    members: Optional[List[Member]] = None
 
     metadata: Optional[object] = None
 
@@ -147,7 +138,4 @@ class OrganizationDeleteResponseItem(BaseModel):
 
     spend: Optional[float] = None
 
-    teams: Optional[List[OrganizationDeleteResponseItemTeam]] = None
-
-
-OrganizationDeleteResponse: TypeAlias = List[OrganizationDeleteResponseItem]
+    teams: Optional[List[Team]] = None

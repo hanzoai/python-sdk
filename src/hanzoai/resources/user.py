@@ -95,8 +95,8 @@ class UserResource(SyncAPIResource):
         """Use this to create a new INTERNAL user with a budget.
 
         Internal Users can access
-        LiteLLM Admin UI to make keys, request access to models. This creates a new user
-        and generates a new api key for the new user. The new api key is returned.
+        LLM Admin UI to make keys, request access to models. This creates a new user and
+        generates a new api key for the new user. The new api key is returned.
 
         Returns user id, budget + new key.
 
@@ -112,7 +112,7 @@ class UserResource(SyncAPIResource):
         - user_role: Optional[str] - Specify a user role - "proxy_admin",
           "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
           "customer". Info about each role here:
-          `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20`
+          `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20`
         - max_budget: Optional[float] - Specify max budget for a given user.
         - budget_duration: Optional[str] - Budget is reset at the end of specified
           duration. If not set, budget is never reset. You can set duration as seconds
@@ -127,29 +127,29 @@ class UserResource(SyncAPIResource):
         - auto_create_key: bool - Default=True. Flag used for returning a key as part of
           the /user/new response
         - aliases: Optional[dict] - Model aliases for the user -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
         - permissions: Optional[dict] - [Not Implemented Yet] User-specific permissions,
           eg. turning off pii masking.
         - metadata: Optional[dict] - Metadata for user, store information for user.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -266,7 +266,7 @@ class UserResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/user/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "user_role": "proxy_admin_viewer"
         }'
         ```
@@ -280,7 +280,7 @@ class UserResource(SyncAPIResource):
         user_role: Optional[str] - Specify a user role - "proxy_admin",
         "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
         "customer". Info about each role here:
-        `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20` - max_budget:
+        `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20` - max_budget:
         Optional[float] - Specify max budget for a given user. - budget_duration:
         Optional[str] - Budget is reset at the end of specified duration. If not set,
         budget is never reset. You can set duration as seconds ("30s"), minutes ("30m"),
@@ -291,27 +291,27 @@ class UserResource(SyncAPIResource):
         (Requests per minute) - auto_create_key: bool - Default=True. Flag used for
         returning a key as part of the /user/new response - aliases: Optional[dict] -
         Model aliases for the user -
-        [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases) -
-        config: Optional[dict] - [DEPRECATED PARAM] User-specific config. -
+        [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases) - config:
+        Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
         User-specific permissions, eg. turning off pii masking. - metadata:
         Optional[dict] - Metadata for user, store information for user. Example metadata
-        = {"team": "core-infra", "app": "app2", "email": "ishaan@berri.ai" } -
+        = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai" } -
         max_parallel_requests: Optional[int] - Rate limit a user based on the number of
         parallel requests. Raises 429 error, if user's parallel requests > x. -
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
@@ -439,7 +439,7 @@ class UserResource(SyncAPIResource):
         self,
         *,
         user_ids: List[str],
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -464,9 +464,8 @@ class UserResource(SyncAPIResource):
         - user_ids: List[str] - The list of user id's to be deleted.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -476,7 +475,7 @@ class UserResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/user/delete",
             body=maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
@@ -505,7 +504,7 @@ class UserResource(SyncAPIResource):
         Example request
 
         ```
-        curl -X GET 'http://localhost:4000/user/info?user_id=krrish7%40berri.ai'     --header 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/user/info?user_id=dev7%40hanzo.ai'     --header 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -593,8 +592,8 @@ class AsyncUserResource(AsyncAPIResource):
         """Use this to create a new INTERNAL user with a budget.
 
         Internal Users can access
-        LiteLLM Admin UI to make keys, request access to models. This creates a new user
-        and generates a new api key for the new user. The new api key is returned.
+        LLM Admin UI to make keys, request access to models. This creates a new user and
+        generates a new api key for the new user. The new api key is returned.
 
         Returns user id, budget + new key.
 
@@ -610,7 +609,7 @@ class AsyncUserResource(AsyncAPIResource):
         - user_role: Optional[str] - Specify a user role - "proxy_admin",
           "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
           "customer". Info about each role here:
-          `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20`
+          `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20`
         - max_budget: Optional[float] - Specify max budget for a given user.
         - budget_duration: Optional[str] - Budget is reset at the end of specified
           duration. If not set, budget is never reset. You can set duration as seconds
@@ -625,29 +624,29 @@ class AsyncUserResource(AsyncAPIResource):
         - auto_create_key: bool - Default=True. Flag used for returning a key as part of
           the /user/new response
         - aliases: Optional[dict] - Model aliases for the user -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
         - permissions: Optional[dict] - [Not Implemented Yet] User-specific permissions,
           eg. turning off pii masking.
         - metadata: Optional[dict] - Metadata for user, store information for user.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -764,7 +763,7 @@ class AsyncUserResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/user/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "user_role": "proxy_admin_viewer"
         }'
         ```
@@ -778,7 +777,7 @@ class AsyncUserResource(AsyncAPIResource):
         user_role: Optional[str] - Specify a user role - "proxy_admin",
         "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
         "customer". Info about each role here:
-        `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20` - max_budget:
+        `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20` - max_budget:
         Optional[float] - Specify max budget for a given user. - budget_duration:
         Optional[str] - Budget is reset at the end of specified duration. If not set,
         budget is never reset. You can set duration as seconds ("30s"), minutes ("30m"),
@@ -789,27 +788,27 @@ class AsyncUserResource(AsyncAPIResource):
         (Requests per minute) - auto_create_key: bool - Default=True. Flag used for
         returning a key as part of the /user/new response - aliases: Optional[dict] -
         Model aliases for the user -
-        [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases) -
-        config: Optional[dict] - [DEPRECATED PARAM] User-specific config. -
+        [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases) - config:
+        Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
         User-specific permissions, eg. turning off pii masking. - metadata:
         Optional[dict] - Metadata for user, store information for user. Example metadata
-        = {"team": "core-infra", "app": "app2", "email": "ishaan@berri.ai" } -
+        = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai" } -
         max_parallel_requests: Optional[int] - Rate limit a user based on the number of
         parallel requests. Raises 429 error, if user's parallel requests > x. -
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
@@ -937,7 +936,7 @@ class AsyncUserResource(AsyncAPIResource):
         self,
         *,
         user_ids: List[str],
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -962,9 +961,8 @@ class AsyncUserResource(AsyncAPIResource):
         - user_ids: List[str] - The list of user id's to be deleted.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -974,7 +972,7 @@ class AsyncUserResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/user/delete",
             body=await async_maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
@@ -1003,7 +1001,7 @@ class AsyncUserResource(AsyncAPIResource):
         Example request
 
         ```
-        curl -X GET 'http://localhost:4000/user/info?user_id=krrish7%40berri.ai'     --header 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/user/info?user_id=dev7%40hanzo.ai'     --header 'Authorization: Bearer sk-1234'
         ```
 
         Args:

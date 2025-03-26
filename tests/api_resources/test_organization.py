@@ -13,9 +13,9 @@ from hanzoai.types import (
     OrganizationListResponse,
     OrganizationCreateResponse,
     OrganizationDeleteResponse,
-    OrganizationMembershipTable,
-    OrganizationTableWithMembers,
+    OrganizationUpdateResponse,
     OrganizationAddMemberResponse,
+    OrganizationUpdateMemberResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -81,7 +81,7 @@ class TestOrganization:
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         organization = client.organization.update()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -95,7 +95,7 @@ class TestOrganization:
             spend=0,
             updated_by="updated_by",
         )
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -105,7 +105,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -115,7 +115,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -284,7 +284,7 @@ class TestOrganization:
         organization = client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -296,7 +296,7 @@ class TestOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -308,7 +308,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -320,7 +320,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -385,7 +385,7 @@ class TestAsyncOrganization:
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -399,7 +399,7 @@ class TestAsyncOrganization:
             spend=0,
             updated_by="updated_by",
         )
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -409,7 +409,7 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -419,7 +419,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -588,7 +588,7 @@ class TestAsyncOrganization:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -600,7 +600,7 @@ class TestAsyncOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -612,7 +612,7 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -624,6 +624,6 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True

@@ -8,7 +8,6 @@ from pydantic import Field as FieldInfo
 
 from .member import Member
 from .._models import BaseModel
-from .user_roles import UserRoles
 
 __all__ = ["KeyListResponse", "Key", "KeyUserAPIKeyAuth"]
 
@@ -52,7 +51,7 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     last_refreshed_at: Optional[float] = None
 
-    litellm_budget_table: Optional[object] = None
+    llm_budget_table: Optional[object] = None
 
     max_budget: Optional[float] = None
 
@@ -118,7 +117,17 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     user_id: Optional[str] = None
 
-    user_role: Optional[UserRoles] = None
+    user_role: Optional[
+        Literal[
+            "proxy_admin",
+            "proxy_admin_viewer",
+            "org_admin",
+            "internal_user",
+            "internal_user_viewer",
+            "team",
+            "customer",
+        ]
+    ] = None
     """
     Admin Roles: PROXY_ADMIN: admin over the platform PROXY_ADMIN_VIEW_ONLY: can
     login, view all own keys, view all spend ORG_ADMIN: admin over a specific
