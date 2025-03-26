@@ -1,2 +1,4 @@
 configured_endpoints: 190
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/hanzo-industries-inc%2FHanzo-AI-ecabe8785463e6887a841c5e04ff8d9cfc0f051e21c68a65253e121da25fb7d5.yml
+openapi_spec_hash: c83eb9c3aacb79a28761f5a8aac04d14
+config_hash: 2acfd385c181a354e6449999326a8965
