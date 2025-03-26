@@ -49,7 +49,7 @@ class UpdateResource(SyncAPIResource):
     def full(
         self,
         *,
-        litellm_params: Optional[update_full_params.LitellmParams] | NotGiven = NOT_GIVEN,
+        llm_params: Optional[update_full_params.LlmParams] | NotGiven = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -75,7 +75,7 @@ class UpdateResource(SyncAPIResource):
             "/model/update",
             body=maybe_transform(
                 {
-                    "litellm_params": litellm_params,
+                    "llm_params": llm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },
@@ -91,7 +91,7 @@ class UpdateResource(SyncAPIResource):
         self,
         model_id: str,
         *,
-        litellm_params: Optional[update_partial_params.LitellmParams] | NotGiven = NOT_GIVEN,
+        llm_params: Optional[update_partial_params.LlmParams] | NotGiven = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -130,7 +130,7 @@ class UpdateResource(SyncAPIResource):
             f"/model/{model_id}/update",
             body=maybe_transform(
                 {
-                    "litellm_params": litellm_params,
+                    "llm_params": llm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },
@@ -166,7 +166,7 @@ class AsyncUpdateResource(AsyncAPIResource):
     async def full(
         self,
         *,
-        litellm_params: Optional[update_full_params.LitellmParams] | NotGiven = NOT_GIVEN,
+        llm_params: Optional[update_full_params.LlmParams] | NotGiven = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -192,7 +192,7 @@ class AsyncUpdateResource(AsyncAPIResource):
             "/model/update",
             body=await async_maybe_transform(
                 {
-                    "litellm_params": litellm_params,
+                    "llm_params": llm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },
@@ -208,7 +208,7 @@ class AsyncUpdateResource(AsyncAPIResource):
         self,
         model_id: str,
         *,
-        litellm_params: Optional[update_partial_params.LitellmParams] | NotGiven = NOT_GIVEN,
+        llm_params: Optional[update_partial_params.LlmParams] | NotGiven = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -247,7 +247,7 @@ class AsyncUpdateResource(AsyncAPIResource):
             f"/model/{model_id}/update",
             body=await async_maybe_transform(
                 {
-                    "litellm_params": litellm_params,
+                    "llm_params": llm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },
