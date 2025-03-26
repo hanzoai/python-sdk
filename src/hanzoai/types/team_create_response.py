@@ -1,18 +1,25 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List, Union, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from .member import Member
 from .._models import BaseModel
-from .lite_llm_model_table import LiteLlmModelTable
 
-__all__ = ["LiteLlmTeamTable"]
+__all__ = ["TeamCreateResponse", "LlmModelTable"]
 
 
-class LiteLlmTeamTable(BaseModel):
+class LlmModelTable(BaseModel):
+    created_by: str
+
+    updated_by: str
+
+    api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)
+
+
+class TeamCreateResponse(BaseModel):
     team_id: str
 
     admins: Optional[List[object]] = None
@@ -25,7 +32,7 @@ class LiteLlmTeamTable(BaseModel):
 
     created_at: Optional[datetime] = None
 
-    litellm_model_table: Optional[LiteLlmModelTable] = None
+    llm_model_table: Optional[LlmModelTable] = None
 
     max_budget: Optional[float] = None
 
