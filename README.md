@@ -81,7 +81,7 @@ from hanzoai import Hanzo
 client = Hanzo()
 
 model = client.model.create(
-    litellm_params={
+    llm_params={
         "model": "model",
         "api_base": "api_base",
         "api_key": "api_key",
@@ -94,7 +94,7 @@ model = client.model.create(
         "custom_llm_provider": "custom_llm_provider",
         "input_cost_per_second": 0,
         "input_cost_per_token": 0,
-        "litellm_trace_id": "litellm_trace_id",
+        "llm_trace_id": "llm_trace_id",
         "max_budget": 0,
         "max_file_size_mb": 0,
         "max_retries": 0,
@@ -117,7 +117,7 @@ model = client.model.create(
     model_info={"id": "id"},
     model_name="model_name",
 )
-print(model.litellm_params)
+print(model.llm_params)
 ```
 
 ## File uploads

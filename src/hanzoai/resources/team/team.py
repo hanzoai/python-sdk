@@ -52,7 +52,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.member_param import MemberParam
-from ...types.lite_llm_team_table import LiteLlmTeamTable
+from ...types.team_create_response import TeamCreateResponse
 from ...types.team_add_member_response import TeamAddMemberResponse
 from ...types.team_update_member_response import TeamUpdateMemberResponse
 
@@ -106,20 +106,20 @@ class TeamResource(SyncAPIResource):
         team_alias: Optional[str] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LiteLlmTeamTable:
+    ) -> TeamCreateResponse:
         """Allow users to create a new team.
 
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.litellm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.llm.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -138,7 +138,7 @@ class TeamResource(SyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.llm.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -147,15 +147,15 @@ class TeamResource(SyncAPIResource):
         - members: Optional[List] - Control team members via `/team/member/add` and
           `/team/member/delete`.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails) Returns:
+          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -184,9 +184,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -196,7 +195,7 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/new",
             body=maybe_transform(
@@ -223,7 +222,7 @@ class TeamResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LiteLlmTeamTable,
+            cast_to=TeamCreateResponse,
         )
 
     def update(
@@ -242,7 +241,7 @@ class TeamResource(SyncAPIResource):
         tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         team_alias: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -260,8 +259,8 @@ class TeamResource(SyncAPIResource):
         - team_id: str - The team id of the user. Required param.
         - team_alias: Optional[str] - User defined team alias
         - metadata: Optional[dict] - Metadata for team, store information for team.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
@@ -269,23 +268,23 @@ class TeamResource(SyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.llm.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
         - blocked: bool - Flag indicating if the team is blocked or not - will stop all
           calls from keys with this team_id.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails) Example - update team
-          TPM Limit
+          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Example - update team TPM
+          Limit
 
         ```
         curl --location 'http://0.0.0.0:4000/team/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data-raw '{
@@ -304,9 +303,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -316,7 +314,7 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/update",
             body=maybe_transform(
@@ -401,7 +399,7 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_ids: List[str],
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -424,9 +422,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -436,7 +433,7 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/delete",
             body=maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
@@ -470,7 +467,7 @@ class TeamResource(SyncAPIResource):
 
         ```
 
-        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "krrish247652@berri.ai"}}'
+        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "dev247652@hanzo.ai"}}'
 
         ```
 
@@ -653,7 +650,7 @@ class TeamResource(SyncAPIResource):
         -H 'Content-Type: application/json'
         -d '{
             "team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
-            "user_id": "krrish247652@berri.ai"
+            "user_id": "dev247652@hanzo.ai"
         }'
         ```
 
@@ -867,20 +864,20 @@ class AsyncTeamResource(AsyncAPIResource):
         team_alias: Optional[str] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LiteLlmTeamTable:
+    ) -> TeamCreateResponse:
         """Allow users to create a new team.
 
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.litellm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.llm.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -899,7 +896,7 @@ class AsyncTeamResource(AsyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.llm.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -908,15 +905,15 @@ class AsyncTeamResource(AsyncAPIResource):
         - members: Optional[List] - Control team members via `/team/member/add` and
           `/team/member/delete`.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails) Returns:
+          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -945,9 +942,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -957,7 +953,7 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/new",
             body=await async_maybe_transform(
@@ -984,7 +980,7 @@ class AsyncTeamResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=LiteLlmTeamTable,
+            cast_to=TeamCreateResponse,
         )
 
     async def update(
@@ -1003,7 +999,7 @@ class AsyncTeamResource(AsyncAPIResource):
         tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         team_alias: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1021,8 +1017,8 @@ class AsyncTeamResource(AsyncAPIResource):
         - team_id: str - The team id of the user. Required param.
         - team_alias: Optional[str] - User defined team alias
         - metadata: Optional[dict] - Metadata for team, store information for team.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
@@ -1030,23 +1026,23 @@ class AsyncTeamResource(AsyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.llm.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
         - blocked: bool - Flag indicating if the team is blocked or not - will stop all
           calls from keys with this team_id.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails) Example - update team
-          TPM Limit
+          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Example - update team TPM
+          Limit
 
         ```
         curl --location 'http://0.0.0.0:4000/team/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data-raw '{
@@ -1065,9 +1061,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1077,7 +1072,7 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/update",
             body=await async_maybe_transform(
@@ -1162,7 +1157,7 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_ids: List[str],
-        litellm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1185,9 +1180,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1197,7 +1191,7 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/delete",
             body=await async_maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
@@ -1231,7 +1225,7 @@ class AsyncTeamResource(AsyncAPIResource):
 
         ```
 
-        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "krrish247652@berri.ai"}}'
+        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "dev247652@hanzo.ai"}}'
 
         ```
 
@@ -1414,7 +1408,7 @@ class AsyncTeamResource(AsyncAPIResource):
         -H 'Content-Type: application/json'
         -d '{
             "team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
-            "user_id": "krrish247652@berri.ai"
+            "user_id": "dev247652@hanzo.ai"
         }'
         ```
 

@@ -4,10 +4,10 @@ from typing import List, Union, Optional
 
 from .._models import BaseModel
 
-__all__ = ["GuardrailListResponse", "Guardrail", "GuardrailLitellmParams"]
+__all__ = ["GuardrailListResponse", "Guardrail", "GuardrailLlmParams"]
 
 
-class GuardrailLitellmParams(BaseModel):
+class GuardrailLlmParams(BaseModel):
     guardrail: str
 
     mode: Union[str, List[str]]
@@ -20,8 +20,8 @@ class Guardrail(BaseModel):
 
     guardrail_name: str
 
-    litellm_params: GuardrailLitellmParams
-    """The returned LiteLLM Params object for /guardrails/list"""
+    llm_params: GuardrailLlmParams
+    """The returned LLM Params object for /guardrails/list"""
 
 
 class GuardrailListResponse(BaseModel):

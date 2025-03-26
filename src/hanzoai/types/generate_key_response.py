@@ -41,7 +41,7 @@ class GenerateKeyResponse(BaseModel):
 
     key_name: Optional[str] = None
 
-    litellm_budget_table: Optional[object] = None
+    llm_budget_table: Optional[object] = None
 
     max_budget: Optional[float] = None
 
