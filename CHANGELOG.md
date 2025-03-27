@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 (2025-03-27)
+
+Full Changelog: [v1.1.0...v2.0.0](https://github.com/hanzoai/python-sdk/compare/v1.1.0...v2.0.0)
+
+### Features
+
+* **api:** api update ([#14](https://github.com/hanzoai/python-sdk/issues/14)) ([bd5f39c](https://github.com/hanzoai/python-sdk/commit/bd5f39c1eb8f8fdf04443ee8b448184b80759785))
+
 ## 1.1.0 (2025-03-26)
 
 Full Changelog: [v1.0.0...v1.1.0](https://github.com/hanzoai/python-sdk/compare/v1.0.0...v1.1.0)
