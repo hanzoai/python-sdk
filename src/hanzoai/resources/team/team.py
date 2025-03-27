@@ -119,7 +119,7 @@ class TeamResource(SyncAPIResource):
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.llm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.hanzo.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -138,7 +138,7 @@ class TeamResource(SyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.llm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -153,9 +153,9 @@ class TeamResource(SyncAPIResource):
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Returns:
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -268,7 +268,7 @@ class TeamResource(SyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.llm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -281,9 +281,9 @@ class TeamResource(SyncAPIResource):
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Example - update team TPM
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Example - update team TPM
           Limit
 
         ```
@@ -877,7 +877,7 @@ class AsyncTeamResource(AsyncAPIResource):
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.llm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.hanzo.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -896,7 +896,7 @@ class AsyncTeamResource(AsyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.llm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -911,9 +911,9 @@ class AsyncTeamResource(AsyncAPIResource):
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Returns:
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -1026,7 +1026,7 @@ class AsyncTeamResource(AsyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.llm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -1039,9 +1039,9 @@ class AsyncTeamResource(AsyncAPIResource):
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.llm.ai/docs/proxy/guardrails) Example - update team TPM
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Example - update team TPM
           Limit
 
         ```
