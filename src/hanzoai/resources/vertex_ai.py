@@ -52,7 +52,7 @@ class VertexAIResource(SyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -87,7 +87,7 @@ class VertexAIResource(SyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -122,7 +122,7 @@ class VertexAIResource(SyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -157,7 +157,7 @@ class VertexAIResource(SyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -192,7 +192,7 @@ class VertexAIResource(SyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -248,7 +248,7 @@ class AsyncVertexAIResource(AsyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -283,7 +283,7 @@ class AsyncVertexAIResource(AsyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -318,7 +318,7 @@ class AsyncVertexAIResource(AsyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -353,7 +353,7 @@ class AsyncVertexAIResource(AsyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -388,7 +388,7 @@ class AsyncVertexAIResource(AsyncAPIResource):
         """
         Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers

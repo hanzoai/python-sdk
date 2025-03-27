@@ -53,7 +53,7 @@ class LangfuseResource(SyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -89,7 +89,7 @@ class LangfuseResource(SyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -125,7 +125,7 @@ class LangfuseResource(SyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -161,7 +161,7 @@ class LangfuseResource(SyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -197,7 +197,7 @@ class LangfuseResource(SyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -254,7 +254,7 @@ class AsyncLangfuseResource(AsyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -290,7 +290,7 @@ class AsyncLangfuseResource(AsyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -326,7 +326,7 @@ class AsyncLangfuseResource(AsyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -362,7 +362,7 @@ class AsyncLangfuseResource(AsyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -398,7 +398,7 @@ class AsyncLangfuseResource(AsyncAPIResource):
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.llm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers

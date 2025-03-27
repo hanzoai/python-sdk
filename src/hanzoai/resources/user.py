@@ -131,7 +131,7 @@ class UserResource(SyncAPIResource):
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
@@ -145,11 +145,11 @@ class UserResource(SyncAPIResource):
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -295,7 +295,7 @@ class UserResource(SyncAPIResource):
         Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
@@ -307,11 +307,11 @@ class UserResource(SyncAPIResource):
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
@@ -628,7 +628,7 @@ class AsyncUserResource(AsyncAPIResource):
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
@@ -642,11 +642,11 @@ class AsyncUserResource(AsyncAPIResource):
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -792,7 +792,7 @@ class AsyncUserResource(AsyncAPIResource):
         Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.llm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
@@ -804,11 +804,11 @@ class AsyncUserResource(AsyncAPIResource):
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.llm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
