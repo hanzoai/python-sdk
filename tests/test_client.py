@@ -556,6 +556,14 @@ class TestHanzo:
             client = Hanzo(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
+        # explicit environment arg requires explicitness
+        with update_env(HANZO_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                Hanzo(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = Hanzo(base_url=None, api_key=api_key, _strict_response_validation=True, environment="production")
+            assert str(client.base_url).startswith("https://api.hanzo.ai")
+
     @pytest.mark.parametrize(
         "client",
         [
@@ -1305,6 +1313,16 @@ class TestAsyncHanzo:
         with update_env(HANZO_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncHanzo(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
+
+        # explicit environment arg requires explicitness
+        with update_env(HANZO_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                AsyncHanzo(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = AsyncHanzo(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
+            )
+            assert str(client.base_url).startswith("https://api.hanzo.ai")
 
     @pytest.mark.parametrize(
         "client",

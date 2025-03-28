@@ -27,6 +27,8 @@ from hanzoai import Hanzo
 
 client = Hanzo(
     api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
+    # defaults to "production".
+    environment="sandbox",
 )
 
 response = client.get_home()
@@ -48,6 +50,8 @@ from hanzoai import AsyncHanzo
 
 client = AsyncHanzo(
     api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
+    # defaults to "production".
+    environment="sandbox",
 )
 
 
