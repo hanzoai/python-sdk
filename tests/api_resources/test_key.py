@@ -384,7 +384,6 @@ class TestKey:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             client.key.with_raw_response.regenerate_by_key(
                 path_key="",
-                body_key="",
             )
 
     @pytest.mark.skip()
@@ -831,7 +830,6 @@ class TestAsyncKey:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             await async_client.key.with_raw_response.regenerate_by_key(
                 path_key="",
-                body_key="",
             )
 
     @pytest.mark.skip()
