@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.2 (2025-04-04)
+
+Full Changelog: [v2.0.1...v2.0.2](https://github.com/hanzoai/python-sdk/compare/v2.0.1...v2.0.2)
+
+### Chores
+
+* **internal:** minor test fixes ([#20](https://github.com/hanzoai/python-sdk/issues/20)) ([da1ba8f](https://github.com/hanzoai/python-sdk/commit/da1ba8fe0fdc7bb73c401b28c8535c3f6d564ede))
+* **internal:** remove trailing character ([#22](https://github.com/hanzoai/python-sdk/issues/22)) ([572b121](https://github.com/hanzoai/python-sdk/commit/572b12185e2a7bd746163243314618021be6f1be))
+
 ## 2.0.1 (2025-03-28)
 
 Full Changelog: [v2.0.0...v2.0.1](https://github.com/hanzoai/python-sdk/compare/v2.0.0...v2.0.1)
