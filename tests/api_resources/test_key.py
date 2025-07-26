@@ -62,7 +62,7 @@ class TestKey:
             temp_budget_increase=0,
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 
@@ -147,7 +147,7 @@ class TestKey:
         key = client.key.delete(
             key_aliases=["string"],
             keys=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 
@@ -186,7 +186,7 @@ class TestKey:
     def test_method_block_with_all_params(self, client: Hanzo) -> None:
         key = client.key.block(
             key="key",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
 
@@ -281,7 +281,7 @@ class TestKey:
             team_id="team_id",
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
@@ -348,7 +348,7 @@ class TestKey:
             team_id="team_id",
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
@@ -384,6 +384,7 @@ class TestKey:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             client.key.with_raw_response.regenerate_by_key(
                 path_key="",
+                body_key="",
             )
 
     @pytest.mark.skip()
@@ -435,7 +436,7 @@ class TestKey:
     def test_method_unblock_with_all_params(self, client: Hanzo) -> None:
         key = client.key.unblock(
             key="key",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 
@@ -508,7 +509,7 @@ class TestAsyncKey:
             temp_budget_increase=0,
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 
@@ -593,7 +594,7 @@ class TestAsyncKey:
         key = await async_client.key.delete(
             key_aliases=["string"],
             keys=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 
@@ -632,7 +633,7 @@ class TestAsyncKey:
     async def test_method_block_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.block(
             key="key",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
 
@@ -727,7 +728,7 @@ class TestAsyncKey:
             team_id="team_id",
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
@@ -794,7 +795,7 @@ class TestAsyncKey:
             team_id="team_id",
             tpm_limit=0,
             user_id="user_id",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
@@ -830,6 +831,7 @@ class TestAsyncKey:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_key` but received ''"):
             await async_client.key.with_raw_response.regenerate_by_key(
                 path_key="",
+                body_key="",
             )
 
     @pytest.mark.skip()
@@ -881,7 +883,7 @@ class TestAsyncKey:
     async def test_method_unblock_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.unblock(
             key="key",
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, key, path=["response"])
 

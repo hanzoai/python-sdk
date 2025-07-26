@@ -1,0 +1,33 @@
+[project]
+name = "hanzo-mcp-client"
+version = "0.1.0"
+description = "MCP (Model Context Protocol) client library for Hanzo Dev"
+readme = "README.md"
+license = "MIT"
+authors = [
+{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" },
+]
+dependencies = [
+    "mcp>=1.9.4",
+    "fastmcp>=2.5.2",
+    "pydantic>=2.11.1",
+]
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.25.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+  "hanzo_mcp_client/*"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_mcp_client"]

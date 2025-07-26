@@ -10,7 +10,7 @@ import pytest
 from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 from hanzoai.types import (
-    TeamCreateResponse,
+    HanzoTeamTable,
     TeamAddMemberResponse,
     TeamUpdateMemberResponse,
 )
@@ -25,7 +25,7 @@ class TestTeam:
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         team = client.team.create()
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -53,9 +53,9 @@ class TestTeam:
             team_alias="team_alias",
             team_id="team_id",
             tpm_limit=0,
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -65,7 +65,7 @@ class TestTeam:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         team = response.parse()
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -75,7 +75,7 @@ class TestTeam:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             team = response.parse()
-            assert_matches_type(TeamCreateResponse, team, path=["response"])
+            assert_matches_type(HanzoTeamTable, team, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -104,7 +104,7 @@ class TestTeam:
             tags=[{}],
             team_alias="team_alias",
             tpm_limit=0,
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -184,7 +184,7 @@ class TestTeam:
     def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         team = client.team.delete(
             team_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -547,7 +547,7 @@ class TestAsyncTeam:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.create()
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -575,9 +575,9 @@ class TestAsyncTeam:
             team_alias="team_alias",
             team_id="team_id",
             tpm_limit=0,
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -587,7 +587,7 @@ class TestAsyncTeam:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         team = await response.parse()
-        assert_matches_type(TeamCreateResponse, team, path=["response"])
+        assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -597,7 +597,7 @@ class TestAsyncTeam:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             team = await response.parse()
-            assert_matches_type(TeamCreateResponse, team, path=["response"])
+            assert_matches_type(HanzoTeamTable, team, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -626,7 +626,7 @@ class TestAsyncTeam:
             tags=[{}],
             team_alias="team_alias",
             tpm_limit=0,
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -706,7 +706,7 @@ class TestAsyncTeam:
     async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.delete(
             team_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 

@@ -3,7 +3,7 @@ name = "hanzoai"
 version = "2.0.2"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
-license = "Apache-2.0"
+license = "BSD-3-Clause"
 authors = [
 { name = "Hanzo", email = "dev@hanzo.ai" },
 ]
@@ -30,13 +30,15 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: Microsoft :: Windows",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: Apache Software License"
+  "License :: OSI Approved :: BSD License"
 ]
+
+[project.optional-dependencies]
+litellm = ["litellm>=1.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/hanzoai/python-sdk"
 Repository = "https://github.com/hanzoai/python-sdk"
-
 
 [tool.rye]
 managed = true
@@ -55,6 +57,9 @@ dev-dependencies = [
     "rich>=13.7.1",
     "nest_asyncio==1.6.0",
 ]
+
+[tool.rye.workspace]
+members = ["pkg/*"]
 
 [tool.rye.scripts]
 format = { chain = [
@@ -91,11 +96,11 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include = [
-  "src/*"
+  "pkg/hanzoai"
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hanzoai"]
+packages = ["pkg/hanzoai"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
@@ -108,7 +113,7 @@ include = [
   "/noxfile.py",
   "bin/*",
   "examples/*",
-  "src/*",
+  "pkg/hanzoai/*",
   "tests/*",
 ]
 
@@ -130,7 +135,9 @@ xfail_strict = true
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 filterwarnings = [
-  "error"
+  "error",
+  "ignore:OpenTelemetry configuration.*is not supported by Datadog:UserWarning",
+  "ignore::DeprecationWarning:ddtrace.*"
 ]
 
 [tool.pyright]

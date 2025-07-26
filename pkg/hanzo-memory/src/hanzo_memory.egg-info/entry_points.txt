@@ -1,0 +1,4 @@
+[console_scripts]
+hanzo-memory = hanzo_memory.cli:main
+hanzo-memory-mcp = hanzo_memory.mcp.server:main
+hanzo-memory-server = hanzo_memory.server:run

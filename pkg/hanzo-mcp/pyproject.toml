@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-mcp"
+version = "0.7.0"
+description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["mcp", "claude", "hanzo", "code", "agent"]
+dependencies = [
+    "mcp>=1.9.4",
+    "fastmcp>=2.9.2",
+    "httpx>=0.28.1",
+    "uvicorn>=0.34.0",
+    "openai>=1.62.0",
+    "python-dotenv>=1.0.1",
+    "litellm>=1.73.2",
+    "grep-ast>=0.8.1",
+    "bashlex>=0.18",
+    "libtmux>=0.39.0",
+    "nbformat>=5.10.4",
+    "psutil>=6.1.1",
+    "pydantic>=2.11.1",
+    "pydantic-settings>=2.7.0",
+    "typing-extensions>=4.13.0",
+    "watchdog>=6.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/mcp"
+"Bug Tracker" = "https://github.com/hanzoai/mcp/issues"
+"Documentation" = "https://mcp.hanzo.ai"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "pytest-cov>=4.1.0", "ruff>=0.1.0", "black>=23.3.0", "sphinx>=8.0.0", "sphinx-rtd-theme>=3.0.0", "myst-parser>=4.0.0", "sphinx-copybutton>=0.5.0"]
+docs = ["sphinx>=8.0.0", "sphinx-rtd-theme>=3.0.0", "myst-parser>=4.0.0", "sphinx-copybutton>=0.5.0"]
+analytics = ["posthog>=3.0.0"]
+test = [
+  "pytest>=7.0.0",
+  "pytest-cov>=4.1.0",
+  "pytest-mock>=3.10.0",
+  "pytest-asyncio>=0.25.3",
+  "twisted",
+]
+performance = ["ujson>=5.7.0", "orjson>=3.9.0"]
+publish = ["twine>=4.0.2", "build>=1.0.3"]
+
+[project.scripts]
+hanzo-mcp = "hanzo_mcp.cli:main"
+hanzo-mcp-dev = "hanzo_mcp.dev_server:run_dev_server"
+hanzo-plugin = "hanzo_mcp.cli_plugin:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_mcp*"]
+
+[tool.setuptools.package-data]
+hanzo_mcp = ["py.typed"]
+
+[tool.basedpyright]
+include = ["hanzo_mcp"]
+
+[tool.pytest.ini_options]
+# Configuration for pytest
+addopts = "--no-header --no-summary"
+markers = [
+  "asyncio: mark test as using asyncio",
+]
+# exclude option is not supported by pytest, removing to fix warnings
+
+
