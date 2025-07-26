@@ -1,0 +1,59 @@
+[project]
+name = "hanzo-aci"
+version = "0.2.8"
+description = "An Agent-Computer Interface (ACI) designed for software development agents Dev."
+readme = "README.md"
+authors = [
+  { name = "Hanzo Industries Inc" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.12"
+dependencies = [
+  "numpy",
+  "pandas",
+  "scipy",
+  "networkx",
+  "litellm",
+  "gitpython",
+  "tree-sitter>=0.24.0",
+  "tree-sitter-python>=0.23.6",
+  "tree-sitter-javascript>=0.23.1",
+  "tree-sitter-typescript>=0.23.2",
+  "tree-sitter-ruby>=0.23.1",
+  "grep-ast>=0.8.1",
+  "flake8",
+  "whatthepatch>=1.0.6",
+  "binaryornot>=0.4.4",
+  "cachetools>=5.5.2",
+  "charset-normalizer>=3.4.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff>=0.7.2",
+  "pre-commit>=4.0.1"
+]
+test = [
+  "pytest>=8.3.3",
+  "psutil>=5.9.8"
+]
+
+[tool.setuptools.packages.find]
+include = ["dev_aci*"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.autopep8]
+ignore = ["E501"]
+
+[tool.black]
+skip-string-normalization = true
+
+[tool.ruff.lint]
+select = ["D"]
+ignore = ["D1"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

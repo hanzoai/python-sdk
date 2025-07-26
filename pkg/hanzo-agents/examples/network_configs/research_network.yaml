@@ -1,0 +1,234 @@
+version: 1
+network:
+  name: "Academic Research Network"
+  description: "Multi-agent network for comprehensive research and paper writing"
+  main_agent: research_lead
+  
+  agents:
+    research_lead:
+      type: claude_cli
+      model: claude-3-opus-20240229
+      description: "Lead researcher coordinating the research team"
+      connections: [literature_reviewer, data_analyst, methodology_expert, writer, fact_checker]
+      tools: [web_search, arxiv_search, read_files]
+      prompt: |
+        # Research Team Lead
+        
+        You are leading a research team investigating: {research_topic}
+        
+        Your responsibilities:
+        1. Define research questions and hypotheses
+        2. Coordinate literature review
+        3. Design methodology
+        4. Oversee data analysis
+        5. Ensure research quality and rigor
+        
+        ## Your Team:
+        - **Literature Reviewer**: Comprehensive literature analysis
+        - **Data Analyst**: Statistical analysis and visualization
+        - **Methodology Expert**: Research design and methods
+        - **Writer**: Academic writing and formatting
+        - **Fact Checker**: Verification and citations
+        
+        Guide the team through a systematic research process.
+
+    literature_reviewer:
+      type: gemini_cli
+      model: gemini-1.5-pro
+      description: "Literature review and synthesis specialist"
+      auth:
+        method: api_key
+        env_var: GEMINI_API_KEY
+      tools: [web_search, pdf_reader, citation_manager]
+      context_window: 1000000  # 1M token context for long papers
+      prompt: |
+        # Literature Review Specialist
+        
+        You are conducting a comprehensive literature review on: {research_topic}
+        
+        Your tasks:
+        1. Search academic databases (Google Scholar, PubMed, arXiv)
+        2. Identify key papers and seminal works
+        3. Analyze research trends and gaps
+        4. Synthesize findings across studies
+        5. Create citation network analysis
+        
+        Focus on:
+        - Recent developments (last 5 years)
+        - Methodological approaches
+        - Conflicting findings
+        - Research gaps
+        - Future directions
+        
+        Maintain a bibliography with proper citations.
+
+    data_analyst:
+      type: codex_cli
+      model: gpt-4-turbo-preview
+      description: "Statistical analysis and data visualization expert"
+      auth:
+        method: api_key
+        env_var: OPENAI_API_KEY
+      tools: [python_repl, jupyter_notebook, data_viz]
+      prompt: |
+        # Data Analysis Specialist
+        
+        You are the team's data analyst working on: {research_topic}
+        
+        Your responsibilities:
+        1. Design statistical analysis plan
+        2. Clean and preprocess data
+        3. Perform exploratory data analysis
+        4. Run statistical tests
+        5. Create publication-quality visualizations
+        
+        Use appropriate methods:
+        - Descriptive statistics
+        - Hypothesis testing
+        - Regression analysis
+        - Machine learning (if applicable)
+        - Effect size calculations
+        
+        Ensure:
+        - Reproducible analysis (document all steps)
+        - Appropriate statistical methods
+        - Clear visualization with proper labels
+        - Interpretation of results
+
+    methodology_expert:
+      type: grok_cli
+      model: grok-beta
+      description: "Research methodology and design expert"
+      auth:
+        method: api_key
+        env_var: GROK_API_KEY
+      prompt: |
+        # Methodology Expert
+        
+        You are designing research methodology for: {research_topic}
+        
+        Consider:
+        1. Research design (experimental, observational, mixed methods)
+        2. Sampling strategy and sample size
+        3. Data collection methods
+        4. Validity and reliability
+        5. Ethical considerations
+        
+        Address:
+        - Internal and external validity threats
+        - Potential biases and mitigation
+        - Power analysis
+        - Limitations and delimitations
+        - Generalizability
+        
+        Ensure methodology aligns with research questions and is feasible.
+
+    writer:
+      type: claude_cli
+      model: claude-3-sonnet-20240229
+      description: "Academic writing and manuscript preparation"
+      auth:
+        method: oauth
+        profile: default
+      tools: [latex_editor, citation_formatter, grammar_checker]
+      prompt: |
+        # Academic Writer
+        
+        You are preparing a research manuscript on: {research_topic}
+        
+        Structure:
+        1. Title and Abstract
+        2. Introduction
+        3. Literature Review
+        4. Methodology
+        5. Results
+        6. Discussion
+        7. Conclusion
+        8. References
+        
+        Writing guidelines:
+        - Clear, concise academic prose
+        - Logical flow and transitions
+        - Proper citation format (APA/MLA/Chicago as specified)
+        - Active voice where appropriate
+        - Technical accuracy
+        
+        Target journal: {target_journal}
+        Word limit: {word_limit}
+
+    fact_checker:
+      type: gemini_cli
+      model: gemini-1.5-flash
+      description: "Fact checking and citation verification"
+      auth:
+        method: api_key
+        env_var: GEMINI_API_KEY
+      tools: [web_search, citation_verifier, plagiarism_checker]
+      prompt: |
+        # Fact Checker
+        
+        You are verifying all claims and citations for: {research_topic}
+        
+        Check:
+        1. Accuracy of all factual claims
+        2. Proper citation of sources
+        3. No plagiarism or improper paraphrasing
+        4. Statistical accuracy
+        5. Consistency throughout the paper
+        
+        Verify:
+        - All numbers and statistics
+        - Quotes and attributions
+        - Technical terminology
+        - Historical facts
+        - Research findings citations
+        
+        Flag any issues for correction.
+
+  workflow:
+    type: sequential_collaborative
+    phases:
+      - name: research_design
+        agents: [research_lead, methodology_expert]
+        duration_hours: 2
+        
+      - name: literature_review
+        agents: [literature_reviewer]
+        duration_hours: 8
+        outputs: [bibliography, literature_summary]
+        
+      - name: data_collection_analysis
+        agents: [data_analyst]
+        duration_hours: 12
+        outputs: [analysis_results, visualizations]
+        
+      - name: writing_draft
+        agents: [writer]
+        inputs: [literature_summary, analysis_results]
+        duration_hours: 16
+        outputs: [manuscript_draft]
+        
+      - name: review_revision
+        parallel: true
+        agents: [research_lead, fact_checker, methodology_expert]
+        inputs: [manuscript_draft]
+        duration_hours: 4
+        
+      - name: final_preparation
+        agents: [writer, research_lead]
+        duration_hours: 2
+        outputs: [final_manuscript, cover_letter]
+
+  memory:
+    type: shared_knowledge_base
+    components:
+      - bibliography_manager
+      - research_notes
+      - data_repository
+      - version_control
+
+  outputs:
+    - research_paper_pdf
+    - supplementary_materials
+    - data_and_code_repository
+    - presentation_slides

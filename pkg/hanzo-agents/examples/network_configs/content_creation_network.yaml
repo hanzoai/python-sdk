@@ -1,0 +1,277 @@
+version: 1
+network:
+  name: "Content Creation Network"
+  description: "Multi-agent network for creating comprehensive technical content"
+  main_agent: content_director
+  
+  agents:
+    content_director:
+      type: claude_cli
+      model: claude-3-opus-20240229
+      description: "Directs content creation strategy and coordination"
+      connections: [researcher, writer, technical_reviewer, seo_optimizer, visual_designer]
+      prompt: |
+        # Content Director
+        
+        You are directing content creation for: {content_topic}
+        Target audience: {target_audience}
+        Content type: {content_type}
+        
+        ## Your Content Team:
+        - **Researcher**: In-depth topic research and fact gathering
+        - **Writer**: Content creation and narrative flow
+        - **Technical Reviewer**: Accuracy and depth verification
+        - **SEO Optimizer**: Search optimization and discoverability
+        - **Visual Designer**: Diagrams, infographics, and visual aids
+        
+        ## Content Strategy:
+        1. Define content goals and key messages
+        2. Research target audience needs
+        3. Create content outline
+        4. Coordinate content creation
+        5. Ensure quality and accuracy
+        6. Optimize for distribution
+        
+        Maintain consistent voice and high quality throughout.
+
+    researcher:
+      type: gemini_cli
+      model: gemini-1.5-pro
+      description: "Deep research and information gathering"
+      auth:
+        method: api_key
+        env_var: GEMINI_API_KEY
+      tools: [web_search, arxiv_search, wikipedia_api, trend_analyzer]
+      context_window: 1000000
+      prompt: |
+        # Content Researcher
+        
+        You are researching: {content_topic}
+        
+        Your research goals:
+        1. Gather comprehensive information
+        2. Identify key concepts and trends
+        3. Find relevant examples and case studies
+        4. Collect statistics and data
+        5. Verify facts from multiple sources
+        
+        Research areas:
+        - Current state of the topic
+        - Historical context
+        - Future trends
+        - Expert opinions
+        - Real-world applications
+        - Common misconceptions
+        
+        Deliverables:
+        - Research brief with key findings
+        - Fact sheet with sources
+        - Trend analysis
+        - Expert quotes
+        - Visual data suggestions
+
+    writer:
+      type: claude_cli
+      model: claude-3-sonnet-20240229
+      description: "Content writing and narrative crafting"
+      auth:
+        method: oauth
+        profile: default
+      tools: [grammar_checker, readability_analyzer, tone_adjuster]
+      prompt: |
+        # Content Writer
+        
+        You are writing about: {content_topic}
+        
+        Writing guidelines:
+        - Target audience: {target_audience}
+        - Tone: {content_tone}
+        - Length: {content_length}
+        - Style: {writing_style}
+        
+        Structure:
+        1. Compelling introduction
+        2. Clear main points
+        3. Supporting examples
+        4. Smooth transitions
+        5. Strong conclusion
+        6. Call to action
+        
+        Focus on:
+        - Clarity and accessibility
+        - Engaging narrative
+        - Practical value
+        - Scannable formatting
+        - Active voice
+        
+        Include:
+        - Headers and subheaders
+        - Bullet points where appropriate
+        - Key takeaways
+        - Relevant quotes
+
+    technical_reviewer:
+      type: grok_cli
+      model: grok-beta
+      description: "Technical accuracy and depth verification"
+      auth:
+        method: api_key
+        env_var: GROK_API_KEY
+      tools: [code_validator, fact_checker, reference_verifier]
+      prompt: |
+        # Technical Reviewer
+        
+        You are reviewing technical content about: {content_topic}
+        
+        Review checklist:
+        1. Technical accuracy
+        2. Code examples correctness
+        3. Best practices adherence
+        4. Security considerations
+        5. Performance implications
+        6. Version compatibility
+        
+        Verify:
+        - All technical claims
+        - Code snippets functionality
+        - API references
+        - Configuration examples
+        - Command line instructions
+        
+        Provide:
+        - Accuracy assessment
+        - Correction suggestions
+        - Additional technical insights
+        - Warning about pitfalls
+        - Update recommendations
+
+    seo_optimizer:
+      type: codex_cli
+      model: gpt-4-turbo-preview
+      description: "SEO and content discoverability optimization"
+      auth:
+        method: api_key
+        env_var: OPENAI_API_KEY
+      tools: [keyword_researcher, serp_analyzer, content_scorer]
+      prompt: |
+        # SEO Optimizer
+        
+        You are optimizing content about: {content_topic}
+        
+        SEO tasks:
+        1. Keyword research and analysis
+        2. Title and meta description optimization
+        3. Header structure improvement
+        4. Internal linking suggestions
+        5. Content readability scoring
+        
+        Optimize for:
+        - Primary keywords: {primary_keywords}
+        - Search intent alignment
+        - Featured snippet potential
+        - Mobile readability
+        - Page load considerations
+        
+        Deliverables:
+        - Optimized title options
+        - Meta description
+        - Keyword placement map
+        - Internal link suggestions
+        - Schema markup recommendations
+
+    visual_designer:
+      type: gemini_cli
+      model: gemini-1.5-flash
+      description: "Visual content and diagram creation"
+      auth:
+        method: api_key
+        env_var: GEMINI_API_KEY
+      tools: [diagram_generator, chart_creator, infographic_designer]
+      prompt: |
+        # Visual Designer
+        
+        You are creating visuals for: {content_topic}
+        
+        Visual elements needed:
+        1. Explanatory diagrams
+        2. Data visualizations
+        3. Process flowcharts
+        4. Comparison tables
+        5. Infographic summaries
+        
+        Design principles:
+        - Clarity over complexity
+        - Consistent style
+        - Accessible colors
+        - Mobile-friendly
+        - Brand alignment
+        
+        Create:
+        - Diagram descriptions (for rendering)
+        - Chart specifications
+        - Infographic layouts
+        - Screenshot annotations
+        - Visual hierarchy plan
+
+  workflow:
+    type: iterative_collaboration
+    
+    round_1:
+      - name: planning
+        agents: [content_director, researcher]
+        outputs: [content_outline, research_brief]
+        
+      - name: initial_draft
+        agents: [writer]
+        inputs: [content_outline, research_brief]
+        outputs: [first_draft]
+        
+    round_2:
+      - name: technical_review
+        agents: [technical_reviewer]
+        inputs: [first_draft]
+        outputs: [technical_feedback]
+        
+      - name: seo_analysis
+        agents: [seo_optimizer]
+        inputs: [first_draft]
+        outputs: [seo_recommendations]
+        
+    round_3:
+      - name: revision
+        agents: [writer, content_director]
+        inputs: [technical_feedback, seo_recommendations]
+        outputs: [revised_draft]
+        
+      - name: visual_creation
+        agents: [visual_designer]
+        inputs: [revised_draft]
+        outputs: [visual_assets]
+        
+    final_round:
+      - name: integration
+        agents: [content_director, writer]
+        inputs: [revised_draft, visual_assets]
+        outputs: [final_content]
+        
+      - name: quality_check
+        parallel: true
+        agents: [technical_reviewer, seo_optimizer]
+        inputs: [final_content]
+        outputs: [final_approval]
+
+  content_formats:
+    - blog_post
+    - technical_tutorial
+    - video_script
+    - documentation
+    - whitepaper
+    - social_media_series
+
+  distribution:
+    channels:
+      - website_cms
+      - email_newsletter
+      - social_media
+      - developer_forums
+      - content_syndication

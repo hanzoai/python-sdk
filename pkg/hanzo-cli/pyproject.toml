@@ -1,0 +1,93 @@
+[project]
+name = "hanzo-cli"
+version = "0.1.0"
+description = "Command-line interface for Hanzo AI Platform"
+
+# This is the CLI package that provides the command-line interface
+# It imports from the main hanzo package for all functionality
+authors = [
+    {name = "Hanzo AI", email = "dev@hanzo.ai"},
+]
+dependencies = [
+    "hanzo>=0.2.0",  # Main SDK package with all components
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+    "prompt-toolkit>=3.0.0",
+    "httpx>=0.23.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+keywords = ["ai", "cli", "hanzo", "agents", "llm", "mcp", "local-ai", "private-ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.scripts]
+hanzo = "hanzo_cli.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+all = [
+    "hanzo[all]>=0.2.0",  # Install all components via main SDK
+]
+
+[project.urls]
+Homepage = "https://hanzo.ai"
+Repository = "https://github.com/hanzoai/python-sdk"
+Documentation = "https://docs.hanzo.ai/cli"
+Changelog = "https://github.com/hanzoai/python-sdk/blob/main/pkg/hanzo-cli/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "src/hanzo_cli",
+    "completions/",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hanzo_cli"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "S", "A", "C4", "T20", "RET", "SIM", "ARG"]
+ignore = ["E501", "S101"]
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"

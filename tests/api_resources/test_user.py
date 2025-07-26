@@ -192,7 +192,7 @@ class TestUser:
     def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         user = client.user.delete(
             user_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, user, path=["response"])
 
@@ -435,7 +435,7 @@ class TestAsyncUser:
     async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            hanzo_changed_by="hanzo-changed-by",
         )
         assert_matches_type(object, user, path=["response"])
 

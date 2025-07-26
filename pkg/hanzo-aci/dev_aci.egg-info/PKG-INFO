@@ -1,0 +1,100 @@
+Metadata-Version: 2.4
+Name: dev-aci
+Version: 0.2.7
+Summary: An Agent-Computer Interface (ACI) designed for software development agents Dev.
+Author: Hanzo Industries Inc
+License: MIT
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: networkx
+Requires-Dist: litellm
+Requires-Dist: gitpython
+Requires-Dist: tree-sitter>=0.24.0
+Requires-Dist: tree-sitter-python>=0.23.6
+Requires-Dist: tree-sitter-javascript>=0.23.1
+Requires-Dist: tree-sitter-typescript>=0.23.2
+Requires-Dist: tree-sitter-ruby>=0.23.1
+Requires-Dist: grep-ast==0.3.3
+Requires-Dist: flake8
+Requires-Dist: whatthepatch>=1.0.6
+Requires-Dist: binaryornot>=0.4.4
+Requires-Dist: cachetools>=5.5.2
+Requires-Dist: charset-normalizer>=3.4.1
+Provides-Extra: dev
+Requires-Dist: ruff>=0.7.2; extra == "dev"
+Requires-Dist: pre-commit>=4.0.1; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=8.3.3; extra == "test"
+Requires-Dist: psutil>=5.9.8; extra == "test"
+Dynamic: license-file
+
+# Agent-Computer Interface (ACI) for Dev
+
+An Agent-Computer Interface (ACI) designed for software development agents [Dev](https://github.com/hanzoai/Dev). This package provides essential tools and interfaces for AI agents to interact with computer systems for software development tasks.
+
+## Features
+
+- **Code Editor Interface**: Sophisticated editing capabilities through the `editor` module
+  - File creation and modification
+  - Code editing
+  - Configuration management
+
+- **Code Linting**: Built-in linting capabilities via the `linter` module
+  - Tree-sitter based code analysis
+  - Python-specific linting support
+
+- **Utility Functions**: Helper modules for common operations
+  - Shell command execution utilities
+  - Diff generation and analysis
+  - Logging functionality
+
+## Installation
+
+```bash
+pip install dev-aci
+```
+
+Or using Poetry:
+
+```bash
+poetry add dev-aci
+```
+
+## Project Structure
+
+```
+dev_aci/
+├── editor/           # Code editing functionality
+├── linter/           # Code linting capabilities
+└── utils/            # Utility functions
+```
+
+## Development
+
+1. Clone the repository:
+```bash
+git clone https://github.com/hanzoai/dev-aci.git
+cd dev-aci
+```
+
+2. Install development dependencies:
+```bash
+poetry install
+```
+
+3. Configure pre-commit-hooks
+```bash
+make install-pre-commit-hooks
+```
+
+4. Run tests:
+```bash
+poetry run pytest
+```
+
+## License
+
+This project is licensed under the MIT License.
