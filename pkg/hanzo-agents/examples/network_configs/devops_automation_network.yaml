@@ -1,0 +1,292 @@
+version: 1
+network:
+  name: "DevOps Automation Network"
+  description: "Intelligent DevOps network for CI/CD, monitoring, and infrastructure management"
+  main_agent: devops_orchestrator
+  
+  agents:
+    devops_orchestrator:
+      type: claude_cli
+      model: claude-3-opus-20240229
+      description: "Orchestrates DevOps workflows and coordinates specialists"
+      connections: [ci_engineer, security_scanner, performance_tester, deploy_manager, incident_responder]
+      tools: [kubernetes_cli, docker_cli, terraform, ansible]
+      prompt: |
+        # DevOps Orchestrator
+        
+        You are orchestrating DevOps operations for: {project_name}
+        Environment: {environment}
+        
+        ## Your DevOps Team:
+        - **CI Engineer**: Build pipelines and test automation
+        - **Security Scanner**: Security scanning and compliance
+        - **Performance Tester**: Load testing and optimization
+        - **Deploy Manager**: Deployment and rollout strategies
+        - **Incident Responder**: Monitoring and incident response
+        
+        ## Responsibilities:
+        1. Coordinate CI/CD pipelines
+        2. Ensure security compliance
+        3. Manage deployments
+        4. Monitor system health
+        5. Respond to incidents
+        
+        Follow GitOps principles and maintain infrastructure as code.
+
+    ci_engineer:
+      type: codex_cli
+      model: gpt-4-turbo-preview
+      description: "CI/CD pipeline specialist"
+      auth:
+        method: api_key
+        env_var: OPENAI_API_KEY
+      tools: [github_actions, jenkins, gitlab_ci, build_tools]
+      prompt: |
+        # CI/CD Engineer
+        
+        You are managing CI/CD for: {project_name}
+        
+        Pipeline responsibilities:
+        1. Build automation
+        2. Test execution
+        3. Code quality gates
+        4. Artifact management
+        5. Pipeline optimization
+        
+        Implement:
+        - Multi-stage pipelines
+        - Parallel test execution
+        - Docker container builds
+        - Dependency caching
+        - Build notifications
+        
+        Best practices:
+        - Fast feedback loops
+        - Reproducible builds
+        - Secure credential handling
+        - Efficient resource usage
+        - Clear failure reporting
+
+    security_scanner:
+      type: grok_cli
+      model: grok-beta
+      description: "Security scanning and vulnerability assessment"
+      auth:
+        method: api_key
+        env_var: GROK_API_KEY
+      tools: [trivy, sonarqube, snyk, owasp_zap]
+      prompt: |
+        # Security Scanner
+        
+        You are performing security scanning for: {project_name}
+        
+        Security checks:
+        1. Dependency vulnerabilities
+        2. Container image scanning
+        3. Code security analysis
+        4. Infrastructure misconfigurations
+        5. Compliance validation
+        
+        Scan for:
+        - CVEs in dependencies
+        - Hardcoded secrets
+        - OWASP Top 10
+        - CIS benchmarks
+        - License compliance
+        
+        Provide:
+        - Vulnerability report
+        - Risk assessment
+        - Remediation steps
+        - Security metrics
+        - Compliance status
+
+    performance_tester:
+      type: gemini_cli
+      model: gemini-1.5-pro
+      description: "Performance testing and optimization"
+      auth:
+        method: api_key
+        env_var: GEMINI_API_KEY
+      tools: [k6, jmeter, gatling, prometheus]
+      prompt: |
+        # Performance Tester
+        
+        You are testing performance for: {project_name}
+        
+        Testing areas:
+        1. Load testing
+        2. Stress testing
+        3. Spike testing
+        4. Endurance testing
+        5. Scalability testing
+        
+        Metrics to monitor:
+        - Response times (p50, p95, p99)
+        - Throughput (RPS)
+        - Error rates
+        - Resource utilization
+        - Concurrency limits
+        
+        Deliverables:
+        - Performance baseline
+        - Bottleneck identification
+        - Optimization recommendations
+        - Capacity planning data
+        - SLA validation
+
+    deploy_manager:
+      type: claude_cli
+      model: claude-3-sonnet-20240229
+      description: "Deployment strategies and rollout management"
+      auth:
+        method: oauth
+        profile: default
+      tools: [helm, argocd, spinnaker, kubectl]
+      prompt: |
+        # Deploy Manager
+        
+        You are managing deployments for: {project_name}
+        Target environment: {environment}
+        
+        Deployment strategies:
+        1. Blue-green deployments
+        2. Canary releases
+        3. Rolling updates
+        4. Feature flags
+        5. Rollback procedures
+        
+        Ensure:
+        - Zero-downtime deployments
+        - Health check validation
+        - Traffic gradual shifting
+        - Quick rollback capability
+        - Deployment tracking
+        
+        Manage:
+        - Kubernetes manifests
+        - Helm charts
+        - Service mesh configs
+        - Database migrations
+        - Configuration updates
+
+    incident_responder:
+      type: codex_cli
+      model: gpt-4
+      description: "Incident detection and response automation"
+      auth:
+        method: api_key
+        env_var: OPENAI_API_KEY
+      tools: [datadog, pagerduty, elasticsearch, grafana]
+      prompt: |
+        # Incident Responder
+        
+        You are monitoring and responding to incidents for: {project_name}
+        
+        Monitoring scope:
+        1. Application health
+        2. Infrastructure status
+        3. Performance anomalies
+        4. Security events
+        5. User-reported issues
+        
+        Incident response:
+        - Rapid detection
+        - Initial triage
+        - Root cause analysis
+        - Mitigation steps
+        - Post-mortem creation
+        
+        Automate:
+        - Alert correlation
+        - Runbook execution
+        - Stakeholder notification
+        - Evidence collection
+        - Status page updates
+
+  workflows:
+    continuous_deployment:
+      trigger: code_push
+      steps:
+        - name: build_test
+          agent: ci_engineer
+          parallel_with: [security_scan]
+          
+        - name: security_scan
+          agent: security_scanner
+          fail_fast: true
+          
+        - name: performance_test
+          agent: performance_tester
+          condition: branch == 'main'
+          
+        - name: deploy_staging
+          agent: deploy_manager
+          environment: staging
+          
+        - name: validate_staging
+          agents: [performance_tester, security_scanner]
+          
+        - name: deploy_production
+          agent: deploy_manager
+          environment: production
+          approval_required: true
+          
+        - name: monitor_deployment
+          agent: incident_responder
+          duration_minutes: 30
+
+    incident_response:
+      trigger: alert
+      steps:
+        - name: triage
+          agent: incident_responder
+          sla_minutes: 5
+          
+        - name: investigate
+          parallel: true
+          agents: [incident_responder, ci_engineer, deploy_manager]
+          
+        - name: mitigate
+          agent: deploy_manager
+          action: rollback_if_needed
+          
+        - name: post_mortem
+          agents: [incident_responder, devops_orchestrator]
+          within_hours: 24
+
+    infrastructure_update:
+      trigger: terraform_change
+      steps:
+        - name: plan
+          agent: devops_orchestrator
+          action: terraform_plan
+          
+        - name: security_review
+          agent: security_scanner
+          action: scan_iac
+          
+        - name: cost_analysis
+          agent: devops_orchestrator
+          action: analyze_costs
+          
+        - name: apply
+          agent: devops_orchestrator
+          action: terraform_apply
+          approval_required: true
+
+  integrations:
+    - github
+    - slack
+    - jira
+    - confluence
+    - vault
+    - aws
+    - gcp
+    - azure
+
+  sla_targets:
+    deployment_frequency: "multiple per day"
+    lead_time: "< 1 hour"
+    mttr: "< 30 minutes"
+    change_failure_rate: "< 5%"

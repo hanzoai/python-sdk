@@ -27,8 +27,6 @@ from hanzoai import Hanzo
 
 client = Hanzo(
     api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="sandbox",
 )
 
 response = client.get_home()
@@ -50,8 +48,6 @@ from hanzoai import AsyncHanzo
 
 client = AsyncHanzo(
     api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
-    # defaults to "production".
-    environment="sandbox",
 )
 
 
@@ -83,7 +79,7 @@ from hanzoai import Hanzo
 client = Hanzo()
 
 model = client.model.create(
-    llm_params={
+    hanzo_params={
         "model": "model",
         "api_base": "api_base",
         "api_key": "api_key",
@@ -96,7 +92,7 @@ model = client.model.create(
         "custom_llm_provider": "custom_llm_provider",
         "input_cost_per_second": 0,
         "input_cost_per_token": 0,
-        "llm_trace_id": "llm_trace_id",
+        "hanzo_trace_id": "hanzo_trace_id",
         "max_budget": 0,
         "max_file_size_mb": 0,
         "max_retries": 0,
@@ -119,7 +115,7 @@ model = client.model.create(
     model_info={"id": "id"},
     model_name="model_name",
 )
-print(model.llm_params)
+print(model.hanzo_params)
 ```
 
 ## File uploads
@@ -269,9 +265,9 @@ client = response.parse()  # get the object that `get_home()` would have returne
 print(client)
 ```
 
-These methods return an [`APIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/hanzoai/python-sdk/tree/main/pkg/hanzoai/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/hanzoai/python-sdk/tree/main/pkg/hanzoai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 

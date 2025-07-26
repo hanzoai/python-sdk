@@ -27,7 +27,7 @@ class TestUpdate:
     @parametrize
     def test_method_full_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.full(
-            llm_params={
+            hanzo_params={
                 "api_base": "api_base",
                 "api_key": "api_key",
                 "api_version": "api_version",
@@ -39,7 +39,7 @@ class TestUpdate:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,
@@ -111,7 +111,7 @@ class TestUpdate:
     def test_method_partial_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.partial(
             model_id="model_id",
-            llm_params={
+            hanzo_params={
                 "api_base": "api_base",
                 "api_key": "api_key",
                 "api_version": "api_version",
@@ -123,7 +123,7 @@ class TestUpdate:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,
@@ -208,7 +208,7 @@ class TestAsyncUpdate:
     @parametrize
     async def test_method_full_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.full(
-            llm_params={
+            hanzo_params={
                 "api_base": "api_base",
                 "api_key": "api_key",
                 "api_version": "api_version",
@@ -220,7 +220,7 @@ class TestAsyncUpdate:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,
@@ -292,7 +292,7 @@ class TestAsyncUpdate:
     async def test_method_partial_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.partial(
             model_id="model_id",
-            llm_params={
+            hanzo_params={
                 "api_base": "api_base",
                 "api_key": "api_key",
                 "api_version": "api_version",
@@ -304,7 +304,7 @@ class TestAsyncUpdate:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,

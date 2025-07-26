@@ -1,0 +1,6 @@
+$002f914c-1c88-41c5-8037-2b2bc4352372²Í'fact_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault3knowledge_base_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault)content ÿÿÿÿÿÿÿÿÿ*string8Zdefault*metadata ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+confidence ÿÿÿÿÿÿÿÿÿ*double8Zdefault,
+created_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+updated_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault@	embedding ÿÿÿÿÿÿÿÿÿ*fixed_size_list:float:38408Zdefault"'
+lance.auto_cleanup.older_than14days"!
+lance.auto_cleanup.interval20

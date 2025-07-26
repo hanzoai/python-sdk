@@ -21,7 +21,7 @@ class TestModel:
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         model = client.model.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         )
@@ -31,7 +31,7 @@ class TestModel:
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         model = client.model.create(
-            llm_params={
+            hanzo_params={
                 "model": "model",
                 "api_base": "api_base",
                 "api_key": "api_key",
@@ -44,7 +44,7 @@ class TestModel:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,
@@ -84,7 +84,7 @@ class TestModel:
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.model.with_raw_response.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         )
@@ -98,7 +98,7 @@ class TestModel:
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.model.with_streaming_response.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         ) as response:
@@ -152,7 +152,7 @@ class TestAsyncModel:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         model = await async_client.model.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         )
@@ -162,7 +162,7 @@ class TestAsyncModel:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         model = await async_client.model.create(
-            llm_params={
+            hanzo_params={
                 "model": "model",
                 "api_base": "api_base",
                 "api_key": "api_key",
@@ -175,7 +175,7 @@ class TestAsyncModel:
                 "custom_llm_provider": "custom_llm_provider",
                 "input_cost_per_second": 0,
                 "input_cost_per_token": 0,
-                "llm_trace_id": "llm_trace_id",
+                "hanzo_trace_id": "hanzo_trace_id",
                 "max_budget": 0,
                 "max_file_size_mb": 0,
                 "max_retries": 0,
@@ -215,7 +215,7 @@ class TestAsyncModel:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.with_raw_response.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         )
@@ -229,7 +229,7 @@ class TestAsyncModel:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.with_streaming_response.create(
-            llm_params={"model": "model"},
+            hanzo_params={"model": "model"},
             model_info={"id": "id"},
             model_name="model_name",
         ) as response:
