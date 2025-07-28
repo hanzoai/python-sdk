@@ -17,6 +17,7 @@ from mcp.server import FastMCP
 from pydantic import Field
 
 from hanzo_mcp.tools.common.context import ToolContext
+from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 Pattern = Annotated[
@@ -422,13 +423,21 @@ When you are doing an open ended search that may require multiple rounds of glob
             if self.is_ripgrep_installed():
                 await tool_ctx.info("ripgrep is installed, using ripgrep for search")
                 result = await self.run_ripgrep(pattern, path, tool_ctx, include)
-                return result
+                return truncate_response(
+                    result,
+                    max_tokens=25000,
+                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]"
+                )
             else:
                 await tool_ctx.info(
                     "ripgrep is not installed, using fallback implementation"
                 )
                 result = await self.fallback_grep(pattern, path, tool_ctx, include)
-                return result
+                return truncate_response(
+                    result,
+                    max_tokens=25000,
+                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]"
+                )
         except Exception as e:
             await tool_ctx.error(f"Error in grep tool: {str(e)}")
             return f"Error in grep tool: {str(e)}"

@@ -23,9 +23,10 @@ def test_cli_help():
     )
     
     print(f"Return code: {result.returncode}")
-    print(f"Output: {result.stdout[:200]}")
+    print(f"STDOUT: {result.stdout[:200]}")
+    print(f"STDERR: {result.stderr[:200]}")
     
-    assert result.returncode == 0
+    assert result.returncode == 0, f"Command failed with code {result.returncode}\nSTDOUT: {result.stdout}\nSTDERR: {result.stderr}"
     assert "hanzo" in result.stdout.lower() or "mcp" in result.stdout.lower()
     print("✓ CLI help works")
 

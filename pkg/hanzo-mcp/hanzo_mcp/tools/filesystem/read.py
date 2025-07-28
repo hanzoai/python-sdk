@@ -11,6 +11,7 @@ from mcp.server import FastMCP
 from pydantic import Field
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.truncate import truncate_response
 
 FilePath = Annotated[
     str,
@@ -219,7 +220,13 @@ Usage:
                     result += f"\n... (output truncated, showing {limit} of {limit + truncated_lines}+ lines)"
 
                 await tool_ctx.info(f"Successfully read file: {file_path}")
-                return result
+                
+                # Apply token limit to prevent excessive output
+                return truncate_response(
+                    result,
+                    max_tokens=25000,
+                    truncation_message="\n\n[File content truncated due to token limit. Use offset/limit parameters to read specific sections.]"
+                )
 
             except Exception as e:
                 await tool_ctx.error(f"Error reading file: {str(e)}")

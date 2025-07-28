@@ -107,6 +107,12 @@ def mcp_context():
 
 
 @pytest.fixture
+def mock_ctx(mcp_context):
+    """Alias for mcp_context for backward compatibility."""
+    return mcp_context
+
+
+@pytest.fixture
 def command_executor(permission_manager):  
     """Create a command executor for testing."""
     from hanzo_mcp.tools.shell.bash_session_executor import BashSessionExecutor
