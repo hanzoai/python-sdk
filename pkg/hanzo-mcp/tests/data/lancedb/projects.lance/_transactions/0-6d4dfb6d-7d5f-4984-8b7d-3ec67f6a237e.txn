@@ -1,0 +1,6 @@
+$6d4dfb6d-7d5f-4984-8b7d-3ec67f6a237e²‚*
+project_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault)user_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault&name ÿÿÿÿÿÿÿÿÿ*string8Zdefault-description ÿÿÿÿÿÿÿÿÿ*string8Zdefault*metadata ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+created_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+updated_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault"'
+lance.auto_cleanup.older_than14days"!
+lance.auto_cleanup.interval20
