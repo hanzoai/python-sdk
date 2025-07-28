@@ -23,7 +23,7 @@ from pydantic import Field
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.filesystem.grep import Grep
-from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
+from hanzo_mcp.tools.filesystem.symbols_tool import SymbolsTool
 from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
 from hanzo_mcp.tools.vector.vector_search import VectorSearchTool
 from hanzo_mcp.tools.common.permissions import PermissionManager

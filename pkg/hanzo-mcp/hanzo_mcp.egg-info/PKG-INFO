@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: hanzo-mcp
-Version: 0.7.0
+Version: 0.7.5
 Summary: The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others.
 Author-email: Hanzo Industries Inc <dev@hanzo.ai>
 License: MIT
@@ -29,6 +29,8 @@ Requires-Dist: pydantic>=2.11.1
 Requires-Dist: pydantic-settings>=2.7.0
 Requires-Dist: typing-extensions>=4.13.0
 Requires-Dist: watchdog>=6.0.0
+Requires-Dist: keyring>=24.0.0
+Requires-Dist: ffind>=1.3.0
 Provides-Extra: dev
 Requires-Dist: pytest>=7.0.0; extra == "dev"
 Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
@@ -51,6 +53,8 @@ Requires-Dist: pytest-cov>=4.1.0; extra == "test"
 Requires-Dist: pytest-mock>=3.10.0; extra == "test"
 Requires-Dist: pytest-asyncio>=0.25.3; extra == "test"
 Requires-Dist: twisted; extra == "test"
+Provides-Extra: agents
+Requires-Dist: hanzo-agents>=0.1.0; extra == "agents"
 Provides-Extra: performance
 Requires-Dist: ujson>=5.7.0; extra == "performance"
 Requires-Dist: orjson>=3.9.0; extra == "performance"

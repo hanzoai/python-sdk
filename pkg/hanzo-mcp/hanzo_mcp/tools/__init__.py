@@ -87,7 +87,7 @@ def register_all_tools(
     """
     # Dictionary to store all registered tools
     all_tools: dict[str, BaseTool] = {}
-    
+
     # Load user plugins early
     try:
         plugins = load_user_plugins()
@@ -100,12 +100,12 @@ def register_all_tools(
         logger = logging.getLogger(__name__)
         logger.warning(f"Failed to load user plugins: {e}")
         plugins = {}
-    
+
     # Apply mode configuration if enabled
     if use_mode:
         # First check for mode activation from environment
         activate_mode_from_env()
-        
+
         tool_config = ModeLoader.get_enabled_tools_from_mode(
             base_enabled_tools=enabled_tools,
             force_mode=force_mode
@@ -115,7 +115,7 @@ def register_all_tools(
     else:
         # Use individual tool configuration if provided, otherwise fall back to category-level flags
         tool_config = enabled_tools or {}
-    
+
     def is_tool_enabled(tool_name: str, category_enabled: bool = True) -> bool:
         """Check if a specific tool should be enabled."""
         if tool_name in tool_config:
@@ -129,25 +129,19 @@ def register_all_tools(
         "edit": is_tool_enabled("edit", not disable_write_tools),
         "multi_edit": is_tool_enabled("multi_edit", not disable_write_tools),
         "directory_tree": is_tool_enabled("directory_tree", True),
-        "grep": is_tool_enabled("grep", not disable_search_tools),
-        "symbols": is_tool_enabled("symbols", not disable_search_tools),
-        "git_search": is_tool_enabled("git_search", not disable_search_tools),
-        "content_replace": is_tool_enabled("content_replace", not disable_write_tools),
-        "batch_search": is_tool_enabled("batch_search", not disable_search_tools),
-        "find_files": is_tool_enabled("find_files", True),
+        "ast": is_tool_enabled("ast", not disable_search_tools),
         "rules": is_tool_enabled("rules", True),
         "search": is_tool_enabled("search", not disable_search_tools),
-        "unified_search": is_tool_enabled("unified_search", True),  # Primary search tool
         "find": is_tool_enabled("find", True),  # Fast file finder
     }
-    
+
     # Vector tools setup (needed for search)
     project_manager = None
     vector_enabled = {
         "vector_index": is_tool_enabled("vector_index", False),
         "vector_search": is_tool_enabled("vector_search", False),
     }
-    
+
     # Create project manager if vector tools, batch_search, or unified_search are enabled
     if any(vector_enabled.values()) or filesystem_enabled.get("batch_search", False) or filesystem_enabled.get("search", False):
         if vector_config:
@@ -163,10 +157,10 @@ def register_all_tools(
             import logging
             logger = logging.getLogger(__name__)
             logger.info(f"Detected {len(detected_projects)} projects with LLM.md files")
-    
+
     filesystem_tools = register_filesystem_tools(
-        mcp_server, 
-        permission_manager, 
+        mcp_server,
+        permission_manager,
         enabled_tools=filesystem_enabled,
         project_manager=project_manager,
     )
@@ -178,7 +172,7 @@ def register_all_tools(
         "notebook_read": is_tool_enabled("notebook_read", True),
         "notebook_edit": is_tool_enabled("notebook_edit", True),
     }
-    
+
     if any(jupyter_enabled.values()):
         jupyter_tools = register_jupyter_tools(mcp_server, permission_manager, enabled_tools=jupyter_enabled)
         for tool in jupyter_tools:
@@ -193,7 +187,7 @@ def register_all_tools(
     # Register agent tools if enabled
     agent_enabled = enable_agent_tool or is_tool_enabled("agent", False) or is_tool_enabled("dispatch_agent", False)
     swarm_enabled = is_tool_enabled("swarm", False)
-    
+
     if agent_enabled or swarm_enabled:
         agent_tools = register_agent_tools(
             mcp_server,
@@ -222,7 +216,7 @@ def register_all_tools(
         "todo_read": is_tool_enabled("todo_read", True),
         "todo_write": is_tool_enabled("todo_write", True),
     }
-    
+
     # Enable unified todo if any of the todo tools are enabled
     if any(todo_enabled.values()):
         todo_tools = register_todo_tools(mcp_server, enabled_tools={"todo": True})
@@ -234,7 +228,7 @@ def register_all_tools(
         thinking_tool = register_thinking_tool(mcp_server)
         for tool in thinking_tool:
             all_tools[tool.name] = tool
-    
+
     # Register critic tool if enabled
     if is_tool_enabled("critic", True):
         critic_tools = register_critic_tool(mcp_server)
@@ -244,8 +238,8 @@ def register_all_tools(
     # Register vector tools if enabled (reuse project_manager if available)
     if any(vector_enabled.values()) and project_manager:
         vector_tools = register_vector_tools(
-            mcp_server, 
-            permission_manager, 
+            mcp_server,
+            permission_manager,
             vector_config=vector_config,
             enabled_tools=vector_enabled,
             project_manager=project_manager,
@@ -256,7 +250,7 @@ def register_all_tools(
     # Register batch tool if enabled (batch tool is typically always enabled)
     if is_tool_enabled("batch", True):
         register_batch_tool(mcp_server, all_tools)
-    
+
     # Register database tools if enabled
     db_manager = None
     database_enabled = {
@@ -269,7 +263,7 @@ def register_all_tools(
         "graph_search": is_tool_enabled("graph_search", True),
         "graph_stats": is_tool_enabled("graph_stats", True),
     }
-    
+
     if any(database_enabled.values()):
         db_manager = DatabaseManager(permission_manager)
         database_tools = register_database_tools(
@@ -281,87 +275,87 @@ def register_all_tools(
         for tool in database_tools:
             if database_enabled.get(tool.name, True):
                 all_tools[tool.name] = tool
-    
+
     # Register unified MCP tool if enabled
     if is_tool_enabled("mcp", True):
         tool = MCPTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     # Register legacy MCP tools if explicitly enabled (disabled by default)
     legacy_mcp_enabled = {
         "mcp_add": is_tool_enabled("mcp_add", False),
         "mcp_remove": is_tool_enabled("mcp_remove", False),
         "mcp_stats": is_tool_enabled("mcp_stats", False),
     }
-    
+
     if legacy_mcp_enabled.get("mcp_add", False):
         tool = McpAddTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     if legacy_mcp_enabled.get("mcp_remove", False):
         tool = McpRemoveTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     if legacy_mcp_enabled.get("mcp_stats", False):
         tool = McpStatsTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     # Register system tools (always enabled)
     # Tool enable/disable tools
     tool_enable = ToolEnableTool()
     tool_enable.register(mcp_server)
     all_tools[tool_enable.name] = tool_enable
-    
+
     tool_disable = ToolDisableTool()
     tool_disable.register(mcp_server)
     all_tools[tool_disable.name] = tool_disable
-    
+
     tool_list = ToolListTool()
     tool_list.register(mcp_server)
     all_tools[tool_list.name] = tool_list
-    
+
     # Stats tool
     stats_tool = StatsTool(db_manager=db_manager)
     stats_tool.register(mcp_server)
     all_tools[stats_tool.name] = stats_tool
-    
+
     # Mode tool (always enabled for managing tool sets)
     mode_tool.register(mcp_server)
     all_tools[mode_tool.name] = mode_tool
-    
+
     # Register editor tools if enabled
     editor_enabled = {
         "neovim_edit": is_tool_enabled("neovim_edit", True),
         "neovim_command": is_tool_enabled("neovim_command", True),
         "neovim_session": is_tool_enabled("neovim_session", True),
     }
-    
+
     if editor_enabled.get("neovim_edit", True):
         tool = NeovimEditTool(permission_manager)
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     if editor_enabled.get("neovim_command", True):
         tool = NeovimCommandTool(permission_manager)
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     if editor_enabled.get("neovim_session", True):
         tool = NeovimSessionTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     # Register unified LLM tool if enabled
     if is_tool_enabled("llm", True):
         tool = LLMTool()
         if tool.available_providers:  # Only register if API keys found
             tool.register(mcp_server)
             all_tools[tool.name] = tool
-    
+
     # Register consensus tool if enabled (enabled by default)
     if is_tool_enabled("consensus", True):
         tool = ConsensusTool()
@@ -375,24 +369,24 @@ def register_all_tools(
         "consensus": is_tool_enabled("consensus", False),
         "llm_manage": is_tool_enabled("llm_manage", False),
     }
-    
+
     if legacy_llm_enabled.get("llm_legacy", False):
         tool = LLMTool()
         if tool.available_providers:
             tool.register(mcp_server)
             all_tools["llm_legacy"] = tool
-    
+
     if legacy_llm_enabled.get("consensus", False):
         tool = ConsensusTool()
         if tool.llm_tool.available_providers:
             tool.register(mcp_server)
             all_tools[tool.name] = tool
-    
+
     if legacy_llm_enabled.get("llm_manage", False):
         tool = LLMManageTool()
         tool.register(mcp_server)
         all_tools[tool.name] = tool
-    
+
     # Register provider-specific LLM tools (disabled by default)
     if is_tool_enabled("provider_specific_llm", False):
         provider_tools = create_provider_tools()
@@ -400,7 +394,7 @@ def register_all_tools(
             if is_tool_enabled(tool.name, False):
                 tool.register(mcp_server)
                 all_tools[tool.name] = tool
-    
+
     # Register memory tools if enabled
     memory_enabled = {
         "recall_memories": is_tool_enabled("recall_memories", True),
@@ -413,7 +407,7 @@ def register_all_tools(
         "summarize_to_memory": is_tool_enabled("summarize_to_memory", True),
         "manage_knowledge_bases": is_tool_enabled("manage_knowledge_bases", True),
     }
-    
+
     if any(memory_enabled.values()) and MEMORY_TOOLS_AVAILABLE:
         try:
             memory_tools = register_memory_tools(
@@ -428,7 +422,7 @@ def register_all_tools(
                     all_tools[tool.name] = tool
         except Exception as e:
             logger.warning(f"Failed to register memory tools: {e}")
-    
+
     # Register LSP tool if enabled
     if is_tool_enabled("lsp", True) and LSP_TOOL_AVAILABLE:
         try:
@@ -437,7 +431,7 @@ def register_all_tools(
             all_tools[tool.name] = tool
         except Exception as e:
             logger.warning(f"Failed to register LSP tool: {e}")
-    
+
     # Register user plugins last (so they can override built-in tools)
     for plugin_name, plugin in plugins.items():
         if is_tool_enabled(plugin_name, True):
