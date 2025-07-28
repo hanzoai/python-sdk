@@ -26,7 +26,7 @@ from typing_extensions import Annotated, TypedDict, Unpack, final, override
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.filesystem.grep import Grep
-from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
+from hanzo_mcp.tools.filesystem.ast_tool import ASTTool
 from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
 from hanzo_mcp.tools.vector.vector_search import VectorSearchTool
 from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer, Symbol
@@ -122,7 +122,7 @@ class BatchSearchTool(FilesystemBaseTool):
         
         # Initialize component search tools
         self.grep_tool = Grep(permission_manager)
-        self.grep_ast_tool = SymbolsTool(permission_manager)
+        self.grep_ast_tool = ASTTool(permission_manager)
         self.git_search_tool = GitSearchTool(permission_manager)
         self.ast_analyzer = ASTAnalyzer()
         

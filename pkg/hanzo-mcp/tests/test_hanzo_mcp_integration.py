@@ -11,7 +11,7 @@ from typing import Dict, Any, Optional
 
 import pytest
 from mcp.server import FastMCP
-from mcp.client import ClientSession
+from mcp.client import ClientSessionGroup
 from mcp.client.stdio import stdio_client
 
 from hanzo_mcp.server import create_server

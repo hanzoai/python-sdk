@@ -14,6 +14,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.truncate import truncate_response
 # Import moved to __init__ to avoid circular import
 
 
@@ -184,7 +185,12 @@ class BaseProcessTool(BaseTool):
         else:
             if output.startswith("Command failed"):
                 raise RuntimeError(output)
-            return output
+            # Truncate output to prevent token limit issues
+            return truncate_response(
+                output,
+                max_tokens=25000,
+                truncation_message="\n\n[Command output truncated due to token limit. Output may be available in logs or files.]"
+            )
     
     async def execute_background(
         self,

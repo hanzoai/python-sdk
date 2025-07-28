@@ -1,0 +1,6 @@
+$065b57cf-4b8b-4ea4-b874-dbfe3f60e299²Œ1knowledge_base_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+project_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault&name ÿÿÿÿÿÿÿÿÿ*string8Zdefault-description ÿÿÿÿÿÿÿÿÿ*string8Zdefault*metadata ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+created_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+updated_at ÿÿÿÿÿÿÿÿÿ*string8Zdefault"'
+lance.auto_cleanup.older_than14days"!
+lance.auto_cleanup.interval20
