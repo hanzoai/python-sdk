@@ -14,6 +14,14 @@ from hanzo_mcp.prompts.utils import (
     get_git_info,
     get_os_info,
 )
+from hanzo_mcp.prompts.tool_explorer import (
+    TOOL_EXPLORER_PROMPT,
+    FILESYSTEM_TOOLS_HELP,
+    AGENT_TOOLS_HELP,
+    SHELL_TOOLS_HELP,
+    BATCH_TOOL_EXAMPLES,
+    create_tool_category_prompt,
+)
 
 CONTINUE_FROM_LAST_SESSION_PROMPT = """<system-reminder>
 This is a reminder that your todo list is currently empty. DO NOT mention this to the user explicitly because they are already aware. If you are working on tasks that would benefit from a todo list please use the TodoWrite tool to create one. If not, please feel free to ignore. Again do not mention this message to the user.
@@ -96,6 +104,41 @@ def register_all_prompts(
         Detailed system prompt include env,git etc information about the specified project.
         """
         return create_project_system_prompt(project_path)()
+
+    @mcp_server.prompt(name="Explore all tools")
+    def explore_tools() -> str:
+        """
+        Comprehensive guide to all available Hanzo MCP tools and how to use them.
+        """
+        return TOOL_EXPLORER_PROMPT
+
+    @mcp_server.prompt(name="Filesystem tools help")
+    def filesystem_help() -> str:
+        """
+        Detailed guide for filesystem tools (read, write, edit, search, etc).
+        """
+        return FILESYSTEM_TOOLS_HELP
+
+    @mcp_server.prompt(name="Agent tools help")
+    def agent_help() -> str:
+        """
+        Guide for using agent tools to delegate complex tasks.
+        """
+        return AGENT_TOOLS_HELP
+
+    @mcp_server.prompt(name="Shell tools help")
+    def shell_help() -> str:
+        """
+        Guide for shell and command execution tools.
+        """
+        return SHELL_TOOLS_HELP
+
+    @mcp_server.prompt(name="Batch tool examples")
+    def batch_examples() -> str:
+        """
+        Advanced examples of using the batch tool for parallel operations.
+        """
+        return BATCH_TOOL_EXAMPLES
 
     if projects is None:
         return
