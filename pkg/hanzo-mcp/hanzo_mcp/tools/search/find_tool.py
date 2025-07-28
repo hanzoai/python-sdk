@@ -257,7 +257,7 @@ class FindTool(BaseTool):
             # Use ffind for fast file discovery
             matches = await self._find_with_ffind(
                 pattern, root_path, type, case_sensitive, regex,
-                max_depth, follow_symlinks, ignore_patterns
+                max_depth, follow_symlinks, respect_gitignore, ignore_patterns
             )
         else:
             # Fall back to Python implementation
@@ -394,6 +394,7 @@ class FindTool(BaseTool):
                               regex: bool,
                               max_depth: Optional[int],
                               follow_symlinks: bool,
+                              respect_gitignore: bool,
                               ignore_patterns: Set[str]) -> List[FileMatch]:
         """Use ffind for fast file discovery."""
         matches = []
