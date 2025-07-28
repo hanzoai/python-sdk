@@ -13,7 +13,7 @@ from hanzo_mcp.tools import register_all_tools
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.tool_list import ToolListTool
 from hanzo_mcp.tools.common.truncate import truncate_response as truncate_output
-from hanzo_mcp.tools.common.paginated_response import PaginatedResponse
+from hanzo_mcp.tools.common.paginated_response import AutoPaginatedResponse as PaginatedResponse
 from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
 
 

@@ -5,7 +5,7 @@ import os
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
+from hanzo_mcp.tools.filesystem.ast_tool import ASTTool as SymbolsTool
 
 
 def test_symbols_simple():
