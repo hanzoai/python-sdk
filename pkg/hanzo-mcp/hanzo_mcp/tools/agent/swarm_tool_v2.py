@@ -30,6 +30,66 @@ try:
     HANZO_AGENTS_AVAILABLE = True
 except ImportError:
     HANZO_AGENTS_AVAILABLE = False
+    # Define stub classes when hanzo-agents is not available
+    class State:
+        """Stub State class when hanzo-agents is not available."""
+        def __init__(self):
+            pass
+        def to_dict(self):
+            return {}
+        @classmethod
+        def from_dict(cls, data):
+            return cls()
+    
+    class Tool:
+        """Stub Tool class when hanzo-agents is not available."""
+        pass
+    
+    class Agent:
+        """Stub Agent class when hanzo-agents is not available."""
+        pass
+    
+    class Network:
+        """Stub Network class when hanzo-agents is not available."""
+        pass
+    
+    class History:
+        """Stub History class when hanzo-agents is not available."""
+        pass
+    
+    class InferenceResult:
+        """Stub InferenceResult class when hanzo-agents is not available."""
+        def __init__(self, agent=None, content=None, metadata=None):
+            self.agent = agent
+            self.content = content
+            self.metadata = metadata or {}
+    
+    class ToolCall:
+        """Stub ToolCall class when hanzo-agents is not available."""
+        def __init__(self, name=None, args=None):
+            self.name = name
+            self.args = args or {}
+    
+    class Router:
+        """Stub Router class when hanzo-agents is not available."""
+        pass
+    
+    class DeterministicRouter(Router):
+        """Stub DeterministicRouter class when hanzo-agents is not available."""
+        def __init__(self, *args, **kwargs):
+            pass
+        def add_route(self, *args, **kwargs):
+            pass
+        async def route(self, *args, **kwargs):
+            return None
+    
+    class LLMRouter(Router):
+        """Stub LLMRouter class when hanzo-agents is not available."""
+        pass
+    
+    class HybridRouter(Router):
+        """Stub HybridRouter class when hanzo-agents is not available."""
+        pass
 
 from hanzo_mcp.tools.agent.agent_tool_v2 import MCPAgent, MCPToolAdapter
 from hanzo_mcp.tools.common.base import BaseTool

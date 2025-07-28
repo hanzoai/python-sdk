@@ -13,7 +13,7 @@ from hanzo_mcp.tools.filesystem.content_replace import ContentReplaceTool
 from hanzo_mcp.tools.filesystem.directory_tree import DirectoryTreeTool
 from hanzo_mcp.tools.filesystem.edit import Edit
 from hanzo_mcp.tools.filesystem.grep import Grep
-from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
+from hanzo_mcp.tools.filesystem.ast_tool import ASTTool
 from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
 from hanzo_mcp.tools.filesystem.multi_edit import MultiEdit
 from hanzo_mcp.tools.filesystem.read import ReadTool
@@ -41,7 +41,7 @@ __all__ = [
     "DirectoryTreeTool",
     "Grep",
     "ContentReplaceTool",
-    "SymbolsTool",
+    "ASTTool",
     "GitSearchTool",
     "BatchSearchTool",
     "FindFilesTool",
@@ -69,7 +69,7 @@ def get_read_only_filesystem_tools(
         ReadTool(permission_manager),
         DirectoryTreeTool(permission_manager),
         Grep(permission_manager),
-        SymbolsTool(permission_manager),
+        ASTTool(permission_manager),
         GitSearchTool(permission_manager),
         FindFilesTool(permission_manager),
         RulesTool(permission_manager),
@@ -109,7 +109,7 @@ def get_filesystem_tools(permission_manager: PermissionManager, project_manager=
         DirectoryTreeTool(permission_manager),
         Grep(permission_manager),
         ContentReplaceTool(permission_manager),
-        SymbolsTool(permission_manager),
+        ASTTool(permission_manager),
         GitSearchTool(permission_manager),
         FindFilesTool(permission_manager),
         RulesTool(permission_manager),
@@ -160,7 +160,7 @@ def register_filesystem_tools(
         "multi_edit": MultiEdit,
         "directory_tree": DirectoryTreeTool,
         "grep": Grep,
-        "symbols": SymbolsTool,  # Unified symbols tool with grep_ast functionality
+        "ast": ASTTool,  # AST-based code structure search with tree-sitter
         "git_search": GitSearchTool,
         "content_replace": ContentReplaceTool,
         "batch_search": BatchSearchTool,

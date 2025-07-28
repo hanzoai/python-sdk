@@ -203,7 +203,7 @@ class TestMemoryEdgeCases:
         assert call_args["metadata"]["nested"]["author"] == "John Doe"
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_service_timeout_handling(self, mock_get_service, mock_ctx):
+    async def test_service_timeout_handling(self, mock_get_service, mock_ctx):
         """Test handling of service timeouts."""
         mock_service = Mock()
         

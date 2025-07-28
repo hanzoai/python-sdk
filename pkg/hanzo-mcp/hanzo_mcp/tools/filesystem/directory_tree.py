@@ -11,6 +11,7 @@ from mcp.server import FastMCP
 from pydantic import Field
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.truncate import truncate_response
 
 DirectoryPath = Annotated[
     str,
@@ -279,7 +280,13 @@ requested. Only works within allowed directories."""
                 f"Generated directory tree for {path} (depth: {depth}, include_filtered: {include_filtered})"
             )
 
-            return formatted_output + summary
+            # Truncate response to stay within token limits
+            full_response = formatted_output + summary
+            return truncate_response(
+                full_response, 
+                max_tokens=25000,
+                truncation_message="\n\n[Response truncated due to token limit. Please use a smaller depth, specific subdirectory, or the paginated version of this tool.]"
+            )
         except Exception as e:
             await tool_ctx.error(f"Error generating directory tree: {str(e)}")
             return f"Error generating directory tree: {str(e)}"

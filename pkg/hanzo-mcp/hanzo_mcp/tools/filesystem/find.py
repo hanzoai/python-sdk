@@ -17,6 +17,7 @@ from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
 
 from hanzo_mcp.tools.common.context import ToolContext
+from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 

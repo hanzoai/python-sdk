@@ -23,8 +23,10 @@ hanzo_mcp/config/tool_config.py
 hanzo_mcp/prompts/__init__.py
 hanzo_mcp/prompts/compact_conversation.py
 hanzo_mcp/prompts/create_release.py
+hanzo_mcp/prompts/example_custom_prompt.py
 hanzo_mcp/prompts/project_system.py
 hanzo_mcp/prompts/project_todo_reminder.py
+hanzo_mcp/prompts/tool_explorer.py
 hanzo_mcp/prompts/utils.py
 hanzo_mcp/tools/__init__.py
 hanzo_mcp/tools/agent/__init__.py
@@ -97,6 +99,7 @@ hanzo_mcp/tools/editor/neovim_edit.py
 hanzo_mcp/tools/editor/neovim_session.py
 hanzo_mcp/tools/filesystem/__init__.py
 hanzo_mcp/tools/filesystem/ast_multi_edit.py
+hanzo_mcp/tools/filesystem/ast_tool.py
 hanzo_mcp/tools/filesystem/base.py
 hanzo_mcp/tools/filesystem/batch_search.py
 hanzo_mcp/tools/filesystem/content_replace.py
@@ -112,7 +115,6 @@ hanzo_mcp/tools/filesystem/multi_edit.py
 hanzo_mcp/tools/filesystem/read.py
 hanzo_mcp/tools/filesystem/rules_tool.py
 hanzo_mcp/tools/filesystem/search_tool.py
-hanzo_mcp/tools/filesystem/symbols.py
 hanzo_mcp/tools/filesystem/symbols_tool.py
 hanzo_mcp/tools/filesystem/tree.py
 hanzo_mcp/tools/filesystem/unix_aliases.py
@@ -186,6 +188,9 @@ tests/test_batch_tool_edge_cases.py
 tests/test_cli.py
 tests/test_cli_agents.py
 tests/test_failure_cases.py
+tests/test_find_tool_ffind.py
+tests/test_find_tool_integration.py
+tests/test_find_tool_registration.py
 tests/test_git_ingestion.py
 tests/test_hanzo_mcp_integration.py
 tests/test_hanzo_mcp_local.py
