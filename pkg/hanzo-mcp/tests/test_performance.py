@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from hanzo_mcp.tools.memory.memory_tools import RecallMemoriesTool, CreateMemoriesTool
-from hanzo_mcp.tools.filesystem.search_tool import UnifiedSearchTool
+from hanzo_mcp.tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 
