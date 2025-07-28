@@ -66,8 +66,8 @@ class GrepAstToolParams(TypedDict):
 
 
 @final
-class SymbolsTool(FilesystemBaseTool):
-    """Tool for searching and querying code symbols using tree-sitter AST parsing."""
+class ASTTool(FilesystemBaseTool):
+    """Tool for searching and querying code structures using tree-sitter AST parsing."""
 
     @property
     @override
@@ -77,7 +77,7 @@ class SymbolsTool(FilesystemBaseTool):
         Returns:
             Tool name
         """
-        return "symbols"
+        return "ast"
 
     @property
     @override
@@ -87,14 +87,14 @@ class SymbolsTool(FilesystemBaseTool):
         Returns:
             Tool description
         """
-        return """Code symbols search with tree-sitter AST. Actions: search (default), index, query.
+        return """AST-based code structure search using tree-sitter. Find functions, classes, methods with full context.
 
 Usage:
-symbols "function_name" ./src
-symbols --action index --path ./src
-symbols --action query --type function --path ./src
+ast "function_name" ./src
+ast "class.*Service" ./src
+ast "def test_" ./tests
 
-Finds code structures (functions, classes, methods) with full context."""
+Searches code structure intelligently, understanding syntax and providing semantic context."""
 
     @override
     async def call(

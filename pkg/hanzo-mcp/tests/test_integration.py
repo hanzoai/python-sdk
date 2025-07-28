@@ -8,12 +8,12 @@ from unittest.mock import Mock, patch, MagicMock
 import pytest
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem.read_tool import ReadTool
-from hanzo_mcp.tools.filesystem.write_tool import WriteTool
-from hanzo_mcp.tools.filesystem.edit_tool import EditTool
-from hanzo_mcp.tools.filesystem.grep_tool import GrepTool
+from hanzo_mcp.tools.filesystem.read import ReadTool
+from hanzo_mcp.tools.filesystem.write import Write as WriteTool
+from hanzo_mcp.tools.filesystem.edit import Edit as EditTool
+from hanzo_mcp.tools.filesystem.grep import Grep as GrepTool
 from hanzo_mcp.tools.shell.bash_tool import BashTool
-from hanzo_mcp.tools.todo.todo_tool import TodoTool
+from hanzo_mcp.tools.todo.todo import TodoTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_mcp.tools.common.thinking_tool import ThinkingTool
 
