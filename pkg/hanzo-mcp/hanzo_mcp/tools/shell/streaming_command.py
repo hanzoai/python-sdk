@@ -174,6 +174,18 @@ class StreamingCommandTool(BaseProcessTool):
         
         return None
     
+    async def call(self, ctx: Any, **kwargs) -> Dict[str, Any]:
+        """MCP tool entry point.
+        
+        Args:
+            ctx: MCP context
+            **kwargs: Tool arguments
+            
+        Returns:
+            Tool result
+        """
+        return await self.run(**kwargs)
+    
     async def run(
         self,
         command: Optional[str] = None,
@@ -592,3 +604,24 @@ class StreamingCommandTool(BaseProcessTool):
             },
             "required": [],  # No required fields for maximum forgiveness
         }
+    
+    def get_command_args(self, command: str, **kwargs) -> List[str]:
+        """Get the command arguments for subprocess.
+        
+        Args:
+            command: The command or script to run
+            **kwargs: Additional arguments (not used for shell commands)
+            
+        Returns:
+            List of command arguments for subprocess
+        """
+        # For shell commands, we use shell=True, so return the command as-is
+        return [command]
+    
+    def get_tool_name(self) -> str:
+        """Get the name of the tool being used.
+        
+        Returns:
+            Tool name
+        """
+        return "streaming_command"

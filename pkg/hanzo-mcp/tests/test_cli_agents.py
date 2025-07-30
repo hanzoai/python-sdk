@@ -4,6 +4,7 @@ import asyncio
 import os
 import pytest
 from unittest.mock import Mock, patch, AsyncMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
 from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
@@ -29,7 +30,7 @@ def permission_manager():
 class TestClaudeCLI:
     """Test Claude CLI tool."""
     
-    def test_initialization(self, permission_manager):
+    def test_initialization(self, tool_helper,permission_manager):
         """Test tool initialization."""
         tool = ClaudeCLITool(permission_manager)
         assert tool.name == "claude_cli"
@@ -37,13 +38,13 @@ class TestClaudeCLI:
         assert tool.provider_name == "Claude Code"
         assert "claude-3-5-sonnet" in tool.default_model
     
-    def test_cli_args(self, permission_manager):
+    def test_cli_args(self, tool_helper,permission_manager):
         """Test CLI argument generation."""
         tool = ClaudeCLITool(permission_manager)
         
-        # Basic prompt
+        # Basic prompt - now includes default model
         args = tool.get_cli_args("Fix the bug")
-        assert args == ["Fix the bug"]
+        assert args == ["--model", tool.default_model, "Fix the bug"]
         
         # With model
         args = tool.get_cli_args("Fix the bug", model="claude-3-opus")
@@ -64,31 +65,35 @@ class TestClaudeCLI:
         ]
     
     @pytest.mark.asyncio
-    async def test_not_installed(self, mock_context, permission_manager):
+    async def test_not_installed(self, tool_helper,mock_context, permission_manager):
         """Test error when CLI not installed."""
         tool = ClaudeCLITool(permission_manager)
         
         with patch("shutil.which", return_value=None):
             result = await tool.call(mock_context, prompts="Test")
-            assert "Error:" in result
-            assert "not installed" in result
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
+            tool_helper.assert_in_result("Error:", result)
+            tool_helper.assert_in_result("not installed", result)
     
     @pytest.mark.asyncio
-    async def test_no_api_key(self, mock_context, permission_manager):
+    async def test_no_api_key(self, tool_helper,mock_context, permission_manager):
         """Test error when no API key."""
         tool = ClaudeCLITool(permission_manager)
         
         with patch("shutil.which", return_value="/usr/bin/claude"):
             with patch.dict(os.environ, {}, clear=True):
                 result = await tool.call(mock_context, prompts="Test")
-                assert "Error:" in result
-                assert "No API key" in result
+                if isinstance(result, dict) and "output" in result:
+                    result = result["output"]
+                tool_helper.assert_in_result("Error:", result)
+                tool_helper.assert_in_result("No API key", result)
 
 
 class TestCodexCLI:
     """Test Codex (OpenAI) CLI tool."""
     
-    def test_initialization(self, permission_manager):
+    def test_initialization(self, tool_helper,permission_manager):
         """Test tool initialization."""
         tool = CodexCLITool(permission_manager)
         assert tool.name == "codex_cli"
@@ -96,7 +101,7 @@ class TestCodexCLI:
         assert tool.provider_name == "OpenAI"
         assert tool.default_model == "gpt-4o"
     
-    def test_cli_args(self, permission_manager):
+    def test_cli_args(self, tool_helper,permission_manager):
         """Test CLI argument generation."""
         tool = CodexCLITool(permission_manager)
         
@@ -120,7 +125,7 @@ class TestCodexCLI:
 class TestGeminiCLI:
     """Test Gemini CLI tool."""
     
-    def test_initialization(self, permission_manager):
+    def test_initialization(self, tool_helper,permission_manager):
         """Test tool initialization."""
         tool = GeminiCLITool(permission_manager)
         assert tool.name == "gemini_cli"
@@ -128,7 +133,7 @@ class TestGeminiCLI:
         assert tool.provider_name == "Google Gemini"
         assert tool.default_model == "gemini-1.5-pro"
     
-    def test_cli_args(self, permission_manager):
+    def test_cli_args(self, tool_helper,permission_manager):
         """Test CLI argument generation."""
         tool = GeminiCLITool(permission_manager)
         
@@ -159,7 +164,7 @@ class TestGeminiCLI:
 class TestGrokCLI:
     """Test Grok CLI tool."""
     
-    def test_initialization(self, permission_manager):
+    def test_initialization(self, tool_helper,permission_manager):
         """Test tool initialization."""
         tool = GrokCLITool(permission_manager)
         assert tool.name == "grok_cli"
@@ -167,7 +172,7 @@ class TestGrokCLI:
         assert tool.provider_name == "xAI Grok"
         assert tool.default_model == "grok-2"
     
-    def test_cli_args(self, permission_manager):
+    def test_cli_args(self, tool_helper,permission_manager):
         """Test CLI argument generation."""
         tool = GrokCLITool(permission_manager)
         
@@ -196,7 +201,7 @@ class TestCLIAgentIntegration:
     """Test CLI agents working together."""
     
     @pytest.mark.asyncio
-    async def test_swarm_with_cli_agents(self, mock_context, permission_manager):
+    async def test_swarm_with_cli_agents(self, tool_helper,mock_context, permission_manager):
         """Test using CLI agents in a swarm."""
         # This would test that CLI agents can be used as the underlying
         # agents in a swarm configuration

@@ -42,8 +42,16 @@ def main() -> None:
         import sys
         sys.stderr = open(os.devnull, 'w')
     
+    from hanzo_mcp import __version__
+    
     parser = argparse.ArgumentParser(
         description="MCP server implementing Hanzo AI capabilities"
+    )
+    
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"hanzo-mcp {__version__}"
     )
 
     _ = parser.add_argument(
@@ -292,6 +300,7 @@ def main() -> None:
     server = HanzoMCPServer(
         name=name,
         allowed_paths=allowed_paths,
+        project_paths=project_paths,
         project_dir=project_dir,
         agent_model=agent_model,
         agent_max_tokens=agent_max_tokens,
@@ -300,6 +309,7 @@ def main() -> None:
         agent_max_iterations=agent_max_iterations,
         agent_max_tool_uses=agent_max_tool_uses,
         enable_agent_tool=enable_agent_tool,
+        command_timeout=command_timeout,
         disable_write_tools=disable_write_tools,
         disable_search_tools=disable_search_tools,
         host=host,

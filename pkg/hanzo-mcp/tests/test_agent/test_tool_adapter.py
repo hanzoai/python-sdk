@@ -1,6 +1,7 @@
 """Tests for the agent tool adapter module."""
 
 from unittest.mock import MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -54,7 +55,7 @@ class TestToolAdapter:
         tool.required = ["thought"]
         return tool
         
-    def test_convert_tools_to_openai_functions(self, mock_tool, mock_simple_tool):
+    def test_convert_tools_to_openai_functions(self, tool_helper,mock_tool, mock_simple_tool):
         """Test convert_tools_to_openai_functions."""
         # Convert tools
         openai_functions = convert_tools_to_openai_functions([mock_tool, mock_simple_tool])
@@ -74,7 +75,7 @@ class TestToolAdapter:
         assert openai_functions[1]["function"]["description"] == "Think about something"
         assert "parameters" in openai_functions[1]["function"]
         
-    def test_convert_tool_parameters_complete(self, mock_tool):
+    def test_convert_tool_parameters_complete(self, tool_helper,mock_tool):
         """Test convert_tool_parameters with complete parameters."""
         # Convert parameters
         params = convert_tool_parameters(mock_tool)
@@ -85,7 +86,7 @@ class TestToolAdapter:
         assert "paths" in params["properties"]
         assert params["required"] == ["paths"]
         
-    def test_convert_tool_parameters_minimal(self, mock_simple_tool):
+    def test_convert_tool_parameters_minimal(self, tool_helper,mock_simple_tool):
         """Test convert_tool_parameters with minimal parameters."""
         # Convert parameters
         params = convert_tool_parameters(mock_simple_tool)

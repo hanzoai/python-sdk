@@ -68,7 +68,7 @@ class NetworkTool(BaseTool):
             default_mode: Default execution mode
             cluster_endpoint: Optional cluster endpoint
         """
-        super().__init__(permission_manager)
+        self.permission_manager = permission_manager
         self.default_mode = default_mode
         self.cluster_endpoint = cluster_endpoint or os.environ.get(
             "HANZO_CLUSTER_ENDPOINT", 
@@ -207,15 +207,13 @@ class NetworkTool(BaseTool):
         
         return json.dumps(results, indent=2)
     
-    @classmethod
-    def register(cls, server: FastMCP, permission_manager: PermissionManager):
+    def register(self, server: FastMCP):
         """Register the network tool with the server.
         
         Args:
             server: FastMCP server instance
-            permission_manager: Permission manager
         """
-        tool = cls(permission_manager=permission_manager)
+        tool = self
         
         @server.tool(
             name=tool.name,
