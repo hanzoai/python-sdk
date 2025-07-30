@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 from typing import Callable
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -41,6 +42,7 @@ class TestCLI:
             mock_args.port = 3000
             mock_args.project_paths = None
             mock_args.command_timeout = 120.0
+            mock_args.dev = False
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -51,11 +53,12 @@ class TestCLI:
             main()
 
             # Verify server was created with correct arguments
-            # Project dir should be added to allowed paths
+            # Project dir should be added to allowed paths and project_paths
             expected_paths = ["/test/path", "/test/project"]
             mock_server_class.assert_called_once_with(
                 name="test-server",
                 allowed_paths=expected_paths,
+                project_paths=["/test/project"],
                 project_dir="/test/project",
                 agent_model="anthropic/claude-3-sonnet",
                 agent_max_tokens=2000,
@@ -64,6 +67,7 @@ class TestCLI:
                 agent_max_iterations=10,
                 agent_max_tool_uses=30,
                 enable_agent_tool=False,
+                command_timeout=120.0,
                 disable_write_tools=False,
                 disable_search_tools=False,
                 host=mock_args.host,
@@ -131,6 +135,7 @@ class TestCLI:
             mock_args.port = 3000
             mock_args.project_paths = None
             mock_args.command_timeout = 120.0
+            mock_args.dev = False
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -144,6 +149,7 @@ class TestCLI:
             mock_server_class.assert_called_once_with(
                 name="test-server",
                 allowed_paths=["/current/dir"],
+                project_paths=[],
                 project_dir=None,
                 agent_model=None,
                 agent_max_tokens=None,
@@ -152,6 +158,7 @@ class TestCLI:
                 agent_max_iterations=10,
                 agent_max_tool_uses=30,
                 enable_agent_tool=False,
+                command_timeout=120.0,
                 disable_write_tools=False,
                 disable_search_tools=False,
                 host=mock_args.host,
@@ -186,6 +193,7 @@ class TestCLI:
             mock_args.port = 3000
             mock_args.project_paths = None
             mock_args.command_timeout = 120.0
+            mock_args.dev = False
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -200,6 +208,7 @@ class TestCLI:
             mock_server_class.assert_called_once_with(
                 name="test-server",
                 allowed_paths=expected_paths,
+                project_paths=["/test/project"],
                 project_dir="/test/project",
                 agent_model=None,
                 agent_max_tokens=None,
@@ -208,6 +217,7 @@ class TestCLI:
                 agent_max_iterations=10,
                 agent_max_tool_uses=30,
                 enable_agent_tool=False,
+                command_timeout=120.0,
                 disable_write_tools=True,
                 disable_search_tools=False,
                 host=mock_args.host,
@@ -242,6 +252,7 @@ class TestCLI:
             mock_args.port = 3000
             mock_args.project_paths = None
             mock_args.command_timeout = 120.0
+            mock_args.dev = False
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -256,6 +267,7 @@ class TestCLI:
             mock_server_class.assert_called_once_with(
                 name="test-server",
                 allowed_paths=expected_paths,
+                project_paths=["/test/project"],
                 project_dir="/test/project",
                 agent_model=None,
                 agent_max_tokens=None,
@@ -264,6 +276,7 @@ class TestCLI:
                 agent_max_iterations=10,
                 agent_max_tool_uses=30,
                 enable_agent_tool=False,
+                command_timeout=120.0,
                 disable_write_tools=False,
                 disable_search_tools=True,
                 host=mock_args.host,

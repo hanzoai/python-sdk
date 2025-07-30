@@ -7,22 +7,9 @@ enabling concurrent execution of multiple operations and specialized processing.
 import os
 from mcp.server import FastMCP
 
-# Try to use hanzo-agents SDK versions if available
-USE_HANZO_AGENTS = os.environ.get("USE_HANZO_AGENTS", "true").lower() == "true"
-
-try:
-    if USE_HANZO_AGENTS:
-        from hanzo_mcp.tools.agent.agent_tool_v2 import AgentTool
-        from hanzo_mcp.tools.agent.swarm_tool_v2 import SwarmTool
-        print("[MCP] Using hanzo-agents SDK for agent and swarm tools")
-    else:
-        raise ImportError("USE_HANZO_AGENTS=false")
-except ImportError:
-    # Fall back to original implementations
-    from hanzo_mcp.tools.agent.agent_tool import AgentTool
-    from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
-    if USE_HANZO_AGENTS:
-        print("[MCP] hanzo-agents SDK not available, using original agent implementations")
+# Import the main implementations (using hanzo-agents SDK)
+from hanzo_mcp.tools.agent.agent_tool import AgentTool
+from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 
 from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
 from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool

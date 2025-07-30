@@ -16,13 +16,14 @@ import shutil
 import sys
 from unittest.mock import Mock, patch, AsyncMock
 from pathlib import Path
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 # Add the parent directory to the path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.agent.swarm_tool_v2 import SwarmTool, HANZO_AGENTS_AVAILABLE
+from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 
 
 class TestSwarmV2Comprehensive:
@@ -96,7 +97,7 @@ class Calculator:
         return file_path
     
     @pytest.mark.asyncio
-    async def test_swarm_v2_with_hanzo_agents(self, setup_test_env):
+    async def test_swarm_v2_with_hanzo_agents(self, tool_helper,setup_test_env):
         """Test swarm_tool_v2 when hanzo-agents is available."""
         test_dir, pm = setup_test_env
         file_path = self.create_test_file(test_dir)
@@ -151,9 +152,10 @@ class Calculator:
             "topology": "pipeline"
         }
         
-        # Mock the agent execution if hanzo-agents is not available
-        if not HANZO_AGENTS_AVAILABLE:
-            print("hanzo-agents not available - using mock implementation")
+        # Check if we need to mock (for testing purposes)
+        mock_agents = os.environ.get("MOCK_HANZO_AGENTS", "false").lower() == "true"
+        if mock_agents:
+            print("Using mock implementation for testing")
             
             # Mock successful agent responses
             mock_responses = {
@@ -341,7 +343,7 @@ Detailed Results:
         print("  - Code reviewed")
     
     @pytest.mark.asyncio
-    async def test_swarm_v2_fallback_mode(self, setup_test_env):
+    async def test_swarm_v2_fallback_mode(self, tool_helper,setup_test_env):
         """Test swarm_tool_v2 fallback when hanzo-agents is not available."""
         test_dir, pm = setup_test_env
         
@@ -350,28 +352,43 @@ Detailed Results:
         with open(file_path, 'w') as f:
             f.write("def hello():\n    print('Hello')\n")
         
-        # Force fallback mode
-        with patch('hanzo_mcp.tools.agent.swarm_tool_v2.HANZO_AGENTS_AVAILABLE', False):
-            swarm = SwarmTool(permission_manager=pm)
-            ctx = MCPContext()
-            
-            # Mock the original SwarmTool
-            with patch('hanzo_mcp.tools.agent.swarm_tool.SwarmTool') as MockOriginalSwarm:
-                mock_instance = Mock()
-                mock_instance.call = AsyncMock(return_value="Fallback result")
-                MockOriginalSwarm.return_value = mock_instance
-                
-                result = await swarm.call(
-                    ctx,
-                    config={"agents": {"test": {"query": "test"}}},
-                    query="test query"
-                )
-                
-                assert "Fallback result" in result
-                print("✓ Fallback to original SwarmTool works correctly")
+        # Create swarm tool
+        swarm = SwarmTool(permission_manager=pm)
+        ctx = Mock(spec=MCPContext)
+        
+        # Mock the tool context creation
+        mock_tool_ctx = Mock()
+        mock_tool_ctx.set_tool_info = AsyncMock()
+        mock_tool_ctx.error = AsyncMock()
+        mock_tool_ctx.warning = AsyncMock()
+        mock_tool_ctx.info = AsyncMock()
+        
+        # Since hanzo-agents is already imported at module level,
+        # we need to test the fallback behavior by patching inside the call method
+        # The swarm_tool_v2 imports from swarm_tool during runtime in the call method
+        
+        # Create a mock for the fallback SwarmTool
+        mock_original_class = Mock()
+        mock_original_instance = Mock()
+        mock_original_instance.call = AsyncMock(return_value="Fallback result from original SwarmTool")
+        mock_original_class.return_value = mock_original_instance
+        
+        # Patch where the import happens inside the call method
+        with patch('hanzo_mcp.tools.common.context.create_tool_context', return_value=mock_tool_ctx):
+            with patch.dict('sys.modules', {'hanzo_mcp.tools.agent.swarm_tool': Mock(SwarmTool=mock_original_class)}):
+                with patch.dict(os.environ, {'MOCK_HANZO_AGENTS': 'true'}):
+                    result = await swarm.call(
+                        ctx,
+                        config={"agents": {"test": {"query": "test"}}},
+                        query="test query"
+                    )
+                    
+                    # The result should come from the fallback
+                    tool_helper.assert_in_result("Fallback result from original SwarmTool", result)
+                    print("✓ Fallback to original SwarmTool works correctly")
     
     @pytest.mark.asyncio
-    async def test_swarm_v2_error_handling(self, setup_test_env):
+    async def test_swarm_v2_error_handling(self, tool_helper,setup_test_env):
         """Test error handling in swarm_tool_v2."""
         test_dir, pm = setup_test_env
         
@@ -385,12 +402,12 @@ Detailed Results:
             query="test"
         )
         
-        assert "Error:" in result
+        tool_helper.assert_in_result("Error:", result)
         assert "at least one agent" in result.lower()
         print("✓ Proper error handling for empty agent config")
     
     @pytest.mark.asyncio
-    async def test_swarm_v2_network_topologies(self, setup_test_env):
+    async def test_swarm_v2_network_topologies(self, tool_helper,setup_test_env):
         """Test different network topologies."""
         test_dir, pm = setup_test_env
         
@@ -445,7 +462,8 @@ Detailed Results:
         }
         
         # Mock execution for testing
-        if not HANZO_AGENTS_AVAILABLE:
+        mock_agents = os.environ.get("MOCK_HANZO_AGENTS", "false").lower() == "true"
+        if mock_agents:
             result = "Agent Network Execution Results (hanzo-agents SDK)\n"
             result += "Star topology test completed"
         else:
@@ -457,7 +475,7 @@ Detailed Results:
         
         print("\n=== STAR TOPOLOGY TEST ===")
         print(result)
-        assert "Agent Network Execution Results" in result
+        tool_helper.assert_in_result("Agent Network Execution Results", result)
         print("✓ Star topology configuration works")
 
 
@@ -483,7 +501,7 @@ def run_comprehensive_tests():
         
         # Test 2: Check swarm availability
         print("\n2. Checking hanzo-agents availability...")
-        print(f"hanzo-agents available: {HANZO_AGENTS_AVAILABLE}")
+        print(f"hanzo-agents available: True")  # Always available now
         
         # Test 3: Create swarm instance
         print("\n3. Creating SwarmTool instance...")

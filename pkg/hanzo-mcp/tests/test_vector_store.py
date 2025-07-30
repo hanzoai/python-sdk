@@ -27,13 +27,13 @@ class TestInfinityVectorStore:
             yield store
             store.close()
     
-    def test_initialization(self, temp_store):
+    def test_initialization(self, tool_helper,temp_store):
         """Test store initialization."""
         assert temp_store is not None
         assert temp_store.dimension == 1536  # Default OpenAI dimension
         assert temp_store.embedding_model == "text-embedding-3-small"
     
-    def test_add_document(self, temp_store):
+    def test_add_document(self, tool_helper,temp_store):
         """Test adding a single document."""
         content = "This is a test document about Python programming"
         metadata = {"language": "python", "type": "tutorial"}
@@ -44,7 +44,7 @@ class TestInfinityVectorStore:
         assert isinstance(doc_id, str)
         assert len(doc_id) > 0
     
-    def test_add_file(self, temp_store):
+    def test_add_file(self, tool_helper,temp_store):
         """Test adding a file with chunking."""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
             f.write("""
@@ -82,7 +82,7 @@ class Calculator:
             
             Path(f.name).unlink()
     
-    def test_search_basic(self, temp_store):
+    def test_search_basic(self, tool_helper,temp_store):
         """Test basic search functionality."""
         # Add test documents
         docs = [
@@ -103,7 +103,7 @@ class Calculator:
             assert results[0].score >= 0.0
             assert results[0].document.content is not None
     
-    def test_symbol_storage_and_search(self, temp_store):
+    def test_symbol_storage_and_search(self, tool_helper,temp_store):
         """Test symbol storage and searching."""
         # Create test symbols
         symbols = [
@@ -153,7 +153,7 @@ class Calculator:
         assert len(class_results) > 0
         assert any(r.symbol.name == "DataProcessor" for r in class_results)
     
-    def test_file_deletion(self, temp_store):
+    def test_file_deletion(self, tool_helper,temp_store):
         """Test deleting all documents from a file."""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
             f.write("Test content for deletion")
@@ -174,7 +174,7 @@ class Calculator:
             
             Path(f.name).unlink()
     
-    def test_list_files(self, temp_store):
+    def test_list_files(self, tool_helper,temp_store):
         """Test listing indexed files."""
         # Add multiple files
         test_files = []
@@ -194,7 +194,7 @@ class Calculator:
             assert test_file in indexed_paths
             Path(test_file).unlink()
     
-    def test_ast_storage(self, temp_store):
+    def test_ast_storage(self, tool_helper,temp_store):
         """Test AST storage and retrieval."""
         from hanzo_mcp.tools.vector.ast_analyzer import FileAST
         
@@ -233,7 +233,7 @@ class Calculator:
         assert len(retrieved_ast.symbols) == 1
         assert retrieved_ast.symbols[0].name == "main"
     
-    def test_file_references(self, temp_store):
+    def test_file_references(self, tool_helper,temp_store):
         """Test cross-file reference tracking."""
         from hanzo_mcp.tools.vector.ast_analyzer import FileAST
         
@@ -258,7 +258,7 @@ class Calculator:
         assert len(refs) > 0
         assert any(ref["source_file"] == "/test/module_a.py" for ref in refs)
     
-    def test_chunking_algorithm(self, temp_store):
+    def test_chunking_algorithm(self, tool_helper,temp_store):
         """Test text chunking algorithm."""
         # Create text with clear sentence boundaries
         text = "First sentence. Second sentence. Third sentence.\n" * 10
@@ -275,7 +275,7 @@ class Calculator:
             assert len(chunks[0]) > 0
             assert len(chunks[-1]) > 0
     
-    def test_embedding_generation(self, temp_store):
+    def test_embedding_generation(self, tool_helper,temp_store):
         """Test embedding generation (mock)."""
         text = "Test embedding generation"
         embedding = temp_store._generate_embedding(text)
@@ -317,7 +317,7 @@ class TestVectorStoreIntegration:
             yield store
             store.close()
     
-    def test_semantic_code_search(self, integrated_store):
+    def test_semantic_code_search(self, tool_helper,integrated_store):
         """Test semantic search across code and docs."""
         # Search for functionality
         results = integrated_store.search("transform text to capital letters", limit=5)
@@ -327,7 +327,7 @@ class TestVectorStoreIntegration:
         result_types = {r.document.metadata.get("type") for r in results}
         assert "code" in result_types or "docs" in result_types
     
-    def test_search_results(self, integrated_store):
+    def test_search_results(self, tool_helper,integrated_store):
         """Test creating search results."""
         # This would integrate with the SearchTool
         # but we can test the data structure

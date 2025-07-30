@@ -22,19 +22,22 @@ class ForgivingEditHelper:
         Returns:
             Text with normalized whitespace
         """
-        # Replace tabs with spaces for comparison
-        text = text.replace('\t', '    ')
-        
-        # Normalize multiple spaces to single space (except at line start)
+        # Handle the input line by line
         lines = []
         for line in text.split('\n'):
-            # Preserve indentation
-            indent = len(line) - len(line.lstrip())
-            content = line.strip()
-            if content:
-                # Normalize spaces in content
-                content = ' '.join(content.split())
-            lines.append(' ' * indent + content)
+            # Replace tabs with 4 spaces everywhere in the line
+            line = line.replace('\t', '    ')
+            
+            # Split into indentation and content
+            stripped = line.lstrip()
+            indent = line[:len(line) - len(stripped)]
+            
+            if stripped:
+                # For content, normalize multiple spaces to single space
+                content = re.sub(r' {2,}', ' ', stripped)
+                lines.append(indent + content)
+            else:
+                lines.append(indent)
         
         return '\n'.join(lines)
     
@@ -236,8 +239,15 @@ class ForgivingEditHelper:
         # Remove any line number prefixes (common in AI copy-paste)
         lines = []
         for line in text.split('\n'):
-            # Remove common line number patterns
-            cleaned = re.sub(r'^\s*\d+[:\|\-\s]\s*', '', line)
-            lines.append(cleaned)
+            # Remove common line number patterns while preserving indentation
+            # Match patterns like "1: ", "123: ", "1| ", "1- ", etc.
+            # But preserve the original indentation after the line number
+            match = re.match(r'^(\d+[:\|\-])\s(.*)', line)
+            if match:
+                # Keep only the content part (group 2) which includes any indentation
+                lines.append(match.group(2))
+            else:
+                # No line number pattern found, keep the line as-is
+                lines.append(line)
         
         return '\n'.join(lines)

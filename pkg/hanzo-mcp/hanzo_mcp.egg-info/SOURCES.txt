@@ -32,7 +32,7 @@ hanzo_mcp/tools/__init__.py
 hanzo_mcp/tools/agent/__init__.py
 hanzo_mcp/tools/agent/agent.py
 hanzo_mcp/tools/agent/agent_tool.py
-hanzo_mcp/tools/agent/agent_tool_v2.py
+hanzo_mcp/tools/agent/agent_tool_v1_deprecated.py
 hanzo_mcp/tools/agent/clarification_protocol.py
 hanzo_mcp/tools/agent/clarification_tool.py
 hanzo_mcp/tools/agent/claude_cli_tool.py
@@ -49,7 +49,7 @@ hanzo_mcp/tools/agent/network_tool.py
 hanzo_mcp/tools/agent/prompt.py
 hanzo_mcp/tools/agent/review_tool.py
 hanzo_mcp/tools/agent/swarm_tool.py
-hanzo_mcp/tools/agent/swarm_tool_v2.py
+hanzo_mcp/tools/agent/swarm_tool_v1_deprecated.py
 hanzo_mcp/tools/agent/tool_adapter.py
 hanzo_mcp/tools/common/__init__.py
 hanzo_mcp/tools/common/base.py
@@ -192,11 +192,11 @@ tests/test_find_tool_ffind.py
 tests/test_find_tool_integration.py
 tests/test_find_tool_registration.py
 tests/test_git_ingestion.py
+tests/test_hanzo_agents_integration.py
 tests/test_hanzo_mcp_integration.py
 tests/test_hanzo_mcp_local.py
 tests/test_hanzo_mcp_simple.py
 tests/test_hanzo_network_integration.py
-tests/test_integration.py
 tests/test_litellm_warnings.py
 tests/test_lsp_tool.py
 tests/test_manual.py
@@ -215,5 +215,6 @@ tests/test_streaming_command.py
 tests/test_swarm_simple.py
 tests/test_tools_suite.py
 tests/test_unified_search.py
+tests/test_utils.py
 tests/test_vector_store.py
 tests/test_web3_integration.py
