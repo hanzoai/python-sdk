@@ -5,6 +5,7 @@ import tempfile
 from pathlib import Path
 from typing import List, Dict, Any
 import pytest
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -268,7 +269,7 @@ if __name__ == "__main__":
                 "test": test_py
             }
 
-    def test_search_relevance_scoring(self, test_codebase):
+    def test_search_relevance_scoring(self, tool_helper, test_codebase):
         """Test that search results are properly scored for relevance."""
         
         # Test different search scenarios and expected relevance order
@@ -295,8 +296,7 @@ if __name__ == "__main__":
             }
         ]
         
-        permission_manager = PermissionManager()
-        permission_manager.add_allowed_path(str(test_codebase["dir"]))
+        permission_manager = create_permission_manager([str(test_codebase["dir"])])
         
         # Test with different search types
         search_tools = {
@@ -489,12 +489,11 @@ if __name__ == "__main__":
         
         return results
 
-    def test_search_performance_comparison(self, test_codebase):
+    def test_search_performance_comparison(self, tool_helper, test_codebase):
         """Compare performance across different search methods."""
         import time
         
-        permission_manager = PermissionManager()
-        permission_manager.add_allowed_path(str(test_codebase["dir"]))
+        permission_manager = create_permission_manager([str(test_codebase["dir"])])
         
         queries = ["error", "DataProcessor", "def.*process", "import.*typing"]
         

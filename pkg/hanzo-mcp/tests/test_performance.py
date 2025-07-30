@@ -6,10 +6,19 @@ import tempfile
 import os
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import Mock, patch
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
-from hanzo_mcp.tools.memory.memory_tools import RecallMemoriesTool, CreateMemoriesTool
+# Try to import memory tools, skip tests if not available
+try:
+    from hanzo_mcp.tools.memory.memory_tools import RecallMemoriesTool, CreateMemoriesTool
+    MEMORY_TOOLS_AVAILABLE = True
+except ImportError:
+    MEMORY_TOOLS_AVAILABLE = False
+    RecallMemoriesTool = None
+    CreateMemoriesTool = None
+
 from hanzo_mcp.tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
@@ -19,7 +28,7 @@ class TestMemoryPerformance:
     """Performance tests for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_bulk_memory_creation_performance(self, mock_get_service, mock_ctx):
+    def test_bulk_memory_creation_performance(self, tool_helper, mock_get_service):
         """Test performance of bulk memory creation."""
         mock_service = Mock()
         created_count = 0
@@ -33,6 +42,7 @@ class TestMemoryPerformance:
         mock_get_service.return_value = mock_service
         
         tool = CreateMemoriesTool()
+        mock_ctx = create_mock_ctx()
         
         # Create 1000 memories
         memories = [f"Memory {i}" for i in range(1000)]
@@ -41,14 +51,14 @@ class TestMemoryPerformance:
         result = asyncio.run(tool.call(mock_ctx, statements=memories))
         elapsed = time.time() - start_time
         
-        assert "Successfully created 1000 new memories" in result
+        tool_helper.assert_in_result("Successfully created 1000 new memories", result)
         assert created_count == 1000
         assert elapsed < 5.0  # Should complete within 5 seconds
         
         print(f"Created 1000 memories in {elapsed:.2f} seconds")
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_concurrent_memory_operations(self, mock_get_service):
+    def test_concurrent_memory_operations(self, tool_helper,mock_get_service):
         """Test concurrent memory operations."""
         mock_service = Mock()
         operation_times = []
@@ -67,7 +77,7 @@ class TestMemoryPerformance:
             """Run multiple operations concurrently."""
             create_tool = CreateMemoriesTool()
             recall_tool = RecallMemoriesTool()
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # Run 10 operations concurrently
             tasks = []
@@ -116,7 +126,7 @@ class TestSearchPerformance:
             # Create search tool
             with patch('hanzo_mcp.tools.filesystem.search_tool.ProjectVectorManager'):
                 tool = UnifiedSearchTool(permission_manager=pm)
-                mock_ctx = Mock()
+                mock_ctx = create_mock_ctx()
                 
                 # Search for pattern
                 start_time = time.time()
@@ -129,7 +139,7 @@ class TestSearchPerformance:
                 elapsed = time.time() - start_time
                 
                 # Should find matches quickly
-                assert "SPECIAL_PATTERN" in result
+                tool_helper.assert_in_result("SPECIAL_PATTERN", result)
                 assert elapsed < 2.0  # Should complete within 2 seconds
                 
                 print(f"Searched 1000 files in {elapsed:.2f} seconds")
@@ -157,7 +167,7 @@ class TestBatchToolPerformance:
             mock_tools[tool.name] = tool
         
         batch_tool = BatchTool(mock_tools)
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Create 50 invocations
         invocations = []
@@ -190,7 +200,7 @@ class TestSwarmPerformance:
     """Performance tests for swarm tool."""
     
     @patch('hanzo_mcp.tools.agent.swarm_tool.dispatch_to_model')
-    def test_parallel_agent_execution(self, mock_dispatch):
+    def test_parallel_agent_execution(self, tool_helper,mock_dispatch):
         """Test parallel execution of swarm agents."""
         execution_times = []
         
@@ -203,7 +213,7 @@ class TestSwarmPerformance:
         mock_dispatch.side_effect = mock_agent_execution
         
         tool = SwarmTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Create parallel agent network
         agents = []
@@ -292,7 +302,7 @@ class TestMemoryStressTest:
     """Stress tests for memory system."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_memory_system_under_load(self, mock_get_service):
+    def test_memory_system_under_load(self, tool_helper,mock_get_service):
         """Test memory system under heavy load."""
         mock_service = Mock()
         
@@ -314,7 +324,7 @@ class TestMemoryStressTest:
             """Run many operations concurrently."""
             create_tool = CreateMemoriesTool()
             recall_tool = RecallMemoriesTool()
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             tasks = []
             
@@ -365,7 +375,7 @@ class TestConcurrentFileOperations:
             async def concurrent_operations():
                 """Run concurrent read/write operations."""
                 tasks = []
-                mock_ctx = Mock()
+                mock_ctx = create_mock_ctx()
                 
                 # Mix of reads and writes
                 for i, filepath in enumerate(test_files):

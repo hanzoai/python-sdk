@@ -65,7 +65,7 @@ def register_all_tools(
     vector_config: dict | None = None,
     use_mode: bool = True,
     force_mode: str | None = None,
-) -> None:
+) -> list[BaseTool]:
     """Register all Hanzo tools with the MCP server.
 
     Args:
@@ -84,6 +84,9 @@ def register_all_tools(
         vector_config: Vector store configuration (default: None)
         use_mode: Whether to use mode system for tool configuration (default: True)
         force_mode: Force a specific mode to be active (default: None)
+    
+    Returns:
+        List of registered BaseTool instances
     """
     # Dictionary to store all registered tools
     all_tools: dict[str, BaseTool] = {}
@@ -169,8 +172,9 @@ def register_all_tools(
 
     # Register jupyter tools if enabled
     jupyter_enabled = {
-        "notebook_read": is_tool_enabled("notebook_read", True),
-        "notebook_edit": is_tool_enabled("notebook_edit", True),
+        "jupyter": is_tool_enabled("jupyter", True),  # Unified tool
+        "notebook_read": is_tool_enabled("notebook_read", True),  # Legacy support
+        "notebook_edit": is_tool_enabled("notebook_edit", True),  # Legacy support
     }
 
     if any(jupyter_enabled.values()):
@@ -442,3 +446,6 @@ def register_all_tools(
                 logger.info(f"Registered plugin tool: {plugin_name}")
             except Exception as e:
                 logger.error(f"Failed to register plugin tool {plugin_name}: {e}")
+    
+    # Return all registered tools
+    return list(all_tools.values())

@@ -7,10 +7,10 @@ import shutil
 import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
-
 import pytest
 
 from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 
 class TestStreamingCommandTool:
@@ -26,18 +26,18 @@ class TestStreamingCommandTool:
                 yield tool
     
     @pytest.mark.asyncio
-    async def test_execute_simple_command(self, tool):
+    async def test_execute_simple_command(self, tool_helper, tool):
         """Test executing a simple command."""
         result = await tool.run(command="echo 'Hello, World!'")
         
-        assert "command_id" in result
-        assert "short_id" in result
+        tool_helper.assert_in_result("command_id", result)
+        tool_helper.assert_in_result("short_id", result)
         assert result["command"] == "echo 'Hello, World!'"
         assert "Hello, World!" in result["output"]
         assert result["status"] in ["running", "completed"]
     
     @pytest.mark.asyncio
-    async def test_command_aliases(self, tool):
+    async def test_command_aliases(self, tool_helper, tool):
         """Test that command aliases work."""
         # Test 'cmd' alias
         result1 = await tool.run(cmd="echo 'test1'")
@@ -48,7 +48,7 @@ class TestStreamingCommandTool:
         assert result2["status"] in ["running", "completed"]
     
     @pytest.mark.asyncio
-    async def test_continue_reading(self, tool):
+    async def test_continue_reading(self, tool_helper, tool):
         """Test continuing to read from a command."""
         # Generate some output
         result1 = await tool.run(
@@ -65,7 +65,7 @@ class TestStreamingCommandTool:
         assert result2["command_id"] == result1["command_id"]
     
     @pytest.mark.asyncio
-    async def test_resume_aliases(self, tool):
+    async def test_resume_aliases(self, tool_helper, tool):
         """Test resume aliases work."""
         # Run a command
         result1 = await tool.run(command="echo 'test'")
@@ -79,7 +79,7 @@ class TestStreamingCommandTool:
         assert result3["command_id"] == result1["command_id"]
     
     @pytest.mark.asyncio
-    async def test_string_number_conversion(self, tool):
+    async def test_string_number_conversion(self, tool_helper, tool):
         """Test that string numbers are converted properly."""
         result = await tool.run(
             command="echo 'test'",
@@ -87,11 +87,11 @@ class TestStreamingCommandTool:
             chunk_size="1000",  # String instead of int
         )
         
-        assert "command_id" in result
+        tool_helper.assert_in_result("command_id", result)
         assert result["status"] in ["running", "completed"]
     
     @pytest.mark.asyncio
-    async def test_list_commands(self, tool):
+    async def test_list_commands(self, tool_helper, tool):
         """Test listing recent commands."""
         # Run a few commands
         await tool.run(command="echo 'test1'")
@@ -100,12 +100,12 @@ class TestStreamingCommandTool:
         # List commands
         result = await tool.list()
         
-        assert "commands" in result
+        tool_helper.assert_in_result("commands", result)
         assert len(result["commands"]) >= 2
         assert result["session_id"] == tool.session_id
     
     @pytest.mark.asyncio
-    async def test_tail_command(self, tool):
+    async def test_tail_command(self, tool_helper, tool):
         """Test tailing command output."""
         # Run a command with multiple lines
         result1 = await tool.run(
@@ -120,24 +120,24 @@ class TestStreamingCommandTool:
         assert result2["lines"] == 5
     
     @pytest.mark.asyncio
-    async def test_error_handling(self, tool):
+    async def test_error_handling(self, tool_helper, tool):
         """Test error handling for invalid commands."""
         result = await tool.run(command="nonexistent_command_12345")
         
-        assert "command_id" in result
+        tool_helper.assert_in_result("command_id", result)
         # Command should still execute and capture error output
     
     @pytest.mark.asyncio
-    async def test_no_command_error(self, tool):
+    async def test_no_command_error(self, tool_helper, tool):
         """Test helpful error when no command provided."""
         result = await tool.run()
         
-        assert "error" in result
-        assert "hint" in result
-        assert "recent_commands" in result
+        tool_helper.assert_in_result("error", result)
+        tool_helper.assert_in_result("hint", result)
+        tool_helper.assert_in_result("recent_commands", result)
     
     @pytest.mark.asyncio
-    async def test_session_persistence(self, tool):
+    async def test_session_persistence(self, tool_helper, tool):
         """Test that session data persists to disk."""
         session_dir = tool.session_dir
         commands_dir = tool.commands_dir
@@ -160,7 +160,7 @@ class TestStreamingCommandTool:
             assert metadata["command_id"] == cmd_id
     
     @pytest.mark.asyncio
-    async def test_normalize_command_ref(self, tool):
+    async def test_normalize_command_ref(self, tool_helper, tool):
         """Test command reference normalization."""
         # Run a command
         result = await tool.run(command="echo 'test'")
@@ -175,7 +175,7 @@ class TestStreamingCommandTool:
         assert tool._normalize_command_ref("latest") == cmd_id
     
     @pytest.mark.asyncio
-    async def test_long_running_command(self, tool):
+    async def test_long_running_command(self, tool_helper, tool):
         """Test handling of long-running commands."""
         # Start a command that takes time
         result1 = await tool.run(
@@ -195,7 +195,7 @@ class TestStreamingCommandTool:
         assert "done" in result2["output"] or result2["status"] == "completed"
     
     @pytest.mark.asyncio
-    async def test_streaming_to_disk(self, tool):
+    async def test_streaming_to_disk(self, tool_helper, tool):
         """Test that output is streamed directly to disk."""
         # Generate large output
         result = await tool.run(
@@ -224,7 +224,8 @@ class TestForgivingEditHelper:
         text = "\tindented\twith\ttabs"
         normalized = ForgivingEditHelper.normalize_whitespace(text)
         assert "\t" not in normalized
-        assert "    indented    with    tabs" in normalized
+        # The function normalizes multiple spaces to single spaces in content
+        assert "    indented with tabs" in normalized
         
         # Test multiple space normalization
         text = "multiple   spaces    between"

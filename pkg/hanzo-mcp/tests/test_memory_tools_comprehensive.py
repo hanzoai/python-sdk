@@ -9,35 +9,29 @@ import json
 from datetime import datetime
 from typing import List, Dict, Any
 from unittest.mock import Mock, patch, MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
-# Try to import memory tools, skip tests if not available
-try:
-    from hanzo_mcp.tools.memory import register_memory_tools
-    from hanzo_mcp.tools.memory.memory_tools import (
-        RecallMemoriesTool,
-        CreateMemoriesTool,
-        UpdateMemoriesTool,
-        DeleteMemoriesTool,
-        ManageMemoriesTool,
-    )
-    from hanzo_mcp.tools.memory.knowledge_tools import (
-        RecallFactsTool,
-        StoreFactsTool,
-        SummarizeToMemoryTool,
-        ManageKnowledgeBasesTool,
-    )
-    MEMORY_TOOLS_AVAILABLE = True
-except ImportError:
-    MEMORY_TOOLS_AVAILABLE = False
-
-# Skip entire module if memory tools not available
-pytestmark = pytest.mark.skipif(not MEMORY_TOOLS_AVAILABLE, reason="hanzo-memory package not installed")
+# Import memory tools
+from hanzo_mcp.tools.memory import register_memory_tools
+from hanzo_mcp.tools.memory.memory_tools import (
+    RecallMemoriesTool,
+    CreateMemoriesTool,
+    UpdateMemoriesTool,
+    DeleteMemoriesTool,
+    ManageMemoriesTool,
+)
+from hanzo_mcp.tools.memory.knowledge_tools import (
+    RecallFactsTool,
+    StoreFactsTool,
+    SummarizeToMemoryTool,
+    ManageKnowledgeBasesTool,
+)
 
 
 # Mock memory and knowledge models
@@ -137,7 +131,7 @@ class TestMemoryTools:
     """Test memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_recall_memories_basic(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_recall_memories_basic(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test basic memory recall."""
         mock_get_service.return_value = mock_memory_service
         
@@ -163,12 +157,12 @@ class TestMemoryTools:
             limit=5
         ))
         
-        assert "Found 2 relevant memories" in result
-        assert "Python programming" in result
-        assert "Machine learning" in result
+        tool_helper.assert_in_result("Found 2 relevant memories", result)
+        tool_helper.assert_in_result("Python programming", result)
+        tool_helper.assert_in_result("Machine learning", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_recall_memories_with_scope(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_recall_memories_with_scope(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test memory recall with different scopes."""
         mock_get_service.return_value = mock_memory_service
         
@@ -197,7 +191,7 @@ class TestMemoryTools:
             queries=["memory"],
             scope="project"
         ))
-        assert "Project-specific memory" in result
+        tool_helper.assert_in_result("Project-specific memory", result)
         assert "Session-specific" not in result
         assert "Global memory" not in result
         
@@ -207,7 +201,7 @@ class TestMemoryTools:
             queries=["memory"],
             scope="session"
         ))
-        assert "Session-specific memory" in result
+        tool_helper.assert_in_result("Session-specific memory", result)
         
         # Test global scope
         result = asyncio.run(tool.call(
@@ -215,10 +209,10 @@ class TestMemoryTools:
             queries=["memory"],
             scope="global"
         ))
-        assert "Global memory" in result
+        tool_helper.assert_in_result("Global memory", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_create_memories(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_create_memories(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test creating memories."""
         mock_get_service.return_value = mock_memory_service
         
@@ -234,7 +228,7 @@ class TestMemoryTools:
             ]
         ))
         
-        assert "Successfully created 3 new memories" in result
+        tool_helper.assert_in_result("Successfully created 3 new memories", result)
         assert len(mock_memory_service.memories) == 3
         
         # Verify memories were created correctly
@@ -244,7 +238,7 @@ class TestMemoryTools:
         assert memories[2].content == "Third important fact"
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_update_memories(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_update_memories(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test updating memories."""
         mock_get_service.return_value = mock_memory_service
         
@@ -266,11 +260,11 @@ class TestMemoryTools:
         ))
         
         # Note: Update is not fully implemented in hanzo-memory
-        assert "Would update 1 of 1 memories" in result
-        assert "not fully implemented" in result
+        tool_helper.assert_in_result("Would update 1 of 1 memories", result)
+        tool_helper.assert_in_result("not fully implemented", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_delete_memories(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_delete_memories(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test deleting memories."""
         mock_get_service.return_value = mock_memory_service
         
@@ -299,12 +293,12 @@ class TestMemoryTools:
             ids=[memory1.memory_id, memory2.memory_id, memory3.memory_id]
         ))
         
-        assert "Successfully deleted 2 of 3 memories" in result
+        tool_helper.assert_in_result("Successfully deleted 2 of 3 memories", result)
         assert len(mock_memory_service.memories) == 1
         assert memory3.memory_id in mock_memory_service.memories
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_manage_memories_batch(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_manage_memories_batch(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test batch memory operations."""
         mock_get_service.return_value = mock_memory_service
         
@@ -327,9 +321,9 @@ class TestMemoryTools:
             }
         ))
         
-        assert "Created 2 memories" in result
-        assert "Would update 1 memories" in result
-        assert "Deleted 0 memories" in result
+        tool_helper.assert_in_result("Created 2 memories", result)
+        tool_helper.assert_in_result("Would update 1 memories", result)
+        tool_helper.assert_in_result("Deleted 0 memories", result)
         
         # Verify state
         assert len(mock_memory_service.memories) == 3  # 1 existing + 2 new
@@ -339,7 +333,7 @@ class TestKnowledgeTools:
     """Test knowledge tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_store_facts(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_store_facts(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test storing facts."""
         mock_get_service.return_value = mock_memory_service
         
@@ -357,7 +351,7 @@ class TestKnowledgeTools:
             scope="project"
         ))
         
-        assert "Successfully stored 3 facts in python_basics" in result
+        tool_helper.assert_in_result("Successfully stored 3 facts in python_basics", result)
         
         # Verify facts were stored as special memories
         assert len(mock_memory_service.memories) == 3
@@ -370,7 +364,7 @@ class TestKnowledgeTools:
             assert memory.importance == 1.5  # Facts have higher importance
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_recall_facts(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_recall_facts(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test recalling facts."""
         mock_get_service.return_value = mock_memory_service
         
@@ -400,13 +394,13 @@ class TestKnowledgeTools:
             kb_name="python_kb"
         ))
         
-        assert "Found 2 relevant facts" in result
-        assert "Python fact 1" in result
-        assert "Python fact 2" in result
-        assert "(KB: python_kb)" in result
+        tool_helper.assert_in_result("Found 2 relevant facts", result)
+        tool_helper.assert_in_result("Python fact 1", result)
+        tool_helper.assert_in_result("Python fact 2", result)
+        tool_helper.assert_in_result("(KB: python_kb)", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_manage_knowledge_bases(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_manage_knowledge_bases(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test managing knowledge bases."""
         mock_get_service.return_value = mock_memory_service
         
@@ -421,7 +415,7 @@ class TestKnowledgeTools:
             scope="project"
         ))
         
-        assert "Created knowledge base 'test_kb'" in result
+        tool_helper.assert_in_result("Created knowledge base 'test_kb'", result)
         
         # Verify KB was created as special memory
         assert len(mock_memory_service.memories) == 1
@@ -448,11 +442,11 @@ class TestKnowledgeTools:
             scope="project"
         ))
         
-        assert "Knowledge bases in project scope:" in result
-        assert "test_kb - Test knowledge base" in result
+        tool_helper.assert_in_result("Knowledge bases in project scope:", result)
+        tool_helper.assert_in_result("test_kb - Test knowledge base", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_summarize_to_memory(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_summarize_to_memory(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test summarizing content to memory."""
         mock_get_service.return_value = mock_memory_service
         
@@ -468,8 +462,8 @@ class TestKnowledgeTools:
             auto_facts=True
         ))
         
-        assert "Stored summary of API Design Patterns in project memory" in result
-        assert "Auto-fact extraction would extract key facts" in result
+        tool_helper.assert_in_result("Stored summary of API Design Patterns in project memory", result)
+        tool_helper.assert_in_result("Auto-fact extraction would extract key facts", result)
         
         # Verify summary was stored
         assert len(mock_memory_service.memories) == 1
@@ -484,7 +478,7 @@ class TestMemoryToolsIntegration:
     """Integration tests for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_full_memory_workflow(self, mock_get_service, mock_memory_service, mock_ctx):
+    def test_full_memory_workflow(self, tool_helper,mock_get_service, mock_memory_service, mock_ctx):
         """Test complete memory workflow."""
         mock_get_service.return_value = mock_memory_service
         
@@ -498,7 +492,7 @@ class TestMemoryToolsIntegration:
                 "User likes automated testing"
             ]
         ))
-        assert "Successfully created 3 new memories" in result
+        tool_helper.assert_in_result("Successfully created 3 new memories", result)
         
         # 2. Search memories
         recall_tool = RecallMemoriesTool(user_id="test_user", project_id="test_project")
@@ -506,7 +500,7 @@ class TestMemoryToolsIntegration:
             mock_ctx,
             queries=["user preferences", "programming languages"]
         ))
-        assert "Found 3 relevant memories" in result
+        tool_helper.assert_in_result("Found 3 relevant memories", result)
         
         # 3. Create knowledge base
         kb_tool = ManageKnowledgeBasesTool(user_id="test_user", project_id="test_project")
@@ -516,7 +510,7 @@ class TestMemoryToolsIntegration:
             kb_name="user_prefs",
             description="User preferences and settings"
         ))
-        assert "Created knowledge base 'user_prefs'" in result
+        tool_helper.assert_in_result("Created knowledge base 'user_prefs'", result)
         
         # 4. Store facts
         facts_tool = StoreFactsTool(user_id="test_user", project_id="test_project")
@@ -529,7 +523,7 @@ class TestMemoryToolsIntegration:
             ],
             kb_name="user_prefs"
         ))
-        assert "Successfully stored 3 facts" in result
+        tool_helper.assert_in_result("Successfully stored 3 facts", result)
         
         # 5. Verify total memories created
         assert len(mock_memory_service.memories) == 7  # 3 memories + 1 KB + 3 facts
@@ -539,7 +533,7 @@ class TestErrorHandling:
     """Test error handling in memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_memory_service_error(self, mock_get_service, mock_ctx):
+    def test_memory_service_error(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling of memory service errors."""
         mock_service = Mock()
         mock_service.create_memory.side_effect = Exception("Database connection failed")
@@ -555,7 +549,7 @@ class TestErrorHandling:
         
         assert "Database connection failed" in str(exc_info.value)
     
-    def test_missing_hanzo_memory_package(self, mock_ctx):
+    def test_missing_hanzo_memory_package(self, tool_helper, mock_ctx):
         """Test behavior when hanzo-memory package is not installed."""
         with patch('hanzo_mcp.tools.memory.memory_tools.MEMORY_AVAILABLE', False):
             with pytest.raises(ImportError) as exc_info:
@@ -570,7 +564,7 @@ class TestMemoryToolsRegistration:
     """Test memory tools registration with MCP server."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_register_all_memory_tools(self, mock_get_service):
+    def test_register_all_memory_tools(self, tool_helper,mock_get_service):
         """Test registering all memory tools."""
         mock_get_service.return_value = MockMemoryService()
         
