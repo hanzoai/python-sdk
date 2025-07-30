@@ -7,6 +7,7 @@ import tempfile
 import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch, AsyncMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 from hanzo_mcp.tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.shell.process_tool import ProcessTool
@@ -48,13 +49,13 @@ def process_tool():
 class TestShellDetection:
     """Test shell detection functionality."""
     
-    def test_default_shell(self, bash_tool):
+    def test_default_shell(self, tool_helper, bash_tool):
         """Test default shell is bash."""
         with patch.dict(os.environ, {}, clear=True):
             interpreter = bash_tool.get_interpreter()
             assert interpreter == "bash"
     
-    def test_zsh_detection_with_zshrc(self, bash_tool, tmp_path):
+    def test_zsh_detection_with_zshrc(self, tool_helper, bash_tool, tmp_path):
         """Test zsh is detected when .zshrc exists."""
         # Create fake .zshrc
         fake_home = tmp_path / "home"
@@ -67,7 +68,7 @@ class TestShellDetection:
                 interpreter = bash_tool.get_interpreter()
                 assert interpreter == "/bin/zsh"
     
-    def test_zsh_fallback_to_bash(self, bash_tool, tmp_path):
+    def test_zsh_fallback_to_bash(self, tool_helper, bash_tool, tmp_path):
         """Test fallback to bash when zsh set but no .zshrc."""
         fake_home = tmp_path / "home"
         fake_home.mkdir()
@@ -77,7 +78,7 @@ class TestShellDetection:
                 interpreter = bash_tool.get_interpreter()
                 assert interpreter == "bash"
     
-    def test_fish_detection_with_config(self, bash_tool, tmp_path):
+    def test_fish_detection_with_config(self, tool_helper, bash_tool, tmp_path):
         """Test fish is detected when config exists."""
         # Create fake fish config
         fake_home = tmp_path / "home"
@@ -92,7 +93,7 @@ class TestShellDetection:
                 interpreter = bash_tool.get_interpreter()
                 assert interpreter == "/usr/bin/fish"
     
-    def test_tool_name_reflects_shell(self, bash_tool):
+    def test_tool_name_reflects_shell(self, tool_helper, bash_tool):
         """Test tool name reflects the actual shell being used."""
         with patch.object(bash_tool, "get_interpreter", return_value="/bin/zsh"):
             assert bash_tool.get_tool_name() == "zsh"
@@ -108,15 +109,15 @@ class TestAutoBackgrounding:
     """Test auto-backgrounding functionality."""
     
     @pytest.mark.asyncio
-    async def test_quick_command_completes(self, bash_tool, mock_ctx):
+    async def test_quick_command_completes(self, tool_helper, bash_tool, mock_ctx):
         """Test that quick commands complete normally."""
         result = await bash_tool.call(mock_ctx, command="echo 'Hello World'")
-        assert "Hello World" in result
+        tool_helper.assert_in_result("Hello World", result)
         assert "backgrounded" not in result.lower()
     
     @pytest.mark.asyncio
     @patch("hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background")
-    async def test_long_command_backgrounds(self, mock_execute, bash_tool, mock_ctx):
+    async def test_long_command_backgrounds(self, tool_helper, mock_execute, bash_tool, mock_ctx):
         """Test that long-running commands are backgrounded."""
         # Simulate backgrounding
         mock_execute.return_value = (
@@ -126,11 +127,11 @@ class TestAutoBackgrounding:
         )
         
         result = await bash_tool.call(mock_ctx, command="sleep 300")
-        assert "backgrounded" in result
-        assert "test_123" in result
+        tool_helper.assert_in_result("backgrounded", result)
+        tool_helper.assert_in_result("test_123", result)
     
     @pytest.mark.asyncio
-    async def test_command_with_timeout_ignored(self, bash_tool, mock_ctx):
+    async def test_command_with_timeout_ignored(self, tool_helper, bash_tool, mock_ctx):
         """Test that timeout parameter is ignored (auto-backgrounding takes precedence)."""
         # Should not fail even with short timeout
         result = await bash_tool.call(
@@ -138,7 +139,7 @@ class TestAutoBackgrounding:
             command="echo 'Quick test'",
             timeout=1  # This should be ignored
         )
-        assert "Quick test" in result
+        tool_helper.assert_in_result("Quick test", result)
 
 
 class TestProcessManagement:
@@ -149,7 +150,7 @@ class TestProcessManagement:
         """Get process manager instance."""
         return ProcessManager()
     
-    def test_process_tracking(self, process_manager):
+    def test_process_tracking(self, tool_helper, process_manager):
         """Test process tracking functionality."""
         # Create mock process
         mock_process = MagicMock()
@@ -169,7 +170,7 @@ class TestProcessManagement:
         assert processes["test_123"]["running"] is True
     
     @pytest.mark.asyncio
-    async def test_process_list_command(self, process_tool, mock_ctx):
+    async def test_process_list_command(self, tool_helper, process_tool, mock_ctx):
         """Test process list command."""
         # Add a mock process
         mock_process = MagicMock()
@@ -181,12 +182,12 @@ class TestProcessManagement:
         )
         
         result = await process_tool.call(mock_ctx, action="list")
-        assert "test_123" in result
-        assert "12345" in result
-        assert "running" in result
+        tool_helper.assert_in_result("test_123", result)
+        tool_helper.assert_in_result("12345", result)
+        tool_helper.assert_in_result("running", result)
     
     @pytest.mark.asyncio
-    async def test_process_kill_command(self, process_tool, mock_ctx):
+    async def test_process_kill_command(self, tool_helper, process_tool, mock_ctx):
         """Test process kill command."""
         # Add a mock process
         mock_process = MagicMock()
@@ -204,12 +205,12 @@ class TestProcessManagement:
             signal_type="TERM"
         )
         
-        assert "Sent TERM signal" in result
-        assert "12345" in result
+        tool_helper.assert_in_result("Sent TERM signal", result)
+        tool_helper.assert_in_result("12345", result)
         mock_process.send_signal.assert_called_once()
     
     @pytest.mark.asyncio
-    async def test_process_logs_command(self, process_tool, mock_ctx, tmp_path):
+    async def test_process_logs_command(self, tool_helper, process_tool, mock_ctx, tmp_path):
         """Test process logs command."""
         # Create log file
         log_file = tmp_path / "test.log"
@@ -228,9 +229,9 @@ class TestProcessManagement:
             lines=2
         )
         
-        assert "Line 2" in result
-        assert "Line 3" in result
-        assert "Line 1" not in result  # Only last 2 lines
+        tool_helper.assert_in_result("Line 2", result)
+        tool_helper.assert_in_result("Line 3", result)
+        assert "Line 1" not in result # Only last 2 lines
 
 
 class TestIntegration:
@@ -264,7 +265,7 @@ class TestIntegration:
         assert isinstance(process_result, str)
     
     @pytest.mark.asyncio
-    async def test_shell_specific_commands(self, bash_tool, mock_ctx):
+    async def test_shell_specific_commands(self, tool_helper, bash_tool, mock_ctx):
         """Test shell-specific command execution."""
         # Test with different shells
         shells = [

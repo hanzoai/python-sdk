@@ -5,6 +5,7 @@ import json
 import pytest
 from pathlib import Path
 from unittest.mock import Mock, AsyncMock, patch
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
@@ -217,13 +218,15 @@ async def test_iching_tool_directly():
     
     for challenge in challenges:
         result = await tool.call(ctx, challenge)
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
         
         # Verify result structure
-        assert "I CHING GUIDANCE" in result
-        assert "Hexagram Cast" in result
-        assert "Hanzo Principles" in result
-        assert "Synthesized Approach" in result
-        assert "The Way Forward" in result
+        tool_helper.assert_in_result("I CHING GUIDANCE", result)
+        tool_helper.assert_in_result("Hexagram Cast", result)
+        tool_helper.assert_in_result("Hanzo Principles", result)
+        tool_helper.assert_in_result("Synthesized Approach", result)
+        tool_helper.assert_in_result("The Way Forward", result)
         
         # Verify it selected relevant principles
         if "scale" in challenge.lower():

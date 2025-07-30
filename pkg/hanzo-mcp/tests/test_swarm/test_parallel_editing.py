@@ -14,13 +14,13 @@ import tempfile
 import shutil
 from pathlib import Path
 
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
-from hanzo_mcp.tools.filesystem import Read, Write
+from hanzo_mcp.tools.filesystem import ReadTool, Write
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
 
 
@@ -97,7 +97,7 @@ class APIClient:
         return FastMCP("test-server")
     
     @pytest.mark.asyncio
-    async def test_swarm_parallel_file_editing(self, test_dir, permission_manager, mcp_server):
+    async def test_swarm_parallel_file_editing(self, tool_helper, test_dir, permission_manager, mcp_server):
         """Test editing multiple files in parallel with swarm tool."""
         # Create swarm tool with default model (should use Sonnet)
         swarm_tool = SwarmTool(
@@ -146,7 +146,7 @@ class APIClient:
         )
         
         # Verify results
-        assert "Swarm Execution Summary:" in result
+        tool_helper.assert_in_result("Swarm Execution Summary:", result)
         assert "Successful: 3" in result or "Successful: 2" in result  # Allow for some failures in test
         
         # Check if files were actually modified
@@ -159,7 +159,7 @@ class APIClient:
         print(result)
     
     @pytest.mark.asyncio
-    async def test_batch_tool_with_agents(self, test_dir, permission_manager, mcp_server):
+    async def test_batch_tool_with_agents(self, tool_helper, test_dir, permission_manager, mcp_server):
         """Test using batch tool to launch multiple agents."""
         # Create tools
         agent_tool = AgentTool(
@@ -209,16 +209,16 @@ class APIClient:
         )
         
         # Check results
-        assert "Batch operation: Analyze codebase" in result
-        assert "Result 1: agent" in result
-        assert "Result 2: agent" in result
-        assert "Result 3: read" in result
+        tool_helper.assert_in_result("Batch operation: Analyze codebase", result)
+        tool_helper.assert_in_result("Result 1: agent", result)
+        tool_helper.assert_in_result("Result 2: agent", result)
+        tool_helper.assert_in_result("Result 3: read", result)
         
         print("Batch execution result:")
         print(result)
     
     @pytest.mark.asyncio
-    async def test_pagination_with_large_agent_response(self, test_dir, permission_manager):
+    async def test_pagination_with_large_agent_response(self, tool_helper, test_dir, permission_manager):
         """Test that large agent responses are properly paginated."""
         # Create a large file that will produce a big response
         large_content = "\n".join([f"LINE_{i}: This is a test line with some content that needs to be analyzed" for i in range(1000)])
@@ -247,7 +247,7 @@ class APIClient:
         print(f"Agent response length: {len(result)} characters")
     
     @pytest.mark.asyncio  
-    async def test_claude_code_compatibility(self, test_dir, permission_manager):
+    async def test_claude_code_compatibility(self, tool_helper, test_dir, permission_manager):
         """Test that agent tool works with Claude Code style prompts."""
         # Create agent configured for Claude Code
         agent = AgentTool(
@@ -276,7 +276,7 @@ Please be thorough and handle this like Claude Code would - read files first, pl
         result = await agent.call(ctx, prompts=claude_code_prompt)
         
         # Should have executed multiple operations
-        assert "AGENT RESPONSE:" in result
+        tool_helper.assert_in_result("AGENT RESPONSE:", result)
         assert len(result) > 100  # Should have substantial output
         
         print("Claude Code style execution:")

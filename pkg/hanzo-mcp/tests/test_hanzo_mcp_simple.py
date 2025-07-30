@@ -130,7 +130,7 @@ def test_import_tools():
     try:
         from hanzo_mcp.tools import register_all_tools
         from hanzo_mcp.tools.common.permissions import PermissionManager
-        from mcp.server import FastMCP
+        from mcp.server.fastmcp import FastMCP
         
         # Create a test server
         server = FastMCP("test-server")

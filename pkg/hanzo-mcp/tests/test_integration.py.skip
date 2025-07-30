@@ -4,6 +4,7 @@ import asyncio
 import os
 import tempfile
 from unittest.mock import Mock, patch, MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -21,7 +22,7 @@ from hanzo_mcp.tools.common.thinking_tool import ThinkingTool
 class TestFileSystemAndShellIntegration:
     """Test filesystem tools working with shell commands."""
     
-    def test_create_edit_and_verify_workflow(self):
+    def test_create_edit_and_verify_workflow(self, tool_helper):
         """Test creating, editing, and verifying files."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pm = PermissionManager()
@@ -31,7 +32,7 @@ class TestFileSystemAndShellIntegration:
             edit_tool = EditTool(pm)
             read_tool = ReadTool(pm)
             bash_tool = BashTool(pm)
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # 1. Create a Python file
             filepath = os.path.join(tmpdir, "test_script.py")
@@ -74,7 +75,7 @@ if __name__ == "__main__":
             assert "Hello, World!" in run_result
             assert "Goodbye, World!" in run_result
     
-    def test_grep_edit_workflow(self):
+    def test_grep_edit_workflow(self, tool_helper):
         """Test finding patterns and editing them."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pm = PermissionManager()
@@ -83,7 +84,7 @@ if __name__ == "__main__":
             write_tool = WriteTool(pm)
             grep_tool = GrepTool(pm)
             edit_tool = EditTool(pm)
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # Create multiple files with TODOs
             for i in range(3):
@@ -138,7 +139,7 @@ def helper_{i}():
 class TestBatchAndTodoIntegration:
     """Test batch operations with todo tracking."""
     
-    def test_batch_file_operations_with_todos(self):
+    def test_batch_file_operations_with_todos(self, tool_helper):
         """Test using batch tool for multiple operations with todo tracking."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pm = PermissionManager()
@@ -156,7 +157,7 @@ class TestBatchAndTodoIntegration:
                 "todo": todo_tool
             }
             batch_tool = BatchTool(tools)
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # Create batch operations
             invocations = [
@@ -219,7 +220,7 @@ class TestBatchAndTodoIntegration:
             ))
             
             # Parse results
-            assert "results" in result
+            tool_helper.assert_in_result("results", result)
             results_data = eval(result.split("results:")[1].strip())  # Simple parsing
             
             # Verify files were created
@@ -232,7 +233,7 @@ class TestMemorySearchIntegration:
     """Test memory tools with search integration."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_memory_and_code_context_workflow(self, mock_get_service):
+    def test_memory_and_code_context_workflow(self, tool_helper, mock_get_service):
         """Test storing code context in memory and recalling it."""
         from hanzo_mcp.tools.memory.memory_tools import CreateMemoriesTool, RecallMemoriesTool
         from hanzo_mcp.tools.memory.knowledge_tools import StoreFactsTool, RecallFactsTool
@@ -269,7 +270,7 @@ class TestMemorySearchIntegration:
         mock_service.search_memories = mock_search
         mock_get_service.return_value = mock_service
         
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # 1. Store facts about code patterns
         facts_tool = StoreFactsTool(user_id="dev", project_id="myproject")
@@ -318,7 +319,7 @@ class TestAgentSwarmIntegration:
     """Test agent swarm with other tools."""
     
     @patch('hanzo_mcp.tools.agent.swarm_tool.dispatch_to_model')
-    def test_swarm_with_file_operations(self, mock_dispatch):
+    def test_swarm_with_file_operations(self, tool_helper, mock_dispatch):
         """Test swarm agents working with files."""
         from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
         
@@ -345,7 +346,7 @@ class TestAgentSwarmIntegration:
             mock_dispatch.side_effect = mock_agent_dispatch
             
             swarm_tool = SwarmTool()
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # Run swarm to process TODOs
             result = asyncio.run(swarm_tool.call(
@@ -379,21 +380,21 @@ class TestAgentSwarmIntegration:
             ))
             
             # Verify workflow completed
-            assert "scanner" in result
-            assert "Found 3 Python files" in result
-            assert "analyzer" in result
-            assert "implementer" in result
-            assert "validator" in result
-            assert "All changes verified" in result
+            tool_helper.assert_in_result("scanner", result)
+            tool_helper.assert_in_result("Found 3 Python files", result)
+            tool_helper.assert_in_result("analyzer", result)
+            tool_helper.assert_in_result("implementer", result)
+            tool_helper.assert_in_result("validator", result)
+            tool_helper.assert_in_result("All changes verified", result)
 
 
 class TestThinkingToolIntegration:
     """Test thinking tool with other operations."""
     
-    def test_think_plan_execute_workflow(self):
+    def test_think_plan_execute_workflow(self, tool_helper):
         """Test using thinking tool to plan before execution."""
         thinking_tool = ThinkingTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # 1. Think about the problem
         think_result = asyncio.run(thinking_tool.call(
@@ -421,7 +422,7 @@ How should I approach this refactoring?"""
 class TestStreamingAndPaginationIntegration:
     """Test streaming commands with pagination."""
     
-    def test_streaming_large_output_with_pagination(self):
+    def test_streaming_large_output_with_pagination(self, tool_helper):
         """Test streaming command that produces paginated output."""
         from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
         
@@ -430,7 +431,7 @@ class TestStreamingAndPaginationIntegration:
             pm.add_allowed_path(tmpdir)
             
             streaming_tool = StreamingCommandTool(pm)
-            mock_ctx = Mock()
+            mock_ctx = create_mock_ctx()
             
             # Create a large file
             large_file = os.path.join(tmpdir, "large.txt")
@@ -447,7 +448,7 @@ class TestStreamingAndPaginationIntegration:
             ))
             
             # Should handle large output
-            assert "Line 0:" in result
+            tool_helper.assert_in_result("Line 0:", result)
             # May be truncated or have pagination info
             if "next_cursor" in result or "truncated" in result:
                 assert True  # Pagination handled
@@ -464,7 +465,7 @@ class TestStreamingAndPaginationIntegration:
 class TestErrorRecoveryIntegration:
     """Test error recovery across tools."""
     
-    def test_error_handling_in_batch(self):
+    def test_error_handling_in_batch(self, tool_helper):
         """Test how batch tool handles errors in individual tools."""
         # Create tools where some will fail
         def failing_tool_call(*args, **kwargs):
@@ -487,7 +488,7 @@ class TestErrorRecoveryIntegration:
         }
         
         batch_tool = BatchTool(tools)
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Mix of failing and working tools
         invocations = [
@@ -504,10 +505,10 @@ class TestErrorRecoveryIntegration:
         ))
         
         # Should complete despite errors
-        assert "results" in result
-        assert "Success" in result
+        tool_helper.assert_in_result("results", result)
+        tool_helper.assert_in_result("Success", result)
         assert "error" in result.lower()
-        assert "Tool failed!" in result
+        tool_helper.assert_in_result("Tool failed!", result)
 
 
 if __name__ == "__main__":

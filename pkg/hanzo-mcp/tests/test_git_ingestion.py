@@ -107,7 +107,7 @@ class TestMain(unittest.TestCase):
             
             yield repo_path
     
-    def test_git_log_parsing(self, test_git_repo):
+    def test_git_log_parsing(self, tool_helper,test_git_repo):
         """Test parsing git log output."""
         # Get git log
         result = subprocess.run(
@@ -149,7 +149,7 @@ class TestMain(unittest.TestCase):
         assert any(c['message'] == 'Add main.py' for c in commits)
         assert any('utils' in c['message'] for c in commits)
     
-    def test_git_diff_extraction(self, test_git_repo):
+    def test_git_diff_extraction(self, tool_helper,test_git_repo):
         """Test extracting diffs from git history."""
         # Get diff for a specific commit
         result = subprocess.run(
@@ -163,7 +163,7 @@ class TestMain(unittest.TestCase):
         assert "diff --git" in result.stdout
         assert "@@" in result.stdout  # Diff chunks
     
-    def test_git_blame_integration(self, test_git_repo):
+    def test_git_blame_integration(self, tool_helper,test_git_repo):
         """Test git blame for line-level attribution."""
         # Run git blame on main.py
         result = subprocess.run(
@@ -195,7 +195,7 @@ class TestMain(unittest.TestCase):
         assert len(blame_data) > 0
         assert any('Test User' in data['author'] for data in blame_data.values())
     
-    def test_full_repo_ingestion(self, test_git_repo):
+    def test_full_repo_ingestion(self, tool_helper,test_git_repo):
         """Test ingesting an entire repository into vector store."""
         with tempfile.TemporaryDirectory() as vector_dir:
             store = InfinityVectorStore(data_path=vector_dir)
@@ -221,7 +221,7 @@ class TestMain(unittest.TestCase):
             
             store.close()
     
-    def test_git_metadata_extraction(self, test_git_repo):
+    def test_git_metadata_extraction(self, tool_helper,test_git_repo):
         """Test extracting and storing git metadata."""
         # Get file history
         result = subprocess.run(
@@ -268,7 +268,7 @@ class TestGitProjectManager:
             manager = ProjectVectorManager(global_db_path=str(Path(tmpdir) / "global_db"))
             yield manager, tmpdir
     
-    def test_detect_git_project(self, project_manager):
+    def test_detect_git_project(self, tool_helper,project_manager):
         """Test detecting git projects."""
         manager, base_dir = project_manager
         

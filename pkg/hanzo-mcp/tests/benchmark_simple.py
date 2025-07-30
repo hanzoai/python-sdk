@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.filesystem.search_tool import SearchTool
 from hanzo_mcp.tools.filesystem.grep import Grep
-from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
+from hanzo_mcp.tools.filesystem.ast_tool import ASTTool
 from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
 
 
@@ -79,7 +79,7 @@ async def simple_benchmark():
     # Initialize tools (without vector search for simplicity)
     unified_tool = SearchTool(permission_manager, None)
     grep_tool = Grep(permission_manager)
-    ast_tool = SymbolsTool(permission_manager)
+    ast_tool = ASTTool(permission_manager)
     
     # Mock the validation methods
     unified_tool.validate_path = lambda x: type('obj', (object,), {'is_error': False})()

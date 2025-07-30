@@ -12,7 +12,7 @@ from typing import Any, final
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.base import FileSystemTool
+from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.common.context import ToolContext, create_tool_context
 
 
@@ -101,7 +101,7 @@ class NotebookCellSource:
         self.outputs = outputs or []
 
 
-class JupyterBaseTool(FileSystemTool, ABC):
+class JupyterBaseTool(FilesystemBaseTool, ABC):
     """Base class for Jupyter notebook tools.
 
     Provides common functionality for working with Jupyter notebooks, including

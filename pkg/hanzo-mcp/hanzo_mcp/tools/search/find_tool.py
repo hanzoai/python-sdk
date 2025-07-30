@@ -3,22 +3,25 @@
 import os
 import time
 import fnmatch
+import re
 from typing import List, Optional, Dict, Any, Set
 from pathlib import Path
 from dataclasses import dataclass
 import subprocess
 import json
 from datetime import datetime
+from difflib import SequenceMatcher
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.paginated_response import AutoPaginatedResponse
 from hanzo_mcp.tools.common.decorators import with_context_normalization
 from hanzo_mcp.types import MCPResourceDocument
 
+# Check if ffind command is available
 try:
-    import ffind
+    subprocess.run(['ffind', '--version'], capture_output=True, check=True)
     FFIND_AVAILABLE = True
-except ImportError:
+except (subprocess.CalledProcessError, FileNotFoundError):
     FFIND_AVAILABLE = False
 
 
@@ -256,7 +259,7 @@ class FindTool(BaseTool):
         if FFIND_AVAILABLE and not in_content:
             # Use ffind for fast file discovery
             matches = await self._find_with_ffind(
-                pattern, root_path, type, case_sensitive, regex,
+                pattern, root_path, type, case_sensitive, regex, fuzzy,
                 max_depth, follow_symlinks, respect_gitignore, ignore_patterns
             )
         else:
@@ -392,6 +395,7 @@ class FindTool(BaseTool):
                               file_type: Optional[str],
                               case_sensitive: bool,
                               regex: bool,
+                              fuzzy: bool,
                               max_depth: Optional[int],
                               follow_symlinks: bool,
                               respect_gitignore: bool,
@@ -408,15 +412,51 @@ class FindTool(BaseTool):
             'follow_symlinks': follow_symlinks,
         }
         
+        if fuzzy:
+            ffind_args['fuzzy'] = True
+            
         if max_depth:
             ffind_args['max_depth'] = max_depth
         
         try:
-            # Run ffind
-            results = ffind.find(**ffind_args)
+            # Build ffind command
+            cmd = ['ffind']
             
-            for result in results:
-                path = result['path']
+            if not case_sensitive:
+                cmd.append('-i')
+            
+            if regex:
+                cmd.append('-E')
+                
+            if fuzzy:
+                cmd.append('-f')
+                
+            if follow_symlinks:
+                cmd.append('-L')
+                
+            if max_depth:
+                cmd.extend(['-D', str(max_depth)])
+                
+            # Add pattern and path
+            cmd.append(pattern)
+            cmd.append(str(root))
+            
+            # Run ffind command
+            result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            
+            if result.returncode != 0:
+                # Fall back to Python implementation on error
+                return await self._find_with_python(
+                    pattern, root, file_type, case_sensitive, regex, fuzzy,
+                    False, max_depth, follow_symlinks, respect_gitignore, ignore_patterns
+                )
+            
+            # Parse results
+            results = result.stdout.strip().split('\n') if result.stdout else []
+            
+            for path in results:
+                if not path:  # Skip empty lines
+                    continue
                 
                 # Check ignore patterns
                 if self._should_ignore(path, ignore_patterns):

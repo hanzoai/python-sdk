@@ -19,8 +19,7 @@ try:
 except ImportError:
     HANZO_AGENTS_AVAILABLE = False
 
-# Skip entire module if hanzo-agents not available
-pytestmark = pytest.mark.skipif(not HANZO_AGENTS_AVAILABLE, reason="hanzo-agents package not installed")
+# hanzo-agents is now always available
 
 # Import hanzo-network components
 try:
@@ -34,7 +33,6 @@ except ImportError:
     HANZO_NETWORK_AVAILABLE = False
 
 
-@pytest.mark.skipif(not HANZO_AGENTS_AVAILABLE, reason="hanzo-agents not available")
 class TestWeb3Integration:
     """Test Web3 capabilities in hanzo-agents SDK."""
     
@@ -135,7 +133,7 @@ result = {"sum": inputs["a"] + inputs["b"]}
         
         assert result["success"] is True
         assert result["result"]["sum"] == 8
-        assert "attestation" in result
+        tool_helper.assert_in_result("attestation", result)
     
     def test_marketplace_interaction(self):
         """Test agent marketplace."""
@@ -271,7 +269,6 @@ class TestLocalComputeIntegration:
         assert len(marketplace.matches) == 1
 
 
-@pytest.mark.skipif(not HANZO_AGENTS_AVAILABLE, reason="hanzo-agents not available")
 class TestDeterministicExecution:
     """Test deterministic network execution."""
     
@@ -404,6 +401,6 @@ async def test_full_integration():
     assert network.execution_hash is not None
 
 
-if __name__ == "__main__":
-    # Run integration test
-    asyncio.run(test_full_integration())
+# if __name__ == "__main__":
+#     # Run integration test
+#     asyncio.run(test_full_integration())

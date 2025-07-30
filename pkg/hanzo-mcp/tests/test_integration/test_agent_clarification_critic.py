@@ -5,6 +5,7 @@ import json
 import pytest
 from pathlib import Path
 from unittest.mock import Mock, AsyncMock, patch
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
 from hanzo_mcp.tools.agent.clarification_protocol import ClarificationType
@@ -133,7 +134,7 @@ async def test_agent_clarification_flow(test_project, mock_context):
         )
         
         # Verify the result
-        assert "successfully added the missing import" in result
+        tool_helper.assert_in_result("successfully added the missing import", result)
         assert "clarification" in result.lower()
         
         # Verify the agent made the expected tool calls

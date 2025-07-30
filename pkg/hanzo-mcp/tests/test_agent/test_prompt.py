@@ -2,6 +2,7 @@
 
 import os
 from unittest.mock import MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -62,7 +63,7 @@ class TestPrompt:
         
         return tools
         
-    def test_get_allowed_agent_tools(self, mock_tools, permission_manager):
+    def test_get_allowed_agent_tools(self, tool_helper,mock_tools, permission_manager):
         """Test get_allowed_agent_tools only filters out the agent tool."""
         # Get allowed tools
         allowed_tools = get_allowed_agent_tools(
@@ -77,7 +78,7 @@ class TestPrompt:
         assert "run_command" in [tool.name for tool in allowed_tools]
         assert "agent" not in [tool.name for tool in allowed_tools]
         
-    def test_get_system_prompt(self, mock_tools, permission_manager):
+    def test_get_system_prompt(self, tool_helper,mock_tools, permission_manager):
         """Test get_system_prompt includes all tools except agent."""
         # Get system prompt
         system_prompt = get_system_prompt(
@@ -91,9 +92,9 @@ class TestPrompt:
         assert "`run_command`" in system_prompt
         assert "`agent`" not in system_prompt
         
-        # Should mention read-only limitation
-        assert "read-only tools" in system_prompt
-        assert "you cannot modify files or execute commands" in system_prompt
+        # Should mention editing capabilities
+        assert "FULL read and write access" in system_prompt
+        assert "can create, edit, and modify files" in system_prompt
         
     def test_get_default_model(self):
         """Test get_default_model."""
@@ -109,11 +110,16 @@ class TestPrompt:
         
         # Test with provider prefixing in non-test mode
         del os.environ["TEST_MODE"]
+        # Set provider to openai for this test
+        os.environ["AGENT_PROVIDER"] = "openai"
         assert get_default_model("gpt-4") == "openai/gpt-4"
+        # Clean up
+        del os.environ["AGENT_PROVIDER"]
         
         # Test default
         del os.environ["AGENT_MODEL"]
-        assert get_default_model() == "openai/gpt-4o"
+        # Default is now Claude Sonnet
+        assert get_default_model() == "anthropic/claude-3-5-sonnet-20241022"
         
     def test_get_model_parameters(self):
         """Test get_model_parameters."""
