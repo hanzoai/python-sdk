@@ -13,13 +13,13 @@ import tempfile
 import shutil
 from pathlib import Path
 
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
-from hanzo_mcp.tools.filesystem import Read, Write
+from hanzo_mcp.tools.filesystem import ReadTool, Write
 
 
 class TestClaudeCodeParallel:
@@ -150,7 +150,7 @@ class APIClient:
         return pm
     
     @pytest.mark.asyncio
-    async def test_parallel_variable_renaming(self, test_project, permission_manager):
+    async def test_parallel_variable_renaming(self, tool_helper, test_project, permission_manager):
         """Test parallel editing of multiple files to rename variables."""
         # Skip if no API key
         if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):
@@ -213,7 +213,7 @@ class APIClient:
             assert "SETTINGS_" in config_content or "CONFIG_" not in config_content
     
     @pytest.mark.asyncio
-    async def test_consensus_code_review(self, test_project, permission_manager):
+    async def test_consensus_code_review(self, tool_helper, test_project, permission_manager):
         """Test consensus mode with multiple agents reviewing code."""
         # Skip if no API key
         if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):
@@ -274,7 +274,7 @@ class APIClient:
         assert "Agent 3:" in result or "Task 3" in result
     
     @pytest.mark.asyncio
-    async def test_large_response_pagination(self, test_project, permission_manager):
+    async def test_large_response_pagination(self, tool_helper, test_project, permission_manager):
         """Test that large responses are properly paginated."""
         # Skip if no API key
         if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):

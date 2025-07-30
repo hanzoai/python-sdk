@@ -185,10 +185,11 @@ jupyter --action create "new.ipynb"
             return error_msg
 
         source = params.get("source")
-        if not source:
-            return "Error: source is required for edit action"
-
         edit_mode = params.get("edit_mode", "replace")
+        
+        # Only require source for non-delete operations
+        if edit_mode != "delete" and not source:
+            return "Error: source is required for edit action"
         cell_id = params.get("cell_id")
         cell_index = params.get("cell_index")
         cell_type = params.get("cell_type")
@@ -233,18 +234,18 @@ jupyter --action create "new.ipynb"
                 if cell_id:
                     for cell in nb.cells:
                         if cell.get("id") == cell_id:
-                            cell.source = source
+                            cell["source"] = source
                             if cell_type:
-                                cell.cell_type = cell_type
+                                cell["cell_type"] = cell_type
                             self.write_notebook(nb, notebook_path)
                             return f"Successfully updated cell with ID '{cell_id}'"
                     return f"Error: Cell with ID '{cell_id}' not found"
                 
                 elif cell_index is not None:
                     if 0 <= cell_index < len(nb.cells):
-                        nb.cells[cell_index].source = source
+                        nb.cells[cell_index]["source"] = source
                         if cell_type:
-                            nb.cells[cell_index].cell_type = cell_type
+                            nb.cells[cell_index]["cell_type"] = cell_type
                         self.write_notebook(nb, notebook_path)
                         return f"Successfully updated cell at index {cell_index}"
                     else:
@@ -303,21 +304,91 @@ jupyter --action create "new.ipynb"
 
     def _format_cell(self, cell: dict, index: int) -> str:
         """Format a single cell for display."""
-        output = [f"Cell {index} ({cell.cell_type})"]
+        output = [f"Cell {index} ({cell.get('cell_type', 'unknown')})"]
         if cell.get("id"):
-            output.append(f"ID: {cell.id}")
+            output.append(f"ID: {cell.get('id')}")
         output.append("-" * 40)
-        output.append(cell.source)
+        # Get source content
+        source = cell.get("source", "")
+        if isinstance(source, list):
+            source = "".join(source)
+        output.append(source)
         
-        if cell.cell_type == "code" and cell.get("outputs"):
+        if cell.get("cell_type") == "code" and cell.get("outputs"):
             output.append("\nOutputs:")
-            for out in cell.outputs:
-                if out.output_type == "stream":
-                    output.append(f"[{out.name}]: {out.text}")
-                elif out.output_type == "execute_result":
-                    output.append(f"[Out {out.execution_count}]: {out.data}")
-                elif out.output_type == "error":
-                    output.append(f"[Error]: {out.ename}: {out.evalue}")
+            for out in cell.get("outputs", []):
+                out_type = out.get("output_type", "")
+                
+                if out_type == "stream":
+                    text = out.get("text", "")
+                    if isinstance(text, list):
+                        text = "".join(text)
+                    name = out.get("name", "stdout")
+                    output.append(f"[{name}]: {text}")
+                    
+                elif out_type == "execute_result":
+                    exec_count = out.get("execution_count", "?")
+                    data = out.get("data", {})
+                    # Try to get plain text representation
+                    if "text/plain" in data:
+                        text_data = data["text/plain"]
+                        if isinstance(text_data, list):
+                            text_data = "".join(text_data)
+                        output.append(f"[Out {exec_count}]: {text_data}")
+                    else:
+                        output.append(f"[Out {exec_count}]: {data}")
+                        
+                elif out_type == "error":
+                    ename = out.get("ename", "Error")
+                    evalue = out.get("evalue", "")
+                    output.append(f"[Error]: {ename}: {evalue}")
+                    # Include traceback if available
+                    traceback = out.get("traceback", [])
+                    if traceback:
+                        output.append("Traceback:")
+                        for line in traceback:
+                            output.append(f"  {line}")
+        
+        return "\n".join(output)
+
+    def read_notebook(self, notebook_path: str) -> Any:
+        """Read a notebook from disk using nbformat.
+        
+        Args:
+            notebook_path: Path to the notebook file
+            
+        Returns:
+            Notebook object
+        """
+        with open(notebook_path, 'r') as f:
+            return nbformat.read(f, as_version=4)
+    
+    def write_notebook(self, nb: Any, notebook_path: str) -> None:
+        """Write a notebook to disk using nbformat.
+        
+        Args:
+            nb: Notebook object to write
+            notebook_path: Path to write the notebook to
+        """
+        with open(notebook_path, 'w') as f:
+            nbformat.write(nb, f)
+    
+    def format_notebook(self, nb: Any) -> str:
+        """Format an entire notebook for display.
+        
+        Args:
+            nb: Notebook object
+            
+        Returns:
+            Formatted string representation of the notebook
+        """
+        output = []
+        output.append(f"Notebook with {len(nb.cells)} cells")
+        output.append("=" * 50)
+        
+        for i, cell in enumerate(nb.cells):
+            output.append("")
+            output.append(self._format_cell(cell, i))
         
         return "\n".join(output)
 

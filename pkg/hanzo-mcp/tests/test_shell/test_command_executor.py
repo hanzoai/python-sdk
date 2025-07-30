@@ -3,6 +3,7 @@
 import os
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, patch
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -79,7 +80,7 @@ class TestCommandExecutor:
         """Create a CommandExecutor instance for testing."""
         return CommandExecutor(permission_manager)
 
-    def test_initialization(self, permission_manager: "PermissionManager") -> None:
+    def test_initialization(self, tool_helper, permission_manager: "PermissionManager") -> None:
         """Test initializing CommandExecutor."""
         executor = CommandExecutor(permission_manager)
 
@@ -87,7 +88,7 @@ class TestCommandExecutor:
         assert not executor.verbose
         assert isinstance(executor.excluded_commands, list)
 
-    def test_deny_command(self, executor: CommandExecutor) -> None:
+    def test_deny_command(self, tool_helper, executor: CommandExecutor) -> None:
         """Test denying a command."""
         # Add a new command to denied list
         executor.deny_command("custom_command")
@@ -95,7 +96,7 @@ class TestCommandExecutor:
         # Verify command is excluded
         assert "custom_command" in executor.excluded_commands
 
-    def test_is_command_allowed(self, executor: CommandExecutor) -> None:
+    def test_is_command_allowed(self, tool_helper, executor: CommandExecutor) -> None:
         """Test checking if a command is allowed."""
         # Allowed command
         assert executor.is_command_allowed("echo Hello")
@@ -130,7 +131,7 @@ class TestCommandExecutor:
         assert result.stderr == ""
 
     @pytest.mark.asyncio
-    async def test_execute_command_not_allowed(self, executor: CommandExecutor) -> None:
+    async def test_execute_command_not_allowed(self, tool_helper, executor: CommandExecutor) -> None:
         """Test executing a command that is not allowed."""
         # Try an excluded command
         result = await executor.execute_command("rm test.txt")
@@ -235,7 +236,7 @@ class TestCommandExecutor:
             assert result.is_success
             assert "Python output" in result.stdout
 
-    def test_get_available_languages(self, executor: CommandExecutor) -> None:
+    def test_get_available_languages(self, tool_helper, executor: CommandExecutor) -> None:
         """Test getting available script languages."""
         languages = executor.get_available_languages()
 
@@ -291,7 +292,7 @@ class TestCommandExecutor:
     # CommandExecutor no longer has register_tools method in new architecture
     # Tools are now registered through register_shell_tools function
     # @pytest.mark.asyncio
-    # async def test_register_tools(self, executor: CommandExecutor) -> None:
+    # async def test_register_tools(self, tool_helper, executor: CommandExecutor) -> None:
     #     """Test registering command execution tools."""
     #     # This test is no longer applicable as tools are registered 
     #     # through the hanzo_mcp.tools.shell.register_shell_tools function

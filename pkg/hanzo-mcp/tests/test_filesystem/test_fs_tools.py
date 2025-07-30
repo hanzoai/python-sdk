@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 import asyncio
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -67,6 +68,7 @@ class TestRefactoredFileTools:
     @pytest.mark.asyncio
     async def test_read_files_single_allowed(
         self,
+        tool_helper,
         read_files_tool: ReadTool,
         setup_allowed_path: str,
         test_file: str,
@@ -83,12 +85,13 @@ class TestRefactoredFileTools:
             result = await read_files_tool.call(ctx=mcp_context, file_path=test_file)
 
             # Verify result
-            assert "This is a test file content" in result
+            tool_helper.assert_in_result("This is a test file content", result)
             tool_ctx.info.assert_called()
 
     @pytest.mark.asyncio
     async def test_write_file(
         self,
+        tool_helper,
         write_file_tool: Write,
         setup_allowed_path: str,
         mcp_context: MagicMock,
@@ -110,7 +113,7 @@ class TestRefactoredFileTools:
             )
 
             # Verify result
-            assert "Successfully wrote file" in result
+            tool_helper.assert_in_result("Successfully wrote file", result)
             tool_ctx.info.assert_called()
 
             # Verify file was written
@@ -121,6 +124,7 @@ class TestRefactoredFileTools:
     @pytest.mark.asyncio
     async def test_edit_file(
         self,
+        tool_helper,
         edit_file_tool: Edit,
         setup_allowed_path: str,
         test_file: str,
@@ -147,7 +151,7 @@ class TestRefactoredFileTools:
             )
 
             # Verify result
-            assert "Successfully edited file" in result
+            tool_helper.assert_in_result("Successfully edited file", result)
             tool_ctx.info.assert_called()
 
             # Verify file was modified

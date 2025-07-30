@@ -7,6 +7,7 @@ import json
 import sqlite3
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
@@ -55,21 +56,18 @@ class TestGraphTools:
     """Test graph database tools."""
     
     @pytest.mark.asyncio
-    async def test_graph_add_node(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_add_node(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test adding a node to the graph."""
         tool = GraphAddTool(permission_manager, db_manager)
         
-        result = await tool.call(
-            mock_ctx,
-            node_id="test_node",
+        result = await tool_helper.call_tool(tool, mock_ctx, node_id="test_node",
             node_type="file",
-            properties={"size": 1024}
-        )
+            properties={"size": 1024})
         
-        assert "Successfully added node 'test_node'" in result
+        tool_helper.assert_in_result("Successfully added node 'test_node'", result)
     
     @pytest.mark.asyncio
-    async def test_graph_add_edge(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_add_edge(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test adding an edge to the graph."""
         tool = GraphAddTool(permission_manager, db_manager)
         
@@ -84,11 +82,13 @@ class TestGraphTools:
             target="node2",
             relationship="imports"
         )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
         
-        assert "Successfully added edge" in result
+        tool_helper.assert_in_result("Successfully added edge", result)
     
     @pytest.mark.asyncio
-    async def test_graph_remove_node(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_remove_node(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test removing a node from the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         remove_tool = GraphRemoveTool(permission_manager, db_manager)
@@ -99,10 +99,10 @@ class TestGraphTools:
         # Remove it
         result = await remove_tool.call(mock_ctx, node_id="test_node")
         
-        assert "Successfully removed node 'test_node'" in result
+        tool_helper.assert_in_result("Successfully removed node 'test_node'", result)
     
     @pytest.mark.asyncio
-    async def test_graph_query_neighbors(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_query_neighbors(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test querying neighbors in the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         query_tool = GraphQueryTool(permission_manager, db_manager)
@@ -121,12 +121,12 @@ class TestGraphTools:
             node_id="A"
         )
         
-        assert "Neighbors of 'A'" in result
-        assert "B" in result
-        assert "C" in result
+        tool_helper.assert_in_result("Neighbors of 'A'", result)
+        tool_helper.assert_in_result("B", result)
+        tool_helper.assert_in_result("C", result)
     
     @pytest.mark.asyncio
-    async def test_graph_search(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_search(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test searching in the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         search_tool = GraphSearchTool(permission_manager, db_manager)
@@ -145,11 +145,11 @@ class TestGraphTools:
             pattern="main%"
         )
         
-        assert "Found" in result
-        assert "main.py" in result
+        tool_helper.assert_in_result("Found", result)
+        tool_helper.assert_in_result("main.py", result)
     
     @pytest.mark.asyncio
-    async def test_graph_stats(self, mock_ctx, permission_manager, db_manager):
+    async def test_graph_stats(self, tool_helper, mock_ctx, permission_manager, db_manager):
         """Test graph statistics."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         stats_tool = GraphStatsTool(permission_manager, db_manager)
@@ -162,15 +162,15 @@ class TestGraphTools:
         # Get stats
         result = await stats_tool.call(mock_ctx)
         
-        assert "Total Nodes: 2" in result
-        assert "Total Edges: 1" in result
+        tool_helper.assert_in_result("Total Nodes: 2", result)
+        tool_helper.assert_in_result("Total Edges: 1", result)
 
 
 class TestFindFilesTool:
     """Test find files tool."""
     
     @pytest.mark.asyncio
-    async def test_find_files_basic(self, mock_ctx, permission_manager):
+    async def test_find_files_basic(self, tool_helper, mock_ctx, permission_manager):
         """Test basic file finding."""
         tool = FindFilesTool(permission_manager)
         
@@ -189,14 +189,16 @@ class TestFindFilesTool:
                 pattern="*.py",
                 path=tmpdir
             )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
             
-            assert "Found 2 file(s)" in result
-            assert "test1.py" in result
-            assert "test2.py" in result
+            tool_helper.assert_in_result("Found 2 file(s)", result)
+            tool_helper.assert_in_result("test1.py", result)
+            tool_helper.assert_in_result("test2.py", result)
             assert "data.txt" not in result
     
     @pytest.mark.asyncio
-    async def test_find_files_recursive(self, mock_ctx, permission_manager):
+    async def test_find_files_recursive(self, tool_helper, mock_ctx, permission_manager):
         """Test recursive file finding."""
         tool = FindFilesTool(permission_manager)
         
@@ -216,17 +218,19 @@ class TestFindFilesTool:
                 path=tmpdir,
                 recursive=True
             )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
             
-            assert "Found 2 file(s)" in result
-            assert "top.txt" in result
-            assert "subdir/nested.txt" in result
+            tool_helper.assert_in_result("Found 2 file(s)", result)
+            tool_helper.assert_in_result("top.txt", result)
+            tool_helper.assert_in_result("subdir/nested.txt", result)
 
 
 class TestPackageRunnerTools:
     """Test uvx and npx tools."""
     
     @pytest.mark.asyncio
-    async def test_uvx_basic(self, mock_ctx, permission_manager):
+    async def test_uvx_basic(self, tool_helper, mock_ctx, permission_manager):
         """Test basic uvx execution."""
         tool = UvxTool(permission_manager)
         
@@ -243,12 +247,14 @@ class TestPackageRunnerTools:
                     package="ruff",
                     args="check ."
                 )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
                 
-                assert "Package output" in result
-                mock_run.assert_called_once()
+        tool_helper.assert_in_result("Package output", result)
+        mock_run.assert_called_once()
     
     @pytest.mark.asyncio
-    async def test_npx_basic(self, mock_ctx, permission_manager):
+    async def test_npx_basic(self, tool_helper, mock_ctx, permission_manager):
         """Test basic npx execution."""
         tool = NpxTool(permission_manager)
         
@@ -265,12 +271,14 @@ class TestPackageRunnerTools:
                     package="eslint",
                     args="--version"
                 )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
                 
-                assert "Package output" in result
-                mock_run.assert_called_once()
+        tool_helper.assert_in_result("Package output", result)
+        mock_run.assert_called_once()
     
     @pytest.mark.asyncio
-    async def test_uvx_background(self, mock_ctx, permission_manager):
+    async def test_uvx_background(self, tool_helper, mock_ctx, permission_manager):
         """Test uvx background execution."""
         tool = UvxBackgroundTool(permission_manager)
         
@@ -286,17 +294,19 @@ class TestPackageRunnerTools:
                     args="run app.py",
                     name="test-app"
                 )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
                 
-                assert "Started uvx background process" in result
-                assert "PID: 12345" in result
-                mock_popen.assert_called_once()
+        tool_helper.assert_in_result("Started uvx background process", result)
+        tool_helper.assert_in_result("PID: 12345", result)
+        mock_popen.assert_called_once()
 
 
 class TestMcpManagementTools:
     """Test MCP management tools."""
     
     @pytest.mark.asyncio
-    async def test_mcp_add(self, mock_ctx):
+    async def test_mcp_add(self, tool_helper, mock_ctx):
         """Test adding an MCP server."""
         tool = McpAddTool()
         
@@ -305,15 +315,17 @@ class TestMcpManagementTools:
             command="uvx mcp-server-git",
             name="git-server"
         )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
         
-        assert "Successfully added MCP server 'git-server'" in result
+        tool_helper.assert_in_result("Successfully added MCP server 'git-server'", result)
         
         # Check it was saved
         servers = McpAddTool.get_servers()
         assert "git-server" in servers
     
     @pytest.mark.asyncio
-    async def test_mcp_remove(self, mock_ctx):
+    async def test_mcp_remove(self, tool_helper, mock_ctx):
         """Test removing an MCP server."""
         # First add a server
         add_tool = McpAddTool()
@@ -330,14 +342,14 @@ class TestMcpManagementTools:
             name="test-server"
         )
         
-        assert "Successfully removed MCP server 'test-server'" in result
+        tool_helper.assert_in_result("Successfully removed MCP server 'test-server'", result)
         
         # Check it was removed
         servers = McpAddTool.get_servers()
         assert "test-server" not in servers
     
     @pytest.mark.asyncio
-    async def test_mcp_stats(self, mock_ctx):
+    async def test_mcp_stats(self, tool_helper, mock_ctx):
         """Test MCP stats."""
         tool = McpStatsTool()
         
@@ -358,17 +370,19 @@ class TestMcpManagementTools:
         }
         
         result = await tool.call(mock_ctx)
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
         
-        assert "Total Servers: 2" in result
-        assert "server1" in result
-        assert "server2" in result
+        tool_helper.assert_in_result("Total Servers: 2", result)
+        tool_helper.assert_in_result("server1", result)
+        tool_helper.assert_in_result("server2", result)
 
 
 class TestSystemTools:
     """Test system management tools."""
     
     @pytest.mark.asyncio
-    async def test_stats_tool(self, mock_ctx, db_manager):
+    async def test_stats_tool(self, tool_helper, mock_ctx, db_manager):
         """Test comprehensive stats tool."""
         tool = StatsTool(db_manager)
         
@@ -390,14 +404,16 @@ class TestSystemTools:
                         )
                         
                         result = await tool.call(mock_ctx)
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
                         
-                        assert "CPU Usage: 50.0%" in result
-                        assert "Memory: 4.0/8.0 GB" in result
-                        assert "Disk: 50.0/100.0 GB" in result
-                        assert "System resources are healthy" in result
+        tool_helper.assert_in_result("CPU Usage: 50.0%", result)
+        tool_helper.assert_in_result("Memory: 4.0/8.0 GB", result)
+        tool_helper.assert_in_result("Disk: 50.0/100.0 GB", result)
+        tool_helper.assert_in_result("System resources are healthy", result)
     
     @pytest.mark.asyncio
-    async def test_tool_enable_disable(self, mock_ctx):
+    async def test_tool_enable_disable(self, tool_helper, mock_ctx):
         """Test tool enable/disable functionality."""
         enable_tool = ToolEnableTool()
         disable_tool = ToolDisableTool()
@@ -407,7 +423,7 @@ class TestSystemTools:
             mock_ctx,
             tool="vector_search"
         )
-        assert "Successfully disabled tool 'vector_search'" in result
+        tool_helper.assert_in_result("Successfully disabled tool 'vector_search'", result)
         
         # Check it's disabled
         assert not ToolEnableTool.is_tool_enabled("vector_search")
@@ -417,13 +433,13 @@ class TestSystemTools:
             mock_ctx,
             tool="vector_search"
         )
-        assert "Successfully enabled tool 'vector_search'" in result
+        tool_helper.assert_in_result("Successfully enabled tool 'vector_search'", result)
         
         # Check it's enabled
         assert ToolEnableTool.is_tool_enabled("vector_search")
     
     @pytest.mark.asyncio
-    async def test_tool_disable_critical(self, mock_ctx):
+    async def test_tool_disable_critical(self, tool_helper, mock_ctx):
         """Test that critical tools cannot be disabled."""
         tool = ToolDisableTool()
         
@@ -431,8 +447,10 @@ class TestSystemTools:
             mock_ctx,
             tool="tool_enable"
         )
+        if isinstance(result, dict) and "output" in result:
+            result = result["output"]
         
-        assert "Error: Cannot disable critical tool" in result
+        tool_helper.assert_in_result("Error: Cannot disable critical tool", result)
 
 
 if __name__ == "__main__":

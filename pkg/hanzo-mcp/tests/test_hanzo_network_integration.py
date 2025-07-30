@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from unittest.mock import Mock, patch, AsyncMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
@@ -35,7 +36,6 @@ except ImportError:
     HANZO_AGENTS_AVAILABLE = False
 
 
-@pytest.mark.skipif(not HANZO_NETWORK_AVAILABLE, reason="hanzo-network not installed")
 class TestHanzoNetworkIntegration:
     """Test hanzo-network multi-agent orchestration capabilities."""
     
@@ -63,14 +63,14 @@ class TestHanzoNetworkIntegration:
         # Cleanup
         await network.shutdown()
     
-    async def test_network_creation(self, basic_network):
+    async def test_network_creation(self, tool_helper,basic_network):
         """Test that a network can be created successfully."""
         assert basic_network is not None
         assert basic_network.name == "test-network"
         assert basic_network.max_agents == 5
         assert basic_network.is_running
     
-    async def test_agent_addition(self, basic_network):
+    async def test_agent_addition(self, tool_helper,basic_network):
         """Test adding agents to the network."""
         # Create agents with different roles
         architect = Agent(
@@ -96,7 +96,7 @@ class TestHanzoNetworkIntegration:
         assert "architect" in basic_network.agents
         assert "developer" in basic_network.agents
     
-    async def test_agent_communication(self, basic_network):
+    async def test_agent_communication(self, tool_helper,basic_network):
         """Test agent-to-agent communication."""
         # Create communicating agents
         agent1 = Agent(
@@ -136,7 +136,7 @@ class TestHanzoNetworkIntegration:
         assert messages_received[0]["content"] == "Please execute task X"
         assert response["status"] == "received"
     
-    async def test_tool_sharing(self, basic_network, temp_dir):
+    async def test_tool_sharing(self, tool_helper,basic_network, temp_dir):
         """Test tool sharing between agents."""
         # Create a file tool
         class FileTool(Tool):
@@ -191,7 +191,7 @@ class TestHanzoNetworkIntegration:
         assert read_result["status"] == "success"
         assert read_result["content"] == "This is shared content"
     
-    async def test_memory_sharing(self, basic_network):
+    async def test_memory_sharing(self, tool_helper,basic_network):
         """Test shared memory between agents."""
         # Create memory tool
         memory_tool = create_memory_tool("test-memory")
@@ -223,7 +223,7 @@ class TestHanzoNetworkIntegration:
         
         assert result["value"] == "Use list comprehensions for cleaner code"
     
-    async def test_orchestrated_workflow(self, basic_network, temp_dir):
+    async def test_orchestrated_workflow(self, tool_helper,basic_network, temp_dir):
         """Test a complete orchestrated workflow with multiple agents."""
         # Create specialized agents
         pm = Agent(
@@ -302,7 +302,7 @@ class TestHanzoNetworkIntegration:
             assert step_output is not None
             assert "status" in step_output or "content" in step_output
     
-    async def test_consensus_decision(self, basic_network):
+    async def test_consensus_decision(self, tool_helper,basic_network):
         """Test consensus-based decision making."""
         # Create decision-making agents
         agents = []
@@ -331,7 +331,7 @@ class TestHanzoNetworkIntegration:
         assert "votes" in consensus_result
         assert len(consensus_result["votes"]) == 3
     
-    async def test_local_compute_orchestration(self, basic_network):
+    async def test_local_compute_orchestration(self, tool_helper,basic_network):
         """Test local compute orchestration for cost optimization."""
         # Create local compute orchestrator
         orchestrator = LocalComputeOrchestrator(
@@ -377,7 +377,7 @@ class TestHanzoNetworkIntegration:
         
         assert complex_result["agent"] == "api_expert"
     
-    async def test_agent_network_persistence(self, basic_network, temp_dir):
+    async def test_agent_network_persistence(self, tool_helper,basic_network, temp_dir):
         """Test saving and loading agent network state."""
         # Add some agents and state
         agent1 = Agent(name="persistent_agent", role="Keeper")
@@ -426,7 +426,7 @@ class TestHanzoNetworkIntegration:
 class TestHanzoNetworkMCPIntegration:
     """Test hanzo-network integration with MCP tools and servers."""
     
-    async def test_mcp_tool_integration(self, temp_dir):
+    async def test_mcp_tool_integration(self, tool_helper,temp_dir):
         """Test agents using MCP tools through hanzo-network."""
         # Create network with MCP support
         network = await create_agent_network(
@@ -472,7 +472,7 @@ class TestHanzoNetworkMCPIntegration:
         
         assert "results" in search_result
     
-    async def test_multi_agent_mcp_workflow(self, temp_dir):
+    async def test_multi_agent_mcp_workflow(self, tool_helper,temp_dir):
         """Test multiple agents collaborating through MCP tools."""
         # Create network
         network = await create_agent_network(

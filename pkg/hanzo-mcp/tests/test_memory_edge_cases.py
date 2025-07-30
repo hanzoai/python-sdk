@@ -4,31 +4,30 @@ import asyncio
 import json
 from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
-# Try to import memory tools, skip tests if not available
-try:
-    from hanzo_mcp.tools.memory.memory_tools import (
-        RecallMemoriesTool,
-        CreateMemoriesTool,
-        ManageMemoriesTool,
-    )
-    from hanzo_mcp.tools.memory.knowledge_tools import (
-        StoreFactsTool,
-        ManageKnowledgeBasesTool,
-    )
-    MEMORY_TOOLS_AVAILABLE = True
-except ImportError:
-    MEMORY_TOOLS_AVAILABLE = False
+# Import memory tools
+from hanzo_mcp.tools.memory.memory_tools import (
+    RecallMemoriesTool,
+    CreateMemoriesTool,
+    ManageMemoriesTool,
+    DeleteMemoriesTool,
+)
+from hanzo_mcp.tools.memory.knowledge_tools import (
+    StoreFactsTool,
+    ManageKnowledgeBasesTool,
+    RecallFactsTool,
+)
+from hanzo_memory.services.memory import get_memory_service
 
 
-@pytest.mark.skipif(not MEMORY_TOOLS_AVAILABLE, reason="hanzo-memory package not installed")
 class TestMemoryEdgeCases:
     """Test edge cases for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_empty_queries(self, mock_get_service, mock_ctx):
+    def test_empty_queries(self, tool_helper, mock_get_service, mock_ctx):
         """Test recall with empty queries."""
         mock_service = Mock()
         mock_service.search_memories.return_value = []
@@ -38,14 +37,14 @@ class TestMemoryEdgeCases:
         
         # Empty query list
         result = asyncio.run(tool.call(mock_ctx, queries=[]))
-        assert "No relevant memories found" in result
+        tool_helper.assert_in_result("No relevant memories found", result)
         
         # Queries with empty strings
         result = asyncio.run(tool.call(mock_ctx, queries=["", "  ", None]))
         assert mock_service.search_memories.call_count == 3
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_large_batch_operations(self, mock_get_service, mock_ctx):
+    def test_large_batch_operations(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling large batch operations."""
         mock_service = Mock()
         created_memories = []
@@ -66,11 +65,11 @@ class TestMemoryEdgeCases:
         large_batch = [f"Memory {i}" for i in range(100)]
         result = asyncio.run(tool.call(mock_ctx, statements=large_batch))
         
-        assert "Successfully created 100 new memories" in result
+        tool_helper.assert_in_result("Successfully created 100 new memories", result)
         assert len(created_memories) == 100
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_special_characters_in_content(self, mock_get_service, mock_ctx):
+    def test_special_characters_in_content(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling special characters in memory content."""
         mock_service = Mock()
         mock_service.create_memory.return_value = Mock(
@@ -85,7 +84,7 @@ class TestMemoryEdgeCases:
         special_content = "Test with special chars: 'quotes' \"double\" \n newline \t tab"
         result = asyncio.run(tool.call(mock_ctx, statements=[special_content]))
         
-        assert "Successfully created 1 new memories" in result
+        tool_helper.assert_in_result("Successfully created 1 new memories", result)
         
         # Verify the service was called with the original content
         mock_service.create_memory.assert_called_once()
@@ -93,7 +92,7 @@ class TestMemoryEdgeCases:
         assert call_args["content"] == special_content
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_unicode_content(self, mock_get_service, mock_ctx):
+    def test_unicode_content(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling Unicode content."""
         mock_service = Mock()
         mock_service.create_memory.return_value = Mock(memory_id="mem_123")
@@ -111,16 +110,16 @@ class TestMemoryEdgeCases:
         create_tool = CreateMemoriesTool()
         unicode_content = "Unicode test: 你好世界 🌍 émojis"
         result = asyncio.run(create_tool.call(mock_ctx, statements=[unicode_content]))
-        assert "Successfully created 1 new memories" in result
+        tool_helper.assert_in_result("Successfully created 1 new memories", result)
         
         # Search with Unicode
         recall_tool = RecallMemoriesTool()
         result = asyncio.run(recall_tool.call(mock_ctx, queries=["你好"]))
-        assert "Unicode test" in result
-        assert "🌍" in result
+        tool_helper.assert_in_result("Unicode test", result)
+        tool_helper.assert_in_result("🌍", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_concurrent_operations(self, mock_get_service, mock_ctx):
+    def test_concurrent_operations(self, tool_helper,mock_get_service, mock_ctx):
         """Test concurrent memory operations."""
         mock_service = Mock()
         call_order = []
@@ -144,11 +143,11 @@ class TestMemoryEdgeCases:
             }
         ))
         
-        assert "Created 3 memories" in result
+        tool_helper.assert_in_result("Created 3 memories", result)
         assert len(call_order) == 3
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_invalid_scope_handling(self, mock_get_service, mock_ctx):
+    def test_invalid_scope_handling(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling of invalid scopes."""
         mock_service = Mock()
         mock_service.search_memories.return_value = []
@@ -169,7 +168,7 @@ class TestMemoryEdgeCases:
         assert call_args["user_id"] == "test_user"  # Uses default user_id
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_metadata_handling(self, mock_get_service, mock_ctx):
+    def test_metadata_handling(self, tool_helper,mock_get_service, mock_ctx):
         """Test complex metadata handling."""
         mock_service = Mock()
         mock_service.create_memory.return_value = Mock(
@@ -195,7 +194,7 @@ class TestMemoryEdgeCases:
             metadata=complex_metadata
         ))
         
-        assert "Successfully stored 1 facts" in result
+        tool_helper.assert_in_result("Successfully stored 1 facts", result)
         
         # Verify metadata was passed correctly
         call_args = mock_service.create_memory.call_args[1]
@@ -203,7 +202,7 @@ class TestMemoryEdgeCases:
         assert call_args["metadata"]["nested"]["author"] == "John Doe"
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    async def test_service_timeout_handling(self, mock_get_service, mock_ctx):
+    async def test_service_timeout_handling(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling of service timeouts."""
         mock_service = Mock()
         
@@ -224,7 +223,7 @@ class TestMemoryEdgeCases:
             )
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_knowledge_base_name_validation(self, mock_get_service, mock_ctx):
+    def test_knowledge_base_name_validation(self, tool_helper,mock_get_service, mock_ctx):
         """Test KB name validation."""
         mock_service = Mock()
         mock_service.create_memory.return_value = Mock(memory_id="kb_123")
@@ -252,17 +251,17 @@ class TestMemoryEdgeCases:
                     kb_name=kb_name,
                     description=f"Test KB: {kb_name}"
                 ))
-                assert "Created knowledge base" in result
+                tool_helper.assert_in_result("Created knowledge base", result)
             else:
                 result = asyncio.run(tool.call(
                     mock_ctx,
                     action="create",
                     kb_name=kb_name
                 ))
-                assert "Error: kb_name required" in result
+                tool_helper.assert_in_result("Error: kb_name required", result)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_fact_deduplication(self, mock_get_service, mock_ctx):
+    def test_fact_deduplication(self, tool_helper,mock_get_service, mock_ctx):
         """Test fact deduplication in recall."""
         mock_service = Mock()
         
@@ -295,16 +294,16 @@ class TestMemoryEdgeCases:
         ))
         
         # Should deduplicate
-        assert "Found 2 relevant facts" in result  # Not 3
+        tool_helper.assert_in_result("Found 2 relevant facts", result)  # Not 3
         assert result.count("Duplicate fact") == 1  # Appears only once
-        assert "Different fact" in result
+        tool_helper.assert_in_result("Different fact", result)
 
 
 class TestMemoryToolsPerformance:
     """Performance-related tests for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_large_result_set_handling(self, mock_get_service, mock_ctx):
+    def test_large_result_set_handling(self, tool_helper,mock_get_service, mock_ctx):
         """Test handling of large result sets."""
         mock_service = Mock()
         
@@ -331,14 +330,14 @@ class TestMemoryToolsPerformance:
         ))
         
         # Should only return 10
-        assert "Found 10 relevant memories" in result
+        tool_helper.assert_in_result("Found 10 relevant memories", result)
         
         # Verify only 10 are in the output
         memory_count = result.count("Memory content")
         assert memory_count == 10
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_empty_database_performance(self, mock_get_service, mock_ctx):
+    def test_empty_database_performance(self, tool_helper,mock_get_service, mock_ctx):
         """Test performance with empty database."""
         mock_service = Mock()
         mock_service.search_memories.return_value = []
@@ -357,7 +356,7 @@ class TestMemoryToolsPerformance:
         
         elapsed = time.time() - start_time
         
-        assert "No relevant memories found" in result
+        tool_helper.assert_in_result("No relevant memories found", result)
         assert elapsed < 1.0  # Should be fast even with multiple queries
 
 
@@ -365,7 +364,7 @@ class TestMemoryToolsSecurity:
     """Security-related tests for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_user_isolation(self, mock_get_service, mock_ctx):
+    def test_user_isolation(self, tool_helper,mock_get_service, mock_ctx):
         """Test that users can't access other users' memories."""
         mock_service = Mock()
         
@@ -397,7 +396,7 @@ class TestMemoryToolsSecurity:
         assert all(uid == "user1" for uid in accessed_users)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_sql_injection_prevention(self, mock_get_service, mock_ctx):
+    def test_sql_injection_prevention(self, tool_helper,mock_get_service, mock_ctx):
         """Test that SQL injection attempts are handled safely."""
         mock_service = Mock()
         mock_service.search_memories.return_value = []
@@ -423,7 +422,7 @@ class TestMemoryToolsSecurity:
         assert mock_service.search_memories.call_count == len(injection_attempts)
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_xss_prevention_in_content(self, mock_get_service, mock_ctx):
+    def test_xss_prevention_in_content(self, tool_helper,mock_get_service, mock_ctx):
         """Test that XSS attempts in content are handled safely."""
         mock_service = Mock()
         

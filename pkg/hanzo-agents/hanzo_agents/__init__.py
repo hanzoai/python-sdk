@@ -3,10 +3,13 @@
 from hanzo_agents.core.agent import Agent, InferenceResult, ToolCall
 from hanzo_agents.core.tool import Tool, ToolRegistry
 from hanzo_agents.core.state import State
-from hanzo_agents.core.router import RouterFn, Router
+from hanzo_agents.core.router import (
+    RouterFn, Router, DeterministicRouter, LLMRouter, HybridRouter,
+    sequential_router, conditional_router, state_based_router
+)
 from hanzo_agents.core.network import Network
 from hanzo_agents.core.history import History
-from hanzo_agents.core.memory import MemoryKV, MemoryVector
+from hanzo_agents.core.memory import MemoryKV, MemoryVector, create_memory_kv, create_memory_vector
 from hanzo_agents.core.model import BaseModelAdapter, ModelRegistry
 
 # Web3 integration
@@ -54,6 +57,18 @@ __all__ = [
     # Types
     "RouterFn",
     "ToolCall",
+    
+    # Routers
+    "DeterministicRouter",
+    "LLMRouter",
+    "HybridRouter",
+    "sequential_router",
+    "conditional_router",
+    "state_based_router",
+    
+    # Memory functions
+    "create_memory_kv",
+    "create_memory_vector",
     
     # Registries
     "ToolRegistry",

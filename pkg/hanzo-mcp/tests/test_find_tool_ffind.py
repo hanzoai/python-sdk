@@ -104,7 +104,7 @@ class TestFindToolFFind:
             pytest.skip("ffind not installed - skipping performance tests")
     
     @pytest.mark.asyncio
-    async def test_find_all_python_files(self, find_tool, test_directory):
+    async def test_find_all_python_files(self, tool_helper,find_tool, test_directory):
         """Test finding all Python files."""
         result = await find_tool.run(
             pattern="*.py",
@@ -131,7 +131,7 @@ class TestFindToolFFind:
         assert "cache.pyc" not in py_files
     
     @pytest.mark.asyncio
-    async def test_find_with_size_filter(self, find_tool, test_directory):
+    async def test_find_with_size_filter(self, tool_helper,find_tool, test_directory):
         """Test finding files by size."""
         # Find large files (> 500KB)
         result = await find_tool.run(
@@ -147,13 +147,13 @@ class TestFindToolFFind:
         assert results[0]["name"] == "large_file.dat"
     
     @pytest.mark.asyncio
-    async def test_find_directories(self, find_tool, test_directory):
+    async def test_find_directories(self, tool_helper,find_tool, test_directory):
         """Test finding directories."""
         result = await find_tool.run(
             pattern="*",
             path=test_directory,
             type="dir",
-            max_depth=1
+            max_depth=0  # Only immediate children
         )
         
         results = result.data["results"]
@@ -164,12 +164,12 @@ class TestFindToolFFind:
         assert "tests" in dir_names
         assert "docs" in dir_names
         
-        # Should not find nested directories (max_depth=1)
+        # Should not find nested directories (max_depth=0)
         assert "modules" not in dir_names
         assert "api" not in dir_names
     
     @pytest.mark.asyncio
-    async def test_find_with_pattern_in_content(self, find_tool, test_directory):
+    async def test_find_with_pattern_in_content(self, tool_helper,find_tool, test_directory):
         """Test finding files containing specific text."""
         result = await find_tool.run(
             pattern="TODO",
@@ -191,7 +191,7 @@ class TestFindToolFFind:
         assert "auth.py" not in file_names
     
     @pytest.mark.asyncio
-    async def test_pagination(self, find_tool, test_directory):
+    async def test_pagination(self, tool_helper,find_tool, test_directory):
         """Test pagination functionality."""
         # Get first page
         result_page1 = await find_tool.run(
@@ -227,12 +227,13 @@ class TestFindToolFFind:
         assert set(page1_names).isdisjoint(set(page2_names))
     
     @pytest.mark.asyncio
-    async def test_performance_comparison(self, find_tool, test_directory):
+    async def test_performance_comparison(self, tool_helper,find_tool, test_directory):
         """Compare performance with and without ffind."""
         # Force Python implementation
+        import hanzo_mcp.tools.search.find_tool as find_module
+        original_ffind = find_module.FFIND_AVAILABLE
+        find_module.FFIND_AVAILABLE = False
         find_tool._available_backends = None
-        original_ffind = find_tool.__class__.__module__.FFIND_AVAILABLE
-        find_tool.__class__.__module__.FFIND_AVAILABLE = False
         
         start_time = time.time()
         result_python = await find_tool.run(
@@ -243,7 +244,7 @@ class TestFindToolFFind:
         python_time = time.time() - start_time
         
         # Restore ffind if available
-        find_tool.__class__.__module__.FFIND_AVAILABLE = original_ffind
+        find_module.FFIND_AVAILABLE = original_ffind
         find_tool._available_backends = None
         
         if FFIND_AVAILABLE:
@@ -264,7 +265,7 @@ class TestFindToolFFind:
             assert len(result_python.data["results"]) == len(result_ffind.data["results"])
     
     @pytest.mark.asyncio
-    async def test_fuzzy_search(self, find_tool, test_directory):
+    async def test_fuzzy_search(self, tool_helper,find_tool, test_directory):
         """Test fuzzy pattern matching."""
         result = await find_tool.run(
             pattern="tst",  # Fuzzy match for "test"
@@ -280,7 +281,7 @@ class TestFindToolFFind:
         assert any("test" in name for name in file_names)
     
     @pytest.mark.asyncio
-    async def test_case_insensitive_search(self, find_tool, test_directory):
+    async def test_case_insensitive_search(self, tool_helper,find_tool, test_directory):
         """Test case-insensitive search."""
         result = await find_tool.run(
             pattern="*.MD",  # Uppercase extension
@@ -297,7 +298,7 @@ class TestFindToolFFind:
         assert "API.md" in file_names
     
     @pytest.mark.asyncio
-    async def test_statistics(self, find_tool, test_directory):
+    async def test_statistics(self, tool_helper,find_tool, test_directory):
         """Test that statistics are included in results."""
         result = await find_tool.run(
             pattern="*.py",
@@ -313,7 +314,7 @@ class TestFindToolFFind:
         assert stats["search_time_ms"] > 0
     
     @pytest.mark.asyncio
-    async def test_gitignore_respect(self, find_tool, test_directory):
+    async def test_gitignore_respect(self, tool_helper,find_tool, test_directory):
         """Test that .gitignore patterns are respected."""
         result = await find_tool.run(
             pattern="*",

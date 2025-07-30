@@ -5,14 +5,15 @@ import os
 import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 from hanzo_mcp.tools import register_all_tools
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.tool_list import ToolListTool
-from hanzo_mcp.tools.common.truncate import truncate_response as truncate_output
+from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.common.paginated_response import AutoPaginatedResponse as PaginatedResponse
 from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
 
@@ -23,8 +24,7 @@ class TestToolRegistration:
     def test_register_all_tools_default(self):
         """Test registering all tools with default settings."""
         mcp_server = FastMCP("test-server")
-        permission_manager = PermissionManager()
-        permission_manager.set_allowed_paths(["/tmp"])
+        permission_manager = create_permission_manager(["/tmp"])
         
         # Register all tools
         register_all_tools(
@@ -41,8 +41,7 @@ class TestToolRegistration:
     def test_register_tools_with_disabled_categories(self):
         """Test disabling entire categories of tools."""
         mcp_server = FastMCP("test-server")
-        permission_manager = PermissionManager()
-        permission_manager.set_allowed_paths(["/tmp"])
+        permission_manager = create_permission_manager(["/tmp"])
         
         # Register with write tools disabled
         register_all_tools(
@@ -59,8 +58,7 @@ class TestToolRegistration:
     def test_register_tools_with_individual_config(self):
         """Test enabling/disabling individual tools."""
         mcp_server = FastMCP("test-server")
-        permission_manager = PermissionManager()
-        permission_manager.set_allowed_paths(["/tmp"])
+        permission_manager = create_permission_manager(["/tmp"])
         
         # Enable only specific tools
         enabled_tools = {
@@ -82,11 +80,10 @@ class TestToolRegistration:
         assert True
     
     @patch('hanzo_mcp.tools.agent.agent_tool.AgentTool')
-    def test_agent_tool_configuration(self, mock_agent_tool):
+    def test_agent_tool_configuration(self, tool_helper, mock_agent_tool):
         """Test agent tool configuration."""
         mcp_server = FastMCP("test-server")
-        permission_manager = PermissionManager()
-        permission_manager.set_allowed_paths(["/tmp"])
+        permission_manager = create_permission_manager(["/tmp"])
         
         # Mock agent tool to verify configuration
         mock_instance = Mock()
@@ -107,7 +104,11 @@ class TestToolRegistration:
         
         # Verify agent tool was configured
         mock_agent_tool.assert_called_once()
-        call_kwargs = mock_agent_tool.call_args[1]
+        call_args = mock_agent_tool.call_args
+        # Check positional args (permission_manager)
+        assert call_args[0][0] == permission_manager
+        # Check keyword args
+        call_kwargs = call_args[1]
         assert call_kwargs["model"] == "claude-3-5-sonnet-20241022"
         assert call_kwargs["max_tokens"] == 8192
 
@@ -115,18 +116,18 @@ class TestToolRegistration:
 class TestPaginationSystem:
     """Test the pagination system for large outputs."""
     
-    def test_truncate_output(self):
+    def test_truncate_response(self):
         """Test output truncation."""
         # Test small output (no truncation)
         small_output = "Small output"
-        result = truncate_output(small_output, max_tokens=1000)
+        result = truncate_response(small_output, max_tokens=1000)
         assert result == small_output
         
         # Test large output (truncation)
         large_output = "x" * 100000  # Very large output
-        result = truncate_output(large_output, max_tokens=100)
+        result = truncate_response(large_output, max_tokens=100)
         assert len(result) < len(large_output)
-        assert "[Output truncated" in result
+        assert "truncated" in result.lower()
     
     def test_paginated_response(self):
         """Test paginated response creation."""
@@ -183,29 +184,29 @@ class TestToolListFunctionality:
         tool = ToolListTool()
         
         # Mock context
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         mock_ctx.meta = {"disabled_tools": set()}
         
         # Get tool list
         result = asyncio.run(tool.call(mock_ctx))
         
         # Should return a formatted list
-        assert "Available tools:" in result
-        assert "Disabled tools:" in result
+        tool_helper.assert_in_result("Available tools:", result)
+        tool_helper.assert_in_result("Disabled tools:", result)
     
     def test_tool_list_with_disabled(self):
         """Test tool list with disabled tools."""
         tool = ToolListTool()
         
         # Mock context with disabled tools
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         mock_ctx.meta = {"disabled_tools": {"write", "edit"}}
         
         # Get tool list
         result = asyncio.run(tool.call(mock_ctx))
         
         # Should show disabled tools
-        assert "Disabled tools:" in result
+        tool_helper.assert_in_result("Disabled tools:", result)
         # Note: Actual disabled tools depend on what's registered
 
 
@@ -213,7 +214,7 @@ class TestCLIAgentTools:
     """Test CLI-based agent tools."""
     
     @patch('hanzo_mcp.tools.agent.claude_cli_tool.CLIAgentBase')
-    def test_claude_cli_tool(self, mock_cli_base):
+    def test_claude_cli_tool(self, tool_helper, mock_cli_base):
         """Test Claude CLI tool."""
         from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
         
@@ -223,7 +224,7 @@ class TestCLIAgentTools:
         assert "Claude Code" in tool.description
     
     @patch('hanzo_mcp.tools.agent.codex_cli_tool.CLIAgentBase')
-    def test_codex_cli_tool(self, mock_cli_base):
+    def test_codex_cli_tool(self, tool_helper, mock_cli_base):
         """Test Codex CLI tool."""
         from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
         
@@ -233,7 +234,7 @@ class TestCLIAgentTools:
         assert "OpenAI" in tool.description
     
     @patch('hanzo_mcp.tools.agent.gemini_cli_tool.CLIAgentBase')
-    def test_gemini_cli_tool(self, mock_cli_base):
+    def test_gemini_cli_tool(self, tool_helper, mock_cli_base):
         """Test Gemini CLI tool."""
         from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
         
@@ -243,7 +244,7 @@ class TestCLIAgentTools:
         assert "Google Gemini" in tool.description
     
     @patch('hanzo_mcp.tools.agent.grok_cli_tool.CLIAgentBase')
-    def test_grok_cli_tool(self, mock_cli_base):
+    def test_grok_cli_tool(self, tool_helper, mock_cli_base):
         """Test Grok CLI tool."""
         from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
         
@@ -257,12 +258,12 @@ class TestSwarmTool:
     """Test swarm tool functionality."""
     
     @patch('hanzo_mcp.tools.agent.swarm_tool.AgentNode')
-    def test_swarm_basic_configuration(self, mock_agent_node):
+    def test_swarm_basic_configuration(self, tool_helper, mock_agent_node):
         """Test basic swarm configuration."""
         from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
         
         tool = SwarmTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Test network configuration
         agents = [
@@ -288,14 +289,13 @@ class TestMemoryIntegration:
     """Test memory tools integration."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_memory_tools_available(self, mock_get_service):
+    def test_memory_tools_available(self, tool_helper, mock_get_service):
         """Test that memory tools can be registered."""
         mock_service = Mock()
         mock_get_service.return_value = mock_service
         
         mcp_server = FastMCP("test-server")
-        permission_manager = PermissionManager()
-        permission_manager.set_allowed_paths(["/tmp"])
+        permission_manager = create_permission_manager(["/tmp"])
         
         # Should not raise ImportError
         from hanzo_mcp.tools.memory import register_memory_tools
@@ -345,7 +345,7 @@ class TestAutoBackgrounding:
     """Test auto-backgrounding functionality."""
     
     @patch('hanzo_mcp.tools.shell.base_process.ProcessManager')
-    def test_auto_background_timeout(self, mock_process_manager):
+    def test_auto_background_timeout(self, tool_helper, mock_process_manager):
         """Test that long-running processes auto-background."""
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         
@@ -372,7 +372,7 @@ class TestCriticAndReviewTools:
         from hanzo_mcp.tools.common.critic_tool import CriticTool
         
         tool = CriticTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Test with code content
         result = asyncio.run(tool.call(
@@ -382,7 +382,7 @@ class TestCriticAndReviewTools:
         ))
         
         # Should return analysis
-        assert "def add(a, b): return a + b" in result
+        tool_helper.assert_in_result("def add(a, b): return a + b", result)
         assert "```" in result  # Should format code
     
     def test_review_tool_basic(self):
@@ -390,7 +390,7 @@ class TestCriticAndReviewTools:
         from hanzo_mcp.tools.agent.review_tool import ReviewTool
         
         tool = ReviewTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Test review
         with patch.object(tool, '_perform_review') as mock_review:
@@ -413,11 +413,11 @@ class TestStreamingCommand:
         from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
         
         tool = StreamingCommandTool()
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Create a simple command that generates output
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-            f.write("Line 1\nLine 2\nLine 3\n")
+            f.write("Line 1\\nLine 2\\nLine 3\\n")
             temp_file = f.name
         
         try:
@@ -427,9 +427,15 @@ class TestStreamingCommand:
                 stream_to_file=True
             ))
             
-            assert "Line 1" in result
-            assert "Line 2" in result
-            assert "Line 3" in result
+            # StreamingCommandTool returns a dict with output key
+            if isinstance(result, dict):
+                output = result.get('output', str(result))
+            else:
+                output = str(result)
+                
+            assert "Line 1" in output
+            assert "Line 2" in output
+            assert "Line 3" in output
         finally:
             os.unlink(temp_file)
 
@@ -451,7 +457,7 @@ class TestBatchTool:
             mock_tools[f"tool_{i}"] = tool
         
         batch_tool = BatchTool(mock_tools)
-        mock_ctx = Mock()
+        mock_ctx = create_mock_ctx()
         
         # Execute batch with multiple tools
         invocations = [

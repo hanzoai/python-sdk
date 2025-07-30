@@ -2,18 +2,14 @@
 
 import pytest
 from unittest.mock import Mock, patch
-from mcp.server import FastMCP
+from mcp.server.fastmcp import FastMCP
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
-# Try to import memory tools, skip tests if not available
-try:
-    from hanzo_mcp.tools.memory import register_memory_tools
-    MEMORY_TOOLS_AVAILABLE = True
-except ImportError:
-    MEMORY_TOOLS_AVAILABLE = False
+# Import memory tools
+from hanzo_mcp.tools.memory import register_memory_tools
 
 
-@pytest.mark.skipif(not MEMORY_TOOLS_AVAILABLE, reason="hanzo-memory package not installed")
 def test_memory_tools_registration():
     """Test that memory tools can be registered properly."""
     # Create mock MCP server
@@ -53,8 +49,8 @@ def test_memory_tools_registration():
             assert name in tool_names
             
     except ImportError as e:
-        # If hanzo-memory is not installed, skip the test
-        pytest.skip(f"hanzo-memory package not installed: {e}")
+        # Re-raise the exception to properly fail the test
+        raise
 
 
 def test_memory_tool_descriptions():
@@ -93,8 +89,9 @@ def test_memory_tool_descriptions():
         summarize_tool = SummarizeToMemoryTool()
         assert "summarize" in summarize_tool.description.lower()
         
-    except ImportError:
-        pytest.skip("hanzo-memory package not installed")
+    except ImportError as e:
+        # Re-raise the exception to properly fail the test
+        raise
 
 
 @patch('hanzo_memory.services.memory.get_memory_service')
@@ -125,7 +122,7 @@ def test_memory_tool_usage(mock_get_service):
     tool = CreateMemoriesTool(user_id="test_user", project_id="test_project")
     
     # Mock context
-    mock_ctx = Mock()
+    mock_ctx = create_mock_ctx()
     
     # Call the tool
     import asyncio
@@ -135,7 +132,7 @@ def test_memory_tool_usage(mock_get_service):
     ))
     
     # Verify result
-    assert "Successfully created 2 new memories" in result
+    tool_helper.assert_in_result("Successfully created 2 new memories", result)
     
     # Verify service was called correctly
     assert mock_service.create_memory.call_count == 2
@@ -169,7 +166,7 @@ def test_knowledge_tool_usage(mock_get_service):
     tool = StoreFactsTool(user_id="test_user", project_id="test_project")
     
     # Mock context
-    mock_ctx = Mock()
+    mock_ctx = create_mock_ctx()
     
     # Call the tool
     import asyncio
@@ -181,7 +178,7 @@ def test_knowledge_tool_usage(mock_get_service):
     ))
     
     # Verify result
-    assert "Successfully stored 1 facts in python_basics" in result
+    tool_helper.assert_in_result("Successfully stored 1 facts in python_basics", result)
     
     # Verify service was called with correct metadata
     mock_service.create_memory.assert_called_with(

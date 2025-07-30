@@ -1,7 +1,5 @@
 """Tests for model capability checking functions."""
 
-from unittest.mock import patch
-
 from hanzo_mcp.tools.agent.tool_adapter import (
     supports_parallel_function_calling,
 )
@@ -10,25 +8,18 @@ from hanzo_mcp.tools.agent.tool_adapter import (
 class TestModelCapabilities:
     """Tests for model capability checking functions."""
 
-
-    @patch("litellm.supports_parallel_function_calling")
-    def test_supports_parallel_function_calling(self, mock_litellm_supports_parallel):
-        """Test that supports_parallel_function_calling properly calls litellm."""
-        # Set up the mock
-        mock_litellm_supports_parallel.return_value = True
-        
-        # Test with a model that supports parallel function calling
+    def test_supports_parallel_function_calling(self):
+        """Test that supports_parallel_function_calling properly identifies capable models."""
+        # Test models that support parallel function calling
         assert supports_parallel_function_calling("gpt-4-turbo-preview") is True
-        mock_litellm_supports_parallel.assert_called_with(model="gpt-4-turbo-preview")
-        
-        # Test with a provider-prefixed model
-        mock_litellm_supports_parallel.reset_mock()
-        mock_litellm_supports_parallel.return_value = True
         assert supports_parallel_function_calling("openai/gpt-4-turbo-preview") is True
-        mock_litellm_supports_parallel.assert_called_with(model="openai/gpt-4-turbo-preview")
+        assert supports_parallel_function_calling("gpt-4o") is True
+        assert supports_parallel_function_calling("openai/gpt-4o-mini") is True
+        assert supports_parallel_function_calling("claude-3-5-sonnet-20241022") is True
+        assert supports_parallel_function_calling("anthropic/claude-3-opus") is True
         
-        # Test with a model that doesn't support parallel function calling
-        mock_litellm_supports_parallel.reset_mock()
-        mock_litellm_supports_parallel.return_value = False
+        # Test models that don't support parallel function calling
         assert supports_parallel_function_calling("gpt-4") is False
-        mock_litellm_supports_parallel.assert_called_with(model="gpt-4")
+        assert supports_parallel_function_calling("gpt-3.5") is False
+        assert supports_parallel_function_calling("text-davinci-003") is False
+        assert supports_parallel_function_calling("unknown-model") is False

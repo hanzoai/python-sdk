@@ -28,6 +28,14 @@ class PermissionManager:
         else:  # Unix/Linux/Mac
             self.allowed_paths.add(Path("/tmp").resolve())
             self.allowed_paths.add(Path("/var").resolve())
+            
+        # Also allow user's home directory work folders
+        home = Path.home()
+        if home.exists():
+            # Add common development directories
+            work_dir = home / "work"
+            if work_dir.exists():
+                self.allowed_paths.add(work_dir.resolve())
 
         # Excluded paths
         self.excluded_paths: set[Path] = set()

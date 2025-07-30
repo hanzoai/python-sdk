@@ -70,13 +70,17 @@ def register_jupyter_tools(
     }
     
     tools = []
+    added_classes = set()  # Track which tool classes have been added
     
     if enabled_tools:
         # Use individual tool configuration
         for tool_name, enabled in enabled_tools.items():
             if enabled and tool_name in tool_classes:
                 tool_class = tool_classes[tool_name]
-                tools.append(tool_class(permission_manager))
+                # Avoid adding the same tool class multiple times
+                if tool_class not in added_classes:
+                    tools.append(tool_class(permission_manager))
+                    added_classes.add(tool_class)
     else:
         # Use all tools (backward compatibility)
         tools = get_jupyter_tools(permission_manager)
