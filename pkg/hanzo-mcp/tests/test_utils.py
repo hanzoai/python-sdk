@@ -13,7 +13,14 @@ from unittest.mock import Mock, MagicMock, AsyncMock, patch
 import json
 
 import pytest
-from mcp.server.fastmcp import FastMCP, Context as MCPContext
+from fastmcp import FastMCP
+
+# Create a mock context type for testing
+class MCPContext:
+    """Mock MCP Context for testing."""
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.base import BaseTool
@@ -46,6 +53,9 @@ class TestContext:
         self.mock.read_resource = AsyncMock()
         self.mock.get_tools = AsyncMock(return_value=[])
         self.mock.meta = {"disabled_tools": set()}
+        # Add tool context methods
+        self.mock.set_tool_info = AsyncMock()
+        self.mock.send_completion_ping = AsyncMock()
         
     @property
     def ctx(self):
