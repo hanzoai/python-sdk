@@ -17,21 +17,28 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
-# Import memory tools
-from hanzo_mcp.tools.memory import register_memory_tools
-from hanzo_mcp.tools.memory.memory_tools import (
-    RecallMemoriesTool,
-    CreateMemoriesTool,
-    UpdateMemoriesTool,
-    DeleteMemoriesTool,
-    ManageMemoriesTool,
-)
-from hanzo_mcp.tools.memory.knowledge_tools import (
-    RecallFactsTool,
-    StoreFactsTool,
-    SummarizeToMemoryTool,
-    ManageKnowledgeBasesTool,
-)
+# Check if hanzo-memory is available
+try:
+    from hanzo_mcp.tools.memory import register_memory_tools
+    from hanzo_mcp.tools.memory.memory_tools import (
+        RecallMemoriesTool,
+        CreateMemoriesTool,
+        UpdateMemoriesTool,
+        DeleteMemoriesTool,
+        ManageMemoriesTool,
+    )
+    from hanzo_mcp.tools.memory.knowledge_tools import (
+        RecallFactsTool,
+        StoreFactsTool,
+        SummarizeToMemoryTool,
+        ManageKnowledgeBasesTool,
+    )
+    MEMORY_AVAILABLE = True
+except ImportError:
+    MEMORY_AVAILABLE = False
+
+# Skip all tests if hanzo-memory is not available
+pytestmark = pytest.mark.skipif(not MEMORY_AVAILABLE, reason="hanzo-memory package not installed")
 
 
 # Mock memory and knowledge models

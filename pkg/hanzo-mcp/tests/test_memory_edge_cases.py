@@ -8,26 +8,45 @@ from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_
 
 import pytest
 
-# Import memory tools
-from hanzo_mcp.tools.memory.memory_tools import (
-    RecallMemoriesTool,
-    CreateMemoriesTool,
-    ManageMemoriesTool,
-    DeleteMemoriesTool,
-)
-from hanzo_mcp.tools.memory.knowledge_tools import (
-    StoreFactsTool,
-    ManageKnowledgeBasesTool,
-    RecallFactsTool,
-)
-from hanzo_memory.services.memory import get_memory_service
+# Check if hanzo-memory is available
+try:
+    from hanzo_memory.services.memory import get_memory_service
+    MEMORY_AVAILABLE = True
+except ImportError:
+    MEMORY_AVAILABLE = False
+
+# Import memory tools only if available
+if MEMORY_AVAILABLE:
+    from hanzo_mcp.tools.memory.memory_tools import (
+        RecallMemoriesTool,
+        CreateMemoriesTool,
+        ManageMemoriesTool,
+        DeleteMemoriesTool,
+    )
+    from hanzo_mcp.tools.memory.knowledge_tools import (
+        StoreFactsTool,
+        ManageKnowledgeBasesTool,
+        RecallFactsTool,
+    )
+
+# Skip all tests if hanzo-memory is not available
+pytestmark = pytest.mark.skipif(not MEMORY_AVAILABLE, reason="hanzo-memory package not installed")
+
+
+@pytest.fixture
+def tool_helper():
+    return ToolTestHelper
+
+@pytest.fixture
+def mock_ctx():
+    return create_mock_ctx()
 
 
 class TestMemoryEdgeCases:
     """Test edge cases for memory tools."""
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_empty_queries(self, tool_helper, mock_get_service, mock_ctx):
+    def test_empty_queries(self, mock_get_service, tool_helper, mock_ctx):
         """Test recall with empty queries."""
         mock_service = Mock()
         mock_service.search_memories.return_value = []
@@ -44,7 +63,7 @@ class TestMemoryEdgeCases:
         assert mock_service.search_memories.call_count == 3
     
     @patch('hanzo_memory.services.memory.get_memory_service')
-    def test_large_batch_operations(self, tool_helper,mock_get_service, mock_ctx):
+    def test_large_batch_operations(self, mock_get_service, tool_helper, mock_ctx):
         """Test handling large batch operations."""
         mock_service = Mock()
         created_memories = []
