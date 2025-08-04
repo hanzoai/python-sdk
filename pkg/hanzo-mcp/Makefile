@@ -44,12 +44,12 @@ install: ## Install package in development mode
 .PHONY: test
 test: ## Run tests
 	@printf "$(GREEN)Running tests...$(RESET)\n"
-	@pytest -v
+	@python -m pytest -v
 
 .PHONY: test-cov
 test-cov: ## Run tests with coverage
 	@printf "$(GREEN)Running tests with coverage...$(RESET)\n"
-	@pytest --cov=hanzo_mcp --cov-report=html --cov-report=term
+	@python -m pytest --cov=hanzo_mcp --cov-report=html --cov-report=term
 
 .PHONY: lint
 lint: ## Run linting
