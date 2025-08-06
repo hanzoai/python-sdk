@@ -30,7 +30,6 @@
     # via hanzo
 -e file:pkg/hanzo-repl
     # via hanzo
--e file:pkg/hanzo-router.disabled
 -e file:pkg/hanzo-wrapper
     # via hanzo-cli
     # via hanzo-cli-wrapper
@@ -41,7 +40,6 @@ aiofiles==24.1.0
 aiohappyeyeballs==2.6.1
     # via aiohttp
 aiohttp==3.12.15
-    # via hanzo-router
     # via litellm
 aiosignal==1.4.0
     # via aiohttp
@@ -100,7 +98,6 @@ click==8.2.1
     # via hanzo-agents
     # via hanzo-cli
     # via hanzo-repl
-    # via hanzo-router
     # via litellm
     # via typer
     # via uvicorn
@@ -192,7 +189,6 @@ httpx==0.28.1
     # via hanzo-mcp
     # via hanzo-memory
     # via hanzo-network
-    # via hanzo-router
     # via hanzoai
     # via litellm
     # via mcp
@@ -213,7 +209,6 @@ idna==3.10
     # via requests
     # via yarl
 importlib-metadata==8.7.0
-    # via hanzo-router
     # via litellm
     # via opentelemetry-api
 importlib-resources==6.5.2
@@ -233,7 +228,6 @@ jaraco-functools==4.2.1
 jedi==0.19.2
     # via ipython
 jinja2==3.1.6
-    # via hanzo-router
     # via litellm
     # via torch
 jiter==0.10.0
@@ -242,7 +236,6 @@ joblib==1.5.1
     # via scikit-learn
 jsonschema==4.25.0
     # via chromadb
-    # via hanzo-router
     # via litellm
     # via mcp
     # via nbformat
@@ -332,7 +325,6 @@ onnxruntime==1.22.1
     # via fastembed
 openai==1.99.1
     # via hanzo-mcp
-    # via hanzo-router
     # via litellm
 openapi-core==0.19.5
     # via fastmcp
@@ -442,7 +434,6 @@ pydantic==2.11.7
     # via hanzo-mcp-client
     # via hanzo-memory
     # via hanzo-network
-    # via hanzo-router
     # via hanzoai
     # via lancedb
     # via litellm
@@ -478,7 +469,6 @@ python-dotenv==1.1.1
     # via fastmcp
     # via hanzo-mcp
     # via hanzo-repl
-    # via hanzo-router
     # via litellm
     # via pydantic-settings
     # via uvicorn
@@ -591,12 +581,10 @@ threadpoolctl==3.6.0
     # via scikit-learn
 tiktoken==0.10.0
     # via hanzo-memory
-    # via hanzo-router
     # via litellm
 tokenizers==0.21.4
     # via chromadb
     # via fastembed
-    # via hanzo-router
     # via litellm
     # via transformers
 torch==2.7.1
