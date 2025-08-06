@@ -7,12 +7,12 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from hanzo_cli.commands import agent, auth, chat, cluster, config, mcp, miner, network, repl, tools
-from hanzo_cli.interactive.repl import HanzoREPL
-from hanzo_cli.utils.output import console
+from .commands import agent, auth, chat, cluster, config, mcp, miner, network, repl, tools
+from .interactive.repl import HanzoREPL
+from .utils.output import console
 
 # Version
-from hanzo_cli import __version__
+__version__ = "0.2.4"
 
 
 @click.group(invoke_without_command=True)
