@@ -84,7 +84,7 @@ def serve(ctx, name: str, port: int):
 @click.pass_context
 def dashboard(ctx):
     """Open interactive dashboard."""
-    from hanzo_cli.interactive.dashboard import run_dashboard
+    from .interactive.dashboard import run_dashboard
     run_dashboard()
 
 
