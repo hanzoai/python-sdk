@@ -33,17 +33,25 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
     ctx.obj["config"] = config
     ctx.obj["console"] = console
     
-    # If no subcommand, enter interactive mode
+    # If no subcommand, enter interactive mode or start compute node
     if ctx.invoked_subcommand is None:
-        console.print("[bold cyan]Welcome to Hanzo AI CLI[/bold cyan]")
-        console.print("Type 'help' for available commands or 'exit' to quit.\n")
-        try:
-            repl = HanzoREPL()
-            asyncio.run(repl.run())
-        except KeyboardInterrupt:
-            console.print("\n[yellow]Interrupted[/yellow]")
-        except EOFError:
-            console.print("\n[yellow]Goodbye![/yellow]")
+        # Check if we should start as a compute node
+        import os
+        if os.environ.get("HANZO_COMPUTE_NODE") == "1":
+            # Start as a compute node
+            from .commands import network
+            asyncio.run(start_compute_node(ctx))
+        else:
+            # Enter interactive REPL mode
+            console.print("[bold cyan]Hanzo AI - Interactive Mode[/bold cyan]")
+            console.print("Type 'help' for commands, 'exit' to quit\n")
+            try:
+                repl = HanzoREPL(console=console)
+                asyncio.run(repl.run())
+            except KeyboardInterrupt:
+                console.print("\n[yellow]Interrupted[/yellow]")
+            except EOFError:
+                console.print("\n[yellow]Goodbye![/yellow]")
 
 
 # Register command groups
@@ -78,6 +86,78 @@ def ask(ctx, prompt: tuple, model: str, local: bool):
 def serve(ctx, name: str, port: int):
     """Start local AI cluster (alias for 'hanzo cluster start')."""
     asyncio.run(cluster.start_cluster(ctx, name, port))
+
+
+@cli.command()
+@click.option("--name", "-n", help="Node name (auto-generated if not provided)")
+@click.option("--port", "-p", default=7860, help="Node port")
+@click.option("--network", default="mainnet", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve")
+@click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
+@click.pass_context
+def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
+    """Start as a compute node for the Hanzo network."""
+    asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+
+
+async def start_compute_node(ctx, name: str = None, port: int = 7860, 
+                            network: str = "mainnet", models: tuple = None, 
+                            max_jobs: int = 10):
+    """Start this instance as a compute node."""
+    console = ctx.obj.get("console", Console())
+    
+    console.print("[bold cyan]Starting Hanzo Compute Node[/bold cyan]")
+    console.print(f"Network: {network}")
+    console.print(f"Port: {port}")
+    
+    try:
+        from hanzo_network import ComputeNode
+        
+        # Generate node name if not provided
+        if not name:
+            import socket
+            import uuid
+            hostname = socket.gethostname()
+            node_id = str(uuid.uuid4())[:8]
+            name = f"{hostname}-{node_id}"
+        
+        # Initialize compute node
+        node = ComputeNode(
+            name=name,
+            port=port,
+            network=network,
+            models=list(models) if models else None,
+            max_concurrent_jobs=max_jobs
+        )
+        
+        console.print(f"\n[green]✓[/green] Node '{name}' initialized")
+        console.print(f"  ID: {node.id}")
+        console.print(f"  Models: {', '.join(node.available_models) if node.available_models else 'auto-detect'}")
+        console.print(f"  Max jobs: {max_jobs}")
+        console.print("\n[yellow]Joining network...[/yellow]")
+        
+        await node.connect()
+        
+        console.print(f"[green]✓[/green] Connected to {network} network")
+        console.print(f"  Peers: {len(node.peers)}")
+        console.print(f"  Status: {node.status}")
+        
+        console.print("\n[bold green]Compute node is running![/bold green]")
+        console.print("Press Ctrl+C to stop\n")
+        
+        # Run the node
+        await node.run()
+        
+    except ImportError:
+        console.print("[red]Error:[/red] hanzo-network not installed")
+        console.print("Install with: pip install hanzo[network]")
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Shutting down node...[/yellow]")
+        if 'node' in locals():
+            await node.shutdown()
+        console.print("[green]✓[/green] Node stopped")
+    except Exception as e:
+        console.print(f"[red]Error starting compute node: {e}[/red]")
 
 
 @cli.command()
