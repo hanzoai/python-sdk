@@ -33,8 +33,7 @@ class HanzoREPL:
     async def run(self):
         """Run the REPL."""
         self.running = True
-        self.console.print("[bold cyan]Hanzo Interactive Mode[/bold cyan]")
-        self.console.print("Type 'help' for commands, 'exit' to quit\n")
+        # Don't print welcome message here since it's already printed in cli.py
         
         # Set up command completer
         completer = WordCompleter(
