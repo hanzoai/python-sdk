@@ -16,10 +16,7 @@ Homepage = "https://hanzo.ai"
 Repository = "https://github.com/hanzoai/python-sdk"
 Documentation = "https://docs.hanzo.ai/cli"
 
-[project.keywords]
 keywords = ["ai", "cli", "hanzo", "agents", "llm", "mcp"]
-
-[project.classifiers]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
