@@ -9,7 +9,7 @@ import click
 import httpx
 from rich.prompt import Prompt
 
-from hanzo_cli.utils.output import console, handle_errors
+from ..utils.output import console, handle_errors
 
 
 @click.group(name="auth")

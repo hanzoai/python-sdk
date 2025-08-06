@@ -6,7 +6,7 @@ from typing import Optional
 
 import click
 
-from hanzo_cli.utils.output import console
+from ..utils.output import console
 
 
 @click.group(name="repl")
