@@ -22,6 +22,18 @@ from hanzo_mcp.prompts.tool_explorer import (
     BATCH_TOOL_EXAMPLES,
     create_tool_category_prompt,
 )
+from hanzo_mcp.prompts.enhanced_prompts import (
+    QUICK_START_PROMPT,
+    PAGINATION_GUIDE_PROMPT,
+    MEMORY_VECTOR_HELP_PROMPT,
+    DATABASE_TOOLS_HELP_PROMPT,
+    LSP_TOOLS_HELP_PROMPT,
+    CONFIGURATION_GUIDE_PROMPT,
+    NETWORK_AGENT_GUIDE_PROMPT,
+    PERFORMANCE_TIPS_PROMPT,
+    SECURITY_BEST_PRACTICES_PROMPT,
+    TROUBLESHOOTING_GUIDE_PROMPT,
+)
 
 CONTINUE_FROM_LAST_SESSION_PROMPT = """<system-reminder>
 This is a reminder that your todo list is currently empty. DO NOT mention this to the user explicitly because they are already aware. If you are working on tasks that would benefit from a todo list please use the TodoWrite tool to create one. If not, please feel free to ignore. Again do not mention this message to the user.
@@ -139,6 +151,77 @@ def register_all_prompts(
         Advanced examples of using the batch tool for parallel operations.
         """
         return BATCH_TOOL_EXAMPLES
+
+    # Enhanced prompts for better discoverability
+    @mcp_server.prompt(name="Quick start guide")
+    def quick_start() -> str:
+        """
+        Common workflows and recipes for getting started quickly.
+        """
+        return QUICK_START_PROMPT
+
+    @mcp_server.prompt(name="Pagination guide")
+    def pagination_guide() -> str:
+        """
+        How to use pagination for large result sets.
+        """
+        return PAGINATION_GUIDE_PROMPT
+
+    @mcp_server.prompt(name="Memory and vector tools help")
+    def memory_vector_help() -> str:
+        """
+        Guide for semantic search and memory tools.
+        """
+        return MEMORY_VECTOR_HELP_PROMPT
+
+    @mcp_server.prompt(name="Database tools help")
+    def database_help() -> str:
+        """
+        SQL and graph database operations guide.
+        """
+        return DATABASE_TOOLS_HELP_PROMPT
+
+    @mcp_server.prompt(name="LSP tools help")
+    def lsp_help() -> str:
+        """
+        Language Server Protocol features and code intelligence.
+        """
+        return LSP_TOOLS_HELP_PROMPT
+
+    @mcp_server.prompt(name="Configuration guide")
+    def config_guide() -> str:
+        """
+        How to configure tools, presets, and settings.
+        """
+        return CONFIGURATION_GUIDE_PROMPT
+
+    @mcp_server.prompt(name="Network agent guide")
+    def network_guide() -> str:
+        """
+        Distributed AI orchestration with network/swarm tools.
+        """
+        return NETWORK_AGENT_GUIDE_PROMPT
+
+    @mcp_server.prompt(name="Performance tips")
+    def performance_tips() -> str:
+        """
+        Optimization strategies for better performance.
+        """
+        return PERFORMANCE_TIPS_PROMPT
+
+    @mcp_server.prompt(name="Security best practices")
+    def security_practices() -> str:
+        """
+        Safe usage patterns and security guidelines.
+        """
+        return SECURITY_BEST_PRACTICES_PROMPT
+
+    @mcp_server.prompt(name="Troubleshooting guide")
+    def troubleshooting() -> str:
+        """
+        Common issues and their solutions.
+        """
+        return TROUBLESHOOTING_GUIDE_PROMPT
 
     if projects is None:
         return

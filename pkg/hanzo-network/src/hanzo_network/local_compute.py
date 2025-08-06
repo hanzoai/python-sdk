@@ -8,10 +8,9 @@ for decentralized coordination and payments.
 import time
 import hashlib
 import asyncio
-from typing import Dict, Any, List, Optional, Callable, Union
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
 
 # Try to import ML dependencies
 try:
@@ -546,7 +545,7 @@ async def demo_local_compute():
     # Get result
     result = orchestrator.get_result("req_001")
     if result:
-        print(f"\nResult:")
+        print("\nResult:")
         print(f"  Model: {result.model_name}")
         print(f"  Response: {result.text}")
         print(f"  Cost: {result.cost_eth:.6f} ETH")

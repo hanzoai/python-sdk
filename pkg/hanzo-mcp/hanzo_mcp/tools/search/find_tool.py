@@ -437,9 +437,9 @@ class FindTool(BaseTool):
             if max_depth:
                 cmd.extend(['-D', str(max_depth)])
                 
-            # Add pattern and path
-            cmd.append(pattern)
+            # Add path and pattern (ffind expects directory first)
             cmd.append(str(root))
+            cmd.append(pattern)
             
             # Run ffind command
             result = subprocess.run(cmd, capture_output=True, text=True, check=False)

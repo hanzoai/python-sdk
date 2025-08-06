@@ -3,7 +3,6 @@
 from typing import Any, Dict, List, Optional, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
-import asyncio
 
 from hanzo_network.core.tool import Tool
 from hanzo_network.core.state import NetworkState, Message
@@ -117,7 +116,7 @@ class Agent:
         
         try:
             # Execute with appropriate backend
-            if self.model and self.model.provider == ModelProvider.CLI:
+            if self.model and isinstance(self.model, ModelConfig) and self.model.provider == ModelProvider.CLI:
                 result = await self._execute_cli(messages, state, context)
             else:
                 result = await self._execute_llm(messages, state, context)
@@ -151,21 +150,44 @@ class Agent:
         context: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """Execute using LLM backend."""
-        # This would integrate with litellm or direct API calls
-        # For now, return a mock result
-        
         # Convert tools to appropriate format
-        if self.tools:
+        tools = []
+        if self.tools and self.model:
             if self.model.provider == ModelProvider.OPENAI:
                 tools = [t.to_openai_function() for t in self.tools]
             elif self.model.provider == ModelProvider.ANTHROPIC:
                 tools = [t.to_anthropic_tool() for t in self.tools]
-            else:
-                tools = []
-        else:
-            tools = []
+            elif self.model.provider == ModelProvider.LOCAL:
+                # Simple tool format for local LLMs
+                tools = [{"name": t.name, "description": t.description} for t in self.tools]
         
-        # In real implementation, this would call the LLM
+        # Handle local LLM providers using hanzo/net
+        if self.model and self.model.provider == ModelProvider.LOCAL:
+            from hanzo_network.llm import HanzoNetProvider
+            
+            # Determine engine type based on model config
+            engine_type = "dummy"  # Default for testing
+            if "mlx" in self.model.model.lower():
+                engine_type = "mlx"
+            elif "tinygrad" in self.model.model.lower():
+                engine_type = "tinygrad"
+            
+            # Create hanzo/net provider
+            provider = HanzoNetProvider(
+                engine_type=engine_type,
+                base_url=self.model.base_url
+            )
+            
+            # Generate using distributed inference
+            return await provider.generate(
+                messages=messages,
+                model=self.model.model,
+                temperature=self.model.temperature,
+                max_tokens=self.model.max_tokens,
+                tools=tools
+            )
+        
+        # For other providers or if local not available, return mock
         return {
             "output": [{"type": "text", "content": f"Mock response from {self.name}"}],
             "tool_calls": [],

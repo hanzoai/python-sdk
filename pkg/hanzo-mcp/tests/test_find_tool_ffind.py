@@ -106,6 +106,9 @@ class TestFindToolFFind:
     @pytest.mark.asyncio
     async def test_find_all_python_files(self, tool_helper,find_tool, test_directory):
         """Test finding all Python files."""
+        if not FFIND_AVAILABLE:
+            pytest.skip("ffind not installed - skipping ffind-specific tests")
+            
         result = await find_tool.run(
             pattern="*.py",
             path=test_directory,
@@ -229,6 +232,8 @@ class TestFindToolFFind:
     @pytest.mark.asyncio
     async def test_performance_comparison(self, tool_helper,find_tool, test_directory):
         """Compare performance with and without ffind."""
+        if not FFIND_AVAILABLE:
+            pytest.skip("ffind not installed - skipping performance comparison")
         # Force Python implementation
         import hanzo_mcp.tools.search.find_tool as find_module
         original_ffind = find_module.FFIND_AVAILABLE
