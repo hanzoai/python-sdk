@@ -130,7 +130,7 @@ hanzo> mcp run read_file --arg path=README.md
     async def execute_command(self, cmd: str, args: str):
         """Execute a CLI command."""
         # Import here to avoid circular imports
-        from hanzo_cli import cli
+        from .. import cli
         import click
         import sys
         
