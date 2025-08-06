@@ -7,7 +7,7 @@ import click
 from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from hanzo_cli.utils.output import console, handle_errors
+from ..utils.output import console, handle_errors
 
 
 @click.group(name="network")
