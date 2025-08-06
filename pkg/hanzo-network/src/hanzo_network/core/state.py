@@ -3,7 +3,6 @@
 from typing import Any, Dict, List, Optional, TypeVar, Generic
 from dataclasses import dataclass, field
 from datetime import datetime
-import json
 
 
 T = TypeVar('T')
@@ -17,6 +16,16 @@ class Message:
     agent_id: Optional[str] = None
     timestamp: datetime = field(default_factory=datetime.now)
     metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert message to dictionary."""
+        return {
+            "role": self.role,
+            "content": self.content,
+            "agent_id": self.agent_id,
+            "timestamp": self.timestamp.isoformat(),
+            "metadata": self.metadata
+        }
 
 
 class NetworkState(Generic[T]):
