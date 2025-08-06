@@ -8,7 +8,7 @@ import click
 import yaml
 from rich.syntax import Syntax
 
-from hanzo_cli.utils.output import console, handle_errors
+from ..utils.output import console, handle_errors
 
 
 @click.group(name="config")
@@ -24,7 +24,7 @@ def config_group():
 @click.pass_context
 def show(ctx, is_global: bool, is_local: bool, system: bool):
     """Show configuration."""
-    from hanzo_cli.utils.config import load_config, get_config_paths
+    from ..utils.config import load_config, get_config_paths
     
     # Determine which configs to show
     show_all = not (is_global or is_local or system)
@@ -74,7 +74,7 @@ def show(ctx, is_global: bool, is_local: bool, system: bool):
 @click.pass_context
 def set(ctx, key: str, value: str, is_global: bool, is_local: bool):
     """Set configuration value."""
-    from hanzo_cli.utils.config import load_config, save_config, get_config_paths
+    from ..utils.config import load_config, save_config, get_config_paths
     
     # Determine target config
     paths = get_config_paths()
@@ -127,7 +127,7 @@ def set(ctx, key: str, value: str, is_global: bool, is_local: bool):
 @click.pass_context
 def get(ctx, key: str, is_global: bool, is_local: bool):
     """Get configuration value."""
-    from hanzo_cli.utils.config import get_config_value
+    from ..utils.config import get_config_value
     
     scope = "local" if is_local else ("global" if is_global else None)
     value = get_config_value(key, scope=scope)
@@ -148,7 +148,7 @@ def get(ctx, key: str, is_global: bool, is_local: bool):
 @click.pass_context
 def unset(ctx, key: str, is_global: bool, is_local: bool):
     """Unset configuration value."""
-    from hanzo_cli.utils.config import load_config, save_config, get_config_paths
+    from ..utils.config import load_config, save_config, get_config_paths
     
     # Determine target config
     paths = get_config_paths()
@@ -194,7 +194,7 @@ def edit(ctx, system: bool, is_global: bool, is_local: bool):
     """Edit configuration file in editor."""
     import os
     import subprocess
-    from hanzo_cli.utils.config import get_config_paths
+    from ..utils.config import get_config_paths
     
     # Determine which config to edit
     paths = get_config_paths()
@@ -229,7 +229,7 @@ def edit(ctx, system: bool, is_global: bool, is_local: bool):
 @click.pass_context
 def init(ctx):
     """Initialize configuration."""
-    from hanzo_cli.utils.config import init_config
+    from ..utils.config import init_config
     
     try:
         paths = init_config()

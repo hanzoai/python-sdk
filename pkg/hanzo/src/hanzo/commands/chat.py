@@ -7,7 +7,7 @@ import click
 import httpx
 from rich.markdown import Markdown
 
-from hanzo_cli.utils.output import console, handle_errors
+from ..utils.output import console, handle_errors
 
 
 @click.command(name="chat")

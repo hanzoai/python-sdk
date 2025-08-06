@@ -8,7 +8,7 @@ import click
 from rich.table import Table
 from rich.syntax import Syntax
 
-from hanzo_cli.utils.output import console, handle_errors
+from ..utils.output import console, handle_errors
 
 
 @click.group(name="mcp")
