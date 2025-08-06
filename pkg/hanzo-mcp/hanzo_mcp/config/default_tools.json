@@ -1,6 +1,6 @@
 {
   "_comment": "Default tool configuration for Hanzo MCP. Tools not listed here default to enabled.",
-  "_version": "1.0.0",
+  "_version": "1.1.0",
   
   "tools": {
     "_comment_tools": "Core tools - typically always enabled",
@@ -10,21 +10,39 @@
     "multi_edit": true,
     "directory_tree": true,
     "grep": true,
+    "find": true,
     "find_files": true,
+    "search": true,
     "run_command": true,
+    "bash": true,
     "stats": true,
     "tool_list": true,
     "tool_enable": true,
     "tool_disable": true,
     
-    "_comment_search": "Advanced search tools - can be disabled to reduce complexity",
+    "_comment_agent": "Agent and orchestration tools",
+    "agent": true,
+    "network": true,
+    "swarm": true,
+    "claude_cli": true,
+    "codex_cli": false,
+    "gemini_cli": false,
+    "grok_cli": false,
+    "think": true,
+    "critic": true,
+    
+    "_comment_search": "Advanced search tools",
     "ast": true,
+    "grep_ast": true,
     "git_search": true,
     "batch_search": true,
+    "unified_search": true,
+    "symbols": true,
     "vector_search": false,
     "vector_index": false,
     
     "_comment_process": "Process management tools",
+    "process": true,
     "run_background": true,
     "processes": true,
     "pkill": true,
@@ -37,43 +55,48 @@
     "npx_background": true,
     
     "_comment_database": "Database tools - enable if needed",
-    "sql_query": true,
-    "sql_search": true,
-    "sql_stats": true,
-    "graph_add": true,
-    "graph_remove": true,
-    "graph_query": true,
-    "graph_search": true,
-    "graph_stats": true,
+    "sql_query": false,
+    "sql_search": false,
+    "sql_stats": false,
+    "graph_add": false,
+    "graph_remove": false,
+    "graph_query": false,
+    "graph_search": false,
+    "graph_stats": false,
     
     "_comment_mcp": "MCP management tools",
+    "mcp": true,
     "mcp_add": true,
     "mcp_remove": true,
     "mcp_stats": true,
     
-    "_comment_specialized": "Specialized tools - enable as needed",
-    "dispatch_agent": false,
-    "think": true,
+    "_comment_specialized": "Specialized tools",
+    "todo": true,
     "todo_read": true,
     "todo_write": true,
     "notebook_read": true,
     "notebook_edit": true,
     "batch": true,
-    "content_replace": true
+    "content_replace": true,
+    "lsp": false,
+    "open": true
   },
   
   "categories": {
     "_comment": "Tool categories for easier management",
     "essential": [
-      "read", "write", "edit", "directory_tree", "grep", 
-      "run_command", "stats", "tool_list", "tool_enable", "tool_disable"
+      "read", "write", "edit", "multi_edit", "directory_tree", "grep", "find",
+      "run_command", "bash", "stats", "tool_list", "tool_enable", "tool_disable"
+    ],
+    "agent": [
+      "agent", "network", "swarm", "claude_cli", "think", "critic"
     ],
     "search": [
-      "grep", "ast", "git_search", "batch_search", 
-      "vector_search", "vector_index", "find_files"
+      "grep", "grep_ast", "ast", "search", "unified_search", "symbols",
+      "git_search", "batch_search", "vector_search", "vector_index", "find_files"
     ],
     "process": [
-      "run_background", "processes", "pkill", "logs"
+      "process", "run_background", "processes", "pkill", "logs"
     ],
     "packages": [
       "uvx", "uvx_background", "npx", "npx_background"
@@ -83,11 +106,11 @@
       "graph_add", "graph_remove", "graph_query", "graph_search", "graph_stats"
     ],
     "mcp": [
-      "mcp_add", "mcp_remove", "mcp_stats"
+      "mcp", "mcp_add", "mcp_remove", "mcp_stats"
     ],
-    "advanced": [
-      "dispatch_agent", "think", "batch", "content_replace",
-      "todo_read", "todo_write", "notebook_read", "notebook_edit"
+    "productivity": [
+      "todo", "todo_read", "todo_write", "batch", "content_replace",
+      "notebook_read", "notebook_edit", "lsp", "open"
     ]
   },
   
@@ -98,16 +121,22 @@
       "_disable_all_others": true
     },
     "standard": {
-      "_enable_categories": ["essential", "search", "process"],
-      "_disable_tools": ["vector_search", "vector_index", "dispatch_agent"]
+      "_enable_categories": ["essential", "search", "process", "productivity"],
+      "_disable_tools": ["vector_search", "vector_index", "lsp"]
     },
     "full": {
       "_enable_all": true,
-      "_except": ["dispatch_agent"]
+      "_except": ["codex_cli", "gemini_cli", "grok_cli"]
     },
     "development": {
-      "_enable_categories": ["essential", "search", "process", "packages", "database"],
-      "_disable_tools": ["dispatch_agent"]
+      "_enable_categories": ["essential", "agent", "search", "process", "packages", "productivity"],
+      "_disable_categories": ["database"],
+      "_enable_tools": ["lsp"]
+    },
+    "ai_research": {
+      "_enable_categories": ["essential", "agent", "search", "productivity"],
+      "_enable_tools": ["vector_search", "vector_index"],
+      "_disable_categories": ["database", "packages"]
     }
   }
 }

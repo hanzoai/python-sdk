@@ -2,7 +2,6 @@
 
 from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
-import asyncio
 
 from hanzo_network.core.tool import Tool, create_tool, ToolContext
 
