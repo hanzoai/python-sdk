@@ -104,78 +104,69 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
                             network: str = "mainnet", models: tuple = None, 
                             max_jobs: int = 10):
     """Start this instance as a compute node using hanzo/net."""
+    from .utils.net_check import check_net_installation, get_missing_dependencies
+    
     console = ctx.obj.get("console", Console())
     
     console.print("[bold cyan]Starting Hanzo Net Compute Node[/bold cyan]")
     console.print(f"Network: {network}")
     console.print(f"Port: {port}")
     
+    # Check hanzo/net availability
+    is_available, net_path, python_exe = check_net_installation()
+    
+    if not is_available:
+        console.print("[red]Error:[/red] hanzo/net is not properly configured")
+        if net_path:
+            console.print(f"Found hanzo/net at {net_path} but dependencies are missing")
+            missing = get_missing_dependencies(python_exe)
+            if missing:
+                console.print(f"Missing packages: {', '.join(missing)}")
+            console.print("\nTo fix, run:")
+            console.print(f"  cd {net_path} && pip install -e .")
+        else:
+            console.print("\nTo install hanzo/net:")
+            console.print("  git clone https://github.com/hanzoai/net.git ~/work/hanzo/net")
+            console.print("  cd ~/work/hanzo/net && pip install -e .")
+        return
+    
     try:
         import subprocess
         import sys
         import os
         
-        # Check if hanzo/net is available
-        net_path = "/Users/z/work/hanzo/net"
-        if not os.path.exists(net_path):
-            # Try to find net in the Python environment
-            try:
-                import net
-                # net is installed as a package
-                console.print("[green]✓[/green] Using installed hanzo/net")
-                
-                # Run net directly
-                from net.main import run as net_run
-                
-                # Set up environment for net
-                if models:
-                    os.environ["NET_MODELS"] = ",".join(models)
-                if name:
-                    os.environ["NET_NODE_NAME"] = name
-                
-                console.print(f"\n[green]✓[/green] Node initialized")
-                console.print(f"  Port: {port}")
-                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
-                console.print("\n[bold green]Hanzo Net is running![/bold green]")
-                console.print("WebUI: http://localhost:52415")
-                console.print("API: http://localhost:52415/v1/chat/completions")
-                console.print("\nPress Ctrl+C to stop\n")
-                
-                # Run net
-                await net_run()
-                
-            except ImportError:
-                # net not installed, try to run from source
-                console.print("[yellow]hanzo/net not installed, checking for source...[/yellow]")
-                
-                if os.path.exists(net_path):
-                    console.print(f"[green]✓[/green] Found hanzo/net at {net_path}")
-                    
-                    # Add net to Python path
-                    sys.path.insert(0, os.path.join(net_path, "src"))
-                    
-                    # Import and run net
-                    from net.main import run as net_run
-                    
-                    console.print(f"\n[green]✓[/green] Starting net node")
-                    console.print(f"  Port: {port}")
-                    console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
-                    console.print("\n[bold green]Hanzo Net is running![/bold green]")
-                    console.print("WebUI: http://localhost:52415")
-                    console.print("API: http://localhost:52415/v1/chat/completions")
-                    console.print("\nPress Ctrl+C to stop\n")
-                    
-                    # Run net
-                    await net_run()
-                else:
-                    console.print("[red]Error:[/red] hanzo/net not found")
-                    console.print("\nInstall hanzo/net:")
-                    console.print("  git clone https://github.com/hanzoai/net.git")
-                    console.print("  cd net && pip install -e .")
-                    return
+        # Use the checked net_path and python_exe
+        if not net_path:
+            # net is installed as a package
+            console.print("[green]✓[/green] Using installed hanzo/net")
+            
+            # Import and run net
+            sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(sys.executable)), "lib", "python3.*/site-packages"))
+            from net.main import run as net_run
+            
+            # Set up environment for net
+            if models:
+                os.environ["NET_MODELS"] = ",".join(models)
+            if name:
+                os.environ["NET_NODE_NAME"] = name
+            
+            console.print(f"\n[green]✓[/green] Node initialized")
+            console.print(f"  Port: {port}")
+            console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
+            console.print("\n[bold green]Hanzo Net is running![/bold green]")
+            console.print("WebUI: http://localhost:52415")
+            console.print("API: http://localhost:52415/v1/chat/completions")
+            console.print("\nPress Ctrl+C to stop\n")
+            
+            # Run net
+            await net_run()
         else:
-            # Run from source directory
+            # Run from source directory using the detected python_exe
             console.print(f"[green]✓[/green] Using hanzo/net from {net_path}")
+            if python_exe != sys.executable:
+                console.print(f"[green]✓[/green] Using hanzo/net venv")
+            else:
+                console.print("[yellow]⚠[/yellow] Using system Python")
             
             # Change to net directory and run
             original_cwd = os.getcwd()
@@ -188,6 +179,7 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
                     env["NET_MODELS"] = ",".join(models)
                 if name:
                     env["NET_NODE_NAME"] = name
+                env["PYTHONPATH"] = os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
                 
                 console.print(f"\n[green]✓[/green] Starting net node")
                 console.print(f"  Port: {port}")
@@ -197,12 +189,9 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
                 console.print("API: http://localhost:52415/v1/chat/completions")
                 console.print("\nPress Ctrl+C to stop\n")
                 
-                # Add src to path and run net
-                env["PYTHONPATH"] = os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
-                
-                # Run net command
+                # Run net command with detected python
                 process = subprocess.run(
-                    [sys.executable, "-c", "from net.main import run; run()"],
+                    [python_exe, "-c", "from net.main import run; run()"],
                     env=env,
                     check=False
                 )
