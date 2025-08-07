@@ -1,6 +1,6 @@
 import unittest
 
-from hanzo_network.networking.manual.network_topology_config import NetworkTopology
+from .networking.manual.network_topology_config import NetworkTopology
 
 root_path = "./exo/networking/manual/test_data/"
 

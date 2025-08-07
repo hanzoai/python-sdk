@@ -8,7 +8,7 @@ import mlx.nn as nn
 
 from .unet import ResnetBlock2D, upsample_nearest
 from dataclasses import dataclass, field
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 from typing import Tuple
 import inspect
 from ..base import IdentityBlock

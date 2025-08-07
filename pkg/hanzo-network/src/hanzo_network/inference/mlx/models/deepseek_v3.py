@@ -10,7 +10,7 @@ from mlx_lm.models.deepseek_v3 import (
   DeepseekV3DecoderLayer,
 )
 from .base import IdentityBlock
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 
 @dataclass

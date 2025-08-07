@@ -3,7 +3,7 @@
 from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
 
-from hanzo_network.core.tool import Tool, create_tool, ToolContext
+from .core.tool import Tool, create_tool, ToolContext
 
 # Import from hanzo-memory package when available
 try:

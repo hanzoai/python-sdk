@@ -17,7 +17,7 @@ from .sd_models.clip import ModelArgs as CLIPArgs
 from .sd_models.unet import UNetConfig, UNetModel
 
 from dataclasses import dataclass, field
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 @dataclass
 class DiffusionConfig:

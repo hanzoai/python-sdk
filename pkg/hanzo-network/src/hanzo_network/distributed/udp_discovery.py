@@ -6,9 +6,9 @@ import socket
 import time
 from typing import List, Dict, Tuple
 
-from hanzo_network.distributed.discovery import Discovery
-from hanzo_network.distributed.minimal_discovery import MinimalPeerHandle
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
+from .discovery import Discovery
+from .minimal_discovery import MinimalPeerHandle
+from ..device_capabilities import DeviceCapabilities
 
 
 def get_broadcast_address(ip_addr: str) -> str:
