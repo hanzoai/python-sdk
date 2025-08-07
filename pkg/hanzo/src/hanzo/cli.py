@@ -12,7 +12,7 @@ from .interactive.repl import HanzoREPL
 from .utils.output import console
 
 # Version
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 
 @click.group(invoke_without_command=True)
