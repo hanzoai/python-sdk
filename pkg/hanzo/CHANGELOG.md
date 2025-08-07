@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.2.6] - 2024-08-06
+
+### Added
+- Robust dependency checking for hanzo/net integration
+- `net_check.py` utility for verifying hanzo/net installation
+- Comprehensive tests for node command integration
+- CI/CD workflows with GitHub Actions
+- Automatic venv detection for hanzo/net
+
+### Improved
+- Better error handling with clear installation instructions
+- Smart Python executable detection (uses hanzo/net venv when available)
+- More informative error messages when dependencies are missing
+- Path handling for both installed and source versions of hanzo/net
+
+### Fixed
+- Python path issues when running hanzo/net
+- Dependency resolution for different Python environments
+- Import errors when running from different directories
+
+### Testing
+- Added unit tests for node command
+- Created standalone test script for quick verification
+- Set up automated testing in CI/CD pipeline
+
 ## [0.2.5] - 2024-08-06
 
 ### Added
