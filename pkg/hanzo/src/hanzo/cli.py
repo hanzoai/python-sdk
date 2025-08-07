@@ -90,71 +90,131 @@ def serve(ctx, name: str, port: int):
 
 @cli.command()
 @click.option("--name", "-n", help="Node name (auto-generated if not provided)")
-@click.option("--port", "-p", default=7860, help="Node port")
-@click.option("--network", default="mainnet", help="Network to join (mainnet/testnet/local)")
-@click.option("--models", "-m", multiple=True, help="Models to serve")
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
 def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
-    """Start as a compute node for the Hanzo network."""
+    """Start as a compute node for the Hanzo network using hanzo/net."""
     asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
 
 
-async def start_compute_node(ctx, name: str = None, port: int = 7860, 
+async def start_compute_node(ctx, name: str = None, port: int = 52415, 
                             network: str = "mainnet", models: tuple = None, 
                             max_jobs: int = 10):
-    """Start this instance as a compute node."""
+    """Start this instance as a compute node using hanzo/net."""
     console = ctx.obj.get("console", Console())
     
-    console.print("[bold cyan]Starting Hanzo Compute Node[/bold cyan]")
+    console.print("[bold cyan]Starting Hanzo Net Compute Node[/bold cyan]")
     console.print(f"Network: {network}")
     console.print(f"Port: {port}")
     
     try:
-        from hanzo_network import LocalComputeNode as ComputeNode
+        import subprocess
+        import sys
+        import os
         
-        # Generate node name if not provided
-        if not name:
-            import socket
-            import uuid
-            hostname = socket.gethostname()
-            node_id = str(uuid.uuid4())[:8]
-            name = f"{hostname}-{node_id}"
+        # Check if hanzo/net is available
+        net_path = "/Users/z/work/hanzo/net"
+        if not os.path.exists(net_path):
+            # Try to find net in the Python environment
+            try:
+                import net
+                # net is installed as a package
+                console.print("[green]✓[/green] Using installed hanzo/net")
+                
+                # Run net directly
+                from net.main import run as net_run
+                
+                # Set up environment for net
+                if models:
+                    os.environ["NET_MODELS"] = ",".join(models)
+                if name:
+                    os.environ["NET_NODE_NAME"] = name
+                
+                console.print(f"\n[green]✓[/green] Node initialized")
+                console.print(f"  Port: {port}")
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
+                console.print("\n[bold green]Hanzo Net is running![/bold green]")
+                console.print("WebUI: http://localhost:52415")
+                console.print("API: http://localhost:52415/v1/chat/completions")
+                console.print("\nPress Ctrl+C to stop\n")
+                
+                # Run net
+                await net_run()
+                
+            except ImportError:
+                # net not installed, try to run from source
+                console.print("[yellow]hanzo/net not installed, checking for source...[/yellow]")
+                
+                if os.path.exists(net_path):
+                    console.print(f"[green]✓[/green] Found hanzo/net at {net_path}")
+                    
+                    # Add net to Python path
+                    sys.path.insert(0, os.path.join(net_path, "src"))
+                    
+                    # Import and run net
+                    from net.main import run as net_run
+                    
+                    console.print(f"\n[green]✓[/green] Starting net node")
+                    console.print(f"  Port: {port}")
+                    console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
+                    console.print("\n[bold green]Hanzo Net is running![/bold green]")
+                    console.print("WebUI: http://localhost:52415")
+                    console.print("API: http://localhost:52415/v1/chat/completions")
+                    console.print("\nPress Ctrl+C to stop\n")
+                    
+                    # Run net
+                    await net_run()
+                else:
+                    console.print("[red]Error:[/red] hanzo/net not found")
+                    console.print("\nInstall hanzo/net:")
+                    console.print("  git clone https://github.com/hanzoai/net.git")
+                    console.print("  cd net && pip install -e .")
+                    return
+        else:
+            # Run from source directory
+            console.print(f"[green]✓[/green] Using hanzo/net from {net_path}")
+            
+            # Change to net directory and run
+            original_cwd = os.getcwd()
+            try:
+                os.chdir(net_path)
+                
+                # Set up environment
+                env = os.environ.copy()
+                if models:
+                    env["NET_MODELS"] = ",".join(models)
+                if name:
+                    env["NET_NODE_NAME"] = name
+                
+                console.print(f"\n[green]✓[/green] Starting net node")
+                console.print(f"  Port: {port}")
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
+                console.print("\n[bold green]Hanzo Net is running![/bold green]")
+                console.print("WebUI: http://localhost:52415")
+                console.print("API: http://localhost:52415/v1/chat/completions")
+                console.print("\nPress Ctrl+C to stop\n")
+                
+                # Add src to path and run net
+                env["PYTHONPATH"] = os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
+                
+                # Run net command
+                process = subprocess.run(
+                    [sys.executable, "-c", "from net.main import run; run()"],
+                    env=env,
+                    check=False
+                )
+                
+                if process.returncode != 0 and process.returncode != -2:  # -2 is Ctrl+C
+                    console.print(f"[red]Net exited with code {process.returncode}[/red]")
+                    
+            finally:
+                os.chdir(original_cwd)
         
-        # Initialize compute node
-        node = ComputeNode(
-            name=name,
-            port=port,
-            network=network,
-            models=list(models) if models else None,
-            max_concurrent_jobs=max_jobs
-        )
-        
-        console.print(f"\n[green]✓[/green] Node '{name}' initialized")
-        console.print(f"  ID: {node.id}")
-        console.print(f"  Models: {', '.join(node.available_models) if node.available_models else 'auto-detect'}")
-        console.print(f"  Max jobs: {max_jobs}")
-        console.print("\n[yellow]Joining network...[/yellow]")
-        
-        await node.connect()
-        
-        console.print(f"[green]✓[/green] Connected to {network} network")
-        console.print(f"  Peers: {len(node.peers)}")
-        console.print(f"  Status: {node.status}")
-        
-        console.print("\n[bold green]Compute node is running![/bold green]")
-        console.print("Press Ctrl+C to stop\n")
-        
-        # Run the node
-        await node.run()
-        
-    except ImportError:
-        console.print("[red]Error:[/red] hanzo-network not installed")
-        console.print("Install with: pip install hanzo[network]")
     except KeyboardInterrupt:
         console.print("\n[yellow]Shutting down node...[/yellow]")
-        if 'node' in locals():
-            await node.shutdown()
         console.print("[green]✓[/green] Node stopped")
     except Exception as e:
         console.print(f"[red]Error starting compute node: {e}[/red]")
