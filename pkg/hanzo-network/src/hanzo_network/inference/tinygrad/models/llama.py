@@ -165,7 +165,7 @@ def sample_logits(logits: Tensor, temp: float, k: int, p: float, af: float, ap: 
   return output_token
 
 
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 
 class Transformer:

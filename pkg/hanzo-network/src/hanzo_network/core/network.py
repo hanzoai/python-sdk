@@ -4,12 +4,12 @@ from typing import Any, Dict, List, Optional, Union, TypeVar, Generic
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from hanzo_network.core.agent import Agent
-from hanzo_network.core.router import (
+from .agent import Agent
+from .router import (
     Router, RouterFunction, RouterArgs, RoutingAgent,
     get_default_routing_agent
 )
-from hanzo_network.core.state import NetworkState
+from .state import NetworkState
 
 
 T = TypeVar('T')

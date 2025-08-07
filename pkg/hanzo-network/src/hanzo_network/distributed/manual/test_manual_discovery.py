@@ -2,11 +2,11 @@ import json
 import asyncio
 import unittest
 from unittest import mock
-from hanzo_network.networking.manual.manual_discovery import ManualDiscovery
-from hanzo_network.networking.manual.network_topology_config import NetworkTopology
-from hanzo_network.networking.grpc.grpc_peer_handle import GRPCPeerHandle
-from hanzo_network.networking.grpc.grpc_server import GRPCServer
-from hanzo_network.orchestration.node import Node
+from .networking.manual.manual_discovery import ManualDiscovery
+from .networking.manual.network_topology_config import NetworkTopology
+from .networking.grpc.grpc_peer_handle import GRPCPeerHandle
+from .networking.grpc.grpc_server import GRPCServer
+from .orchestration.node import Node
 
 root_path = "./exo/networking/manual/test_data/test_config.json"
 

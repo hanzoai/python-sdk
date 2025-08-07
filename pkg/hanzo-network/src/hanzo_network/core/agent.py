@@ -4,8 +4,8 @@ from typing import Any, Dict, List, Optional, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
 
-from hanzo_network.core.tool import Tool
-from hanzo_network.core.state import NetworkState, Message
+from .tool import Tool
+from .state import NetworkState, Message
 
 
 class ModelProvider(Enum):
@@ -163,7 +163,7 @@ class Agent:
         
         # Handle local LLM providers using hanzo/net
         if self.model and self.model.provider == ModelProvider.LOCAL:
-            from hanzo_network.llm import HanzoNetProvider
+            from ..llm import HanzoNetProvider
             
             # Determine engine type based on model config
             engine_type = "dummy"  # Default for testing

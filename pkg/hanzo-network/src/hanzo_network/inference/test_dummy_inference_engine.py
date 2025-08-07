@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from hanzo_network.inference.dummy_inference_engine import DummyInferenceEngine
-from hanzo_network.inference.shard import Shard
+from .inference.dummy_inference_engine import DummyInferenceEngine
+from .inference.shard import Shard
 
 
 @pytest.mark.asyncio

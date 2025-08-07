@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 import numpy as np
-from hanzo_network.inference.shard import Shard
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
-from hanzo_network.topology.topology import Topology
+from ..inference.shard import Shard
+from ..topology.device_capabilities import DeviceCapabilities
+from ..topology.topology import Topology
 
 
 class PeerHandle(ABC):

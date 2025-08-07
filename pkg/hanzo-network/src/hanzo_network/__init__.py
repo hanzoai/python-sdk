@@ -5,17 +5,18 @@ inspired by Inngest Agent Kit but adapted for Python and integrated with Hanzo M
 Now includes both local AI compute and distributed networking capabilities powered by hanzo.network.
 """
 
-from hanzo_network.core.agent import Agent, create_agent
-from hanzo_network.core.network import Network, create_network
-from hanzo_network.core.router import Router, create_router, create_routing_agent
-from hanzo_network.core.state import NetworkState
-from hanzo_network.core.tool import Tool, create_tool
-from hanzo_network.distributed_network import DistributedNetwork, DistributedNetworkConfig, create_distributed_network
-from hanzo_network.local_network import create_local_agent, create_local_distributed_network, check_local_llm_status
+from .core.agent import Agent, create_agent
+from .core.network import Network, create_network
+from .core.router import Router, create_router, create_routing_agent
+from .core.state import NetworkState
+from .core.tool import Tool, create_tool
+# Temporarily disable problematic imports
+# from .distributed_network import DistributedNetwork, DistributedNetworkConfig, create_distributed_network
+# from .local_network import create_local_agent, create_local_distributed_network, check_local_llm_status
 
 # Local compute capabilities
 try:
-    from hanzo_network.local_compute import (
+    from .local_compute import (
         LocalComputeNode,
         LocalComputeOrchestrator,
         InferenceRequest,
@@ -42,20 +43,20 @@ __all__ = [
     "Router",
     "NetworkState",
     "Tool",
-    # Distributed classes
-    "DistributedNetwork",
-    "DistributedNetworkConfig",
+    # Distributed classes (temporarily disabled)
+    # "DistributedNetwork",
+    # "DistributedNetworkConfig",
     # Factory functions
     "create_agent",
     "create_network",
-    "create_distributed_network",
+    # "create_distributed_network",
     "create_router",
     "create_routing_agent",
     "create_tool",
-    # Local network helpers
-    "create_local_agent",
-    "create_local_distributed_network",
-    "check_local_llm_status",
+    # Local network helpers (temporarily disabled)
+    # "create_local_agent",
+    # "create_local_distributed_network",
+    # "check_local_llm_status",
     # Local compute (if available)
     "LOCAL_COMPUTE_AVAILABLE",
     "LocalComputeNode",

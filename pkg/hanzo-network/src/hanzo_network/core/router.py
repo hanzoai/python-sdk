@@ -4,8 +4,8 @@ from typing import Any, Callable, Dict, Optional, Union, Protocol
 from dataclasses import dataclass
 from enum import Enum
 
-from hanzo_network.core.agent import Agent, ModelConfig
-from hanzo_network.core.state import NetworkState
+from .agent import Agent, ModelConfig
+from .state import NetworkState
 
 
 class RouterDecision(Enum):
@@ -227,7 +227,7 @@ def get_default_routing_agent(
         Default RoutingAgent
     """
     if not model:
-        from hanzo_network.core.agent import ModelConfig, ModelProvider
+        from .agent import ModelConfig, ModelProvider
         # Use local dummy model for default router
         model = ModelConfig(
             provider=ModelProvider.LOCAL,
