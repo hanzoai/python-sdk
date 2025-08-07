@@ -7,8 +7,8 @@ from typing import List, Optional
 import mlx.core as mx
 import mlx.nn as nn
 from dataclasses import field
-from hanzo_network.inference.shard import Shard
-from hanzo_network.inference.mlx.models.base import IdentityBlock 
+from .inference.shard import Shard
+from .inference.mlx.models.base import IdentityBlock 
 
 _ACTIVATIONS = {"quick_gelu": nn.gelu_fast_approx, "gelu": nn.gelu}
 

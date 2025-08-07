@@ -8,7 +8,7 @@ import mlx.nn as nn
 
 from dataclasses import dataclass, field
 from typing import Tuple, List
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 @dataclass
 class UNetConfig:

@@ -1,9 +1,9 @@
 """Helper functions for creating local networks with local LLMs."""
 
 from typing import List, Optional
-from hanzo_network.core.agent import Agent, ModelConfig, ModelProvider, create_agent
-from hanzo_network.core.tool import Tool
-from hanzo_network.distributed_network import create_distributed_network, DistributedNetwork
+from .core.agent import Agent, ModelConfig, ModelProvider, create_agent
+from .core.tool import Tool
+from .distributed_network import create_distributed_network, DistributedNetwork
 
 
 def create_local_agent(
@@ -74,7 +74,7 @@ def create_local_distributed_network(
     Returns:
         Configured DistributedNetwork
     """
-    from hanzo_network.core.router import create_routing_agent
+    from .core.router import create_routing_agent
     
     # Create a local router if one isn't provided
     if 'router' not in kwargs:
@@ -109,7 +109,7 @@ async def check_local_llm_status(provider: str = "hanzo") -> dict:
     Returns:
         Status information including availability and models
     """
-    from hanzo_network.llm import HanzoNetProvider
+    from .llm import HanzoNetProvider
     
     # Map old provider names to hanzo/net engines
     engine_map = {

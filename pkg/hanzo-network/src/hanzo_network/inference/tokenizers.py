@@ -2,7 +2,7 @@ import traceback
 from os import PathLike
 from typing import Union
 import numpy as np
-from hanzo_network.helpers import DEBUG
+from .helpers import DEBUG
 
 # Lazy imports to avoid dependencies when not needed
 try:
@@ -17,7 +17,7 @@ except ImportError:
     AutoProcessor = None
 
 try:
-    from hanzo_network.download.new_shard_download import ensure_downloads_dir
+    from .download.new_shard_download import ensure_downloads_dir
 except ImportError:
     ensure_downloads_dir = None
 

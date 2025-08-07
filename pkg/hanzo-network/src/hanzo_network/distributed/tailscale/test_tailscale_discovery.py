@@ -1,8 +1,8 @@
 import os
 import asyncio
 import unittest
-from hanzo_network.networking.tailscale.tailscale_discovery import TailscaleDiscovery
-from hanzo_network.networking.peer_handle import PeerHandle
+from .networking.tailscale.tailscale_discovery import TailscaleDiscovery
+from .networking.peer_handle import PeerHandle
 
 
 class TestTailscaleDiscovery(unittest.IsolatedAsyncioTestCase):

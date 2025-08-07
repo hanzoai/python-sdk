@@ -7,10 +7,10 @@ from . import node_service_pb2
 from . import node_service_pb2_grpc
 
 from ..peer_handle import PeerHandle
-from hanzo_network.inference.shard import Shard
-from hanzo_network.topology.topology import Topology
-from hanzo_network.topology.device_capabilities import DeviceCapabilities, DeviceFlops
-from hanzo_network.helpers import DEBUG
+from .inference.shard import Shard
+from .topology.topology import Topology
+from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
+from .helpers import DEBUG
 import json
 import platform
 

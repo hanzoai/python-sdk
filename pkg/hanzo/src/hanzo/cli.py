@@ -111,7 +111,7 @@ async def start_compute_node(ctx, name: str = None, port: int = 7860,
     console.print(f"Port: {port}")
     
     try:
-        from hanzo_network import ComputeNode
+        from hanzo_network import LocalComputeNode as ComputeNode
         
         # Generate node name if not provided
         if not name:

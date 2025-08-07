@@ -4,10 +4,10 @@ import socket
 import time
 import traceback
 from typing import List, Dict, Callable, Tuple, Coroutine, Optional
-from hanzo_network.networking.discovery import Discovery
-from hanzo_network.networking.peer_handle import PeerHandle
-from hanzo_network.topology.device_capabilities import DeviceCapabilities, device_capabilities, UNKNOWN_DEVICE_CAPABILITIES
-from hanzo_network.helpers import DEBUG, DEBUG_DISCOVERY, get_all_ip_addresses_and_interfaces, get_interface_priority_and_type
+from .networking.discovery import Discovery
+from .networking.peer_handle import PeerHandle
+from .topology.device_capabilities import DeviceCapabilities, device_capabilities, UNKNOWN_DEVICE_CAPABILITIES
+from .helpers import DEBUG, DEBUG_DISCOVERY, get_all_ip_addresses_and_interfaces, get_interface_priority_and_type
 
 
 class ListenProtocol(asyncio.DatagramProtocol):

@@ -3,9 +3,9 @@ from tinygrad import Tensor
 from pathlib import Path
 import json
 from typing import List
-from hanzo_network.inference.shard import Shard
-from hanzo_network.helpers import DEBUG
-from hanzo_network.download.hf.hf_helpers import get_allow_patterns
+from .inference.shard import Shard
+from .helpers import DEBUG
+from .download.hf.hf_helpers import get_allow_patterns
 from fnmatch import fnmatch
 import re
 

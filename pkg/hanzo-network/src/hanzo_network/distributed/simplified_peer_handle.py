@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Optional, Any, Dict
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
+from ..topology.device_capabilities import DeviceCapabilities
 
 
 class SimplifiedPeerHandle(ABC):
