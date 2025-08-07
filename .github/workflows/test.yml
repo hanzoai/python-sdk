@@ -1,0 +1,71 @@
+name: Test Hanzo Python SDK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio pytest-cov
+        cd pkg/hanzo && pip install -e .
+    
+    - name: Run tests
+      run: |
+        cd pkg/hanzo
+        python -m pytest tests/ -v --cov=hanzo --cov-report=term-missing
+    
+    - name: Test hanzo CLI
+      run: |
+        hanzo --version
+        hanzo --help
+        hanzo node --help
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ruff black mypy
+    
+    - name: Lint with ruff
+      run: |
+        cd pkg/hanzo
+        ruff check src/
+    
+    - name: Format check with black
+      run: |
+        cd pkg/hanzo
+        black --check src/
+    
+    - name: Type check with mypy
+      run: |
+        cd pkg/hanzo
+        pip install -e .
+        mypy src/ --ignore-missing-imports || true
