@@ -1,4 +1,4 @@
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 import mlx.core as mx
 import mlx.nn as nn
 from typing import Optional

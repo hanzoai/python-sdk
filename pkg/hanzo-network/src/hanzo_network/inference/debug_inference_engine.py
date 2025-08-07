@@ -1,13 +1,13 @@
-from hanzo_network.inference.inference_engine import InferenceEngine
-from hanzo_network.inference.shard import Shard
-from hanzo_network.inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
+from .inference.inference_engine import InferenceEngine
+from .inference.shard import Shard
+from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
 import asyncio
 import numpy as np
 
 
 # An inference engine should work the same for any number of Shards, as long as the Shards are continuous.
 async def test_inference_engine(inference_engine_1: InferenceEngine, inference_engine_2: InferenceEngine, model_id: str):
-  from hanzo_network.inference.tinygrad.inference import Tokenizer
+  from .inference.tinygrad.inference import Tokenizer
   from pathlib import Path
 
   _tokenizer = Tokenizer(str(Path(model_id)/"tokenizer.model"))

@@ -1,7 +1,7 @@
 import unittest
 from typing import List
-from hanzo_network.topology.partitioning_strategy import Partition, map_partitions_to_shards
-from hanzo_network.inference.shard import Shard
+from .topology.partitioning_strategy import Partition, map_partitions_to_shards
+from .inference.shard import Shard
 
 
 class TestRingMemoryWeightedPartitioningStrategy(unittest.TestCase):

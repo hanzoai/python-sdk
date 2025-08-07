@@ -1,9 +1,9 @@
 """Minimal discovery implementation for testing."""
 
 from typing import List, Dict, Any, Optional
-from hanzo_network.distributed.discovery import Discovery
-from hanzo_network.distributed.simplified_peer_handle import SimplifiedPeerHandle
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
+from .discovery import Discovery
+from .simplified_peer_handle import SimplifiedPeerHandle
+from ..device_capabilities import DeviceCapabilities
 
 
 class MinimalPeerHandle(SimplifiedPeerHandle):

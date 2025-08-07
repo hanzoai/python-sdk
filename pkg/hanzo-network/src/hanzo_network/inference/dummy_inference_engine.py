@@ -1,8 +1,8 @@
 from typing import Optional
 import numpy as np
-from hanzo_network.inference.inference_engine import InferenceEngine
-from hanzo_network.inference.shard import Shard
-from hanzo_network.inference.tokenizers import DummyTokenizer
+from .inference.inference_engine import InferenceEngine
+from .inference.shard import Shard
+from .inference.tokenizers import DummyTokenizer
 
 class DummyInferenceEngine(InferenceEngine):
   def __init__(self):

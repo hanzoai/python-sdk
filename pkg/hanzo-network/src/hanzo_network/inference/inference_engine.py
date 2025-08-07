@@ -1,11 +1,11 @@
 import numpy as np
 import os
-from hanzo_network.helpers import DEBUG  # Make sure to import DEBUG
+from .helpers import DEBUG  # Make sure to import DEBUG
 
 from typing import Optional
 from abc import ABC, abstractmethod
 from .shard import Shard
-from hanzo_network.download.shard_download import ShardDownloader
+from .download.shard_download import ShardDownloader
 
 
 class InferenceEngine(ABC):
@@ -62,16 +62,16 @@ def get_inference_engine(inference_engine_name: str, shard_downloader: ShardDown
   if DEBUG >= 2:
     print(f"get_inference_engine called with: {inference_engine_name}")
   if inference_engine_name == "mlx":
-    from hanzo_network.inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
+    from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
 
     return MLXDynamicShardInferenceEngine(shard_downloader)
   elif inference_engine_name == "tinygrad":
-    from hanzo_network.inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
+    from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
     import tinygrad.helpers
     tinygrad.helpers.DEBUG.value = int(os.getenv("TINYGRAD_DEBUG", default="0"))
 
     return TinygradDynamicShardInferenceEngine(shard_downloader)
   elif inference_engine_name == "dummy":
-    from hanzo_network.inference.dummy_inference_engine import DummyInferenceEngine
+    from .inference.dummy_inference_engine import DummyInferenceEngine
     return DummyInferenceEngine()
   raise ValueError(f"Unsupported inference engine: {inference_engine_name}")

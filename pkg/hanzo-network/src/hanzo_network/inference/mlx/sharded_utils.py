@@ -19,7 +19,7 @@ from transformers import AutoProcessor
 from mlx_lm.tokenizer_utils import TokenizerWrapper
 
 from net import DEBUG
-from hanzo_network.inference.tokenizers import resolve_tokenizer
+from .inference.tokenizers import resolve_tokenizer
 from ..shard import Shard
 
 

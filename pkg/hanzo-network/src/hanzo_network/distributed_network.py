@@ -4,15 +4,15 @@ import asyncio
 from typing import Any, Dict, List, Optional, Union, TypeVar
 from dataclasses import dataclass
 
-from hanzo_network.core.network import Network, NetworkConfig
-from hanzo_network.core.agent import Agent
-from hanzo_network.core.router import Router, RouterFunction, RoutingAgent
-from hanzo_network.core.state import NetworkState
-from hanzo_network.distributed.discovery import Discovery
-from hanzo_network.distributed.simplified_peer_handle import SimplifiedPeerHandle as PeerHandle
-from hanzo_network.distributed.udp_discovery import UDPDiscovery
-from hanzo_network.distributed.grpc_server import GRPCServer
-from hanzo_network.topology.device_capabilities import DeviceCapabilities, device_capabilities
+from .core.network import Network, NetworkConfig
+from .core.agent import Agent
+from .core.router import Router, RouterFunction, RoutingAgent
+from .core.state import NetworkState
+from .distributed.discovery import Discovery
+from .distributed.simplified_peer_handle import SimplifiedPeerHandle as PeerHandle
+from .distributed.udp_discovery import UDPDiscovery
+from .distributed.grpc_server import GRPCServer
+from .topology.device_capabilities import DeviceCapabilities, device_capabilities
 
 
 T = TypeVar('T')

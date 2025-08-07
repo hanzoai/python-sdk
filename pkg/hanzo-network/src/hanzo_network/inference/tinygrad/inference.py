@@ -1,14 +1,14 @@
 from pathlib import Path
 import os
-from hanzo_network.inference.tinygrad.models.llama import Transformer, TransformerShard, convert_from_huggingface, fix_bf16, sample_logits
-from hanzo_network.inference.shard import Shard
-from hanzo_network.inference.tokenizers import resolve_tokenizer
+from .inference.tinygrad.models.llama import Transformer, TransformerShard, convert_from_huggingface, fix_bf16, sample_logits
+from .inference.shard import Shard
+from .inference.tokenizers import resolve_tokenizer
 from tinygrad.nn.state import safe_save, safe_load, get_state_dict, load_state_dict
 from tinygrad import Tensor, nn, Context
-from hanzo_network.inference.inference_engine import InferenceEngine
+from .inference.inference_engine import InferenceEngine
 import numpy as np
-from hanzo_network.inference.tinygrad.tinygrad_helpers import concat_weights, load
-from hanzo_network.download.shard_download import ShardDownloader
+from .inference.tinygrad.tinygrad_helpers import concat_weights, load
+from .download.shard_download import ShardDownloader
 from concurrent.futures import ThreadPoolExecutor
 from .stateful_model import make_prompt_state
 from .losses import length_masked_ce_loss

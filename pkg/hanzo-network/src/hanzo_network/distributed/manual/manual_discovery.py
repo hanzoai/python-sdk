@@ -3,11 +3,11 @@ import asyncio
 from typing import Dict, List, Callable, Optional
 from concurrent.futures import ThreadPoolExecutor
 
-from hanzo_network.networking.discovery import Discovery
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
-from hanzo_network.networking.manual.network_topology_config import NetworkTopology, PeerConfig
-from hanzo_network.helpers import DEBUG_DISCOVERY
-from hanzo_network.networking.peer_handle import PeerHandle
+from .networking.discovery import Discovery
+from .topology.device_capabilities import DeviceCapabilities
+from .networking.manual.network_topology_config import NetworkTopology, PeerConfig
+from .helpers import DEBUG_DISCOVERY
+from .networking.peer_handle import PeerHandle
 
 
 class ManualDiscovery(Discovery):

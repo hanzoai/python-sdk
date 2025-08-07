@@ -1,9 +1,9 @@
 import asyncio
 import time
-from hanzo_network.inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
-from hanzo_network.download.new_shard_download import NewShardDownloader
-from hanzo_network.inference.shard import Shard
-from hanzo_network.models import build_base_shard
+from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
+from .download.new_shard_download import NewShardDownloader
+from .inference.shard import Shard
+from .models import build_base_shard
 from collections import deque
 
 async def test_non_blocking():

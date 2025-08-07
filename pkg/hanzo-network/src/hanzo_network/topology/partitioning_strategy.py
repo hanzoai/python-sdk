@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from dataclasses import dataclass
 from .topology import Topology
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 
 # Partitions shard-space into pieces of contiguous shards, represented by floating point range [start, end) between 0 and 1

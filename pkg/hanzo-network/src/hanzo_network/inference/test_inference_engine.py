@@ -1,7 +1,7 @@
-from hanzo_network.inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
-from hanzo_network.inference.inference_engine import InferenceEngine
-from hanzo_network.download.new_shard_download import NewShardDownloader
-from hanzo_network.inference.shard import Shard
+from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
+from .inference.inference_engine import InferenceEngine
+from .download.new_shard_download import NewShardDownloader
+from .inference.shard import Shard
 import os
 import asyncio
 import numpy as np
@@ -48,6 +48,6 @@ asyncio.run(test_inference_engine(MLXDynamicShardInferenceEngine(NewShardDownloa
 if os.getenv("RUN_TINYGRAD", default="0") == "1":
   import tinygrad
   import os
-  from hanzo_network.inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
+  from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
   tinygrad.helpers.DEBUG.value = int(os.getenv("TINYGRAD_DEBUG", default="0"))
   asyncio.run(test_inference_engine(TinygradDynamicShardInferenceEngine(NewShardDownloader()), TinygradDynamicShardInferenceEngine(NewShardDownloader()), "llama-3.2-1b", 32))

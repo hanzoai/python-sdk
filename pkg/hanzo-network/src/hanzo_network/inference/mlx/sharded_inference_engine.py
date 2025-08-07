@@ -8,7 +8,7 @@ from .sharded_utils import load_model_shard, resolve_tokenizer
 from .losses import loss_fns
 from ..shard import Shard
 from typing import Optional
-from hanzo_network.download.shard_download import ShardDownloader
+from .download.shard_download import ShardDownloader
 import asyncio
 from collections import OrderedDict
 from mlx_lm.models.cache import make_prompt_cache
