@@ -1,7 +1,7 @@
 from typing import Dict
 from pydantic import BaseModel, ValidationError
 
-from hanzo_network.topology.device_capabilities import DeviceCapabilities
+from .topology.device_capabilities import DeviceCapabilities
 
 
 class PeerConfig(BaseModel):

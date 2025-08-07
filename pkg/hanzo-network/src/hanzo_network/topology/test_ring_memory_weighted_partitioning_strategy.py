@@ -1,8 +1,8 @@
 import unittest
-from hanzo_network.topology.ring_memory_weighted_partitioning_strategy import RingMemoryWeightedPartitioningStrategy
-from hanzo_network.topology.topology import Topology
-from hanzo_network.topology.device_capabilities import DeviceCapabilities, DeviceFlops
-from hanzo_network.topology.partitioning_strategy import Partition
+from .topology.ring_memory_weighted_partitioning_strategy import RingMemoryWeightedPartitioningStrategy
+from .topology.topology import Topology
+from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
+from .topology.partitioning_strategy import Partition
 
 
 class TestRingMemoryWeightedPartitioningStrategy(unittest.TestCase):

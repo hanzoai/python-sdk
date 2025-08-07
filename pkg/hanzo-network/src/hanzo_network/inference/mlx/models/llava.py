@@ -8,7 +8,7 @@ from typing import Optional, Dict, Union
 import mlx.core as mx
 import mlx.nn as nn
 from mlx_lm.models.base import BaseModelArgs, KVCache
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 from .base import IdentityBlock
 import numpy as np
 

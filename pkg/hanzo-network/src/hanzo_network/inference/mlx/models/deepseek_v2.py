@@ -7,7 +7,7 @@ import mlx.nn as nn
 from mlx_lm.models.cache import KVCache
 from mlx_lm.models.deepseek_v2 import ModelArgs, DeepseekV2DecoderLayer
 from .base import IdentityBlock
-from hanzo_network.inference.shard import Shard
+from .inference.shard import Shard
 
 
 @dataclass

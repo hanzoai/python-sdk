@@ -3,8 +3,8 @@ import asyncio
 import aiohttp
 import re
 from typing import Dict, Any, Tuple, List, Optional
-from hanzo_network.helpers import DEBUG_DISCOVERY
-from hanzo_network.topology.device_capabilities import DeviceCapabilities, DeviceFlops
+from .helpers import DEBUG_DISCOVERY
+from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
 from datetime import datetime, timezone
 
 

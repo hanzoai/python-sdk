@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, Mock
-from hanzo_network.topology.device_capabilities import mac_device_capabilities, DeviceCapabilities, DeviceFlops, TFLOPS, device_capabilities
+from .topology.device_capabilities import mac_device_capabilities, DeviceCapabilities, DeviceFlops, TFLOPS, device_capabilities
 
 
 @patch("subprocess.run")

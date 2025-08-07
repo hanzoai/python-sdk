@@ -8,8 +8,8 @@ import platform
 from . import node_service_pb2
 from . import node_service_pb2_grpc
 from net import DEBUG
-from hanzo_network.inference.shard import Shard
-from hanzo_network.orchestration import Node
+from .inference.shard import Shard
+from .orchestration import Node
 import json
 
 if platform.system().lower() == "darwin" and platform.machine().lower() == "arm64":

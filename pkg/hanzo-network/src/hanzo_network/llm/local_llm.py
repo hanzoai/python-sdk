@@ -4,10 +4,10 @@ import asyncio
 from typing import Any, Dict, List, Optional
 from abc import ABC, abstractmethod
 
-from hanzo_network.core.state import Message
-from hanzo_network.inference.inference_engine import get_inference_engine
-from hanzo_network.inference.shard import Shard
-from hanzo_network.download.shard_download import ShardDownloader
+from .core.state import Message
+from .inference.inference_engine import get_inference_engine
+from .inference.shard import Shard
+from .download.shard_download import ShardDownloader
 
 
 class LocalLLMProvider(ABC):
