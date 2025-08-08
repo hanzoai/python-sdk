@@ -12,7 +12,7 @@ from .interactive.repl import HanzoREPL
 from .utils.output import console
 
 # Version
-__version__ = "0.2.6"
+__version__ = "0.2.10"
 
 
 @click.group(invoke_without_command=True)
@@ -95,8 +95,20 @@ def serve(ctx, name: str, port: int):
 @click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
+def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
+    """Start the Hanzo Network distributed AI compute node."""
+    asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+
+
+@cli.command()
+@click.option("--name", "-n", help="Node name (auto-generated if not provided)")
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
+@click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
+@click.pass_context
 def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
-    """Start as a compute node for the Hanzo network using hanzo/net."""
+    """Alias for 'hanzo net' - Start as a compute node for the Hanzo network."""
     asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
 
 
@@ -116,18 +128,12 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
     is_available, net_path, python_exe = check_net_installation()
     
     if not is_available:
-        console.print("[red]Error:[/red] hanzo/net is not properly configured")
-        if net_path:
-            console.print(f"Found hanzo/net at {net_path} but dependencies are missing")
-            missing = get_missing_dependencies(python_exe)
-            if missing:
-                console.print(f"Missing packages: {', '.join(missing)}")
-            console.print("\nTo fix, run:")
-            console.print(f"  cd {net_path} && pip install -e .")
-        else:
-            console.print("\nTo install hanzo/net:")
-            console.print("  git clone https://github.com/hanzoai/net.git ~/work/hanzo/net")
-            console.print("  cd ~/work/hanzo/net && pip install -e .")
+        console.print("[red]Error:[/red] hanzo-net is not installed")
+        console.print("\nTo install hanzo-net from PyPI:")
+        console.print("  pip install hanzo-net")
+        console.print("\nOr for development, clone from GitHub:")
+        console.print("  git clone https://github.com/hanzoai/net.git ~/work/hanzo/net")
+        console.print("  cd ~/work/hanzo/net && pip install -e .")
         return
     
     try:
@@ -140,26 +146,37 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
             # net is installed as a package
             console.print("[green]✓[/green] Using installed hanzo/net")
             
-            # Import and run net
-            sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(sys.executable)), "lib", "python3.*/site-packages"))
-            from net.main import run as net_run
-            
-            # Set up environment for net
-            if models:
-                os.environ["NET_MODELS"] = ",".join(models)
-            if name:
-                os.environ["NET_NODE_NAME"] = name
-            
-            console.print(f"\n[green]✓[/green] Node initialized")
-            console.print(f"  Port: {port}")
-            console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
-            console.print("\n[bold green]Hanzo Net is running![/bold green]")
-            console.print("WebUI: http://localhost:52415")
-            console.print("API: http://localhost:52415/v1/chat/completions")
-            console.print("\nPress Ctrl+C to stop\n")
-            
-            # Run net
-            await net_run()
+            # Set up sys.argv for net's argparse
+            original_argv = sys.argv.copy()
+            try:
+                # Build argv for net
+                sys.argv = ["hanzo-net"]  # Program name
+                
+                # Add options
+                if port != 52415:
+                    sys.argv.extend(["--chatgpt-api-port", str(port)])
+                if name:
+                    sys.argv.extend(["--node-id", name])
+                if network != "local":
+                    sys.argv.extend(["--discovery-module", network])
+                if models:
+                    sys.argv.extend(["--default-model", models[0]])
+                
+                # Import and run net
+                from net.main import run as net_run
+                
+                console.print(f"\n[green]✓[/green] Node initialized")
+                console.print(f"  Port: {port}")
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
+                console.print("\n[bold green]Hanzo Net is running![/bold green]")
+                console.print("WebUI: http://localhost:52415")
+                console.print("API: http://localhost:52415/v1/chat/completions")
+                console.print("\nPress Ctrl+C to stop\n")
+                
+                # Run net
+                await net_run()
+            finally:
+                sys.argv = original_argv
         else:
             # Run from source directory using the detected python_exe
             console.print(f"[green]✓[/green] Using hanzo/net from {net_path}")
@@ -189,9 +206,20 @@ async def start_compute_node(ctx, name: str = None, port: int = 52415,
                 console.print("API: http://localhost:52415/v1/chat/completions")
                 console.print("\nPress Ctrl+C to stop\n")
                 
+                # Build command line args
+                cmd_args = [python_exe, "-m", "net.main"]
+                if port != 52415:
+                    cmd_args.extend(["--chatgpt-api-port", str(port)])
+                if name:
+                    cmd_args.extend(["--node-id", name])
+                if network != "local":
+                    cmd_args.extend(["--discovery-module", network])
+                if models:
+                    cmd_args.extend(["--default-model", models[0]])
+                
                 # Run net command with detected python
                 process = subprocess.run(
-                    [python_exe, "-c", "from net.main import run; run()"],
+                    cmd_args,
                     env=env,
                     check=False
                 )

@@ -1,5 +1,54 @@
 # Changelog
 
+## [0.2.10] - 2024-08-07
+
+### Dependencies
+- Updated to hanzo-net v0.1.2
+
+### Improvements in hanzo-net v0.1.2
+- Fixed async event loop issues ("coroutine 'main' was never awaited")
+- Removed "tinychat" branding - now shows "Hanzo Chat"
+- Proper handling when called from existing async context
+- Fixed "Cannot run the event loop while another loop is running" error
+
+## [0.2.9] - 2024-08-07
+
+### Fixed
+- Fixed `hanzo net` command to properly pass arguments to hanzo-net
+- Resolved argparse conflict when importing net module
+- Improved handling of command-line arguments for both installed and source versions
+
+## [0.2.8] - 2024-08-07
+
+### Changed
+- Main command to run Hanzo Network is now `hanzo net` (was `hanzo node`)
+- `hanzo node` remains as an alias for backward compatibility
+
+### Notes
+- Use `hanzo net` to start the distributed AI compute node
+- Use `hanzo network` for agent network management commands
+
+## [0.2.7] - 2024-08-06
+
+### Major Update
+- hanzo-net is now published to PyPI! Install with: `pip install hanzo-net`
+- No longer requires local installation from GitHub
+- Full remote support for distributed AI compute nodes
+
+### Improvements in hanzo-net v0.1.0 (now on PyPI)
+- Changed "Exo Cluster" to "Hanzo Network" branding
+- Removed "tinychat" label from Web Chat URL
+- New HANZO ASCII art instead of exo branding
+- Fixed model import path (resolves "Model type llama not supported" error)
+- Fully responsive CLI interface that adapts to terminal width
+- Dynamic centering of all UI elements
+- Adaptive text formatting for narrow terminals
+
+### hanzo CLI Updates
+- Improved dependency checking for hanzo/net
+- Better error messages when hanzo/net is not found
+- Automatic detection of hanzo/net venv
+
 ## [0.2.6] - 2024-08-06
 
 ### Added
