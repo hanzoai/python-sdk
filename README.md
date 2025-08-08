@@ -1,36 +1,162 @@
-# Hanzo Python API library
+# Hanzo AI SDK - Complete AI Infrastructure Platform
 
-[![PyPI version](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
+[![PyPI - hanzo](https://img.shields.io/pypi/v/hanzo.svg?label=hanzo&color=blue)](https://pypi.org/project/hanzo/)
+[![PyPI - hanzoai](https://img.shields.io/pypi/v/hanzoai.svg?label=hanzoai&color=green)](https://pypi.org/project/hanzoai/)
+[![PyPI - hanzo-mcp](https://img.shields.io/pypi/v/hanzo-mcp.svg?label=hanzo-mcp&color=orange)](https://pypi.org/project/hanzo-mcp/)
 
-The Hanzo Python library provides convenient access to the Hanzo REST API from any Python 3.8+
-application. The library includes type definitions for all request params and response fields,
-and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+The complete AI infrastructure platform with unified CLI, AI client library, MCP tools, agent networks, and local AI orchestration. Everything you need to build, deploy, and orchestrate AI applications.
 
-## Documentation
+## 🚀 Quick Start
+
+```bash
+# Install the complete platform
+pip install hanzo[all]
+
+# Or install specific components
+pip install hanzo            # CLI + network tools  
+pip install hanzoai          # AI client library
+pip install hanzo-mcp        # MCP server & tools
+```
+
+Start your local AI network:
+```bash
+hanzo net                    # Start local AI orchestration
+```
+
+## 📦 Package Ecosystem
+
+### Core Packages
+
+| Package | Description | Install |
+|---------|------------|---------|
+| **`hanzo`** | 🎯 **Main CLI & Network** | `pip install hanzo` |
+| | - Universal CLI interface | |
+| | - Local AI network orchestration (90% cost reduction) | |
+| | - Peer agent networks with MCP | |
+| | - Commands: `hanzo net`, `hanzo chat`, `hanzo mcp` | |
+| **`hanzoai`** | 🤖 **AI Client Library** | `pip install hanzoai` |
+| | - 100+ LLM providers (OpenAI-compatible interface) | |
+| | - Unified gateway and proxy | |
+| | - Cost tracking and rate limiting | |
+| **`hanzo-mcp`** | 🛠️ **MCP Server & 70+ Tools** | `pip install hanzo-mcp` |
+| | - Complete development environment | |
+| | - Interactive notebooks, REPL, debugging | |
+| | - Multi-agent workflows and orchestration | |
+| **`hanzo-network`** | 🌐 **Decentralized Compute** | `pip install hanzo-network` |
+| | - Distributed AI workload management | |
+| | - Peer-to-peer agent networks | |
+
+### Extended Ecosystem
+
+| Package | Description |
+|---------|------------|
+| **`hanzo-agents`** | Multi-agent workflows and orchestration |
+| **`hanzo-memory`** | Vector memory and knowledge management |
+| **`hanzo-repl`** | Interactive AI-powered REPL |
+| **`hanzo-aci`** | AI-powered development tools |
+
+## 🏗️ Architecture
+
+### Local AI Orchestration (Hanzo Zen)
+Cost-effective orchestration model that runs on laptops, mobile, or edge devices:
+- **90% cost reduction** vs pure API calls
+- **Mixture of Experts (MoE)** architecture  
+- **Local orchestration loop** with intelligent routing
+- **API-based LLMs** only for complex tasks
+- **Full MCP tool support** and recursive agent calls
+
+### Agent Networks
+Two deployment architectures:
+1. **Traditional Swarm**: Hierarchical with main orchestrator
+2. **Peer Networks**: All agents equal, connected via MCP
+   - Every agent exposes MCP tools to others
+   - Recursive calling (`chat_with_*`, `delegate_to_*`)
+   - Local orchestration with Hanzo Zen
+
+## 📚 Documentation
 
 The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai). The full API of this library can be found in [api.md](api.md).
 
-## Installation
+## 💡 Installation Variants
 
-```sh
-# install from PyPI
+```bash
+# Complete ecosystem
+pip install hanzo[all]
+
+# Just the CLI and network tools
+pip install hanzo
+
+# AI client library (like openai package)  
 pip install hanzoai
+
+# MCP development environment
+pip install hanzo-mcp
+
+# Specific combinations
+pip install hanzo[ai,mcp]    # CLI + AI client + MCP tools
+pip install hanzo[agents]    # CLI + agent runtime
 ```
 
-## Usage
+## 🎯 Usage Examples
 
-The full API of this library can be found in [api.md](api.md).
+### Command Line Interface
+```bash
+# Start local AI network (90% cost savings)
+hanzo net
 
+# Interactive AI chat
+hanzo chat
+
+# Launch MCP server for Claude Desktop
+hanzo mcp
+
+# Run agent workflows  
+hanzo agent --config my-team.yaml
+
+# Check network status
+hanzo status
+```
+
+### Python SDK - AI Client (hanzoai)
 ```python
-import os
+# Use like OpenAI but with 100+ providers
 from hanzoai import Hanzo
 
-client = Hanzo(
-    api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
+client = Hanzo(api_key="your-key")
+response = client.chat.completions.create(
+    model="gpt-4",  # or claude-3-5-sonnet, llama-3, etc.
+    messages=[{"role": "user", "content": "Hello!"}]
 )
-
-response = client.get_home()
 ```
+
+### Unified SDK - Everything Together
+```python
+import hanzo
+
+# Use AI client  
+client = hanzo.Client(api_key="your-key")
+
+# Start agent network
+network = hanzo.Network()
+network.start_agents(["coder", "reviewer", "tester"])
+
+# Use MCP tools
+from hanzo.mcp import search, edit, critic
+search("authentication bug")
+edit("fix auth issue")
+critic("review this change")
+```
+
+### MCP Development Environment  
+```bash
+# Install to Claude Desktop
+uvx hanzo-mcp
+
+# Or run standalone  
+hanzo-mcp --tools search,edit,notebook,agent
+```
+
+The full API reference can be found in [api.md](api.md).
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
