@@ -1,6 +1,6 @@
 [project]
 name = "hanzo"
-version = "0.2.13"
+version = "0.2.14"
 description = "Hanzo AI - Complete AI Infrastructure Platform with CLI, Router, MCP, and Agent Runtime"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
@@ -13,7 +13,7 @@ dependencies = [
     "httpx>=0.23.0",
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
-    "hanzo-net>=0.1.8",
+    "hanzo-net>=0.1.9",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
