@@ -13,18 +13,20 @@ def check_net_installation() -> Tuple[bool, Optional[str], Optional[str]]:
     Returns:
         Tuple of (is_available, net_path, python_exe)
     """
-    # Check for hanzo/net in standard location
+    # First try to import as PyPI package (hanzo-net)
+    try:
+        import net
+        return True, None, sys.executable
+    except ImportError:
+        pass
+    
+    # For development: check for hanzo/net in standard location
     net_path = Path.home() / "work" / "hanzo" / "net"
     if not net_path.exists():
         net_path = Path("/Users/z/work/hanzo/net")
     
     if not net_path.exists():
-        # Try to import as package
-        try:
-            import net
-            return True, None, sys.executable
-        except ImportError:
-            return False, None, None
+        return False, None, None
     
     # Check for venv
     venv_python = net_path / ".venv" / "bin" / "python"
