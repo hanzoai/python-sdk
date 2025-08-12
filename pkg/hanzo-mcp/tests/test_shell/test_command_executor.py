@@ -2,16 +2,15 @@
 
 import os
 from typing import TYPE_CHECKING
-from unittest.mock import AsyncMock, MagicMock, patch
-from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
 if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
-from hanzo_mcp.tools.shell.command_executor import CommandExecutor, CommandResult
-import asyncio
+
+from hanzo_mcp.tools.shell.command_executor import CommandResult, CommandExecutor
 
 
 class TestCommandResult:
@@ -80,7 +79,9 @@ class TestCommandExecutor:
         """Create a CommandExecutor instance for testing."""
         return CommandExecutor(permission_manager)
 
-    def test_initialization(self, tool_helper, permission_manager: "PermissionManager") -> None:
+    def test_initialization(
+        self, tool_helper, permission_manager: "PermissionManager"
+    ) -> None:
         """Test initializing CommandExecutor."""
         executor = CommandExecutor(permission_manager)
 
@@ -131,7 +132,9 @@ class TestCommandExecutor:
         assert result.stderr == ""
 
     @pytest.mark.asyncio
-    async def test_execute_command_not_allowed(self, tool_helper, executor: CommandExecutor) -> None:
+    async def test_execute_command_not_allowed(
+        self, tool_helper, executor: CommandExecutor
+    ) -> None:
         """Test executing a command that is not allowed."""
         # Try an excluded command
         result = await executor.execute_command("rm test.txt")
@@ -236,7 +239,9 @@ class TestCommandExecutor:
             assert result.is_success
             assert "Python output" in result.stdout
 
-    def test_get_available_languages(self, tool_helper, executor: CommandExecutor) -> None:
+    def test_get_available_languages(
+        self, tool_helper, executor: CommandExecutor
+    ) -> None:
         """Test getting available script languages."""
         languages = executor.get_available_languages()
 
@@ -294,6 +299,6 @@ class TestCommandExecutor:
     # @pytest.mark.asyncio
     # async def test_register_tools(self, tool_helper, executor: CommandExecutor) -> None:
     #     """Test registering command execution tools."""
-    #     # This test is no longer applicable as tools are registered 
+    #     # This test is no longer applicable as tools are registered
     #     # through the hanzo_mcp.tools.shell.register_shell_tools function
     #     pass

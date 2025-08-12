@@ -1,6 +1,6 @@
 [project]
 name = "hanzo-network"
-version = "0.1.0"
+version = "0.1.3"
 description = "Agent network orchestration for Hanzo AI"
 license = "BSD-3-Clause"
 authors = [

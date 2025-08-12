@@ -585,19 +585,22 @@ Tools NOT available in batch (require state/session):
 - think
 - todo_write"""
 
+
 def create_tool_category_prompt(category: str, tools: list[str]):
     """Create a dynamic prompt for a specific tool category."""
-    
+
     tool_descriptions = {
         "filesystem": FILESYSTEM_TOOLS_HELP,
         "agent": AGENT_TOOLS_HELP,
         "shell": SHELL_TOOLS_HELP,
-        "batch": BATCH_TOOL_EXAMPLES
+        "batch": BATCH_TOOL_EXAMPLES,
     }
-    
-    base_prompt = tool_descriptions.get(category, f"# {category.title()} Tools\n\nAvailable tools in this category:\n")
-    
+
+    base_prompt = tool_descriptions.get(
+        category, f"# {category.title()} Tools\n\nAvailable tools in this category:\n"
+    )
+
     if category not in tool_descriptions:
         base_prompt += "\n".join(f"- **{tool}**: [Tool description]" for tool in tools)
-    
+
     return base_prompt

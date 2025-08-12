@@ -6,7 +6,11 @@ from typing import Iterable, Optional
 
 import httpx
 
-from ..types import spend_list_logs_params, spend_list_tags_params, spend_calculate_spend_params
+from ..types import (
+    spend_list_logs_params,
+    spend_list_tags_params,
+    spend_calculate_spend_params,
+)
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -129,7 +133,10 @@ class SpendResource(SyncAPIResource):
                 spend_calculate_spend_params.SpendCalculateSpendParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -379,7 +386,10 @@ class AsyncSpendResource(AsyncAPIResource):
                 spend_calculate_spend_params.SpendCalculateSpendParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

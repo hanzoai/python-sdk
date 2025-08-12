@@ -1,20 +1,17 @@
 """Rules tool implementation.
 
-This module provides the RulesTool for reading local preferences from .cursor rules 
+This module provides the RulesTool for reading local preferences from .cursor rules
 or .claude code configuration files.
 """
 
-import json
-import os
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override, Optional
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
-
 
 SearchPath = Annotated[
     str,
@@ -115,7 +112,7 @@ understand project-specific requirements and preferences."""
 
         # Convert to Path object
         start_path = Path(search_path).resolve()
-        
+
         # Configuration files to search for
         config_files = [
             ".cursorrules",
@@ -125,15 +122,15 @@ understand project-specific requirements and preferences."""
             ".claude/rules.md",
             ".claude/config.md",
         ]
-        
+
         found_configs = []
-        
+
         # Search in current directory and parent directories
         current_path = start_path
         while True:
             for config_file in config_files:
                 config_path = current_path / config_file
-                
+
                 # Check if file exists and we have permission
                 if config_path.exists() and config_path.is_file():
                     try:
@@ -141,62 +138,81 @@ understand project-specific requirements and preferences."""
                         if self.is_path_allowed(str(config_path)):
                             with open(config_path, "r", encoding="utf-8") as f:
                                 content = f.read()
-                            
-                            found_configs.append({
-                                "path": str(config_path),
-                                "relative_path": str(config_path.relative_to(start_path)),
-                                "content": content,
-                                "size": len(content)
-                            })
-                            
+
+                            found_configs.append(
+                                {
+                                    "path": str(config_path),
+                                    "relative_path": str(
+                                        config_path.relative_to(start_path)
+                                    ),
+                                    "content": content,
+                                    "size": len(content),
+                                }
+                            )
+
                             await tool_ctx.info(f"Found configuration: {config_path}")
                     except Exception as e:
-                        await tool_ctx.warning(f"Could not read {config_path}: {str(e)}")
-            
+                        await tool_ctx.warning(
+                            f"Could not read {config_path}: {str(e)}"
+                        )
+
             # Check if we've reached the root or a git repository root
             if current_path.parent == current_path:
                 break
-                
+
             # Check if this is a git repository root
             if (current_path / ".git").exists():
                 # Search one more time in the git root before stopping
                 if current_path != start_path:
                     for config_file in config_files:
                         config_path = current_path / config_file
-                        if config_path.exists() and config_path.is_file() and str(config_path) not in [c["path"] for c in found_configs]:
+                        if (
+                            config_path.exists()
+                            and config_path.is_file()
+                            and str(config_path)
+                            not in [c["path"] for c in found_configs]
+                        ):
                             try:
                                 if self.is_path_allowed(str(config_path)):
                                     with open(config_path, "r", encoding="utf-8") as f:
                                         content = f.read()
-                                    
-                                    found_configs.append({
-                                        "path": str(config_path),
-                                        "relative_path": str(config_path.relative_to(start_path)),
-                                        "content": content,
-                                        "size": len(content)
-                                    })
-                                    
-                                    await tool_ctx.info(f"Found configuration: {config_path}")
+
+                                    found_configs.append(
+                                        {
+                                            "path": str(config_path),
+                                            "relative_path": str(
+                                                config_path.relative_to(start_path)
+                                            ),
+                                            "content": content,
+                                            "size": len(content),
+                                        }
+                                    )
+
+                                    await tool_ctx.info(
+                                        f"Found configuration: {config_path}"
+                                    )
                             except Exception as e:
-                                await tool_ctx.warning(f"Could not read {config_path}: {str(e)}")
+                                await tool_ctx.warning(
+                                    f"Could not read {config_path}: {str(e)}"
+                                )
                 break
-                
+
             # Move to parent directory
             parent = current_path.parent
-            
+
             # Check if parent is still within allowed paths
             if not self.is_path_allowed(str(parent)):
                 await tool_ctx.info(f"Stopped at directory boundary: {parent}")
                 break
-                
+
             current_path = parent
-        
+
         # Format results
         if not found_configs:
             return f"""No configuration files found.
 
 Searched for:
-{chr(10).join('- ' + cf for cf in config_files)}
+{chr(10).join("- " + cf for cf in config_files)}
 
 Starting from: {start_path}
 
@@ -205,17 +221,17 @@ To create project rules, create one of these files with your preferences:
 - .cursor/rules: Alternative Cursor location  
 - .claude/code.md: For Claude-specific coding preferences
 - .claude/rules.md: For general Claude interaction rules"""
-        
+
         # Build output
         output = [f"=== Found {len(found_configs)} Configuration File(s) ===\n"]
-        
+
         for i, config in enumerate(found_configs, 1):
             output.append(f"--- [{i}] {config['path']} ({config['size']} bytes) ---")
-            output.append(config['content'])
+            output.append(config["content"])
             output.append("")  # Empty line between configs
-        
+
         output.append(f"\nSearched from: {start_path}")
-        
+
         return "\n".join(output)
 
     @override

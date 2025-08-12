@@ -1,7 +1,7 @@
 """Agent management commands."""
 
 import asyncio
-from typing import List, Optional
+from typing import Optional
 
 import click
 from rich.table import Table
@@ -30,16 +30,12 @@ async def create(ctx, name: str, model: str, description: Optional[str], local: 
         console.print("[red]Error:[/red] hanzo-agents not installed")
         console.print("Install with: pip install hanzo[agents]")
         return
-    
+
     base_url = "http://localhost:8000" if local else None
-    
+
     with console.status(f"Creating agent '{name}'..."):
-        agent = create_agent(
-            name=name,
-            model=model,
-            base_url=base_url
-        )
-    
+        agent = create_agent(name=name, model=model, base_url=base_url)
+
     console.print(f"[green]✓[/green] Created agent: {name}")
     console.print(f"  Model: {model}")
     console.print(f"  Mode: {'local' if local else 'cloud'}")
@@ -55,17 +51,17 @@ def list(ctx):
     table.add_column("Model", style="green")
     table.add_column("Status", style="yellow")
     table.add_column("Description")
-    
+
     # Mock data for now
     agents = [
         ("helper", "llama-3.2-3b", "active", "General purpose assistant"),
         ("coder", "codellama-7b", "idle", "Code generation specialist"),
         ("researcher", "llama-3.2-3b", "idle", "Research and analysis"),
     ]
-    
+
     for name, model, status, desc in agents:
         table.add_row(name, model, status, desc)
-    
+
     console.print(table)
 
 
@@ -84,19 +80,20 @@ async def run(ctx, agents: tuple, task: str, parallel: bool, timeout: Optional[i
         console.print("[red]Error:[/red] hanzo-agents not installed")
         console.print("Install with: pip install hanzo[agents]")
         return
-    
+
     agent_list = list(agents)
-    
+
     with console.status(f"Running task with {len(agent_list)} agents..."):
         # Create network with agents
         network = create_network(agents=agent_list)
-        
+
         # Run task
-        result = await asyncio.wait_for(
-            network.run(task),
-            timeout=timeout
-        ) if timeout else await network.run(task)
-    
+        result = (
+            await asyncio.wait_for(network.run(task), timeout=timeout)
+            if timeout
+            else await network.run(task)
+        )
+
     console.print("[green]Task completed![/green]")
     console.print(result)
 

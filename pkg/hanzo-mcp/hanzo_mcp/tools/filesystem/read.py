@@ -3,15 +3,15 @@
 This module provides the ReadTool for reading the contents of files.
 """
 
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.common.truncate import truncate_response
+from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 FilePath = Annotated[
     str,
@@ -220,12 +220,12 @@ Usage:
                     result += f"\n... (output truncated, showing {limit} of {limit + truncated_lines}+ lines)"
 
                 await tool_ctx.info(f"Successfully read file: {file_path}")
-                
+
                 # Apply token limit to prevent excessive output
                 return truncate_response(
                     result,
                     max_tokens=25000,
-                    truncation_message="\n\n[File content truncated due to token limit. Use offset/limit parameters to read specific sections.]"
+                    truncation_message="\n\n[File content truncated due to token limit. Use offset/limit parameters to read specific sections.]",
                 )
 
             except Exception as e:
@@ -236,15 +236,17 @@ Usage:
             await tool_ctx.error(f"Error reading file: {str(e)}")
             return f"Error: {str(e)}"
 
-    async def run(self, ctx: MCPContext, file_path: str, offset: int = 0, limit: int = 2000) -> str:
+    async def run(
+        self, ctx: MCPContext, file_path: str, offset: int = 0, limit: int = 2000
+    ) -> str:
         """Run method for backwards compatibility with test scripts.
-        
+
         Args:
             ctx: MCP context
             file_path: Path to file to read
             offset: Line offset to start reading
             limit: Maximum lines to read
-            
+
         Returns:
             File contents
         """
@@ -267,7 +269,7 @@ Usage:
             ctx: MCPContext,
             file_path: FilePath,
             offset: Offset = 0,
-            limit: Limit = 2000
+            limit: Limit = 2000,
         ) -> str:
             return await tool_self.call(
                 ctx, file_path=file_path, offset=offset, limit=limit

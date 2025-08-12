@@ -1,11 +1,10 @@
 """Find files using ffind library."""
 
 import os
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
-from pathlib import Path
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
@@ -13,6 +12,7 @@ from hanzo_mcp.tools.common.permissions import PermissionManager
 
 try:
     import ffind
+
     FFIND_AVAILABLE = True
 except ImportError:
     FFIND_AVAILABLE = False
@@ -181,109 +181,126 @@ For database search, use 'sql_search' or 'vector_search'.
         # If ffind is not available, fall back to basic implementation
         if not FFIND_AVAILABLE:
             return await self._find_files_fallback(
-                pattern, search_path, recursive, ignore_case, 
-                hidden, dirs_only, files_only, max_results
+                pattern,
+                search_path,
+                recursive,
+                ignore_case,
+                hidden,
+                dirs_only,
+                files_only,
+                max_results,
             )
 
         try:
             # Use ffind for efficient searching
             results = []
             count = 0
-            
+
             # Configure ffind options
             options = {
-                'pattern': pattern,
-                'path': search_path,
-                'recursive': recursive,
-                'ignore_case': ignore_case,
-                'hidden': hidden,
+                "pattern": pattern,
+                "path": search_path,
+                "recursive": recursive,
+                "ignore_case": ignore_case,
+                "hidden": hidden,
             }
-            
+
             # Search with ffind
             for filepath in ffind.find(**options):
                 # Check if it matches our criteria
                 is_dir = os.path.isdir(filepath)
-                
+
                 if dirs_only and not is_dir:
                     continue
                 if files_only and is_dir:
                     continue
-                
+
                 # Make path relative for cleaner output
                 try:
                     rel_path = os.path.relpath(filepath, search_path)
                 except ValueError:
                     rel_path = filepath
-                
+
                 results.append(rel_path)
                 count += 1
-                
+
                 if count >= max_results:
                     break
-            
+
             if not results:
                 return f"No files found matching '{pattern}'"
-            
+
             # Format output
             output = [f"Found {len(results)} file(s) matching '{pattern}':"]
             output.append("")
-            
+
             for filepath in sorted(results):
                 output.append(filepath)
-            
+
             if count >= max_results:
                 output.append(f"\n... (showing first {max_results} results)")
-            
+
             return "\n".join(output)
 
         except Exception as e:
             await tool_ctx.error(f"Error during search: {str(e)}")
             # Fall back to basic implementation
             return await self._find_files_fallback(
-                pattern, search_path, recursive, ignore_case,
-                hidden, dirs_only, files_only, max_results
+                pattern,
+                search_path,
+                recursive,
+                ignore_case,
+                hidden,
+                dirs_only,
+                files_only,
+                max_results,
             )
 
     async def _find_files_fallback(
-        self, pattern: str, search_path: str, recursive: bool,
-        ignore_case: bool, hidden: bool, dirs_only: bool,
-        files_only: bool, max_results: int
+        self,
+        pattern: str,
+        search_path: str,
+        recursive: bool,
+        ignore_case: bool,
+        hidden: bool,
+        dirs_only: bool,
+        files_only: bool,
+        max_results: int,
     ) -> str:
         """Fallback implementation when ffind is not available."""
-        import fnmatch
-        
+
         results = []
         count = 0
-        
+
         # Convert pattern for case-insensitive matching
         if ignore_case:
             pattern = pattern.lower()
-        
+
         try:
             if recursive:
                 # Walk directory tree
                 for root, dirs, files in os.walk(search_path):
                     # Skip hidden directories if not requested
                     if not hidden:
-                        dirs[:] = [d for d in dirs if not d.startswith('.')]
-                    
+                        dirs[:] = [d for d in dirs if not d.startswith(".")]
+
                     # Check directories
                     if not files_only:
                         for dirname in dirs:
                             if self._match_pattern(dirname, pattern, ignore_case):
                                 filepath = os.path.join(root, dirname)
                                 rel_path = os.path.relpath(filepath, search_path)
-                                results.append(rel_path + '/')
+                                results.append(rel_path + "/")
                                 count += 1
                                 if count >= max_results:
                                     break
-                    
+
                     # Check files
                     if not dirs_only:
                         for filename in files:
-                            if not hidden and filename.startswith('.'):
+                            if not hidden and filename.startswith("."):
                                 continue
-                            
+
                             if self._match_pattern(filename, pattern, ignore_case):
                                 filepath = os.path.join(root, filename)
                                 rel_path = os.path.relpath(filepath, search_path)
@@ -291,53 +308,57 @@ For database search, use 'sql_search' or 'vector_search'.
                                 count += 1
                                 if count >= max_results:
                                     break
-                    
+
                     if count >= max_results:
                         break
             else:
                 # Only search in the specified directory
                 for entry in os.listdir(search_path):
-                    if not hidden and entry.startswith('.'):
+                    if not hidden and entry.startswith("."):
                         continue
-                    
+
                     filepath = os.path.join(search_path, entry)
                     is_dir = os.path.isdir(filepath)
-                    
+
                     if dirs_only and not is_dir:
                         continue
                     if files_only and is_dir:
                         continue
-                    
+
                     if self._match_pattern(entry, pattern, ignore_case):
-                        results.append(entry + '/' if is_dir else entry)
+                        results.append(entry + "/" if is_dir else entry)
                         count += 1
                         if count >= max_results:
                             break
-            
+
             if not results:
                 return f"No files found matching '{pattern}' (using fallback search)"
-            
+
             # Format output
-            output = [f"Found {len(results)} file(s) matching '{pattern}' (using fallback search):"]
+            output = [
+                f"Found {len(results)} file(s) matching '{pattern}' (using fallback search):"
+            ]
             output.append("")
-            
+
             for filepath in sorted(results):
                 output.append(filepath)
-            
+
             if count >= max_results:
                 output.append(f"\n... (showing first {max_results} results)")
-            
-            output.append("\nNote: Install 'ffind' for faster searching: pip install ffind")
-            
+
+            output.append(
+                "\nNote: Install 'ffind' for faster searching: pip install ffind"
+            )
+
             return "\n".join(output)
-            
+
         except Exception as e:
             return f"Error searching for files: {str(e)}"
 
     def _match_pattern(self, filename: str, pattern: str, ignore_case: bool) -> bool:
         """Check if filename matches pattern."""
         import fnmatch
-        
+
         if ignore_case:
             return fnmatch.fnmatch(filename.lower(), pattern)
         else:

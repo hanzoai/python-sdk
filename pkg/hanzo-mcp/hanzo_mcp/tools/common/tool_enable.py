@@ -1,15 +1,14 @@
 """Enable tools dynamically."""
 
 import json
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-
 
 ToolName = Annotated[
     str,
@@ -38,7 +37,7 @@ class ToolEnableParams(TypedDict, total=False):
 @final
 class ToolEnableTool(BaseTool):
     """Tool for enabling other tools dynamically."""
-    
+
     # Class variable to track enabled/disabled tools
     _tool_states = {}
     _config_file = Path.home() / ".hanzo" / "mcp" / "tool_states.json"
@@ -55,7 +54,7 @@ class ToolEnableTool(BaseTool):
         """Load tool states from config file."""
         if cls._config_file.exists():
             try:
-                with open(cls._config_file, 'r') as f:
+                with open(cls._config_file, "r") as f:
                     cls._tool_states = json.load(f)
             except Exception:
                 cls._tool_states = {}
@@ -67,16 +66,16 @@ class ToolEnableTool(BaseTool):
     def _save_states(cls):
         """Save tool states to config file."""
         cls._config_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(cls._config_file, 'w') as f:
+        with open(cls._config_file, "w") as f:
             json.dump(cls._tool_states, f, indent=2)
 
     @classmethod
     def is_tool_enabled(cls, tool_name: str) -> bool:
         """Check if a tool is enabled.
-        
+
         Args:
             tool_name: Name of the tool
-            
+
         Returns:
             True if enabled (default), False if explicitly disabled
         """
@@ -84,7 +83,7 @@ class ToolEnableTool(BaseTool):
         if not cls._initialized:
             cls._load_states()
             cls._initialized = True
-        
+
         # Default to enabled if not in states
         return cls._tool_states.get(tool_name, True)
 
@@ -146,13 +145,13 @@ Use 'tool_list' to see all available tools and their status.
 
         # Check current state
         was_enabled = self.is_tool_enabled(tool_name)
-        
+
         if was_enabled:
             return f"Tool '{tool_name}' is already enabled."
 
         # Enable the tool
         self._tool_states[tool_name] = True
-        
+
         # Persist if requested
         if persist:
             self._save_states()
@@ -165,16 +164,16 @@ Use 'tool_list' to see all available tools and their status.
             "",
             "The tool is now available for use.",
         ]
-        
+
         if not persist:
             output.append("Note: This change is temporary and will be lost on restart.")
-        
+
         # Count enabled/disabled tools
         disabled_count = sum(1 for enabled in self._tool_states.values() if not enabled)
         if disabled_count > 0:
             output.append(f"\nCurrently disabled tools: {disabled_count}")
             output.append("Use 'tool_list --disabled' to see them.")
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

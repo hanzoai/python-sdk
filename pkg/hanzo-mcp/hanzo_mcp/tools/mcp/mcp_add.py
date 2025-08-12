@@ -1,17 +1,15 @@
 """Add MCP servers dynamically."""
 
 import json
-import subprocess
 import shutil
-from typing import Annotated, Optional, TypedDict, Unpack, final, override, Dict, Any
+from typing import Any, Dict, Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-
 
 ServerCommand = Annotated[
     str,
@@ -67,7 +65,7 @@ class McpAddParams(TypedDict, total=False):
 @final
 class McpAddTool(BaseTool):
     """Tool for adding MCP servers dynamically."""
-    
+
     # Class variable to store added servers
     _mcp_servers: Dict[str, Dict[str, Any]] = {}
     _config_file = Path.home() / ".hanzo" / "mcp" / "servers.json"
@@ -82,7 +80,7 @@ class McpAddTool(BaseTool):
         """Load servers from config file."""
         if cls._config_file.exists():
             try:
-                with open(cls._config_file, 'r') as f:
+                with open(cls._config_file, "r") as f:
                     cls._mcp_servers = json.load(f)
             except Exception:
                 cls._mcp_servers = {}
@@ -91,7 +89,7 @@ class McpAddTool(BaseTool):
     def _save_servers(cls):
         """Save servers to config file."""
         cls._config_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(cls._config_file, 'w') as f:
+        with open(cls._config_file, "w") as f:
             json.dump(cls._mcp_servers, f, indent=2)
 
     @classmethod
@@ -171,9 +169,7 @@ Use 'mcp_stats' to see all added servers and their status.
         server_type = "unknown"
         if command.startswith("npx"):
             server_type = "node"
-        elif command.startswith("uvx"):
-            server_type = "python"
-        elif command.startswith("python"):
+        elif command.startswith("uvx") or command.startswith("python"):
             server_type = "python"
         elif command.startswith("node"):
             server_type = "node"
@@ -182,16 +178,20 @@ Use 'mcp_stats' to see all added servers and their status.
         full_command = [command]
         if args:
             import shlex
+
             # If command contains spaces, split it first
-            if ' ' in command:
+            if " " in command:
                 full_command = shlex.split(command)
             full_command.extend(shlex.split(args))
         else:
-            if ' ' in command:
+            if " " in command:
                 import shlex
+
                 full_command = shlex.split(command)
 
-        await tool_ctx.info(f"Adding MCP server '{name}' with command: {' '.join(full_command)}")
+        await tool_ctx.info(
+            f"Adding MCP server '{name}' with command: {' '.join(full_command)}"
+        )
 
         # Create server configuration
         server_config = {
@@ -203,7 +203,7 @@ Use 'mcp_stats' to see all added servers and their status.
             "process_id": None,
             "tools": [],
             "resources": [],
-            "prompts": []
+            "prompts": [],
         }
 
         # Test if command is valid
@@ -211,7 +211,7 @@ Use 'mcp_stats' to see all added servers and their status.
             try:
                 # Try to start the server briefly to validate
                 test_env = {**env} if env else {}
-                
+
                 # Quick test to see if command exists
                 test_cmd = full_command[0]
                 if test_cmd == "npx":
@@ -220,11 +220,11 @@ Use 'mcp_stats' to see all added servers and their status.
                 elif test_cmd == "uvx":
                     if not shutil.which("uvx"):
                         return "Error: uvx not found. Install uv first."
-                
+
                 # TODO: Actually start and connect to the MCP server
                 # For now, we just store the configuration
                 server_config["status"] = "ready"
-                
+
             except Exception as e:
                 await tool_ctx.error(f"Failed to validate server: {str(e)}")
                 server_config["status"] = "error"
@@ -240,22 +240,24 @@ Use 'mcp_stats' to see all added servers and their status.
             f"  Command: {' '.join(full_command)}",
             f"  Status: {server_config['status']}",
         ]
-        
+
         if env:
             output.append(f"  Environment: {list(env.keys())}")
-        
-        output.extend([
-            "",
-            "Use 'mcp_stats' to see server details.",
-            f"Use 'mcp_remove --name {name}' to remove this server."
-        ])
+
+        output.extend(
+            [
+                "",
+                "Use 'mcp_stats' to see server details.",
+                f"Use 'mcp_remove --name {name}' to remove this server.",
+            ]
+        )
 
         # Note: In a real implementation, we would:
         # 1. Start the MCP server process
         # 2. Connect to it via stdio/HTTP
         # 3. Query its capabilities (tools, resources, prompts)
         # 4. Register those with our MCP server
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

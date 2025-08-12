@@ -14,7 +14,7 @@ class CachePingResponse(BaseModel):
 
     health_check_cache_params: Optional[object] = None
 
-    hanzo_cache_params: Optional[str] = None
+    llm_cache_params: Optional[str] = None
 
     ping_response: Optional[bool] = None
 

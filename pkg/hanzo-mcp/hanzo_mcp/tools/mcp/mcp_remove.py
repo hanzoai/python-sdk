@@ -1,14 +1,13 @@
 """Remove MCP servers."""
 
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
-
+from hanzo_mcp.tools.common.context import create_tool_context
 
 ServerName = Annotated[
     str,
@@ -91,12 +90,12 @@ Use 'mcp_stats' to see all servers before removing.
 
         # Get current servers
         servers = McpAddTool.get_servers()
-        
+
         if name not in servers:
             return f"Error: Server '{name}' not found. Use 'mcp_stats' to see available servers."
 
         server = servers[name]
-        
+
         await tool_ctx.info(f"Removing MCP server '{name}'")
 
         # Check if server is running
@@ -116,10 +115,10 @@ Use 'mcp_stats' to see all servers before removing.
             f"  Type: {server.get('type', 'unknown')}",
             f"  Command: {' '.join(server.get('command', []))}",
         ]
-        
+
         if server.get("tools"):
             output.append(f"  Tools removed: {len(server['tools'])}")
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

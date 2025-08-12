@@ -3,7 +3,6 @@ from typing import Any
 # Import TodoStorage to access todo data
 from hanzo_mcp.tools.todo.base import TodoStorage
 
-
 PROJECT_TODO_EMPTY_REMINDER = """<system-reminder>This is a reminder that your todo list is currently empty. DO NOT mention this to me explicitly because i have already aware. If you are working on tasks that would benefit from a todo list please use the todo_write tool to create one. If not, please feel free to ignore.</system-reminder>"""
 
 

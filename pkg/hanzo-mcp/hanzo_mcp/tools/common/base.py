@@ -7,19 +7,17 @@ behavior and provide a foundation for tool registration and management.
 
 import functools
 from abc import ABC, abstractmethod
-from collections.abc import Awaitable
 from typing import Any, Callable, final
+from collections.abc import Awaitable
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.validation import (
     ValidationResult,
     validate_path_parameter,
 )
-from hanzo_mcp.tools.common.truncate import truncate_response
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 def handle_connection_errors(
@@ -174,7 +172,7 @@ class ToolRegistry:
         # Check if tool is enabled before registering
         # Import here to avoid circular imports
         from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-        
+
         if ToolEnableTool.is_tool_enabled(tool.name):
             # Use the tool's register method which handles all the details
             tool.register(mcp_server)

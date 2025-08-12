@@ -1,16 +1,15 @@
 """SQL query tool for direct database queries."""
 
 import sqlite3
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
-
 
 Query = Annotated[
     str,
@@ -49,7 +48,9 @@ class SqlQueryParams(TypedDict, total=False):
 class SqlQueryTool(BaseTool):
     """Tool for executing SQL queries on project databases."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL query tool.
 
         Args:
@@ -121,8 +122,9 @@ Note: Use sql_search for text search operations."""
                 project_db = self.db_manager.get_project_db(project_path)
             else:
                 import os
+
                 project_db = self.db_manager.get_project_for_path(os.getcwd())
-                
+
             if not project_db:
                 return "Error: Could not find project database"
 
@@ -134,39 +136,41 @@ Note: Use sql_search for text search operations."""
         # Check if query is read-only
         if read_only:
             # Simple check for write operations
-            write_keywords = ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER']
+            write_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "CREATE", "ALTER"]
             query_upper = query.upper()
             for keyword in write_keywords:
                 if keyword in query_upper:
                     return f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
 
-        await tool_ctx.info(f"Executing SQL query on project: {project_db.project_path}")
+        await tool_ctx.info(
+            f"Executing SQL query on project: {project_db.project_path}"
+        )
 
         # Execute query
         conn = None
         try:
             conn = project_db.get_sqlite_connection()
             cursor = conn.cursor()
-            
+
             # Execute the query
             cursor.execute(query)
-            
+
             # Handle different query types
-            if query.strip().upper().startswith('SELECT'):
+            if query.strip().upper().startswith("SELECT"):
                 # Fetch results
                 results = cursor.fetchall()
-                
+
                 if not results:
                     return "No results found."
-                
+
                 # Get column names
                 columns = [desc[0] for desc in cursor.description]
-                
+
                 # Format as table
                 output = self._format_results_table(columns, results)
-                
+
                 return f"Query executed successfully. Found {len(results)} row(s).\n\n{output}"
-                
+
             else:
                 # For non-SELECT queries, commit and return affected rows
                 conn.commit()
@@ -187,7 +191,7 @@ Note: Use sql_search for text search operations."""
         """Format query results as a table."""
         if not rows:
             return "No results"
-        
+
         # Calculate column widths
         col_widths = []
         for i, col in enumerate(columns):
@@ -196,33 +200,35 @@ Note: Use sql_search for text search operations."""
                 val_str = str(row[i]) if row[i] is not None else "NULL"
                 max_width = max(max_width, len(val_str))
             col_widths.append(min(max_width, 50))  # Cap at 50 chars
-        
+
         # Build header
         header = " | ".join(col.ljust(width) for col, width in zip(columns, col_widths))
         separator = "-+-".join("-" * width for width in col_widths)
-        
+
         # Build rows
         output_rows = []
         for row in rows[:1000]:  # Limit to 1000 rows
             row_str = " | ".join(
-                self._truncate(str(val) if val is not None else "NULL", width).ljust(width)
+                self._truncate(str(val) if val is not None else "NULL", width).ljust(
+                    width
+                )
                 for val, width in zip(row, col_widths)
             )
             output_rows.append(row_str)
-        
+
         # Combine
         output = [header, separator] + output_rows
-        
+
         if len(rows) > 1000:
             output.append(f"\n... and {len(rows) - 1000} more rows")
-        
+
         return "\n".join(output)
 
     def _truncate(self, text: str, max_width: int) -> str:
         """Truncate text to max width."""
         if len(text) <= max_width:
             return text
-        return text[:max_width-3] + "..."
+        return text[: max_width - 3] + "..."
 
     def register(self, mcp_server) -> None:
         """Register this tool with the MCP server."""

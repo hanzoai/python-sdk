@@ -76,7 +76,10 @@ class InfoResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"organization_id": organization_id}, info_retrieve_params.InfoRetrieveParams),
+                query=maybe_transform(
+                    {"organization_id": organization_id},
+                    info_retrieve_params.InfoRetrieveParams,
+                ),
             ),
             cast_to=InfoRetrieveResponse,
         )
@@ -106,9 +109,15 @@ class InfoResource(SyncAPIResource):
         """
         return self._post(
             "/organization/info",
-            body=maybe_transform({"organizations": organizations}, info_deprecated_params.InfoDeprecatedParams),
+            body=maybe_transform(
+                {"organizations": organizations},
+                info_deprecated_params.InfoDeprecatedParams,
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -165,7 +174,8 @@ class AsyncInfoResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"organization_id": organization_id}, info_retrieve_params.InfoRetrieveParams
+                    {"organization_id": organization_id},
+                    info_retrieve_params.InfoRetrieveParams,
                 ),
             ),
             cast_to=InfoRetrieveResponse,
@@ -197,10 +207,14 @@ class AsyncInfoResource(AsyncAPIResource):
         return await self._post(
             "/organization/info",
             body=await async_maybe_transform(
-                {"organizations": organizations}, info_deprecated_params.InfoDeprecatedParams
+                {"organizations": organizations},
+                info_deprecated_params.InfoDeprecatedParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

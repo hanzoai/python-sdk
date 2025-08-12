@@ -1,11 +1,9 @@
 """MCP server implementing Hanzo capabilities."""
 
 import atexit
-import logging
 import signal
+import logging
 import threading
-import time
-import warnings
 from typing import Literal, cast, final
 
 # No need for warning suppression here as it's handled in the imports
@@ -17,11 +15,9 @@ except ImportError:
     from mcp.server import FastMCP
 
 # Import our enhanced server
-from hanzo_mcp.server_enhanced import EnhancedFastMCP
-
-from hanzo_mcp.prompts import register_all_prompts
 from hanzo_mcp.tools import register_all_tools
-
+from hanzo_mcp.prompts import register_all_prompts
+from hanzo_mcp.server_enhanced import EnhancedFastMCP
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.session_storage import SessionStorage
 
@@ -126,7 +122,7 @@ class HanzoMCPServer:
         final_enabled_tools = self.enabled_tools.copy()
         for tool_name in self.disabled_tools:
             final_enabled_tools[tool_name] = False
-        
+
         # Store the final processed tool configuration
         self.enabled_tools = final_enabled_tools
 
@@ -159,8 +155,9 @@ class HanzoMCPServer:
         # Register signal handlers for graceful shutdown
         def signal_handler(signum, frame):
             import sys
+
             # Only log if not stdio transport
-            if hasattr(self, '_transport') and self._transport != 'stdio':
+            if hasattr(self, "_transport") and self._transport != "stdio":
                 logger = logging.getLogger(__name__)
                 logger.info("\nShutting down gracefully...")
             self._cleanup_sessions()
@@ -198,7 +195,7 @@ class HanzoMCPServer:
             cleared_count = SessionStorage.clear_all_sessions()
             if cleared_count > 0:
                 # Only log if not stdio transport
-                if hasattr(self, '_transport') and self._transport != 'stdio':
+                if hasattr(self, "_transport") and self._transport != "stdio":
                     logger = logging.getLogger(__name__)
                     logger.info(f"Cleaned up {cleared_count} tmux sessions on shutdown")
         except Exception:
@@ -214,7 +211,7 @@ class HanzoMCPServer:
         """
         # Store transport for later use
         self._transport = transport
-        
+
         # Add allowed paths if provided
         allowed_paths_list = allowed_paths or []
         for path in allowed_paths_list:
@@ -232,30 +229,27 @@ def create_server(
     name: str = "hanzo-mcp",
     allowed_paths: list[str] | None = None,
     enable_all_tools: bool = False,
-    **kwargs
+    **kwargs,
 ) -> HanzoMCPServer:
     """Create a Hanzo MCP server instance.
-    
+
     Args:
         name: Server name
         allowed_paths: List of allowed file paths
         enable_all_tools: Enable all tools including agent tools
         **kwargs: Additional server configuration
-        
+
     Returns:
         HanzoMCPServer instance
     """
     if enable_all_tools:
-        kwargs['enable_agent_tool'] = True
-        
-    return HanzoMCPServer(
-        name=name,
-        allowed_paths=allowed_paths,
-        **kwargs
-    )
+        kwargs["enable_agent_tool"] = True
+
+    return HanzoMCPServer(name=name, allowed_paths=allowed_paths, **kwargs)
 
 
 def main():
     """Main entry point for the server."""
     from hanzo_mcp.cli import main as cli_main
+
     cli_main()

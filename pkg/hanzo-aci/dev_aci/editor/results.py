@@ -39,9 +39,7 @@ def maybe_truncate(
     truncate_after: int | None = MAX_RESPONSE_LEN_CHAR,
     truncate_notice: str = CONTENT_TRUNCATED_NOTICE,
 ) -> str:
-    """
-    Truncate content and append a notice if content exceeds the specified length.
-    """
+    """Truncate content and append a notice if content exceeds the specified length."""
     return (
         content
         if not truncate_after or len(content) <= truncate_after

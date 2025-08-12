@@ -14,9 +14,10 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestDeployments:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_complete(self, client: Hanzo) -> None:
         deployment = client.openai.deployments.complete(
@@ -24,7 +25,6 @@ class TestDeployments:
         )
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_complete(self, client: Hanzo) -> None:
         response = client.openai.deployments.with_raw_response.complete(
@@ -36,7 +36,6 @@ class TestDeployments:
         deployment = response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_complete(self, client: Hanzo) -> None:
         with client.openai.deployments.with_streaming_response.complete(
@@ -50,15 +49,15 @@ class TestDeployments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_complete(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(
+            ValueError, match=r"Expected a non-empty value for `model` but received ''"
+        ):
             client.openai.deployments.with_raw_response.complete(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_embed(self, client: Hanzo) -> None:
         deployment = client.openai.deployments.embed(
@@ -66,7 +65,6 @@ class TestDeployments:
         )
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_embed(self, client: Hanzo) -> None:
         response = client.openai.deployments.with_raw_response.embed(
@@ -78,7 +76,6 @@ class TestDeployments:
         deployment = response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_embed(self, client: Hanzo) -> None:
         with client.openai.deployments.with_streaming_response.embed(
@@ -92,19 +89,21 @@ class TestDeployments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_embed(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(
+            ValueError, match=r"Expected a non-empty value for `model` but received ''"
+        ):
             client.openai.deployments.with_raw_response.embed(
                 "",
             )
 
 
 class TestAsyncDeployments:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_complete(self, async_client: AsyncHanzo) -> None:
         deployment = await async_client.openai.deployments.complete(
@@ -112,7 +111,6 @@ class TestAsyncDeployments:
         )
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_complete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.deployments.with_raw_response.complete(
@@ -124,7 +122,6 @@ class TestAsyncDeployments:
         deployment = await response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_complete(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.deployments.with_streaming_response.complete(
@@ -138,15 +135,15 @@ class TestAsyncDeployments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_complete(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(
+            ValueError, match=r"Expected a non-empty value for `model` but received ''"
+        ):
             await async_client.openai.deployments.with_raw_response.complete(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_embed(self, async_client: AsyncHanzo) -> None:
         deployment = await async_client.openai.deployments.embed(
@@ -154,7 +151,6 @@ class TestAsyncDeployments:
         )
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_embed(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.deployments.with_raw_response.embed(
@@ -166,7 +162,6 @@ class TestAsyncDeployments:
         deployment = await response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_embed(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.deployments.with_streaming_response.embed(
@@ -180,10 +175,11 @@ class TestAsyncDeployments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_embed(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(
+            ValueError, match=r"Expected a non-empty value for `model` but received ''"
+        ):
             await async_client.openai.deployments.with_raw_response.embed(
                 "",
             )

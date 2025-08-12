@@ -4,12 +4,9 @@ This test demonstrates how the swarm tool can fix multiple Go files in parallel,
 achieving 10-100x performance gains for complex refactoring tasks.
 """
 
-import asyncio
 import json
-import pytest
-import tempfile
-from pathlib import Path
 
+import pytest
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
@@ -18,17 +15,17 @@ class TestSwarmParallelFix:
     """Test swarm parallel file editing with complex Go fixes."""
 
     @pytest.fixture
-    def test_project(self, tool_helper,tmp_path):
+    def test_project(self, tool_helper, tmp_path):
         """Create a test Go project with undefined common imports."""
         # Create directory structure
         project_dir = tmp_path / "luxfi-node"
         vms_dir = project_dir / "vms" / "xvm" / "network"
         vms_dir.mkdir(parents=True)
-    
+
         # Create Go files with undefined common imports
-        
+
         # atomic.go
-        atomic_content = '''package network
+        atomic_content = """package network
 
 import (
         "context"
@@ -59,11 +56,11 @@ func (a *AtomicTx) Reject() error {
         logger.Info("transaction rejected", "id", a.ID)
         return nil
 }
-'''
+"""
         (vms_dir / "atomic.go").write_text(atomic_content)
-        
+
         # network.go
-        network_content = '''package network
+        network_content = """package network
 
 import (
         "sync"
@@ -89,11 +86,11 @@ func (n *Network) SendMessage(msg common.Message) error {
         }
         return handler.Handle(msg)
 }
-'''
+"""
         (vms_dir / "network.go").write_text(network_content)
-        
+
         # gossip.go
-        gossip_content = '''package network
+        gossip_content = """package network
 
 import (
         "time"
@@ -123,14 +120,14 @@ func (g *Gossiper) Start() {
             }
         }
 }
-'''
+"""
         (vms_dir / "gossip.go").write_text(gossip_content)
-        
+
         # Create a common package that should be imported
         common_dir = project_dir / "common"
         common_dir.mkdir(parents=True)
-        
-        common_content = '''package common
+
+        common_content = """package common
 
 import (
         "time"
@@ -203,74 +200,78 @@ type gossipMessage struct{}
 func (g *gossipMessage) Type() MessageType {
         return 1
 }
-'''
+"""
         (common_dir / "common.go").write_text(common_content)
-        
+
         return project_dir
 
     @pytest.mark.asyncio
-    async def test_swarm_parallel_go_fixes(self, tool_helper,test_project):
+    async def test_swarm_parallel_go_fixes(self, tool_helper, test_project):
         """Test fixing multiple Go files in parallel using swarm."""
         # Initialize swarm tool
         permission_manager = PermissionManager(allowed_paths=[str(test_project)])
         swarm = SwarmTool(permission_manager)
-        
+
         # Create task list for fixing each file
         tasks = [
             {
                 "file": str(test_project / "vms" / "xvm" / "network" / "atomic.go"),
-                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation."
+                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation.",
             },
             {
                 "file": str(test_project / "vms" / "xvm" / "network" / "network.go"),
-                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation."
+                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation.",
             },
             {
                 "file": str(test_project / "vms" / "xvm" / "network" / "gossip.go"),
-                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation."
-            }
+                "instruction": "Add the missing import for the common package. The import should be 'github.com/luxfi/node/common'. Use multi_edit to add the import in one operation.",
+            },
         ]
-        
+
         # Run swarm to fix all files in parallel
-        ctx = type('Context', (), {})()  # Mock context
-        
+        ctx = type("Context", (), {})()  # Mock context
+
         result = await swarm.call(
             ctx,
             tasks=tasks,
-            max_concurrency=3  # Fix all 3 files in parallel
+            max_concurrency=3,  # Fix all 3 files in parallel
         )
-        
+
         # Parse results
         results = json.loads(result)
-        
+
         # Verify all tasks completed successfully
         assert len(results["results"]) == 3
         assert all(r["status"] == "completed" for r in results["results"])
-        
+
         # Verify the imports were added correctly
         for go_file in ["atomic.go", "network.go", "gossip.go"]:
             content = (test_project / "vms" / "xvm" / "network" / go_file).read_text()
             assert "github.com/luxfi/node/common" in content
             # Verify the import is in the correct format
-            assert 'import (\n' in content or 'import "github.com/luxfi/node/common"' in content
-        
+            assert (
+                "import (\n" in content
+                or 'import "github.com/luxfi/node/common"' in content
+            )
+
         # Print performance metrics
         print(f"\nPerformance Metrics:")
         print(f"Total time: {results['total_time']:.2f}s")
         print(f"Files fixed: {results['completed']}")
-        print(f"Parallel speedup: ~{results['completed']}x (all files fixed simultaneously)")
-
+        print(
+            f"Parallel speedup: ~{results['completed']}x (all files fixed simultaneously)"
+        )
 
     @pytest.mark.asyncio
-    async def test_swarm_with_batch_analysis(self, tool_helper,test_project):
+    async def test_swarm_with_batch_analysis(self, tool_helper, test_project):
         """Test using swarm with batch tool for initial analysis."""
         # This demonstrates the pattern of:
         # 1. Use batch tool to analyze all files quickly
         # 2. Use swarm to fix them in parallel
-        
+
         permission_manager = PermissionManager(allowed_paths=[str(test_project)])
         swarm = SwarmTool(permission_manager)
-        
+
         # Create a more complex task that requires analysis first
         analysis_task = {
             "file": str(test_project / "vms" / "xvm" / "network"),
@@ -279,53 +280,55 @@ func (g *gossipMessage) Type() MessageType {
             2. Analyze each file to determine the exact import needed
             3. Use multi_edit to add the import statement to each file
             4. Ensure the import is added in the correct location in the imports block
-            """
+            """,
         }
-        
+
         # This would typically be done with batch tool first for analysis
         # Then swarm for parallel fixes
-        
-        ctx = type('Context', (), {})()
-        
+
+        ctx = type("Context", (), {})()
+
         # For this test, we'll just verify the swarm structure works
-        result = await swarm.call(
-            ctx,
-            tasks=[analysis_task],
-            max_concurrency=1
-        )
-        
+        result = await swarm.call(ctx, tasks=[analysis_task], max_concurrency=1)
+
         results = json.loads(result)
         assert results["completed"] >= 0  # At least attempted
-
 
     def test_swarm_task_generation(self):
         """Test generating swarm tasks from error output."""
         # This shows how to convert compiler errors to swarm tasks
-        
+
         error_output = """
 vms/xvm/network/atomic.go:18:2: undefined: common
 vms/xvm/network/atomic.go:20:6: undefined: common
 vms/xvm/network/network.go:25:4: undefined: common
 vms/xvm/network/gossip.go:55:13: undefined: common
 """
-        
+
         # Parse errors to find unique files
         files_with_errors = set()
-        for line in error_output.strip().split('\n'):
-            if ':' in line and 'undefined: common' in line:
-                file_path = line.split(':')[0]
+        for line in error_output.strip().split("\n"):
+            if ":" in line and "undefined: common" in line:
+                file_path = line.split(":")[0]
                 files_with_errors.add(file_path)
-        
+
         # Generate swarm tasks
         tasks = []
         for file_path in files_with_errors:
-            tasks.append({
-                "file": file_path,
-                "instruction": "Add import 'github.com/luxfi/node/common' to fix undefined common references. Use multi_edit for efficiency."
-            })
-        
+            tasks.append(
+                {
+                    "file": file_path,
+                    "instruction": "Add import 'github.com/luxfi/node/common' to fix undefined common references. Use multi_edit for efficiency.",
+                }
+            )
+
         assert len(tasks) == 3
-        assert all('atomic.go' in t["file"] or 'network.go' in t["file"] or 'gossip.go' in t["file"] for t in tasks)
+        assert all(
+            "atomic.go" in t["file"]
+            or "network.go" in t["file"]
+            or "gossip.go" in t["file"]
+            for t in tasks
+        )
 
 
 if __name__ == "__main__":

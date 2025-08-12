@@ -3,12 +3,12 @@
 This module provides the Write tool for creating or overwriting files.
 """
 
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
@@ -146,9 +146,5 @@ Usage:
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def write(
-            file_path: FilePath,
-            content: Content,
-            ctx: MCPContext
-        ) -> str:
+        async def write(file_path: FilePath, content: Content, ctx: MCPContext) -> str:
             return await tool_self.call(ctx, file_path=file_path, content=content)

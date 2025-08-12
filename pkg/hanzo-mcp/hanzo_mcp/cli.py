@@ -1,57 +1,59 @@
 """Command-line interface for the Hanzo AI server."""
 
-import argparse
-import json
-import logging
 import os
-import signal
 import sys
-from pathlib import Path
+import json
+import signal
+import logging
+import argparse
 from typing import Any, cast
+from pathlib import Path
 
 from hanzo_mcp.server import HanzoMCPServer
 
 
 def main() -> None:
     """Run the CLI for the Hanzo AI server."""
-    
+
     # Pre-parse arguments to check transport type early
     import sys
+
     early_parser = argparse.ArgumentParser(add_help=False)
     early_parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio")
     early_args, _ = early_parser.parse_known_args()
-    
+
     # Configure logging VERY early based on transport
     if early_args.transport == "stdio":
         # Set environment variable for server to detect stdio mode
         import os
+
         os.environ["HANZO_MCP_TRANSPORT"] = "stdio"
-        
+
         # For stdio transport, disable ALL logging immediately
         from fastmcp.utilities.logging import configure_logging
+
         # Set to ERROR to suppress INFO/WARNING messages from FastMCP
         configure_logging(level="ERROR")
-        
+
         # Also configure standard logging to ERROR level
         logging.basicConfig(
             level=logging.ERROR,  # Only show errors
-            handlers=[]  # No handlers for stdio to prevent protocol corruption
+            handlers=[],  # No handlers for stdio to prevent protocol corruption
         )
-        
+
         # Redirect stderr to devnull for stdio transport to prevent any output
         import sys
-        sys.stderr = open(os.devnull, 'w')
-    
+
+        sys.stderr = open(os.devnull, "w")
+
     from hanzo_mcp import __version__
-    
+
     parser = argparse.ArgumentParser(
         description="MCP server implementing Hanzo AI capabilities"
     )
-    
+
     parser.add_argument(
-        "--version",
-        action="version",
-        version=f"hanzo-mcp {__version__}"
+        "--version", action="version", version=f"hanzo-mcp {__version__}"
     )
 
     _ = parser.add_argument(
@@ -188,7 +190,7 @@ def main() -> None:
         action="store_true",
         help="Run in development mode with hot reload",
     )
-    
+
     _ = parser.add_argument(
         "--install",
         action="store_true",
@@ -232,27 +234,22 @@ def main() -> None:
 
     if install:
         install_claude_desktop_config(
-            name, 
-            allowed_paths, 
-            disable_write_tools, 
-            disable_search_tools, 
-            host, 
-            port
+            name, allowed_paths, disable_write_tools, disable_search_tools, host, port
         )
         return
 
     # Get logger
     logger = logging.getLogger(__name__)
-    
+
     # Set up signal handler to ensure clean exit
     def signal_handler(signum, frame):
         if transport != "stdio":
             logger.info("\nReceived interrupt signal, shutting down...")
         sys.exit(0)
-    
+
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
-    
+
     # Configure logging based on transport (stdio already configured early)
     if transport != "stdio":
         # For SSE transport, logging is fine
@@ -260,11 +257,11 @@ def main() -> None:
             "DEBUG": logging.DEBUG,
             "INFO": logging.INFO,
             "WARNING": logging.WARNING,
-            "ERROR": logging.ERROR
+            "ERROR": logging.ERROR,
         }
         logging.basicConfig(
             level=log_level_map.get(log_level, logging.INFO),
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
     # If no allowed paths are specified, use the current directory
@@ -274,7 +271,7 @@ def main() -> None:
     # Run in dev mode if requested
     if dev:
         from hanzo_mcp.dev_server import DevServer
-        
+
         dev_server = DevServer(
             name=name,
             allowed_paths=allowed_paths,
@@ -315,7 +312,7 @@ def main() -> None:
         host=host,
         port=port,
     )
-    
+
     try:
         # Transport will be automatically cast to Literal['stdio', 'sse'] by the server
         server.run(transport=transport)
@@ -378,7 +375,7 @@ def install_claude_desktop_config(
     # Add tool disable flags if specified
     if disable_write_tools:
         args.append("--disable-write-tools")
-    
+
     if disable_search_tools:
         args.append("--disable-search-tools")
 
@@ -419,9 +416,7 @@ def install_claude_desktop_config(
     else:
         logger.info(f"\nDefault allowed path: {home}")
 
-    logger.info(
-        "\nYou can modify allowed paths in the config file directly."
-    )
+    logger.info("\nYou can modify allowed paths in the config file directly.")
     logger.info("Restart Claude Desktop for changes to take effect.")
 
 

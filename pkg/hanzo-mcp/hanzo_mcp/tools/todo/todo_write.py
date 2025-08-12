@@ -3,13 +3,13 @@
 This module provides the TodoWrite tool for creating and managing a structured task list for a session.
 """
 
-from typing import Annotated, Literal, TypedDict, Unpack, final, override
+from typing import Unpack, Literal, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.todo.base import TodoBaseTool, TodoStorage
+from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
 
 
 class TodoItem(TypedDict):
@@ -369,8 +369,6 @@ When in doubt, use this tool. Being proactive with task management demonstrates 
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def todo_write(
-            session_id: SessionId,
-            todos: Todos,
-            ctx: MCPContext
+            session_id: SessionId, todos: Todos, ctx: MCPContext
         ) -> str:
             return await tool_self.call(ctx, session_id=session_id, todos=todos)

@@ -4,12 +4,8 @@ This module provides an enhanced Context class that wraps the MCP Context
 and adds additional functionality specific to Hanzo tools.
 """
 
-import json
-import os
-import time
+from typing import ClassVar, final
 from collections.abc import Iterable
-from pathlib import Path
-from typing import Any, ClassVar, final
 
 from mcp.server.fastmcp import Context as MCPContext
 from mcp.server.lowlevel.helper_types import ReadResourceContents

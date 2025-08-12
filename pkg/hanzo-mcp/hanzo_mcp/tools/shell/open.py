@@ -3,32 +3,29 @@
 import platform
 import subprocess
 import webbrowser
-from pathlib import Path
 from typing import override
+from pathlib import Path
 from urllib.parse import urlparse
 
+from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from mcp.server import FastMCP
 
 
 class OpenTool(BaseTool):
     """Tool for opening files or URLs in the default application."""
 
     name = "open"
-    
+
     def register(self, server: FastMCP) -> None:
         """Register the tool with the MCP server."""
         tool_self = self
-        
+
         @server.tool(name=self.name, description=self.description)
-        async def open(
-            path: str,
-            ctx: MCPContext
-        ) -> str:
+        async def open(path: str, ctx: MCPContext) -> str:
             return await tool_self.run(ctx, path)
-    
+
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(ctx, params["path"])
@@ -47,21 +44,21 @@ open /path/to/image.png"""
     @override
     async def run(self, ctx: MCPContext, path: str) -> str:
         """Open a file or URL in the default application.
-        
+
         Args:
             ctx: MCP context
             path: File path or URL to open
-            
+
         Returns:
             Success message
-            
+
         Raises:
             RuntimeError: If opening fails
         """
         # Check if it's a URL
         parsed = urlparse(path)
-        is_url = parsed.scheme in ('http', 'https', 'ftp', 'file')
-        
+        is_url = parsed.scheme in ("http", "https", "ftp", "file")
+
         if is_url:
             # Open URL in default browser
             try:
@@ -69,15 +66,15 @@ open /path/to/image.png"""
                 return f"Opened URL in browser: {path}"
             except Exception as e:
                 raise RuntimeError(f"Failed to open URL: {e}")
-        
+
         # It's a file path
         file_path = Path(path).expanduser().resolve()
-        
+
         if not file_path.exists():
             raise RuntimeError(f"File not found: {file_path}")
-        
+
         system = platform.system().lower()
-        
+
         try:
             if system == "darwin":  # macOS
                 subprocess.run(["open", str(file_path)], check=True)
@@ -98,12 +95,13 @@ open /path/to/image.png"""
             elif system == "windows":
                 # Use os.startfile on Windows
                 import os
+
                 os.startfile(str(file_path))
             else:
                 raise RuntimeError(f"Unsupported platform: {system}")
-                
+
             return f"Opened file: {file_path}"
-            
+
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Failed to open file: {e}")
         except Exception as e:

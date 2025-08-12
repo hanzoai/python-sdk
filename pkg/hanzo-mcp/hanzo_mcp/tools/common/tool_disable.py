@@ -1,14 +1,13 @@
 """Disable tools dynamically."""
 
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-
 
 ToolName = Annotated[
     str,
@@ -104,13 +103,13 @@ Use 'tool_enable' to re-enable disabled tools.
 
         # Check current state
         was_enabled = ToolEnableTool.is_tool_enabled(tool_name)
-        
+
         if not was_enabled:
             return f"Tool '{tool_name}' is already disabled."
 
         # Disable the tool
         ToolEnableTool._tool_states[tool_name] = False
-        
+
         # Persist if requested
         if persist:
             ToolEnableTool._save_states()
@@ -124,19 +123,25 @@ Use 'tool_enable' to re-enable disabled tools.
             "The tool is now unavailable for use.",
             f"Use 'tool_enable --tool {tool_name}' to re-enable it.",
         ]
-        
+
         if not persist:
-            output.append("\nNote: This change is temporary and will be lost on restart.")
-        
+            output.append(
+                "\nNote: This change is temporary and will be lost on restart."
+            )
+
         # Warn about commonly used tools
         common_tools = {"grep", "read", "write", "bash", "edit"}
         if tool_name in common_tools:
-            output.append(f"\n⚠️  Warning: '{tool_name}' is a commonly used tool. Disabling it may affect normal operations.")
-        
+            output.append(
+                f"\n⚠️  Warning: '{tool_name}' is a commonly used tool. Disabling it may affect normal operations."
+            )
+
         # Count disabled tools
-        disabled_count = sum(1 for enabled in ToolEnableTool._tool_states.values() if not enabled)
+        disabled_count = sum(
+            1 for enabled in ToolEnableTool._tool_states.values() if not enabled
+        )
         output.append(f"\nTotal disabled tools: {disabled_count}")
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

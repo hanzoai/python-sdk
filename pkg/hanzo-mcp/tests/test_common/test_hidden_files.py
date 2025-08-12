@@ -3,14 +3,13 @@
 import os
 from pathlib import Path
 
-
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 class TestHiddenFilePermissions:
     """Test permission handling for hidden files and directories."""
 
-    def test_dotfile_exclusion_behavior(self, tool_helper,temp_dir: str):
+    def test_dotfile_exclusion_behavior(self, tool_helper, temp_dir: str):
         """Test that dotfiles are properly handled in the permission system.
 
         This test verifies that files with dots in their names are not incorrectly
@@ -27,18 +26,18 @@ class TestHiddenFilePermissions:
 
         # Test paths with the fixed implementation
         # The workflow example and gitignore files should be allowed
-        assert manager.is_path_allowed(problem_path), (
-            "Should allow .github-workflow-example.yml"
-        )
+        assert manager.is_path_allowed(
+            problem_path
+        ), "Should allow .github-workflow-example.yml"
         assert manager.is_path_allowed(gitignore_file), "Should allow .gitignore"
         assert manager.is_path_allowed(git_related_file), "Should allow git-tutorial.md"
 
         # Since .git is now allowed by default, this should also be allowed
-        assert manager.is_path_allowed(actual_github_dir), (
-            "Should allow actual .github directory"
-        )
+        assert manager.is_path_allowed(
+            actual_github_dir
+        ), "Should allow actual .github directory"
 
-    def test_various_hidden_files(self, tool_helper,temp_dir: str):
+    def test_various_hidden_files(self, tool_helper, temp_dir: str):
         """Test a variety of hidden files and paths to ensure correct behavior."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -70,7 +69,7 @@ class TestHiddenFilePermissions:
         for path in excluded_paths:
             assert not manager.is_path_allowed(path), f"Should exclude: {path}"
 
-    def test_path_component_matching(self, tool_helper,temp_dir: str):
+    def test_path_component_matching(self, tool_helper, temp_dir: str):
         """Test that path component matching works correctly."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -94,17 +93,17 @@ class TestHiddenFilePermissions:
 
         # Test full component paths (should be excluded)
         for path in full_component_paths:
-            assert not manager.is_path_allowed(path), (
-                f"Should exclude full component: {path}"
-            )
+            assert not manager.is_path_allowed(
+                path
+            ), f"Should exclude full component: {path}"
 
         # Test partial component paths (should be allowed)
         for path in partial_component_paths:
-            assert manager.is_path_allowed(path), (
-                f"Should allow partial component: {path}"
-            )
+            assert manager.is_path_allowed(
+                path
+            ), f"Should allow partial component: {path}"
 
-    def test_wildcard_patterns(self, tool_helper,temp_dir: str):
+    def test_wildcard_patterns(self, tool_helper, temp_dir: str):
         """Test that wildcard patterns work correctly."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -128,15 +127,15 @@ class TestHiddenFilePermissions:
 
         # Test wildcard matching paths (should be excluded)
         for path in wildcard_matches:
-            assert not manager.is_path_allowed(path), (
-                f"Should exclude wildcard match: {path}"
-            )
+            assert not manager.is_path_allowed(
+                path
+            ), f"Should exclude wildcard match: {path}"
 
         # Test non-matching paths (should be allowed)
         for path in wildcard_non_matches:
             assert manager.is_path_allowed(path), f"Should allow non-matching: {path}"
 
-    def test_real_world_project_paths(self, tool_helper,temp_dir: str):
+    def test_real_world_project_paths(self, tool_helper, temp_dir: str):
         """Test with realistic project paths that might be problematic."""
         manager = PermissionManager()
         base_dir = "/Users/lijie/project/hanzo-mcp"

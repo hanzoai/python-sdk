@@ -74,7 +74,9 @@ def test_response_parse_mismatched_basemodel(client: Hanzo) -> None:
 
 
 @pytest.mark.asyncio
-async def test_async_response_parse_mismatched_basemodel(async_client: AsyncHanzo) -> None:
+async def test_async_response_parse_mismatched_basemodel(
+    async_client: AsyncHanzo,
+) -> None:
     response = AsyncAPIResponse(
         raw=httpx.Response(200, content=b"foo"),
         client=async_client,
@@ -226,7 +228,9 @@ def test_response_parse_bool(client: Hanzo, content: str, expected: bool) -> Non
         ("FalSe", False),
     ],
 )
-async def test_async_response_parse_bool(client: AsyncHanzo, content: str, expected: bool) -> None:
+async def test_async_response_parse_bool(
+    client: AsyncHanzo, content: str, expected: bool
+) -> None:
     response = AsyncAPIResponse(
         raw=httpx.Response(200, content=content),
         client=client,
@@ -247,7 +251,9 @@ class OtherModel(BaseModel):
 @pytest.mark.parametrize("client", [False], indirect=True)  # loose validation
 def test_response_parse_expect_model_union_non_json_content(client: Hanzo) -> None:
     response = APIResponse(
-        raw=httpx.Response(200, content=b"foo", headers={"Content-Type": "application/text"}),
+        raw=httpx.Response(
+            200, content=b"foo", headers={"Content-Type": "application/text"}
+        ),
         client=client,
         stream=False,
         stream_cls=None,
@@ -262,9 +268,13 @@ def test_response_parse_expect_model_union_non_json_content(client: Hanzo) -> No
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("async_client", [False], indirect=True)  # loose validation
-async def test_async_response_parse_expect_model_union_non_json_content(async_client: AsyncHanzo) -> None:
+async def test_async_response_parse_expect_model_union_non_json_content(
+    async_client: AsyncHanzo,
+) -> None:
     response = AsyncAPIResponse(
-        raw=httpx.Response(200, content=b"foo", headers={"Content-Type": "application/text"}),
+        raw=httpx.Response(
+            200, content=b"foo", headers={"Content-Type": "application/text"}
+        ),
         client=async_client,
         stream=False,
         stream_cls=None,
