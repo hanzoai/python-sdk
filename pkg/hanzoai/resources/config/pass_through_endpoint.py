@@ -42,7 +42,9 @@ class PassThroughEndpointResource(SyncAPIResource):
         return PassThroughEndpointResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> PassThroughEndpointResourceWithStreamingResponse:
+    def with_streaming_response(
+        self,
+    ) -> PassThroughEndpointResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
@@ -93,7 +95,10 @@ class PassThroughEndpointResource(SyncAPIResource):
                 pass_through_endpoint_create_params.PassThroughEndpointCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -122,11 +127,16 @@ class PassThroughEndpointResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint_id:
-            raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}"
+            )
         return self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -164,7 +174,8 @@ class PassThroughEndpointResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_list_params.PassThroughEndpointListParams
+                    {"endpoint_id": endpoint_id},
+                    pass_through_endpoint_list_params.PassThroughEndpointListParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,
@@ -203,7 +214,8 @@ class PassThroughEndpointResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_delete_params.PassThroughEndpointDeleteParams
+                    {"endpoint_id": endpoint_id},
+                    pass_through_endpoint_delete_params.PassThroughEndpointDeleteParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,
@@ -222,7 +234,9 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         return AsyncPassThroughEndpointResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncPassThroughEndpointResourceWithStreamingResponse:
+    def with_streaming_response(
+        self,
+    ) -> AsyncPassThroughEndpointResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
@@ -273,7 +287,10 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
                 pass_through_endpoint_create_params.PassThroughEndpointCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -302,11 +319,16 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint_id:
-            raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}"
+            )
         return await self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -344,7 +366,8 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_list_params.PassThroughEndpointListParams
+                    {"endpoint_id": endpoint_id},
+                    pass_through_endpoint_list_params.PassThroughEndpointListParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,
@@ -383,7 +406,8 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_delete_params.PassThroughEndpointDeleteParams
+                    {"endpoint_id": endpoint_id},
+                    pass_through_endpoint_delete_params.PassThroughEndpointDeleteParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,

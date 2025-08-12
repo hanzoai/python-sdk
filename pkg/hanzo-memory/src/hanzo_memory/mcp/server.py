@@ -33,6 +33,7 @@ class MCPMemoryServer:
 
     def _setup_handlers(self) -> None:
         """Set up server handlers."""
+
         @self.server.list_tools()  # type: ignore[misc]
         async def handle_list_tools() -> list[Tool]:
             """Return available tools."""
@@ -44,10 +45,23 @@ class MCPMemoryServer:
                         "type": "object",
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {"type": "string", "description": "Project ID"},
-                            "content": {"type": "string", "description": "Memory content"},
-                            "metadata": {"type": "object", "description": "Additional metadata"},
-                            "importance": {"type": "number", "description": "Importance score (0-10)", "default": 1.0},
+                            "project_id": {
+                                "type": "string",
+                                "description": "Project ID",
+                            },
+                            "content": {
+                                "type": "string",
+                                "description": "Memory content",
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "description": "Additional metadata",
+                            },
+                            "importance": {
+                                "type": "number",
+                                "description": "Importance score (0-10)",
+                                "default": 1.0,
+                            },
                         },
                         "required": ["user_id", "project_id", "content"],
                     },
@@ -59,9 +73,16 @@ class MCPMemoryServer:
                         "type": "object",
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {"type": "string", "description": "Project ID (optional)"},
+                            "project_id": {
+                                "type": "string",
+                                "description": "Project ID (optional)",
+                            },
                             "query": {"type": "string", "description": "Search query"},
-                            "limit": {"type": "integer", "description": "Number of results", "default": 10},
+                            "limit": {
+                                "type": "integer",
+                                "description": "Number of results",
+                                "default": 10,
+                            },
                         },
                         "required": ["user_id", "query"],
                     },
@@ -74,8 +95,14 @@ class MCPMemoryServer:
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
                             "name": {"type": "string", "description": "Project name"},
-                            "description": {"type": "string", "description": "Project description"},
-                            "metadata": {"type": "object", "description": "Additional metadata"},
+                            "description": {
+                                "type": "string",
+                                "description": "Project description",
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "description": "Additional metadata",
+                            },
                         },
                         "required": ["user_id", "name"],
                     },
@@ -87,9 +114,18 @@ class MCPMemoryServer:
                         "type": "object",
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {"type": "string", "description": "Project ID"},
-                            "name": {"type": "string", "description": "Knowledge base name"},
-                            "description": {"type": "string", "description": "Knowledge base description"},
+                            "project_id": {
+                                "type": "string",
+                                "description": "Project ID",
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Knowledge base name",
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Knowledge base description",
+                            },
                         },
                         "required": ["user_id", "project_id", "name"],
                     },
@@ -101,10 +137,22 @@ class MCPMemoryServer:
                         "type": "object",
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
-                            "kb_id": {"type": "string", "description": "Knowledge base ID"},
-                            "content": {"type": "string", "description": "Fact content"},
-                            "parent_id": {"type": "string", "description": "Parent fact ID (optional)"},
-                            "metadata": {"type": "object", "description": "Additional metadata"},
+                            "kb_id": {
+                                "type": "string",
+                                "description": "Knowledge base ID",
+                            },
+                            "content": {
+                                "type": "string",
+                                "description": "Fact content",
+                            },
+                            "parent_id": {
+                                "type": "string",
+                                "description": "Parent fact ID (optional)",
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "description": "Additional metadata",
+                            },
                         },
                         "required": ["user_id", "kb_id", "content"],
                     },
@@ -116,9 +164,16 @@ class MCPMemoryServer:
                         "type": "object",
                         "properties": {
                             "user_id": {"type": "string", "description": "User ID"},
-                            "kb_id": {"type": "string", "description": "Knowledge base ID"},
+                            "kb_id": {
+                                "type": "string",
+                                "description": "Knowledge base ID",
+                            },
                             "query": {"type": "string", "description": "Search query"},
-                            "limit": {"type": "integer", "description": "Number of results", "default": 10},
+                            "limit": {
+                                "type": "integer",
+                                "description": "Number of results",
+                                "default": 10,
+                            },
                         },
                         "required": ["user_id", "kb_id", "query"],
                     },
@@ -129,10 +184,23 @@ class MCPMemoryServer:
                     inputSchema={
                         "type": "object",
                         "properties": {
-                            "content": {"type": "string", "description": "Content to analyze"},
-                            "context": {"type": "string", "description": "Additional context"},
-                            "skip_summarization": {"type": "boolean", "description": "Skip summarization", "default": False},
-                            "provided_summary": {"type": "string", "description": "Pre-made summary"},
+                            "content": {
+                                "type": "string",
+                                "description": "Content to analyze",
+                            },
+                            "context": {
+                                "type": "string",
+                                "description": "Additional context",
+                            },
+                            "skip_summarization": {
+                                "type": "boolean",
+                                "description": "Skip summarization",
+                                "default": False,
+                            },
+                            "provided_summary": {
+                                "type": "string",
+                                "description": "Pre-made summary",
+                            },
                         },
                         "required": ["content"],
                     },
@@ -221,13 +289,15 @@ class MCPMemoryServer:
         memories = []
         if not results_df.is_empty():
             for row in results_df.to_dicts():
-                memories.append({
-                    "memory_id": row["memory_id"],
-                    "content": row["content"],
-                    "metadata": json.loads(row.get("metadata", "{}")),
-                    "importance": row.get("importance", 1.0),
-                    "similarity_score": row.get("_similarity", 0.0),
-                })
+                memories.append(
+                    {
+                        "memory_id": row["memory_id"],
+                        "content": row["content"],
+                        "metadata": json.loads(row.get("metadata", "{}")),
+                        "importance": row.get("importance", 1.0),
+                        "similarity_score": row.get("_similarity", 0.0),
+                    }
+                )
 
         return {
             "success": True,
@@ -258,7 +328,9 @@ class MCPMemoryServer:
             "message": "Project created successfully",
         }
 
-    async def _handle_create_knowledge_base(self, args: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_create_knowledge_base(
+        self, args: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle create knowledge base tool."""
         user_id = args["user_id"]
         project_id = args["project_id"]
@@ -328,13 +400,15 @@ class MCPMemoryServer:
         facts = []
         if not results_df.is_empty():
             for row in results_df.to_dicts():
-                facts.append({
-                    "fact_id": row["fact_id"],
-                    "content": row["content"],
-                    "parent_id": row.get("parent_id"),
-                    "metadata": json.loads(row.get("metadata", "{}")),
-                    "similarity_score": row.get("_similarity", 0.0),
-                })
+                facts.append(
+                    {
+                        "fact_id": row["fact_id"],
+                        "content": row["content"],
+                        "parent_id": row.get("parent_id"),
+                        "metadata": json.loads(row.get("metadata", "{}")),
+                        "similarity_score": row.get("_similarity", 0.0),
+                    }
+                )
 
         return {
             "success": True,
@@ -342,7 +416,9 @@ class MCPMemoryServer:
             "count": len(facts),
         }
 
-    async def _handle_summarize_for_knowledge(self, args: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_summarize_for_knowledge(
+        self, args: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle summarize for knowledge tool."""
         content = args["content"]
         context = args.get("context")

@@ -2,16 +2,15 @@
 
 import json
 import sqlite3
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
-
 
 Pattern = Annotated[
     str,
@@ -77,7 +76,9 @@ class GraphSearchParams(TypedDict, total=False):
 class GraphSearchTool(BaseTool):
     """Tool for searching nodes and edges in graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph search tool.
 
         Args:
@@ -157,8 +158,9 @@ Examples:
                 project_db = self.db_manager.get_project_db(project_path)
             else:
                 import os
+
                 project_db = self.db_manager.get_project_for_path(os.getcwd())
-                
+
             if not project_db:
                 return "Error: Could not find project database"
 
@@ -175,154 +177,174 @@ Examples:
 
         try:
             cursor = graph_conn.cursor()
-            
+
             # Search nodes
             if search_type in ["nodes", "all"]:
                 query = "SELECT id, type, properties FROM nodes WHERE id LIKE ?"
                 params_list = [pattern]
-                
+
                 if node_type:
                     query += " AND type = ?"
                     params_list.append(node_type)
-                
+
                 if search_type == "nodes":
                     query += f" LIMIT {max_results}"
-                    
+
                 cursor.execute(query, params_list)
-                
+
                 for row in cursor.fetchall():
-                    results.append({
-                        "type": "node",
-                        "id": row[0],
-                        "node_type": row[1],
-                        "properties": json.loads(row[2]) if row[2] else {},
-                        "match_field": "id"
-                    })
-            
+                    results.append(
+                        {
+                            "type": "node",
+                            "id": row[0],
+                            "node_type": row[1],
+                            "properties": json.loads(row[2]) if row[2] else {},
+                            "match_field": "id",
+                        }
+                    )
+
             # Search edges
             if search_type in ["edges", "all"]:
                 query = """SELECT source, target, relationship, weight, properties 
                           FROM edges WHERE relationship LIKE ?"""
                 params_list = [pattern]
-                
+
                 if relationship:
                     query += " AND relationship = ?"
                     params_list.append(relationship)
-                
+
                 if search_type == "edges":
                     query += f" LIMIT {max_results}"
-                    
+
                 cursor.execute(query, params_list)
-                
+
                 for row in cursor.fetchall():
-                    results.append({
-                        "type": "edge",
-                        "source": row[0],
-                        "target": row[1],
-                        "relationship": row[2],
-                        "weight": row[3],
-                        "properties": json.loads(row[4]) if row[4] else {},
-                        "match_field": "relationship"
-                    })
-            
+                    results.append(
+                        {
+                            "type": "edge",
+                            "source": row[0],
+                            "target": row[1],
+                            "relationship": row[2],
+                            "weight": row[3],
+                            "properties": json.loads(row[4]) if row[4] else {},
+                            "match_field": "relationship",
+                        }
+                    )
+
             # Search in properties
             if search_type in ["properties", "all"]:
                 # Search node properties
                 query = """SELECT id, type, properties FROM nodes 
                           WHERE properties IS NOT NULL AND properties LIKE ?"""
                 params_list = [f"%{pattern}%"]
-                
+
                 if node_type:
                     query += " AND type = ?"
                     params_list.append(node_type)
-                    
+
                 cursor.execute(query, params_list)
-                
+
                 for row in cursor.fetchall():
                     props = json.loads(row[2]) if row[2] else {}
                     # Check which property matches
                     matching_props = {}
                     for key, value in props.items():
-                        if pattern.replace('%', '').lower() in str(value).lower():
+                        if pattern.replace("%", "").lower() in str(value).lower():
                             matching_props[key] = value
-                    
+
                     if matching_props:
-                        results.append({
-                            "type": "node",
-                            "id": row[0],
-                            "node_type": row[1],
-                            "properties": props,
-                            "match_field": "properties",
-                            "matching_properties": matching_props
-                        })
-                
+                        results.append(
+                            {
+                                "type": "node",
+                                "id": row[0],
+                                "node_type": row[1],
+                                "properties": props,
+                                "match_field": "properties",
+                                "matching_properties": matching_props,
+                            }
+                        )
+
                 # Search edge properties
                 query = """SELECT source, target, relationship, weight, properties 
                           FROM edges WHERE properties IS NOT NULL AND properties LIKE ?"""
                 params_list = [f"%{pattern}%"]
-                
+
                 if relationship:
                     query += " AND relationship = ?"
                     params_list.append(relationship)
-                    
+
                 cursor.execute(query, params_list)
-                
+
                 for row in cursor.fetchall():
                     props = json.loads(row[4]) if row[4] else {}
                     # Check which property matches
                     matching_props = {}
                     for key, value in props.items():
-                        if pattern.replace('%', '').lower() in str(value).lower():
+                        if pattern.replace("%", "").lower() in str(value).lower():
                             matching_props[key] = value
-                    
+
                     if matching_props:
-                        results.append({
-                            "type": "edge",
-                            "source": row[0],
-                            "target": row[1],
-                            "relationship": row[2],
-                            "weight": row[3],
-                            "properties": props,
-                            "match_field": "properties",
-                            "matching_properties": matching_props
-                        })
-            
+                        results.append(
+                            {
+                                "type": "edge",
+                                "source": row[0],
+                                "target": row[1],
+                                "relationship": row[2],
+                                "weight": row[3],
+                                "properties": props,
+                                "match_field": "properties",
+                                "matching_properties": matching_props,
+                            }
+                        )
+
             # Limit total results if searching all
             if search_type == "all" and len(results) > max_results:
                 results = results[:max_results]
-            
+
             if not results:
                 return f"No results found for pattern '{pattern}'"
-            
+
             # Format results
             output = [f"Found {len(results)} result(s) for pattern '{pattern}':\n"]
-            
+
             # Group by type
             nodes = [r for r in results if r["type"] == "node"]
             edges = [r for r in results if r["type"] == "edge"]
-            
+
             if nodes:
                 output.append(f"Nodes ({len(nodes)}):")
                 for node in nodes[:20]:  # Show first 20
                     output.append(f"  {node['id']} ({node['node_type']})")
-                    if node["match_field"] == "properties" and "matching_properties" in node:
-                        output.append(f"    Matched in: {list(node['matching_properties'].keys())}")
+                    if (
+                        node["match_field"] == "properties"
+                        and "matching_properties" in node
+                    ):
+                        output.append(
+                            f"    Matched in: {list(node['matching_properties'].keys())}"
+                        )
                     if node["properties"] and node["match_field"] != "properties":
                         props_str = json.dumps(node["properties"], indent=6)[:100]
                         if len(props_str) == 100:
                             props_str += "..."
                         output.append(f"    Properties: {props_str}")
-                
+
                 if len(nodes) > 20:
                     output.append(f"  ... and {len(nodes) - 20} more nodes")
                 output.append("")
-            
+
             if edges:
                 output.append(f"Edges ({len(edges)}):")
                 for edge in edges[:20]:  # Show first 20
-                    output.append(f"  {edge['source']} --[{edge['relationship']}]--> {edge['target']}")
-                    if edge["match_field"] == "properties" and "matching_properties" in edge:
-                        output.append(f"    Matched in: {list(edge['matching_properties'].keys())}")
+                    output.append(
+                        f"  {edge['source']} --[{edge['relationship']}]--> {edge['target']}"
+                    )
+                    if (
+                        edge["match_field"] == "properties"
+                        and "matching_properties" in edge
+                    ):
+                        output.append(
+                            f"    Matched in: {list(edge['matching_properties'].keys())}"
+                        )
                     if edge["weight"] != 1.0:
                         output.append(f"    Weight: {edge['weight']}")
                     if edge["properties"]:
@@ -330,10 +352,10 @@ Examples:
                         if len(props_str) == 100:
                             props_str += "..."
                         output.append(f"    Properties: {props_str}")
-                
+
                 if len(edges) > 20:
                     output.append(f"  ... and {len(edges) - 20} more edges")
-            
+
             return "\n".join(output)
 
         except sqlite3.Error as e:

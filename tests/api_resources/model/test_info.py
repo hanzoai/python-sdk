@@ -14,15 +14,15 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestInfo:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         info = client.model.info.list()
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         info = client.model.info.list(
@@ -30,7 +30,6 @@ class TestInfo:
         )
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.model.info.with_raw_response.list()
@@ -40,7 +39,6 @@ class TestInfo:
         info = response.parse()
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.model.info.with_streaming_response.list() as response:
@@ -54,15 +52,15 @@ class TestInfo:
 
 
 class TestAsyncInfo:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         info = await async_client.model.info.list()
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         info = await async_client.model.info.list(
@@ -70,7 +68,6 @@ class TestAsyncInfo:
         )
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.info.with_raw_response.list()
@@ -80,7 +77,6 @@ class TestAsyncInfo:
         info = await response.parse()
         assert_matches_type(object, info, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.info.with_streaming_response.list() as response:

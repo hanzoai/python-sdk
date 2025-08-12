@@ -6,8 +6,8 @@ within Claude Desktop sessions.
 
 from mcp.server import FastMCP
 
-from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 from hanzo_mcp.tools.todo.todo import TodoTool
+from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 
 # Export all tool classes
 __all__ = [
@@ -51,7 +51,11 @@ def register_todo_tools(
     if enabled_tools:
         # Use individual tool configuration
         # Support both old names and new name for backward compatibility
-        if enabled_tools.get("todo", True) or enabled_tools.get("todo_read", True) or enabled_tools.get("todo_write", True):
+        if (
+            enabled_tools.get("todo", True)
+            or enabled_tools.get("todo_read", True)
+            or enabled_tools.get("todo_write", True)
+        ):
             tools.append(TodoTool())
     else:
         # Use all tools (backward compatibility)

@@ -56,7 +56,10 @@ class SpeechResource(SyncAPIResource):
         return self._post(
             "/v1/audio/speech",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -100,7 +103,10 @@ class AsyncSpeechResource(AsyncAPIResource):
         return await self._post(
             "/v1/audio/speech",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

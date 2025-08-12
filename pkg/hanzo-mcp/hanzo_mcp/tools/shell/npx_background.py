@@ -1,18 +1,17 @@
 """Run Node.js packages in background with npx."""
 
-import subprocess
-import shutil
 import uuid
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+import shutil
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.run_background import BackgroundProcess, RunBackgroundTool
-
 
 Package = Annotated[
     str,
@@ -163,25 +162,27 @@ Or download from: https://nodejs.org/"""
 
         # Build command
         cmd = ["npx"]
-        
+
         if yes:
             cmd.append("--yes")
-        
+
         cmd.append(package)
-        
+
         # Add package arguments
         if args:
             # Split args properly (basic parsing)
             import shlex
+
             cmd.extend(shlex.split(args))
 
         # Generate process ID
         process_id = str(uuid.uuid4())[:8]
-        
+
         # Prepare log file if needed
         log_file = None
         if log_output:
             from pathlib import Path
+
             log_dir = Path.home() / ".hanzo" / "logs"
             log_dir.mkdir(parents=True, exist_ok=True)
             log_file = log_dir / f"{name}_{process_id}.log"
@@ -197,7 +198,7 @@ Or download from: https://nodejs.org/"""
                         stdout=f,
                         stderr=subprocess.STDOUT,
                         cwd=working_dir,
-                        start_new_session=True
+                        start_new_session=True,
                     )
             else:
                 process = subprocess.Popen(
@@ -205,7 +206,7 @@ Or download from: https://nodejs.org/"""
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     cwd=working_dir,
-                    start_new_session=True
+                    start_new_session=True,
                 )
 
             # Create background process object
@@ -215,7 +216,7 @@ Or download from: https://nodejs.org/"""
                 name=name,
                 process=process,
                 log_file=str(log_file) if log_file else None,
-                working_dir=working_dir
+                working_dir=working_dir,
             )
 
             # Register with RunBackgroundTool
@@ -229,19 +230,21 @@ Or download from: https://nodejs.org/"""
                 f"  PID: {process.pid}",
                 f"  Command: {' '.join(cmd)}",
             ]
-            
+
             if working_dir:
                 output.append(f"  Working Dir: {working_dir}")
-            
+
             if log_file:
                 output.append(f"  Log: {log_file}")
-            
-            output.extend([
-                "",
-                "Use 'processes' to list running processes.",
-                f"Use 'logs --process-id {process_id}' to view output.",
-                f"Use 'pkill --process-id {process_id}' to stop."
-            ])
+
+            output.extend(
+                [
+                    "",
+                    "Use 'processes' to list running processes.",
+                    f"Use 'logs --process-id {process_id}' to view output.",
+                    f"Use 'pkill --process-id {process_id}' to stop.",
+                ]
+            )
 
             return "\n".join(output)
 

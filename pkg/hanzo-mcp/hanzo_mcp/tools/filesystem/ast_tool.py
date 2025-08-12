@@ -6,13 +6,13 @@ and other code structures with full context.
 """
 
 import os
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
+from pydantic import Field
 from mcp.server import FastMCP
 from grep_ast.grep_ast import TreeContext
-from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
@@ -229,7 +229,7 @@ Searches code structure intelligently, understanding syntax and providing semant
             pattern: Pattern,
             path: SearchPath,
             ignore_case: IgnoreCase = False,
-            line_number: LineNumber = False
+            line_number: LineNumber = False,
         ) -> str:
             return await tool_self.call(
                 ctx,

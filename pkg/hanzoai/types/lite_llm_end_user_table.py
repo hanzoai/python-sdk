@@ -4,7 +4,7 @@ from typing import Optional
 from typing_extensions import Literal
 
 from .._models import BaseModel
-from .budget_table import BudgetTable
+from .budget_table import LlmBudgetTable as BudgetTable
 
 __all__ = ["HanzoEndUserTable"]
 

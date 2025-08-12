@@ -15,12 +15,14 @@ class SyncAPIResource:
     _client: Hanzo
 
     def __init__(self, client: Hanzo) -> None:
+        from ._base_client import SyncAPIClient
+
         self._client = client
         self._get = client.get
         self._post = client.post
         self._patch = client.patch
         self._put = client.put
-        self._delete = client.delete
+        self._delete = SyncAPIClient.delete.__get__(client, type(client))
         self._get_api_list = client.get_api_list
 
     def _sleep(self, seconds: float) -> None:
@@ -31,12 +33,14 @@ class AsyncAPIResource:
     _client: AsyncHanzo
 
     def __init__(self, client: AsyncHanzo) -> None:
+        from ._base_client import AsyncAPIClient
+
         self._client = client
         self._get = client.get
         self._post = client.post
         self._patch = client.patch
         self._put = client.put
-        self._delete = client.delete
+        self._delete = AsyncAPIClient.delete.__get__(client, type(client))
         self._get_api_list = client.get_api_list
 
     async def _sleep(self, seconds: float) -> None:

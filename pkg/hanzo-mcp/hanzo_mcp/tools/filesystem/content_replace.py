@@ -4,12 +4,12 @@ This module provides the ContentReplaceTool for replacing text patterns in files
 """
 
 import fnmatch
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
@@ -280,7 +280,7 @@ Only works within allowed directories."""
             replacement: Replacement,
             path: SearchPath,
             file_pattern: FilePattern = "*",
-            dry_run: DryRun = False
+            dry_run: DryRun = False,
         ) -> str:
             return await tool_self.call(
                 ctx,

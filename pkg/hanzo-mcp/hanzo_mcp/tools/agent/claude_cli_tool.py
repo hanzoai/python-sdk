@@ -4,27 +4,28 @@ This tool provides integration with the Claude Code CLI (claude command),
 allowing programmatic execution of Claude for code tasks.
 """
 
-from typing import List, Optional, override, final
+from typing import List, Optional, final, override
+
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.agent.cli_agent_base import CLIAgentBase
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.agent.code_auth import get_latest_claude_model
+from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.agent.cli_agent_base import CLIAgentBase
 
 
 @final
 class ClaudeCLITool(CLIAgentBase):
     """Tool for executing Claude Code CLI."""
-    
+
     def __init__(
         self,
         permission_manager: PermissionManager,
         model: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ):
         """Initialize Claude CLI tool.
-        
+
         Args:
             permission_manager: Permission manager for access control
             model: Optional model override (defaults to latest Sonnet)
@@ -36,15 +37,15 @@ class ClaudeCLITool(CLIAgentBase):
             provider_name="Claude Code",
             default_model=model or get_latest_claude_model(),
             env_vars=["ANTHROPIC_API_KEY", "CLAUDE_API_KEY"],
-            **kwargs
+            **kwargs,
         )
-    
+
     @property
     @override
     def name(self) -> str:
         """Get the tool name."""
         return "claude_cli"
-    
+
     @property
     @override
     def description(self) -> str:
@@ -69,43 +70,43 @@ Requirements:
 - Claude Code CLI must be installed
 - ANTHROPIC_API_KEY or CLAUDE_API_KEY environment variable
 """
-    
+
     @override
     def get_cli_args(self, prompt: str, **kwargs) -> List[str]:
         """Get CLI arguments for Claude.
-        
+
         Args:
             prompt: The prompt to send
             **kwargs: Additional arguments (model, temperature, etc.)
-            
+
         Returns:
             List of command arguments
         """
         args = []
-        
+
         # Add model if specified
         model = kwargs.get("model", self.default_model)
         if model:
             args.extend(["--model", model])
-        
+
         # Add temperature if specified
         if "temperature" in kwargs:
             args.extend(["--temperature", str(kwargs["temperature"])])
-        
+
         # Add max tokens if specified
         if "max_tokens" in kwargs:
             args.extend(["--max-tokens", str(kwargs["max_tokens"])])
-        
+
         # Add the prompt
         args.append(prompt)
-        
+
         return args
-    
+
     @override
     def register(self, mcp_server: FastMCP) -> None:
         """Register this tool with the MCP server."""
         tool_self = self
-        
+
         @mcp_server.tool(name=self.name, description=self.description)
         async def claude_cli(
             ctx: MCPContext,

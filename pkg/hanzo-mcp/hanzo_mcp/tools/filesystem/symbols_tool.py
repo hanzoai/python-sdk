@@ -6,16 +6,24 @@ and other code structures with full context.
 """
 
 import os
+from typing import (
+    Any,
+    Dict,
+    List,
+    Unpack,
+    Optional,
+    Annotated,
+    TypedDict,
+    final,
+    override,
+)
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override, Optional, List, Dict, Any
-import json
 
-from mcp.server.fastmcp import Context as MCPContext
-from grep_ast.grep_ast import TreeContext
 from pydantic import Field
+from grep_ast.grep_ast import TreeContext
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
-
 
 # Parameter types
 Action = Annotated[
@@ -77,6 +85,7 @@ Limit = Annotated[
 
 class SymbolsParams(TypedDict, total=False):
     """Parameters for symbols tool."""
+
     action: str
     pattern: Optional[str]
     path: str
@@ -89,7 +98,7 @@ class SymbolsParams(TypedDict, total=False):
 @final
 class SymbolsTool(FilesystemBaseTool):
     """Tool for code symbol operations using tree-sitter."""
-    
+
     def __init__(self, permission_manager):
         """Initialize the symbols tool."""
         super().__init__(permission_manager)
@@ -128,11 +137,13 @@ Finds code structures (functions, classes, methods) with full context."""
 
         # Extract action
         action = params.get("action", "search")
-        
+
         # Route to appropriate handler
         if action == "search":
             return await self._handle_search(params, tool_ctx)
-        elif action == "ast" or action == "grep_ast":  # Support both for backward compatibility
+        elif (
+            action == "ast" or action == "grep_ast"
+        ):  # Support both for backward compatibility
             return await self._handle_ast(params, tool_ctx)
         elif action == "index":
             return await self._handle_index(params, tool_ctx)
@@ -148,12 +159,12 @@ Finds code structures (functions, classes, methods) with full context."""
         pattern = params.get("pattern")
         if not pattern:
             return "Error: pattern required for search action"
-        
+
         path = params.get("path", ".")
         ignore_case = params.get("ignore_case", False)
         show_context = params.get("show_context", True)
         limit = params.get("limit", 50)
-        
+
         # Validate path
         path_validation = self.validate_path(path)
         if not path_validation.is_valid:
@@ -180,11 +191,11 @@ Finds code structures (functions, classes, methods) with full context."""
         # Process files
         results = []
         match_count = 0
-        
+
         for file_path in files_to_process:
             if match_count >= limit:
                 break
-                
+
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     code = f.read()
@@ -199,7 +210,7 @@ Finds code structures (functions, classes, methods) with full context."""
 
                 # Find matches
                 loi = tc.grep(pattern, ignore_case)
-                
+
                 if loi:
                     if show_context:
                         tc.add_lines_of_interest(loi)
@@ -207,11 +218,13 @@ Finds code structures (functions, classes, methods) with full context."""
                         output = tc.format()
                     else:
                         # Just show matching lines
-                        output = "\n".join([f"{line}: {code.splitlines()[line-1]}" for line in loi])
-                    
+                        output = "\n".join(
+                            [f"{line}: {code.splitlines()[line - 1]}" for line in loi]
+                        )
+
                     results.append(f"\n{file_path}:\n{output}\n")
                     match_count += len(loi)
-                    
+
             except Exception as e:
                 await tool_ctx.warning(f"Could not parse {file_path}: {str(e)}")
 
@@ -221,10 +234,10 @@ Finds code structures (functions, classes, methods) with full context."""
         output = [f"=== Symbol Search Results for '{pattern}' ==="]
         output.append(f"Found {match_count} matches in {len(results)} files\n")
         output.extend(results)
-        
+
         if match_count >= limit:
             output.append(f"\n(Results limited to {limit} matches)")
-        
+
         return "\n".join(output)
 
     async def _handle_ast(self, params: Dict[str, Any], tool_ctx) -> str:
@@ -264,7 +277,7 @@ Finds code structures (functions, classes, methods) with full context."""
         # Process files
         results = []
         match_count = 0
-        
+
         for file_path in files_to_process:
             if match_count >= limit:
                 break
@@ -284,7 +297,6 @@ Finds code structures (functions, classes, methods) with full context."""
 
                 # Find matches with case sensitivity option
                 if ignore_case:
-                    import re
                     loi = tc.grep(pattern, ignore_case=True)
                 else:
                     loi = tc.grep(pattern, ignore_case=False)
@@ -293,17 +305,17 @@ Finds code structures (functions, classes, methods) with full context."""
                     # Always show AST context for grep_ast
                     tc.add_lines_of_interest(loi)
                     tc.add_context()
-                    
+
                     # Get the formatted output with structure
                     output = tc.format()
-                    
+
                     # Add section separator and file info
-                    results.append(f"\n{'='*60}")
+                    results.append(f"\n{'=' * 60}")
                     results.append(f"File: {file_path}")
                     results.append(f"Matches: {len(loi)}")
-                    results.append(f"{'='*60}\n")
+                    results.append(f"{'=' * 60}\n")
                     results.append(output)
-                    
+
                     match_count += len(loi)
 
             except Exception as e:
@@ -313,7 +325,9 @@ Finds code structures (functions, classes, methods) with full context."""
             return f"No matches found for '{pattern}' in {path}"
 
         output = [f"=== AST-aware Grep Results for '{pattern}' ==="]
-        output.append(f"Total matches: {match_count} in {len([r for r in results if '===' in str(r)])//4} files\n")
+        output.append(
+            f"Total matches: {match_count} in {len([r for r in results if '===' in str(r)]) // 4} files\n"
+        )
         output.extend(results)
 
         if match_count >= limit:
@@ -324,14 +338,14 @@ Finds code structures (functions, classes, methods) with full context."""
     async def _handle_index(self, params: Dict[str, Any], tool_ctx) -> str:
         """Index symbols in a codebase."""
         path = params.get("path", ".")
-        
+
         # Validate path
         is_allowed, error_message = await self.check_path_allowed(path, tool_ctx)
         if not is_allowed:
             return error_message
 
         await tool_ctx.info(f"Indexing symbols in {path}...")
-        
+
         files_to_process = self._get_source_files(path)
         if not files_to_process:
             return f"No source code files found in {path}"
@@ -343,38 +357,38 @@ Finds code structures (functions, classes, methods) with full context."""
             "methods": [],
             "variables": [],
         }
-        
+
         indexed_count = 0
         symbol_count = 0
-        
+
         for file_path in files_to_process:
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     code = f.read()
 
                 tc = TreeContext(file_path, code, color=False, verbose=False)
-                
+
                 # Extract symbols (simplified - would need proper tree-sitter queries)
                 # This is a placeholder for actual symbol extraction
                 symbols = self._extract_symbols(tc, file_path)
-                
+
                 for symbol_type, syms in symbols.items():
                     self._symbol_cache[path][symbol_type].extend(syms)
                     symbol_count += len(syms)
-                
+
                 indexed_count += 1
-                
+
             except Exception as e:
                 await tool_ctx.warning(f"Could not index {file_path}: {str(e)}")
 
         output = [f"=== Symbol Indexing Complete ==="]
         output.append(f"Indexed {indexed_count} files")
         output.append(f"Found {symbol_count} total symbols:")
-        
+
         for symbol_type, symbols in self._symbol_cache[path].items():
             if symbols:
                 output.append(f"  {symbol_type}: {len(symbols)}")
-        
+
         return "\n".join(output)
 
     async def _handle_query(self, params: Dict[str, Any], tool_ctx) -> str:
@@ -383,14 +397,14 @@ Finds code structures (functions, classes, methods) with full context."""
         symbol_type = params.get("symbol_type")
         pattern = params.get("pattern")
         limit = params.get("limit", 50)
-        
+
         # Check if we have indexed this path
         if path not in self._symbol_cache:
             return f"No symbols indexed for {path}. Run 'symbols --action index --path {path}' first."
-        
+
         symbols = self._symbol_cache[path]
         results = []
-        
+
         # Filter by type if specified
         if symbol_type:
             if symbol_type in symbols:
@@ -402,7 +416,7 @@ Finds code structures (functions, classes, methods) with full context."""
             candidates = []
             for syms in symbols.values():
                 candidates.extend(syms)
-        
+
         # Filter by pattern if specified
         if pattern:
             filtered = []
@@ -410,23 +424,23 @@ Finds code structures (functions, classes, methods) with full context."""
                 if pattern.lower() in sym["name"].lower():
                     filtered.append(sym)
             candidates = filtered
-        
+
         # Limit results
         candidates = candidates[:limit]
-        
+
         if not candidates:
             return "No symbols found matching criteria"
-        
+
         output = [f"=== Symbol Query Results ==="]
         output.append(f"Found {len(candidates)} symbols\n")
-        
+
         for sym in candidates:
             output.append(f"{sym['type']}: {sym['name']}")
             output.append(f"  File: {sym['file']}:{sym['line']}")
             if sym.get("signature"):
                 output.append(f"  Signature: {sym['signature']}")
             output.append("")
-        
+
         return "\n".join(output)
 
     async def _handle_list(self, params: Dict[str, Any], tool_ctx) -> str:
@@ -439,14 +453,36 @@ Finds code structures (functions, classes, methods) with full context."""
         """Get all source code files in a path."""
         path_obj = Path(path)
         files_to_process = []
-        
+
         # Common source file extensions
         extensions = {
-            ".py", ".js", ".ts", ".jsx", ".tsx", ".java", ".cpp", ".c", ".h", 
-            ".hpp", ".cs", ".rb", ".go", ".rs", ".swift", ".kt", ".scala",
-            ".php", ".lua", ".r", ".jl", ".ex", ".exs", ".clj", ".cljs"
+            ".py",
+            ".js",
+            ".ts",
+            ".jsx",
+            ".tsx",
+            ".java",
+            ".cpp",
+            ".c",
+            ".h",
+            ".hpp",
+            ".cs",
+            ".rb",
+            ".go",
+            ".rs",
+            ".swift",
+            ".kt",
+            ".scala",
+            ".php",
+            ".lua",
+            ".r",
+            ".jl",
+            ".ex",
+            ".exs",
+            ".clj",
+            ".cljs",
         }
-        
+
         if path_obj.is_file():
             if path_obj.suffix in extensions:
                 files_to_process.append(str(path_obj))
@@ -454,12 +490,16 @@ Finds code structures (functions, classes, methods) with full context."""
             for root, _, files in os.walk(path_obj):
                 for file in files:
                     file_path = Path(root) / file
-                    if file_path.suffix in extensions and self.is_path_allowed(str(file_path)):
+                    if file_path.suffix in extensions and self.is_path_allowed(
+                        str(file_path)
+                    ):
                         files_to_process.append(str(file_path))
-        
+
         return files_to_process
 
-    def _extract_symbols(self, tc: TreeContext, file_path: str) -> Dict[str, List[Dict[str, Any]]]:
+    def _extract_symbols(
+        self, tc: TreeContext, file_path: str
+    ) -> Dict[str, List[Dict[str, Any]]]:
         """Extract symbols from a TreeContext (placeholder implementation)."""
         # This would need proper tree-sitter queries to extract symbols
         # For now, return empty structure

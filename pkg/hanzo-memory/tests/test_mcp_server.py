@@ -10,14 +10,14 @@ from hanzo_memory.mcp.server import MCPMemoryServer
 @pytest.fixture
 def mcp_server():
     """Create MCP server instance."""
-    with patch("hanzo_memory.mcp.server.get_client"), patch(
-        "hanzo_memory.mcp.server.EmbeddingService"
-    ), patch("hanzo_memory.mcp.server.LLMService"):
+    with (
+        patch("hanzo_memory.mcp.server.get_client"),
+        patch("hanzo_memory.mcp.server.EmbeddingService"),
+        patch("hanzo_memory.mcp.server.LLMService"),
+    ):
         server = MCPMemoryServer()
         # Mock the embedding service
-        server.embedding_service.embed_text = MagicMock(
-            return_value=[[0.1] * 384]
-        )
+        server.embedding_service.embed_text = MagicMock(return_value=[[0.1] * 384])
         return server
 
 
@@ -37,17 +37,17 @@ async def test_handle_remember(mcp_server):
     """Test remember tool."""
     # Mock DB operations
     mcp_server.db_client.create_memories_table = MagicMock()
-    mcp_server.db_client.add_memory = MagicMock(
-        return_value={"memory_id": "test-id"}
-    )
+    mcp_server.db_client.add_memory = MagicMock(return_value={"memory_id": "test-id"})
 
-    result = await mcp_server._handle_remember({
-        "user_id": "user123",
-        "project_id": "proj123",
-        "content": "Test memory content",
-        "metadata": {"tag": "test"},
-        "importance": 5.0,
-    })
+    result = await mcp_server._handle_remember(
+        {
+            "user_id": "user123",
+            "project_id": "proj123",
+            "content": "Test memory content",
+            "metadata": {"tag": "test"},
+            "importance": 5.0,
+        }
+    )
 
     assert result["success"] is True
     assert "memory_id" in result
@@ -64,21 +64,25 @@ async def test_handle_recall(mcp_server):
     # Mock search results
     import polars as pl
 
-    mock_df = pl.DataFrame({
-        "memory_id": ["mem1", "mem2"],
-        "content": ["Memory 1", "Memory 2"],
-        "metadata": ['{"tag": "test1"}', '{"tag": "test2"}'],
-        "importance": [5.0, 3.0],
-        "_similarity": [0.9, 0.7],
-    })
+    mock_df = pl.DataFrame(
+        {
+            "memory_id": ["mem1", "mem2"],
+            "content": ["Memory 1", "Memory 2"],
+            "metadata": ['{"tag": "test1"}', '{"tag": "test2"}'],
+            "importance": [5.0, 3.0],
+            "_similarity": [0.9, 0.7],
+        }
+    )
 
     mcp_server.db_client.search_memories = MagicMock(return_value=mock_df)
 
-    result = await mcp_server._handle_recall({
-        "user_id": "user123",
-        "query": "test query",
-        "limit": 5,
-    })
+    result = await mcp_server._handle_recall(
+        {
+            "user_id": "user123",
+            "query": "test query",
+            "limit": 5,
+        }
+    )
 
     assert result["success"] is True
     assert len(result["memories"]) == 2
@@ -93,12 +97,14 @@ async def test_handle_create_project(mcp_server):
         return_value={"project_id": "proj123"}
     )
 
-    result = await mcp_server._handle_create_project({
-        "user_id": "user123",
-        "name": "Test Project",
-        "description": "A test project",
-        "metadata": {"category": "test"},
-    })
+    result = await mcp_server._handle_create_project(
+        {
+            "user_id": "user123",
+            "name": "Test Project",
+            "description": "A test project",
+            "metadata": {"category": "test"},
+        }
+    )
 
     assert result["success"] is True
     assert "project_id" in result
@@ -112,12 +118,14 @@ async def test_handle_create_knowledge_base(mcp_server):
         return_value={"kb_id": "kb123"}
     )
 
-    result = await mcp_server._handle_create_knowledge_base({
-        "user_id": "user123",
-        "project_id": "proj123",
-        "name": "Test KB",
-        "description": "A test knowledge base",
-    })
+    result = await mcp_server._handle_create_knowledge_base(
+        {
+            "user_id": "user123",
+            "project_id": "proj123",
+            "name": "Test KB",
+            "description": "A test knowledge base",
+        }
+    )
 
     assert result["success"] is True
     assert "kb_id" in result
@@ -127,16 +135,16 @@ async def test_handle_create_knowledge_base(mcp_server):
 @pytest.mark.asyncio
 async def test_handle_add_fact(mcp_server):
     """Test add fact tool."""
-    mcp_server.db_client.add_fact = MagicMock(
-        return_value={"fact_id": "fact123"}
-    )
+    mcp_server.db_client.add_fact = MagicMock(return_value={"fact_id": "fact123"})
 
-    result = await mcp_server._handle_add_fact({
-        "kb_id": "kb123",
-        "content": "Test fact content",
-        "parent_id": "parent123",
-        "metadata": {"type": "definition"},
-    })
+    result = await mcp_server._handle_add_fact(
+        {
+            "kb_id": "kb123",
+            "content": "Test fact content",
+            "parent_id": "parent123",
+            "metadata": {"type": "definition"},
+        }
+    )
 
     assert result["success"] is True
     assert "fact_id" in result
@@ -148,21 +156,25 @@ async def test_handle_search_facts(mcp_server):
     """Test search facts tool."""
     import polars as pl
 
-    mock_df = pl.DataFrame({
-        "fact_id": ["fact1", "fact2"],
-        "content": ["Fact 1", "Fact 2"],
-        "parent_id": ["", "parent1"],
-        "metadata": ['{"type": "def"}', '{"type": "example"}'],
-        "_similarity": [0.95, 0.85],
-    })
+    mock_df = pl.DataFrame(
+        {
+            "fact_id": ["fact1", "fact2"],
+            "content": ["Fact 1", "Fact 2"],
+            "parent_id": ["", "parent1"],
+            "metadata": ['{"type": "def"}', '{"type": "example"}'],
+            "_similarity": [0.95, 0.85],
+        }
+    )
 
     mcp_server.db_client.search_facts = MagicMock(return_value=mock_df)
 
-    result = await mcp_server._handle_search_facts({
-        "kb_id": "kb123",
-        "query": "test query",
-        "limit": 10,
-    })
+    result = await mcp_server._handle_search_facts(
+        {
+            "kb_id": "kb123",
+            "query": "test query",
+            "limit": 10,
+        }
+    )
 
     assert result["success"] is True
     assert len(result["facts"]) == 2
@@ -184,11 +196,13 @@ async def test_handle_summarize_for_knowledge(mcp_server):
         }
     )
 
-    result = await mcp_server._handle_summarize_for_knowledge({
-        "content": "Long content to summarize",
-        "context": "Additional context",
-        "skip_summarization": False,
-    })
+    result = await mcp_server._handle_summarize_for_knowledge(
+        {
+            "content": "Long content to summarize",
+            "context": "Additional context",
+            "skip_summarization": False,
+        }
+    )
 
     assert "summary" in result
     assert "knowledge_instructions" in result
@@ -205,11 +219,13 @@ async def test_handle_tool_error_handling(mcp_server):
 
     # Call the handler directly instead of through decorated function
     try:
-        await mcp_server._handle_remember({
-            "user_id": "user123",
-            "project_id": "proj123",
-            "content": "Test memory",
-        })
+        await mcp_server._handle_remember(
+            {
+                "user_id": "user123",
+                "project_id": "proj123",
+                "content": "Test memory",
+            }
+        )
         raise AssertionError("Should have raised an exception")
     except Exception as e:
         assert "DB Error" in str(e)

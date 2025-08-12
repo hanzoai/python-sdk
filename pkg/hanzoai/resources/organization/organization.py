@@ -189,7 +189,10 @@ class OrganizationResource(SyncAPIResource):
                 organization_create_params.OrganizationCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationCreateResponse,
         )
@@ -238,7 +241,10 @@ class OrganizationResource(SyncAPIResource):
                 organization_update_params.OrganizationUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationTableWithMembers,
         )
@@ -261,7 +267,10 @@ class OrganizationResource(SyncAPIResource):
         return self._get(
             "/organization/list",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationListResponse,
         )
@@ -296,10 +305,14 @@ class OrganizationResource(SyncAPIResource):
         return self._delete(
             "/organization/delete",
             body=maybe_transform(
-                {"organization_ids": organization_ids}, organization_delete_params.OrganizationDeleteParams
+                {"organization_ids": organization_ids},
+                organization_delete_params.OrganizationDeleteParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationDeleteResponse,
         )
@@ -376,7 +389,10 @@ class OrganizationResource(SyncAPIResource):
                 organization_add_member_params.OrganizationAddMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationAddMemberResponse,
         )
@@ -417,7 +433,10 @@ class OrganizationResource(SyncAPIResource):
                 organization_delete_member_params.OrganizationDeleteMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -474,7 +493,10 @@ class OrganizationResource(SyncAPIResource):
                 organization_update_member_params.OrganizationUpdateMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationMembershipTable,
         )
@@ -621,7 +643,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 organization_create_params.OrganizationCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationCreateResponse,
         )
@@ -670,7 +695,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 organization_update_params.OrganizationUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationTableWithMembers,
         )
@@ -693,7 +721,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
         return await self._get(
             "/organization/list",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationListResponse,
         )
@@ -728,10 +759,14 @@ class AsyncOrganizationResource(AsyncAPIResource):
         return await self._delete(
             "/organization/delete",
             body=await async_maybe_transform(
-                {"organization_ids": organization_ids}, organization_delete_params.OrganizationDeleteParams
+                {"organization_ids": organization_ids},
+                organization_delete_params.OrganizationDeleteParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationDeleteResponse,
         )
@@ -808,7 +843,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 organization_add_member_params.OrganizationAddMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationAddMemberResponse,
         )
@@ -849,7 +887,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 organization_delete_member_params.OrganizationDeleteMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -906,7 +947,10 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 organization_update_member_params.OrganizationUpdateMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=OrganizationMembershipTable,
         )

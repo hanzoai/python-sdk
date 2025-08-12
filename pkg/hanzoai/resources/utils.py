@@ -92,7 +92,8 @@ class UtilsResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"model": model}, util_get_supported_openai_params_params.UtilGetSupportedOpenAIParamsParams
+                    {"model": model},
+                    util_get_supported_openai_params_params.UtilGetSupportedOpenAIParamsParams,
                 ),
             ),
             cast_to=object,
@@ -134,7 +135,10 @@ class UtilsResource(SyncAPIResource):
                 util_token_counter_params.UtilTokenCounterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UtilTokenCounterResponse,
         )
@@ -235,7 +239,10 @@ class UtilsResource(SyncAPIResource):
                 util_transform_request_params.UtilTransformRequestParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UtilTransformRequestResponse,
         )
@@ -301,7 +308,8 @@ class AsyncUtilsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"model": model}, util_get_supported_openai_params_params.UtilGetSupportedOpenAIParamsParams
+                    {"model": model},
+                    util_get_supported_openai_params_params.UtilGetSupportedOpenAIParamsParams,
                 ),
             ),
             cast_to=object,
@@ -343,7 +351,10 @@ class AsyncUtilsResource(AsyncAPIResource):
                 util_token_counter_params.UtilTokenCounterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UtilTokenCounterResponse,
         )
@@ -444,7 +455,10 @@ class AsyncUtilsResource(AsyncAPIResource):
                 util_transform_request_params.UtilTransformRequestParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UtilTransformRequestResponse,
         )

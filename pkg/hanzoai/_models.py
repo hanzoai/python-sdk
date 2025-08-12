@@ -65,7 +65,12 @@ from ._compat import (
 from ._constants import RAW_RESPONSE_HEADER
 
 if TYPE_CHECKING:
-    from pydantic_core.core_schema import ModelField, ModelSchema, LiteralSchema, ModelFieldsSchema
+    from pydantic_core.core_schema import (
+        ModelField,
+        ModelSchema,
+        LiteralSchema,
+        ModelFieldsSchema,
+    )
 
 __all__ = ["BaseModel", "GenericModel"]
 
@@ -83,7 +88,8 @@ class _ConfigProtocol(Protocol):
 class BaseModel(pydantic.BaseModel):
     if PYDANTIC_V2:
         model_config: ClassVar[ConfigDict] = ConfigDict(
-            extra="allow", defer_build=coerce_boolean(os.environ.get("DEFER_PYDANTIC_BUILD", "true"))
+            extra="allow",
+            defer_build=coerce_boolean(os.environ.get("DEFER_PYDANTIC_BUILD", "true")),
         )
     else:
 
@@ -203,7 +209,9 @@ class BaseModel(pydantic.BaseModel):
                 key = name
 
             if key in values:
-                fields_values[name] = _construct_field(value=values[key], field=field, key=key)
+                fields_values[name] = _construct_field(
+                    value=values[key], field=field, key=key
+                )
                 _fields_set.add(name)
             else:
                 fields_values[name] = field_get_default(field)
@@ -283,13 +291,13 @@ class BaseModel(pydantic.BaseModel):
             """
             if mode not in {"json", "python"}:
                 raise ValueError("mode must be either 'json' or 'python'")
-            if round_trip != False:
+            if round_trip is not False:
                 raise ValueError("round_trip is only supported in Pydantic v2")
-            if warnings != True:
+            if warnings is not True:
                 raise ValueError("warnings is only supported in Pydantic v2")
             if context is not None:
                 raise ValueError("context is only supported in Pydantic v2")
-            if serialize_as_any != False:
+            if serialize_as_any is not False:
                 raise ValueError("serialize_as_any is only supported in Pydantic v2")
             dumped = super().dict(  # pyright: ignore[reportDeprecated]
                 include=include,
@@ -336,13 +344,13 @@ class BaseModel(pydantic.BaseModel):
             Returns:
                 A JSON string representation of the model.
             """
-            if round_trip != False:
+            if round_trip is not False:
                 raise ValueError("round_trip is only supported in Pydantic v2")
-            if warnings != True:
+            if warnings is not True:
                 raise ValueError("warnings is only supported in Pydantic v2")
             if context is not None:
                 raise ValueError("context is only supported in Pydantic v2")
-            if serialize_as_any != False:
+            if serialize_as_any is not False:
                 raise ValueError("serialize_as_any is only supported in Pydantic v2")
             return super().json(  # type: ignore[reportDeprecated]
                 indent=indent,
@@ -452,7 +460,9 @@ def construct_type(*, value: object, type_: object) -> object:
 
     if is_union(origin):
         try:
-            return validate_type(type_=cast("type[object]", original_type or type_), value=value)
+            return validate_type(
+                type_=cast("type[object]", original_type or type_), value=value
+            )
         except Exception:
             pass
 
@@ -470,9 +480,13 @@ def construct_type(*, value: object, type_: object) -> object:
         #
         # without this block, if the data we get is something like `{'kind': 'bar', 'value': 'foo'}` then
         # we'd end up constructing `FooType` when it should be `BarType`.
-        discriminator = _build_discriminated_union_meta(union=type_, meta_annotations=meta)
+        discriminator = _build_discriminated_union_meta(
+            union=type_, meta_annotations=meta
+        )
         if discriminator and is_mapping(value):
-            variant_value = value.get(discriminator.field_alias_from or discriminator.field_name)
+            variant_value = value.get(
+                discriminator.field_alias_from or discriminator.field_name
+            )
             if variant_value and isinstance(variant_value, str):
                 variant_type = discriminator.mapping.get(variant_value)
                 if variant_type:
@@ -487,12 +501,15 @@ def construct_type(*, value: object, type_: object) -> object:
 
         raise RuntimeError(f"Could not convert data into a valid instance of {type_}")
 
-    if origin == dict:
+    if origin is dict:
         if not is_mapping(value):
             return value
 
         _, items_type = get_args(type_)  # Dict[_, items_type]
-        return {key: construct_type(value=item, type_=items_type) for key, item in value.items()}
+        return {
+            key: construct_type(value=item, type_=items_type)
+            for key, item in value.items()
+        }
 
     if (
         not is_literal_type(type_)
@@ -500,7 +517,10 @@ def construct_type(*, value: object, type_: object) -> object:
         and (issubclass(origin, BaseModel) or issubclass(origin, GenericModel))
     ):
         if is_list(value):
-            return [cast(Any, type_).construct(**entry) if is_mapping(entry) else entry for entry in value]
+            return [
+                cast(Any, type_).construct(**entry) if is_mapping(entry) else entry
+                for entry in value
+            ]
 
         if is_mapping(value):
             if issubclass(type_, BaseModel):
@@ -508,14 +528,14 @@ def construct_type(*, value: object, type_: object) -> object:
 
             return cast(Any, type_).construct(**value)
 
-    if origin == list:
+    if origin is list:
         if not is_list(value):
             return value
 
         inner_type = args[0]  # List[inner_type]
         return [construct_type(value=entry, type_=inner_type) for entry in value]
 
-    if origin == float:
+    if origin is float:
         if isinstance(value, int):
             coerced = float(value)
             if coerced != value:
@@ -585,14 +605,19 @@ class DiscriminatorDetails:
         self.field_alias_from = discriminator_alias
 
 
-def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any, ...]) -> DiscriminatorDetails | None:
+def _build_discriminated_union_meta(
+    *, union: type, meta_annotations: tuple[Any, ...]
+) -> DiscriminatorDetails | None:
     if isinstance(union, CachedDiscriminatorType):
         return union.__discriminator__
 
     discriminator_field_name: str | None = None
 
     for annotation in meta_annotations:
-        if isinstance(annotation, PropertyInfo) and annotation.discriminator is not None:
+        if (
+            isinstance(annotation, PropertyInfo)
+            and annotation.discriminator is not None
+        ):
             discriminator_field_name = annotation.discriminator
             break
 
@@ -620,7 +645,9 @@ def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any,
                         if isinstance(entry, str):
                             mapping[entry] = variant
             else:
-                field_info = cast("dict[str, FieldInfo]", variant.__fields__).get(discriminator_field_name)  # pyright: ignore[reportDeprecated, reportUnnecessaryCast]
+                field_info = cast("dict[str, FieldInfo]", variant.__fields__).get(
+                    discriminator_field_name
+                )  # pyright: ignore[reportDeprecated, reportUnnecessaryCast]
                 if not field_info:
                     continue
 
@@ -644,7 +671,9 @@ def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any,
     return details
 
 
-def _extract_field_schema_pv2(model: type[BaseModel], field_name: str) -> ModelField | None:
+def _extract_field_schema_pv2(
+    model: type[BaseModel], field_name: str
+) -> ModelField | None:
     schema = model.__pydantic_core_schema__
     if schema["type"] == "definitions":
         schema = schema["schema"]
@@ -694,7 +723,9 @@ else:
 if PYDANTIC_V2:
     from pydantic import TypeAdapter as _TypeAdapter
 
-    _CachedTypeAdapter = cast("TypeAdapter[object]", lru_cache(maxsize=None)(_TypeAdapter))
+    _CachedTypeAdapter = cast(
+        "TypeAdapter[object]", lru_cache(maxsize=None)(_TypeAdapter)
+    )
 
     if TYPE_CHECKING:
         from pydantic import TypeAdapter
@@ -797,7 +828,9 @@ class FinalRequestOptions(pydantic.BaseModel):
         }
         if PYDANTIC_V2:
             return super().model_construct(_fields_set, **kwargs)
-        return cast(FinalRequestOptions, super().construct(_fields_set, **kwargs))  # pyright: ignore[reportDeprecated]
+        return cast(
+            FinalRequestOptions, super().construct(_fields_set, **kwargs)
+        )  # pyright: ignore[reportDeprecated]
 
     if not TYPE_CHECKING:
         # type checkers incorrectly complain about this assignment

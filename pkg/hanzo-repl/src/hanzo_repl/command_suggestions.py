@@ -1,25 +1,23 @@
 """Command suggestions widget for slash commands."""
 
-from typing import List, Dict, Optional
 from dataclasses import dataclass
+from typing import List, Optional
 
-from textual import events
+from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import Vertical
-from textual.widgets import Static, Label
 from textual.reactive import reactive
-from textual.message import Message
-from rich.text import Text
-from rich.table import Table
+from textual.widgets import Static
 
 
-@dataclass 
+@dataclass
 class SlashCommand:
     """Represents a slash command."""
+
     command: str
     description: str
     aliases: List[str] = None
-    
+
     def matches(self, query: str) -> bool:
         """Check if command matches query."""
         query = query.lower()
@@ -32,7 +30,7 @@ class SlashCommand:
 
 class CommandSuggestions(Vertical):
     """Command suggestions dropdown widget."""
-    
+
     CSS = """
     CommandSuggestions {
         layer: overlay;
@@ -71,16 +69,20 @@ class CommandSuggestions(Vertical):
         color: $text-muted;
     }
     """
-    
+
     COMMANDS = [
         SlashCommand("/add-dir", "Add a new working directory"),
         SlashCommand("/auth", "Authenticate with Claude personal account"),
         SlashCommand("/backend", "Switch AI backend (claude/openai/embedded)"),
         SlashCommand("/bug", "Submit feedback about Hanzo REPL"),
         SlashCommand("/clear", "Clear conversation history and free up context"),
-        SlashCommand("/compact", "Clear conversation history but keep a summary in context"),
+        SlashCommand(
+            "/compact", "Clear conversation history but keep a summary in context"
+        ),
         SlashCommand("/config", "Open config panel", ["theme"]),
-        SlashCommand("/cost", "Show the total cost and duration of the current session"),
+        SlashCommand(
+            "/cost", "Show the total cost and duration of the current session"
+        ),
         SlashCommand("/doctor", "Checks the health of your Hanzo installation"),
         SlashCommand("/exit", "Exit the REPL", ["quit"]),
         SlashCommand("/help", "Show help and available commands"),
@@ -98,15 +100,15 @@ class CommandSuggestions(Vertical):
         SlashCommand("/reset", "Reset the current session"),
         SlashCommand("/status", "Show current backend and auth status"),
     ]
-    
+
     selected_index = reactive(0)
     filtered_commands = reactive(COMMANDS)
-    
+
     def __init__(self, query: str = ""):
         super().__init__(id="command-suggestions")
         self.query = query
         self._filter_commands()
-        
+
     def _filter_commands(self) -> None:
         """Filter commands based on query."""
         if not self.query or self.query == "/":
@@ -114,58 +116,61 @@ class CommandSuggestions(Vertical):
         else:
             query = self.query[1:] if self.query.startswith("/") else self.query
             self.filtered_commands = [
-                cmd for cmd in self.COMMANDS
-                if cmd.matches(query)
+                cmd for cmd in self.COMMANDS if cmd.matches(query)
             ]
         self.selected_index = 0
-    
+
     def compose(self) -> ComposeResult:
         """Create child widgets."""
         # Header
         yield Static(
-            Text("╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮\n"
-                 f"│ > {self.query:<121}│\n"
-                 "╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
-                 style="dim"),
-            classes="suggestion-header"
+            Text(
+                "╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮\n"
+                f"│ > {self.query:<121}│\n"
+                "╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
+                style="dim",
+            ),
+            classes="suggestion-header",
         )
-        
+
         # Commands list
         for i, cmd in enumerate(self.filtered_commands[:10]):  # Show max 10
             selected = "selected" if i == self.selected_index else ""
-            
+
             # Format command and description
             cmd_text = f"{cmd.command:<20}"
             desc_text = cmd.description[:80]
-            
+
             yield Static(
-                Text(f"  {cmd_text}{desc_text}", 
-                     style="bright_white" if selected else "white"),
-                classes=f"suggestion-item {selected}"
+                Text(
+                    f"  {cmd_text}{desc_text}",
+                    style="bright_white" if selected else "white",
+                ),
+                classes=f"suggestion-item {selected}",
             )
-    
+
     def on_mount(self) -> None:
         """Focus when mounted."""
         self.refresh()
-    
+
     def update_query(self, query: str) -> None:
         """Update the search query."""
         self.query = query
         self._filter_commands()
         self.refresh()
-    
+
     def move_selection_up(self) -> None:
         """Move selection up."""
         if self.selected_index > 0:
             self.selected_index -= 1
             self.refresh()
-    
+
     def move_selection_down(self) -> None:
         """Move selection down."""
         if self.selected_index < len(self.filtered_commands) - 1:
             self.selected_index += 1
             self.refresh()
-    
+
     def get_selected_command(self) -> Optional[str]:
         """Get the selected command."""
         if 0 <= self.selected_index < len(self.filtered_commands):

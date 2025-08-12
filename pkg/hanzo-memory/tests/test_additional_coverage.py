@@ -17,18 +17,18 @@ class TestAdditionalCoverage:
         import re
 
         # Test the regex patterns used in memory service
-        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-        phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
+        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
+        phone_pattern = r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b"
 
         text = "Contact me at john@example.com or 555-123-4567"
 
         # Test email replacement
-        text_no_email = re.sub(email_pattern, '[EMAIL]', text)
+        text_no_email = re.sub(email_pattern, "[EMAIL]", text)
         assert "@example.com" not in text_no_email
         assert "[EMAIL]" in text_no_email
 
         # Test phone replacement
-        text_no_phone = re.sub(phone_pattern, '[PHONE]', text_no_email)
+        text_no_phone = re.sub(phone_pattern, "[PHONE]", text_no_email)
         assert "555-123-4567" not in text_no_phone
         assert "[PHONE]" in text_no_phone
 
@@ -48,10 +48,13 @@ class TestAdditionalCoverage:
         """Test MockQuery filter edge cases."""
         mock_db = MockDatabase("test")
         mock_table = MockTable(mock_db, "test_table")
-        mock_db.tables["test_table"] = {"schema": {}, "data": [
-            {"field": "value1", "other": "data1"},
-            {"field": "value2", "other": "data2"},
-        ]}
+        mock_db.tables["test_table"] = {
+            "schema": {},
+            "data": [
+                {"field": "value1", "other": "data1"},
+                {"field": "value2", "other": "data2"},
+            ],
+        }
 
         query = MockQuery(mock_table, ["field", "other"])
 
@@ -65,11 +68,14 @@ class TestAdditionalCoverage:
 
         mock_db = MockDatabase("test")
         mock_table = MockTable(mock_db, "test_table")
-        mock_db.tables["test_table"] = {"schema": {}, "data": [
-            {"id": 1, "vector": [1.0, 0.0, 0.0]},
-            {"id": 2, "vector": [0.0, 1.0, 0.0]},
-            {"id": 3, "vector": [0.0, 0.0, 1.0]},
-        ]}
+        mock_db.tables["test_table"] = {
+            "schema": {},
+            "data": [
+                {"id": 1, "vector": [1.0, 0.0, 0.0]},
+                {"id": 2, "vector": [0.0, 1.0, 0.0]},
+                {"id": 3, "vector": [0.0, 0.0, 1.0]},
+            ],
+        }
 
         query = MockQuery(mock_table, ["id", "vector"])
         query.match_dense("vector", [1.0, 0.0, 0.0], "float32", "ip", 2)
@@ -83,9 +89,12 @@ class TestAdditionalCoverage:
         """Test MockQuery vector search with unknown metric."""
         mock_db = MockDatabase("test")
         mock_table = MockTable(mock_db, "test_table")
-        mock_db.tables["test_table"] = {"schema": {}, "data": [
-            {"id": 1, "vector": [1.0, 0.0, 0.0]},
-        ]}
+        mock_db.tables["test_table"] = {
+            "schema": {},
+            "data": [
+                {"id": 1, "vector": [1.0, 0.0, 0.0]},
+            ],
+        }
 
         query = MockQuery(mock_table, ["id", "vector"])
         query.match_dense("vector", [1.0, 0.0, 0.0], "float32", "unknown", 1)

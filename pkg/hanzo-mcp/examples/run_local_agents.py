@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 """Run agents with local hanzo/net inference (using dummy engine for demo)."""
 
-import asyncio
 import sys
+import asyncio
 from pathlib import Path
 
 # Add hanzo-network to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
-from hanzo_network import (
-    create_agent,
-    create_distributed_network,
-    create_tool
-)
+from hanzo_network import create_tool, create_agent, create_distributed_network
 from hanzo_network.core.agent import ModelConfig, ModelProvider
 
 
@@ -56,126 +52,131 @@ async def main():
     """Run agents with hanzo/net local inference."""
     print("🚀 Running Local Agents with Hanzo/Net")
     print("=" * 60)
-    
+
     # Create specialized agents
     print("\n🤖 Creating specialized agents...")
-    
+
     # Code Search Agent
     search_agent = create_agent(
         name="search_agent",
         description="Searches through codebase",
         model=ModelConfig(
-            provider=ModelProvider.LOCAL,
-            model="llama3.2",
-            temperature=0.3
+            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.3
         ),
         system="""You are a code search specialist. Use the search_code tool to find patterns in code.
 Be precise and helpful in locating code elements.""",
         tools=[
-            create_tool(name="search_code", description="Search for code patterns", handler=search_code)
-        ]
+            create_tool(
+                name="search_code",
+                description="Search for code patterns",
+                handler=search_code,
+            )
+        ],
     )
-    
+
     # Code Analyzer Agent
     analyzer_agent = create_agent(
         name="analyzer",
         description="Analyzes code structure and quality",
         model=ModelConfig(
-            provider=ModelProvider.LOCAL,
-            model="llama3.2",
-            temperature=0.5
+            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.5
         ),
         system="""You are a code analysis expert. Use your tools to analyze functions and provide insights.
 Focus on code quality, performance, and best practices.""",
         tools=[
-            create_tool(name="analyze_function", description="Analyze a function", handler=analyze_function)
-        ]
+            create_tool(
+                name="analyze_function",
+                description="Analyze a function",
+                handler=analyze_function,
+            )
+        ],
     )
-    
+
     # Test Generator Agent
     test_agent = create_agent(
         name="test_generator",
         description="Generates unit tests",
         model=ModelConfig(
-            provider=ModelProvider.LOCAL,
-            model="llama3.2",
-            temperature=0.7
+            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.7
         ),
         system="""You are a test generation specialist. Create comprehensive unit tests for given code.
 Follow pytest conventions and ensure good coverage.""",
         tools=[
-            create_tool(name="generate_test", description="Generate unit tests", handler=generate_test)
-        ]
+            create_tool(
+                name="generate_test",
+                description="Generate unit tests",
+                handler=generate_test,
+            )
+        ],
     )
-    
+
     # Teacher Agent
     teacher_agent = create_agent(
         name="teacher",
         description="Explains programming concepts",
         model=ModelConfig(
-            provider=ModelProvider.LOCAL,
-            model="llama3.2",
-            temperature=0.8
+            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.8
         ),
         system="""You are a programming teacher. Explain concepts clearly and provide examples.
 Make complex topics accessible to learners.""",
         tools=[
-            create_tool(name="explain_concept", description="Explain a concept", handler=explain_concept)
-        ]
+            create_tool(
+                name="explain_concept",
+                description="Explain a concept",
+                handler=explain_concept,
+            )
+        ],
     )
-    
+
     # Create distributed network
     network = create_distributed_network(
         agents=[search_agent, analyzer_agent, test_agent, teacher_agent],
         name="dev-network",
         listen_port=15750,
-        broadcast_port=15750
+        broadcast_port=15750,
     )
-    
+
     print("\n🌐 Starting distributed network...")
     await network.start(wait_for_peers=0)
-    
+
     # Show network status
     status = network.get_network_status()
-    print(f"\n📊 Network Status:")
+    print("\n📊 Network Status:")
     print(f"  Node: {status['node_id']}")
     print(f"  Agents: {len(status['local_agents'])} agents")
-    for agent in status['local_agents']:
+    for agent in status["local_agents"]:
         print(f"    - {agent}")
-    print(f"  Inference: hanzo/net (local)")
-    
+    print("  Inference: hanzo/net (local)")
+
     # Test 1: Code Search
     print("\n🔍 Test 1: Code Search")
     result = await network.run(
         prompt="Search for all functions that handle authentication",
-        initial_agent=search_agent
+        initial_agent=search_agent,
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 2: Code Analysis
     print("\n📊 Test 2: Code Analysis")
     result = await network.run(
-        prompt="Analyze the add function implementation",
-        initial_agent=analyzer_agent
+        prompt="Analyze the add function implementation", initial_agent=analyzer_agent
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 3: Test Generation
     print("\n🧪 Test 3: Test Generation")
     result = await network.run(
-        prompt="Generate tests for an add function",
-        initial_agent=test_agent
+        prompt="Generate tests for an add function", initial_agent=test_agent
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 4: Concept Explanation
     print("\n📚 Test 4: Concept Explanation")
     result = await network.run(
-        prompt="Explain what recursion is",
-        initial_agent=teacher_agent
+        prompt="Explain what recursion is", initial_agent=teacher_agent
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 5: Multi-Agent Collaboration
     print("\n🤝 Test 5: Multi-Agent Collaboration")
     result = await network.run(
@@ -183,19 +184,19 @@ Make complex topics accessible to learners.""",
     )
     print(f"Result: {result['final_output']}")
     print(f"Agents involved: {result['iterations']}")
-    
+
     # Test 6: Complex Query
     print("\n🎯 Test 6: Complex Development Task")
     result = await network.run(
         prompt="I need help understanding and testing a binary search implementation"
     )
     print(f"Result: {result['final_output']}")
-    
+
     print("\n✅ Local agent demo complete!")
     print("   - All agents running with hanzo/net local inference")
     print("   - No external API calls needed")
     print("   - Distributed across network nodes")
-    
+
     await network.stop()
 
 

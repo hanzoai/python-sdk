@@ -3,15 +3,14 @@
 This module provides the CriticTool for Claude to engage in critical analysis and code review.
 """
 
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-
 
 Analysis = Annotated[
     str,
@@ -189,8 +188,5 @@ Continue with improvements based on this critical review."""
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def critic(
-            analysis: Analysis,
-            ctx: MCPContext
-        ) -> str:
+        async def critic(analysis: Analysis, ctx: MCPContext) -> str:
             return await tool_self.call(ctx, analysis=analysis)

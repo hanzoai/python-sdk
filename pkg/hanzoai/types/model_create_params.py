@@ -6,9 +6,15 @@ from typing import Dict, List, Union, Optional
 from typing_extensions import Required, TypeAlias, TypedDict
 
 from .model_info_param import ModelInfoParam
-from .configurable_clientside_params_custom_auth_param import ConfigurableClientsideParamsCustomAuthParam
+from .configurable_clientside_params_custom_auth_param import (
+    ConfigurableClientsideParamsCustomAuthParam,
+)
 
-__all__ = ["ModelCreateParams", "LitellmParams", "LitellmParamsConfigurableClientsideAuthParam"]
+__all__ = [
+    "ModelCreateParams",
+    "LitellmParams",
+    "LitellmParamsConfigurableClientsideAuthParam",
+]
 
 
 class ModelCreateParams(TypedDict, total=False):
@@ -20,7 +26,9 @@ class ModelCreateParams(TypedDict, total=False):
     model_name: Required[str]
 
 
-LitellmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
+LitellmParamsConfigurableClientsideAuthParam: TypeAlias = Union[
+    str, ConfigurableClientsideParamsCustomAuthParam
+]
 
 
 class LitellmParamsTyped(TypedDict, total=False):
@@ -40,7 +48,9 @@ class LitellmParamsTyped(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    configurable_clientside_auth_params: Optional[List[LitellmParamsConfigurableClientsideAuthParam]]
+    configurable_clientside_auth_params: Optional[
+        List[LitellmParamsConfigurableClientsideAuthParam]
+    ]
 
     custom_llm_provider: Optional[str]
 

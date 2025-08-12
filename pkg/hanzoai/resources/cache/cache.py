@@ -78,7 +78,10 @@ class CacheResource(SyncAPIResource):
         return self._post(
             "/cache/delete",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -109,7 +112,10 @@ class CacheResource(SyncAPIResource):
         return self._post(
             "/cache/flushall",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -128,7 +134,10 @@ class CacheResource(SyncAPIResource):
         return self._get(
             "/cache/ping",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=CachePingResponse,
         )
@@ -185,7 +194,10 @@ class AsyncCacheResource(AsyncAPIResource):
         return await self._post(
             "/cache/delete",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -216,7 +228,10 @@ class AsyncCacheResource(AsyncAPIResource):
         return await self._post(
             "/cache/flushall",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -235,7 +250,10 @@ class AsyncCacheResource(AsyncAPIResource):
         return await self._get(
             "/cache/ping",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=CachePingResponse,
         )

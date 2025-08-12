@@ -10,23 +10,23 @@ from .results import ToolResult
 _GLOBAL_EDITOR = OHEditor()
 
 __all__ = [
-    'Command',
-    'OHEditor',
-    'ToolError',
-    'ToolResult',
-    'FileCache',
-    'file_editor',
-    'EncodingManager',
-    'with_encoding',
+    "Command",
+    "OHEditor",
+    "ToolError",
+    "ToolResult",
+    "FileCache",
+    "file_editor",
+    "EncodingManager",
+    "with_encoding",
 ]
 
 
 def _make_api_tool_result(tool_result: ToolResult) -> str:
     """Convert an agent ToolResult to an API ToolResultBlockParam."""
     if tool_result.error:
-        return f'ERROR:\n{tool_result.error}'
+        return f"ERROR:\n{tool_result.error}"
 
-    assert tool_result.output, 'Expected output in file_editor.'
+    assert tool_result.output, "Expected output in file_editor."
     return tool_result.output
 
 
@@ -59,18 +59,18 @@ def file_editor(
     marker_id = uuid.uuid4().hex
 
     def json_generator():
-        yield '{'
+        yield "{"
         first = True
         for key, value in result.to_dict().items():
             if not first:
-                yield ','
+                yield ","
             first = False
             yield f'"{key}": {json.dumps(value)}'
         yield f', "formatted_output_and_error": {json.dumps(formatted_output_and_error)}'
-        yield '}'
+        yield "}"
 
     return (
-        f'<oh_aci_output_{marker_id}>\n'
-        + ''.join(json_generator())
-        + f'\n</oh_aci_output_{marker_id}>'
+        f"<oh_aci_output_{marker_id}>\n"
+        + "".join(json_generator())
+        + f"\n</oh_aci_output_{marker_id}>"
     )

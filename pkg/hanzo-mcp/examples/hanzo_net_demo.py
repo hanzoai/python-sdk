@@ -2,11 +2,12 @@
 """Demo of hanzo-mcp using hanzo/net distributed inference."""
 
 import asyncio
+
 from hanzo_network import (
-    create_local_agent,
-    create_local_distributed_network,
     create_tool,
-    check_local_llm_status
+    create_local_agent,
+    check_local_llm_status,
+    create_local_distributed_network,
 )
 
 
@@ -29,7 +30,7 @@ async def main():
     """Demonstrate hanzo/net distributed inference."""
     print("🚀 Hanzo/Net Distributed Inference Demo")
     print("=" * 50)
-    
+
     # Check hanzo/net status
     print("\n📡 Checking hanzo/net status...")
     status = await check_local_llm_status("hanzo")
@@ -37,64 +38,74 @@ async def main():
     print(f"Engine: {status['engine']}")
     print(f"Available: {status['available']}")
     print(f"Models: {', '.join(status['models'])}")
-    if status.get('instructions'):
+    if status.get("instructions"):
         print(f"Note: {status['instructions']}")
-    
+
     # Create agents using hanzo/net
     print("\n🤖 Creating agents with hanzo/net inference...")
-    
+
     analyzer = create_local_agent(
         name="code_analyzer",
         description="Analyzes code using distributed inference",
         system="You are powered by hanzo/net distributed inference. Analyze code efficiently.",
-        tools=[create_tool(name="analyze_code", description="Analyze code", handler=analyze_code)],
-        local_model="llama3.2"  # Will use hanzo/net
+        tools=[
+            create_tool(
+                name="analyze_code", description="Analyze code", handler=analyze_code
+            )
+        ],
+        local_model="llama3.2",  # Will use hanzo/net
     )
-    
+
     generator = create_local_agent(
-        name="code_generator", 
+        name="code_generator",
         description="Generates code using distributed inference",
         system="You are powered by hanzo/net distributed inference. Generate clean code.",
-        tools=[create_tool(name="generate_function", description="Generate function", handler=generate_function)],
-        local_model="llama3.2"  # Will use hanzo/net
+        tools=[
+            create_tool(
+                name="generate_function",
+                description="Generate function",
+                handler=generate_function,
+            )
+        ],
+        local_model="llama3.2",  # Will use hanzo/net
     )
-    
+
     # Create distributed network
     network = create_local_distributed_network(
         agents=[analyzer, generator],
         name="hanzo-net-demo",
         node_id="hanzo-node-1",
         listen_port=15730,
-        broadcast_port=15730
+        broadcast_port=15730,
     )
-    
+
     print("\n🌐 Starting distributed network...")
     await network.start(wait_for_peers=0)
-    
+
     # Network info
     status = network.get_network_status()
-    print(f"\n📊 Network Status:")
+    print("\n📊 Network Status:")
     print(f"  Node: {status['node_id']}")
     print(f"  Agents: {', '.join(status['local_agents'])}")
     print(f"  Device: {status['device_capabilities']['model']}")
-    print(f"  Inference: hanzo/net distributed")
-    
+    print("  Inference: hanzo/net distributed")
+
     # Test 1: Code analysis
     print("\n💻 Test 1: Distributed Code Analysis")
     result = await network.run(
         prompt="Analyze this code: def hello(): return 'Hello from hanzo/net!'",
-        initial_agent=analyzer
+        initial_agent=analyzer,
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 2: Code generation
     print("\n🔧 Test 2: Distributed Code Generation")
     result = await network.run(
         prompt="Generate a function that calculates fibonacci numbers",
-        initial_agent=generator
+        initial_agent=generator,
     )
     print(f"Result: {result['final_output']}")
-    
+
     # Test 3: Multi-agent collaboration
     print("\n🤝 Test 3: Distributed Multi-Agent Collaboration")
     result = await network.run(
@@ -102,12 +113,12 @@ async def main():
     )
     print(f"Result: {result['final_output']}")
     print(f"Agents used: {result['iterations']}")
-    
+
     print("\n✅ Hanzo/net distributed inference demo complete!")
     print("   - Using hanzo/net for local LLM inference")
     print("   - Distributed across network nodes")
     print("   - No external API calls needed")
-    
+
     await network.stop()
 
 

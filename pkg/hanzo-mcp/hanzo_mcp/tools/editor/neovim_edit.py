@@ -1,18 +1,16 @@
 """Open files in Neovim editor."""
 
 import os
-import subprocess
 import shutil
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
-from pathlib import Path
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 FilePath = Annotated[
     str,
@@ -170,7 +168,7 @@ Note: Requires Neovim to be installed and available in PATH.
                 if os.path.exists(path):
                     nvim_cmd = path
                     break
-            
+
             if not nvim_cmd:
                 return """Error: Neovim (nvim) not found. Install it with:
 
@@ -187,18 +185,18 @@ Or visit: https://neovim.io/"""
 
         # Convert to absolute path
         file_path = os.path.abspath(file_path)
-        
+
         # Check permissions
         if not self.permission_manager.has_permission(file_path):
             return f"Error: No permission to access {file_path}"
 
         # Build Neovim command
         cmd = [nvim_cmd]
-        
+
         # Add read-only flag
         if read_only:
             cmd.append("-R")
-        
+
         # Add split mode
         if split:
             if split == "vsplit":
@@ -209,10 +207,10 @@ Or visit: https://neovim.io/"""
                 cmd.extend(["-c", "tabnew"])
             else:
                 return f"Error: Invalid split mode '{split}'. Use 'vsplit', 'split', or 'tab'"
-        
+
         # Add file path
         cmd.append(file_path)
-        
+
         # Add line/column positioning
         if line_number:
             if column_number:
@@ -221,9 +219,9 @@ Or visit: https://neovim.io/"""
             else:
                 # Go to specific line
                 cmd.append(f"+{line_number}")
-        
+
         await tool_ctx.info(f"Opening {file_path} in Neovim")
-        
+
         try:
             # Determine how to run Neovim
             if in_terminal and not wait:
@@ -233,9 +231,9 @@ Or visit: https://neovim.io/"""
                     if shutil.which("osascript"):
                         # Build AppleScript to open in iTerm2 or Terminal
                         nvim_cmd_str = " ".join(f'"{arg}"' for arg in cmd)
-                        
+
                         # Try iTerm2 first
-                        applescript = f'''tell application "System Events"
+                        applescript = f"""tell application "System Events"
                             if exists application process "iTerm2" then
                                 tell application "iTerm"
                                     activate
@@ -252,35 +250,35 @@ Or visit: https://neovim.io/"""
                                     do script "{nvim_cmd_str}"
                                 end tell
                             end if
-                        end tell'''
-                        
+                        end tell"""
+
                         subprocess.run(["osascript", "-e", applescript])
                         return f"Opened {file_path} in Neovim (new terminal window)"
-                
+
                 elif shutil.which("gnome-terminal"):
                     # Linux with GNOME
                     subprocess.Popen(["gnome-terminal", "--"] + cmd)
                     return f"Opened {file_path} in Neovim (new terminal window)"
-                
+
                 elif shutil.which("xterm"):
                     # Fallback to xterm
                     subprocess.Popen(["xterm", "-e"] + cmd)
                     return f"Opened {file_path} in Neovim (new terminal window)"
-                
+
                 else:
                     # Can't open in terminal, fall back to subprocess
                     subprocess.Popen(cmd)
                     return f"Opened {file_path} in Neovim (background process)"
-            
+
             else:
                 # Run and wait for completion
                 result = subprocess.run(cmd)
-                
+
                 if result.returncode == 0:
                     return f"Successfully edited {file_path} in Neovim"
                 else:
                     return f"Neovim exited with code {result.returncode}"
-        
+
         except Exception as e:
             await tool_ctx.error(f"Failed to open Neovim: {str(e)}")
             return f"Error opening Neovim: {str(e)}"

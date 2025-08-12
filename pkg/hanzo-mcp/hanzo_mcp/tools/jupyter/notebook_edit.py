@@ -4,12 +4,12 @@ This module provides the NoteBookEditTool for editing Jupyter notebook files.
 """
 
 import json
+from typing import Any, Unpack, Literal, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, Any, Literal, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.jupyter.base import JupyterBaseTool
 
@@ -305,7 +305,7 @@ class NoteBookEditTool(JupyterBaseTool):
             new_source: NewSource,
             cell_type: CellType,
             edit_mode: EditMode,
-            ctx: MCPContext
+            ctx: MCPContext,
         ) -> str:
             return await tool_self.call(
                 ctx,

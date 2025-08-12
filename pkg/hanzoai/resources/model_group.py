@@ -217,7 +217,8 @@ class ModelGroupResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"model_group": model_group}, model_group_retrieve_info_params.ModelGroupRetrieveInfoParams
+                    {"model_group": model_group},
+                    model_group_retrieve_info_params.ModelGroupRetrieveInfoParams,
                 ),
             ),
             cast_to=object,
@@ -416,7 +417,8 @@ class AsyncModelGroupResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"model_group": model_group}, model_group_retrieve_info_params.ModelGroupRetrieveInfoParams
+                    {"model_group": model_group},
+                    model_group_retrieve_info_params.ModelGroupRetrieveInfoParams,
                 ),
             ),
             cast_to=object,

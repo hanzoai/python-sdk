@@ -58,7 +58,9 @@ class KeyUpdateParams(TypedDict, total=False):
 
     team_id: Optional[str]
 
-    temp_budget_expiry: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]
+    temp_budget_expiry: Annotated[
+        Union[str, datetime, None], PropertyInfo(format="iso8601")
+    ]
 
     temp_budget_increase: Optional[float]
 

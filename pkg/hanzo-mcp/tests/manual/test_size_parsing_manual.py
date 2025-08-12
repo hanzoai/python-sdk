@@ -12,7 +12,7 @@ from hanzo_mcp.tools.search.find_tool import FindTool
 def test_parse_size():
     """Test size parsing."""
     tool = FindTool()
-    
+
     test_cases = [
         ("5KB", 5 * 1024),
         ("10KB", 10 * 1024),
@@ -20,10 +20,12 @@ def test_parse_size():
         ("100", 100),
         ("5K", 5 * 1024),
     ]
-    
+
     for size_str, expected in test_cases:
         result = tool._parse_size(size_str)
-        print(f"'{size_str}' -> {result} bytes (expected: {expected}, match: {result == expected})")
+        print(
+            f"'{size_str}' -> {result} bytes (expected: {expected}, match: {result == expected})"
+        )
 
 
 if __name__ == "__main__":

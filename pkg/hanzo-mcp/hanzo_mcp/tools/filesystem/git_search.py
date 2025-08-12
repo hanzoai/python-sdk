@@ -1,17 +1,16 @@
 """Git search tool for searching through git history."""
 
 import os
-import subprocess
 import re
-from typing import Annotated, TypedDict, Unpack, final, override
+import subprocess
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 Pattern = Annotated[
     str,
@@ -188,7 +187,7 @@ Examples:
 
         # Resolve absolute path
         abs_path = os.path.abspath(path)
-        
+
         # Check permissions
         if not self.permission_manager.has_permission(abs_path):
             return f"Permission denied: {abs_path}"
@@ -210,23 +209,51 @@ Examples:
         try:
             if search_type == "content":
                 return await self._search_content(
-                    abs_path, pattern, case_sensitive, max_count, 
-                    branch, file_pattern, tool_ctx
+                    abs_path,
+                    pattern,
+                    case_sensitive,
+                    max_count,
+                    branch,
+                    file_pattern,
+                    tool_ctx,
                 )
             elif search_type == "commits":
                 return await self._search_commits(
-                    abs_path, pattern, case_sensitive, max_count,
-                    branch, author, since, until, file_pattern, tool_ctx
+                    abs_path,
+                    pattern,
+                    case_sensitive,
+                    max_count,
+                    branch,
+                    author,
+                    since,
+                    until,
+                    file_pattern,
+                    tool_ctx,
                 )
             elif search_type == "diff":
                 return await self._search_diff(
-                    abs_path, pattern, case_sensitive, max_count,
-                    branch, author, since, until, file_pattern, tool_ctx
+                    abs_path,
+                    pattern,
+                    case_sensitive,
+                    max_count,
+                    branch,
+                    author,
+                    since,
+                    until,
+                    file_pattern,
+                    tool_ctx,
                 )
             elif search_type == "log":
                 return await self._search_log(
-                    abs_path, pattern, max_count, branch, 
-                    author, since, until, file_pattern, tool_ctx
+                    abs_path,
+                    pattern,
+                    max_count,
+                    branch,
+                    author,
+                    since,
+                    until,
+                    file_pattern,
+                    tool_ctx,
                 )
             elif search_type == "blame":
                 return await self._search_blame(
@@ -243,32 +270,35 @@ Examples:
             return f"Error: {str(e)}"
 
     async def _search_content(
-        self, repo_path: str, pattern: str, case_sensitive: bool,
-        max_count: int, branch: str | None, file_pattern: str | None,
-        tool_ctx
+        self,
+        repo_path: str,
+        pattern: str,
+        case_sensitive: bool,
+        max_count: int,
+        branch: str | None,
+        file_pattern: str | None,
+        tool_ctx,
     ) -> str:
         """Search file contents in git history."""
         cmd = ["git", "grep", "-n", f"--max-count={max_count}"]
-        
+
         if not case_sensitive:
             cmd.append("-i")
-        
+
         if branch:
             cmd.append(branch)
         else:
             cmd.append("--all")  # Search all branches
-        
+
         cmd.append(pattern)
-        
+
         if file_pattern:
             cmd.extend(["--", file_pattern])
-        
-        result = subprocess.run(
-            cmd, cwd=repo_path, capture_output=True, text=True
-        )
-        
+
+        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
         if result.returncode == 0:
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             if lines and lines[0]:
                 await tool_ctx.info(f"Found {len(lines)} matches")
                 return self._format_grep_results(lines, pattern)
@@ -282,43 +312,51 @@ Examples:
             )
 
     async def _search_commits(
-        self, repo_path: str, pattern: str, case_sensitive: bool,
-        max_count: int, branch: str | None, author: str | None,
-        since: str | None, until: str | None, file_pattern: str | None,
-        tool_ctx
+        self,
+        repo_path: str,
+        pattern: str,
+        case_sensitive: bool,
+        max_count: int,
+        branch: str | None,
+        author: str | None,
+        since: str | None,
+        until: str | None,
+        file_pattern: str | None,
+        tool_ctx,
     ) -> str:
         """Search commit messages."""
         cmd = ["git", "log", f"--max-count={max_count}", "--oneline"]
-        
+
         grep_flag = "--grep" if case_sensitive else "--grep-ignore-case"
         cmd.extend([grep_flag, pattern])
-        
+
         if branch:
             cmd.append(branch)
         else:
             cmd.append("--all")
-        
+
         if author:
             cmd.extend(["--author", author])
-        
+
         if since:
             cmd.extend(["--since", since])
-        
+
         if until:
             cmd.extend(["--until", until])
-        
+
         if file_pattern:
             cmd.extend(["--", file_pattern])
-        
-        result = subprocess.run(
-            cmd, cwd=repo_path, capture_output=True, text=True
-        )
-        
+
+        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
         if result.returncode == 0:
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             if lines and lines[0]:
                 await tool_ctx.info(f"Found {len(lines)} commits")
-                return f"Found {len(lines)} commits matching '{pattern}':\n\n" + result.stdout
+                return (
+                    f"Found {len(lines)} commits matching '{pattern}':\n\n"
+                    + result.stdout
+                )
             else:
                 return f"No commits found matching: {pattern}"
         else:
@@ -327,51 +365,59 @@ Examples:
             )
 
     async def _search_diff(
-        self, repo_path: str, pattern: str, case_sensitive: bool,
-        max_count: int, branch: str | None, author: str | None,
-        since: str | None, until: str | None, file_pattern: str | None,
-        tool_ctx
+        self,
+        repo_path: str,
+        pattern: str,
+        case_sensitive: bool,
+        max_count: int,
+        branch: str | None,
+        author: str | None,
+        since: str | None,
+        until: str | None,
+        file_pattern: str | None,
+        tool_ctx,
     ) -> str:
         """Search for pattern in diffs (when code was added/removed)."""
         cmd = ["git", "log", f"--max-count={max_count}", "-p"]
-        
+
         # Use -G for diff search (shows commits that added/removed pattern)
         search_flag = f"-G{pattern}"
         if not case_sensitive:
             # For case-insensitive, we need to use -G with regex
             import re
+
             case_insensitive_pattern = "".join(
                 f"[{c.upper()}{c.lower()}]" if c.isalpha() else re.escape(c)
                 for c in pattern
             )
             search_flag = f"-G{case_insensitive_pattern}"
-        
+
         cmd.append(search_flag)
-        
+
         if branch:
             cmd.append(branch)
         else:
             cmd.append("--all")
-        
+
         if author:
             cmd.extend(["--author", author])
-        
+
         if since:
             cmd.extend(["--since", since])
-        
+
         if until:
             cmd.extend(["--until", until])
-        
+
         if file_pattern:
             cmd.extend(["--", file_pattern])
-        
-        result = subprocess.run(
-            cmd, cwd=repo_path, capture_output=True, text=True
-        )
-        
+
+        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
         if result.returncode == 0 and result.stdout.strip():
             # Parse and highlight matching lines
-            output = self._highlight_diff_matches(result.stdout, pattern, case_sensitive)
+            output = self._highlight_diff_matches(
+                result.stdout, pattern, case_sensitive
+            )
             matches = output.count("commit ")
             await tool_ctx.info(f"Found {matches} commits with changes")
             return f"Found {matches} commits with changes matching '{pattern}':\n\n{output}"
@@ -379,83 +425,90 @@ Examples:
             return f"No changes found matching: {pattern}"
 
     async def _search_log(
-        self, repo_path: str, pattern: str | None, max_count: int,
-        branch: str | None, author: str | None, since: str | None,
-        until: str | None, file_pattern: str | None, tool_ctx
+        self,
+        repo_path: str,
+        pattern: str | None,
+        max_count: int,
+        branch: str | None,
+        author: str | None,
+        since: str | None,
+        until: str | None,
+        file_pattern: str | None,
+        tool_ctx,
     ) -> str:
         """Search git log with filters."""
         cmd = ["git", "log", f"--max-count={max_count}", "--oneline"]
-        
+
         if pattern:
             # Search in commit message and changes
             cmd.extend(["--grep", pattern, f"-G{pattern}"])
-        
+
         if branch:
             cmd.append(branch)
         else:
             cmd.append("--all")
-        
+
         if author:
             cmd.extend(["--author", author])
-        
+
         if since:
             cmd.extend(["--since", since])
-        
+
         if until:
             cmd.extend(["--until", until])
-        
+
         if file_pattern:
             cmd.extend(["--", file_pattern])
-        
-        result = subprocess.run(
-            cmd, cwd=repo_path, capture_output=True, text=True
-        )
-        
+
+        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
         if result.returncode == 0 and result.stdout.strip():
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             await tool_ctx.info(f"Found {len(lines)} commits")
             return f"Found {len(lines)} commits:\n\n" + result.stdout
         else:
             return "No commits found matching criteria"
 
     async def _search_blame(
-        self, repo_path: str, pattern: str, case_sensitive: bool,
-        file_pattern: str | None, tool_ctx
+        self,
+        repo_path: str,
+        pattern: str,
+        case_sensitive: bool,
+        file_pattern: str | None,
+        tool_ctx,
     ) -> str:
         """Search using git blame to find who changed lines."""
         if not file_pattern:
             return "Error: file_pattern is required for blame search"
-        
+
         # First, find files matching the pattern
         cmd = ["git", "ls-files", file_pattern]
-        result = subprocess.run(
-            cmd, cwd=repo_path, capture_output=True, text=True
-        )
-        
+        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
         if result.returncode != 0 or not result.stdout.strip():
             return f"No files found matching: {file_pattern}"
-        
-        files = result.stdout.strip().split('\n')
+
+        files = result.stdout.strip().split("\n")
         all_matches = []
-        
+
         for file_path in files[:10]:  # Limit to 10 files
             # Get blame for the file
             cmd = ["git", "blame", "-l", file_path]
-            result = subprocess.run(
-                cmd, cwd=repo_path, capture_output=True, text=True
-            )
-            
+            result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+
             if result.returncode == 0:
                 # Search for pattern in blame output
                 flags = 0 if case_sensitive else re.IGNORECASE
-                for line in result.stdout.split('\n'):
+                for line in result.stdout.split("\n"):
                     if re.search(pattern, line, flags):
                         all_matches.append(f"{file_path}: {line}")
-        
+
         if all_matches:
             await tool_ctx.info(f"Found {len(all_matches)} matching lines")
-            return f"Found {len(all_matches)} lines matching '{pattern}':\n\n" + \
-                   "\n".join(all_matches[:50])  # Limit output
+            return (
+                f"Found {len(all_matches)} lines matching '{pattern}':\n\n"
+                + "\n".join(all_matches[:50])
+            )  # Limit output
         else:
             return f"No lines found matching: {pattern}"
 
@@ -463,41 +516,41 @@ Examples:
         """Format git grep results nicely."""
         output = []
         current_ref = None
-        
+
         for line in lines:
-            if ':' in line:
-                parts = line.split(':', 3)
+            if ":" in line:
+                parts = line.split(":", 3)
                 if len(parts) >= 3:
                     ref = parts[0]
                     file_path = parts[1]
                     line_num = parts[2]
                     content = parts[3] if len(parts) > 3 else ""
-                    
+
                     if ref != current_ref:
                         current_ref = ref
                         output.append(f"\n=== {ref} ===")
-                    
+
                     output.append(f"{file_path}:{line_num}: {content}")
-        
+
         return f"Found matches for '{pattern}':\n" + "\n".join(output)
 
     def _highlight_diff_matches(
         self, diff_output: str, pattern: str, case_sensitive: bool
     ) -> str:
         """Highlight matching lines in diff output."""
-        lines = diff_output.split('\n')
+        lines = diff_output.split("\n")
         output = []
         flags = 0 if case_sensitive else re.IGNORECASE
-        
+
         for line in lines:
-            if line.startswith(('+', '-')) and not line.startswith(('+++', '---')):
+            if line.startswith(("+", "-")) and not line.startswith(("+++", "---")):
                 if re.search(pattern, line[1:], flags):
                     output.append(f">>> {line}")  # Highlight matching lines
                 else:
                     output.append(line)
             else:
                 output.append(line)
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

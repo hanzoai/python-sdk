@@ -144,10 +144,6 @@ minversion = "8.0"
 addopts = [
     "-ra",
     "--strict-markers",
-    "--cov=hanzo_memory",
-    "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-report=xml",
 ]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]

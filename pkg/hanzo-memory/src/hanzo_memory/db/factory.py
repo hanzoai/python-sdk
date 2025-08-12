@@ -18,10 +18,10 @@ _db_client: Optional[BaseVectorDB] = None
 def get_db_client() -> BaseVectorDB:
     """Get or create the global database client based on configuration."""
     global _db_client
-    
+
     if _db_client is None:
         backend = settings.db_backend.lower()
-        
+
         if backend == "lancedb":
             logger.info("Using LanceDB backend")
             _db_client = LanceDBClient()
@@ -30,7 +30,7 @@ def get_db_client() -> BaseVectorDB:
             _db_client = InfinityClient()
         else:
             raise ValueError(f"Unknown database backend: {backend}")
-    
+
     return _db_client
 
 

@@ -4,26 +4,27 @@ This tool provides integration with xAI's Grok CLI,
 allowing programmatic execution of Grok models for code tasks.
 """
 
-from typing import List, Optional, override, final
+from typing import List, Optional, final, override
+
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.agent.cli_agent_base import CLIAgentBase
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.agent.cli_agent_base import CLIAgentBase
 
 
 @final
 class GrokCLITool(CLIAgentBase):
     """Tool for executing Grok CLI."""
-    
+
     def __init__(
         self,
         permission_manager: PermissionManager,
         model: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ):
         """Initialize Grok CLI tool.
-        
+
         Args:
             permission_manager: Permission manager for access control
             model: Optional model override (defaults to grok-2)
@@ -35,15 +36,15 @@ class GrokCLITool(CLIAgentBase):
             provider_name="xAI Grok",
             default_model=model or "grok-2",
             env_vars=["XAI_API_KEY", "GROK_API_KEY"],
-            **kwargs
+            **kwargs,
         )
-    
+
     @property
     @override
     def name(self) -> str:
         """Get the tool name."""
         return "grok_cli"
-    
+
     @property
     @override
     def description(self) -> str:
@@ -67,46 +68,46 @@ Requirements:
 - Grok CLI must be installed
 - XAI_API_KEY or GROK_API_KEY environment variable
 """
-    
+
     @override
     def get_cli_args(self, prompt: str, **kwargs) -> List[str]:
         """Get CLI arguments for Grok.
-        
+
         Args:
             prompt: The prompt to send
             **kwargs: Additional arguments (model, temperature, etc.)
-            
+
         Returns:
             List of command arguments
         """
         args = ["chat"]
-        
+
         # Add model
         model = kwargs.get("model", self.default_model)
         args.extend(["--model", model])
-        
+
         # Add temperature if specified
         if "temperature" in kwargs:
             args.extend(["--temperature", str(kwargs["temperature"])])
-        
+
         # Add max tokens if specified
         if "max_tokens" in kwargs:
             args.extend(["--max-tokens", str(kwargs["max_tokens"])])
-        
+
         # Add system prompt if specified
         if "system_prompt" in kwargs:
             args.extend(["--system", kwargs["system_prompt"]])
-        
+
         # Add the prompt
         args.append(prompt)
-        
+
         return args
-    
+
     @override
     def register(self, mcp_server: FastMCP) -> None:
         """Register this tool with the MCP server."""
         tool_self = self
-        
+
         @mcp_server.tool(name=self.name, description=self.description)
         async def grok_cli(
             ctx: MCPContext,

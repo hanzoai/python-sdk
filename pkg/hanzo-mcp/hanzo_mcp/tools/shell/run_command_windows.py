@@ -4,15 +4,15 @@ This module provides the RunCommandTool for running shell commands on Windows.
 """
 
 import os
-from typing import Annotated, Any, final, override
+from typing import Any, Annotated, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.common.base import handle_connection_errors
 from hanzo_mcp.tools.common.context import create_tool_context
-from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.shell.command_executor import CommandExecutor
 
 
@@ -288,6 +288,7 @@ Important:
         @mcp_server.tool(name=self.name, description=self.description)
         @handle_connection_errors
         async def run_command(
+            ctx: MCPContext,
             command: Annotated[
                 str,
                 Field(
@@ -316,7 +317,6 @@ Important:
                     default=True,
                 ),
             ] = True,
-            ctx: MCPContext
         ) -> str:
             return await tool_self.call(
                 ctx,

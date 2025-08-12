@@ -1,21 +1,18 @@
 """Background process execution tool."""
 
-import asyncio
 import os
-import subprocess
-import time
 import uuid
-from datetime import datetime
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from datetime import datetime
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 Command = Annotated[
     str,
@@ -70,7 +67,7 @@ class RunBackgroundParams(TypedDict, total=False):
 
 class BackgroundProcess:
     """Represents a running background process."""
-    
+
     def __init__(
         self,
         process_id: str,
@@ -88,34 +85,34 @@ class BackgroundProcess:
         self.process = process
         self.start_time = datetime.now()
         self.end_time: Optional[datetime] = None
-        
+
     @property
     def is_running(self) -> bool:
         """Check if process is still running."""
         return self.process.poll() is None
-    
+
     @property
     def pid(self) -> int:
         """Get process ID."""
         return self.process.pid
-    
+
     @property
     def return_code(self) -> Optional[int]:
         """Get return code if process has finished."""
         return self.process.poll()
-    
+
     def terminate(self) -> None:
         """Terminate the process."""
         if self.is_running:
             self.process.terminate()
             self.end_time = datetime.now()
-    
+
     def kill(self) -> None:
         """Kill the process forcefully."""
         if self.is_running:
             self.process.kill()
             self.end_time = datetime.now()
-    
+
     def to_dict(self) -> dict:
         """Convert to dictionary for display."""
         return {
@@ -135,10 +132,10 @@ class BackgroundProcess:
 @final
 class RunBackgroundTool(BaseTool):
     """Tool for running commands in the background."""
-    
+
     # Class variable to store running processes
     _processes: dict[str, BackgroundProcess] = {}
-    
+
     def __init__(self, permission_manager: PermissionManager):
         """Initialize the background runner tool.
 
@@ -213,7 +210,7 @@ Examples:
 
         # Resolve absolute path for working directory
         abs_working_dir = os.path.abspath(working_dir)
-        
+
         # Check permissions
         if not self.permission_manager.has_permission(abs_working_dir):
             return f"Permission denied: {abs_working_dir}"
@@ -224,7 +221,7 @@ Examples:
 
         # Generate process ID
         process_id = str(uuid.uuid4())[:8]
-        
+
         # Setup logging
         log_file = None
         if log_to_file:
@@ -241,7 +238,7 @@ Examples:
 
             # Open log file for writing
             if log_file:
-                log_handle = open(log_file, 'w')
+                log_handle = open(log_file, "w")
                 stdout = log_handle
                 stderr = subprocess.STDOUT
             else:
@@ -272,11 +269,13 @@ Examples:
 
             # Store in class variable
             RunBackgroundTool._processes[process_id] = bg_process
-            
+
             # Clean up finished processes
             self._cleanup_finished_processes()
 
-            await tool_ctx.info(f"Process started with ID: {process_id}, PID: {process.pid}")
+            await tool_ctx.info(
+                f"Process started with ID: {process_id}, PID: {process.pid}"
+            )
 
             # Return process information
             return f"""Background process started successfully!
@@ -286,7 +285,7 @@ Name: {name}
 PID: {process.pid}
 Command: {command}
 Working Directory: {abs_working_dir}
-Log File: {log_file if log_file else 'Not logging'}
+Log File: {log_file if log_file else "Not logging"}
 
 Use 'processes' to list all running processes
 Use 'pkill --id {process_id}' to stop this process
@@ -311,13 +310,13 @@ Use 'logs --id {process_id}' to view output (if logging enabled)
         """Remove finished processes that have been terminated for a while."""
         now = datetime.now()
         to_remove = []
-        
+
         for process_id, process in RunBackgroundTool._processes.items():
             if not process.is_running and process.end_time:
                 # Keep finished processes for 5 minutes for log access
                 if (now - process.end_time).total_seconds() > 300:
                     to_remove.append(process_id)
-        
+
         for process_id in to_remove:
             del RunBackgroundTool._processes[process_id]
 

@@ -1,12 +1,11 @@
 """Test LiteLLM with different providers."""
 
 import os
+
 import pytest
 import litellm
-import asyncio
-
-from hanzo_mcp.tools.agent.tool_adapter import convert_tools_to_openai_functions
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.agent.tool_adapter import convert_tools_to_openai_functions
 
 
 class EchoTool(BaseTool):
@@ -40,7 +39,7 @@ class EchoTool(BaseTool):
     def required(self) -> list[str]:
         """Get the list of required parameter names."""
         return ["message"]
-    
+
     def register(self, ctx):
         """Register the tool with the context."""
         # This is a required abstract method from BaseTool
@@ -65,11 +64,13 @@ def echo_tool():
 def test_convert_echo_tool_to_openai_functions(echo_tool):
     """Test convert_tools_to_openai_functions with echo_tool."""
     openai_functions = convert_tools_to_openai_functions([echo_tool])
-    
+
     assert len(openai_functions) == 1
     assert openai_functions[0]["type"] == "function"
     assert openai_functions[0]["function"]["name"] == "echo"
-    assert openai_functions[0]["function"]["description"] == "Echo back the input message."
+    assert (
+        openai_functions[0]["function"]["description"] == "Echo back the input message."
+    )
     assert "parameters" in openai_functions[0]["function"]
 
 
@@ -80,17 +81,15 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
 @pytest.mark.asyncio
 async def test_litellm_openai_provider():
     """Test LiteLLM with OpenAI provider."""
-    messages = [
-        {"role": "user", "content": "Hello, how are you?"}
-    ]
-    
+    messages = [{"role": "user", "content": "Hello, how are you?"}]
+
     try:
         # Call OpenAI model with provider prefix
         response = litellm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
         )
-        
+
         assert response.choices[0].message.content is not None
         print(f"OpenAI response: {response.choices[0].message.content}")
     except Exception as e:
@@ -104,17 +103,15 @@ async def test_litellm_openai_provider():
 @pytest.mark.asyncio
 async def test_litellm_anthropic_provider():
     """Test LiteLLM with Anthropic provider."""
-    messages = [
-        {"role": "user", "content": "Hello, how are you?"}
-    ]
-    
+    messages = [{"role": "user", "content": "Hello, how are you?"}]
+
     try:
         # Call Anthropic model with provider prefix
         response = litellm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,
         )
-        
+
         assert response.choices[0].message.content is not None
         print(f"Anthropic response: {response.choices[0].message.content}")
     except Exception as e:

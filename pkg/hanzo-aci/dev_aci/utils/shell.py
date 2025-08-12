@@ -19,11 +19,11 @@ def run_shell_cmd(
         cmd: The shell command to run.
         timeout: The maximum time to wait for the command to complete.
         truncate_after: The maximum number of characters to return for stdout and stderr.
+        truncate_notice: The notice to append to truncated output.
 
     Returns:
         A tuple containing the return code, stdout, and stderr.
     """
-
     start_time = time.time()
 
     try:
@@ -56,7 +56,7 @@ def check_tool_installed(tool_name: str) -> bool:
     """Check if a tool is installed."""
     try:
         subprocess.run(
-            [tool_name, '--version'],
+            [tool_name, "--version"],
             check=True,
             cwd=os.getcwd(),
             stdout=subprocess.PIPE,

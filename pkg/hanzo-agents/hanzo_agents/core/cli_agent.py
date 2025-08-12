@@ -1,21 +1,19 @@
 """CLI-based agent implementation for external tools."""
 
-from typing import Optional, Dict, Any, List
-import subprocess
-import asyncio
-import json
 import os
+import json
+import asyncio
 import tempfile
-from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from hanzo_agents.core.agent import Agent, InferenceResult, ToolCall
+from hanzo_agents.core.agent import Agent, ToolCall, InferenceResult
 from hanzo_agents.core.state import State
 from hanzo_agents.core.history import History
 
 
 class CLIAgent(Agent):
     """Agent that uses external CLI tools.
-    
+
     Supports tools like:
     - claude (Claude Code)
     - openai (Codex)
@@ -25,18 +23,20 @@ class CLIAgent(Agent):
     - aider
     - etc.
     """
-    
+
     cli_command: str  # Base command to run
     cli_args: List[str] = []  # Default arguments
-    
-    def __init__(self, 
-                 cli_command: Optional[str] = None,
-                 cli_args: Optional[List[str]] = None,
-                 working_dir: Optional[str] = None,
-                 env: Optional[Dict[str, str]] = None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        cli_command: Optional[str] = None,
+        cli_args: Optional[List[str]] = None,
+        working_dir: Optional[str] = None,
+        env: Optional[Dict[str, str]] = None,
+        **kwargs,
+    ):
         """Initialize CLI agent.
-        
+
         Args:
             cli_command: Override default CLI command
             cli_args: Override default arguments
@@ -44,66 +44,66 @@ class CLIAgent(Agent):
             env: Environment variables
         """
         super().__init__(**kwargs)
-        
+
         if cli_command:
             self.cli_command = cli_command
         if cli_args is not None:
             self.cli_args = cli_args
-        
+
         self.working_dir = working_dir or os.getcwd()
         self.env = os.environ.copy()
         if env:
             self.env.update(env)
-    
-    async def run(self, state: State, history: History, network: "Network") -> InferenceResult:
+
+    async def run(
+        self, state: State, history: History, network: "Network"
+    ) -> InferenceResult:
         """Execute CLI tool with current context."""
         # Build prompt from history
         prompt = self._build_prompt(state, history)
-        
+
         # Execute CLI
         result = await self._execute_cli(prompt)
-        
+
         # Parse response
         return self._parse_response(result)
-    
+
     def _build_prompt(self, state: State, history: History) -> str:
         """Build prompt from state and history."""
         # Include state context
         prompt_parts = [
             f"Current state: {json.dumps(state.to_dict(), indent=2)}",
             "",
-            "Conversation history:"
+            "Conversation history:",
         ]
-        
+
         # Add recent history
         for entry in history[-10:]:  # Last 10 entries
             if entry.role == "user":
                 prompt_parts.append(f"User: {entry.content}")
             elif entry.role == "assistant" and entry.agent:
                 prompt_parts.append(f"{entry.agent}: {entry.content}")
-        
+
         # Add current task
-        prompt_parts.extend([
-            "",
-            f"As {self.name}, {self.description}",
-            "What should we do next?"
-        ])
-        
+        prompt_parts.extend(
+            ["", f"As {self.name}, {self.description}", "What should we do next?"]
+        )
+
         return "\n".join(prompt_parts)
-    
+
     async def _execute_cli(self, prompt: str) -> Dict[str, Any]:
         """Execute the CLI tool."""
         # Write prompt to temp file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write(prompt)
             prompt_file = f.name
-        
+
         try:
             # Build command
             cmd = [self.cli_command] + self.cli_args
-            
+
             # Some tools accept prompt via stdin, others via file
-            if any(arg in ['-', '--stdin'] for arg in self.cli_args):
+            if any(arg in ["-", "--stdin"] for arg in self.cli_args):
                 # Use stdin
                 process = await asyncio.create_subprocess_exec(
                     *cmd,
@@ -111,7 +111,7 @@ class CLIAgent(Agent):
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     cwd=self.working_dir,
-                    env=self.env
+                    env=self.env,
                 )
                 stdout, stderr = await process.communicate(prompt.encode())
             else:
@@ -122,23 +122,23 @@ class CLIAgent(Agent):
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     cwd=self.working_dir,
-                    env=self.env
+                    env=self.env,
                 )
                 stdout, stderr = await process.communicate()
-            
+
             return {
                 "stdout": stdout.decode() if stdout else "",
                 "stderr": stderr.decode() if stderr else "",
-                "returncode": process.returncode
+                "returncode": process.returncode,
             }
-            
+
         finally:
             # Clean up temp file
             try:
                 os.unlink(prompt_file)
-            except:
+            except Exception:
                 pass
-    
+
     def _parse_response(self, result: Dict[str, Any]) -> InferenceResult:
         """Parse CLI output into inference result."""
         if result["returncode"] != 0:
@@ -146,33 +146,33 @@ class CLIAgent(Agent):
             return InferenceResult(
                 agent=self.name,
                 content=f"Error: {result['stderr']}",
-                metadata={"cli_error": True}
+                metadata={"cli_error": True},
             )
-        
+
         # Parse stdout for response
         output = result["stdout"]
-        
+
         # Try to detect tool calls in output
         tool_calls = self._extract_tool_calls(output)
-        
+
         return InferenceResult(
             agent=self.name,
             content=output,
             tool_calls=tool_calls,
-            metadata={"cli_output": True}
+            metadata={"cli_output": True},
         )
-    
+
     def _extract_tool_calls(self, output: str) -> List[ToolCall]:
         """Extract tool calls from CLI output.
-        
+
         Look for patterns like:
         - TOOL: tool_name(arg1="value1", arg2="value2")
         - @tool tool_name {"arg1": "value1"}
         """
         tool_calls = []
-        
+
         # Simple pattern matching (extend as needed)
-        lines = output.split('\n')
+        lines = output.split("\n")
         for line in lines:
             if line.startswith("TOOL:") or line.startswith("@tool"):
                 # Parse tool call
@@ -183,28 +183,26 @@ class CLIAgent(Agent):
                     try:
                         # Try to parse as JSON
                         args_str = parts[2]
-                        if args_str.startswith('{'):
+                        if args_str.startswith("{"):
                             arguments = json.loads(args_str)
                         else:
                             # Simple key=value parsing
                             arguments = {}
                             # ... parse key=value pairs
-                        
-                        tool_calls.append(ToolCall(
-                            tool=tool_name,
-                            arguments=arguments
-                        ))
-                    except:
+
+                        tool_calls.append(ToolCall(tool=tool_name, arguments=arguments))
+                    except Exception:
                         pass
-        
+
         return tool_calls
 
 
 # Concrete CLI agent implementations
 
+
 class ClaudeCodeAgent(CLIAgent):
     """Claude Code CLI agent."""
-    
+
     name = "claude_code"
     description = "Claude Code AI assistant"
     cli_command = "claude"
@@ -214,7 +212,7 @@ class ClaudeCodeAgent(CLIAgent):
 
 class OpenAICodexAgent(CLIAgent):
     """OpenAI Codex/ChatGPT CLI agent."""
-    
+
     name = "openai_codex"
     description = "OpenAI GPT code assistant"
     cli_command = "openai"
@@ -223,7 +221,7 @@ class OpenAICodexAgent(CLIAgent):
 
 class GeminiAgent(CLIAgent):
     """Google Gemini CLI agent."""
-    
+
     name = "gemini"
     description = "Google Gemini AI assistant"
     cli_command = "gemini"
@@ -232,7 +230,7 @@ class GeminiAgent(CLIAgent):
 
 class GrokAgent(CLIAgent):
     """xAI Grok CLI agent."""
-    
+
     name = "grok"
     description = "xAI Grok assistant"
     cli_command = "grok"
@@ -241,7 +239,7 @@ class GrokAgent(CLIAgent):
 
 class CursorAgent(CLIAgent):
     """Cursor AI editor agent."""
-    
+
     name = "cursor"
     description = "Cursor AI-powered editor"
     cli_command = "cursor"
@@ -250,7 +248,7 @@ class CursorAgent(CLIAgent):
 
 class AiderAgent(CLIAgent):
     """Aider coding assistant agent."""
-    
+
     name = "aider"
     description = "Aider AI pair programmer"
     cli_command = "aider"

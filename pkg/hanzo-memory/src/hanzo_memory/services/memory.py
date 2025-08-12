@@ -200,7 +200,7 @@ Anonymized text:"""
         # Create memory list for LLM
         memory_texts = []
         for i, memory in enumerate(memories):
-            memory_texts.append(f"{i+1}. {memory.content}")
+            memory_texts.append(f"{i + 1}. {memory.content}")
 
         context = (
             f"Additional context: {additional_context}" if additional_context else ""

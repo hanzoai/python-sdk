@@ -4,17 +4,16 @@ This module provides common functionality for Jupyter notebook tools, including 
 cell processing, and output formatting.
 """
 
-from abc import ABC
-import json
 import re
-from pathlib import Path
+import json
+from abc import ABC
 from typing import Any, final
+from pathlib import Path
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.common.context import ToolContext, create_tool_context
-
+from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 # Pattern to match ANSI escape sequences
 ANSI_ESCAPE_PATTERN = re.compile(r"\x1B\[[0-9;]*[a-zA-Z]")

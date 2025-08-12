@@ -18,9 +18,10 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestCustomer:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         customer = client.customer.create(
@@ -28,7 +29,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         customer = client.customer.create(
@@ -55,7 +55,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.create(
@@ -67,7 +66,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.create(
@@ -81,7 +79,6 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         customer = client.customer.update(
@@ -89,7 +86,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         customer = client.customer.update(
@@ -103,7 +99,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.update(
@@ -115,7 +110,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.update(
@@ -129,13 +123,11 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         customer = client.customer.list()
         assert_matches_type(CustomerListResponse, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.list()
@@ -145,7 +137,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(CustomerListResponse, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.list() as response:
@@ -157,7 +148,6 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         customer = client.customer.delete(
@@ -165,7 +155,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.delete(
@@ -177,7 +166,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.delete(
@@ -191,7 +179,6 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_block(self, client: Hanzo) -> None:
         customer = client.customer.block(
@@ -199,7 +186,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_block(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.block(
@@ -211,7 +197,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_block(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.block(
@@ -225,7 +210,6 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_retrieve_info(self, client: Hanzo) -> None:
         customer = client.customer.retrieve_info(
@@ -233,7 +217,6 @@ class TestCustomer:
         )
         assert_matches_type(HanzoEndUserTable, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve_info(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.retrieve_info(
@@ -245,7 +228,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(HanzoEndUserTable, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.retrieve_info(
@@ -259,7 +241,6 @@ class TestCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_unblock(self, client: Hanzo) -> None:
         customer = client.customer.unblock(
@@ -267,7 +248,6 @@ class TestCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_unblock(self, client: Hanzo) -> None:
         response = client.customer.with_raw_response.unblock(
@@ -279,7 +259,6 @@ class TestCustomer:
         customer = response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_unblock(self, client: Hanzo) -> None:
         with client.customer.with_streaming_response.unblock(
@@ -295,9 +274,10 @@ class TestCustomer:
 
 
 class TestAsyncCustomer:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.create(
@@ -305,9 +285,10 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
+    async def test_method_create_with_all_params(
+        self, async_client: AsyncHanzo
+    ) -> None:
         customer = await async_client.customer.create(
             user_id="user_id",
             alias="alias",
@@ -332,7 +313,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.create(
@@ -344,7 +324,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.create(
@@ -358,7 +337,6 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.update(
@@ -366,9 +344,10 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
+    async def test_method_update_with_all_params(
+        self, async_client: AsyncHanzo
+    ) -> None:
         customer = await async_client.customer.update(
             user_id="user_id",
             alias="alias",
@@ -380,7 +359,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.update(
@@ -392,7 +370,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.update(
@@ -406,13 +383,11 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.list()
         assert_matches_type(CustomerListResponse, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.list()
@@ -422,7 +397,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(CustomerListResponse, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.list() as response:
@@ -434,7 +408,6 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.delete(
@@ -442,7 +415,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.delete(
@@ -454,7 +426,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.delete(
@@ -468,7 +439,6 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_block(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.block(
@@ -476,7 +446,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_block(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.block(
@@ -488,7 +457,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_block(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.block(
@@ -502,7 +470,6 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.retrieve_info(
@@ -510,7 +477,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(HanzoEndUserTable, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.retrieve_info(
@@ -522,9 +488,10 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(HanzoEndUserTable, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
+    async def test_streaming_response_retrieve_info(
+        self, async_client: AsyncHanzo
+    ) -> None:
         async with async_client.customer.with_streaming_response.retrieve_info(
             end_user_id="end_user_id",
         ) as response:
@@ -536,7 +503,6 @@ class TestAsyncCustomer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_unblock(self, async_client: AsyncHanzo) -> None:
         customer = await async_client.customer.unblock(
@@ -544,7 +510,6 @@ class TestAsyncCustomer:
         )
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_unblock(self, async_client: AsyncHanzo) -> None:
         response = await async_client.customer.with_raw_response.unblock(
@@ -556,7 +521,6 @@ class TestAsyncCustomer:
         customer = await response.parse()
         assert_matches_type(object, customer, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_unblock(self, async_client: AsyncHanzo) -> None:
         async with async_client.customer.with_streaming_response.unblock(

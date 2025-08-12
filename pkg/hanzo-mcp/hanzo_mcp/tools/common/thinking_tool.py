@@ -3,15 +3,14 @@
 This module provides the ThinkingTool for Claude to engage in structured thinking.
 """
 
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-
 
 Thought = Annotated[
     str,
@@ -144,8 +143,5 @@ Feature Implementation Planning
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def think(
-            thought: Thought,
-            ctx: MCPContext
-        ) -> str:
+        async def think(thought: Thought, ctx: MCPContext) -> str:
             return await tool_self.call(ctx, thought=thought)

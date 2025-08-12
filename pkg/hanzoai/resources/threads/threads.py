@@ -81,7 +81,10 @@ class ThreadsResource(SyncAPIResource):
         return self._post(
             "/v1/threads",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -112,11 +115,16 @@ class ThreadsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not thread_id:
-            raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `thread_id` but received {thread_id!r}"
+            )
         return self._get(
             f"/v1/threads/{thread_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -169,7 +177,10 @@ class AsyncThreadsResource(AsyncAPIResource):
         return await self._post(
             "/v1/threads",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -200,11 +211,16 @@ class AsyncThreadsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not thread_id:
-            raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `thread_id` but received {thread_id!r}"
+            )
         return await self._get(
             f"/v1/threads/{thread_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

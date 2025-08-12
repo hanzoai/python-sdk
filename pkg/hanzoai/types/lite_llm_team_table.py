@@ -1,34 +1,18 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import List, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from .member import Member
 from .._models import BaseModel
-<<<<<<<< HEAD:pkg/hanzoai/types/team_create_response.py
-
-__all__ = ["TeamCreateResponse", "LlmModelTable"]
-
-
-class LlmModelTable(BaseModel):
-    created_by: str
-
-    updated_by: str
-
-    api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)
-
-
-class TeamCreateResponse(BaseModel):
-========
 from .lite_llm_model_table import HanzoModelTable
 
 __all__ = ["HanzoTeamTable"]
 
 
 class HanzoTeamTable(BaseModel):
->>>>>>>> 870084b (Update python monorepo):pkg/hanzoai/types/lite_llm_team_table.py
     team_id: str
 
     admins: Optional[List[object]] = None
@@ -41,11 +25,7 @@ class HanzoTeamTable(BaseModel):
 
     created_at: Optional[datetime] = None
 
-<<<<<<<< HEAD:pkg/hanzoai/types/team_create_response.py
-    llm_model_table: Optional[LlmModelTable] = None
-========
     hanzo_model_table: Optional[HanzoModelTable] = None
->>>>>>>> 870084b (Update python monorepo):pkg/hanzoai/types/lite_llm_team_table.py
 
     max_budget: Optional[float] = None
 

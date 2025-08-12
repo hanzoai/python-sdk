@@ -1,16 +1,14 @@
 """Graph remove tool for removing nodes and edges from the graph database."""
 
-import json
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
-
 
 NodeId = Annotated[
     Optional[str],
@@ -76,7 +74,9 @@ class GraphRemoveParams(TypedDict, total=False):
 class GraphRemoveTool(BaseTool):
     """Tool for removing nodes and edges from graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph remove tool.
 
         Args:
@@ -159,8 +159,9 @@ Examples:
                 project_db = self.db_manager.get_project_db(project_path)
             else:
                 import os
+
                 project_db = self.db_manager.get_project_for_path(os.getcwd())
-                
+
             if not project_db:
                 return "Error: Could not find project database"
 
@@ -187,75 +188,79 @@ Examples:
                     # Count edges that will be removed
                     cursor.execute(
                         "SELECT COUNT(*) FROM edges WHERE source = ? OR target = ?",
-                        (node_id, node_id)
+                        (node_id, node_id),
                     )
                     edge_count = cursor.fetchone()[0]
-                    
+
                     # Remove connected edges
                     graph_conn.execute(
                         "DELETE FROM edges WHERE source = ? OR target = ?",
-                        (node_id, node_id)
+                        (node_id, node_id),
                     )
-                    
+
                     # Remove node
                     graph_conn.execute("DELETE FROM nodes WHERE id = ?", (node_id,))
                     graph_conn.commit()
-                    
+
                     # Save to disk
                     project_db._save_graph_to_disk()
-                    
+
                     return f"Successfully removed node '{node_id}' and {edge_count} connected edge(s)"
                 else:
                     # Remove node only
                     graph_conn.execute("DELETE FROM nodes WHERE id = ?", (node_id,))
                     graph_conn.commit()
-                    
+
                     # Save to disk
                     project_db._save_graph_to_disk()
-                    
+
                     return f"Successfully removed node '{node_id}' (edges preserved)"
 
             else:
                 # Remove edge(s)
                 if relationship:
                     # Remove specific edge
-                    await tool_ctx.info(f"Removing edge: {source} --[{relationship}]--> {target}")
-                    
+                    await tool_ctx.info(
+                        f"Removing edge: {source} --[{relationship}]--> {target}"
+                    )
+
                     cursor = graph_conn.cursor()
                     cursor.execute(
                         "DELETE FROM edges WHERE source = ? AND target = ? AND relationship = ?",
-                        (source, target, relationship)
+                        (source, target, relationship),
                     )
-                    
+
                     removed = cursor.rowcount
                     graph_conn.commit()
-                    
+
                     if removed == 0:
                         return f"No edge found: {source} --[{relationship}]--> {target}"
-                    
+
                     # Save to disk
                     project_db._save_graph_to_disk()
-                    
+
                     return f"Successfully removed edge: {source} --[{relationship}]--> {target}"
                 else:
                     # Remove all edges between nodes
-                    await tool_ctx.info(f"Removing all edges between {source} and {target}")
-                    
+                    await tool_ctx.info(
+                        f"Removing all edges between {source} and {target}"
+                    )
+
                     cursor = graph_conn.cursor()
                     cursor.execute(
                         "DELETE FROM edges WHERE source = ? AND target = ?",
-                        (source, target)
+                        (source, target),
                     )
-                    
+
                     removed = cursor.rowcount
                     graph_conn.commit()
-                    
+
                     if removed == 0:
                         return f"No edges found between '{source}' and '{target}'"
-                    
+
                     # Save to disk
                     project_db._save_graph_to_disk()
-                    
+
                     return f"Successfully removed {removed} edge(s) between '{source}' and '{target}'"
 
         except Exception as e:

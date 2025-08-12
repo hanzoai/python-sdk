@@ -2,37 +2,36 @@ import os
 
 from mcp.server import FastMCP
 
-from hanzo_mcp.prompts.compact_conversation import COMPACT_CONVERSATION_PROMPT
-from hanzo_mcp.prompts.create_release import CREATE_RELEASE_PROMPT
-from hanzo_mcp.prompts.project_system import PROJECT_SYSTEM_PROMPT
-from hanzo_mcp.prompts.project_todo_reminder import (
-    PROJECT_TODO_EMPTY_REMINDER,
-    get_project_todo_reminder,
-)
 from hanzo_mcp.prompts.utils import (
-    get_directory_structure,
-    get_git_info,
     get_os_info,
+    get_git_info,
+    get_directory_structure,
 )
 from hanzo_mcp.prompts.tool_explorer import (
-    TOOL_EXPLORER_PROMPT,
-    FILESYSTEM_TOOLS_HELP,
     AGENT_TOOLS_HELP,
     SHELL_TOOLS_HELP,
     BATCH_TOOL_EXAMPLES,
-    create_tool_category_prompt,
+    TOOL_EXPLORER_PROMPT,
+    FILESYSTEM_TOOLS_HELP,
 )
+from hanzo_mcp.prompts.create_release import CREATE_RELEASE_PROMPT
+from hanzo_mcp.prompts.project_system import PROJECT_SYSTEM_PROMPT
 from hanzo_mcp.prompts.enhanced_prompts import (
     QUICK_START_PROMPT,
-    PAGINATION_GUIDE_PROMPT,
-    MEMORY_VECTOR_HELP_PROMPT,
-    DATABASE_TOOLS_HELP_PROMPT,
     LSP_TOOLS_HELP_PROMPT,
-    CONFIGURATION_GUIDE_PROMPT,
-    NETWORK_AGENT_GUIDE_PROMPT,
+    PAGINATION_GUIDE_PROMPT,
     PERFORMANCE_TIPS_PROMPT,
-    SECURITY_BEST_PRACTICES_PROMPT,
+    MEMORY_VECTOR_HELP_PROMPT,
+    CONFIGURATION_GUIDE_PROMPT,
+    DATABASE_TOOLS_HELP_PROMPT,
+    NETWORK_AGENT_GUIDE_PROMPT,
     TROUBLESHOOTING_GUIDE_PROMPT,
+    SECURITY_BEST_PRACTICES_PROMPT,
+)
+from hanzo_mcp.prompts.compact_conversation import COMPACT_CONVERSATION_PROMPT
+from hanzo_mcp.prompts.project_todo_reminder import (
+    PROJECT_TODO_EMPTY_REMINDER,
+    get_project_todo_reminder,
 )
 
 CONTINUE_FROM_LAST_SESSION_PROMPT = """<system-reminder>

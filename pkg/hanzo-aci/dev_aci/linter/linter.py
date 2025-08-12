@@ -10,7 +10,7 @@ from ..linter.impl.treesitter import TreesitterBasicLinter
 class DefaultLinter(BaseLinter):
     def __init__(self):
         self.linters: dict[str, list[BaseLinter]] = defaultdict(list)
-        self.linters['.py'] = [PythonLinter()]
+        self.linters[".py"] = [PythonLinter()]
 
         # Add treesitter linter as a fallback for all linters
         self.basic_linter = TreesitterBasicLinter()
@@ -24,7 +24,7 @@ class DefaultLinter(BaseLinter):
 
     def lint(self, file_path: str) -> list[LintResult]:
         if not os.path.isabs(file_path):
-            raise LinterException(f'File path {file_path} is not an absolute path')
+            raise LinterException(f"File path {file_path} is not an absolute path")
         file_extension = os.path.splitext(file_path)[1]
 
         linters: list[BaseLinter] = self.linters.get(file_extension, [])
@@ -52,9 +52,9 @@ class DefaultLinter(BaseLinter):
         updated_lint_errors: list[LintResult] = self.lint(updated_file_path)
 
         # 2. Load the original and updated file content
-        with open(original_file_path, 'r') as f:
+        with open(original_file_path, "r") as f:
             old_lines = f.readlines()
-        with open(updated_file_path, 'r') as f:
+        with open(updated_file_path, "r") as f:
             new_lines = f.readlines()
 
         # 3. Get line numbers that are changed & unchanged
@@ -73,12 +73,12 @@ class DefaultLinter(BaseLinter):
             a=old_lines,
             b=new_lines,
         ).get_opcodes():
-            if tag == 'equal':
+            if tag == "equal":
                 for idx, _ in enumerate(old_lines[old_idx_start:old_idx_end]):
                     old_to_new_line_no_mapping[old_idx_start + idx + 1] = (
                         new_idx_start + idx + 1
                     )
-            elif tag == 'replace' or tag == 'insert':
+            elif tag == "replace" or tag == "insert":
                 for idx, _ in enumerate(old_lines[old_idx_start:old_idx_end]):
                     replace_or_inserted_lines.append(new_idx_start + idx + 1)
             else:

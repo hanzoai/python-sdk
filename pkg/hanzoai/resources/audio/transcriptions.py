@@ -80,10 +80,15 @@ class TranscriptionsResource(SyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/audio/transcriptions",
-            body=maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=maybe_transform(
+                body, transcription_create_params.TranscriptionCreateParams
+            ),
             files=files,
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -101,7 +106,9 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
         return AsyncTranscriptionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTranscriptionsResourceWithStreamingResponse:
+    def with_streaming_response(
+        self,
+    ) -> AsyncTranscriptionsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
@@ -142,10 +149,15 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/audio/transcriptions",
-            body=await async_maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=await async_maybe_transform(
+                body, transcription_create_params.TranscriptionCreateParams
+            ),
             files=files,
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

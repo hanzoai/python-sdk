@@ -1,20 +1,22 @@
 """Output utilities for Hanzo CLI."""
 
-from functools import wraps
 from typing import Any, Callable
+from functools import wraps
 
-from rich.console import Console
 from rich.theme import Theme
+from rich.console import Console
 
 # Custom theme
-hanzo_theme = Theme({
-    "info": "cyan",
-    "warning": "yellow",
-    "error": "red",
-    "success": "green",
-    "dim": "dim white",
-    "highlight": "bold cyan",
-})
+hanzo_theme = Theme(
+    {
+        "info": "cyan",
+        "warning": "yellow",
+        "error": "red",
+        "success": "green",
+        "dim": "dim white",
+        "highlight": "bold cyan",
+    }
+)
 
 # Global console instance
 console = Console(theme=hanzo_theme)
@@ -22,6 +24,7 @@ console = Console(theme=hanzo_theme)
 
 def handle_errors(func: Callable) -> Callable:
     """Decorator to handle errors in CLI commands."""
+
     @wraps(func)
     async def async_wrapper(*args, **kwargs):
         try:
@@ -32,7 +35,7 @@ def handle_errors(func: Callable) -> Callable:
             console.print(f"[error]Error: {e}[/error]")
             if console.is_debug:
                 console.print_exception()
-    
+
     @wraps(func)
     def sync_wrapper(*args, **kwargs):
         try:
@@ -43,7 +46,7 @@ def handle_errors(func: Callable) -> Callable:
             console.print(f"[error]Error: {e}[/error]")
             if console.is_debug:
                 console.print_exception()
-    
+
     if asyncio.iscoroutinefunction(func):
         return async_wrapper
     return sync_wrapper
@@ -59,31 +62,33 @@ def print_table(data: list[dict], title: str = None):
     if not data:
         console.print("[dim]No data[/dim]")
         return
-    
+
     from rich.table import Table
-    
+
     table = Table(title=title)
-    
+
     # Add columns from first row
     for key in data[0].keys():
         table.add_column(key.replace("_", " ").title())
-    
+
     # Add rows
     for row in data:
         table.add_row(*[str(v) for v in row.values()])
-    
+
     console.print(table)
 
 
 def confirm(message: str, default: bool = False) -> bool:
     """Ask for confirmation."""
     from rich.prompt import Confirm
+
     return Confirm.ask(message, default=default)
 
 
 def prompt(message: str, default: str = None, password: bool = False) -> str:
     """Prompt for input."""
     from rich.prompt import Prompt
+
     return Prompt.ask(message, default=default, password=password)
 
 

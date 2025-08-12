@@ -7,27 +7,32 @@ and editing files, directory navigation, and content searching.
 from mcp.server import FastMCP
 
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
-
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem.content_replace import ContentReplaceTool
-from hanzo_mcp.tools.filesystem.directory_tree import DirectoryTreeTool
+from hanzo_mcp.tools.filesystem.diff import create_diff_tool
 from hanzo_mcp.tools.filesystem.edit import Edit
 from hanzo_mcp.tools.filesystem.grep import Grep
+from hanzo_mcp.tools.filesystem.read import ReadTool
+from hanzo_mcp.tools.filesystem.watch import watch_tool
+from hanzo_mcp.tools.filesystem.write import Write
+from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.filesystem.ast_tool import ASTTool
+from hanzo_mcp.tools.filesystem.find_files import FindFilesTool
 from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
 from hanzo_mcp.tools.filesystem.multi_edit import MultiEdit
-from hanzo_mcp.tools.filesystem.read import ReadTool
-from hanzo_mcp.tools.filesystem.write import Write
-from hanzo_mcp.tools.filesystem.batch_search import BatchSearchTool
-from hanzo_mcp.tools.filesystem.find_files import FindFilesTool
 from hanzo_mcp.tools.filesystem.rules_tool import RulesTool
 from hanzo_mcp.tools.filesystem.search_tool import SearchTool
-from hanzo_mcp.tools.filesystem.watch import watch_tool
-from hanzo_mcp.tools.filesystem.diff import create_diff_tool
+from hanzo_mcp.tools.filesystem.batch_search import BatchSearchTool
+from hanzo_mcp.tools.filesystem.directory_tree import DirectoryTreeTool
+from hanzo_mcp.tools.filesystem.content_replace import ContentReplaceTool
 
 # Import new search tools
 try:
-    from hanzo_mcp.tools.search import UnifiedSearch, create_unified_search_tool, FindTool, create_find_tool
+    from hanzo_mcp.tools.search import (
+        FindTool,
+        UnifiedSearch,
+        create_find_tool,
+        create_unified_search_tool,
+    )
+
     UNIFIED_SEARCH_AVAILABLE = True
 except ImportError:
     UNIFIED_SEARCH_AVAILABLE = False
@@ -76,22 +81,21 @@ def get_read_only_filesystem_tools(
         watch_tool,
         create_diff_tool(permission_manager),
     ]
-    
+
     # Add search if project manager is available
     if project_manager:
         tools.append(SearchTool(permission_manager, project_manager))
-    
+
     # Add new search tools if available
     if UNIFIED_SEARCH_AVAILABLE:
-        tools.extend([
-            create_unified_search_tool(),
-            create_find_tool()
-        ])
-    
+        tools.extend([create_unified_search_tool(), create_find_tool()])
+
     return tools
 
 
-def get_filesystem_tools(permission_manager: PermissionManager, project_manager=None) -> list[BaseTool]:
+def get_filesystem_tools(
+    permission_manager: PermissionManager, project_manager=None
+) -> list[BaseTool]:
     """Create instances of all filesystem tools.
 
     Args:
@@ -116,18 +120,15 @@ def get_filesystem_tools(permission_manager: PermissionManager, project_manager=
         watch_tool,
         create_diff_tool(permission_manager),
     ]
-    
+
     # Add search if project manager is available
     if project_manager:
         tools.append(SearchTool(permission_manager, project_manager))
-    
+
     # Add new search tools if available
     if UNIFIED_SEARCH_AVAILABLE:
-        tools.extend([
-            create_unified_search_tool(),
-            create_find_tool()
-        ])
-    
+        tools.extend([create_unified_search_tool(), create_find_tool()])
+
     return tools
 
 
@@ -170,14 +171,14 @@ def register_filesystem_tools(
         "watch": lambda pm: watch_tool,  # Singleton instance
         "diff": create_diff_tool,
     }
-    
+
     # Add new search tools if available
     if UNIFIED_SEARCH_AVAILABLE:
         tool_classes["unified_search"] = lambda pm: create_unified_search_tool()
         tool_classes["find"] = lambda pm: create_find_tool()
-    
+
     tools = []
-    
+
     if enabled_tools:
         # Use individual tool configuration
         for tool_name, enabled in enabled_tools.items():
@@ -218,6 +219,6 @@ def register_filesystem_tools(
         else:
             # All tools
             tools = get_filesystem_tools(permission_manager, project_manager)
-    
+
     ToolRegistry.register_tools(mcp_server, tools)
     return tools

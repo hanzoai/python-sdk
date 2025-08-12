@@ -6,4 +6,4 @@ Part of this Linter module is adapted from Aider (Apache 2.0 License, [original 
 from .base import LintResult
 from .linter import DefaultLinter
 
-__all__ = ['DefaultLinter', 'LintResult']
+__all__ = ["DefaultLinter", "LintResult"]

@@ -83,8 +83,17 @@ class UserResource(SyncAPIResource):
         user_alias: Optional[str] | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        user_role: (
+            Optional[
+                Literal[
+                    "proxy_admin",
+                    "proxy_admin_viewer",
+                    "internal_user",
+                    "internal_user_viewer",
+                ]
+            ]
+            | NotGiven
+        ) = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -221,7 +230,10 @@ class UserResource(SyncAPIResource):
                 user_create_params.UserCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UserCreateResponse,
         )
@@ -252,8 +264,17 @@ class UserResource(SyncAPIResource):
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        user_role: (
+            Optional[
+                Literal[
+                    "proxy_admin",
+                    "proxy_admin_viewer",
+                    "internal_user",
+                    "internal_user_viewer",
+                ]
+            ]
+            | NotGiven
+        ) = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -360,7 +381,10 @@ class UserResource(SyncAPIResource):
                 user_update_params.UserUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -476,12 +500,20 @@ class UserResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/user/delete",
-            body=maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
+            body=maybe_transform(
+                {"user_ids": user_ids}, user_delete_params.UserDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -526,7 +558,10 @@ class UserResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"user_id": user_id}, user_retrieve_info_params.UserRetrieveInfoParams),
+                query=maybe_transform(
+                    {"user_id": user_id},
+                    user_retrieve_info_params.UserRetrieveInfoParams,
+                ),
             ),
             cast_to=object,
         )
@@ -581,8 +616,17 @@ class AsyncUserResource(AsyncAPIResource):
         user_alias: Optional[str] | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        user_role: (
+            Optional[
+                Literal[
+                    "proxy_admin",
+                    "proxy_admin_viewer",
+                    "internal_user",
+                    "internal_user_viewer",
+                ]
+            ]
+            | NotGiven
+        ) = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -719,7 +763,10 @@ class AsyncUserResource(AsyncAPIResource):
                 user_create_params.UserCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=UserCreateResponse,
         )
@@ -750,8 +797,17 @@ class AsyncUserResource(AsyncAPIResource):
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_email: Optional[str] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        user_role: (
+            Optional[
+                Literal[
+                    "proxy_admin",
+                    "proxy_admin_viewer",
+                    "internal_user",
+                    "internal_user_viewer",
+                ]
+            ]
+            | NotGiven
+        ) = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -858,7 +914,10 @@ class AsyncUserResource(AsyncAPIResource):
                 user_update_params.UserUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -974,12 +1033,20 @@ class AsyncUserResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/user/delete",
-            body=await async_maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
+            body=await async_maybe_transform(
+                {"user_ids": user_ids}, user_delete_params.UserDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1025,7 +1092,8 @@ class AsyncUserResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"user_id": user_id}, user_retrieve_info_params.UserRetrieveInfoParams
+                    {"user_id": user_id},
+                    user_retrieve_info_params.UserRetrieveInfoParams,
                 ),
             ),
             cast_to=object,

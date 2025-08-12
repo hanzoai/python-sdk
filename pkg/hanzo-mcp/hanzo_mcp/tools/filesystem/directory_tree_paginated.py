@@ -4,18 +4,27 @@ This module provides a paginated version of DirectoryTreeTool that supports
 MCP cursor-based pagination for large directory structures.
 """
 
+from typing import (
+    Any,
+    Dict,
+    List,
+    Unpack,
+    Optional,
+    Annotated,
+    TypedDict,
+    final,
+    override,
+)
 from pathlib import Path
-from typing import Annotated, Any, Dict, List, Optional, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.common.pagination import (
     CursorManager,
-    PaginatedResponse,
-    paginate_list
+    paginate_list,
 )
 
 DirectoryPath = Annotated[
@@ -128,7 +137,7 @@ Returns nextCursor if more entries are available."""
         depth = params.get("depth", 3)
         include_filtered = params.get("include_filtered", False)
         page_size = params.get("page_size", 100)
-        cursor = params.get("cursor", None)
+        cursor = params.get("cursor")
 
         # Validate cursor if provided
         if cursor:
@@ -196,9 +205,7 @@ Returns nextCursor if more entries are available."""
 
             # Build the tree and collect entries
             def collect_entries(
-                current_path: Path,
-                current_depth: int = 0,
-                parent_path: str = ""
+                current_path: Path, current_depth: int = 0, parent_path: str = ""
             ) -> None:
                 """Collect entries in a flat list for pagination."""
                 if not self.is_path_allowed(str(current_path)):
@@ -207,8 +214,7 @@ Returns nextCursor if more entries are available."""
                 try:
                     # Sort entries: directories first, then files alphabetically
                     entries = sorted(
-                        current_path.iterdir(),
-                        key=lambda x: (not x.is_dir(), x.name)
+                        current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name)
                     )
 
                     for entry in entries:
@@ -216,7 +222,9 @@ Returns nextCursor if more entries are available."""
                             continue
 
                         # Calculate relative path for display
-                        relative_path = f"{parent_path}/{entry.name}" if parent_path else entry.name
+                        relative_path = (
+                            f"{parent_path}/{entry.name}" if parent_path else entry.name
+                        )
 
                         if entry.is_dir():
                             entry_data: Dict[str, Any] = {
@@ -241,19 +249,17 @@ Returns nextCursor if more entries are available."""
                             all_entries.append(entry_data)
 
                             # Process children recursively
-                            collect_entries(
-                                entry,
-                                current_depth + 1,
-                                relative_path
-                            )
+                            collect_entries(entry, current_depth + 1, relative_path)
                         else:
                             # Add file entry
                             if depth <= 0 or current_depth < depth:
-                                all_entries.append({
-                                    "path": relative_path,
-                                    "type": "file",
-                                    "depth": current_depth,
-                                })
+                                all_entries.append(
+                                    {
+                                        "path": relative_path,
+                                        "type": "file",
+                                        "depth": current_depth,
+                                    }
+                                )
 
                 except Exception as e:
                     await tool_ctx.warning(f"Error processing {current_path}: {str(e)}")
@@ -271,28 +277,34 @@ Returns nextCursor if more entries are available."""
                 indent = "  " * entry["depth"]
                 if entry["type"] == "directory":
                     if "skipped" in entry:
-                        formatted_entries.append({
-                            "entry": f"{indent}{entry['path'].split('/')[-1]}/ [skipped - {entry['skipped']}]",
-                            "type": "directory",
-                            "skipped": entry.get("skipped")
-                        })
+                        formatted_entries.append(
+                            {
+                                "entry": f"{indent}{entry['path'].split('/')[-1]}/ [skipped - {entry['skipped']}]",
+                                "type": "directory",
+                                "skipped": entry.get("skipped"),
+                            }
+                        )
                     else:
-                        formatted_entries.append({
-                            "entry": f"{indent}{entry['path'].split('/')[-1]}/",
-                            "type": "directory"
-                        })
+                        formatted_entries.append(
+                            {
+                                "entry": f"{indent}{entry['path'].split('/')[-1]}/",
+                                "type": "directory",
+                            }
+                        )
                 else:
-                    formatted_entries.append({
-                        "entry": f"{indent}{entry['path'].split('/')[-1]}",
-                        "type": "file"
-                    })
+                    formatted_entries.append(
+                        {
+                            "entry": f"{indent}{entry['path'].split('/')[-1]}",
+                            "type": "file",
+                        }
+                    )
 
             # Build response
             response = {
                 "entries": formatted_entries,
                 "total_collected": len(all_entries),
                 "page_size": page_size,
-                "current_page_count": len(formatted_entries)
+                "current_page_count": len(formatted_entries),
             }
 
             # Add next cursor if available

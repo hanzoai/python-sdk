@@ -2,22 +2,14 @@
 
 import os
 from typing import TYPE_CHECKING
-import asyncio
-import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
-from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
 
 if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
-from hanzo_mcp.tools.filesystem import (
-    ReadTool,
-    Write,
-    Edit,
-    get_filesystem_tools
-)
+from hanzo_mcp.tools.filesystem import Edit, Write, ReadTool, get_filesystem_tools
 
 
 class TestRefactoredFileTools:
@@ -143,11 +135,11 @@ class TestRefactoredFileTools:
         ):
             # Call the tool directly
             result = await edit_file_tool.call(
-                ctx=mcp_context, 
-                file_path=test_file, 
+                ctx=mcp_context,
+                file_path=test_file,
                 old_string=old_string,
                 new_string=new_string,
-                expected_replacements=1
+                expected_replacements=1,
             )
 
             # Verify result

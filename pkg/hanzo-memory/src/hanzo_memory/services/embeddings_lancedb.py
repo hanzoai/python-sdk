@@ -18,58 +18,59 @@ class LanceDBEmbeddingService:
         """Initialize the embedding service."""
         self.model_name = model_name or settings.embedding_model
         self._embedding_func = None
-        logger.info(f"Initializing LanceDB embedding service with model: {self.model_name}")
+        logger.info(
+            f"Initializing LanceDB embedding service with model: {self.model_name}"
+        )
 
     @property
     def embedding_func(self):
         """Lazy load the embedding function."""
         if self._embedding_func is None:
             logger.info(f"Loading embedding function: {self.model_name}")
-            
+
             # LanceDB supports multiple embedding providers
             registry = get_registry()
-            
+
             # Check available embedding functions
             available_funcs = list(registry.list_embedding_functions())
             logger.info(f"Available embedding functions: {available_funcs}")
-            
+
             # Try to use the appropriate embedding function based on model name
             if "fastembed" in available_funcs:
                 # Use FastEmbed if available
                 try:
-                    self._embedding_func = registry.get("fastembed").create(name=self.model_name)
+                    self._embedding_func = registry.get("fastembed").create(
+                        name=self.model_name
+                    )
                     logger.info("Using FastEmbed via LanceDB")
                 except Exception as e:
                     logger.warning(f"Failed to use FastEmbed: {e}")
                     self._embedding_func = None
-            
+
             if self._embedding_func is None:
                 # Fall back to other providers
                 if self.model_name.startswith("BAAI/") or "bge" in self.model_name:
                     # Use sentence-transformers for BAAI/BGE models
-                    self._embedding_func = (
-                        registry
-                        .get("sentence-transformers")
-                        .create(name=self.model_name)
+                    self._embedding_func = registry.get("sentence-transformers").create(
+                        name=self.model_name
                     )
                     logger.info("Using sentence-transformers via LanceDB")
-                elif self.model_name.startswith("text-embedding") and "openai" in available_funcs:
+                elif (
+                    self.model_name.startswith("text-embedding")
+                    and "openai" in available_funcs
+                ):
                     # Use OpenAI for text-embedding models
-                    self._embedding_func = (
-                        registry
-                        .get("openai")
-                        .create(name=self.model_name)
+                    self._embedding_func = registry.get("openai").create(
+                        name=self.model_name
                     )
                     logger.info("Using OpenAI embeddings via LanceDB")
                 else:
                     # Default to sentence-transformers
-                    self._embedding_func = (
-                        registry
-                        .get("sentence-transformers")
-                        .create(name=self.model_name)
+                    self._embedding_func = registry.get("sentence-transformers").create(
+                        name=self.model_name
                     )
                     logger.info("Using sentence-transformers (default) via LanceDB")
-            
+
             logger.info(f"Embedding function {self.model_name} loaded successfully")
         return self._embedding_func
 
@@ -88,12 +89,15 @@ class LanceDBEmbeddingService:
 
         # Generate embeddings using LanceDB's embedding function
         embeddings = self.embedding_func.compute_source_embeddings(text)
-        
+
         # Convert to list format
         if isinstance(embeddings, np.ndarray):
             return embeddings.tolist()
         else:
-            return [emb.tolist() if isinstance(emb, np.ndarray) else emb for emb in embeddings]
+            return [
+                emb.tolist() if isinstance(emb, np.ndarray) else emb
+                for emb in embeddings
+            ]
 
     def embed_single(self, text: str) -> list[float]:
         """
@@ -183,7 +187,11 @@ class LanceDBEmbeddingService:
         """Get information about the current embedding model."""
         return {
             "model_name": self.model_name,
-            "dimensions": self.embedding_func.ndims() if self._embedding_func else settings.embedding_dimensions,
+            "dimensions": (
+                self.embedding_func.ndims()
+                if self._embedding_func
+                else settings.embedding_dimensions
+            ),
             "loaded": self._embedding_func is not None,
             "backend": "lancedb",
         }

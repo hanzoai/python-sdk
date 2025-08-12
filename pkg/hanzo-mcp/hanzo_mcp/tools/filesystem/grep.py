@@ -3,18 +3,18 @@
 This module provides the Grep tool for finding text patterns in files using ripgrep.
 """
 
-import asyncio
-import fnmatch
-import json
 import re
+import json
 import shlex
 import shutil
+import asyncio
+import fnmatch
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.context import ToolContext
 from hanzo_mcp.tools.common.truncate import truncate_response
@@ -426,7 +426,7 @@ When you are doing an open ended search that may require multiple rounds of glob
                 return truncate_response(
                     result,
                     max_tokens=25000,
-                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]"
+                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]",
                 )
             else:
                 await tool_ctx.info(
@@ -436,7 +436,7 @@ When you are doing an open ended search that may require multiple rounds of glob
                 return truncate_response(
                     result,
                     max_tokens=25000,
-                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]"
+                    truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]",
                 )
         except Exception as e:
             await tool_ctx.error(f"Error in grep tool: {str(e)}")

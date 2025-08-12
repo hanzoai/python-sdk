@@ -5,19 +5,18 @@ parallel or serial depending on their characteristics.
 """
 
 import asyncio
-from typing import Annotated, Any, TypedDict, Unpack, final, override
+from typing import Any, Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-from hanzo_mcp.tools.common.truncate import truncate_response, estimate_tokens
+from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.common.fastmcp_pagination import (
-    create_paginated_response,
     CursorData,
-    TokenAwarePaginator
+    create_paginated_response,
 )
 
 
@@ -197,9 +196,9 @@ Not available: think,write,edit,multi_edit,notebook_edit
 
         # Execute all tool invocations in parallel
         tasks: list[asyncio.Future[dict[str, Any]]] = []
-        invocation_map: dict[
-            asyncio.Future[dict[str, Any]], dict[str, Any]
-        ] = {}  # Map task Future to invocation
+        invocation_map: dict[asyncio.Future[dict[str, Any]], dict[str, Any]] = (
+            {}
+        )  # Map task Future to invocation
 
         for i, invocation in enumerate(invocations):
             # Extract tool name and input from invocation
@@ -290,7 +289,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
         # Extract cursor if provided
         cursor = params.get("cursor")
         cursor_offset = 0
-        
+
         # If cursor provided, we need to resume from where we left off
         if cursor:
             cursor_data = CursorData.from_cursor(cursor)
@@ -298,63 +297,71 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 # Skip already returned results
                 cursor_offset = cursor_data.offset
                 results = results[cursor_offset:]
-        
+
         # Format results
         formatted_results = []
         for i, result in enumerate(results):
             invocation = result["invocation"]
             tool_name = invocation.get("tool_name", "unknown")
-            formatted_results.append({
-                "tool": tool_name,
-                "result": result["result"],
-                "index": i + cursor_offset
-            })
-        
+            formatted_results.append(
+                {
+                    "tool": tool_name,
+                    "result": result["result"],
+                    "index": i + cursor_offset,
+                }
+            )
+
         # Create paginated response with token awareness
         paginated_response = create_paginated_response(
-            formatted_results,
-            cursor=cursor,
-            use_token_limit=True
+            formatted_results, cursor=cursor, use_token_limit=True
         )
-        
+
         # Convert paginated response to string format for MCP
         if isinstance(paginated_response, dict) and "items" in paginated_response:
             # Format the items as a readable string
             result_parts = []
-            
+
             # Add header
             result_parts.append(f"=== Batch operation: {description} ===")
             result_parts.append(f"Total invocations: {len(invocations)}")
-            result_parts.append(f"Showing results: {len(paginated_response['items'])} of {len(results)}")
-            if paginated_response.get('hasMore'):
-                result_parts.append(f"More results available - use cursor: {paginated_response.get('nextCursor')}")
+            result_parts.append(
+                f"Showing results: {len(paginated_response['items'])} of {len(results)}"
+            )
+            if paginated_response.get("hasMore"):
+                result_parts.append(
+                    f"More results available - use cursor: {paginated_response.get('nextCursor')}"
+                )
             result_parts.append("")
-            
+
             # Format each result
-            for item in paginated_response['items']:
+            for item in paginated_response["items"]:
                 result_parts.append(f"### Result {item['index'] + 1}: {item['tool']}")
-                result_content = item['result']
-                
+                result_content = item["result"]
+
                 # Add the result content - use multi-line code blocks for code outputs
                 if isinstance(result_content, str) and "\n" in result_content:
                     result_parts.append(f"```\n{result_content}\n```")
                 else:
                     result_parts.append(str(result_content))
                 result_parts.append("")
-            
+
             # Join all parts
             formatted_output = "\n".join(result_parts)
-            
+
             # If there's a next cursor, we need to preserve it in the response
             # For now, append it as a note at the end
-            if paginated_response.get('hasMore') and paginated_response.get('nextCursor'):
-                formatted_output += f"\n\n[To continue, use cursor: {paginated_response['nextCursor']}]"
-            
+            if paginated_response.get("hasMore") and paginated_response.get(
+                "nextCursor"
+            ):
+                formatted_output += (
+                    f"\n\n[To continue, use cursor: {paginated_response['nextCursor']}]"
+                )
+
             await tool_ctx.info(
                 f"Batch operation '{description}' completed with {len(paginated_response['items'])} results"
                 f"{' (more available)' if paginated_response.get('hasMore') else ''}"
             )
-            
+
             return formatted_output
         else:
             # Fallback if pagination didn't work as expected
@@ -376,16 +383,16 @@ Not available: think,write,edit,multi_edit,notebook_edit
 
             # Add the result header
             formatted_parts.append(f"### Result {i + 1}: {tool_name}")
-            
+
             # Truncate individual results if they're too large
             result_content = result["result"]
             if len(result_content) > 50000:  # If individual result > 50k chars
                 result_content = truncate_response(
                     result_content,
                     max_tokens=5000,  # Limit individual results to ~5k tokens
-                    truncation_message=f"\n\n[Result from {tool_name} truncated. Use the tool directly with pagination/filtering for full output.]"
+                    truncation_message=f"\n\n[Result from {tool_name} truncated. Use the tool directly with pagination/filtering for full output.]",
                 )
-            
+
             # Add the result content - use multi-line code blocks for code outputs
             if "\n" in result_content:
                 formatted_parts.append(f"```\n{result_content}\n```")
@@ -413,7 +420,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
             description: Description,
             invocations: Invocations,
             cursor: Cursor,
-            ctx: MCPContext
+            ctx: MCPContext,
         ) -> str:
             return await tool_self.call(
                 ctx, description=description, invocations=invocations, cursor=cursor

@@ -12,7 +12,7 @@ from .tool_config import ToolConfig, ToolCategory
 
 __all__ = [
     "HanzoMCPSettings",
-    "ToolConfig", 
+    "ToolConfig",
     "ToolCategory",
     "load_settings",
     "save_settings",
