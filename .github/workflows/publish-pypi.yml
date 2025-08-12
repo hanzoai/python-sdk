@@ -1,31 +1,150 @@
-# This workflow is triggered when a GitHub release is created.
+# This workflow is triggered when a tag is pushed or a GitHub release is created.
 # It can also be run manually to re-publish to PyPI in case it failed for some reason.
 # You can run this workflow by navigating to https://www.github.com/hanzoai/python-sdk/actions/workflows/publish-pypi.yml
 name: Publish PyPI
 on:
   workflow_dispatch:
 
+  push:
+    tags:
+      - 'v*'
+      - 'hanzo-*'
+      - 'hanzo-network-*'
+      - 'hanzo-mcp-*'
+      - 'hanzo-agents-*'
+      - 'hanzo-memory-*'
+      - 'hanzo-aci-*'
+      - 'hanzo-repl-*'
+
   release:
     types: [published]
 
 jobs:
-  publish:
-    name: publish
+  # Run tests first to ensure code quality
+  test:
+    name: Run Tests
+    uses: ./.github/workflows/test.yml
+    
+  publish-all-packages:
+    name: Publish All Python Packages
     runs-on: ubuntu-latest
+    needs: test  # Only publish if tests pass
+    if: success()
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all tags
 
-      - name: Install Rye
-        run: |
-          curl -sSf https://rye.astral.sh/get | bash
-          echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        env:
-          RYE_VERSION: '0.44.0'
-          RYE_INSTALL_OPTION: '--yes'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Publish to PyPI
+      - name: Install build tools
         run: |
-          bash ./bin/publish-pypi
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Determine packages to publish
+        id: determine_packages
+        run: |
+          TAG="${{ steps.get_tag.outputs.TAG }}"
+          PACKAGES=""
+          
+          # If tag starts with a specific package name, publish only that package
+          if [[ $TAG == hanzo-network-* ]]; then
+            PACKAGES="hanzo-network"
+          elif [[ $TAG == hanzo-mcp-* ]]; then
+            PACKAGES="hanzo-mcp"
+          elif [[ $TAG == hanzo-agents-* ]]; then
+            PACKAGES="hanzo-agents"
+          elif [[ $TAG == hanzo-memory-* ]]; then
+            PACKAGES="hanzo-memory"
+          elif [[ $TAG == hanzo-aci-* ]]; then
+            PACKAGES="hanzo-aci"
+          elif [[ $TAG == hanzo-repl-* ]]; then
+            PACKAGES="hanzo-repl"
+          elif [[ $TAG == hanzo-* ]]; then
+            PACKAGES="hanzo"
+          elif [[ $TAG == v* ]]; then
+            # For general version tags, publish all packages
+            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-agents hanzo-memory hanzo-aci hanzo-repl"
+          fi
+          
+          echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
+          echo "Publishing packages: $PACKAGES"
+
+      - name: Build and publish packages
         env:
-          PYPI_TOKEN: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        run: |
+          PACKAGES="${{ steps.determine_packages.outputs.PACKAGES }}"
+          
+          if [ -z "$PACKAGES" ]; then
+            echo "No packages to publish for tag ${{ steps.get_tag.outputs.TAG }}"
+            exit 0
+          fi
+          
+          for package in $PACKAGES; do
+            echo "Building and publishing $package..."
+            cd "pkg/$package"
+            
+            # Clean any previous builds
+            rm -rf dist/ build/ *.egg-info
+            
+            # Build the package
+            python -m build
+            
+            # Upload to PyPI
+            python -m twine upload dist/* --skip-existing
+            
+            cd ../..
+          done
+
+      - name: Create GitHub Release Notes
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = '${{ steps.get_tag.outputs.TAG }}';
+            const packages = '${{ steps.determine_packages.outputs.PACKAGES }}'.split(' ');
+            
+            let body = `## 🚀 Published Python Packages\n\n`;
+            body += `The following packages have been published to PyPI:\n\n`;
+            
+            for (const pkg of packages) {
+              body += `- ✅ **${pkg}** - [View on PyPI](https://pypi.org/project/${pkg}/)\n`;
+            }
+            
+            body += `\n### Installation\n\n`;
+            body += `\`\`\`bash\n`;
+            for (const pkg of packages) {
+              body += `pip install ${pkg}\n`;
+            }
+            body += `\`\`\`\n`;
+            
+            // Update release if it exists
+            try {
+              const releases = await github.rest.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              
+              const release = releases.data.find(r => r.tag_name === tag);
+              if (release) {
+                await github.rest.repos.updateRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: release.id,
+                  body: release.body + '\n\n' + body,
+                });
+              }
+            } catch (error) {
+              console.log('Could not update release notes:', error);
+            }
