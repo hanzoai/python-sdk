@@ -143,14 +143,20 @@ class BaseVectorDB(ABC):
         """Search messages in a chat session by similarity."""
         pass
 
+    # Optional methods for implementations - not abstract
+    # Implementations can override these if needed
+
     def close(self) -> None:
         """Close the database connection (optional for implementations)."""
-        pass
+        # Default implementation does nothing
+        return None
 
     def create_projects_table(self) -> None:
         """Create projects table if not exists (optional for implementations)."""
-        pass
+        # Default implementation does nothing
+        return None
 
     def create_knowledge_bases_table(self) -> None:
         """Create knowledge bases table if not exists (optional for implementations)."""
-        pass
+        # Default implementation does nothing
+        return None

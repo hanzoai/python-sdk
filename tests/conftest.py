@@ -8,6 +8,7 @@ import pytest
 from pytest_asyncio import is_async_test
 
 from hanzoai import Hanzo, AsyncHanzo
+from tests.mock_fixtures import mock_api
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
@@ -31,21 +32,29 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "My API Key"
 
 
-@pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[Hanzo]:
+@pytest.fixture(scope="function")
+def client(request: FixtureRequest, mock_api) -> Iterator[Hanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
-        raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
+        raise TypeError(
+            f"Unexpected fixture parameter type {type(strict)}, expected {bool}"
+        )
 
-    with Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with Hanzo(
+        base_url=base_url, api_key=api_key, _strict_response_validation=strict
+    ) as client:
         yield client
 
 
-@pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncHanzo]:
+@pytest.fixture(scope="function")
+async def async_client(request: FixtureRequest, mock_api) -> AsyncIterator[AsyncHanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
-        raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
+        raise TypeError(
+            f"Unexpected fixture parameter type {type(strict)}, expected {bool}"
+        )
 
-    async with AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    async with AsyncHanzo(
+        base_url=base_url, api_key=api_key, _strict_response_validation=strict
+    ) as client:
         yield client

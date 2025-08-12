@@ -4,22 +4,20 @@ This module provides tools that allow Claude to delegate tasks to sub-agents,
 enabling concurrent execution of multiple operations and specialized processing.
 """
 
-import os
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 
 # Import the main implementations (using hanzo-agents SDK)
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
-
-from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
-from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
-from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
+from hanzo_mcp.tools.agent.network_tool import NetworkTool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
 from hanzo_mcp.tools.agent.code_auth_tool import CodeAuthTool
-from hanzo_mcp.tools.agent.network_tool import NetworkTool, LocalSwarmTool
-from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
-
-from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
+from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
+from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
 
 
 def register_agent_tools(
@@ -58,7 +56,7 @@ def register_agent_tools(
         max_iterations=agent_max_iterations,
         max_tool_uses=agent_max_tool_uses,
     )
-    
+
     # Create swarm tool
     swarm_tool = SwarmTool(
         permission_manager=permission_manager,
@@ -69,36 +67,35 @@ def register_agent_tools(
         agent_max_iterations=agent_max_iterations,
         agent_max_tool_uses=agent_max_tool_uses,
     )
-    
-    
+
     # Create CLI agent tools
     claude_cli_tool = ClaudeCLITool(
         permission_manager=permission_manager,
         model=agent_model,  # Can override default Sonnet
     )
-    
+
     codex_cli_tool = CodexCLITool(
         permission_manager=permission_manager,
         model=agent_model if agent_model and "gpt" in agent_model else None,
     )
-    
+
     gemini_cli_tool = GeminiCLITool(
         permission_manager=permission_manager,
         model=agent_model if agent_model and "gemini" in agent_model else None,
     )
-    
+
     grok_cli_tool = GrokCLITool(
         permission_manager=permission_manager,
         model=agent_model if agent_model and "grok" in agent_model else None,
     )
-    
+
     # Create auth management tool
     code_auth_tool = CodeAuthTool()
-    
+
     # Create network tool
     network_tool = NetworkTool(
         permission_manager=permission_manager,
-        default_mode="hybrid"  # Prefer local, fallback to cloud
+        default_mode="hybrid",  # Prefer local, fallback to cloud
     )
 
     # Register tools
@@ -113,7 +110,7 @@ def register_agent_tools(
 
     # Return list of registered tools
     return [
-        agent_tool, 
+        agent_tool,
         swarm_tool,
         network_tool,
         claude_cli_tool,

@@ -5,6 +5,6 @@ from .local_llm import LocalLLMProvider, HanzoNetProvider, OllamaProvider, MLXPr
 __all__ = [
     "LocalLLMProvider",
     "HanzoNetProvider",
-    "OllamaProvider", 
+    "OllamaProvider",
     "MLXProvider",
 ]

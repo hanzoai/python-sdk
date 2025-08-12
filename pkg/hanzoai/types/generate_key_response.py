@@ -49,11 +49,17 @@ class GenerateKeyResponse(BaseModel):
 
     metadata: Optional[object] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[object] = FieldInfo(
+        alias="model_max_budget", default=None
+    )
 
-    api_model_rpm_limit: Optional[object] = FieldInfo(alias="model_rpm_limit", default=None)
+    api_model_rpm_limit: Optional[object] = FieldInfo(
+        alias="model_rpm_limit", default=None
+    )
 
-    api_model_tpm_limit: Optional[object] = FieldInfo(alias="model_tpm_limit", default=None)
+    api_model_tpm_limit: Optional[object] = FieldInfo(
+        alias="model_tpm_limit", default=None
+    )
 
     models: Optional[List[object]] = None
 

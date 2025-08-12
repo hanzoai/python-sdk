@@ -1,16 +1,15 @@
 """Run Node.js packages with npx."""
 
-import subprocess
 import shutil
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 Package = Annotated[
     str,
@@ -144,16 +143,17 @@ Or download from: https://nodejs.org/"""
 
         # Build command
         cmd = ["npx"]
-        
+
         if yes:
             cmd.append("--yes")
-        
+
         cmd.append(package)
-        
+
         # Add package arguments
         if args:
             # Split args properly (basic parsing)
             import shlex
+
             cmd.extend(shlex.split(args))
 
         await tool_ctx.info(f"Running: {' '.join(cmd)}")
@@ -161,11 +161,7 @@ Or download from: https://nodejs.org/"""
         try:
             # Execute command
             result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=timeout,
-                check=True
+                cmd, capture_output=True, text=True, timeout=timeout, check=True
             )
 
             output = []
@@ -174,7 +170,11 @@ Or download from: https://nodejs.org/"""
             if result.stderr:
                 output.append(f"\nSTDERR:\n{result.stderr}")
 
-            return "\n".join(output) if output else "Command completed successfully with no output."
+            return (
+                "\n".join(output)
+                if output
+                else "Command completed successfully with no output."
+            )
 
         except subprocess.TimeoutExpired:
             return f"Error: Command timed out after {timeout} seconds. Use npx_background for long-running processes."

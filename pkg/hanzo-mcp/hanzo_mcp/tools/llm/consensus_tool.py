@@ -1,17 +1,23 @@
 """Consensus tool for querying multiple LLMs in parallel."""
 
 import asyncio
-import json
-from typing import Annotated, Optional, TypedDict, Unpack, final, override, List, Dict, Any
-from datetime import datetime
+from typing import (
+    Dict,
+    List,
+    Unpack,
+    Optional,
+    Annotated,
+    TypedDict,
+    final,
+    override,
+)
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
-
+from hanzo_mcp.tools.common.context import create_tool_context
 
 Prompt = Annotated[
     str,
@@ -94,7 +100,7 @@ class ConsensusToolParams(TypedDict, total=False):
 @final
 class ConsensusTool(BaseTool):
     """Tool for getting consensus from multiple LLMs."""
-    
+
     # Default models to use if none specified - mix of fast and powerful models
     DEFAULT_MODELS = [
         "gpt-4o-mini",  # OpenAI's fast model
@@ -119,13 +125,13 @@ class ConsensusTool(BaseTool):
     def description(self) -> str:
         """Get the tool description."""
         available_providers = list(self.llm_tool.available_providers.keys())
-        
+
         return f"""Query multiple LLMs in parallel and get a consensus response.
 
 Queries multiple models simultaneously, then uses another model to
 synthesize and analyze the responses for consensus, disagreements, and insights.
 
-Available providers: {', '.join(available_providers)}
+Available providers: {", ".join(available_providers)}
 
 Default models (if available):
 - GPT-4 (OpenAI)
@@ -182,35 +188,40 @@ The tool will:
         # Filter models to only those with available API keys
         available_models = []
         skipped_models = []
-        
+
         for model in models:
             provider = self.llm_tool._get_provider_for_model(model)
             if provider in self.llm_tool.available_providers:
                 available_models.append(model)
             else:
                 skipped_models.append((model, provider))
-        
+
         if not available_models:
             return "Error: No models available with configured API keys. Please set API keys for at least one provider."
-        
+
         await tool_ctx.info(f"Querying {len(available_models)} models in parallel...")
-        
+
         if skipped_models:
             skipped_info = ", ".join([f"{m[0]} ({m[1]})" for m in skipped_models])
             await tool_ctx.info(f"Skipping models without API keys: {skipped_info}")
 
         # Query all models in parallel
         results = await self._query_models_parallel(
-            available_models, prompt, system_prompt, 
-            temperature, max_tokens, timeout
+            available_models, prompt, system_prompt, temperature, max_tokens, timeout
         )
 
         # Prepare summary of results
-        successful_responses = [(m, r) for m, r in results.items() if not r.startswith("Error:")]
-        failed_responses = [(m, r) for m, r in results.items() if r.startswith("Error:")]
+        successful_responses = [
+            (m, r) for m, r in results.items() if not r.startswith("Error:")
+        ]
+        failed_responses = [
+            (m, r) for m, r in results.items() if r.startswith("Error:")
+        ]
 
         if not successful_responses:
-            return "Error: All model queries failed:\n\n" + "\n".join([f"{m}: {r}" for m, r in failed_responses])
+            return "Error: All model queries failed:\n\n" + "\n".join(
+                [f"{m}: {r}" for m, r in failed_responses]
+            )
 
         # Use aggregation model to synthesize responses
         consensus = await self._aggregate_responses(
@@ -222,33 +233,40 @@ The tool will:
         output.append(f"Query: {prompt}")
         output.append(f"Models queried: {len(available_models)}")
         output.append(f"Successful responses: {len(successful_responses)}")
-        
+
         if failed_responses:
             output.append(f"Failed responses: {len(failed_responses)}")
-        
+
         output.append("")
         output.append("=== Consensus Summary ===")
         output.append(consensus)
-        
+
         if include_raw:
             output.append("\n=== Individual Responses ===")
             for model, response in successful_responses:
                 output.append(f"\n--- {model} ---")
-                output.append(response[:500] + "..." if len(response) > 500 else response)
-        
+                output.append(
+                    response[:500] + "..." if len(response) > 500 else response
+                )
+
         if failed_responses:
             output.append("\n=== Failed Queries ===")
             for model, error in failed_responses:
                 output.append(f"{model}: {error}")
-        
+
         return "\n".join(output)
 
     async def _query_models_parallel(
-        self, models: List[str], prompt: str, 
-        system_prompt: Optional[str], temperature: float,
-        max_tokens: Optional[int], timeout: int
+        self,
+        models: List[str],
+        prompt: str,
+        system_prompt: Optional[str],
+        temperature: float,
+        max_tokens: Optional[int],
+        timeout: int,
     ) -> Dict[str, str]:
         """Query multiple models in parallel."""
+
         async def query_with_timeout(model: str) -> tuple[str, str]:
             try:
                 params = {
@@ -260,37 +278,37 @@ The tool will:
                     params["system_prompt"] = system_prompt
                 if max_tokens:
                     params["max_tokens"] = max_tokens
-                
+
                 # Create a mock context for the LLM tool
-                mock_ctx = type('MockContext', (), {'client': None})()
-                
+                mock_ctx = type("MockContext", (), {"client": None})()
+
                 result = await asyncio.wait_for(
-                    self.llm_tool.call(mock_ctx, **params),
-                    timeout=timeout
+                    self.llm_tool.call(mock_ctx, **params), timeout=timeout
                 )
                 return (model, result)
             except asyncio.TimeoutError:
                 return (model, f"Error: Timeout after {timeout} seconds")
             except Exception as e:
                 return (model, f"Error: {str(e)}")
-        
+
         # Run all queries in parallel
         tasks = [query_with_timeout(model) for model in models]
         results = await asyncio.gather(*tasks)
-        
+
         return dict(results)
 
     async def _aggregate_responses(
-        self, responses: List[tuple[str, str]], 
-        original_prompt: str, aggregation_model: str
+        self,
+        responses: List[tuple[str, str]],
+        original_prompt: str,
+        aggregation_model: str,
     ) -> str:
         """Use an LLM to aggregate and analyze responses."""
         # Prepare the aggregation prompt
-        response_summary = "\n\n".join([
-            f"Model: {model}\nResponse: {response}"
-            for model, response in responses
-        ])
-        
+        response_summary = "\n\n".join(
+            [f"Model: {model}\nResponse: {response}" for model, response in responses]
+        )
+
         aggregation_prompt = f"""You are analyzing responses from multiple AI models to the following prompt:
 
 <original_prompt>
@@ -313,19 +331,19 @@ Be concise but thorough. Focus on providing actionable insights."""
 
         try:
             # Use the LLM tool to get the aggregation
-            mock_ctx = type('MockContext', (), {'client': None})()
-            
+            mock_ctx = type("MockContext", (), {"client": None})()
+
             aggregation_params = {
                 "model": aggregation_model,
                 "prompt": aggregation_prompt,
                 "temperature": 0.3,  # Lower temperature for more consistent analysis
-                "system_prompt": "You are an expert at analyzing and synthesizing multiple AI responses to provide balanced, insightful consensus."
+                "system_prompt": "You are an expert at analyzing and synthesizing multiple AI responses to provide balanced, insightful consensus.",
             }
-            
+
             result = await self.llm_tool.call(mock_ctx, **aggregation_params)
             return result
-            
-        except Exception as e:
+
+        except Exception:
             # Fallback to simple aggregation if LLM fails
             return self._simple_aggregate(responses)
 
@@ -334,16 +352,18 @@ Be concise but thorough. Focus on providing actionable insights."""
         output = []
         output.append("Summary of responses:")
         output.append("")
-        
+
         # Find common themes (very basic)
         all_text = " ".join([r[1] for r in responses]).lower()
-        
+
         output.append("Response lengths:")
         for model, response in responses:
             output.append(f"- {model}: {len(response)} characters")
-        
-        output.append("\nNote: Advanced consensus analysis unavailable. Showing basic summary only.")
-        
+
+        output.append(
+            "\nNote: Advanced consensus analysis unavailable. Showing basic summary only."
+        )
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

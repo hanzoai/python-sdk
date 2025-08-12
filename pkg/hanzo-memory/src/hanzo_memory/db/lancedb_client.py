@@ -6,9 +6,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import lancedb
-import numpy as np
-import polars as pl
-from lancedb.embeddings import get_registry
 from lancedb.pydantic import LanceModel, Vector
 from pydantic import Field
 from structlog import get_logger
@@ -21,7 +18,7 @@ logger = get_logger()
 # Define data models for LanceDB tables
 class MemoryModel(LanceModel):
     """Memory data model for LanceDB."""
-    
+
     memory_id: str = Field(description="Unique memory ID")
     user_id: str = Field(description="User ID")
     project_id: str = Field(description="Project ID")
@@ -30,12 +27,14 @@ class MemoryModel(LanceModel):
     importance: float = Field(description="Importance score")
     created_at: str = Field(description="Creation timestamp")
     updated_at: str = Field(description="Update timestamp")
-    embedding: Vector(settings.embedding_dimensions) = Field(description="Embedding vector")
+    embedding: Vector(settings.embedding_dimensions) = Field(
+        description="Embedding vector"
+    )
 
 
 class KnowledgeModel(LanceModel):
     """Knowledge fact data model for LanceDB."""
-    
+
     fact_id: str = Field(description="Unique fact ID")
     knowledge_base_id: str = Field(description="Knowledge base ID")
     content: str = Field(description="Fact content")
@@ -43,12 +42,14 @@ class KnowledgeModel(LanceModel):
     confidence: float = Field(description="Confidence score")
     created_at: str = Field(description="Creation timestamp")
     updated_at: str = Field(description="Update timestamp")
-    embedding: Vector(settings.embedding_dimensions) = Field(description="Embedding vector")
+    embedding: Vector(settings.embedding_dimensions) = Field(
+        description="Embedding vector"
+    )
 
 
 class ProjectModel(LanceModel):
     """Project data model for LanceDB."""
-    
+
     project_id: str = Field(description="Unique project ID")
     user_id: str = Field(description="User ID")
     name: str = Field(description="Project name")
@@ -60,7 +61,7 @@ class ProjectModel(LanceModel):
 
 class KnowledgeBaseModel(LanceModel):
     """Knowledge base data model for LanceDB."""
-    
+
     knowledge_base_id: str = Field(description="Unique knowledge base ID")
     project_id: str = Field(description="Project ID")
     name: str = Field(description="Knowledge base name")
@@ -72,7 +73,7 @@ class KnowledgeBaseModel(LanceModel):
 
 class ChatSessionModel(LanceModel):
     """Chat session data model for LanceDB."""
-    
+
     session_id: str = Field(description="Unique session ID")
     user_id: str = Field(description="User ID")
     project_id: str = Field(description="Project ID")
@@ -83,14 +84,16 @@ class ChatSessionModel(LanceModel):
 
 class ChatMessageModel(LanceModel):
     """Chat message data model for LanceDB."""
-    
+
     message_id: str = Field(description="Unique message ID")
     session_id: str = Field(description="Session ID")
     role: str = Field(description="Message role")
     content: str = Field(description="Message content")
     metadata: str = Field(description="JSON metadata")
     created_at: str = Field(description="Creation timestamp")
-    embedding: Vector(settings.embedding_dimensions) = Field(description="Embedding vector")
+    embedding: Vector(settings.embedding_dimensions) = Field(
+        description="Embedding vector"
+    )
 
 
 class LanceDBClient:
@@ -111,7 +114,7 @@ class LanceDBClient:
             "knowledge_bases": KnowledgeBaseModel,
             "chat_sessions": ChatSessionModel,
         }
-        
+
         for table_name, model in table_configs.items():
             if table_name not in self.db.table_names():
                 self.db.create_table(table_name, schema=model)
@@ -152,7 +155,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Create a new project."""
         table = self.db.open_table("projects")
-        
+
         now = datetime.now(timezone.utc).isoformat()
         project_data = {
             "project_id": project_id,
@@ -163,27 +166,36 @@ class LanceDBClient:
             "created_at": now,
             "updated_at": now,
         }
-        
+
         table.add([project_data])
         logger.info(f"Created project: {project_id}")
-        
+
         return project_data
 
     def get_user_projects(self, user_id: str) -> list[dict[str, Any]]:
         """Get all projects for a user."""
         table = self.db.open_table("projects")
-        
+
         results = (
             table.search()
             .where(f"user_id = '{user_id}'")
-            .select(["project_id", "name", "description", "metadata", "created_at", "updated_at"])
+            .select(
+                [
+                    "project_id",
+                    "name",
+                    "description",
+                    "metadata",
+                    "created_at",
+                    "updated_at",
+                ]
+            )
             .to_list()
         )
-        
+
         # Parse JSON metadata
         for result in results:
             result["metadata"] = json.loads(result["metadata"])
-        
+
         return results
 
     # Memory operations
@@ -203,7 +215,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Add a memory to the database."""
         table = self._get_memory_table(user_id)
-        
+
         now = datetime.now(timezone.utc).isoformat()
         memory_data = {
             "memory_id": memory_id,
@@ -216,10 +228,10 @@ class LanceDBClient:
             "updated_at": now,
             "embedding": embedding,
         }
-        
+
         table.add([memory_data])
         logger.info(f"Added memory: {memory_id} for user: {user_id}")
-        
+
         return memory_data
 
     def search_memories(
@@ -232,24 +244,24 @@ class LanceDBClient:
     ) -> list[dict[str, Any]]:
         """Search memories by similarity."""
         table = self._get_memory_table(user_id)
-        
+
         # Build the search query - LanceDB v0.24+ API
         search_query = table.search(query_embedding).limit(limit)
-        
+
         # Add project filter if specified
         if project_id:
             search_query = search_query.where(f"project_id = '{project_id}'")
-        
+
         # Execute search
         results = search_query.to_list()
-        
+
         # Parse JSON metadata and add similarity scores
-        for i, result in enumerate(results):
+        for _i, result in enumerate(results):
             result["metadata"] = json.loads(result["metadata"])
             # LanceDB returns results ordered by similarity, but doesn't include the score
             # We'll calculate it manually if needed
             result["_distance"] = result.get("_distance", 0.0)
-        
+
         return results
 
     # Knowledge base operations
@@ -263,7 +275,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Create a new knowledge base."""
         table = self.db.open_table("knowledge_bases")
-        
+
         now = datetime.now(timezone.utc).isoformat()
         kb_data = {
             "knowledge_base_id": knowledge_base_id,
@@ -274,27 +286,36 @@ class LanceDBClient:
             "created_at": now,
             "updated_at": now,
         }
-        
+
         table.add([kb_data])
         logger.info(f"Created knowledge base: {knowledge_base_id}")
-        
+
         return kb_data
 
     def get_knowledge_bases(self, project_id: str) -> list[dict[str, Any]]:
         """Get all knowledge bases for a project."""
         table = self.db.open_table("knowledge_bases")
-        
+
         results = (
             table.search()
             .where(f"project_id = '{project_id}'")
-            .select(["knowledge_base_id", "name", "description", "metadata", "created_at", "updated_at"])
+            .select(
+                [
+                    "knowledge_base_id",
+                    "name",
+                    "description",
+                    "metadata",
+                    "created_at",
+                    "updated_at",
+                ]
+            )
             .to_list()
         )
-        
+
         # Parse JSON metadata
         for result in results:
             result["metadata"] = json.loads(result["metadata"])
-        
+
         return results
 
     def add_fact(
@@ -308,7 +329,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Add a fact to a knowledge base."""
         table = self._get_knowledge_table(knowledge_base_id)
-        
+
         now = datetime.now(timezone.utc).isoformat()
         fact_data = {
             "fact_id": fact_id,
@@ -320,10 +341,10 @@ class LanceDBClient:
             "updated_at": now,
             "embedding": embedding,
         }
-        
+
         table.add([fact_data])
         logger.info(f"Added fact: {fact_id} to knowledge base: {knowledge_base_id}")
-        
+
         return fact_data
 
     def search_facts(
@@ -334,7 +355,7 @@ class LanceDBClient:
     ) -> list[dict[str, Any]]:
         """Search facts in a knowledge base."""
         table = self._get_knowledge_table(knowledge_base_id)
-        
+
         if query_embedding:
             # Vector search
             results = table.search(query_embedding).limit(limit).to_list()
@@ -343,40 +364,46 @@ class LanceDBClient:
             results = (
                 table.search()
                 .limit(limit)
-                .select(["fact_id", "content", "metadata", "confidence", "created_at", "updated_at", "embedding"])
+                .select(
+                    [
+                        "fact_id",
+                        "content",
+                        "metadata",
+                        "confidence",
+                        "created_at",
+                        "updated_at",
+                        "embedding",
+                    ]
+                )
                 .to_list()
             )
-        
+
         # Parse JSON metadata
         for result in results:
             result["metadata"] = json.loads(result["metadata"])
-        
+
         return results
 
     def delete_fact(self, fact_id: str, knowledge_base_id: str) -> bool:
         """Delete a fact from a knowledge base."""
         table = self._get_knowledge_table(knowledge_base_id)
-        
+
         # LanceDB doesn't have a direct delete by condition yet
         # We need to filter and recreate the table without the fact
         # This is a limitation that might be improved in future versions
-        
+
         # Get all facts except the one to delete
-        remaining_facts = (
-            table.search()
-            .where(f"fact_id != '{fact_id}'")
-            .to_list()
-        )
-        
+        remaining_facts = table.search().where(f"fact_id != '{fact_id}'").to_list()
+
         # Recreate the table with remaining facts
         table_name = f"facts_{knowledge_base_id}"
         self.db.drop_table(table_name)
         self.db.create_table(table_name, schema=KnowledgeModel)
-        
+
         if remaining_facts:
             table = self.db.open_table(table_name)
             table.add(remaining_facts)
-        
+
         logger.info(f"Deleted fact: {fact_id} from knowledge base: {knowledge_base_id}")
         return True
 
@@ -390,7 +417,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Create a new chat session."""
         table = self.db.open_table("chat_sessions")
-        
+
         now = datetime.now(timezone.utc).isoformat()
         session_data = {
             "session_id": session_id,
@@ -400,10 +427,10 @@ class LanceDBClient:
             "created_at": now,
             "updated_at": now,
         }
-        
+
         table.add([session_data])
         logger.info(f"Created chat session: {session_id}")
-        
+
         return session_data
 
     def add_chat_message(
@@ -417,7 +444,7 @@ class LanceDBClient:
     ) -> dict[str, Any]:
         """Add a message to a chat session."""
         table = self._get_chat_messages_table(session_id)
-        
+
         now = datetime.now(timezone.utc).isoformat()
         message_data = {
             "message_id": message_id,
@@ -428,10 +455,10 @@ class LanceDBClient:
             "created_at": now,
             "embedding": embedding,
         }
-        
+
         table.add([message_data])
         logger.info(f"Added message: {message_id} to session: {session_id}")
-        
+
         return message_data
 
     def get_chat_messages(
@@ -441,20 +468,22 @@ class LanceDBClient:
     ) -> list[dict[str, Any]]:
         """Get messages from a chat session."""
         table = self._get_chat_messages_table(session_id)
-        
+
         query = table.search()
         if limit:
             query = query.limit(limit)
-        
-        results = query.select(["message_id", "role", "content", "metadata", "created_at"]).to_list()
-        
+
+        results = query.select(
+            ["message_id", "role", "content", "metadata", "created_at"]
+        ).to_list()
+
         # Parse JSON metadata and sort by creation time
         for result in results:
             result["metadata"] = json.loads(result["metadata"])
-        
+
         # Sort by created_at to maintain order
         results.sort(key=lambda x: x["created_at"])
-        
+
         return results
 
     def search_chat_messages(
@@ -465,13 +494,13 @@ class LanceDBClient:
     ) -> list[dict[str, Any]]:
         """Search messages in a chat session by similarity."""
         table = self._get_chat_messages_table(session_id)
-        
+
         results = table.search(query_embedding).limit(limit).to_list()
-        
+
         # Parse JSON metadata
         for result in results:
             result["metadata"] = json.loads(result["metadata"])
-        
+
         return results
 
     def close(self) -> None:

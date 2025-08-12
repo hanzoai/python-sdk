@@ -52,7 +52,10 @@ class RerankResource(SyncAPIResource):
         return self._post(
             "/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -71,7 +74,10 @@ class RerankResource(SyncAPIResource):
         return self._post(
             "/v1/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -90,7 +96,10 @@ class RerankResource(SyncAPIResource):
         return self._post(
             "/v2/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -130,7 +139,10 @@ class AsyncRerankResource(AsyncAPIResource):
         return await self._post(
             "/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -149,7 +161,10 @@ class AsyncRerankResource(AsyncAPIResource):
         return await self._post(
             "/v1/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -168,7 +183,10 @@ class AsyncRerankResource(AsyncAPIResource):
         return await self._post(
             "/v2/rerank",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

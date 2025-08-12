@@ -2,14 +2,12 @@
 
 import os
 import sys
+from typing import Callable
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-from typing import Callable
-from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
 import pytest
-
-from hanzo_mcp.cli import install_claude_desktop_config, main
+from hanzo_mcp.cli import main, install_claude_desktop_config
 
 
 class TestCLI:
@@ -17,10 +15,9 @@ class TestCLI:
 
     def test_main_server_run(self) -> None:
         """Test the main function running the server."""
-        with (
-            patch("argparse.ArgumentParser.parse_args") as mock_parse_args,
-            patch("hanzo_mcp.cli.HanzoMCPServer") as mock_server_class,
-        ):
+        with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
+            "hanzo_mcp.cli.HanzoMCPServer"
+        ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -71,16 +68,15 @@ class TestCLI:
                 disable_write_tools=False,
                 disable_search_tools=False,
                 host=mock_args.host,
-                port=mock_args.port
+                port=mock_args.port,
             )
             mock_server.run.assert_called_once_with(transport="stdio")
 
     def test_main_with_install(self) -> None:
         """Test the main function with install option."""
-        with (
-            patch("argparse.ArgumentParser.parse_args") as mock_parse_args,
-            patch("hanzo_mcp.cli.install_claude_desktop_config") as mock_install,
-        ):
+        with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
+            "hanzo_mcp.cli.install_claude_desktop_config"
+        ) as mock_install:
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -99,21 +95,19 @@ class TestCLI:
 
             # Verify install function was called
             mock_install.assert_called_once_with(
-                "test-server", 
-                ["/test/path"], 
-                mock_args.disable_write_tools, 
-                mock_args.disable_search_tools, 
-                mock_args.host, 
-                mock_args.port
+                "test-server",
+                ["/test/path"],
+                mock_args.disable_write_tools,
+                mock_args.disable_search_tools,
+                mock_args.host,
+                mock_args.port,
             )
 
     def test_main_without_allowed_paths(self) -> None:
         """Test the main function without specified allowed paths."""
-        with (
-            patch("argparse.ArgumentParser.parse_args") as mock_parse_args,
-            patch("hanzo_mcp.cli.HanzoMCPServer") as mock_server_class,
-            patch("os.getcwd", return_value="/current/dir"),
-        ):
+        with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
+            "hanzo_mcp.cli.HanzoMCPServer"
+        ) as mock_server_class, patch("os.getcwd", return_value="/current/dir"):
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -162,16 +156,15 @@ class TestCLI:
                 disable_write_tools=False,
                 disable_search_tools=False,
                 host=mock_args.host,
-                port=mock_args.port
+                port=mock_args.port,
             )
             mock_server.run.assert_called_once_with(transport="stdio")
-            
+
     def test_main_with_disable_write_tools(self) -> None:
         """Test the main function with disable_write_tools=True."""
-        with (
-            patch("argparse.ArgumentParser.parse_args") as mock_parse_args,
-            patch("hanzo_mcp.cli.HanzoMCPServer") as mock_server_class,
-        ):
+        with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
+            "hanzo_mcp.cli.HanzoMCPServer"
+        ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -221,16 +214,15 @@ class TestCLI:
                 disable_write_tools=True,
                 disable_search_tools=False,
                 host=mock_args.host,
-                port=mock_args.port
+                port=mock_args.port,
             )
             mock_server.run.assert_called_once_with(transport="stdio")
-            
+
     def test_main_with_disable_search_tools(self) -> None:
         """Test the main function with disable_search_tools=True."""
-        with (
-            patch("argparse.ArgumentParser.parse_args") as mock_parse_args,
-            patch("hanzo_mcp.cli.HanzoMCPServer") as mock_server_class,
-        ):
+        with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
+            "hanzo_mcp.cli.HanzoMCPServer"
+        ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -280,7 +272,7 @@ class TestCLI:
                 disable_write_tools=False,
                 disable_search_tools=True,
                 host=mock_args.host,
-                port=mock_args.port
+                port=mock_args.port,
             )
             mock_server.run.assert_called_once_with(transport="stdio")
 
@@ -310,14 +302,15 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("darwin")
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir") as mock_mkdir,
-        ):
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
+        ) as mock_mkdir:
             # Construct expected config path
             config_dir = tmp_path / "Library" / "Application Support" / "Claude"
             config_file = config_dir / "claude_desktop_config.json"
@@ -362,14 +355,15 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("win32")
 
         # Mock environment variable
-        with (
-            patch.dict(os.environ, {"APPDATA": str(tmp_path)}),
-            patch("sys.executable", "C:\\Python\\python.exe"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir") as mock_mkdir,
-        ):
+        with patch.dict(os.environ, {"APPDATA": str(tmp_path)}), patch(
+            "sys.executable", "C:\\Python\\python.exe"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
+        ) as mock_mkdir:
             # Construct expected config path
             config_dir = Path(tmp_path) / "Claude"
             config_file = config_dir / "claude_desktop_config.json"
@@ -414,15 +408,17 @@ class TestInstallClaudeDesktopConfig:
         }
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("json.load", return_value=existing_config),
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=True),
-            patch("pathlib.Path.mkdir") as mock_mkdir,
-        ):
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "json.load", return_value=existing_config
+        ), patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=True
+        ), patch(
+            "pathlib.Path.mkdir"
+        ) as mock_mkdir:
             # Construct expected config path
             config_dir = tmp_path / ".config" / "claude"
             config_dir / "claude_desktop_config.json"
@@ -456,13 +452,14 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("darwin")
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir"),
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
         ):
             # Mock file opening
             mock_file = MagicMock()
@@ -480,10 +477,10 @@ class TestInstallClaudeDesktopConfig:
             assert "--allow-path" in server_args
             home_path_index = server_args.index("--allow-path") + 1
             assert str(tmp_path) in server_args[home_path_index]
-            
+
             # Verify --disable-write-tools flag is not present
             assert "--disable-write-tools" not in server_args
-            
+
     def test_install_config_with_disable_write_tools(
         self, mock_platform: Callable[[str], str], tmp_path: Path
     ) -> None:
@@ -492,13 +489,14 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("darwin")
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir"),
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
         ):
             # Mock file opening
             mock_file = MagicMock()
@@ -506,9 +504,7 @@ class TestInstallClaudeDesktopConfig:
 
             # Call the install function with disable_write_tools=True
             install_claude_desktop_config(
-                "test-server", 
-                allowed_paths=["/test/path"], 
-                disable_write_tools=True
+                "test-server", allowed_paths=["/test/path"], disable_write_tools=True
             )
 
             # Verify correct config was written
@@ -520,10 +516,10 @@ class TestInstallClaudeDesktopConfig:
             assert "--allow-path" in server_args
             path_index = server_args.index("--allow-path") + 1
             assert "/test/path" in server_args[path_index]
-            
+
             # Verify --disable-write-tools flag is present
             assert "--disable-write-tools" in server_args
-            
+
     def test_install_config_with_disable_search_tools(
         self, mock_platform: Callable[[str], str], tmp_path: Path
     ) -> None:
@@ -532,13 +528,14 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("darwin")
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir"),
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
         ):
             # Mock file opening
             mock_file = MagicMock()
@@ -546,9 +543,7 @@ class TestInstallClaudeDesktopConfig:
 
             # Call the install function with disable_search_tools=True
             install_claude_desktop_config(
-                "test-server", 
-                allowed_paths=["/test/path"], 
-                disable_search_tools=True
+                "test-server", allowed_paths=["/test/path"], disable_search_tools=True
             )
 
             # Verify correct config was written
@@ -560,10 +555,10 @@ class TestInstallClaudeDesktopConfig:
             assert "--allow-path" in server_args
             path_index = server_args.index("--allow-path") + 1
             assert "/test/path" in server_args[path_index]
-            
+
             # Verify --disable-search-tools flag is present
             assert "--disable-search-tools" in server_args
-            
+
     def test_install_config_with_both_flags(
         self, mock_platform: Callable[[str], str], tmp_path: Path
     ) -> None:
@@ -572,13 +567,14 @@ class TestInstallClaudeDesktopConfig:
         mock_platform("darwin")
 
         # Mock home directory and config path
-        with (
-            patch("pathlib.Path.home", return_value=Path(tmp_path)),
-            patch("sys.executable", "/usr/bin/python3"),
-            patch("json.dump") as mock_json_dump,
-            patch("builtins.open", create=True) as mock_open,
-            patch("pathlib.Path.exists", return_value=False),
-            patch("pathlib.Path.mkdir"),
+        with patch("pathlib.Path.home", return_value=Path(tmp_path)), patch(
+            "sys.executable", "/usr/bin/python3"
+        ), patch("json.dump") as mock_json_dump, patch(
+            "builtins.open", create=True
+        ) as mock_open, patch(
+            "pathlib.Path.exists", return_value=False
+        ), patch(
+            "pathlib.Path.mkdir"
         ):
             # Mock file opening
             mock_file = MagicMock()
@@ -586,10 +582,10 @@ class TestInstallClaudeDesktopConfig:
 
             # Call the install function with both flags set to True
             install_claude_desktop_config(
-                "test-server", 
-                allowed_paths=["/test/path"], 
+                "test-server",
+                allowed_paths=["/test/path"],
                 disable_write_tools=True,
-                disable_search_tools=True
+                disable_search_tools=True,
             )
 
             # Verify correct config was written
@@ -601,7 +597,7 @@ class TestInstallClaudeDesktopConfig:
             assert "--allow-path" in server_args
             path_index = server_args.index("--allow-path") + 1
             assert "/test/path" in server_args[path_index]
-            
+
             # Verify both flags are present
             assert "--disable-write-tools" in server_args
             assert "--disable-search-tools" in server_args

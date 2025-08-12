@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 """Final comprehensive test for stdio protocol integrity."""
 
-import json
-import subprocess
 import sys
+import json
 import time
 import select
+import subprocess
+
 
 def test_stdio_protocol():
     """Test that stdio transport produces only valid JSON output."""
     print("🧪 Testing stdio protocol integrity...\n")
-    
+
     # Start the server
     proc = subprocess.Popen(
         [sys.executable, "-m", "hanzo_mcp.cli", "--transport", "stdio"],
@@ -18,9 +19,9 @@ def test_stdio_protocol():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        bufsize=0
+        bufsize=0,
     )
-    
+
     # Test cases
     test_cases = [
         # 1. Initialize
@@ -33,18 +34,14 @@ def test_stdio_protocol():
                 "params": {
                     "protocolVersion": "0.1.0",
                     "capabilities": {},
-                    "clientInfo": {"name": "test-client", "version": "1.0.0"}
-                }
-            }
+                    "clientInfo": {"name": "test-client", "version": "1.0.0"},
+                },
+            },
         },
         # 2. List tools (might trigger logging)
         {
             "name": "List tools",
-            "request": {
-                "jsonrpc": "2.0",
-                "id": 2,
-                "method": "tools/list"
-            }
+            "request": {"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
         },
         # 3. Read file (successful)
         {
@@ -53,11 +50,8 @@ def test_stdio_protocol():
                 "jsonrpc": "2.0",
                 "id": 3,
                 "method": "tools/call",
-                "params": {
-                    "name": "read",
-                    "arguments": {"file_path": "/etc/hosts"}
-                }
-            }
+                "params": {"name": "read", "arguments": {"file_path": "/etc/hosts"}},
+            },
         },
         # 4. Read file (error - should not break protocol)
         {
@@ -68,9 +62,9 @@ def test_stdio_protocol():
                 "method": "tools/call",
                 "params": {
                     "name": "read",
-                    "arguments": {"file_path": "/does/not/exist.txt"}
-                }
-            }
+                    "arguments": {"file_path": "/does/not/exist.txt"},
+                },
+            },
         },
         # 5. Execute command
         {
@@ -81,29 +75,29 @@ def test_stdio_protocol():
                 "method": "tools/call",
                 "params": {
                     "name": "bash",
-                    "arguments": {"command": "echo 'Test output'"}
-                }
-            }
-        }
+                    "arguments": {"command": "echo 'Test output'"},
+                },
+            },
+        },
     ]
-    
+
     # Track results
     responses = []
     violations = []
-    
+
     # Run tests
     for test in test_cases:
         print(f"→ Test: {test['name']}")
-        
+
         # Send request
-        request_str = json.dumps(test['request']) + "\n"
+        request_str = json.dumps(test["request"]) + "\n"
         proc.stdin.write(request_str)
         proc.stdin.flush()
-        
+
         # Read response with timeout
         start_time = time.time()
         response_found = False
-        
+
         while time.time() - start_time < 5:  # 5 second timeout per test
             # Check for stdout data
             readable, _, _ = select.select([proc.stdout], [], [], 0.1)
@@ -119,15 +113,14 @@ def test_stdio_protocol():
                             print(f"  ✓ Valid JSON response received")
                             break
                         except json.JSONDecodeError:
-                            violations.append({
-                                "test": test['name'],
-                                "output": line[:200]
-                            })
+                            violations.append(
+                                {"test": test["name"], "output": line[:200]}
+                            )
                             print(f"  ❌ PROTOCOL VIOLATION: {line[:100]}")
-        
+
         if not response_found:
             print(f"  ⏱️  Timeout - no response received")
-    
+
     # Cleanup
     proc.terminate()
     try:
@@ -135,14 +128,14 @@ def test_stdio_protocol():
     except subprocess.TimeoutExpired:
         proc.kill()
         proc.wait()
-    
+
     # Summary
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 TEST RESULTS:")
     print(f"Total tests: {len(test_cases)}")
     print(f"Valid JSON responses: {len(responses)}")
     print(f"Protocol violations: {len(violations)}")
-    
+
     if violations:
         print("\n❌ PROTOCOL VIOLATIONS DETECTED:")
         for v in violations:
@@ -150,14 +143,15 @@ def test_stdio_protocol():
             print(f"  Output: {v['output']}")
     else:
         print("\n✅ All tests passed! No protocol violations detected.")
-    
+
     # Also check stderr was silent
     stderr_output = proc.stderr.read()
     if stderr_output:
         print(f"\n⚠️  stderr output detected (should be empty for stdio):")
         print(stderr_output[:500])
-    
+
     return len(violations) == 0 and not stderr_output
+
 
 if __name__ == "__main__":
     success = test_stdio_protocol()

@@ -1,6 +1,5 @@
 """Tests for Chat API endpoints."""
 
-
 import polars as pl
 import pytest
 from fastapi.testclient import TestClient
@@ -90,12 +89,14 @@ class TestChatAPI:
     def test_add_duplicate_chat_message(self):
         """Test adding a duplicate chat message."""
         # Mock search results with duplicate
-        mock_df = pl.DataFrame({
-            "chat_id": ["existing123"],
-            "content": ["Hello, how are you?"],
-            "role": ["user"],
-            "_similarity": [0.995],
-        })
+        mock_df = pl.DataFrame(
+            {
+                "chat_id": ["existing123"],
+                "content": ["Hello, how are you?"],
+                "role": ["user"],
+                "_similarity": [0.995],
+            }
+        )
         self.mock_db.search_chats.return_value = mock_df
 
         response = self.client.post(
@@ -120,13 +121,19 @@ class TestChatAPI:
     def test_get_chat_messages(self):
         """Test getting chat messages for a session."""
         # Mock chat history
-        mock_df = pl.DataFrame({
-            "chat_id": ["msg1", "msg2", "msg3"],
-            "role": ["user", "assistant", "user"],
-            "content": ["Hello", "Hi there!", "How are you?"],
-            "metadata": ['{}', '{"model": "gpt-4"}', '{}'],
-            "created_at": ["2023-01-01T12:00:00", "2023-01-01T12:01:00", "2023-01-01T12:02:00"],
-        })
+        mock_df = pl.DataFrame(
+            {
+                "chat_id": ["msg1", "msg2", "msg3"],
+                "role": ["user", "assistant", "user"],
+                "content": ["Hello", "Hi there!", "How are you?"],
+                "metadata": ["{}", '{"model": "gpt-4"}', "{}"],
+                "created_at": [
+                    "2023-01-01T12:00:00",
+                    "2023-01-01T12:01:00",
+                    "2023-01-01T12:02:00",
+                ],
+            }
+        )
         self.mock_db.get_chat_history.return_value = mock_df
 
         response = self.client.get(
@@ -149,14 +156,16 @@ class TestChatAPI:
     def test_search_chat_messages(self):
         """Test searching chat messages."""
         # Mock search results
-        mock_df = pl.DataFrame({
-            "chat_id": ["msg1", "msg2"],
-            "session_id": ["session1", "session2"],
-            "role": ["user", "assistant"],
-            "content": ["Tell me about Python", "Python is a programming language"],
-            "_similarity": [0.95, 0.92],
-            "created_at": ["2023-01-01T12:00:00", "2023-01-01T13:00:00"],
-        })
+        mock_df = pl.DataFrame(
+            {
+                "chat_id": ["msg1", "msg2"],
+                "session_id": ["session1", "session2"],
+                "role": ["user", "assistant"],
+                "content": ["Tell me about Python", "Python is a programming language"],
+                "_similarity": [0.95, 0.92],
+                "created_at": ["2023-01-01T12:00:00", "2023-01-01T13:00:00"],
+            }
+        )
         self.mock_db.search_chats.return_value = mock_df
 
         response = self.client.post(

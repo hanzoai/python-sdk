@@ -34,7 +34,9 @@ class TestEmbeddingsEdgeCases:
             [4.0, 5.0, 6.0],  # Different
         ]
 
-        scores = embedding_service.compute_similarity(query, embeddings, metric="euclidean")
+        scores = embedding_service.compute_similarity(
+            query, embeddings, metric="euclidean"
+        )
 
         assert len(scores) == 2
         # Euclidean returns negative distance, so same vector should have highest score

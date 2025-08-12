@@ -3,13 +3,12 @@
 import os
 from typing import Any, Dict, List, Optional, Set
 
-import litellm
-from litellm import completion, acompletion
+from litellm import acompletion, completion
 
 
 class LLMClient:
     """Client for interacting with LLM providers."""
-    
+
     # Provider to API key environment variables mapping
     PROVIDER_ENV_VARS = {
         "openai": ["OPENAI_API_KEY"],
@@ -37,7 +36,7 @@ class LLMClient:
         "vertex_ai": ["GOOGLE_APPLICATION_CREDENTIALS"],
         "sagemaker": ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"],
     }
-    
+
     # Default models for each provider
     DEFAULT_MODELS = {
         "openai": "gpt-4-turbo-preview",
@@ -50,12 +49,12 @@ class LLMClient:
         "cohere": "command-r-plus",
         "ollama": "llama2",
     }
-    
+
     def __init__(self):
         self.available_providers = self._detect_providers()
         self.current_provider = None
         self.current_model = None
-        
+
         # Set default provider and model
         if self.available_providers:
             # Prefer certain providers in order
@@ -63,43 +62,48 @@ class LLMClient:
             for provider in preferred_order:
                 if provider in self.available_providers:
                     self.current_provider = provider
-                    self.current_model = self.DEFAULT_MODELS.get(provider, "gpt-3.5-turbo")
+                    self.current_model = self.DEFAULT_MODELS.get(
+                        provider, "gpt-3.5-turbo"
+                    )
                     break
-            
+
             # If no preferred provider, use the first available
             if not self.current_provider:
                 self.current_provider = list(self.available_providers)[0]
-                self.current_model = self.DEFAULT_MODELS.get(self.current_provider, "gpt-3.5-turbo")
-    
+                self.current_model = self.DEFAULT_MODELS.get(
+                    self.current_provider, "gpt-3.5-turbo"
+                )
+
     def _detect_providers(self) -> Set[str]:
         """Detect which LLM providers have API keys configured."""
         available = set()
-        
+
         for provider, env_vars in self.PROVIDER_ENV_VARS.items():
             if not env_vars:  # No API key needed (e.g., Ollama)
                 # Check if the provider is accessible
-                if provider == "ollama":
+                if provider == "ollama" and os.path.exists(
+                    os.path.expanduser("~/.ollama")
+                ):
                     # TODO: Check if Ollama is running
-                    if os.path.exists(os.path.expanduser("~/.ollama")):
-                        available.add(provider)
+                    available.add(provider)
                 continue
-            
+
             # Check if any of the environment variables are set
             for env_var in env_vars:
                 if os.getenv(env_var):
                     available.add(provider)
                     break
-        
+
         return available
-    
+
     def get_available_providers(self) -> List[str]:
         """Get list of available providers."""
-        return sorted(list(self.available_providers))
-    
+        return sorted(self.available_providers)
+
     def get_available_models(self) -> List[str]:
         """Get list of available models across all providers."""
         models = []
-        
+
         # Add some common models for each available provider
         model_map = {
             "openai": [
@@ -139,13 +143,13 @@ class LLMClient:
                 "neural-chat",
             ],
         }
-        
+
         for provider in self.available_providers:
             if provider in model_map:
                 models.extend(model_map[provider])
-        
+
         return models
-    
+
     def set_model(self, model: str):
         """Set the current model to use."""
         # Try to determine provider from model name
@@ -158,7 +162,7 @@ class LLMClient:
             "llama": "groq",
             "mistral": "mistral",
         }
-        
+
         # Check if model is in format provider/model
         if "/" in model:
             provider, model_name = model.split("/", 1)
@@ -166,26 +170,29 @@ class LLMClient:
                 self.current_provider = provider
                 self.current_model = model
                 return
-        
+
         # Try to infer provider from model name
         for prefix, provider in provider_prefixes.items():
-            if model.lower().startswith(prefix) and provider in self.available_providers:
+            if (
+                model.lower().startswith(prefix)
+                and provider in self.available_providers
+            ):
                 self.current_provider = provider
                 self.current_model = model
                 return
-        
+
         # If can't determine provider, try with current provider
         if self.current_provider:
             self.current_model = model
         else:
             raise ValueError(f"Cannot determine provider for model: {model}")
-    
+
     async def chat(
         self,
         messages: List[Dict[str, str]],
         tools: Optional[List[Dict[str, Any]]] = None,
         tool_choice: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> Dict[str, Any]:
         """Send a chat completion request."""
         try:
@@ -193,28 +200,25 @@ class LLMClient:
             request_params = {
                 "model": self.current_model,
                 "messages": messages,
-                **kwargs
+                **kwargs,
             }
-            
+
             # Add tools if provided
             if tools:
                 request_params["tools"] = tools
                 if tool_choice:
                     request_params["tool_choice"] = tool_choice
-            
+
             # Make async request
-            response = await acompletion(**request_params)
-            
-            return response
-            
-        except Exception as e:
+            return await acompletion(**request_params)
+
+        except Exception:
             # Fallback to sync if async fails
             try:
-                response = completion(**request_params)
-                return response
+                return completion(**request_params)
             except Exception as e2:
-                raise Exception(f"LLM request failed: {e2}")
-    
+                raise Exception(f"LLM request failed: {e2}") from e2
+
     def get_model_info(self) -> Dict[str, Any]:
         """Get information about the current model."""
         return {

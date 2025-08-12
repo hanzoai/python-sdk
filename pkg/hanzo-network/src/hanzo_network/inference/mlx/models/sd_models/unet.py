@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import Tuple, List
 from .inference.shard import Shard
 
+
 @dataclass
 class UNetConfig:
     in_channels: int = 4
@@ -40,11 +41,9 @@ class UNetConfig:
     projection_class_embeddings_input_dim: Optional[int] = None
     weight_files: List[str] = field(default_factory=lambda: [])
 
-
-
     @classmethod
-    def from_dict(cls,config):
-        n_blocks = len(config['block_out_channels'])
+    def from_dict(cls, config):
+        n_blocks = len(config["block_out_channels"])
         return UNetConfig(
             in_channels=config["in_channels"],
             out_channels=config["out_channels"],
@@ -67,8 +66,7 @@ class UNetConfig:
             projection_class_embeddings_input_dim=config.get(
                 "projection_class_embeddings_input_dim", None
             ),
-            weight_files=config.get("weight_files", [])
-
+            weight_files=config.get("weight_files", []),
         )
 
 
@@ -219,18 +217,17 @@ class ResnetBlock2D(nn.Module):
         if temb is not None:
             temb = self.time_emb_proj(nn.silu(temb))
         y = self.norm1(x.astype(mx.float32)).astype(dtype)
-        
+
         y = nn.silu(y)
-        
+
         y = self.conv1(y)
 
-        
         if temb is not None:
             y = y + temb[:, None, None, :]
         y = self.norm2(y.astype(mx.float32)).astype(dtype)
         y = nn.silu(y)
         y = self.conv2(y)
-        
+
         x = y + (x if "conv_shortcut" not in self else self.conv_shortcut(x))
         return x
 
@@ -340,8 +337,8 @@ class UNetModel(nn.Module):
         self.shard = shard
         self.start_layer = shard.start_layer
         self.end_layer = shard.end_layer
-        self.layers_range = list(range(self.start_layer, self.end_layer+1))
-        if shard.is_first_layer(): 
+        self.layers_range = list(range(self.start_layer, self.end_layer + 1))
+        if shard.is_first_layer():
             self.conv_in = nn.Conv2d(
                 config.in_channels,
                 config.block_out_channels[0],
@@ -387,27 +384,30 @@ class UNetModel(nn.Module):
         )
         self.down_blocks = []
 
-        for i, (in_channels, out_channels) in enumerate(zip(block_channels, block_channels[1:])):    
+        for i, (in_channels, out_channels) in enumerate(
+            zip(block_channels, block_channels[1:])
+        ):
             if i in self.layers_range:
                 self.down_blocks.append(
                     UNetBlock2D(
                         in_channels=in_channels,
-                out_channels=out_channels,
-                temb_channels=config.block_out_channels[0] * 4,
-                num_layers=config.layers_per_block[i],
-                transformer_layers_per_block=config.transformer_layers_per_block[i],
-                num_attention_heads=config.num_attention_heads[i],
-                cross_attention_dim=config.cross_attention_dim[i],
-                resnet_groups=config.norm_num_groups,
-                add_downsample=(i < len(config.block_out_channels) - 1),
-                add_upsample=False,
+                        out_channels=out_channels,
+                        temb_channels=config.block_out_channels[0] * 4,
+                        num_layers=config.layers_per_block[i],
+                        transformer_layers_per_block=config.transformer_layers_per_block[
+                            i
+                        ],
+                        num_attention_heads=config.num_attention_heads[i],
+                        cross_attention_dim=config.cross_attention_dim[i],
+                        resnet_groups=config.norm_num_groups,
+                        add_downsample=(i < len(config.block_out_channels) - 1),
+                        add_upsample=False,
                         add_cross_attention="CrossAttn" in config.down_block_types[i],
                     )
                 )
             else:
                 self.down_blocks.append(nn.Identity())
-            
-         
+
         # Make the middle block
         if 4 in self.layers_range:
             self.mid_blocks = [
@@ -440,32 +440,37 @@ class UNetModel(nn.Module):
         )
 
         total_items = len(block_channels) - 3
-        reversed_channels = list(reversed(list(zip(block_channels, block_channels[1:], block_channels[2:]))))
+        reversed_channels = list(
+            reversed(list(zip(block_channels, block_channels[1:], block_channels[2:])))
+        )
 
         self.up_blocks = []
-        for rev_i, (in_channels, out_channels, prev_out_channels) in enumerate(reversed_channels):  
-            i = total_items - rev_i 
-            if rev_i+5 in self.layers_range:
+        for rev_i, (in_channels, out_channels, prev_out_channels) in enumerate(
+            reversed_channels
+        ):
+            i = total_items - rev_i
+            if rev_i + 5 in self.layers_range:
                 self.up_blocks.append(
                     UNetBlock2D(
                         in_channels=in_channels,
-                out_channels=out_channels,
-                temb_channels=config.block_out_channels[0] * 4,
-                prev_out_channels=prev_out_channels,
-                num_layers=config.layers_per_block[i] + 1,
-                transformer_layers_per_block=config.transformer_layers_per_block[i],
-                num_attention_heads=config.num_attention_heads[i],
-                cross_attention_dim=config.cross_attention_dim[i],
-                resnet_groups=config.norm_num_groups,
-                add_downsample=False,
-                add_upsample=(i > 0),
+                        out_channels=out_channels,
+                        temb_channels=config.block_out_channels[0] * 4,
+                        prev_out_channels=prev_out_channels,
+                        num_layers=config.layers_per_block[i] + 1,
+                        transformer_layers_per_block=config.transformer_layers_per_block[
+                            i
+                        ],
+                        num_attention_heads=config.num_attention_heads[i],
+                        cross_attention_dim=config.cross_attention_dim[i],
+                        resnet_groups=config.norm_num_groups,
+                        add_downsample=False,
+                        add_upsample=(i > 0),
                         add_cross_attention="CrossAttn" in config.up_block_types[i],
                     )
                 )
             else:
                 self.up_blocks.append(nn.Identity())
-            
-        
+
         if shard.is_last_layer():
             self.conv_norm_out = nn.GroupNorm(
                 config.norm_num_groups,
@@ -490,7 +495,7 @@ class UNetModel(nn.Module):
         residuals=None,
     ):
         # Compute the time embeddings
-        
+
         temb = self.timesteps(timestep).astype(x.dtype)
         temb = self.time_embedding(temb)
 
@@ -501,13 +506,13 @@ class UNetModel(nn.Module):
             emb = mx.concatenate([text_emb, emb], axis=-1)
             emb = self.add_embedding(emb)
             temb = temb + emb
-        
+
         if self.shard.is_first_layer():
             # Preprocess the input
             x = self.conv_in(x)
             residuals = [x]
         # Run the downsampling part of the unet
-        
+
         for i in range(len(self.down_blocks)):
             if i in self.layers_range:
                 x, res = self.down_blocks[i](
@@ -519,7 +524,7 @@ class UNetModel(nn.Module):
                 )
                 residuals.extend(res)
             else:
-                x= self.down_blocks[i](x)
+                x = self.down_blocks[i](x)
 
         if 4 in self.layers_range:
             # Run the middle part of the unet
@@ -529,7 +534,7 @@ class UNetModel(nn.Module):
 
         # Run the upsampling part of the unet
         for i in range(len(self.up_blocks)):
-            if i+5 in self.layers_range:
+            if i + 5 in self.layers_range:
                 x, _ = self.up_blocks[i](
                     x,
                     encoder_x=encoder_x,
@@ -539,7 +544,7 @@ class UNetModel(nn.Module):
                     residual_hidden_states=residuals,
                 )
             else:
-                x= self.up_blocks[i](x)
+                x = self.up_blocks[i](x)
 
         # Postprocess the output
         if self.shard.is_last_layer():
@@ -549,11 +554,12 @@ class UNetModel(nn.Module):
             x = self.conv_out(x)
 
         return x, residuals
+
     def sanitize(self, weights):
         sanitized_weights = {}
         for key, value in weights.items():
-            k1=""
-            k2=""
+            k1 = ""
+            k2 = ""
             if "downsamplers" in key:
                 key = key.replace("downsamplers.0.conv", "downsample")
             if "upsamplers" in key:
@@ -584,11 +590,10 @@ class UNetModel(nn.Module):
                 k1 = key.replace("ff.net.0.proj", "linear1")
                 k2 = key.replace("ff.net.0.proj", "linear2")
                 v1, v2 = mx.split(value, 2)
-                
 
             if "conv_shortcut.weight" in key:
                 value = value.squeeze()
-            
+
             # Transform the weights from 1x1 convs to linear
             if len(value.shape) == 4 and ("proj_in" in key or "proj_out" in key):
                 value = value.squeeze()
@@ -597,10 +602,10 @@ class UNetModel(nn.Module):
                 value = value.transpose(0, 2, 3, 1)
                 value = value.reshape(-1).reshape(value.shape)
 
-            if key.startswith("conv_in") :
+            if key.startswith("conv_in"):
                 if 0 not in self.layers_range:
                     continue
-            
+
             if key.startswith("down_blocks"):
                 layer_num = int(key.split(".")[1])
                 if layer_num not in self.layers_range:
@@ -612,18 +617,17 @@ class UNetModel(nn.Module):
 
             if key.startswith("up_blocks"):
                 layer_num = int(key.split(".")[1])
-                if (layer_num+5) not in self.layers_range:
+                if (layer_num + 5) not in self.layers_range:
                     continue
-            
+
             if key.startswith("conv_out") or key.startswith("conv_norm_out"):
                 if 8 not in self.layers_range:
                     continue
 
-            if len(k1)>0:
+            if len(k1) > 0:
                 sanitized_weights[k1] = v1
                 sanitized_weights[k2] = v2
             else:
                 sanitized_weights[key] = value
-
 
         return sanitized_weights

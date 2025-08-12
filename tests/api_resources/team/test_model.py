@@ -14,9 +14,10 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestModel:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_add(self, client: Hanzo) -> None:
         model = client.team.model.add(
@@ -25,7 +26,6 @@ class TestModel:
         )
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_add(self, client: Hanzo) -> None:
         response = client.team.model.with_raw_response.add(
@@ -38,7 +38,6 @@ class TestModel:
         model = response.parse()
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_add(self, client: Hanzo) -> None:
         with client.team.model.with_streaming_response.add(
@@ -53,7 +52,6 @@ class TestModel:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_remove(self, client: Hanzo) -> None:
         model = client.team.model.remove(
@@ -62,7 +60,6 @@ class TestModel:
         )
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_remove(self, client: Hanzo) -> None:
         response = client.team.model.with_raw_response.remove(
@@ -75,7 +72,6 @@ class TestModel:
         model = response.parse()
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_remove(self, client: Hanzo) -> None:
         with client.team.model.with_streaming_response.remove(
@@ -92,9 +88,10 @@ class TestModel:
 
 
 class TestAsyncModel:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_add(self, async_client: AsyncHanzo) -> None:
         model = await async_client.team.model.add(
@@ -103,7 +100,6 @@ class TestAsyncModel:
         )
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_add(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.model.with_raw_response.add(
@@ -116,7 +112,6 @@ class TestAsyncModel:
         model = await response.parse()
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_add(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.model.with_streaming_response.add(
@@ -131,7 +126,6 @@ class TestAsyncModel:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_remove(self, async_client: AsyncHanzo) -> None:
         model = await async_client.team.model.remove(
@@ -140,7 +134,6 @@ class TestAsyncModel:
         )
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_remove(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.model.with_raw_response.remove(
@@ -153,7 +146,6 @@ class TestAsyncModel:
         model = await response.parse()
         assert_matches_type(object, model, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_remove(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.model.with_streaming_response.remove(

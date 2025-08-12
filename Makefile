@@ -1,6 +1,6 @@
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := all
 SHELL := /bin/bash
-.PHONY: help setup install-python venv deps test lint format build clean publish-all
+.PHONY: help all setup install-python venv deps test lint format build clean publish-all
 
 # Colors for output
 CYAN := \033[0;36m
@@ -17,6 +17,8 @@ help: ## Show this help message
 	@echo -e "$(YELLOW)Usage:$(NC) make [target]"
 	@echo
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
+
+all: format lint test ## Run all checks
 
 setup: install-python venv deps ## Complete setup: install Python, create venv, install deps
 
@@ -41,11 +43,11 @@ deps: ## Install all dependencies for all packages
 	@source .venv/bin/activate && uv pip install -e .
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-agents
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-mcp
-	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-cli
+	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-repl
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-memory
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-network
-	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-mcp-client
+	
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-aci
 	@echo -e "$(GREEN)All dependencies installed$(NC)"
 
@@ -65,27 +67,26 @@ test: ## Run tests for all packages
 
 lint: ## Run linting for all packages
 	@echo -e "$(CYAN)Running linters...$(NC)"
-	@source .venv/bin/activate && ruff check . --fix
-	@source .venv/bin/activate && mypy . --ignore-missing-imports || true
+	@source .venv/bin/activate && ruff check . --fix --quiet
+	@source .venv/bin/activate && mypy . --ignore-missing-imports --no-error-summary 2>/dev/null || true
 	@echo -e "$(GREEN)Linting completed$(NC)"
 
 format: ## Format code for all packages
 	@echo -e "$(CYAN)Formatting code...$(NC)"
-	@source .venv/bin/activate && ruff format .
-	@source .venv/bin/activate && black . || true
+	@source .venv/bin/activate && ruff format . --quiet
+	@source .venv/bin/activate && black . --quiet 2>/dev/null || true
 	@echo -e "$(GREEN)Formatting completed$(NC)"
 
 build: ## Build all packages
 	@echo -e "$(CYAN)Building packages...$(NC)"
-	@source .venv/bin/activate && python -m build .
-	@source .venv/bin/activate && cd pkg/hanzo-agents && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-mcp && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-cli && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-repl && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-memory && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-network && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-mcp-client && python -m build
-	@source .venv/bin/activate && cd pkg/hanzo-aci && python -m build
+	@uv build .
+	@cd pkg/hanzo-agents && uv build
+	@cd pkg/hanzo-mcp && uv build
+	@cd pkg/hanzo && uv build
+	@cd pkg/hanzo-repl && uv build
+	@cd pkg/hanzo-memory && uv build
+	@cd pkg/hanzo-network && uv build
+	@cd pkg/hanzo-aci && uv build
 	@echo -e "$(GREEN)All packages built$(NC)"
 
 clean: ## Clean build artifacts
@@ -115,12 +116,10 @@ publish-all: build ## Publish all packages to PyPI
 		$(MAKE) publish-hanzoai; \
 		$(MAKE) publish-hanzo-agents; \
 		$(MAKE) publish-hanzo-mcp; \
-		$(MAKE) publish-hanzo-cli; \
 		$(MAKE) publish-hanzo; \
 		$(MAKE) publish-hanzo-repl; \
 		$(MAKE) publish-hanzo-memory; \
 		$(MAKE) publish-hanzo-network; \
-		$(MAKE) publish-hanzo-mcp-client; \
 		$(MAKE) publish-hanzo-aci; \
 	else \
 		echo -e "$(RED)Publishing cancelled$(NC)"; \
@@ -139,13 +138,9 @@ publish-hanzo-mcp: ## Publish hanzo-mcp package
 	@echo -e "$(CYAN)Publishing hanzo-mcp...$(NC)"
 	@cd pkg/hanzo-mcp && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
-publish-hanzo-cli: ## Publish hanzo-cli package
-	@echo -e "$(CYAN)Publishing hanzo-cli...$(NC)"
-	@cd pkg/hanzo-cli && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
-
-publish-hanzo: ## Publish hanzo wrapper package
-	@echo -e "$(CYAN)Building and publishing hanzo wrapper...$(NC)"
-	@cd pkg/hanzo-wrapper && python -m build && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
+publish-hanzo: ## Publish hanzo package
+	@echo -e "$(CYAN)Publishing hanzo...$(NC)"
+	@cd pkg/hanzo && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
 publish-hanzo-repl: ## Publish hanzo-repl package
 	@echo -e "$(CYAN)Publishing hanzo-repl...$(NC)"
@@ -159,9 +154,7 @@ publish-hanzo-network: ## Publish hanzo-network package
 	@echo -e "$(CYAN)Publishing hanzo-network...$(NC)"
 	@cd pkg/hanzo-network && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
-publish-hanzo-mcp-client: ## Publish hanzo-mcp-client package
-	@echo -e "$(CYAN)Publishing hanzo-mcp-client...$(NC)"
-	@cd pkg/hanzo-mcp-client && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
+
 
 publish-hanzo-aci: ## Publish hanzo-aci as dev-aci package
 	@echo -e "$(CYAN)Publishing hanzo-aci as dev-aci...$(NC)"

@@ -15,7 +15,7 @@ class EditorToolParameterMissingError(ToolError):
     def __init__(self, command, parameter):
         self.command = command
         self.parameter = parameter
-        self.message = f'Parameter `{parameter}` is required for command: {command}.'
+        self.message = f"Parameter `{parameter}` is required for command: {command}."
 
 
 class EditorToolParameterInvalidError(ToolError):
@@ -25,9 +25,9 @@ class EditorToolParameterInvalidError(ToolError):
         self.parameter = parameter
         self.value = value
         self.message = (
-            f'Invalid `{parameter}` parameter: {value}. {hint}'
+            f"Invalid `{parameter}` parameter: {value}. {hint}"
             if hint
-            else f'Invalid `{parameter}` parameter: {value}.'
+            else f"Invalid `{parameter}` parameter: {value}."
         )
 
 
@@ -37,5 +37,5 @@ class FileValidationError(ToolError):
     def __init__(self, path: str, reason: str):
         self.path = path
         self.reason = reason
-        self.message = f'File validation failed for {path}: {reason}'
+        self.message = f"File validation failed for {path}: {reason}"
         super().__init__(self.message)

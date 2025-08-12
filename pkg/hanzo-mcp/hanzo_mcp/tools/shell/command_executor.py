@@ -4,20 +4,19 @@ This module provides tools for executing shell commands and scripts with
 comprehensive error handling, permissions checking, and progress tracking.
 """
 
-import asyncio
-import base64
 import os
 import re
-import shlex
-import shutil
 import sys
+import shlex
+import base64
+import shutil
+import asyncio
 import tempfile
-from collections.abc import Awaitable, Callable
 from typing import final
+from collections.abc import Callable, Awaitable
 
-
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.base import CommandResult
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 @final
@@ -183,6 +182,7 @@ class CommandExecutor:
         if data is not None:
             try:
                 import json
+
                 logger = logging.getLogger(__name__)
                 if isinstance(data, (dict, list)):
                     data_str = json.dumps(data)
@@ -312,11 +312,11 @@ class CommandExecutor:
                         self._log(f"Escaped command: {escaped_command}")
 
                         # Wrap command with appropriate shell invocation
-                        if shell_basename == "zsh":
-                            shell_cmd = f"{user_shell} -l -c '{escaped_command}'"
-                        elif shell_basename == "bash":
-                            shell_cmd = f"{user_shell} -l -c '{escaped_command}'"
-                        elif shell_basename == "fish":
+                        if (
+                            shell_basename == "zsh"
+                            or shell_basename == "bash"
+                            or shell_basename == "fish"
+                        ):
                             shell_cmd = f"{user_shell} -l -c '{escaped_command}'"
                         else:
                             # Default fallback
@@ -691,7 +691,7 @@ class CommandExecutor:
                     match = re.match(r"([a-zA-Z]):\\(.*)", temp_path)
                     if match:
                         drive, path = match.groups()
-                        wsl_path = f"/mnt/{drive.lower()}/{path.replace('\\', '/')}"
+                        wsl_path = f"/mnt/{drive.lower()}/{path.replace(chr(92), '/')}"
                     else:
                         wsl_path = temp_path.replace("\\", "/")
                         self._log(f"WSL path conversion may be incomplete: {wsl_path}")

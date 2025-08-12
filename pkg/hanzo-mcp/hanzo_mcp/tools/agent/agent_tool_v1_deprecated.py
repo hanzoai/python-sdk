@@ -4,49 +4,50 @@ This module implements the AgentTool that allows Claude to delegate tasks to sub
 enabling concurrent execution of multiple operations and specialized processing.
 """
 
-import asyncio
-import json
 import re
+import json
 import time
-from collections.abc import Iterable
-from typing import Annotated, TypedDict, Unpack, final, override
+import asyncio
 
 # Import litellm with warnings suppressed
 import warnings
+from typing import Unpack, Annotated, TypedDict, final, override
+from collections.abc import Iterable
+
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
     import litellm
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
-from openai.types.chat import ChatCompletionMessageParam, ChatCompletionToolParam
 from pydantic import Field
+from mcp.server import FastMCP
+from openai.types.chat import ChatCompletionToolParam, ChatCompletionMessageParam
+from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.agent.prompt import (
-    get_allowed_agent_tools,
-    get_default_model,
-    get_model_parameters,
-    get_system_prompt,
-)
-from hanzo_mcp.tools.agent.tool_adapter import (
-    convert_tools_to_openai_functions,
-)
-from hanzo_mcp.tools.agent.clarification_protocol import (
-    AgentClarificationMixin,
-    ClarificationType,
-)
-from hanzo_mcp.tools.agent.clarification_tool import ClarificationTool
-from hanzo_mcp.tools.agent.critic_tool import CriticTool, CriticProtocol
-from hanzo_mcp.tools.agent.review_tool import ReviewTool, ReviewProtocol
-from hanzo_mcp.tools.agent.iching_tool import IChingTool
+from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
+from hanzo_mcp.tools.filesystem import Edit, MultiEdit, get_read_only_filesystem_tools
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.batch_tool import BatchTool
+from hanzo_mcp.tools.agent.prompt import (
+    get_default_model,
+    get_system_prompt,
+    get_model_parameters,
+    get_allowed_agent_tools,
+)
 from hanzo_mcp.tools.common.context import (
     ToolContext,
     create_tool_context,
 )
+from hanzo_mcp.tools.agent.critic_tool import CriticTool, CriticProtocol
+from hanzo_mcp.tools.agent.iching_tool import IChingTool
+from hanzo_mcp.tools.agent.review_tool import ReviewTool, ReviewProtocol
+from hanzo_mcp.tools.common.batch_tool import BatchTool
+from hanzo_mcp.tools.agent.tool_adapter import (
+    convert_tools_to_openai_functions,
+)
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem import get_read_only_filesystem_tools, Edit, MultiEdit
-from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
+from hanzo_mcp.tools.agent.clarification_tool import ClarificationTool
+from hanzo_mcp.tools.agent.clarification_protocol import (
+    ClarificationType,
+    AgentClarificationMixin,
+)
 
 Prompt = Annotated[
     str,
@@ -73,7 +74,7 @@ class AgentTool(AgentClarificationMixin, BaseTool):
 
     The AgentTool allows Claude to create and manage sub-agents for performing
     specialized tasks concurrently, such as code search, analysis, and more.
-    
+
     Agents can request clarification from the main loop up to once per task.
     """
 
@@ -156,27 +157,27 @@ Usage notes:
         self.available_tools.extend(
             get_read_only_jupyter_tools(self.permission_manager)
         )
-        
+
         # Always add edit tools - agents should have edit access
         self.available_tools.append(Edit(self.permission_manager))
         self.available_tools.append(MultiEdit(self.permission_manager))
-        
+
         # Add clarification tool for agents
         self.available_tools.append(ClarificationTool())
-        
+
         # Add critic tool for agents (devil's advocate)
         self.available_tools.append(CriticTool())
-        
+
         # Add review tool for agents (balanced review)
         self.available_tools.append(ReviewTool())
-        
+
         # Add I Ching tool for creative guidance
         self.available_tools.append(IChingTool())
-        
+
         self.available_tools.append(
             BatchTool({t.name: t for t in self.available_tools})
         )
-        
+
         # Initialize protocols
         self.critic_protocol = CriticProtocol()
         self.review_protocol = ReviewProtocol()
@@ -204,7 +205,7 @@ Usage notes:
 
         # Extract and validate parameters
         prompts = params.get("prompts")
-        
+
         if prompts is None:
             await tool_ctx.error("No prompts provided")
             return """Error: At least one prompt must be provided.
@@ -238,7 +239,9 @@ Example of correct usage:
         absolute_path_pattern = r"/(?:[^/\s]+/)*[^/\s]+"
         for prompt in prompt_list:
             if not re.search(absolute_path_pattern, prompt):
-                await tool_ctx.error(f"Prompt does not contain absolute path: {prompt[:50]}...")
+                await tool_ctx.error(
+                    f"Prompt does not contain absolute path: {prompt[:50]}..."
+                )
                 return """Error: All prompts must contain at least one absolute path.
 
 IMPORTANT REMINDER FOR CLAUDE:
@@ -268,7 +271,9 @@ AGENT RESPONSE:
 
 AGENT RESPONSES:
 {result}"""
-            await tool_ctx.info(f"Multi-agent execution completed in {execution_time:.2f}s")
+            await tool_ctx.info(
+                f"Multi-agent execution completed in {execution_time:.2f}s"
+            )
             return formatted_result
 
     async def _execute_agent(self, prompt: str, tool_ctx: ToolContext) -> str:
@@ -316,7 +321,9 @@ AGENT RESPONSES:
 
         return result if result else "No results returned from agent"
 
-    async def _execute_multiple_agents(self, prompts: list[str], tool_ctx: ToolContext) -> str:
+    async def _execute_multiple_agents(
+        self, prompts: list[str], tool_ctx: ToolContext
+    ) -> str:
         """Execute multiple agents concurrently.
 
         Args:
@@ -344,7 +351,7 @@ AGENT RESPONSES:
         # Create tasks for parallel execution
         tasks = []
         for i, prompt in enumerate(prompts):
-            await tool_ctx.info(f"Creating agent task {i+1}: {prompt[:50]}...")
+            await tool_ctx.info(f"Creating agent task {i + 1}: {prompt[:50]}...")
             task = self._execute_agent_with_tools(
                 system_prompt, prompt, agent_tools, openai_tools, tool_ctx
             )
@@ -365,10 +372,10 @@ AGENT RESPONSES:
         formatted_results = []
         for i, result in enumerate(results):
             if isinstance(result, Exception):
-                formatted_results.append(f"Agent {i+1} Error:\n{str(result)}")
-                await tool_ctx.error(f"Agent {i+1} failed: {str(result)}")
+                formatted_results.append(f"Agent {i + 1} Error:\n{str(result)}")
+                await tool_ctx.error(f"Agent {i + 1} failed: {str(result)}")
             else:
-                formatted_results.append(f"Agent {i+1} Result:\n{result}")
+                formatted_results.append(f"Agent {i + 1} Result:\n{result}")
 
         return "\n\n---\n\n".join(formatted_results)
 
@@ -438,9 +445,7 @@ AGENT RESPONSES:
                     completion_params["base_url"] = self.base_url_override
 
                 # Make the model call
-                response = litellm.completion(
-                    **completion_params  # pyright: ignore
-                )
+                response = litellm.completion(**completion_params)  # pyright: ignore
 
                 if len(response.choices) == 0:  # pyright: ignore
                     raise ValueError("No response choices returned")
@@ -487,20 +492,22 @@ AGENT RESPONSES:
                             request_type = function_args.get("type", "ADDITIONAL_INFO")
                             question = function_args.get("question", "")
                             context = function_args.get("context", {})
-                            options = function_args.get("options", None)
-                            
+                            options = function_args.get("options")
+
                             # Convert string type to enum
                             clarification_type = ClarificationType[request_type]
-                            
+
                             # Request clarification
                             answer = await self.request_clarification(
                                 request_type=clarification_type,
                                 question=question,
                                 context=context,
-                                options=options
+                                options=options,
                             )
-                            
-                            tool_result = self.format_clarification_in_output(question, answer)
+
+                            tool_result = self.format_clarification_in_output(
+                                question, answer
+                            )
                         except Exception as e:
                             tool_result = f"Error processing clarification: {str(e)}"
                     # Special handling for critic requests
@@ -509,17 +516,17 @@ AGENT RESPONSES:
                             # Extract critic parameters
                             review_type = function_args.get("review_type", "GENERAL")
                             work_description = function_args.get("work_description", "")
-                            code_snippets = function_args.get("code_snippets", None)
-                            file_paths = function_args.get("file_paths", None)
-                            specific_concerns = function_args.get("specific_concerns", None)
-                            
+                            code_snippets = function_args.get("code_snippets")
+                            file_paths = function_args.get("file_paths")
+                            specific_concerns = function_args.get("specific_concerns")
+
                             # Request critical review
                             tool_result = self.critic_protocol.request_review(
                                 review_type=review_type,
                                 work_description=work_description,
                                 code_snippets=code_snippets,
                                 file_paths=file_paths,
-                                specific_concerns=specific_concerns
+                                specific_concerns=specific_concerns,
                             )
                         except Exception as e:
                             tool_result = f"Error processing critic review: {str(e)}"
@@ -529,17 +536,17 @@ AGENT RESPONSES:
                             # Extract review parameters
                             focus = function_args.get("focus", "GENERAL")
                             work_description = function_args.get("work_description", "")
-                            code_snippets = function_args.get("code_snippets", None)
-                            file_paths = function_args.get("file_paths", None)
-                            context = function_args.get("context", None)
-                            
+                            code_snippets = function_args.get("code_snippets")
+                            file_paths = function_args.get("file_paths")
+                            context = function_args.get("context")
+
                             # Request balanced review
                             tool_result = self.review_protocol.request_review(
                                 focus=focus,
                                 work_description=work_description,
                                 code_snippets=code_snippets,
                                 file_paths=file_paths,
-                                context=context
+                                context=context,
                             )
                         except Exception as e:
                             tool_result = f"Error processing review: {str(e)}"
@@ -634,8 +641,5 @@ AGENT RESPONSE:
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def dispatch_agent(
-            prompts: str | list[str],
-            ctx: MCPContext
-        ) -> str:
+        async def dispatch_agent(prompts: str | list[str], ctx: MCPContext) -> str:
             return await tool_self.call(ctx, prompts=prompts)

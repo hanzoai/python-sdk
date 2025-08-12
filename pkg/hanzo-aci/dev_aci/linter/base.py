@@ -15,13 +15,13 @@ class LintResult(BaseModel):
         Args:
             half_window: The number of context lines to display around the error on each side.
         """
-        with open(self.file, 'r') as f:
+        with open(self.file, "r") as f:
             file_lines = f.readlines()
 
         # Add line numbers
         _span_size = len(str(len(file_lines)))
         file_lines = [
-            f'{i + 1:>{_span_size}}|{line.rstrip()}'
+            f"{i + 1:>{_span_size}}|{line.rstrip()}"
             for i, line in enumerate(file_lines)
         ]
 
@@ -36,18 +36,18 @@ class LintResult(BaseModel):
 
         # Add character hint
         _character_hint = (
-            _span_size * ' '
-            + ' ' * (self.column)
-            + '^'
-            + ' ERROR HERE: '
+            _span_size * " "
+            + " " * (self.column)
+            + "^"
+            + " ERROR HERE: "
             + self.message
         )
         selected_lines[line_idx_in_window] = (
-            f'\033[91m{selected_lines[line_idx_in_window]}\033[0m'
-            + '\n'
+            f"\033[91m{selected_lines[line_idx_in_window]}\033[0m"
+            + "\n"
             + _character_hint
         )
-        return '\n'.join(selected_lines)
+        return "\n".join(selected_lines)
 
 
 class LinterException(Exception):
@@ -62,7 +62,7 @@ class BaseLinter(ABC):
     Each linter should be able to lint files of a specific type and return a list of (parsed) lint results.
     """
 
-    encoding: str = 'utf-8'
+    encoding: str = "utf-8"
 
     @property
     @abstractmethod

@@ -18,4 +18,4 @@ def temp_file():
 
 def parse_result(result: str) -> dict:
     """Parse the JSON result from file_editor."""
-    return json.loads(result[result.find('{') : result.rfind('}') + 1])
+    return json.loads(result[result.find("{") : result.rfind("}") + 1])

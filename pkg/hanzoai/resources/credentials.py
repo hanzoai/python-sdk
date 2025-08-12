@@ -85,7 +85,10 @@ class CredentialsResource(SyncAPIResource):
                 credential_create_params.CredentialCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -104,7 +107,10 @@ class CredentialsResource(SyncAPIResource):
         return self._get(
             "/credentials",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -134,11 +140,16 @@ class CredentialsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `credential_name` but received {credential_name!r}"
+            )
         return self._delete(
             f"/credentials/{credential_name}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -204,7 +215,10 @@ class AsyncCredentialsResource(AsyncAPIResource):
                 credential_create_params.CredentialCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -223,7 +237,10 @@ class AsyncCredentialsResource(AsyncAPIResource):
         return await self._get(
             "/credentials",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -253,11 +270,16 @@ class AsyncCredentialsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not credential_name:
-            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `credential_name` but received {credential_name!r}"
+            )
         return await self._delete(
             f"/credentials/{credential_name}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

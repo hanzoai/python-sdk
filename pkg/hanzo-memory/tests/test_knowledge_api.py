@@ -1,6 +1,5 @@
 """Tests for Knowledge Base API endpoints."""
 
-
 import polars as pl
 import pytest
 from fastapi.testclient import TestClient
@@ -124,13 +123,15 @@ class TestKnowledgeAPI:
     def test_get_facts_with_query(self):
         """Test searching facts with a query."""
         # Mock search results
-        mock_df = pl.DataFrame({
-            "fact_id": ["fact1", "fact2"],
-            "content": ["Fact 1", "Fact 2"],
-            "parent_id": ["", "parent1"],
-            "metadata": ['{"type": "test"}', '{"type": "example"}'],
-            "_similarity": [0.95, 0.85],
-        })
+        mock_df = pl.DataFrame(
+            {
+                "fact_id": ["fact1", "fact2"],
+                "content": ["Fact 1", "Fact 2"],
+                "parent_id": ["", "parent1"],
+                "metadata": ['{"type": "test"}', '{"type": "example"}'],
+                "_similarity": [0.95, 0.85],
+            }
+        )
 
         self.mock_db.search_facts.return_value = mock_df
         self.mock_embedding_service.embed_text.return_value = [[0.2] * 384]

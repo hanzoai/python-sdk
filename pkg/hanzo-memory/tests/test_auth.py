@@ -21,7 +21,9 @@ class TestAuth:
         """Test getting API key from Authorization header."""
         request = Mock(spec=Request)
         request.headers = {}
-        credentials = HTTPAuthorizationCredentials(scheme="Bearer", credentials="test-key")
+        credentials = HTTPAuthorizationCredentials(
+            scheme="Bearer", credentials="test-key"
+        )
 
         api_key = get_api_key(request, credentials)
         assert api_key == "test-key"
@@ -114,7 +116,9 @@ class TestAuth:
 
     @patch("hanzo_memory.api.auth.settings")
     @patch("hanzo_memory.api.auth.require_auth")
-    async def test_get_or_verify_user_id_auth_enabled(self, mock_require_auth, mock_settings):
+    async def test_get_or_verify_user_id_auth_enabled(
+        self, mock_require_auth, mock_settings
+    ):
         """Test get_or_verify_user_id when auth is enabled."""
         mock_settings.disable_auth = False
         mock_require_auth.return_value = "valid-key"

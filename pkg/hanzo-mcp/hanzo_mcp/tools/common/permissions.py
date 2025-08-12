@@ -1,12 +1,12 @@
 """Permission system for the Hanzo AI server."""
 
-import json
 import os
 import sys
+import json
 import tempfile
-from collections.abc import Awaitable, Callable
-from pathlib import Path
 from typing import Any, TypeVar, final
+from pathlib import Path
+from collections.abc import Callable, Awaitable
 
 # Define type variables for better type annotations
 T = TypeVar("T")
@@ -28,7 +28,7 @@ class PermissionManager:
         else:  # Unix/Linux/Mac
             self.allowed_paths.add(Path("/tmp").resolve())
             self.allowed_paths.add(Path("/var").resolve())
-            
+
         # Also allow user's home directory work folders
         home = Path.home()
         if home.exists():
