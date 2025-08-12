@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import os
+import sys
 import logging
 from typing import TYPE_CHECKING, Iterator, AsyncIterator
+
+# Add pkg directory to path for hanzoai import
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'pkg'))
 
 import pytest
 from pytest_asyncio import is_async_test

@@ -173,7 +173,7 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
             List of tools and their status
         """
         tool_ctx = create_tool_context(ctx)
-        await tool_ctx.set_tool_info(self.name)
+        tool_ctx.set_tool_info(self.name)
 
         # Extract parameters
         show_disabled = params.get("show_disabled", False)
