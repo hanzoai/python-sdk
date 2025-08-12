@@ -1,21 +1,18 @@
 """Index tool for managing vector store indexing."""
 
-import asyncio
 import os
 import time
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.vector.git_ingester import GitIngester
-from hanzo_mcp.tools.vector.infinity_store import InfinityVectorStore
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
-
 
 Path_str = Annotated[
     str,
@@ -135,7 +132,7 @@ Usage:
 
         # Resolve absolute path
         abs_path = os.path.abspath(path)
-        
+
         # Check permissions
         if not self.permission_manager.has_permission(abs_path):
             return f"Permission denied: {abs_path}"
@@ -149,32 +146,76 @@ Usage:
         try:
             # Get or create vector store for this project
             vector_store = self.project_manager.get_project_store(abs_path)
-            
+
             # Check if already indexed (unless force)
             if not force:
                 stats = await vector_store.get_stats()
                 if stats and stats.get("document_count", 0) > 0:
-                    await tool_ctx.info("Project already indexed, use --force to re-index")
+                    await tool_ctx.info(
+                        "Project already indexed, use --force to re-index"
+                    )
                     if show_stats:
-                        return self._format_stats(stats, abs_path, time.time() - start_time)
+                        return self._format_stats(
+                            stats, abs_path, time.time() - start_time
+                        )
                     return "Project is already indexed. Use --force to re-index."
 
             # Prepare file patterns
             if file_patterns is None:
                 # Default patterns for code files
                 file_patterns = [
-                    "*.py", "*.js", "*.ts", "*.jsx", "*.tsx",
-                    "*.java", "*.cpp", "*.c", "*.h", "*.hpp",
-                    "*.go", "*.rs", "*.rb", "*.php", "*.swift",
-                    "*.kt", "*.scala", "*.cs", "*.vb", "*.fs",
-                    "*.sh", "*.bash", "*.zsh", "*.fish",
-                    "*.md", "*.rst", "*.txt", "*.json", "*.yaml", "*.yml",
-                    "*.toml", "*.ini", "*.cfg", "*.conf",
-                    "*.html", "*.css", "*.scss", "*.sass", "*.less",
-                    "*.sql", "*.graphql", "*.proto",
-                    "Dockerfile", "Makefile", "*.mk",
-                    ".gitignore", ".dockerignore", "requirements.txt",
-                    "package.json", "Cargo.toml", "go.mod", "pom.xml",
+                    "*.py",
+                    "*.js",
+                    "*.ts",
+                    "*.jsx",
+                    "*.tsx",
+                    "*.java",
+                    "*.cpp",
+                    "*.c",
+                    "*.h",
+                    "*.hpp",
+                    "*.go",
+                    "*.rs",
+                    "*.rb",
+                    "*.php",
+                    "*.swift",
+                    "*.kt",
+                    "*.scala",
+                    "*.cs",
+                    "*.vb",
+                    "*.fs",
+                    "*.sh",
+                    "*.bash",
+                    "*.zsh",
+                    "*.fish",
+                    "*.md",
+                    "*.rst",
+                    "*.txt",
+                    "*.json",
+                    "*.yaml",
+                    "*.yml",
+                    "*.toml",
+                    "*.ini",
+                    "*.cfg",
+                    "*.conf",
+                    "*.html",
+                    "*.css",
+                    "*.scss",
+                    "*.sass",
+                    "*.less",
+                    "*.sql",
+                    "*.graphql",
+                    "*.proto",
+                    "Dockerfile",
+                    "Makefile",
+                    "*.mk",
+                    ".gitignore",
+                    ".dockerignore",
+                    "requirements.txt",
+                    "package.json",
+                    "Cargo.toml",
+                    "go.mod",
+                    "pom.xml",
                 ]
 
             # Clear existing index if force
@@ -216,7 +257,7 @@ Usage:
                                 "absolute_path": file_path,
                                 "size": file_size,
                                 "extension": Path(file_path).suffix,
-                            }
+                            },
                         )
                         indexed_files += 1
                         total_size += file_size
@@ -227,13 +268,15 @@ Usage:
                     except Exception as e:
                         errors.append(f"{file_path}: {str(e)}")
 
-            await tool_ctx.info(f"Indexed {indexed_files} files ({total_size / 1024 / 1024:.1f} MB)")
+            await tool_ctx.info(
+                f"Indexed {indexed_files} files ({total_size / 1024 / 1024:.1f} MB)"
+            )
 
             # Index git history if requested
             git_stats = {}
             if include_git_history and os.path.exists(os.path.join(abs_path, ".git")):
                 await tool_ctx.info("Indexing git history...")
-                
+
                 git_ingester = GitIngester(vector_store)
                 git_stats = await git_ingester.ingest_repository(
                     repo_path=abs_path,
@@ -242,29 +285,30 @@ Usage:
                     include_blame=True,
                     file_patterns=file_patterns,
                 )
-                
+
                 await tool_ctx.info(
-                    f"Indexed {git_stats.get('commits_indexed', 0)} commits, "
-                    f"{git_stats.get('diffs_indexed', 0)} diffs"
+                    f"Indexed {git_stats.get('commits_indexed', 0)} commits, {git_stats.get('diffs_indexed', 0)} diffs"
                 )
 
             # Get final statistics
             if show_stats:
                 stats = await vector_store.get_stats()
-                stats.update({
-                    "files_indexed": indexed_files,
-                    "total_size_mb": total_size / 1024 / 1024,
-                    "errors": len(errors),
-                    **git_stats,
-                })
+                stats.update(
+                    {
+                        "files_indexed": indexed_files,
+                        "total_size_mb": total_size / 1024 / 1024,
+                        "errors": len(errors),
+                        **git_stats,
+                    }
+                )
                 result = self._format_stats(stats, abs_path, time.time() - start_time)
-                
+
                 if errors:
                     result += f"\n\nErrors ({len(errors)}):\n"
                     result += "\n".join(errors[:10])  # Show first 10 errors
                     if len(errors) > 10:
                         result += f"\n... and {len(errors) - 10} more errors"
-                
+
                 return result
             else:
                 return f"Successfully indexed {indexed_files} files"
@@ -301,8 +345,16 @@ Usage:
 
         # Filter out hidden directories and common ignore patterns
         filtered_files = []
-        ignore_dirs = {".git", "__pycache__", "node_modules", ".venv", "venv", "dist", "build"}
-        
+        ignore_dirs = {
+            ".git",
+            "__pycache__",
+            "node_modules",
+            ".venv",
+            "venv",
+            "dist",
+            "build",
+        }
+
         for file_path in files:
             # Check if any parent directory is in ignore list
             parts = Path(file_path).parts
@@ -326,30 +378,30 @@ Usage:
             Formatted statistics string
         """
         result = f"=== Index Statistics for {path} ===\n\n"
-        
+
         # Basic stats
         result += f"Indexing completed in {elapsed_time:.1f} seconds\n\n"
-        
+
         result += "Content Statistics:\n"
         result += f"  Documents: {stats.get('document_count', 0):,}\n"
         result += f"  Files indexed: {stats.get('files_indexed', 0):,}\n"
         result += f"  Total size: {stats.get('total_size_mb', 0):.1f} MB\n"
-        
+
         if stats.get("commits_indexed", 0) > 0:
             result += f"\nGit History:\n"
             result += f"  Commits: {stats.get('commits_indexed', 0):,}\n"
             result += f"  Diffs: {stats.get('diffs_indexed', 0):,}\n"
             result += f"  Blame entries: {stats.get('blame_entries', 0):,}\n"
-        
+
         # Vector store info
         result += f"\nVector Store:\n"
         result += f"  Database: {stats.get('database_name', 'default')}\n"
         result += f"  Table: {stats.get('table_name', 'documents')}\n"
         result += f"  Vectors: {stats.get('vector_count', stats.get('document_count', 0)):,}\n"
-        
+
         if stats.get("errors", 0) > 0:
             result += f"\nErrors: {stats.get('errors', 0)}\n"
-        
+
         return result
 
     def register(self, mcp_server) -> None:

@@ -1,18 +1,17 @@
 """Execute Neovim commands and macros."""
 
 import os
-import subprocess
 import shutil
 import tempfile
-from typing import Annotated, Optional, TypedDict, Unpack, final, override, List
+import subprocess
+from typing import List, Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 Command = Annotated[
     Optional[str],
@@ -159,7 +158,9 @@ Note: Requires Neovim to be installed.
             return "Error: Must provide either 'command', 'commands', or 'macro'"
 
         if sum(bool(x) for x in [command, commands, macro]) > 1:
-            return "Error: Can only use one of 'command', 'commands', or 'macro' at a time"
+            return (
+                "Error: Can only use one of 'command', 'commands', or 'macro' at a time"
+            )
 
         # Check if Neovim is available
         nvim_cmd = shutil.which("nvim")
@@ -168,7 +169,7 @@ Note: Requires Neovim to be installed.
 
         # Prepare commands list
         nvim_commands = []
-        
+
         if command:
             nvim_commands.append(command)
         elif commands:
@@ -178,65 +179,61 @@ Note: Requires Neovim to be installed.
             # Escape special characters
             escaped_macro = macro.replace('"', '\\"')
             nvim_commands.append(f':normal "{escaped_macro}"')
-        
+
         # Add save command if requested
         if save_after:
             nvim_commands.append(":w")
-        
+
         # Always quit at the end
         nvim_commands.append(":q")
 
         # Build Neovim command line
         cmd = [nvim_cmd, "-n", "-i", "NONE"]  # No swap file, no shada file
-        
+
         # Add commands
         for vim_cmd in nvim_commands:
             cmd.extend(["-c", vim_cmd])
-        
+
         # Add file if specified
         if file_path:
             file_path = os.path.abspath(file_path)
-            
+
             # Check permissions
             if not self.permission_manager.has_permission(file_path):
                 return f"Error: No permission to access {file_path}"
-            
+
             if not os.path.exists(file_path):
                 return f"Error: File not found: {file_path}"
-            
+
             cmd.append(file_path)
         else:
             # Create empty buffer
             cmd.append("-")
-        
+
         await tool_ctx.info(f"Executing Neovim commands: {nvim_commands}")
-        
+
         try:
             # Execute Neovim
             if return_output:
                 # Capture output by redirecting messages
-                output_file = tempfile.NamedTemporaryFile(mode='w+', delete=False)
+                output_file = tempfile.NamedTemporaryFile(mode="w+", delete=False)
                 output_file.close()
-                
+
                 # Add command to redirect messages
                 cmd.insert(3, "-c")
                 cmd.insert(4, f":redir! > {output_file.name}")
-                
+
                 # Execute
-                result = subprocess.run(
-                    cmd,
-                    capture_output=True,
-                    text=True
-                )
-                
+                result = subprocess.run(cmd, capture_output=True, text=True)
+
                 # Read output
                 output_content = ""
                 try:
-                    with open(output_file.name, 'r') as f:
+                    with open(output_file.name, "r") as f:
                         output_content = f.read().strip()
                 finally:
                     os.unlink(output_file.name)
-                
+
                 if result.returncode == 0:
                     response = "Commands executed successfully"
                     if file_path:
@@ -254,7 +251,7 @@ Note: Requires Neovim to be installed.
             else:
                 # Just execute without capturing output
                 result = subprocess.run(cmd)
-                
+
                 if result.returncode == 0:
                     response = "Commands executed successfully"
                     if file_path:
@@ -262,7 +259,7 @@ Note: Requires Neovim to be installed.
                     return response
                 else:
                     return f"Neovim exited with code {result.returncode}"
-        
+
         except Exception as e:
             await tool_ctx.error(f"Failed to execute Neovim commands: {str(e)}")
             return f"Error executing Neovim commands: {str(e)}"

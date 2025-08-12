@@ -3,15 +3,13 @@
 Unix-style tree command for directory visualization.
 """
 
-import os
+from typing import List, Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override, Optional, List
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
-
 
 # Parameter types
 TreePath = Annotated[
@@ -65,6 +63,7 @@ Pattern = Annotated[
 
 class TreeParams(TypedDict, total=False):
     """Parameters for tree tool."""
+
     path: str
     depth: Optional[int]
     show_hidden: bool
@@ -103,7 +102,7 @@ tree --pattern "*.py" --show-size"""
     ) -> str:
         """Execute tree command."""
         tool_ctx = self.create_tool_context(ctx)
-        
+
         # Extract parameters
         path = params.get("path", ".")
         max_depth = params.get("depth")
@@ -111,33 +110,33 @@ tree --pattern "*.py" --show-size"""
         dirs_only = params.get("dirs_only", False)
         show_size = params.get("show_size", False)
         pattern = params.get("pattern")
-        
+
         # Validate path
         path_validation = self.validate_path(path)
         if path_validation.is_error:
             return f"Error: {path_validation.error_message}"
-            
+
         # Check permissions
         allowed, error_msg = await self.check_path_allowed(path, tool_ctx)
         if not allowed:
             return error_msg
-            
+
         # Check existence
         exists, error_msg = await self.check_path_exists(path, tool_ctx)
         if not exists:
             return error_msg
-            
+
         path_obj = Path(path)
         if not path_obj.is_dir():
             return f"Error: {path} is not a directory"
-            
+
         # Build tree
         output = [str(path_obj)]
         stats = {"dirs": 0, "files": 0}
-        
+
         self._build_tree(
-            path_obj, 
-            output, 
+            path_obj,
+            output,
             stats,
             prefix="",
             is_last=True,
@@ -146,16 +145,16 @@ tree --pattern "*.py" --show-size"""
             show_hidden=show_hidden,
             dirs_only=dirs_only,
             show_size=show_size,
-            pattern=pattern
+            pattern=pattern,
         )
-        
+
         # Add summary
         output.append("")
         if dirs_only:
             output.append(f"{stats['dirs']} directories")
         else:
             output.append(f"{stats['dirs']} directories, {stats['files']} files")
-            
+
         return "\n".join(output)
 
     def _build_tree(
@@ -176,35 +175,38 @@ tree --pattern "*.py" --show-size"""
         # Check depth limit
         if max_depth is not None and current_depth >= max_depth:
             return
-            
+
         try:
             # Get entries
             entries = list(path.iterdir())
-            
+
             # Filter hidden files
             if not show_hidden:
                 entries = [e for e in entries if not e.name.startswith(".")]
-                
+
             # Filter by pattern
             if pattern:
                 import fnmatch
-                entries = [e for e in entries if fnmatch.fnmatch(e.name, pattern) or e.is_dir()]
-                
+
+                entries = [
+                    e for e in entries if fnmatch.fnmatch(e.name, pattern) or e.is_dir()
+                ]
+
             # Filter dirs only
             if dirs_only:
                 entries = [e for e in entries if e.is_dir()]
-                
+
             # Sort entries (dirs first, then alphabetically)
             entries.sort(key=lambda e: (not e.is_dir(), e.name.lower()))
-            
+
             # Process each entry
             for i, entry in enumerate(entries):
                 is_last_entry = i == len(entries) - 1
-                
+
                 # Skip if not allowed
                 if not self.is_path_allowed(str(entry)):
                     continue
-                    
+
                 # Build the tree branch
                 if prefix:
                     if is_last_entry:
@@ -216,20 +218,20 @@ tree --pattern "*.py" --show-size"""
                 else:
                     branch = ""
                     extension = ""
-                    
+
                 # Build entry line
                 line = branch + entry.name
-                
+
                 # Add size if requested
                 if show_size and entry.is_file():
                     try:
                         size = entry.stat().st_size
                         line += f" ({self._format_size(size)})"
-                    except:
+                    except Exception:
                         pass
-                        
+
                 output.append(line)
-                
+
                 # Update stats
                 if entry.is_dir():
                     stats["dirs"] += 1
@@ -245,11 +247,11 @@ tree --pattern "*.py" --show-size"""
                         show_hidden=show_hidden,
                         dirs_only=dirs_only,
                         show_size=show_size,
-                        pattern=pattern
+                        pattern=pattern,
                     )
                 else:
                     stats["files"] += 1
-                    
+
         except PermissionError:
             output.append(prefix + "[Permission Denied]")
         except Exception as e:

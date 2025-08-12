@@ -12,14 +12,20 @@ logger = get_logger()
 # Import backend-specific implementations
 try:
     from fastembed import TextEmbedding
+
     FASTEMBED_AVAILABLE = True
 except ImportError:
     FASTEMBED_AVAILABLE = False
     logger.warning("FastEmbed not available")
 
 try:
-    from .embeddings_lancedb import LanceDBEmbeddingService
-    LANCEDB_AVAILABLE = True
+    import importlib.util
+
+    if importlib.util.find_spec("hanzo_memory.services.embeddings_lancedb") is not None:
+        LANCEDB_AVAILABLE = True
+    else:
+        LANCEDB_AVAILABLE = False
+        logger.warning("LanceDB embeddings not available")
 except ImportError:
     LANCEDB_AVAILABLE = False
     logger.warning("LanceDB embeddings not available")
@@ -169,6 +175,7 @@ def get_embedding_service() -> EmbeddingService:
         if settings.db_backend == "lancedb" and LANCEDB_AVAILABLE:
             logger.info("Using LanceDB embedding service")
             from .embeddings_lancedb import get_lancedb_embedding_service
+
             # Wrap LanceDB service in standard interface
             lancedb_service = get_lancedb_embedding_service()
             _embedding_service = EmbeddingService()

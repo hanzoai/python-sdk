@@ -343,9 +343,7 @@ async def create_knowledge_base(
         }
     except Exception as e:
         logger.error(f"Error creating knowledge base: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.get("/v1/kb/list")
@@ -371,9 +369,7 @@ async def list_knowledge_bases(
         }
     except Exception as e:
         logger.error(f"Error listing knowledge bases: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/kb/facts/add")
@@ -393,7 +389,9 @@ async def add_facts(
             # Generate embedding for fact content
             content = fact_data.get("content", "")
             if not embedding_service:
-                raise HTTPException(status_code=503, detail="Embedding service not initialized")
+                raise HTTPException(
+                    status_code=503, detail="Embedding service not initialized"
+                )
             embedding = embedding_service.embed_text(content)[0]
 
             # Add fact to database
@@ -409,10 +407,12 @@ async def add_facts(
                 metadata=fact_data.get("metadata", {}),
             )
 
-            added_facts.append({
-                "fact_id": fact_id,
-                "content": content,
-            })
+            added_facts.append(
+                {
+                    "fact_id": fact_id,
+                    "content": content,
+                }
+            )
 
         return {
             "kb_id": request.kb_id,
@@ -421,9 +421,7 @@ async def add_facts(
         }
     except Exception as e:
         logger.error(f"Error adding facts: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/kb/facts/get")
@@ -441,7 +439,9 @@ async def get_facts(
         if request.query:
             # Generate query embedding
             if not embedding_service:
-                raise HTTPException(status_code=503, detail="Embedding service not initialized")
+                raise HTTPException(
+                    status_code=503, detail="Embedding service not initialized"
+                )
             query_embedding = embedding_service.embed_text(request.query)[0]
 
             # Search facts
@@ -458,13 +458,15 @@ async def get_facts(
             facts = []
             if not results_df.is_empty():
                 for row in results_df.to_dicts():
-                    facts.append({
-                        "fact_id": row["fact_id"],
-                        "content": row["content"],
-                        "parent_id": row.get("parent_id"),
-                        "metadata": json.loads(row.get("metadata", "{}")),
-                        "similarity_score": row.get("_similarity", 0.0),
-                    })
+                    facts.append(
+                        {
+                            "fact_id": row["fact_id"],
+                            "content": row["content"],
+                            "parent_id": row.get("parent_id"),
+                            "metadata": json.loads(row.get("metadata", "{}")),
+                            "similarity_score": row.get("_similarity", 0.0),
+                        }
+                    )
 
             return {
                 "kb_id": request.kb_id,
@@ -480,9 +482,7 @@ async def get_facts(
             }
     except Exception as e:
         logger.error(f"Error getting facts: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/kb/facts/delete")
@@ -507,9 +507,7 @@ async def delete_fact(
         }
     except Exception as e:
         logger.error(f"Error deleting fact: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 # Chat Management Endpoints
@@ -545,9 +543,7 @@ async def create_chat_session(
         }
     except Exception as e:
         logger.error(f"Error creating chat session: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/chat/messages/add")
@@ -563,7 +559,9 @@ async def add_chat_message(
 
         # Generate embedding for message content
         if not embedding_service:
-            raise HTTPException(status_code=503, detail="Embedding service not initialized")
+            raise HTTPException(
+                status_code=503, detail="Embedding service not initialized"
+            )
         embedding = embedding_service.embed_text(request.content)[0]
 
         # Check for duplicate messages
@@ -613,9 +611,7 @@ async def add_chat_message(
         }
     except Exception as e:
         logger.error(f"Error adding chat message: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.get("/v1/chat/sessions/{session_id}/messages")
@@ -647,13 +643,15 @@ async def get_chat_messages(
             sorted_df = history_df.sort("created_at")
 
             for row in sorted_df.to_dicts():
-                messages.append({
-                    "chat_id": row["chat_id"],
-                    "role": row["role"],
-                    "content": row["content"],
-                    "metadata": json.loads(row.get("metadata", "{}")),
-                    "created_at": row["created_at"],
-                })
+                messages.append(
+                    {
+                        "chat_id": row["chat_id"],
+                        "role": row["role"],
+                        "content": row["content"],
+                        "metadata": json.loads(row.get("metadata", "{}")),
+                        "created_at": row["created_at"],
+                    }
+                )
 
         return {
             "session_id": session_id,
@@ -662,9 +660,7 @@ async def get_chat_messages(
         }
     except Exception as e:
         logger.error(f"Error getting chat messages: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/chat/search")
@@ -684,7 +680,9 @@ async def search_chat_messages(
 
         # Generate query embedding
         if not embedding_service:
-            raise HTTPException(status_code=503, detail="Embedding service not initialized")
+            raise HTTPException(
+                status_code=503, detail="Embedding service not initialized"
+            )
         query_embedding = embedding_service.embed_text(query)[0]
 
         # Search chats
@@ -702,14 +700,16 @@ async def search_chat_messages(
         messages = []
         if not results_df.is_empty():
             for row in results_df.to_dicts():
-                messages.append({
-                    "chat_id": row["chat_id"],
-                    "session_id": row["session_id"],
-                    "role": row["role"],
-                    "content": row["content"],
-                    "similarity_score": row.get("_similarity", 0.0),
-                    "created_at": row["created_at"],
-                })
+                messages.append(
+                    {
+                        "chat_id": row["chat_id"],
+                        "session_id": row["session_id"],
+                        "role": row["role"],
+                        "content": row["content"],
+                        "similarity_score": row.get("_similarity", 0.0),
+                        "created_at": row["created_at"],
+                    }
+                )
 
         return {
             "query": query,
@@ -718,9 +718,7 @@ async def search_chat_messages(
         }
     except Exception as e:
         logger.error(f"Error searching chat messages: {e}")
-        raise HTTPException(
-            status_code=500, detail=str(e)
-        ) from e
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 def run() -> None:

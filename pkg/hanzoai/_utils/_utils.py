@@ -109,7 +109,9 @@ def _extract_items(
                     item,
                     path,
                     index=index,
-                    flattened_key=flattened_key + "[]" if flattened_key is not None else "[]",
+                    flattened_key=(
+                        flattened_key + "[]" if flattened_key is not None else "[]"
+                    ),
                 )
                 for item in obj
             ]
@@ -249,7 +251,7 @@ def required_args(*variants: Sequence[str]) -> Callable[[CallableT], CallableT]:
                         f"{func.__name__}() takes {len(positional)} argument(s) but {len(args)} were given"
                     ) from None
 
-            for key in kwargs.keys():
+            for key in kwargs:
                 given_params.add(key)
 
             for variant in variants:
@@ -259,7 +261,12 @@ def required_args(*variants: Sequence[str]) -> Callable[[CallableT], CallableT]:
             else:  # no break
                 if len(variants) > 1:
                     variations = human_join(
-                        ["(" + human_join([quote(arg) for arg in variant], final="and") + ")" for variant in variants]
+                        [
+                            "("
+                            + human_join([quote(arg) for arg in variant], final="and")
+                            + ")"
+                            for variant in variants
+                        ]
                     )
                     msg = f"Missing required arguments; Expected either {variations} arguments to be given"
                 else:
@@ -371,7 +378,11 @@ def get_required_header(headers: HeadersLike, header: str) -> str:
                 return v
 
     # to deal with the case where the header looks like Stainless-Event-Id
-    intercaps_header = re.sub(r"([^\w])(\w)", lambda pat: pat.group(1) + pat.group(2).upper(), header.capitalize())
+    intercaps_header = re.sub(
+        r"([^\w])(\w)",
+        lambda pat: pat.group(1) + pat.group(2).upper(),
+        header.capitalize(),
+    )
 
     for normalized_header in [header, lower_header, header.upper(), intercaps_header]:
         value = headers.get(normalized_header)

@@ -1,13 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from . import types
-from .llm_client import SimpleLLMClient, OpenAICompatibleClient, completion, set_api_key
-
 # Import new modules
-from . import agents
-from . import mcp
-from . import cluster
-from . import auth
+from . import mcp, auth, types, agents, cluster
 from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
 from ._client import (
@@ -16,7 +10,6 @@ from ._client import (
     Client,
     Stream,
     Timeout,
-    Transport,
     AsyncHanzo,
     AsyncClient,
     AsyncStream,
@@ -26,6 +19,7 @@ from ._models import BaseModel
 from ._version import __title__, __version__
 from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
 from ._constants import DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES, DEFAULT_CONNECTION_LIMITS
+from .llm_client import SimpleLLMClient, OpenAICompatibleClient, completion, set_api_key
 from ._exceptions import (
     APIError,
     HanzoError,
@@ -91,7 +85,7 @@ __all__ = [
     "DefaultAsyncHttpxClient",
     # New modules
     "agents",
-    "mcp", 
+    "mcp",
     "cluster",
     "auth",
 ]

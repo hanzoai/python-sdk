@@ -4,8 +4,8 @@ from mcp.server import FastMCP
 
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 from hanzo_mcp.tools.common.batch_tool import BatchTool
-from hanzo_mcp.tools.common.thinking_tool import ThinkingTool
 from hanzo_mcp.tools.common.critic_tool import CriticTool
+from hanzo_mcp.tools.common.thinking_tool import ThinkingTool
 
 
 def register_thinking_tool(

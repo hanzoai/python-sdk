@@ -3,13 +3,13 @@
 This module provides the Edit tool for making precise text replacements in files.
 """
 
+from typing import Unpack, Annotated, TypedDict, final, override
 from difflib import unified_diff
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
@@ -266,7 +266,7 @@ Usage:
             file_path: FilePath,
             old_string: OldString,
             new_string: NewString,
-            expected_replacements: ExpectedReplacements = 1
+            expected_replacements: ExpectedReplacements = 1,
         ) -> str:
             return await tool_self.call(
                 ctx,

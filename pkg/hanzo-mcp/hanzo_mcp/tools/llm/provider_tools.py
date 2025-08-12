@@ -1,15 +1,12 @@
 """Provider-specific LLM tools."""
 
-import os
-from typing import Annotated, Optional, TypedDict, Unpack, final, override, Dict, Any
+from typing import Dict, Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
-
 
 Prompt = Annotated[
     str,
@@ -73,10 +70,12 @@ class ProviderToolParams(TypedDict, total=False):
 
 class BaseProviderTool(BaseTool):
     """Base class for provider-specific LLM tools."""
-    
-    def __init__(self, provider: str, default_model: str, model_variants: Dict[str, str]):
+
+    def __init__(
+        self, provider: str, default_model: str, model_variants: Dict[str, str]
+    ):
         """Initialize provider tool.
-        
+
         Args:
             provider: Provider name
             default_model: Default model to use
@@ -92,11 +91,11 @@ class BaseProviderTool(BaseTool):
         """Get full model name from short name or default."""
         if not model:
             return self.default_model
-        
+
         # Check if it's a short name
         if model in self.model_variants:
             return self.model_variants[model]
-        
+
         # Return as-is if not found (assume full name)
         return model
 
@@ -110,16 +109,16 @@ class BaseProviderTool(BaseTool):
         if not self.is_available:
             env_vars = LLMTool.API_KEY_ENV_VARS.get(self.provider, [])
             return f"Error: {self.provider.title()} API key not found. Set one of: {', '.join(env_vars)}"
-        
+
         # Get full model name
         model = self.get_full_model_name(params.get("model"))
-        
+
         # Prepare LLM tool parameters
         llm_params = {
             "model": model,
             "prompt": params["prompt"],
         }
-        
+
         # Add optional parameters
         if "system_prompt" in params:
             llm_params["system_prompt"] = params["system_prompt"]
@@ -129,7 +128,7 @@ class BaseProviderTool(BaseTool):
             llm_params["max_tokens"] = params["max_tokens"]
         if "json_mode" in params:
             llm_params["json_mode"] = params["json_mode"]
-        
+
         # Call the LLM tool
         return await self.llm_tool.call(ctx, **llm_params)
 
@@ -141,7 +140,7 @@ class BaseProviderTool(BaseTool):
 @final
 class OpenAITool(BaseProviderTool):
     """OpenAI-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="openai",
@@ -154,7 +153,7 @@ class OpenAITool(BaseProviderTool):
                 "o1-mini": "o1-mini",
                 "4-turbo": "gpt-4-turbo-preview",
                 "4-vision": "gpt-4-vision-preview",
-            }
+            },
         )
 
     @property
@@ -185,7 +184,7 @@ Examples:
 @final
 class AnthropicTool(BaseProviderTool):
     """Anthropic-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="anthropic",
@@ -197,7 +196,7 @@ class AnthropicTool(BaseProviderTool):
                 "2.1": "claude-2.1",
                 "2": "claude-2",
                 "instant": "claude-instant-1.2",
-            }
+            },
         )
 
     @property
@@ -228,7 +227,7 @@ Examples:
 @final
 class GeminiTool(BaseProviderTool):
     """Google Gemini-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="google",
@@ -239,7 +238,7 @@ class GeminiTool(BaseProviderTool):
                 "1.5-pro": "gemini/gemini-1.5-pro-latest",
                 "1.5-flash": "gemini/gemini-1.5-flash-latest",
                 "ultra": "gemini/gemini-ultra",
-            }
+            },
         )
 
     @property
@@ -270,7 +269,7 @@ Examples:
 @final
 class GroqTool(BaseProviderTool):
     """Groq-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="groq",
@@ -281,7 +280,7 @@ class GroqTool(BaseProviderTool):
                 "llama3-8b": "groq/llama3-8b-8192",
                 "llama2-70b": "groq/llama2-70b-4096",
                 "gemma-7b": "groq/gemma-7b-it",
-            }
+            },
         )
 
     @property
@@ -312,7 +311,7 @@ Examples:
 @final
 class MistralTool(BaseProviderTool):
     """Mistral-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="mistral",
@@ -323,7 +322,7 @@ class MistralTool(BaseProviderTool):
                 "medium": "mistral/mistral-medium-latest",
                 "large": "mistral/mistral-large-latest",
                 "embed": "mistral/mistral-embed",
-            }
+            },
         )
 
     @property
@@ -353,7 +352,7 @@ Examples:
 @final
 class PerplexityTool(BaseProviderTool):
     """Perplexity-specific LLM tool."""
-    
+
     def __init__(self):
         super().__init__(
             provider="perplexity",
@@ -363,7 +362,7 @@ class PerplexityTool(BaseProviderTool):
                 "sonar-medium": "perplexity/sonar-medium-online",
                 "sonar-small-chat": "perplexity/sonar-small-chat",
                 "sonar-medium-chat": "perplexity/sonar-medium-chat",
-            }
+            },
         )
 
     @property

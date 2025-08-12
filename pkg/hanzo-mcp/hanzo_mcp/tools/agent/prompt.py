@@ -141,7 +141,8 @@ def get_default_model(model_override: str | None = None) -> str:
     # Special cases for tests
     if (
         model.startswith("test-model")
-        or "TEST_MODE" in os.environ and model == "claude-3-5-sonnet-20241022"
+        or "TEST_MODE" in os.environ
+        and model == "claude-3-5-sonnet-20241022"
     ):
         return model
 

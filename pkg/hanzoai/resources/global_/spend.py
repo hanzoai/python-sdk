@@ -134,7 +134,10 @@ class SpendResource(SyncAPIResource):
         return self._post(
             "/global/spend/reset",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -145,7 +148,9 @@ class SpendResource(SyncAPIResource):
         api_key: Optional[str] | NotGiven = NOT_GIVEN,
         customer_id: Optional[str] | NotGiven = NOT_GIVEN,
         end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        group_by: Optional[Literal["team", "customer", "api_key"]] | NotGiven = NOT_GIVEN,
+        group_by: (
+            Optional[Literal["team", "customer", "api_key"]] | NotGiven
+        ) = NOT_GIVEN,
         internal_user_id: Optional[str] | NotGiven = NOT_GIVEN,
         start_date: Optional[str] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
@@ -319,7 +324,10 @@ class AsyncSpendResource(AsyncAPIResource):
         return await self._post(
             "/global/spend/reset",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -330,7 +338,9 @@ class AsyncSpendResource(AsyncAPIResource):
         api_key: Optional[str] | NotGiven = NOT_GIVEN,
         customer_id: Optional[str] | NotGiven = NOT_GIVEN,
         end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        group_by: Optional[Literal["team", "customer", "api_key"]] | NotGiven = NOT_GIVEN,
+        group_by: (
+            Optional[Literal["team", "customer", "api_key"]] | NotGiven
+        ) = NOT_GIVEN,
         internal_user_id: Optional[str] | NotGiven = NOT_GIVEN,
         start_date: Optional[str] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,

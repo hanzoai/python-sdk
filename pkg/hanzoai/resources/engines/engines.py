@@ -87,11 +87,16 @@ class EnginesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `model` but received {model!r}"
+            )
         return self._post(
             f"/engines/{model}/completions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -131,11 +136,16 @@ class EnginesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `model` but received {model!r}"
+            )
         return self._post(
             f"/engines/{model}/embeddings",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -202,11 +212,16 @@ class AsyncEnginesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `model` but received {model!r}"
+            )
         return await self._post(
             f"/engines/{model}/completions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -246,11 +261,16 @@ class AsyncEnginesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `model` but received {model!r}"
+            )
         return await self._post(
             f"/engines/{model}/embeddings",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

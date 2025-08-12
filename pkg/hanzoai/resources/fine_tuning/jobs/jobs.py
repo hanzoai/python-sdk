@@ -29,7 +29,11 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.fine_tuning import job_list_params, job_create_params, job_retrieve_params
+from ....types.fine_tuning import (
+    job_list_params,
+    job_create_params,
+    job_retrieve_params,
+)
 
 __all__ = ["JobsResource", "AsyncJobsResource"]
 
@@ -64,7 +68,9 @@ class JobsResource(SyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: Optional[job_create_params.Hyperparameters] | NotGiven = NOT_GIVEN,
+        hyperparameters: (
+            Optional[job_create_params.Hyperparameters] | NotGiven
+        ) = NOT_GIVEN,
         integrations: Optional[List[str]] | NotGiven = NOT_GIVEN,
         seed: Optional[int] | NotGiven = NOT_GIVEN,
         suffix: Optional[str] | NotGiven = NOT_GIVEN,
@@ -121,7 +127,10 @@ class JobsResource(SyncAPIResource):
                 job_create_params.JobCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -158,7 +167,9 @@ class JobsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
+            )
         return self._get(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}",
             options=make_request_options(
@@ -167,7 +178,8 @@ class JobsResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"custom_llm_provider": custom_llm_provider}, job_retrieve_params.JobRetrieveParams
+                    {"custom_llm_provider": custom_llm_provider},
+                    job_retrieve_params.JobRetrieveParams,
                 ),
             ),
             cast_to=object,
@@ -256,7 +268,9 @@ class AsyncJobsResource(AsyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: Optional[job_create_params.Hyperparameters] | NotGiven = NOT_GIVEN,
+        hyperparameters: (
+            Optional[job_create_params.Hyperparameters] | NotGiven
+        ) = NOT_GIVEN,
         integrations: Optional[List[str]] | NotGiven = NOT_GIVEN,
         seed: Optional[int] | NotGiven = NOT_GIVEN,
         suffix: Optional[str] | NotGiven = NOT_GIVEN,
@@ -313,7 +327,10 @@ class AsyncJobsResource(AsyncAPIResource):
                 job_create_params.JobCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -350,7 +367,9 @@ class AsyncJobsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
+            )
         return await self._get(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}",
             options=make_request_options(
@@ -359,7 +378,8 @@ class AsyncJobsResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"custom_llm_provider": custom_llm_provider}, job_retrieve_params.JobRetrieveParams
+                    {"custom_llm_provider": custom_llm_provider},
+                    job_retrieve_params.JobRetrieveParams,
                 ),
             ),
             cast_to=object,

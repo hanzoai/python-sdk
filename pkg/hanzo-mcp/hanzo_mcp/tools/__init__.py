@@ -11,39 +11,50 @@ to delegate tasks to sub-agents for concurrent execution and specialized process
 
 from mcp.server import FastMCP
 
+from hanzo_mcp.tools.todo import register_todo_tools
 from hanzo_mcp.tools.agent import register_agent_tools
-from hanzo_mcp.tools.common import register_batch_tool, register_thinking_tool, register_critic_tool
+from hanzo_mcp.tools.shell import register_shell_tools
+from hanzo_mcp.tools.common import (
+    register_batch_tool,
+    register_critic_tool,
+    register_thinking_tool,
+)
+from hanzo_mcp.tools.vector import register_vector_tools
+from hanzo_mcp.tools.jupyter import register_jupyter_tools
+from hanzo_mcp.tools.database import DatabaseManager, register_database_tools
+from hanzo_mcp.tools.filesystem import register_filesystem_tools
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.stats import StatsTool
+from hanzo_mcp.tools.common.tool_list import ToolListTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
 from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
-from hanzo_mcp.tools.common.tool_list import ToolListTool
-from hanzo_mcp.tools.common.stats import StatsTool
-from hanzo_mcp.tools.filesystem import register_filesystem_tools
-from hanzo_mcp.tools.jupyter import register_jupyter_tools
-from hanzo_mcp.tools.shell import register_shell_tools
-from hanzo_mcp.tools.todo import register_todo_tools
-from hanzo_mcp.tools.vector import register_vector_tools
-from hanzo_mcp.tools.database import register_database_tools, DatabaseManager
 
 # Try to import memory tools, but don't fail if hanzo-memory is not installed
 try:
     from hanzo_mcp.tools.memory import register_memory_tools
+
     MEMORY_TOOLS_AVAILABLE = True
 except ImportError:
     MEMORY_TOOLS_AVAILABLE = False
     register_memory_tools = None
-from hanzo_mcp.tools.mcp import MCPTool, McpAddTool, McpRemoveTool, McpStatsTool
+from hanzo_mcp.tools.llm import (
+    LLMTool,
+    ConsensusTool,
+    LLMManageTool,
+    create_provider_tools,
+)
+from hanzo_mcp.tools.mcp import MCPTool, McpAddTool, McpStatsTool, McpRemoveTool
 from hanzo_mcp.tools.editor import NeovimEditTool, NeovimCommandTool, NeovimSessionTool
-from hanzo_mcp.tools.llm import LLMTool, LLMTool, ConsensusTool, LLMManageTool, create_provider_tools
+from hanzo_mcp.tools.common.mode import activate_mode_from_env
 from hanzo_mcp.tools.config.mode_tool import mode_tool
 from hanzo_mcp.tools.common.mode_loader import ModeLoader
-from hanzo_mcp.tools.common.mode import activate_mode_from_env
 from hanzo_mcp.tools.common.plugin_loader import load_user_plugins
 
 # Try to import LSP tool
 try:
     from hanzo_mcp.tools.lsp import LSPTool, create_lsp_tool
+
     LSP_TOOL_AVAILABLE = True
 except ImportError:
     LSP_TOOL_AVAILABLE = False
@@ -84,7 +95,7 @@ def register_all_tools(
         vector_config: Vector store configuration (default: None)
         use_mode: Whether to use mode system for tool configuration (default: True)
         force_mode: Force a specific mode to be active (default: None)
-    
+
     Returns:
         List of registered BaseTool instances
     """
@@ -95,11 +106,15 @@ def register_all_tools(
     try:
         plugins = load_user_plugins()
         import logging
+
         logger = logging.getLogger(__name__)
         if plugins:
-            logger.info(f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}")
+            logger.info(
+                f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}"
+            )
     except Exception as e:
         import logging
+
         logger = logging.getLogger(__name__)
         logger.warning(f"Failed to load user plugins: {e}")
         plugins = {}
@@ -110,8 +125,7 @@ def register_all_tools(
         activate_mode_from_env()
 
         tool_config = ModeLoader.get_enabled_tools_from_mode(
-            base_enabled_tools=enabled_tools,
-            force_mode=force_mode
+            base_enabled_tools=enabled_tools, force_mode=force_mode
         )
         # Apply mode environment variables
         ModeLoader.apply_environment_from_mode()
@@ -146,18 +160,26 @@ def register_all_tools(
     }
 
     # Create project manager if vector tools, batch_search, or unified_search are enabled
-    if any(vector_enabled.values()) or filesystem_enabled.get("batch_search", False) or filesystem_enabled.get("search", False):
+    if (
+        any(vector_enabled.values())
+        or filesystem_enabled.get("batch_search", False)
+        or filesystem_enabled.get("search", False)
+    ):
         if vector_config:
             from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
+
             search_paths = [str(path) for path in permission_manager.allowed_paths]
             project_manager = ProjectVectorManager(
                 global_db_path=vector_config.get("data_path"),
-                embedding_model=vector_config.get("embedding_model", "text-embedding-3-small"),
+                embedding_model=vector_config.get(
+                    "embedding_model", "text-embedding-3-small"
+                ),
                 dimension=vector_config.get("dimension", 1536),
             )
             # Auto-detect projects from search paths
             detected_projects = project_manager.detect_projects(search_paths)
             import logging
+
             logger = logging.getLogger(__name__)
             logger.info(f"Detected {len(detected_projects)} projects with LLM.md files")
 
@@ -178,7 +200,9 @@ def register_all_tools(
     }
 
     if any(jupyter_enabled.values()):
-        jupyter_tools = register_jupyter_tools(mcp_server, permission_manager, enabled_tools=jupyter_enabled)
+        jupyter_tools = register_jupyter_tools(
+            mcp_server, permission_manager, enabled_tools=jupyter_enabled
+        )
         for tool in jupyter_tools:
             all_tools[tool.name] = tool
 
@@ -189,7 +213,11 @@ def register_all_tools(
             all_tools[tool.name] = tool
 
     # Register agent tools if enabled
-    agent_enabled = enable_agent_tool or is_tool_enabled("agent", False) or is_tool_enabled("dispatch_agent", False)
+    agent_enabled = (
+        enable_agent_tool
+        or is_tool_enabled("agent", False)
+        or is_tool_enabled("dispatch_agent", False)
+    )
     swarm_enabled = is_tool_enabled("swarm", False)
 
     if agent_enabled or swarm_enabled:
@@ -205,9 +233,12 @@ def register_all_tools(
         )
         # Filter based on what's enabled
         for tool in agent_tools:
-            if tool.name == "agent" and agent_enabled:
-                all_tools[tool.name] = tool
-            elif tool.name == "swarm" and swarm_enabled:
+            if (
+                tool.name == "agent"
+                and agent_enabled
+                or tool.name == "swarm"
+                and swarm_enabled
+            ):
                 all_tools[tool.name] = tool
             elif tool.name in ["claude", "codex", "gemini", "grok", "code_auth"]:
                 # CLI tools and auth are always included when agent tools are enabled
@@ -415,10 +446,7 @@ def register_all_tools(
     if any(memory_enabled.values()) and MEMORY_TOOLS_AVAILABLE:
         try:
             memory_tools = register_memory_tools(
-                mcp_server,
-                permission_manager,
-                user_id="default",
-                project_id="default"
+                mcp_server, permission_manager, user_id="default", project_id="default"
             )
             # Filter based on enabled state
             for tool in memory_tools:
@@ -446,6 +474,6 @@ def register_all_tools(
                 logger.info(f"Registered plugin tool: {plugin_name}")
             except Exception as e:
                 logger.error(f"Failed to register plugin tool {plugin_name}: {e}")
-    
+
     # Return all registered tools
     return list(all_tools.values())

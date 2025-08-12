@@ -1,28 +1,26 @@
 """Tests for the permissions module."""
 
-import asyncio
 import os
 from pathlib import Path
 
 import pytest
-
 from hanzo_mcp.tools.common.permissions import (
-    PermissibleOperation,
     PermissionManager,
+    PermissibleOperation,
 )
 
 
 class TestPermissionManager:
     """Test the PermissionManager class."""
 
-    def test_add_allowed_path(self, tool_helper,temp_dir: str):
+    def test_add_allowed_path(self, tool_helper, temp_dir: str):
         """Test adding an allowed path."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
 
         assert Path(temp_dir).resolve() in manager.allowed_paths
 
-    def test_remove_allowed_path(self, tool_helper,temp_dir: str):
+    def test_remove_allowed_path(self, tool_helper, temp_dir: str):
         """Test removing an allowed path."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -30,7 +28,7 @@ class TestPermissionManager:
 
         assert Path(temp_dir).resolve() not in manager.allowed_paths
 
-    def test_exclude_path(self, tool_helper,temp_dir: str):
+    def test_exclude_path(self, tool_helper, temp_dir: str):
         """Test excluding a path."""
         manager = PermissionManager()
         manager.exclude_path(temp_dir)
@@ -45,7 +43,7 @@ class TestPermissionManager:
 
         assert pattern in manager.excluded_patterns
 
-    def test_is_path_allowed_with_allowed_path(self, tool_helper,temp_dir: str):
+    def test_is_path_allowed_with_allowed_path(self, tool_helper, temp_dir: str):
         """Test checking if an allowed path is allowed."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -54,13 +52,13 @@ class TestPermissionManager:
 
         assert manager.is_path_allowed(test_file)
 
-    def test_is_path_allowed_with_disallowed_path(self, tool_helper,temp_dir: str):
+    def test_is_path_allowed_with_disallowed_path(self, tool_helper, temp_dir: str):
         """Test checking if a disallowed path is allowed."""
         manager = PermissionManager()
 
         assert manager.is_path_allowed(temp_dir)
 
-    def test_is_path_allowed_with_excluded_path(self, tool_helper,temp_dir: str):
+    def test_is_path_allowed_with_excluded_path(self, tool_helper, temp_dir: str):
         """Test checking if an excluded path is allowed."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -68,7 +66,7 @@ class TestPermissionManager:
 
         assert not manager.is_path_allowed(temp_dir)
 
-    def test_is_path_allowed_with_excluded_pattern(self, tool_helper,temp_dir: str):
+    def test_is_path_allowed_with_excluded_pattern(self, tool_helper, temp_dir: str):
         """Test checking if a path matching an excluded pattern is allowed."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -78,7 +76,7 @@ class TestPermissionManager:
 
         assert manager.is_path_allowed(secret_file)
 
-    def test_to_json(self, tool_helper,temp_dir: str):
+    def test_to_json(self, tool_helper, temp_dir: str):
         """Test converting the manager to JSON."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -91,7 +89,7 @@ class TestPermissionManager:
         assert temp_dir in json_str
         assert "secret_" in json_str
 
-    def test_from_json(self, tool_helper,temp_dir: str):
+    def test_from_json(self, tool_helper, temp_dir: str):
         """Test creating a manager from JSON."""
         original = PermissionManager()
         original.add_allowed_path(temp_dir)
@@ -111,7 +109,9 @@ class TestPermissibleOperation:
     """Test the PermissibleOperation decorator."""
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_allowed_path(self, tool_helper,temp_dir: str):
+    async def test_permissible_operation_with_allowed_path(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with an allowed path."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -127,7 +127,9 @@ class TestPermissibleOperation:
         assert result == f"Read {temp_dir}"
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_custom_path_fn(self, tool_helper,temp_dir: str):
+    async def test_permissible_operation_with_custom_path_fn(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with a custom path function."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -147,7 +149,9 @@ class TestPermissibleOperation:
         assert result == f"Read {temp_dir}"
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_invalid_path(self, tool_helper,temp_dir: str):
+    async def test_permissible_operation_with_invalid_path(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with an invalid path type."""
         manager = PermissionManager()
 

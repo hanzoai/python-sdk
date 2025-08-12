@@ -1,18 +1,17 @@
 """Run Python packages in background with uvx."""
 
-import subprocess
-import shutil
 import uuid
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+import shutil
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.run_background import BackgroundProcess, RunBackgroundTool
-
 
 Package = Annotated[
     str,
@@ -151,28 +150,27 @@ Use 'processes' to list running processes and 'pkill' to stop them.
         # Check if uvx is available
         if not shutil.which("uvx"):
             await tool_ctx.info("uvx not found, attempting to install...")
-            
+
             # Try to auto-install uvx
             install_cmd = "curl -LsSf https://astral.sh/uv/install.sh | sh"
-            
+
             try:
                 # Run installation
                 install_result = subprocess.run(
-                    install_cmd,
-                    shell=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=60
+                    install_cmd, shell=True, capture_output=True, text=True, timeout=60
                 )
-                
+
                 if install_result.returncode == 0:
                     await tool_ctx.info("uvx installed successfully!")
-                    
+
                     # Add to PATH for current session
                     import os
+
                     home = os.path.expanduser("~")
-                    os.environ["PATH"] = f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
-                    
+                    os.environ["PATH"] = (
+                        f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
+                    )
+
                     # Check again
                     if not shutil.which("uvx"):
                         return """Error: uvx installed but not found in PATH. 
@@ -191,7 +189,7 @@ Or on macOS:
 brew install uv
 
 Error details: {install_result.stderr}"""
-                    
+
             except subprocess.TimeoutExpired:
                 return """Error: Installation timed out. Install uvx manually with:
 curl -LsSf https://astral.sh/uv/install.sh | sh"""
@@ -203,25 +201,27 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
 
         # Build command
         cmd = ["uvx"]
-        
+
         if python_version:
             cmd.extend(["--python", python_version])
-        
+
         cmd.append(package)
-        
+
         # Add package arguments
         if args:
             # Split args properly (basic parsing)
             import shlex
+
             cmd.extend(shlex.split(args))
 
         # Generate process ID
         process_id = str(uuid.uuid4())[:8]
-        
+
         # Prepare log file if needed
         log_file = None
         if log_output:
             from pathlib import Path
+
             log_dir = Path.home() / ".hanzo" / "logs"
             log_dir.mkdir(parents=True, exist_ok=True)
             log_file = log_dir / f"{name}_{process_id}.log"
@@ -237,7 +237,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
                         stdout=f,
                         stderr=subprocess.STDOUT,
                         cwd=working_dir,
-                        start_new_session=True
+                        start_new_session=True,
                     )
             else:
                 process = subprocess.Popen(
@@ -245,7 +245,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     cwd=working_dir,
-                    start_new_session=True
+                    start_new_session=True,
                 )
 
             # Create background process object
@@ -255,7 +255,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
                 name=name,
                 process=process,
                 log_file=str(log_file) if log_file else None,
-                working_dir=working_dir
+                working_dir=working_dir,
             )
 
             # Register with RunBackgroundTool
@@ -269,19 +269,21 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
                 f"  PID: {process.pid}",
                 f"  Command: {' '.join(cmd)}",
             ]
-            
+
             if working_dir:
                 output.append(f"  Working Dir: {working_dir}")
-            
+
             if log_file:
                 output.append(f"  Log: {log_file}")
-            
-            output.extend([
-                "",
-                "Use 'processes' to list running processes.",
-                f"Use 'logs --process-id {process_id}' to view output.",
-                f"Use 'pkill --process-id {process_id}' to stop."
-            ])
+
+            output.extend(
+                [
+                    "",
+                    "Use 'processes' to list running processes.",
+                    f"Use 'logs --process-id {process_id}' to view output.",
+                    f"Use 'pkill --process-id {process_id}' to stop.",
+                ]
+            )
 
             return "\n".join(output)
 

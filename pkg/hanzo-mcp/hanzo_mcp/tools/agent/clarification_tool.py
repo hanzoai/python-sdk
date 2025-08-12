@@ -2,16 +2,17 @@
 
 from typing import Any, Dict, List, Optional, override
 
-from hanzo_mcp.tools.common.base import BaseTool
-from mcp.server.fastmcp import Context as MCPContext
 from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
+
+from hanzo_mcp.tools.common.base import BaseTool
 
 
 class ClarificationTool(BaseTool):
     """Tool for agents to request clarification from the main loop."""
-    
+
     name = "request_clarification"
-    
+
     @property
     @override
     def description(self) -> str:
@@ -40,29 +41,29 @@ request_clarification(
     context={"file_path": "/path/to/file.go", "undefined_symbol": "common"},
     options=["github.com/luxfi/node/common", "github.com/project/common"]
 )"""
-    
+
     async def call(
         self,
         ctx: MCPContext,
         type: str,
         question: str,
         context: Dict[str, Any],
-        options: Optional[List[str]] = None
+        options: Optional[List[str]] = None,
     ) -> str:
         """This is a placeholder - actual implementation happens in AgentTool."""
         # This tool is handled specially in the agent execution
         return f"Clarification request: {question}"
-    
+
     def register(self, server: FastMCP) -> None:
         """Register the tool with the MCP server."""
         tool_self = self
-        
+
         @server.tool(name=self.name, description=self.description)
         async def request_clarification(
             ctx: MCPContext,
             type: str,
             question: str,
             context: Dict[str, Any],
-            options: Optional[List[str]] = None
+            options: Optional[List[str]] = None,
         ) -> str:
             return await tool_self.call(ctx, type, question, context, options)

@@ -7,7 +7,7 @@ from pydantic import Field as FieldInfo
 
 from .member import Member
 from .._models import BaseModel
-from .budget_table import BudgetTable
+from .budget_table import LlmBudgetTable as BudgetTable
 from .lite_llm_user_table import HanzoUserTable
 from .lite_llm_model_table import HanzoModelTable
 

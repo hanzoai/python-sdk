@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Test that litellm deprecation warnings are properly suppressed."""
 
-import subprocess
-import sys
 import os
+import sys
+import subprocess
 
 
 def test_no_pydantic_warnings():
@@ -12,16 +12,19 @@ def test_no_pydantic_warnings():
     result = subprocess.run(
         [sys.executable, "-m", "hanzo_mcp.cli", "--help"],
         capture_output=True,
-        text=True
+        text=True,
     )
-    
+
     # Check for deprecation warnings in stderr
-    assert "PydanticDeprecatedSince20" not in result.stderr, \
-        f"Pydantic deprecation warning found in stderr: {result.stderr}"
-    
+    assert (
+        "PydanticDeprecatedSince20" not in result.stderr
+    ), f"Pydantic deprecation warning found in stderr: {result.stderr}"
+
     # Check that the command succeeded
-    assert result.returncode == 0, f"Command failed with return code {result.returncode}"
-    
+    assert (
+        result.returncode == 0
+    ), f"Command failed with return code {result.returncode}"
+
     # Check that help text is shown
     assert "MCP server implementing Hanzo AI capabilities" in result.stdout
 
@@ -29,7 +32,7 @@ def test_no_pydantic_warnings():
 def test_agent_tool_no_warnings():
     """Test that importing agent tools doesn't produce warnings."""
     # Create a test script that imports agent tools
-    test_script = '''
+    test_script = """
 import warnings
 import sys
 
@@ -51,16 +54,16 @@ with warnings.catch_warnings(record=True) as w:
     else:
         print("No deprecation warnings found")
         sys.exit(0)
-'''
-    
+"""
+
     # Run the test script
     result = subprocess.run(
         [sys.executable, "-c", test_script],
         capture_output=True,
         text=True,
-        env={**os.environ, "PYTHONPATH": os.path.dirname(os.path.dirname(__file__))}
+        env={**os.environ, "PYTHONPATH": os.path.dirname(os.path.dirname(__file__))},
     )
-    
+
     # Check that no warnings were found
     assert result.returncode == 0, f"Deprecation warnings found: {result.stderr}"
     assert "No deprecation warnings found" in result.stdout

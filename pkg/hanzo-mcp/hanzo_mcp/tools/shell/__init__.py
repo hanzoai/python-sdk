@@ -5,15 +5,16 @@ This package provides tools for executing shell commands and scripts.
 
 from mcp.server import FastMCP
 
+from hanzo_mcp.tools.shell.open import open_tool
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
-from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.shell.npx_tool import npx_tool
+from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
 
 # Import tools
 from hanzo_mcp.tools.shell.bash_tool import bash_tool
-from hanzo_mcp.tools.shell.npx_tool import npx_tool
-from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.process_tool import process_tool
-from hanzo_mcp.tools.shell.open import open_tool
+
 # from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
 
 # Export all tool classes
@@ -38,10 +39,10 @@ def get_shell_tools(
     bash_tool.permission_manager = permission_manager
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
-    
+
     # Note: StreamingCommandTool is abstract and shouldn't be instantiated directly
     # It's used as a base class for other streaming tools
-    
+
     return [
         bash_tool,
         npx_tool,

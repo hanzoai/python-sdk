@@ -10,9 +10,18 @@ from .core.network import Network, create_network
 from .core.router import Router, create_router, create_routing_agent
 from .core.state import NetworkState
 from .core.tool import Tool, create_tool
-# Temporarily disable problematic imports
-# from .distributed_network import DistributedNetwork, DistributedNetworkConfig, create_distributed_network
-# from .local_network import create_local_agent, create_local_distributed_network, check_local_llm_status
+
+# Import distributed network capabilities
+from .distributed_network import (
+    DistributedNetwork,
+    DistributedNetworkConfig,
+    create_distributed_network,
+)
+
+from .local_network import create_local_agent, create_local_distributed_network, check_local_llm_status
+
+# Import LLM providers
+from .llm import HanzoNetProvider, LocalLLMProvider, OllamaProvider, MLXProvider
 
 # Local compute capabilities
 try:
@@ -23,8 +32,9 @@ try:
         InferenceResult as LocalInferenceResult,
         ModelConfig,
         ModelProvider,
-        orchestrator
+        orchestrator,
     )
+
     LOCAL_COMPUTE_AVAILABLE = True
 except ImportError:
     LOCAL_COMPUTE_AVAILABLE = False
@@ -43,20 +53,25 @@ __all__ = [
     "Router",
     "NetworkState",
     "Tool",
-    # Distributed classes (temporarily disabled)
-    # "DistributedNetwork",
-    # "DistributedNetworkConfig",
+    # Distributed classes
+    "DistributedNetwork",
+    "DistributedNetworkConfig",
     # Factory functions
     "create_agent",
     "create_network",
-    # "create_distributed_network",
+    "create_distributed_network",
     "create_router",
     "create_routing_agent",
     "create_tool",
-    # Local network helpers (temporarily disabled)
-    # "create_local_agent",
-    # "create_local_distributed_network",
-    # "check_local_llm_status",
+    # Local network helpers
+    "create_local_agent",
+    "create_local_distributed_network",
+    "check_local_llm_status",
+    # LLM providers
+    "HanzoNetProvider",
+    "LocalLLMProvider",
+    "OllamaProvider",
+    "MLXProvider",
     # Local compute (if available)
     "LOCAL_COMPUTE_AVAILABLE",
     "LocalComputeNode",
@@ -68,4 +83,4 @@ __all__ = [
     "orchestrator",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.1.3"

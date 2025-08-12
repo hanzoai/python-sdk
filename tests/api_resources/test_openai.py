@@ -14,9 +14,10 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestOpenAI:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         openai = client.openai.create(
@@ -24,7 +25,6 @@ class TestOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.openai.with_raw_response.create(
@@ -36,7 +36,6 @@ class TestOpenAI:
         openai = response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.openai.with_streaming_response.create(
@@ -50,15 +49,16 @@ class TestOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_create(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             client.openai.with_raw_response.create(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: Hanzo) -> None:
         openai = client.openai.retrieve(
@@ -66,7 +66,6 @@ class TestOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.openai.with_raw_response.retrieve(
@@ -78,7 +77,6 @@ class TestOpenAI:
         openai = response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.openai.with_streaming_response.retrieve(
@@ -92,15 +90,16 @@ class TestOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_retrieve(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             client.openai.with_raw_response.retrieve(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         openai = client.openai.update(
@@ -108,7 +107,6 @@ class TestOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.openai.with_raw_response.update(
@@ -120,7 +118,6 @@ class TestOpenAI:
         openai = response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.openai.with_streaming_response.update(
@@ -134,15 +131,16 @@ class TestOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_update(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             client.openai.with_raw_response.update(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         openai = client.openai.delete(
@@ -150,7 +148,6 @@ class TestOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.openai.with_raw_response.delete(
@@ -162,7 +159,6 @@ class TestOpenAI:
         openai = response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.openai.with_streaming_response.delete(
@@ -176,15 +172,16 @@ class TestOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_delete(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             client.openai.with_raw_response.delete(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_patch(self, client: Hanzo) -> None:
         openai = client.openai.patch(
@@ -192,7 +189,6 @@ class TestOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_patch(self, client: Hanzo) -> None:
         response = client.openai.with_raw_response.patch(
@@ -204,7 +200,6 @@ class TestOpenAI:
         openai = response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_patch(self, client: Hanzo) -> None:
         with client.openai.with_streaming_response.patch(
@@ -218,19 +213,22 @@ class TestOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_patch(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             client.openai.with_raw_response.patch(
                 "",
             )
 
 
 class TestAsyncOpenAI:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
+    )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         openai = await async_client.openai.create(
@@ -238,7 +236,6 @@ class TestAsyncOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.with_raw_response.create(
@@ -250,7 +247,6 @@ class TestAsyncOpenAI:
         openai = await response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.with_streaming_response.create(
@@ -264,15 +260,16 @@ class TestAsyncOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_create(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             await async_client.openai.with_raw_response.create(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         openai = await async_client.openai.retrieve(
@@ -280,7 +277,6 @@ class TestAsyncOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.with_raw_response.retrieve(
@@ -292,7 +288,6 @@ class TestAsyncOpenAI:
         openai = await response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.with_streaming_response.retrieve(
@@ -306,15 +301,16 @@ class TestAsyncOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             await async_client.openai.with_raw_response.retrieve(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         openai = await async_client.openai.update(
@@ -322,7 +318,6 @@ class TestAsyncOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.with_raw_response.update(
@@ -334,7 +329,6 @@ class TestAsyncOpenAI:
         openai = await response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.with_streaming_response.update(
@@ -348,15 +342,16 @@ class TestAsyncOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             await async_client.openai.with_raw_response.update(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         openai = await async_client.openai.delete(
@@ -364,7 +359,6 @@ class TestAsyncOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.with_raw_response.delete(
@@ -376,7 +370,6 @@ class TestAsyncOpenAI:
         openai = await response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.with_streaming_response.delete(
@@ -390,15 +383,16 @@ class TestAsyncOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             await async_client.openai.with_raw_response.delete(
                 "",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_patch(self, async_client: AsyncHanzo) -> None:
         openai = await async_client.openai.patch(
@@ -406,7 +400,6 @@ class TestAsyncOpenAI:
         )
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_patch(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.with_raw_response.patch(
@@ -418,7 +411,6 @@ class TestAsyncOpenAI:
         openai = await response.parse()
         assert_matches_type(object, openai, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_patch(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.with_streaming_response.patch(
@@ -432,10 +424,12 @@ class TestAsyncOpenAI:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_patch(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
+        with pytest.raises(
+            ValueError,
+            match=r"Expected a non-empty value for `endpoint` but received ''",
+        ):
             await async_client.openai.with_raw_response.patch(
                 "",
             )

@@ -1,19 +1,16 @@
 """Tool for terminating background processes."""
 
-import os
-import signal
-import psutil
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from datetime import datetime
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
+import psutil
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.run_background import RunBackgroundTool
-
 
 ProcessId = Annotated[
     Optional[str],
@@ -145,7 +142,7 @@ Examples:
             if kill_all:
                 await tool_ctx.info("Killing all background processes")
                 processes = RunBackgroundTool.get_processes()
-                
+
                 for proc_id, process in list(processes.items()):
                     if process.is_running:
                         try:
@@ -154,10 +151,12 @@ Examples:
                             else:
                                 process.terminate()
                             killed_count += 1
-                            await tool_ctx.info(f"Killed process {proc_id} ({process.name})")
+                            await tool_ctx.info(
+                                f"Killed process {proc_id} ({process.name})"
+                            )
                         except Exception as e:
                             errors.append(f"Failed to kill {proc_id}: {str(e)}")
-                
+
                 if killed_count == 0:
                     return "No running background processes to kill."
 
@@ -165,13 +164,13 @@ Examples:
             elif process_id:
                 await tool_ctx.info(f"Killing process with ID: {process_id}")
                 process = RunBackgroundTool.get_process(process_id)
-                
+
                 if not process:
                     return f"Process with ID '{process_id}' not found."
-                
+
                 if not process.is_running:
                     return f"Process '{process_id}' is not running (return code: {process.return_code})."
-                
+
                 try:
                     if force:
                         process.kill()
@@ -187,21 +186,21 @@ Examples:
                 await tool_ctx.info(f"Killing process with PID: {pid}")
                 try:
                     p = psutil.Process(pid)
-                    
+
                     if force:
                         p.kill()
                     else:
                         p.terminate()
-                    
+
                     killed_count += 1
                     await tool_ctx.info(f"Successfully killed PID {pid}")
-                    
+
                     # Check if this was a background process and update it
                     for proc_id, process in RunBackgroundTool.get_processes().items():
                         if process.pid == pid:
                             process.end_time = datetime.now()
                             break
-                            
+
                 except psutil.NoSuchProcess:
                     return f"Process with PID {pid} not found."
                 except psutil.AccessDenied:
@@ -212,7 +211,7 @@ Examples:
             # Kill by name
             elif name:
                 await tool_ctx.info(f"Killing all processes matching: {name}")
-                
+
                 # First check background processes
                 bg_processes = RunBackgroundTool.get_processes()
                 for proc_id, process in list(bg_processes.items()):
@@ -223,34 +222,40 @@ Examples:
                             else:
                                 process.terminate()
                             killed_count += 1
-                            await tool_ctx.info(f"Killed background process {proc_id} ({process.name})")
+                            await tool_ctx.info(
+                                f"Killed background process {proc_id} ({process.name})"
+                            )
                         except Exception as e:
                             errors.append(f"Failed to kill {proc_id}: {str(e)}")
-                
+
                 # Also check system processes
-                for proc in psutil.process_iter(['pid', 'name']):
+                for proc in psutil.process_iter(["pid", "name"]):
                     try:
-                        if name.lower() in proc.info['name'].lower():
+                        if name.lower() in proc.info["name"].lower():
                             if force:
                                 proc.kill()
                             else:
                                 proc.terminate()
                             killed_count += 1
-                            await tool_ctx.info(f"Killed {proc.info['name']} (PID: {proc.info['pid']})")
+                            await tool_ctx.info(
+                                f"Killed {proc.info['name']} (PID: {proc.info['pid']})"
+                            )
                     except (psutil.NoSuchProcess, psutil.AccessDenied):
                         continue
                     except Exception as e:
-                        errors.append(f"Failed to kill PID {proc.info['pid']}: {str(e)}")
+                        errors.append(
+                            f"Failed to kill PID {proc.info['pid']}: {str(e)}"
+                        )
 
             # Build result message
             if killed_count > 0:
                 result = f"Successfully killed {killed_count} process(es)."
             else:
                 result = "No processes were killed."
-            
+
             if errors:
                 result += f"\n\nErrors:\n" + "\n".join(errors)
-            
+
             return result
 
         except Exception as e:

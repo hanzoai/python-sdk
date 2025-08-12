@@ -1,17 +1,15 @@
 """LLM management tool for enabling/disabling LLM providers."""
 
-import os
 import json
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
-
+from hanzo_mcp.tools.common.context import create_tool_context
 
 Action = Annotated[
     str,
@@ -49,7 +47,7 @@ class LLMManageParams(TypedDict, total=False):
 @final
 class LLMManageTool(BaseTool):
     """Tool for managing LLM providers."""
-    
+
     def __init__(self):
         """Initialize the LLM management tool."""
         self.llm_tool = LLMTool()
@@ -61,16 +59,16 @@ class LLMManageTool(BaseTool):
         """Load provider configuration."""
         if self.config_file.exists():
             try:
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file, "r") as f:
                     self.config = json.load(f)
-            except:
+            except Exception:
                 self.config = {"disabled_providers": []}
         else:
             self.config = {"disabled_providers": []}
 
     def _save_config(self):
         """Save provider configuration."""
-        with open(self.config_file, 'w') as f:
+        with open(self.config_file, "w") as f:
             json.dump(self.config, f, indent=2)
 
     @property
@@ -155,17 +153,17 @@ Providers are automatically detected based on environment variables:
         """List all providers and their status."""
         output = ["=== LLM Providers ==="]
         output.append("")
-        
+
         # Get all possible providers
         all_providers = sorted(LLMTool.API_KEY_ENV_VARS.keys())
         available_providers = self.llm_tool.available_providers
         disabled_providers = self.config.get("disabled_providers", [])
-        
+
         # Categorize providers
         active = []
         available_but_disabled = []
         no_api_key = []
-        
+
         for provider in all_providers:
             if provider in available_providers:
                 if provider in disabled_providers:
@@ -174,29 +172,31 @@ Providers are automatically detected based on environment variables:
                     active.append(provider)
             else:
                 no_api_key.append(provider)
-        
+
         # Show active providers
         if active:
             output.append("✅ Active Providers (API key found, enabled):")
             for provider in active:
                 env_vars = available_providers.get(provider, [])
                 output.append(f"  - {provider}: {', '.join(env_vars)}")
-                
+
                 # Show example models
                 examples = self._get_example_models(provider)
                 if examples:
                     output.append(f"    Models: {', '.join(examples[:3])}")
             output.append("")
-        
+
         # Show disabled providers
         if available_but_disabled:
             output.append("⚠️  Available but Disabled (API key found, disabled):")
             for provider in available_but_disabled:
                 env_vars = available_providers.get(provider, [])
                 output.append(f"  - {provider}: {', '.join(env_vars)}")
-                output.append(f"    Use: llm_manage --action enable --provider {provider}")
+                output.append(
+                    f"    Use: llm_manage --action enable --provider {provider}"
+                )
             output.append("")
-        
+
         # Show providers without API keys
         if no_api_key:
             output.append("❌ No API Key Found:")
@@ -206,43 +206,50 @@ Providers are automatically detected based on environment variables:
             if len(no_api_key) > 10:
                 output.append(f"  ... and {len(no_api_key) - 10} more")
             output.append("")
-        
+
         # Summary
         output.append("=== Summary ===")
         output.append(f"Total providers: {len(all_providers)}")
         output.append(f"Active: {len(active)}")
         output.append(f"Disabled: {len(available_but_disabled)}")
         output.append(f"No API key: {len(no_api_key)}")
-        
+
         # Show available tools
         if active:
             output.append("\n=== Available LLM Tools ===")
             output.append("- llm: Universal LLM tool (all providers)")
             output.append("- consensus: Query multiple models in parallel")
-            
+
             provider_tools = []
             for provider in active:
-                if provider in ["openai", "anthropic", "google", "groq", "mistral", "perplexity"]:
+                if provider in [
+                    "openai",
+                    "anthropic",
+                    "google",
+                    "groq",
+                    "mistral",
+                    "perplexity",
+                ]:
                     tool_name = "gemini" if provider == "google" else provider
                     provider_tools.append(tool_name)
-            
+
             if provider_tools:
                 output.append(f"- Provider tools: {', '.join(provider_tools)}")
-        
+
         return "\n".join(output)
 
     def _enable_provider(self, provider: Optional[str]) -> str:
         """Enable a provider."""
         if not provider:
             return "Error: provider is required for enable action"
-        
+
         if provider not in self.llm_tool.available_providers:
             env_vars = LLMTool.API_KEY_ENV_VARS.get(provider, [])
             if env_vars:
                 return f"Error: No API key found for {provider}. Set one of: {', '.join(env_vars)}"
             else:
                 return f"Error: Unknown provider '{provider}'"
-        
+
         disabled = self.config.get("disabled_providers", [])
         if provider in disabled:
             disabled.remove(provider)
@@ -256,7 +263,7 @@ Providers are automatically detected based on environment variables:
         """Disable a provider."""
         if not provider:
             return "Error: provider is required for disable action"
-        
+
         disabled = self.config.get("disabled_providers", [])
         if provider not in disabled:
             disabled.append(provider)
@@ -270,29 +277,29 @@ Providers are automatically detected based on environment variables:
         """List all available models from LiteLLM."""
         try:
             from hanzo_mcp.tools.llm.llm_tool import LLMTool
-            
+
             all_models = LLMTool.get_all_models()
-            
+
             if not all_models:
                 return "No models available or LiteLLM not installed"
-            
+
             output = ["=== Available LLM Models ==="]
-            
+
             if provider:
                 # Show models for specific provider
                 provider_lower = provider.lower()
                 models = all_models.get(provider_lower, [])
-                
+
                 if not models:
                     return f"No models found for provider '{provider}'"
-                
+
                 output.append(f"\n{provider.upper()} ({len(models)} models):")
                 output.append("-" * 40)
-                
+
                 # Show first 50 models
                 for model in models[:50]:
                     output.append(f"  {model}")
-                
+
                 if len(models) > 50:
                     output.append(f"  ... and {len(models) - 50} more")
             else:
@@ -300,28 +307,41 @@ Providers are automatically detected based on environment variables:
                 total_models = sum(len(models) for models in all_models.values())
                 output.append(f"Total models available: {total_models}")
                 output.append("")
-                
+
                 # Show providers with counts
                 for provider_name, models in sorted(all_models.items()):
                     if models:
                         output.append(f"{provider_name}: {len(models)} models")
-                
-                output.append("\nUse 'llm_manage --action models --provider <name>' to see models for a specific provider")
-                
+
+                output.append(
+                    "\nUse 'llm_manage --action models --provider <name>' to see models for a specific provider"
+                )
+
                 # Show recommended models
                 output.append("\n=== Recommended Models ===")
                 recommended = {
                     "OpenAI": ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"],
-                    "Anthropic": ["claude-3-opus-20240229", "claude-3-5-sonnet-20241022", "claude-3-haiku-20240307"],
+                    "Anthropic": [
+                        "claude-3-opus-20240229",
+                        "claude-3-5-sonnet-20241022",
+                        "claude-3-haiku-20240307",
+                    ],
                     "Google": ["gemini/gemini-1.5-pro", "gemini/gemini-1.5-flash"],
-                    "Groq": ["groq/llama3-70b-8192", "groq/llama3-8b-8192", "groq/gemma2-9b-it"],
-                    "Mistral": ["mistral/mistral-large-latest", "mistral/mistral-medium"],
+                    "Groq": [
+                        "groq/llama3-70b-8192",
+                        "groq/llama3-8b-8192",
+                        "groq/gemma2-9b-it",
+                    ],
+                    "Mistral": [
+                        "mistral/mistral-large-latest",
+                        "mistral/mistral-medium",
+                    ],
                 }
-                
+
                 for provider_name, models in recommended.items():
                     available = LLMTool().available_providers
                     provider_key = provider_name.lower()
-                    
+
                     if provider_key in available:
                         output.append(f"\n{provider_name} (✅ API key found):")
                         for model in models:
@@ -330,17 +350,19 @@ Providers are automatically detected based on environment variables:
                         output.append(f"\n{provider_name} (❌ No API key):")
                         for model in models:
                             output.append(f"  - {model}")
-            
+
             return "\n".join(output)
-            
+
         except Exception as e:
             return f"Error listing models: {str(e)}"
 
-    async def _test_model(self, ctx: MCPContext, provider: Optional[str], model: Optional[str]) -> str:
+    async def _test_model(
+        self, ctx: MCPContext, provider: Optional[str], model: Optional[str]
+    ) -> str:
         """Test a model to verify it works."""
         if not model and not provider:
             return "Error: Either model or provider is required for test action"
-        
+
         # Determine model to test
         if model:
             test_model = model
@@ -357,14 +379,14 @@ Providers are automatically detected based on environment variables:
             test_model = default_models.get(provider)
             if not test_model:
                 return f"Error: No default model for provider '{provider}'. Please specify a model."
-        
+
         # Test the model
         test_prompt = "Hello! Please respond with 'OK' if you can hear me."
-        
+
         output = [f"Testing model: {test_model}"]
         output.append(f"Prompt: {test_prompt}")
         output.append("")
-        
+
         try:
             # Call the LLM
             params = {
@@ -373,9 +395,9 @@ Providers are automatically detected based on environment variables:
                 "max_tokens": 10,
                 "temperature": 0,
             }
-            
+
             response = await self.llm_tool.call(ctx, **params)
-            
+
             if response.startswith("Error:"):
                 output.append("❌ Test failed:")
                 output.append(response)
@@ -384,27 +406,46 @@ Providers are automatically detected based on environment variables:
                 output.append(f"Response: {response}")
                 output.append("")
                 output.append(f"Model '{test_model}' is working correctly.")
-                
+
                 # Show provider info
                 detected_provider = self.llm_tool._get_provider_for_model(test_model)
                 if detected_provider:
                     output.append(f"Provider: {detected_provider}")
-        
+
         except Exception as e:
             output.append("❌ Test failed with exception:")
             output.append(str(e))
-        
+
         return "\n".join(output)
 
     def _get_example_models(self, provider: str) -> list[str]:
         """Get example models for a provider."""
         examples = {
             "openai": ["gpt-4o", "gpt-4", "gpt-3.5-turbo", "o1-preview"],
-            "anthropic": ["claude-3-opus-20240229", "claude-3-sonnet-20240229", "claude-3-haiku-20240307"],
-            "google": ["gemini/gemini-pro", "gemini/gemini-1.5-pro", "gemini/gemini-1.5-flash"],
-            "groq": ["groq/mixtral-8x7b-32768", "groq/llama3-70b-8192", "groq/llama3-8b-8192"],
-            "mistral": ["mistral/mistral-large-latest", "mistral/mistral-medium", "mistral/mistral-small"],
-            "perplexity": ["perplexity/sonar-medium-online", "perplexity/sonar-small-online"],
+            "anthropic": [
+                "claude-3-opus-20240229",
+                "claude-3-sonnet-20240229",
+                "claude-3-haiku-20240307",
+            ],
+            "google": [
+                "gemini/gemini-pro",
+                "gemini/gemini-1.5-pro",
+                "gemini/gemini-1.5-flash",
+            ],
+            "groq": [
+                "groq/mixtral-8x7b-32768",
+                "groq/llama3-70b-8192",
+                "groq/llama3-8b-8192",
+            ],
+            "mistral": [
+                "mistral/mistral-large-latest",
+                "mistral/mistral-medium",
+                "mistral/mistral-small",
+            ],
+            "perplexity": [
+                "perplexity/sonar-medium-online",
+                "perplexity/sonar-small-online",
+            ],
         }
         return examples.get(provider, [])
 

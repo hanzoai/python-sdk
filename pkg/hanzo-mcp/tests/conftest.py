@@ -5,40 +5,38 @@ Uses the test_utils module for DRY test infrastructure.
 """
 
 import os
-import tempfile
-import pytest
-from unittest.mock import MagicMock, AsyncMock
-from pathlib import Path
 import sys
+import tempfile
+
+import pytest
 
 # Add tests directory to path so we can import test_utils
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from test_utils import (
     TestContext,
-    create_mock_ctx,
-    create_permission_manager,
-    create_test_server,
-    FileSystemTestHelper,
-    TestDataGenerator,
-    TestEnvironment,
     ToolTestHelper,
+    TestEnvironment,
+    TestDataGenerator,
+    FileSystemTestHelper,
+    create_mock_ctx,
+    create_test_server,
+    create_permission_manager,
 )
 
 # Set environment variables for testing
 os.environ["TEST_MODE"] = "1"
 
+
 # Configure pytest
 def pytest_configure(config):
     """Configure pytest."""
     # Register asyncio marker
-    config.addinivalue_line(
-        "markers", "asyncio: mark test as using asyncio"
-    )
-    
+    config.addinivalue_line("markers", "asyncio: mark test as using asyncio")
+
     # Configure pytest-asyncio
     config._inicache["asyncio_default_fixture_loop_scope"] = "function"
-    
+
     # Register custom markers
     config.addinivalue_line(
         "markers", "requires_hanzo_agents: mark test as requiring hanzo-agents SDK"
@@ -46,15 +44,12 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "requires_memory_tools: mark test as requiring hanzo-memory package"
     )
-    config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
-    )
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
+    config.addinivalue_line("markers", "slow: mark test as slow running")
+    config.addinivalue_line("markers", "integration: mark test as integration test")
 
 
 # --- Basic Fixtures ---
+
 
 @pytest.fixture
 def temp_dir():
@@ -71,6 +66,7 @@ def test_env():
 
 
 # --- Context and Permission Fixtures ---
+
 
 @pytest.fixture
 def mcp_context():
@@ -104,6 +100,7 @@ def restricted_permission_manager(temp_dir):
 
 # --- Tool Testing Fixtures ---
 
+
 @pytest.fixture
 def tool_helper():
     """Get the tool test helper."""
@@ -117,6 +114,7 @@ def mock_server():
 
 
 # --- File System Fixtures ---
+
 
 @pytest.fixture
 def fs_helper():
@@ -144,33 +142,35 @@ def test_notebook(temp_dir):
                 "execution_count": None,
                 "metadata": {},
                 "outputs": [],
-                "source": ["# Test cell 1\n", "print('Hello, world!')"]
+                "source": ["# Test cell 1\n", "print('Hello, world!')"],
             },
             {
                 "cell_type": "markdown",
                 "metadata": {},
-                "source": ["## Markdown cell\n", "This is a test."]
-            }
+                "source": ["## Markdown cell\n", "This is a test."],
+            },
         ],
         "metadata": {
             "kernelspec": {
                 "display_name": "Python 3",
                 "language": "python",
-                "name": "python3"
+                "name": "python3",
             }
         },
         "nbformat": 4,
-        "nbformat_minor": 4
+        "nbformat_minor": 4,
     }
-    
+
     import json
+
     with open(notebook_path, "w") as f:
         json.dump(notebook_content, f)
-    
+
     return notebook_path
 
 
 # --- Project Structure Fixtures ---
+
 
 @pytest.fixture
 def test_data():
@@ -200,10 +200,12 @@ def js_project_dir(temp_dir, fs_helper, test_data):
 
 # --- Tool-Specific Fixtures ---
 
+
 @pytest.fixture
-def command_executor(permission_manager):  
+def command_executor(permission_manager):
     """Create a command executor for testing."""
     from hanzo_mcp.tools.shell.bash_session_executor import BashSessionExecutor
+
     return BashSessionExecutor(permission_manager=permission_manager)
 
 
@@ -211,6 +213,7 @@ def command_executor(permission_manager):
 def tool_context(mcp_context):
     """Create a tool context for testing."""
     from hanzo_mcp.tools.common.context import ToolContext
+
     return ToolContext(mcp_context)
 
 
@@ -218,15 +221,18 @@ def tool_context(mcp_context):
 def db_manager(permission_manager):
     """Create a database manager for testing."""
     from hanzo_mcp.tools.database.database_manager import DatabaseManager
+
     return DatabaseManager(permission_manager)
 
 
 # --- Mock Service Fixtures ---
 
+
 @pytest.fixture
 def mock_memory_service():
     """Create a mock memory service."""
     from test_utils import MockServiceHelper
+
     return MockServiceHelper.mock_memory_service()
 
 
@@ -234,30 +240,34 @@ def mock_memory_service():
 def mock_litellm():
     """Create a mock litellm module."""
     from test_utils import MockServiceHelper
-    with pytest.mock.patch('hanzo_mcp.tools.agent.agent_tool.litellm') as mock:
+
+    with pytest.mock.patch("hanzo_mcp.tools.agent.agent_tool.litellm") as mock:
         mock.completion = MockServiceHelper.mock_litellm_completion()
         yield mock
 
 
 # --- Async Fixtures ---
 
+
 @pytest.fixture
 def async_helper():
     """Get the async test helper."""
     from test_utils import AsyncTestHelper
+
     return AsyncTestHelper
 
 
 # --- Autouse Fixtures ---
+
 
 @pytest.fixture(autouse=True)
 def reset_environment():
     """Reset environment before each test."""
     # Save current environment
     original_env = os.environ.copy()
-    
+
     yield
-    
+
     # Restore original environment
     os.environ.clear()
     os.environ.update(original_env)
@@ -267,22 +277,24 @@ def reset_environment():
 def cleanup_temp_files():
     """Clean up any temporary files after tests."""
     yield
-    
+
     # Clean up any stray temp files
     import glob
     import shutil
-    for pattern in ['/tmp/test_*', '/tmp/pytest-*']:
+
+    for pattern in ["/tmp/test_*", "/tmp/pytest-*"]:
         for path in glob.glob(pattern):
             try:
                 if os.path.isdir(path):
                     shutil.rmtree(path)
                 else:
                     os.unlink(path)
-            except:
+            except Exception:
                 pass  # Ignore cleanup errors
 
 
 # --- Pytest Hooks ---
+
 
 def pytest_collection_modifyitems(config, items):
     """Modify test collection to add markers based on test names."""
@@ -290,7 +302,7 @@ def pytest_collection_modifyitems(config, items):
         # Add integration marker to integration tests
         if "integration" in item.nodeid:
             item.add_marker(pytest.mark.integration)
-        
+
         # Add slow marker to certain tests
         if any(slow in item.nodeid for slow in ["performance", "stress", "load"]):
             item.add_marker(pytest.mark.slow)

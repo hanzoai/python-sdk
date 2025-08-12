@@ -1,17 +1,16 @@
 """Tool for listing running background processes."""
 
-import psutil
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from datetime import datetime
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
+import psutil
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.run_background import RunBackgroundTool
-
 
 ShowAll = Annotated[
     bool,
@@ -132,10 +131,10 @@ Examples:
     ) -> str:
         """List background processes started with run_background."""
         processes = RunBackgroundTool.get_processes()
-        
+
         if not processes:
             return "No background processes are currently running."
-        
+
         # Filter if requested
         filtered_processes = []
         for proc_id, process in processes.items():
@@ -143,22 +142,26 @@ Examples:
                 if filter_name.lower() not in process.name.lower():
                     continue
             filtered_processes.append((proc_id, process))
-        
+
         if not filtered_processes:
             return f"No background processes found matching '{filter_name}'."
-        
+
         # Build output
         output = []
         output.append("=== Background Processes ===\n")
-        
+
         # Sort by start time (newest first)
         filtered_processes.sort(key=lambda x: x[1].start_time, reverse=True)
-        
+
         for proc_id, process in filtered_processes:
-            status = "running" if process.is_running else f"finished (code: {process.return_code})"
+            status = (
+                "running"
+                if process.is_running
+                else f"finished (code: {process.return_code})"
+            )
             runtime = datetime.now() - process.start_time
-            runtime_str = str(runtime).split('.')[0]  # Remove microseconds
-            
+            runtime_str = str(runtime).split(".")[0]  # Remove microseconds
+
             output.append(f"ID: {proc_id}")
             output.append(f"Name: {process.name}")
             output.append(f"Status: {status}")
@@ -166,10 +169,10 @@ Examples:
             output.append(f"Runtime: {runtime_str}")
             output.append(f"Command: {process.command}")
             output.append(f"Working Dir: {process.working_dir}")
-            
+
             if process.log_file:
                 output.append(f"Log File: {process.log_file}")
-            
+
             if show_details and process.is_running:
                 try:
                     # Get process details using psutil
@@ -179,13 +182,13 @@ Examples:
                     output.append(f"Threads: {p.num_threads()}")
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     output.append("Process details unavailable")
-            
+
             output.append("-" * 40)
-        
+
         output.append(f"\nTotal: {len(filtered_processes)} process(es)")
         output.append("\nUse 'pkill --id <ID>' to stop a process")
         output.append("Use 'logs --id <ID>' to view process logs")
-        
+
         return "\n".join(output)
 
     def _list_system_processes(
@@ -194,83 +197,79 @@ Examples:
         """List all system processes."""
         try:
             processes = []
-            
+
             # Get all running processes
-            for proc in psutil.process_iter(['pid', 'name', 'cmdline', 'create_time']):
+            for proc in psutil.process_iter(["pid", "name", "cmdline", "create_time"]):
                 try:
                     info = proc.info
-                    name = info['name']
-                    
+                    name = info["name"]
+
                     # Filter if requested
                     if filter_name:
                         if filter_name.lower() not in name.lower():
                             continue
-                    
+
                     # Get command line
-                    cmdline = info.get('cmdline')
+                    cmdline = info.get("cmdline")
                     if cmdline:
-                        cmd = ' '.join(cmdline)
+                        cmd = " ".join(cmdline)
                     else:
                         cmd = name
-                    
+
                     # Truncate long commands
                     if len(cmd) > 80:
                         cmd = cmd[:77] + "..."
-                    
+
                     process_info = {
-                        'pid': info['pid'],
-                        'name': name,
-                        'cmd': cmd,
-                        'create_time': info['create_time'],
+                        "pid": info["pid"],
+                        "name": name,
+                        "cmd": cmd,
+                        "create_time": info["create_time"],
                     }
-                    
+
                     if show_details:
-                        process_info['cpu'] = proc.cpu_percent(interval=0.1)
-                        process_info['memory'] = proc.memory_info().rss / 1024 / 1024  # MB
-                    
+                        process_info["cpu"] = proc.cpu_percent(interval=0.1)
+                        process_info["memory"] = (
+                            proc.memory_info().rss / 1024 / 1024
+                        )  # MB
+
                     processes.append(process_info)
-                    
+
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     continue
-            
+
             if not processes:
                 return f"No processes found matching '{filter_name}'."
-            
+
             # Sort by PID
-            processes.sort(key=lambda x: x['pid'])
-            
+            processes.sort(key=lambda x: x["pid"])
+
             # Build output
             output = []
             output.append("=== System Processes ===\n")
-            
+
             # Header
             if show_details:
-                output.append(f"{'PID':>7} {'CPU%':>5} {'MEM(MB)':>8} {'NAME':<20} COMMAND")
+                output.append(
+                    f"{'PID':>7} {'CPU%':>5} {'MEM(MB)':>8} {'NAME':<20} COMMAND"
+                )
                 output.append("-" * 80)
-                
+
                 for proc in processes:
                     output.append(
-                        f"{proc['pid']:>7} "
-                        f"{proc['cpu']:>5.1f} "
-                        f"{proc['memory']:>8.1f} "
-                        f"{proc['name']:<20} "
-                        f"{proc['cmd']}"
+                        f"{proc['pid']:>7} {proc['cpu']:>5.1f} {proc['memory']:>8.1f} {proc['name']:<20} {proc['cmd']}"
                     )
             else:
                 output.append(f"{'PID':>7} {'NAME':<20} COMMAND")
                 output.append("-" * 80)
-                
+
                 for proc in processes:
-                    output.append(
-                        f"{proc['pid']:>7} "
-                        f"{proc['name']:<20} "
-                        f"{proc['cmd']}"
-                    )
-            
+                    output.append(f"{proc['pid']:>7} {proc['name']:<20} {proc['cmd']}")
+
             output.append(f"\nTotal: {len(processes)} process(es)")
-            
+
             return "\n".join(output)
-            
+
         except Exception as e:
             return f"Error listing system processes: {str(e)}\nYou may need elevated permissions."
 

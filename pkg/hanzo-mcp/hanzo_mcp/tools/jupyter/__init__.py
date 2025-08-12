@@ -7,8 +7,8 @@ including reading and editing notebook cells.
 from mcp.server import FastMCP
 
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.jupyter.jupyter import JupyterTool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 # Export all tool classes
 __all__ = [
@@ -68,10 +68,10 @@ def register_jupyter_tools(
         "notebook_read": JupyterTool,
         "notebook_edit": JupyterTool,
     }
-    
+
     tools = []
     added_classes = set()  # Track which tool classes have been added
-    
+
     if enabled_tools:
         # Use individual tool configuration
         for tool_name, enabled in enabled_tools.items():
@@ -84,6 +84,6 @@ def register_jupyter_tools(
     else:
         # Use all tools (backward compatibility)
         tools = get_jupyter_tools(permission_manager)
-    
+
     ToolRegistry.register_tools(mcp_server, tools)
     return tools

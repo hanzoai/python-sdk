@@ -196,7 +196,10 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/team/new",
             body=maybe_transform(
@@ -221,7 +224,10 @@ class TeamResource(SyncAPIResource):
                 team_create_params.TeamCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=HanzoTeamTable,
         )
@@ -316,7 +322,10 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/team/update",
             body=maybe_transform(
@@ -338,7 +347,10 @@ class TeamResource(SyncAPIResource):
                 team_update_params.TeamUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -436,12 +448,20 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/team/delete",
-            body=maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
+            body=maybe_transform(
+                {"team_ids": team_ids}, team_delete_params.TeamDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -494,7 +514,10 @@ class TeamResource(SyncAPIResource):
                 team_add_member_params.TeamAddMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=TeamAddMemberResponse,
         )
@@ -540,9 +563,14 @@ class TeamResource(SyncAPIResource):
         """
         return self._post(
             "/team/block",
-            body=maybe_transform({"team_id": team_id}, team_block_params.TeamBlockParams),
+            body=maybe_transform(
+                {"team_id": team_id}, team_block_params.TeamBlockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -581,11 +609,16 @@ class TeamResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `team_id` but received {team_id!r}"
+            )
         return self._post(
             f"/team/{team_id}/disable_logging",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -621,7 +654,8 @@ class TeamResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"response_model": response_model}, team_list_available_params.TeamListAvailableParams
+                    {"response_model": response_model},
+                    team_list_available_params.TeamListAvailableParams,
                 ),
             ),
             cast_to=object,
@@ -677,7 +711,10 @@ class TeamResource(SyncAPIResource):
                 team_remove_member_params.TeamRemoveMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -723,7 +760,10 @@ class TeamResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"team_id": team_id}, team_retrieve_info_params.TeamRetrieveInfoParams),
+                query=maybe_transform(
+                    {"team_id": team_id},
+                    team_retrieve_info_params.TeamRetrieveInfoParams,
+                ),
             ),
             cast_to=object,
         )
@@ -765,9 +805,14 @@ class TeamResource(SyncAPIResource):
         """
         return self._post(
             "/team/unblock",
-            body=maybe_transform({"team_id": team_id}, team_unblock_params.TeamUnblockParams),
+            body=maybe_transform(
+                {"team_id": team_id}, team_unblock_params.TeamUnblockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -814,7 +859,10 @@ class TeamResource(SyncAPIResource):
                 team_update_member_params.TeamUpdateMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=TeamUpdateMemberResponse,
         )
@@ -957,7 +1005,10 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/team/new",
             body=await async_maybe_transform(
@@ -982,7 +1033,10 @@ class AsyncTeamResource(AsyncAPIResource):
                 team_create_params.TeamCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=HanzoTeamTable,
         )
@@ -1077,7 +1131,10 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/team/update",
             body=await async_maybe_transform(
@@ -1099,7 +1156,10 @@ class AsyncTeamResource(AsyncAPIResource):
                 team_update_params.TeamUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1197,12 +1257,20 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/team/delete",
-            body=await async_maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
+            body=await async_maybe_transform(
+                {"team_ids": team_ids}, team_delete_params.TeamDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1255,7 +1323,10 @@ class AsyncTeamResource(AsyncAPIResource):
                 team_add_member_params.TeamAddMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=TeamAddMemberResponse,
         )
@@ -1301,9 +1372,14 @@ class AsyncTeamResource(AsyncAPIResource):
         """
         return await self._post(
             "/team/block",
-            body=await async_maybe_transform({"team_id": team_id}, team_block_params.TeamBlockParams),
+            body=await async_maybe_transform(
+                {"team_id": team_id}, team_block_params.TeamBlockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1342,11 +1418,16 @@ class AsyncTeamResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `team_id` but received {team_id!r}"
+            )
         return await self._post(
             f"/team/{team_id}/disable_logging",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1382,7 +1463,8 @@ class AsyncTeamResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"response_model": response_model}, team_list_available_params.TeamListAvailableParams
+                    {"response_model": response_model},
+                    team_list_available_params.TeamListAvailableParams,
                 ),
             ),
             cast_to=object,
@@ -1438,7 +1520,10 @@ class AsyncTeamResource(AsyncAPIResource):
                 team_remove_member_params.TeamRemoveMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1485,7 +1570,8 @@ class AsyncTeamResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"team_id": team_id}, team_retrieve_info_params.TeamRetrieveInfoParams
+                    {"team_id": team_id},
+                    team_retrieve_info_params.TeamRetrieveInfoParams,
                 ),
             ),
             cast_to=object,
@@ -1528,9 +1614,14 @@ class AsyncTeamResource(AsyncAPIResource):
         """
         return await self._post(
             "/team/unblock",
-            body=await async_maybe_transform({"team_id": team_id}, team_unblock_params.TeamUnblockParams),
+            body=await async_maybe_transform(
+                {"team_id": team_id}, team_unblock_params.TeamUnblockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1577,7 +1668,10 @@ class AsyncTeamResource(AsyncAPIResource):
                 team_update_member_params.TeamUpdateMemberParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=TeamUpdateMemberResponse,
         )
