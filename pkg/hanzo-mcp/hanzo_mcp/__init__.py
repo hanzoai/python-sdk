@@ -2,6 +2,10 @@
 
 # Configure FastMCP logging globally for stdio transport
 import os
+import warnings
+
+# Suppress litellm deprecation warnings about event loop
+warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
 
 if os.environ.get("HANZO_MCP_TRANSPORT") == "stdio":
     try:
