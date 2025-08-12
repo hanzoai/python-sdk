@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 from abc import ABC, abstractmethod
 
 from ..core.state import NetworkState
+
 # Commenting out missing imports - need to implement these
 # from .inference.inference_engine import get_inference_engine
 # from .inference.shard import Shard
@@ -12,6 +13,7 @@ from ..core.state import NetworkState
 
 # Define Message locally for now
 from typing import TypedDict
+
 
 class Message(TypedDict):
     role: str
@@ -62,7 +64,7 @@ class HanzoNetProvider(LocalLLMProvider):
             # Dummy implementation for testing
             if self.engine is None:
                 self.engine = {"type": self.engine_type, "model": model}
-                
+
             # Update model if needed
             if self.current_shard is None or self.current_shard != model:
                 self.current_shard = model

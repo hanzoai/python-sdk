@@ -4,9 +4,11 @@ import atexit
 import signal
 import logging
 import threading
+import warnings
 from typing import Literal, cast, final
 
-# No need for warning suppression here as it's handled in the imports
+# Suppress litellm deprecation warnings about event loop
+warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
 
 try:
     from fastmcp import FastMCP
