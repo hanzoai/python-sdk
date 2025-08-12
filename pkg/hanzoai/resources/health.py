@@ -92,7 +92,9 @@ class HealthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
+                query=maybe_transform(
+                    {"model": model}, health_check_all_params.HealthCheckAllParams
+                ),
             ),
             cast_to=object,
         )
@@ -111,7 +113,10 @@ class HealthResource(SyncAPIResource):
         return self._get(
             "/health/liveliness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -130,7 +135,10 @@ class HealthResource(SyncAPIResource):
         return self._get(
             "/health/liveness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -149,7 +157,10 @@ class HealthResource(SyncAPIResource):
         return self._get(
             "/health/readiness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -159,7 +170,14 @@ class HealthResource(SyncAPIResource):
         *,
         service: Union[
             Literal[
-                "slack_budget_alerts", "langfuse", "slack", "openmeter", "webhook", "email", "braintrust", "datadog"
+                "slack_budget_alerts",
+                "langfuse",
+                "slack",
+                "openmeter",
+                "webhook",
+                "email",
+                "braintrust",
+                "datadog",
             ],
             str,
         ],
@@ -197,7 +215,10 @@ class HealthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"service": service}, health_check_services_params.HealthCheckServicesParams),
+                query=maybe_transform(
+                    {"service": service},
+                    health_check_services_params.HealthCheckServicesParams,
+                ),
             ),
             cast_to=object,
         )
@@ -269,7 +290,9 @@ class AsyncHealthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
+                query=await async_maybe_transform(
+                    {"model": model}, health_check_all_params.HealthCheckAllParams
+                ),
             ),
             cast_to=object,
         )
@@ -288,7 +311,10 @@ class AsyncHealthResource(AsyncAPIResource):
         return await self._get(
             "/health/liveliness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -307,7 +333,10 @@ class AsyncHealthResource(AsyncAPIResource):
         return await self._get(
             "/health/liveness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -326,7 +355,10 @@ class AsyncHealthResource(AsyncAPIResource):
         return await self._get(
             "/health/readiness",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -336,7 +368,14 @@ class AsyncHealthResource(AsyncAPIResource):
         *,
         service: Union[
             Literal[
-                "slack_budget_alerts", "langfuse", "slack", "openmeter", "webhook", "email", "braintrust", "datadog"
+                "slack_budget_alerts",
+                "langfuse",
+                "slack",
+                "openmeter",
+                "webhook",
+                "email",
+                "braintrust",
+                "datadog",
             ],
             str,
         ],
@@ -375,7 +414,8 @@ class AsyncHealthResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"service": service}, health_check_services_params.HealthCheckServicesParams
+                    {"service": service},
+                    health_check_services_params.HealthCheckServicesParams,
                 ),
             ),
             cast_to=object,

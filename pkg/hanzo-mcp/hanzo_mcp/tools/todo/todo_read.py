@@ -4,13 +4,13 @@ This module provides the TodoRead tool for reading the current todo list for a s
 """
 
 import json
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.todo.base import TodoBaseTool, TodoStorage
+from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
 
 SessionId = Annotated[
     str | int | float,
@@ -139,8 +139,5 @@ Usage:
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def todo_read(
-            session_id: SessionId,
-            ctx: MCPContext
-        ) -> str:
+        async def todo_read(session_id: SessionId, ctx: MCPContext) -> str:
             return await tool_self.call(ctx, session_id=session_id)

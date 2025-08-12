@@ -272,27 +272,29 @@ swarm(
 )
 """
 
+
 def print_example(title: str, example: str):
     """Print a formatted example."""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"{title}")
-    print('='*60)
+    print("=" * 60)
     print(example)
     print()
+
 
 if __name__ == "__main__":
     print("PRACTICAL AGENT GRINDING EXAMPLES")
     print("=================================")
     print("\nThese examples show how to use the swarm tool with agent grinding")
     print("pattern to solve real development tasks efficiently.\n")
-    
+
     print_example("Example 1: Fix All Linting Errors", fix_lint_errors)
-    print_example("Example 2: Add Missing Docstrings", add_docstrings) 
+    print_example("Example 2: Add Missing Docstrings", add_docstrings)
     print_example("Example 3: Upgrade Dependencies", upgrade_dependencies)
     print_example("Example 4: Security Audit & Fixes", security_audit)
     print_example("Example 5: Performance Optimization", performance_optimization)
     print_example("Example 6: Improve Test Coverage", improve_test_coverage)
-    
+
     print("\nKEY PATTERNS:")
     print("-------------")
     print("1. FINDER → ANALYZER → FIXERS → VALIDATOR")
@@ -321,4 +323,3 @@ if __name__ == "__main__":
     print("• Context preservation - agents read and understand before editing")
     print("• Scalability - add more agents for larger codebases")
     print("• Reliability - validators ensure quality")
-    

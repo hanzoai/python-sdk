@@ -3,15 +3,15 @@
 This module provides the DirectoryTreeTool for viewing file and directory structures.
 """
 
+from typing import Any, Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-from typing import Annotated, Any, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.common.truncate import truncate_response
+from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 DirectoryPath = Annotated[
     str,
@@ -283,9 +283,9 @@ requested. Only works within allowed directories."""
             # Truncate response to stay within token limits
             full_response = formatted_output + summary
             return truncate_response(
-                full_response, 
+                full_response,
                 max_tokens=25000,
-                truncation_message="\n\n[Response truncated due to token limit. Please use a smaller depth, specific subdirectory, or the paginated version of this tool.]"
+                truncation_message="\n\n[Response truncated due to token limit. Please use a smaller depth, specific subdirectory, or the paginated version of this tool.]",
             )
         except Exception as e:
             await tool_ctx.error(f"Error generating directory tree: {str(e)}")
@@ -308,7 +308,7 @@ requested. Only works within allowed directories."""
             ctx: MCPContext,
             path: DirectoryPath,
             depth: Depth = 3,
-            include_filtered: IncludeFiltered = False
+            include_filtered: IncludeFiltered = False,
         ) -> str:
             return await tool_self.call(
                 ctx, path=path, depth=depth, include_filtered=include_filtered

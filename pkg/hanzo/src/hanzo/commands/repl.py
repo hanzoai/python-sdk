@@ -2,7 +2,6 @@
 
 import os
 import sys
-from typing import Optional
 
 import click
 
@@ -32,19 +31,19 @@ def start(ctx, model: str, local: bool, ipython: bool, tui: bool, voice: bool):
             os.environ["HANZO_USE_LOCAL"] = "true"
         if voice:
             os.environ["HANZO_ENABLE_VOICE"] = "true"
-        
+
         if ipython:
             from hanzo_repl.ipython_repl import main
         elif tui:
             from hanzo_repl.textual_repl import main
         else:
             from hanzo_repl.cli import main
-        
+
         console.print("[cyan]Starting Hanzo REPL...[/cyan]")
         console.print("All MCP tools available. Type 'help' for commands.\n")
-        
+
         sys.exit(main())
-        
+
     except ImportError:
         console.print("[red]Error:[/red] hanzo-repl not installed")
         console.print("Install with: pip install hanzo[repl]")
@@ -61,35 +60,38 @@ def start(ctx, model: str, local: bool, ipython: bool, tui: bool, voice: bool):
 def info(ctx):
     """Show REPL information and status."""
     try:
-        from hanzo_repl import __version__
         import hanzo_mcp
-        
+        from hanzo_repl import __version__
+
         console.print("[cyan]Hanzo REPL[/cyan]")
         console.print(f"  Version: {__version__}")
         console.print(f"  MCP Tools: {len(hanzo_mcp.get_all_tools())}")
-        
+
         # Check available interfaces
         interfaces = []
         try:
             import IPython
+
             interfaces.append("IPython")
         except ImportError:
             pass
-        
+
         try:
             import textual
+
             interfaces.append("TUI")
         except ImportError:
             pass
-        
+
         try:
             import speech_recognition
+
             interfaces.append("Voice")
         except ImportError:
             pass
-        
+
         console.print(f"  Interfaces: {', '.join(interfaces) or 'Basic'}")
-        
+
         # Check LLM providers
         providers = []
         if os.environ.get("OPENAI_API_KEY"):
@@ -98,41 +100,45 @@ def info(ctx):
             providers.append("Anthropic")
         if os.environ.get("HANZO_API_KEY"):
             providers.append("Hanzo AI")
-        
+
         console.print(f"  Providers: {', '.join(providers) or 'None configured'}")
-        
+
         if not providers:
             console.print("\n[yellow]No LLM providers configured[/yellow]")
-            console.print("Set one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, HANZO_API_KEY")
-        
+            console.print(
+                "Set one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, HANZO_API_KEY"
+            )
+
     except ImportError:
         console.print("[red]Error:[/red] hanzo-repl not installed")
 
 
 @repl_group.command()
-@click.option("--interface", type=click.Choice(["all", "ipython", "tui", "voice"]), default="all")
+@click.option(
+    "--interface", type=click.Choice(["all", "ipython", "tui", "voice"]), default="all"
+)
 @click.pass_context
 def install_extras(ctx, interface: str):
     """Install optional REPL components."""
     import subprocess
-    
+
     packages = {
         "ipython": ["ipython>=8.0.0", "jupyter>=1.0.0"],
         "tui": ["textual>=0.41.0", "textual-dev>=1.2.0"],
-        "voice": ["speechrecognition>=3.10.0", "pyttsx3>=2.90", "pyaudio>=0.2.11"]
+        "voice": ["speechrecognition>=3.10.0", "pyttsx3>=2.90", "pyaudio>=0.2.11"],
     }
-    
+
     if interface == "all":
         to_install = []
         for pkgs in packages.values():
             to_install.extend(pkgs)
     else:
         to_install = packages.get(interface, [])
-    
+
     if to_install:
         console.print(f"[cyan]Installing {interface} components...[/cyan]")
         cmd = [sys.executable, "-m", "pip", "install"] + to_install
-        
+
         try:
             subprocess.run(cmd, check=True)
             console.print(f"[green]✓[/green] Installed {interface} components")
@@ -148,18 +154,19 @@ def install_extras(ctx, interface: str):
 def exec(ctx, command: tuple, model: str):
     """Execute a command in REPL and exit."""
     try:
-        from hanzo_repl import create_repl
         import asyncio
-        
+
+        from hanzo_repl import create_repl
+
         repl = create_repl(model=model)
         command_str = " ".join(command)
-        
+
         async def run():
             result = await repl.execute(command_str)
             console.print(result)
-        
+
         asyncio.run(run())
-        
+
     except ImportError:
         console.print("[red]Error:[/red] hanzo-repl not installed")
     except Exception as e:
@@ -172,10 +179,10 @@ def demo(ctx):
     """Run REPL demo showcasing features."""
     try:
         from hanzo_repl.demos import run_demo
-        
+
         console.print("[cyan]Running Hanzo REPL demo...[/cyan]\n")
         run_demo()
-        
+
     except ImportError:
         console.print("[red]Error:[/red] hanzo-repl not installed")
         console.print("\nThe demo would show:")

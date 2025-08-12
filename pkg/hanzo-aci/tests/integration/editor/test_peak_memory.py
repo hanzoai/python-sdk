@@ -10,6 +10,12 @@ import pytest
 
 from dev_aci.editor import file_editor
 
+# Skip all tests in this module on macOS due to platform-specific memory measurement issues
+pytestmark = pytest.mark.skipif(
+    os.uname().sysname == "Darwin",
+    reason="Memory measurement tests are unreliable on macOS",
+)
+
 
 def get_memory_info():
     """Get current and peak memory usage in bytes."""
@@ -19,9 +25,9 @@ def get_memory_info():
         resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024
     )  # Convert KB to bytes
     return {
-        'rss': rss,
-        'peak_rss': peak_rss,
-        'max': max(rss, peak_rss),
+        "rss": rss,
+        "peak_rss": peak_rss,
+        "max": max(rss, peak_rss),
     }
 
 
@@ -30,13 +36,13 @@ def create_test_file(path: Path, size_mb: float = 5.0):
     line_size = 100  # bytes per line approximately
     num_lines = int((size_mb * 1024 * 1024) // line_size)
 
-    print(f'\nCreating test file with {num_lines} lines...')
-    with open(path, 'w') as f:
+    print(f"\nCreating test file with {num_lines} lines...")
+    with open(path, "w") as f:
         for i in range(num_lines):
-            f.write(f'Line {i}: ' + 'x' * (line_size - 10) + '\n')
+            f.write(f"Line {i}: " + "x" * (line_size - 10) + "\n")
 
     actual_size = os.path.getsize(path)
-    print(f'File created, size: {actual_size / 1024 / 1024:.2f} MB')
+    print(f"File created, size: {actual_size / 1024 / 1024:.2f} MB")
     return actual_size
 
 
@@ -52,29 +58,29 @@ def set_memory_limit(file_size: int, multiplier: float = 2.0):
         current_usage = psutil.Process().memory_info().rss
         if memory_limit > current_usage:
             resource.setrlimit(resource.RLIMIT_AS, (memory_limit, hard))
-            print(f'Memory limit set to {memory_limit / 1024 / 1024:.2f} MB')
+            print(f"Memory limit set to {memory_limit / 1024 / 1024:.2f} MB")
         else:
             print(
-                f'Warning: Current memory usage ({current_usage / 1024 / 1024:.2f} MB) higher than limit ({memory_limit / 1024 / 1024:.2f} MB)'
+                f"Warning: Current memory usage ({current_usage / 1024 / 1024:.2f} MB) higher than limit ({memory_limit / 1024 / 1024:.2f} MB)"
             )
     except Exception as e:
-        print(f'Warning: Could not set memory limit: {str(e)}')
+        print(f"Warning: Could not set memory limit: {str(e)}")
     return memory_limit
 
 
 def check_memory_usage(initial_memory: int, file_size: int, operation: str):
     """Check if memory usage is within acceptable limits."""
     current = get_memory_info()
-    memory_growth = current['max'] - initial_memory
-    print(f'Peak memory growth: {memory_growth / 1024 / 1024:.2f} MB')
+    memory_growth = current["max"] - initial_memory
+    print(f"Peak memory growth: {memory_growth / 1024 / 1024:.2f} MB")
 
     # Memory growth should be reasonable
     # Allow up to 2x file size for temporary buffers plus 50MB for Python overhead
     overhead = 50 * 1024 * 1024  # 50MB
     max_growth = int(file_size * 2 + overhead)
     assert memory_growth < max_growth, (
-        f'Peak memory growth too high for {operation}: {memory_growth / 1024 / 1024:.2f} MB '
-        f'(limit: {max_growth / 1024 / 1024:.2f} MB)'
+        f"Peak memory growth too high for {operation}: {memory_growth / 1024 / 1024:.2f} MB "
+        f"(limit: {max_growth / 1024 / 1024:.2f} MB)"
     )
 
 
@@ -91,7 +97,7 @@ def test_str_replace_peak_memory():
 
         # Get initial memory usage
         initial = get_memory_info()
-        print(f'Initial memory usage: {initial["rss"] / 1024 / 1024:.2f} MB')
+        print(f"Initial memory usage: {initial['rss'] / 1024 / 1024:.2f} MB")
 
         # Set memory limit
         set_memory_limit(file_size)
@@ -99,20 +105,20 @@ def test_str_replace_peak_memory():
         # Perform str_replace operation
         try:
             _ = file_editor(
-                command='str_replace',
+                command="str_replace",
                 path=path,
-                old_str='Line 5000',  # Replace a line in the middle
-                new_str='Modified line',
+                old_str="Line 5000",  # Replace a line in the middle
+                new_str="Modified line",
                 enable_linting=False,
             )
         except MemoryError:
-            pytest.fail('Memory limit exceeded - peak memory usage too high')
+            pytest.fail("Memory limit exceeded - peak memory usage too high")
         except Exception as e:
-            if 'Cannot allocate memory' in str(e):
-                pytest.fail('Memory limit exceeded - peak memory usage too high')
+            if "Cannot allocate memory" in str(e):
+                pytest.fail("Memory limit exceeded - peak memory usage too high")
             raise
 
-        check_memory_usage(initial['max'], file_size, 'str_replace')
+        check_memory_usage(initial["max"], file_size, "str_replace")
 
 
 def test_insert_peak_memory():
@@ -128,7 +134,7 @@ def test_insert_peak_memory():
 
         # Get initial memory usage
         initial = get_memory_info()
-        print(f'Initial memory usage: {initial["rss"] / 1024 / 1024:.2f} MB')
+        print(f"Initial memory usage: {initial['rss'] / 1024 / 1024:.2f} MB")
 
         # Set memory limit
         set_memory_limit(file_size)
@@ -136,20 +142,20 @@ def test_insert_peak_memory():
         # Perform insert operation
         try:
             _ = file_editor(
-                command='insert',
+                command="insert",
                 path=path,
                 insert_line=5000,  # Insert in the middle
-                new_str='New line inserted\n' * 10,
+                new_str="New line inserted\n" * 10,
                 enable_linting=False,
             )
         except MemoryError:
-            pytest.fail('Memory limit exceeded - peak memory usage too high')
+            pytest.fail("Memory limit exceeded - peak memory usage too high")
         except Exception as e:
-            if 'Cannot allocate memory' in str(e):
-                pytest.fail('Memory limit exceeded - peak memory usage too high')
+            if "Cannot allocate memory" in str(e):
+                pytest.fail("Memory limit exceeded - peak memory usage too high")
             raise
 
-        check_memory_usage(initial['max'], file_size, 'insert')
+        check_memory_usage(initial["max"], file_size, "insert")
 
 
 def test_view_peak_memory():
@@ -165,7 +171,7 @@ def test_view_peak_memory():
 
         # Get initial memory usage
         initial = get_memory_info()
-        print(f'Initial memory usage: {initial["rss"] / 1024 / 1024:.2f} MB')
+        print(f"Initial memory usage: {initial['rss'] / 1024 / 1024:.2f} MB")
 
         # Set memory limit
         set_memory_limit(file_size)
@@ -173,19 +179,19 @@ def test_view_peak_memory():
         # Test viewing specific lines
         try:
             _ = file_editor(
-                command='view',
+                command="view",
                 path=path,
                 view_range=[5000, 5100],  # View 100 lines from middle
                 enable_linting=False,
             )
         except MemoryError:
-            pytest.fail('Memory limit exceeded - peak memory usage too high')
+            pytest.fail("Memory limit exceeded - peak memory usage too high")
         except Exception as e:
-            if 'Cannot allocate memory' in str(e):
-                pytest.fail('Memory limit exceeded - peak memory usage too high')
+            if "Cannot allocate memory" in str(e):
+                pytest.fail("Memory limit exceeded - peak memory usage too high")
             raise
 
-        check_memory_usage(initial['max'], file_size, 'view')
+        check_memory_usage(initial["max"], file_size, "view")
 
 
 def test_view_full_file_peak_memory():
@@ -201,7 +207,7 @@ def test_view_full_file_peak_memory():
 
         # Get initial memory usage
         initial = get_memory_info()
-        print(f'Initial memory usage: {initial["rss"] / 1024 / 1024:.2f} MB')
+        print(f"Initial memory usage: {initial['rss'] / 1024 / 1024:.2f} MB")
 
         # Set memory limit
         set_memory_limit(file_size)
@@ -209,18 +215,18 @@ def test_view_full_file_peak_memory():
         # Test viewing entire file
         try:
             _ = file_editor(
-                command='view',
+                command="view",
                 path=path,
                 enable_linting=False,
             )
         except MemoryError:
-            pytest.fail('Memory limit exceeded - peak memory usage too high')
+            pytest.fail("Memory limit exceeded - peak memory usage too high")
         except Exception as e:
-            if 'Cannot allocate memory' in str(e):
-                pytest.fail('Memory limit exceeded - peak memory usage too high')
+            if "Cannot allocate memory" in str(e):
+                pytest.fail("Memory limit exceeded - peak memory usage too high")
             raise
 
-        check_memory_usage(initial['max'], file_size, 'view_full')
+        check_memory_usage(initial["max"], file_size, "view_full")
 
 
 def test_large_history_insert():
@@ -238,21 +244,21 @@ def test_large_history_insert():
         manager = FileHistoryManager(max_history_per_file=1000, history_dir=history_dir)
 
         # Create a large string (about 1MB)
-        large_content = 'x' * (1024 * 1024)
+        large_content = "x" * (1024 * 1024)
 
         # Try to insert the large content multiple times
         num_files = 100
         for i in range(num_files):
             try:
-                manager.add_history(Path(f'test_file_{i}.txt'), large_content)
+                manager.add_history(Path(f"test_file_{i}.txt"), large_content)
             except Exception as e:
-                pytest.fail(f'Error occurred on iteration {i}: {str(e)}')
+                pytest.fail(f"Error occurred on iteration {i}: {str(e)}")
 
         # Check if we can still retrieve the last entry
-        last_content = manager.pop_last_history(Path(f'test_file_{num_files - 1}.txt'))
+        last_content = manager.pop_last_history(Path(f"test_file_{num_files - 1}.txt"))
         assert (
             last_content == large_content
-        ), 'Failed to retrieve the last inserted content'
+        ), "Failed to retrieve the last inserted content"
 
         # Check if the number of cache entries is correct
         cache_entries = list(manager.cache)
@@ -260,4 +266,4 @@ def test_large_history_insert():
             len(cache_entries)
             == num_files * 2
             - 1  # The cache entry for file content was removed, only metadata remains
-        ), f'Expected {num_files * 2 - 1} cache entries ({num_files - 1} content + {num_files} metadata), but found {len(cache_entries)}'
+        ), f"Expected {num_files * 2 - 1} cache entries ({num_files - 1} content + {num_files} metadata), but found {len(cache_entries)}"

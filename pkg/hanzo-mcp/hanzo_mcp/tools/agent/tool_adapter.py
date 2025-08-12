@@ -5,14 +5,14 @@ formats, making MCP tools available to the OpenAI API, and processing tool input
 and outputs for agent execution.
 """
 
+# Import litellm with warnings suppressed
+import warnings
+
 from openai.types import FunctionParameters
 from openai.types.chat import ChatCompletionToolParam
 
-# Import litellm with warnings suppressed
-import warnings
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", DeprecationWarning)
-    import litellm
 
 from hanzo_mcp.tools.common.base import BaseTool
 
@@ -80,20 +80,30 @@ def supports_parallel_function_calling(model: str) -> bool:
     # based on known models that support parallel function calling
     parallel_capable_models = {
         # OpenAI models that support parallel function calling
-        "gpt-4-turbo", "gpt-4-turbo-preview", "gpt-4-turbo-2024-04-09",
-        "gpt-4o", "gpt-4o-mini", "gpt-4o-2024-05-13", "gpt-4o-2024-08-06",
-        "gpt-3.5-turbo", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106",
+        "gpt-4-turbo",
+        "gpt-4-turbo-preview",
+        "gpt-4-turbo-2024-04-09",
+        "gpt-4o",
+        "gpt-4o-mini",
+        "gpt-4o-2024-05-13",
+        "gpt-4o-2024-08-06",
+        "gpt-3.5-turbo",
+        "gpt-3.5-turbo-0125",
+        "gpt-3.5-turbo-1106",
         # Anthropic models with tool support
-        "claude-3-opus", "claude-3-sonnet", "claude-3-haiku",
-        "claude-3-5-sonnet", "claude-3-5-sonnet-20241022",
+        "claude-3-opus",
+        "claude-3-sonnet",
+        "claude-3-haiku",
+        "claude-3-5-sonnet",
+        "claude-3-5-sonnet-20241022",
     }
-    
+
     # Extract model name without provider prefix
     model_name = model.split("/")[-1] if "/" in model else model
-    
+
     # Check if the base model name matches any known parallel-capable models
     for capable_model in parallel_capable_models:
         if model_name.startswith(capable_model):
             return True
-    
+
     return False

@@ -67,7 +67,9 @@ class CustomerResource(SyncAPIResource):
         default_model: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -176,7 +178,10 @@ class CustomerResource(SyncAPIResource):
                 customer_create_params.CustomerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -248,7 +253,10 @@ class CustomerResource(SyncAPIResource):
                 customer_update_params.CustomerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -275,7 +283,10 @@ class CustomerResource(SyncAPIResource):
         return self._get(
             "/customer/list",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=CustomerListResponse,
         )
@@ -319,9 +330,14 @@ class CustomerResource(SyncAPIResource):
         """
         return self._post(
             "/customer/delete",
-            body=maybe_transform({"user_ids": user_ids}, customer_delete_params.CustomerDeleteParams),
+            body=maybe_transform(
+                {"user_ids": user_ids}, customer_delete_params.CustomerDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -366,9 +382,14 @@ class CustomerResource(SyncAPIResource):
         """
         return self._post(
             "/customer/block",
-            body=maybe_transform({"user_ids": user_ids}, customer_block_params.CustomerBlockParams),
+            body=maybe_transform(
+                {"user_ids": user_ids}, customer_block_params.CustomerBlockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -418,7 +439,8 @@ class CustomerResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
+                    {"end_user_id": end_user_id},
+                    customer_retrieve_info_params.CustomerRetrieveInfoParams,
                 ),
             ),
             cast_to=HanzoEndUserTable,
@@ -459,9 +481,14 @@ class CustomerResource(SyncAPIResource):
         """
         return self._post(
             "/customer/unblock",
-            body=maybe_transform({"user_ids": user_ids}, customer_unblock_params.CustomerUnblockParams),
+            body=maybe_transform(
+                {"user_ids": user_ids}, customer_unblock_params.CustomerUnblockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -499,7 +526,9 @@ class AsyncCustomerResource(AsyncAPIResource):
         default_model: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -608,7 +637,10 @@ class AsyncCustomerResource(AsyncAPIResource):
                 customer_create_params.CustomerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -680,7 +712,10 @@ class AsyncCustomerResource(AsyncAPIResource):
                 customer_update_params.CustomerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -707,7 +742,10 @@ class AsyncCustomerResource(AsyncAPIResource):
         return await self._get(
             "/customer/list",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=CustomerListResponse,
         )
@@ -751,9 +789,14 @@ class AsyncCustomerResource(AsyncAPIResource):
         """
         return await self._post(
             "/customer/delete",
-            body=await async_maybe_transform({"user_ids": user_ids}, customer_delete_params.CustomerDeleteParams),
+            body=await async_maybe_transform(
+                {"user_ids": user_ids}, customer_delete_params.CustomerDeleteParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -798,9 +841,14 @@ class AsyncCustomerResource(AsyncAPIResource):
         """
         return await self._post(
             "/customer/block",
-            body=await async_maybe_transform({"user_ids": user_ids}, customer_block_params.CustomerBlockParams),
+            body=await async_maybe_transform(
+                {"user_ids": user_ids}, customer_block_params.CustomerBlockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -850,7 +898,8 @@ class AsyncCustomerResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
+                    {"end_user_id": end_user_id},
+                    customer_retrieve_info_params.CustomerRetrieveInfoParams,
                 ),
             ),
             cast_to=HanzoEndUserTable,
@@ -891,9 +940,14 @@ class AsyncCustomerResource(AsyncAPIResource):
         """
         return await self._post(
             "/customer/unblock",
-            body=await async_maybe_transform({"user_ids": user_ids}, customer_unblock_params.CustomerUnblockParams),
+            body=await async_maybe_transform(
+                {"user_ids": user_ids}, customer_unblock_params.CustomerUnblockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

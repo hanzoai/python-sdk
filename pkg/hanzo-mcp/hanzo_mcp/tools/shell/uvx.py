@@ -1,16 +1,15 @@
 """Run Python packages with uvx."""
 
-import subprocess
 import shutil
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+import subprocess
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 Package = Annotated[
     str,
@@ -130,28 +129,27 @@ For long-running servers, use uvx_background instead.
         # Check if uvx is available
         if not shutil.which("uvx"):
             await tool_ctx.info("uvx not found, attempting to install...")
-            
+
             # Try to auto-install uvx
             install_cmd = "curl -LsSf https://astral.sh/uv/install.sh | sh"
-            
+
             try:
                 # Run installation
                 install_result = subprocess.run(
-                    install_cmd,
-                    shell=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=60
+                    install_cmd, shell=True, capture_output=True, text=True, timeout=60
                 )
-                
+
                 if install_result.returncode == 0:
                     await tool_ctx.info("uvx installed successfully!")
-                    
+
                     # Add to PATH for current session
                     import os
+
                     home = os.path.expanduser("~")
-                    os.environ["PATH"] = f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
-                    
+                    os.environ["PATH"] = (
+                        f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
+                    )
+
                     # Check again
                     if not shutil.which("uvx"):
                         return """Error: uvx installed but not found in PATH. 
@@ -170,7 +168,7 @@ Or on macOS:
 brew install uv
 
 Error details: {install_result.stderr}"""
-                    
+
             except subprocess.TimeoutExpired:
                 return """Error: Installation timed out. Install uvx manually with:
 curl -LsSf https://astral.sh/uv/install.sh | sh"""
@@ -182,16 +180,17 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
 
         # Build command
         cmd = ["uvx"]
-        
+
         if python_version:
             cmd.extend(["--python", python_version])
-        
+
         cmd.append(package)
-        
+
         # Add package arguments
         if args:
             # Split args properly (basic parsing)
             import shlex
+
             cmd.extend(shlex.split(args))
 
         await tool_ctx.info(f"Running: {' '.join(cmd)}")
@@ -199,11 +198,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
         try:
             # Execute command
             result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=timeout,
-                check=True
+                cmd, capture_output=True, text=True, timeout=timeout, check=True
             )
 
             output = []
@@ -212,7 +207,11 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
             if result.stderr:
                 output.append(f"\nSTDERR:\n{result.stderr}")
 
-            return "\n".join(output) if output else "Command completed successfully with no output."
+            return (
+                "\n".join(output)
+                if output
+                else "Command completed successfully with no output."
+            )
 
         except subprocess.TimeoutExpired:
             return f"Error: Command timed out after {timeout} seconds. Use uvx_background for long-running processes."

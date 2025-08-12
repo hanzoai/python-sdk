@@ -201,9 +201,9 @@ class SessionStorageInstance:
         return {
             "total_sessions": len(self._sessions),
             "max_sessions": self.max_sessions,
-            "utilization": len(self._sessions) / self.max_sessions
-            if self.max_sessions > 0
-            else 0,
+            "utilization": (
+                len(self._sessions) / self.max_sessions if self.max_sessions > 0 else 0
+            ),
             "default_ttl_seconds": self.default_ttl_seconds,
         }
 

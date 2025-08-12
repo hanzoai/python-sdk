@@ -14,8 +14,8 @@ import bashlex  # type: ignore
 import libtmux
 
 from hanzo_mcp.tools.shell.base import (
-    BashCommandStatus,
     CommandResult,
+    BashCommandStatus,
 )
 
 
@@ -355,7 +355,7 @@ class BashSession:
                 error_message=(
                     f"ERROR: Cannot execute multiple commands at once.\n"
                     f"Please run each command separately OR chain them into a single command via && or ;\n"
-                    f"Provided commands:\n{'\n'.join(f'({i + 1}) {cmd}' for i, cmd in enumerate(splited_commands))}"
+                    f"Provided commands:\n{chr(10).join(f'({i + 1}) {cmd}' for i, cmd in enumerate(splited_commands))}"
                 ),
                 command=command,
                 status=BashCommandStatus.COMPLETED,

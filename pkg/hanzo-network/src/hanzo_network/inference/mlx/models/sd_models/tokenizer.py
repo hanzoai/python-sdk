@@ -100,7 +100,7 @@ class Tokenizer:
             tokens.append(self.eos_token)
 
         return tokens
-    
+
     def encode(self, prompt):
         tokens = [self.tokenize(prompt)]
         negative_text = ""
@@ -111,21 +111,20 @@ class Tokenizer:
         tokens = [t + [0] * (N - len(t)) for t in tokens]
         return tokens
 
+
 def load_tokenizer(
     model_path: str,
     vocab_key: str = "tokenizer_vocab",
     merges_key: str = "tokenizer_merges",
 ):
-
-    vocab_file = glob.glob(str(model_path/"tokenizer"/vocab_key))[0]
+    vocab_file = glob.glob(str(model_path / "tokenizer" / vocab_key))[0]
     with open(vocab_file, encoding="utf-8") as f:
         vocab = json.load(f)
 
-    merges_file = glob.glob(str(model_path/"tokenizer"/merges_key))[0]
+    merges_file = glob.glob(str(model_path / "tokenizer" / merges_key))[0]
     with open(merges_file, encoding="utf-8") as f:
         bpe_merges = f.read().strip().split("\n")[1 : 49152 - 256 - 2 + 1]
     bpe_merges = [tuple(m.split()) for m in bpe_merges]
     bpe_ranks = dict(map(reversed, enumerate(bpe_merges)))
 
     return Tokenizer(bpe_ranks, vocab)
-

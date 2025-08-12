@@ -98,7 +98,10 @@ class ProviderResource(SyncAPIResource):
         return self._get(
             "/provider/budgets",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=ProviderListBudgetsResponse,
         )
@@ -183,7 +186,10 @@ class AsyncProviderResource(AsyncAPIResource):
         return await self._get(
             "/provider/budgets",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=ProviderListBudgetsResponse,
         )

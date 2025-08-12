@@ -1,34 +1,34 @@
 """Test search result quality and relevance scoring for search."""
 
+import sys
 import asyncio
 import tempfile
 from pathlib import Path
-from typing import List, Dict, Any
-import pytest
-from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
-import sys
+import pytest
+
+from tests.test_utils import create_permission_manager
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem.search_tool import SearchTool, SearchResult, SearchType
-from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer, Symbol
+from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
 
 
 class TestSearchQuality:
     """Test suite for search result quality and relevance."""
-    
+
     @pytest.fixture
     def test_codebase(self):
         """Create a realistic test codebase."""
         with tempfile.TemporaryDirectory() as tmpdir:
             test_dir = Path(tmpdir)
-            
+
             # Create a realistic Python project
-            
+
             # Main application file
             main_py = test_dir / "main.py"
-            main_py.write_text('''
+            main_py.write_text(
+                '''
 """Main application with error handling."""
 
 import logging
@@ -67,11 +67,13 @@ def validate_input(data: List[str]) -> bool:
 
 if __name__ == "__main__":
     main()
-''')
-            
+'''
+            )
+
             # Data processor module
             processor_py = test_dir / "data_processor.py"
-            processor_py.write_text('''
+            processor_py.write_text(
+                '''
 """Data processing module with error handling."""
 
 import logging
@@ -126,11 +128,13 @@ class DataProcessor:
                 results[batch_key] = []
         
         return results
-''')
-            
+'''
+            )
+
             # Utility module
             utils_py = test_dir / "utils.py"
-            utils_py.write_text('''
+            utils_py.write_text(
+                '''
 """Utility functions with error handling."""
 
 import re
@@ -189,11 +193,13 @@ class ErrorHandler:
             print(f"Error #{self.error_count}: {message}")
         
         return message
-''')
-            
+'''
+            )
+
             # Test file
             test_py = test_dir / "test_main.py"
-            test_py.write_text('''
+            test_py.write_text(
+                '''
 """Test file for the main application."""
 
 import unittest
@@ -259,186 +265,221 @@ class TestDataProcessor(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-''')
-            
+'''
+            )
+
             yield {
                 "dir": test_dir,
                 "main": main_py,
                 "processor": processor_py,
                 "utils": utils_py,
-                "test": test_py
+                "test": test_py,
             }
 
     def test_search_relevance_scoring(self, tool_helper, test_codebase):
         """Test that search results are properly scored for relevance."""
-        
+
         # Test different search scenarios and expected relevance order
         test_cases = [
             {
                 "query": "error handling",
                 "expected_files": ["main.py", "data_processor.py", "utils.py"],
-                "description": "Natural language query should find relevant files"
+                "description": "Natural language query should find relevant files",
             },
             {
                 "query": "DataProcessor",
                 "expected_files": ["data_processor.py", "main.py", "test_main.py"],
-                "description": "Class name should prioritize definition file"
+                "description": "Class name should prioritize definition file",
             },
             {
                 "query": "def process_data",
                 "expected_files": ["data_processor.py"],
-                "description": "Function definition should find exact matches"
+                "description": "Function definition should find exact matches",
             },
             {
                 "query": "ApplicationError",
                 "expected_files": ["main.py", "test_main.py"],
-                "description": "Custom exception should find definition and usage"
-            }
+                "description": "Custom exception should find definition and usage",
+            },
         ]
-        
+
         permission_manager = create_permission_manager([str(test_codebase["dir"])])
-        
+
         # Test with different search types
         search_tools = {
-            "grep": lambda: self._test_grep_relevance(test_codebase, test_cases, permission_manager),
-            "ast": lambda: self._test_ast_relevance(test_codebase, test_cases, permission_manager),
-            "symbol": lambda: self._test_symbol_relevance(test_codebase, test_cases, permission_manager),
+            "grep": lambda: self._test_grep_relevance(
+                test_codebase, test_cases, permission_manager
+            ),
+            "ast": lambda: self._test_ast_relevance(
+                test_codebase, test_cases, permission_manager
+            ),
+            "symbol": lambda: self._test_symbol_relevance(
+                test_codebase, test_cases, permission_manager
+            ),
         }
-        
+
         results = {}
         for tool_name, test_func in search_tools.items():
             print(f"\\n=== Testing {tool_name.upper()} Search Relevance ===")
             results[tool_name] = test_func()
-        
+
         return results
 
     def _test_grep_relevance(self, test_codebase, test_cases, permission_manager):
         """Test grep search relevance."""
         from hanzo_mcp.tools.filesystem.grep import Grep
-        
+
         grep_tool = Grep(permission_manager)
         results = {}
-        
+
         class MockContext:
             def __init__(self):
                 self.meta = {}
-        
+
         for case in test_cases:
             query = case["query"]
             expected_files = case["expected_files"]
-            
+
             try:
                 # Use asyncio.run for individual calls
-                result = asyncio.run(grep_tool.call(
-                    MockContext(),
-                    pattern=query,
-                    path=str(test_codebase["dir"]),
-                    include="*.py"
-                ))
-                
+                result = asyncio.run(
+                    grep_tool.call(
+                        MockContext(),
+                        pattern=query,
+                        path=str(test_codebase["dir"]),
+                        include="*.py",
+                    )
+                )
+
                 # Extract found files
                 found_files = set()
                 if "Found" in result:
-                    lines = result.split('\\n')
+                    lines = result.split("\\n")
                     for line in lines:
-                        if ':' in line and line.strip():
+                        if ":" in line and line.strip():
                             try:
-                                file_path = line.split(':')[0]
+                                file_path = line.split(":")[0]
                                 if file_path:
                                     found_files.add(Path(file_path).name)
-                            except:
+                            except Exception:
                                 continue
-                
+
                 # Calculate relevance score
                 expected_set = set(expected_files)
-                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
-                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
-                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-                
+                precision = (
+                    len(found_files & expected_set) / len(found_files)
+                    if found_files
+                    else 0
+                )
+                recall = (
+                    len(found_files & expected_set) / len(expected_set)
+                    if expected_set
+                    else 0
+                )
+                f1_score = (
+                    2 * (precision * recall) / (precision + recall)
+                    if (precision + recall) > 0
+                    else 0
+                )
+
                 results[query] = {
                     "found_files": list(found_files),
                     "expected_files": expected_files,
                     "precision": precision,
                     "recall": recall,
                     "f1_score": f1_score,
-                    "success": True
+                    "success": True,
                 }
-                
+
                 print(f"Query: '{query}'")
                 print(f"  Found: {sorted(found_files)}")
                 print(f"  Expected: {expected_files}")
                 print(f"  F1 Score: {f1_score:.3f}")
-                
+
             except Exception as e:
                 results[query] = {"success": False, "error": str(e)}
                 print(f"Query: '{query}' - FAILED: {e}")
-        
+
         return results
 
     def _test_ast_relevance(self, test_codebase, test_cases, permission_manager):
         """Test AST search relevance."""
         from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
-        
+
         ast_tool = SymbolsTool(permission_manager)
         results = {}
-        
+
         class MockContext:
             def __init__(self):
                 self.meta = {}
-        
+
         for case in test_cases:
             query = case["query"]
             expected_files = case["expected_files"]
-            
+
             try:
-                result = asyncio.run(ast_tool.call(
-                    MockContext(),
-                    pattern=query,
-                    path=str(test_codebase["dir"]),
-                    ignore_case=False,
-                    line_number=True
-                ))
-                
+                result = asyncio.run(
+                    ast_tool.call(
+                        MockContext(),
+                        pattern=query,
+                        path=str(test_codebase["dir"]),
+                        ignore_case=False,
+                        line_number=True,
+                    )
+                )
+
                 # Extract found files from AST results
                 found_files = set()
                 if result and not result.startswith("No matches"):
-                    lines = result.split('\\n')
+                    lines = result.split("\\n")
                     for line in lines:
-                        if line.endswith(':') and '/' in line:
+                        if line.endswith(":") and "/" in line:
                             file_path = line[:-1]
                             found_files.add(Path(file_path).name)
-                
+
                 # Calculate relevance metrics
                 expected_set = set(expected_files)
-                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
-                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
-                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-                
+                precision = (
+                    len(found_files & expected_set) / len(found_files)
+                    if found_files
+                    else 0
+                )
+                recall = (
+                    len(found_files & expected_set) / len(expected_set)
+                    if expected_set
+                    else 0
+                )
+                f1_score = (
+                    2 * (precision * recall) / (precision + recall)
+                    if (precision + recall) > 0
+                    else 0
+                )
+
                 results[query] = {
                     "found_files": list(found_files),
                     "expected_files": expected_files,
                     "precision": precision,
                     "recall": recall,
                     "f1_score": f1_score,
-                    "success": True
+                    "success": True,
                 }
-                
+
                 print(f"Query: '{query}'")
                 print(f"  Found: {sorted(found_files)}")
                 print(f"  Expected: {expected_files}")
                 print(f"  F1 Score: {f1_score:.3f}")
-                
+
             except Exception as e:
                 results[query] = {"success": False, "error": str(e)}
                 print(f"Query: '{query}' - FAILED: {e}")
-        
+
         return results
 
     def _test_symbol_relevance(self, test_codebase, test_cases, permission_manager):
         """Test symbol search relevance."""
         analyzer = ASTAnalyzer()
         results = {}
-        
+
         # Analyze all files first
         file_symbols = {}
         for file_path in test_codebase["dir"].rglob("*.py"):
@@ -448,159 +489,181 @@ if __name__ == "__main__":
                     file_symbols[file_path.name] = file_ast.symbols
             except Exception as e:
                 print(f"Failed to analyze {file_path}: {e}")
-        
+
         for case in test_cases:
             query = case["query"]
             expected_files = case["expected_files"]
-            
+
             try:
                 # Search for symbols matching the query
                 found_files = set()
-                
+
                 for file_name, symbols in file_symbols.items():
                     for symbol in symbols:
                         if query.lower() in symbol.name.lower():
                             found_files.add(file_name)
                             break
-                
+
                 # Calculate relevance metrics
                 expected_set = set(expected_files)
-                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
-                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
-                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-                
+                precision = (
+                    len(found_files & expected_set) / len(found_files)
+                    if found_files
+                    else 0
+                )
+                recall = (
+                    len(found_files & expected_set) / len(expected_set)
+                    if expected_set
+                    else 0
+                )
+                f1_score = (
+                    2 * (precision * recall) / (precision + recall)
+                    if (precision + recall) > 0
+                    else 0
+                )
+
                 results[query] = {
                     "found_files": list(found_files),
                     "expected_files": expected_files,
                     "precision": precision,
                     "recall": recall,
                     "f1_score": f1_score,
-                    "success": True
+                    "success": True,
                 }
-                
+
                 print(f"Query: '{query}'")
                 print(f"  Found: {sorted(found_files)}")
                 print(f"  Expected: {expected_files}")
                 print(f"  F1 Score: {f1_score:.3f}")
-                
+
             except Exception as e:
                 results[query] = {"success": False, "error": str(e)}
                 print(f"Query: '{query}' - FAILED: {e}")
-        
+
         return results
 
     def test_search_performance_comparison(self, tool_helper, test_codebase):
         """Compare performance across different search methods."""
         import time
-        
+
         permission_manager = create_permission_manager([str(test_codebase["dir"])])
-        
+
         queries = ["error", "DataProcessor", "def.*process", "import.*typing"]
-        
+
         from hanzo_mcp.tools.filesystem.grep import Grep
         from hanzo_mcp.tools.filesystem.symbols import SymbolsTool
-        
+
         grep_tool = Grep(permission_manager)
         ast_tool = SymbolsTool(permission_manager)
-        
+
         class MockContext:
             def __init__(self):
                 self.meta = {}
-        
+
         performance_results = {}
-        
+
         for query in queries:
             query_results = {}
-            
+
             # Test grep performance
             start_time = time.time()
             try:
-                result = asyncio.run(grep_tool.call(
-                    MockContext(),
-                    pattern=query,
-                    path=str(test_codebase["dir"]),
-                    include="*.py"
-                ))
+                result = asyncio.run(
+                    grep_tool.call(
+                        MockContext(),
+                        pattern=query,
+                        path=str(test_codebase["dir"]),
+                        include="*.py",
+                    )
+                )
                 grep_time = time.time() - start_time
-                grep_matches = result.count('\\n') if result and "Found" in result else 0
-                
+                grep_matches = (
+                    result.count("\\n") if result and "Found" in result else 0
+                )
+
                 query_results["grep"] = {
                     "time": grep_time,
                     "matches": grep_matches,
-                    "success": True
+                    "success": True,
                 }
             except Exception as e:
                 query_results["grep"] = {
                     "time": time.time() - start_time,
                     "matches": 0,
                     "success": False,
-                    "error": str(e)
+                    "error": str(e),
                 }
-            
+
             # Test AST performance
             start_time = time.time()
             try:
-                result = asyncio.run(ast_tool.call(
-                    MockContext(),
-                    pattern=query,
-                    path=str(test_codebase["dir"]),
-                    ignore_case=False,
-                    line_number=True
-                ))
+                result = asyncio.run(
+                    ast_tool.call(
+                        MockContext(),
+                        pattern=query,
+                        path=str(test_codebase["dir"]),
+                        ignore_case=False,
+                        line_number=True,
+                    )
+                )
                 ast_time = time.time() - start_time
-                ast_matches = result.count('\\n') if result and not result.startswith("No matches") else 0
-                
+                ast_matches = (
+                    result.count("\\n")
+                    if result and not result.startswith("No matches")
+                    else 0
+                )
+
                 query_results["ast"] = {
                     "time": ast_time,
                     "matches": ast_matches,
-                    "success": True
+                    "success": True,
                 }
             except Exception as e:
                 query_results["ast"] = {
                     "time": time.time() - start_time,
                     "matches": 0,
                     "success": False,
-                    "error": str(e)
+                    "error": str(e),
                 }
-            
+
             performance_results[query] = query_results
-        
+
         # Print performance comparison
         print("\\n=== Performance Comparison ===")
         print(f"{'Query':<20} {'Grep Time':<12} {'AST Time':<12} {'Speedup':<10}")
         print("-" * 60)
-        
+
         for query, results in performance_results.items():
             grep_time = results["grep"]["time"]
             ast_time = results["ast"]["time"]
-            speedup = ast_time / grep_time if grep_time > 0 else float('inf')
-            
+            speedup = ast_time / grep_time if grep_time > 0 else float("inf")
+
             print(f"{query:<20} {grep_time:<12.3f} {ast_time:<12.3f} {speedup:<10.1f}x")
-        
+
         return performance_results
 
 
 if __name__ == "__main__":
     # Run the search quality tests
     tester = TestSearchQuality()
-    
+
     # Create test codebase
     test_codebase_gen = tester.create_test_codebase()
     test_codebase = next(test_codebase_gen)
-    
+
     try:
         print("🎯 Search Quality and Relevance Testing")
         print("=" * 50)
-        
+
         # Test search relevance
         relevance_results = tester.test_search_relevance_scoring(test_codebase)
-        
+
         # Test performance comparison
         print("\\n" + "=" * 50)
         performance_results = tester.test_search_performance_comparison(test_codebase)
-        
+
         print("\\n✅ Search quality testing completed!")
-        
+
     finally:
         # Cleanup handled by context manager
         pass

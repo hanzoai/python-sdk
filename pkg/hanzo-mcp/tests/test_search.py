@@ -1,28 +1,19 @@
 """Comprehensive test suite for search functionality."""
 
-import asyncio
-import os
 import tempfile
-import time
 from pathlib import Path
-from typing import List, Dict, Any
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
-from tests.test_utils import ToolTestHelper, create_mock_ctx, create_permission_manager
 
-from mcp.server.fastmcp import Context as MCPContext
-
+import pytest
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem.search_tool import (
-    SearchTool,
-    SearchResult,
-    SearchType
-)
+from hanzo_mcp.tools.filesystem.search_tool import SearchTool, SearchType, SearchResult
+
+from tests.test_utils import create_permission_manager
 
 
 class TestSearchTool:
     """Test suite for the SearchTool."""
-    
+
     @pytest.fixture
     def permission_manager(self):
         """Create a permission manager for testing."""
@@ -30,7 +21,7 @@ class TestSearchTool:
         pm.add_allowed_path("/tmp")
         pm.add_allowed_path(".")
         return pm
-    
+
     @pytest.fixture
     def mock_project_manager(self):
         """Create a mock project manager."""
@@ -40,28 +31,29 @@ class TestSearchTool:
         mock_pm._get_global_store = MagicMock()
         mock_pm.projects = {}
         return mock_pm
-    
+
     @pytest.fixture
     def search_tool(self, permission_manager, mock_project_manager):
         """Create a search tool instance."""
         return SearchTool(permission_manager, mock_project_manager)
-    
+
     @pytest.fixture
     def mock_context(self):
         """Create a mock MCP context."""
         ctx = MagicMock()
         ctx.meta = MagicMock()
         return ctx
-    
+
     @pytest.fixture
     def test_files(self):
         """Create temporary test files."""
         with tempfile.TemporaryDirectory() as tmpdir:
             test_dir = Path(tmpdir)
-            
+
             # Create test Python file
             python_file = test_dir / "test_module.py"
-            python_file.write_text("""
+            python_file.write_text(
+                """
 def hello_world():
     '''Say hello to the world.'''
     print("Hello, world!")
@@ -93,11 +85,13 @@ def complex_function(data, options=None):
             processed.append(str(item))
     
     return processed
-""")
-            
+"""
+            )
+
             # Create test JavaScript file
             js_file = test_dir / "test_script.js"
-            js_file.write_text("""
+            js_file.write_text(
+                """
 function helloWorld() {
     console.log("Hello, world!");
     return "greeting";
@@ -129,11 +123,13 @@ function complexFunction(data, options = {}) {
     
     return processed;
 }
-""")
-            
+"""
+            )
+
             # Create test documentation file
             md_file = test_dir / "README.md"
-            md_file.write_text("""
+            md_file.write_text(
+                """
 # Test Project
 
 This is a test project for demonstrating search capabilities.
@@ -155,13 +151,14 @@ result = hello_world()
 ## Error Handling
 
 The project includes comprehensive error handling throughout.
-""")
-            
+"""
+            )
+
             yield {
                 "dir": test_dir,
                 "python": python_file,
                 "javascript": js_file,
-                "markdown": md_file
+                "markdown": md_file,
             }
 
     def test_search_intent_detection(self, tool_helper, search_tool):
@@ -171,38 +168,44 @@ The project includes comprehensive error handling throughout.
         assert not use_vector
         assert use_ast
         assert use_symbol
-        
+
         # Function name should enable symbol and AST
-        use_vector, use_ast, use_symbol = search_tool._detect_search_intent("hello_world")
+        use_vector, use_ast, use_symbol = search_tool._detect_search_intent(
+            "hello_world"
+        )
         assert use_vector  # Could be semantic
         assert use_ast
         assert use_symbol
-        
+
         # Natural language should enable vector search
-        use_vector, use_ast, use_symbol = search_tool._detect_search_intent("error handling functionality")
+        use_vector, use_ast, use_symbol = search_tool._detect_search_intent(
+            "error handling functionality"
+        )
         assert use_vector
         assert use_ast
         assert use_symbol
 
     @pytest.mark.asyncio
-    async def test_grep_search(self, tool_helper, search_tool, test_files, mock_context):
+    async def test_grep_search(
+        self, tool_helper, search_tool, test_files, mock_context
+    ):
         """Test grep search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
         tool_ctx.error = AsyncMock()
         tool_ctx.mcp_context = mock_context
-        
-        with patch.object(search_tool, 'create_tool_context', return_value=tool_ctx):
-            with patch.object(search_tool.grep_tool, 'call') as mock_grep:
+
+        with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
+            with patch.object(search_tool.grep_tool, "call") as mock_grep:
                 mock_grep.return_value = """Found 2 matches in 1 file:
 
 test_module.py:3: def hello_world():
 test_module.py:15: result = hello_world()"""
-                
+
                 results = await search_tool._run_grep_search(
                     "hello_world", str(test_files["dir"]), "*", tool_ctx, 10
                 )
-                
+
                 assert len(results) == 2
                 assert all(r.search_type == SearchType.GREP for r in results)
                 assert results[0].file_path == "test_module.py"
@@ -216,9 +219,9 @@ test_module.py:15: result = hello_world()"""
         tool_ctx.info = AsyncMock()
         tool_ctx.error = AsyncMock()
         tool_ctx.mcp_context = mock_context
-        
-        with patch.object(search_tool, 'create_tool_context', return_value=tool_ctx):
-            with patch.object(search_tool.grep_ast_tool, 'call') as mock_ast:
+
+        with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
+            with patch.object(search_tool.grep_ast_tool, "call") as mock_ast:
                 mock_ast.return_value = f"""
 {test_files["python"]}:
 3: def hello_world():
@@ -226,39 +229,41 @@ test_module.py:15: result = hello_world()"""
 5:     print("Hello, world!")
 6:     return "greeting"
 """
-                
+
                 results = await search_tool._run_ast_search(
                     "hello_world", str(test_files["dir"]), "*", tool_ctx, 10
                 )
-                
+
                 assert len(results) > 0
                 assert all(r.search_type == SearchType.AST for r in results)
 
     @pytest.mark.asyncio
-    async def test_symbol_search(self, tool_helper, search_tool, test_files, mock_context):
+    async def test_symbol_search(
+        self, tool_helper, search_tool, test_files, mock_context
+    ):
         """Test symbol search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
         tool_ctx.error = AsyncMock()
-        
-        with patch.object(search_tool, 'create_tool_context', return_value=tool_ctx):
+
+        with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
             # Mock the AST analyzer
-            with patch.object(search_tool.ast_analyzer, 'analyze_file') as mock_analyze:
+            with patch.object(search_tool.ast_analyzer, "analyze_file") as mock_analyze:
                 from hanzo_mcp.tools.vector.ast_analyzer import Symbol, FileAST
-                
+
                 # Create mock symbols
                 symbol = Symbol(
                     name="hello_world",
-                    type="function", 
+                    type="function",
                     file_path=str(test_files["python"]),
                     line_start=3,
                     line_end=6,
                     column_start=0,
                     column_end=20,
                     scope="global",
-                    signature="hello_world()"
+                    signature="hello_world()",
                 )
-                
+
                 mock_ast = FileAST(
                     file_path=str(test_files["python"]),
                     file_hash="test_hash",
@@ -267,28 +272,30 @@ test_module.py:15: result = hello_world()"""
                     ast_nodes=[],
                     imports=[],
                     exports=[],
-                    dependencies=[]
+                    dependencies=[],
                 )
-                
+
                 mock_analyze.return_value = mock_ast
-                
+
                 results = await search_tool._run_symbol_search(
                     "hello_world", str(test_files["dir"]), tool_ctx, 10
                 )
-                
+
                 assert len(results) > 0
                 assert all(r.search_type == SearchType.SYMBOL for r in results)
                 assert results[0].symbol_info is not None
                 assert results[0].symbol_info.name == "hello_world"
 
     @pytest.mark.asyncio
-    async def test_vector_search(self, tool_helper, search_tool, test_files, mock_context):
+    async def test_vector_search(
+        self, tool_helper, search_tool, test_files, mock_context
+    ):
         """Test vector search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
         tool_ctx.error = AsyncMock()
         tool_ctx.mcp_context = mock_context
-        
+
         # Mock vector tool
         search_tool.vector_tool = MagicMock()
         search_tool.vector_tool.call = AsyncMock()
@@ -303,78 +310,87 @@ try:
     return result
 except Exception as e:
     print(f"Error occurred: {e}")"""
-        
-        with patch.object(search_tool, 'create_tool_context', return_value=tool_ctx):
+
+        with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
             results = await search_tool._run_vector_search(
                 "error handling", str(test_files["dir"]), tool_ctx, 10
             )
-            
+
             assert len(results) > 0
             assert all(r.search_type == SearchType.VECTOR for r in results)
 
     @pytest.mark.asyncio
-    async def test_full_search(self, tool_helper, search_tool, test_files, mock_context):
+    async def test_full_search(
+        self, tool_helper, search_tool, test_files, mock_context
+    ):
         """Test complete search functionality."""
-        with patch.object(search_tool, 'validate_path') as mock_validate:
+        with patch.object(search_tool, "validate_path") as mock_validate:
             mock_validate.return_value = MagicMock(is_error=False)
-            
-            with patch.object(search_tool, 'check_path_allowed') as mock_allowed:
+
+            with patch.object(search_tool, "check_path_allowed") as mock_allowed:
                 mock_allowed.return_value = (True, None)
-                
-                with patch.object(search_tool, 'check_path_exists') as mock_exists:
+
+                with patch.object(search_tool, "check_path_exists") as mock_exists:
                     mock_exists.return_value = (True, None)
-                    
-                    with patch.object(search_tool, 'create_tool_context') as mock_tool_ctx:
+
+                    with patch.object(
+                        search_tool, "create_tool_context"
+                    ) as mock_tool_ctx:
                         tool_ctx = MagicMock()
                         tool_ctx.info = AsyncMock()
                         tool_ctx.error = AsyncMock()
                         tool_ctx.mcp_context = mock_context
                         mock_tool_ctx.return_value = tool_ctx
-                        
+
                         # Mock all search methods
-                        with patch.object(search_tool, '_run_grep_search') as mock_grep:
-                            with patch.object(search_tool, '_run_ast_search') as mock_ast:
-                                with patch.object(search_tool, '_run_symbol_search') as mock_symbol:
-                                    
+                        with patch.object(search_tool, "_run_grep_search") as mock_grep:
+                            with patch.object(
+                                search_tool, "_run_ast_search"
+                            ) as mock_ast:
+                                with patch.object(
+                                    search_tool, "_run_symbol_search"
+                                ) as mock_symbol:
                                     # Setup mock results
                                     grep_result = SearchResult(
                                         file_path="test.py",
                                         line_number=1,
                                         content="def hello_world():",
                                         search_type=SearchType.GREP,
-                                        score=1.0
+                                        score=1.0,
                                     )
-                                    
+
                                     ast_result = SearchResult(
-                                        file_path="test.py", 
+                                        file_path="test.py",
                                         line_number=1,
                                         content="def hello_world():",
                                         search_type=SearchType.AST,
                                         score=0.9,
-                                        context="function definition"
+                                        context="function definition",
                                     )
-                                    
+
                                     symbol_result = SearchResult(
                                         file_path="test.py",
-                                        line_number=1, 
+                                        line_number=1,
                                         content="function hello_world",
                                         search_type=SearchType.SYMBOL,
-                                        score=0.95
+                                        score=0.95,
                                     )
-                                    
+
                                     mock_grep.return_value = [grep_result]
                                     mock_ast.return_value = [ast_result]
                                     mock_symbol.return_value = [symbol_result]
-                                    
+
                                     # Execute search
                                     result = await search_tool.call(
                                         mock_context,
                                         pattern="hello_world",
                                         path=str(test_files["dir"]),
-                                        max_results=10
+                                        max_results=10,
                                     )
-                                    
-                                    tool_helper.assert_in_result("Unified Search Results", result)
+
+                                    tool_helper.assert_in_result(
+                                        "Unified Search Results", result
+                                    )
                                     tool_helper.assert_in_result("hello_world", result)
                                     tool_helper.assert_in_result("Found", result)
 
@@ -386,54 +402,54 @@ except Exception as e:
             line_number=1,
             content="def hello_world():",
             search_type=SearchType.GREP,
-            score=1.0
+            score=1.0,
         )
-        
+
         ast_result = SearchResult(
             file_path="test.py",
             line_number=1,
             content="def hello_world():",
             search_type=SearchType.AST,
             score=0.9,
-            context="function definition"
+            context="function definition",
         )
-        
+
         symbol_result = SearchResult(
             file_path="test.py",
             line_number=1,
             content="function hello_world",
             search_type=SearchType.SYMBOL,
-            score=0.95
+            score=0.95,
         )
-        
+
         vector_result = SearchResult(
             file_path="other.py",
             line_number=5,
             content="call hello_world function",
             search_type=SearchType.VECTOR,
-            score=0.8
+            score=0.8,
         )
-        
+
         results_by_type = {
             SearchType.GREP: [grep_result],
-            SearchType.AST: [ast_result], 
+            SearchType.AST: [ast_result],
             SearchType.SYMBOL: [symbol_result],
-            SearchType.VECTOR: [vector_result]
+            SearchType.VECTOR: [vector_result],
         }
-        
+
         combined = search_tool._combine_and_rank_results(results_by_type)
-        
+
         # Should have 2 unique results (3 duplicates merged into 1)
         assert len(combined) == 2
-        
+
         # Should be sorted by score (symbol score should win for duplicates)
         assert combined[0].score == 0.95  # Symbol result wins
-        assert combined[1].score == 0.8   # Vector result
+        assert combined[1].score == 0.8  # Vector result
 
     def test_search_result_serialization(self):
         """Test SearchResult and UnifiedSearchResults serialization."""
         from hanzo_mcp.tools.vector.ast_analyzer import Symbol
-        
+
         symbol = Symbol(
             name="test_func",
             type="function",
@@ -442,9 +458,9 @@ except Exception as e:
             line_end=5,
             column_start=0,
             column_end=20,
-            scope="global"
+            scope="global",
         )
-        
+
         result = SearchResult(
             file_path="test.py",
             line_number=1,
@@ -452,24 +468,24 @@ except Exception as e:
             search_type=SearchType.GREP,
             score=1.0,
             context="function definition",
-            symbol_info=symbol
+            symbol_info=symbol,
         )
-        
+
         # Test serialization
         result_dict = result.to_dict()
         assert result_dict["file_path"] == "test.py"
         assert result_dict["search_type"] == "grep"
         assert result_dict["symbol_info"]["name"] == "test_func"
-        
+
         # Test UnifiedSearchResults
         unified_results = UnifiedSearchResults(
             query="test",
             total_results=1,
             results_by_type={SearchType.GREP: [result]},
             combined_results=[result],
-            search_time_ms=100.5
+            search_time_ms=100.5,
         )
-        
+
         unified_dict = unified_results.to_dict()
         assert unified_dict["query"] == "test"
         assert unified_dict["total_results"] == 1
@@ -478,18 +494,19 @@ except Exception as e:
 
 class TestUnifiedSearchIntegration:
     """Integration tests for search with real file operations."""
-    
+
     @pytest.fixture
     def real_test_environment(self):
         """Create a real test environment with actual files."""
         with tempfile.TemporaryDirectory() as tmpdir:
             test_dir = Path(tmpdir)
-            
+
             # Create a small Python project
             (test_dir / "__init__.py").touch()
-            
+
             main_file = test_dir / "main.py"
-            main_file.write_text("""
+            main_file.write_text(
+                """
 #!/usr/bin/env python3
 '''Main module for testing search.'''
 
@@ -545,10 +562,12 @@ def main():
 
 if __name__ == "__main__":
     main()
-""")
-            
+"""
+            )
+
             utils_file = test_dir / "utils.py"
-            utils_file.write_text("""
+            utils_file.write_text(
+                """
 '''Utility functions for the test project.'''
 
 import re
@@ -580,43 +599,42 @@ def extract_function_names(code: str) -> List[str]:
     pattern = r'def\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\('
     matches = re.findall(pattern, code)
     return matches
-""")
-            
-            yield {
-                "dir": test_dir,
-                "main": main_file,
-                "utils": utils_file
-            }
+"""
+            )
+
+            yield {"dir": test_dir, "main": main_file, "utils": utils_file}
 
     @pytest.mark.asyncio
     async def test_real_search(self, tool_helper, real_test_environment):
         """Test search on real files."""
-        permission_manager = create_permission_manager([str(real_test_environment["dir"])])
-        
+        permission_manager = create_permission_manager(
+            [str(real_test_environment["dir"])]
+        )
+
         # Test without vector search (no project manager)
         unified_tool = SearchTool(permission_manager, None)
-        
+
         # Mock context
         ctx = MagicMock()
-        
+
         # Test search for "error handling"
-        with patch.object(unified_tool, 'validate_path') as mock_validate:
+        with patch.object(unified_tool, "validate_path") as mock_validate:
             mock_validate.return_value = MagicMock(is_error=False)
-            
-            with patch.object(unified_tool, 'check_path_allowed') as mock_allowed:
+
+            with patch.object(unified_tool, "check_path_allowed") as mock_allowed:
                 mock_allowed.return_value = (True, None)
-                
-                with patch.object(unified_tool, 'check_path_exists') as mock_exists:
+
+                with patch.object(unified_tool, "check_path_exists") as mock_exists:
                     mock_exists.return_value = (True, None)
-                    
+
                     result = await unified_tool.call(
                         ctx,
                         pattern="error.handling",
                         path=str(real_test_environment["dir"]),
                         enable_vector=False,  # Disable vector search
-                        max_results=20
+                        max_results=20,
                     )
-                    
+
                     # Should find multiple instances of error handling
                     tool_helper.assert_in_result("Unified Search Results", result)
                     assert "error" in result.lower()

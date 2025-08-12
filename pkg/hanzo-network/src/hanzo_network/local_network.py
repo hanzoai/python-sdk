@@ -13,10 +13,10 @@ def create_local_agent(
     tools: Optional[List[Tool]] = None,
     local_model: str = "llama3.2",
     base_url: str = "http://localhost:11434",
-    **metadata
+    **metadata,
 ) -> Agent:
     """Create an agent configured to use a local LLM.
-    
+
     Args:
         name: Agent name
         description: Agent description
@@ -25,24 +25,22 @@ def create_local_agent(
         local_model: Local model name (e.g., "llama3.2" for Ollama, "mlx-community/Llama-3.2-3B-Instruct-4bit" for MLX)
         base_url: Base URL for local LLM server (Ollama default)
         **metadata: Additional metadata
-        
+
     Returns:
         Agent configured for local LLM
     """
     # Create model config for local provider
     model_config = ModelConfig(
-        provider=ModelProvider.LOCAL,
-        model=local_model,
-        base_url=base_url
+        provider=ModelProvider.LOCAL, model=local_model, base_url=base_url
     )
-    
+
     return create_agent(
         name=name,
         description=description,
         model=model_config,
         system=system,
         tools=tools,
-        **metadata
+        **metadata,
     )
 
 
@@ -54,13 +52,13 @@ def create_local_distributed_network(
     broadcast_port: int = 5678,
     local_model: str = "llama3.2",
     base_url: str = "http://localhost:11434",
-    **kwargs
+    **kwargs,
 ) -> DistributedNetwork:
     """Create a distributed network configured for local execution.
-    
+
     This is a convenience wrapper that creates a distributed network
     with sensible defaults for local testing with local LLMs.
-    
+
     Args:
         agents: List of agents
         name: Network name
@@ -70,62 +68,58 @@ def create_local_distributed_network(
         local_model: Local model for router
         base_url: Base URL for local LLM
         **kwargs: Additional arguments for create_distributed_network
-        
+
     Returns:
         Configured DistributedNetwork
     """
     from .core.router import create_routing_agent
-    
+
     # Create a local router if one isn't provided
-    if 'router' not in kwargs:
+    if "router" not in kwargs:
         router_config = ModelConfig(
-            provider=ModelProvider.LOCAL,
-            model=local_model,
-            base_url=base_url
+            provider=ModelProvider.LOCAL, model=local_model, base_url=base_url
         )
-        
-        kwargs['router'] = create_routing_agent(
-            name="local_router",
-            description="Local routing agent",
-            model=router_config
+
+        kwargs["router"] = create_routing_agent(
+            name="local_router", description="Local routing agent", model=router_config
         )
-    
+
     return create_distributed_network(
         agents=agents,
         name=name or "local-network",
         node_id=node_id,
         listen_port=listen_port,
         broadcast_port=broadcast_port,
-        **kwargs
+        **kwargs,
     )
 
 
 async def check_local_llm_status(provider: str = "hanzo") -> dict:
     """Check the status of local LLM providers.
-    
+
     Args:
         provider: Provider to check ("hanzo", "mlx", "tinygrad", "dummy")
-        
+
     Returns:
         Status information including availability and models
     """
     from .llm import HanzoNetProvider
-    
+
     # Map old provider names to hanzo/net engines
     engine_map = {
         "ollama": "dummy",  # Ollama replaced with hanzo/net
         "mlx": "mlx",
-        "tinygrad": "tinygrad", 
+        "tinygrad": "tinygrad",
         "dummy": "dummy",
-        "hanzo": "dummy"  # Default hanzo/net
+        "hanzo": "dummy",  # Default hanzo/net
     }
-    
+
     engine_type = engine_map.get(provider, "dummy")
-    
+
     hanzo_provider = HanzoNetProvider(engine_type)
     is_available = await hanzo_provider.is_available()
     models = await hanzo_provider.list_models() if is_available else []
-    
+
     # Provide helpful status info
     status = {
         "provider": f"hanzo/net ({engine_type})",
@@ -133,16 +127,25 @@ async def check_local_llm_status(provider: str = "hanzo") -> dict:
         "engine": engine_type,
         "models": models,
     }
-    
+
     # Add engine-specific info
     if engine_type == "mlx":
         import platform
-        status["platform"] = "Apple Silicon" if platform.machine() in ["arm64", "aarch64"] else platform.machine()
+
+        status["platform"] = (
+            "Apple Silicon"
+            if platform.machine() in ["arm64", "aarch64"]
+            else platform.machine()
+        )
         if not is_available:
             status["instructions"] = "MLX requires Apple Silicon (M1/M2/M3)"
     elif engine_type == "tinygrad":
-        status["instructions"] = "Tinygrad engine ready for distributed inference" if is_available else "Install tinygrad"
+        status["instructions"] = (
+            "Tinygrad engine ready for distributed inference"
+            if is_available
+            else "Install tinygrad"
+        )
     else:  # dummy
         status["instructions"] = "Using mock responses for testing"
-    
+
     return status

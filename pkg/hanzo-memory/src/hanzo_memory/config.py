@@ -1,6 +1,5 @@
 """Configuration settings for Hanzo Memory Service."""
 
-import platform
 from pathlib import Path
 from typing import Optional
 
@@ -33,12 +32,12 @@ class Settings(BaseSettings):
         "lancedb",  # LanceDB works on all platforms
         description="Database backend to use (lancedb, infinity)",
     )
-    
+
     # InfinityDB Settings
     infinity_db_path: Path = Field(
         Path("data/infinity_db"), description="Path to InfinityDB data directory"
     )
-    
+
     # LanceDB Settings
     lancedb_path: Path = Field(
         Path("data/lancedb"), description="Path to LanceDB data directory"

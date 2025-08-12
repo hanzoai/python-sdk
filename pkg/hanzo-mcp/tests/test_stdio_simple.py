@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 """Simple test to check if stdio mode starts without logging interference."""
 
-import json
-import subprocess
 import sys
+import json
 import time
+import subprocess
 
 
 def test_stdio_simple():
@@ -16,7 +16,7 @@ def test_stdio_simple():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        bufsize=0
+        bufsize=0,
     )
 
     # Send initialize request
@@ -27,8 +27,8 @@ def test_stdio_simple():
         "params": {
             "protocolVersion": "0.1.0",
             "capabilities": {},
-            "clientInfo": {"name": "test-client", "version": "1.0.0"}
-        }
+            "clientInfo": {"name": "test-client", "version": "1.0.0"},
+        },
     }
 
     print("Sending initialize request...")
@@ -47,18 +47,18 @@ def test_stdio_simple():
             line = proc.stdout.readline()
             if line:
                 output_lines.append(line.strip())
-        except:
+        except Exception:
             pass
-        
+
         # Check for stderr
         try:
             proc.stderr.flush()
             line = proc.stderr.readline()
             if line:
                 error_lines.append(line.strip())
-        except:
+        except Exception:
             pass
-        
+
         time.sleep(0.1)
 
     # Kill the process
@@ -66,7 +66,7 @@ def test_stdio_simple():
     proc.wait()
 
     # Analyze results
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("SUMMARY:")
     print(f"Total stdout lines: {len(output_lines)}")
     print(f"Total stderr lines: {len(error_lines)}")
@@ -76,9 +76,11 @@ def test_stdio_simple():
     for i, line in enumerate(output_lines):
         try:
             data = json.loads(line)
-            print(f"✓ Valid JSON response: {data.get('method', data.get('result', 'response'))}")
+            print(
+                f"✓ Valid JSON response: {data.get('method', data.get('result', 'response'))}"
+            )
         except json.JSONDecodeError:
-            print(f"✗ Line {i+1} is not valid JSON: {line}")
+            print(f"✗ Line {i + 1} is not valid JSON: {line}")
             violations += 1
 
     # Show stderr if any

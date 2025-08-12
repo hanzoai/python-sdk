@@ -4,15 +4,14 @@ This module provides a BashSessionExecutor class that replaces the old CommandEx
 implementation with the new BashSession-based approach for better persistent execution.
 """
 
-import asyncio
-import logging
 import os
 import shlex
-import subprocess
+import asyncio
+import logging
 from typing import final
 
+from hanzo_mcp.tools.shell.base import CommandResult, BashCommandStatus
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.shell.base import BashCommandStatus, CommandResult
 from hanzo_mcp.tools.shell.session_manager import SessionManager
 
 
@@ -65,6 +64,7 @@ class BashSessionExecutor:
         if data is not None:
             try:
                 import json
+
                 logger = logging.getLogger(__name__)
                 if isinstance(data, (dict, list)):
                     data_str = json.dumps(data)

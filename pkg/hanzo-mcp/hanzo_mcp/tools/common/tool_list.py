@@ -1,14 +1,13 @@
 """List all available tools and their status."""
 
-from typing import Annotated, TypedDict, Unpack, final, override, Optional
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-
 
 ShowDisabled = Annotated[
     bool,
@@ -46,7 +45,7 @@ class ToolListParams(TypedDict, total=False):
 @final
 class ToolListTool(BaseTool):
     """Tool for listing all available tools and their status."""
-    
+
     # Tool information organized by category
     TOOL_INFO = {
         "filesystem": [
@@ -80,7 +79,10 @@ class ToolListTool(BaseTool):
             ("llm", "LLM interface (query/consensus/list/models/enable/disable)"),
             ("agent", "AI agents (run/start/call/stop/list with A2A support)"),
             ("swarm", "Parallel agent execution across multiple files"),
-            ("hierarchical_swarm", "Hierarchical agent teams with Claude Code integration"),
+            (
+                "hierarchical_swarm",
+                "Hierarchical agent teams with Claude Code integration",
+            ),
             ("mcp", "MCP servers (list/add/remove/enable/disable/restart)"),
         ],
         "config": [
@@ -180,9 +182,9 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
 
         # Get all tool states
         all_states = ToolEnableTool.get_all_states()
-        
+
         output = []
-        
+
         # Header
         if show_disabled:
             output.append("=== Disabled Tools ===")
@@ -190,56 +192,62 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
             output.append("=== Enabled Tools ===")
         else:
             output.append("=== All Available Tools ===")
-        
+
         if category_filter:
             output.append(f"Category: {category_filter}")
-        
+
         output.append("")
-        
+
         # Count statistics
         total_tools = 0
         disabled_count = 0
         shown_count = 0
-        
+
         # Iterate through categories
-        categories = [category_filter] if category_filter and category_filter in self.TOOL_INFO else self.TOOL_INFO.keys()
-        
+        categories = (
+            [category_filter]
+            if category_filter and category_filter in self.TOOL_INFO
+            else self.TOOL_INFO.keys()
+        )
+
         for category in categories:
             if category not in self.TOOL_INFO:
                 continue
-                
+
             category_tools = self.TOOL_INFO[category]
             category_shown = []
-            
+
             for tool_name, description in category_tools:
                 total_tools += 1
                 is_enabled = ToolEnableTool.is_tool_enabled(tool_name)
-                
+
                 if not is_enabled:
                     disabled_count += 1
-                
+
                 # Apply filters
                 if show_disabled and is_enabled:
                     continue
                 if show_enabled and not is_enabled:
                     continue
-                
+
                 status = "✅" if is_enabled else "❌"
                 category_shown.append((tool_name, description, status))
                 shown_count += 1
-            
+
             # Show category if it has tools
             if category_shown:
                 output.append(f"=== {category.title()} Tools ===")
-                
+
                 # Find max tool name length for alignment
                 max_name_len = max(len(name) for name, _, _ in category_shown)
-                
+
                 for tool_name, description, status in category_shown:
-                    output.append(f"{status} {tool_name.ljust(max_name_len)} - {description}")
-                
+                    output.append(
+                        f"{status} {tool_name.ljust(max_name_len)} - {description}"
+                    )
+
                 output.append("")
-        
+
         # Summary
         if not show_disabled and not show_enabled:
             output.append("=== Summary ===")
@@ -248,14 +256,14 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
             output.append(f"Disabled: {disabled_count}")
         else:
             output.append(f"Showing {shown_count} tool(s)")
-        
+
         if disabled_count > 0 and not show_disabled:
             output.append("\nUse 'tool_list --show-disabled' to see disabled tools.")
             output.append("Use 'tool_enable --tool <name>' to enable a tool.")
-        
+
         if show_disabled:
             output.append("\nUse 'tool_enable --tool <name>' to enable these tools.")
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

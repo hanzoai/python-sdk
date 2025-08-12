@@ -4,7 +4,7 @@ from typing import List, Optional
 from datetime import datetime
 
 from .._models import BaseModel
-from .budget_table import BudgetTable
+from .budget_table import LlmBudgetTable as BudgetTable
 from .lite_llm_team_table import HanzoTeamTable
 from .organization_membership_table import OrganizationMembershipTable
 

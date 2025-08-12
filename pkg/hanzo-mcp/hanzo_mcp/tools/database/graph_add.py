@@ -1,16 +1,15 @@
 """Graph add tool for adding nodes and edges to the graph database."""
 
 import json
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
-
 
 NodeId = Annotated[
     Optional[str],
@@ -94,7 +93,9 @@ class GraphAddParams(TypedDict, total=False):
 class GraphAddTool(BaseTool):
     """Tool for adding nodes and edges to graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph add tool.
 
         Args:
@@ -181,8 +182,9 @@ Examples:
                 project_db = self.db_manager.get_project_db(project_path)
             else:
                 import os
+
                 project_db = self.db_manager.get_project_for_path(os.getcwd())
-                
+
             if not project_db:
                 return "Error: Could not find project database"
 
@@ -206,13 +208,16 @@ Examples:
                 properties_json = json.dumps(properties) if properties else None
 
                 # Insert or update node
-                graph_conn.execute("""
+                graph_conn.execute(
+                    """
                     INSERT OR REPLACE INTO nodes (id, type, properties)
                     VALUES (?, ?, ?)
-                """, (node_id, node_type, properties_json))
-                
+                """,
+                    (node_id, node_type, properties_json),
+                )
+
                 graph_conn.commit()
-                
+
                 return f"Successfully added node '{node_id}' of type '{node_type}'"
 
             else:
@@ -220,13 +225,17 @@ Examples:
                 if not relationship:
                     return "Error: relationship is required when adding an edge"
 
-                await tool_ctx.info(f"Adding edge: {source} --[{relationship}]--> {target}")
+                await tool_ctx.info(
+                    f"Adding edge: {source} --[{relationship}]--> {target}"
+                )
 
                 # Check if nodes exist
                 cursor = graph_conn.cursor()
-                cursor.execute("SELECT id FROM nodes WHERE id IN (?, ?)", (source, target))
+                cursor.execute(
+                    "SELECT id FROM nodes WHERE id IN (?, ?)", (source, target)
+                )
                 existing = [row[0] for row in cursor.fetchall()]
-                
+
                 if source not in existing:
                     return f"Error: Source node '{source}' does not exist"
                 if target not in existing:
@@ -236,16 +245,19 @@ Examples:
                 properties_json = json.dumps(properties) if properties else None
 
                 # Insert or update edge
-                graph_conn.execute("""
+                graph_conn.execute(
+                    """
                     INSERT OR REPLACE INTO edges (source, target, relationship, weight, properties)
                     VALUES (?, ?, ?, ?, ?)
-                """, (source, target, relationship, weight, properties_json))
-                
+                """,
+                    (source, target, relationship, weight, properties_json),
+                )
+
                 graph_conn.commit()
-                
+
                 # Save to disk
                 project_db._save_graph_to_disk()
-                
+
                 return f"Successfully added edge: {source} --[{relationship}]--> {target} (weight: {weight})"
 
         except Exception as e:

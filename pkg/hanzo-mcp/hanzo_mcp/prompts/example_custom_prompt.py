@@ -14,19 +14,20 @@ Focus on:
 
 Be constructive and specific in your feedback."""
 
+
 # You can also create dynamic prompts that take parameters
 def create_custom_analysis_prompt(file_path: str, analysis_type: str = "general"):
     """Create a dynamic analysis prompt for a specific file."""
-    
+
     analysis_types = {
         "general": "Provide a general analysis including structure, purpose, and quality",
         "security": "Focus on security vulnerabilities and best practices",
         "performance": "Analyze performance bottlenecks and optimization opportunities",
-        "refactor": "Suggest refactoring opportunities to improve code maintainability"
+        "refactor": "Suggest refactoring opportunities to improve code maintainability",
     }
-    
+
     analysis_instruction = analysis_types.get(analysis_type, analysis_types["general"])
-    
+
     return f"""Please analyze the file at {file_path}.
 
 {analysis_instruction}

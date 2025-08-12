@@ -3,13 +3,13 @@
 This module provides the MultiEdit tool for making multiple precise text replacements in files.
 """
 
+from typing import Unpack, Annotated, TypedDict, final, override
 from difflib import unified_diff
 from pathlib import Path
-from typing import Annotated, TypedDict, Unpack, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
@@ -348,11 +348,7 @@ If you want to create a new file, use:
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def multi_edit(
-            file_path: FilePath,
-            edits: Edits,
-            ctx: MCPContext
-        ) -> str:
+        async def multi_edit(file_path: FilePath, edits: Edits, ctx: MCPContext) -> str:
             return await tool_self.call(
                 ctx,
                 file_path=file_path,

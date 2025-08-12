@@ -1,14 +1,16 @@
 """Enhanced command-line interface for the Hanzo AI server with full tool configuration."""
 
-import argparse
-import json
-import logging
 import os
-import sys
-from pathlib import Path
-from typing import Any, Dict, cast
+import logging
+import argparse
+from typing import Any, Dict
 
-from hanzo_mcp.config import HanzoMCPSettings, load_settings, save_settings, TOOL_REGISTRY
+from hanzo_mcp.config import (
+    TOOL_REGISTRY,
+    HanzoMCPSettings,
+    load_settings,
+    save_settings,
+)
 from hanzo_mcp.server import HanzoMCPServer
 
 
@@ -35,7 +37,7 @@ Examples:
   
   # Save current configuration
   hanzo-mcp --save-config
-        """
+        """,
     )
 
     # Basic server options
@@ -85,7 +87,7 @@ Examples:
     )
     path_group.add_argument(
         "--project",
-        action="append", 
+        action="append",
         dest="project_paths",
         help="Add a project path (can be specified multiple times)",
     )
@@ -96,12 +98,12 @@ Examples:
 
     # Individual tool configuration
     tool_group = parser.add_argument_group("Individual Tool Configuration")
-    
+
     # Add CLI flags for each tool
     for tool_name, tool_config in TOOL_REGISTRY.items():
-        flag_name = tool_config.cli_flag.lstrip('-')
+        flag_name = tool_config.cli_flag.lstrip("-")
         help_text = f"{tool_config.description}"
-        
+
         if tool_config.enabled:
             # Tool is enabled by default, add disable flag
             tool_group.add_argument(
@@ -110,7 +112,7 @@ Examples:
                 help=f"Disable {tool_name} tool: {help_text}",
             )
         else:
-            # Tool is disabled by default, add enable flag  
+            # Tool is disabled by default, add enable flag
             tool_group.add_argument(
                 f"--enable-{tool_name.replace('_', '-')}",
                 action="store_true",
@@ -125,7 +127,7 @@ Examples:
         help="Disable all write tools (write, edit, multi_edit, content_replace)",
     )
     category_group.add_argument(
-        "--disable-search-tools", 
+        "--disable-search-tools",
         action="store_true",
         help="Disable all search tools (grep, grep_ast)",
     )
@@ -141,7 +143,7 @@ Examples:
     )
     category_group.add_argument(
         "--disable-shell-tools",
-        action="store_true", 
+        action="store_true",
         help="Disable shell command execution tools",
     )
     category_group.add_argument(
@@ -212,7 +214,7 @@ Examples:
     )
     config_group.add_argument(
         "--save-project-config",
-        action="store_true", 
+        action="store_true",
         help="Save current configuration to project config file",
     )
     config_group.add_argument(
@@ -238,37 +240,37 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
 
     # Server configuration
     server_config = {}
-    if hasattr(args, 'name') and args.name != "hanzo-mcp":
+    if hasattr(args, "name") and args.name != "hanzo-mcp":
         server_config["name"] = args.name
-    if hasattr(args, 'host') and args.host != "127.0.0.1":
+    if hasattr(args, "host") and args.host != "127.0.0.1":
         server_config["host"] = args.host
-    if hasattr(args, 'port') and args.port != 8888:
+    if hasattr(args, "port") and args.port != 8888:
         server_config["port"] = args.port
-    if hasattr(args, 'transport') and args.transport != "stdio":
+    if hasattr(args, "transport") and args.transport != "stdio":
         server_config["transport"] = args.transport
-    if hasattr(args, 'log_level') and args.log_level != "INFO":
+    if hasattr(args, "log_level") and args.log_level != "INFO":
         server_config["log_level"] = args.log_level
-    if hasattr(args, 'command_timeout') and args.command_timeout != 120.0:
+    if hasattr(args, "command_timeout") and args.command_timeout != 120.0:
         server_config["command_timeout"] = args.command_timeout
-    
+
     if server_config:
         overrides["server"] = server_config
 
     # Path configuration
-    if hasattr(args, 'allowed_paths') and args.allowed_paths:
+    if hasattr(args, "allowed_paths") and args.allowed_paths:
         overrides["allowed_paths"] = args.allowed_paths
-    if hasattr(args, 'project_paths') and args.project_paths:
-        overrides["project_paths"] = args.project_paths  
-    if hasattr(args, 'project_dir') and args.project_dir:
+    if hasattr(args, "project_paths") and args.project_paths:
+        overrides["project_paths"] = args.project_paths
+    if hasattr(args, "project_dir") and args.project_dir:
         overrides["project_dir"] = args.project_dir
 
     # Tool configuration
     enabled_tools = {}
-    
+
     # Handle individual tool flags
     for tool_name, tool_config in TOOL_REGISTRY.items():
-        flag_name = tool_name.replace('_', '-')
-        
+        flag_name = tool_name.replace("_", "-")
+
         if tool_config.enabled:
             # Check for disable flag
             disable_flag = f"disable_{tool_name}"
@@ -281,28 +283,36 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
                 enabled_tools[tool_name] = True
 
     # Handle category-level disables
-    if hasattr(args, 'disable_write_tools') and args.disable_write_tools:
+    if hasattr(args, "disable_write_tools") and args.disable_write_tools:
         for tool_name in ["write", "edit", "multi_edit", "content_replace"]:
             enabled_tools[tool_name] = False
-    
-    if hasattr(args, 'disable_search_tools') and args.disable_search_tools:
+
+    if hasattr(args, "disable_search_tools") and args.disable_search_tools:
         for tool_name in ["grep", "grep_ast"]:
             enabled_tools[tool_name] = False
-    
-    if hasattr(args, 'disable_filesystem_tools') and args.disable_filesystem_tools:
-        filesystem_tools = ["read", "write", "edit", "multi_edit", "directory_tree", 
-                          "grep", "grep_ast", "content_replace"]
+
+    if hasattr(args, "disable_filesystem_tools") and args.disable_filesystem_tools:
+        filesystem_tools = [
+            "read",
+            "write",
+            "edit",
+            "multi_edit",
+            "directory_tree",
+            "grep",
+            "grep_ast",
+            "content_replace",
+        ]
         for tool_name in filesystem_tools:
             enabled_tools[tool_name] = False
-    
-    if hasattr(args, 'disable_jupyter_tools') and args.disable_jupyter_tools:
+
+    if hasattr(args, "disable_jupyter_tools") and args.disable_jupyter_tools:
         for tool_name in ["notebook_read", "notebook_edit"]:
             enabled_tools[tool_name] = False
-    
-    if hasattr(args, 'disable_shell_tools') and args.disable_shell_tools:
+
+    if hasattr(args, "disable_shell_tools") and args.disable_shell_tools:
         enabled_tools["run_command"] = False
-    
-    if hasattr(args, 'disable_todo_tools') and args.disable_todo_tools:
+
+    if hasattr(args, "disable_todo_tools") and args.disable_todo_tools:
         for tool_name in ["todo_read", "todo_write"]:
             enabled_tools[tool_name] = False
 
@@ -311,32 +321,35 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
 
     # Agent configuration
     agent_config = {}
-    if hasattr(args, 'agent_model') and args.agent_model:
+    if hasattr(args, "agent_model") and args.agent_model:
         agent_config["model"] = args.agent_model
         agent_config["enabled"] = True
-    if hasattr(args, 'agent_api_key') and args.agent_api_key:
+    if hasattr(args, "agent_api_key") and args.agent_api_key:
         agent_config["api_key"] = args.agent_api_key
-    if hasattr(args, 'agent_base_url') and args.agent_base_url:
+    if hasattr(args, "agent_base_url") and args.agent_base_url:
         agent_config["base_url"] = args.agent_base_url
-    if hasattr(args, 'agent_max_tokens') and args.agent_max_tokens:
+    if hasattr(args, "agent_max_tokens") and args.agent_max_tokens:
         agent_config["max_tokens"] = args.agent_max_tokens
-    if hasattr(args, 'agent_max_iterations') and args.agent_max_iterations != 10:
+    if hasattr(args, "agent_max_iterations") and args.agent_max_iterations != 10:
         agent_config["max_iterations"] = args.agent_max_iterations
-    if hasattr(args, 'agent_max_tool_uses') and args.agent_max_tool_uses != 30:
+    if hasattr(args, "agent_max_tool_uses") and args.agent_max_tool_uses != 30:
         agent_config["max_tool_uses"] = args.agent_max_tool_uses
-    
+
     if agent_config:
         overrides["agent"] = agent_config
 
     # Vector store configuration
     vector_config = {}
-    if hasattr(args, 'enable_vector_store') and args.enable_vector_store:
+    if hasattr(args, "enable_vector_store") and args.enable_vector_store:
         vector_config["enabled"] = True
-    if hasattr(args, 'vector_store_path') and args.vector_store_path:
+    if hasattr(args, "vector_store_path") and args.vector_store_path:
         vector_config["data_path"] = args.vector_store_path
-    if hasattr(args, 'embedding_model') and args.embedding_model != "text-embedding-3-small":
+    if (
+        hasattr(args, "embedding_model")
+        and args.embedding_model != "text-embedding-3-small"
+    ):
         vector_config["embedding_model"] = args.embedding_model
-    
+
     if vector_config:
         overrides["vector_store"] = vector_config
 
@@ -348,26 +361,28 @@ def list_tools(settings: HanzoMCPSettings) -> None:
     logger = logging.getLogger(__name__)
     logger.info("Hanzo AI Tools Status:")
     logger.info("=" * 50)
-    
+
     categories = {}
     for tool_name, tool_config in TOOL_REGISTRY.items():
         category = tool_config.category.value
         if category not in categories:
             categories[category] = []
-        
+
         enabled = settings.is_tool_enabled(tool_name)
         status = "✅ ENABLED " if enabled else "❌ DISABLED"
         categories[category].append((tool_name, status, tool_config.description))
-    
+
     for category, tools in categories.items():
         logger.info(f"\n{category.upper()} TOOLS:")
         logger.info("-" * 30)
         for tool_name, status, description in tools:
             logger.info(f"  {status} {tool_name:<15} - {description}")
-    
+
     logger.info(f"\nTotal: {len(TOOL_REGISTRY)} tools")
     enabled_count = len(settings.get_enabled_tools())
-    logger.info(f"Enabled: {enabled_count}, Disabled: {len(TOOL_REGISTRY) - enabled_count}")
+    logger.info(
+        f"Enabled: {enabled_count}, Disabled: {len(TOOL_REGISTRY) - enabled_count}"
+    )
 
 
 def main() -> None:
@@ -376,31 +391,32 @@ def main() -> None:
     args = parser.parse_args()
 
     # Handle list tools command
-    if hasattr(args, 'list_tools') and args.list_tools:
+    if hasattr(args, "list_tools") and args.list_tools:
         settings = load_settings()
         list_tools(settings)
         return
 
     # Load configuration with CLI overrides
     config_overrides = apply_cli_overrides(args)
-    project_dir = getattr(args, 'project_dir', None)
+    project_dir = getattr(args, "project_dir", None)
     settings = load_settings(project_dir=project_dir, config_overrides=config_overrides)
 
     # Handle configuration saving
     logger = logging.getLogger(__name__)
-    if hasattr(args, 'save_config') and args.save_config:
+    if hasattr(args, "save_config") and args.save_config:
         saved_path = save_settings(settings, global_config=True)
         logger.info(f"Configuration saved to: {saved_path}")
         return
-    
-    if hasattr(args, 'save_project_config') and args.save_project_config:
+
+    if hasattr(args, "save_project_config") and args.save_project_config:
         saved_path = save_settings(settings, global_config=False)
         logger.info(f"Project configuration saved to: {saved_path}")
         return
 
     # Handle installation
-    if hasattr(args, 'install') and args.install:
+    if hasattr(args, "install") and args.install:
         from hanzo_mcp.cli import install_claude_desktop_config
+
         install_claude_desktop_config(
             settings.server.name,
             settings.allowed_paths,
@@ -411,7 +427,7 @@ def main() -> None:
     allowed_paths = settings.allowed_paths[:]
     if settings.project_dir and settings.project_dir not in allowed_paths:
         allowed_paths.append(settings.project_dir)
-    
+
     if not allowed_paths:
         allowed_paths = [os.getcwd()]
 
@@ -426,14 +442,20 @@ def main() -> None:
         agent_base_url=settings.agent.base_url,
         agent_max_iterations=settings.agent.max_iterations,
         agent_max_tool_uses=settings.agent.max_tool_uses,
-        enable_agent_tool=settings.agent.enabled or settings.is_tool_enabled("dispatch_agent"),
-        disable_write_tools=not any(settings.is_tool_enabled(t) for t in ["write", "edit", "multi_edit", "content_replace"]),
-        disable_search_tools=not any(settings.is_tool_enabled(t) for t in ["grep", "grep_ast"]),
+        enable_agent_tool=settings.agent.enabled
+        or settings.is_tool_enabled("dispatch_agent"),
+        disable_write_tools=not any(
+            settings.is_tool_enabled(t)
+            for t in ["write", "edit", "multi_edit", "content_replace"]
+        ),
+        disable_search_tools=not any(
+            settings.is_tool_enabled(t) for t in ["grep", "grep_ast"]
+        ),
         host=settings.server.host,
         port=settings.server.port,
         enabled_tools=settings.enabled_tools,  # Pass individual tool configuration
     )
-    
+
     server.run(transport=settings.server.transport)
 
 

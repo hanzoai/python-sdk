@@ -8,10 +8,9 @@ import mlx.core as mx
 import mlx.nn as nn
 from dataclasses import field
 from .inference.shard import Shard
-from .inference.mlx.models.base import IdentityBlock 
+from .inference.mlx.models.base import IdentityBlock
 
 _ACTIVATIONS = {"quick_gelu": nn.gelu_fast_approx, "gelu": nn.gelu}
-
 
 
 @dataclass
@@ -32,21 +31,29 @@ class CLIPTextModelConfig:
             num_heads=config["num_attention_heads"],
             max_length=config["max_position_embeddings"],
             vocab_size=config["vocab_size"],
-            projection_dim=config["projection_dim"] if "WithProjection" in config['architectures'][0] else None,
+            projection_dim=(
+                config["projection_dim"]
+                if "WithProjection" in config["architectures"][0]
+                else None
+            ),
             hidden_act=config.get("hidden_act", "quick_gelu"),
-            weight_files=config.get("weight_files", [])
-            )
+            weight_files=config.get("weight_files", []),
+        )
+
 
 @dataclass
 class ModelArgs(CLIPTextModelConfig):
     shard: Shard = field(default_factory=lambda: Shard("", 0, 0, 0))
     weight_files: List[str] = field(default_factory=lambda: [])
+
     def __post_init__(self):
         if isinstance(self.shard, dict):
             self.shard = Shard(**self.shard)
 
         if not isinstance(self.shard, Shard):
-            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
+            raise TypeError(
+                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
+            )
 
         if not self.shard.is_first_layer():
             self.vision_config = None
@@ -80,11 +87,10 @@ class CLIPEncoderLayer(nn.Module):
         self.act = _ACTIVATIONS[activation]
 
     def __call__(self, x, attn_mask=None):
-        
         y = self.layer_norm1(x)
         y = self.attention(y, y, y, attn_mask)
         x = y + x
-        
+
         y = self.layer_norm2(x)
         y = self.linear1(y)
         y = self.act(y)
@@ -100,16 +106,26 @@ class CLIPTextModel(nn.Module):
         super().__init__()
 
         self.shard = shard
-        self.layers_range = range(self.shard.start_layer*2, self.shard.end_layer*2+2) 
+        self.layers_range = range(
+            self.shard.start_layer * 2, self.shard.end_layer * 2 + 2
+        )
         if self.shard.is_first_layer():
             self.token_embedding = nn.Embedding(config.vocab_size, config.model_dims)
             self.position_embedding = nn.Embedding(config.max_length, config.model_dims)
         self.layers = []
-        for i in range(math.ceil(config.num_layers/2)):
-            if  2*i in self.layers_range:
-                self.layers.append(CLIPEncoderLayer(config.model_dims, config.num_heads, config.hidden_act))
-            if 2*i+1 in self.layers_range and 2*i+1 < config.num_layers:
-                self.layers.append(CLIPEncoderLayer(config.model_dims, config.num_heads, config.hidden_act))
+        for i in range(math.ceil(config.num_layers / 2)):
+            if 2 * i in self.layers_range:
+                self.layers.append(
+                    CLIPEncoderLayer(
+                        config.model_dims, config.num_heads, config.hidden_act
+                    )
+                )
+            if 2 * i + 1 in self.layers_range and 2 * i + 1 < config.num_layers:
+                self.layers.append(
+                    CLIPEncoderLayer(
+                        config.model_dims, config.num_heads, config.hidden_act
+                    )
+                )
             else:
                 self.layers.append(IdentityBlock())
         if self.shard.is_last_layer():
@@ -130,25 +146,24 @@ class CLIPTextModel(nn.Module):
         # Extract some shapes
         if self.shard.is_first_layer():
             B, N = x.shape
-            eos_tokens = x.argmax(-1)
-            
+            x.argmax(-1)
+
             # Compute the embeddings
             x = self.token_embedding(x)
-           
+
             x = x + self.position_embedding.weight[:N]
             # Compute the features from the transformer
             mask = self._get_mask(N, x.dtype)
-        
-        for l in self.layers:
-            x = l(x, mask)
+
+        for layer in self.layers:
+            x = layer(x, mask)
         # Apply the final layernorm and return
-        
+
         if self.shard.is_last_layer():
             x = self.final_layer_norm(x)
-        
-       
 
         return x, mask
+
     def sanitize(self, weights):
         sanitized_weights = {}
         for key, value in weights.items():
@@ -176,7 +191,7 @@ class CLIPTextModel(nn.Module):
                 key = key.replace("mlp.fc1", "linear1")
             if "mlp.fc2" in key:
                 key = key.replace("mlp.fc2", "linear2")
-            
+
             if key.startswith("layers."):
                 layer_num = int(key.split(".")[1])
                 if layer_num not in self.layers_range:

@@ -1,16 +1,15 @@
 """SQL search tool for text search in database."""
 
 import sqlite3
-from typing import Annotated, Optional, TypedDict, Unpack, final, override
+from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
+from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
-
 
 SearchPattern = Annotated[
     str,
@@ -67,7 +66,9 @@ class SqlSearchParams(TypedDict, total=False):
 class SqlSearchTool(BaseTool):
     """Tool for searching text in SQLite database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL search tool.
 
         Args:
@@ -146,8 +147,9 @@ Use sql_query for complex queries with joins, conditions, etc."""
                 project_db = self.db_manager.get_project_db(project_path)
             else:
                 import os
+
                 project_db = self.db_manager.get_project_for_path(os.getcwd())
-                
+
             if not project_db:
                 return "Error: Could not find project database"
 
@@ -163,17 +165,17 @@ Use sql_query for complex queries with joins, conditions, etc."""
         try:
             conn = project_db.get_sqlite_connection()
             cursor = conn.cursor()
-            
+
             # Get searchable columns for the table
             if column:
                 # Validate column exists
                 cursor.execute(f"PRAGMA table_info({table})")
                 columns_info = cursor.fetchall()
                 column_names = [col[1] for col in columns_info]
-                
+
                 if column not in column_names:
                     return f"Error: Column '{column}' not found in table '{table}'. Available columns: {', '.join(column_names)}"
-                
+
                 search_columns = [column]
             else:
                 # Get all text columns
@@ -184,7 +186,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
             # Build WHERE clause
             where_conditions = [f"{col} LIKE ?" for col in search_columns]
             where_clause = " OR ".join(where_conditions)
-            
+
             # Build query
             if table == "files":
                 query = f"""
@@ -194,7 +196,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
                     LIMIT ?
                 """
                 params_list = [pattern] * len(search_columns) + [max_results]
-                
+
             elif table == "symbols":
                 query = f"""
                     SELECT name, type, file_path, line_start, signature
@@ -204,7 +206,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
                     LIMIT ?
                 """
                 params_list = [pattern] * len(search_columns) + [max_results]
-                
+
             else:  # metadata
                 query = f"""
                     SELECT key, value, updated_at
@@ -213,17 +215,17 @@ Use sql_query for complex queries with joins, conditions, etc."""
                     LIMIT ?
                 """
                 params_list = [pattern] * len(search_columns) + [max_results]
-            
+
             # Execute search
             cursor.execute(query, params_list)
             results = cursor.fetchall()
-            
+
             if not results:
                 return f"No results found for pattern '{pattern}' in {table}"
-            
+
             # Format results
             output = self._format_results(table, results, pattern, search_columns)
-            
+
             return f"Found {len(results)} result(s) in {table}:\n\n{output}"
 
         except sqlite3.Error as e:
@@ -240,21 +242,23 @@ Use sql_query for complex queries with joins, conditions, etc."""
         """Get text columns for a table."""
         cursor.execute(f"PRAGMA table_info({table})")
         columns_info = cursor.fetchall()
-        
+
         # Get TEXT columns
         text_columns = []
         for col in columns_info:
             col_name = col[1]
             col_type = col[2].upper()
-            if 'TEXT' in col_type or 'CHAR' in col_type or col_type == '':
+            if "TEXT" in col_type or "CHAR" in col_type or col_type == "":
                 text_columns.append(col_name)
-        
+
         return text_columns
 
-    def _format_results(self, table: str, results: list, pattern: str, search_columns: list[str]) -> str:
+    def _format_results(
+        self, table: str, results: list, pattern: str, search_columns: list[str]
+    ) -> str:
         """Format search results based on table type."""
         output = []
-        
+
         if table == "files":
             output.append(f"Searched columns: {', '.join(search_columns)}\n")
             for row in results:
@@ -264,12 +268,12 @@ Use sql_query for complex queries with joins, conditions, etc."""
                 output.append(f"Modified: {modified}")
                 if snippet:
                     # Highlight pattern in snippet
-                    snippet = snippet.replace('\n', ' ')
+                    snippet = snippet.replace("\n", " ")
                     if len(snippet) > 150:
                         snippet = snippet[:150] + "..."
                     output.append(f"Content: {snippet}")
                 output.append("-" * 60)
-                
+
         elif table == "symbols":
             output.append(f"Searched columns: {', '.join(search_columns)}\n")
             for row in results:
@@ -279,7 +283,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
                 if signature:
                     output.append(f"Signature: {signature}")
                 output.append("-" * 60)
-                
+
         else:  # metadata
             output.append(f"Searched columns: {', '.join(search_columns)}\n")
             for row in results:
@@ -288,7 +292,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
                 output.append(f"Value: {value}")
                 output.append(f"Updated: {updated}")
                 output.append("-" * 60)
-        
+
         return "\n".join(output)
 
     def register(self, mcp_server) -> None:

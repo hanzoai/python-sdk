@@ -3,15 +3,15 @@
 This module provides the RunCommandTool for running shell commands.
 """
 
-from typing import Annotated, Any, TypedDict, Unpack, final, override
+from typing import Any, Unpack, Annotated, TypedDict, final, override
 
-from mcp.server.fastmcp import Context as MCPContext
-from mcp.server import FastMCP
 from pydantic import Field
+from mcp.server import FastMCP
+from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.common.base import handle_connection_errors
 from hanzo_mcp.tools.common.context import create_tool_context
-from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.shell.bash_session_executor import BashSessionExecutor
 
 Command = Annotated[
@@ -344,7 +344,7 @@ Important:
             time_out: TimeOut,
             is_input: IsInput,
             blocking: Blocking,
-            ctx: MCPContext
+            ctx: MCPContext,
         ) -> str:
             return await tool_self.call(
                 ctx,

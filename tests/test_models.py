@@ -529,7 +529,9 @@ def test_to_dict() -> None:
     assert m4.to_dict(mode="json") == {"created_at": time_str}
 
     if not PYDANTIC_V2:
-        with pytest.raises(ValueError, match="warnings is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="warnings is only supported in Pydantic v2"
+        ):
             m.to_dict(warnings=False)
 
 
@@ -554,10 +556,14 @@ def test_forwards_compat_model_dump_method() -> None:
     assert m3.model_dump(exclude_none=True) == {}
 
     if not PYDANTIC_V2:
-        with pytest.raises(ValueError, match="round_trip is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="round_trip is only supported in Pydantic v2"
+        ):
             m.model_dump(round_trip=True)
 
-        with pytest.raises(ValueError, match="warnings is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="warnings is only supported in Pydantic v2"
+        ):
             m.model_dump(warnings=False)
 
 
@@ -593,7 +599,9 @@ def test_to_json() -> None:
     assert json.loads(m3.to_json(exclude_none=True)) == {}
 
     if not PYDANTIC_V2:
-        with pytest.raises(ValueError, match="warnings is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="warnings is only supported in Pydantic v2"
+        ):
             m.to_json(warnings=False)
 
 
@@ -620,10 +628,14 @@ def test_forwards_compat_model_dump_json_method() -> None:
     assert json.loads(m3.model_dump_json(exclude_none=True)) == {}
 
     if not PYDANTIC_V2:
-        with pytest.raises(ValueError, match="round_trip is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="round_trip is only supported in Pydantic v2"
+        ):
             m.model_dump_json(round_trip=True)
 
-        with pytest.raises(ValueError, match="warnings is only supported in Pydantic v2"):
+        with pytest.raises(
+            ValueError, match="warnings is only supported in Pydantic v2"
+        ):
             m.model_dump_json(warnings=False)
 
 
@@ -725,7 +737,9 @@ def test_discriminated_unions_invalid_data_nested_unions() -> None:
 
     m = construct_type(
         value={"type": "b", "data": "foo"},
-        type_=cast(Any, Annotated[Union[Union[A, B], C], PropertyInfo(discriminator="type")]),
+        type_=cast(
+            Any, Annotated[Union[Union[A, B], C], PropertyInfo(discriminator="type")]
+        ),
     )
     assert isinstance(m, B)
     assert m.type == "b"
@@ -733,7 +747,9 @@ def test_discriminated_unions_invalid_data_nested_unions() -> None:
 
     m = construct_type(
         value={"type": "c", "data": "foo"},
-        type_=cast(Any, Annotated[Union[Union[A, B], C], PropertyInfo(discriminator="type")]),
+        type_=cast(
+            Any, Annotated[Union[Union[A, B], C], PropertyInfo(discriminator="type")]
+        ),
     )
     assert isinstance(m, C)
     assert m.type == "c"
@@ -809,7 +825,8 @@ def test_discriminated_unions_invalid_data_uses_cache() -> None:
     assert not hasattr(UnionType, "__discriminator__")
 
     m = construct_type(
-        value={"type": "b", "data": "foo"}, type_=cast(Any, Annotated[UnionType, PropertyInfo(discriminator="type")])
+        value={"type": "b", "data": "foo"},
+        type_=cast(Any, Annotated[UnionType, PropertyInfo(discriminator="type")]),
     )
     assert isinstance(m, B)
     assert m.type == "b"
@@ -819,7 +836,8 @@ def test_discriminated_unions_invalid_data_uses_cache() -> None:
     assert discriminator is not None
 
     m = construct_type(
-        value={"type": "b", "data": "foo"}, type_=cast(Any, Annotated[UnionType, PropertyInfo(discriminator="type")])
+        value={"type": "b", "data": "foo"},
+        type_=cast(Any, Annotated[UnionType, PropertyInfo(discriminator="type")]),
     )
     assert isinstance(m, B)
     assert m.type == "b"
@@ -830,7 +848,9 @@ def test_discriminated_unions_invalid_data_uses_cache() -> None:
     assert UnionType.__discriminator__ is discriminator
 
 
-@pytest.mark.skipif(not PYDANTIC_V2, reason="TypeAliasType is not supported in Pydantic v1")
+@pytest.mark.skipif(
+    not PYDANTIC_V2, reason="TypeAliasType is not supported in Pydantic v1"
+)
 def test_type_alias_type() -> None:
     Alias = TypeAliasType("Alias", str)
 
@@ -846,7 +866,9 @@ def test_type_alias_type() -> None:
     assert m.union == "bar"
 
 
-@pytest.mark.skipif(not PYDANTIC_V2, reason="TypeAliasType is not supported in Pydantic v1")
+@pytest.mark.skipif(
+    not PYDANTIC_V2, reason="TypeAliasType is not supported in Pydantic v1"
+)
 def test_field_named_cls() -> None:
     class Model(BaseModel):
         cls: str
@@ -882,7 +904,9 @@ def test_discriminated_union_case() -> None:
     # when constructing ModelA | ModelB, value data doesn't match ModelB exactly - missing `required`
     m = construct_type(
         value={"type": "modelB", "data": {"type": "a", "data": True}},
-        type_=cast(Any, Annotated[Union[ModelA, ModelB], PropertyInfo(discriminator="type")]),
+        type_=cast(
+            Any, Annotated[Union[ModelA, ModelB], PropertyInfo(discriminator="type")]
+        ),
     )
 
     assert isinstance(m, ModelB)

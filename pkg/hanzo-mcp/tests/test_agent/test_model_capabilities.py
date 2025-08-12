@@ -17,7 +17,7 @@ class TestModelCapabilities:
         assert supports_parallel_function_calling("openai/gpt-4o-mini") is True
         assert supports_parallel_function_calling("claude-3-5-sonnet-20241022") is True
         assert supports_parallel_function_calling("anthropic/claude-3-opus") is True
-        
+
         # Test models that don't support parallel function calling
         assert supports_parallel_function_calling("gpt-4") is False
         assert supports_parallel_function_calling("gpt-3.5") is False

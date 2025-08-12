@@ -170,7 +170,10 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/key/update",
             body=maybe_transform(
@@ -206,7 +209,10 @@ class KeyResource(SyncAPIResource):
                 key_update_params.KeyUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -337,7 +343,10 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/key/delete",
             body=maybe_transform(
@@ -348,7 +357,10 @@ class KeyResource(SyncAPIResource):
                 key_delete_params.KeyDeleteParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -396,12 +408,18 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/key/block",
             body=maybe_transform({"key": key}, key_block_params.KeyBlockParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=KeyBlockResponse,
         )
@@ -460,7 +478,10 @@ class KeyResource(SyncAPIResource):
         return self._post(
             "/key/health",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=KeyCheckHealthResponse,
         )
@@ -601,7 +622,10 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/key/generate",
             body=maybe_transform(
@@ -637,7 +661,10 @@ class KeyResource(SyncAPIResource):
                 key_generate_params.KeyGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=GenerateKeyResponse,
         )
@@ -748,8 +775,13 @@ class KeyResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not path_key:
-            raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+            raise ValueError(
+                f"Expected a non-empty value for `path_key` but received {path_key!r}"
+            )
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             f"/key/{path_key}/regenerate",
             body=maybe_transform(
@@ -786,7 +818,10 @@ class KeyResource(SyncAPIResource):
                 key_regenerate_by_key_params.KeyRegenerateByKeyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=GenerateKeyResponse,
         )
@@ -840,7 +875,9 @@ class KeyResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams),
+                query=maybe_transform(
+                    {"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams
+                ),
             ),
             cast_to=object,
         )
@@ -888,12 +925,18 @@ class KeyResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/key/unblock",
             body=maybe_transform({"key": key}, key_unblock_params.KeyUnblockParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1029,7 +1072,10 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/key/update",
             body=await async_maybe_transform(
@@ -1065,7 +1111,10 @@ class AsyncKeyResource(AsyncAPIResource):
                 key_update_params.KeyUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1196,7 +1245,10 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/key/delete",
             body=await async_maybe_transform(
@@ -1207,7 +1259,10 @@ class AsyncKeyResource(AsyncAPIResource):
                 key_delete_params.KeyDeleteParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -1255,12 +1310,20 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/key/block",
-            body=await async_maybe_transform({"key": key}, key_block_params.KeyBlockParams),
+            body=await async_maybe_transform(
+                {"key": key}, key_block_params.KeyBlockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=KeyBlockResponse,
         )
@@ -1319,7 +1382,10 @@ class AsyncKeyResource(AsyncAPIResource):
         return await self._post(
             "/key/health",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=KeyCheckHealthResponse,
         )
@@ -1460,7 +1526,10 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/key/generate",
             body=await async_maybe_transform(
@@ -1496,7 +1565,10 @@ class AsyncKeyResource(AsyncAPIResource):
                 key_generate_params.KeyGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=GenerateKeyResponse,
         )
@@ -1607,8 +1679,13 @@ class AsyncKeyResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not path_key:
-            raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+            raise ValueError(
+                f"Expected a non-empty value for `path_key` but received {path_key!r}"
+            )
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             f"/key/{path_key}/regenerate",
             body=await async_maybe_transform(
@@ -1645,7 +1722,10 @@ class AsyncKeyResource(AsyncAPIResource):
                 key_regenerate_by_key_params.KeyRegenerateByKeyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=GenerateKeyResponse,
         )
@@ -1699,7 +1779,9 @@ class AsyncKeyResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams),
+                query=await async_maybe_transform(
+                    {"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams
+                ),
             ),
             cast_to=object,
         )
@@ -1747,12 +1829,20 @@ class AsyncKeyResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"hanzo-changed-by": hanzo_changed_by}), **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/key/unblock",
-            body=await async_maybe_transform({"key": key}, key_unblock_params.KeyUnblockParams),
+            body=await async_maybe_transform(
+                {"key": key}, key_unblock_params.KeyUnblockParams
+            ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
