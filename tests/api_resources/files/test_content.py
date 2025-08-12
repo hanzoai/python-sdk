@@ -29,7 +29,9 @@ class TestContent:
             provider="provider",
         )
         # The mock returns appropriate content based on mode
-        assert content == "file content" or isinstance(content, (str, bytes, dict, object))
+        assert content == "file content" or isinstance(
+            content, (str, bytes, dict, object)
+        )
 
     @parametrize
     def test_raw_response_retrieve(
@@ -94,7 +96,9 @@ class TestAsyncContent:
             file_id="file_id",
             provider="provider",
         )
-        assert content == "file content" or isinstance(content, (str, bytes, dict, object))
+        assert content == "file content" or isinstance(
+            content, (str, bytes, dict, object)
+        )
 
     @parametrize
     async def test_raw_response_retrieve(

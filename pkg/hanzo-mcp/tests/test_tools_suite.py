@@ -11,6 +11,7 @@ from mcp.server.fastmcp import FastMCP
 from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.common.tool_list import ToolListTool
 from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
+
 try:
     # Try to import test helper version first
     from hanzo_mcp.tools.common.test_helpers import PaginatedResponse
@@ -136,10 +137,7 @@ class TestPaginationSystem:
 
         # Create paginated response using wrapper
         response = PaginatedResponse(
-            items=items[:10], 
-            next_cursor="cursor_10", 
-            has_more=True, 
-            total_items=100
+            items=items[:10], next_cursor="cursor_10", has_more=True, total_items=100
         )
 
         # Check response attributes
@@ -147,7 +145,7 @@ class TestPaginationSystem:
         assert response.next_cursor == "cursor_10"
         assert response.has_more is True
         assert response.total_items == 100
-        
+
         # Test JSON serialization
         json_data = response.to_json()
         assert json_data["items"] == items[:10]
@@ -159,19 +157,21 @@ class TestPaginationSystem:
 
         # Test paginating a list
         items = [f"item_{i}" for i in range(100)]
-        
+
         # Get first page
         result = paginator.paginate_list(items, cursor=None, page_size=10)
-        
+
         assert result is not None
         assert "items" in result
         assert len(result["items"]) == 10
         assert result["items"][0] == "item_0"
-        
+
         # Check if there's a next cursor
         if "nextCursor" in result:
             # Get next page using cursor
-            next_result = paginator.paginate_list(items, cursor=result["nextCursor"], page_size=10)
+            next_result = paginator.paginate_list(
+                items, cursor=result["nextCursor"], page_size=10
+            )
             assert next_result is not None
             assert "items" in next_result
 
