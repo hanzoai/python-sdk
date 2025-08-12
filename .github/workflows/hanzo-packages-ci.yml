@@ -14,6 +14,15 @@ on:
       - 'pkg/hanzo-repl/**'
       - 'pkg/hanzoai/**'
       - '.github/workflows/hanzo-packages-ci.yml'
+    tags:
+      - 'v*'
+      - 'hanzo-*'
+      - 'hanzo-network-*'
+      - 'hanzo-mcp-*'
+      - 'hanzo-agents-*'
+      - 'hanzo-memory-*'
+      - 'hanzo-aci-*'
+      - 'hanzo-repl-*'
   pull_request:
     branches:
       - main
@@ -315,3 +324,91 @@ jobs:
             echo "No tests directory found, checking for test module"
             python -c "from hanzo_repl import tests; print('Test module found')" || echo "No test module"
           fi
+
+  # Publish packages to PyPI when a tag is pushed
+  publish-to-pypi:
+    name: Publish to PyPI
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-agents, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Determine package to publish
+        id: determine_package
+        run: |
+          TAG="${{ steps.get_tag.outputs.TAG }}"
+          PACKAGES=""
+          
+          # Determine which package(s) to publish based on tag
+          if [[ $TAG == hanzo-network-* ]]; then
+            PACKAGES="hanzo-network"
+          elif [[ $TAG == hanzo-mcp-* ]]; then
+            PACKAGES="hanzo-mcp"
+          elif [[ $TAG == hanzo-agents-* ]]; then
+            PACKAGES="hanzo-agents"
+          elif [[ $TAG == hanzo-memory-* ]]; then
+            PACKAGES="hanzo-memory"
+          elif [[ $TAG == hanzo-aci-* ]]; then
+            PACKAGES="hanzo-aci"
+          elif [[ $TAG == hanzo-repl-* ]]; then
+            PACKAGES="hanzo-repl"
+          elif [[ $TAG == hanzo-* ]]; then
+            PACKAGES="hanzo"
+          elif [[ $TAG == v* ]]; then
+            # For general version tags, publish all packages
+            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-agents hanzo-memory hanzo-aci hanzo-repl"
+          fi
+          
+          echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
+          echo "Publishing packages: $PACKAGES"
+
+      - name: Publish packages
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        run: |
+          PACKAGES="${{ steps.determine_package.outputs.PACKAGES }}"
+          
+          if [ -z "$PACKAGES" ]; then
+            echo "No packages to publish for tag ${{ steps.get_tag.outputs.TAG }}"
+            exit 0
+          fi
+          
+          for package in $PACKAGES; do
+            echo "Publishing $package..."
+            cd "pkg/$package"
+            
+            # Clean and build
+            rm -rf dist/ build/ *.egg-info
+            python -m build
+            
+            # Upload to PyPI
+            python -m twine upload dist/* --skip-existing
+            
+            cd ../..
+          done
+
+      - name: Create release summary
+        run: |
+          echo "## 🚀 Published to PyPI" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tag: ${{ steps.get_tag.outputs.TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "Packages: ${{ steps.determine_package.outputs.PACKAGES }}" >> $GITHUB_STEP_SUMMARY
