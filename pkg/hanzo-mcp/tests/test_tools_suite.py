@@ -81,8 +81,8 @@ class TestToolRegistration:
 
         assert True
 
-    @patch("hanzo_mcp.tools.agent.agent_tool.AgentTool")
-    def test_agent_tool_configuration(self, tool_helper, mock_agent_tool):
+    @patch("hanzo_mcp.tools.agent.AgentTool")
+    def test_agent_tool_configuration(self, mock_agent_tool):
         """Test agent tool configuration."""
         mcp_server = FastMCP("test-server")
         permission_manager = create_permission_manager(["/tmp"])
@@ -106,11 +106,9 @@ class TestToolRegistration:
 
         # Verify agent tool was configured
         mock_agent_tool.assert_called_once()
-        call_args = mock_agent_tool.call_args
-        # Check positional args (permission_manager)
-        assert call_args[0][0] == permission_manager
+        call_kwargs = mock_agent_tool.call_args.kwargs
         # Check keyword args
-        call_kwargs = call_args[1]
+        assert call_kwargs["permission_manager"] == permission_manager
         assert call_kwargs["model"] == "claude-3-5-sonnet-20241022"
         assert call_kwargs["max_tokens"] == 8192
 
@@ -193,8 +191,8 @@ class TestToolListFunctionality:
         result = asyncio.run(tool.call(mock_ctx))
 
         # Should return a formatted list
-        tool_helper.assert_in_result("Available tools:", result)
-        tool_helper.assert_in_result("Disabled tools:", result)
+        assert "Available tools:" in str(result)
+        assert "Disabled tools:" in str(result)
 
     def test_tool_list_with_disabled(self):
         """Test tool list with disabled tools."""
@@ -208,63 +206,63 @@ class TestToolListFunctionality:
         result = asyncio.run(tool.call(mock_ctx))
 
         # Should show disabled tools
-        tool_helper.assert_in_result("Disabled tools:", result)
+        assert "Disabled tools:" in str(result)
         # Note: Actual disabled tools depend on what's registered
 
 
 class TestCLIAgentTools:
     """Test CLI-based agent tools."""
 
-    @patch("hanzo_mcp.tools.agent.claude_cli_tool.CLIAgentBase")
-    def test_claude_cli_tool(self, tool_helper, mock_cli_base):
+    def test_claude_cli_tool(self):
         """Test Claude CLI tool."""
         from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = ClaudeCLITool(permission_manager)
+        assert tool.name == "claude_cli"
+        assert tool.command_name == "claude"
+        assert "Claude Code" in tool.provider_name
 
-        tool = ClaudeCLITool()
-        assert tool.name == "claude"
-        assert tool.cli_command == "claude"
-        assert "Claude Code" in tool.description
-
-    @patch("hanzo_mcp.tools.agent.codex_cli_tool.CLIAgentBase")
-    def test_codex_cli_tool(self, tool_helper, mock_cli_base):
+    def test_codex_cli_tool(self):
         """Test Codex CLI tool."""
         from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = CodexCLITool(permission_manager)
+        assert tool.name == "codex_cli"
+        assert tool.command_name == "openai"
+        assert "OpenAI" in tool.provider_name
 
-        tool = CodexCLITool()
-        assert tool.name == "codex"
-        assert tool.cli_command == "openai"
-        assert "OpenAI" in tool.description
-
-    @patch("hanzo_mcp.tools.agent.gemini_cli_tool.CLIAgentBase")
-    def test_gemini_cli_tool(self, tool_helper, mock_cli_base):
+    def test_gemini_cli_tool(self):
         """Test Gemini CLI tool."""
         from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = GeminiCLITool(permission_manager)
+        assert tool.name == "gemini_cli"
+        assert tool.command_name == "gemini"
+        assert "Google Gemini" in tool.provider_name
 
-        tool = GeminiCLITool()
-        assert tool.name == "gemini"
-        assert tool.cli_command == "gemini"
-        assert "Google Gemini" in tool.description
-
-    @patch("hanzo_mcp.tools.agent.grok_cli_tool.CLIAgentBase")
-    def test_grok_cli_tool(self, tool_helper, mock_cli_base):
+    def test_grok_cli_tool(self):
         """Test Grok CLI tool."""
         from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
-
-        tool = GrokCLITool()
-        assert tool.name == "grok"
-        assert tool.cli_command == "grok"
-        assert "xAI Grok" in tool.description
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = GrokCLITool(permission_manager)
+        assert tool.name == "grok_cli"
+        assert tool.command_name == "grok"
+        assert "xAI Grok" in tool.provider_name
 
 
 class TestSwarmTool:
     """Test swarm tool functionality."""
 
-    @patch("hanzo_mcp.tools.agent.swarm_tool.AgentNode")
-    def test_swarm_basic_configuration(self, tool_helper, mock_agent_node):
+    def test_swarm_basic_configuration(self):
         """Test basic swarm configuration."""
         from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
-
-        tool = SwarmTool()
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = SwarmTool(permission_manager)
         mock_ctx = create_mock_ctx()
 
         # Test network configuration
@@ -287,7 +285,7 @@ class TestMemoryIntegration:
     """Test memory tools integration."""
 
     @patch("hanzo_memory.services.memory.get_memory_service")
-    def test_memory_tools_available(self, tool_helper, mock_get_service):
+    def test_memory_tools_available(self, mock_get_service):
         """Test that memory tools can be registered."""
         mock_service = Mock()
         mock_get_service.return_value = mock_service
@@ -337,8 +335,7 @@ class TestNetworkPackage:
 class TestAutoBackgrounding:
     """Test auto-backgrounding functionality."""
 
-    @patch("hanzo_mcp.tools.shell.base_process.ProcessManager")
-    def test_auto_background_timeout(self, tool_helper, mock_process_manager):
+    def test_auto_background_timeout(self):
         """Test that long-running processes auto-background."""
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
 
@@ -363,8 +360,9 @@ class TestCriticAndReviewTools:
     def test_critic_tool_basic(self):
         """Test critic tool basic functionality."""
         from hanzo_mcp.tools.common.critic_tool import CriticTool
-
-        tool = CriticTool()
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = CriticTool(permission_manager)
         mock_ctx = create_mock_ctx()
 
         # Test with code content
@@ -377,14 +375,15 @@ class TestCriticAndReviewTools:
         )
 
         # Should return analysis
-        tool_helper.assert_in_result("def add(a, b): return a + b", result)
-        assert "```" in result  # Should format code
+        assert "def add(a, b): return a + b" in str(result)
+        assert "```" in str(result)  # Should format code
 
     def test_review_tool_basic(self):
         """Test review tool basic functionality."""
         from hanzo_mcp.tools.agent.review_tool import ReviewTool
-
-        tool = ReviewTool()
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = ReviewTool(permission_manager)
         mock_ctx = create_mock_ctx()
 
         # Test review
@@ -404,8 +403,9 @@ class TestStreamingCommand:
     def test_streaming_command_basic(self):
         """Test basic streaming command."""
         from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
-
-        tool = StreamingCommandTool()
+        
+        permission_manager = create_permission_manager(["/tmp"])
+        tool = StreamingCommandTool(permission_manager)
         mock_ctx = create_mock_ctx()
 
         # Create a simple command that generates output
