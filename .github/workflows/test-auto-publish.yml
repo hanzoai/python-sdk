@@ -26,55 +26,59 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Check package versions
+      - name: Create version check script
         run: |
-          echo "Testing version check mechanism..."
-          python -c "
-import json
-import re
-import urllib.request
-from pathlib import Path
+          cat > check_versions.py << 'EOF'
+          import json
+          import re
+          import urllib.request
+          from pathlib import Path
+          
+          def get_local_version(package_dir):
+              pyproject = package_dir / 'pyproject.toml'
+              if pyproject.exists():
+                  content = pyproject.read_text()
+                  match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+                  return match.group(1) if match else 'unknown'
+              return 'not found'
+          
+          def get_pypi_version(package_name):
+              try:
+                  with urllib.request.urlopen(f'https://pypi.org/pypi/{package_name}/json') as r:
+                      return json.loads(r.read()).get('info', {}).get('version', 'error')
+              except:
+                  return 'not published'
+          
+          packages = [
+              'hanzo', 'hanzo-network', 'hanzo-mcp', 'hanzo-agents',
+              'hanzo-memory', 'hanzo-aci', 'hanzo-repl'
+          ]
+          
+          print('📦 Package Version Status:')
+          print('=' * 60)
+          for pkg in packages:
+              pkg_dir = Path('pkg') / pkg
+              local = get_local_version(pkg_dir)
+              pypi = get_pypi_version(pkg)
+              status = '🆕 NEW' if local != pypi and pypi != 'not published' else '✅ OK'
+              print(f'{pkg:20} Local: {local:10} PyPI: {pypi:10} {status}')
+          EOF
 
-def get_local_version(package_dir):
-    pyproject = package_dir / 'pyproject.toml'
-    if pyproject.exists():
-        content = pyproject.read_text()
-        match = re.search(r'version\s*=\s*[\"\\']([^\"\\']]+)[\"\\']', content)
-        return match.group(1) if match else 'unknown'
-    return 'not found'
+      - name: Check package versions
+        run: python check_versions.py
 
-def get_pypi_version(package_name):
-    try:
-        with urllib.request.urlopen(f'https://pypi.org/pypi/{package_name}/json') as r:
-            return json.loads(r.read()).get('info', {}).get('version', 'error')
-    except:
-        return 'not published'
-
-packages = [
-    'hanzo', 'hanzo-network', 'hanzo-mcp', 'hanzo-agents',
-    'hanzo-memory', 'hanzo-aci', 'hanzo-repl'
-]
-
-print('📦 Package Version Status:')
-print('=' * 60)
-for pkg in packages:
-    pkg_dir = Path('pkg') / pkg
-    local = get_local_version(pkg_dir)
-    pypi = get_pypi_version(pkg)
-    status = '🆕 NEW' if local != pypi and pypi != 'not published' else '✅ OK'
-    print(f'{pkg:20} Local: {local:10} PyPI: {pypi:10} {status}')
-"
+      - name: Install dependencies for dry run
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
 
       - name: Run auto-publish check (dry run)
         if: inputs.dry_run == 'true'
         run: |
           echo "🔍 DRY RUN - Checking what would be published..."
-          python ./bin/check-and-publish.py --dry-run 2>/dev/null || \
-          python -c "
-import sys
-sys.path.insert(0, './bin')
-exec(open('./bin/check-and-publish.py').read().replace('publish_package(', '# publish_package('))
-" || echo "Dry run simulation complete"
+          # Modify script to not actually publish
+          sed 's/python -m twine upload/echo "Would upload:"/' bin/check-and-publish.py > check-dry.py
+          PYPI_TOKEN="dry-run-token" python check-dry.py || echo "Dry run complete"
 
       - name: Run actual auto-publish
         if: inputs.dry_run == 'false'

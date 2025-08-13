@@ -203,10 +203,24 @@ def main():
     
     # Install required tools
     print_info("Installing build tools...")
-    subprocess.run(
-        ['python', '-m', 'pip', 'install', '--quiet', '--upgrade', 'pip', 'build', 'twine'],
-        check=True
-    )
+    try:
+        # Try with pip first
+        subprocess.run(
+            [sys.executable, '-m', 'pip', 'install', '--quiet', '--upgrade', 'pip', 'build', 'twine'],
+            check=True,
+            capture_output=True
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # Fall back to installing without pip upgrade
+        try:
+            subprocess.run(
+                [sys.executable, '-m', 'pip', 'install', '--quiet', 'build', 'twine'],
+                check=True,
+                capture_output=True
+            )
+        except:
+            print_warn("Could not install build tools. Make sure pip, build, and twine are available.")
+            print_info("You can install them with: pip install build twine")
     
     # Track results
     published = []
