@@ -1,5 +1,6 @@
 """MCP server implementing Hanzo capabilities."""
 
+import os
 import atexit
 import signal
 import logging
@@ -218,6 +219,18 @@ class HanzoMCPServer:
         allowed_paths_list = allowed_paths or []
         for path in allowed_paths_list:
             self.permission_manager.add_allowed_path(path)
+
+        # Show compute nodes only in non-stdio mode (to avoid corrupting protocol)
+        if transport != "stdio" and not os.environ.get("HANZO_QUIET"):
+            try:
+                from hanzo_mcp.compute_nodes import ComputeNodeDetector
+                detector = ComputeNodeDetector()
+                summary = detector.get_node_summary()
+                logger = logging.getLogger(__name__)
+                logger.info(f"🖥️  {summary}")
+            except Exception:
+                # Silently ignore if compute node detection fails
+                pass
 
         # Set up cleanup handlers before running
         self._setup_cleanup_handlers()
