@@ -8,11 +8,11 @@ Following Guido van Rossum's Python philosophy:
 """
 
 import os
+import random
+import string
 import asyncio
 import tempfile
 from unittest.mock import Mock, patch
-import string
-import random
 
 import pytest
 from hanzo_mcp.tools import register_all_tools
@@ -23,8 +23,7 @@ from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
 
 # Property-based testing imports
 try:
-    from hypothesis import given, strategies as st, settings, assume
-    from hypothesis import example
+    from hypothesis import given, assume, example, settings, strategies as st
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
     HYPOTHESIS_AVAILABLE = False
@@ -463,8 +462,8 @@ class TestAutoBackgrounding:
 
     def test_auto_background_timeout(self):
         """Test that long-running processes auto-background."""
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         from hanzo_mcp.tools.shell.base_process import ProcessManager
+        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
 
         process_manager = ProcessManager()
         executor = AutoBackgroundExecutor(process_manager, timeout=0.1)  # Very short timeout
@@ -482,8 +481,8 @@ class TestAutoBackgrounding:
         
         Guido: 'Special cases aren't special enough to break the rules.'
         """
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         from hanzo_mcp.tools.shell.base_process import ProcessManager
+        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         
         process_manager = ProcessManager()
         
@@ -801,8 +800,8 @@ class TestEdgeCasesAndRobustness:
         # Should either handle or use default
         
         # Test negative values in auto-backgrounding
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         from hanzo_mcp.tools.shell.base_process import ProcessManager
+        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
         
         pm = ProcessManager()
         # These should not crash
@@ -816,8 +815,9 @@ class TestEdgeCasesAndRobustness:
         Guido: 'If the implementation is hard to explain, it's a bad idea.'
         The singleton should be simple and thread-safe.
         """
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
         import threading
+
+        from hanzo_mcp.tools.shell.base_process import ProcessManager
         
         results = []
         

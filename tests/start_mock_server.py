@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Comprehensive mock server for all test endpoints."""
 
-import json
 import sys
+import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
