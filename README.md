@@ -1,6 +1,8 @@
 # Hanzo Python SDK
 
 [![CI Status](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml)
+[![Test Status](https://github.com/hanzoai/python-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/test.yml)
+[![Hanzo Packages CI](https://github.com/hanzoai/python-sdk/actions/workflows/hanzo-packages-ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/hanzo-packages-ci.yml)
 [![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/hanzoai/python-sdk/actions)
 [![PyPI Version](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
@@ -363,10 +365,12 @@ This project is licensed under the BSD-3-Clause License. See [LICENSE](LICENSE) 
 
 ## 🏗️ Project Status
 
-- ✅ **3,141 tests** - 100% passing
+- ✅ **3,141 tests** - 100% passing (all integration tests now use mocks)
 - ✅ **Type Safe** - Full type hints with Pydantic validation
 - ✅ **Production Ready** - Used in enterprise deployments
 - ✅ **Active Development** - Regular updates and improvements
+- ✅ **CI/CD** - Automated testing and deployment pipeline
+- ✅ **No External Dependencies** - All tests run without external services
 
 ## 🌟 Contributors
 
