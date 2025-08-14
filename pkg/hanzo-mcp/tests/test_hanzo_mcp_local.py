@@ -18,7 +18,7 @@ from hanzo_mcp.server import create_server
 def test_basic_import():
     """Test that we can import hanzo-mcp."""
     print(f"✓ Successfully imported hanzo-mcp version {__version__}")
-    assert __version__ == "0.6.13"
+    assert __version__ == "0.7.7"
 
 
 def test_server_creation():
