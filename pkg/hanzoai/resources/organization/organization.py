@@ -43,7 +43,9 @@ from ...types.organization_create_response import OrganizationCreateResponse
 from ...types.organization_delete_response import OrganizationDeleteResponse
 from ...types.organization_membership_table import OrganizationMembershipTable
 from ...types.organization_table_with_members import OrganizationTableWithMembers
+from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_add_member_response import OrganizationAddMemberResponse
+from ...types.organization_update_member_response import OrganizationUpdateMemberResponse
 
 __all__ = ["OrganizationResource", "AsyncOrganizationResource"]
 
@@ -213,7 +215,7 @@ class OrganizationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationTableWithMembers:
+    ) -> OrganizationUpdateResponse:
         """
         Update an organization
 
@@ -246,7 +248,7 @@ class OrganizationResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=OrganizationUpdateResponse,
         )
 
     def list(
@@ -455,7 +457,7 @@ class OrganizationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -498,7 +500,7 @@ class OrganizationResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 
@@ -667,7 +669,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationTableWithMembers:
+    ) -> OrganizationUpdateResponse:
         """
         Update an organization
 
@@ -700,7 +702,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=OrganizationUpdateResponse,
         )
 
     async def list(
@@ -909,7 +911,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -952,7 +954,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 
