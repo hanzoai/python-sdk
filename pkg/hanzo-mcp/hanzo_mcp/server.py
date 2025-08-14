@@ -4,8 +4,8 @@ import os
 import atexit
 import signal
 import logging
-import threading
 import warnings
+import threading
 from typing import Literal, cast, final
 
 # Suppress litellm deprecation warnings about event loop

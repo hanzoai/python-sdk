@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import json
 import time
-from http.server import HTTPServer, BaseHTTPRequestHandler
 from threading import Thread
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
 
 class MockHandler(BaseHTTPRequestHandler):
     def do_POST(self):

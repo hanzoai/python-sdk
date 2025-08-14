@@ -4,15 +4,15 @@ Check package versions and publish to PyPI if newer version is available.
 This script is designed to run in CI on every push to main.
 """
 
-import json
 import os
 import re
-import subprocess
 import sys
-from pathlib import Path
-from typing import Optional, Tuple
-import urllib.request
+import json
+import subprocess
 import urllib.error
+import urllib.request
+from typing import Tuple, Optional
+from pathlib import Path
 
 # Colors for output
 RED = '\033[0;31m'
@@ -58,7 +58,7 @@ def get_pypi_version(package_name: str) -> Optional[str]:
     """Get the latest version from PyPI."""
     url = f"https://pypi.org/pypi/{package_name}/json"
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310
             data = json.loads(response.read())
             return data.get('info', {}).get('version')
     except urllib.error.HTTPError as e:
@@ -218,7 +218,7 @@ def main():
                 check=True,
                 capture_output=True
             )
-        except:
+        except Exception:
             print_warn("Could not install build tools. Make sure pip, build, and twine are available.")
             print_info("You can install them with: pip install build twine")
     
