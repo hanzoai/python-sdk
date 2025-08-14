@@ -41,9 +41,9 @@ from ...types.user_roles import UserRoles
 from ...types.organization_list_response import OrganizationListResponse
 from ...types.organization_create_response import OrganizationCreateResponse
 from ...types.organization_delete_response import OrganizationDeleteResponse
+from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_membership_table import OrganizationMembershipTable
 from ...types.organization_table_with_members import OrganizationTableWithMembers
-from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_add_member_response import OrganizationAddMemberResponse
 from ...types.organization_update_member_response import OrganizationUpdateMemberResponse
 

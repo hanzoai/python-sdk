@@ -355,8 +355,8 @@ class TestHanzoMCPStdioServer:
         """Test basic stdio server operations."""
         # Skip test if MCP client imports are not available
         try:
-            from mcp.client.stdio import stdio_client
             from mcp.client import ClientSession
+            from mcp.client.stdio import stdio_client
         except ImportError:
             pytest.skip("MCP client imports not available - needs updated dependencies")
             return

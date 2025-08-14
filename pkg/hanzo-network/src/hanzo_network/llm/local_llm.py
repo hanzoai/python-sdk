@@ -4,7 +4,6 @@ import asyncio
 from typing import Any, Dict, List, Optional
 from abc import ABC, abstractmethod
 
-from ..core.state import NetworkState
 
 # Commenting out missing imports - need to implement these
 # from .inference.inference_engine import get_inference_engine
