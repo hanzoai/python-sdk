@@ -23,15 +23,11 @@ class TestContent:
 
     @parametrize
     def test_method_retrieve(self, client: Hanzo, request: FixtureRequest) -> None:
-        # For binary/text content endpoints, the SDK returns the content
         content = client.files.content.retrieve(
             file_id="file_id",
             provider="provider",
         )
-        # The mock returns appropriate content based on mode
-        assert content == "file content" or isinstance(
-            content, (str, bytes, dict, object)
-        )
+        assert_matches_type(object, content, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(
@@ -44,7 +40,7 @@ class TestContent:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         content = response.parse()
-        assert content == "file content" or isinstance(content, (str, bytes, object))
+        assert_matches_type(object, content, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(
@@ -57,9 +53,7 @@ class TestContent:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
             content = response.parse()
-            assert content == "file content" or isinstance(
-                content, (str, bytes, object)
-            )
+            assert_matches_type(object, content, path=["response"])
         assert cast(Any, response.is_closed) is True
 
     @parametrize
@@ -96,9 +90,7 @@ class TestAsyncContent:
             file_id="file_id",
             provider="provider",
         )
-        assert content == "file content" or isinstance(
-            content, (str, bytes, dict, object)
-        )
+        assert_matches_type(object, content, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(
@@ -111,7 +103,7 @@ class TestAsyncContent:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         content = await response.parse()
-        assert content == "file content" or isinstance(content, (str, bytes, object))
+        assert_matches_type(object, content, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(
