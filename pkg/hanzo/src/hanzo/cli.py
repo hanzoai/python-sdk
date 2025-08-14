@@ -2,6 +2,9 @@
 
 import sys
 import asyncio
+import signal
+import os
+import subprocess
 from typing import Optional
 
 import click
@@ -115,7 +118,11 @@ def serve(ctx, name: str, port: int):
 @click.pass_context
 def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
     """Start the Hanzo Network distributed AI compute node."""
-    asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+    try:
+        asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+    except KeyboardInterrupt:
+        # Already handled in start_compute_node
+        pass
 
 
 @cli.command()
@@ -133,7 +140,11 @@ def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 @click.pass_context
 def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
     """Alias for 'hanzo net' - Start as a compute node for the Hanzo network."""
-    asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+    try:
+        asyncio.run(start_compute_node(ctx, name, port, network, models, max_jobs))
+    except KeyboardInterrupt:
+        # Already handled in start_compute_node
+        pass
 
 
 async def start_compute_node(
@@ -204,8 +215,40 @@ async def start_compute_node(
                 console.print("API: http://localhost:52415/v1/chat/completions")
                 console.print("\nPress Ctrl+C to stop\n")
 
-                # Run net
-                await net_run()
+                # Set up signal handlers for async version
+                stop_event = asyncio.Event()
+                
+                def async_signal_handler(signum, frame):
+                    console.print("\n[yellow]Stopping hanzo net...[/yellow]")
+                    stop_event.set()
+                
+                signal.signal(signal.SIGINT, async_signal_handler)
+                signal.signal(signal.SIGTERM, async_signal_handler)
+                
+                # Run net with proper signal handling
+                try:
+                    net_task = asyncio.create_task(net_run())
+                    stop_task = asyncio.create_task(stop_event.wait())
+                    
+                    # Wait for either net to complete or stop signal
+                    done, pending = await asyncio.wait(
+                        [net_task, stop_task],
+                        return_when=asyncio.FIRST_COMPLETED
+                    )
+                    
+                    # Cancel pending tasks
+                    for task in pending:
+                        task.cancel()
+                        try:
+                            await task
+                        except asyncio.CancelledError:
+                            pass
+                    
+                    # Check if we stopped due to signal
+                    if stop_task in done:
+                        console.print("[green]✓[/green] Node stopped gracefully")
+                except asyncio.CancelledError:
+                    console.print("[yellow]Cancelled[/yellow]")
             finally:
                 sys.argv = original_argv
         else:
@@ -252,12 +295,32 @@ async def start_compute_node(
                 if models:
                     cmd_args.extend(["--default-model", models[0]])
 
-                # Run net command with detected python
-                process = subprocess.run(cmd_args, env=env, check=False)
-
-                if process.returncode != 0 and process.returncode != -2:  # -2 is Ctrl+C
+                # Run net command with detected python in a more signal-friendly way
+                process = subprocess.Popen(cmd_args, env=env)
+                
+                # Set up signal handlers to forward to subprocess
+                def signal_handler(signum, frame):
+                    if process.poll() is None:  # Process is still running
+                        console.print("\n[yellow]Stopping hanzo net...[/yellow]")
+                        process.terminate()  # Try graceful termination first
+                        try:
+                            process.wait(timeout=5)  # Wait up to 5 seconds
+                        except subprocess.TimeoutExpired:
+                            console.print("[yellow]Force stopping...[/yellow]")
+                            process.kill()  # Force kill if needed
+                            process.wait()
+                    raise KeyboardInterrupt
+                
+                # Register signal handlers
+                signal.signal(signal.SIGINT, signal_handler)
+                signal.signal(signal.SIGTERM, signal_handler)
+                
+                # Wait for process to complete
+                returncode = process.wait()
+                
+                if returncode != 0 and returncode != -2:  # -2 is Ctrl+C
                     console.print(
-                        f"[red]Net exited with code {process.returncode}[/red]"
+                        f"[red]Net exited with code {returncode}[/red]"
                     )
 
             finally:
