@@ -452,6 +452,7 @@ def mock_api(request):
         }
         respx_mock.post("/user/new").mock(return_value=Response(200, json=user_response))
         respx_mock.post("/user").mock(return_value=Response(200, json={}))
+        respx_mock.get("/user/list").mock(return_value=Response(200, json=[]))
         respx_mock.get("/user").mock(return_value=Response(200, json=[]))
         respx_mock.get("/user/info").mock(return_value=Response(200, json=user_response))
         respx_mock.put("/user/update").mock(return_value=Response(200, json=user_response))
