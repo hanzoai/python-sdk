@@ -3,7 +3,7 @@
 import os
 import platform
 import subprocess
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 class ComputeNodeDetector:
@@ -82,7 +82,7 @@ class ComputeNodeDetector:
                     "memory": "Browser",
                     "id": "webgpu:0"
                 })
-        except:
+        except Exception:
             pass
         
         return webgpu_nodes
