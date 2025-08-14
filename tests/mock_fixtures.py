@@ -201,6 +201,9 @@ def mock_api(request):
         )
         respx_mock.post("/organization/new").mock(return_value=Response(200, json=org_response))
         respx_mock.post("/organization").mock(return_value=Response(200, json={}))
+        respx_mock.get("/organization/list").mock(
+            return_value=Response(200, json=[])
+        )
         respx_mock.get("/organization").mock(
             return_value=Response(200, json=[])
         )
@@ -246,6 +249,7 @@ def mock_api(request):
         respx_mock.delete("/team/model").mock(return_value=Response(200, json={}))
         respx_mock.post("/team/new").mock(return_value=Response(200, json=team_response))
         respx_mock.post("/team").mock(return_value=Response(200, json={}))
+        respx_mock.get("/team/list").mock(return_value=Response(200, json=[]))
         respx_mock.get("/team").mock(return_value=Response(200, json=[]))
         respx_mock.get("/team/info").mock(return_value=Response(200, json=team_response))
         respx_mock.put("/team/update").mock(return_value=Response(200, json=team_response))
