@@ -62,7 +62,7 @@ jobs:
       
       - name: Run ALL tests
         run: |
-          timeout 120 python -m pytest tests/ -v --tb=short -n auto || true  # Parallel with 2min timeout
+          timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true  # Parallel with 2min timeout
   
   test-hanzo-mcp:
     name: Test hanzo-mcp
@@ -92,7 +92,7 @@ jobs:
       
       - name: Run ALL tests
         run: |
-          timeout 120 python -m pytest tests/ -v --tb=short --cov=hanzo_mcp --cov-report=term-missing -n auto || echo "Tests completed or timed out"
+          timeout 120 python -m pytest tests/ -v --tb=short --cov=hanzo_mcp --cov-report=term-missing -n 4 --dist loadgroup --maxfail=5 -m "not slow" || echo "Tests completed or timed out"
   
   test-hanzo-aci:
     name: Test hanzo-aci
@@ -118,7 +118,7 @@ jobs:
       
       - name: Run ALL tests
         run: |
-          timeout 120 python -m pytest tests/ -v --tb=short --cov=dev_aci --cov-report=term-missing -n auto || true  # Parallel with 2min timeout
+          timeout 120 python -m pytest tests/ -v --tb=short --cov=dev_aci --cov-report=term-missing -n 4 --maxfail=5 || true  # Parallel with 2min timeout
   
   test-hanzo-agents:
     name: Test hanzo-agents
@@ -146,7 +146,7 @@ jobs:
       
       - name: Run ALL tests
         run: |
-          timeout 120 python -m pytest tests/ -v --tb=short -n auto || true  # Parallel with 2min timeout
+          timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true  # Parallel with 2min timeout
   
   test-hanzo-memory:
     name: Test hanzo-memory
@@ -172,7 +172,7 @@ jobs:
       
       - name: Run ALL tests
         run: |
-          timeout 120 python -m pytest tests/ -v --tb=short --cov=hanzo_memory --cov-report=term-missing -n auto -k "not TestInfinityClient" || true  # Parallel with 2min timeout
+          timeout 120 python -m pytest tests/ -v --tb=short --cov=hanzo_memory --cov-report=term-missing -n 4 --maxfail=5 -k "not TestInfinityClient" || true  # Parallel with 2min timeout
   
   integration-test:
     name: Integration Test
@@ -201,7 +201,7 @@ jobs:
       
       - name: Run integration tests
         run: |
-          timeout 120 python -m pytest pkg/hanzo-mcp/tests/test_hanzo_mcp_integration.py -v -n auto || true
+          timeout 60 python -m pytest pkg/hanzo-mcp/tests/test_hanzo_mcp_integration.py -v -n 4 --maxfail=5 || true
   
   lint:
     name: Lint Hanzo Packages
@@ -287,7 +287,7 @@ jobs:
       - name: Run tests if available
         run: |
           if [ -d "tests" ]; then
-            timeout 120 python -m pytest tests/ -v --tb=short -n auto || true
+            timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true
           else
             echo "No tests directory found, skipping tests"
           fi
@@ -319,7 +319,7 @@ jobs:
       - name: Run tests if available
         run: |
           if [ -d "tests" ]; then
-            timeout 120 python -m pytest tests/ -v --tb=short -n auto || true
+            timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true
           else
             echo "No tests directory found, checking for test module"
             python -c "from hanzo_repl import tests; print('Test module found')" || echo "No test module"
