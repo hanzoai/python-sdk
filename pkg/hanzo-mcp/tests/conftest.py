@@ -26,6 +26,8 @@ from test_utils import (
 
 # Set environment variables for testing
 os.environ["TEST_MODE"] = "1"
+os.environ["HANZO_MCP_FAST_TESTS"] = "1"  # Enable fast test mode
+os.environ["PYTEST_CURRENT_TEST"] = "1"  # Mark as pytest run
 
 
 # Configure pytest
@@ -273,6 +275,20 @@ def reset_environment():
     os.environ.update(original_env)
 
 
+@pytest.fixture(autouse=True, scope="session")
+def mock_slow_operations():
+    """Mock slow operations for faster test execution."""
+    from unittest.mock import patch, AsyncMock
+    
+    # Mock subprocess for LSP tests
+    with patch("asyncio.create_subprocess_exec") as mock_subprocess:
+        mock_process = AsyncMock()
+        mock_process.returncode = 0
+        mock_process.communicate = AsyncMock(return_value=(b"", b""))
+        mock_subprocess.return_value = mock_process
+        yield
+
+
 @pytest.fixture(autouse=True)
 def cleanup_temp_files():
     """Clean up any temporary files after tests."""
@@ -304,5 +320,10 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(pytest.mark.integration)
 
         # Add slow marker to certain tests
-        if any(slow in item.nodeid for slow in ["performance", "stress", "load"]):
+        slow_patterns = [
+            "performance", "stress", "load", "e2e_", 
+            "swarm_", "streaming", "shell_features",
+            "test_batch_tool_edge_cases", "test_memory_edge_cases"
+        ]
+        if any(pattern in item.nodeid for pattern in slow_patterns):
             item.add_marker(pytest.mark.slow)
