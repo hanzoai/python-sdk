@@ -13,7 +13,6 @@ dependencies = [
     "httpx>=0.23.0",
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
-    "hanzo-net>=0.1.12",
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
