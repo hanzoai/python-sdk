@@ -296,19 +296,33 @@ async def start_compute_node(
                     cmd_args.extend(["--default-model", models[0]])
 
                 # Run net command with detected python in a more signal-friendly way
-                process = subprocess.Popen(cmd_args, env=env)
+                # Create new process group for better signal handling
+                process = subprocess.Popen(
+                    cmd_args, 
+                    env=env,
+                    preexec_fn=os.setsid if hasattr(os, 'setsid') else None
+                )
                 
-                # Set up signal handlers to forward to subprocess
+                # Set up signal handlers to forward to subprocess group
                 def signal_handler(signum, frame):
                     if process.poll() is None:  # Process is still running
                         console.print("\n[yellow]Stopping hanzo net...[/yellow]")
-                        process.terminate()  # Try graceful termination first
                         try:
+                            # Send signal to entire process group
+                            if hasattr(os, 'killpg'):
+                                os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+                            else:
+                                process.terminate()
                             process.wait(timeout=5)  # Wait up to 5 seconds
                         except subprocess.TimeoutExpired:
                             console.print("[yellow]Force stopping...[/yellow]")
-                            process.kill()  # Force kill if needed
+                            if hasattr(os, 'killpg'):
+                                os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+                            else:
+                                process.kill()
                             process.wait()
+                        except ProcessLookupError:
+                            pass  # Process already terminated
                     raise KeyboardInterrupt
                 
                 # Register signal handlers
