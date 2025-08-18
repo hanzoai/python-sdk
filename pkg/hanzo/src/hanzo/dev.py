@@ -28,6 +28,10 @@ from rich.layout import Layout
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
+# Setup logging first
+logger = logging.getLogger(__name__)
+console = Console()
+
 # Import hanzo-network for agent orchestration
 try:
     from hanzo_network import (
@@ -41,9 +45,41 @@ try:
 except ImportError:
     NETWORK_AVAILABLE = False
     logger.warning("hanzo-network not available, using basic orchestration")
-
-console = Console()
-logger = logging.getLogger(__name__)
+    
+    # Provide fallback implementations
+    class Agent:
+        """Fallback Agent class when hanzo-network is not available."""
+        def __init__(self, name: str, model: str = "gpt-4", **kwargs):
+            self.name = name
+            self.model = model
+            self.config = kwargs
+    
+    class Network:
+        """Fallback Network class."""
+        def __init__(self):
+            self.agents = []
+    
+    class Router:
+        """Fallback Router class."""
+        def __init__(self):
+            pass
+    
+    class NetworkState:
+        """Fallback NetworkState class."""
+        pass
+    
+    class ModelConfig:
+        """Fallback ModelConfig class."""
+        def __init__(self, **kwargs):
+            self.__dict__.update(kwargs)
+    
+    class ModelProvider:
+        """Fallback ModelProvider class."""
+        OPENAI = "openai"
+        ANTHROPIC = "anthropic"
+        LOCAL = "local"
+    
+    LOCAL_COMPUTE_AVAILABLE = False
 
 
 class AgentState(Enum):
