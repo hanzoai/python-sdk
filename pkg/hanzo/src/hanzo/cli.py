@@ -152,7 +152,18 @@ def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 @click.option(
     "--orchestrator",
     default="gpt-5",
-    help="Orchestrator model (e.g., gpt-5, gpt-4, claude-3-5-sonnet, local:llama3.2)",
+    help="Orchestrator: gpt-5, router:gpt-4o, direct:claude, codex, gpt-5-pro-codex, cost-optimized",
+)
+@click.option(
+    "--orchestrator-mode",
+    type=click.Choice(["router", "direct", "codex", "hybrid", "local"]),
+    default=None,
+    help="Force orchestrator mode (router via hanzo-router, direct API, codex, hybrid, local)",
+)
+@click.option(
+    "--router-endpoint",
+    default=None,
+    help="Hanzo router endpoint (default: http://localhost:4000)",
 )
 @click.option("--claude-path", help="Path to Claude Code executable")
 @click.option("--monitor", is_flag=True, help="Start in monitor mode")
@@ -184,6 +195,8 @@ def dev(
     ctx,
     workspace: str,
     orchestrator: str,
+    orchestrator_mode: str,
+    router_endpoint: str,
     claude_path: str,
     monitor: bool,
     repl: bool,
@@ -218,15 +231,39 @@ def dev(
         hanzo dev --monitor                          # Auto-monitor and restart mode
     """
     from .dev import run_dev_orchestrator
+    from .orchestrator_config import get_orchestrator_config, OrchestratorMode
 
+    # Get orchestrator configuration
+    orch_config = get_orchestrator_config(orchestrator)
+    
+    # Override mode if specified
+    if orchestrator_mode:
+        orch_config.mode = OrchestratorMode(orchestrator_mode)
+    
+    # Override router endpoint if specified
+    if router_endpoint and orch_config.router:
+        orch_config.router.endpoint = router_endpoint
+    
     # Auto-enable hanzo net if using local orchestrator
-    if orchestrator.startswith("local:"):
+    if orchestrator.startswith("local:") or orch_config.mode == OrchestratorMode.LOCAL:
         use_hanzo_net = True
+    
+    # Show configuration
+    console.print(f"[bold cyan]Orchestrator Configuration[/bold cyan]")
+    console.print(f"  Mode: {orch_config.mode.value}")
+    console.print(f"  Primary Model: {orch_config.primary_model}")
+    if orch_config.router:
+        console.print(f"  Router Endpoint: {orch_config.router.endpoint}")
+    if orch_config.codex:
+        console.print(f"  Codex Model: {orch_config.codex.model}")
+    console.print(f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}")
+    console.print()
 
     asyncio.run(
         run_dev_orchestrator(
             workspace=workspace,
             orchestrator_model=orchestrator,
+            orchestrator_config=orch_config,  # Pass the config
             claude_path=claude_path,
             monitor=monitor,
             repl=repl or not monitor,  # Default to REPL if not monitoring
