@@ -832,14 +832,16 @@ async def run_dev_orchestrator(**kwargs):
     """Run the Hanzo Dev orchestrator with multi-agent networking.
 
     This is the main entry point from the CLI that sets up:
-    1. Configurable orchestrator (GPT-5, GPT-4, Claude, etc.)
+    1. Configurable orchestrator (GPT-5, GPT-4, Claude, Codex, etc.)
     2. Multiple worker agents (Claude instances for implementation)
     3. Critic agents for System 2 thinking
     4. MCP tool networking between instances
     5. Code quality guardrails
+    6. Router-based or direct model access
     """
     workspace = kwargs.get("workspace", "~/.hanzo/dev")
     orchestrator_model = kwargs.get("orchestrator_model", "gpt-5")
+    orchestrator_config = kwargs.get("orchestrator_config", None)  # New config object
     claude_path = kwargs.get("claude_path")
     monitor = kwargs.get("monitor", False)
     repl = kwargs.get("repl", True)
