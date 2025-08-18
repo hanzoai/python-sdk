@@ -149,34 +149,65 @@ def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 
 @cli.command()
 @click.option("--workspace", default="~/.hanzo/dev", help="Workspace directory")
-@click.option("--orchestrator", default="gpt-5", help="Orchestrator model (e.g., gpt-5, gpt-4, claude-3-5-sonnet, local:llama3.2)")
-@click.option("--claude-path", help="Path to Claude Code executable") 
+@click.option(
+    "--orchestrator",
+    default="gpt-5",
+    help="Orchestrator model (e.g., gpt-5, gpt-4, claude-3-5-sonnet, local:llama3.2)",
+)
+@click.option("--claude-path", help="Path to Claude Code executable")
 @click.option("--monitor", is_flag=True, help="Start in monitor mode")
 @click.option("--repl", is_flag=True, help="Start REPL interface (default)")
 @click.option("--instances", type=int, default=2, help="Number of worker agents")
 @click.option("--mcp-tools", is_flag=True, default=True, help="Enable all MCP tools")
-@click.option("--network-mode", is_flag=True, default=True, help="Network agents together")
-@click.option("--guardrails", is_flag=True, default=True, help="Enable code quality guardrails")
-@click.option("--use-network/--no-network", default=True, help="Use hanzo-network if available")
-@click.option("--use-hanzo-net", is_flag=True, help="Use hanzo/net for local AI (auto-enabled with local: models)")
-@click.option("--hanzo-net-port", type=int, default=52415, help="Port for hanzo/net (default: 52415)")
-@click.pass_context  
-def dev(ctx, workspace: str, orchestrator: str, claude_path: str, monitor: bool, repl: bool,
-        instances: int, mcp_tools: bool, network_mode: bool, guardrails: bool, use_network: bool,
-        use_hanzo_net: bool, hanzo_net_port: int):
+@click.option(
+    "--network-mode", is_flag=True, default=True, help="Network agents together"
+)
+@click.option(
+    "--guardrails", is_flag=True, default=True, help="Enable code quality guardrails"
+)
+@click.option(
+    "--use-network/--no-network", default=True, help="Use hanzo-network if available"
+)
+@click.option(
+    "--use-hanzo-net",
+    is_flag=True,
+    help="Use hanzo/net for local AI (auto-enabled with local: models)",
+)
+@click.option(
+    "--hanzo-net-port",
+    type=int,
+    default=52415,
+    help="Port for hanzo/net (default: 52415)",
+)
+@click.pass_context
+def dev(
+    ctx,
+    workspace: str,
+    orchestrator: str,
+    claude_path: str,
+    monitor: bool,
+    repl: bool,
+    instances: int,
+    mcp_tools: bool,
+    network_mode: bool,
+    guardrails: bool,
+    use_network: bool,
+    use_hanzo_net: bool,
+    hanzo_net_port: int,
+):
     """Start Hanzo Dev - AI Coding OS with configurable orchestrator.
-    
+
     This creates a multi-agent system where:
     - Configurable orchestrator (GPT-5, GPT-4, Claude, or LOCAL) manages the network
     - Local AI via hanzo/net for cost-effective orchestration
-    - Worker agents (Claude + local) handle code implementation  
+    - Worker agents (Claude + local) handle code implementation
     - Critic agents review and improve code (System 2 thinking)
     - Cost-optimized routing (local models for simple tasks)
     - All agents can use MCP tools
     - Agents can call each other recursively
     - Guardrails prevent code degradation
     - Auto-recovery from failures
-    
+
     Examples:
         hanzo dev                                    # GPT-5 orchestrator (default)
         hanzo dev --orchestrator gpt-4               # GPT-4 orchestrator
@@ -187,26 +218,28 @@ def dev(ctx, workspace: str, orchestrator: str, claude_path: str, monitor: bool,
         hanzo dev --monitor                          # Auto-monitor and restart mode
     """
     from .dev import run_dev_orchestrator
-    
+
     # Auto-enable hanzo net if using local orchestrator
     if orchestrator.startswith("local:"):
         use_hanzo_net = True
-    
-    asyncio.run(run_dev_orchestrator(
-        workspace=workspace,
-        orchestrator_model=orchestrator,
-        claude_path=claude_path,
-        monitor=monitor,
-        repl=repl or not monitor,  # Default to REPL if not monitoring
-        instances=instances,
-        mcp_tools=mcp_tools,
-        network_mode=network_mode,
-        guardrails=guardrails,
-        use_network=use_network,
-        use_hanzo_net=use_hanzo_net,
-        hanzo_net_port=hanzo_net_port,
-        console=ctx.obj.get("console", console)
-    ))
+
+    asyncio.run(
+        run_dev_orchestrator(
+            workspace=workspace,
+            orchestrator_model=orchestrator,
+            claude_path=claude_path,
+            monitor=monitor,
+            repl=repl or not monitor,  # Default to REPL if not monitoring
+            instances=instances,
+            mcp_tools=mcp_tools,
+            network_mode=network_mode,
+            guardrails=guardrails,
+            use_network=use_network,
+            use_hanzo_net=use_hanzo_net,
+            hanzo_net_port=hanzo_net_port,
+            console=ctx.obj.get("console", console),
+        )
+    )
 
 
 async def start_compute_node(
@@ -279,25 +312,24 @@ async def start_compute_node(
 
                 # Set up signal handlers for async version
                 stop_event = asyncio.Event()
-                
+
                 def async_signal_handler(signum, frame):
                     console.print("\n[yellow]Stopping hanzo net...[/yellow]")
                     stop_event.set()
-                
+
                 signal.signal(signal.SIGINT, async_signal_handler)
                 signal.signal(signal.SIGTERM, async_signal_handler)
-                
+
                 # Run net with proper signal handling
                 try:
                     net_task = asyncio.create_task(net_run())
                     stop_task = asyncio.create_task(stop_event.wait())
-                    
+
                     # Wait for either net to complete or stop signal
                     done, pending = await asyncio.wait(
-                        [net_task, stop_task],
-                        return_when=asyncio.FIRST_COMPLETED
+                        [net_task, stop_task], return_when=asyncio.FIRST_COMPLETED
                     )
-                    
+
                     # Cancel pending tasks
                     for task in pending:
                         task.cancel()
@@ -305,7 +337,7 @@ async def start_compute_node(
                             await task
                         except asyncio.CancelledError:
                             pass
-                    
+
                     # Check if we stopped due to signal
                     if stop_task in done:
                         console.print("[green]✓[/green] Node stopped gracefully")
@@ -360,25 +392,25 @@ async def start_compute_node(
                 # Run net command with detected python in a more signal-friendly way
                 # Create new process group for better signal handling
                 process = subprocess.Popen(
-                    cmd_args, 
+                    cmd_args,
                     env=env,
-                    preexec_fn=os.setsid if hasattr(os, 'setsid') else None
+                    preexec_fn=os.setsid if hasattr(os, "setsid") else None,
                 )
-                
+
                 # Set up signal handlers to forward to subprocess group
                 def signal_handler(signum, frame):
                     if process.poll() is None:  # Process is still running
                         console.print("\n[yellow]Stopping hanzo net...[/yellow]")
                         try:
                             # Send signal to entire process group
-                            if hasattr(os, 'killpg'):
+                            if hasattr(os, "killpg"):
                                 os.killpg(os.getpgid(process.pid), signal.SIGTERM)
                             else:
                                 process.terminate()
                             process.wait(timeout=5)  # Wait up to 5 seconds
                         except subprocess.TimeoutExpired:
                             console.print("[yellow]Force stopping...[/yellow]")
-                            if hasattr(os, 'killpg'):
+                            if hasattr(os, "killpg"):
                                 os.killpg(os.getpgid(process.pid), signal.SIGKILL)
                             else:
                                 process.kill()
@@ -386,18 +418,16 @@ async def start_compute_node(
                         except ProcessLookupError:
                             pass  # Process already terminated
                     raise KeyboardInterrupt
-                
+
                 # Register signal handlers
                 signal.signal(signal.SIGINT, signal_handler)
                 signal.signal(signal.SIGTERM, signal_handler)
-                
+
                 # Wait for process to complete
                 returncode = process.wait()
-                
+
                 if returncode != 0 and returncode != -2:  # -2 is Ctrl+C
-                    console.print(
-                        f"[red]Net exited with code {returncode}[/red]"
-                    )
+                    console.print(f"[red]Net exited with code {returncode}[/red]")
 
             finally:
                 os.chdir(original_cwd)
