@@ -8,25 +8,26 @@ This module provides a sophisticated orchestration layer that:
 5. Integrates with REPL for interactive control
 """
 
-import asyncio
-import json
-import logging
 import os
-import signal
-import subprocess
 import sys
+import json
 import time
-from dataclasses import dataclass, asdict
-from datetime import datetime
+import signal
+import asyncio
+import logging
+import subprocess
 from enum import Enum
+from typing import Any, Dict, List, Union, Callable, Optional
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Union
-from rich.console import Console
-from rich.table import Table
+from datetime import datetime
+from dataclasses import asdict, dataclass
+
 from rich.live import Live
-from rich.layout import Layout
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
+from rich.layout import Layout
+from rich.console import Console
+from rich.progress import Progress, TextColumn, SpinnerColumn
 
 # Setup logging first
 logger = logging.getLogger(__name__)
@@ -35,11 +36,19 @@ console = Console()
 # Import hanzo-network for agent orchestration
 try:
     from hanzo_network import (
-        Agent, Network, Router, NetworkState,
-        create_agent, create_network, create_router, create_routing_agent,
-        ModelConfig, ModelProvider,
-        DistributedNetwork, create_distributed_network,
-        LOCAL_COMPUTE_AVAILABLE
+        LOCAL_COMPUTE_AVAILABLE,
+        Agent,
+        Router,
+        Network,
+        ModelConfig,
+        NetworkState,
+        ModelProvider,
+        DistributedNetwork,
+        create_agent,
+        create_router,
+        create_network,
+        create_routing_agent,
+        create_distributed_network,
     )
     NETWORK_AVAILABLE = True
 except ImportError:
@@ -432,7 +441,7 @@ class HanzoDevOrchestrator:
                     await asyncio.sleep(2)
                     if self.claude_process.poll() is None:
                         self.claude_process.kill()
-                except:
+                except Exception:
                     pass
             
             self.runtime_health.restart_count += 1
@@ -586,7 +595,7 @@ class HanzoDevOrchestrator:
             try:
                 self.claude_process.terminate()
                 self.claude_process.wait(timeout=5)
-            except:
+            except Exception:
                 self.claude_process.kill()
         
         console.print("[green]✓ Orchestrator shutdown complete[/green]")
@@ -1312,10 +1321,10 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                     self.hanzo_net_process.terminate()
                 self.hanzo_net_process.wait(timeout=5)
                 self.console.print("[green]✓ hanzo/net stopped[/green]")
-            except:
+            except Exception:
                 try:
                     self.hanzo_net_process.kill()
-                except:
+                except Exception:
                     pass
         
         # Call parent shutdown
@@ -1580,10 +1589,10 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
                 else:
                     process.terminate()
                 process.wait(timeout=5)
-            except:
+            except Exception:
                 try:
                     instance["process"].kill()
-                except:
+                except Exception:
                     pass
         
         self.console.print("[green]✓ All instances shut down[/green]")
