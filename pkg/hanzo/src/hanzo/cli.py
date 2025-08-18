@@ -147,6 +147,68 @@ def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
         pass
 
 
+@cli.command()
+@click.option("--workspace", default="~/.hanzo/dev", help="Workspace directory")
+@click.option("--orchestrator", default="gpt-5", help="Orchestrator model (e.g., gpt-5, gpt-4, claude-3-5-sonnet, local:llama3.2)")
+@click.option("--claude-path", help="Path to Claude Code executable") 
+@click.option("--monitor", is_flag=True, help="Start in monitor mode")
+@click.option("--repl", is_flag=True, help="Start REPL interface (default)")
+@click.option("--instances", type=int, default=2, help="Number of worker agents")
+@click.option("--mcp-tools", is_flag=True, default=True, help="Enable all MCP tools")
+@click.option("--network-mode", is_flag=True, default=True, help="Network agents together")
+@click.option("--guardrails", is_flag=True, default=True, help="Enable code quality guardrails")
+@click.option("--use-network/--no-network", default=True, help="Use hanzo-network if available")
+@click.option("--use-hanzo-net", is_flag=True, help="Use hanzo/net for local AI (auto-enabled with local: models)")
+@click.option("--hanzo-net-port", type=int, default=52415, help="Port for hanzo/net (default: 52415)")
+@click.pass_context  
+def dev(ctx, workspace: str, orchestrator: str, claude_path: str, monitor: bool, repl: bool,
+        instances: int, mcp_tools: bool, network_mode: bool, guardrails: bool, use_network: bool,
+        use_hanzo_net: bool, hanzo_net_port: int):
+    """Start Hanzo Dev - AI Coding OS with configurable orchestrator.
+    
+    This creates a multi-agent system where:
+    - Configurable orchestrator (GPT-5, GPT-4, Claude, or LOCAL) manages the network
+    - Local AI via hanzo/net for cost-effective orchestration
+    - Worker agents (Claude + local) handle code implementation  
+    - Critic agents review and improve code (System 2 thinking)
+    - Cost-optimized routing (local models for simple tasks)
+    - All agents can use MCP tools
+    - Agents can call each other recursively
+    - Guardrails prevent code degradation
+    - Auto-recovery from failures
+    
+    Examples:
+        hanzo dev                                    # GPT-5 orchestrator (default)
+        hanzo dev --orchestrator gpt-4               # GPT-4 orchestrator
+        hanzo dev --orchestrator claude-3-5-sonnet   # Claude orchestrator
+        hanzo dev --orchestrator local:llama3.2      # Local Llama 3.2 via hanzo/net
+        hanzo dev --use-hanzo-net                    # Enable local AI workers
+        hanzo dev --instances 4                      # More worker agents
+        hanzo dev --monitor                          # Auto-monitor and restart mode
+    """
+    from .dev import run_dev_orchestrator
+    
+    # Auto-enable hanzo net if using local orchestrator
+    if orchestrator.startswith("local:"):
+        use_hanzo_net = True
+    
+    asyncio.run(run_dev_orchestrator(
+        workspace=workspace,
+        orchestrator_model=orchestrator,
+        claude_path=claude_path,
+        monitor=monitor,
+        repl=repl or not monitor,  # Default to REPL if not monitoring
+        instances=instances,
+        mcp_tools=mcp_tools,
+        network_mode=network_mode,
+        guardrails=guardrails,
+        use_network=use_network,
+        use_hanzo_net=use_hanzo_net,
+        hanzo_net_port=hanzo_net_port,
+        console=ctx.obj.get("console", console)
+    ))
+
+
 async def start_compute_node(
     ctx,
     name: str = None,
