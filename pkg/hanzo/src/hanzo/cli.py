@@ -1,9 +1,9 @@
 """Main CLI entry point for Hanzo."""
 
-import sys
-import asyncio
-import signal
 import os
+import sys
+import signal
+import asyncio
 import subprocess
 from typing import Optional
 
