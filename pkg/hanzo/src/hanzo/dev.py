@@ -664,15 +664,69 @@ class HanzoDevREPL:
 
     async def run(self):
         """Run the REPL."""
-        console.print("[bold cyan]Hanzo Dev - AI Chat[/bold cyan]")
-        console.print("Chat naturally or use /commands")
-        console.print("Type /help for available commands\n")
+        from rich.panel import Panel
+        from rich.box import Box
+        from rich.text import Text
+        from rich.console import Group
+        from rich.align import Align
+        from prompt_toolkit import prompt
+        from prompt_toolkit.styles import Style
+        
+        # Define Claude-like style for prompt_toolkit
+        claude_style = Style.from_dict({
+            '': '#333333',        # Default text color
+            'prompt': '#666666',  # Gray prompt arrow
+        })
+        
+        # Custom light gray box for Rich panels
+        LIGHT_GRAY_BOX = Box(
+            "╭─╮\n"
+            "│ │\n" 
+            "╰─╯\n"
+        )
+        
+        # Header
+        console.print()
+        console.print(Panel(
+            "[bold cyan]Hanzo Dev - AI Chat[/bold cyan]\n"
+            "[dim]Chat naturally or use /commands • Type /help for available commands[/dim]",
+            box=LIGHT_GRAY_BOX,
+            style="dim white",
+            padding=(0, 1)
+        ))
+        console.print()
 
         while True:
             try:
-                user_input = await asyncio.get_event_loop().run_in_executor(
-                    None, input, "> "
-                )
+                # Draw input box border (top)
+                console.print("[dim white]╭" + "─" * 78 + "╮[/dim white]")
+                
+                # Get input with styled prompt inside the box
+                console.print("[dim white]│[/dim white] ", end="")
+                
+                try:
+                    # Use prompt_toolkit for input with Claude-like styling
+                    user_input = await asyncio.get_event_loop().run_in_executor(
+                        None,
+                        lambda: prompt(
+                            '› ',  # Using › instead of > for a more modern look
+                            style=claude_style,
+                            message=''
+                        )
+                    )
+                    
+                    # Draw input box border (bottom)
+                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
+                    
+                except EOFError:
+                    console.print()  # New line before exit
+                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
+                    break
+                except KeyboardInterrupt:
+                    console.print()  # Complete the box
+                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
+                    console.print("\n[dim yellow]Use /exit to quit[/dim]")
+                    continue
 
                 if not user_input:
                     continue
@@ -881,20 +935,38 @@ Examples:
                 )
                 
                 if result.get("output"):
-                    console.print(f"[cyan]AI:[/cyan] {result['output']}")
+                    # Display AI response in a styled panel
+                    console.print()
+                    from rich.panel import Panel
+                    console.print(Panel(
+                        result['output'],
+                        title="[bold cyan]AI Response[/bold cyan]",
+                        title_align="left",
+                        border_style="dim cyan",
+                        padding=(1, 2)
+                    ))
                 elif result.get("error"):
-                    console.print(f"[red]Error:[/red] {result['error']}")
+                    console.print(f"\n[red]Error:[/red] {result['error']}")
                 else:
-                    console.print("[yellow]No response from agent[/yellow]")
+                    console.print("\n[yellow]No response from agent[/yellow]")
                     
             elif hasattr(self.orchestrator, 'execute_with_critique'):
                 # Use multi-Claude orchestrator - but now it will use real AI!
                 result = await self.orchestrator.execute_with_critique(message)
                 
                 if result.get("output"):
-                    console.print(f"[cyan]AI:[/cyan] {result['output']}")
+                    # Display AI response in a styled panel
+                    console.print()
+                    from rich.panel import Panel
+                    console.print(Panel(
+                        result['output'],
+                        title="[bold cyan]AI Response[/bold cyan]",
+                        title_align="left",
+                        border_style="dim cyan",
+                        padding=(1, 2)
+                    ))
                 else:
-                    console.print("[yellow]No response from agent[/yellow]")
+                    console.print("\n[yellow]No response from agent[/yellow]")
                     
             else:
                 # Fallback to direct API call if available
@@ -958,7 +1030,15 @@ Examples:
                 )
                 
                 if response.choices:
-                    console.print(f"[cyan]AI:[/cyan] {response.choices[0].message.content}")
+                    from rich.panel import Panel
+                    console.print()
+                    console.print(Panel(
+                        response.choices[0].message.content,
+                        title="[bold cyan]GPT-4[/bold cyan]",
+                        title_align="left",
+                        border_style="dim cyan",
+                        padding=(1, 2)
+                    ))
                 return
                 
             except Exception as e:
@@ -977,7 +1057,15 @@ Examples:
                 )
                 
                 if response.content:
-                    console.print(f"[cyan]AI:[/cyan] {response.content[0].text}")
+                    from rich.panel import Panel
+                    console.print()
+                    console.print(Panel(
+                        response.content[0].text,
+                        title="[bold cyan]Claude[/bold cyan]",
+                        title_align="left",
+                        border_style="dim cyan",
+                        padding=(1, 2)
+                    ))
                 return
                 
             except Exception as e:
