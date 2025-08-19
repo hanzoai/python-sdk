@@ -231,23 +231,23 @@ def dev(
         hanzo dev --monitor                          # Auto-monitor and restart mode
     """
     from .dev import run_dev_orchestrator
-    from .orchestrator_config import get_orchestrator_config, OrchestratorMode
+    from .orchestrator_config import OrchestratorMode, get_orchestrator_config
 
     # Get orchestrator configuration
     orch_config = get_orchestrator_config(orchestrator)
-    
+
     # Override mode if specified
     if orchestrator_mode:
         orch_config.mode = OrchestratorMode(orchestrator_mode)
-    
+
     # Override router endpoint if specified
     if router_endpoint and orch_config.router:
         orch_config.router.endpoint = router_endpoint
-    
+
     # Auto-enable hanzo net if using local orchestrator
     if orchestrator.startswith("local:") or orch_config.mode == OrchestratorMode.LOCAL:
         use_hanzo_net = True
-    
+
     # Show configuration
     console.print(f"[bold cyan]Orchestrator Configuration[/bold cyan]")
     console.print(f"  Mode: {orch_config.mode.value}")
@@ -256,7 +256,9 @@ def dev(
         console.print(f"  Router Endpoint: {orch_config.router.endpoint}")
     if orch_config.codex:
         console.print(f"  Codex Model: {orch_config.codex.model}")
-    console.print(f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}")
+    console.print(
+        f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}"
+    )
     console.print()
 
     asyncio.run(
