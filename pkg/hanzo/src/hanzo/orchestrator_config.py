@@ -9,93 +9,99 @@ Supports multiple orchestration modes:
 4. Hybrid: Combine router and direct access
 """
 
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Dict, List, Optional, Any
 import os
+from enum import Enum
+from typing import Any, Dict, List, Optional
+from dataclasses import field, dataclass
 
 
 class OrchestratorMode(Enum):
     """Orchestration modes."""
-    ROUTER = "router"          # Via hanzo-router (unified gateway)
-    DIRECT = "direct"          # Direct model API access
-    CODEX = "codex"           # Codex-specific mode
-    HYBRID = "hybrid"         # Router + direct combination
-    LOCAL = "local"           # Local models only
+
+    ROUTER = "router"  # Via hanzo-router (unified gateway)
+    DIRECT = "direct"  # Direct model API access
+    CODEX = "codex"  # Codex-specific mode
+    HYBRID = "hybrid"  # Router + direct combination
+    LOCAL = "local"  # Local models only
 
 
 class ModelProvider(Enum):
     """Model providers."""
+
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GOOGLE = "google"
     MISTRAL = "mistral"
     LOCAL = "local"
-    ROUTER = "router"         # Via hanzo-router
-    CODEX = "codex"          # OpenAI Codex
+    ROUTER = "router"  # Via hanzo-router
+    CODEX = "codex"  # OpenAI Codex
 
 
 @dataclass
 class ModelConfig:
     """Configuration for a specific model."""
-    name: str                              # Model name (e.g., "gpt-5", "gpt-4o")
-    provider: ModelProvider                # Provider type
-    endpoint: Optional[str] = None         # Custom endpoint
-    api_key: Optional[str] = None          # API key (if not using env)
-    context_window: int = 8192             # Context window size
-    max_output: int = 4096                 # Max output tokens
-    temperature: float = 0.7               # Temperature setting
+
+    name: str  # Model name (e.g., "gpt-5", "gpt-4o")
+    provider: ModelProvider  # Provider type
+    endpoint: Optional[str] = None  # Custom endpoint
+    api_key: Optional[str] = None  # API key (if not using env)
+    context_window: int = 8192  # Context window size
+    max_output: int = 4096  # Max output tokens
+    temperature: float = 0.7  # Temperature setting
     capabilities: List[str] = field(default_factory=list)  # Model capabilities
-    cost_per_1k_input: float = 0.01       # Cost per 1K input tokens
-    cost_per_1k_output: float = 0.03      # Cost per 1K output tokens
-    supports_tools: bool = True            # Supports function calling
-    supports_vision: bool = False          # Supports image input
-    supports_streaming: bool = True        # Supports streaming responses
+    cost_per_1k_input: float = 0.01  # Cost per 1K input tokens
+    cost_per_1k_output: float = 0.03  # Cost per 1K output tokens
+    supports_tools: bool = True  # Supports function calling
+    supports_vision: bool = False  # Supports image input
+    supports_streaming: bool = True  # Supports streaming responses
 
 
 @dataclass
 class RouterConfig:
     """Configuration for hanzo-router."""
+
     endpoint: str = "http://localhost:4000"  # Router endpoint
-    api_key: Optional[str] = None             # Router API key
+    api_key: Optional[str] = None  # Router API key
     model_preferences: List[str] = field(default_factory=list)  # Preferred models
-    fallback_models: List[str] = field(default_factory=list)    # Fallback models
-    load_balancing: bool = True               # Enable load balancing
-    cache_enabled: bool = True                # Enable response caching
-    retry_on_failure: bool = True             # Retry failed requests
-    max_retries: int = 3                      # Max retry attempts
+    fallback_models: List[str] = field(default_factory=list)  # Fallback models
+    load_balancing: bool = True  # Enable load balancing
+    cache_enabled: bool = True  # Enable response caching
+    retry_on_failure: bool = True  # Retry failed requests
+    max_retries: int = 3  # Max retry attempts
 
 
 @dataclass
 class CodexConfig:
     """Configuration for Codex mode."""
-    model: str = "code-davinci-002"          # Codex model
-    mode: str = "code-review"                # Mode: code-review, generation, completion
+
+    model: str = "code-davinci-002"  # Codex model
+    mode: str = "code-review"  # Mode: code-review, generation, completion
     languages: List[str] = field(default_factory=lambda: ["python", "typescript", "go"])
-    max_tokens: int = 8000                   # Max tokens for Codex
+    max_tokens: int = 8000  # Max tokens for Codex
     stop_sequences: List[str] = field(default_factory=list)  # Stop sequences
-    enable_comments: bool = True             # Generate with comments
-    enable_docstrings: bool = True           # Generate docstrings
-    enable_type_hints: bool = True           # Generate type hints
+    enable_comments: bool = True  # Generate with comments
+    enable_docstrings: bool = True  # Generate docstrings
+    enable_type_hints: bool = True  # Generate type hints
 
 
 @dataclass
 class OrchestratorConfig:
     """Complete orchestrator configuration."""
+
     mode: OrchestratorMode = OrchestratorMode.ROUTER
-    primary_model: str = "gpt-5"             # Primary orchestrator model
+    primary_model: str = "gpt-5"  # Primary orchestrator model
     models: Dict[str, ModelConfig] = field(default_factory=dict)
     router: Optional[RouterConfig] = None
     codex: Optional[CodexConfig] = None
-    worker_models: List[str] = field(default_factory=list)      # Worker agent models
-    critic_models: List[str] = field(default_factory=list)      # Critic agent models
-    local_models: List[str] = field(default_factory=list)       # Local models
-    enable_cost_optimization: bool = True     # Enable cost optimization
-    cost_threshold: float = 0.10             # Cost threshold per request
-    prefer_local: bool = True                 # Prefer local models when possible
-    enable_caching: bool = True               # Cache responses
-    enable_monitoring: bool = True            # Monitor performance
-    debug: bool = False                       # Debug mode
+    worker_models: List[str] = field(default_factory=list)  # Worker agent models
+    critic_models: List[str] = field(default_factory=list)  # Critic agent models
+    local_models: List[str] = field(default_factory=list)  # Local models
+    enable_cost_optimization: bool = True  # Enable cost optimization
+    cost_threshold: float = 0.10  # Cost threshold per request
+    prefer_local: bool = True  # Prefer local models when possible
+    enable_caching: bool = True  # Cache responses
+    enable_monitoring: bool = True  # Monitor performance
+    debug: bool = False  # Debug mode
 
 
 # Predefined configurations
@@ -133,7 +139,6 @@ CONFIGS = {
         critic_models=["gpt-5-pro"],
         enable_cost_optimization=True,
     ),
-    
     "router-based": OrchestratorConfig(
         mode=OrchestratorMode.ROUTER,
         primary_model="router:gpt-5",
@@ -148,7 +153,6 @@ CONFIGS = {
         critic_models=["router:gpt-5"],
         enable_cost_optimization=True,
     ),
-    
     "direct-gpt5": OrchestratorConfig(
         mode=OrchestratorMode.DIRECT,
         primary_model="gpt-5",
@@ -167,7 +171,6 @@ CONFIGS = {
         critic_models=["gpt-5"],
         enable_cost_optimization=False,  # Use GPT-5 for everything
     ),
-    
     "codex-focused": OrchestratorConfig(
         mode=OrchestratorMode.CODEX,
         primary_model="codex",
@@ -182,7 +185,6 @@ CONFIGS = {
         critic_models=["gpt-4o"],  # Use GPT-4o for code review
         enable_cost_optimization=True,
     ),
-    
     "cost-optimized": OrchestratorConfig(
         mode=OrchestratorMode.HYBRID,
         primary_model="local:llama3.2",
@@ -212,17 +214,17 @@ CONFIGS = {
 
 def get_orchestrator_config(name: str) -> OrchestratorConfig:
     """Get a predefined orchestrator configuration.
-    
+
     Args:
         name: Configuration name or model spec
-        
+
     Returns:
         OrchestratorConfig instance
     """
     # Check predefined configs
     if name in CONFIGS:
         return CONFIGS[name]
-    
+
     # Parse model spec (e.g., "router:gpt-5", "direct:gpt-4o", "codex")
     if ":" in name:
         mode, model = name.split(":", 1)
@@ -247,7 +249,7 @@ def get_orchestrator_config(name: str) -> OrchestratorConfig:
                 enable_cost_optimization=True,
                 prefer_local=True,
             )
-    
+
     # Default to router mode with specified model
     return OrchestratorConfig(
         mode=OrchestratorMode.ROUTER,
@@ -280,7 +282,7 @@ def build_custom_config(
     router_endpoint: Optional[str] = None,
 ) -> OrchestratorConfig:
     """Build a custom orchestrator configuration.
-    
+
     Args:
         mode: Orchestration mode (router, direct, codex, hybrid, local)
         primary_model: Primary orchestrator model
@@ -290,7 +292,7 @@ def build_custom_config(
         critic_models: Critic agent models
         enable_cost_optimization: Enable cost optimization
         router_endpoint: Custom router endpoint
-        
+
     Returns:
         Custom OrchestratorConfig
     """
@@ -301,17 +303,17 @@ def build_custom_config(
         critic_models=critic_models or ["gpt-5"],
         enable_cost_optimization=enable_cost_optimization,
     )
-    
+
     if use_router:
         config.router = RouterConfig(
             endpoint=router_endpoint or "http://localhost:4000",
             model_preferences=[primary_model],
         )
-    
+
     if use_codex:
         config.codex = CodexConfig(
             model="code-davinci-002",
             mode="code-review",
         )
-    
+
     return config
