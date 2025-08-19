@@ -5,16 +5,16 @@ Simplified E2E Test for Hanzo Net + Hanzo Dev Integration
 This test demonstrates the core functionality without requiring hanzo-network package.
 """
 
-import asyncio
-import json
-import logging
 import os
-import subprocess
 import sys
+import json
 import time
 import socket
-from pathlib import Path
+import asyncio
+import logging
+import subprocess
 from typing import Dict, List, Optional
+from pathlib import Path
 
 # Configure logging
 logging.basicConfig(

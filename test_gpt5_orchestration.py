@@ -6,16 +6,17 @@ This script demonstrates using the most powerful models (GPT-5, GPT-4, Codex)
 as orchestrators to review all code and provide system-level improvements.
 """
 
-import asyncio
-import json
 import os
-import subprocess
 import sys
+import json
+import asyncio
+import subprocess
 from pathlib import Path
-from rich.console import Console
-from rich.table import Table
+
 from rich.panel import Panel
+from rich.table import Table
 from rich.syntax import Syntax
+from rich.console import Console
 
 console = Console()
 
