@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Test signal handling for hanzo net command."""
 
-import subprocess
+import sys
 import time
 import signal
-import sys
+import subprocess
+
 
 def test_signal_handling():
     """Test that Ctrl-C properly stops hanzo net."""
@@ -38,9 +39,9 @@ def test_signal_handling():
     
     print("Process is running, checking output...")
     # Read any initial output without blocking
-    import select
-    import fcntl
     import os as os2
+    import fcntl
+    import select
     
     # Make stdout non-blocking
     fl = fcntl.fcntl(process.stdout.fileno(), fcntl.F_GETFL)
@@ -51,7 +52,7 @@ def test_signal_handling():
         initial_output = process.stdout.read()
         if initial_output:
             print(f"Initial stdout: {initial_output[:500]}")
-    except:
+    except Exception:
         pass
     
     # Make stderr non-blocking too
@@ -62,7 +63,7 @@ def test_signal_handling():
         initial_stderr = process.stderr.read()
         if initial_stderr:
             print(f"Initial stderr: {initial_stderr[:500]}")
-    except:
+    except Exception:
         pass
     
     print("Sending SIGINT (Ctrl-C) to process group...")

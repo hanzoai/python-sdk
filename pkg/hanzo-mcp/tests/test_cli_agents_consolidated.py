@@ -1,13 +1,13 @@
 """Consolidated CLI agent tests using parametrization."""
 
-import pytest
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import Mock, AsyncMock, patch
 
+import pytest
 from hanzo_mcp.tools.cli_agents import (
-    ClaudeCLI,
-    CodexCLI,
-    GeminiCLI,
     GrokCLI,
+    CodexCLI,
+    ClaudeCLI,
+    GeminiCLI,
 )
 
 

@@ -278,7 +278,7 @@ def reset_environment():
 @pytest.fixture(autouse=True, scope="session")
 def mock_slow_operations():
     """Mock slow operations for faster test execution."""
-    from unittest.mock import patch, AsyncMock
+    from unittest.mock import AsyncMock, patch
     
     # Mock subprocess for LSP tests
     with patch("asyncio.create_subprocess_exec") as mock_subprocess:

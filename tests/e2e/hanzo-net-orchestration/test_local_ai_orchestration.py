@@ -10,24 +10,29 @@ This test demonstrates:
 5. Full MCP tool integration across all agents
 """
 
-import asyncio
-import json
-import logging
 import os
-import subprocess
 import sys
+import json
 import time
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 import socket
+import asyncio
+import logging
+import subprocess
+from typing import Any, Dict, List, Optional
+from pathlib import Path
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 from hanzo_network import (
-    create_agent, create_network, create_distributed_network,
-    ModelConfig, ModelProvider, NetworkState,
-    create_local_agent, create_routing_agent
+    ModelConfig,
+    NetworkState,
+    ModelProvider,
+    create_agent,
+    create_network,
+    create_local_agent,
+    create_routing_agent,
+    create_distributed_network,
 )
 from hanzo_network.local_network import check_local_llm_status
 
