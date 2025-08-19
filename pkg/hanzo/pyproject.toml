@@ -1,6 +1,6 @@
 [project]
 name = "hanzo"
-version = "0.3.17"
+version = "0.3.18"
 description = "Hanzo AI - Complete AI Infrastructure Platform with CLI, Router, MCP, and Agent Runtime"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
