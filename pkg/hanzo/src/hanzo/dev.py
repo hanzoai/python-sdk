@@ -678,12 +678,9 @@ class HanzoDevREPL:
             'prompt': '#666666',  # Gray prompt arrow
         })
         
-        # Custom light gray box for Rich panels
-        LIGHT_GRAY_BOX = Box(
-            "╭─╮\n"
-            "│ │\n" 
-            "╰─╯\n"
-        )
+        # Use a predefined box style that's similar to Claude
+        from rich.box import ROUNDED
+        LIGHT_GRAY_BOX = ROUNDED
         
         # Header
         console.print()
@@ -705,14 +702,12 @@ class HanzoDevREPL:
                 console.print("[dim white]│[/dim white] ", end="")
                 
                 try:
-                    # Use prompt_toolkit for input with Claude-like styling
+                    # Get input - using simple input() wrapped in executor for async
+                    # The visual box is drawn by console.print statements
                     user_input = await asyncio.get_event_loop().run_in_executor(
                         None,
-                        lambda: prompt(
-                            '› ',  # Using › instead of > for a more modern look
-                            style=claude_style,
-                            message=''
-                        )
+                        input,
+                        '› '  # Using › instead of > for a more modern look
                     )
                     
                     # Draw input box border (bottom)
