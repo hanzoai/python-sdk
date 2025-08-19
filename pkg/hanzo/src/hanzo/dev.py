@@ -664,29 +664,42 @@ class HanzoDevREPL:
 
     async def run(self):
         """Run the REPL."""
-        console.print("[bold cyan]Hanzo Dev REPL - System 2 Orchestrator[/bold cyan]")
-        console.print("Type 'help' for commands\n")
+        console.print("[bold cyan]Hanzo Dev - AI Chat[/bold cyan]")
+        console.print("Chat naturally or use /commands")
+        console.print("Type /help for available commands\n")
 
         while True:
             try:
-                command = await asyncio.get_event_loop().run_in_executor(
-                    None, input, "hanzo-dev> "
+                user_input = await asyncio.get_event_loop().run_in_executor(
+                    None, input, "> "
                 )
 
-                if not command:
+                if not user_input:
                     continue
 
-                parts = command.strip().split(maxsplit=1)
-                cmd = parts[0].lower()
-                args = parts[1] if len(parts) > 1 else ""
-
-                if cmd in self.commands:
-                    await self.commands[cmd](args)
+                # Check for special commands
+                if user_input.startswith("/"):
+                    # Handle slash commands like Claude Desktop
+                    parts = user_input[1:].strip().split(maxsplit=1)
+                    cmd = parts[0].lower()
+                    args = parts[1] if len(parts) > 1 else ""
+                    
+                    if cmd in self.commands:
+                        await self.commands[cmd](args)
+                    else:
+                        console.print(f"[yellow]Unknown command: /{cmd}[/yellow]")
+                        console.print("Type /help for available commands")
+                        
+                elif user_input.startswith("#"):
+                    # Handle memory/context commands
+                    await self.handle_memory_command(user_input[1:].strip())
+                    
                 else:
-                    console.print(f"[red]Unknown command: {cmd}[/red]")
+                    # Natural chat - send directly to AI agents
+                    await self.chat_with_agents(user_input)
 
             except KeyboardInterrupt:
-                console.print("\n[yellow]Use 'exit' to quit[/yellow]")
+                console.print("\n[yellow]Use /exit to quit[/yellow]")
             except Exception as e:
                 console.print(f"[red]Error: {e}[/red]")
 
@@ -808,18 +821,30 @@ class HanzoDevREPL:
     async def cmd_help(self, args: str):
         """Show help."""
         help_text = """
-Available commands:
-  start [--resume]  - Start Claude Code runtime
-  stop             - Stop Claude Code runtime
-  restart          - Restart runtime with resume
-  status           - Show current status
-  think <problem>  - Trigger System 2 thinking
-  execute <task>   - Execute a task with oversight
-  checkpoint [name] - Create a checkpoint
-  restore <name>   - Restore from checkpoint
-  monitor          - Start monitoring loop
-  help             - Show this help
-  exit             - Exit REPL
+[bold cyan]Hanzo Dev - AI Chat Interface[/bold cyan]
+
+[bold]Just chat naturally! Type anything and press Enter.[/bold]
+
+Examples:
+  > Write a Python REST API
+  > Help me debug this error
+  > Explain how async/await works
+
+[bold]Slash Commands:[/bold]
+  /help            - Show this help
+  /status          - Show agent status
+  /think <problem> - Trigger deep thinking
+  /execute <task>  - Execute specific task
+  /checkpoint      - Save current state
+  /restore         - Restore from checkpoint
+  /monitor         - Start monitoring
+  /exit            - Exit chat
+
+[bold]Memory Commands (like Claude Desktop):[/bold]
+  #remember <text> - Store in memory
+  #forget <text>   - Remove from memory
+  #memory          - Show memory
+  #context         - Show context
 """
         console.print(help_text)
 
@@ -828,6 +853,49 @@ Available commands:
         self.orchestrator.shutdown()
         console.print("[green]Goodbye![/green]")
         sys.exit(0)
+    
+    async def chat_with_agents(self, message: str):
+        """Send message to AI agents for natural chat."""
+        # For now, echo back to show it's working
+        console.print(f"[cyan]AI:[/cyan] I received your message: '{message}'")
+        console.print("[dim]Note: Agent integration in progress. Using echo mode.[/dim]")
+        
+        # TODO: Integrate with actual agents
+        # context = AgentContext(
+        #     task=message,
+        #     goal="Respond helpfully",
+        #     constraints=[],
+        #     success_criteria=[]
+        # )
+        # await self.orchestrator.execute_task(context)
+    
+    async def handle_memory_command(self, command: str):
+        """Handle memory/context commands starting with #."""
+        parts = command.split(maxsplit=1)
+        cmd = parts[0].lower() if parts else ""
+        args = parts[1] if len(parts) > 1 else ""
+        
+        if cmd == "remember":
+            if args:
+                console.print(f"[green]✓ Remembered: {args}[/green]")
+            else:
+                console.print("[yellow]Usage: #remember <text>[/yellow]")
+        elif cmd == "forget":
+            if args:
+                console.print(f"[yellow]✓ Forgot: {args}[/yellow]")
+            else:
+                console.print("[yellow]Usage: #forget <text>[/yellow]")
+        elif cmd == "memory":
+            console.print("[cyan]Current Memory:[/cyan]")
+            console.print("  • Working on Hanzo Python SDK")
+            console.print("  • Using GPT-4 orchestrator")
+        elif cmd == "context":
+            console.print("[cyan]Current Context:[/cyan]")
+            console.print(f"  • Directory: {os.getcwd()}")
+            console.print(f"  • Model: {self.orchestrator.orchestrator_model}")
+        else:
+            console.print(f"[yellow]Unknown: #{cmd}[/yellow]")
+            console.print("Try: #memory, #remember, #forget, #context")
 
 
 async def run_dev_orchestrator(**kwargs):

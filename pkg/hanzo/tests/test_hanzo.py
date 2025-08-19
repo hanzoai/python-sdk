@@ -1,7 +1,8 @@
 """Basic tests for hanzo package."""
 
-import sys
 import os
+import sys
+
 # Add src to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -20,14 +21,14 @@ def test_cli_exists():
 
 def test_dev_module():
     """Test that dev module exists and has key functions."""
-    from hanzo.dev import run_dev_orchestrator, HanzoDevOrchestrator
+    from hanzo.dev import HanzoDevOrchestrator, run_dev_orchestrator
     assert run_dev_orchestrator is not None
     assert HanzoDevOrchestrator is not None
 
 
 def test_orchestrator_config():
     """Test orchestrator configuration module."""
-    from hanzo.orchestrator_config import get_orchestrator_config, OrchestratorMode
+    from hanzo.orchestrator_config import OrchestratorMode, get_orchestrator_config
     
     # Test getting a predefined config
     config = get_orchestrator_config("gpt-4")
