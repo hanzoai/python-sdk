@@ -86,7 +86,9 @@ except ImportError:
         """Fallback ModelConfig class."""
 
         def __init__(self, **kwargs):
-            self.__dict__.update(kwargs)
+            # Accept all kwargs and store as attributes
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
     class ModelProvider:
         """Fallback ModelProvider class."""
@@ -857,7 +859,8 @@ async def run_dev_orchestrator(**kwargs):
     console_obj.print(f"[bold cyan]Hanzo Dev - AI Coding OS[/bold cyan]")
 
     # Check if we should use network mode
-    if use_network and NETWORK_AVAILABLE:
+    # For now, disable network mode since hanzo-network isn't available
+    if False and use_network and NETWORK_AVAILABLE:
         console_obj.print(
             f"[cyan]Mode: Network Orchestration with hanzo-network[/cyan]"
         )
@@ -1121,15 +1124,45 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
             return orchestrator
 
         # Parse model string to get provider and model
-        model_config = ModelConfig.from_string(self.orchestrator_model)
-
-        # Add API key from environment if needed
-        if model_config.provider == ModelProvider.OPENAI:
-            model_config.api_key = os.getenv("OPENAI_API_KEY")
-        elif model_config.provider == ModelProvider.ANTHROPIC:
-            model_config.api_key = os.getenv("ANTHROPIC_API_KEY")
-        elif model_config.provider == ModelProvider.GOOGLE:
-            model_config.api_key = os.getenv("GOOGLE_API_KEY")
+        model_name = self.orchestrator_model
+        provider = "openai"  # Default to OpenAI - use string
+        api_key = None
+        
+        # Determine provider from model name
+        if model_name.startswith("gpt") or model_name == "codex":
+            provider = "openai"
+            api_key = os.getenv("OPENAI_API_KEY")
+        elif model_name.startswith("claude"):
+            provider = "anthropic"
+            api_key = os.getenv("ANTHROPIC_API_KEY")
+        elif model_name.startswith("gemini"):
+            provider = "google"
+            api_key = os.getenv("GOOGLE_API_KEY")
+        elif model_name.startswith("local:"):
+            provider = "local"
+            model_name = model_name.replace("local:", "")
+        
+        # Create model config based on what's available
+        if NETWORK_AVAILABLE:
+            # Real ModelConfig may have different signature
+            try:
+                model_config = ModelConfig(
+                    name=model_name,
+                    provider=provider,
+                )
+                # Set api_key separately if supported
+                if hasattr(model_config, 'api_key'):
+                    model_config.api_key = api_key
+            except TypeError:
+                # Fallback to simple string if ModelConfig doesn't work
+                model_config = model_name
+        else:
+            # Use our fallback ModelConfig
+            model_config = ModelConfig(
+                name=model_name,
+                provider=provider,
+                api_key=api_key,
+            )
 
         # Create orchestrator with strategic system prompt
         orchestrator = create_agent(
@@ -1173,9 +1206,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         worker = create_agent(
             name=f"worker_{index}",
             description=f"Claude worker agent {index} for code implementation",
-            model=ModelConfig(
-                provider=ModelProvider.ANTHROPIC,
-                model="claude-3-5-sonnet-20241022",
+            model="claude-3-5-sonnet-20241022" if NETWORK_AVAILABLE else ModelConfig(
+                provider="anthropic",
+                name="claude-3-5-sonnet-20241022",
                 api_key=os.getenv("ANTHROPIC_API_KEY"),
             ),
             system="""You are a Claude worker agent specialized in code implementation.
@@ -1225,7 +1258,7 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         critic = create_agent(
             name=f"critic_{index}",
             description=f"Critic agent {index} for code quality assurance",
-            model=ModelConfig.from_string(critic_model),
+            model=critic_model,  # Just pass the model name string
             system="""You are a critic agent focused on code quality and best practices.
             
             Review code for:
@@ -1345,6 +1378,8 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         if self.orchestrator_agent:
             # Create routing agent that uses orchestrator for decisions
             router = create_routing_agent(
+                name="router",
+                description="Intelligent task router",
                 agent=self.orchestrator_agent,
                 system="""Route tasks to the most appropriate agent based on:
                 
