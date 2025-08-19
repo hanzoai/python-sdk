@@ -1100,8 +1100,8 @@ Examples:
                 console.print("Then use: hanzo dev --orchestrator codex")
                 return
             
-            # Use openai CLI to chat
-            cmd = ["openai", "api", "chat", "-m", "gpt-4", "-p", message]
+            # Use openai CLI to chat - correct syntax
+            cmd = ["openai", "api", "chat.completions.create", "-m", "gpt-4", "-g", message]
             
             process = subprocess.Popen(
                 cmd,
@@ -2336,7 +2336,7 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         try:
             import subprocess
             result = subprocess.run(
-                ["openai", "api", "chat", "-m", "gpt-4", "-p", prompt],
+                ["openai", "api", "chat.completions.create", "-m", "gpt-4", "-g", prompt],
                 capture_output=True,
                 text=True,
                 timeout=30
