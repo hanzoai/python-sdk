@@ -9,12 +9,13 @@ This demonstrates the ultimate code development setup:
 - Cost optimization with intelligent routing
 """
 
-import asyncio
 import os
-from rich.console import Console
+import asyncio
+
 from rich.panel import Panel
 from rich.table import Table
 from rich.syntax import Syntax
+from rich.console import Console
 
 console = Console()
 

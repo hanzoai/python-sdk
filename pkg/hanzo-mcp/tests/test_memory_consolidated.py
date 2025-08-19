@@ -1,16 +1,15 @@
 """Consolidated memory tests using parametrization to reduce redundancy."""
 
-import pytest
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import Mock, AsyncMock, patch
 
+import pytest
+from test_memory_base import MemoryTestBase
 from hanzo_mcp.tools.memory import (
     CreateMemoriesTool,
     DeleteMemoriesTool,
     RecallMemoriesTool,
     UpdateMemoriesTool,
 )
-
-from test_memory_base import MemoryTestBase
 
 
 class TestMemoryToolsConsolidated(MemoryTestBase):
