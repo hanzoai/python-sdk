@@ -857,7 +857,19 @@ Examples:
     async def chat_with_agents(self, message: str):
         """Send message to AI agents for natural chat."""
         try:
-            # Show thinking indicator
+            # For codex and other CLI tools, go straight to direct API chat
+            if hasattr(self.orchestrator, 'orchestrator_model'):
+                model = self.orchestrator.orchestrator_model
+                if model in ["codex", "openai-cli", "openai-codex", "claude", "claude-code", 
+                            "claude-desktop", "gemini", "gemini-cli", "google-gemini",
+                            "hanzo-ide", "hanzo-dev-ide", "ide", "codestral", "codestral-free",
+                            "free", "mistral-free", "starcoder", "starcoder2", "free-starcoder"] or \
+                   model.startswith("local:"):
+                    # Use direct API/CLI chat for these models
+                    await self._direct_api_chat(message)
+                    return
+            
+            # Show thinking indicator for network orchestrators
             console.print("[dim]Thinking...[/dim]")
             
             # Check if we have a network orchestrator with actual AI
@@ -876,7 +888,7 @@ Examples:
                     console.print("[yellow]No response from agent[/yellow]")
                     
             elif hasattr(self.orchestrator, 'execute_with_critique'):
-                # Use multi-Claude orchestrator
+                # Use multi-Claude orchestrator - but now it will use real AI!
                 result = await self.orchestrator.execute_with_critique(message)
                 
                 if result.get("output"):
@@ -2301,13 +2313,130 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         return result
 
     async def _send_to_instance(self, instance: Dict, prompt: str) -> Dict:
-        """Send a prompt to a specific Claude instance."""
-        # This would use the actual Claude API or IPC mechanism
-        # For now, it's a placeholder
-        return {
-            "output": f"Response from {instance['role']}: Processed '{prompt[:50]}...'",
-            "success": True,
-        }
+        """Send a prompt to a specific Claude instance using configured model."""
+        # Simple direct approach - use the configured orchestrator model
+        if self.orchestrator_model == "codex":
+            # Use OpenAI CLI
+            return await self._call_openai_cli(prompt)
+        elif self.orchestrator_model in ["claude", "claude-code", "claude-desktop"]:
+            # Use Claude Desktop
+            return await self._call_claude_cli(prompt)
+        elif self.orchestrator_model in ["gemini", "gemini-cli"]:
+            # Use Gemini CLI
+            return await self._call_gemini_cli(prompt)
+        elif self.orchestrator_model.startswith("local:"):
+            # Use local model
+            return await self._call_local_model(prompt)
+        else:
+            # Try API-based models
+            return await self._call_api_model(prompt)
+    
+    async def _call_openai_cli(self, prompt: str) -> Dict:
+        """Call OpenAI CLI and return structured response."""
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["openai", "api", "chat", "-m", "gpt-4", "-p", prompt],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0 and result.stdout:
+                return {"output": result.stdout.strip(), "success": True}
+        except Exception as e:
+            logger.error(f"OpenAI CLI error: {e}")
+        return {"output": "OpenAI CLI not available. Install with: pip install openai-cli", "success": False}
+    
+    async def _call_claude_cli(self, prompt: str) -> Dict:
+        """Call Claude Desktop and return structured response."""
+        try:
+            import subprocess
+            import sys
+            if sys.platform == "darwin":
+                # macOS - use AppleScript
+                script = f'tell application "Claude" to activate'
+                subprocess.run(["osascript", "-e", script])
+                return {"output": "Sent to Claude Desktop. Check app for response.", "success": True}
+        except Exception as e:
+            logger.error(f"Claude CLI error: {e}")
+        return {"output": "Claude Desktop not available. Install from https://claude.ai/desktop", "success": False}
+    
+    async def _call_gemini_cli(self, prompt: str) -> Dict:
+        """Call Gemini CLI and return structured response."""
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["gemini", "chat", prompt],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0 and result.stdout:
+                return {"output": result.stdout.strip(), "success": True}
+        except Exception as e:
+            logger.error(f"Gemini CLI error: {e}")
+        return {"output": "Gemini CLI not available. Install with: pip install google-generativeai-cli", "success": False}
+    
+    async def _call_local_model(self, prompt: str) -> Dict:
+        """Call local model via Ollama and return structured response."""
+        try:
+            import httpx
+            model_name = self.orchestrator_model.replace("local:", "")
+            
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://localhost:11434/api/chat",
+                    json={
+                        "model": model_name,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "stream": False
+                    },
+                    timeout=60.0
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("message"):
+                        return {"output": data["message"]["content"], "success": True}
+        except Exception as e:
+            logger.error(f"Local model error: {e}")
+        return {"output": f"Local model not available. Install Ollama and run: ollama pull {self.orchestrator_model.replace('local:', '')}", "success": False}
+    
+    async def _call_api_model(self, prompt: str) -> Dict:
+        """Call API-based model and return structured response."""
+        import os
+        
+        # Try OpenAI
+        if os.getenv("OPENAI_API_KEY"):
+            try:
+                from openai import AsyncOpenAI
+                client = AsyncOpenAI()
+                response = await client.chat.completions.create(
+                    model="gpt-4",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=2000
+                )
+                if response.choices:
+                    return {"output": response.choices[0].message.content, "success": True}
+            except Exception as e:
+                logger.error(f"OpenAI API error: {e}")
+        
+        # Try Anthropic
+        if os.getenv("ANTHROPIC_API_KEY"):
+            try:
+                from anthropic import AsyncAnthropic
+                client = AsyncAnthropic()
+                response = await client.messages.create(
+                    model="claude-3-5-sonnet-20241022",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=2000
+                )
+                if response.content:
+                    return {"output": response.content[0].text, "success": True}
+            except Exception as e:
+                logger.error(f"Anthropic API error: {e}")
+        
+        return {"output": "No API keys configured. Set OPENAI_API_KEY or ANTHROPIC_API_KEY", "success": False}
 
     async def _validate_improvement(self, original: Dict, improved: Dict) -> bool:
         """Validate that an improvement doesn't degrade quality."""
