@@ -856,18 +856,97 @@ Examples:
     
     async def chat_with_agents(self, message: str):
         """Send message to AI agents for natural chat."""
-        # For now, echo back to show it's working
-        console.print(f"[cyan]AI:[/cyan] I received your message: '{message}'")
-        console.print("[dim]Note: Agent integration in progress. Using echo mode.[/dim]")
+        try:
+            # Show thinking indicator
+            console.print("[dim]Thinking...[/dim]")
+            
+            # Check if we have a network orchestrator with actual AI
+            if hasattr(self.orchestrator, 'execute_with_network'):
+                # Use the network orchestrator (GPT-4, GPT-5, etc.)
+                result = await self.orchestrator.execute_with_network(
+                    task=message,
+                    context={"mode": "chat", "interactive": True}
+                )
+                
+                if result.get("output"):
+                    console.print(f"[cyan]AI:[/cyan] {result['output']}")
+                elif result.get("error"):
+                    console.print(f"[red]Error:[/red] {result['error']}")
+                else:
+                    console.print("[yellow]No response from agent[/yellow]")
+                    
+            elif hasattr(self.orchestrator, 'execute_with_critique'):
+                # Use multi-Claude orchestrator
+                result = await self.orchestrator.execute_with_critique(message)
+                
+                if result.get("output"):
+                    console.print(f"[cyan]AI:[/cyan] {result['output']}")
+                else:
+                    console.print("[yellow]No response from agent[/yellow]")
+                    
+            else:
+                # Fallback to direct API call if available
+                await self._direct_api_chat(message)
+                
+        except Exception as e:
+            console.print(f"[red]Error connecting to AI: {e}[/red]")
+            console.print("[yellow]Make sure you have API keys configured:[/yellow]")
+            console.print("  • OPENAI_API_KEY for GPT models")
+            console.print("  • ANTHROPIC_API_KEY for Claude")
+            console.print("  • Or use --orchestrator local:llama3.2 for local models")
+    
+    async def _direct_api_chat(self, message: str):
+        """Direct API chat fallback when network orchestrator isn't available."""
+        import os
         
-        # TODO: Integrate with actual agents
-        # context = AgentContext(
-        #     task=message,
-        #     goal="Respond helpfully",
-        #     constraints=[],
-        #     success_criteria=[]
-        # )
-        # await self.orchestrator.execute_task(context)
+        # Try OpenAI first
+        if os.getenv("OPENAI_API_KEY"):
+            try:
+                from openai import AsyncOpenAI
+                
+                client = AsyncOpenAI()
+                response = await client.chat.completions.create(
+                    model=self.orchestrator.orchestrator_model or "gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful AI coding assistant."},
+                        {"role": "user", "content": message}
+                    ],
+                    temperature=0.7,
+                    max_tokens=2000
+                )
+                
+                if response.choices:
+                    console.print(f"[cyan]AI:[/cyan] {response.choices[0].message.content}")
+                return
+                
+            except Exception as e:
+                console.print(f"[yellow]OpenAI error: {e}[/yellow]")
+        
+        # Try Anthropic
+        if os.getenv("ANTHROPIC_API_KEY"):
+            try:
+                from anthropic import AsyncAnthropic
+                
+                client = AsyncAnthropic()
+                response = await client.messages.create(
+                    model="claude-3-5-sonnet-20241022",
+                    messages=[{"role": "user", "content": message}],
+                    max_tokens=2000
+                )
+                
+                if response.content:
+                    console.print(f"[cyan]AI:[/cyan] {response.content[0].text}")
+                return
+                
+            except Exception as e:
+                console.print(f"[yellow]Anthropic error: {e}[/yellow]")
+        
+        # No API keys available
+        console.print("[red]No AI API keys configured![/red]")
+        console.print("Set one of these environment variables:")
+        console.print("  • export OPENAI_API_KEY=sk-...")
+        console.print("  • export ANTHROPIC_API_KEY=sk-ant-...")
+        console.print("Or use local models with: hanzo dev --orchestrator local:llama3.2")
     
     async def handle_memory_command(self, command: str):
         """Handle memory/context commands starting with #."""
@@ -974,6 +1053,7 @@ async def run_dev_orchestrator(**kwargs):
             enable_networking=network_mode,
             enable_guardrails=guardrails,
             console=console_obj,
+            orchestrator_model=orchestrator_model,
         )
 
         # Initialize instances
@@ -1578,6 +1658,7 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         enable_networking: bool,
         enable_guardrails: bool,
         console: Console,
+        orchestrator_model: str = "gpt-4",
     ):
         super().__init__(workspace_dir, claude_path)
         self.num_instances = num_instances
@@ -1585,6 +1666,7 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         self.enable_networking = enable_networking
         self.enable_guardrails = enable_guardrails
         self.console = console
+        self.orchestrator_model = orchestrator_model  # Add this for chat interface
 
         # Store multiple Claude instances
         self.claude_instances = []
