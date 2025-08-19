@@ -899,6 +899,36 @@ Examples:
         """Direct API chat fallback when network orchestrator isn't available."""
         import os
         
+        # Check for CLI tools and free/local options first
+        if self.orchestrator.orchestrator_model in ["codex", "openai-cli", "openai-codex"]:
+            # Use OpenAI CLI (Codex)
+            await self._use_openai_cli(message)
+            return
+        elif self.orchestrator.orchestrator_model in ["claude", "claude-code", "claude-desktop"]:
+            # Use Claude Desktop/Code
+            await self._use_claude_cli(message)
+            return
+        elif self.orchestrator.orchestrator_model in ["gemini", "gemini-cli", "google-gemini"]:
+            # Use Gemini CLI
+            await self._use_gemini_cli(message)
+            return
+        elif self.orchestrator.orchestrator_model in ["hanzo-ide", "hanzo-dev-ide", "ide"]:
+            # Use Hanzo Dev IDE from ~/work/hanzo/ide
+            await self._use_hanzo_ide(message)
+            return
+        elif self.orchestrator.orchestrator_model in ["codestral", "codestral-free", "free", "mistral-free"]:
+            # Use free Mistral Codestral API
+            await self._use_free_codestral(message)
+            return
+        elif self.orchestrator.orchestrator_model in ["starcoder", "starcoder2", "free-starcoder"]:
+            # Use free StarCoder via HuggingFace
+            await self._use_free_starcoder(message)
+            return
+        elif self.orchestrator.orchestrator_model.startswith("local:"):
+            # Use local model via Ollama or LM Studio
+            await self._use_local_model(message)
+            return
+        
         # Try OpenAI first
         if os.getenv("OPENAI_API_KEY"):
             try:
@@ -943,10 +973,391 @@ Examples:
         
         # No API keys available
         console.print("[red]No AI API keys configured![/red]")
-        console.print("Set one of these environment variables:")
+        console.print("[yellow]Try these options that don't need your API key:[/yellow]")
+        console.print("\n[bold]CLI Tools (use existing tools):[/bold]")
+        console.print("  • hanzo dev --orchestrator codex          # OpenAI CLI (if installed)")
+        console.print("  • hanzo dev --orchestrator claude         # Claude Desktop (if installed)")
+        console.print("  • hanzo dev --orchestrator gemini         # Gemini CLI (if installed)")
+        console.print("  • hanzo dev --orchestrator hanzo-ide      # Hanzo IDE from ~/work/hanzo/ide")
+        console.print("\n[bold]Free APIs (rate limited):[/bold]")
+        console.print("  • hanzo dev --orchestrator codestral      # Free Mistral Codestral")
+        console.print("  • hanzo dev --orchestrator starcoder      # Free StarCoder")
+        console.print("\n[bold]Local Models (unlimited):[/bold]")
+        console.print("  • hanzo dev --orchestrator local:llama3.2 # Via Ollama")
+        console.print("  • hanzo dev --orchestrator local:codellama # Via Ollama")
+        console.print("  • hanzo dev --orchestrator local:mistral  # Via Ollama")
+        console.print("\n[dim]Or set API keys for full access:[/dim]")
         console.print("  • export OPENAI_API_KEY=sk-...")
         console.print("  • export ANTHROPIC_API_KEY=sk-ant-...")
-        console.print("Or use local models with: hanzo dev --orchestrator local:llama3.2")
+    
+    async def _use_free_codestral(self, message: str):
+        """Use free Mistral Codestral API (no API key needed for trial)."""
+        try:
+            import httpx
+            
+            console.print("[dim]Using free Codestral API (rate limited)...[/dim]")
+            
+            async with httpx.AsyncClient() as client:
+                # Mistral offers free tier with rate limits
+                response = await client.post(
+                    "https://api.mistral.ai/v1/chat/completions",
+                    headers={
+                        "Content-Type": "application/json",
+                        # Free tier doesn't need API key for limited usage
+                    },
+                    json={
+                        "model": "codestral-latest",
+                        "messages": [
+                            {"role": "system", "content": "You are Codestral, an AI coding assistant."},
+                            {"role": "user", "content": message}
+                        ],
+                        "temperature": 0.7,
+                        "max_tokens": 2000
+                    },
+                    timeout=30.0
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("choices"):
+                        console.print(f"[cyan]Codestral:[/cyan] {data['choices'][0]['message']['content']}")
+                else:
+                    console.print("[yellow]Free tier limit reached. Try local models instead:[/yellow]")
+                    console.print("  • Install Ollama: curl -fsSL https://ollama.com/install.sh | sh")
+                    console.print("  • Run: ollama pull codellama")
+                    console.print("  • Use: hanzo dev --orchestrator local:codellama")
+                    
+        except Exception as e:
+            console.print(f"[red]Codestral error: {e}[/red]")
+            console.print("[yellow]Try local models instead (no limits):[/yellow]")
+            console.print("  • hanzo dev --orchestrator local:codellama")
+    
+    async def _use_free_starcoder(self, message: str):
+        """Use free StarCoder via HuggingFace Inference API."""
+        try:
+            import httpx
+            
+            console.print("[dim]Using free StarCoder API...[/dim]")
+            
+            async with httpx.AsyncClient() as client:
+                # HuggingFace offers free inference API
+                response = await client.post(
+                    "https://api-inference.huggingface.co/models/bigcode/starcoder2-15b",
+                    headers={
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "inputs": f"<|system|>You are StarCoder, an AI coding assistant.<|end|>\n<|user|>{message}<|end|>\n<|assistant|>",
+                        "parameters": {
+                            "temperature": 0.7,
+                            "max_new_tokens": 2000,
+                            "return_full_text": False
+                        }
+                    },
+                    timeout=30.0
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if isinstance(data, list) and data:
+                        console.print(f"[cyan]StarCoder:[/cyan] {data[0].get('generated_text', '')}")
+                else:
+                    console.print("[yellow]API limit reached. Install local models:[/yellow]")
+                    console.print("  • brew install ollama")
+                    console.print("  • ollama pull starcoder2")
+                    console.print("  • hanzo dev --orchestrator local:starcoder2")
+                    
+        except Exception as e:
+            console.print(f"[red]StarCoder error: {e}[/red]")
+    
+    async def _use_openai_cli(self, message: str):
+        """Use OpenAI CLI (Codex) - the official OpenAI CLI tool."""
+        try:
+            import subprocess
+            import json
+            
+            console.print("[dim]Using OpenAI CLI (Codex)...[/dim]")
+            
+            # Check if openai CLI is installed
+            result = subprocess.run(["which", "openai"], capture_output=True, text=True)
+            if result.returncode != 0:
+                console.print("[red]OpenAI CLI not installed![/red]")
+                console.print("[yellow]To install:[/yellow]")
+                console.print("  • pip install openai-cli")
+                console.print("  • openai login")
+                console.print("Then use: hanzo dev --orchestrator codex")
+                return
+            
+            # Use openai CLI to chat
+            cmd = ["openai", "api", "chat", "-m", "gpt-4", "-p", message]
+            
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            
+            stdout, stderr = process.communicate(timeout=30)
+            
+            if process.returncode == 0 and stdout:
+                console.print(f"[cyan]Codex:[/cyan] {stdout.strip()}")
+            else:
+                console.print(f"[red]OpenAI CLI error: {stderr}[/red]")
+                
+        except subprocess.TimeoutExpired:
+            console.print("[yellow]OpenAI CLI timed out[/yellow]")
+        except Exception as e:
+            console.print(f"[red]Error using OpenAI CLI: {e}[/red]")
+    
+    async def _use_claude_cli(self, message: str):
+        """Use Claude Desktop/Code CLI."""
+        try:
+            import subprocess
+            import os
+            
+            console.print("[dim]Using Claude Desktop...[/dim]")
+            
+            # Check for Claude Code or Claude Desktop
+            claude_paths = [
+                "/usr/local/bin/claude",
+                "/Applications/Claude.app/Contents/MacOS/Claude",
+                os.path.expanduser("~/Applications/Claude.app/Contents/MacOS/Claude"),
+                "claude",  # In PATH
+            ]
+            
+            claude_path = None
+            for path in claude_paths:
+                if os.path.exists(path) or subprocess.run(["which", path], capture_output=True).returncode == 0:
+                    claude_path = path
+                    break
+            
+            if not claude_path:
+                console.print("[red]Claude Desktop not found![/red]")
+                console.print("[yellow]To install:[/yellow]")
+                console.print("  • Download from https://claude.ai/desktop")
+                console.print("  • Or: brew install --cask claude")
+                console.print("Then use: hanzo dev --orchestrator claude")
+                return
+            
+            # Send message to Claude via CLI or AppleScript on macOS
+            if sys.platform == "darwin":
+                # Use AppleScript to interact with Claude Desktop
+                script = f'''
+                tell application "Claude"
+                    activate
+                    delay 0.5
+                    tell application "System Events"
+                        keystroke "{message.replace('"', '\\"')}"
+                        key code 36  -- Enter key
+                    end tell
+                end tell
+                '''
+                
+                subprocess.run(["osascript", "-e", script])
+                console.print("[cyan]Sent to Claude Desktop. Check the app for response.[/cyan]")
+            else:
+                # Try direct CLI invocation
+                process = subprocess.Popen(
+                    [claude_path, "--message", message],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+                
+                stdout, stderr = process.communicate(timeout=30)
+                
+                if stdout:
+                    console.print(f"[cyan]Claude:[/cyan] {stdout.strip()}")
+                    
+        except Exception as e:
+            console.print(f"[red]Error using Claude Desktop: {e}[/red]")
+    
+    async def _use_gemini_cli(self, message: str):
+        """Use Gemini CLI."""
+        try:
+            import subprocess
+            
+            console.print("[dim]Using Gemini CLI...[/dim]")
+            
+            # Check if gemini CLI is installed
+            result = subprocess.run(["which", "gemini"], capture_output=True, text=True)
+            if result.returncode != 0:
+                console.print("[red]Gemini CLI not installed![/red]")
+                console.print("[yellow]To install:[/yellow]")
+                console.print("  • pip install google-generativeai-cli")
+                console.print("  • gemini configure")
+                console.print("  • Set GOOGLE_API_KEY environment variable")
+                console.print("Then use: hanzo dev --orchestrator gemini")
+                return
+            
+            # Use gemini CLI
+            cmd = ["gemini", "chat", message]
+            
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            
+            stdout, stderr = process.communicate(timeout=30)
+            
+            if process.returncode == 0 and stdout:
+                console.print(f"[cyan]Gemini:[/cyan] {stdout.strip()}")
+            else:
+                console.print(f"[red]Gemini CLI error: {stderr}[/red]")
+                
+        except subprocess.TimeoutExpired:
+            console.print("[yellow]Gemini CLI timed out[/yellow]")
+        except Exception as e:
+            console.print(f"[red]Error using Gemini CLI: {e}[/red]")
+    
+    async def _use_hanzo_ide(self, message: str):
+        """Use Hanzo Dev IDE from ~/work/hanzo/ide."""
+        try:
+            import subprocess
+            import os
+            
+            console.print("[dim]Using Hanzo Dev IDE...[/dim]")
+            
+            # Check if Hanzo IDE exists
+            ide_path = os.path.expanduser("~/work/hanzo/ide")
+            if not os.path.exists(ide_path):
+                console.print("[red]Hanzo Dev IDE not found![/red]")
+                console.print("[yellow]Expected location: ~/work/hanzo/ide[/yellow]")
+                console.print("To set up:")
+                console.print("  • git clone https://github.com/hanzoai/ide ~/work/hanzo/ide")
+                console.print("  • cd ~/work/hanzo/ide && npm install")
+                return
+            
+            # Check for the CLI entry point
+            cli_paths = [
+                os.path.join(ide_path, "bin", "hanzo-ide"),
+                os.path.join(ide_path, "hanzo-ide"),
+                os.path.join(ide_path, "cli.js"),
+                os.path.join(ide_path, "index.js"),
+            ]
+            
+            cli_path = None
+            for path in cli_paths:
+                if os.path.exists(path):
+                    cli_path = path
+                    break
+            
+            if not cli_path:
+                # Try to run with npm/node
+                package_json = os.path.join(ide_path, "package.json")
+                if os.path.exists(package_json):
+                    # Run via npm
+                    cmd = ["npm", "run", "chat", "--", message]
+                    cwd = ide_path
+                else:
+                    console.print("[red]Hanzo IDE CLI not found![/red]")
+                    return
+            else:
+                # Run the CLI directly
+                if cli_path.endswith(".js"):
+                    cmd = ["node", cli_path, "chat", message]
+                else:
+                    cmd = [cli_path, "chat", message]
+                cwd = None
+            
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                cwd=cwd
+            )
+            
+            stdout, stderr = process.communicate(timeout=30)
+            
+            if process.returncode == 0 and stdout:
+                console.print(f"[cyan]Hanzo IDE:[/cyan] {stdout.strip()}")
+            else:
+                if stderr:
+                    console.print(f"[yellow]Hanzo IDE: {stderr}[/yellow]")
+                else:
+                    console.print("[yellow]Hanzo IDE: No response[/yellow]")
+                    
+        except subprocess.TimeoutExpired:
+            console.print("[yellow]Hanzo IDE timed out[/yellow]")
+        except Exception as e:
+            console.print(f"[red]Error using Hanzo IDE: {e}[/red]")
+    
+    async def _use_local_model(self, message: str):
+        """Use local model via Ollama or LM Studio."""
+        import httpx
+        
+        model_name = self.orchestrator.orchestrator_model.replace("local:", "")
+        
+        # Try Ollama first (default port 11434)
+        try:
+            console.print(f"[dim]Using local {model_name} via Ollama...[/dim]")
+            
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://localhost:11434/api/chat",
+                    json={
+                        "model": model_name,
+                        "messages": [
+                            {"role": "system", "content": "You are a helpful AI coding assistant."},
+                            {"role": "user", "content": message}
+                        ],
+                        "stream": False
+                    },
+                    timeout=60.0
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("message"):
+                        console.print(f"[cyan]{model_name}:[/cyan] {data['message']['content']}")
+                        return
+                        
+        except Exception:
+            pass
+        
+        # Try LM Studio (default port 1234)
+        try:
+            console.print(f"[dim]Trying LM Studio...[/dim]")
+            
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://localhost:1234/v1/chat/completions",
+                    json={
+                        "model": model_name,
+                        "messages": [
+                            {"role": "system", "content": "You are a helpful AI coding assistant."},
+                            {"role": "user", "content": message}
+                        ],
+                        "temperature": 0.7,
+                        "max_tokens": 2000
+                    },
+                    timeout=60.0
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("choices"):
+                        console.print(f"[cyan]{model_name}:[/cyan] {data['choices'][0]['message']['content']}")
+                        return
+                        
+        except Exception:
+            pass
+        
+        # Neither worked
+        console.print(f"[red]Local model '{model_name}' not available[/red]")
+        console.print("[yellow]To use local models:[/yellow]")
+        console.print("\nOption 1 - Ollama (recommended):")
+        console.print("  • Install: curl -fsSL https://ollama.com/install.sh | sh")
+        console.print(f"  • Pull model: ollama pull {model_name}")
+        console.print("  • It will auto-start when you use hanzo dev")
+        console.print("\nOption 2 - LM Studio:")
+        console.print("  • Download from https://lmstudio.ai")
+        console.print(f"  • Load {model_name} model")
+        console.print("  • Start local server (port 1234)")
     
     async def handle_memory_command(self, command: str):
         """Handle memory/context commands starting with #."""
