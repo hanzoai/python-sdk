@@ -1127,7 +1127,7 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         model_name = self.orchestrator_model
         provider = "openai"  # Default to OpenAI - use string
         api_key = None
-        
+
         # Determine provider from model name
         if model_name.startswith("gpt") or model_name == "codex":
             provider = "openai"
@@ -1141,7 +1141,7 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         elif model_name.startswith("local:"):
             provider = "local"
             model_name = model_name.replace("local:", "")
-        
+
         # Create model config based on what's available
         if NETWORK_AVAILABLE:
             # Real ModelConfig may have different signature
@@ -1151,7 +1151,7 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                     provider=provider,
                 )
                 # Set api_key separately if supported
-                if hasattr(model_config, 'api_key'):
+                if hasattr(model_config, "api_key"):
                     model_config.api_key = api_key
             except TypeError:
                 # Fallback to simple string if ModelConfig doesn't work
@@ -1206,10 +1206,14 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         worker = create_agent(
             name=f"worker_{index}",
             description=f"Claude worker agent {index} for code implementation",
-            model="claude-3-5-sonnet-20241022" if NETWORK_AVAILABLE else ModelConfig(
-                provider="anthropic",
-                name="claude-3-5-sonnet-20241022",
-                api_key=os.getenv("ANTHROPIC_API_KEY"),
+            model=(
+                "claude-3-5-sonnet-20241022"
+                if NETWORK_AVAILABLE
+                else ModelConfig(
+                    provider="anthropic",
+                    name="claude-3-5-sonnet-20241022",
+                    api_key=os.getenv("ANTHROPIC_API_KEY"),
+                )
             ),
             system="""You are a Claude worker agent specialized in code implementation.
             
