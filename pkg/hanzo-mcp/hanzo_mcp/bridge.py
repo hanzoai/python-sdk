@@ -4,21 +4,21 @@ This module provides MCP server functionality that allows Claude instances
 to communicate with each other, enabling peer-to-peer agent networks.
 """
 
-import argparse
-import asyncio
-import json
-import logging
 import os
 import sys
+import json
+import asyncio
+import logging
+import argparse
 from typing import Any, Dict, List, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 
 import mcp.server.fastmcp as mcp
 from mcp import tool
-from mcp.server.fastmcp import FastMCP
-from mcp.server.models import InitializationOptions
+from mcp.types import INTERNAL_ERROR, Tool, TextContent
 from mcp.server.stdio import stdio_server
-from mcp.types import TextContent, Tool, INTERNAL_ERROR
+from mcp.server.models import InitializationOptions
+from mcp.server.fastmcp import FastMCP
 
 logger = logging.getLogger(__name__)
 
@@ -424,7 +424,7 @@ async def run_bridge_server(config: BridgeConfig):
         await bridge.run(
             read_stream=read_stream,
             write_stream=write_stream,
-            InitializationOptions(
+            initialization_options=InitializationOptions(
                 server_name=bridge.name,
                 server_version="1.0.0",
                 capabilities=bridge.get_capabilities()
