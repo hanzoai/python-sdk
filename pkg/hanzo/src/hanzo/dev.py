@@ -661,6 +661,11 @@ class HanzoDevREPL:
             "help": self.cmd_help,
             "exit": self.cmd_exit,
         }
+        
+        # Initialize memory manager
+        from .memory_manager import MemoryManager
+        workspace = getattr(orchestrator, 'workspace_dir', '/tmp/hanzo')
+        self.memory_manager = MemoryManager(workspace)
 
     async def run(self):
         """Run the REPL."""
@@ -741,7 +746,10 @@ class HanzoDevREPL:
                         
                 elif user_input.startswith("#"):
                     # Handle memory/context commands
-                    await self.handle_memory_command(user_input[1:].strip())
+                    from .memory_manager import handle_memory_command
+                    handled = handle_memory_command(user_input, self.memory_manager, console)
+                    if not handled:
+                        console.print("[yellow]Unknown memory command. Use #memory help[/yellow]")
                     
                 else:
                     # Natural chat - send directly to AI agents
@@ -906,6 +914,41 @@ Examples:
     async def chat_with_agents(self, message: str):
         """Send message to AI agents for natural chat."""
         try:
+            # Add message to memory
+            self.memory_manager.add_message("user", message)
+            
+            # Get memory context
+            memory_context = self.memory_manager.summarize_for_ai()
+            
+            # Enhance message with context
+            if memory_context:
+                enhanced_message = f"{memory_context}\n\nUser: {message}"
+            else:
+                enhanced_message = message
+            
+            # Try smart fallback if no specific model configured
+            if not hasattr(self.orchestrator, 'orchestrator_model') or \
+               self.orchestrator.orchestrator_model == "auto":
+                from .fallback_handler import smart_chat
+                response = await smart_chat(enhanced_message, console)
+                if response:
+                    # Save AI response to memory
+                    self.memory_manager.add_message("assistant", response)
+                    
+                    from rich.panel import Panel
+                    console.print()
+                    console.print(Panel(
+                        response,
+                        title="[bold cyan]AI Response[/bold cyan]",
+                        title_align="left",
+                        border_style="dim cyan",
+                        padding=(1, 2)
+                    ))
+                    return
+                else:
+                    console.print("[red]No AI options available. Please configure API keys or install tools.[/red]")
+                    return
+            
             # For codex and other CLI tools, go straight to direct API chat
             if hasattr(self.orchestrator, 'orchestrator_model'):
                 model = self.orchestrator.orchestrator_model
