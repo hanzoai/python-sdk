@@ -2339,6 +2339,11 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         """
         self.console.print(f"[cyan]Executing with System 2 thinking: {task}[/cyan]")
 
+        # Check if instances are initialized
+        if not self.claude_instances:
+            # No instances started, use direct API
+            return await self._call_api_model(task)
+
         # Step 1: Primary execution
         primary = self.claude_instances[0]
         result = await self._send_to_instance(primary, task)
