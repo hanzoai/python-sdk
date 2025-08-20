@@ -158,6 +158,8 @@ async def smart_chat(message: str, console=None) -> Optional[str]:
     Smart chat that automatically tries available AI options.
     Returns the AI response or None if all options fail.
     """
+    from .rate_limiter import smart_limiter
+    
     handler = FallbackHandler()
     
     if console:
@@ -171,17 +173,20 @@ async def smart_chat(message: str, console=None) -> Optional[str]:
     
     option_type, model = best_option
     
-    # Try the primary option
+    # Try the primary option with rate limiting
     try:
         if option_type == "openai_api":
-            from openai import AsyncOpenAI
-            client = AsyncOpenAI()
-            response = await client.chat.completions.create(
-                model="gpt-4",
-                messages=[{"role": "user", "content": message}],
-                max_tokens=500
-            )
-            return response.choices[0].message.content
+            async def call_openai():
+                from openai import AsyncOpenAI
+                client = AsyncOpenAI()
+                response = await client.chat.completions.create(
+                    model="gpt-4",
+                    messages=[{"role": "user", "content": message}],
+                    max_tokens=500
+                )
+                return response.choices[0].message.content
+            
+            return await smart_limiter.execute_with_limit("openai", call_openai)
             
         elif option_type == "anthropic_api":
             from anthropic import AsyncAnthropic
