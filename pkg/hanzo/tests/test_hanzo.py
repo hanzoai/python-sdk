@@ -39,3 +39,39 @@ def test_orchestrator_config():
     config = get_orchestrator_config("router:gpt-5")
     assert config.mode == OrchestratorMode.ROUTER
     assert config.primary_model == "router:gpt-5"
+
+
+def test_memory_manager():
+    """Test memory manager functionality."""
+    from hanzo.memory_manager import MemoryManager
+    
+    manager = MemoryManager("/tmp/test_hanzo")
+    
+    # Test adding memory
+    memory_id = manager.add_memory("Test memory", type="fact")
+    assert memory_id is not None
+    
+    # Test retrieving memories
+    memories = manager.get_memories()
+    assert len(memories) > 0
+    
+    # Test removing memory
+    success = manager.remove_memory(memory_id)
+    assert success is True
+
+
+def test_fallback_handler():
+    """Test fallback handler."""
+    from hanzo.fallback_handler import FallbackHandler
+    
+    handler = FallbackHandler()
+    
+    # Should always have at least free APIs available
+    assert handler.available_options["free_apis"] is True
+    
+    # Should have fallback order
+    assert len(handler.fallback_order) > 0
+    
+    # Should get best option
+    best = handler.get_best_option()
+    assert best is not None

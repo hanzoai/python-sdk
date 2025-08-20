@@ -929,21 +929,14 @@ Examples:
             # Try smart fallback if no specific model configured
             if not hasattr(self.orchestrator, 'orchestrator_model') or \
                self.orchestrator.orchestrator_model == "auto":
-                from .fallback_handler import smart_chat
-                response = await smart_chat(enhanced_message, console)
+                # Use streaming if available
+                from .streaming import stream_with_fallback
+                response = await stream_with_fallback(enhanced_message, console)
+                
                 if response:
                     # Save AI response to memory
                     self.memory_manager.add_message("assistant", response)
-                    
-                    from rich.panel import Panel
-                    console.print()
-                    console.print(Panel(
-                        response,
-                        title="[bold cyan]AI Response[/bold cyan]",
-                        title_align="left",
-                        border_style="dim cyan",
-                        padding=(1, 2)
-                    ))
+                    # Response already displayed by streaming handler
                     return
                 else:
                     console.print("[red]No AI options available. Please configure API keys or install tools.[/red]")
