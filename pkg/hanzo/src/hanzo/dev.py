@@ -664,11 +664,11 @@ class HanzoDevREPL:
 
     async def run(self):
         """Run the REPL."""
-        from rich.panel import Panel
         from rich.box import Box
         from rich.text import Text
-        from rich.console import Group
         from rich.align import Align
+        from rich.panel import Panel
+        from rich.console import Group
         from prompt_toolkit import prompt
         from prompt_toolkit.styles import Style
         
@@ -1168,8 +1168,8 @@ Examples:
     async def _use_openai_cli(self, message: str):
         """Use OpenAI CLI (Codex) - the official OpenAI CLI tool."""
         try:
-            import subprocess
             import json
+            import subprocess
             
             console.print("[dim]Using OpenAI CLI (Codex)...[/dim]")
             
@@ -1208,8 +1208,8 @@ Examples:
     async def _use_claude_cli(self, message: str):
         """Use Claude Desktop/Code CLI."""
         try:
-            import subprocess
             import os
+            import subprocess
             
             console.print("[dim]Using Claude Desktop...[/dim]")
             
@@ -1311,8 +1311,8 @@ Examples:
     async def _use_hanzo_ide(self, message: str):
         """Use Hanzo Dev IDE from ~/work/hanzo/ide."""
         try:
-            import subprocess
             import os
+            import subprocess
             
             console.print("[dim]Using Hanzo Dev IDE...[/dim]")
             
@@ -2438,8 +2438,8 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
     async def _call_claude_cli(self, prompt: str) -> Dict:
         """Call Claude Desktop and return structured response."""
         try:
-            import subprocess
             import sys
+            import subprocess
             if sys.platform == "darwin":
                 # macOS - use AppleScript
                 script = f'tell application "Claude" to activate'
