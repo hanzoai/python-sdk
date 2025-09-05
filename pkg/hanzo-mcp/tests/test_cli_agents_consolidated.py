@@ -27,14 +27,17 @@ class TestCLIAgentsConsolidated:
         """Test CLI agent initialization for different models."""
         with patch(f"hanzo_mcp.tools.cli_agents.{expected_provider}_client"):
             cli = cli_class()
-            
+
             # Verify basic initialization
             assert cli is not None
             assert hasattr(cli, "run")
-            
+
             # Verify model configuration
             if hasattr(cli, "model"):
-                assert model_name in str(cli.model).lower() or expected_provider in str(cli.model).lower()
+                assert (
+                    model_name in str(cli.model).lower()
+                    or expected_provider in str(cli.model).lower()
+                )
 
     @pytest.mark.parametrize(
         "cli_class,command,expected_output",
@@ -49,10 +52,10 @@ class TestCLIAgentsConsolidated:
         """Test basic CLI commands for all agents."""
         with patch(f"hanzo_mcp.tools.cli_agents.process_command") as mock_process:
             mock_process.return_value = expected_output
-            
+
             cli = cli_class()
             result = await cli.run(command)
-            
+
             assert expected_output in str(result)
             mock_process.assert_called_once_with(command)
 
@@ -69,9 +72,9 @@ class TestCLIAgentsConsolidated:
         """Test error handling for CLI agents."""
         with patch(f"hanzo_mcp.tools.cli_agents.process_command") as mock_process:
             mock_process.side_effect = error_type(error_message)
-            
+
             cli = cli_class()
-            
+
             with pytest.raises(error_type, match=error_message):
                 await cli.run("test_command")
 
@@ -85,14 +88,14 @@ class TestCLIAgentsConsolidated:
                 "chunk2",
                 "chunk3",
             ]
-            
+
             cli = cli_class()
-            
+
             if hasattr(cli, "stream"):
                 chunks = []
                 async for chunk in cli.stream("test prompt"):
                     chunks.append(chunk)
-                
+
                 assert len(chunks) == 3
                 assert chunks == ["chunk1", "chunk2", "chunk3"]
 
@@ -108,11 +111,11 @@ class TestCLIAgentsConsolidated:
     def test_cli_configuration(self, cli_class, config_key, config_value):
         """Test configuration options for CLI agents."""
         config = {config_key: config_value}
-        
+
         with patch(f"hanzo_mcp.tools.cli_agents.load_config") as mock_config:
             mock_config.return_value = config
-            
+
             cli = cli_class(**config)
-            
+
             if hasattr(cli, config_key):
                 assert getattr(cli, config_key) == config_value

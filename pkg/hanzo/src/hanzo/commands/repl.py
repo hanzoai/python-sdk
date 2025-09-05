@@ -167,8 +167,11 @@ def exec(ctx, command: tuple, model: str):
 
         asyncio.run(run())
 
-    except ImportError:
-        console.print("[red]Error:[/red] hanzo-repl not installed")
+    except ImportError as e:
+        console.print(f"[red]Import Error:[/red] {e}")
+        console.print(
+            "[yellow]Note:[/yellow] hanzo-repl may not be installed correctly"
+        )
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 

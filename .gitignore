@@ -14,3 +14,7 @@ dist
 .envrc
 codegen.log
 Brewfile.lock.json
+
+AGENTS.md
+LLM.md
+CLAUDE.md

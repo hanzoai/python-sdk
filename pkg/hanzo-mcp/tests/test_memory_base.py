@@ -47,9 +47,11 @@ class MemoryTestBase:
     @pytest.fixture
     def mock_memory_service(self):
         """Create a mock memory service with standard responses."""
-        with patch("hanzo_memory.services.memory.get_memory_service") as mock_get_service:
+        with patch(
+            "hanzo_memory.services.memory.get_memory_service"
+        ) as mock_get_service:
             mock_service = Mock()
-            
+
             # Set up standard responses
             mock_service.create_memory.return_value = Mock(
                 memory_id="mem_123",
@@ -59,23 +61,22 @@ class MemoryTestBase:
                 metadata={},
                 importance=1.0,
             )
-            
+
             mock_service.update_memory.return_value = Mock(
-                memory_id="mem_123",
-                content="Updated memory"
+                memory_id="mem_123", content="Updated memory"
             )
-            
+
             mock_service.delete_memory.return_value = None
-            
+
             mock_service.search_memories.return_value = [
                 Mock(
                     memory_id="mem_123",
                     content="Found memory",
                     importance=0.9,
-                    metadata={}
+                    metadata={},
                 )
             ]
-            
+
             mock_get_service.return_value = mock_service
             yield mock_service
 
@@ -88,6 +89,7 @@ class MemoryTestBase:
     def permission_manager(self):
         """Create a permission manager with /tmp allowed."""
         from hanzo_mcp.security.permissions import PermissionManager
+
         pm = PermissionManager()
         pm.add_allowed_path("/tmp")
         return pm

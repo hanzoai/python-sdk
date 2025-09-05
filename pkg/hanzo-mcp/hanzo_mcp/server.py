@@ -9,7 +9,9 @@ import threading
 from typing import Literal, cast, final
 
 # Suppress litellm deprecation warnings about event loop
-warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
+warnings.filterwarnings(
+    "ignore", message="There is no current event loop", category=DeprecationWarning
+)
 
 try:
     from fastmcp import FastMCP
@@ -224,6 +226,7 @@ class HanzoMCPServer:
         if transport != "stdio" and not os.environ.get("HANZO_QUIET"):
             try:
                 from hanzo_mcp.compute_nodes import ComputeNodeDetector
+
                 detector = ComputeNodeDetector()
                 summary = detector.get_node_summary()
                 logger = logging.getLogger(__name__)

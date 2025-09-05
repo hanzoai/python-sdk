@@ -172,17 +172,18 @@ class DevServer:
 
         logger = logging.getLogger(__name__)
         logger.info(f"\n🚀 Starting Hanzo AI in development mode...")
-        
+
         # Show compute nodes
         try:
             from hanzo_mcp.compute_nodes import ComputeNodeDetector
+
             detector = ComputeNodeDetector()
             summary = detector.get_node_summary()
             logger.info(f"🖥️  {summary}")
         except Exception:
             # Silently ignore if compute node detection fails
             pass
-        
+
         logger.info(f"🔧 Hot reload enabled - watching for file changes")
         logger.info(f"📁 Project: {self.project_dir or 'current directory'}")
         logger.info(f"🌐 Transport: {transport}\n")

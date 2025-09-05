@@ -13,37 +13,38 @@ class MockHandler(BaseHTTPRequestHandler):
             self.end_headers()
             response = {
                 "model_used": "gpt-3.5-turbo",
-                "request_model": "gpt-3.5-turbo", 
+                "request_model": "gpt-3.5-turbo",
                 "tokenizer_type": "cl100k_base",
-                "total_tokens": 10
+                "total_tokens": 10,
             }
             self.wfile.write(json.dumps(response).encode())
         else:
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
-            self.wfile.write(b'{}')
-    
+            self.wfile.write(b"{}")
+
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        self.wfile.write(b'{}')
-    
+        self.wfile.write(b"{}")
+
     def do_PUT(self):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        self.wfile.write(b'{}')
-        
+        self.wfile.write(b"{}")
+
     def do_DELETE(self):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        self.wfile.write(b'{}')
-    
+        self.wfile.write(b"{}")
+
     def log_message(self, format, *args):
         pass
+
 
 server = HTTPServer(("127.0.0.1", 4010), MockHandler)
 thread = Thread(target=server.serve_forever)
