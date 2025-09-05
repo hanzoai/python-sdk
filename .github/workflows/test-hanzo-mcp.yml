@@ -1,0 +1,219 @@
+name: Test Hanzo MCP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-mcp/**'
+      - '.github/workflows/test-hanzo-mcp.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-mcp/**'
+      - '.github/workflows/test-hanzo-mcp.yml'
+  workflow_dispatch:
+    inputs:
+      run_integration_tests:
+        description: 'Run integration tests requiring API keys'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: "pkg/hanzo-mcp/pyproject.toml"
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        cd pkg/hanzo-mcp
+        uv sync --all-extras
+    
+    - name: Run type checking with mypy
+      run: |
+        cd pkg/hanzo-mcp
+        uv run mypy hanzo_mcp --ignore-missing-imports --strict
+    
+    - name: Run linting with ruff
+      run: |
+        cd pkg/hanzo-mcp
+        uv run ruff check hanzo_mcp tests
+    
+    - name: Run format check with ruff
+      run: |
+        cd pkg/hanzo-mcp
+        uv run ruff format --check hanzo_mcp tests
+    
+    - name: Run unit tests
+      run: |
+        cd pkg/hanzo-mcp
+        uv run pytest tests -v -m "not integration" --cov=hanzo_mcp --cov-report=xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./pkg/hanzo-mcp/coverage.xml
+        flags: hanzo-mcp
+        name: hanzo-mcp-${{ matrix.python-version }}
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' && 
+      github.event.inputs.run_integration_tests == 'true'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Install dependencies
+      run: |
+        cd pkg/hanzo-mcp
+        uv sync --all-extras
+    
+    - name: Run integration tests with API keys
+      env:
+        HANZO_API_KEY: ${{ secrets.HANZO_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      run: |
+        cd pkg/hanzo-mcp
+        uv run pytest tests -v -m integration --timeout=300
+    
+    - name: Test CLI tools with real models (minimal)
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        cd pkg/hanzo-mcp
+        # Test Claude with cheap model
+        echo "Testing Claude CLI..."
+        uv run python -c "
+        from hanzo_mcp.tools.agent.cli_tools import ClaudeCLITool
+        import asyncio
+        
+        async def test():
+            tool = ClaudeCLITool()
+            result = await tool.execute_cli(
+                ['echo', 'Claude CLI works'],  # Test without actual API call
+                timeout=10
+            )
+            print(result)
+        
+        asyncio.run(test())
+        "
+        
+        # Test batch with multiple CLI tools
+        echo "Testing batch execution..."
+        uv run python -c "
+        from hanzo_mcp.tools.common.batch_tool import BatchTool
+        from hanzo_mcp.tools.agent.cli_tools import register_cli_tools
+        from unittest.mock import MagicMock
+        import asyncio
+        
+        async def test():
+            mcp_server = MagicMock()
+            tools = {}
+            
+            # Register CLI tools
+            cli_tools = register_cli_tools(mcp_server, None)
+            for tool in cli_tools:
+                tools[tool.name] = tool
+            
+            # Create batch tool
+            batch = BatchTool(tools)
+            
+            # Test that all CLI tools are available
+            assert 'claude' in tools
+            assert 'cc' in tools
+            assert 'codex' in tools
+            assert 'gemini' in tools
+            assert 'grok' in tools
+            assert 'openhands' in tools
+            assert 'oh' in tools
+            assert 'hanzo_dev' in tools
+            assert 'cline' in tools
+            assert 'aider' in tools
+            
+            print('All CLI tools registered successfully in batch!')
+        
+        asyncio.run(test())
+        "
+
+  release-check:
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Build package
+      run: |
+        cd pkg/hanzo-mcp
+        uv build
+    
+    - name: Check package with twine
+      run: |
+        cd pkg/hanzo-mcp
+        uv pip install twine
+        uv run twine check dist/*
+    
+    - name: Test installation
+      run: |
+        # Create a fresh venv and test installation
+        cd /tmp
+        uv venv test-env
+        source test-env/bin/activate
+        uv pip install $GITHUB_WORKSPACE/pkg/hanzo-mcp/dist/*.whl
+        python -c "import hanzo_mcp; print(f'Hanzo MCP version: {hanzo_mcp.__version__}')"
+        
+        # Test that CLI tools can be imported
+        python -c "
+        from hanzo_mcp.tools.agent.cli_tools import (
+            ClaudeCLITool,
+            CodexCLITool,
+            GeminiCLITool,
+            GrokCLITool,
+            OpenHandsCLITool,
+            HanzoDevCLITool,
+            ClineCLITool,
+            AiderCLITool,
+        )
+        print('All CLI tools importable!')
+        "
+    
+    - name: Archive built packages
+      uses: actions/upload-artifact@v3
+      with:
+        name: hanzo-mcp-dist
+        path: pkg/hanzo-mcp/dist/

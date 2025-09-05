@@ -514,6 +514,17 @@ def _merge_config(
 
     merged = deep_merge(base_dict, config_dict)
 
+    # Backwards/forwards compatibility: support a structured "tools" section
+    # where each tool can define { enabled: bool, ...options } and map it to
+    # the existing enabled_tools/disabled_tools layout.
+    tools_cfg = merged.get("tools", {})
+    if isinstance(tools_cfg, dict):
+        enabled_tools = dict(merged.get("enabled_tools", {}))
+        for tool_name, tool_data in tools_cfg.items():
+            if isinstance(tool_data, dict) and "enabled" in tool_data:
+                enabled_tools[tool_name] = bool(tool_data.get("enabled"))
+        merged["enabled_tools"] = enabled_tools
+
     # Reconstruct the settings object
     mcp_servers = {}
     for name, server_data in merged.get("mcp_servers", {}).items():
