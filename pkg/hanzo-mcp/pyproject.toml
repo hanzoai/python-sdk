@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.8.2"
+version = "0.8.3"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 classifiers = [
@@ -105,7 +105,7 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.mypy]
-python_version = "0.7.6"
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
@@ -166,5 +166,4 @@ exclude_lines = [
 
 [tool.coverage.html]
 directory = "htmlcov"
-
 
