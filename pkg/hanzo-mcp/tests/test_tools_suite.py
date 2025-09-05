@@ -24,37 +24,50 @@ from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
 # Property-based testing imports
 try:
     from hypothesis import given, assume, example, settings, strategies as st
+
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
     HYPOTHESIS_AVAILABLE = False
+
     # Create stubs so tests still run
     def given(*args, **kwargs):
         def decorator(func):
             return func
+
         return decorator
+
     class st:
         @staticmethod
         def text(*args, **kwargs):
             return None
+
         @staticmethod
         def integers(*args, **kwargs):
             return None
+
         @staticmethod
         def lists(*args, **kwargs):
             return None
+
         @staticmethod
         def booleans():
             return None
+
     def settings(*args, **kwargs):
         def decorator(func):
             return func
+
         return decorator
+
     def assume(*args):
         pass
+
     def example(*args, **kwargs):
         def decorator(func):
             return func
+
         return decorator
+
 
 try:
     # Try to import test helper version first
@@ -260,7 +273,7 @@ class TestCLIAgentTools:
     def test_claude_cli_tool(self):
         """Test Claude CLI tool."""
         from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
-        
+
         permission_manager = create_permission_manager(["/tmp"])
         tool = ClaudeCLITool(permission_manager)
         assert tool.name == "claude_cli"
@@ -270,7 +283,7 @@ class TestCLIAgentTools:
     def test_codex_cli_tool(self):
         """Test Codex CLI tool."""
         from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
-        
+
         permission_manager = create_permission_manager(["/tmp"])
         tool = CodexCLITool(permission_manager)
         assert tool.name == "codex_cli"
@@ -280,7 +293,7 @@ class TestCLIAgentTools:
     def test_gemini_cli_tool(self):
         """Test Gemini CLI tool."""
         from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
-        
+
         permission_manager = create_permission_manager(["/tmp"])
         tool = GeminiCLITool(permission_manager)
         assert tool.name == "gemini_cli"
@@ -290,7 +303,7 @@ class TestCLIAgentTools:
     def test_grok_cli_tool(self):
         """Test Grok CLI tool."""
         from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
-        
+
         permission_manager = create_permission_manager(["/tmp"])
         tool = GrokCLITool(permission_manager)
         assert tool.name == "grok_cli"
@@ -304,14 +317,14 @@ class TestSwarmTool:
     def test_swarm_basic_configuration(self):
         """Test basic swarm configuration."""
         from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
-        
+
         permission_manager = create_permission_manager(["/tmp"])
         tool = SwarmTool(permission_manager)
-        
+
         # Test basic properties
         assert tool.name == "swarm"
         assert "network of AI agents" in tool.description
-        
+
         # Test that tool can be instantiated
         assert tool is not None
 
@@ -321,36 +334,42 @@ class TestMemoryIntegration:
 
     def test_memory_tools_available(self):
         """Test that memory tools registration works correctly.
-        
+
         Following Guido's principle: 'Practicality beats purity.'
         We test that the memory tools module handles missing dependencies gracefully.
         """
         # Test that memory tools handle missing dependencies gracefully
         try:
             from hanzo_mcp.tools.memory import memory_tools
-            
+
             # If we get here, hanzo_memory is installed
-            assert hasattr(memory_tools, 'MEMORY_AVAILABLE')
+            assert hasattr(memory_tools, "MEMORY_AVAILABLE")
             assert memory_tools.MEMORY_AVAILABLE == True
-            
+
             # Test that we can access the base class
-            assert hasattr(memory_tools, 'MemoryToolBase')
-            
+            assert hasattr(memory_tools, "MemoryToolBase")
+
             # Test that we can register tools
             from hanzo_mcp.tools.memory import register_memory_tools
+
             mcp_server = FastMCP("test-server")
             permission_manager = create_permission_manager(["/tmp"])
             tools = register_memory_tools(
                 mcp_server, permission_manager, user_id="test", project_id="test"
             )
             assert isinstance(tools, list)
-            
+
         except ImportError as e:
             # This is the expected path when hanzo_memory is not installed
             error_msg = str(e)
-            if "hanzo-memory package is required" in error_msg or "hanzo_memory" in error_msg:
+            if (
+                "hanzo-memory package is required" in error_msg
+                or "hanzo_memory" in error_msg
+            ):
                 # This is expected and valid - memory tools require the package
-                print(f"Memory tools correctly require hanzo-memory package: {error_msg}")
+                print(
+                    f"Memory tools correctly require hanzo-memory package: {error_msg}"
+                )
                 assert True  # Test passes - correct behavior
             else:
                 # Some other import error - this is not expected
@@ -362,35 +381,36 @@ class TestNetworkPackage:
 
     def test_network_imports(self):
         """Test that network package can be imported.
-        
+
         Guido's Zen: 'In the face of ambiguity, refuse the temptation to guess.'
         We explicitly mock what we need for reliable testing.
         """
+
         # Create mock classes that behave like the real ones
         class MockAgent:
             def __init__(self, id=None, instructions=None, **kwargs):
                 self.id = id
                 self.instructions = instructions
                 self.__dict__.update(kwargs)
-        
+
         class MockTool:
             def __init__(self, name=None, **kwargs):
                 self.name = name
                 self.__dict__.update(kwargs)
-        
+
         class MockRouter:
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
-        
+
         class MockNetwork:
             def __init__(self, agents=None, **kwargs):
                 self.agents = agents or []
                 self.__dict__.update(kwargs)
-        
+
         class MockNetworkState:
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
-        
+
         # Mock the hanzo_network module
         mock_network_module = Mock()
         mock_network_module.Agent = MockAgent
@@ -398,55 +418,56 @@ class TestNetworkPackage:
         mock_network_module.Router = MockRouter
         mock_network_module.Network = MockNetwork
         mock_network_module.NetworkState = MockNetworkState
-        
-        with patch.dict('sys.modules', {'hanzo_network': mock_network_module}):
+
+        with patch.dict("sys.modules", {"hanzo_network": mock_network_module}):
             from hanzo_network import Tool, Agent, Router, Network, NetworkState
-            
+
             # Test that all classes are available and functional
             assert Agent is not None
             assert Network is not None
             assert Router is not None
             assert NetworkState is not None
             assert Tool is not None
-            
+
             # Test instantiation
             test_agent = Agent(id="test", instructions="test")
             assert test_agent.id == "test"
-            
+
             test_network = Network(agents=[test_agent])
             assert len(test_network.agents) == 1
 
     def test_network_agent_creation(self):
         """Test creating a network agent.
-        
+
         Guido's philosophy: 'Simple is better than complex.'
         Test the interface, not the implementation.
         """
+
         # Mock Agent class with expected interface
         class MockAgent:
             def __init__(self, id, instructions, **kwargs):
                 self.id = id
                 self.instructions = instructions
-                self.tools = kwargs.get('tools', [])
-                self.model = kwargs.get('model', 'gpt-4')
-        
+                self.tools = kwargs.get("tools", [])
+                self.model = kwargs.get("model", "gpt-4")
+
         mock_network_module = Mock()
         mock_network_module.Agent = MockAgent
-        
-        with patch.dict('sys.modules', {'hanzo_network': mock_network_module}):
+
+        with patch.dict("sys.modules", {"hanzo_network": mock_network_module}):
             from hanzo_network import Agent
-            
+
             # Test basic agent creation
             agent = Agent(id="test_agent", instructions="Test instructions")
             assert agent.id == "test_agent"
             assert agent.instructions == "Test instructions"
-            
+
             # Test agent with additional parameters
             agent_with_tools = Agent(
                 id="advanced_agent",
                 instructions="Advanced instructions",
                 tools=["tool1", "tool2"],
-                model="claude-3"
+                model="claude-3",
             )
             assert agent_with_tools.id == "advanced_agent"
             assert len(agent_with_tools.tools) == 2
@@ -455,7 +476,7 @@ class TestNetworkPackage:
 
 class TestAutoBackgrounding:
     """Test auto-backgrounding functionality.
-    
+
     Guido's principle: 'Errors should never pass silently.'
     Test error conditions explicitly.
     """
@@ -466,59 +487,61 @@ class TestAutoBackgrounding:
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
 
         process_manager = ProcessManager()
-        executor = AutoBackgroundExecutor(process_manager, timeout=0.1)  # Very short timeout
+        executor = AutoBackgroundExecutor(
+            process_manager, timeout=0.1
+        )  # Very short timeout
 
         # Test that executor is created properly
         assert executor is not None
         assert executor.timeout == 0.1
         assert executor.process_manager == process_manager
-        
+
         # Test has the expected method
-        assert hasattr(executor, 'execute_with_auto_background')
-    
+        assert hasattr(executor, "execute_with_auto_background")
+
     def test_auto_background_edge_cases(self):
         """Test edge cases for auto-backgrounding.
-        
+
         Guido: 'Special cases aren't special enough to break the rules.'
         """
         from hanzo_mcp.tools.shell.base_process import ProcessManager
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
-        
+
         process_manager = ProcessManager()
-        
+
         # Test with zero timeout
         executor_zero = AutoBackgroundExecutor(process_manager, timeout=0)
         assert executor_zero.timeout == 0
-        
+
         # Test with very large timeout
-        executor_large = AutoBackgroundExecutor(process_manager, timeout=float('inf'))
-        assert executor_large.timeout == float('inf')
-        
+        executor_large = AutoBackgroundExecutor(process_manager, timeout=float("inf"))
+        assert executor_large.timeout == float("inf")
+
         # Test with negative timeout (should handle gracefully)
         executor_negative = AutoBackgroundExecutor(process_manager, timeout=-1)
         assert executor_negative.timeout == -1  # Should accept but handle internally
-    
+
     def test_process_manager_singleton(self):
         """Test that ProcessManager is a proper singleton.
-        
+
         Guido: 'There should be one-- and preferably only one --obvious way to do it.'
         ProcessManager uses the singleton pattern for global process tracking.
         """
         from hanzo_mcp.tools.shell.base_process import ProcessManager
-        
+
         pm1 = ProcessManager()
         pm2 = ProcessManager()
-        
+
         # Singleton pattern: instances should be the same
         assert pm1 is pm2
-        
+
         # Test that both share the same state
         test_id = "test_process_123"
         pm1.add_process(test_id, Mock(), "/tmp/test.log")
-        
+
         # Should be accessible from pm2
         assert pm2.get_process(test_id) is not None
-        
+
         # Clean up
         pm1.remove_process(test_id)
         assert pm2.get_process(test_id) is None
@@ -530,7 +553,7 @@ class TestCriticAndReviewTools:
     def test_critic_tool_basic(self):
         """Test critic tool basic functionality."""
         from hanzo_mcp.tools.common.critic_tool import CriticTool
-        
+
         tool = CriticTool()
         mock_ctx = create_mock_ctx()
 
@@ -550,17 +573,17 @@ class TestCriticAndReviewTools:
     def test_review_tool_basic(self):
         """Test review tool basic functionality."""
         from hanzo_mcp.tools.agent.review_tool import ReviewTool
-        
+
         tool = ReviewTool()
         mock_ctx = create_mock_ctx()
 
         # Test review with call method
         result = asyncio.run(
             tool.call(
-                mock_ctx, 
+                mock_ctx,
                 focus="general",
                 work_description="Test code implementation",
-                code_snippets=["def test(): pass"]
+                code_snippets=["def test(): pass"],
             )
         )
 
@@ -576,24 +599,24 @@ class TestStreamingCommand:
     def test_streaming_command_basic(self):
         """Test basic streaming command."""
         from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
-        
+
         # Test that the abstract class exists and has expected properties
         assert StreamingCommandTool is not None
-        assert hasattr(StreamingCommandTool, '__abstractmethods__')
-        
+        assert hasattr(StreamingCommandTool, "__abstractmethods__")
+
         # Create a concrete implementation for testing
         class ConcreteStreamingCommand(StreamingCommandTool):
             @property
             def name(self):
                 return "test_streaming"
-            
+
             @property
             def description(self):
                 return "Test streaming command"
-            
+
             def register(self, server):
                 pass
-        
+
         # Test the concrete implementation (without permission_manager)
         tool = ConcreteStreamingCommand()
         assert tool.name == "test_streaming"
@@ -632,11 +655,11 @@ class TestBatchTool:
 
 class TestPropertyBasedTruncation:
     """Property-based tests for output truncation.
-    
+
     Guido: 'Testing shows the presence, not the absence of bugs.'
     We test with various edge cases to ensure robustness.
     """
-    
+
     def test_truncation_never_exceeds_limit(self):
         """Test that truncation never exceeds the specified limit."""
         # Test with various sizes
@@ -646,19 +669,19 @@ class TestPropertyBasedTruncation:
             ("a", 1),  # Single char
             ("🚀" * 10000, 500),  # Unicode
         ]
-        
+
         for text, max_tokens in test_cases:
             result = truncate_response(text, max_tokens=max_tokens)
-            
+
             # Result should be reasonably sized
             # Note: We can't guarantee exact token count, but should be reasonable
             assert isinstance(result, str)
-            
+
             # If original was very large, result should be truncated
             if len(text) > 10000:
                 assert len(result) < len(text)
                 assert "truncated" in result.lower() or "..." in result
-    
+
     def test_truncation_handles_all_text(self):
         """Test that truncation handles any valid text input."""
         test_texts = [
@@ -669,7 +692,7 @@ class TestPropertyBasedTruncation:
             "Hello\nWorld\n",  # Newlines
             "\t\t  \n\n",  # Whitespace
         ]
-        
+
         for text in test_texts:
             # Should never raise an exception
             result = truncate_response(text, max_tokens=100)
@@ -678,45 +701,47 @@ class TestPropertyBasedTruncation:
 
 class TestPropertyBasedPagination:
     """Property-based tests for pagination.
-    
+
     Guido: 'Explicit is better than implicit.'
     Test that pagination behavior is explicit and predictable.
     """
-    
+
     def test_pagination_consistency(self):
         """Test that pagination is consistent across different data sizes."""
         test_cases = [
-            (0, 10),    # No items
-            (5, 10),    # Less than one page
-            (10, 10),   # Exactly one page
-            (25, 10),   # Multiple pages
-            (100, 7),   # Odd page size
-            (1000, 50), # Large dataset
+            (0, 10),  # No items
+            (5, 10),  # Less than one page
+            (10, 10),  # Exactly one page
+            (25, 10),  # Multiple pages
+            (100, 7),  # Odd page size
+            (1000, 50),  # Large dataset
         ]
-        
+
         for num_items, page_size in test_cases:
             paginator = FastMCPPaginator(page_size=page_size)
             items = [f"item_{i}" for i in range(num_items)]
-            
+
             # Collect all pages
             all_retrieved = []
             cursor = None
             pages_retrieved = 0
             max_pages = (num_items + page_size - 1) // page_size + 1  # Safety limit
-            
+
             while pages_retrieved < max_pages:
-                result = paginator.paginate_list(items, cursor=cursor, page_size=page_size)
+                result = paginator.paginate_list(
+                    items, cursor=cursor, page_size=page_size
+                )
                 if not result or "items" not in result:
                     break
-                    
+
                 all_retrieved.extend(result["items"])
                 pages_retrieved += 1
-                
+
                 # Check for next cursor
                 if "nextCursor" not in result or not result["nextCursor"]:
                     break
                 cursor = result["nextCursor"]
-            
+
             # Should retrieve all items exactly once
             assert len(all_retrieved) == num_items
             if num_items > 0:
@@ -725,26 +750,28 @@ class TestPropertyBasedPagination:
 
 class TestPropertyBasedToolConfig:
     """Property-based tests for tool configuration.
-    
+
     Guido: 'There should be one-- and preferably only one --obvious way to do it.'
     """
-    
+
     def test_tool_registration_combinations(self):
         """Test that any combination of tool settings works."""
         # Test various combinations
         test_cases = [
-            (True, True, False, 1024),     # All enabled except agent
-            (False, False, True, 8192),    # Only agent enabled
-            (True, False, False, 4096),    # Only write enabled
-            (False, True, False, 2048),    # Only search enabled
-            (True, True, True, 16384),     # Everything enabled
-            (False, False, False, 512),    # Nothing enabled
+            (True, True, False, 1024),  # All enabled except agent
+            (False, False, True, 8192),  # Only agent enabled
+            (True, False, False, 4096),  # Only write enabled
+            (False, True, False, 2048),  # Only search enabled
+            (True, True, True, 16384),  # Everything enabled
+            (False, False, False, 512),  # Nothing enabled
         ]
-        
+
         for enable_write, enable_search, enable_agent, max_tokens in test_cases:
-            mcp_server = FastMCP(f"test-server-{enable_write}-{enable_search}-{enable_agent}")
+            mcp_server = FastMCP(
+                f"test-server-{enable_write}-{enable_search}-{enable_agent}"
+            )
             permission_manager = create_permission_manager(["/tmp"])
-            
+
             # Should never raise an exception
             register_all_tools(
                 mcp_server,
@@ -753,19 +780,19 @@ class TestPropertyBasedToolConfig:
                 disable_search_tools=not enable_search,
                 enable_agent_tool=enable_agent,
                 agent_max_tokens=max_tokens,
-                use_mode=False
+                use_mode=False,
             )
-            
+
             # Registration should always succeed
             assert True
 
 
 class TestEdgeCasesAndRobustness:
     """Test edge cases and robustness.
-    
+
     Guido: 'Errors should never pass silently.'
     """
-    
+
     def test_unicode_handling(self):
         """Test that all tools handle Unicode correctly."""
         unicode_strings = [
@@ -777,65 +804,65 @@ class TestEdgeCasesAndRobustness:
             "Zero-width: test\u200btest",
             "Combining: é (e + ́)",
         ]
-        
+
         for text in unicode_strings:
             # Test truncation
             result = truncate_response(text, max_tokens=100)
             assert isinstance(result, str)
-            
+
             # Test in paginated response
             response = PaginatedResponse(items=[text], total_items=1)
             json_data = response.to_json()
             assert json_data["items"][0] == text
-    
+
     def test_extreme_values(self):
         """Test extreme values that might break assumptions."""
         # Test very large pagination
         paginator = FastMCPPaginator(page_size=1000000)
         result = paginator.paginate_list(["item"], page_size=1000000)
         assert result["items"] == ["item"]
-        
+
         # Test zero page size (should handle gracefully)
         paginator_zero = FastMCPPaginator(page_size=0)
         # Should either handle or use default
-        
+
         # Test negative values in auto-backgrounding
         from hanzo_mcp.tools.shell.base_process import ProcessManager
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
-        
+
         pm = ProcessManager()
         # These should not crash
         executor_neg = AutoBackgroundExecutor(pm, timeout=-999)
-        executor_inf = AutoBackgroundExecutor(pm, timeout=float('inf'))
+        executor_inf = AutoBackgroundExecutor(pm, timeout=float("inf"))
         # Note: float('nan') might cause issues, skip for now
-    
+
     def test_concurrent_access(self):
         """Test that singleton ProcessManager handles concurrent access.
-        
+
         Guido: 'If the implementation is hard to explain, it's a bad idea.'
         The singleton should be simple and thread-safe.
         """
         import threading
 
         from hanzo_mcp.tools.shell.base_process import ProcessManager
-        
+
         results = []
-        
+
         def get_manager():
             pm = ProcessManager()
             results.append(id(pm))
-        
+
         # Create multiple threads
         threads = [threading.Thread(target=get_manager) for _ in range(10)]
-        
+
         # Start all threads
         for t in threads:
             t.start()
-        
+
         # Wait for completion
         for t in threads:
             t.join()
-        
+
         # All should get the same instance
         assert len(set(results)) == 1, "ProcessManager singleton not thread-safe"
 

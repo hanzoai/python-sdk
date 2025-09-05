@@ -140,6 +140,8 @@ To make a batch call, provide the following:
 
 Available tools in batch call:
 Tool: dispatch_agent,read,directory_tree,grep,grep_ast,run_command,notebook_read
+CLI Tools: claude,cc,codex,gemini,grok,openhands,oh,hanzo_dev,cline,aider
+AST/Symbols: ast,symbols (tree-sitter based code analysis)
 Not available: think,write,edit,multi_edit,notebook_edit
 """
 
