@@ -12,10 +12,10 @@ class MockHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        
+
         # Default response
         response = {}
-        
+
         # Handle specific endpoints
         if "/files/" in self.path and "/content" in self.path:
             response = "file content"
@@ -32,7 +32,7 @@ class MockHandler(BaseHTTPRequestHandler):
                 "created_by": "user-123",
                 "models": ["gpt-3.5-turbo"],
                 "updated_at": "2024-01-01T00:00:00Z",
-                "updated_by": "user-123"
+                "updated_by": "user-123",
             }
         elif self.path == "/config/pass_through_endpoint":
             response = {"endpoints": []}
@@ -40,25 +40,25 @@ class MockHandler(BaseHTTPRequestHandler):
             response = {}
         else:
             response = {"data": []}
-        
+
         self.wfile.write(json.dumps(response).encode())
-    
+
     def do_POST(self):
         """Handle POST requests."""
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        
+
         # Default response
         response = {}
-        
+
         # Handle specific endpoints
         if self.path == "/utils/token_counter":
             response = {
                 "model_used": "gpt-3.5-turbo",
                 "request_model": "gpt-3.5-turbo",
                 "tokenizer_type": "cl100k_base",
-                "total_tokens": 10
+                "total_tokens": 10,
             }
         elif self.path == "/chat/completions":
             response = {
@@ -66,36 +66,38 @@ class MockHandler(BaseHTTPRequestHandler):
                 "object": "chat.completion",
                 "created": 1677652288,
                 "model": "gpt-3.5-turbo",
-                "choices": [{
-                    "index": 0,
-                    "message": {"role": "assistant", "content": "Hello!"},
-                    "finish_reason": "stop"
-                }]
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": "Hello!"},
+                        "finish_reason": "stop",
+                    }
+                ],
             }
-        
+
         self.wfile.write(json.dumps(response).encode())
-    
+
     def do_PUT(self):
         """Handle PUT requests."""
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
         self.wfile.write(b"{}")
-    
+
     def do_DELETE(self):
         """Handle DELETE requests."""
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
-        
+
         # Handle specific endpoints
         if self.path == "/config/pass_through_endpoint":
             response = {"endpoints": []}
         else:
             response = {}
-        
+
         self.wfile.write(json.dumps(response).encode())
-    
+
     def log_message(self, format, *args):
         pass  # Suppress logs
 

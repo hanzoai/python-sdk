@@ -65,14 +65,14 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
         """Test various memory operations with parametrization."""
         # Create tool instance
         tool = tool_class(user_id="test_user", project_id="test_project")
-        
+
         # Execute tool
         result = await tool_helper.run_tool(tool, params, mock_ctx)
-        
+
         # Verify service method was called
         service_method = getattr(mock_memory_service, method_name)
         assert service_method.called
-        
+
         # Verify result contains expected message
         assert expected_result in str(result)
 
@@ -109,10 +109,10 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
         # Configure service to raise error
         mock_memory_service.update_memory.side_effect = error_type(error_message)
         mock_memory_service.create_memory.side_effect = error_type(error_message)
-        
+
         # Create tool (use UpdateMemoriesTool as example)
         tool = UpdateMemoriesTool(user_id="test_user", project_id="test_project")
-        
+
         # Execute and expect error
         with pytest.raises(error_type, match=error_message):
             await tool_helper.run_tool(tool, params, mock_ctx)
@@ -125,13 +125,21 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
             user_id="test_user",
             project_id="test_project",
         )
-        
+
         # Verify tools are registered
         self.assert_tool_registration(tools)
-        
+
         # Verify each tool has correct configuration
         for tool in tools:
-            if isinstance(tool, (CreateMemoriesTool, UpdateMemoriesTool, DeleteMemoriesTool, RecallMemoriesTool)):
+            if isinstance(
+                tool,
+                (
+                    CreateMemoriesTool,
+                    UpdateMemoriesTool,
+                    DeleteMemoriesTool,
+                    RecallMemoriesTool,
+                ),
+            ):
                 assert tool.user_id == "test_user"
                 assert tool.project_id == "test_project"
 
@@ -153,7 +161,7 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
     ):
         """Test batch memory operations with different sizes."""
         tool = CreateMemoriesTool(user_id="test_user", project_id="test_project")
-        
+
         # Execute multiple operations
         for i in range(batch_size):
             params = {
@@ -162,7 +170,7 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
                 "importance": 0.5 + (i * 0.1),
             }
             await tool_helper.run_tool(tool, params, mock_ctx)
-        
+
         # Verify correct number of service calls
         assert mock_memory_service.create_memory.call_count == expected_calls
 
@@ -186,15 +194,15 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
     ):
         """Test different memory types and metadata."""
         tool = CreateMemoriesTool(user_id="test_user", project_id="test_project")
-        
+
         params = {
             "content": f"Test {memory_type} memory",
             "metadata": metadata,
             "importance": importance,
         }
-        
+
         result = await tool_helper.run_tool(tool, params, mock_ctx)
-        
+
         # Verify service was called with correct parameters
         mock_memory_service.create_memory.assert_called_once()
         call_args = mock_memory_service.create_memory.call_args[1]

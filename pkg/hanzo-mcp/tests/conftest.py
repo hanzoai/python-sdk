@@ -279,7 +279,7 @@ def reset_environment():
 def mock_slow_operations():
     """Mock slow operations for faster test execution."""
     from unittest.mock import AsyncMock, patch
-    
+
     # Mock subprocess for LSP tests
     with patch("asyncio.create_subprocess_exec") as mock_subprocess:
         mock_process = AsyncMock()
@@ -321,9 +321,15 @@ def pytest_collection_modifyitems(config, items):
 
         # Add slow marker to certain tests
         slow_patterns = [
-            "performance", "stress", "load", "e2e_", 
-            "swarm_", "streaming", "shell_features",
-            "test_batch_tool_edge_cases", "test_memory_edge_cases"
+            "performance",
+            "stress",
+            "load",
+            "e2e_",
+            "swarm_",
+            "streaming",
+            "shell_features",
+            "test_batch_tool_edge_cases",
+            "test_memory_edge_cases",
         ]
         if any(pattern in item.nodeid for pattern in slow_patterns):
             item.add_marker(pytest.mark.slow)

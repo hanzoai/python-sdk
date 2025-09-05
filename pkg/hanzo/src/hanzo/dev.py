@@ -661,10 +661,11 @@ class HanzoDevREPL:
             "help": self.cmd_help,
             "exit": self.cmd_exit,
         }
-        
+
         # Initialize memory manager
         from .memory_manager import MemoryManager
-        workspace = getattr(orchestrator, 'workspace_dir', '/tmp/hanzo')
+
+        workspace = getattr(orchestrator, "workspace_dir", "/tmp/hanzo")
         self.memory_manager = MemoryManager(workspace)
 
     async def run(self):
@@ -676,55 +677,64 @@ class HanzoDevREPL:
         from rich.console import Group
         from prompt_toolkit import prompt
         from prompt_toolkit.styles import Style
-        
+
         # Define Claude-like style for prompt_toolkit
-        claude_style = Style.from_dict({
-            '': '#333333',        # Default text color
-            'prompt': '#666666',  # Gray prompt arrow
-        })
-        
+        claude_style = Style.from_dict(
+            {
+                "": "#333333",  # Default text color
+                "prompt": "#666666",  # Gray prompt arrow
+            }
+        )
+
         # Use a predefined box style that's similar to Claude
         from rich.box import ROUNDED
+
         LIGHT_GRAY_BOX = ROUNDED
-        
+
         # Header
         console.print()
-        console.print(Panel(
-            "[bold cyan]Hanzo Dev - AI Chat[/bold cyan]\n"
-            "[dim]Chat naturally or use /commands • Type /help for available commands[/dim]",
-            box=LIGHT_GRAY_BOX,
-            style="dim white",
-            padding=(0, 1)
-        ))
+        console.print(
+            Panel(
+                "[bold cyan]Hanzo Dev - AI Chat[/bold cyan]\n"
+                "[dim]Chat naturally or use /commands • Type /help for available commands[/dim]",
+                box=LIGHT_GRAY_BOX,
+                style="dim white",
+                padding=(0, 1),
+            )
+        )
         console.print()
+
+        # Check for available API keys and show status
+        from .fallback_handler import FallbackHandler
+
+        handler = FallbackHandler()
+        if not handler.fallback_order:
+            console.print("[yellow]⚠️  No API keys detected[/yellow]")
+            console.print(
+                "[dim]Set OPENAI_API_KEY or ANTHROPIC_API_KEY to enable AI[/dim]"
+            )
+            console.print()
+        else:
+            primary = handler.fallback_order[0][1]
+            console.print(f"[green]✅ Using {primary} for AI responses[/green]")
+            console.print()
 
         while True:
             try:
-                # Draw input box border (top)
-                console.print("[dim white]╭" + "─" * 78 + "╮[/dim white]")
-                
-                # Get input with styled prompt inside the box
-                console.print("[dim white]│[/dim white] ", end="")
-                
+                # Simple prompt without box borders to avoid rendering issues
                 try:
-                    # Get input - using simple input() wrapped in executor for async
-                    # The visual box is drawn by console.print statements
+                    # Add spacing to prevent UI cutoff at bottom
                     user_input = await asyncio.get_event_loop().run_in_executor(
                         None,
                         input,
-                        '› '  # Using › instead of > for a more modern look
+                        "› ",  # Clean prompt
                     )
-                    
-                    # Draw input box border (bottom)
-                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
-                    
+                    console.print()  # Add spacing after input
+
                 except EOFError:
                     console.print()  # New line before exit
-                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
                     break
                 except KeyboardInterrupt:
-                    console.print()  # Complete the box
-                    console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
                     console.print("\n[dim yellow]Use /exit to quit[/dim]")
                     continue
 
@@ -737,20 +747,25 @@ class HanzoDevREPL:
                     parts = user_input[1:].strip().split(maxsplit=1)
                     cmd = parts[0].lower()
                     args = parts[1] if len(parts) > 1 else ""
-                    
+
                     if cmd in self.commands:
                         await self.commands[cmd](args)
                     else:
                         console.print(f"[yellow]Unknown command: /{cmd}[/yellow]")
                         console.print("Type /help for available commands")
-                        
+
                 elif user_input.startswith("#"):
                     # Handle memory/context commands
                     from .memory_manager import handle_memory_command
-                    handled = handle_memory_command(user_input, self.memory_manager, console)
+
+                    handled = handle_memory_command(
+                        user_input, self.memory_manager, console
+                    )
                     if not handled:
-                        console.print("[yellow]Unknown memory command. Use #memory help[/yellow]")
-                    
+                        console.print(
+                            "[yellow]Unknown memory command. Use #memory help[/yellow]"
+                        )
+
                 else:
                     # Natural chat - send directly to AI agents
                     await self.chat_with_agents(user_input)
@@ -910,132 +925,183 @@ Examples:
         self.orchestrator.shutdown()
         console.print("[green]Goodbye![/green]")
         sys.exit(0)
-    
+
     async def chat_with_agents(self, message: str):
         """Send message to AI agents for natural chat."""
         try:
             # Add message to memory
             self.memory_manager.add_message("user", message)
-            
+
             # Get memory context
             memory_context = self.memory_manager.summarize_for_ai()
-            
+
             # Enhance message with context
             if memory_context:
                 enhanced_message = f"{memory_context}\n\nUser: {message}"
             else:
                 enhanced_message = message
-            
+
             # Try smart fallback if no specific model configured
-            if not hasattr(self.orchestrator, 'orchestrator_model') or \
-               self.orchestrator.orchestrator_model == "auto":
+            if (
+                not hasattr(self.orchestrator, "orchestrator_model")
+                or self.orchestrator.orchestrator_model == "auto"
+            ):
                 # Use streaming if available
                 from .streaming import stream_with_fallback
+
                 response = await stream_with_fallback(enhanced_message, console)
-                
+
                 if response:
                     # Save AI response to memory
                     self.memory_manager.add_message("assistant", response)
                     # Response already displayed by streaming handler
                     return
                 else:
-                    console.print("[red]No AI options available. Please configure API keys or install tools.[/red]")
+                    console.print(
+                        "[red]No AI options available. Please configure API keys or install tools.[/red]"
+                    )
                     return
-            
+
             # For codex and other CLI tools, go straight to direct API chat
-            if hasattr(self.orchestrator, 'orchestrator_model'):
+            if hasattr(self.orchestrator, "orchestrator_model"):
                 model = self.orchestrator.orchestrator_model
-                if model in ["codex", "openai-cli", "openai-codex", "claude", "claude-code", 
-                            "claude-desktop", "gemini", "gemini-cli", "google-gemini",
-                            "hanzo-ide", "hanzo-dev-ide", "ide", "codestral", "codestral-free",
-                            "free", "mistral-free", "starcoder", "starcoder2", "free-starcoder"] or \
-                   model.startswith("local:"):
+                if model in [
+                    "codex",
+                    "openai-cli",
+                    "openai-codex",
+                    "claude",
+                    "claude-code",
+                    "claude-desktop",
+                    "gemini",
+                    "gemini-cli",
+                    "google-gemini",
+                    "hanzo-ide",
+                    "hanzo-dev-ide",
+                    "ide",
+                    "codestral",
+                    "codestral-free",
+                    "free",
+                    "mistral-free",
+                    "starcoder",
+                    "starcoder2",
+                    "free-starcoder",
+                ] or model.startswith("local:"):
                     # Use direct API/CLI chat for these models
                     await self._direct_api_chat(message)
                     return
-            
+
             # Show thinking indicator for network orchestrators
             console.print("[dim]Thinking...[/dim]")
-            
+
             # Check if we have a network orchestrator with actual AI
-            if hasattr(self.orchestrator, 'execute_with_network'):
+            if hasattr(self.orchestrator, "execute_with_network"):
                 # Use the network orchestrator (GPT-4, GPT-5, etc.)
                 result = await self.orchestrator.execute_with_network(
-                    task=message,
-                    context={"mode": "chat", "interactive": True}
+                    task=message, context={"mode": "chat", "interactive": True}
                 )
-                
+
                 if result.get("output"):
                     # Display AI response in a styled panel
                     console.print()
                     from rich.panel import Panel
-                    console.print(Panel(
-                        result['output'],
-                        title="[bold cyan]AI Response[/bold cyan]",
-                        title_align="left",
-                        border_style="dim cyan",
-                        padding=(1, 2)
-                    ))
+
+                    console.print(
+                        Panel(
+                            result["output"],
+                            title="[bold cyan]AI Response[/bold cyan]",
+                            title_align="left",
+                            border_style="dim cyan",
+                            padding=(1, 2),
+                        )
+                    )
                 elif result.get("error"):
                     console.print(f"\n[red]Error:[/red] {result['error']}")
                 else:
                     console.print("\n[yellow]No response from agent[/yellow]")
-                    
-            elif hasattr(self.orchestrator, 'execute_with_critique'):
+
+            elif hasattr(self.orchestrator, "execute_with_critique"):
                 # Use multi-Claude orchestrator - but now it will use real AI!
                 result = await self.orchestrator.execute_with_critique(message)
-                
+
                 if result.get("output"):
                     # Display AI response in a styled panel
                     console.print()
                     from rich.panel import Panel
-                    console.print(Panel(
-                        result['output'],
-                        title="[bold cyan]AI Response[/bold cyan]",
-                        title_align="left",
-                        border_style="dim cyan",
-                        padding=(1, 2)
-                    ))
+
+                    console.print(
+                        Panel(
+                            result["output"],
+                            title="[bold cyan]AI Response[/bold cyan]",
+                            title_align="left",
+                            border_style="dim cyan",
+                            padding=(1, 2),
+                        )
+                    )
                 else:
                     console.print("\n[yellow]No response from agent[/yellow]")
-                    
+
             else:
                 # Fallback to direct API call if available
                 await self._direct_api_chat(message)
-                
+
         except Exception as e:
             console.print(f"[red]Error connecting to AI: {e}[/red]")
             console.print("[yellow]Make sure you have API keys configured:[/yellow]")
             console.print("  • OPENAI_API_KEY for GPT models")
             console.print("  • ANTHROPIC_API_KEY for Claude")
             console.print("  • Or use --orchestrator local:llama3.2 for local models")
-    
+
     async def _direct_api_chat(self, message: str):
         """Direct API chat fallback when network orchestrator isn't available."""
         import os
-        
+
         # Check for CLI tools and free/local options first
-        if self.orchestrator.orchestrator_model in ["codex", "openai-cli", "openai-codex"]:
+        if self.orchestrator.orchestrator_model in [
+            "codex",
+            "openai-cli",
+            "openai-codex",
+        ]:
             # Use OpenAI CLI (Codex)
             await self._use_openai_cli(message)
             return
-        elif self.orchestrator.orchestrator_model in ["claude", "claude-code", "claude-desktop"]:
+        elif self.orchestrator.orchestrator_model in [
+            "claude",
+            "claude-code",
+            "claude-desktop",
+        ]:
             # Use Claude Desktop/Code
             await self._use_claude_cli(message)
             return
-        elif self.orchestrator.orchestrator_model in ["gemini", "gemini-cli", "google-gemini"]:
+        elif self.orchestrator.orchestrator_model in [
+            "gemini",
+            "gemini-cli",
+            "google-gemini",
+        ]:
             # Use Gemini CLI
             await self._use_gemini_cli(message)
             return
-        elif self.orchestrator.orchestrator_model in ["hanzo-ide", "hanzo-dev-ide", "ide"]:
+        elif self.orchestrator.orchestrator_model in [
+            "hanzo-ide",
+            "hanzo-dev-ide",
+            "ide",
+        ]:
             # Use Hanzo Dev IDE from ~/work/hanzo/ide
             await self._use_hanzo_ide(message)
             return
-        elif self.orchestrator.orchestrator_model in ["codestral", "codestral-free", "free", "mistral-free"]:
+        elif self.orchestrator.orchestrator_model in [
+            "codestral",
+            "codestral-free",
+            "free",
+            "mistral-free",
+        ]:
             # Use free Mistral Codestral API
             await self._use_free_codestral(message)
             return
-        elif self.orchestrator.orchestrator_model in ["starcoder", "starcoder2", "free-starcoder"]:
+        elif self.orchestrator.orchestrator_model in [
+            "starcoder",
+            "starcoder2",
+            "free-starcoder",
+        ]:
             # Use free StarCoder via HuggingFace
             await self._use_free_starcoder(message)
             return
@@ -1043,75 +1109,117 @@ Examples:
             # Use local model via Ollama or LM Studio
             await self._use_local_model(message)
             return
-        
-        # Try OpenAI first
-        if os.getenv("OPENAI_API_KEY"):
+
+        # Use the fallback handler to intelligently try available options
+        from .fallback_handler import smart_chat
+
+        response = await smart_chat(message, console=console)
+
+        if response:
+            from rich.panel import Panel
+
+            console.print()
+            console.print(
+                Panel(
+                    response,
+                    title="[bold cyan]AI Response[/bold cyan]",
+                    title_align="left",
+                    border_style="dim cyan",
+                    padding=(1, 2),
+                )
+            )
+            return
+
+        # Try OpenAI first explicitly (in case fallback handler missed it)
+        openai_key = os.environ.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+        if openai_key:
             try:
                 from openai import AsyncOpenAI
-                
+
                 client = AsyncOpenAI()
                 response = await client.chat.completions.create(
                     model=self.orchestrator.orchestrator_model or "gpt-4",
                     messages=[
-                        {"role": "system", "content": "You are a helpful AI coding assistant."},
-                        {"role": "user", "content": message}
+                        {
+                            "role": "system",
+                            "content": "You are a helpful AI coding assistant.",
+                        },
+                        {"role": "user", "content": message},
                     ],
                     temperature=0.7,
-                    max_tokens=2000
+                    max_tokens=2000,
                 )
-                
+
                 if response.choices:
                     from rich.panel import Panel
+
                     console.print()
-                    console.print(Panel(
-                        response.choices[0].message.content,
-                        title="[bold cyan]GPT-4[/bold cyan]",
-                        title_align="left",
-                        border_style="dim cyan",
-                        padding=(1, 2)
-                    ))
+                    console.print(
+                        Panel(
+                            response.choices[0].message.content,
+                            title="[bold cyan]GPT-4[/bold cyan]",
+                            title_align="left",
+                            border_style="dim cyan",
+                            padding=(1, 2),
+                        )
+                    )
                 return
-                
+
             except Exception as e:
                 console.print(f"[yellow]OpenAI error: {e}[/yellow]")
-        
+
         # Try Anthropic
         if os.getenv("ANTHROPIC_API_KEY"):
             try:
                 from anthropic import AsyncAnthropic
-                
+
                 client = AsyncAnthropic()
                 response = await client.messages.create(
                     model="claude-3-5-sonnet-20241022",
                     messages=[{"role": "user", "content": message}],
-                    max_tokens=2000
+                    max_tokens=2000,
                 )
-                
+
                 if response.content:
                     from rich.panel import Panel
+
                     console.print()
-                    console.print(Panel(
-                        response.content[0].text,
-                        title="[bold cyan]Claude[/bold cyan]",
-                        title_align="left",
-                        border_style="dim cyan",
-                        padding=(1, 2)
-                    ))
+                    console.print(
+                        Panel(
+                            response.content[0].text,
+                            title="[bold cyan]Claude[/bold cyan]",
+                            title_align="left",
+                            border_style="dim cyan",
+                            padding=(1, 2),
+                        )
+                    )
                 return
-                
+
             except Exception as e:
                 console.print(f"[yellow]Anthropic error: {e}[/yellow]")
-        
+
         # No API keys available
         console.print("[red]No AI API keys configured![/red]")
-        console.print("[yellow]Try these options that don't need your API key:[/yellow]")
+        console.print(
+            "[yellow]Try these options that don't need your API key:[/yellow]"
+        )
         console.print("\n[bold]CLI Tools (use existing tools):[/bold]")
-        console.print("  • hanzo dev --orchestrator codex          # OpenAI CLI (if installed)")
-        console.print("  • hanzo dev --orchestrator claude         # Claude Desktop (if installed)")
-        console.print("  • hanzo dev --orchestrator gemini         # Gemini CLI (if installed)")
-        console.print("  • hanzo dev --orchestrator hanzo-ide      # Hanzo IDE from ~/work/hanzo/ide")
+        console.print(
+            "  • hanzo dev --orchestrator codex          # OpenAI CLI (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator claude         # Claude Desktop (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator gemini         # Gemini CLI (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator hanzo-ide      # Hanzo IDE from ~/work/hanzo/ide"
+        )
         console.print("\n[bold]Free APIs (rate limited):[/bold]")
-        console.print("  • hanzo dev --orchestrator codestral      # Free Mistral Codestral")
+        console.print(
+            "  • hanzo dev --orchestrator codestral      # Free Mistral Codestral"
+        )
         console.print("  • hanzo dev --orchestrator starcoder      # Free StarCoder")
         console.print("\n[bold]Local Models (unlimited):[/bold]")
         console.print("  • hanzo dev --orchestrator local:llama3.2 # Via Ollama")
@@ -1120,14 +1228,14 @@ Examples:
         console.print("\n[dim]Or set API keys for full access:[/dim]")
         console.print("  • export OPENAI_API_KEY=sk-...")
         console.print("  • export ANTHROPIC_API_KEY=sk-ant-...")
-    
+
     async def _use_free_codestral(self, message: str):
         """Use free Mistral Codestral API (no API key needed for trial)."""
         try:
             import httpx
-            
+
             console.print("[dim]Using free Codestral API (rate limited)...[/dim]")
-            
+
             async with httpx.AsyncClient() as client:
                 # Mistral offers free tier with rate limits
                 response = await client.post(
@@ -1139,37 +1247,46 @@ Examples:
                     json={
                         "model": "codestral-latest",
                         "messages": [
-                            {"role": "system", "content": "You are Codestral, an AI coding assistant."},
-                            {"role": "user", "content": message}
+                            {
+                                "role": "system",
+                                "content": "You are Codestral, an AI coding assistant.",
+                            },
+                            {"role": "user", "content": message},
                         ],
                         "temperature": 0.7,
-                        "max_tokens": 2000
+                        "max_tokens": 2000,
                     },
-                    timeout=30.0
+                    timeout=30.0,
                 )
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("choices"):
-                        console.print(f"[cyan]Codestral:[/cyan] {data['choices'][0]['message']['content']}")
+                        console.print(
+                            f"[cyan]Codestral:[/cyan] {data['choices'][0]['message']['content']}"
+                        )
                 else:
-                    console.print("[yellow]Free tier limit reached. Try local models instead:[/yellow]")
-                    console.print("  • Install Ollama: curl -fsSL https://ollama.com/install.sh | sh")
+                    console.print(
+                        "[yellow]Free tier limit reached. Try local models instead:[/yellow]"
+                    )
+                    console.print(
+                        "  • Install Ollama: curl -fsSL https://ollama.com/install.sh | sh"
+                    )
                     console.print("  • Run: ollama pull codellama")
                     console.print("  • Use: hanzo dev --orchestrator local:codellama")
-                    
+
         except Exception as e:
             console.print(f"[red]Codestral error: {e}[/red]")
             console.print("[yellow]Try local models instead (no limits):[/yellow]")
             console.print("  • hanzo dev --orchestrator local:codellama")
-    
+
     async def _use_free_starcoder(self, message: str):
         """Use free StarCoder via HuggingFace Inference API."""
         try:
             import httpx
-            
+
             console.print("[dim]Using free StarCoder API...[/dim]")
-            
+
             async with httpx.AsyncClient() as client:
                 # HuggingFace offers free inference API
                 response = await client.post(
@@ -1182,33 +1299,37 @@ Examples:
                         "parameters": {
                             "temperature": 0.7,
                             "max_new_tokens": 2000,
-                            "return_full_text": False
-                        }
+                            "return_full_text": False,
+                        },
                     },
-                    timeout=30.0
+                    timeout=30.0,
                 )
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if isinstance(data, list) and data:
-                        console.print(f"[cyan]StarCoder:[/cyan] {data[0].get('generated_text', '')}")
+                        console.print(
+                            f"[cyan]StarCoder:[/cyan] {data[0].get('generated_text', '')}"
+                        )
                 else:
-                    console.print("[yellow]API limit reached. Install local models:[/yellow]")
+                    console.print(
+                        "[yellow]API limit reached. Install local models:[/yellow]"
+                    )
                     console.print("  • brew install ollama")
                     console.print("  • ollama pull starcoder2")
                     console.print("  • hanzo dev --orchestrator local:starcoder2")
-                    
+
         except Exception as e:
             console.print(f"[red]StarCoder error: {e}[/red]")
-    
+
     async def _use_openai_cli(self, message: str):
         """Use OpenAI CLI (Codex) - the official OpenAI CLI tool."""
         try:
             import json
             import subprocess
-            
+
             console.print("[dim]Using OpenAI CLI (Codex)...[/dim]")
-            
+
             # Check if openai CLI is installed
             result = subprocess.run(["which", "openai"], capture_output=True, text=True)
             if result.returncode != 0:
@@ -1218,37 +1339,42 @@ Examples:
                 console.print("  • openai login")
                 console.print("Then use: hanzo dev --orchestrator codex")
                 return
-            
+
             # Use openai CLI to chat - correct syntax
-            cmd = ["openai", "api", "chat.completions.create", "-m", "gpt-4", "-g", message]
-            
+            cmd = [
+                "openai",
+                "api",
+                "chat.completions.create",
+                "-m",
+                "gpt-4",
+                "-g",
+                message,
+            ]
+
             process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
-            
+
             stdout, stderr = process.communicate(timeout=30)
-            
+
             if process.returncode == 0 and stdout:
                 console.print(f"[cyan]Codex:[/cyan] {stdout.strip()}")
             else:
                 console.print(f"[red]OpenAI CLI error: {stderr}[/red]")
-                
+
         except subprocess.TimeoutExpired:
             console.print("[yellow]OpenAI CLI timed out[/yellow]")
         except Exception as e:
             console.print(f"[red]Error using OpenAI CLI: {e}[/red]")
-    
+
     async def _use_claude_cli(self, message: str):
         """Use Claude Desktop/Code CLI."""
         try:
             import os
             import subprocess
-            
+
             console.print("[dim]Using Claude Desktop...[/dim]")
-            
+
             # Check for Claude Code or Claude Desktop
             claude_paths = [
                 "/usr/local/bin/claude",
@@ -1256,13 +1382,17 @@ Examples:
                 os.path.expanduser("~/Applications/Claude.app/Contents/MacOS/Claude"),
                 "claude",  # In PATH
             ]
-            
+
             claude_path = None
             for path in claude_paths:
-                if os.path.exists(path) or subprocess.run(["which", path], capture_output=True).returncode == 0:
+                if (
+                    os.path.exists(path)
+                    or subprocess.run(["which", path], capture_output=True).returncode
+                    == 0
+                ):
                     claude_path = path
                     break
-            
+
             if not claude_path:
                 console.print("[red]Claude Desktop not found![/red]")
                 console.print("[yellow]To install:[/yellow]")
@@ -1270,11 +1400,11 @@ Examples:
                 console.print("  • Or: brew install --cask claude")
                 console.print("Then use: hanzo dev --orchestrator claude")
                 return
-            
+
             # Send message to Claude via CLI or AppleScript on macOS
             if sys.platform == "darwin":
                 # Use AppleScript to interact with Claude Desktop
-                script = f'''
+                script = f"""
                 tell application "Claude"
                     activate
                     delay 0.5
@@ -1283,34 +1413,36 @@ Examples:
                         key code 36  -- Enter key
                     end tell
                 end tell
-                '''
-                
+                """
+
                 subprocess.run(["osascript", "-e", script])
-                console.print("[cyan]Sent to Claude Desktop. Check the app for response.[/cyan]")
+                console.print(
+                    "[cyan]Sent to Claude Desktop. Check the app for response.[/cyan]"
+                )
             else:
                 # Try direct CLI invocation
                 process = subprocess.Popen(
                     [claude_path, "--message", message],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
-                    text=True
+                    text=True,
                 )
-                
+
                 stdout, stderr = process.communicate(timeout=30)
-                
+
                 if stdout:
                     console.print(f"[cyan]Claude:[/cyan] {stdout.strip()}")
-                    
+
         except Exception as e:
             console.print(f"[red]Error using Claude Desktop: {e}[/red]")
-    
+
     async def _use_gemini_cli(self, message: str):
         """Use Gemini CLI."""
         try:
             import subprocess
-            
+
             console.print("[dim]Using Gemini CLI...[/dim]")
-            
+
             # Check if gemini CLI is installed
             result = subprocess.run(["which", "gemini"], capture_output=True, text=True)
             if result.returncode != 0:
@@ -1321,47 +1453,46 @@ Examples:
                 console.print("  • Set GOOGLE_API_KEY environment variable")
                 console.print("Then use: hanzo dev --orchestrator gemini")
                 return
-            
+
             # Use gemini CLI
             cmd = ["gemini", "chat", message]
-            
+
             process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
-            
+
             stdout, stderr = process.communicate(timeout=30)
-            
+
             if process.returncode == 0 and stdout:
                 console.print(f"[cyan]Gemini:[/cyan] {stdout.strip()}")
             else:
                 console.print(f"[red]Gemini CLI error: {stderr}[/red]")
-                
+
         except subprocess.TimeoutExpired:
             console.print("[yellow]Gemini CLI timed out[/yellow]")
         except Exception as e:
             console.print(f"[red]Error using Gemini CLI: {e}[/red]")
-    
+
     async def _use_hanzo_ide(self, message: str):
         """Use Hanzo Dev IDE from ~/work/hanzo/ide."""
         try:
             import os
             import subprocess
-            
+
             console.print("[dim]Using Hanzo Dev IDE...[/dim]")
-            
+
             # Check if Hanzo IDE exists
             ide_path = os.path.expanduser("~/work/hanzo/ide")
             if not os.path.exists(ide_path):
                 console.print("[red]Hanzo Dev IDE not found![/red]")
                 console.print("[yellow]Expected location: ~/work/hanzo/ide[/yellow]")
                 console.print("To set up:")
-                console.print("  • git clone https://github.com/hanzoai/ide ~/work/hanzo/ide")
+                console.print(
+                    "  • git clone https://github.com/hanzoai/ide ~/work/hanzo/ide"
+                )
                 console.print("  • cd ~/work/hanzo/ide && npm install")
                 return
-            
+
             # Check for the CLI entry point
             cli_paths = [
                 os.path.join(ide_path, "bin", "hanzo-ide"),
@@ -1369,13 +1500,13 @@ Examples:
                 os.path.join(ide_path, "cli.js"),
                 os.path.join(ide_path, "index.js"),
             ]
-            
+
             cli_path = None
             for path in cli_paths:
                 if os.path.exists(path):
                     cli_path = path
                     break
-            
+
             if not cli_path:
                 # Try to run with npm/node
                 package_json = os.path.join(ide_path, "package.json")
@@ -1393,17 +1524,13 @@ Examples:
                 else:
                     cmd = [cli_path, "chat", message]
                 cwd = None
-            
+
             process = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                cwd=cwd
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd
             )
-            
+
             stdout, stderr = process.communicate(timeout=30)
-            
+
             if process.returncode == 0 and stdout:
                 console.print(f"[cyan]Hanzo IDE:[/cyan] {stdout.strip()}")
             else:
@@ -1411,73 +1538,83 @@ Examples:
                     console.print(f"[yellow]Hanzo IDE: {stderr}[/yellow]")
                 else:
                     console.print("[yellow]Hanzo IDE: No response[/yellow]")
-                    
+
         except subprocess.TimeoutExpired:
             console.print("[yellow]Hanzo IDE timed out[/yellow]")
         except Exception as e:
             console.print(f"[red]Error using Hanzo IDE: {e}[/red]")
-    
+
     async def _use_local_model(self, message: str):
         """Use local model via Ollama or LM Studio."""
         import httpx
-        
+
         model_name = self.orchestrator.orchestrator_model.replace("local:", "")
-        
+
         # Try Ollama first (default port 11434)
         try:
             console.print(f"[dim]Using local {model_name} via Ollama...[/dim]")
-            
+
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     "http://localhost:11434/api/chat",
                     json={
                         "model": model_name,
                         "messages": [
-                            {"role": "system", "content": "You are a helpful AI coding assistant."},
-                            {"role": "user", "content": message}
+                            {
+                                "role": "system",
+                                "content": "You are a helpful AI coding assistant.",
+                            },
+                            {"role": "user", "content": message},
                         ],
-                        "stream": False
+                        "stream": False,
                     },
-                    timeout=60.0
+                    timeout=60.0,
                 )
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("message"):
-                        console.print(f"[cyan]{model_name}:[/cyan] {data['message']['content']}")
+                        console.print(
+                            f"[cyan]{model_name}:[/cyan] {data['message']['content']}"
+                        )
                         return
-                        
+
         except Exception:
             pass
-        
+
         # Try LM Studio (default port 1234)
         try:
             console.print(f"[dim]Trying LM Studio...[/dim]")
-            
+
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     "http://localhost:1234/v1/chat/completions",
                     json={
                         "model": model_name,
                         "messages": [
-                            {"role": "system", "content": "You are a helpful AI coding assistant."},
-                            {"role": "user", "content": message}
+                            {
+                                "role": "system",
+                                "content": "You are a helpful AI coding assistant.",
+                            },
+                            {"role": "user", "content": message},
                         ],
                         "temperature": 0.7,
-                        "max_tokens": 2000
+                        "max_tokens": 2000,
                     },
-                    timeout=60.0
+                    timeout=60.0,
                 )
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("choices"):
-                        console.print(f"[cyan]{model_name}:[/cyan] {data['choices'][0]['message']['content']}")
+                        console.print(
+                            f"[cyan]{model_name}:[/cyan] {data['choices'][0]['message']['content']}"
+                        )
                         return
-                        
+
         except Exception:
             pass
-        
+
         # Neither worked
         console.print(f"[red]Local model '{model_name}' not available[/red]")
         console.print("[yellow]To use local models:[/yellow]")
@@ -1489,13 +1626,13 @@ Examples:
         console.print("  • Download from https://lmstudio.ai")
         console.print(f"  • Load {model_name} model")
         console.print("  • Start local server (port 1234)")
-    
+
     async def handle_memory_command(self, command: str):
         """Handle memory/context commands starting with #."""
         parts = command.split(maxsplit=1)
         cmd = parts[0].lower() if parts else ""
         args = parts[1] if len(parts) > 1 else ""
-        
+
         if cmd == "remember":
             if args:
                 console.print(f"[green]✓ Remembered: {args}[/green]")
@@ -1578,13 +1715,10 @@ async def run_dev_orchestrator(**kwargs):
             console_obj.print("[red]Failed to initialize network[/red]")
             return
     else:
-        # Fallback to multi-Claude mode
-        console_obj.print(f"[cyan]Mode: Multi-Claude Orchestration (legacy)[/cyan]")
-        console_obj.print(
-            f"Instances: {instances} (1 primary + {instances-1} critic{'s' if instances > 2 else ''})"
-        )
+        # Fallback to API mode
+        console_obj.print(f"[cyan]Mode: AI Chat[/cyan]")
+        console_obj.print(f"Model: {orchestrator_model}")
         console_obj.print(f"MCP Tools: {'Enabled' if mcp_tools else 'Disabled'}")
-        console_obj.print(f"Networking: {'Enabled' if network_mode else 'Disabled'}")
         console_obj.print(f"Guardrails: {'Enabled' if guardrails else 'Disabled'}\n")
 
         orchestrator = MultiClaudeOrchestrator(
@@ -2216,6 +2350,22 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
 
     async def initialize(self):
         """Initialize all Claude instances with MCP networking."""
+        # Check if Claude is available first
+        claude_available = False
+        try:
+            import shutil
+
+            if self.claude_code_path and Path(self.claude_code_path).exists():
+                claude_available = True
+            elif shutil.which("claude"):
+                claude_available = True
+        except:
+            pass
+
+        if not claude_available:
+            # Skip Claude instance initialization - will use API fallback silently
+            return
+
         self.console.print("[cyan]Initializing Claude instances...[/cyan]")
 
         for i in range(self.num_instances):
@@ -2237,7 +2387,8 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
             if success:
                 self.console.print(f"[green]✓ Instance {i} started[/green]")
             else:
-                self.console.print(f"[red]✗ Failed to start instance {i}[/red]")
+                # Don't show error, just skip silently
+                pass
 
     async def _create_instance_config(self, index: int, role: str) -> Dict:
         """Create configuration for a Claude instance."""
@@ -2377,7 +2528,13 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
 
         # Check if instances are initialized
         if not self.claude_instances:
-            # No instances started, use direct API
+            # No instances started, use fallback handler for smart routing
+            from .fallback_handler import smart_chat
+
+            response = await smart_chat(task, console=self.console)
+            if response:
+                return {"output": response, "success": True}
+            # If smart_chat fails, try direct API as last resort
             return await self._call_api_model(task)
 
         # Step 1: Primary execution
@@ -2454,113 +2611,158 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         else:
             # Try API-based models
             return await self._call_api_model(prompt)
-    
+
     async def _call_openai_cli(self, prompt: str) -> Dict:
         """Call OpenAI CLI and return structured response."""
         try:
             import subprocess
+
             result = subprocess.run(
-                ["openai", "api", "chat.completions.create", "-m", "gpt-4", "-g", prompt],
+                [
+                    "openai",
+                    "api",
+                    "chat.completions.create",
+                    "-m",
+                    "gpt-4",
+                    "-g",
+                    prompt,
+                ],
                 capture_output=True,
                 text=True,
-                timeout=30
+                timeout=30,
             )
             if result.returncode == 0 and result.stdout:
                 return {"output": result.stdout.strip(), "success": True}
         except Exception as e:
             logger.error(f"OpenAI CLI error: {e}")
-        return {"output": "OpenAI CLI not available. Install with: pip install openai-cli", "success": False}
-    
+        return {
+            "output": "OpenAI CLI not available. Install with: pip install openai-cli",
+            "success": False,
+        }
+
     async def _call_claude_cli(self, prompt: str) -> Dict:
         """Call Claude Desktop and return structured response."""
         try:
             import sys
             import subprocess
+
             if sys.platform == "darwin":
                 # macOS - use AppleScript
                 script = f'tell application "Claude" to activate'
                 subprocess.run(["osascript", "-e", script])
-                return {"output": "Sent to Claude Desktop. Check app for response.", "success": True}
+                return {
+                    "output": "Sent to Claude Desktop. Check app for response.",
+                    "success": True,
+                }
         except Exception as e:
             logger.error(f"Claude CLI error: {e}")
-        return {"output": "Claude Desktop not available. Install from https://claude.ai/desktop", "success": False}
-    
+        return {
+            "output": "Claude Desktop not available. Install from https://claude.ai/desktop",
+            "success": False,
+        }
+
     async def _call_gemini_cli(self, prompt: str) -> Dict:
         """Call Gemini CLI and return structured response."""
         try:
             import subprocess
+
             result = subprocess.run(
-                ["gemini", "chat", prompt],
-                capture_output=True,
-                text=True,
-                timeout=30
+                ["gemini", "chat", prompt], capture_output=True, text=True, timeout=30
             )
             if result.returncode == 0 and result.stdout:
                 return {"output": result.stdout.strip(), "success": True}
         except Exception as e:
             logger.error(f"Gemini CLI error: {e}")
-        return {"output": "Gemini CLI not available. Install with: pip install google-generativeai-cli", "success": False}
-    
+        return {
+            "output": "Gemini CLI not available. Install with: pip install google-generativeai-cli",
+            "success": False,
+        }
+
     async def _call_local_model(self, prompt: str) -> Dict:
         """Call local model via Ollama and return structured response."""
         try:
             import httpx
+
             model_name = self.orchestrator_model.replace("local:", "")
-            
+
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     "http://localhost:11434/api/chat",
                     json={
                         "model": model_name,
                         "messages": [{"role": "user", "content": prompt}],
-                        "stream": False
+                        "stream": False,
                     },
-                    timeout=60.0
+                    timeout=60.0,
                 )
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("message"):
                         return {"output": data["message"]["content"], "success": True}
         except Exception as e:
             logger.error(f"Local model error: {e}")
-        return {"output": f"Local model not available. Install Ollama and run: ollama pull {self.orchestrator_model.replace('local:', '')}", "success": False}
-    
+        return {
+            "output": f"Local model not available. Install Ollama and run: ollama pull {self.orchestrator_model.replace('local:', '')}",
+            "success": False,
+        }
+
     async def _call_api_model(self, prompt: str) -> Dict:
         """Call API-based model and return structured response."""
         import os
-        
-        # Try OpenAI
-        if os.getenv("OPENAI_API_KEY"):
+
+        # Try OpenAI first (check environment variable properly)
+        openai_key = os.environ.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+        if openai_key:
             try:
                 from openai import AsyncOpenAI
-                client = AsyncOpenAI()
+
+                client = AsyncOpenAI(api_key=openai_key)
                 response = await client.chat.completions.create(
                     model="gpt-4",
                     messages=[{"role": "user", "content": prompt}],
-                    max_tokens=2000
+                    max_tokens=2000,
                 )
                 if response.choices:
-                    return {"output": response.choices[0].message.content, "success": True}
+                    return {
+                        "output": response.choices[0].message.content,
+                        "success": True,
+                    }
             except Exception as e:
                 logger.error(f"OpenAI API error: {e}")
-        
+
         # Try Anthropic
-        if os.getenv("ANTHROPIC_API_KEY"):
+        anthropic_key = os.environ.get("ANTHROPIC_API_KEY") or os.getenv(
+            "ANTHROPIC_API_KEY"
+        )
+        if anthropic_key:
             try:
                 from anthropic import AsyncAnthropic
-                client = AsyncAnthropic()
+
+                client = AsyncAnthropic(api_key=anthropic_key)
                 response = await client.messages.create(
                     model="claude-3-5-sonnet-20241022",
                     messages=[{"role": "user", "content": prompt}],
-                    max_tokens=2000
+                    max_tokens=2000,
                 )
                 if response.content:
                     return {"output": response.content[0].text, "success": True}
             except Exception as e:
                 logger.error(f"Anthropic API error: {e}")
-        
-        return {"output": "No API keys configured. Set OPENAI_API_KEY or ANTHROPIC_API_KEY", "success": False}
+
+        # Try fallback handler as last resort
+        from .fallback_handler import smart_chat
+
+        response = await smart_chat(
+            prompt, console=None
+        )  # No console to avoid duplicate messages
+        if response:
+            return {"output": response, "success": True}
+
+        return {
+            "output": "No API keys configured. Set OPENAI_API_KEY or ANTHROPIC_API_KEY",
+            "success": False,
+        }
 
     async def _validate_improvement(self, original: Dict, improved: Dict) -> bool:
         """Validate that an improvement doesn't degrade quality."""

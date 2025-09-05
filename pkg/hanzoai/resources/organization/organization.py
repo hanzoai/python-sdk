@@ -45,7 +45,9 @@ from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_membership_table import OrganizationMembershipTable
 from ...types.organization_table_with_members import OrganizationTableWithMembers
 from ...types.organization_add_member_response import OrganizationAddMemberResponse
-from ...types.organization_update_member_response import OrganizationUpdateMemberResponse
+from ...types.organization_update_member_response import (
+    OrganizationUpdateMemberResponse,
+)
 
 __all__ = ["OrganizationResource", "AsyncOrganizationResource"]
 

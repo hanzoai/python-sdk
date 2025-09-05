@@ -49,6 +49,30 @@ class AutoBackgroundExecutor:
         Returns:
             Tuple of (output/status, was_backgrounded, process_id)
         """
+        # Fast path for tests/offline: run synchronously
+        import os
+
+        if os.getenv("HANZO_MCP_FAST_TESTS") == "1":
+            import subprocess
+
+            try:
+                proc = subprocess.run(
+                    cmd_args,
+                    cwd=str(cwd) if cwd else None,
+                    env=env,
+                    capture_output=True,
+                    text=True,
+                )
+                if proc.returncode != 0:
+                    return (
+                        f"Command failed with exit code {proc.returncode}:\n{proc.stdout}{proc.stderr}",
+                        False,
+                        None,
+                    )
+                return proc.stdout, False, None
+            except Exception as e:  # pragma: no cover
+                return f"Error executing command: {e}", False, None
+
         # Generate process ID
         process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
 

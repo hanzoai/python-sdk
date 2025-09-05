@@ -13,7 +13,7 @@ def mock_api(request):
     if "respx_mock" in request.fixturenames:
         yield None
         return
-        
+
     with respx.mock(
         base_url="http://127.0.0.1:4010", assert_all_called=False
     ) as respx_mock:
@@ -139,9 +139,11 @@ def mock_api(request):
         respx_mock.get("/global/spend/tags").mock(return_value=Response(200, json=[]))
         respx_mock.post("/global/spend/reset").mock(return_value=Response(200, json={}))
         respx_mock.get("/global/spend/report").mock(return_value=Response(200, json=[]))
-        
+
         # Guardrails
-        respx_mock.get("/guardrails/list").mock(return_value=Response(200, json={"guardrails": []}))
+        respx_mock.get("/guardrails/list").mock(
+            return_value=Response(200, json={"guardrails": []})
+        )
 
         # Images
         respx_mock.post("/images/generations").mock(
@@ -199,14 +201,12 @@ def mock_api(request):
         respx_mock.get("/organization/info/deprecated").mock(
             return_value=Response(200, json={})
         )
-        respx_mock.post("/organization/new").mock(return_value=Response(200, json=org_response))
+        respx_mock.post("/organization/new").mock(
+            return_value=Response(200, json=org_response)
+        )
         respx_mock.post("/organization").mock(return_value=Response(200, json={}))
-        respx_mock.get("/organization/list").mock(
-            return_value=Response(200, json=[])
-        )
-        respx_mock.get("/organization").mock(
-            return_value=Response(200, json=[])
-        )
+        respx_mock.get("/organization/list").mock(return_value=Response(200, json=[]))
+        respx_mock.get("/organization").mock(return_value=Response(200, json=[]))
         org_update_response = {
             "budget_id": "budget-123",
             "created_at": "2024-01-01T00:00:00Z",
@@ -216,17 +216,23 @@ def mock_api(request):
             "updated_by": "user-123",
             "organization_id": "org-123",
             "members": [],
-            "teams": []
+            "teams": [],
         }
-        respx_mock.patch("/organization/update").mock(return_value=Response(200, json=org_update_response))
-        respx_mock.put("/organization/update").mock(return_value=Response(200, json=org_update_response))
+        respx_mock.patch("/organization/update").mock(
+            return_value=Response(200, json=org_update_response)
+        )
+        respx_mock.put("/organization/update").mock(
+            return_value=Response(200, json=org_update_response)
+        )
         respx_mock.put("/organization").mock(return_value=Response(200, json={}))
-        respx_mock.delete("/organization/delete").mock(return_value=Response(200, json=[org_response]))
+        respx_mock.delete("/organization/delete").mock(
+            return_value=Response(200, json=[org_response])
+        )
         respx_mock.delete("/organization").mock(return_value=Response(200, json={}))
         org_member_response = {
             "organization_id": "org-123",
             "updated_organization_memberships": [],
-            "updated_users": []
+            "updated_users": [],
         }
         respx_mock.post("/organization/member_add").mock(
             return_value=Response(200, json=org_member_response)
@@ -244,7 +250,7 @@ def mock_api(request):
             "created_at": "2024-01-01T00:00:00Z",
             "organization_id": "org-123",
             "updated_at": "2024-01-01T00:00:00Z",
-            "user_id": "user-123"
+            "user_id": "user-123",
         }
         respx_mock.patch("/organization/member_update").mock(
             return_value=Response(200, json=org_update_member_response)
@@ -266,7 +272,7 @@ def mock_api(request):
             "team_id": "team-123",
             "models": [],
             "members": [],
-            "admins": []
+            "admins": [],
         }
         respx_mock.route(method="GET", path__regex=r"/team/.*/callback").mock(
             return_value=Response(200, json={})
@@ -276,35 +282,56 @@ def mock_api(request):
         )
         respx_mock.post("/team/model").mock(return_value=Response(200, json={}))
         respx_mock.delete("/team/model").mock(return_value=Response(200, json={}))
-        respx_mock.post("/team/new").mock(return_value=Response(200, json=team_response))
+        respx_mock.post("/team/new").mock(
+            return_value=Response(200, json=team_response)
+        )
         respx_mock.post("/team").mock(return_value=Response(200, json={}))
         respx_mock.get("/team/list").mock(return_value=Response(200, json=[]))
         respx_mock.get("/team").mock(return_value=Response(200, json=[]))
-        respx_mock.get("/team/info").mock(return_value=Response(200, json=team_response))
-        respx_mock.patch("/team/update").mock(return_value=Response(200, json=team_response))
-        respx_mock.put("/team/update").mock(return_value=Response(200, json=team_response))
+        respx_mock.get("/team/info").mock(
+            return_value=Response(200, json=team_response)
+        )
+        respx_mock.patch("/team/update").mock(
+            return_value=Response(200, json=team_response)
+        )
+        respx_mock.put("/team/update").mock(
+            return_value=Response(200, json=team_response)
+        )
         respx_mock.put("/team").mock(return_value=Response(200, json={}))
-        respx_mock.delete("/team/delete").mock(return_value=Response(200, json=[team_response]))
+        respx_mock.delete("/team/delete").mock(
+            return_value=Response(200, json=[team_response])
+        )
         respx_mock.delete("/team").mock(return_value=Response(200, json={}))
         team_add_member_response = {
             "team_id": "team-123",
             "updated_team_memberships": [],
-            "updated_users": []
+            "updated_users": [],
         }
-        team_update_member_response = {
-            "team_id": "team-123",
-            "user_id": "user-123"
-        }
-        respx_mock.post("/team/member_add").mock(return_value=Response(200, json=team_add_member_response))
+        team_update_member_response = {"team_id": "team-123", "user_id": "user-123"}
+        respx_mock.post("/team/member_add").mock(
+            return_value=Response(200, json=team_add_member_response)
+        )
         respx_mock.post("/team/members").mock(return_value=Response(200, json={}))
-        respx_mock.delete("/team/member_delete").mock(return_value=Response(200, json=team_response))
+        respx_mock.delete("/team/member_delete").mock(
+            return_value=Response(200, json=team_response)
+        )
         respx_mock.delete("/team/members").mock(return_value=Response(200, json={}))
-        respx_mock.post("/team/member_update").mock(return_value=Response(200, json=team_update_member_response))
-        respx_mock.patch("/team/member_update").mock(return_value=Response(200, json=team_update_member_response))
-        respx_mock.put("/team/member_update").mock(return_value=Response(200, json=team_update_member_response))
+        respx_mock.post("/team/member_update").mock(
+            return_value=Response(200, json=team_update_member_response)
+        )
+        respx_mock.patch("/team/member_update").mock(
+            return_value=Response(200, json=team_update_member_response)
+        )
+        respx_mock.put("/team/member_update").mock(
+            return_value=Response(200, json=team_update_member_response)
+        )
         respx_mock.put("/team/members").mock(return_value=Response(200, json={}))
-        respx_mock.post("/team/block").mock(return_value=Response(200, json=team_response))
-        respx_mock.post("/team/unblock").mock(return_value=Response(200, json=team_response))
+        respx_mock.post("/team/block").mock(
+            return_value=Response(200, json=team_response)
+        )
+        respx_mock.post("/team/unblock").mock(
+            return_value=Response(200, json=team_response)
+        )
 
         # Other endpoints
         respx_mock.get("/active/callbacks").mock(
@@ -449,19 +476,15 @@ def mock_api(request):
 
         # Spend
         respx_mock.get("/spend/calculate").mock(return_value=Response(200, json={}))
-        respx_mock.get("/spend/logs").mock(
-            return_value=Response(200, json=[])
-        )
-        respx_mock.get("/spend/tags").mock(
-            return_value=Response(200, json=[])
-        )
+        respx_mock.get("/spend/logs").mock(return_value=Response(200, json=[]))
+        respx_mock.get("/spend/tags").mock(return_value=Response(200, json=[]))
 
         # Test
         respx_mock.get("/test").mock(return_value=Response(200, json={}))
 
         # Root endpoint for client tests
         respx_mock.get("/").mock(return_value=Response(200, json={}))
-        
+
         # Threads
         respx_mock.post("/threads").mock(return_value=Response(200, json={}))
         respx_mock.get("/threads").mock(return_value=Response(200, json={"data": []}))
@@ -488,18 +511,23 @@ def mock_api(request):
         )
 
         # User
-        user_response = {
-            "key": "sk-user-123",
-            "user_id": "user-123"
-        }
-        respx_mock.post("/user/new").mock(return_value=Response(200, json=user_response))
+        user_response = {"key": "sk-user-123", "user_id": "user-123"}
+        respx_mock.post("/user/new").mock(
+            return_value=Response(200, json=user_response)
+        )
         respx_mock.post("/user").mock(return_value=Response(200, json={}))
         respx_mock.get("/user/list").mock(return_value=Response(200, json=[]))
         respx_mock.get("/user").mock(return_value=Response(200, json=[]))
-        respx_mock.get("/user/info").mock(return_value=Response(200, json=user_response))
-        respx_mock.put("/user/update").mock(return_value=Response(200, json=user_response))
+        respx_mock.get("/user/info").mock(
+            return_value=Response(200, json=user_response)
+        )
+        respx_mock.put("/user/update").mock(
+            return_value=Response(200, json=user_response)
+        )
         respx_mock.put("/user").mock(return_value=Response(200, json={}))
-        respx_mock.delete("/user/delete").mock(return_value=Response(200, json=user_response))
+        respx_mock.delete("/user/delete").mock(
+            return_value=Response(200, json=user_response)
+        )
         respx_mock.delete("/user").mock(return_value=Response(200, json={}))
 
         # Utils
@@ -507,12 +535,15 @@ def mock_api(request):
             return_value=Response(200, json={})
         )
         respx_mock.post("/utils/token_counter").mock(
-            return_value=Response(200, json={
-                "model_used": "gpt-3.5-turbo",
-                "request_model": "gpt-3.5-turbo",
-                "tokenizer_type": "cl100k_base",
-                "total_tokens": 10
-            })
+            return_value=Response(
+                200,
+                json={
+                    "model_used": "gpt-3.5-turbo",
+                    "request_model": "gpt-3.5-turbo",
+                    "tokenizer_type": "cl100k_base",
+                    "total_tokens": 10,
+                },
+            )
         )
         respx_mock.post("/utils/transform_request").mock(
             return_value=Response(200, json={})
