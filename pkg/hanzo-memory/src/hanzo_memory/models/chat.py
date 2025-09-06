@@ -1,6 +1,6 @@
 """Chat models."""
 
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -22,7 +22,7 @@ class ChatMessageCreate(ChatMessageBase):
 
     userid: str = Field(..., description="User ID")
     session_id: str = Field(..., description="Chat session ID")
-    project_id: Optional[str] = Field(None, description="Project ID")
+    project_id: str | None = Field(None, description="Project ID")
 
 
 class ChatMessage(ChatMessageBase, ProjectScopedModel):
@@ -30,7 +30,7 @@ class ChatMessage(ChatMessageBase, ProjectScopedModel):
 
     chat_id: str = Field(..., description="Chat message ID")
     session_id: str = Field(..., description="Chat session ID")
-    embedding: Optional[list[float]] = Field(None, description="Message embedding")
+    embedding: list[float] | None = Field(None, description="Message embedding")
     created_at: str = Field(..., description="Creation timestamp")
 
     model_config = {"from_attributes": True}
@@ -40,9 +40,9 @@ class ChatSessionCreate(BaseModel):
     """Model for creating a chat session."""
 
     userid: str = Field(..., description="User ID")
-    session_id: Optional[str] = Field(None, description="Custom session ID")
-    project_id: Optional[str] = Field(None, description="Project ID")
-    title: Optional[str] = Field(None, description="Session title")
+    session_id: str | None = Field(None, description="Custom session ID")
+    project_id: str | None = Field(None, description="Project ID")
+    title: str | None = Field(None, description="Session title")
     metadata: dict[str, Any] = Field(
         default_factory=dict, description="Session metadata"
     )
@@ -54,7 +54,7 @@ class ChatSession(BaseModel):
     session_id: str = Field(..., description="Session ID")
     user_id: str = Field(..., description="User ID")
     project_id: str = Field(..., description="Project ID")
-    title: Optional[str] = Field(None, description="Session title")
+    title: str | None = Field(None, description="Session title")
     metadata: dict[str, Any] = Field(
         default_factory=dict, description="Session metadata"
     )
@@ -77,8 +77,8 @@ class ChatSearchRequest(BaseModel):
 
     user_id: str = Field(..., description="User ID")
     query: str = Field(..., description="Search query")
-    project_id: Optional[str] = Field(None, description="Filter by project ID")
-    session_id: Optional[str] = Field(None, description="Filter by session ID")
+    project_id: str | None = Field(None, description="Filter by project ID")
+    session_id: str | None = Field(None, description="Filter by session ID")
     limit: int = Field(10, ge=1, le=100, description="Max results to return")
 
 

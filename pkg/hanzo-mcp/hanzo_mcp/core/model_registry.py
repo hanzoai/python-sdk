@@ -8,9 +8,9 @@ Thread-safe singleton implementation.
 from __future__ import annotations
 
 import threading
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Any
 from enum import Enum
+from typing import Any, Set, Dict, List, Optional
+from dataclasses import field, dataclass
 
 
 class ModelProvider(Enum):

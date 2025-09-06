@@ -135,8 +135,8 @@ hanzo> mcp run read_file --arg path=README.md
         """Execute a CLI command."""
         import os
         import sys
-        import subprocess
         import shutil
+        import subprocess
 
         # Find hanzo executable
         hanzo_cmd = shutil.which("hanzo")

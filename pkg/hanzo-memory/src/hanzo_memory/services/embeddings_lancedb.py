@@ -1,6 +1,5 @@
 """Embedding service using LanceDB's built-in embedding functions."""
 
-from typing import Optional, Union
 
 import numpy as np
 from lancedb.embeddings import get_registry
@@ -14,7 +13,7 @@ logger = get_logger()
 class LanceDBEmbeddingService:
     """Service for generating embeddings using LanceDB's embedding functions."""
 
-    def __init__(self, model_name: Optional[str] = None):
+    def __init__(self, model_name: str | None = None):
         """Initialize the embedding service."""
         self.model_name = model_name or settings.embedding_model
         self._embedding_func = None
@@ -74,7 +73,7 @@ class LanceDBEmbeddingService:
             logger.info(f"Embedding function {self.model_name} loaded successfully")
         return self._embedding_func
 
-    def embed_text(self, text: Union[str, list[str]]) -> list[list[float]]:
+    def embed_text(self, text: str | list[str]) -> list[list[float]]:
         """
         Generate embeddings for text.
 
@@ -198,7 +197,7 @@ class LanceDBEmbeddingService:
 
 
 # Global embedding service instance
-_embedding_service: Optional[LanceDBEmbeddingService] = None
+_embedding_service: LanceDBEmbeddingService | None = None
 
 
 def get_lancedb_embedding_service() -> LanceDBEmbeddingService:

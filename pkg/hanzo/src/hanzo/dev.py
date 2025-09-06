@@ -2359,7 +2359,7 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
                 claude_available = True
             elif shutil.which("claude"):
                 claude_available = True
-        except:
+        except Exception:
             pass
 
         if not claude_available:
