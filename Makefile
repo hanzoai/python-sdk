@@ -58,11 +58,11 @@ dev-deps: ## Install development dependencies
 
 test: ## Run tests for all packages
 	@echo -e "$(CYAN)Running tests...$(NC)"
-	@source .venv/bin/activate && python -m pytest tests/ -v
-	@source .venv/bin/activate && cd pkg/hanzo-agents && python -m pytest tests/ -v || true
-	@source .venv/bin/activate && cd pkg/hanzo-mcp && python -m pytest tests/ -v || true
-	@source .venv/bin/activate && cd pkg/hanzo-memory && python -m pytest tests/ -v || true
-	@source .venv/bin/activate && cd pkg/hanzo-aci && python -m pytest tests/ -v || true
+	@source .venv/bin/activate && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/ -v
+	@source .venv/bin/activate && cd pkg/hanzo-agents && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/ -v || true
+	@source .venv/bin/activate && cd pkg/hanzo-mcp && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/ -v || true
+	@source .venv/bin/activate && cd pkg/hanzo-memory && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/ -v || true
+	@source .venv/bin/activate && cd pkg/hanzo-aci && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/ -v || true
 	@echo -e "$(GREEN)Tests completed$(NC)"
 
 lint: ## Run linting for all packages
