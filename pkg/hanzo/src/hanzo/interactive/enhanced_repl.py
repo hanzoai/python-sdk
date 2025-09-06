@@ -122,20 +122,9 @@ class EnhancedHanzoREPL:
         self.auth_file.write_text(json.dumps(self.auth, indent=2))
 
     def get_prompt(self) -> str:
-        """Get the prompt with current model."""
-        # Check authentication status
-        auth_indicator = "🔓" if self.is_authenticated() else "🔒"
-        
-        # Model indicator
-        model_short = self.current_model.split("-")[0].split(":")[0]
-        
-        # Build prompt
-        return HTML(
-            f'<ansigreen>hanzo</ansigreen> '
-            f'<ansicyan>[{model_short}]</ansicyan> '
-            f'<ansiyellow>{auth_indicator}</ansiyellow> '
-            f'<ansiwhite>›</ansiwhite> '
-        )
+        """Get the simple prompt."""
+        # We'll use a simple > prompt, the box is handled by prompt_toolkit
+        return "> "
 
     def is_authenticated(self) -> bool:
         """Check if user is authenticated."""
@@ -153,6 +142,30 @@ class EnhancedHanzoREPL:
             
         return False
 
+    def get_model_info(self):
+        """Get current model info string."""
+        # Determine provider from model name
+        model = self.current_model
+        if model.startswith("gpt"):
+            provider = "openai"
+        elif model.startswith("claude"):
+            provider = "anthropic"
+        elif model.startswith("gemini"):
+            provider = "google"
+        elif model.startswith("llama") or model.startswith("codellama"):
+            provider = "meta"
+        elif model.startswith("mistral") or model.startswith("mixtral"):
+            provider = "mistral"
+        elif model.startswith("local:"):
+            provider = "local"
+        else:
+            provider = "unknown"
+        
+        # Auth status
+        auth_status = "🔓" if self.is_authenticated() else "🔒"
+        
+        return f"[dim]model: {provider}/{model} {auth_status}[/dim]"
+    
     async def run(self):
         """Run the enhanced REPL."""
         self.running = True
@@ -171,7 +184,10 @@ class EnhancedHanzoREPL:
 
         while self.running:
             try:
-                # Get input with enhanced prompt
+                # Show model info above prompt
+                self.console.print(self.get_model_info())
+                
+                # Get input with simple prompt
                 command = await self.session.prompt_async(
                     self.get_prompt(),
                     completer=completer
