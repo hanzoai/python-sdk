@@ -42,7 +42,7 @@ class ToolDetector:
             provider="hanzo-local",
             priority=0,  # Highest priority - local and private
             check_command=None,  # Check via API endpoint
-            api_endpoint="http://localhost:8000/health",
+            api_endpoint="http://localhost:3690/health",
             env_var=None
         ),
         AITool(
@@ -175,7 +175,7 @@ class ToolDetector:
                         try:
                             # Check if the chat completions endpoint works
                             test_response = httpx.post(
-                                "http://localhost:8000/v1/chat/completions",
+                                "http://localhost:3690/v1/chat/completions",
                                 json={
                                     "messages": [{"role": "user", "content": "test"}],
                                     "model": "test",
@@ -193,7 +193,7 @@ class ToolDetector:
                             
                             # Try to get model info
                             try:
-                                models_response = httpx.get("http://localhost:8000/v1/models", timeout=1.0)
+                                models_response = httpx.get("http://localhost:3690/v1/models", timeout=1.0)
                                 if models_response.status_code == 200:
                                     models = models_response.json().get("data", [])
                                     if models:
@@ -342,10 +342,10 @@ class ToolDetector:
         try:
             # Special handling for Hanzo services
             if tool.name == "hanzod":
-                # Use the local API directly with correct endpoint
+                # Use the local API directly with correct endpoint (port 3690)
                 try:
                     response = httpx.post(
-                        "http://localhost:8000/v1/chat/completions",
+                        "http://localhost:3690/v1/chat/completions",
                         json={
                             "messages": [{"role": "user", "content": prompt}],
                             "model": "default",  # Use default model
