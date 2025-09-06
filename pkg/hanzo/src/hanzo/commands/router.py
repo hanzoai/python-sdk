@@ -3,8 +3,8 @@
 import os
 import sys
 import subprocess
-from pathlib import Path
 from typing import Optional
+from pathlib import Path
 
 import click
 
@@ -103,6 +103,7 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
 def stop_router(port: int):
     """Stop the router."""
     import signal
+
     import psutil
     
     found = False
@@ -140,7 +141,7 @@ def router_status(port: int):
                     data = models_response.json()
                     if "data" in data:
                         console.print(f"Available models: {len(data['data'])}")
-            except:
+            except Exception:
                 pass
         else:
             console.print(f"[yellow]Router responding but unhealthy (status: {response.status_code})[/yellow]")

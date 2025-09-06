@@ -1,6 +1,6 @@
 """Memory models."""
 
-from typing import Any, Optional, Union
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -20,7 +20,7 @@ class MemoryBase(BaseModel):
 class MemoryCreate(MemoryBase):
     """Model for creating a memory."""
 
-    additional_context: Optional[str] = Field(
+    additional_context: str | None = Field(
         None, description="Additional context for the memory"
     )
     strip_pii: bool = Field(False, description="Strip PII from content")
@@ -29,16 +29,16 @@ class MemoryCreate(MemoryBase):
 class MemoryUpdate(BaseModel):
     """Model for updating a memory."""
 
-    content: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
-    importance: Optional[float] = None
+    content: str | None = None
+    metadata: dict[str, Any] | None = None
+    importance: float | None = None
 
 
 class Memory(MemoryBase, ProjectScopedModel, TimestampedModel):
     """Complete memory model."""
 
     memory_id: str = Field(..., description="Memory ID")
-    embedding: Optional[list[float]] = Field(None, description="Embedding vector")
+    embedding: list[float] | None = Field(None, description="Embedding vector")
 
     model_config = {"from_attributes": True}
 
@@ -53,7 +53,7 @@ class MemoryResponse(BaseModel):
     """Memory response model."""
 
     user_id: str = Field(..., description="User ID")
-    relevant_memories: list[Union[str, dict[str, str]]] = Field(
+    relevant_memories: list[str | dict[str, str]] = Field(
         ..., description="Relevant memories"
     )
     memory_stored: bool = Field(True, description="Whether the memory was stored")
@@ -72,10 +72,10 @@ class MemoryListResponse(BaseModel):
 class RememberRequest(BaseModel):
     """Request model for /v1/remember endpoint."""
 
-    apikey: Optional[str] = Field(None, description="API key")
+    apikey: str | None = Field(None, description="API key")
     userid: str = Field(..., description="User ID")
     messagecontent: str = Field(..., description="Message content")
-    additionalcontext: Optional[str] = Field(None, description="Additional context")
+    additionalcontext: str | None = Field(None, description="Additional context")
     strippii: bool = Field(False, description="Strip PII")
     filterresults: bool = Field(False, description="Filter results with LLM")
     includememoryid: bool = Field(False, description="Include memory IDs in response")
@@ -84,25 +84,25 @@ class RememberRequest(BaseModel):
 class AddMemoriesRequest(BaseModel):
     """Request model for /v1/memories/add endpoint."""
 
-    apikey: Optional[str] = Field(None, description="API key")
+    apikey: str | None = Field(None, description="API key")
     userid: str = Field(..., description="User ID")
-    memoriestoadd: Union[str, list[str]] = Field(..., description="Memories to add")
+    memoriestoadd: str | list[str] = Field(..., description="Memories to add")
 
 
 class GetMemoriesRequest(BaseModel):
     """Request model for /v1/memories/get endpoint."""
 
-    apikey: Optional[str] = Field(None, description="API key")
+    apikey: str | None = Field(None, description="API key")
     userid: str = Field(..., description="User ID")
-    memoryid: Optional[str] = Field(None, description="Specific memory ID")
+    memoryid: str | None = Field(None, description="Specific memory ID")
     limit: int = Field(50, ge=1, le=1000, description="Max memories to return")
-    startafter: Optional[str] = Field(None, description="Memory ID to start after")
+    startafter: str | None = Field(None, description="Memory ID to start after")
 
 
 class DeleteMemoryRequest(BaseModel):
     """Request model for /v1/memories/delete endpoint."""
 
-    apikey: Optional[str] = Field(None, description="API key")
+    apikey: str | None = Field(None, description="API key")
     userid: str = Field(..., description="User ID")
     memoryid: str = Field(..., description="Memory ID to delete")
 
@@ -110,6 +110,6 @@ class DeleteMemoryRequest(BaseModel):
 class DeleteUserRequest(BaseModel):
     """Request model for /v1/user/delete endpoint."""
 
-    apikey: Optional[str] = Field(None, description="API key")
+    apikey: str | None = Field(None, description="API key")
     userid: str = Field(..., description="User ID")
     confirmdelete: bool = Field(..., description="Confirm deletion")
