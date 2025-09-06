@@ -351,9 +351,9 @@ class EnhancedHanzoREPL:
         
         # Node status
         try:
-            response = httpx.get("http://localhost:8000/health", timeout=1)
+            response = httpx.get("http://localhost:3690/health", timeout=1)
             node_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
-            node_details = "Port 8000"
+            node_details = "Port 3690"
         except:
             node_status = "❌ Offline"
             node_details = "Run 'hanzo node start'"
