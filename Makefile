@@ -201,7 +201,7 @@ check-types: ## Run type checking
 
 coverage: ## Run tests with coverage
 	@echo -e "$(CYAN)Running tests with coverage...$(NC)"
-	@source .venv/bin/activate && coverage run -m pytest tests/
+	@source .venv/bin/activate && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 coverage run -m pytest tests/
 	@source .venv/bin/activate && coverage report
 	@source .venv/bin/activate && coverage html
 	@echo -e "$(GREEN)Coverage report generated in htmlcov/$(NC)"
