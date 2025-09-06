@@ -20,6 +20,18 @@ from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.formatted_text import HTML
 
+try:
+    from ..tools.detector import ToolDetector, AITool
+except ImportError:
+    ToolDetector = None
+    AITool = None
+
+try:
+    from .model_selector import QuickModelSelector, BackgroundTaskManager
+except ImportError:
+    QuickModelSelector = None
+    BackgroundTaskManager = None
+
 
 class EnhancedHanzoREPL:
     """Enhanced REPL with model selection and authentication."""
@@ -57,6 +69,17 @@ class EnhancedHanzoREPL:
         "local:mistral": "Local Mistral",
         "local:phi-2": "Local Phi-2",
     }
+    
+    def get_all_models(self):
+        """Get all available models including detected tools."""
+        models = dict(self.MODELS)
+        
+        # Add detected tools as models
+        if self.detected_tools:
+            for tool in self.detected_tools:
+                models[f"tool:{tool.name}"] = f"{tool.display_name} (Tool)"
+        
+        return models
 
     def __init__(self, console: Optional[Console] = None):
         self.console = console or Console()
@@ -68,8 +91,30 @@ class EnhancedHanzoREPL:
         self.config = self.load_config()
         self.auth = self.load_auth()
         
-        # Current model
-        self.current_model = self.config.get("default_model", "gpt-3.5-turbo")
+        # Initialize tool detector
+        self.tool_detector = ToolDetector(console) if ToolDetector else None
+        self.detected_tools = []
+        self.current_tool = None
+        
+        # Initialize background task manager
+        self.task_manager = BackgroundTaskManager(console) if BackgroundTaskManager else None
+        
+        # Detect available tools and set default
+        if self.tool_detector:
+            self.detected_tools = self.tool_detector.detect_all()
+            default_tool = self.tool_detector.get_default_tool()
+            
+            # If Claude Code is available, use it as default
+            if default_tool:
+                self.current_model = f"tool:{default_tool.name}"
+                self.current_tool = default_tool
+                self.console.print(f"[green]✓ Detected {default_tool.display_name} as default AI assistant[/green]")
+            else:
+                # Fallback to regular models
+                self.current_model = self.config.get("default_model", "gpt-3.5-turbo")
+        else:
+            # No tool detector, use regular models
+            self.current_model = self.config.get("default_model", "gpt-3.5-turbo")
         
         # Setup session
         self.session = PromptSession(
@@ -86,9 +131,14 @@ class EnhancedHanzoREPL:
             "status": self.show_status,
             "model": self.change_model,
             "models": self.list_models,
+            "tools": self.list_tools,
+            "agents": self.list_tools,  # Alias for tools
             "login": self.login,
             "logout": self.logout,
             "config": self.show_config,
+            "tasks": self.show_tasks,
+            "kill": self.kill_task,
+            "quick": self.quick_model_select,
         }
         
         self.running = False
@@ -144,8 +194,17 @@ class EnhancedHanzoREPL:
 
     def get_model_info(self):
         """Get current model info string."""
-        # Determine provider from model name
         model = self.current_model
+        
+        # Check if using a tool
+        if model.startswith("tool:"):
+            if self.current_tool:
+                return f"[dim cyan]agent: {self.current_tool.display_name}[/dim cyan]"
+            else:
+                tool_name = model.replace("tool:", "")
+                return f"[dim cyan]agent: {tool_name}[/dim cyan]"
+        
+        # Determine provider from model name
         if model.startswith("gpt"):
             provider = "openai"
         elif model.startswith("claude"):
@@ -187,7 +246,8 @@ class EnhancedHanzoREPL:
                 # Get input with simple prompt
                 command = await self.session.prompt_async(
                     self.get_prompt(),
-                    completer=completer
+                    completer=completer,
+                    vi_mode=True  # Enable vi mode for better navigation
                 )
 
                 if not command.strip():
@@ -302,11 +362,11 @@ class EnhancedHanzoREPL:
             self.console.print(f"\n[dim]Last login: {self.auth['last_login']}[/dim]")
 
     async def change_model(self, args: str = ""):
-        """Change the current model."""
+        """Change the current model or tool."""
         if not args:
             # Show model selection menu
             await self.list_models("")
-            self.console.print("\n[cyan]Enter model name or number:[/cyan]")
+            self.console.print("\n[cyan]Enter model/tool name or number:[/cyan]")
             
             # Get selection
             try:
@@ -314,41 +374,87 @@ class EnhancedHanzoREPL:
                 
                 # Handle numeric selection
                 if selection.isdigit():
-                    models_list = list(self.MODELS.keys())
-                    idx = int(selection) - 1
-                    if 0 <= idx < len(models_list):
-                        args = models_list[idx]
+                    num = int(selection)
+                    
+                    # Check if it's a tool selection
+                    if self.detected_tools and num <= len(self.detected_tools):
+                        tool = self.detected_tools[num - 1]
+                        args = f"tool:{tool.name}"
                     else:
-                        self.console.print("[red]Invalid selection[/red]")
-                        return
+                        # It's a model selection
+                        model_idx = num - len(self.detected_tools) - 1 if self.detected_tools else num - 1
+                        models_list = list(self.MODELS.keys())
+                        if 0 <= model_idx < len(models_list):
+                            args = models_list[model_idx]
+                        else:
+                            self.console.print("[red]Invalid selection[/red]")
+                            return
                 else:
                     args = selection
             except (KeyboardInterrupt, EOFError):
                 return
         
-        # Validate model
-        if args not in self.MODELS and not args.startswith("local:"):
-            self.console.print(f"[red]Unknown model: {args}[/red]")
-            self.console.print("[dim]Use /models to see available models[/dim]")
-            return
+        # Check if it's a tool
+        if args.startswith("tool:") or args in [t.name for t in self.detected_tools] if self.detected_tools else False:
+            # Handle tool selection
+            tool_name = args.replace("tool:", "") if args.startswith("tool:") else args
+            
+            # Find the tool
+            tool = None
+            for t in self.detected_tools:
+                if t.name == tool_name or t.display_name.lower() == tool_name.lower():
+                    tool = t
+                    break
+            
+            if tool:
+                self.current_model = f"tool:{tool.name}"
+                self.current_tool = tool
+                self.config["default_model"] = self.current_model
+                self.save_config()
+                self.console.print(f"[green]✅ Switched to {tool.display_name}[/green]")
+            else:
+                self.console.print(f"[red]Tool not found: {tool_name}[/red]")
+                self.console.print("[dim]Use /tools to see available tools[/dim]")
         
-        # Change model
-        self.current_model = args
-        self.config["default_model"] = args
-        self.save_config()
+        # Regular model
+        elif args in self.MODELS or args.startswith("local:"):
+            self.current_model = args
+            self.current_tool = None
+            self.config["default_model"] = args
+            self.save_config()
+            
+            model_name = self.MODELS.get(args, args)
+            self.console.print(f"[green]✅ Switched to {model_name}[/green]")
         
-        model_name = self.MODELS.get(args, args)
-        self.console.print(f"[green]✅ Switched to {model_name}[/green]")
+        else:
+            self.console.print(f"[red]Unknown model or tool: {args}[/red]")
+            self.console.print("[dim]Use /models or /tools to see available options[/dim]")
 
+    async def list_tools(self, args: str = ""):
+        """List available AI tools."""
+        if self.tool_detector:
+            self.tool_detector.show_available_tools()
+        else:
+            self.console.print("[yellow]Tool detection not available[/yellow]")
+    
     async def list_models(self, args: str = ""):
         """List available models."""
-        table = Table(title="Available Models", box=box.ROUNDED)
+        # Show tools first if available
+        if self.detected_tools:
+            self.console.print("[bold cyan]AI Coding Assistants (Detected):[/bold cyan]")
+            for i, tool in enumerate(self.detected_tools, 1):
+                marker = "→" if self.current_model == f"tool:{tool.name}" else " "
+                self.console.print(f"  {marker} {i}. {tool.display_name} ({tool.provider})")
+            self.console.print()
+        
+        table = Table(title="Language Models", box=box.ROUNDED)
         table.add_column("#", style="dim")
         table.add_column("Model ID", style="cyan")
         table.add_column("Name", style="white")
         table.add_column("Provider", style="yellow")
         
-        for i, (model_id, model_name) in enumerate(self.MODELS.items(), 1):
+        start_idx = len(self.detected_tools) + 1 if self.detected_tools else 1
+        for i, (model_id, model_name) in enumerate(self.MODELS.items(), start_idx):
             # Extract provider
             if model_id.startswith("gpt"):
                 provider = "OpenAI"
@@ -446,6 +552,10 @@ class EnhancedHanzoREPL:
 ## Slash Commands:
 - `/model [name]` - Change AI model (or `/m`)
 - `/models` - List available models
+- `/tools` - List available AI tools
+- `/quick` - Quick model selector (arrow keys)
+- `/tasks` - Show background tasks
+- `/kill [id]` - Kill background task
 - `/status` - Show system status (or `/s`)
 - `/login` - Login to Hanzo Cloud
 - `/logout` - Logout from Hanzo
@@ -453,6 +563,11 @@ class EnhancedHanzoREPL:
 - `/help` - Show this help (or `/h`)
 - `/clear` - Clear screen (or `/c`)
 - `/quit` - Exit REPL (or `/q`)
+
+## Quick Model Selection:
+- Press ↓ arrow key for quick model selector
+- Use ↑/↓ to navigate, Enter to select
+- Esc to cancel
 
 ## Model Selection:
 - Use `/model gpt-4` to switch to GPT-4
@@ -505,6 +620,69 @@ class EnhancedHanzoREPL:
             self.console.print(f"[red]Error executing command: {e}[/red]")
 
     async def chat_with_ai(self, message: str):
-        """Chat with AI using current model."""
-        # Default to cloud mode to avoid needing local server
-        await self.execute_command("ask", f"--cloud --model {self.current_model} {message}")
+        """Chat with AI using current model or tool."""
+        # Check if using a tool
+        if self.current_model.startswith("tool:") and self.current_tool:
+            # Use the detected tool directly
+            self.console.print(f"[dim]Using {self.current_tool.display_name}...[/dim]")
+            
+            success, output = self.tool_detector.execute_with_tool(self.current_tool, message)
+            
+            if success:
+                self.console.print(output)
+            else:
+                # Fallback to regular model
+                self.console.print(f"[yellow]{self.current_tool.display_name} failed, trying cloud model...[/yellow]")
+                await self.execute_command("ask", f"--cloud --model gpt-3.5-turbo {message}")
+        else:
+            # Use regular model through hanzo ask
+            await self.execute_command("ask", f"--cloud --model {self.current_model} {message}")
+    
+    async def quick_model_select(self, args: str = ""):
+        """Quick model selector with arrow keys."""
+        if not QuickModelSelector:
+            self.console.print("[yellow]Quick selector not available[/yellow]")
+            return
+        
+        # Prepare tools and models
+        tools = [(f"tool:{t.name}", t.display_name) for t in self.detected_tools] if self.detected_tools else []
+        models = list(self.MODELS.items())
+        
+        selector = QuickModelSelector(models, tools, self.current_model)
+        selected = await selector.run()
+        
+        if selected:
+            # Change to selected model
+            await self.change_model(selected)
+    
+    async def show_tasks(self, args: str = ""):
+        """Show background tasks."""
+        if self.task_manager:
+            self.task_manager.list_tasks()
+        else:
+            self.console.print("[yellow]Task manager not available[/yellow]")
+    
+    async def kill_task(self, args: str = ""):
+        """Kill a background task."""
+        if not self.task_manager:
+            self.console.print("[yellow]Task manager not available[/yellow]")
+            return
+        
+        if args:
+            if args.lower() == "all":
+                self.task_manager.kill_all()
+            else:
+                self.task_manager.kill_task(args)
+        else:
+            # Show tasks and prompt for selection
+            self.task_manager.list_tasks()
+            self.console.print("\n[cyan]Enter task ID to kill (or 'all' for all tasks):[/cyan]")
+            try:
+                task_id = await self.session.prompt_async("> ")
+                if task_id:
+                    if task_id.lower() == "all":
+                        self.task_manager.kill_all()
+                    else:
+                        self.task_manager.kill_task(task_id)
+            except (KeyboardInterrupt, EOFError):
+                pass
