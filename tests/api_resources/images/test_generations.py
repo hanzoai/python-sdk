@@ -16,13 +16,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestGenerations:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         generation = client.images.generations.create()
         assert_matches_type(object, generation, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.images.generations.with_raw_response.create()
@@ -32,7 +32,7 @@ class TestGenerations:
         generation = response.parse()
         assert_matches_type(object, generation, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.images.generations.with_streaming_response.create() as response:
@@ -50,13 +50,13 @@ class TestAsyncGenerations:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         generation = await async_client.images.generations.create()
         assert_matches_type(object, generation, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.images.generations.with_raw_response.create()
@@ -66,7 +66,7 @@ class TestAsyncGenerations:
         generation = await response.parse()
         assert_matches_type(object, generation, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.images.generations.with_streaming_response.create() as response:

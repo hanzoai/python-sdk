@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Union, Optional
 from typing_extensions import TypeAlias, TypedDict
 
+from ..._types import SequenceNotStr
 from ..model_info_param import ModelInfoParam
 from ..configurable_clientside_params_custom_auth_param import ConfigurableClientsideParamsCustomAuthParam
 
@@ -37,7 +38,7 @@ class LlmParamsTyped(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    configurable_clientside_auth_params: Optional[List[LlmParamsConfigurableClientsideAuthParam]]
+    configurable_clientside_auth_params: Optional[SequenceNotStr[LlmParamsConfigurableClientsideAuthParam]]
 
     custom_llm_provider: Optional[str]
 

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import TypedDict
+
+from .._types import SequenceNotStr
 
 __all__ = ["OrganizationUpdateParams"]
 
@@ -13,7 +15,7 @@ class OrganizationUpdateParams(TypedDict, total=False):
 
     metadata: Optional[object]
 
-    models: Optional[List[str]]
+    models: Optional[SequenceNotStr[str]]
 
     organization_alias: Optional[str]
 
