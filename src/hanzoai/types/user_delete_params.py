@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["UserDeleteParams"]
 
 
 class UserDeleteParams(TypedDict, total=False):
-    user_ids: Required[List[str]]
+    user_ids: Required[SequenceNotStr[str]]
 
     llm_changed_by: Annotated[str, PropertyInfo(alias="llm-changed-by")]
     """

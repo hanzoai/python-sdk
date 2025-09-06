@@ -16,13 +16,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestRoutes:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         route = client.routes.list()
         assert_matches_type(object, route, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.routes.with_raw_response.list()
@@ -32,7 +32,7 @@ class TestRoutes:
         route = response.parse()
         assert_matches_type(object, route, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.routes.with_streaming_response.list() as response:
@@ -50,13 +50,13 @@ class TestAsyncRoutes:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         route = await async_client.routes.list()
         assert_matches_type(object, route, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.routes.with_raw_response.list()
@@ -66,7 +66,7 @@ class TestAsyncRoutes:
         route = await response.parse()
         assert_matches_type(object, route, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.routes.with_streaming_response.list() as response:
