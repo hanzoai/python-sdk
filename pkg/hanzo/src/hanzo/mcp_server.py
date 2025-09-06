@@ -6,11 +6,16 @@ import click
 
 
 def main():
-    """Start the Hanzo MCP server."""
-    try:
-        from hanzo_mcp.server import main as mcp_main
+    """Start the Hanzo MCP server.
 
-        mcp_main()
+    This wrapper defers to hanzo_mcp.cli:main so that the CLI can parse
+    transport flags and configure logging BEFORE importing any heavy modules,
+    preventing stdio protocol corruption.
+    """
+    try:
+        from hanzo_mcp.cli import main as cli_main
+
+        cli_main()
     except ImportError:
         click.echo(
             "Error: hanzo-mcp is not installed. Please run: pip install hanzo[mcp] or pip install hanzo[all]",
