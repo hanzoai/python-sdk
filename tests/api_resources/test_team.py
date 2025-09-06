@@ -21,13 +21,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestTeam:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         team = client.team.create()
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         team = client.team.create(
@@ -57,7 +57,7 @@ class TestTeam:
         )
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.create()
@@ -67,7 +67,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.create() as response:
@@ -79,7 +79,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         team = client.team.update(
@@ -87,7 +87,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         team = client.team.update(
@@ -108,7 +108,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.update(
@@ -120,7 +120,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.update(
@@ -134,13 +134,13 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         team = client.team.list()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         team = client.team.list(
@@ -149,7 +149,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.list()
@@ -159,7 +159,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.list() as response:
@@ -171,7 +171,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         team = client.team.delete(
@@ -179,7 +179,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         team = client.team.delete(
@@ -188,7 +188,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.delete(
@@ -200,7 +200,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.delete(
@@ -214,7 +214,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_add_member(self, client: Hanzo) -> None:
         team = client.team.add_member(
@@ -223,7 +223,7 @@ class TestTeam:
         )
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_add_member_with_all_params(self, client: Hanzo) -> None:
         team = client.team.add_member(
@@ -239,7 +239,7 @@ class TestTeam:
         )
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_add_member(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.add_member(
@@ -252,7 +252,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_add_member(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.add_member(
@@ -267,7 +267,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_block(self, client: Hanzo) -> None:
         team = client.team.block(
@@ -275,7 +275,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_block(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.block(
@@ -287,7 +287,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_block(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.block(
@@ -301,7 +301,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_disable_logging(self, client: Hanzo) -> None:
         team = client.team.disable_logging(
@@ -309,7 +309,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_disable_logging(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.disable_logging(
@@ -321,7 +321,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_disable_logging(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.disable_logging(
@@ -335,7 +335,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_disable_logging(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):
@@ -343,13 +343,13 @@ class TestTeam:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_available(self, client: Hanzo) -> None:
         team = client.team.list_available()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_available_with_all_params(self, client: Hanzo) -> None:
         team = client.team.list_available(
@@ -357,7 +357,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list_available(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.list_available()
@@ -367,7 +367,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list_available(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.list_available() as response:
@@ -379,7 +379,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_remove_member(self, client: Hanzo) -> None:
         team = client.team.remove_member(
@@ -387,7 +387,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_remove_member_with_all_params(self, client: Hanzo) -> None:
         team = client.team.remove_member(
@@ -397,7 +397,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_remove_member(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.remove_member(
@@ -409,7 +409,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_remove_member(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.remove_member(
@@ -423,13 +423,13 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve_info(self, client: Hanzo) -> None:
         team = client.team.retrieve_info()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve_info_with_all_params(self, client: Hanzo) -> None:
         team = client.team.retrieve_info(
@@ -437,7 +437,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve_info(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.retrieve_info()
@@ -447,7 +447,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.retrieve_info() as response:
@@ -459,7 +459,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_unblock(self, client: Hanzo) -> None:
         team = client.team.unblock(
@@ -467,7 +467,7 @@ class TestTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_unblock(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.unblock(
@@ -479,7 +479,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_unblock(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.unblock(
@@ -493,7 +493,7 @@ class TestTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_member(self, client: Hanzo) -> None:
         team = client.team.update_member(
@@ -501,7 +501,7 @@ class TestTeam:
         )
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_member_with_all_params(self, client: Hanzo) -> None:
         team = client.team.update_member(
@@ -513,7 +513,7 @@ class TestTeam:
         )
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update_member(self, client: Hanzo) -> None:
         response = client.team.with_raw_response.update_member(
@@ -525,7 +525,7 @@ class TestTeam:
         team = response.parse()
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update_member(self, client: Hanzo) -> None:
         with client.team.with_streaming_response.update_member(
@@ -545,13 +545,13 @@ class TestAsyncTeam:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.create()
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.create(
@@ -581,7 +581,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.create()
@@ -591,7 +591,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.create() as response:
@@ -603,7 +603,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update(
@@ -611,7 +611,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update(
@@ -632,7 +632,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.update(
@@ -644,7 +644,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.update(
@@ -658,13 +658,13 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.list()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.list(
@@ -673,7 +673,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.list()
@@ -683,7 +683,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.list() as response:
@@ -695,7 +695,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.delete(
@@ -703,7 +703,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.delete(
@@ -712,7 +712,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.delete(
@@ -724,7 +724,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.delete(
@@ -738,7 +738,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_add_member(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.add_member(
@@ -747,7 +747,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_add_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.add_member(
@@ -763,7 +763,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_add_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.add_member(
@@ -776,7 +776,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_add_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.add_member(
@@ -791,7 +791,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_block(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.block(
@@ -799,7 +799,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_block(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.block(
@@ -811,7 +811,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_block(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.block(
@@ -825,7 +825,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_disable_logging(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.disable_logging(
@@ -833,7 +833,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_disable_logging(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.disable_logging(
@@ -845,7 +845,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_disable_logging(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.disable_logging(
@@ -859,7 +859,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_disable_logging(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):
@@ -867,13 +867,13 @@ class TestAsyncTeam:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_available(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.list_available()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_available_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.list_available(
@@ -881,7 +881,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list_available(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.list_available()
@@ -891,7 +891,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list_available(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.list_available() as response:
@@ -903,7 +903,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_remove_member(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.remove_member(
@@ -911,7 +911,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_remove_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.remove_member(
@@ -921,7 +921,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_remove_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.remove_member(
@@ -933,7 +933,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_remove_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.remove_member(
@@ -947,13 +947,13 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.retrieve_info()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.retrieve_info(
@@ -961,7 +961,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.retrieve_info()
@@ -971,7 +971,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.retrieve_info() as response:
@@ -983,7 +983,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_unblock(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.unblock(
@@ -991,7 +991,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_unblock(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.unblock(
@@ -1003,7 +1003,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(object, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_unblock(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.unblock(
@@ -1017,7 +1017,7 @@ class TestAsyncTeam:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_member(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update_member(
@@ -1025,7 +1025,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update_member(
@@ -1037,7 +1037,7 @@ class TestAsyncTeam:
         )
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.with_raw_response.update_member(
@@ -1049,7 +1049,7 @@ class TestAsyncTeam:
         team = await response.parse()
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.update_member(

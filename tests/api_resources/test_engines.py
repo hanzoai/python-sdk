@@ -16,7 +16,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestEngines:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_complete(self, client: Hanzo) -> None:
         engine = client.engines.complete(
@@ -24,7 +24,7 @@ class TestEngines:
         )
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_complete(self, client: Hanzo) -> None:
         response = client.engines.with_raw_response.complete(
@@ -36,7 +36,7 @@ class TestEngines:
         engine = response.parse()
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_complete(self, client: Hanzo) -> None:
         with client.engines.with_streaming_response.complete(
@@ -50,7 +50,7 @@ class TestEngines:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_complete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
@@ -58,7 +58,7 @@ class TestEngines:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_embed(self, client: Hanzo) -> None:
         engine = client.engines.embed(
@@ -66,7 +66,7 @@ class TestEngines:
         )
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_embed(self, client: Hanzo) -> None:
         response = client.engines.with_raw_response.embed(
@@ -78,7 +78,7 @@ class TestEngines:
         engine = response.parse()
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_embed(self, client: Hanzo) -> None:
         with client.engines.with_streaming_response.embed(
@@ -92,7 +92,7 @@ class TestEngines:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_embed(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
@@ -106,7 +106,7 @@ class TestAsyncEngines:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_complete(self, async_client: AsyncHanzo) -> None:
         engine = await async_client.engines.complete(
@@ -114,7 +114,7 @@ class TestAsyncEngines:
         )
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_complete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.engines.with_raw_response.complete(
@@ -126,7 +126,7 @@ class TestAsyncEngines:
         engine = await response.parse()
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_complete(self, async_client: AsyncHanzo) -> None:
         async with async_client.engines.with_streaming_response.complete(
@@ -140,7 +140,7 @@ class TestAsyncEngines:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_complete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
@@ -148,7 +148,7 @@ class TestAsyncEngines:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_embed(self, async_client: AsyncHanzo) -> None:
         engine = await async_client.engines.embed(
@@ -156,7 +156,7 @@ class TestAsyncEngines:
         )
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_embed(self, async_client: AsyncHanzo) -> None:
         response = await async_client.engines.with_raw_response.embed(
@@ -168,7 +168,7 @@ class TestAsyncEngines:
         engine = await response.parse()
         assert_matches_type(object, engine, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_embed(self, async_client: AsyncHanzo) -> None:
         async with async_client.engines.with_streaming_response.embed(
@@ -182,7 +182,7 @@ class TestAsyncEngines:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_embed(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):

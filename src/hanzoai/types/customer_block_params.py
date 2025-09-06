@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import Required, TypedDict
+
+from .._types import SequenceNotStr
 
 __all__ = ["CustomerBlockParams"]
 
 
 class CustomerBlockParams(TypedDict, total=False):
-    user_ids: Required[List[str]]
+    user_ids: Required[SequenceNotStr[str]]

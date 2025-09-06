@@ -16,7 +16,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestLangfuse:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         langfuse = client.langfuse.create(
@@ -24,7 +24,7 @@ class TestLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.langfuse.with_raw_response.create(
@@ -36,7 +36,7 @@ class TestLangfuse:
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.langfuse.with_streaming_response.create(
@@ -50,7 +50,7 @@ class TestLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_create(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -58,7 +58,7 @@ class TestLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Hanzo) -> None:
         langfuse = client.langfuse.retrieve(
@@ -66,7 +66,7 @@ class TestLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.langfuse.with_raw_response.retrieve(
@@ -78,7 +78,7 @@ class TestLangfuse:
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.langfuse.with_streaming_response.retrieve(
@@ -92,7 +92,7 @@ class TestLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -100,7 +100,7 @@ class TestLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         langfuse = client.langfuse.update(
@@ -108,7 +108,7 @@ class TestLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.langfuse.with_raw_response.update(
@@ -120,7 +120,7 @@ class TestLangfuse:
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.langfuse.with_streaming_response.update(
@@ -134,7 +134,7 @@ class TestLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -142,7 +142,7 @@ class TestLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         langfuse = client.langfuse.delete(
@@ -150,7 +150,7 @@ class TestLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.langfuse.with_raw_response.delete(
@@ -162,7 +162,7 @@ class TestLangfuse:
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.langfuse.with_streaming_response.delete(
@@ -176,7 +176,7 @@ class TestLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -184,7 +184,7 @@ class TestLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_patch(self, client: Hanzo) -> None:
         langfuse = client.langfuse.patch(
@@ -192,7 +192,7 @@ class TestLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_patch(self, client: Hanzo) -> None:
         response = client.langfuse.with_raw_response.patch(
@@ -204,7 +204,7 @@ class TestLangfuse:
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_patch(self, client: Hanzo) -> None:
         with client.langfuse.with_streaming_response.patch(
@@ -218,7 +218,7 @@ class TestLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_patch(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -232,7 +232,7 @@ class TestAsyncLangfuse:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         langfuse = await async_client.langfuse.create(
@@ -240,7 +240,7 @@ class TestAsyncLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.langfuse.with_raw_response.create(
@@ -252,7 +252,7 @@ class TestAsyncLangfuse:
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.langfuse.with_streaming_response.create(
@@ -266,7 +266,7 @@ class TestAsyncLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_create(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -274,7 +274,7 @@ class TestAsyncLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         langfuse = await async_client.langfuse.retrieve(
@@ -282,7 +282,7 @@ class TestAsyncLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.langfuse.with_raw_response.retrieve(
@@ -294,7 +294,7 @@ class TestAsyncLangfuse:
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.langfuse.with_streaming_response.retrieve(
@@ -308,7 +308,7 @@ class TestAsyncLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -316,7 +316,7 @@ class TestAsyncLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         langfuse = await async_client.langfuse.update(
@@ -324,7 +324,7 @@ class TestAsyncLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.langfuse.with_raw_response.update(
@@ -336,7 +336,7 @@ class TestAsyncLangfuse:
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.langfuse.with_streaming_response.update(
@@ -350,7 +350,7 @@ class TestAsyncLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -358,7 +358,7 @@ class TestAsyncLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         langfuse = await async_client.langfuse.delete(
@@ -366,7 +366,7 @@ class TestAsyncLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.langfuse.with_raw_response.delete(
@@ -378,7 +378,7 @@ class TestAsyncLangfuse:
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.langfuse.with_streaming_response.delete(
@@ -392,7 +392,7 @@ class TestAsyncLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):
@@ -400,7 +400,7 @@ class TestAsyncLangfuse:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_patch(self, async_client: AsyncHanzo) -> None:
         langfuse = await async_client.langfuse.patch(
@@ -408,7 +408,7 @@ class TestAsyncLangfuse:
         )
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_patch(self, async_client: AsyncHanzo) -> None:
         response = await async_client.langfuse.with_raw_response.patch(
@@ -420,7 +420,7 @@ class TestAsyncLangfuse:
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_patch(self, async_client: AsyncHanzo) -> None:
         async with async_client.langfuse.with_streaming_response.patch(
@@ -434,7 +434,7 @@ class TestAsyncLangfuse:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_patch(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint` but received ''"):

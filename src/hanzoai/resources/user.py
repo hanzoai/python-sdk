@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -14,7 +14,7 @@ from ..types import (
     user_update_params,
     user_retrieve_info_params,
 )
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
 from .._utils import maybe_transform, strip_not_given, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -60,7 +60,7 @@ class UserResource(SyncAPIResource):
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -231,7 +231,7 @@ class UserResource(SyncAPIResource):
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -434,7 +434,7 @@ class UserResource(SyncAPIResource):
     def delete(
         self,
         *,
-        user_ids: List[str],
+        user_ids: SequenceNotStr[str],
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -557,7 +557,7 @@ class AsyncUserResource(AsyncAPIResource):
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -728,7 +728,7 @@ class AsyncUserResource(AsyncAPIResource):
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -931,7 +931,7 @@ class AsyncUserResource(AsyncAPIResource):
     async def delete(
         self,
         *,
-        user_ids: List[str],
+        user_ids: SequenceNotStr[str],
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

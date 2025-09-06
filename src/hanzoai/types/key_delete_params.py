@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["KeyDeleteParams"]
 
 
 class KeyDeleteParams(TypedDict, total=False):
-    key_aliases: Optional[List[str]]
+    key_aliases: Optional[SequenceNotStr[str]]
 
-    keys: Optional[List[str]]
+    keys: Optional[SequenceNotStr[str]]
 
     llm_changed_by: Annotated[str, PropertyInfo(alias="llm-changed-by")]
     """

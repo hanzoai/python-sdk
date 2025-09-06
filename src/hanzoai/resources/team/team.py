@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -28,7 +28,7 @@ from ...types import (
     team_update_member_params,
     team_list_available_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
 from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from .callback import (
     CallbackResource,
@@ -89,7 +89,7 @@ class TeamResource(SyncAPIResource):
         admins: Iterable[object] | NotGiven = NOT_GIVEN,
         blocked: bool | NotGiven = NOT_GIVEN,
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         members: Iterable[object] | NotGiven = NOT_GIVEN,
         members_with_roles: Iterable[MemberParam] | NotGiven = NOT_GIVEN,
@@ -227,7 +227,7 @@ class TeamResource(SyncAPIResource):
         team_id: str,
         blocked: Optional[bool] | NotGiven = NOT_GIVEN,
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         metadata: Optional[object] | NotGiven = NOT_GIVEN,
         model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
@@ -394,7 +394,7 @@ class TeamResource(SyncAPIResource):
     def delete(
         self,
         *,
-        team_ids: List[str],
+        team_ids: SequenceNotStr[str],
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -847,7 +847,7 @@ class AsyncTeamResource(AsyncAPIResource):
         admins: Iterable[object] | NotGiven = NOT_GIVEN,
         blocked: bool | NotGiven = NOT_GIVEN,
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         members: Iterable[object] | NotGiven = NOT_GIVEN,
         members_with_roles: Iterable[MemberParam] | NotGiven = NOT_GIVEN,
@@ -985,7 +985,7 @@ class AsyncTeamResource(AsyncAPIResource):
         team_id: str,
         blocked: Optional[bool] | NotGiven = NOT_GIVEN,
         budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         metadata: Optional[object] | NotGiven = NOT_GIVEN,
         model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
@@ -1152,7 +1152,7 @@ class AsyncTeamResource(AsyncAPIResource):
     async def delete(
         self,
         *,
-        team_ids: List[str],
+        team_ids: SequenceNotStr[str],
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
