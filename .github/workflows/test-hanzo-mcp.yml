@@ -22,6 +22,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
     strategy:
       matrix:
         python-version: ['3.9', '3.10', '3.11', '3.12']
@@ -58,10 +60,10 @@ jobs:
         cd pkg/hanzo-mcp
         uv run ruff format --check hanzo_mcp tests
     
-    - name: Run unit tests
-      run: |
-        cd pkg/hanzo-mcp
-        uv run pytest tests -v -m "not integration" --cov=hanzo_mcp --cov-report=xml
+      - name: Run unit tests
+        run: |
+          cd pkg/hanzo-mcp
+          uv run pytest tests -v -m "not integration" --cov=hanzo_mcp --cov-report=xml
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
