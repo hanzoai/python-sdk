@@ -7,7 +7,7 @@ name = "hanzo-memory"
 version = "1.0.0"
 description = "AI memory service with FastAPI and MCP support"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 license = {text = "BSD"}
 authors = [
     {name = "Hanzo Industries Inc.", email = "dev@hanzo.ai"}
@@ -18,7 +18,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
@@ -98,7 +100,7 @@ hanzo_memory = ["py.typed"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = [
@@ -123,7 +125,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
