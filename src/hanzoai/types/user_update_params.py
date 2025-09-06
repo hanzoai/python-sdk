@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal, TypedDict
+
+from .._types import SequenceNotStr
 
 __all__ = ["UserUpdateParams"]
 
@@ -21,7 +23,7 @@ class UserUpdateParams(TypedDict, total=False):
 
     duration: Optional[str]
 
-    guardrails: Optional[List[str]]
+    guardrails: Optional[SequenceNotStr[str]]
 
     key_alias: Optional[str]
 

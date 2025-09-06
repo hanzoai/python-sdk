@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["KeyRegenerateByKeyParams"]
@@ -25,9 +26,9 @@ class KeyRegenerateByKeyParams(TypedDict, total=False):
 
     duration: Optional[str]
 
-    enforced_params: Optional[List[str]]
+    enforced_params: Optional[SequenceNotStr[str]]
 
-    guardrails: Optional[List[str]]
+    guardrails: Optional[SequenceNotStr[str]]
 
     body_key: Annotated[Optional[str], PropertyInfo(alias="key")]
 
@@ -59,7 +60,7 @@ class KeyRegenerateByKeyParams(TypedDict, total=False):
 
     spend: Optional[float]
 
-    tags: Optional[List[str]]
+    tags: Optional[SequenceNotStr[str]]
 
     team_id: Optional[str]
 

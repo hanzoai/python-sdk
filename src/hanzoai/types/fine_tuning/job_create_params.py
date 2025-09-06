@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Optional
+from typing import Union, Optional
 from typing_extensions import Literal, Required, TypedDict
+
+from ..._types import SequenceNotStr
 
 __all__ = ["JobCreateParams", "Hyperparameters"]
 
@@ -17,7 +19,7 @@ class JobCreateParams(TypedDict, total=False):
 
     hyperparameters: Optional[Hyperparameters]
 
-    integrations: Optional[List[str]]
+    integrations: Optional[SequenceNotStr[str]]
 
     seed: Optional[int]
 
