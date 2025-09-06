@@ -88,20 +88,32 @@ async def ask_once(
 
     try:
         if local:
-            # Use local cluster
-            base_url = "http://localhost:8000"
-
-            # Check if cluster is running
-            try:
-                async with httpx.AsyncClient() as client:
-                    await client.get(f"{base_url}/health")
-            except httpx.ConnectError:
+            # Try router first, then fall back to local node
+            base_urls = [
+                "http://localhost:4000",  # Hanzo router default port
+                "http://localhost:8000",  # Local node port
+            ]
+            
+            base_url = None
+            for url in base_urls:
+                try:
+                    async with httpx.AsyncClient() as client:
+                        await client.get(f"{url}/health", timeout=1.0)
+                        base_url = url
+                        break
+                except (httpx.ConnectError, httpx.TimeoutException):
+                    continue
+            
+            if not base_url:
                 console.print(
-                    "[yellow]Local cluster not running. Start with: hanzo serve[/yellow]"
+                    "[yellow]No local AI server running.[/yellow]\n"
+                    "Start one of:\n"
+                    "  • Hanzo router: hanzo router start\n"
+                    "  • Local node: hanzo serve"
                 )
                 return
 
-            # Make request to local cluster
+            # Make request to local node
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     f"{base_url}/v1/chat/completions",
@@ -113,16 +125,31 @@ async def ask_once(
         else:
             # Use cloud API
             try:
-                from hanzoai import completion
+                # Try different import paths
+                try:
+                    from hanzoai import completion
+                except ImportError:
+                    try:
+                        from pkg.hanzoai import completion
+                    except ImportError:
+                        # Fallback to using litellm directly
+                        import litellm
+                        def completion(**kwargs):
+                            import os
+                            api_key = os.getenv("HANZO_API_KEY")
+                            if api_key:
+                                kwargs["api_key"] = api_key
+                            kwargs["api_base"] = "https://api.hanzo.ai/v1"
+                            return litellm.completion(**kwargs)
 
                 result = completion(
                     model=f"anthropic/{model}" if "claude" in model else model,
                     messages=messages,
                 )
                 content = result.choices[0].message.content
-            except ImportError:
-                console.print("[red]Error:[/red] hanzoai not installed")
-                console.print("Install with: pip install hanzo[all]")
+            except ImportError as e:
+                console.print(f"[red]Error:[/red] Missing dependencies: {e}")
+                console.print("Install with: pip install litellm")
                 return
 
         # Display response
@@ -166,7 +193,7 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
             console.print("AI: ", end="")
             with console.status(""):
                 if local:
-                    # Use local cluster
+                    # Use local node
                     async with httpx.AsyncClient() as client:
                         response = await client.post(
                             "http://localhost:8000/v1/chat/completions",
@@ -181,7 +208,21 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
                         content = result["choices"][0]["message"]["content"]
                 else:
                     # Use cloud API
-                    from hanzoai import completion
+                    try:
+                        from hanzoai import completion
+                    except ImportError:
+                        try:
+                            from pkg.hanzoai import completion
+                        except ImportError:
+                            # Fallback to using litellm directly
+                            import litellm
+                            def completion(**kwargs):
+                                import os
+                                api_key = os.getenv("HANZO_API_KEY")
+                                if api_key:
+                                    kwargs["api_key"] = api_key
+                                kwargs["api_base"] = "https://api.hanzo.ai/v1"
+                                return litellm.completion(**kwargs)
 
                     result = completion(
                         model=f"anthropic/{model}" if "claude" in model else model,

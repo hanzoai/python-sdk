@@ -19,8 +19,9 @@ from .commands import (
     miner,
     tools,
     config,
-    cluster,
+    node,
     network,
+    router,
 )
 from .utils.output import console
 from .interactive.repl import HanzoREPL
@@ -72,7 +73,7 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
 # Register command groups
 cli.add_command(agent.agent_group)
 cli.add_command(auth.auth_group)
-cli.add_command(cluster.cluster_group)
+cli.add_command(node.cluster)
 cli.add_command(mcp.mcp_group)
 cli.add_command(miner.miner_group)
 cli.add_command(chat.chat_command)
@@ -80,6 +81,7 @@ cli.add_command(repl.repl_group)
 cli.add_command(tools.tools_group)
 cli.add_command(network.network_group)
 cli.add_command(config.config_group)
+cli.add_command(router.router_group)
 
 
 # Quick aliases
@@ -95,12 +97,12 @@ def ask(ctx, prompt: tuple, model: str, local: bool):
 
 
 @cli.command()
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.option("--port", "-p", default=8000, help="API port")
 @click.pass_context
 def serve(ctx, name: str, port: int):
-    """Start local AI cluster (alias for 'hanzo cluster start')."""
-    asyncio.run(cluster.start_cluster(ctx, name, port))
+    """Start local AI node (alias for 'hanzo node start')."""
+    asyncio.run(node.start_node(ctx, name, port))
 
 
 @cli.command()
