@@ -25,9 +25,10 @@ from .commands import (
 )
 from .utils.output import console
 from .interactive.repl import HanzoREPL
+from .ui.startup import show_startup
 
 # Version
-__version__ = "0.3.22"
+__version__ = "0.3.23"
 
 
 @click.group(invoke_without_command=True)
@@ -55,12 +56,13 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
 
         if os.environ.get("HANZO_COMPUTE_NODE") == "1":
             # Start as a compute node
-
             asyncio.run(start_compute_node(ctx))
         else:
+            # Show startup UI (unless in quiet mode)
+            if not ctx.obj.get("quiet") and not os.environ.get("HANZO_NO_STARTUP"):
+                show_startup(minimal=os.environ.get("HANZO_MINIMAL_UI") == "1")
+            
             # Enter interactive REPL mode
-            console.print("[bold cyan]Hanzo AI - Interactive Mode[/bold cyan]")
-            console.print("Type 'help' for commands, 'exit' to quit\n")
             try:
                 repl = HanzoREPL(console=console)
                 asyncio.run(repl.run())
