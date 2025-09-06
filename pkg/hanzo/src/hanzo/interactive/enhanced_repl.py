@@ -161,10 +161,7 @@ class EnhancedHanzoREPL:
         else:
             provider = "unknown"
         
-        # Auth status
-        auth_status = "🔓" if self.is_authenticated() else "🔒"
-        
-        return f"[dim]model: {provider}/{model} {auth_status}[/dim]"
+        return f"[dim]model: {provider}/{model}[/dim]"
     
     async def run(self):
         """Run the enhanced REPL."""
