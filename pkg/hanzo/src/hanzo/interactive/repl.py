@@ -45,9 +45,9 @@ class HanzoREPL:
 
         while self.running:
             try:
-                # Get input
+                # Get input with simple prompt
                 command = await self.session.prompt_async(
-                    "hanzo> ", completer=completer
+                    "> ", completer=completer
                 )
 
                 if not command.strip():
