@@ -12,6 +12,7 @@ from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
 
 # Import tools
 from hanzo_mcp.tools.shell.bash_tool import bash_tool
+from hanzo_mcp.tools.shell.zsh_tool import zsh_tool, shell_tool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.process_tool import process_tool
 
@@ -37,14 +38,19 @@ def get_shell_tools(
     """
     # Set permission manager for tools that need it
     bash_tool.permission_manager = permission_manager
+    zsh_tool.permission_manager = permission_manager
+    shell_tool.permission_manager = permission_manager
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
     # Note: StreamingCommandTool is abstract and shouldn't be instantiated directly
     # It's used as a base class for other streaming tools
 
+    # Return shell_tool first (smart default), then specific shells
     return [
-        bash_tool,
+        shell_tool,  # Smart shell (prefers zsh if available)
+        zsh_tool,    # Explicit zsh
+        bash_tool,   # Explicit bash
         npx_tool,
         uvx_tool,
         process_tool,
