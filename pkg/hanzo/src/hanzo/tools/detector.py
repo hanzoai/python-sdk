@@ -3,6 +3,7 @@
 import os
 import shutil
 import subprocess
+import httpx
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
@@ -33,12 +34,33 @@ class ToolDetector:
     
     # Define available tools with priority order
     TOOLS = [
+        # Hanzo Local Node - highest priority for privacy and local control
+        AITool(
+            name="hanzod",
+            command="hanzo node",
+            display_name="Hanzo Node (Local Private AI)",
+            provider="hanzo-local",
+            priority=0,  # Highest priority - local and private
+            check_command=None,  # Check via API endpoint
+            api_endpoint="http://localhost:8000/health",
+            env_var=None
+        ),
+        AITool(
+            name="hanzo-router",
+            command="hanzo router",
+            display_name="Hanzo Router (LLM Proxy)",
+            provider="hanzo-router",
+            priority=1,
+            check_command=None,
+            api_endpoint="http://localhost:4000/health",
+            env_var=None
+        ),
         AITool(
             name="claude-code",
             command="claude",
             display_name="Claude Code",
             provider="anthropic",
-            priority=1,
+            priority=2,
             check_command="claude --version",
             env_var="ANTHROPIC_API_KEY"
         ),
@@ -47,7 +69,7 @@ class ToolDetector:
             command="hanzo dev",
             display_name="Hanzo Dev (Native)",
             provider="hanzo",
-            priority=2,
+            priority=3,
             check_command="hanzo --version",
             env_var="HANZO_API_KEY"
         ),
@@ -56,7 +78,7 @@ class ToolDetector:
             command="openai",
             display_name="OpenAI Codex",
             provider="openai",
-            priority=3,
+            priority=4,
             check_command="openai --version",
             env_var="OPENAI_API_KEY"
         ),
@@ -65,7 +87,7 @@ class ToolDetector:
             command="gemini",
             display_name="Gemini CLI",
             provider="google",
-            priority=4,
+            priority=5,
             check_command="gemini --version",
             env_var="GEMINI_API_KEY"
         ),
@@ -74,7 +96,7 @@ class ToolDetector:
             command="grok",
             display_name="Grok CLI",
             provider="xai",
-            priority=5,
+            priority=6,
             check_command="grok --version",
             env_var="GROK_API_KEY"
         ),
@@ -83,7 +105,7 @@ class ToolDetector:
             command="openhands",
             display_name="OpenHands CLI",
             provider="openhands",
-            priority=6,
+            priority=7,
             check_command="openhands --version",
             env_var=None
         ),
@@ -92,7 +114,7 @@ class ToolDetector:
             command="cursor",
             display_name="Cursor AI",
             provider="cursor",
-            priority=7,
+            priority=8,
             check_command="cursor --version",
             env_var=None
         ),
@@ -101,7 +123,7 @@ class ToolDetector:
             command="codeium",
             display_name="Codeium",
             provider="codeium",
-            priority=8,
+            priority=9,
             check_command="codeium --version",
             env_var="CODEIUM_API_KEY"
         ),
@@ -110,7 +132,7 @@ class ToolDetector:
             command="aider",
             display_name="Aider",
             provider="aider",
-            priority=9,
+            priority=10,
             check_command="aider --version",
             env_var=None
         ),
@@ -119,7 +141,7 @@ class ToolDetector:
             command="continue",
             display_name="Continue Dev",
             provider="continue",
-            priority=10,
+            priority=11,
             check_command="continue --version",
             env_var=None
         )
@@ -143,26 +165,51 @@ class ToolDetector:
     
     def detect_tool(self, tool: AITool) -> bool:
         """Detect if a specific tool is available."""
+        # Check API endpoint first (for services like hanzod)
+        if tool.api_endpoint:
+            try:
+                response = httpx.get(tool.api_endpoint, timeout=1.0)
+                if response.status_code == 200:
+                    tool.detected = True
+                    tool.version = "Running"
+                    
+                    # Special handling for Hanzo services
+                    if tool.name == "hanzod":
+                        # Check if models are loaded
+                        try:
+                            models_response = httpx.get("http://localhost:8000/models", timeout=1.0)
+                            if models_response.status_code == 200:
+                                models = models_response.json()
+                                if models:
+                                    tool.version = f"Running ({len(models)} models)"
+                        except:
+                            pass
+                    
+                    return True
+            except:
+                pass
+        
         # Check if command exists
-        tool.path = shutil.which(tool.command.split()[0])
-        if tool.path:
-            tool.detected = True
-            
-            # Try to get version
-            if tool.check_command:
-                try:
-                    result = subprocess.run(
-                        tool.check_command.split(),
-                        capture_output=True,
-                        text=True,
-                        timeout=2
-                    )
-                    if result.returncode == 0:
-                        tool.version = result.stdout.strip().split()[-1]
-                except:
-                    pass
-            
-            return True
+        if tool.command:
+            tool.path = shutil.which(tool.command.split()[0])
+            if tool.path:
+                tool.detected = True
+                
+                # Try to get version
+                if tool.check_command:
+                    try:
+                        result = subprocess.run(
+                            tool.check_command.split(),
+                            capture_output=True,
+                            text=True,
+                            timeout=2
+                        )
+                        if result.returncode == 0:
+                            tool.version = result.stdout.strip().split()[-1]
+                    except:
+                        pass
+                
+                return True
         
         # Check environment variable as fallback
         if tool.env_var and os.getenv(tool.env_var):
@@ -229,13 +276,25 @@ class ToolDetector:
         if self.detected_tools:
             default = self.detected_tools[0]
             self.console.print(f"\n[green]Default tool: {default.display_name}[/green]")
+            
+            # Special message for Hanzo Node
+            if default.name == "hanzod":
+                self.console.print("[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]")
+                self.console.print("[dim]Manage models with: hanzo node models[/dim]")
         else:
             self.console.print("\n[yellow]No AI coding tools detected.[/yellow]")
-            self.console.print("[dim]Install Claude Code, OpenAI CLI, or other tools to enable AI features.[/dim]")
+            self.console.print("[dim]Start Hanzo Node for local AI: hanzo node start[/dim]")
+            self.console.print("[dim]Or install Claude Code, OpenAI CLI, etc.[/dim]")
     
     def get_tool_command(self, tool: AITool, prompt: str) -> List[str]:
         """Get the command to execute for a tool with a prompt."""
-        if tool.name == "claude-code":
+        if tool.name == "hanzod":
+            # Use the local Hanzo node API
+            return ["hanzo", "ask", "--local", prompt]
+        elif tool.name == "hanzo-router":
+            # Use the router proxy
+            return ["hanzo", "ask", "--router", prompt]
+        elif tool.name == "claude-code":
             return ["claude", prompt]
         elif tool.name == "hanzo-dev":
             return ["hanzo", "dev", "--prompt", prompt]
@@ -257,6 +316,43 @@ class ToolDetector:
     def execute_with_tool(self, tool: AITool, prompt: str) -> Tuple[bool, str]:
         """Execute a prompt with a specific tool."""
         try:
+            # Special handling for Hanzo services
+            if tool.name == "hanzod":
+                # Use the local API directly
+                try:
+                    response = httpx.post(
+                        "http://localhost:8000/chat/completions",
+                        json={
+                            "messages": [{"role": "user", "content": prompt}],
+                            "stream": False
+                        },
+                        timeout=30.0
+                    )
+                    if response.status_code == 200:
+                        result = response.json()
+                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                except Exception as e:
+                    return False, f"Hanzo Node error: {e}"
+            
+            elif tool.name == "hanzo-router":
+                # Use the router API
+                try:
+                    response = httpx.post(
+                        "http://localhost:4000/chat/completions",
+                        json={
+                            "messages": [{"role": "user", "content": prompt}],
+                            "model": "gpt-3.5-turbo",  # Router will route to best available
+                            "stream": False
+                        },
+                        timeout=30.0
+                    )
+                    if response.status_code == 200:
+                        result = response.json()
+                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                except Exception as e:
+                    return False, f"Router error: {e}"
+            
+            # Default command execution
             command = self.get_tool_command(tool, prompt)
             result = subprocess.run(
                 command,
