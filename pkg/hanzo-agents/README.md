@@ -1,180 +1,283 @@
-# Hanzo Agents SDK
+# Hanzo Agents
 
-Production-grade AI agent runtime for building deterministic, debuggable, and scalable agent systems.
+[![PyPI](https://img.shields.io/pypi/v/hanzo-agents.svg)](https://pypi.org/project/hanzo-agents/)
+[![Python Version](https://img.shields.io/pypi/pyversions/hanzo-agents.svg)](https://pypi.org/project/hanzo-agents/)
 
-## Overview
+Advanced agent framework for building and orchestrating AI agents.
 
-Hanzo Agents SDK provides nine first-class abstractions for building AI agent systems:
+## Installation
 
-1. **Agents** - Encapsulate skills and tools with zero side-effects outside tool calls
-2. **Tools** - Perform side-effects and mutate state in a typed, inspectable way
-3. **Networks** - Orchestrate agent execution with deterministic routing
-4. **State** - Strongly-typed, validated state containers
-5. **Routers** - Control agent flow (deterministic or hybrid LLM-based)
-6. **History** - Chronological log for replay and audit
-7. **Memory** - Long-term storage (KV and vector)
-8. **Models** - Unified adapter interface for any LLM
-9. **Deployment** - Production-ready with telemetry, checkpointing, and scale
+```bash
+pip install hanzo-agents
+```
+
+## Features
+
+- **Agent Creation**: Build specialized AI agents
+- **Swarm Orchestration**: Coordinate multiple agents
+- **Tool Integration**: Equip agents with tools
+- **Memory Systems**: Persistent agent memory
+- **Hierarchical Control**: Parent-child agent relationships
+- **Parallel Execution**: Run agents concurrently
 
 ## Quick Start
 
-```bash
-pip install hanzo-agents[all]
+### Basic Agent
 
-# Run an example network
-hanzo-agents run examples/code_fix_network.py \
-              --state '{"repo":"demo"}' \
-              --model claude-3-opus
+```python
+from hanzo_agents import Agent
+
+agent = Agent(
+    name="assistant",
+    model="gpt-4",
+    instructions="You are a helpful assistant"
+)
+
+response = await agent.run("Help me with Python")
+print(response)
 ```
 
-## Core Concepts
+### Agent Swarm
 
-### Agents
+```python
+from hanzo_agents import Agent, Swarm
+
+# Create specialized agents
+researcher = Agent(
+    name="researcher",
+    model="gpt-4",
+    instructions="Research and analyze topics"
+)
+
+writer = Agent(
+    name="writer",
+    model="gpt-3.5-turbo",
+    instructions="Write clear documentation"
+)
+
+# Create swarm
+swarm = Swarm([researcher, writer])
+
+# Run task
+result = await swarm.run(
+    "Research quantum computing and write a summary"
+)
+```
+
+### Agent with Tools
 
 ```python
 from hanzo_agents import Agent, Tool
-from typing import List
 
-class PlanningAgent(Agent[ProjectState]):
-    name = "planner"
-    description = "Creates project plans"
-    model = "model://anthropic/claude-3-haiku"
-    
-    tools: List[Tool] = [
-        CreatePlanTool(),
-        UpdatePlanTool(),
-    ]
-```
+# Define custom tool
+def calculate(expression: str) -> float:
+    """Calculate mathematical expression"""
+    return eval(expression)
 
-### Tools
-
-```python
-from hanzo_agents import Tool
-from pydantic import BaseModel
-
-class CreatePlanTool(Tool[ProjectState]):
-    name = "create_plan"
-    description = "Create a new project plan"
-    
-    class Parameters(BaseModel):
-        tasks: List[str]
-        timeline: str
-    
-    def handle(self, tasks: List[str], timeline: str, network):
-        # Mutate state in a typed way
-        network.state.plan = Plan(tasks=tasks, timeline=timeline)
-        return f"Created plan with {len(tasks)} tasks"
-```
-
-### Networks & Routers
-
-```python
-from hanzo_agents import Network, State
-from dataclasses import dataclass
-
-@dataclass
-class ProjectState(State):
-    repo: str
-    plan: Optional[Plan] = None
-    tests_passed: bool = False
-    done: bool = False
-
-def project_router(network, call_count, last_result, stack):
-    """Deterministic routing logic"""
-    s = network.state
-    if s.done or call_count > 50:
-        return None
-    if s.plan is None:
-        return PlanningAgent
-    if not s.tests_passed:
-        return TestingAgent
-    s.done = True
-    return None
-
-# Run the network
-network = Network(
-    state=ProjectState(repo="my-project"),
-    agents=[PlanningAgent, TestingAgent, ReviewAgent],
-    router=project_router
-)
-network.run()
-```
-
-### Memory
-
-```python
-# Long-term memory for context across runs
-network = Network(
-    state=state,
-    agents=agents,
-    router=router,
-    memory_kv=SQLiteKV("project.db"),
-    memory_vector=FAISSVector(dimension=1536)
+# Create agent with tool
+agent = Agent(
+    name="calculator",
+    model="gpt-4",
+    tools=[Tool(calculate)],
+    instructions="You are a math assistant"
 )
 
-# Agents can query memory
-class ResearchAgent(Agent):
-    async def run(self, state, history):
-        # Pull relevant context
-        context = await self.network.memory.vector.query(
-            "previous security findings", 
-            k=5
-        )
-        # Use in prompt...
+response = await agent.run("What is 25 * 4 + 10?")
 ```
 
-## CLI
+## Advanced Usage
 
-The `hanzo-agents` CLI provides:
+### Hierarchical Agents
+
+```python
+from hanzo_agents import Agent, HierarchicalSwarm
+
+# Manager agent
+manager = Agent(
+    name="manager",
+    model="gpt-4",
+    instructions="Coordinate team members"
+)
+
+# Worker agents
+workers = [
+    Agent(name="dev1", model="gpt-3.5-turbo"),
+    Agent(name="dev2", model="gpt-3.5-turbo"),
+]
+
+# Hierarchical swarm
+swarm = HierarchicalSwarm(
+    manager=manager,
+    workers=workers
+)
+
+result = await swarm.run("Build a web application")
+```
+
+### Agent Memory
+
+```python
+from hanzo_agents import Agent, MemoryStore
+
+# Create memory store
+memory = MemoryStore()
+
+# Agent with memory
+agent = Agent(
+    name="assistant",
+    model="gpt-4",
+    memory=memory
+)
+
+# Conversations are remembered
+await agent.run("My name is Alice")
+response = await agent.run("What's my name?")
+# Response: "Your name is Alice"
+```
+
+### Parallel Execution
+
+```python
+from hanzo_agents import ParallelSwarm
+
+swarm = ParallelSwarm([
+    Agent(name="agent1", model="gpt-4"),
+    Agent(name="agent2", model="gpt-3.5-turbo"),
+    Agent(name="agent3", model="claude-2"),
+])
+
+# All agents work in parallel
+results = await swarm.run_parallel([
+    "Task 1",
+    "Task 2",
+    "Task 3"
+])
+```
+
+## Agent Types
+
+### Specialized Agents
+
+```python
+from hanzo_agents import (
+    CodeAgent,
+    ResearchAgent,
+    WriterAgent,
+    DataAgent
+)
+
+# Code generation agent
+code_agent = CodeAgent(
+    languages=["python", "javascript"],
+    frameworks=["django", "react"]
+)
+
+# Research agent
+research_agent = ResearchAgent(
+    sources=["web", "papers", "docs"],
+    depth="comprehensive"
+)
+
+# Writing agent
+writer_agent = WriterAgent(
+    style="technical",
+    format="markdown"
+)
+
+# Data analysis agent
+data_agent = DataAgent(
+    tools=["pandas", "numpy", "matplotlib"]
+)
+```
+
+## Configuration
+
+### Agent Configuration
+
+```python
+agent = Agent(
+    name="assistant",
+    model="gpt-4",
+    temperature=0.7,
+    max_tokens=2000,
+    timeout=30,
+    retry_count=3,
+    instructions="...",
+    system_prompt="...",
+    tools=[...],
+    memory=...,
+    callbacks=[...]
+)
+```
+
+### Swarm Configuration
+
+```python
+swarm = Swarm(
+    agents=[...],
+    strategy="round_robin",  # round_robin, random, weighted
+    max_concurrent=5,
+    timeout=60,
+    error_handling="continue"  # continue, stop, retry
+)
+```
+
+## Callbacks and Events
+
+```python
+from hanzo_agents import Agent, EventCallback
+
+class LoggingCallback(EventCallback):
+    async def on_start(self, agent, task):
+        print(f"{agent.name} starting: {task}")
+    
+    async def on_complete(self, agent, result):
+        print(f"{agent.name} completed: {result}")
+    
+    async def on_error(self, agent, error):
+        print(f"{agent.name} error: {error}")
+
+agent = Agent(
+    name="assistant",
+    model="gpt-4",
+    callbacks=[LoggingCallback()]
+)
+```
+
+## Best Practices
+
+1. **Agent Specialization**: Create focused agents with clear roles
+2. **Resource Management**: Use appropriate models for tasks
+3. **Error Handling**: Implement robust error recovery
+4. **Memory Management**: Clean up memory periodically
+5. **Tool Selection**: Choose minimal necessary tools
+6. **Monitoring**: Track agent performance and costs
+
+## Development
+
+### Setup
 
 ```bash
-# Basic execution
-hanzo-agents run network.py --state '{"key": "value"}'
-
-# Model configuration
-hanzo-agents run network.py --model gpt-4 --model-config config.yaml
-
-# GPU selection
-hanzo-agents run network.py --cuda 0
-
-# Observability
-hanzo-agents run network.py --json-lines --port 9464  # Prometheus
-
-# Checkpointing
-hanzo-agents run network.py --checkpoint state.chkpt
-hanzo-agents run network.py --restore state.chkpt
+cd pkg/hanzo-agents
+uv sync --all-extras
 ```
 
-## Production Features
+### Testing
 
-- **Type Safety**: Full typing with generics for compile-time guarantees
-- **Deterministic**: Reproducible execution with explicit state mutations
-- **Observable**: OpenTelemetry tracing + Prometheus metrics built-in
-- **Scalable**: Horizontal scaling via stateless networks
-- **Debuggable**: Step-through debugging with history replay
-- **Extensible**: Plugin architecture for tools, models, and memory backends
+```bash
+# Run tests
+pytest tests/
 
-## Architecture
-
+# With coverage
+pytest tests/ --cov=hanzo_agents
 ```
-hanzo_agents/
-├── core/
-│   ├── agent.py       # Agent base class and registry
-│   ├── tool.py        # Tool base class and decorators  
-│   ├── state.py       # State validation and guards
-│   ├── router.py      # Router types and helpers
-│   ├── network.py     # Main orchestration loop
-│   ├── history.py     # Interaction logging
-│   ├── memory.py      # Memory backends (KV, vector)
-│   └── model.py       # Model adapters and registry
-├── contrib/           # Optional integrations
-│   ├── chromadb.py    # ChromaDB vector store
-│   ├── neo4j.py       # Neo4j graph memory
-│   └── langchain.py   # LangChain compatibility
-├── cli.py             # CLI entry point
-└── examples/          # Example networks
+
+### Building
+
+```bash
+uv build
 ```
 
 ## License
 
-MIT License - see LICENSE file for details.
+Apache License 2.0
