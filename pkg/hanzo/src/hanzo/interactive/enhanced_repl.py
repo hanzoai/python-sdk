@@ -645,8 +645,25 @@ class EnhancedHanzoREPL:
             if success:
                 self.console.print(output)
             else:
-                # Fallback to regular model
-                self.console.print(f"[yellow]{self.current_tool.display_name} failed, trying cloud model...[/yellow]")
+                # Show error and try fallback
+                self.console.print(f"[red]Error: {output}[/red]")
+                
+                # Try to find next available tool
+                if self.tool_detector and self.tool_detector.detected_tools:
+                    for fallback_tool in self.tool_detector.detected_tools:
+                        if fallback_tool != self.current_tool:
+                            self.console.print(f"[yellow]Trying {fallback_tool.display_name}...[/yellow]")
+                            success, output = self.tool_detector.execute_with_tool(fallback_tool, message)
+                            if success:
+                                self.console.print(output)
+                                # Suggest switching to working tool
+                                self.console.print(f"\n[dim]Tip: Switch to {fallback_tool.display_name} with /model {fallback_tool.name}[/dim]")
+                                return
+                            else:
+                                self.console.print(f"[red]{fallback_tool.display_name} also failed[/red]")
+                
+                # Final fallback to cloud model
+                self.console.print(f"[yellow]Falling back to cloud model...[/yellow]")
                 await self.execute_command("ask", f"--cloud --model gpt-3.5-turbo {message}")
         else:
             # Use regular model through hanzo ask

@@ -170,22 +170,46 @@ class ToolDetector:
             try:
                 response = httpx.get(tool.api_endpoint, timeout=1.0)
                 if response.status_code == 200:
-                    tool.detected = True
-                    tool.version = "Running"
-                    
-                    # Special handling for Hanzo services
+                    # For Hanzo Node, verify it can actually handle chat completions
                     if tool.name == "hanzod":
-                        # Check if models are loaded
                         try:
-                            models_response = httpx.get("http://localhost:8000/models", timeout=1.0)
-                            if models_response.status_code == 200:
-                                models = models_response.json()
-                                if models:
-                                    tool.version = f"Running ({len(models)} models)"
+                            # Check if the chat completions endpoint works
+                            test_response = httpx.post(
+                                "http://localhost:8000/v1/chat/completions",
+                                json={
+                                    "messages": [{"role": "user", "content": "test"}],
+                                    "model": "test",
+                                    "max_tokens": 1
+                                },
+                                timeout=2.0
+                            )
+                            # Only mark as detected if we get a valid response or specific error
+                            # 404 means the endpoint doesn't exist
+                            if test_response.status_code == 404:
+                                return False
+                            
+                            tool.detected = True
+                            tool.version = "Running (Local AI)"
+                            
+                            # Try to get model info
+                            try:
+                                models_response = httpx.get("http://localhost:8000/v1/models", timeout=1.0)
+                                if models_response.status_code == 200:
+                                    models = models_response.json().get("data", [])
+                                    if models:
+                                        tool.version = f"Running ({len(models)} models)"
+                            except:
+                                pass
+                            
+                            return True
                         except:
-                            pass
-                    
-                    return True
+                            # If chat endpoint doesn't work, node isn't useful
+                            return False
+                    else:
+                        # For other services, just check health endpoint
+                        tool.detected = True
+                        tool.version = "Running"
+                        return True
             except:
                 pass
         
@@ -318,12 +342,13 @@ class ToolDetector:
         try:
             # Special handling for Hanzo services
             if tool.name == "hanzod":
-                # Use the local API directly
+                # Use the local API directly with correct endpoint
                 try:
                     response = httpx.post(
-                        "http://localhost:8000/chat/completions",
+                        "http://localhost:8000/v1/chat/completions",
                         json={
                             "messages": [{"role": "user", "content": prompt}],
+                            "model": "default",  # Use default model
                             "stream": False
                         },
                         timeout=30.0
@@ -331,6 +356,8 @@ class ToolDetector:
                     if response.status_code == 200:
                         result = response.json()
                         return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    else:
+                        return False, f"Hanzo Node returned {response.status_code}: {response.text}"
                 except Exception as e:
                     return False, f"Hanzo Node error: {e}"
             
