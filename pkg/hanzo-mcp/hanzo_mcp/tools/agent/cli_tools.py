@@ -300,7 +300,7 @@ class GrokCLITool(BaseCLITool):
     def __init__(self, permission_manager: Optional[PermissionManager] = None):
         super().__init__(
             permission_manager=permission_manager,
-            default_model="grok-2",
+            default_model="grok-4",
             api_key_env="XAI_API_KEY",
         )
     

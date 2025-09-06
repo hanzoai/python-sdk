@@ -26,7 +26,7 @@ hanzo dev --orchestrator local:llama-3.2-3b --use-hanzo-net
 
 ## 🚀 Features
 
-- **100+ LLM Providers**: OpenAI, Anthropic, Google, AWS Bedrock, Azure, Cohere, and more
+- **100+ LLM Providers**: OpenAI, Anthropic, Google, xAI (Grok), AWS Bedrock, Azure, Cohere, and more
 - **Local AI Orchestration**: Use local models (Llama, Qwen, Mistral) to manage API usage
 - **Cost Optimization**: 90% reduction through intelligent routing (local for simple, API for complex)
 - **Unified Interface**: OpenAI-compatible API for all providers
@@ -67,6 +67,36 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
+### Using xAI Grok
+
+```python
+from hanzoai import Hanzo
+
+# Initialize client (requires XAI_API_KEY environment variable)
+client = Hanzo(api_key="your-hanzo-api-key")
+
+# Use Grok-4 for real-time knowledge and analysis
+response = client.chat.completions.create(
+    model="grok-4",  # or use aliases: "grok", "xai-grok"
+    messages=[
+        {"role": "user", "content": "What happened in tech news today?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+
+# Grok with streaming for real-time responses
+stream = client.chat.completions.create(
+    model="grok-4",
+    messages=[{"role": "user", "content": "Explain the latest AI developments"}],
+    stream=True
+)
+
+for chunk in stream:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="")
+```
+
 ### Async Usage
 
 ```python
@@ -105,6 +135,145 @@ stream = client.chat.completions.create(
 for chunk in stream:
     if chunk.choices[0].delta.content:
         print(chunk.choices[0].delta.content, end="")
+```
+
+## 🤖 Using xAI Grok
+
+### Direct API Usage
+
+```python
+from hanzoai import Hanzo
+import os
+
+# Set your xAI API key
+os.environ["XAI_API_KEY"] = "your-xai-api-key"
+
+# Initialize Hanzo client
+client = Hanzo(api_key="your-hanzo-api-key")
+
+# Use Grok for real-time knowledge
+response = client.chat.completions.create(
+    model="grok-4",  # Aliases: "grok", "xai-grok"
+    messages=[
+        {"role": "system", "content": "You have access to real-time information."},
+        {"role": "user", "content": "What are the latest developments in AI today?"}
+    ],
+    temperature=0.7,
+    max_tokens=2000
+)
+
+print(response.choices[0].message.content)
+```
+
+### CLI Tool Usage
+
+```bash
+# Install hanzo-mcp for CLI tools
+pip install hanzo-mcp
+
+# Set your xAI API key
+export XAI_API_KEY="your-xai-api-key"
+
+# Use Grok CLI directly
+grok "What's happening in the stock market right now?"
+
+# Use Grok through hanzo dev
+hanzo dev --orchestrator grok-4
+
+# Batch operations with Grok
+hanzo dev
+> batch:10 agent:grok analyze real-time trends in *.py
+> consensus:3 agent:grok,claude,gpt-4 review latest news
+```
+
+### MCP Tool Integration
+
+```python
+from hanzo_mcp.tools.agent.cli_tools import GrokCLITool
+from mcp.server.fastmcp import Context
+
+# Create Grok CLI tool
+grok_tool = GrokCLITool()
+
+# Use in your MCP server
+async def analyze_realtime(ctx: Context, prompt: str):
+    result = await grok_tool.call(
+        ctx,
+        prompt=prompt,
+        model="grok-2",
+        timeout=300
+    )
+    return result
+```
+
+### Batch Processing with Grok
+
+```python
+from hanzo.batch_orchestrator import BatchConfig, BatchOrchestrator
+import asyncio
+
+async def batch_grok_analysis():
+    # Configure batch with Grok
+    config = BatchConfig.from_command(
+        "batch:20 agent:grok analyze market trends in data/*.csv"
+    )
+    
+    orchestrator = BatchOrchestrator()
+    results = await orchestrator.execute_batch(
+        "batch:20 agent:grok real-time analysis"
+    )
+    
+    return results
+
+# Run batch analysis
+results = asyncio.run(batch_grok_analysis())
+```
+
+### Consensus with Grok and Other Models
+
+```python
+# Use Grok in consensus with other models for balanced analysis
+response = client.chat.completions.create(
+    model="grok-2",
+    messages=[{"role": "user", "content": "Analyze this code"}]
+)
+
+# Or use batch consensus
+from hanzo.batch_orchestrator import BatchOrchestrator
+
+orchestrator = BatchOrchestrator()
+consensus_result = await orchestrator.execute_batch(
+    "consensus:3 agent:grok,claude,gemini analyze security vulnerabilities"
+)
+```
+
+### Grok Features and Capabilities
+
+- **Real-time Knowledge**: Access to current events and latest information
+- **Web Search Integration**: Can search and analyze web content
+- **Multi-turn Conversations**: Maintains context across exchanges
+- **Code Analysis**: Strong programming and debugging capabilities
+- **Humor Mode**: Can engage with wit and humor when appropriate
+- **Long Context**: Handles up to 128K tokens context window
+
+### Environment Setup for Grok
+
+```bash
+# Required environment variables
+export XAI_API_KEY="xai-..."  # Your xAI API key
+export HANZO_API_KEY="sk-..."  # Your Hanzo API key (optional)
+
+# Test Grok is working
+python -c "
+from hanzoai import Hanzo
+import os
+client = Hanzo()
+response = client.chat.completions.create(
+    model='grok-2',
+    messages=[{'role': 'user', 'content': 'Hello Grok!'}]
+)
+print(response.choices[0].message.content)
+"
 ```
 
 ## 🛠️ Advanced Features
