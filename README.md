@@ -27,6 +27,7 @@ hanzo dev --orchestrator local:llama-3.2-3b --use-hanzo-net
 ## 🚀 Features
 
 - **100+ LLM Providers**: OpenAI, Anthropic, Google, xAI (Grok), AWS Bedrock, Azure, Cohere, and more
+- **Smart Shell Tools**: Automatic Zsh preference with fallback to Bash for enhanced command execution
 - **Local AI Orchestration**: Use local models (Llama, Qwen, Mistral) to manage API usage
 - **Cost Optimization**: 90% reduction through intelligent routing (local for simple, API for complex)
 - **Unified Interface**: OpenAI-compatible API for all providers
@@ -137,6 +138,58 @@ for chunk in stream:
         print(chunk.choices[0].delta.content, end="")
 ```
 
+## 🐚 Shell Tools (Zsh Default)
+
+The SDK now includes smart shell selection that prefers Zsh when available:
+
+### Shell Tool (Smart Default)
+
+```python
+from hanzo_mcp.tools.shell import shell_tool
+
+# Automatically uses zsh if available, otherwise bash
+result = await shell_tool.run(ctx, "echo $SHELL")
+```
+
+### Explicit Shell Selection
+
+```python
+from hanzo_mcp.tools.shell import zsh_tool, bash_tool
+
+# Use Zsh explicitly (with enhanced features)
+result = await zsh_tool.run(ctx, "echo ${(L)HOST}")  # Zsh parameter expansion
+
+# Use Bash explicitly
+result = await bash_tool.run(ctx, "echo $BASH_VERSION")
+```
+
+### Shell Features
+
+**Zsh Advantages:**
+- Extended globbing: `**/*.py` recursively finds Python files
+- Better completion and history
+- Array and associative array support
+- Rich plugin ecosystem (oh-my-zsh, etc.)
+- Parameter expansion modifiers
+
+**Smart Shell Selection:**
+1. Checks for Zsh installation and .zshrc
+2. Falls back to user's $SHELL preference
+3. Defaults to Bash if nothing else available
+
+### CLI Usage
+
+```bash
+# Smart shell (prefers zsh)
+hanzo-mcp shell "ls -la"
+
+# Explicit zsh
+hanzo-mcp zsh "echo $ZSH_VERSION"
+
+# Explicit bash  
+hanzo-mcp bash "echo $BASH_VERSION"
+```
+
 ## 🤖 Using xAI Grok
 
 ### Direct API Usage
@@ -200,7 +253,7 @@ async def analyze_realtime(ctx: Context, prompt: str):
     result = await grok_tool.call(
         ctx,
         prompt=prompt,
-        model="grok-2",
+        model="grok-4",
         timeout=300
     )
     return result
@@ -234,7 +287,7 @@ results = asyncio.run(batch_grok_analysis())
 ```python
 # Use Grok in consensus with other models for balanced analysis
 response = client.chat.completions.create(
-    model="grok-2",
+    model="grok-4",
     messages=[{"role": "user", "content": "Analyze this code"}]
 )
 
@@ -269,7 +322,7 @@ from hanzoai import Hanzo
 import os
 client = Hanzo()
 response = client.chat.completions.create(
-    model='grok-2',
+    model='grok-4',
     messages=[{'role': 'user', 'content': 'Hello Grok!'}]
 )
 print(response.choices[0].message.content)

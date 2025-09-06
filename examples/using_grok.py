@@ -33,7 +33,7 @@ def basic_grok_usage():
     
     # Simple completion
     response = client.chat.completions.create(
-        model="grok-2",  # or "grok" or "xai-grok"
+        model="grok-4",  # or "grok" or "xai-grok"
         messages=[
             {"role": "system", "content": "You have real-time knowledge."},
             {"role": "user", "content": "What are the latest AI developments this week?"}
@@ -53,7 +53,7 @@ def streaming_grok():
     
     print("Streaming from Grok:")
     stream = client.chat.completions.create(
-        model="grok-2",
+        model="grok-4",
         messages=[
             {"role": "user", "content": "Explain quantum computing in simple terms"}
         ],
@@ -74,7 +74,7 @@ async def async_grok_usage():
     # Concurrent requests to different models
     tasks = [
         client.chat.completions.create(
-            model="grok-2",
+            model="grok-4",
             messages=[{"role": "user", "content": "What's happening in tech today?"}]
         ),
         client.chat.completions.create(

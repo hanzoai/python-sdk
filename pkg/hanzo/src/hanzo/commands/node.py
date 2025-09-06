@@ -1,4 +1,4 @@
-"""Cluster management commands."""
+"""Node management commands."""
 
 from typing import List, Optional
 
@@ -9,14 +9,14 @@ from rich.progress import Progress, TextColumn, SpinnerColumn
 from ..utils.output import console
 
 
-@click.group(name="cluster")
-def cluster_group():
-    """Manage local AI cluster."""
+@click.group(name="node")
+def cluster():
+    """Manage local AI node."""
     pass
 
 
-@cluster_group.command()
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@cluster.command()
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.option("--port", "-p", default=8000, type=int, help="API port")
 @click.option("--models", "-m", multiple=True, help="Models to load")
 @click.option(
@@ -27,14 +27,14 @@ def cluster_group():
 )
 @click.pass_context
 async def start(ctx, name: str, port: int, models: tuple, device: str):
-    """Start local AI cluster."""
-    await start_cluster(ctx, name, port, list(models) if models else None, device)
+    """Start local AI node."""
+    await start_node(ctx, name, port, list(models) if models else None, device)
 
 
-async def start_cluster(
+async def start_node(
     ctx, name: str, port: int, models: Optional[List[str]] = None, device: str = "auto"
 ):
-    """Start a local cluster via hanzo-cluster."""
+    """Start a local node via hanzo-cluster."""
     try:
         from hanzo_cluster import HanzoCluster
     except ImportError:
@@ -42,33 +42,33 @@ async def start_cluster(
         console.print("Install with: pip install hanzo[cluster]")
         return
 
-    cluster = HanzoCluster(name=name, port=port, device=device)
+    node = HanzoCluster(name=name, port=port, device=device)
 
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
-        task = progress.add_task("Starting cluster...", total=None)
+        task = progress.add_task("Starting node...", total=None)
 
         try:
-            await cluster.start(models=models)
+            await node.start(models=models)
             progress.update(task, completed=True)
         except Exception as e:
             progress.stop()
-            console.print(f"[red]Failed to start cluster: {e}[/red]")
+            console.print(f"[red]Failed to start node: {e}[/red]")
             return
 
-    console.print(f"[green]✓[/green] Cluster started at http://localhost:{port}")
+    console.print(f"[green]✓[/green] Node started at http://localhost:{port}")
     console.print("Press Ctrl+C to stop\n")
 
-    # Show cluster info
-    info = await cluster.info()
-    console.print("[cyan]Cluster Information:[/cyan]")
+    # Show node info
+    info = await node.info()
+    console.print("[cyan]Node Information:[/cyan]")
     console.print(f"  Name: {info.get('name', name)}")
     console.print(f"  Port: {info.get('port', port)}")
     console.print(f"  Device: {info.get('device', device)}")
-    console.print(f"  Nodes: {info.get('nodes', 1)}")
+    console.print(f"  Workers: {info.get('nodes', 1)}")
     if models := info.get("models", models):
         console.print(f"  Models: {', '.join(models)}")
 
@@ -76,58 +76,58 @@ async def start_cluster(
 
     try:
         # Stream logs
-        async for log in cluster.stream_logs():
+        async for log in node.stream_logs():
             console.print(log, end="")
     except KeyboardInterrupt:
-        console.print("\n[yellow]Stopping cluster...[/yellow]")
-        await cluster.stop()
-        console.print("[green]✓[/green] Cluster stopped")
+        console.print("\n[yellow]Stopping node...[/yellow]")
+        await node.stop()
+        console.print("[green]✓[/green] Node stopped")
 
 
-@cluster_group.command()
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@cluster.command()
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.pass_context
 async def stop(ctx, name: str):
-    """Stop local AI cluster."""
+    """Stop local AI node."""
     try:
         from hanzo_cluster import HanzoCluster
     except ImportError:
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    cluster = HanzoCluster(name=name)
+    node = HanzoCluster(name=name)
 
-    console.print("[yellow]Stopping cluster...[/yellow]")
+    console.print("[yellow]Stopping node...[/yellow]")
     try:
-        await cluster.stop()
-        console.print("[green]✓[/green] Cluster stopped")
+        await node.stop()
+        console.print("[green]✓[/green] Node stopped")
     except Exception as e:
-        console.print(f"[red]Failed to stop cluster: {e}[/red]")
+        console.print(f"[red]Failed to stop node: {e}[/red]")
 
 
-@cluster_group.command()
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@cluster.command()
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.pass_context
 async def status(ctx, name: str):
-    """Show cluster status."""
+    """Show node status."""
     try:
         from hanzo_cluster import HanzoCluster
     except ImportError:
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    cluster = HanzoCluster(name=name)
+    node = HanzoCluster(name=name)
 
     try:
-        status = await cluster.status()
+        status = await node.status()
 
         if status.get("running"):
-            console.print("[green]✓[/green] Cluster is running")
+            console.print("[green]✓[/green] Node is running")
 
-            # Show cluster info
-            console.print("\n[cyan]Cluster Information:[/cyan]")
+            # Show node info
+            console.print("\n[cyan]Node Information:[/cyan]")
             console.print(f"  Name: {status.get('name', name)}")
-            console.print(f"  Nodes: {status.get('nodes', 0)}")
+            console.print(f"  Workers: {status.get('nodes', 0)}")
             console.print(f"  Status: {status.get('state', 'unknown')}")
 
             # Show models
@@ -136,25 +136,25 @@ async def status(ctx, name: str):
                 for model in models:
                     console.print(f"  • {model}")
 
-            # Show nodes
-            if nodes := status.get("node_details", []):
-                console.print("\n[cyan]Nodes:[/cyan]")
-                for node in nodes:
+            # Show worker details
+            if workers := status.get("node_details", []):
+                console.print("\n[cyan]Workers:[/cyan]")
+                for worker in workers:
                     console.print(
-                        f"  • {node.get('name', 'unknown')} ({node.get('state', 'unknown')})"
+                        f"  • {worker.get('name', 'unknown')} ({worker.get('state', 'unknown')})"
                     )
-                    if device := node.get("device"):
+                    if device := worker.get("device"):
                         console.print(f"    Device: {device}")
         else:
-            console.print("[yellow]![/yellow] Cluster is not running")
-            console.print("Start with: hanzo cluster start")
+            console.print("[yellow]![/yellow] Node is not running")
+            console.print("Start with: hanzo node start")
 
     except Exception as e:
         console.print(f"[red]Error checking status: {e}[/red]")
 
 
-@cluster_group.command()
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@cluster.command()
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.pass_context
 async def models(ctx, name: str):
     """List available models."""
@@ -164,17 +164,17 @@ async def models(ctx, name: str):
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    cluster = HanzoCluster(name=name)
+    node = HanzoCluster(name=name)
 
     try:
-        models = await cluster.list_models()
+        models = await node.list_models()
 
         if models:
             table = Table(title="Available Models")
             table.add_column("Model ID", style="cyan")
             table.add_column("Type", style="green")
             table.add_column("Status", style="yellow")
-            table.add_column("Node", style="blue")
+            table.add_column("Worker", style="blue")
 
             for model in models:
                 table.add_row(
@@ -187,69 +187,69 @@ async def models(ctx, name: str):
             console.print(table)
         else:
             console.print("[yellow]No models loaded[/yellow]")
-            console.print("Load models with: hanzo cluster load <model>")
+            console.print("Load models with: hanzo node load <model>")
 
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 
 
-@cluster_group.command()
+@cluster.command()
 @click.argument("model")
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
-@click.option("--node", help="Target node (default: auto-select)")
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
+@click.option("--worker", help="Target worker (default: auto-select)")
 @click.pass_context
-async def load(ctx, model: str, name: str, node: str = None):
-    """Load a model into the cluster."""
+async def load(ctx, model: str, name: str, worker: str = None):
+    """Load a model into the node."""
     try:
         from hanzo_cluster import HanzoCluster
     except ImportError:
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    cluster = HanzoCluster(name=name)
+    node = HanzoCluster(name=name)
 
     with console.status(f"Loading model '{model}'..."):
         try:
-            result = await cluster.load_model(model, node=node)
+            result = await node.load_model(model, node=worker)
             console.print(f"[green]✓[/green] Loaded model: {model}")
-            if node_name := result.get("node"):
-                console.print(f"  Node: {node_name}")
+            if worker_name := result.get("node"):
+                console.print(f"  Worker: {worker_name}")
         except Exception as e:
             console.print(f"[red]Failed to load model: {e}[/red]")
 
 
-@cluster_group.command()
+@cluster.command()
 @click.argument("model")
-@click.option("--name", "-n", default="hanzo-local", help="Cluster name")
+@click.option("--name", "-n", default="hanzo-local", help="Node name")
 @click.pass_context
 async def unload(ctx, model: str, name: str):
-    """Unload a model from the cluster."""
+    """Unload a model from the node."""
     try:
         from hanzo_cluster import HanzoCluster
     except ImportError:
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    cluster = HanzoCluster(name=name)
+    node = HanzoCluster(name=name)
 
     if click.confirm(f"Unload model '{model}'?"):
         with console.status(f"Unloading model '{model}'..."):
             try:
-                await cluster.unload_model(model)
+                await node.unload_model(model)
                 console.print(f"[green]✓[/green] Unloaded model: {model}")
             except Exception as e:
                 console.print(f"[red]Failed to unload model: {e}[/red]")
 
 
-@cluster_group.group(name="node")
-def node_group():
-    """Manage cluster nodes."""
+@cluster.group(name="worker")
+def worker_group():
+    """Manage node workers."""
     pass
 
 
-@node_group.command(name="start")
-@click.option("--name", "-n", default="node-1", help="Node name")
-@click.option("--cluster", "-c", default="hanzo-local", help="Cluster to join")
+@worker_group.command(name="start")
+@click.option("--name", "-n", default="worker-1", help="Worker name")
+@click.option("--node", "-nd", default="hanzo-local", help="Node to join")
 @click.option(
     "--device",
     type=click.Choice(["cpu", "gpu", "auto"]),
@@ -257,21 +257,21 @@ def node_group():
     help="Device to use",
 )
 @click.option(
-    "--port", "-p", type=int, help="Node port (auto-assigned if not specified)"
+    "--port", "-p", type=int, help="Worker port (auto-assigned if not specified)"
 )
 @click.option("--blockchain", is_flag=True, help="Enable blockchain features")
 @click.option("--network", is_flag=True, help="Enable network discovery")
 @click.pass_context
-async def node_start(
+async def worker_start(
     ctx,
     name: str,
-    cluster: str,
+    node: str,
     device: str,
     port: int,
     blockchain: bool,
     network: bool,
 ):
-    """Start this machine as a node in the cluster."""
+    """Start this machine as a worker in the node."""
     try:
         from hanzo_cluster import HanzoNode
 
@@ -282,22 +282,22 @@ async def node_start(
         console.print("Install with: pip install hanzo[cluster,network]")
         return
 
-    node = HanzoNode(name=name, device=device, port=port)
+    worker = HanzoNode(name=name, device=device, port=port)
 
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
-        task = progress.add_task(f"Starting node '{name}'...", total=None)
+        task = progress.add_task(f"Starting worker '{name}'...", total=None)
 
         try:
-            # Start the node
-            await node.start(cluster=cluster)
+            # Start the worker
+            await worker.start(cluster=node)
 
             # Enable blockchain/network features if requested
             if blockchain or network:
-                network_mgr = HanzoNetwork(node=node)
+                network_mgr = HanzoNetwork(node=worker)
                 if blockchain:
                     await network_mgr.enable_blockchain()
                 if network:
@@ -306,11 +306,11 @@ async def node_start(
             progress.update(task, completed=True)
         except Exception as e:
             progress.stop()
-            console.print(f"[red]Failed to start node: {e}[/red]")
+            console.print(f"[red]Failed to start worker: {e}[/red]")
             return
 
-    console.print(f"[green]✓[/green] Node '{name}' started")
-    console.print(f"  Cluster: {cluster}")
+    console.print(f"[green]✓[/green] Worker '{name}' started")
+    console.print(f"  Node: {node}")
     console.print(f"  Device: {device}")
     if port:
         console.print(f"  Port: {port}")
@@ -324,20 +324,20 @@ async def node_start(
 
     try:
         # Stream logs
-        async for log in node.stream_logs():
+        async for log in worker.stream_logs():
             console.print(log, end="")
     except KeyboardInterrupt:
-        console.print("\n[yellow]Stopping node...[/yellow]")
-        await node.stop()
-        console.print("[green]✓[/green] Node stopped")
+        console.print("\n[yellow]Stopping worker...[/yellow]")
+        await worker.stop()
+        console.print("[green]✓[/green] Worker stopped")
 
 
-@node_group.command(name="stop")
-@click.option("--name", "-n", help="Node name")
-@click.option("--all", is_flag=True, help="Stop all nodes")
+@worker_group.command(name="stop")
+@click.option("--name", "-n", help="Worker name")
+@click.option("--all", is_flag=True, help="Stop all workers")
 @click.pass_context
-async def node_stop(ctx, name: str, all: bool):
-    """Stop a node."""
+async def worker_stop(ctx, name: str, all: bool):
+    """Stop a worker."""
     try:
         from hanzo_cluster import HanzoNode
     except ImportError:
@@ -345,30 +345,30 @@ async def node_stop(ctx, name: str, all: bool):
         return
 
     if all:
-        if click.confirm("Stop all nodes?"):
-            console.print("[yellow]Stopping all nodes...[/yellow]")
+        if click.confirm("Stop all workers?"):
+            console.print("[yellow]Stopping all workers...[/yellow]")
             try:
                 await HanzoNode.stop_all()
-                console.print("[green]✓[/green] All nodes stopped")
+                console.print("[green]✓[/green] All workers stopped")
             except Exception as e:
-                console.print(f"[red]Failed to stop nodes: {e}[/red]")
+                console.print(f"[red]Failed to stop workers: {e}[/red]")
     elif name:
-        node = HanzoNode(name=name)
-        console.print(f"[yellow]Stopping node '{name}'...[/yellow]")
+        worker = HanzoNode(name=name)
+        console.print(f"[yellow]Stopping worker '{name}'...[/yellow]")
         try:
-            await node.stop()
-            console.print(f"[green]✓[/green] Node stopped")
+            await worker.stop()
+            console.print(f"[green]✓[/green] Worker stopped")
         except Exception as e:
-            console.print(f"[red]Failed to stop node: {e}[/red]")
+            console.print(f"[red]Failed to stop worker: {e}[/red]")
     else:
         console.print("[red]Error:[/red] Specify --name or --all")
 
 
-@node_group.command(name="list")
-@click.option("--cluster", "-c", help="Filter by cluster")
+@worker_group.command(name="list")
+@click.option("--node", "-nd", help="Filter by node")
 @click.pass_context
-async def node_list(ctx, cluster: str):
-    """List all nodes."""
+async def worker_list(ctx, node: str):
+    """List all workers."""
     try:
         from hanzo_cluster import HanzoNode
     except ImportError:
@@ -376,52 +376,52 @@ async def node_list(ctx, cluster: str):
         return
 
     try:
-        nodes = await HanzoNode.list_nodes(cluster=cluster)
+        workers = await HanzoNode.list_nodes(cluster=node)
 
-        if nodes:
-            table = Table(title="Cluster Nodes")
+        if workers:
+            table = Table(title="Node Workers")
             table.add_column("Name", style="cyan")
-            table.add_column("Cluster", style="green")
+            table.add_column("Node", style="green")
             table.add_column("Device", style="yellow")
             table.add_column("Status", style="blue")
             table.add_column("Models", style="magenta")
 
-            for node in nodes:
+            for worker in workers:
                 table.add_row(
-                    node.get("name", "unknown"),
-                    node.get("cluster", "unknown"),
-                    node.get("device", "unknown"),
-                    node.get("status", "unknown"),
-                    str(len(node.get("models", []))),
+                    worker.get("name", "unknown"),
+                    worker.get("cluster", "unknown"),
+                    worker.get("device", "unknown"),
+                    worker.get("status", "unknown"),
+                    str(len(worker.get("models", []))),
                 )
 
             console.print(table)
         else:
-            console.print("[yellow]No nodes found[/yellow]")
-            console.print("Start a node with: hanzo cluster node start")
+            console.print("[yellow]No workers found[/yellow]")
+            console.print("Start a worker with: hanzo node worker start")
 
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 
 
-@node_group.command(name="info")
+@worker_group.command(name="info")
 @click.argument("name")
 @click.pass_context
-async def node_info(ctx, name: str):
-    """Show detailed node information."""
+async def worker_info(ctx, name: str):
+    """Show detailed worker information."""
     try:
         from hanzo_cluster import HanzoNode
     except ImportError:
         console.print("[red]Error:[/red] hanzo-cluster not installed")
         return
 
-    node = HanzoNode(name=name)
+    worker = HanzoNode(name=name)
 
     try:
-        info = await node.info()
+        info = await worker.info()
 
-        console.print(f"[cyan]Node: {name}[/cyan]")
-        console.print(f"  Cluster: {info.get('cluster', 'unknown')}")
+        console.print(f"[cyan]Worker: {name}[/cyan]")
+        console.print(f"  Node: {info.get('cluster', 'unknown')}")
         console.print(f"  Status: {info.get('status', 'unknown')}")
         console.print(f"  Device: {info.get('device', 'unknown')}")
 
