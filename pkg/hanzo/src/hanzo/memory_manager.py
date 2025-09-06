@@ -116,7 +116,7 @@ class MemoryManager:
             try:
                 with open(self.session_file, "r") as f:
                     self.session_context = json.load(f)
-            except:
+            except Exception:
                 self.session_context = {}
         else:
             self.session_context = {

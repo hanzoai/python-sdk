@@ -1,7 +1,6 @@
 """Configuration settings for Hanzo Memory Service."""
 
 from pathlib import Path
-from typing import Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -18,7 +17,7 @@ class Settings(BaseSettings):
     )
 
     # API Settings
-    api_key: Optional[str] = Field(None, description="Hanzo API key for authentication")
+    api_key: str | None = Field(None, description="Hanzo API key for authentication")
     disable_auth: bool = Field(
         False, description="Disable authentication for local development"
     )
@@ -47,16 +46,16 @@ class Settings(BaseSettings):
     llm_model: str = Field(
         "gpt-4o-mini", description="LLM model to use (LiteLLM format)"
     )
-    llm_api_base: Optional[str] = Field(
+    llm_api_base: str | None = Field(
         None, description="API base URL for local models"
     )
-    llm_api_key: Optional[str] = Field(None, description="API key for LLM provider")
+    llm_api_key: str | None = Field(None, description="API key for LLM provider")
     llm_temperature: float = Field(0.7, description="Default temperature for LLM")
     llm_max_tokens: int = Field(1000, description="Default max tokens for LLM")
 
     # Legacy API keys (for backwards compatibility)
-    openai_api_key: Optional[str] = Field(None, description="OpenAI API key")
-    anthropic_api_key: Optional[str] = Field(None, description="Anthropic API key")
+    openai_api_key: str | None = Field(None, description="OpenAI API key")
+    anthropic_api_key: str | None = Field(None, description="Anthropic API key")
 
     # Embedding Settings
     embedding_model: str = Field(
@@ -79,7 +78,7 @@ class Settings(BaseSettings):
     )
 
     # Cache Settings
-    redis_url: Optional[str] = Field(None, description="Redis URL for caching")
+    redis_url: str | None = Field(None, description="Redis URL for caching")
     cache_ttl: int = Field(3600, description="Cache TTL in seconds")
 
     # Logging Settings

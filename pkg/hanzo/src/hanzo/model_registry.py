@@ -6,9 +6,9 @@ eliminating duplication and ensuring consistency across the codebase.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set
 from enum import Enum
+from typing import Set, Dict, List, Optional
+from dataclasses import field, dataclass
 
 
 class ModelProvider(Enum):

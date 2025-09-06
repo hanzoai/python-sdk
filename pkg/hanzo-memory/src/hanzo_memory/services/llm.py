@@ -1,7 +1,7 @@
 """LLM service for AI operations using LiteLLM."""
 
 import json
-from typing import Any, Optional
+from typing import Any
 
 import litellm
 from structlog import get_logger
@@ -36,10 +36,10 @@ class LLMService:
     def complete(
         self,
         prompt: str,
-        model: Optional[str] = None,
-        max_tokens: Optional[int] = None,
-        temperature: Optional[float] = None,
-        response_format: Optional[str] = None,
+        model: str | None = None,
+        max_tokens: int | None = None,
+        temperature: float | None = None,
+        response_format: str | None = None,
     ) -> str:
         """
         Complete a prompt using LiteLLM.
@@ -83,10 +83,10 @@ class LLMService:
     def chat(
         self,
         messages: list[dict[str, str]],
-        model: Optional[str] = None,
-        max_tokens: Optional[int] = None,
-        temperature: Optional[float] = None,
-        response_format: Optional[str] = None,
+        model: str | None = None,
+        max_tokens: int | None = None,
+        temperature: float | None = None,
+        response_format: str | None = None,
     ) -> str:
         """
         Chat with the LLM using LiteLLM.
@@ -130,9 +130,9 @@ class LLMService:
     def summarize_for_knowledge(
         self,
         content: str,
-        context: Optional[str] = None,
+        context: str | None = None,
         skip_summarization: bool = False,
-        provided_summary: Optional[str] = None,
+        provided_summary: str | None = None,
     ) -> dict[str, Any]:
         """
         Summarize content and generate knowledge update instructions.
@@ -206,7 +206,7 @@ Summary: {summary}"""
 
 
 # Global LLM service instance
-_llm_service: Optional[LLMService] = None
+_llm_service: LLMService | None = None
 
 
 def get_llm_service() -> LLMService:

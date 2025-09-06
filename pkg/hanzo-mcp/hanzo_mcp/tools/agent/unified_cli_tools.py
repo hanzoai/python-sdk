@@ -7,16 +7,16 @@ following Python best practices and eliminating all duplication.
 from __future__ import annotations
 
 import os
-from typing import Any, Optional, List, Dict
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context
 
-from ...core.model_registry import registry
-from ...core.base_agent import CLIAgent, AgentConfig
 from ..common.base import BaseTool
+from ...core.base_agent import CLIAgent, AgentConfig
 from ..common.permissions import PermissionManager
+from ...core.model_registry import registry
 
 
 class UnifiedCLITool(BaseTool, CLIAgent):

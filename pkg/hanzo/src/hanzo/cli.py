@@ -14,14 +14,14 @@ from .commands import (
     mcp,
     auth,
     chat,
+    node,
     repl,
     agent,
     miner,
     tools,
     config,
-    node,
-    network,
     router,
+    network,
 )
 from .utils.output import console
 from .interactive.repl import HanzoREPL

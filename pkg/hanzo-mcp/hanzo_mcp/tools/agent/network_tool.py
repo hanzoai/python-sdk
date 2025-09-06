@@ -177,37 +177,17 @@ class NetworkTool(BaseTool):
                             results["error"] = f"Local execution failed: {str(e)}"
                             return json.dumps(results, indent=2)
 
-            # Fallback to agent-based execution
-            # This would use hanzo-agents or the existing swarm implementation
-            if not results["success"] or mode in ["distributed", "hybrid"]:
-                # Import swarm tool as fallback
-                from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
-
-                # Create temporary swarm tool
-                swarm = SwarmTool(
-                    permission_manager=self.permission_manager, model=model_pref
-                )
-
-                # Convert network params to swarm params
-                swarm_params = {
-                    "prompts": [task] if not agents_list else agents_list,
-                    "consensus": routing == "consensus",
-                    "parallel": routing == "parallel",
-                }
-
-                # Execute via swarm
-                swarm_result = await swarm.call(ctx, **swarm_params)
-                swarm_data = json.loads(swarm_result)
-
-                # Merge results
-                if swarm_data.get("success"):
-                    results["agents_used"].extend(
-                        [r["agent"] for r in swarm_data.get("results", [])]
-                    )
-                    results["results"].extend(swarm_data.get("results", []))
+                # Agent-based execution with concurrency
+                if not results["success"] or mode in ["distributed", "hybrid"]:
+                    from hanzo_mcp.tools.agent.agent_tool import AgentTool
+                    agent = AgentTool(permission_manager=self.permission_manager, model=model_pref)
+                    concurrency = max(1, len(agents_list)) if agents_list else 5 if routing == "parallel" else 1
+                    agent_params = {"prompts": task, "concurrency": concurrency}
+                    agent_result = await agent.call(ctx, **agent_params)
+                    # Wrap agent_result as a simple result list
+                    results["agents_used"].append("agent")
+                    results["results"].append({"agent": "agent", "response": agent_result})
                     results["success"] = True
-                else:
-                    results["error"] = swarm_data.get("error", "Unknown error")
 
         except Exception as e:
             results["error"] = str(e)
@@ -260,28 +240,4 @@ class NetworkTool(BaseTool):
         return tool
 
 
-# Alias swarm to use network tool with local-only mode
-@final
-class LocalSwarmTool(NetworkTool):
-    """Local-only version of the network tool (swarm compatibility).
-
-    This provides backward compatibility with the swarm tool
-    while using local compute resources only.
-    """
-
-    name = "swarm"
-    description = "Run agent swarms locally using hanzo-miner compute"
-
-    def __init__(self, permission_manager: PermissionManager, **kwargs):
-        """Initialize as local-only network."""
-        super().__init__(
-            permission_manager=permission_manager, default_mode="local", **kwargs
-        )
-
-    @override
-    async def call(self, ctx: MCPContext, **params: Unpack[NetworkToolParams]) -> str:
-        """Execute with local-only mode."""
-        # Force local mode
-        params["mode"] = "local"
-        params["require_local"] = True
-        return await super().call(ctx, **params)
+# Remove swarm compatibility tool; swarm is an alias of agent with concurrency

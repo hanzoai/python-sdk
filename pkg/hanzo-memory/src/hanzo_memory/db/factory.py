@@ -1,6 +1,5 @@
 """Database factory for selecting the appropriate backend."""
 
-from typing import Optional
 
 from structlog import get_logger
 
@@ -12,7 +11,7 @@ from .lancedb_client import LanceDBClient
 logger = get_logger()
 
 # Global database client instance
-_db_client: Optional[BaseVectorDB] = None
+_db_client: BaseVectorDB | None = None
 
 
 def get_db_client() -> BaseVectorDB:

@@ -273,7 +273,7 @@ async def stream_with_fallback(message: str, console: Console = None) -> Optiona
     # Try Ollama streaming
     try:
         return await handler.stream_ollama(message)
-    except:
+    except Exception:
         pass
 
     # Fallback to non-streaming with simulated effect

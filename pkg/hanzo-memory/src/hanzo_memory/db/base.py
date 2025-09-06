@@ -1,7 +1,7 @@
 """Base database interface for vector storage backends."""
 
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any
 
 
 class BaseVectorDB(ABC):
@@ -14,7 +14,7 @@ class BaseVectorDB(ABC):
         user_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new project."""
         pass
@@ -37,7 +37,7 @@ class BaseVectorDB(ABC):
         project_id: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
         importance: float = 0.5,
     ) -> dict[str, Any]:
         """Add a memory to the database."""
@@ -48,7 +48,7 @@ class BaseVectorDB(ABC):
         self,
         user_id: str,
         query_embedding: list[float],
-        project_id: Optional[str] = None,
+        project_id: str | None = None,
         limit: int = 10,
         min_similarity: float = 0.0,
     ) -> list[dict[str, Any]]:
@@ -62,7 +62,7 @@ class BaseVectorDB(ABC):
         project_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new knowledge base."""
         pass
@@ -79,7 +79,7 @@ class BaseVectorDB(ABC):
         knowledge_base_id: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
         confidence: float = 1.0,
     ) -> dict[str, Any]:
         """Add a fact to a knowledge base."""
@@ -89,7 +89,7 @@ class BaseVectorDB(ABC):
     def search_facts(
         self,
         knowledge_base_id: str,
-        query_embedding: Optional[list[float]] = None,
+        query_embedding: list[float] | None = None,
         limit: int = 10,
     ) -> list[dict[str, Any]]:
         """Search facts in a knowledge base."""
@@ -106,7 +106,7 @@ class BaseVectorDB(ABC):
         session_id: str,
         user_id: str,
         project_id: str,
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new chat session."""
         pass
@@ -119,7 +119,7 @@ class BaseVectorDB(ABC):
         role: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Add a message to a chat session."""
         pass
@@ -128,7 +128,7 @@ class BaseVectorDB(ABC):
     def get_chat_messages(
         self,
         session_id: str,
-        limit: Optional[int] = None,
+        limit: int | None = None,
     ) -> list[dict[str, Any]]:
         """Get messages from a chat session."""
         pass

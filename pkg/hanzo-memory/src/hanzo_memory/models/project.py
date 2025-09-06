@@ -1,6 +1,6 @@
 """Project models."""
 
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -26,9 +26,9 @@ class ProjectCreate(ProjectBase):
 class ProjectUpdate(BaseModel):
     """Model for updating a project."""
 
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
+    name: str | None = None
+    description: str | None = None
+    metadata: dict[str, Any] | None = None
 
 
 class Project(ProjectBase, UserScopedModel, TimestampedModel):

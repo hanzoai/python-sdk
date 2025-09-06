@@ -2,18 +2,19 @@
 
 import os
 import sys
-import pytest
-import asyncio
 import shutil
+import asyncio
 import platform
 from pathlib import Path
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
+from unittest.mock import Mock, AsyncMock, MagicMock, patch
+
+import pytest
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_mcp.tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.shell.zsh_tool import ZshTool, ShellTool
+from hanzo_mcp.tools.shell.bash_tool import BashTool
 
 
 class MockContext:

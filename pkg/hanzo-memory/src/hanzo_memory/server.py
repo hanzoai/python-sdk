@@ -4,7 +4,6 @@ import json
 import uuid
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import Optional, Union
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -94,7 +93,7 @@ async def health_check() -> dict[str, str]:
 async def remember(
     request: RememberRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> MemoryResponse:
     """
     Retrieve relevant memories and store new memory.
@@ -135,7 +134,7 @@ async def remember(
     )
 
     # Format response
-    relevant_memories: list[Union[str, dict[str, str]]]
+    relevant_memories: list[str | dict[str, str]]
     if request.includememoryid:
         relevant_memories = [
             {"content": m.content, "memoryId": m.memory_id} for m in memories
@@ -162,7 +161,7 @@ async def remember(
 async def add_memories(
     request: AddMemoriesRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Add explicit memories without importance analysis."""
     # Check auth
@@ -206,7 +205,7 @@ async def add_memories(
 async def get_memories(
     request: GetMemoriesRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> MemoryListResponse:
     """Retrieve stored memories."""
     # Check auth
@@ -246,7 +245,7 @@ async def get_memories(
 async def delete_memory(
     request: DeleteMemoryRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Delete a specific memory."""
     # Check auth
@@ -272,7 +271,7 @@ async def delete_memory(
 async def delete_user(
     request: DeleteUserRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Delete all memories for a user."""
     # Check auth
@@ -302,7 +301,7 @@ async def delete_user(
 async def create_knowledge_base(
     request: CreateKnowledgeBaseRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Create a new knowledge base."""
     try:
@@ -350,8 +349,8 @@ async def create_knowledge_base(
 async def list_knowledge_bases(
     req: Request,
     userid: str = Query(...),
-    project_id: Optional[str] = Query(None),
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    project_id: str | None = Query(None),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """List knowledge bases for a user."""
     try:
@@ -376,7 +375,7 @@ async def list_knowledge_bases(
 async def add_facts(
     request: AddKnowledgeRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Add facts to a knowledge base."""
     try:
@@ -428,7 +427,7 @@ async def add_facts(
 async def get_facts(
     request: GetKnowledgeRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Get facts from a knowledge base."""
     try:
@@ -489,7 +488,7 @@ async def get_facts(
 async def delete_fact(
     request: DeleteKnowledgeRequest,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Delete a fact from a knowledge base."""
     try:
@@ -517,7 +516,7 @@ async def delete_fact(
 async def create_chat_session(
     request: ChatSessionCreate,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Create a new chat session."""
     try:
@@ -550,7 +549,7 @@ async def create_chat_session(
 async def add_chat_message(
     request: ChatMessageCreate,
     req: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Add a message to a chat session."""
     try:
@@ -620,7 +619,7 @@ async def get_chat_messages(
     req: Request,
     userid: str = Query(...),
     limit: int = Query(100, ge=1, le=1000),
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Get messages for a chat session."""
     try:
@@ -668,10 +667,10 @@ async def search_chat_messages(
     req: Request,
     query: str = Query(...),
     userid: str = Query(...),
-    project_id: Optional[str] = Query(None),
-    session_id: Optional[str] = Query(None),
+    project_id: str | None = Query(None),
+    session_id: str | None = Query(None),
     limit: int = Query(10, ge=1, le=100),
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
 ) -> dict:
     """Search across chat messages."""
     try:

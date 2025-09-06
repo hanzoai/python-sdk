@@ -3,7 +3,6 @@
 import json
 import uuid
 from datetime import datetime
-from typing import Optional
 
 from structlog import get_logger
 
@@ -29,7 +28,7 @@ class MemoryService:
         user_id: str,
         project_id: str,
         content: str,
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
         importance: float = 1.0,
         strip_pii: bool = False,
     ) -> Memory:
@@ -79,10 +78,10 @@ class MemoryService:
         self,
         user_id: str,
         query: str,
-        project_id: Optional[str] = None,
+        project_id: str | None = None,
         limit: int = 10,
         filter_with_llm: bool = False,
-        additional_context: Optional[str] = None,
+        additional_context: str | None = None,
     ) -> list[MemoryWithScore]:
         """
         Search memories by semantic similarity.
@@ -154,7 +153,7 @@ class MemoryService:
 
         return memories[:limit]
 
-    def get_memory(self, user_id: str, memory_id: str) -> Optional[Memory]:
+    def get_memory(self, user_id: str, memory_id: str) -> Memory | None:
         """Get a specific memory by ID."""
         # This would need to be implemented in the DB client
         # For now, return None
@@ -194,7 +193,7 @@ Anonymized text:"""
         query: str,
         memories: list[MemoryWithScore],
         limit: int,
-        additional_context: Optional[str] = None,
+        additional_context: str | None = None,
     ) -> list[MemoryWithScore]:
         """Filter memories using LLM to select most relevant."""
         # Create memory list for LLM
@@ -237,7 +236,7 @@ Selected memory numbers:"""
 
 
 # Global memory service instance
-_memory_service: Optional[MemoryService] = None
+_memory_service: MemoryService | None = None
 
 
 def get_memory_service() -> MemoryService:
