@@ -1,11 +1,14 @@
 """Chat command for interactive AI conversations."""
 
 import asyncio
+import os
 from typing import Optional
 
 import click
 import httpx
 from rich.markdown import Markdown
+from rich.panel import Panel
+from rich import box
 
 from ..utils.output import console
 
