@@ -32,6 +32,11 @@ except ImportError:
     QuickModelSelector = None
     BackgroundTaskManager = None
 
+try:
+    from .todo_manager import TodoManager
+except ImportError:
+    TodoManager = None
+
 
 class EnhancedHanzoREPL:
     """Enhanced REPL with model selection and authentication."""
@@ -99,6 +104,9 @@ class EnhancedHanzoREPL:
         # Initialize background task manager
         self.task_manager = BackgroundTaskManager(console) if BackgroundTaskManager else None
         
+        # Initialize todo manager
+        self.todo_manager = TodoManager(console) if TodoManager else None
+        
         # Detect available tools and set default
         if self.tool_detector:
             self.detected_tools = self.tool_detector.detect_all()
@@ -139,6 +147,8 @@ class EnhancedHanzoREPL:
             "tasks": self.show_tasks,
             "kill": self.kill_task,
             "quick": self.quick_model_select,
+            "todo": self.manage_todos,
+            "todos": self.manage_todos,  # Alias
         }
         
         self.running = False
@@ -295,6 +305,9 @@ class EnhancedHanzoREPL:
             "models": "models",
             "login": "login",
             "logout": "logout",
+            "todo": "todo",
+            "todos": "todos",
+            "t": "todo",  # Shortcut for todo
         }
         
         mapped_cmd = slash_map.get(cmd, cmd)
@@ -550,6 +563,7 @@ class EnhancedHanzoREPL:
 # Hanzo Enhanced REPL
 
 ## Slash Commands:
+- `/todo [cmd]` - Manage todos (see `/todo help`)
 - `/model [name]` - Change AI model (or `/m`)
 - `/models` - List available models
 - `/tools` - List available AI tools
@@ -686,3 +700,214 @@ class EnhancedHanzoREPL:
                         self.task_manager.kill_task(task_id)
             except (KeyboardInterrupt, EOFError):
                 pass
+    
+    async def manage_todos(self, args: str = ""):
+        """Manage todos."""
+        if not self.todo_manager:
+            self.console.print("[yellow]Todo manager not available[/yellow]")
+            return
+        
+        # Parse command
+        parts = args.strip().split(maxsplit=1)
+        
+        if not parts:
+            # Show todos
+            self.todo_manager.display_todos()
+            return
+        
+        subcommand = parts[0].lower()
+        rest = parts[1] if len(parts) > 1 else ""
+        
+        # Handle subcommands
+        if subcommand in ["add", "a", "+"]:
+            # Add todo
+            if rest:
+                # Quick add
+                try:
+                    todo = self.todo_manager.quick_add(rest)
+                    self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+                except ValueError as e:
+                    self.console.print(f"[red]Error: {e}[/red]")
+            else:
+                # Interactive add
+                await self.add_todo_interactive()
+        
+        elif subcommand in ["list", "ls", "l"]:
+            # List todos with optional filter
+            filter_parts = rest.split()
+            status = None
+            priority = None
+            tag = None
+            
+            for i in range(0, len(filter_parts), 2):
+                if i + 1 < len(filter_parts):
+                    key = filter_parts[i]
+                    value = filter_parts[i + 1]
+                    
+                    if key in ["status", "s"]:
+                        status = value
+                    elif key in ["priority", "p"]:
+                        priority = value
+                    elif key in ["tag", "t"]:
+                        tag = value
+            
+            todos = self.todo_manager.list_todos(status=status, priority=priority, tag=tag)
+            title = "Filtered Todos" if (status or priority or tag) else "All Todos"
+            self.todo_manager.display_todos(todos, title)
+        
+        elif subcommand in ["done", "d", "complete", "finish"]:
+            # Mark as done
+            if rest:
+                todo = self.todo_manager.update_todo(rest, status="done")
+                if todo:
+                    self.console.print(f"[green]✅ Marked as done: {todo.title}[/green]")
+                else:
+                    self.console.print(f"[red]Todo not found: {rest}[/red]")
+            else:
+                self.console.print("[yellow]Usage: /todo done <id>[/yellow]")
+        
+        elif subcommand in ["start", "begin", "progress"]:
+            # Mark as in progress
+            if rest:
+                todo = self.todo_manager.update_todo(rest, status="in_progress")
+                if todo:
+                    self.console.print(f"[cyan]🔄 Started: {todo.title}[/cyan]")
+                else:
+                    self.console.print(f"[red]Todo not found: {rest}[/red]")
+            else:
+                self.console.print("[yellow]Usage: /todo start <id>[/yellow]")
+        
+        elif subcommand in ["cancel", "x"]:
+            # Cancel todo
+            if rest:
+                todo = self.todo_manager.update_todo(rest, status="cancelled")
+                if todo:
+                    self.console.print(f"[red]❌ Cancelled: {todo.title}[/red]")
+                else:
+                    self.console.print(f"[red]Todo not found: {rest}[/red]")
+            else:
+                self.console.print("[yellow]Usage: /todo cancel <id>[/yellow]")
+        
+        elif subcommand in ["delete", "del", "rm", "remove"]:
+            # Delete todo
+            if rest:
+                if self.todo_manager.delete_todo(rest):
+                    self.console.print(f"[green]✅ Deleted todo: {rest}[/green]")
+                else:
+                    self.console.print(f"[red]Todo not found: {rest}[/red]")
+            else:
+                self.console.print("[yellow]Usage: /todo delete <id>[/yellow]")
+        
+        elif subcommand in ["view", "show", "detail"]:
+            # View todo detail
+            if rest:
+                todo = self.todo_manager.get_todo(rest)
+                if todo:
+                    self.todo_manager.display_todo_detail(todo)
+                else:
+                    self.console.print(f"[red]Todo not found: {rest}[/red]")
+            else:
+                self.console.print("[yellow]Usage: /todo view <id>[/yellow]")
+        
+        elif subcommand in ["stats", "statistics"]:
+            # Show statistics
+            self.todo_manager.display_statistics()
+        
+        elif subcommand in ["clear", "reset"]:
+            # Clear all todos (with confirmation)
+            try:
+                confirm = await self.session.prompt_async("Are you sure you want to delete ALL todos? (yes/no): ")
+                if confirm.lower() in ["yes", "y"]:
+                    self.todo_manager.todos = []
+                    self.todo_manager.save_todos()
+                    self.console.print("[green]✅ All todos cleared[/green]")
+                else:
+                    self.console.print("[yellow]Cancelled[/yellow]")
+            except (KeyboardInterrupt, EOFError):
+                self.console.print("[yellow]Cancelled[/yellow]")
+        
+        elif subcommand in ["help", "h", "?"]:
+            # Show todo help
+            self.show_todo_help()
+        
+        else:
+            # Unknown subcommand, treat as quick add
+            try:
+                todo = self.todo_manager.quick_add(args)
+                self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+            except ValueError:
+                self.console.print(f"[yellow]Unknown todo command: {subcommand}[/yellow]")
+                self.console.print("[dim]Use /todo help for available commands[/dim]")
+    
+    async def add_todo_interactive(self):
+        """Add todo interactively."""
+        try:
+            # Get title
+            title = await self.session.prompt_async("Title: ")
+            if not title:
+                self.console.print("[yellow]Cancelled[/yellow]")
+                return
+            
+            # Get description
+            description = await self.session.prompt_async("Description (optional): ")
+            
+            # Get priority
+            priority = await self.session.prompt_async("Priority (low/medium/high/urgent) [medium]: ")
+            if not priority:
+                priority = "medium"
+            
+            # Get tags
+            tags_input = await self.session.prompt_async("Tags (comma-separated, optional): ")
+            tags = [t.strip() for t in tags_input.split(",") if t.strip()] if tags_input else []
+            
+            # Get due date
+            due_date = await self.session.prompt_async("Due date (optional): ")
+            
+            # Add todo
+            todo = self.todo_manager.add_todo(
+                title=title,
+                description=description,
+                priority=priority,
+                tags=tags,
+                due_date=due_date if due_date else None
+            )
+            
+            self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+            
+        except (KeyboardInterrupt, EOFError):
+            self.console.print("[yellow]Cancelled[/yellow]")
+    
+    def show_todo_help(self):
+        """Show todo help."""
+        help_text = """
+[bold cyan]Todo Management[/bold cyan]
+
+[bold]Quick Add:[/bold]
+  /todo Buy milk #shopping !high @tomorrow
+  Format: title #tag1 #tag2 !priority @due_date
+
+[bold]Commands:[/bold]
+  /todo                  - List all todos
+  /todo add <text>       - Quick add todo
+  /todo list [filters]   - List with filters
+  /todo done <id>        - Mark as done
+  /todo start <id>       - Mark as in progress
+  /todo cancel <id>      - Cancel todo
+  /todo delete <id>      - Delete todo
+  /todo view <id>        - View todo details
+  /todo stats            - Show statistics
+  /todo clear            - Clear all todos
+  /todo help             - Show this help
+
+[bold]List Filters:[/bold]
+  /todo list status todo
+  /todo list priority high
+  /todo list tag work
+
+[bold]Shortcuts:[/bold]
+  /todo a    = add
+  /todo ls   = list
+  /todo d    = done
+  /todo rm   = delete
+"""
+        self.console.print(help_text)
