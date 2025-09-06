@@ -9,10 +9,10 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.config import load_settings, save_settings
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.config.index_config import IndexScope, IndexConfig
-from hanzo_mcp.config import load_settings, save_settings
 
 # Parameter types
 Action = Annotated[

@@ -1,6 +1,5 @@
 """Authentication middleware and utilities."""
 
-from typing import Optional
 
 from fastapi import HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -12,8 +11,8 @@ security = HTTPBearer(auto_error=False)
 
 def get_api_key(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = None,
-) -> Optional[str]:
+    credentials: HTTPAuthorizationCredentials | None = None,
+) -> str | None:
     """
     Extract API key from request.
 
@@ -49,7 +48,7 @@ def get_api_key(
     return None
 
 
-def verify_api_key(api_key: Optional[str]) -> bool:
+def verify_api_key(api_key: str | None) -> bool:
     """
     Verify API key.
 
@@ -71,7 +70,7 @@ def verify_api_key(api_key: Optional[str]) -> bool:
 
 def require_auth(
     request: Request,
-    credentials: Optional[HTTPAuthorizationCredentials] = None,
+    credentials: HTTPAuthorizationCredentials | None = None,
 ) -> str:
     """
     Require authentication for a request.
@@ -105,7 +104,7 @@ def require_auth(
 
 async def get_or_verify_user_id(
     user_id: str,
-    credentials: Optional[HTTPAuthorizationCredentials],
+    credentials: HTTPAuthorizationCredentials | None,
     request: Request,
 ) -> str:
     """

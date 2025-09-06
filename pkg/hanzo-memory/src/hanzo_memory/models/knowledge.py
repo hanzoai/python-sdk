@@ -1,6 +1,6 @@
 """Knowledge base and fact models."""
 
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -20,15 +20,15 @@ class KnowledgeBaseBase(BaseModel):
 class KnowledgeBaseCreate(KnowledgeBaseBase):
     """Model for creating a knowledge base."""
 
-    kb_id: Optional[str] = Field(None, description="Custom knowledge base ID")
+    kb_id: str | None = Field(None, description="Custom knowledge base ID")
 
 
 class KnowledgeBaseUpdate(BaseModel):
     """Model for updating a knowledge base."""
 
-    name: Optional[str] = None
-    description: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
+    name: str | None = None
+    description: str | None = None
+    metadata: dict[str, Any] | None = None
 
 
 class KnowledgeBase(KnowledgeBaseBase, ProjectScopedModel, TimestampedModel):
@@ -47,21 +47,21 @@ class FactBase(BaseModel):
     metadata: dict[str, Any] = Field(
         default_factory=dict, description="Additional metadata"
     )
-    parent_id: Optional[str] = Field(None, description="Parent fact ID")
+    parent_id: str | None = Field(None, description="Parent fact ID")
 
 
 class FactCreate(FactBase):
     """Model for creating a fact."""
 
-    fact_id: Optional[str] = Field(None, description="Custom fact ID")
+    fact_id: str | None = Field(None, description="Custom fact ID")
 
 
 class FactUpdate(BaseModel):
     """Model for updating a fact."""
 
-    content: Optional[str] = None
-    metadata: Optional[dict[str, Any]] = None
-    parent_id: Optional[str] = None
+    content: str | None = None
+    metadata: dict[str, Any] | None = None
+    parent_id: str | None = None
 
 
 class Fact(FactBase, TimestampedModel):
@@ -69,7 +69,7 @@ class Fact(FactBase, TimestampedModel):
 
     fact_id: str = Field(..., description="Fact ID")
     kb_id: str = Field(..., description="Knowledge base ID")
-    embedding: Optional[list[float]] = Field(None, description="Embedding vector")
+    embedding: list[float] | None = Field(None, description="Embedding vector")
 
     model_config = {"from_attributes": True}
 
@@ -96,7 +96,7 @@ class CreateKnowledgeBaseRequest(BaseModel):
 
     userid: str = Field(..., description="User ID")
     name: str = Field(..., description="Knowledge base name")
-    kb_id: Optional[str] = Field(None, description="Custom KB ID")
+    kb_id: str | None = Field(None, description="Custom KB ID")
 
 
 class ListKnowledgeBasesRequest(BaseModel):
@@ -118,9 +118,9 @@ class GetKnowledgeRequest(BaseModel):
 
     userid: str = Field(..., description="User ID")
     kb_id: str = Field(..., description="Knowledge base ID")
-    fact_id: Optional[str] = Field(None, description="Specific fact ID")
+    fact_id: str | None = Field(None, description="Specific fact ID")
     subtree: bool = Field(False, description="Include subtree")
-    query: Optional[str] = Field(None, description="Search query")
+    query: str | None = Field(None, description="Search query")
     limit: int = Field(50, ge=1, le=1000, description="Max facts to return")
 
 

@@ -223,7 +223,7 @@ class UnifiedLLMTool(BaseTool):
             try:
                 with open(self.CONFIG_FILE, "r") as f:
                     return json.load(f)
-            except:
+            except Exception:
                 pass
 
         # Default config
@@ -276,7 +276,7 @@ Available: {', '.join(available) if available else 'None'}"""
                 tool_ctx = create_tool_context(ctx)
                 if tool_ctx:
                     await tool_ctx.set_tool_info(self.name)
-        except:
+        except Exception:
             # Running in test mode without MCP context
             pass
 

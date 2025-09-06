@@ -1,14 +1,14 @@
 """Test suite for batch orchestrator with parallel agent execution."""
 
 import os
-import pytest
+import shutil
 import asyncio
 import tempfile
-import shutil
 from pathlib import Path
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
 from datetime import datetime
+from unittest.mock import Mock, AsyncMock, MagicMock, patch
 
+import pytest
 from hanzo.batch_orchestrator import (
     BatchTask,
     BatchConfig,

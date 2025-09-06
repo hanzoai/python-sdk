@@ -1,7 +1,7 @@
 """MCP server for Hanzo Memory service."""
 
 import json
-from typing import Any, Optional
+from typing import Any
 from uuid import uuid4
 
 from mcp.server import Server
@@ -209,7 +209,7 @@ class MCPMemoryServer:
 
         @self.server.call_tool()  # type: ignore[misc]
         async def handle_call_tool(
-            name: str, arguments: Optional[dict[str, Any]] = None
+            name: str, arguments: dict[str, Any] | None = None
         ) -> list[TextContent]:
             """Handle tool calls."""
             try:
