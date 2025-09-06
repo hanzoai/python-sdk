@@ -25,6 +25,7 @@ from .commands import (
 )
 from .utils.output import console
 from .interactive.repl import HanzoREPL
+from .interactive.enhanced_repl import EnhancedHanzoREPL
 from .ui.startup import show_startup
 
 # Version
@@ -64,7 +65,12 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
             
             # Enter interactive REPL mode
             try:
-                repl = HanzoREPL(console=console)
+                # Use enhanced REPL if available, otherwise fallback
+                use_enhanced = os.environ.get("HANZO_ENHANCED_REPL", "1") == "1"
+                if use_enhanced:
+                    repl = EnhancedHanzoREPL(console=console)
+                else:
+                    repl = HanzoREPL(console=console)
                 asyncio.run(repl.run())
             except KeyboardInterrupt:
                 console.print("\n[yellow]Interrupted[/yellow]")
