@@ -5,28 +5,28 @@ consensus mechanisms, and critic chains using the unified base classes.
 """
 
 import re
+import json
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional, AsyncIterator, Callable
-from dataclasses import dataclass, field
-from datetime import datetime
-from pathlib import Path
-import json
 import subprocess
+from typing import Any, Dict, List, Callable, Optional, AsyncIterator
+from pathlib import Path
+from datetime import datetime
+from dataclasses import field, dataclass
 
-from rich.console import Console
-from rich.progress import Progress, TaskID, TextColumn, SpinnerColumn, BarColumn
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
+from rich.console import Console
+from rich.progress import TaskID, Progress, BarColumn, TextColumn, SpinnerColumn
 
 try:
     # Try to import from hanzo-mcp if available
-    from hanzo_mcp.core.model_registry import registry
     from hanzo_mcp.core.base_agent import AgentConfig, AgentResult, AgentOrchestrator
+    from hanzo_mcp.core.model_registry import registry
 except ImportError:
     # Fall back to local imports if hanzo-mcp is not installed
-    from .model_registry import registry
     from .base_agent import AgentConfig, AgentResult, AgentOrchestrator
+    from .model_registry import registry
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -906,7 +906,7 @@ class MetaAIOrchestrator:
             )
             try:
                 return json.loads(result)
-            except:
+            except Exception:
                 pass
         
         # Fallback intent detection

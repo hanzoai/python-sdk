@@ -4,7 +4,7 @@ import json
 import platform
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import polars as pl
 from structlog import get_logger
@@ -29,7 +29,7 @@ except ImportError:
 class InfinityClient(BaseVectorDB):
     """Client for InfinityDB operations."""
 
-    def __init__(self, db_path: Optional[str] = None):
+    def __init__(self, db_path: str | None = None):
         """Initialize InfinityDB client."""
         self.db_path = db_path or settings.infinity_db_str
         Path(self.db_path).mkdir(parents=True, exist_ok=True)
@@ -78,7 +78,7 @@ class InfinityClient(BaseVectorDB):
         user_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Create a new project."""
         db = self._get_db("projects")
@@ -132,7 +132,7 @@ class InfinityClient(BaseVectorDB):
         project_id: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
         importance: float = 1.0,
     ) -> dict[str, Any]:
         """Add a memory to the database."""
@@ -160,7 +160,7 @@ class InfinityClient(BaseVectorDB):
         self,
         user_id: str,
         query_embedding: list[float],
-        project_id: Optional[str] = None,
+        project_id: str | None = None,
         limit: int = 10,
         threshold: float = 0.0,
     ) -> pl.DataFrame:
@@ -219,7 +219,7 @@ class InfinityClient(BaseVectorDB):
         project_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Create a new knowledge base."""
         db = self._get_db("knowledge")
@@ -275,8 +275,8 @@ class InfinityClient(BaseVectorDB):
         kb_id: str,
         content: str,
         embedding: list[float],
-        parent_id: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None,
+        parent_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Add a fact to a knowledge base."""
         db = self._get_db("knowledge")
@@ -303,7 +303,7 @@ class InfinityClient(BaseVectorDB):
         kb_id: str,
         query_embedding: list[float],
         limit: int = 10,
-        parent_id: Optional[str] = None,
+        parent_id: str | None = None,
     ) -> pl.DataFrame:
         """Search facts in a knowledge base."""
         db = self._get_db("knowledge")
@@ -362,7 +362,7 @@ class InfinityClient(BaseVectorDB):
         role: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Add a chat message."""
         db = self._get_db("chats")
@@ -410,8 +410,8 @@ class InfinityClient(BaseVectorDB):
         self,
         user_id: str,
         query_embedding: list[float],
-        project_id: Optional[str] = None,
-        session_id: Optional[str] = None,
+        project_id: str | None = None,
+        session_id: str | None = None,
         limit: int = 10,
     ) -> pl.DataFrame:
         """Search chat messages."""
@@ -445,7 +445,7 @@ class InfinityClient(BaseVectorDB):
 
 
 # Global client instance
-_client: Optional[InfinityClient] = None
+_client: InfinityClient | None = None
 
 
 def get_client() -> InfinityClient:

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import asyncio
-from typing import Any, Optional, Dict, List, Unpack, Annotated, TypedDict, override, final
+from typing import Any, Dict, List, Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
 from pydantic import Field
@@ -18,7 +18,6 @@ from mcp.server.fastmcp import Context
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
-
 
 # Parameter types for CLI tools
 Prompt = Annotated[

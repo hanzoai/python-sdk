@@ -218,7 +218,7 @@ class ErrorRecovery:
                     if isinstance(e, error_type):
                         try:
                             return await handler(*args, **kwargs)
-                        except:
+                        except Exception:
                             pass  # Fallback failed, continue with retry
 
                 # Calculate backoff

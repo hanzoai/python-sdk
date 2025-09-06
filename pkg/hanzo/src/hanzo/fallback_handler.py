@@ -44,7 +44,7 @@ class FallbackHandler:
                 if response.status_code == 200:
                     data = response.json()
                     return len(data.get("models", [])) > 0
-        except:
+        except Exception:
             pass
         return False
 

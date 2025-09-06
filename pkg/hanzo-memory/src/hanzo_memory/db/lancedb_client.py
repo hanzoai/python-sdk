@@ -3,7 +3,7 @@
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import lancedb
 from lancedb.pydantic import LanceModel, Vector
@@ -99,7 +99,7 @@ class ChatMessageModel(LanceModel):
 class LanceDBClient:
     """Client for LanceDB operations."""
 
-    def __init__(self, db_path: Optional[str] = None):
+    def __init__(self, db_path: str | None = None):
         """Initialize LanceDB client."""
         self.db_path = db_path or str(settings.lancedb_path.absolute())
         Path(self.db_path).mkdir(parents=True, exist_ok=True)
@@ -151,7 +151,7 @@ class LanceDBClient:
         user_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new project."""
         table = self.db.open_table("projects")
@@ -210,7 +210,7 @@ class LanceDBClient:
         project_id: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
         importance: float = 0.5,
     ) -> dict[str, Any]:
         """Add a memory to the database."""
@@ -238,7 +238,7 @@ class LanceDBClient:
         self,
         user_id: str,
         query_embedding: list[float],
-        project_id: Optional[str] = None,
+        project_id: str | None = None,
         limit: int = 10,
         min_similarity: float = 0.0,
     ) -> list[dict[str, Any]]:
@@ -271,7 +271,7 @@ class LanceDBClient:
         project_id: str,
         name: str,
         description: str = "",
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new knowledge base."""
         table = self.db.open_table("knowledge_bases")
@@ -324,7 +324,7 @@ class LanceDBClient:
         knowledge_base_id: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
         confidence: float = 1.0,
     ) -> dict[str, Any]:
         """Add a fact to a knowledge base."""
@@ -350,7 +350,7 @@ class LanceDBClient:
     def search_facts(
         self,
         knowledge_base_id: str,
-        query_embedding: Optional[list[float]] = None,
+        query_embedding: list[float] | None = None,
         limit: int = 10,
     ) -> list[dict[str, Any]]:
         """Search facts in a knowledge base."""
@@ -413,7 +413,7 @@ class LanceDBClient:
         session_id: str,
         user_id: str,
         project_id: str,
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Create a new chat session."""
         table = self.db.open_table("chat_sessions")
@@ -440,7 +440,7 @@ class LanceDBClient:
         role: str,
         content: str,
         embedding: list[float],
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> dict[str, Any]:
         """Add a message to a chat session."""
         table = self._get_chat_messages_table(session_id)
@@ -464,7 +464,7 @@ class LanceDBClient:
     def get_chat_messages(
         self,
         session_id: str,
-        limit: Optional[int] = None,
+        limit: int | None = None,
     ) -> list[dict[str, Any]]:
         """Get messages from a chat session."""
         table = self._get_chat_messages_table(session_id)
@@ -520,7 +520,7 @@ class LanceDBClient:
 
 
 # Singleton instance
-_lancedb_client: Optional[LanceDBClient] = None
+_lancedb_client: LanceDBClient | None = None
 
 
 def get_lancedb_client() -> LanceDBClient:

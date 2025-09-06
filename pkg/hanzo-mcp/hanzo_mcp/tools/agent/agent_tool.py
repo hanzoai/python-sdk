@@ -109,6 +109,7 @@ class AgentToolParams(TypedDict, total=False):
     model: Optional[str]
     use_memory: Optional[bool]
     memory_backend: Optional[str]
+    concurrency: Optional[int]
 
 
 class MCPAgentState(State):
@@ -387,7 +388,17 @@ Usage notes:
             await tool_ctx.error("hanzo-agents SDK is required but not available")
             return "Error: hanzo-agents SDK is required for agent tool functionality. Please install it with: pip install hanzo-agents"
 
-        # Use hanzo-agents SDK
+        # Determine concurrency (parallel agents)
+        concurrency = params.get("concurrency")
+        if concurrency is not None and isinstance(concurrency, int) and concurrency > 0:
+            # Expand prompt list to match concurrency
+            if len(prompt_list) == 1:
+                prompt_list = prompt_list * concurrency
+            elif len(prompt_list) < concurrency:
+                # Repeat prompts to reach concurrency
+                times = (concurrency + len(prompt_list) - 1) // len(prompt_list)
+                prompt_list = (prompt_list * times)[:concurrency]
+
         await tool_ctx.info(
             f"Launching {len(prompt_list)} agent(s) using hanzo-agents SDK"
         )
