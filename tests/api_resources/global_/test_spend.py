@@ -20,13 +20,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSpend:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_tags(self, client: Hanzo) -> None:
         spend = client.global_.spend.list_tags()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_tags_with_all_params(self, client: Hanzo) -> None:
         spend = client.global_.spend.list_tags(
@@ -36,7 +36,7 @@ class TestSpend:
         )
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list_tags(self, client: Hanzo) -> None:
         response = client.global_.spend.with_raw_response.list_tags()
@@ -46,7 +46,7 @@ class TestSpend:
         spend = response.parse()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list_tags(self, client: Hanzo) -> None:
         with client.global_.spend.with_streaming_response.list_tags() as response:
@@ -58,13 +58,13 @@ class TestSpend:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_reset(self, client: Hanzo) -> None:
         spend = client.global_.spend.reset()
         assert_matches_type(object, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_reset(self, client: Hanzo) -> None:
         response = client.global_.spend.with_raw_response.reset()
@@ -74,7 +74,7 @@ class TestSpend:
         spend = response.parse()
         assert_matches_type(object, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_reset(self, client: Hanzo) -> None:
         with client.global_.spend.with_streaming_response.reset() as response:
@@ -86,13 +86,13 @@ class TestSpend:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve_report(self, client: Hanzo) -> None:
         spend = client.global_.spend.retrieve_report()
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve_report_with_all_params(self, client: Hanzo) -> None:
         spend = client.global_.spend.retrieve_report(
@@ -106,7 +106,7 @@ class TestSpend:
         )
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve_report(self, client: Hanzo) -> None:
         response = client.global_.spend.with_raw_response.retrieve_report()
@@ -116,7 +116,7 @@ class TestSpend:
         spend = response.parse()
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve_report(self, client: Hanzo) -> None:
         with client.global_.spend.with_streaming_response.retrieve_report() as response:
@@ -134,13 +134,13 @@ class TestAsyncSpend:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_tags(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.list_tags()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_tags_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.list_tags(
@@ -150,7 +150,7 @@ class TestAsyncSpend:
         )
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list_tags(self, async_client: AsyncHanzo) -> None:
         response = await async_client.global_.spend.with_raw_response.list_tags()
@@ -160,7 +160,7 @@ class TestAsyncSpend:
         spend = await response.parse()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list_tags(self, async_client: AsyncHanzo) -> None:
         async with async_client.global_.spend.with_streaming_response.list_tags() as response:
@@ -172,13 +172,13 @@ class TestAsyncSpend:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_reset(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.reset()
         assert_matches_type(object, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_reset(self, async_client: AsyncHanzo) -> None:
         response = await async_client.global_.spend.with_raw_response.reset()
@@ -188,7 +188,7 @@ class TestAsyncSpend:
         spend = await response.parse()
         assert_matches_type(object, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_reset(self, async_client: AsyncHanzo) -> None:
         async with async_client.global_.spend.with_streaming_response.reset() as response:
@@ -200,13 +200,13 @@ class TestAsyncSpend:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve_report(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.retrieve_report()
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve_report_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.retrieve_report(
@@ -220,7 +220,7 @@ class TestAsyncSpend:
         )
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve_report(self, async_client: AsyncHanzo) -> None:
         response = await async_client.global_.spend.with_raw_response.retrieve_report()
@@ -230,7 +230,7 @@ class TestAsyncSpend:
         spend = await response.parse()
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve_report(self, async_client: AsyncHanzo) -> None:
         async with async_client.global_.spend.with_streaming_response.retrieve_report() as response:

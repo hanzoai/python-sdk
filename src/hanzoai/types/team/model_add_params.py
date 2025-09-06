@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import Required, TypedDict
+
+from ..._types import SequenceNotStr
 
 __all__ = ["ModelAddParams"]
 
 
 class ModelAddParams(TypedDict, total=False):
-    models: Required[List[str]]
+    models: Required[SequenceNotStr[str]]
 
     team_id: Required[str]

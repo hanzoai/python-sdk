@@ -16,13 +16,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestActive:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_callbacks(self, client: Hanzo) -> None:
         active = client.active.list_callbacks()
         assert_matches_type(object, active, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list_callbacks(self, client: Hanzo) -> None:
         response = client.active.with_raw_response.list_callbacks()
@@ -32,7 +32,7 @@ class TestActive:
         active = response.parse()
         assert_matches_type(object, active, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list_callbacks(self, client: Hanzo) -> None:
         with client.active.with_streaming_response.list_callbacks() as response:
@@ -50,13 +50,13 @@ class TestAsyncActive:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_callbacks(self, async_client: AsyncHanzo) -> None:
         active = await async_client.active.list_callbacks()
         assert_matches_type(object, active, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list_callbacks(self, async_client: AsyncHanzo) -> None:
         response = await async_client.active.with_raw_response.list_callbacks()
@@ -66,7 +66,7 @@ class TestAsyncActive:
         active = await response.parse()
         assert_matches_type(object, active, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list_callbacks(self, async_client: AsyncHanzo) -> None:
         async with async_client.active.with_streaming_response.list_callbacks() as response:

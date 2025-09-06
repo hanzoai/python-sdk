@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable, Optional
+from typing import Union, Iterable, Optional
 from datetime import datetime
 from typing_extensions import Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["KeyUpdateParams"]
@@ -28,9 +29,9 @@ class KeyUpdateParams(TypedDict, total=False):
 
     duration: Optional[str]
 
-    enforced_params: Optional[List[str]]
+    enforced_params: Optional[SequenceNotStr[str]]
 
-    guardrails: Optional[List[str]]
+    guardrails: Optional[SequenceNotStr[str]]
 
     key_alias: Optional[str]
 
@@ -54,7 +55,7 @@ class KeyUpdateParams(TypedDict, total=False):
 
     spend: Optional[float]
 
-    tags: Optional[List[str]]
+    tags: Optional[SequenceNotStr[str]]
 
     team_id: Optional[str]
 

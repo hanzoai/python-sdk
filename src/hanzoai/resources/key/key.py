@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Union, Iterable, Optional
+from typing import Union, Iterable, Optional
 from datetime import datetime
 
 import httpx
@@ -17,7 +17,7 @@ from ...types import (
     key_retrieve_info_params,
     key_regenerate_by_key_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
 from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -67,8 +67,8 @@ class KeyResource(SyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -80,7 +80,7 @@ class KeyResource(SyncAPIResource):
         permissions: Optional[object] | NotGiven = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         temp_budget_expiry: Union[str, datetime, None] | NotGiven = NOT_GIVEN,
         temp_budget_increase: Optional[float] | NotGiven = NOT_GIVEN,
@@ -282,8 +282,8 @@ class KeyResource(SyncAPIResource):
     def delete(
         self,
         *,
-        key_aliases: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        keys: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        key_aliases: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        keys: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -468,8 +468,8 @@ class KeyResource(SyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key: Optional[str] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
@@ -484,7 +484,7 @@ class KeyResource(SyncAPIResource):
         send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
@@ -645,8 +645,8 @@ class KeyResource(SyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         body_key: Optional[str] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
@@ -662,7 +662,7 @@ class KeyResource(SyncAPIResource):
         send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
@@ -920,8 +920,8 @@ class AsyncKeyResource(AsyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
@@ -933,7 +933,7 @@ class AsyncKeyResource(AsyncAPIResource):
         permissions: Optional[object] | NotGiven = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         temp_budget_expiry: Union[str, datetime, None] | NotGiven = NOT_GIVEN,
         temp_budget_increase: Optional[float] | NotGiven = NOT_GIVEN,
@@ -1135,8 +1135,8 @@ class AsyncKeyResource(AsyncAPIResource):
     async def delete(
         self,
         *,
-        key_aliases: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        keys: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        key_aliases: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        keys: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         llm_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1321,8 +1321,8 @@ class AsyncKeyResource(AsyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         key: Optional[str] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
@@ -1337,7 +1337,7 @@ class AsyncKeyResource(AsyncAPIResource):
         send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,
@@ -1498,8 +1498,8 @@ class AsyncKeyResource(AsyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         config: Optional[object] | NotGiven = NOT_GIVEN,
         duration: Optional[str] | NotGiven = NOT_GIVEN,
-        enforced_params: Optional[List[str]] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        enforced_params: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
+        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         body_key: Optional[str] | NotGiven = NOT_GIVEN,
         key_alias: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
@@ -1515,7 +1515,7 @@ class AsyncKeyResource(AsyncAPIResource):
         send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         spend: Optional[float] | NotGiven = NOT_GIVEN,
-        tags: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        tags: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         team_id: Optional[str] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         user_id: Optional[str] | NotGiven = NOT_GIVEN,

@@ -17,13 +17,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestUpdate:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_full(self, client: Hanzo) -> None:
         update = client.model.update.full()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_full_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.full(
@@ -76,7 +76,7 @@ class TestUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_full(self, client: Hanzo) -> None:
         response = client.model.update.with_raw_response.full()
@@ -86,7 +86,7 @@ class TestUpdate:
         update = response.parse()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_full(self, client: Hanzo) -> None:
         with client.model.update.with_streaming_response.full() as response:
@@ -98,7 +98,7 @@ class TestUpdate:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_partial(self, client: Hanzo) -> None:
         update = client.model.update.partial(
@@ -106,7 +106,7 @@ class TestUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_partial_with_all_params(self, client: Hanzo) -> None:
         update = client.model.update.partial(
@@ -160,7 +160,7 @@ class TestUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_partial(self, client: Hanzo) -> None:
         response = client.model.update.with_raw_response.partial(
@@ -172,7 +172,7 @@ class TestUpdate:
         update = response.parse()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_partial(self, client: Hanzo) -> None:
         with client.model.update.with_streaming_response.partial(
@@ -186,7 +186,7 @@ class TestUpdate:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_partial(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model_id` but received ''"):
@@ -200,13 +200,13 @@ class TestAsyncUpdate:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_full(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.full()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_full_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.full(
@@ -259,7 +259,7 @@ class TestAsyncUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_full(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.update.with_raw_response.full()
@@ -269,7 +269,7 @@ class TestAsyncUpdate:
         update = await response.parse()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_full(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.update.with_streaming_response.full() as response:
@@ -281,7 +281,7 @@ class TestAsyncUpdate:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_partial(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.partial(
@@ -289,7 +289,7 @@ class TestAsyncUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_partial_with_all_params(self, async_client: AsyncHanzo) -> None:
         update = await async_client.model.update.partial(
@@ -343,7 +343,7 @@ class TestAsyncUpdate:
         )
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_partial(self, async_client: AsyncHanzo) -> None:
         response = await async_client.model.update.with_raw_response.partial(
@@ -355,7 +355,7 @@ class TestAsyncUpdate:
         update = await response.parse()
         assert_matches_type(object, update, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_partial(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.update.with_streaming_response.partial(
@@ -369,7 +369,7 @@ class TestAsyncUpdate:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_partial(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `model_id` but received ''"):

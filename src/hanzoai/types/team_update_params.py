@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["TeamUpdateParams"]
@@ -17,7 +18,7 @@ class TeamUpdateParams(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    guardrails: Optional[List[str]]
+    guardrails: Optional[SequenceNotStr[str]]
 
     max_budget: Optional[float]
 
