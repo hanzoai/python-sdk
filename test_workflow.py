@@ -6,6 +6,7 @@ import sys
 import json
 from pathlib import Path
 
+
 def check_environment():
     """Check required environment variables."""
     print("🔍 Checking environment variables...")

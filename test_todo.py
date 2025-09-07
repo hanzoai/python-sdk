@@ -2,8 +2,11 @@
 """Test the todo manager directly."""
 
 import asyncio
+
 from rich.console import Console
+
 from pkg.hanzo.src.hanzo.interactive.todo_manager import TodoManager
+
 
 async def test_todo():
     console = Console()

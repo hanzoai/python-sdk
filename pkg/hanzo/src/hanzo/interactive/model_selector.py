@@ -1,13 +1,14 @@
 """Quick model selector with arrow key navigation."""
 
-from typing import List, Optional, Tuple
-from prompt_toolkit import Application
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.layout.containers import HSplit, Window
-from prompt_toolkit.layout.controls import FormattedTextControl
-from prompt_toolkit.layout.layout import Layout
-from prompt_toolkit.widgets import Label
+from typing import List, Tuple, Optional
+
 from rich.console import Console
+from prompt_toolkit import Application
+from prompt_toolkit.widgets import Label
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.layout.layout import Layout
+from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.layout.containers import HSplit, Window
 
 
 class QuickModelSelector:

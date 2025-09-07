@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Start the Hanzo MCP server."""
 
-import sys
 import os
+import sys
 
 # Ensure the parent directory is in the path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

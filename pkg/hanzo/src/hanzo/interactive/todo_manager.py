@@ -2,17 +2,17 @@
 
 import json
 import uuid
-from datetime import datetime
-from pathlib import Path
-from typing import List, Dict, Optional, Any
 from enum import Enum
+from typing import Any, Dict, List, Optional
+from pathlib import Path
+from datetime import datetime
 
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
-from rich.text import Text
 from rich import box
+from rich.text import Text
+from rich.panel import Panel
+from rich.table import Table
 from rich.prompt import Prompt, Confirm
+from rich.console import Console
 
 
 class TodoPriority(Enum):
