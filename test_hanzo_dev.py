@@ -27,7 +27,7 @@ def check_command_exists(cmd):
     try:
         result = subprocess.run(["which", cmd], capture_output=True, text=True)
         return result.returncode == 0
-    except:
+    except Exception:
         return False
 
 

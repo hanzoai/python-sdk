@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Test script to verify DRY refactoring works correctly."""
 
-import asyncio
 import sys
+import asyncio
 from pathlib import Path
 
 # Add packages to path
 sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
 sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo-mcp"))
 
-from hanzo_mcp.core.model_registry import registry, ModelProvider
-from hanzo_mcp.core.base_agent import AgentConfig, AgentOrchestrator
 from hanzo.batch_orchestrator import BatchConfig
+from hanzo_mcp.core.base_agent import AgentConfig, AgentOrchestrator
+from hanzo_mcp.core.model_registry import ModelProvider, registry
 
 
 def test_model_registry():
