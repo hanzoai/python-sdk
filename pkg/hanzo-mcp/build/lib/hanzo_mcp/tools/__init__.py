@@ -1,55 +1,70 @@
 """Tools package for Hanzo AI.
 
-This package contains all the tools for the Hanzo AI server.
-It provides a interface for registering all tools with an MCP server.
+This package contains all tools for the Hanzo MCP server. To keep imports
+robust across environments (e.g., older Python during CI), heavy imports are
+guarded. Submodules can still be imported directly, e.g.:
 
-This includes a "think" tool implementation based on Anthropic's research showing
-improved performance for complex tool-based interactions when Claude has a dedicated
-space for structured thinking. It also includes an "agent" tool that enables Claude
-to delegate tasks to sub-agents for concurrent execution and specialized processing.
+from hanzo_mcp.tools.llm.llm_tool import LLMTool
 """
 
-from mcp.server import FastMCP
+# Defer annotation evaluation to avoid import-time NameErrors in constrained envs
+from __future__ import annotations
 
-from hanzo_mcp.tools.todo import register_todo_tools
-from hanzo_mcp.tools.agent import register_agent_tools
-from hanzo_mcp.tools.shell import register_shell_tools
-from hanzo_mcp.tools.common import (
-    register_batch_tool,
-    register_critic_tool,
-    register_thinking_tool,
-)
-from hanzo_mcp.tools.vector import register_vector_tools
-from hanzo_mcp.tools.jupyter import register_jupyter_tools
-from hanzo_mcp.tools.database import DatabaseManager, register_database_tools
-from hanzo_mcp.tools.filesystem import register_filesystem_tools
-from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.stats import StatsTool
-from hanzo_mcp.tools.common.tool_list import ToolListTool
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
+# NOTE: Keep top-level imports resilient for environments without optional deps
+try:  # pragma: no cover - import guards for CI environments
+    from mcp.server import FastMCP  # type: ignore
+except Exception:  # pragma: no cover
 
-# Try to import memory tools, but don't fail if hanzo-memory is not installed
-try:
-    from hanzo_mcp.tools.memory import register_memory_tools
+    class FastMCP:  # type: ignore
+        pass
 
-    MEMORY_TOOLS_AVAILABLE = True
-except ImportError:
-    MEMORY_TOOLS_AVAILABLE = False
-    register_memory_tools = None
-from hanzo_mcp.tools.llm import (
-    LLMTool,
-    ConsensusTool,
-    LLMManageTool,
-    create_provider_tools,
-)
-from hanzo_mcp.tools.mcp import MCPTool, McpAddTool, McpStatsTool, McpRemoveTool
-from hanzo_mcp.tools.editor import NeovimEditTool, NeovimCommandTool, NeovimSessionTool
-from hanzo_mcp.tools.common.mode import activate_mode_from_env
-from hanzo_mcp.tools.config.mode_tool import mode_tool
-from hanzo_mcp.tools.common.mode_loader import ModeLoader
-from hanzo_mcp.tools.common.plugin_loader import load_user_plugins
+
+try:  # pragma: no cover
+    from hanzo_mcp.tools.llm import (
+        LLMTool,
+        ConsensusTool,
+        LLMManageTool,
+        create_provider_tools,
+    )
+    from hanzo_mcp.tools.mcp import (
+        MCPTool,
+        McpAddTool,
+        McpStatsTool,
+        McpRemoveTool,
+    )
+    from hanzo_mcp.tools.todo import register_todo_tools
+    from hanzo_mcp.tools.agent import register_agent_tools
+    from hanzo_mcp.tools.shell import register_shell_tools
+    from hanzo_mcp.tools.editor import (
+        NeovimEditTool,
+        NeovimCommandTool,
+        NeovimSessionTool,
+    )
+    from hanzo_mcp.tools.vector import register_vector_tools
+    from hanzo_mcp.tools.jupyter import register_jupyter_tools
+    from hanzo_mcp.tools.database import DatabaseManager, register_database_tools
+    from hanzo_mcp.tools.filesystem import register_filesystem_tools
+    from hanzo_mcp.tools.common.base import BaseTool
+    from hanzo_mcp.tools.common.mode import activate_mode_from_env
+    from hanzo_mcp.tools.common.stats import StatsTool
+    from hanzo_mcp.tools.common.tool_list import ToolListTool
+    from hanzo_mcp.tools.config.mode_tool import mode_tool
+    from hanzo_mcp.tools.common.mode_loader import ModeLoader
+    from hanzo_mcp.tools.common.permissions import PermissionManager
+    from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
+    from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
+
+    # Try memory tools
+    try:
+        from hanzo_mcp.tools.memory import register_memory_tools
+
+        MEMORY_TOOLS_AVAILABLE = True
+    except Exception:
+        MEMORY_TOOLS_AVAILABLE = False
+        register_memory_tools = None  # type: ignore
+except Exception:
+    # Minimal surface to allow submodule imports elsewhere
+    pass
 
 # Try to import LSP tool
 try:
@@ -109,7 +124,9 @@ def register_all_tools(
 
         logger = logging.getLogger(__name__)
         if plugins:
-            logger.info(f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}")
+            logger.info(
+                f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}"
+            )
     except Exception as e:
         import logging
 
@@ -122,7 +139,9 @@ def register_all_tools(
         # First check for mode activation from environment
         activate_mode_from_env()
 
-        tool_config = ModeLoader.get_enabled_tools_from_mode(base_enabled_tools=enabled_tools, force_mode=force_mode)
+        tool_config = ModeLoader.get_enabled_tools_from_mode(
+            base_enabled_tools=enabled_tools, force_mode=force_mode
+        )
         # Apply mode environment variables
         ModeLoader.apply_environment_from_mode()
     else:
@@ -167,7 +186,9 @@ def register_all_tools(
             search_paths = [str(path) for path in permission_manager.allowed_paths]
             project_manager = ProjectVectorManager(
                 global_db_path=vector_config.get("data_path"),
-                embedding_model=vector_config.get("embedding_model", "text-embedding-3-small"),
+                embedding_model=vector_config.get(
+                    "embedding_model", "text-embedding-3-small"
+                ),
                 dimension=vector_config.get("dimension", 1536),
             )
             # Auto-detect projects from search paths
@@ -194,7 +215,9 @@ def register_all_tools(
     }
 
     if any(jupyter_enabled.values()):
-        jupyter_tools = register_jupyter_tools(mcp_server, permission_manager, enabled_tools=jupyter_enabled)
+        jupyter_tools = register_jupyter_tools(
+            mcp_server, permission_manager, enabled_tools=jupyter_enabled
+        )
         for tool in jupyter_tools:
             all_tools[tool.name] = tool
 
@@ -205,7 +228,11 @@ def register_all_tools(
             all_tools[tool.name] = tool
 
     # Register agent tools if enabled
-    agent_enabled = enable_agent_tool or is_tool_enabled("agent", False) or is_tool_enabled("dispatch_agent", False)
+    agent_enabled = (
+        enable_agent_tool
+        or is_tool_enabled("agent", False)
+        or is_tool_enabled("dispatch_agent", False)
+    )
     swarm_enabled = is_tool_enabled("swarm", False)
 
     if agent_enabled or swarm_enabled:
@@ -221,7 +248,12 @@ def register_all_tools(
         )
         # Filter based on what's enabled
         for tool in agent_tools:
-            if tool.name == "agent" and agent_enabled or tool.name == "swarm" and swarm_enabled:
+            if (
+                tool.name == "agent"
+                and agent_enabled
+                or tool.name == "swarm"
+                and swarm_enabled
+            ):
                 all_tools[tool.name] = tool
             elif tool.name in ["claude", "codex", "gemini", "grok", "code_auth"]:
                 # CLI tools and auth are always included when agent tools are enabled

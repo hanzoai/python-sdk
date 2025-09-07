@@ -118,12 +118,18 @@ Usage:
             await tool_ctx.error("Parameter 'file_path' is required but was None")
             return "Error: Parameter 'file_path' is required but was None"
 
-        await tool_ctx.info(f"Reading file: {file_path} (offset: {offset}, limit: {limit})")
+        await tool_ctx.info(
+            f"Reading file: {file_path} (offset: {offset}, limit: {limit})"
+        )
 
         # Check if path is allowed
         if not self.is_path_allowed(file_path):
-            await tool_ctx.error(f"Access denied - path outside allowed directories: {file_path}")
-            return f"Error: Access denied - path outside allowed directories: {file_path}"
+            await tool_ctx.error(
+                f"Access denied - path outside allowed directories: {file_path}"
+            )
+            return (
+                f"Error: Access denied - path outside allowed directories: {file_path}"
+            )
 
         try:
             file_path_obj = Path(file_path)
@@ -160,7 +166,10 @@ Usage:
 
                             # Truncate long lines
                             if len(line) > self.MAX_LINE_LENGTH:
-                                line = line[: self.MAX_LINE_LENGTH] + self.LINE_TRUNCATION_INDICATOR
+                                line = (
+                                    line[: self.MAX_LINE_LENGTH]
+                                    + self.LINE_TRUNCATION_INDICATOR
+                                )
 
                             # Add line with line number (1-based)
                             lines.append(f"{i + 1:6d}  {line.rstrip()}")
@@ -187,12 +196,17 @@ Usage:
 
                                 # Truncate long lines
                                 if len(line) > self.MAX_LINE_LENGTH:
-                                    line = line[: self.MAX_LINE_LENGTH] + self.LINE_TRUNCATION_INDICATOR
+                                    line = (
+                                        line[: self.MAX_LINE_LENGTH]
+                                        + self.LINE_TRUNCATION_INDICATOR
+                                    )
 
                                 # Add line with line number (1-based)
                                 lines.append(f"{i + 1:6d}  {line.rstrip()}")
 
-                        await tool_ctx.warning(f"File read with latin-1 encoding: {file_path}")
+                        await tool_ctx.warning(
+                            f"File read with latin-1 encoding: {file_path}"
+                        )
 
                     except Exception:
                         await tool_ctx.error(f"Cannot read binary file: {file_path}")
@@ -222,7 +236,9 @@ Usage:
             await tool_ctx.error(f"Error reading file: {str(e)}")
             return f"Error: {str(e)}"
 
-    async def run(self, ctx: MCPContext, file_path: str, offset: int = 0, limit: int = 2000) -> str:
+    async def run(
+        self, ctx: MCPContext, file_path: str, offset: int = 0, limit: int = 2000
+    ) -> str:
         """Run method for backwards compatibility with test scripts.
 
         Args:
@@ -255,4 +271,6 @@ Usage:
             offset: Offset = 0,
             limit: Limit = 2000,
         ) -> str:
-            return await tool_self.call(ctx, file_path=file_path, offset=offset, limit=limit)
+            return await tool_self.call(
+                ctx, file_path=file_path, offset=offset, limit=limit
+            )

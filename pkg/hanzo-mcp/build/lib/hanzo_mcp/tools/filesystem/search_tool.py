@@ -248,7 +248,9 @@ This is the recommended search tool for comprehensive results."""
     ) -> List[SearchResult]:
         """Run grep search and parse results."""
         try:
-            result = await self.grep_tool.call(tool_ctx.mcp_context, pattern=pattern, path=path, include=include)
+            result = await self.grep_tool.call(
+                tool_ctx.mcp_context, pattern=pattern, path=path, include=include
+            )
 
             results = []
             if "Found" in result and "matches" in result:
@@ -279,7 +281,9 @@ This is the recommended search tool for comprehensive results."""
             await tool_ctx.error(f"Grep search failed: {e}")
             return []
 
-    async def _run_grep_ast_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
+    async def _run_grep_ast_search(
+        self, pattern: str, path: str, tool_ctx, max_results: int
+    ) -> List[SearchResult]:
         """Run AST-aware search and parse results."""
         try:
             result = await self.grep_ast_tool.call(
@@ -313,7 +317,11 @@ This is the recommended search tool for comprehensive results."""
                                     content=content,
                                     search_type=SearchType.GREP_AST,
                                     score=0.95,  # High score for AST matches
-                                    context=(" > ".join(current_context) if current_context else None),
+                                    context=(
+                                        " > ".join(current_context)
+                                        if current_context
+                                        else None
+                                    ),
                                 )
                             )
 
@@ -331,7 +339,9 @@ This is the recommended search tool for comprehensive results."""
             await tool_ctx.error(f"AST search failed: {e}")
             return []
 
-    async def _run_vector_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
+    async def _run_vector_search(
+        self, pattern: str, path: str, tool_ctx, max_results: int
+    ) -> List[SearchResult]:
         """Run semantic vector search."""
         if not self.vector_tool:
             return []
@@ -389,7 +399,9 @@ This is the recommended search tool for comprehensive results."""
             await tool_ctx.error(f"Vector search failed: {e}")
             return []
 
-    async def _run_git_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
+    async def _run_git_search(
+        self, pattern: str, path: str, tool_ctx, max_results: int
+    ) -> List[SearchResult]:
         """Run git history search."""
         try:
             # Search in both content and commits
@@ -428,7 +440,11 @@ This is the recommended search tool for comprehensive results."""
                                     SearchResult(
                                         file_path=parts[0].strip(),
                                         line_number=None,
-                                        content=(parts[-1].strip() if len(parts) > 2 else line),
+                                        content=(
+                                            parts[-1].strip()
+                                            if len(parts) > 2
+                                            else line
+                                        ),
                                         search_type=SearchType.GIT,
                                         score=0.8,  # Good score for git matches
                                     )
@@ -444,7 +460,9 @@ This is the recommended search tool for comprehensive results."""
             await tool_ctx.error(f"Git search failed: {e}")
             return []
 
-    async def _run_symbol_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
+    async def _run_symbol_search(
+        self, pattern: str, path: str, tool_ctx, max_results: int
+    ) -> List[SearchResult]:
         """Search for symbol definitions using grep with specific patterns."""
         try:
             # Create patterns for common symbol definitions
@@ -459,7 +477,11 @@ This is the recommended search tool for comprehensive results."""
             # Run grep searches in parallel for each pattern
             tasks = []
             for sp in symbol_patterns:
-                tasks.append(self.grep_tool.call(tool_ctx.mcp_context, pattern=sp, path=path, include="*"))
+                tasks.append(
+                    self.grep_tool.call(
+                        tool_ctx.mcp_context, pattern=sp, path=path, include="*"
+                    )
+                )
 
             grep_results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -496,7 +518,9 @@ This is the recommended search tool for comprehensive results."""
             await tool_ctx.error(f"Symbol search failed: {e}")
             return []
 
-    def _deduplicate_results(self, all_results: List[SearchResult]) -> List[SearchResult]:
+    def _deduplicate_results(
+        self, all_results: List[SearchResult]
+    ) -> List[SearchResult]:
         """Deduplicate results, keeping the highest scoring version."""
         seen = {}
 
@@ -523,7 +547,9 @@ This is the recommended search tool for comprehensive results."""
         }
 
         # Sort by score (descending) and then by type priority
-        results.sort(key=lambda r: (r.score, type_priority.get(r.search_type, 0)), reverse=True)
+        results.sort(
+            key=lambda r: (r.score, type_priority.get(r.search_type, 0)), reverse=True
+        )
 
         return results
 
@@ -573,26 +599,42 @@ This is the recommended search tool for comprehensive results."""
         search_names = []
 
         if params.get("enable_grep", True) and pattern_analysis["use_grep"]:
-            search_tasks.append(self._run_grep_search(pattern, path, include, tool_ctx, max_results))
+            search_tasks.append(
+                self._run_grep_search(pattern, path, include, tool_ctx, max_results)
+            )
             search_names.append("grep")
 
         if params.get("enable_grep_ast", True) and pattern_analysis["use_grep_ast"]:
-            search_tasks.append(self._run_grep_ast_search(pattern, path, tool_ctx, max_results))
+            search_tasks.append(
+                self._run_grep_ast_search(pattern, path, tool_ctx, max_results)
+            )
             search_names.append("grep_ast")
 
-        if params.get("enable_vector", True) and self.vector_tool and pattern_analysis["use_vector"]:
-            search_tasks.append(self._run_vector_search(pattern, path, tool_ctx, max_results))
+        if (
+            params.get("enable_vector", True)
+            and self.vector_tool
+            and pattern_analysis["use_vector"]
+        ):
+            search_tasks.append(
+                self._run_vector_search(pattern, path, tool_ctx, max_results)
+            )
             search_names.append("vector")
 
         if params.get("enable_git", True) and pattern_analysis["use_git"]:
-            search_tasks.append(self._run_git_search(pattern, path, tool_ctx, max_results))
+            search_tasks.append(
+                self._run_git_search(pattern, path, tool_ctx, max_results)
+            )
             search_names.append("git")
 
         if params.get("enable_symbol", True) and pattern_analysis["use_symbol"]:
-            search_tasks.append(self._run_symbol_search(pattern, path, tool_ctx, max_results))
+            search_tasks.append(
+                self._run_symbol_search(pattern, path, tool_ctx, max_results)
+            )
             search_names.append("symbol")
 
-        await tool_ctx.info(f"Running {len(search_tasks)} search types in parallel: {', '.join(search_names)}")
+        await tool_ctx.info(
+            f"Running {len(search_tasks)} search types in parallel: {', '.join(search_names)}"
+        )
 
         # Run all searches in parallel
         search_results = await asyncio.gather(*search_tasks, return_exceptions=True)
@@ -677,7 +719,9 @@ This is the recommended search tool for comprehensive results."""
                 score_str = f"[{result.search_type.value} {result.score:.2f}]"
 
                 if result.line_number:
-                    output.append(f"  {result.line_number:>4}: {score_str} {result.content}")
+                    output.append(
+                        f"  {result.line_number:>4}: {score_str} {result.content}"
+                    )
                 else:
                     output.append(f"       {score_str} {result.content}")
 

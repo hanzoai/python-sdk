@@ -297,7 +297,9 @@ class LSPTool(BaseTool):
             self.logger.error(f"Installation error: {e}")
             return False
 
-    async def _ensure_lsp_running(self, language: str, root_uri: str) -> Optional[LSPServer]:
+    async def _ensure_lsp_running(
+        self, language: str, root_uri: str
+    ) -> Optional[LSPServer]:
         """Ensure LSP server is running for language."""
         # Check if already running
         server_key = f"{language}:{root_uri}"
@@ -324,7 +326,9 @@ class LSPTool(BaseTool):
                 cwd=root_uri,
             )
 
-            server = LSPServer(language=language, process=process, config=config, root_uri=root_uri)
+            server = LSPServer(
+                language=language, process=process, config=config, root_uri=root_uri
+            )
 
             # Initialize LSP
             await self._initialize_lsp(server)
@@ -363,7 +367,9 @@ class LSPTool(BaseTool):
         await self._send_request(server, request)
         server.initialized = True
 
-    async def _send_request(self, server: LSPServer, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _send_request(
+        self, server: LSPServer, request: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
         """Send JSON-RPC request to LSP server."""
         if not server.process or server.process.returncode is not None:
             return None
@@ -420,7 +426,11 @@ class LSPTool(BaseTool):
             "status",
         ]
         if action not in valid_actions:
-            return MCPResourceDocument(data={"error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"})
+            return MCPResourceDocument(
+                data={
+                    "error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"
+                }
+            )
 
         # Get language from file
         language = self._get_language_from_file(file)
@@ -468,7 +478,9 @@ class LSPTool(BaseTool):
             )
 
         # Execute action
-        result = await self._execute_lsp_action(server, action, file, line, character, new_name)
+        result = await self._execute_lsp_action(
+            server, action, file, line, character, new_name
+        )
 
         return MCPResourceDocument(data=result)
 
