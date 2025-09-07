@@ -188,7 +188,9 @@ tree --pattern "*.py" --show-size"""
             if pattern:
                 import fnmatch
 
-                entries = [e for e in entries if fnmatch.fnmatch(e.name, pattern) or e.is_dir()]
+                entries = [
+                    e for e in entries if fnmatch.fnmatch(e.name, pattern) or e.is_dir()
+                ]
 
             # Filter dirs only
             if dirs_only:

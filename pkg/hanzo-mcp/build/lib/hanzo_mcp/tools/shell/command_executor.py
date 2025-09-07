@@ -27,7 +27,9 @@ class CommandExecutor:
     comprehensive error handling, permissions checking, and progress tracking.
     """
 
-    def __init__(self, permission_manager: PermissionManager, verbose: bool = False) -> None:
+    def __init__(
+        self, permission_manager: PermissionManager, verbose: bool = False
+    ) -> None:
         """Initialize command execution.
 
         Args:
@@ -92,7 +94,9 @@ class CommandExecutor:
             user_shell = os.environ.get("SHELL", "/bin/bash")
             return os.path.basename(user_shell).lower(), user_shell
 
-    def _format_win32_shell_command(self, shell_basename, user_shell, command, use_login_shell=True):
+    def _format_win32_shell_command(
+        self, shell_basename, user_shell, command, use_login_shell=True
+    ):
         """Format a command for execution with the appropriate Windows shell.
 
         Args:
@@ -246,7 +250,9 @@ class CommandExecutor:
 
         # Check if the command is allowed
         if not self.is_command_allowed(command):
-            return CommandResult(return_code=1, error_message=f"Command not allowed: {command}")
+            return CommandResult(
+                return_code=1, error_message=f"Command not allowed: {command}"
+            )
 
         # Check working directory permissions if specified
         if cwd:
@@ -257,7 +263,9 @@ class CommandExecutor:
                 )
 
             if not self.permission_manager.is_path_allowed(cwd):
-                return CommandResult(return_code=1, error_message=f"Working directory not allowed: {cwd}")
+                return CommandResult(
+                    return_code=1, error_message=f"Working directory not allowed: {cwd}"
+                )
 
         # Set up environment
         command_env: dict[str, str] = os.environ.copy()
@@ -273,7 +281,9 @@ class CommandExecutor:
                 self._log(f"Using shell on Windows: {user_shell} ({shell_basename})")
 
                 # Format command using helper method
-                shell_cmd = self._format_win32_shell_command(shell_basename, user_shell, command, use_login_shell)
+                shell_cmd = self._format_win32_shell_command(
+                    shell_basename, user_shell, command, use_login_shell
+                )
 
                 # Use shell for command execution
                 process = await asyncio.create_subprocess_shell(
@@ -302,13 +312,19 @@ class CommandExecutor:
                         self._log(f"Escaped command: {escaped_command}")
 
                         # Wrap command with appropriate shell invocation
-                        if shell_basename == "zsh" or shell_basename == "bash" or shell_basename == "fish":
+                        if (
+                            shell_basename == "zsh"
+                            or shell_basename == "bash"
+                            or shell_basename == "fish"
+                        ):
                             shell_cmd = f"{user_shell} -l -c '{escaped_command}'"
                         else:
                             # Default fallback
                             shell_cmd = f"{user_shell} -c '{escaped_command}'"
                     else:
-                        self._log(f"Using shell for command with shell operators: {command}")
+                        self._log(
+                            f"Using shell for command with shell operators: {command}"
+                        )
                         # Escape single quotes in command for shell execution
                         escaped_command = command.replace("'", "'\\''")
                         self._log(f"Original command: {command}")
@@ -338,7 +354,9 @@ class CommandExecutor:
 
             # Wait for the process to complete with timeout
             try:
-                stdout_bytes, stderr_bytes = await asyncio.wait_for(process.communicate(), timeout=timeout)
+                stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                    process.communicate(), timeout=timeout
+                )
 
                 return CommandResult(
                     return_code=process.returncode or 0,
@@ -358,7 +376,9 @@ class CommandExecutor:
                 )
         except Exception as e:
             self._log(f"Command execution error: {str(e)}")
-            return CommandResult(return_code=1, error_message=f"Error executing command: {str(e)}")
+            return CommandResult(
+                return_code=1, error_message=f"Error executing command: {str(e)}"
+            )
 
     async def execute_script(
         self,
@@ -395,7 +415,9 @@ class CommandExecutor:
                 )
 
             if not self.permission_manager.is_path_allowed(cwd):
-                return CommandResult(return_code=1, error_message=f"Working directory not allowed: {cwd}")
+                return CommandResult(
+                    return_code=1, error_message=f"Working directory not allowed: {cwd}"
+                )
 
         # Check if we need special handling for this interpreter
         interpreter_name = interpreter.split()[0].lower()
@@ -447,7 +469,9 @@ class CommandExecutor:
                 self._log(f"Using shell on Windows for interpreter: {user_shell}")
 
                 # Format command using helper method for the interpreter
-                shell_cmd = self._format_win32_shell_command(shell_basename, user_shell, interpreter, use_login_shell)
+                shell_cmd = self._format_win32_shell_command(
+                    shell_basename, user_shell, interpreter, use_login_shell
+                )
 
                 # Create and run the process with shell
                 process = await asyncio.create_subprocess_shell(
@@ -492,7 +516,9 @@ class CommandExecutor:
             # Wait for the process to complete with timeout
             try:
                 script_bytes: bytes = script.encode("utf-8")
-                stdout_bytes, stderr_bytes = await asyncio.wait_for(process.communicate(script_bytes), timeout=timeout)
+                stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                    process.communicate(script_bytes), timeout=timeout
+                )
 
                 return CommandResult(
                     return_code=process.returncode or 0,
@@ -512,7 +538,9 @@ class CommandExecutor:
                 )
         except Exception as e:
             self._log(f"Script execution error: {str(e)}")
-            return CommandResult(return_code=1, error_message=f"Error executing script: {str(e)}")
+            return CommandResult(
+                return_code=1, error_message=f"Error executing script: {str(e)}"
+            )
 
     async def _handle_fish_script(
         self,
@@ -563,7 +591,9 @@ class CommandExecutor:
 
             # Wait for the process to complete with timeout
             try:
-                stdout_bytes, stderr_bytes = await asyncio.wait_for(process.communicate(), timeout=timeout)
+                stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                    process.communicate(), timeout=timeout
+                )
 
                 return CommandResult(
                     return_code=process.returncode or 0,
@@ -583,7 +613,9 @@ class CommandExecutor:
                 )
         except Exception as e:
             self._log(f"Fish script execution error: {str(e)}")
-            return CommandResult(return_code=1, error_message=f"Error executing Fish script: {str(e)}")
+            return CommandResult(
+                return_code=1, error_message=f"Error executing Fish script: {str(e)}"
+            )
 
     async def execute_script_from_file(
         self,
@@ -639,7 +671,9 @@ class CommandExecutor:
             command_env.update(env)
 
         # Create a temporary file for the script
-        with tempfile.NamedTemporaryFile(suffix=extension, mode="w", delete=False) as temp:
+        with tempfile.NamedTemporaryFile(
+            suffix=extension, mode="w", delete=False
+        ) as temp:
             temp_path = temp.name
             _ = temp.write(script)  # Explicitly ignore the return value
 
@@ -662,7 +696,9 @@ class CommandExecutor:
                         wsl_path = temp_path.replace("\\", "/")
                         self._log(f"WSL path conversion may be incomplete: {wsl_path}")
 
-                    self._log(f"Converted Windows path '{temp_path}' to WSL path '{wsl_path}'")
+                    self._log(
+                        f"Converted Windows path '{temp_path}' to WSL path '{wsl_path}'"
+                    )
                     temp_path = wsl_path
 
                 # Build the command including args
@@ -673,9 +709,13 @@ class CommandExecutor:
                     cmd += " " + " ".join(args)
 
                 # Format command using helper method
-                shell_cmd = self._format_win32_shell_command(shell_basename, user_shell, cmd, use_login_shell)
+                shell_cmd = self._format_win32_shell_command(
+                    shell_basename, user_shell, cmd, use_login_shell
+                )
 
-                self._log(f"Executing script from file on Windows with shell: {shell_cmd}")
+                self._log(
+                    f"Executing script from file on Windows with shell: {shell_cmd}"
+                )
 
                 # Create and run the process with shell
                 process = await asyncio.create_subprocess_shell(
@@ -701,7 +741,9 @@ class CommandExecutor:
                     # Create command that runs script through login shell
                     shell_cmd = f"{user_shell} -l -c '{cmd}'"
 
-                    self._log(f"Executing script from file with login shell: {shell_cmd}")
+                    self._log(
+                        f"Executing script from file with login shell: {shell_cmd}"
+                    )
 
                     # Create and run the process with shell
                     process = await asyncio.create_subprocess_shell(
@@ -730,7 +772,9 @@ class CommandExecutor:
 
             # Wait for the process to complete with timeout
             try:
-                stdout_bytes, stderr_bytes = await asyncio.wait_for(process.communicate(), timeout=timeout)
+                stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                    process.communicate(), timeout=timeout
+                )
 
                 return CommandResult(
                     return_code=process.returncode or 0,
@@ -750,7 +794,9 @@ class CommandExecutor:
                 )
         except Exception as e:
             self._log(f"Script file execution error: {str(e)}")
-            return CommandResult(return_code=1, error_message=f"Error executing script: {str(e)}")
+            return CommandResult(
+                return_code=1, error_message=f"Error executing script: {str(e)}"
+            )
         finally:
             # Clean up temporary file
             try:
@@ -817,7 +863,9 @@ class CommandExecutor:
             },
         }
 
-    def _get_interpreter_path(self, language: str, shell_type: str | None = None) -> tuple[str, list[str]]:
+    def _get_interpreter_path(
+        self, language: str, shell_type: str | None = None
+    ) -> tuple[str, list[str]]:
         """Get the full path to the interpreter for the given language.
 
         Attempts to find the full path to the interpreter command, but only for
@@ -853,20 +901,25 @@ class CommandExecutor:
 
         # For Windows shell types, try to find the full path
         if sys.platform == "win32" and (
-            not shell_type or shell_type.lower() in ["cmd", "powershell", "cmd.exe", "powershell.exe"]
+            not shell_type
+            or shell_type.lower() in ["cmd", "powershell", "cmd.exe", "powershell.exe"]
         ):
             try:
                 # Try to find the full path to the command
                 full_path = shutil.which(command)
                 if full_path:
-                    self._log(f"Found full path for {language} interpreter: {full_path}")
+                    self._log(
+                        f"Found full path for {language} interpreter: {full_path}"
+                    )
                     return full_path, args
 
                 # If primary command not found, try alternatives
                 for alt_command in alternatives:
                     alt_path = shutil.which(alt_command)
                     if alt_path:
-                        self._log(f"Found alternative path for {language} interpreter: {alt_path}")
+                        self._log(
+                            f"Found alternative path for {language} interpreter: {alt_path}"
+                        )
                         return alt_path, args
             except Exception as e:
                 self._log(f"Error finding path for {language} interpreter: {str(e)}")

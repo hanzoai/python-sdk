@@ -137,14 +137,20 @@ class NoteBookEditTool(JupyterBaseTool):
 
         # Don't validate new_source for delete mode
         if edit_mode != "delete" and not new_source:
-            await tool_ctx.error("New source is required for replace or insert operations")
+            await tool_ctx.error(
+                "New source is required for replace or insert operations"
+            )
             return "Error: New source is required for replace or insert operations"
 
-        await tool_ctx.info(f"Editing notebook: {notebook_path} (cell: {cell_number}, mode: {edit_mode})")
+        await tool_ctx.info(
+            f"Editing notebook: {notebook_path} (cell: {cell_number}, mode: {edit_mode})"
+        )
 
         # Check if path is allowed
         if not self.is_path_allowed(notebook_path):
-            await tool_ctx.error(f"Access denied - path outside allowed directories: {notebook_path}")
+            await tool_ctx.error(
+                f"Access denied - path outside allowed directories: {notebook_path}"
+            )
             return f"Error: Access denied - path outside allowed directories: {notebook_path}"
 
         try:
@@ -180,15 +186,23 @@ class NoteBookEditTool(JupyterBaseTool):
 
             if edit_mode == "insert":
                 if cell_number > len(cells):
-                    await tool_ctx.error(f"Cell number {cell_number} is out of bounds for insert (max: {len(cells)})")
+                    await tool_ctx.error(
+                        f"Cell number {cell_number} is out of bounds for insert (max: {len(cells)})"
+                    )
                     return f"Error: Cell number {cell_number} is out of bounds for insert (max: {len(cells)})"
             else:  # replace or delete
                 if cell_number >= len(cells):
-                    await tool_ctx.error(f"Cell number {cell_number} is out of bounds (max: {len(cells) - 1})")
+                    await tool_ctx.error(
+                        f"Cell number {cell_number} is out of bounds (max: {len(cells) - 1})"
+                    )
                     return f"Error: Cell number {cell_number} is out of bounds (max: {len(cells) - 1})"
 
             # Get notebook language (needed for context but not directly used in this block)
-            _ = notebook.get("metadata", {}).get("language_info", {}).get("name", "python")
+            _ = (
+                notebook.get("metadata", {})
+                .get("language_info", {})
+                .get("name", "python")
+            )
 
             # Perform the requested operation
             if edit_mode == "replace":
@@ -224,7 +238,9 @@ class NoteBookEditTool(JupyterBaseTool):
 
                 change_description = f"Replaced cell {cell_number}"
                 if cell_type is not None and cell_type != old_type:
-                    change_description += f" (changed type from {old_type} to {cell_type})"
+                    change_description += (
+                        f" (changed type from {old_type} to {cell_type})"
+                    )
 
             elif edit_mode == "insert":
                 # Create new cell
@@ -241,7 +257,9 @@ class NoteBookEditTool(JupyterBaseTool):
 
                 # Insert the cell
                 cells.insert(cell_number, new_cell)
-                change_description = f"Inserted new {cell_type} cell at position {cell_number}"
+                change_description = (
+                    f"Inserted new {cell_type} cell at position {cell_number}"
+                )
 
             else:  # delete
                 # Store deleted cell info for reporting
@@ -250,14 +268,20 @@ class NoteBookEditTool(JupyterBaseTool):
 
                 # Remove the cell
                 del cells[cell_number]
-                change_description = f"Deleted {deleted_type} cell at position {cell_number}"
+                change_description = (
+                    f"Deleted {deleted_type} cell at position {cell_number}"
+                )
 
             # Write the updated notebook back to file
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(notebook, f, indent=1)
 
-            await tool_ctx.info(f"Successfully edited notebook: {notebook_path} - {change_description}")
-            return f"Successfully edited notebook: {notebook_path} - {change_description}"
+            await tool_ctx.info(
+                f"Successfully edited notebook: {notebook_path} - {change_description}"
+            )
+            return (
+                f"Successfully edited notebook: {notebook_path} - {change_description}"
+            )
         except Exception as e:
             await tool_ctx.error(f"Error editing notebook: {str(e)}")
             return f"Error editing notebook: {str(e)}"

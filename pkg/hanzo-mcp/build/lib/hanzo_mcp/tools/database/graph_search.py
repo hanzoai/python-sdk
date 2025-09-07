@@ -76,7 +76,9 @@ class GraphSearchParams(TypedDict, total=False):
 class GraphSearchTool(BaseTool):
     """Tool for searching nodes and edges in graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph search tool.
 
         Args:
@@ -313,8 +315,13 @@ Examples:
                 output.append(f"Nodes ({len(nodes)}):")
                 for node in nodes[:20]:  # Show first 20
                     output.append(f"  {node['id']} ({node['node_type']})")
-                    if node["match_field"] == "properties" and "matching_properties" in node:
-                        output.append(f"    Matched in: {list(node['matching_properties'].keys())}")
+                    if (
+                        node["match_field"] == "properties"
+                        and "matching_properties" in node
+                    ):
+                        output.append(
+                            f"    Matched in: {list(node['matching_properties'].keys())}"
+                        )
                     if node["properties"] and node["match_field"] != "properties":
                         props_str = json.dumps(node["properties"], indent=6)[:100]
                         if len(props_str) == 100:
@@ -328,9 +335,16 @@ Examples:
             if edges:
                 output.append(f"Edges ({len(edges)}):")
                 for edge in edges[:20]:  # Show first 20
-                    output.append(f"  {edge['source']} --[{edge['relationship']}]--> {edge['target']}")
-                    if edge["match_field"] == "properties" and "matching_properties" in edge:
-                        output.append(f"    Matched in: {list(edge['matching_properties'].keys())}")
+                    output.append(
+                        f"  {edge['source']} --[{edge['relationship']}]--> {edge['target']}"
+                    )
+                    if (
+                        edge["match_field"] == "properties"
+                        and "matching_properties" in edge
+                    ):
+                        output.append(
+                            f"    Matched in: {list(edge['matching_properties'].keys())}"
+                        )
                     if edge["weight"] != 1.0:
                         output.append(f"    Weight: {edge['weight']}")
                     if edge["properties"]:

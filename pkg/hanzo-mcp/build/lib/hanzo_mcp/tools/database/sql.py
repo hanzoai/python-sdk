@@ -75,7 +75,9 @@ class SQLParams(TypedDict, total=False):
 class SQLTool(BaseTool):
     """Unified SQL database tool."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL tool."""
         super().__init__(permission_manager)
         self.db_manager = db_manager
@@ -294,7 +296,9 @@ sql --action stats --table users
                     output.append("-" * 60)
 
                     for col in columns:
-                        output.append(f"{col[1]} | {col[2]} | {col[3]} | {col[4]} | {col[5]}")
+                        output.append(
+                            f"{col[1]} | {col[2]} | {col[3]} | {col[4]} | {col[5]}"
+                        )
 
                     # Get indexes
                     cursor = conn.execute(f"PRAGMA index_list({table})")
@@ -332,7 +336,9 @@ sql --action stats --table users
                         # Get columns
                         cursor = conn.execute(f"PRAGMA table_info({table_name})")
                         columns = cursor.fetchall()
-                        output.append(f"Columns: {', '.join([col[1] for col in columns])}")
+                        output.append(
+                            f"Columns: {', '.join([col[1] for col in columns])}"
+                        )
 
                 return "\n".join(output)
 
@@ -396,7 +402,9 @@ sql --action stats --table users
                             """
                             )
                             stats = cursor.fetchone()
-                            output.append(f"  {col_name}: distinct={stats[0]}, nulls={stats[1]}")
+                            output.append(
+                                f"  {col_name}: distinct={stats[0]}, nulls={stats[1]}"
+                            )
 
                 else:
                     # Overall database stats

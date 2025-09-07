@@ -100,6 +100,7 @@ class EnhancedHanzoREPL:
         self.tool_detector = ToolDetector(console) if ToolDetector else None
         self.detected_tools = []
         self.current_tool = None
+        self.failed_tools = set()  # Track tools that have failed this session
         
         # Initialize background task manager
         self.task_manager = BackgroundTaskManager(console) if BackgroundTaskManager else None
@@ -637,31 +638,52 @@ class EnhancedHanzoREPL:
         """Chat with AI using current model or tool."""
         # Check if using a tool
         if self.current_model.startswith("tool:") and self.current_tool:
-            # Use the detected tool directly
-            self.console.print(f"[dim]Using {self.current_tool.display_name}...[/dim]")
+            # Skip if this tool has already failed this session
+            if self.current_tool.name in self.failed_tools:
+                # Automatically use the first working tool
+                for tool in self.detected_tools:
+                    if tool.name not in self.failed_tools:
+                        self.current_tool = tool
+                        self.current_model = f"tool:{tool.name}"
+                        self.console.print(f"[yellow]Switched to {tool.display_name}[/yellow]")
+                        break
             
-            success, output = self.tool_detector.execute_with_tool(self.current_tool, message)
+            # Try the current tool
+            if self.current_tool.name not in self.failed_tools:
+                self.console.print(f"[dim]Using {self.current_tool.display_name}...[/dim]")
+                success, output = self.tool_detector.execute_with_tool(self.current_tool, message)
+                
+                if success:
+                    self.console.print(output)
+                    return
+                else:
+                    # Mark this tool as failed for the session
+                    self.failed_tools.add(self.current_tool.name)
+                    self.console.print(f"[red]Error: {output}[/red]")
             
-            if success:
-                self.console.print(output)
-            else:
-                # Show error and try fallback
-                self.console.print(f"[red]Error: {output}[/red]")
-                
-                # Try to find next available tool
-                if self.tool_detector and self.tool_detector.detected_tools:
-                    for fallback_tool in self.tool_detector.detected_tools:
-                        if fallback_tool != self.current_tool:
-                            self.console.print(f"[yellow]Trying {fallback_tool.display_name}...[/yellow]")
-                            success, output = self.tool_detector.execute_with_tool(fallback_tool, message)
-                            if success:
-                                self.console.print(output)
-                                # Suggest switching to working tool
-                                self.console.print(f"\n[dim]Tip: Switch to {fallback_tool.display_name} with /model {fallback_tool.name}[/dim]")
-                                return
-                            else:
-                                self.console.print(f"[red]{fallback_tool.display_name} also failed[/red]")
-                
+            # Try to find next available tool
+            found_working = False
+            if self.tool_detector and self.tool_detector.detected_tools:
+                for fallback_tool in self.tool_detector.detected_tools:
+                    if fallback_tool.name not in self.failed_tools:
+                        self.console.print(f"[yellow]Trying {fallback_tool.display_name}...[/yellow]")
+                        success, output = self.tool_detector.execute_with_tool(fallback_tool, message)
+                        if success:
+                            self.console.print(output)
+                            # Automatically switch to this working tool
+                            self.current_tool = fallback_tool
+                            self.current_model = f"tool:{fallback_tool.name}"
+                            self.config["default_model"] = self.current_model
+                            self.save_config()
+                            self.console.print(f"\n[green]Switched to {fallback_tool.display_name} (now default)[/green]")
+                            found_working = True
+                            return
+                        else:
+                            # Mark as failed
+                            self.failed_tools.add(fallback_tool.name)
+                            self.console.print(f"[red]{fallback_tool.display_name} also failed[/red]")
+            
+            if not found_working:
                 # Final fallback to cloud model
                 self.console.print(f"[yellow]Falling back to cloud model...[/yellow]")
                 await self.execute_command("ask", f"--cloud --model gpt-3.5-turbo {message}")

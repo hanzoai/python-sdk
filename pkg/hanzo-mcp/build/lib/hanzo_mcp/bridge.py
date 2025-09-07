@@ -83,7 +83,11 @@ class ClaudeBridge(FastMCP):
             response = await self._forward_to_claude(message, context)
 
             self.conversation_history.append(
-                {"from": self.config.target_instance, "to": self.config.source_instance, "response": response}
+                {
+                    "from": self.config.target_instance,
+                    "to": self.config.source_instance,
+                    "response": response,
+                }
             )
 
             return response
@@ -130,7 +134,9 @@ class ClaudeBridge(FastMCP):
             """
             logger.info(f"Bridge {self.config.instance_id}: Task delegation")
 
-            delegation_prompt = self._build_delegation_prompt(task, requirements, constraints)
+            delegation_prompt = self._build_delegation_prompt(
+                task, requirements, constraints
+            )
             result = await self._forward_to_claude(delegation_prompt)
 
             return {
@@ -143,7 +149,9 @@ class ClaudeBridge(FastMCP):
 
         @self.tool()
         async def get_claude_opinion(
-            question: str, options: Optional[List[str]] = None, criteria: Optional[List[str]] = None
+            question: str,
+            options: Optional[List[str]] = None,
+            criteria: Optional[List[str]] = None,
         ) -> Dict[str, Any]:
             """Get another Claude's opinion on a decision.
 
@@ -170,7 +178,9 @@ class ClaudeBridge(FastMCP):
             }
 
         @self.tool()
-        async def share_context_with_claude(key: str, value: Any, description: Optional[str] = None) -> bool:
+        async def share_context_with_claude(
+            key: str, value: Any, description: Optional[str] = None
+        ) -> bool:
             """Share context with another Claude instance.
 
             Args:
@@ -253,7 +263,9 @@ class ClaudeBridge(FastMCP):
                 "shared_context_keys": list(self.shared_context.keys()),
             }
 
-    def _build_review_prompt(self, code: str, description: str, focus_areas: Optional[List[str]]) -> str:
+    def _build_review_prompt(
+        self, code: str, description: str, focus_areas: Optional[List[str]]
+    ) -> str:
         """Build a code review prompt."""
         prompt = f"""
         Please review the following code:
@@ -281,7 +293,9 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    def _build_delegation_prompt(self, task: str, requirements: List[str], constraints: Optional[List[str]]) -> str:
+    def _build_delegation_prompt(
+        self, task: str, requirements: List[str], constraints: Optional[List[str]]
+    ) -> str:
         """Build a task delegation prompt."""
         prompt = f"""
         Please complete the following task:
@@ -306,7 +320,9 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    def _build_opinion_prompt(self, question: str, options: Optional[List[str]], criteria: Optional[List[str]]) -> str:
+    def _build_opinion_prompt(
+        self, question: str, options: Optional[List[str]], criteria: Optional[List[str]]
+    ) -> str:
         """Build an opinion request prompt."""
         prompt = f"""
         I need your opinion on the following:
@@ -335,7 +351,9 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    async def _forward_to_claude(self, prompt: str, context: Optional[str] = None) -> str:
+    async def _forward_to_claude(
+        self, prompt: str, context: Optional[str] = None
+    ) -> str:
         """Forward a request to the target Claude instance.
 
         In production, this would make an actual API call to the Claude instance.
@@ -347,7 +365,9 @@ class ClaudeBridge(FastMCP):
             full_prompt = f"Context: {context}\n\n{prompt}"
 
         # Log the forwarding
-        logger.info(f"Forwarding from instance {self.config.source_instance} to {self.config.target_instance}")
+        logger.info(
+            f"Forwarding from instance {self.config.source_instance} to {self.config.target_instance}"
+        )
         logger.debug(f"Prompt: {full_prompt[:200]}...")
 
         # In production, this would:
@@ -393,7 +413,10 @@ async def run_bridge_server(config: BridgeConfig):
         config: Bridge configuration
     """
     # Configure logging
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
 
     logger.info(f"Starting MCP Bridge for Claude instance {config.instance_id}")
     logger.info(f"Role: {config.role}")
@@ -408,17 +431,36 @@ async def run_bridge_server(config: BridgeConfig):
             read_stream=read_stream,
             write_stream=write_stream,
             initialization_options=InitializationOptions(
-                server_name=bridge.name, server_version="1.0.0", capabilities=bridge.get_capabilities()
+                server_name=bridge.name,
+                server_version="1.0.0",
+                capabilities=bridge.get_capabilities(),
             ),
         )
 
 
 def main():
     """Main entry point for the bridge."""
-    parser = argparse.ArgumentParser(description="MCP Bridge for Claude-to-Claude communication")
-    parser.add_argument("--target-port", type=int, required=True, help="Port of the target Claude instance")
-    parser.add_argument("--instance-id", type=int, required=True, help="ID of the target Claude instance")
-    parser.add_argument("--role", type=str, required=True, help="Role of the target instance (primary, critic_1, etc.)")
+    parser = argparse.ArgumentParser(
+        description="MCP Bridge for Claude-to-Claude communication"
+    )
+    parser.add_argument(
+        "--target-port",
+        type=int,
+        required=True,
+        help="Port of the target Claude instance",
+    )
+    parser.add_argument(
+        "--instance-id",
+        type=int,
+        required=True,
+        help="ID of the target Claude instance",
+    )
+    parser.add_argument(
+        "--role",
+        type=str,
+        required=True,
+        help="Role of the target instance (primary, critic_1, etc.)",
+    )
 
     args = parser.parse_args()
 

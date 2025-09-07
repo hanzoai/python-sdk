@@ -85,7 +85,9 @@ class AutoRegisterTool(BaseTool, ABC):
         params = list(sig.parameters.items())
 
         # Skip 'self' and 'ctx' parameters
-        tool_params = [(name, param) for name, param in params if name not in ("self", "ctx")]
+        tool_params = [
+            (name, param) for name, param in params if name not in ("self", "ctx")
+        ]
 
         # Create the handler function dynamically
         async def handler(ctx: MCPContext, **kwargs: Any) -> Any:
@@ -96,4 +98,6 @@ class AutoRegisterTool(BaseTool, ABC):
         normalized_handler = with_context_normalization(handler)
 
         # Register with the server
-        mcp_server.tool(name=self.name, description=self.description)(normalized_handler)
+        mcp_server.tool(name=self.name, description=self.description)(
+            normalized_handler
+        )

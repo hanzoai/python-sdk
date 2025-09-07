@@ -135,7 +135,9 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
                             break
 
                     if project_info:
-                        vector_store = self.project_manager.get_vector_store(project_info)
+                        vector_store = self.project_manager.get_vector_store(
+                            project_info
+                        )
                         results = vector_store.search(
                             query=query,
                             limit=limit,
@@ -143,7 +145,9 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
                         )
                         for result in results:
                             result.document.metadata = result.document.metadata or {}
-                            result.document.metadata["search_project"] = project_info.name
+                            result.document.metadata["search_project"] = (
+                                project_info.name
+                            )
                     else:
                         return f"Project '{search_scope}' not found"
                 else:
@@ -151,10 +155,14 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
                     import os
 
                     current_dir = os.getcwd()
-                    project_info = self.project_manager.get_project_for_path(current_dir)
+                    project_info = self.project_manager.get_project_for_path(
+                        current_dir
+                    )
 
                     if project_info:
-                        vector_store = self.project_manager.get_vector_store(project_info)
+                        vector_store = self.project_manager.get_vector_store(
+                            project_info
+                        )
                         results = vector_store.search(
                             query=query,
                             limit=limit,
@@ -162,7 +170,9 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
                         )
                         for result in results:
                             result.document.metadata = result.document.metadata or {}
-                            result.document.metadata["search_project"] = project_info.name
+                            result.document.metadata["search_project"] = (
+                                project_info.name
+                            )
                     else:
                         # Fall back to global store
                         global_store = self.project_manager._get_global_store()
@@ -180,7 +190,9 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
 
             # Filter by file if requested
             if file_filter:
-                results = [r for r in results if file_filter in (r.document.file_path or "")]
+                results = [
+                    r for r in results if file_filter in (r.document.file_path or "")
+                ]
 
             # Format results
             output_lines = [f"Found {len(results)} results for query: '{query}'\n"]
@@ -208,7 +220,9 @@ Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similar
                         if k not in ["chunk_number", "total_chunks", "search_project"]
                     }
                     if relevant_metadata:
-                        output_lines.append(f"Metadata: {json.dumps(relevant_metadata, indent=2)}")
+                        output_lines.append(
+                            f"Metadata: {json.dumps(relevant_metadata, indent=2)}"
+                        )
 
                 # Add content if requested
                 if include_content:
