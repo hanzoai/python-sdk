@@ -23,10 +23,10 @@ from .commands import (
     router,
     network,
 )
+from .ui.startup import show_startup
 from .utils.output import console
 from .interactive.repl import HanzoREPL
 from .interactive.enhanced_repl import EnhancedHanzoREPL
-from .ui.startup import show_startup
 
 # Version
 __version__ = "0.3.23"

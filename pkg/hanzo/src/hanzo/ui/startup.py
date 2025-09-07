@@ -5,18 +5,19 @@ Hanzo startup UI and changelog integration.
 import os
 import json
 import time
+from typing import Any, Dict, List, Optional
 from pathlib import Path
-from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
+
 import httpx
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
+from rich import box
 from rich.text import Text
 from rich.align import Align
+from rich.panel import Panel
+from rich.table import Table
 from rich.columns import Columns
+from rich.console import Console
 from rich.markdown import Markdown
-from rich import box
 
 console = Console()
 
@@ -36,7 +37,7 @@ class StartupUI:
         try:
             from hanzo import __version__
             return __version__
-        except:
+        except Exception:
             return "0.3.23"
     
     def _get_last_shown_version(self) -> Optional[str]:
@@ -236,14 +237,14 @@ class StartupUI:
         try:
             response = httpx.get("http://localhost:4000/health", timeout=1)
             router_status = "🟢 Running" if response.status_code == 200 else "🔴 Offline"
-        except:
+        except Exception:
             router_status = "⚫ Offline"
         
         # Check node status  
         try:
             response = httpx.get("http://localhost:8000/health", timeout=1)
             node_status = "🟢 Running" if response.status_code == 200 else "🔴 Offline"
-        except:
+        except Exception:
             node_status = "⚫ Offline"
         
         # Check API key
@@ -278,7 +279,7 @@ class StartupUI:
                 latest = data["info"]["version"]
                 if latest != self.current_version:
                     return latest
-        except:
+        except Exception:
             pass
         return None
     

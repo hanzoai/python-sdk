@@ -8,7 +8,7 @@ across multiple git worktrees, with each agent handling a specific task.
 
 import json
 import subprocess
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 # This would normally use the hanzo-mcp Python client
 # For demonstration, showing the conceptual flow

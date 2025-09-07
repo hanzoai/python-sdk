@@ -2,18 +2,18 @@
 
 import os
 import json
-import httpx
 import asyncio
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 from pathlib import Path
 from datetime import datetime
 
-from rich.console import Console
-from rich.markdown import Markdown
+import httpx
+from rich import box
+from rich.text import Text
 from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
-from rich import box
+from rich.console import Console
+from rich.markdown import Markdown
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.completion import WordCompleter
@@ -21,7 +21,7 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.formatted_text import HTML
 
 try:
-    from ..tools.detector import ToolDetector, AITool
+    from ..tools.detector import AITool, ToolDetector
 except ImportError:
     ToolDetector = None
     AITool = None
@@ -159,7 +159,7 @@ class EnhancedHanzoREPL:
         if self.config_file.exists():
             try:
                 return json.loads(self.config_file.read_text())
-            except:
+            except Exception:
                 pass
         return {}
 
@@ -173,7 +173,7 @@ class EnhancedHanzoREPL:
         if self.auth_file.exists():
             try:
                 return json.loads(self.auth_file.read_text())
-            except:
+            except Exception:
                 pass
         return {}
 
@@ -345,7 +345,7 @@ class EnhancedHanzoREPL:
             response = httpx.get("http://localhost:4000/health", timeout=1)
             router_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
             router_details = "Port 4000"
-        except:
+        except Exception:
             router_status = "❌ Offline"
             router_details = "Run 'hanzo router start'"
         table.add_row("Router", router_status, router_details)
@@ -355,7 +355,7 @@ class EnhancedHanzoREPL:
             response = httpx.get("http://localhost:3690/health", timeout=1)
             node_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
             node_details = "Port 3690"
-        except:
+        except Exception:
             node_status = "❌ Offline"
             node_details = "Run 'hanzo node start'"
         table.add_row("Node", node_status, node_details)
