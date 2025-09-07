@@ -120,7 +120,9 @@ class GraphParams(TypedDict, total=False):
 class GraphTool(BaseTool):
     """Unified graph database tool."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph tool."""
         super().__init__(permission_manager)
         self.db_manager = db_manager

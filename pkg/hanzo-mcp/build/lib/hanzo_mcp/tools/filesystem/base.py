@@ -21,7 +21,9 @@ class FilesystemBaseTool(FileSystemTool, ABC):
     the base functionality in FileSystemTool.
     """
 
-    async def check_path_allowed(self, path: str, tool_ctx: Any, error_prefix: str = "Error") -> tuple[bool, str]:
+    async def check_path_allowed(
+        self, path: str, tool_ctx: Any, error_prefix: str = "Error"
+    ) -> tuple[bool, str]:
         """Check if a path is allowed and log an error if not.
 
         Args:
@@ -38,7 +40,9 @@ class FilesystemBaseTool(FileSystemTool, ABC):
             return False, f"{error_prefix}: {message}"
         return True, ""
 
-    async def check_path_exists(self, path: str, tool_ctx: Any, error_prefix: str = "Error") -> tuple[bool, str]:
+    async def check_path_exists(
+        self, path: str, tool_ctx: Any, error_prefix: str = "Error"
+    ) -> tuple[bool, str]:
         """Check if a path exists and log an error if not.
 
         Args:
@@ -56,7 +60,9 @@ class FilesystemBaseTool(FileSystemTool, ABC):
             return False, f"{error_prefix}: {message}"
         return True, ""
 
-    async def check_is_file(self, path: str, tool_ctx: Any, error_prefix: str = "Error") -> tuple[bool, str]:
+    async def check_is_file(
+        self, path: str, tool_ctx: Any, error_prefix: str = "Error"
+    ) -> tuple[bool, str]:
         """Check if a path is a file and log an error if not.
 
         Args:
@@ -74,7 +80,9 @@ class FilesystemBaseTool(FileSystemTool, ABC):
             return False, f"{error_prefix}: {message}"
         return True, ""
 
-    async def check_is_directory(self, path: str, tool_ctx: Any, error_prefix: str = "Error") -> tuple[bool, str]:
+    async def check_is_directory(
+        self, path: str, tool_ctx: Any, error_prefix: str = "Error"
+    ) -> tuple[bool, str]:
         """Check if a path is a directory and log an error if not.
 
         Args:

@@ -42,7 +42,9 @@ class ForgivingEditHelper:
         return "\n".join(lines)
 
     @staticmethod
-    def find_fuzzy_match(haystack: str, needle: str, threshold: float = 0.85) -> Optional[Tuple[int, int, str]]:
+    def find_fuzzy_match(
+        haystack: str, needle: str, threshold: float = 0.85
+    ) -> Optional[Tuple[int, int, str]]:
         """Find a fuzzy match for the needle in the haystack.
 
         Args:
@@ -79,9 +81,13 @@ class ForgivingEditHelper:
 
             # Find end position by counting lines in needle
             needle_lines = norm_needle.count("\n") + 1
-            end_pos = sum(len(line) + 1 for line in original_lines[: lines_before + needle_lines])
+            end_pos = sum(
+                len(line) + 1 for line in original_lines[: lines_before + needle_lines]
+            )
 
-            matched = "\n".join(original_lines[lines_before : lines_before + needle_lines])
+            matched = "\n".join(
+                original_lines[lines_before : lines_before + needle_lines]
+            )
             return (start_pos, end_pos - 1, matched)
 
         # Try fuzzy matching on lines
@@ -113,7 +119,9 @@ class ForgivingEditHelper:
                 candidate_norm = ForgivingEditHelper.normalize_whitespace(candidate)
                 needle_norm = ForgivingEditHelper.normalize_whitespace(needle)
 
-                ratio = difflib.SequenceMatcher(None, candidate_norm, needle_norm).ratio()
+                ratio = difflib.SequenceMatcher(
+                    None, candidate_norm, needle_norm
+                ).ratio()
 
                 if ratio >= threshold:
                     start_pos = sum(len(l) + 1 for l in haystack_lines[:i])
@@ -122,7 +130,9 @@ class ForgivingEditHelper:
         return None
 
     @staticmethod
-    def suggest_matches(haystack: str, needle: str, max_suggestions: int = 3) -> List[Tuple[float, str]]:
+    def suggest_matches(
+        haystack: str, needle: str, max_suggestions: int = 3
+    ) -> List[Tuple[float, str]]:
         """Suggest possible matches when exact match fails.
 
         Args:
@@ -144,7 +154,9 @@ class ForgivingEditHelper:
             for line in haystack.split("\n"):
                 if line.strip():  # Skip empty lines
                     line_norm = ForgivingEditHelper.normalize_whitespace(line)
-                    ratio = difflib.SequenceMatcher(None, line_norm, needle_norm).ratio()
+                    ratio = difflib.SequenceMatcher(
+                        None, line_norm, needle_norm
+                    ).ratio()
                     if ratio > 0.5:  # Only reasonably similar lines
                         suggestions.append((ratio, line))
 
@@ -158,7 +170,9 @@ class ForgivingEditHelper:
                 candidate = "\n".join(candidate_lines)
                 candidate_norm = ForgivingEditHelper.normalize_whitespace(candidate)
 
-                ratio = difflib.SequenceMatcher(None, candidate_norm, needle_norm).ratio()
+                ratio = difflib.SequenceMatcher(
+                    None, candidate_norm, needle_norm
+                ).ratio()
                 if ratio > 0.5:
                     suggestions.append((ratio, candidate))
 
@@ -167,7 +181,9 @@ class ForgivingEditHelper:
         return suggestions[:max_suggestions]
 
     @staticmethod
-    def create_edit_suggestion(file_content: str, old_string: str, new_string: str) -> dict:
+    def create_edit_suggestion(
+        file_content: str, old_string: str, new_string: str
+    ) -> dict:
         """Create a helpful edit suggestion when match fails.
 
         Args:
@@ -196,7 +212,10 @@ class ForgivingEditHelper:
         if suggestions:
             return {
                 "error": "Could not find exact or fuzzy match",
-                "suggestions": [{"similarity": f"{score:.0%}", "text": text} for score, text in suggestions],
+                "suggestions": [
+                    {"similarity": f"{score:.0%}", "text": text}
+                    for score, text in suggestions
+                ],
                 "hint": "Try using one of these suggestions as old_string",
             }
 

@@ -61,7 +61,9 @@ For new code, prefer using 'network' directly."""
             **kwargs: Additional arguments passed to NetworkTool
         """
         # Just pass through to NetworkTool
-        super().__init__(permission_manager=permission_manager, default_mode=default_mode, **kwargs)
+        super().__init__(
+            permission_manager=permission_manager, default_mode=default_mode, **kwargs
+        )
 
     async def call(self, **kwargs) -> str:
         """Execute swarm via network tool.

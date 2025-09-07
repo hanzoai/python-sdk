@@ -596,7 +596,9 @@ def create_tool_category_prompt(category: str, tools: list[str]):
         "batch": BATCH_TOOL_EXAMPLES,
     }
 
-    base_prompt = tool_descriptions.get(category, f"# {category.title()} Tools\n\nAvailable tools in this category:\n")
+    base_prompt = tool_descriptions.get(
+        category, f"# {category.title()} Tools\n\nAvailable tools in this category:\n"
+    )
 
     if category not in tool_descriptions:
         base_prompt += "\n".join(f"- **{tool}**: [Tool description]" for tool in tools)

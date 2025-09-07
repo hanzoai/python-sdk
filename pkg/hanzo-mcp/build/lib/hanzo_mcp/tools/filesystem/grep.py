@@ -118,7 +118,9 @@ When you are doing an open ended search that may require multiple rounds of glob
         # Special case for tests: direct file path with include pattern that doesn't match
         if Path(path).is_file() and include_pattern and include_pattern != "*":
             if not fnmatch.fnmatch(Path(path).name, include_pattern):
-                await tool_ctx.info(f"File does not match pattern '{include_pattern}': {path}")
+                await tool_ctx.info(
+                    f"File does not match pattern '{include_pattern}': {path}"
+                )
                 return f"File does not match pattern '{include_pattern}': {path}"
 
         cmd = ["rg", "--json", pattern]
@@ -142,7 +144,9 @@ When you are doing an open ended search that may require multiple rounds of glob
 
             if process.returncode != 0 and process.returncode != 1:
                 # rg returns 1 when no matches are found, which is not an error
-                await tool_ctx.error(f"ripgrep failed with exit code {process.returncode}: {stderr.decode()}")
+                await tool_ctx.error(
+                    f"ripgrep failed with exit code {process.returncode}: {stderr.decode()}"
+                )
                 return f"Error executing ripgrep: {stderr.decode()}"
 
             # Parse the JSON output
@@ -178,7 +182,9 @@ When you are doing an open ended search that may require multiple rounds of glob
                 if data.get("type") == "match":
                     path = data.get("data", {}).get("path", {}).get("text", "")
                     line_number = data.get("data", {}).get("line_number", 0)
-                    line_text = data.get("data", {}).get("lines", {}).get("text", "").rstrip()
+                    line_text = (
+                        data.get("data", {}).get("lines", {}).get("text", "").rstrip()
+                    )
 
                     if path not in file_results:
                         file_results[path] = []
@@ -245,7 +251,9 @@ When you are doing an open ended search that may require multiple rounds of glob
                     await tool_ctx.info(f"Searching single file: {path}")
                 else:
                     # File doesn't match the pattern, return immediately
-                    await tool_ctx.info(f"File does not match pattern '{include_pattern}': {path}")
+                    await tool_ctx.info(
+                        f"File does not match pattern '{include_pattern}': {path}"
+                    )
                     return f"File does not match pattern '{include_pattern}': {path}"
             elif input_path.is_dir():
                 # Directory search - find all files
@@ -282,7 +290,9 @@ When you are doing an open ended search that may require multiple rounds of glob
             if input_path.is_file():
                 await tool_ctx.info(f"Searching file: {path}")
             else:
-                await tool_ctx.info(f"Searching through {total_files} files in directory")
+                await tool_ctx.info(
+                    f"Searching through {total_files} files in directory"
+                )
 
             # Set up for parallel processing
             results: list[str] = []
@@ -304,14 +314,18 @@ When you are doing an open ended search that may require multiple rounds of glob
                             with open(file_path, "r", encoding="utf-8") as f:
                                 for line_num, line in enumerate(f, 1):
                                     if re.search(pattern, line):
-                                        file_results.append(f"{file_path}:{line_num}: {line.rstrip()}")
+                                        file_results.append(
+                                            f"{file_path}:{line_num}: {line.rstrip()}"
+                                        )
                                         matches_found += 1
                             files_processed += 1
                         except UnicodeDecodeError:
                             # Skip binary files
                             files_processed += 1
                         except Exception as e:
-                            await tool_ctx.warning(f"Error reading {file_path}: {str(e)}")
+                            await tool_ctx.warning(
+                                f"Error reading {file_path}: {str(e)}"
+                            )
                 except Exception as e:
                     await tool_ctx.warning(f"Error processing {file_path}: {str(e)}")
 
@@ -415,7 +429,9 @@ When you are doing an open ended search that may require multiple rounds of glob
                     truncation_message="\n\n[Grep results truncated due to token limit. Use more specific patterns or paths to reduce output.]",
                 )
             else:
-                await tool_ctx.info("ripgrep is not installed, using fallback implementation")
+                await tool_ctx.info(
+                    "ripgrep is not installed, using fallback implementation"
+                )
                 result = await self.fallback_grep(pattern, path, tool_ctx, include)
                 return truncate_response(
                     result,
@@ -446,4 +462,6 @@ When you are doing an open ended search that may require multiple rounds of glob
             include: Include,
         ) -> str:
             # Use 'include' parameter if provided, otherwise fall back to 'file_pattern'
-            return await tool_self.call(ctx, pattern=pattern, path=path, include=include)
+            return await tool_self.call(
+                ctx, pattern=pattern, path=path, include=include
+            )

@@ -84,7 +84,11 @@ def escape_bash_special_chars(command: str) -> str:
 
         def visit_node(node: Any) -> None:
             nonlocal last_pos
-            if node.kind == "redirect" and hasattr(node, "heredoc") and node.heredoc is not None:
+            if (
+                node.kind == "redirect"
+                and hasattr(node, "heredoc")
+                and node.heredoc is not None
+            ):
                 # We're entering a heredoc - preserve everything as-is until we see EOF
                 between = command[last_pos : node.pos[0]]
                 parts.append(between)
@@ -410,11 +414,15 @@ class BashSession:
                 "> ",  # generic
                 ">",  # generic without space
             ]
-            output_ends_with_prompt = any(cur_pane_output.rstrip().endswith(pattern) for pattern in prompt_patterns)
+            output_ends_with_prompt = any(
+                cur_pane_output.rstrip().endswith(pattern)
+                for pattern in prompt_patterns
+            )
 
             # Also check for username@hostname pattern (common in many shells)
             has_user_host_pattern = "@" in cur_pane_output and any(
-                cur_pane_output.rstrip().endswith(indicator) for indicator in prompt_patterns
+                cur_pane_output.rstrip().endswith(indicator)
+                for indicator in prompt_patterns
             )
 
             if output_ends_with_prompt or has_user_host_pattern:
@@ -422,7 +430,10 @@ class BashSession:
 
             # 2) No-change timeout (only if not blocking)
             time_since_last_change = time.time() - last_change_time
-            if not blocking and time_since_last_change >= self.NO_CHANGE_TIMEOUT_SECONDS:
+            if (
+                not blocking
+                and time_since_last_change >= self.NO_CHANGE_TIMEOUT_SECONDS
+            ):
                 # Extract current output
                 lines = cur_pane_output.strip().split("\n")
                 output = "\n".join(lines)
@@ -486,7 +497,9 @@ class BashSession:
             session_id=self.id,
         )
 
-    def _handle_nochange_timeout_command(self, command: str, pane_content: str) -> CommandResult:
+    def _handle_nochange_timeout_command(
+        self, command: str, pane_content: str
+    ) -> CommandResult:
         """Handle a command that timed out due to no output changes."""
         self.prev_status = BashCommandStatus.NO_CHANGE_TIMEOUT
 
@@ -517,7 +530,9 @@ class BashSession:
             session_id=self.id,
         )
 
-    def _handle_hard_timeout_command(self, command: str, pane_content: str, timeout: float) -> CommandResult:
+    def _handle_hard_timeout_command(
+        self, command: str, pane_content: str, timeout: float
+    ) -> CommandResult:
         """Handle a command that hit the hard timeout."""
         self.prev_status = BashCommandStatus.HARD_TIMEOUT
 
@@ -548,7 +563,9 @@ class BashSession:
             session_id=self.id,
         )
 
-    def _fallback_completion_detection(self, command: str, pane_content: str) -> CommandResult:
+    def _fallback_completion_detection(
+        self, command: str, pane_content: str
+    ) -> CommandResult:
         """Fallback completion detection when PS1 metadata is not available."""
         # Use the old logic as fallback
         self.pane.send_keys("echo EXIT_CODE:$?", enter=True)

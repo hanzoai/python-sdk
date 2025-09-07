@@ -17,7 +17,11 @@ class ComputeNodeDetector:
         # Try NVIDIA GPUs
         try:
             result = subprocess.run(
-                ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                [
+                    "nvidia-smi",
+                    "--query-gpu=name,memory.total",
+                    "--format=csv,noheader",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=2,
@@ -26,7 +30,14 @@ class ComputeNodeDetector:
                 for line in result.stdout.strip().split("\n"):
                     if line:
                         name, memory = line.split(", ")
-                        gpus.append({"type": "cuda", "name": name, "memory": memory, "id": f"cuda:{len(gpus)}"})
+                        gpus.append(
+                            {
+                                "type": "cuda",
+                                "name": name,
+                                "memory": memory,
+                                "id": f"cuda:{len(gpus)}",
+                            }
+                        )
         except (FileNotFoundError, subprocess.TimeoutExpired):
             pass
 
@@ -35,7 +46,10 @@ class ComputeNodeDetector:
             try:
                 # Check for Metal support
                 result = subprocess.run(
-                    ["system_profiler", "SPDisplaysDataType"], capture_output=True, text=True, timeout=2
+                    ["system_profiler", "SPDisplaysDataType"],
+                    capture_output=True,
+                    text=True,
+                    timeout=2,
                 )
                 if result.returncode == 0 and "Metal" in result.stdout:
                     # Parse GPU info from system_profiler
@@ -44,7 +58,12 @@ class ComputeNodeDetector:
                         if "Chipset Model:" in line:
                             gpu_name = line.split(":")[1].strip()
                             gpus.append(
-                                {"type": "metal", "name": gpu_name, "memory": "Shared", "id": f"metal:{len(gpus)}"}
+                                {
+                                    "type": "metal",
+                                    "name": gpu_name,
+                                    "memory": "Shared",
+                                    "id": f"metal:{len(gpus)}",
+                                }
                             )
             except (FileNotFoundError, subprocess.TimeoutExpired):
                 pass
@@ -66,7 +85,14 @@ class ComputeNodeDetector:
             result = sock.connect_ex(("localhost", int(webgpu_port)))
             sock.close()
             if result == 0:
-                webgpu_nodes.append({"type": "webgpu", "name": "Chrome WebGPU", "memory": "Browser", "id": "webgpu:0"})
+                webgpu_nodes.append(
+                    {
+                        "type": "webgpu",
+                        "name": "Chrome WebGPU",
+                        "memory": "Browser",
+                        "id": "webgpu:0",
+                    }
+                )
         except Exception:
             pass
 

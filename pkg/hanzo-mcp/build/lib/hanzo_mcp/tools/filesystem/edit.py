@@ -121,7 +121,9 @@ Usage:
         # Empty old_string is valid when creating a new file
         file_exists = Path(file_path).exists()
         if file_exists and old_string.strip() == "":
-            await tool_ctx.error("Parameter 'old_string' cannot be empty for existing files")
+            await tool_ctx.error(
+                "Parameter 'old_string' cannot be empty for existing files"
+            )
             return "Error: Parameter 'old_string' cannot be empty for existing files"
 
         if (
@@ -129,8 +131,12 @@ Usage:
             or not isinstance(expected_replacements, (int, float))
             or expected_replacements < 0
         ):
-            await tool_ctx.error("Parameter 'expected_replacements' must be a non-negative number")
-            return "Error: Parameter 'expected_replacements' must be a non-negative number"
+            await tool_ctx.error(
+                "Parameter 'expected_replacements' must be a non-negative number"
+            )
+            return (
+                "Error: Parameter 'expected_replacements' must be a non-negative number"
+            )
 
         await tool_ctx.info(f"Editing file: {file_path}")
 
@@ -158,7 +164,9 @@ Usage:
                     f.write(new_string)
 
                 await tool_ctx.info(f"Successfully created file: {file_path}")
-                return f"Successfully created file: {file_path} ({len(new_string)} bytes)"
+                return (
+                    f"Successfully created file: {file_path} ({len(new_string)} bytes)"
+                )
 
             # Check file exists for non-creation operations
             exists, error_msg = await self.check_path_exists(file_path, tool_ctx)
@@ -191,7 +199,9 @@ Usage:
                     modified_content = original_content.replace(old_string, new_string)
                 else:
                     # If we can't find the exact string, report an error
-                    await tool_ctx.error("The specified old_string was not found in the file content")
+                    await tool_ctx.error(
+                        "The specified old_string was not found in the file content"
+                    )
                     return "Error: The specified old_string was not found in the file content. Please check that it matches exactly, including all whitespace and indentation."
 
                 # Generate diff
@@ -216,7 +226,9 @@ Usage:
                     num_backticks += 1
 
                 # Format diff with appropriate number of backticks
-                formatted_diff = f"```{num_backticks}diff\n{diff_text}```{num_backticks}\n"
+                formatted_diff = (
+                    f"```{num_backticks}diff\n{diff_text}```{num_backticks}\n"
+                )
 
                 # Write the file if there are changes
                 if diff_text:
