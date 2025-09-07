@@ -3,13 +3,13 @@
 import os
 import sys
 import unittest
-from unittest.mock import MagicMock, patch, Mock
 from pathlib import Path
+from unittest.mock import Mock, MagicMock, patch
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from hanzo.tools.detector import ToolDetector, AITool
+from hanzo.tools.detector import AITool, ToolDetector
 
 
 class TestToolDetector(unittest.TestCase):
