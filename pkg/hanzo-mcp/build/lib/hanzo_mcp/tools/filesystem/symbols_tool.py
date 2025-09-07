@@ -141,7 +141,9 @@ Finds code structures (functions, classes, methods) with full context."""
         # Route to appropriate handler
         if action == "search":
             return await self._handle_search(params, tool_ctx)
-        elif action == "ast" or action == "grep_ast":  # Support both for backward compatibility
+        elif (
+            action == "ast" or action == "grep_ast"
+        ):  # Support both for backward compatibility
             return await self._handle_ast(params, tool_ctx)
         elif action == "index":
             return await self._handle_index(params, tool_ctx)
@@ -216,7 +218,9 @@ Finds code structures (functions, classes, methods) with full context."""
                         output = tc.format()
                     else:
                         # Just show matching lines
-                        output = "\n".join([f"{line}: {code.splitlines()[line - 1]}" for line in loi])
+                        output = "\n".join(
+                            [f"{line}: {code.splitlines()[line - 1]}" for line in loi]
+                        )
 
                     results.append(f"\n{file_path}:\n{output}\n")
                     match_count += len(loi)
@@ -321,7 +325,9 @@ Finds code structures (functions, classes, methods) with full context."""
             return f"No matches found for '{pattern}' in {path}"
 
         output = [f"=== AST-aware Grep Results for '{pattern}' ==="]
-        output.append(f"Total matches: {match_count} in {len([r for r in results if '===' in str(r)]) // 4} files\n")
+        output.append(
+            f"Total matches: {match_count} in {len([r for r in results if '===' in str(r)]) // 4} files\n"
+        )
         output.extend(results)
 
         if match_count >= limit:
@@ -484,12 +490,16 @@ Finds code structures (functions, classes, methods) with full context."""
             for root, _, files in os.walk(path_obj):
                 for file in files:
                     file_path = Path(root) / file
-                    if file_path.suffix in extensions and self.is_path_allowed(str(file_path)):
+                    if file_path.suffix in extensions and self.is_path_allowed(
+                        str(file_path)
+                    ):
                         files_to_process.append(str(file_path))
 
         return files_to_process
 
-    def _extract_symbols(self, tc: TreeContext, file_path: str) -> Dict[str, List[Dict[str, Any]]]:
+    def _extract_symbols(
+        self, tc: TreeContext, file_path: str
+    ) -> Dict[str, List[Dict[str, Any]]]:
         """Extract symbols from a TreeContext (placeholder implementation)."""
         # This would need proper tree-sitter queries to extract symbols
         # For now, return empty structure

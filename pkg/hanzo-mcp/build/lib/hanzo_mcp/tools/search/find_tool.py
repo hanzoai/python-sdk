@@ -257,7 +257,9 @@ class FindTool(BaseTool):
         # Resolve path
         root_path = Path(path).resolve()
         if not root_path.exists():
-            return MCPResourceDocument(data={"error": f"Path does not exist: {path}", "results": []})
+            return MCPResourceDocument(
+                data={"error": f"Path does not exist: {path}", "results": []}
+            )
 
         # Get ignore patterns
         ignore_patterns = set()
@@ -268,7 +270,9 @@ class FindTool(BaseTool):
         min_size_bytes = self._parse_size(min_size) if min_size else None
         max_size_bytes = self._parse_size(max_size) if max_size else None
         modified_after_ts = self._parse_time(modified_after) if modified_after else None
-        modified_before_ts = self._parse_time(modified_before) if modified_before else None
+        modified_before_ts = (
+            self._parse_time(modified_before) if modified_before else None
+        )
 
         # Collect matches
         matches = []
@@ -346,14 +350,20 @@ class FindTool(BaseTool):
         stats = {
             "total_found": total_results,
             "search_time_ms": int((time.time() - start_time) * 1000),
-            "search_method": ("ffind" if FFIND_AVAILABLE and not in_content else "python"),
+            "search_method": (
+                "ffind" if FFIND_AVAILABLE and not in_content else "python"
+            ),
             "root_path": str(root_path),
             "filters_applied": {
                 "pattern": pattern,
                 "type": type,
-                "size": ({"min": min_size, "max": max_size} if min_size or max_size else None),
+                "size": (
+                    {"min": min_size, "max": max_size} if min_size or max_size else None
+                ),
                 "modified": (
-                    {"after": modified_after, "before": modified_before} if modified_after or modified_before else None
+                    {"after": modified_after, "before": modified_before}
+                    if modified_after or modified_before
+                    else None
                 ),
                 "max_depth": max_depth,
                 "gitignore": respect_gitignore,
@@ -584,7 +594,9 @@ class FindTool(BaseTool):
         elif fuzzy:
             pattern_lower = pattern.lower() if not case_sensitive else pattern
             matcher = (
-                lambda name: SequenceMatcher(None, pattern_lower, name.lower() if not case_sensitive else name).ratio()
+                lambda name: SequenceMatcher(
+                    None, pattern_lower, name.lower() if not case_sensitive else name
+                ).ratio()
                 > 0.6
             )
         else:
@@ -596,7 +608,9 @@ class FindTool(BaseTool):
                 matcher = lambda name: fnmatch.fnmatch(name, pattern)
 
         # Walk directory tree
-        for dirpath, dirnames, filenames in os.walk(str(root), followlinks=follow_symlinks):
+        for dirpath, dirnames, filenames in os.walk(
+            str(root), followlinks=follow_symlinks
+        ):
             # Check depth
             if max_depth is not None:
                 depth = len(Path(dirpath).relative_to(root).parts)
@@ -607,7 +621,11 @@ class FindTool(BaseTool):
             # Filter directories to skip
             if respect_gitignore:
                 dirnames[:] = [
-                    d for d in dirnames if not self._should_ignore(os.path.join(dirpath, d), ignore_patterns)
+                    d
+                    for d in dirnames
+                    if not self._should_ignore(
+                        os.path.join(dirpath, d), ignore_patterns
+                    )
                 ]
 
             # Check directories
@@ -644,7 +662,9 @@ class FindTool(BaseTool):
                         match_found = True
                     elif in_content:
                         # Search in file content
-                        match_found = await self._search_in_file(full_path, pattern, case_sensitive)
+                        match_found = await self._search_in_file(
+                            full_path, pattern, case_sensitive
+                        )
                     else:
                         match_found = False
 
@@ -666,7 +686,9 @@ class FindTool(BaseTool):
 
         return matches
 
-    async def _search_in_file(self, file_path: str, pattern: str, case_sensitive: bool) -> bool:
+    async def _search_in_file(
+        self, file_path: str, pattern: str, case_sensitive: bool
+    ) -> bool:
         """Search for pattern in file content."""
         try:
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:

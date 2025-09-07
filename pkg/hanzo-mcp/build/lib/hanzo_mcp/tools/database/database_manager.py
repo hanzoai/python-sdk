@@ -127,7 +127,9 @@ class ProjectDatabase:
         # Indexes for graph traversal
         conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_source ON edges(source)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_target ON edges(target)")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_relationship ON edges(relationship)")
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_relationship ON edges(relationship)"
+        )
         conn.execute("CREATE INDEX IF NOT EXISTS idx_nodes_type ON nodes(type)")
 
     def _load_graph_from_disk(self):
@@ -136,11 +138,15 @@ class ProjectDatabase:
         try:
             # Copy nodes
             nodes = disk_conn.execute("SELECT * FROM nodes").fetchall()
-            self.graph_conn.executemany("INSERT OR REPLACE INTO nodes VALUES (?, ?, ?, ?)", nodes)
+            self.graph_conn.executemany(
+                "INSERT OR REPLACE INTO nodes VALUES (?, ?, ?, ?)", nodes
+            )
 
             # Copy edges
             edges = disk_conn.execute("SELECT * FROM edges").fetchall()
-            self.graph_conn.executemany("INSERT OR REPLACE INTO edges VALUES (?, ?, ?, ?, ?, ?)", edges)
+            self.graph_conn.executemany(
+                "INSERT OR REPLACE INTO edges VALUES (?, ?, ?, ?, ?, ?)", edges
+            )
 
             self.graph_conn.commit()
         finally:

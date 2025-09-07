@@ -49,9 +49,13 @@ def format_todo_list_concise(todos: list[dict[str, Any]]) -> str:
         }.get(status, "[?]")
 
         # Create priority indicator
-        priority_indicator = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(priority, "⚪")
+        priority_indicator = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(
+            priority, "⚪"
+        )
 
-        formatted_lines.append(f"{status_indicator} {priority_indicator} {content} (id: {todo_id})")
+        formatted_lines.append(
+            f"{status_indicator} {priority_indicator} {content} (id: {todo_id})"
+        )
 
     return "\n".join(formatted_lines)
 
@@ -101,4 +105,6 @@ def get_project_todo_reminder(session_id: str | None = None) -> str:
 
     # Format the todo list and return the reminder with content
     formatted_todos = format_todo_list_concise(todos)
-    return PROJECT_TODO_REMINDER.format(session_id=session_id, todo_list=formatted_todos)
+    return PROJECT_TODO_REMINDER.format(
+        session_id=session_id, todo_list=formatted_todos
+    )

@@ -1,4 +1,10 @@
-"""Command-line interface for the Hanzo AI server."""
+"""Command-line interface for the Hanzo AI server.
+
+This module intentionally defers heavy imports (like the server and its
+dependencies) until after we determine the transport and configure logging.
+This prevents any stdout/stderr noise from imports that would corrupt the
+MCP stdio transport used by Claude Desktop and other MCP clients.
+"""
 
 import os
 import sys
@@ -9,48 +15,62 @@ import argparse
 from typing import Any, cast
 from pathlib import Path
 
-from hanzo_mcp.server import HanzoMCPServer
-
 
 def main() -> None:
     """Run the CLI for the Hanzo AI server."""
-
-    # Pre-parse arguments to check transport type early
-    import sys
-
+    # Pre-parse arguments to check transport type early, BEFORE importing server
     early_parser = argparse.ArgumentParser(add_help=False)
     early_parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio")
     early_args, _ = early_parser.parse_known_args()
 
     # Configure logging VERY early based on transport
+    suppress_stdout = False
+    original_stdout = sys.stdout
     if early_args.transport == "stdio":
-        # Set environment variable for server to detect stdio mode
-        import os
-
+        # Set environment variable for server to detect stdio mode as early as possible
         os.environ["HANZO_MCP_TRANSPORT"] = "stdio"
+        # Aggressively quiet common dependency loggers/warnings in stdio mode
+        os.environ.setdefault("PYTHONWARNINGS", "ignore")
+        os.environ.setdefault("LITELLM_LOG", "ERROR")
+        os.environ.setdefault("LITELLM_LOGGING_LEVEL", "ERROR")
+        os.environ.setdefault("FASTMCP_LOG_LEVEL", "ERROR")
 
-        # For stdio transport, disable ALL logging immediately
-        from fastmcp.utilities.logging import configure_logging
+        # Suppress FastMCP logging (if available) and all standard logging
+        try:
+            from fastmcp.utilities.logging import configure_logging  # type: ignore
 
-        # Set to ERROR to suppress INFO/WARNING messages from FastMCP
-        configure_logging(level="ERROR")
+            configure_logging(level="ERROR")
+        except Exception:
+            pass
 
-        # Also configure standard logging to ERROR level
         logging.basicConfig(
             level=logging.ERROR,  # Only show errors
             handlers=[],  # No handlers for stdio to prevent protocol corruption
         )
 
         # Redirect stderr to devnull for stdio transport to prevent any output
-        import sys
-
         sys.stderr = open(os.devnull, "w")
 
-    from hanzo_mcp import __version__
+        # Suppress stdout during potentially noisy imports unless user requested help/version
+        if not any(flag in sys.argv for flag in ("--version", "-h", "--help")):
+            sys.stdout = open(os.devnull, "w")
+            suppress_stdout = True
 
-    parser = argparse.ArgumentParser(description="MCP server implementing Hanzo AI capabilities")
+    # Import the server only AFTER transport/logging have been configured to avoid import-time noise
+    from hanzo_mcp.server import HanzoMCPServer
 
-    parser.add_argument("--version", action="version", version=f"hanzo-mcp {__version__}")
+    # Avoid importing hanzo_mcp package just to get version (it can have side-effects).
+    try:
+        from importlib.metadata import version as _pkg_version  # py3.8+
+        _version = _pkg_version("hanzo-mcp")
+    except Exception:
+        _version = "unknown"
+
+    parser = argparse.ArgumentParser(
+        description="MCP server implementing Hanzo AI capabilities"
+    )
+
+    parser.add_argument("--version", action="version", version=f"hanzo-mcp {_version}")
 
     _ = parser.add_argument(
         "--transport",
@@ -195,6 +215,14 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    # Restore stdout after parsing, before any explicit output or server start
+    if suppress_stdout:
+        try:
+            sys.stdout.close()  # Close devnull handle
+        except Exception:
+            pass
+        sys.stdout = original_stdout
+
     # Cast args attributes to appropriate types to avoid 'Any' warnings
     name: str = cast(str, args.name)
     install: bool = cast(bool, args.install)
@@ -214,8 +242,12 @@ def main() -> None:
     port: int = cast(int, args.port)
     log_level: str = cast(str, args.log_level)
     project_dir: str | None = cast(str | None, args.project_dir)
-    allowed_paths: list[str] = cast(list[str], args.allowed_paths) if args.allowed_paths else []
-    project_paths: list[str] = cast(list[str], args.project_paths) if args.project_paths else []
+    allowed_paths: list[str] = (
+        cast(list[str], args.allowed_paths) if args.allowed_paths else []
+    )
+    project_paths: list[str] = (
+        cast(list[str], args.project_paths) if args.project_paths else []
+    )
 
     # Handle project_dir parameter (add to both allowed_paths and project_paths)
     if project_dir:
@@ -225,7 +257,9 @@ def main() -> None:
             project_paths.append(project_dir)
 
     if install:
-        install_claude_desktop_config(name, allowed_paths, disable_write_tools, disable_search_tools, host, port)
+        install_claude_desktop_config(
+            name, allowed_paths, disable_write_tools, disable_search_tools, host, port
+        )
         return
 
     # Get logger
@@ -370,7 +404,9 @@ def install_claude_desktop_config(
         args.append("--disable-search-tools")
 
     # Create config object
-    config: dict[str, Any] = {"mcpServers": {name: {"command": script_path.as_posix(), "args": args}}}
+    config: dict[str, Any] = {
+        "mcpServers": {name: {"command": script_path.as_posix(), "args": args}}
+    }
 
     # Check if the file already exists
     if config_file.exists():

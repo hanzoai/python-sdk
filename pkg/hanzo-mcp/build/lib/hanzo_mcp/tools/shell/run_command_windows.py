@@ -20,7 +20,9 @@ from hanzo_mcp.tools.shell.command_executor import CommandExecutor
 class RunCommandTool(ShellBaseTool):
     """Tool for executing shell commands."""
 
-    def __init__(self, permission_manager: Any, command_executor: CommandExecutor) -> None:
+    def __init__(
+        self, permission_manager: Any, command_executor: CommandExecutor
+    ) -> None:
         """Initialize the run command tool.
 
         Args:

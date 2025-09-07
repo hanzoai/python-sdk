@@ -154,7 +154,9 @@ class StreamPaginator(Generic[T]):
         """
         self.page_size = page_size
 
-    def paginate_stream(self, stream_generator, cursor: Optional[str] = None) -> PaginatedResponse[T]:
+    def paginate_stream(
+        self, stream_generator, cursor: Optional[str] = None
+    ) -> PaginatedResponse[T]:
         """Paginate results from a stream/generator.
 
         Args:
@@ -183,14 +185,18 @@ class StreamPaginator(Generic[T]):
             items.append(item)
             if len(items) >= self.page_size:
                 # We have a full page, create cursor for next page
-                next_cursor = CursorManager.create_cursor({"skip": skip_count + len(items)})
+                next_cursor = CursorManager.create_cursor(
+                    {"skip": skip_count + len(items)}
+                )
                 return PaginatedResponse(items=items, next_cursor=next_cursor)
 
         # No more items
         return PaginatedResponse(items=items, next_cursor=None)
 
 
-def paginate_list(items: List[T], cursor: Optional[str] = None, page_size: int = 100) -> PaginatedResponse[T]:
+def paginate_list(
+    items: List[T], cursor: Optional[str] = None, page_size: int = 100
+) -> PaginatedResponse[T]:
     """Convenience function to paginate a list.
 
     Args:

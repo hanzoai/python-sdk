@@ -273,7 +273,9 @@ Examples:
             # Clean up finished processes
             self._cleanup_finished_processes()
 
-            await tool_ctx.info(f"Process started with ID: {process_id}, PID: {process.pid}")
+            await tool_ctx.info(
+                f"Process started with ID: {process_id}, PID: {process.pid}"
+            )
 
             # Return process information
             return f"""Background process started successfully!

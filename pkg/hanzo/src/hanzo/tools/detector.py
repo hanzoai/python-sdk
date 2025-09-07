@@ -167,51 +167,56 @@ class ToolDetector:
         """Detect if a specific tool is available."""
         # Check API endpoint first (for services like hanzod)
         if tool.api_endpoint:
-            try:
-                response = httpx.get(tool.api_endpoint, timeout=1.0)
-                if response.status_code == 200:
-                    # For Hanzo Node, verify it can actually handle chat completions
-                    if tool.name == "hanzod":
+            # For Hanzo Node, directly test the chat endpoint since health may lie
+            if tool.name == "hanzod":
+                try:
+                    # Try both ports in case configuration varies
+                    for port in [3690, 8000]:
                         try:
-                            # Check if the chat completions endpoint works
+                            # Check if the chat completions endpoint actually works
                             test_response = httpx.post(
-                                "http://localhost:3690/v1/chat/completions",
+                                f"http://localhost:{port}/v1/chat/completions",
                                 json={
                                     "messages": [{"role": "user", "content": "test"}],
-                                    "model": "test",
+                                    "model": "default",
                                     "max_tokens": 1
                                 },
-                                timeout=2.0
+                                timeout=1.0
                             )
-                            # Only mark as detected if we get a valid response or specific error
-                            # 404 means the endpoint doesn't exist
-                            if test_response.status_code == 404:
-                                return False
-                            
-                            tool.detected = True
-                            tool.version = "Running (Local AI)"
-                            
-                            # Try to get model info
-                            try:
-                                models_response = httpx.get("http://localhost:3690/v1/models", timeout=1.0)
-                                if models_response.status_code == 200:
-                                    models = models_response.json().get("data", [])
-                                    if models:
-                                        tool.version = f"Running ({len(models)} models)"
-                            except:
-                                pass
-                            
-                            return True
-                        except:
-                            # If chat endpoint doesn't work, node isn't useful
-                            return False
-                    else:
-                        # For other services, just check health endpoint
+                            # Only accept if we get a proper response (not 404, not connection error)
+                            if test_response.status_code in [200, 400, 422]:  # 400/422 means endpoint exists but params wrong
+                                tool.detected = True
+                                tool.version = f"Running (Port {port})"
+                                tool.api_endpoint = f"http://localhost:{port}/health"  # Update port
+                                
+                                # Try to get model info
+                                try:
+                                    models_response = httpx.get(f"http://localhost:{port}/v1/models", timeout=0.5)
+                                    if models_response.status_code == 200:
+                                        models = models_response.json().get("data", [])
+                                        if models:
+                                            tool.version = f"Running ({len(models)} models, Port {port})"
+                                except:
+                                    pass
+                                
+                                return True
+                        except (httpx.ConnectError, httpx.TimeoutException):
+                            # Connection refused or timeout - node not available on this port
+                            continue
+                except:
+                    pass
+                # If we get here, Hanzo Node is not properly available
+                return False
+            else:
+                # For other services, check health endpoint
+                try:
+                    response = httpx.get(tool.api_endpoint, timeout=1.0)
+                    if response.status_code == 200:
                         tool.detected = True
                         tool.version = "Running"
                         return True
-            except:
-                pass
+                except:
+                    pass
         
         # Check if command exists
         if tool.command:
@@ -342,10 +347,15 @@ class ToolDetector:
         try:
             # Special handling for Hanzo services
             if tool.name == "hanzod":
-                # Use the local API directly with correct endpoint (port 3690)
+                # Use the local API directly - extract port from the detected endpoint
                 try:
+                    # Extract port from api_endpoint (e.g., "http://localhost:3690/health")
+                    import re
+                    port_match = re.search(r':(\d+)', tool.api_endpoint)
+                    port = port_match.group(1) if port_match else "3690"
+                    
                     response = httpx.post(
-                        "http://localhost:3690/v1/chat/completions",
+                        f"http://localhost:{port}/v1/chat/completions",
                         json={
                             "messages": [{"role": "user", "content": prompt}],
                             "model": "default",  # Use default model

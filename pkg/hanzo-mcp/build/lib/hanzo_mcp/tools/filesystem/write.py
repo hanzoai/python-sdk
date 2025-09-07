@@ -125,7 +125,9 @@ Usage:
             with open(path_obj, "w", encoding="utf-8") as f:
                 f.write(content)
 
-            await tool_ctx.info(f"Successfully wrote file: {file_path} ({len(content)} bytes)")
+            await tool_ctx.info(
+                f"Successfully wrote file: {file_path} ({len(content)} bytes)"
+            )
             return f"Successfully wrote file: {file_path} ({len(content)} bytes)"
         except Exception as e:
             await tool_ctx.error(f"Error writing file: {str(e)}")

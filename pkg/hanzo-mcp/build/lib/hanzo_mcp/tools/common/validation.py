@@ -32,7 +32,9 @@ class ValidationResult:
         return not self.is_valid
 
 
-def validate_path_parameter(path: str | None, parameter_name: str = "path") -> ValidationResult:
+def validate_path_parameter(
+    path: str | None, parameter_name: str = "path"
+) -> ValidationResult:
     """Validate a path parameter.
 
     Args:

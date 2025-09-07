@@ -211,14 +211,22 @@ The tool will:
         )
 
         # Prepare summary of results
-        successful_responses = [(m, r) for m, r in results.items() if not r.startswith("Error:")]
-        failed_responses = [(m, r) for m, r in results.items() if r.startswith("Error:")]
+        successful_responses = [
+            (m, r) for m, r in results.items() if not r.startswith("Error:")
+        ]
+        failed_responses = [
+            (m, r) for m, r in results.items() if r.startswith("Error:")
+        ]
 
         if not successful_responses:
-            return "Error: All model queries failed:\n\n" + "\n".join([f"{m}: {r}" for m, r in failed_responses])
+            return "Error: All model queries failed:\n\n" + "\n".join(
+                [f"{m}: {r}" for m, r in failed_responses]
+            )
 
         # Use aggregation model to synthesize responses
-        consensus = await self._aggregate_responses(successful_responses, prompt, aggregation_model)
+        consensus = await self._aggregate_responses(
+            successful_responses, prompt, aggregation_model
+        )
 
         # Format output
         output = ["=== LLM Consensus Analysis ==="]
@@ -237,7 +245,9 @@ The tool will:
             output.append("\n=== Individual Responses ===")
             for model, response in successful_responses:
                 output.append(f"\n--- {model} ---")
-                output.append(response[:500] + "..." if len(response) > 500 else response)
+                output.append(
+                    response[:500] + "..." if len(response) > 500 else response
+                )
 
         if failed_responses:
             output.append("\n=== Failed Queries ===")
@@ -272,7 +282,9 @@ The tool will:
                 # Create a mock context for the LLM tool
                 mock_ctx = type("MockContext", (), {"client": None})()
 
-                result = await asyncio.wait_for(self.llm_tool.call(mock_ctx, **params), timeout=timeout)
+                result = await asyncio.wait_for(
+                    self.llm_tool.call(mock_ctx, **params), timeout=timeout
+                )
                 return (model, result)
             except asyncio.TimeoutError:
                 return (model, f"Error: Timeout after {timeout} seconds")
@@ -293,7 +305,9 @@ The tool will:
     ) -> str:
         """Use an LLM to aggregate and analyze responses."""
         # Prepare the aggregation prompt
-        response_summary = "\n\n".join([f"Model: {model}\nResponse: {response}" for model, response in responses])
+        response_summary = "\n\n".join(
+            [f"Model: {model}\nResponse: {response}" for model, response in responses]
+        )
 
         aggregation_prompt = f"""You are analyzing responses from multiple AI models to the following prompt:
 
@@ -346,7 +360,9 @@ Be concise but thorough. Focus on providing actionable insights."""
         for model, response in responses:
             output.append(f"- {model}: {len(response)} characters")
 
-        output.append("\nNote: Advanced consensus analysis unavailable. Showing basic summary only.")
+        output.append(
+            "\nNote: Advanced consensus analysis unavailable. Showing basic summary only."
+        )
 
         return "\n".join(output)
 
