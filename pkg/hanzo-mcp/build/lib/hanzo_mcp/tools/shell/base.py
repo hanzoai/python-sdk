@@ -63,7 +63,11 @@ class CommandResult:
         Returns:
             True if the command succeeded, False otherwise
         """
-        return self.return_code == 0 and self.status == BashCommandStatus.COMPLETED and not self.error_message
+        return (
+            self.return_code == 0
+            and self.status == BashCommandStatus.COMPLETED
+            and not self.error_message
+        )
 
     @property
     def is_running(self) -> bool:

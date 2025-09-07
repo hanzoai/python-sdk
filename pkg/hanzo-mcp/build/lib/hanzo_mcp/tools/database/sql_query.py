@@ -48,7 +48,9 @@ class SqlQueryParams(TypedDict, total=False):
 class SqlQueryTool(BaseTool):
     """Tool for executing SQL queries on project databases."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL query tool.
 
         Args:
@@ -138,11 +140,11 @@ Note: Use sql_search for text search operations."""
             query_upper = query.upper()
             for keyword in write_keywords:
                 if keyword in query_upper:
-                    return (
-                        f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
-                    )
+                    return f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
 
-        await tool_ctx.info(f"Executing SQL query on project: {project_db.project_path}")
+        await tool_ctx.info(
+            f"Executing SQL query on project: {project_db.project_path}"
+        )
 
         # Execute query
         conn = None
@@ -207,7 +209,9 @@ Note: Use sql_search for text search operations."""
         output_rows = []
         for row in rows[:1000]:  # Limit to 1000 rows
             row_str = " | ".join(
-                self._truncate(str(val) if val is not None else "NULL", width).ljust(width)
+                self._truncate(str(val) if val is not None else "NULL", width).ljust(
+                    width
+                )
                 for val, width in zip(row, col_widths)
             )
             output_rows.append(row_str)

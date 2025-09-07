@@ -28,7 +28,9 @@ class BashTool(BaseScriptTool):
             env: Optional[dict[str, str]] = None,
             timeout: Optional[int] = None,
         ) -> str:
-            return await tool_self.run(ctx, command=command, cwd=cwd, env=env, timeout=timeout)
+            return await tool_self.run(
+                ctx, command=command, cwd=cwd, env=env, timeout=timeout
+            )
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
@@ -57,29 +59,20 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
 
     @override
     def get_interpreter(self) -> str:
-        """Get the shell interpreter."""
+        """Get the bash interpreter."""
         if platform.system() == "Windows":
-            return "cmd.exe"
-
-        # Check for user's preferred shell from environment
-        shell = os.environ.get("SHELL", "/bin/bash")
-
-        # Extract just the shell name from the path
-        shell_name = os.path.basename(shell)
-
-        # Check if it's a supported shell and the config file exists
-        if shell_name == "zsh":
-            # Check for .zshrc
-            zshrc_path = Path.home() / ".zshrc"
-            if zshrc_path.exists():
-                return shell  # Use full path to zsh
-        elif shell_name == "fish":
-            # Check for fish config
-            fish_config = Path.home() / ".config" / "fish" / "config.fish"
-            if fish_config.exists():
-                return shell  # Use full path to fish
-
-        # Default to bash if no special shell config found
+            # Try to find bash on Windows (Git Bash, WSL, etc.)
+            bash_paths = [
+                "C:\\Program Files\\Git\\bin\\bash.exe",
+                "C:\\cygwin64\\bin\\bash.exe",
+                "C:\\msys64\\usr\\bin\\bash.exe",
+            ]
+            for path in bash_paths:
+                if Path(path).exists():
+                    return path
+            return "cmd.exe"  # Fall back to cmd if no bash found
+        
+        # On Unix-like systems, always use bash
         return "bash"
 
     @override
@@ -92,12 +85,7 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
     @override
     def get_tool_name(self) -> str:
         """Get the tool name."""
-        if platform.system() == "Windows":
-            return "shell"
-
-        # Return the actual shell being used
-        interpreter = self.get_interpreter()
-        return os.path.basename(interpreter)
+        return "bash"
 
     @override
     async def run(
@@ -124,7 +112,9 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
         work_dir = Path(cwd).resolve() if cwd else Path.cwd()
 
         # Always use execute_sync which now has auto-backgrounding
-        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
+        output = await self.execute_sync(
+            command, cwd=work_dir, env=env, timeout=timeout
+        )
         return output if output else "Command completed successfully (no output)"
 
 

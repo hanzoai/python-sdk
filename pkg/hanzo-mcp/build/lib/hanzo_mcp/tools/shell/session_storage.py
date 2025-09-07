@@ -152,7 +152,9 @@ class SessionStorageInstance:
         Returns:
             Number of sessions cleaned up
         """
-        max_age = max_age_seconds if max_age_seconds is not None else self.default_ttl_seconds
+        max_age = (
+            max_age_seconds if max_age_seconds is not None else self.default_ttl_seconds
+        )
         current_time = time.time()
         expired_sessions: list[str] = []
 
@@ -199,7 +201,9 @@ class SessionStorageInstance:
         return {
             "total_sessions": len(self._sessions),
             "max_sessions": self.max_sessions,
-            "utilization": (len(self._sessions) / self.max_sessions if self.max_sessions > 0 else 0),
+            "utilization": (
+                len(self._sessions) / self.max_sessions if self.max_sessions > 0 else 0
+            ),
             "default_ttl_seconds": self.default_ttl_seconds,
         }
 

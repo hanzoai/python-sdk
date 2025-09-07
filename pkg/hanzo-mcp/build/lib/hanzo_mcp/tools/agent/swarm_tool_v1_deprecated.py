@@ -196,7 +196,11 @@ Models can be specified as:
         from hanzo_mcp.tools.agent.code_auth import get_latest_claude_model
 
         self.model = model or f"anthropic/{get_latest_claude_model()}"
-        self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
+        self.api_key = (
+            api_key
+            or os.environ.get("ANTHROPIC_API_KEY")
+            or os.environ.get("CLAUDE_API_KEY")
+        )
         self.base_url = base_url
         self.max_tokens = max_tokens
         self.agent_max_iterations = agent_max_iterations
@@ -239,7 +243,9 @@ Models can be specified as:
         agents_config = config.get("agents", {})
         entry_point = config.get("entry_point")
 
-        await tool_ctx.info(f"Starting swarm execution with {len(agents_config)} agents")
+        await tool_ctx.info(
+            f"Starting swarm execution with {len(agents_config)} agents"
+        )
 
         # Build agent network
         agent_instances = {}
@@ -286,7 +292,10 @@ Models can be specified as:
                     # Check if any other agent connects to this one
                     has_incoming = False
                     for other_config in agents_config.values():
-                        if other_config.get("connections") and agent_id in other_config["connections"]:
+                        if (
+                            other_config.get("connections")
+                            and agent_id in other_config["connections"]
+                        ):
                             has_incoming = True
                             break
                     if not has_incoming:
@@ -300,14 +309,18 @@ Models can be specified as:
                 await execution_queue.put((root, initial_query, {}))
 
         # Execute agents in network order
-        async def execute_agent(agent_id: str, query: str, inputs: Dict[str, str]) -> str:
+        async def execute_agent(
+            agent_id: str, query: str, inputs: Dict[str, str]
+        ) -> str:
             """Execute a single agent in the network."""
             async with semaphore:
                 try:
                     agent_config = agents_config[agent_id]
                     agent = agent_instances[agent_id]
 
-                    await tool_ctx.info(f"Executing agent: {agent_id} ({agent_config.get('role', 'Agent')})")
+                    await tool_ctx.info(
+                        f"Executing agent: {agent_id} ({agent_config.get('role', 'Agent')})"
+                    )
 
                     # Build prompt with context and inputs
                     prompt_parts = []
@@ -324,11 +337,15 @@ Models can be specified as:
                     if inputs:
                         prompt_parts.append("Input from previous agents:")
                         for input_agent, input_result in inputs.items():
-                            prompt_parts.append(f"\n--- From {input_agent} ---\n{input_result}")
+                            prompt_parts.append(
+                                f"\n--- From {input_agent} ---\n{input_result}"
+                            )
 
                     # Add file context if specified
                     if agent_config.get("file_path"):
-                        prompt_parts.append(f"\nFile to work on: {agent_config['file_path']}")
+                        prompt_parts.append(
+                            f"\nFile to work on: {agent_config['file_path']}"
+                        )
 
                     # Add the main query
                     prompt_parts.append(f"\nTask: {agent_config['query']}")
@@ -376,7 +393,9 @@ Models can be specified as:
 
                     if ready:
                         # Execute agent
-                        task = asyncio.create_task(execute_agent(agent_id, query, inputs))
+                        task = asyncio.create_task(
+                            execute_agent(agent_id, query, inputs)
+                        )
                         running_tasks.add(task)
 
                         async def handle_completion(task, agent_id=agent_id):
@@ -390,7 +409,9 @@ Models can be specified as:
                             connections = agent_config.get("connections", [])
                             for next_agent in connections:
                                 if next_agent in agents_config:
-                                    await execution_queue.put((next_agent, "", {agent_id: result}))
+                                    await execution_queue.put(
+                                        (next_agent, "", {agent_id: result})
+                                    )
 
                         asyncio.create_task(handle_completion(task))
 
@@ -449,7 +470,9 @@ Models can be specified as:
         output.append("=" * 80)
         output.append(f"Total agents: {len(agents_config)}")
         output.append(f"Completed: {len(results)}")
-        output.append(f"Failed: {len([r for r in results.values() if r.startswith('Error:')])}")
+        output.append(
+            f"Failed: {len([r for r in results.values() if r.startswith('Error:')])}"
+        )
 
         if entry_point:
             output.append(f"Entry point: {entry_point}")
@@ -467,7 +490,12 @@ Models can be specified as:
                 role = config.get("role", "Agent")
                 model = config.get("model", "default")
 
-                status = "✅" if agent_id in results and not results[agent_id].startswith("Error:") else "❌"
+                status = (
+                    "✅"
+                    if agent_id in results
+                    and not results[agent_id].startswith("Error:")
+                    else "❌"
+                )
                 lines.append(f"{indent}{status} {agent_id} ({role}) [{model}]")
 
                 # Show connections

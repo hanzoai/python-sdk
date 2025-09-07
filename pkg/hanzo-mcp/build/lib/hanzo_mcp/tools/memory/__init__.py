@@ -39,17 +39,35 @@ def register_memory_tools(
         List of registered tools
     """
     # Create memory tools
-    recall_tool = RecallMemoriesTool(user_id=user_id, project_id=project_id, **memory_config)
-    create_tool = CreateMemoriesTool(user_id=user_id, project_id=project_id, **memory_config)
-    update_tool = UpdateMemoriesTool(user_id=user_id, project_id=project_id, **memory_config)
-    delete_tool = DeleteMemoriesTool(user_id=user_id, project_id=project_id, **memory_config)
-    manage_tool = ManageMemoriesTool(user_id=user_id, project_id=project_id, **memory_config)
+    recall_tool = RecallMemoriesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    create_tool = CreateMemoriesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    update_tool = UpdateMemoriesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    delete_tool = DeleteMemoriesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    manage_tool = ManageMemoriesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
 
     # Create knowledge tools
-    recall_facts_tool = RecallFactsTool(user_id=user_id, project_id=project_id, **memory_config)
-    store_facts_tool = StoreFactsTool(user_id=user_id, project_id=project_id, **memory_config)
-    summarize_tool = SummarizeToMemoryTool(user_id=user_id, project_id=project_id, **memory_config)
-    manage_kb_tool = ManageKnowledgeBasesTool(user_id=user_id, project_id=project_id, **memory_config)
+    recall_facts_tool = RecallFactsTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    store_facts_tool = StoreFactsTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    summarize_tool = SummarizeToMemoryTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
+    manage_kb_tool = ManageKnowledgeBasesTool(
+        user_id=user_id, project_id=project_id, **memory_config
+    )
 
     # Register tools
     ToolRegistry.register_tool(mcp_server, recall_tool)

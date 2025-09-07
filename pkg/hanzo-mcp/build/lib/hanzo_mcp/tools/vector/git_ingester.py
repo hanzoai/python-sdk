@@ -153,12 +153,16 @@ class GitIngester:
         )
         return result.stdout.strip()
 
-    def _get_repository_files(self, repo_path: Path, patterns: Optional[List[str]] = None) -> List[Path]:
+    def _get_repository_files(
+        self, repo_path: Path, patterns: Optional[List[str]] = None
+    ) -> List[Path]:
         """Get list of files in repository matching patterns."""
         # Use git ls-files to respect .gitignore
         cmd = ["git", "ls-files"]
 
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            cmd, cwd=repo_path, capture_output=True, text=True, check=True
+        )
 
         files = []
         for line in result.stdout.strip().split("\n"):
@@ -174,7 +178,9 @@ class GitIngester:
 
         return files
 
-    def _get_commit_history(self, repo_path: Path, branch: str = "HEAD", max_commits: int = 1000) -> List[GitCommit]:
+    def _get_commit_history(
+        self, repo_path: Path, branch: str = "HEAD", max_commits: int = 1000
+    ) -> List[GitCommit]:
         """Get commit history for the repository."""
         # Get commit list with basic info
         result = subprocess.run(
@@ -216,7 +222,9 @@ class GitIngester:
 
         return commits
 
-    def _get_commit_files(self, repo_path: Path, commit_hash: str) -> List[Dict[str, str]]:
+    def _get_commit_files(
+        self, repo_path: Path, commit_hash: str
+    ) -> List[Dict[str, str]]:
         """Get list of files changed in a commit."""
         result = subprocess.run(
             ["git", "show", "--name-status", "--format=", commit_hash],
@@ -267,15 +275,21 @@ class GitIngester:
             if history:
                 metadata["first_commit"] = history[-1]["hash"]
                 metadata["last_commit"] = history[0]["hash"]
-                metadata["last_modified"] = datetime.fromtimestamp(history[0]["timestamp"]).isoformat()
+                metadata["last_modified"] = datetime.fromtimestamp(
+                    history[0]["timestamp"]
+                ).isoformat()
 
         # Add blame information if requested
         if include_blame:
             blame_data = self._get_file_blame(repo_path, relative_path)
-            metadata["unique_authors"] = len(set(b["author"] for b in blame_data.values()))
+            metadata["unique_authors"] = len(
+                set(b["author"] for b in blame_data.values())
+            )
 
         # Index the file content
-        doc_ids = self.vector_store.add_file(str(file_path), chunk_size=1000, chunk_overlap=200, metadata=metadata)
+        doc_ids = self.vector_store.add_file(
+            str(file_path), chunk_size=1000, chunk_overlap=200, metadata=metadata
+        )
         results["files_indexed"] += 1
 
         # Perform AST analysis for supported languages
@@ -295,7 +309,9 @@ class GitIngester:
             except Exception as e:
                 logger.warning(f"AST analysis failed for {file_path}: {e}")
 
-    def _get_file_history(self, repo_path: Path, file_path: Path) -> List[Dict[str, Any]]:
+    def _get_file_history(
+        self, repo_path: Path, file_path: Path
+    ) -> List[Dict[str, Any]]:
         """Get commit history for a specific file."""
         result = subprocess.run(
             [
@@ -330,7 +346,9 @@ class GitIngester:
 
         return history
 
-    def _get_file_blame(self, repo_path: Path, file_path: Path) -> Dict[int, Dict[str, Any]]:
+    def _get_file_blame(
+        self, repo_path: Path, file_path: Path
+    ) -> Dict[int, Dict[str, Any]]:
         """Get blame information for a file."""
         result = subprocess.run(
             ["git", "blame", "--line-porcelain", "--", str(file_path)],
@@ -430,7 +448,9 @@ Message: {commit.message}
             text=True,
         )
 
-        remote_url = remote_result.stdout.strip() if remote_result.returncode == 0 else None
+        remote_url = (
+            remote_result.stdout.strip() if remote_result.returncode == 0 else None
+        )
 
         # Create repository summary document
         repo_doc = f"""Repository: {repo_path.name}

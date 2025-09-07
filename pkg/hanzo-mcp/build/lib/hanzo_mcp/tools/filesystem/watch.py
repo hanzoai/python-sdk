@@ -191,7 +191,9 @@ watch . --recursive --exclude "__pycache__"
             output.append("\nWatch cancelled")
 
         # Summary
-        output.append(f"\nWatch completed after {int(time.time() - start_time)} seconds")
+        output.append(
+            f"\nWatch completed after {int(time.time() - start_time)} seconds"
+        )
         output.append(f"Total changes detected: {len(changes)}")
 
         return "\n".join(output)

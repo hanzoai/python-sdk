@@ -112,7 +112,9 @@ requested. Only works within allowed directories."""
             await tool_ctx.error(path_validation.error_message)
             return f"Error: {path_validation.error_message}"
 
-        await tool_ctx.info(f"Getting directory tree: {path} (depth: {depth}, include_filtered: {include_filtered})")
+        await tool_ctx.info(
+            f"Getting directory tree: {path} (depth: {depth}, include_filtered: {include_filtered})"
+        )
 
         # Check if path is allowed
         allowed, error_msg = await self.check_path_allowed(path, tool_ctx)
@@ -151,7 +153,9 @@ requested. Only works within allowed directories."""
             }
 
             # Log filtering settings
-            await tool_ctx.info(f"Directory tree filtering: include_filtered={include_filtered}")
+            await tool_ctx.info(
+                f"Directory tree filtering: include_filtered={include_filtered}"
+            )
 
             # Check if a directory should be filtered
             def should_filter(current_path: Path) -> bool:
@@ -161,7 +165,9 @@ requested. Only works within allowed directories."""
                     return False
 
                 # Filter based on directory name if filtering is enabled
-                return current_path.name in FILTERED_DIRECTORIES and not include_filtered
+                return (
+                    current_path.name in FILTERED_DIRECTORIES and not include_filtered
+                )
 
             # Track stats for summary
             stats = {
@@ -172,7 +178,9 @@ requested. Only works within allowed directories."""
             }
 
             # Build the tree recursively
-            async def build_tree(current_path: Path, current_depth: int = 0) -> list[dict[str, Any]]:
+            async def build_tree(
+                current_path: Path, current_depth: int = 0
+            ) -> list[dict[str, Any]]:
                 result: list[dict[str, Any]] = []
 
                 # Skip processing if path isn't allowed
@@ -181,7 +189,9 @@ requested. Only works within allowed directories."""
 
                 try:
                     # Sort entries: directories first, then files alphabetically
-                    entries = sorted(current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name))
+                    entries = sorted(
+                        current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name)
+                    )
 
                     for entry in entries:
                         # Skip entries that aren't allowed
@@ -210,7 +220,9 @@ requested. Only works within allowed directories."""
                                 continue
 
                             # Process children recursively with depth increment
-                            entry_data["children"] = await build_tree(entry, current_depth + 1)
+                            entry_data["children"] = await build_tree(
+                                entry, current_depth + 1
+                            )
                             result.append(entry_data)
                         else:
                             # Files should be at the same level check as directories
@@ -225,7 +237,9 @@ requested. Only works within allowed directories."""
                 return result
 
             # Format the tree as a simple indented structure
-            def format_tree(tree_data: list[dict[str, Any]], level: int = 0) -> list[str]:
+            def format_tree(
+                tree_data: list[dict[str, Any]], level: int = 0
+            ) -> list[str]:
                 lines = []
 
                 for item in tree_data:
@@ -235,7 +249,9 @@ requested. Only works within allowed directories."""
                     # Format based on type
                     if item["type"] == "directory":
                         if "skipped" in item:
-                            lines.append(f"{indent}{item['name']}/ [skipped - {item['skipped']}]")
+                            lines.append(
+                                f"{indent}{item['name']}/ [skipped - {item['skipped']}]"
+                            )
                         else:
                             lines.append(f"{indent}{item['name']}/")
                             # Add children with increased indentation if present
@@ -294,4 +310,6 @@ requested. Only works within allowed directories."""
             depth: Depth = 3,
             include_filtered: IncludeFiltered = False,
         ) -> str:
-            return await tool_self.call(ctx, path=path, depth=depth, include_filtered=include_filtered)
+            return await tool_self.call(
+                ctx, path=path, depth=depth, include_filtered=include_filtered
+            )

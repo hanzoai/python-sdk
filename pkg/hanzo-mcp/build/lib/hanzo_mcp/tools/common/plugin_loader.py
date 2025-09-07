@@ -88,7 +88,12 @@ class PluginLoader:
 
         # Find tool classes
         for _name, obj in inspect.getmembers(module):
-            if inspect.isclass(obj) and issubclass(obj, BaseTool) and obj != BaseTool and hasattr(obj, "name"):
+            if (
+                inspect.isclass(obj)
+                and issubclass(obj, BaseTool)
+                and obj != BaseTool
+                and hasattr(obj, "name")
+            ):
                 # Load metadata if available
                 metadata = None
                 metadata_file = file_path.with_suffix(".json")
@@ -129,8 +134,15 @@ class PluginLoader:
             else:
                 # Search for tool classes
                 for _name, obj in inspect.getmembers(module):
-                    if inspect.isclass(obj) and issubclass(obj, BaseTool) and obj != BaseTool and hasattr(obj, "name"):
-                        plugin = ToolPlugin(name=obj.name, tool_class=obj, source_path=package_dir)
+                    if (
+                        inspect.isclass(obj)
+                        and issubclass(obj, BaseTool)
+                        and obj != BaseTool
+                        and hasattr(obj, "name")
+                    ):
+                        plugin = ToolPlugin(
+                            name=obj.name, tool_class=obj, source_path=package_dir
+                        )
                         self.plugins[obj.name] = plugin
         finally:
             # Remove from path

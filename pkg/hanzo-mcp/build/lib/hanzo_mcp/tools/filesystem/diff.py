@@ -166,8 +166,16 @@ diff a.json b.json --ignore-whitespace"""
             output.extend(diff_lines)
 
         # Add summary
-        additions = sum(1 for line in diff_lines if line.startswith("+") and not line.startswith("+++"))
-        deletions = sum(1 for line in diff_lines if line.startswith("-") and not line.startswith("---"))
+        additions = sum(
+            1
+            for line in diff_lines
+            if line.startswith("+") and not line.startswith("+++")
+        )
+        deletions = sum(
+            1
+            for line in diff_lines
+            if line.startswith("-") and not line.startswith("---")
+        )
 
         output.append("")
         output.append("=" * 60)

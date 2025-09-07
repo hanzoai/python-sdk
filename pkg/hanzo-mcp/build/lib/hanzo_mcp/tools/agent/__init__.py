@@ -8,16 +8,26 @@ from mcp.server import FastMCP
 
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 
+# Import unified CLI tools (single source of truth)
+from hanzo_mcp.tools.agent.cli_tools import (
+    GrokCLITool,
+    AiderCLITool,
+    ClineCLITool,
+    CodexCLITool,
+    ClaudeCLITool,
+    GeminiCLITool,
+    HanzoDevCLITool,
+    OpenHandsCLITool,
+    ClaudeCodeCLITool,  # cc alias
+    OpenHandsShortCLITool,  # oh alias
+    register_cli_tools,
+)
+
 # Import the main implementations (using hanzo-agents SDK)
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.agent.network_tool import NetworkTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
 from hanzo_mcp.tools.agent.code_auth_tool import CodeAuthTool
-from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
-from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
-from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
 
 
 def register_agent_tools(
@@ -57,37 +67,48 @@ def register_agent_tools(
         max_tool_uses=agent_max_tool_uses,
     )
 
-    # Create swarm tool
-    swarm_tool = SwarmTool(
-        permission_manager=permission_manager,
-        model=agent_model,
-        api_key=agent_api_key,
-        base_url=agent_base_url,
-        max_tokens=agent_max_tokens,
-        agent_max_iterations=agent_max_iterations,
-        agent_max_tool_uses=agent_max_tool_uses,
-    )
+    # Register a swarm alias that forwards to AgentTool with default concurrency
+    class SwarmAliasTool(BaseTool):
+        name = "swarm"
+        description = (
+            "Alias for agent with concurrency. swarm == agent:5 by default.\n"
+            "Use 'swarm' for parallel multi-agent runs; 'swarm:N' for N agents."
+        )
 
-    # Create CLI agent tools
-    claude_cli_tool = ClaudeCLITool(
-        permission_manager=permission_manager,
-        model=agent_model,  # Can override default Sonnet
-    )
+        def __init__(self, agent_tool: AgentTool):
+            self._agent = agent_tool
 
-    codex_cli_tool = CodexCLITool(
-        permission_manager=permission_manager,
-        model=agent_model if agent_model and "gpt" in agent_model else None,
-    )
+        async def call(self, ctx, **params):  # type: ignore[override]
+            # Default to 5 agents unless explicitly provided
+            params = dict(params)
+            params.setdefault("concurrency", 5)
+            return await self._agent.call(ctx, **params)
 
-    gemini_cli_tool = GeminiCLITool(
-        permission_manager=permission_manager,
-        model=agent_model if agent_model and "gemini" in agent_model else None,
-    )
+        def register(self, mcp_server: FastMCP):  # type: ignore[override]
+            tool_self = self
 
-    grok_cli_tool = GrokCLITool(
-        permission_manager=permission_manager,
-        model=agent_model if agent_model and "grok" in agent_model else None,
-    )
+            @mcp_server.tool(name=self.name, description=self.description)
+            async def swarm(
+                ctx,
+                prompts: str | list[str],  # forwarded
+                concurrency: int | None = None,
+                model: str | None = None,
+                use_memory: bool | None = None,
+                memory_backend: str | None = None,
+            ) -> str:
+                p = {
+                    "prompts": prompts,
+                }
+                if concurrency is not None:
+                    p["concurrency"] = concurrency
+                if model is not None:
+                    p["model"] = model
+                if use_memory is not None:
+                    p["use_memory"] = use_memory
+                if memory_backend is not None:
+                    p["memory_backend"] = memory_backend
+                return await tool_self.call(ctx, **p)
+            return tool_self
 
     # Create auth management tool
     code_auth_tool = CodeAuthTool()
@@ -98,24 +119,14 @@ def register_agent_tools(
         default_mode="hybrid",  # Prefer local, fallback to cloud
     )
 
-    # Register tools
+    # Register core agent tools
     ToolRegistry.register_tool(mcp_server, agent_tool)
-    ToolRegistry.register_tool(mcp_server, swarm_tool)
+    ToolRegistry.register_tool(mcp_server, SwarmAliasTool(agent_tool))
     ToolRegistry.register_tool(mcp_server, network_tool)
-    ToolRegistry.register_tool(mcp_server, claude_cli_tool)
-    ToolRegistry.register_tool(mcp_server, codex_cli_tool)
-    ToolRegistry.register_tool(mcp_server, gemini_cli_tool)
-    ToolRegistry.register_tool(mcp_server, grok_cli_tool)
     ToolRegistry.register_tool(mcp_server, code_auth_tool)
 
+    # Register all CLI tools (includes claude, codex, gemini, grok, etc.)
+    cli_tools = register_cli_tools(mcp_server, permission_manager)
+    
     # Return list of registered tools
-    return [
-        agent_tool,
-        swarm_tool,
-        network_tool,
-        claude_cli_tool,
-        codex_cli_tool,
-        gemini_cli_tool,
-        grok_cli_tool,
-        code_auth_tool,
-    ]
+    return [agent_tool, network_tool, code_auth_tool] + cli_tools

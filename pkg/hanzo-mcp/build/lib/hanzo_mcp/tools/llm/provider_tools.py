@@ -71,7 +71,9 @@ class ProviderToolParams(TypedDict, total=False):
 class BaseProviderTool(BaseTool):
     """Base class for provider-specific LLM tools."""
 
-    def __init__(self, provider: str, default_model: str, model_variants: Dict[str, str]):
+    def __init__(
+        self, provider: str, default_model: str, model_variants: Dict[str, str]
+    ):
         """Initialize provider tool.
 
         Args:

@@ -93,7 +93,9 @@ class GraphAddParams(TypedDict, total=False):
 class GraphAddTool(BaseTool):
     """Tool for adding nodes and edges to graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph add tool.
 
         Args:
@@ -223,11 +225,15 @@ Examples:
                 if not relationship:
                     return "Error: relationship is required when adding an edge"
 
-                await tool_ctx.info(f"Adding edge: {source} --[{relationship}]--> {target}")
+                await tool_ctx.info(
+                    f"Adding edge: {source} --[{relationship}]--> {target}"
+                )
 
                 # Check if nodes exist
                 cursor = graph_conn.cursor()
-                cursor.execute("SELECT id FROM nodes WHERE id IN (?, ?)", (source, target))
+                cursor.execute(
+                    "SELECT id FROM nodes WHERE id IN (?, ?)", (source, target)
+                )
                 existing = [row[0] for row in cursor.fetchall()]
 
                 if source not in existing:

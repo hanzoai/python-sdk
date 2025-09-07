@@ -117,7 +117,9 @@ class StreamingCommandTool(BaseProcessTool):
                 try:
                     with open(meta_file, "r") as f:
                         meta = json.load(f)
-                    last_accessed = datetime.fromisoformat(meta.get("last_accessed", ""))
+                    last_accessed = datetime.fromisoformat(
+                        meta.get("last_accessed", "")
+                    )
                     if last_accessed < cutoff:
                         shutil.rmtree(session_dir)
                 except Exception:
@@ -238,7 +240,9 @@ class StreamingCommandTool(BaseProcessTool):
             }
 
         # Execute new command
-        return await self._execute_new_command(command, working_dir, timeout, chunk_size)
+        return await self._execute_new_command(
+            command, working_dir, timeout, chunk_size
+        )
 
     async def _execute_new_command(
         self,
@@ -292,12 +296,18 @@ class StreamingCommandTool(BaseProcessTool):
                         f.flush()  # Ensure immediate write
 
             # Start streaming tasks
-            stdout_task = asyncio.create_task(stream_to_file(process.stdout, output_file))
-            stderr_task = asyncio.create_task(stream_to_file(process.stderr, error_file))
+            stdout_task = asyncio.create_task(
+                stream_to_file(process.stdout, output_file)
+            )
+            stderr_task = asyncio.create_task(
+                stream_to_file(process.stderr, error_file)
+            )
 
             # Wait for initial output or timeout
             start_time = time.time()
-            initial_timeout = min(timeout or 5, 5)  # Wait max 5 seconds for initial output
+            initial_timeout = min(
+                timeout or 5, 5
+            )  # Wait max 5 seconds for initial output
 
             while time.time() - start_time < initial_timeout:
                 if output_file.stat().st_size > 0 or error_file.stat().st_size > 0:
@@ -477,7 +487,9 @@ class StreamingCommandTool(BaseProcessTool):
         """Get list of recent commands for hints."""
         commands = []
 
-        for cmd_dir in sorted(self.commands_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)[:limit]:
+        for cmd_dir in sorted(
+            self.commands_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True
+        )[:limit]:
             try:
                 with open(cmd_dir / "metadata.json", "r") as f:
                     meta = json.load(f)
@@ -490,7 +502,11 @@ class StreamingCommandTool(BaseProcessTool):
                 commands.append(
                     {
                         "id": meta["command_id"][:8],
-                        "command": (meta["command"][:50] + "..." if len(meta["command"]) > 50 else meta["command"]),
+                        "command": (
+                            meta["command"][:50] + "..."
+                            if len(meta["command"]) > 50
+                            else meta["command"]
+                        ),
                         "status": meta.get("status", "unknown"),
                         "output_size": output_size,
                         "time": meta.get("start_time", ""),

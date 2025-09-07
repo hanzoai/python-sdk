@@ -93,7 +93,9 @@ def get_read_only_filesystem_tools(
     return tools
 
 
-def get_filesystem_tools(permission_manager: PermissionManager, project_manager=None) -> list[BaseTool]:
+def get_filesystem_tools(
+    permission_manager: PermissionManager, project_manager=None
+) -> list[BaseTool]:
     """Create instances of all filesystem tools.
 
     Args:
@@ -219,4 +221,22 @@ def register_filesystem_tools(
             tools = get_filesystem_tools(permission_manager, project_manager)
 
     ToolRegistry.register_tools(mcp_server, tools)
+
+    # Register 'symbols' as an alias for 'ast' to match common terminology
+    try:
+        ast_tool = next((t for t in tools if getattr(t, "name", "") == "ast"), None)
+        if ast_tool is not None:
+            class _SymbolsAlias(ASTTool):  # type: ignore[misc]
+                @property
+                def name(self) -> str:  # type: ignore[override]
+                    return "symbols"
+
+                @property
+                def description(self) -> str:  # type: ignore[override]
+                    return f"Alias of 'ast' tool.\n\n{ast_tool.description}"
+
+            ToolRegistry.register_tool(mcp_server, _SymbolsAlias(permission_manager))
+    except Exception:
+        # Alias is best-effort; don't fail tool registration if aliasing fails
+        pass
     return tools

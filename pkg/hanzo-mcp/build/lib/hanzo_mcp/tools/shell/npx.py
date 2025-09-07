@@ -160,7 +160,9 @@ Or download from: https://nodejs.org/"""
 
         try:
             # Execute command
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=True)
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=timeout, check=True
+            )
 
             output = []
             if result.stdout:
@@ -168,7 +170,11 @@ Or download from: https://nodejs.org/"""
             if result.stderr:
                 output.append(f"\nSTDERR:\n{result.stderr}")
 
-            return "\n".join(output) if output else "Command completed successfully with no output."
+            return (
+                "\n".join(output)
+                if output
+                else "Command completed successfully with no output."
+            )
 
         except subprocess.TimeoutExpired:
             return f"Error: Command timed out after {timeout} seconds. Use npx_background for long-running processes."

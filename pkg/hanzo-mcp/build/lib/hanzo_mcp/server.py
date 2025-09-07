@@ -9,7 +9,9 @@ import threading
 from typing import Literal, cast, final
 
 # Suppress litellm deprecation warnings about event loop
-warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
+warnings.filterwarnings(
+    "ignore", message="There is no current event loop", category=DeprecationWarning
+)
 
 try:
     from fastmcp import FastMCP
@@ -171,7 +173,9 @@ class HanzoMCPServer:
         signal.signal(signal.SIGINT, signal_handler)
 
         # Start background cleanup thread for periodic cleanup
-        self._cleanup_thread = threading.Thread(target=self._background_cleanup, daemon=True)
+        self._cleanup_thread = threading.Thread(
+            target=self._background_cleanup, daemon=True
+        )
         self._cleanup_thread.start()
 
         self._cleanup_registered = True

@@ -20,7 +20,9 @@ try:
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False
-    raise ImportError("hanzo-memory package is required for memory tools. Install it from ~/work/hanzo/ide/pkg/memory")
+    raise ImportError(
+        "hanzo-memory package is required for memory tools. Install it from ~/work/hanzo/ide/pkg/memory"
+    )
 
 
 class MemoryToolBase(BaseTool):
@@ -125,7 +127,9 @@ recall_memories(queries=["coding standards"], scope="global")
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def recall_memories(ctx: MCPContext, queries: List[str], limit: int = 10, scope: str = "project") -> str:
+        async def recall_memories(
+            ctx: MCPContext, queries: List[str], limit: int = 10, scope: str = "project"
+        ) -> str:
             return await tool_self.call(ctx, queries=queries, limit=limit, scope=scope)
 
 
@@ -243,7 +247,9 @@ update_memories(updates=[
                 # The hanzo-memory service doesn't have update implemented yet
                 # When it's implemented, we would call:
                 # success = self.service.update_memory(self.user_id, memory_id, content=statement)
-                await tool_ctx.warning(f"Memory update not fully implemented in hanzo-memory yet: {memory_id}")
+                await tool_ctx.warning(
+                    f"Memory update not fully implemented in hanzo-memory yet: {memory_id}"
+                )
                 success_count += 1
 
         return f"Would update {success_count} of {len(updates)} memories (update not fully implemented in hanzo-memory yet)."
@@ -254,7 +260,9 @@ update_memories(updates=[
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def update_memories(ctx: MCPContext, updates: List[Dict[str, str]]) -> str:
+        async def update_memories(
+            ctx: MCPContext, updates: List[Dict[str, str]]
+        ) -> str:
             return await tool_self.call(ctx, updates=updates)
 
 
@@ -390,9 +398,13 @@ manage_memories(
 
                 if memory_id and statement:
                     # Update not fully implemented in hanzo-memory yet
-                    await tool_ctx.warning(f"Memory update not fully implemented: {memory_id}")
+                    await tool_ctx.warning(
+                        f"Memory update not fully implemented: {memory_id}"
+                    )
                     success_count += 1
-            results.append(f"Would update {success_count} memories (update pending implementation)")
+            results.append(
+                f"Would update {success_count} memories (update pending implementation)"
+            )
 
         # Delete memories
         if deletions:
@@ -421,4 +433,6 @@ manage_memories(
             updates: Optional[List[Dict[str, str]]] = None,
             deletions: Optional[List[str]] = None,
         ) -> str:
-            return await tool_self.call(ctx, creations=creations, updates=updates, deletions=deletions)
+            return await tool_self.call(
+                ctx, creations=creations, updates=updates, deletions=deletions
+            )

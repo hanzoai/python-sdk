@@ -86,7 +86,9 @@ npx json-server db.json  # Auto-backgrounds if needed"""
             cwd: Optional[str] = None,
             yes: bool = True,
         ) -> str:
-            return await tool_self.run(ctx, package=package, args=args, cwd=cwd, yes=yes)
+            return await tool_self.run(
+                ctx, package=package, args=args, cwd=cwd, yes=yes
+            )
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
