@@ -7,7 +7,7 @@ using the batch tool to delegate to different CLI agents (claude, codex, gemini,
 """
 
 import json
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 # Example of how to use hanzo-mcp batch tool for parallel edits
 # In practice, this would be called through the MCP interface

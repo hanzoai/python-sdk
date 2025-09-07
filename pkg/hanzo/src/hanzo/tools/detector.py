@@ -3,14 +3,14 @@
 import os
 import shutil
 import subprocess
-import httpx
+from typing import Dict, List, Tuple, Optional
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 
-from rich.console import Console
-from rich.table import Table
+import httpx
 from rich import box
+from rich.table import Table
+from rich.console import Console
 
 
 @dataclass
@@ -196,14 +196,14 @@ class ToolDetector:
                                         models = models_response.json().get("data", [])
                                         if models:
                                             tool.version = f"Running ({len(models)} models, Port {port})"
-                                except:
+                                except Exception:
                                     pass
                                 
                                 return True
                         except (httpx.ConnectError, httpx.TimeoutException):
                             # Connection refused or timeout - node not available on this port
                             continue
-                except:
+                except Exception:
                     pass
                 # If we get here, Hanzo Node is not properly available
                 return False
@@ -215,7 +215,7 @@ class ToolDetector:
                         tool.detected = True
                         tool.version = "Running"
                         return True
-                except:
+                except Exception:
                     pass
         
         # Check if command exists
@@ -235,7 +235,7 @@ class ToolDetector:
                         )
                         if result.returncode == 0:
                             tool.version = result.stdout.strip().split()[-1]
-                    except:
+                    except Exception:
                         pass
                 
                 return True

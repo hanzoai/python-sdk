@@ -2,15 +2,15 @@
 
 import os
 import json
+from typing import Optional
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
 
 import click
-from rich.prompt import Prompt
+from rich import box
 from rich.panel import Panel
 from rich.table import Table
-from rich import box
+from rich.prompt import Prompt
 
 from ..utils.output import console
 
@@ -27,7 +27,7 @@ class AuthManager:
         if self.auth_file.exists():
             try:
                 return json.loads(self.auth_file.read_text())
-            except:
+            except Exception:
                 pass
         return {}
     

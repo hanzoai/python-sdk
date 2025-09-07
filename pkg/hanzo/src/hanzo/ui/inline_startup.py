@@ -4,13 +4,14 @@ Inline startup notifications for Hanzo commands.
 
 import os
 import json
+from typing import Optional
 from pathlib import Path
 from datetime import datetime, timedelta
-from typing import Optional
-from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
+
 from rich import box
+from rich.text import Text
+from rich.panel import Panel
+from rich.console import Console
 
 console = Console()
 
@@ -37,7 +38,7 @@ class InlineStartup:
                 )
                 if datetime.now() - last_shown < self.show_interval:
                     return False
-            except:
+            except Exception:
                 pass
                 
         return True
@@ -99,7 +100,7 @@ class InlineStartup:
             response = httpx.get("http://localhost:4000/health", timeout=0.5)
             if response.status_code == 200:
                 items.append("[green]Router ✓[/green]")
-        except:
+        except Exception:
             pass
             
         # Check node
@@ -108,7 +109,7 @@ class InlineStartup:
             response = httpx.get("http://localhost:8000/health", timeout=0.5)
             if response.status_code == 200:
                 items.append("[green]Node ✓[/green]")
-        except:
+        except Exception:
             pass
             
         # Check API key
