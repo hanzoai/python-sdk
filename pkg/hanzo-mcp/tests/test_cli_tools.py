@@ -14,10 +14,8 @@ from hanzo_mcp.tools.agent.cli_tools import (
     CodexCLITool,
     ClaudeCLITool,
     GeminiCLITool,
-    OpenHandsCLITool,
     HanzoDevCLITool,
     OpenHandsCLITool,
-    HanzoDevCLITool,
     ClaudeCodeCLITool,
     OpenHandsShortCLITool,
 )
