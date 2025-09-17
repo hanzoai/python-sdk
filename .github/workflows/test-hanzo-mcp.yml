@@ -70,14 +70,8 @@ jobs:
       run: |
         cd pkg/hanzo-mcp
         source .venv/bin/activate
-        python -m pytest tests -v -m "not integration" --cov=hanzo_mcp --cov-report=xml
+        python -m pytest tests -v -m "not integration"
     
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./pkg/hanzo-mcp/coverage.xml
-        flags: hanzo-mcp
-        name: hanzo-mcp-${{ matrix.python-version }}
 
   integration-tests:
     runs-on: ubuntu-latest
