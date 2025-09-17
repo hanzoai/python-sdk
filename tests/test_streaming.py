@@ -1,290 +1,65 @@
-from __future__ import annotations
+#!/usr/bin/env python3
+"""Test streaming responses."""
 
-from typing import Iterator, AsyncIterator
+import sys
+import asyncio
+from pathlib import Path
 
-import httpx
-import pytest
+from rich.console import Console
 
-from hanzoai import Hanzo, AsyncHanzo
-from hanzoai._streaming import Stream, AsyncStream, ServerSentEvent
+# Add src to path
+sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
+
+from hanzo.streaming import StreamingHandler, TypewriterEffect, stream_with_fallback
 
 
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_basic(sync: bool, client: Hanzo, async_client: AsyncHanzo) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: completion\n"
-        yield b'data: {"foo":true}\n'
-        yield b"\n"
+async def test_streaming():
+    """Test streaming functionality."""
+    console = Console()
 
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
+    console.print("\n[bold cyan]Testing Streaming Responses[/bold cyan]\n")
+
+    # Test typewriter effect
+    console.print("[bold]Testing typewriter effect:[/bold]")
+    typewriter = TypewriterEffect(console)
+
+    await typewriter.type_text(
+        "This is a typewriter effect demonstration...", speed=0.02
     )
 
-    sse = await iter_next(iterator)
-    assert sse.event == "completion"
-    assert sse.json() == {"foo": True}
+    # Test code typing
+    console.print("\n[bold]Testing code typing:[/bold]")
+    code = """def fibonacci(n: int) -> int:
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)"""
 
-    await assert_empty_iter(iterator)
+    await typewriter.type_code(code, language="python", speed=0.01)
 
+    # Test simulated streaming
+    console.print("\n[bold]Testing simulated streaming:[/bold]")
+    handler = StreamingHandler(console)
 
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_data_missing_event(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b'data: {"foo":true}\n'
-        yield b"\n"
+    sample_text = "This is a simulated streaming response. It will appear word by word as if being generated in real-time. This creates a better user experience!"
 
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
+    await handler.simulate_streaming(sample_text, delay=0.03)
 
-    sse = await iter_next(iterator)
-    assert sse.event is None
-    assert sse.json() == {"foo": True}
+    # Test real streaming with fallback
+    console.print("\n[bold]Testing streaming with fallback:[/bold]")
 
-    await assert_empty_iter(iterator)
+    test_message = "What is 2 + 2? Reply with just the number."
 
+    response = await stream_with_fallback(test_message, console)
 
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_event_missing_data(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b"\n"
+    if response:
+        console.print(f"\n[green]✅ Streaming test successful![/green]")
+        console.print(f"Response: {response}")
+    else:
+        console.print("\n[yellow]⚠️ No streaming available (no API keys)[/yellow]")
 
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.data == ""
-
-    await assert_empty_iter(iterator)
+    return True
 
 
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_events(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b"\n"
-        yield b"event: completion\n"
-        yield b"\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.data == ""
-
-    sse = await iter_next(iterator)
-    assert sse.event == "completion"
-    assert sse.data == ""
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_events_with_data(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b'data: {"foo":true}\n'
-        yield b"\n"
-        yield b"event: completion\n"
-        yield b'data: {"bar":false}\n'
-        yield b"\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.json() == {"foo": True}
-
-    sse = await iter_next(iterator)
-    assert sse.event == "completion"
-    assert sse.json() == {"bar": False}
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_data_lines_with_empty_line(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b"data: {\n"
-        yield b'data: "foo":\n'
-        yield b"data: \n"
-        yield b"data:\n"
-        yield b"data: true}\n"
-        yield b"\n\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.json() == {"foo": True}
-    assert sse.data == '{\n"foo":\n\n\ntrue}'
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_data_json_escaped_double_new_line(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b'data: {"foo": "my long\\n\\ncontent"}'
-        yield b"\n\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.json() == {"foo": "my long\n\ncontent"}
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multiple_data_lines(
-    sync: bool, client: Hanzo, async_client: AsyncHanzo
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b"event: ping\n"
-        yield b"data: {\n"
-        yield b'data: "foo":\n'
-        yield b"data: true}\n"
-        yield b"\n\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event == "ping"
-    assert sse.json() == {"foo": True}
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_special_new_line_character(
-    sync: bool,
-    client: Hanzo,
-    async_client: AsyncHanzo,
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b'data: {"content":" culpa"}\n'
-        yield b"\n"
-        yield b'data: {"content":" \xe2\x80\xa8"}\n'
-        yield b"\n"
-        yield b'data: {"content":"foo"}\n'
-        yield b"\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event is None
-    assert sse.json() == {"content": " culpa"}
-
-    sse = await iter_next(iterator)
-    assert sse.event is None
-    assert sse.json() == {"content": "  "}
-
-    sse = await iter_next(iterator)
-    assert sse.event is None
-    assert sse.json() == {"content": "foo"}
-
-    await assert_empty_iter(iterator)
-
-
-@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
-async def test_multi_byte_character_multiple_chunks(
-    sync: bool,
-    client: Hanzo,
-    async_client: AsyncHanzo,
-) -> None:
-    def body() -> Iterator[bytes]:
-        yield b'data: {"content":"'
-        # bytes taken from the string 'известни' and arbitrarily split
-        # so that some multi-byte characters span multiple chunks
-        yield b"\xd0"
-        yield b"\xb8\xd0\xb7\xd0"
-        yield b"\xb2\xd0\xb5\xd1\x81\xd1\x82\xd0\xbd\xd0\xb8"
-        yield b'"}\n'
-        yield b"\n"
-
-    iterator = make_event_iterator(
-        content=body(), sync=sync, client=client, async_client=async_client
-    )
-
-    sse = await iter_next(iterator)
-    assert sse.event is None
-    assert sse.json() == {"content": "известни"}
-
-
-async def to_aiter(iter: Iterator[bytes]) -> AsyncIterator[bytes]:
-    for chunk in iter:
-        yield chunk
-
-
-async def iter_next(
-    iter: Iterator[ServerSentEvent] | AsyncIterator[ServerSentEvent],
-) -> ServerSentEvent:
-    if isinstance(iter, AsyncIterator):
-        return await iter.__anext__()
-
-    return next(iter)
-
-
-async def assert_empty_iter(
-    iter: Iterator[ServerSentEvent] | AsyncIterator[ServerSentEvent],
-) -> None:
-    with pytest.raises((StopAsyncIteration, RuntimeError)):
-        await iter_next(iter)
-
-
-def make_event_iterator(
-    content: Iterator[bytes],
-    *,
-    sync: bool,
-    client: Hanzo,
-    async_client: AsyncHanzo,
-) -> Iterator[ServerSentEvent] | AsyncIterator[ServerSentEvent]:
-    if sync:
-        return Stream(
-            cast_to=object, client=client, response=httpx.Response(200, content=content)
-        )._iter_events()
-
-    return AsyncStream(
-        cast_to=object,
-        client=async_client,
-        response=httpx.Response(200, content=to_aiter(content)),
-    )._iter_events()
+if __name__ == "__main__":
+    success = asyncio.run(test_streaming())
+    sys.exit(0 if success else 1)

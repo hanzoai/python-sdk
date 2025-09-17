@@ -1,0 +1,245 @@
+name: Quality Gate - STRICT NO BULLSHIT
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  release:
+    types: [created]
+
+# Cancel any in-progress runs when a new run starts
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  block-todo-stub-code:
+    name: "🚫 Block TODO/STUB/FAKE Code"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "🔍 Search for forbidden patterns"
+        run: |
+          echo "Searching for TODO, STUB, FAKE, UNFINISHED, SKIP, NotImplementedError..."
+
+          # Define forbidden patterns
+          PATTERNS="TODO|FIXME|STUB|FAKE|UNFINISHED|HACK|XXX|NotImplementedError|pytest.skip|@skip"
+
+          # Search in Python files (excluding tests)
+          FOUND_ISSUES=0
+          for file in $(find . -name "*.py" -not -path "*/test*" -not -path "*/.git/*" -not -path "*/build/*" -not -path "*/dist/*"); do
+            if grep -n -E "$PATTERNS" "$file" 2>/dev/null; then
+              echo "❌ FORBIDDEN PATTERN FOUND IN: $file"
+              FOUND_ISSUES=1
+            fi
+          done
+
+          if [ $FOUND_ISSUES -eq 1 ]; then
+            echo "🚫 DEPLOYMENT BLOCKED: Remove all TODO/STUB/FAKE code before deploying!"
+            exit 1
+          fi
+
+          echo "✅ No forbidden patterns found"
+
+  test-no-stubs:
+    name: "🧪 Anti-Stub Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv venv
+          source .venv/bin/activate
+          uv pip install -e ./pkg/hanzo-mcp[test]
+
+      - name: "Run anti-stub tests"
+        run: |
+          source .venv/bin/activate
+          cd pkg/hanzo-mcp
+          python -m pytest tests/test_no_stubs.py -v --tb=short
+
+      - name: "Verify no incomplete implementations"
+        run: |
+          source .venv/bin/activate
+          cd pkg/hanzo-mcp
+          # Run the test file directly for extra validation
+          python tests/test_no_stubs.py
+
+  all-tests-must-pass:
+    name: "✅ ALL Tests Must Pass"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true  # Stop immediately if any test fails
+      matrix:
+        python-version: ['3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: |
+          pip install uv
+          uv venv
+          source .venv/bin/activate
+          uv pip install -e ./pkg/hanzo-mcp[test]
+
+      - name: "🧪 Run ALL tests - NO SKIPS ALLOWED"
+        run: |
+          source .venv/bin/activate
+          cd pkg/hanzo-mcp
+          # Run with strict mode - no skips, no xfails
+          python -m pytest tests/ \
+            -v \
+            --strict-markers \
+            --tb=short \
+            --maxfail=1 \
+            -x \
+            --no-cov \
+            2>&1 | tee test-output.log
+
+          # Check if any tests were skipped
+          if grep -q "SKIPPED" test-output.log; then
+            echo "❌ TESTS WERE SKIPPED! Fix or remove skipped tests!"
+            exit 1
+          fi
+
+          # Check if any tests failed
+          if grep -q "FAILED" test-output.log; then
+            echo "❌ TESTS FAILED! All tests must pass!"
+            exit 1
+          fi
+
+          echo "✅ All tests passed without skips!"
+
+  code-quality:
+    name: "🎯 Code Quality Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install quality tools
+        run: |
+          pip install ruff mypy pyright bandit
+
+      - name: "🔍 Lint with ruff"
+        run: |
+          cd pkg/hanzo-mcp
+          ruff check . --fix --exit-non-zero-on-fix
+
+      - name: "🔍 Type check with mypy"
+        run: |
+          cd pkg/hanzo-mcp
+          mypy hanzo_mcp --ignore-missing-imports --strict || true
+
+      - name: "🔍 Security scan with bandit"
+        run: |
+          cd pkg/hanzo-mcp
+          bandit -r hanzo_mcp -f json -o bandit-report.json || true
+          if [ -f bandit-report.json ]; then
+            python -m json.tool bandit-report.json
+          fi
+
+  function-implementation-check:
+    name: "🔨 Verify Functions Are Implemented"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Check for empty functions"
+        run: |
+          echo "Checking for empty functions with only 'pass'..."
+
+          # Find functions that only contain pass
+          FOUND_EMPTY=0
+          for file in $(find pkg/hanzo-mcp -name "*.py" -not -path "*/test*"); do
+            # Look for functions with only pass
+            if grep -Pzo "def\s+\w+\([^)]*\):\s*\n\s*pass\s*$" "$file" 2>/dev/null; then
+              echo "❌ Empty function found in: $file"
+              FOUND_EMPTY=1
+            fi
+
+            # Look for functions with only ellipsis
+            if grep -Pzo "def\s+\w+\([^)]*\):\s*\n\s*\.\.\.\s*$" "$file" 2>/dev/null; then
+              echo "❌ Ellipsis-only function found in: $file"
+              FOUND_EMPTY=1
+            fi
+          done
+
+          if [ $FOUND_EMPTY -eq 1 ]; then
+            echo "🚫 BLOCKED: Empty functions detected! Implement them properly!"
+            exit 1
+          fi
+
+          echo "✅ All functions have implementations"
+
+  block-deployment:
+    name: "🚀 Deployment Gate"
+    needs:
+      - block-todo-stub-code
+      - test-no-stubs
+      - all-tests-must-pass
+      - code-quality
+      - function-implementation-check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+
+    steps:
+      - name: "✅ Quality Gate PASSED"
+        run: |
+          echo "✅ All quality checks passed!"
+          echo "✅ No TODOs, STUBs, or FAKE code found"
+          echo "✅ All tests are passing"
+          echo "✅ All functions are implemented"
+          echo "🚀 Ready for deployment!"
+
+      - name: "📦 Prepare for PyPI deployment"
+        if: github.event_name == 'release'
+        run: |
+          echo "Ready to deploy to PyPI"
+          echo "Version: ${{ github.event.release.tag_name }}"
+
+  publish-to-pypi:
+    name: "📦 Publish to PyPI"
+    needs: [block-deployment]
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build package
+        run: |
+          pip install uv
+          cd pkg/hanzo-mcp
+          uv build
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          pip install twine
+          cd pkg/hanzo-mcp
+          twine upload dist/* --non-interactive --skip-existing
