@@ -79,9 +79,7 @@ class TestCommandExecutor:
         """Create a CommandExecutor instance for testing."""
         return CommandExecutor(permission_manager)
 
-    def test_initialization(
-        self, tool_helper, permission_manager: "PermissionManager"
-    ) -> None:
+    def test_initialization(self, tool_helper, permission_manager: "PermissionManager") -> None:
         """Test initializing CommandExecutor."""
         executor = CommandExecutor(permission_manager)
 
@@ -112,9 +110,7 @@ class TestCommandExecutor:
         assert not executor.is_command_allowed("")
 
     @pytest.mark.asyncio
-    async def test_execute_command_allowed(
-        self, executor: CommandExecutor, temp_dir: str
-    ) -> None:
+    async def test_execute_command_allowed(self, executor: CommandExecutor, temp_dir: str) -> None:
         """Test executing an allowed command."""
         # Create a test file
         test_file = os.path.join(temp_dir, "test_exec.txt")
@@ -122,9 +118,7 @@ class TestCommandExecutor:
             f.write("test content")
 
         # Execute a command
-        result: CommandResult = await executor.execute_command(
-            f"cat {test_file}", cwd=temp_dir
-        )
+        result: CommandResult = await executor.execute_command(f"cat {test_file}", cwd=temp_dir)
 
         # Verify result
         assert result.is_success
@@ -132,9 +126,7 @@ class TestCommandExecutor:
         assert result.stderr == ""
 
     @pytest.mark.asyncio
-    async def test_execute_command_not_allowed(
-        self, tool_helper, executor: CommandExecutor
-    ) -> None:
+    async def test_execute_command_not_allowed(self, tool_helper, executor: CommandExecutor) -> None:
         """Test executing a command that is not allowed."""
         # Try an excluded command
         result = await executor.execute_command("rm test.txt")
@@ -144,9 +136,7 @@ class TestCommandExecutor:
         assert "Command not allowed" in result.error_message
 
     @pytest.mark.asyncio
-    async def test_execute_command_with_invalid_cwd(
-        self, executor: CommandExecutor
-    ) -> None:
+    async def test_execute_command_with_invalid_cwd(self, executor: CommandExecutor) -> None:
         """Test executing a command with an invalid working directory."""
         # Try with non-existent directory
         result = await executor.execute_command("ls", cwd="/nonexistent/dir")
@@ -156,9 +146,7 @@ class TestCommandExecutor:
         assert "Working directory does not exist" in result.error_message
 
     @pytest.mark.asyncio
-    async def test_execute_command_with_timeout(
-        self, executor: CommandExecutor
-    ) -> None:
+    async def test_execute_command_with_timeout(self, executor: CommandExecutor) -> None:
         """Test command execution with timeout."""
         # Execute a command that sleeps
         result = await executor.execute_command("sleep 5", timeout=0.1)
@@ -168,9 +156,7 @@ class TestCommandExecutor:
         assert "Command timed out" in result.error_message
 
     @pytest.mark.asyncio
-    async def test_execute_script(
-        self, executor: CommandExecutor, temp_dir: str
-    ) -> None:
+    async def test_execute_script(self, executor: CommandExecutor, temp_dir: str) -> None:
         """Test executing a script."""
         # Mock the _execute_script_with_stdin method
         with patch.object(executor, "_execute_script_with_stdin") as mock_execute:
@@ -188,9 +174,7 @@ class TestCommandExecutor:
             assert "Script output" in result.stdout
 
     @pytest.mark.asyncio
-    async def test_handle_fish_script(
-        self, executor: CommandExecutor, temp_dir: str
-    ) -> None:
+    async def test_handle_fish_script(self, executor: CommandExecutor, temp_dir: str) -> None:
         """Test special handling for Fish shell scripts."""
         # Patch asyncio.create_subprocess_shell
         with patch("asyncio.create_subprocess_shell") as mock_subprocess:
@@ -213,9 +197,7 @@ class TestCommandExecutor:
             assert "Fish output" in result.stdout
 
     @pytest.mark.asyncio
-    async def test_execute_script_from_file(
-        self, executor: CommandExecutor, temp_dir: str
-    ) -> None:
+    async def test_execute_script_from_file(self, executor: CommandExecutor, temp_dir: str) -> None:
         """Test executing a script from a temporary file."""
         # Patch asyncio.create_subprocess_exec
         with patch("asyncio.create_subprocess_shell") as mock_subprocess:
@@ -227,9 +209,7 @@ class TestCommandExecutor:
 
             # Execute Python script
             script = "print('Hello, world!')"
-            result = await executor.execute_script_from_file(
-                script=script, language="python", cwd=temp_dir
-            )
+            result = await executor.execute_script_from_file(script=script, language="python", cwd=temp_dir)
 
             # Verify subprocess was called with python
             mock_subprocess.assert_called_once()
@@ -239,9 +219,7 @@ class TestCommandExecutor:
             assert result.is_success
             assert "Python output" in result.stdout
 
-    def test_get_available_languages(
-        self, tool_helper, executor: CommandExecutor
-    ) -> None:
+    def test_get_available_languages(self, tool_helper, executor: CommandExecutor) -> None:
         """Test getting available script languages."""
         languages = executor.get_available_languages()
 
@@ -251,9 +229,7 @@ class TestCommandExecutor:
         assert "bash" in languages
 
     @pytest.mark.asyncio
-    async def test_execute_command_with_cd(
-        self, executor: CommandExecutor, temp_dir: str
-    ) -> None:
+    async def test_execute_command_with_cd(self, executor: CommandExecutor, temp_dir: str) -> None:
         """Test executing a command that combines cd with another command."""
         # Create a test file in the temp directory
         test_file = os.path.join(temp_dir, "test_exec.txt")
@@ -280,9 +256,7 @@ class TestCommandExecutor:
         assert result.return_code != 0  # Specific error code depends on the shell
 
     @pytest.mark.asyncio
-    async def test_execute_command_with_env_vars(
-        self, executor: CommandExecutor
-    ) -> None:
+    async def test_execute_command_with_env_vars(self, executor: CommandExecutor) -> None:
         """Test executing a command with environment variables."""
         # Execute a command that echoes an environment variable
         result: CommandResult = await executor.execute_command("echo $PATH")

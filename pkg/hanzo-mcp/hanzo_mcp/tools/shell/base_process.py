@@ -171,13 +171,11 @@ class BaseProcessTool(BaseTool):
             process_env.update(env)
 
         # Execute with auto-backgrounding
-        output, was_backgrounded, process_id = (
-            await self.auto_background_executor.execute_with_auto_background(
-                cmd_args=cmd_args,
-                tool_name=self.get_tool_name(),
-                cwd=cwd,
-                env=process_env,
-            )
+        output, was_backgrounded, process_id = await self.auto_background_executor.execute_with_auto_background(
+            cmd_args=cmd_args,
+            tool_name=self.get_tool_name(),
+            cwd=cwd,
+            env=process_env,
         )
 
         if was_backgrounded:

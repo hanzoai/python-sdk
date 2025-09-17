@@ -153,9 +153,7 @@ Recommendations:
 
         # Validate required analysis parameter
         if not analysis:
-            await tool_ctx.error(
-                "Parameter 'analysis' is required but was None or empty"
-            )
+            await tool_ctx.error("Parameter 'analysis' is required but was None or empty")
             return "Error: Parameter 'analysis' is required but was None or empty"
 
         if analysis.strip() == "":

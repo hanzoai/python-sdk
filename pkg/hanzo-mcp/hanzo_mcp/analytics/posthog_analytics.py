@@ -137,9 +137,7 @@ class Analytics:
 
         self.capture("tool_used", properties)
 
-    def track_error(
-        self, error: Exception, context: Optional[Dict[str, Any]] = None
-    ) -> None:
+    def track_error(self, error: Exception, context: Optional[Dict[str, Any]] = None) -> None:
         """Track an error event."""
         if not self.config.capture_errors:
             return
@@ -159,9 +157,7 @@ class Analytics:
             return default
 
         try:
-            return self._client.feature_enabled(
-                flag_key, self.config.distinct_id, default=default
-            )
+            return self._client.feature_enabled(flag_key, self.config.distinct_id, default=default)
         except Exception:
             return default
 
@@ -171,9 +167,7 @@ class Analytics:
             return default
 
         try:
-            return self._client.get_feature_flag(
-                flag_key, self.config.distinct_id, default=default
-            )
+            return self._client.get_feature_flag(flag_key, self.config.distinct_id, default=default)
         except Exception:
             return default
 

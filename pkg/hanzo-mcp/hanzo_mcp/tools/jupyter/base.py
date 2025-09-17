@@ -127,9 +127,7 @@ class JupyterBaseTool(FilesystemBaseTool, ABC):
         """
         tool_ctx.set_tool_info(self.name)
 
-    async def parse_notebook(
-        self, file_path: Path
-    ) -> tuple[dict[str, Any], list[NotebookCellSource]]:
+    async def parse_notebook(self, file_path: Path) -> tuple[dict[str, Any], list[NotebookCellSource]]:
         """Parse a Jupyter notebook file.
 
         Args:
@@ -143,9 +141,7 @@ class JupyterBaseTool(FilesystemBaseTool, ABC):
             notebook = json.loads(content)
 
         # Get notebook language
-        language = (
-            notebook.get("metadata", {}).get("language_info", {}).get("name", "python")
-        )
+        language = notebook.get("metadata", {}).get("language_info", {}).get("name", "python")
         cells = notebook.get("cells", [])
         processed_cells = []
 
@@ -177,9 +173,7 @@ class JupyterBaseTool(FilesystemBaseTool, ABC):
                         text = output.get("text", "")
                         if isinstance(text, list):
                             text = "".join(text)
-                        outputs.append(
-                            NotebookCellOutput(output_type="stream", text=text)
-                        )
+                        outputs.append(NotebookCellOutput(output_type="stream", text=text))
 
                     elif output_type in ["execute_result", "display_data"]:
                         # Process text output
@@ -205,11 +199,7 @@ class JupyterBaseTool(FilesystemBaseTool, ABC):
                                     media_type="image/jpeg",
                                 )
 
-                        outputs.append(
-                            NotebookCellOutput(
-                                output_type=output_type, text=text, image=image
-                            )
-                        )
+                        outputs.append(NotebookCellOutput(output_type=output_type, text=text, image=image))
 
                     elif output_type == "error":
                         # Format error traceback
@@ -220,17 +210,13 @@ class JupyterBaseTool(FilesystemBaseTool, ABC):
                         # Handle raw text strings and lists of strings
                         if isinstance(traceback, list):
                             # Clean ANSI escape codes and join the list but preserve the formatting
-                            clean_traceback = [
-                                clean_ansi_escapes(line) for line in traceback
-                            ]
+                            clean_traceback = [clean_ansi_escapes(line) for line in traceback]
                             traceback_text = "\n".join(clean_traceback)
                         else:
                             traceback_text = clean_ansi_escapes(str(traceback))
 
                         error_text = f"{ename}: {evalue}\n{traceback_text}"
-                        outputs.append(
-                            NotebookCellOutput(output_type="error", text=error_text)
-                        )
+                        outputs.append(NotebookCellOutput(output_type="error", text=error_text))
 
             # Create cell object
             processed_cell = NotebookCellSource(

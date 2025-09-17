@@ -23,9 +23,7 @@ def test_parse_size():
 
     for size_str, expected in test_cases:
         result = tool._parse_size(size_str)
-        print(
-            f"'{size_str}' -> {result} bytes (expected: {expected}, match: {result == expected})"
-        )
+        print(f"'{size_str}' -> {result} bytes (expected: {expected}, match: {result == expected})")
 
 
 if __name__ == "__main__":

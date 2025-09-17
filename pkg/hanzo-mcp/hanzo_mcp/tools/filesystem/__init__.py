@@ -93,9 +93,7 @@ def get_read_only_filesystem_tools(
     return tools
 
 
-def get_filesystem_tools(
-    permission_manager: PermissionManager, project_manager=None
-) -> list[BaseTool]:
+def get_filesystem_tools(permission_manager: PermissionManager, project_manager=None) -> list[BaseTool]:
     """Create instances of all filesystem tools.
 
     Args:
@@ -226,6 +224,7 @@ def register_filesystem_tools(
     try:
         ast_tool = next((t for t in tools if getattr(t, "name", "") == "ast"), None)
         if ast_tool is not None:
+
             class _SymbolsAlias(ASTTool):  # type: ignore[misc]
                 @property
                 def name(self) -> str:  # type: ignore[override]
