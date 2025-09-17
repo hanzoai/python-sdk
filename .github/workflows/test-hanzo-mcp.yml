@@ -46,6 +46,7 @@ jobs:
         uv venv
         source .venv/bin/activate
         uv pip install -e ".[test,performance,analytics,dev]"
+        uv pip install pytest-cov
     
     - name: Run type checking with mypy
       run: |
@@ -101,6 +102,7 @@ jobs:
         uv venv
         source .venv/bin/activate
         uv pip install -e ".[test,performance,analytics,dev]"
+        uv pip install pytest-cov
     
     - name: Run integration tests with API keys
       env:
