@@ -45,7 +45,7 @@ jobs:
         cd pkg/hanzo-mcp
         uv venv
         source .venv/bin/activate
-        uv pip install -e ".[test,performance,analytics]"
+        uv pip install -e ".[test,performance,analytics,dev]"
     
     - name: Run type checking with mypy
       run: |
@@ -100,7 +100,7 @@ jobs:
         cd pkg/hanzo-mcp
         uv venv
         source .venv/bin/activate
-        uv pip install -e ".[test,performance,analytics]"
+        uv pip install -e ".[test,performance,analytics,dev]"
     
     - name: Run integration tests with API keys
       env:
