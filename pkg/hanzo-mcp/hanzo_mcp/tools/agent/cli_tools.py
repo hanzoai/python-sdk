@@ -406,7 +406,7 @@ class HanzoDevCLITool(BaseCLITool):
         timeout: int = params.get("timeout", 600)
         
         # Build command
-        command: list[str] = ["hanzo", "dev"]
+        command: list[str] = ["dev"]
         if model:
             command.extend(["--model", model])
         command.extend(["--prompt", prompt])
