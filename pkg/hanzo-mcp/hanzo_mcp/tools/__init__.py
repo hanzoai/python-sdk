@@ -64,7 +64,16 @@ try:  # pragma: no cover
         register_memory_tools = None  # type: ignore
 except Exception:
     # Minimal surface to allow submodule imports elsewhere
-    pass
+    # Define stub functions for required imports
+    def activate_mode_from_env():
+        pass
+    class ModeLoader:
+        @staticmethod
+        def get_enabled_tools_from_mode(base_enabled_tools=None, force_mode=None):
+            return base_enabled_tools or {}
+        @staticmethod
+        def apply_environment_from_mode():
+            pass
 
 # Try to import LSP tool
 try:
