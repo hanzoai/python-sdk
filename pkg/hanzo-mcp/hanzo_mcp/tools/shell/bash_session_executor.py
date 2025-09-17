@@ -44,9 +44,7 @@ class BashSessionExecutor:
         self.fast_test_mode: bool = fast_test_mode
 
         # If no session manager is provided, create a non-singleton instance to avoid shared state
-        self.session_manager: SessionManager = session_manager or SessionManager(
-            use_singleton=False
-        )
+        self.session_manager: SessionManager = session_manager or SessionManager(use_singleton=False)
 
         # Excluded commands or patterns (for compatibility)
         self.excluded_commands: list[str] = ["rm"]
@@ -146,9 +144,7 @@ class BashSessionExecutor:
         Returns:
             CommandResult containing execution results
         """
-        self._log(
-            f"Executing command: {command} (is_input={is_input}, blocking={blocking})"
-        )
+        self._log(f"Executing command: {command} (is_input={is_input}, blocking={blocking})")
 
         # Check if the command is allowed (skip for input to running processes)
         if not is_input and not self.is_command_allowed(command):
@@ -183,9 +179,7 @@ class BashSessionExecutor:
             if session is None:
                 # Use faster timeouts and polling for tests
                 if self.fast_test_mode:
-                    timeout_seconds = (
-                        10  # Faster timeout for tests but not too aggressive
-                    )
+                    timeout_seconds = 10  # Faster timeout for tests but not too aggressive
                     poll_interval = 0.2  # Faster polling for tests but still reasonable
                 else:
                     timeout_seconds = 30  # Default timeout
@@ -206,9 +200,7 @@ class BashSessionExecutor:
                         self._log(f"Failed to set environment variable {key}")
 
             # Execute the command with enhanced parameters
-            result = session.execute(
-                command=command, is_input=is_input, blocking=blocking, timeout=timeout
-            )
+            result = session.execute(command=command, is_input=is_input, blocking=blocking, timeout=timeout)
 
             # Add session_id to the result
             result.session_id = effective_session_id
@@ -257,9 +249,7 @@ class BashSessionExecutor:
 
             # Wait for completion with timeout
             try:
-                stdout, stderr = await asyncio.wait_for(
-                    process.communicate(), timeout=timeout
-                )
+                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
             except asyncio.TimeoutError:
                 # Kill the process if it times out
                 process.kill()

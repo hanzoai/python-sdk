@@ -256,9 +256,7 @@ Examples:
                     tool_ctx,
                 )
             elif search_type == "blame":
-                return await self._search_blame(
-                    abs_path, pattern, case_sensitive, file_pattern, tool_ctx
-                )
+                return await self._search_blame(abs_path, pattern, case_sensitive, file_pattern, tool_ctx)
             else:
                 return f"Unknown search type: {search_type}"
 
@@ -307,9 +305,7 @@ Examples:
         elif result.returncode == 1:
             return f"No matches found for pattern: {pattern}"
         else:
-            raise subprocess.CalledProcessError(
-                result.returncode, cmd, result.stdout, result.stderr
-            )
+            raise subprocess.CalledProcessError(result.returncode, cmd, result.stdout, result.stderr)
 
     async def _search_commits(
         self,
@@ -353,16 +349,11 @@ Examples:
             lines = result.stdout.strip().split("\n")
             if lines and lines[0]:
                 await tool_ctx.info(f"Found {len(lines)} commits")
-                return (
-                    f"Found {len(lines)} commits matching '{pattern}':\n\n"
-                    + result.stdout
-                )
+                return f"Found {len(lines)} commits matching '{pattern}':\n\n" + result.stdout
             else:
                 return f"No commits found matching: {pattern}"
         else:
-            raise subprocess.CalledProcessError(
-                result.returncode, cmd, result.stdout, result.stderr
-            )
+            raise subprocess.CalledProcessError(result.returncode, cmd, result.stdout, result.stderr)
 
     async def _search_diff(
         self,
@@ -387,8 +378,7 @@ Examples:
             import re
 
             case_insensitive_pattern = "".join(
-                f"[{c.upper()}{c.lower()}]" if c.isalpha() else re.escape(c)
-                for c in pattern
+                f"[{c.upper()}{c.lower()}]" if c.isalpha() else re.escape(c) for c in pattern
             )
             search_flag = f"-G{case_insensitive_pattern}"
 
@@ -415,9 +405,7 @@ Examples:
 
         if result.returncode == 0 and result.stdout.strip():
             # Parse and highlight matching lines
-            output = self._highlight_diff_matches(
-                result.stdout, pattern, case_sensitive
-            )
+            output = self._highlight_diff_matches(result.stdout, pattern, case_sensitive)
             matches = output.count("commit ")
             await tool_ctx.info(f"Found {matches} commits with changes")
             return f"Found {matches} commits with changes matching '{pattern}':\n\n{output}"
@@ -505,9 +493,8 @@ Examples:
 
         if all_matches:
             await tool_ctx.info(f"Found {len(all_matches)} matching lines")
-            return (
-                f"Found {len(all_matches)} lines matching '{pattern}':\n\n"
-                + "\n".join(all_matches[:50])
+            return f"Found {len(all_matches)} lines matching '{pattern}':\n\n" + "\n".join(
+                all_matches[:50]
             )  # Limit output
         else:
             return f"No lines found matching: {pattern}"
@@ -534,9 +521,7 @@ Examples:
 
         return f"Found matches for '{pattern}':\n" + "\n".join(output)
 
-    def _highlight_diff_matches(
-        self, diff_output: str, pattern: str, case_sensitive: bool
-    ) -> str:
+    def _highlight_diff_matches(self, diff_output: str, pattern: str, case_sensitive: bool) -> str:
         """Highlight matching lines in diff output."""
         lines = diff_output.split("\n")
         output = []

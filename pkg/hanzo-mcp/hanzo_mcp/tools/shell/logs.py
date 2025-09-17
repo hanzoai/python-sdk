@@ -167,9 +167,7 @@ Use run_command with 'tail -f' for continuous monitoring.
 
             # Note about follow mode
             if follow:
-                await tool_ctx.warning(
-                    "Follow mode not supported in MCP. Showing latest lines instead."
-                )
+                await tool_ctx.warning("Follow mode not supported in MCP. Showing latest lines instead.")
 
             # Read log file
             await tool_ctx.info(f"Reading log file: {log_path}")
@@ -197,11 +195,7 @@ Use run_command with 'tail -f' for continuous monitoring.
                     if process:
                         header += f"Process: {process.name} (ID: {process_id})\n"
                         header += f"Command: {process.command}\n"
-                        status = (
-                            "running"
-                            if process.is_running
-                            else f"finished (code: {process.return_code})"
-                        )
+                        status = "running" if process.is_running else f"finished (code: {process.return_code})"
                         header += f"Status: {status}\n"
                 header += f"{'=' * 50}\n"
 
@@ -232,11 +226,7 @@ Use run_command with 'tail -f' for continuous monitoring.
 
         # Check which logs belong to active processes
         active_processes = RunBackgroundTool.get_processes()
-        active_log_files = {
-            str(p.log_file): (pid, p)
-            for pid, p in active_processes.items()
-            if p.log_file
-        }
+        active_log_files = {str(p.log_file): (pid, p) for pid, p in active_processes.items() if p.log_file}
 
         # Build output
         output = []
@@ -250,9 +240,7 @@ Use run_command with 'tail -f' for continuous monitoring.
             if str(log_file) in active_log_files:
                 pid, process = active_log_files[str(log_file)]
                 status = "active" if process.is_running else "finished"
-                output.append(
-                    f"{log_file.name:<50} {size_str:>10} [{status}] (ID: {pid})"
-                )
+                output.append(f"{log_file.name:<50} {size_str:>10} [{status}] (ID: {pid})")
             else:
                 output.append(f"{log_file.name:<50} {size_str:>10}")
 

@@ -16,9 +16,7 @@ async def test_unified_search_basic():
     search_tool = create_unified_search_tool()
 
     # Test with current directory
-    result = await search_tool.run(
-        pattern="UnifiedSearch", path=".", max_results_per_type=5
-    )
+    result = await search_tool.run(pattern="UnifiedSearch", path=".", max_results_per_type=5)
 
     assert result.data is not None
     assert "results" in result.data
@@ -42,9 +40,7 @@ async def test_unified_search_auto_detection():
     search_tool = create_unified_search_tool()
 
     # Test natural language query (should trigger vector search if available)
-    result = await search_tool.run(
-        pattern="how does search work in this codebase", max_results_per_type=5
-    )
+    result = await search_tool.run(pattern="how does search work in this codebase", max_results_per_type=5)
 
     assert result.data is not None
     stats = result.data["statistics"]
@@ -83,9 +79,7 @@ async def test_unified_search_with_files():
     search_tool = create_unified_search_tool()
 
     # Test file search
-    result = await search_tool.run(
-        pattern="*.py", search_files=True, max_results_per_type=10
-    )
+    result = await search_tool.run(pattern="*.py", search_files=True, max_results_per_type=10)
 
     assert result.data is not None
     stats = result.data["statistics"]
@@ -143,9 +137,7 @@ async def test_find_tool_with_filters():
         assert results[0]["name"] == "large.txt"
 
         # Test time filter
-        result = await find_tool.run(
-            pattern="*.txt", path=tmpdir, modified_after="12 hours ago"
-        )
+        result = await find_tool.run(pattern="*.txt", path=tmpdir, modified_after="12 hours ago")
 
         results = result.data["results"]
         assert len(results) == 2  # small.txt and large.txt

@@ -83,9 +83,7 @@ review(
             file_paths: Optional[List[str]] = None,
             context: Optional[str] = None,
         ) -> str:
-            return await tool_self.call(
-                ctx, focus, work_description, code_snippets, file_paths, context
-            )
+            return await tool_self.call(ctx, focus, work_description, code_snippets, file_paths, context)
 
 
 class BalancedReviewer:
@@ -210,23 +208,18 @@ class BalancedReviewer:
 
         if code_snippets:
             total_lines = sum(snippet.count("\n") + 1 for snippet in code_snippets)
-            avg_line_length = sum(
-                len(line) for snippet in code_snippets for line in snippet.split("\n")
-            ) / max(total_lines, 1)
+            avg_line_length = sum(len(line) for snippet in code_snippets for line in snippet.split("\n")) / max(
+                total_lines, 1
+            )
 
             if avg_line_length < 80:
                 response += "✓ Line lengths are reasonable\n"
             else:
-                response += (
-                    "• Some lines might be too long, consider breaking them up\n"
-                )
+                response += "• Some lines might be too long, consider breaking them up\n"
 
             # Check naming
             has_good_names = any(
-                any(
-                    word in snippet
-                    for word in ["Add", "Get", "Set", "Create", "Update", "Delete"]
-                )
+                any(word in snippet for word in ["Add", "Get", "Set", "Create", "Update", "Delete"])
                 for snippet in code_snippets
             )
             if has_good_names:
@@ -264,10 +257,7 @@ class BalancedReviewer:
         # Check for modularity in code
         if code_snippets:
             function_count = sum(
-                snippet.count("func ")
-                + snippet.count("def ")
-                + snippet.count("function ")
-                for snippet in code_snippets
+                snippet.count("func ") + snippet.count("def ") + snippet.count("function ") for snippet in code_snippets
             )
             if function_count > 0:
                 response += "✓ Code is broken into functions/methods\n"
@@ -334,8 +324,7 @@ class BalancedReviewer:
         has_comments = False
         if code_snippets:
             has_comments = any(
-                "//" in snippet or "/*" in snippet or "#" in snippet or '"""' in snippet
-                for snippet in code_snippets
+                "//" in snippet or "/*" in snippet or "#" in snippet or '"""' in snippet for snippet in code_snippets
             )
 
         if has_comments:
@@ -372,9 +361,7 @@ class BalancedReviewer:
         # Analyze file structure
         if file_paths:
             # Check for separation of concerns
-            has_separation = (
-                len(set(str(p).split("/")[-2] for p in file_paths if "/" in str(p))) > 1
-            )
+            has_separation = len(set(str(p).split("/")[-2] for p in file_paths if "/" in str(p))) > 1
             if has_separation:
                 response += "✓ Changes span multiple modules (good separation)\n"
             else:
@@ -426,9 +413,7 @@ class ReviewProtocol:
         except KeyError:
             focus_enum = ReviewFocus.GENERAL
 
-        review = self.reviewer.review(
-            focus_enum, work_description, code_snippets, file_paths, context
-        )
+        review = self.reviewer.review(focus_enum, work_description, code_snippets, file_paths, context)
 
         header = f"Review {self.review_count}/{self.max_reviews} (Focus: {focus_enum.value}):\n\n"
         footer = "\n\n💡 This is a balanced review - consider both strengths and suggestions."

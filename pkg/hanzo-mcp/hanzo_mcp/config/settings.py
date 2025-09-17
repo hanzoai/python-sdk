@@ -53,9 +53,7 @@ class ProjectConfig:
     tasks: List[Dict[str, Any]] = field(default_factory=list)
     enabled_tools: Dict[str, bool] = field(default_factory=dict)
     disabled_tools: List[str] = field(default_factory=list)
-    mcp_servers: List[str] = field(
-        default_factory=list
-    )  # Names of enabled MCP servers for this project
+    mcp_servers: List[str] = field(default_factory=list)  # Names of enabled MCP servers for this project
 
 
 @dataclass
@@ -109,9 +107,7 @@ class HanzoMCPSettings:
     # MCP Hub configuration
     mcp_servers: Dict[str, MCPServerConfig] = field(default_factory=dict)
     hub_enabled: bool = False
-    trusted_servers: List[str] = field(
-        default_factory=list
-    )  # Whitelist of trusted server names
+    trusted_servers: List[str] = field(default_factory=list)  # Whitelist of trusted server names
 
     # Project-specific configurations
     projects: Dict[str, ProjectConfig] = field(default_factory=dict)
@@ -123,9 +119,7 @@ class HanzoMCPSettings:
     def __post_init__(self):
         """Initialize default tool states if not specified."""
         if not self.enabled_tools:
-            self.enabled_tools = {
-                name: config.enabled for name, config in TOOL_REGISTRY.items()
-            }
+            self.enabled_tools = {name: config.enabled for name, config in TOOL_REGISTRY.items()}
 
         # Apply disabled_tools list to enabled_tools dict
         for tool_name in self.disabled_tools:
@@ -139,9 +133,7 @@ class HanzoMCPSettings:
             return False
         return self.enabled_tools.get(
             tool_name,
-            TOOL_REGISTRY.get(
-                tool_name, type("obj", (object,), {"enabled": False})
-            ).enabled,
+            TOOL_REGISTRY.get(tool_name, type("obj", (object,), {"enabled": False})).enabled,
         )
 
     def enable_tool(self, tool_name: str) -> bool:
@@ -399,11 +391,7 @@ def _load_from_env() -> Dict[str, Any]:
         config.setdefault("agent", {})["enabled"] = True
 
     # Check for MODE/PERSONALITY/HANZO_MODE
-    if (
-        mode := os.environ.get("HANZO_MODE")
-        or os.environ.get("PERSONALITY")
-        or os.environ.get("MODE")
-    ):
+    if mode := os.environ.get("HANZO_MODE") or os.environ.get("PERSONALITY") or os.environ.get("MODE"):
         config["active_mode"] = mode
 
     # Check for other environment overrides
@@ -496,9 +484,7 @@ def save_settings(settings: HanzoMCPSettings, global_config: bool = True) -> Pat
     return config_path
 
 
-def _merge_config(
-    base_settings: HanzoMCPSettings, config_dict: Dict[str, Any]
-) -> HanzoMCPSettings:
+def _merge_config(base_settings: HanzoMCPSettings, config_dict: Dict[str, Any]) -> HanzoMCPSettings:
     """Merge configuration dictionary into settings object."""
     # Convert to dict, merge, then convert back
     base_dict = asdict(base_settings)

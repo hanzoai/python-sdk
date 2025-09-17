@@ -96,9 +96,7 @@ class ClaudeDesktopAuth:
         except Exception:
             return None
 
-    async def login_interactive(
-        self, account: Optional[str] = None, headless: bool = False
-    ) -> Tuple[bool, str]:
+    async def login_interactive(self, account: Optional[str] = None, headless: bool = False) -> Tuple[bool, str]:
         """Login to Claude Desktop interactively.
 
         Args:
@@ -192,9 +190,7 @@ class ClaudeDesktopAuth:
         # For now, return a placeholder
         return False, "Headless login not yet implemented"
 
-    async def _exchange_code_for_session(
-        self, code: str, account: Optional[str]
-    ) -> bool:
+    async def _exchange_code_for_session(self, code: str, account: Optional[str]) -> bool:
         """Exchange auth code for session token."""
         # This would make API calls to exchange the code
         # For now, create a mock session
@@ -357,9 +353,7 @@ class ClaudeDesktopAuth:
         # Generate agent-specific account
         return f"agent_{agent_id}@claude.local"
 
-    async def ensure_agent_auth(
-        self, agent_id: str, force_new: bool = False
-    ) -> Tuple[bool, str]:
+    async def ensure_agent_auth(self, agent_id: str, force_new: bool = False) -> Tuple[bool, str]:
         """Ensure an agent is authenticated with its own account.
 
         Args:

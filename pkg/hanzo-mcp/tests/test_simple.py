@@ -139,13 +139,7 @@ def test_cloudflare_config():
         print("⚠️  CLOUDFLARE_ACCOUNT_ID not found in environment")
 
     # Check Claude Desktop config
-    claude_config = (
-        Path.home()
-        / "Library"
-        / "Application Support"
-        / "Claude"
-        / "claude_desktop_config.json"
-    )
+    claude_config = Path.home() / "Library" / "Application Support" / "Claude" / "claude_desktop_config.json"
     if claude_config.exists():
         print(f"✅ Claude Desktop config found: {claude_config}")
         try:

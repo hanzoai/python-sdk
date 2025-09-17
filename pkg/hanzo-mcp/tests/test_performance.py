@@ -74,9 +74,7 @@ class TestMemoryPerformance:
             return Mock(memory_id=f"mem_{len(operation_times)}")
 
         mock_service.create_memory = Mock(side_effect=mock_operation)
-        mock_service.search_memories = Mock(
-            side_effect=lambda *a, **k: asyncio.create_task(mock_operation(*a, **k))
-        )
+        mock_service.search_memories = Mock(side_effect=lambda *a, **k: asyncio.create_task(mock_operation(*a, **k)))
         mock_get_service.return_value = mock_service
 
         async def run_concurrent_operations():
@@ -103,9 +101,7 @@ class TestMemoryPerformance:
         sequential_time = sum(op_times)
         assert total_time < sequential_time * 0.5  # At least 2x speedup
 
-        print(
-            f"Concurrent: {total_time:.2f}s, Sequential would be: {sequential_time:.2f}s"
-        )
+        print(f"Concurrent: {total_time:.2f}s, Sequential would be: {sequential_time:.2f}s")
 
 
 class TestSearchPerformance:
@@ -139,11 +135,7 @@ class TestSearchPerformance:
 
                 # Search for pattern
                 start_time = time.time()
-                result = asyncio.run(
-                    tool.call(
-                        mock_ctx, pattern="SPECIAL_PATTERN", path=tmpdir, max_results=50
-                    )
-                )
+                result = asyncio.run(tool.call(mock_ctx, pattern="SPECIAL_PATTERN", path=tmpdir, max_results=50))
                 elapsed = time.time() - start_time
 
                 # Should find matches quickly
@@ -184,11 +176,7 @@ class TestBatchToolPerformance:
 
         # Process batch
         start_time = time.time()
-        result = asyncio.run(
-            batch_tool.call(
-                mock_ctx, description="Large batch test", invocations=invocations
-            )
-        )
+        result = asyncio.run(batch_tool.call(mock_ctx, description="Large batch test", invocations=invocations))
         elapsed = time.time() - start_time
 
         # Should process efficiently
@@ -237,9 +225,7 @@ class TestSwarmPerformance:
 
         # Execute swarm
         start_time = time.time()
-        result = asyncio.run(
-            tool.call(mock_ctx, query="Parallel processing test", agents=agents)
-        )
+        result = asyncio.run(tool.call(mock_ctx, query="Parallel processing test", agents=agents))
         elapsed = time.time() - start_time
 
         # Should execute workers in parallel
@@ -287,9 +273,7 @@ class TestPaginationPerformance:
         for i in range(0, len(large_data), page_size):
             page = PaginatedResponse(
                 items=large_data[i : i + page_size],
-                next_cursor=(
-                    str(i + page_size) if i + page_size < len(large_data) else None
-                ),
+                next_cursor=(str(i + page_size) if i + page_size < len(large_data) else None),
                 has_more=i + page_size < len(large_data),
                 total_items=len(large_data),
             )
@@ -351,9 +335,7 @@ class TestMemoryStressTest:
         assert len(operations) > 30  # At least the creates
         assert elapsed < 5.0  # Should complete reasonably fast
 
-        print(
-            f"Completed {len(operations)} operations under load in {elapsed:.2f} seconds"
-        )
+        print(f"Completed {len(operations)} operations under load in {elapsed:.2f} seconds")
 
 
 class TestConcurrentFileOperations:
@@ -411,9 +393,7 @@ class TestConcurrentFileOperations:
             assert len(errors) == 0
             assert elapsed < 2.0  # Should be fast even with 20 operations
 
-            print(
-                f"Completed {len(results)} concurrent file operations in {elapsed:.2f} seconds"
-            )
+            print(f"Completed {len(results)} concurrent file operations in {elapsed:.2f} seconds")
 
 
 if __name__ == "__main__":

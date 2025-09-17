@@ -168,9 +168,7 @@ Note: Requires Neovim to be installed.
                 project_path,
             )
         elif action == "restore":
-            return await self._restore_session(
-                tool_ctx, session_name, project_session_dir
-            )
+            return await self._restore_session(tool_ctx, session_name, project_session_dir)
         elif action == "list":
             return self._list_sessions(project_session_dir, project_path)
         elif action == "delete":
@@ -214,9 +212,7 @@ Note: Requires Neovim to be installed.
             # Run Neovim to save session
             # First, check if Neovim is already running
             # For now, we'll create a new instance
-            result = subprocess.run(
-                ["nvim", "-c", vim_script.strip()], capture_output=True, text=True
-            )
+            result = subprocess.run(["nvim", "-c", vim_script.strip()], capture_output=True, text=True)
 
             if result.returncode != 0 and result.stderr:
                 return f"Error saving session: {result.stderr}"
@@ -246,15 +242,15 @@ Or manually in Neovim:
         except Exception as e:
             return f"Error saving session: {str(e)}"
 
-    async def _restore_session(
-        self, tool_ctx, session_name: Optional[str], project_dir: Path
-    ) -> str:
+    async def _restore_session(self, tool_ctx, session_name: Optional[str], project_dir: Path) -> str:
         """Restore Neovim session."""
         if not session_name:
             # List available sessions
             sessions = list(project_dir.glob("*.vim"))
             if not sessions:
-                return "Error: No sessions found for this project. Use 'neovim_session --action list' to see all sessions."
+                return (
+                    "Error: No sessions found for this project. Use 'neovim_session --action list' to see all sessions."
+                )
 
             # Use most recent
             sessions.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -330,9 +326,7 @@ Or manually in Neovim:
             if len(other_sessions) > 10:
                 output.append(f"  ... and {len(other_sessions) - 10} more")
 
-        output.append(
-            "\nUse 'neovim_session --action restore --session-name <name>' to restore a session."
-        )
+        output.append("\nUse 'neovim_session --action restore --session-name <name>' to restore a session.")
 
         return "\n".join(output)
 

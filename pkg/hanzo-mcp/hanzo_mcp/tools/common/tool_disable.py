@@ -125,9 +125,7 @@ Use 'tool_enable' to re-enable disabled tools.
         ]
 
         if not persist:
-            output.append(
-                "\nNote: This change is temporary and will be lost on restart."
-            )
+            output.append("\nNote: This change is temporary and will be lost on restart.")
 
         # Warn about commonly used tools
         common_tools = {"grep", "read", "write", "bash", "edit"}
@@ -137,9 +135,7 @@ Use 'tool_enable' to re-enable disabled tools.
             )
 
         # Count disabled tools
-        disabled_count = sum(
-            1 for enabled in ToolEnableTool._tool_states.values() if not enabled
-        )
+        disabled_count = sum(1 for enabled in ToolEnableTool._tool_states.values() if not enabled)
         output.append(f"\nTotal disabled tools: {disabled_count}")
 
         return "\n".join(output)

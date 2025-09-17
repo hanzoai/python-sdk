@@ -59,9 +59,7 @@ async def simple_benchmark():
             analysis_times.append(analysis_time)
             symbol_counts.append(len(file_ast.symbols) if file_ast else 0)
 
-            print(
-                f"  {file_path.name}: {analysis_time:.3f}s, {len(file_ast.symbols) if file_ast else 0} symbols"
-            )
+            print(f"  {file_path.name}: {analysis_time:.3f}s, {len(file_ast.symbols) if file_ast else 0} symbols")
 
         except Exception as e:
             print(f"  {file_path.name}: FAILED - {e}")
@@ -69,9 +67,7 @@ async def simple_benchmark():
     if analysis_times:
         avg_time = sum(analysis_times) / len(analysis_times)
         avg_symbols = sum(symbol_counts) / len(symbol_counts)
-        print(
-            f"\\nAverage: {avg_time:.3f}s per file, {avg_symbols:.1f} symbols per file"
-        )
+        print(f"\\nAverage: {avg_time:.3f}s per file, {avg_symbols:.1f} symbols per file")
 
     print()
 
@@ -86,12 +82,8 @@ async def simple_benchmark():
 
     # Mock the validation methods
     unified_tool.validate_path = lambda x: type("obj", (object,), {"is_error": False})()
-    unified_tool.check_path_allowed = lambda x, y: asyncio.coroutine(
-        lambda: (True, None)
-    )()
-    unified_tool.check_path_exists = lambda x, y: asyncio.coroutine(
-        lambda: (True, None)
-    )()
+    unified_tool.check_path_allowed = lambda x, y: asyncio.coroutine(lambda: (True, None))()
+    unified_tool.check_path_exists = lambda x, y: asyncio.coroutine(lambda: (True, None))()
 
     # Test queries
     queries = [
@@ -108,15 +100,9 @@ async def simple_benchmark():
         # Test grep search
         start_time = time.time()
         try:
-            grep_result = await grep_tool.call(
-                MockContext(), pattern=query, path=str(project_root), include="*.py"
-            )
+            grep_result = await grep_tool.call(MockContext(), pattern=query, path=str(project_root), include="*.py")
             grep_time = time.time() - start_time
-            grep_matches = (
-                grep_result.count("\\n")
-                if grep_result and "Found" in grep_result
-                else 0
-            )
+            grep_matches = grep_result.count("\\n") if grep_result and "Found" in grep_result else 0
 
             print(f"  Grep: {grep_time:.3f}s, ~{grep_matches} matches")
         except Exception as e:
@@ -133,11 +119,7 @@ async def simple_benchmark():
                 line_number=True,
             )
             ast_time = time.time() - start_time
-            ast_matches = (
-                ast_result.count("\\n")
-                if ast_result and not ast_result.startswith("No matches")
-                else 0
-            )
+            ast_matches = ast_result.count("\\n") if ast_result and not ast_result.startswith("No matches") else 0
 
             print(f"  AST: {ast_time:.3f}s, ~{ast_matches} matches")
         except Exception as e:
@@ -154,9 +136,7 @@ async def simple_benchmark():
                 max_results=20,
             )
             unified_time = time.time() - start_time
-            unified_matches = (
-                unified_result.count("Result ") if "Result " in unified_result else 0
-            )
+            unified_matches = unified_result.count("Result ") if "Result " in unified_result else 0
 
             print(f"  Unified: {unified_time:.3f}s, {unified_matches} results")
         except Exception as e:

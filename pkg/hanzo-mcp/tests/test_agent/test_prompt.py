@@ -97,13 +97,8 @@ class TestPrompt:
         # Test with model override - explicitly with TEST_MODE to avoid provider prefix
         os.environ["TEST_MODE"] = "1"
         assert get_default_model("openai/gpt-4o") == "openai/gpt-4o"
-        assert (
-            get_default_model("gpt-4o-mini") == "gpt-4o-mini"
-        )  # In test mode, no prefix added
-        assert (
-            get_default_model("anthropic/claude-3-sonnet")
-            == "anthropic/claude-3-sonnet"
-        )
+        assert get_default_model("gpt-4o-mini") == "gpt-4o-mini"  # In test mode, no prefix added
+        assert get_default_model("anthropic/claude-3-sonnet") == "anthropic/claude-3-sonnet"
 
         # Test with provider prefixing in non-test mode
         del os.environ["TEST_MODE"]
