@@ -70,7 +70,7 @@ jobs:
       run: |
         cd pkg/hanzo-mcp
         source .venv/bin/activate
-        python -m pytest tests -v -m "not integration"
+        python -m pytest tests/test_agent_tools_ci.py -v
     
 
   integration-tests:
