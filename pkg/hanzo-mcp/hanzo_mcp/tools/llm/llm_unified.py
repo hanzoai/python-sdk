@@ -260,7 +260,7 @@ llm "Explain this code" --model gpt-4o
 llm --action consensus "Is this approach correct?" --devils-advocate
 llm --action models --provider openai
 
-Available: {', '.join(available) if available else 'None'}"""
+Available: {", ".join(available) if available else "None"}"""
 
     @override
     async def call(
@@ -430,7 +430,7 @@ Available: {', '.join(available) if available else 'None'}"""
         if devil_model:
             # Create devil's advocate prompt
             responses_text = "\n\n".join(
-                [f"Model {i+1}: {resp['response']}" for i, resp in enumerate(responses) if resp["response"]]
+                [f"Model {i + 1}: {resp['response']}" for i, resp in enumerate(responses) if resp["response"]]
             )
 
             devil_prompt = f"""You are a critical analyst. Review these responses to the question below and provide a devil's advocate perspective. Challenge assumptions, point out weaknesses, and suggest alternative viewpoints.
