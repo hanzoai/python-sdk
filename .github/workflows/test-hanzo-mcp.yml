@@ -43,6 +43,8 @@ jobs:
     - name: Install dependencies
       run: |
         cd pkg/hanzo-mcp
+        uv venv
+        source .venv/bin/activate
         uv pip install -e ".[test,performance,analytics]"
     
     - name: Run type checking with mypy
@@ -92,6 +94,8 @@ jobs:
     - name: Install dependencies
       run: |
         cd pkg/hanzo-mcp
+        uv venv
+        source .venv/bin/activate
         uv pip install -e ".[test,performance,analytics]"
     
     - name: Run integration tests with API keys
