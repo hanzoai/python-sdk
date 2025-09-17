@@ -35,6 +35,7 @@ try:  # pragma: no cover
     from hanzo_mcp.tools.todo import register_todo_tools
     from hanzo_mcp.tools.agent import register_agent_tools
     from hanzo_mcp.tools.shell import register_shell_tools
+    from hanzo_mcp.tools.common import register_batch_tool, register_critic_tool, register_thinking_tool
     from hanzo_mcp.tools.editor import (
         NeovimEditTool,
         NeovimCommandTool,
@@ -48,7 +49,6 @@ try:  # pragma: no cover
     from hanzo_mcp.tools.common.mode import activate_mode_from_env
     from hanzo_mcp.tools.common.stats import StatsTool
     from hanzo_mcp.tools.common.tool_list import ToolListTool
-    from hanzo_mcp.tools.common import register_thinking_tool, register_critic_tool, register_batch_tool
     from hanzo_mcp.tools.config.mode_tool import mode_tool
     from hanzo_mcp.tools.common.mode_loader import ModeLoader
     from hanzo_mcp.tools.common.permissions import PermissionManager
