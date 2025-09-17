@@ -1,16 +1,19 @@
 """Hanzo Memory Service - AI memory and knowledge management."""
 
-__version__ = "0.1.1"
+__version__ = "1.0.1"
 __author__ = "Hanzo Industries Inc."
 __email__ = "dev@hanzo.ai"
 
-from .db.client import InfinityClient
+# Import models - these are always needed
 from .models.knowledge import Fact, FactCreate, KnowledgeBase
 from .models.memory import Memory, MemoryCreate, MemoryResponse
 from .models.project import Project, ProjectCreate
 
+# Import database factory for getting the configured client
+from .db.factory import get_db_client
+
 __all__ = [
-    "InfinityClient",
+    "get_db_client",
     "Memory",
     "MemoryCreate",
     "MemoryResponse",
