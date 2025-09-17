@@ -142,9 +142,7 @@ understand project-specific requirements and preferences."""
                             found_configs.append(
                                 {
                                     "path": str(config_path),
-                                    "relative_path": str(
-                                        config_path.relative_to(start_path)
-                                    ),
+                                    "relative_path": str(config_path.relative_to(start_path)),
                                     "content": content,
                                     "size": len(content),
                                 }
@@ -152,9 +150,7 @@ understand project-specific requirements and preferences."""
 
                             await tool_ctx.info(f"Found configuration: {config_path}")
                     except Exception as e:
-                        await tool_ctx.warning(
-                            f"Could not read {config_path}: {str(e)}"
-                        )
+                        await tool_ctx.warning(f"Could not read {config_path}: {str(e)}")
 
             # Check if we've reached the root or a git repository root
             if current_path.parent == current_path:
@@ -169,8 +165,7 @@ understand project-specific requirements and preferences."""
                         if (
                             config_path.exists()
                             and config_path.is_file()
-                            and str(config_path)
-                            not in [c["path"] for c in found_configs]
+                            and str(config_path) not in [c["path"] for c in found_configs]
                         ):
                             try:
                                 if self.is_path_allowed(str(config_path)):
@@ -180,21 +175,15 @@ understand project-specific requirements and preferences."""
                                     found_configs.append(
                                         {
                                             "path": str(config_path),
-                                            "relative_path": str(
-                                                config_path.relative_to(start_path)
-                                            ),
+                                            "relative_path": str(config_path.relative_to(start_path)),
                                             "content": content,
                                             "size": len(content),
                                         }
                                     )
 
-                                    await tool_ctx.info(
-                                        f"Found configuration: {config_path}"
-                                    )
+                                    await tool_ctx.info(f"Found configuration: {config_path}")
                             except Exception as e:
-                                await tool_ctx.warning(
-                                    f"Could not read {config_path}: {str(e)}"
-                                )
+                                await tool_ctx.warning(f"Could not read {config_path}: {str(e)}")
                 break
 
             # Move to parent directory

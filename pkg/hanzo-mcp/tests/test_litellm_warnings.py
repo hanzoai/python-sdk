@@ -21,9 +21,7 @@ def test_no_pydantic_warnings():
     ), f"Pydantic deprecation warning found in stderr: {result.stderr}"
 
     # Check that the command succeeded
-    assert (
-        result.returncode == 0
-    ), f"Command failed with return code {result.returncode}"
+    assert result.returncode == 0, f"Command failed with return code {result.returncode}"
 
     # Check that help text is shown
     assert "MCP server implementing Hanzo AI capabilities" in result.stdout

@@ -134,9 +134,7 @@ class ClaudeBridge(FastMCP):
             """
             logger.info(f"Bridge {self.config.instance_id}: Task delegation")
 
-            delegation_prompt = self._build_delegation_prompt(
-                task, requirements, constraints
-            )
+            delegation_prompt = self._build_delegation_prompt(task, requirements, constraints)
             result = await self._forward_to_claude(delegation_prompt)
 
             return {
@@ -178,9 +176,7 @@ class ClaudeBridge(FastMCP):
             }
 
         @self.tool()
-        async def share_context_with_claude(
-            key: str, value: Any, description: Optional[str] = None
-        ) -> bool:
+        async def share_context_with_claude(key: str, value: Any, description: Optional[str] = None) -> bool:
             """Share context with another Claude instance.
 
             Args:
@@ -263,9 +259,7 @@ class ClaudeBridge(FastMCP):
                 "shared_context_keys": list(self.shared_context.keys()),
             }
 
-    def _build_review_prompt(
-        self, code: str, description: str, focus_areas: Optional[List[str]]
-    ) -> str:
+    def _build_review_prompt(self, code: str, description: str, focus_areas: Optional[List[str]]) -> str:
         """Build a code review prompt."""
         prompt = f"""
         Please review the following code:
@@ -293,9 +287,7 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    def _build_delegation_prompt(
-        self, task: str, requirements: List[str], constraints: Optional[List[str]]
-    ) -> str:
+    def _build_delegation_prompt(self, task: str, requirements: List[str], constraints: Optional[List[str]]) -> str:
         """Build a task delegation prompt."""
         prompt = f"""
         Please complete the following task:
@@ -320,9 +312,7 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    def _build_opinion_prompt(
-        self, question: str, options: Optional[List[str]], criteria: Optional[List[str]]
-    ) -> str:
+    def _build_opinion_prompt(self, question: str, options: Optional[List[str]], criteria: Optional[List[str]]) -> str:
         """Build an opinion request prompt."""
         prompt = f"""
         I need your opinion on the following:
@@ -351,9 +341,7 @@ class ClaudeBridge(FastMCP):
 
         return prompt
 
-    async def _forward_to_claude(
-        self, prompt: str, context: Optional[str] = None
-    ) -> str:
+    async def _forward_to_claude(self, prompt: str, context: Optional[str] = None) -> str:
         """Forward a request to the target Claude instance.
 
         In production, this would make an actual API call to the Claude instance.
@@ -365,9 +353,7 @@ class ClaudeBridge(FastMCP):
             full_prompt = f"Context: {context}\n\n{prompt}"
 
         # Log the forwarding
-        logger.info(
-            f"Forwarding from instance {self.config.source_instance} to {self.config.target_instance}"
-        )
+        logger.info(f"Forwarding from instance {self.config.source_instance} to {self.config.target_instance}")
         logger.debug(f"Prompt: {full_prompt[:200]}...")
 
         # In production, this would:
@@ -440,9 +426,7 @@ async def run_bridge_server(config: BridgeConfig):
 
 def main():
     """Main entry point for the bridge."""
-    parser = argparse.ArgumentParser(
-        description="MCP Bridge for Claude-to-Claude communication"
-    )
+    parser = argparse.ArgumentParser(description="MCP Bridge for Claude-to-Claude communication")
     parser.add_argument(
         "--target-port",
         type=int,

@@ -149,9 +149,7 @@ class TestAgentTools:
         import json
         from pathlib import Path
 
-        config_path = (
-            Path(__file__).parent.parent / "hanzo_mcp" / "config" / "default_tools.json"
-        )
+        config_path = Path(__file__).parent.parent / "hanzo_mcp" / "config" / "default_tools.json"
         if config_path.exists():
             with open(config_path) as f:
                 config = json.load(f)
@@ -163,10 +161,7 @@ class TestAgentTools:
             assert config["tools"].get("claude_cli", False) == True
 
             # dispatch_agent should not exist (replaced by agent)
-            assert (
-                "dispatch_agent" not in config["tools"]
-                or config["tools"]["dispatch_agent"] == False
-            )
+            assert "dispatch_agent" not in config["tools"] or config["tools"]["dispatch_agent"] == False
 
 
 if __name__ == "__main__":

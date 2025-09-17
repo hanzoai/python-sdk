@@ -151,9 +151,7 @@ Examples:
                             else:
                                 process.terminate()
                             killed_count += 1
-                            await tool_ctx.info(
-                                f"Killed process {proc_id} ({process.name})"
-                            )
+                            await tool_ctx.info(f"Killed process {proc_id} ({process.name})")
                         except Exception as e:
                             errors.append(f"Failed to kill {proc_id}: {str(e)}")
 
@@ -222,9 +220,7 @@ Examples:
                             else:
                                 process.terminate()
                             killed_count += 1
-                            await tool_ctx.info(
-                                f"Killed background process {proc_id} ({process.name})"
-                            )
+                            await tool_ctx.info(f"Killed background process {proc_id} ({process.name})")
                         except Exception as e:
                             errors.append(f"Failed to kill {proc_id}: {str(e)}")
 
@@ -237,15 +233,11 @@ Examples:
                             else:
                                 proc.terminate()
                             killed_count += 1
-                            await tool_ctx.info(
-                                f"Killed {proc.info['name']} (PID: {proc.info['pid']})"
-                            )
+                            await tool_ctx.info(f"Killed {proc.info['name']} (PID: {proc.info['pid']})")
                     except (psutil.NoSuchProcess, psutil.AccessDenied):
                         continue
                     except Exception as e:
-                        errors.append(
-                            f"Failed to kill PID {proc.info['pid']}: {str(e)}"
-                        )
+                        errors.append(f"Failed to kill PID {proc.info['pid']}: {str(e)}")
 
             # Build result message
             if killed_count > 0:

@@ -18,9 +18,7 @@ def test_memory_registration():
     permission_manager = PermissionManager()
     permission_manager.add_allowed_path("/tmp")
 
-    tools = register_memory_tools(
-        mcp_server, permission_manager, user_id="test_user", project_id="test_project"
-    )
+    tools = register_memory_tools(mcp_server, permission_manager, user_id="test_user", project_id="test_project")
 
     assert len(tools) == 9
     print(f"Successfully registered {len(tools)} memory tools")

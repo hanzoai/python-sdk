@@ -191,9 +191,7 @@ class SwarmToolParams(TypedDict):
 class SwarmState(State):
     """State for swarm execution."""
 
-    def __init__(
-        self, config: SwarmConfig, initial_query: str, context: Optional[str] = None
-    ):
+    def __init__(self, config: SwarmConfig, initial_query: str, context: Optional[str] = None):
         """Initialize swarm state."""
         super().__init__()
         self.config = config
@@ -294,9 +292,7 @@ class SwarmAgent(MCPAgent):
         # Default to anthropic
         return f"model://anthropic/{model}"
 
-    async def run(
-        self, state: SwarmState, history: History, network: Network
-    ) -> InferenceResult:
+    async def run(self, state: SwarmState, history: History, network: Network) -> InferenceResult:
         """Execute the swarm agent."""
         # Build prompt with context
         prompt_parts = []
@@ -418,9 +414,7 @@ class SwarmRouter(DeterministicRouter):
         # No more agents to execute
         return None
 
-    def _get_agent_class(
-        self, agent_id: str, agent_stack: List[type[Agent]]
-    ) -> type[Agent]:
+    def _get_agent_class(self, agent_id: str, agent_stack: List[type[Agent]]) -> type[Agent]:
         """Get agent class for given agent ID."""
         # Find matching agent by name
         for agent_class in agent_stack:
@@ -495,11 +489,7 @@ Models can be specified as:
         from hanzo_mcp.tools.agent.code_auth import get_latest_claude_model
 
         self.model = model or f"anthropic/{get_latest_claude_model()}"
-        self.api_key = (
-            api_key
-            or os.environ.get("ANTHROPIC_API_KEY")
-            or os.environ.get("CLAUDE_API_KEY")
-        )
+        self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
         self.base_url = base_url
         self.max_tokens = max_tokens
         self.agent_max_iterations = agent_max_iterations
@@ -507,21 +497,15 @@ Models can be specified as:
 
         # Set up available tools for agents
         self.available_tools: list[BaseTool] = []
-        self.available_tools.extend(
-            get_read_only_filesystem_tools(self.permission_manager)
-        )
-        self.available_tools.extend(
-            get_read_only_jupyter_tools(self.permission_manager)
-        )
+        self.available_tools.extend(get_read_only_filesystem_tools(self.permission_manager))
+        self.available_tools.extend(get_read_only_jupyter_tools(self.permission_manager))
 
         # Add edit tools
         self.available_tools.append(Edit(self.permission_manager))
         self.available_tools.append(MultiEdit(self.permission_manager))
 
         # Add batch tool
-        self.available_tools.append(
-            BatchTool({t.name: t for t in self.available_tools})
-        )
+        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @override
     async def call(
@@ -549,9 +533,7 @@ Models can be specified as:
 
         # hanzo-agents SDK is required (already imported above)
 
-        await tool_ctx.info(
-            f"Starting swarm execution with {len(agents_config)} agents using hanzo-agents SDK"
-        )
+        await tool_ctx.info(f"Starting swarm execution with {len(agents_config)} agents using hanzo-agents SDK")
 
         # Create state
         state = SwarmState(config=config, initial_query=initial_query, context=context)
@@ -648,9 +630,7 @@ Models can be specified as:
         output.append("=" * 80)
         output.append(f"Total agents: {len(agents_config)}")
         output.append(f"Completed: {len(results)}")
-        output.append(
-            f"Failed: {len([r for r in results.values() if r.startswith('Error:')])}"
-        )
+        output.append(f"Failed: {len([r for r in results.values() if r.startswith('Error:')])}")
 
         if entry_point:
             output.append(f"Entry point: {entry_point}")

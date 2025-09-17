@@ -115,9 +115,7 @@ Feature Implementation Planning
 
         # Validate required thought parameter
         if not thought:
-            await tool_ctx.error(
-                "Parameter 'thought' is required but was None or empty"
-            )
+            await tool_ctx.error("Parameter 'thought' is required but was None or empty")
             return "Error: Parameter 'thought' is required but was None or empty"
 
         if thought.strip() == "":

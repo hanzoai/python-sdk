@@ -14,9 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_cli_help():
     """Test that CLI help works."""
-    result = subprocess.run(
-        [sys.executable, "-m", "hanzo_mcp", "--help"], capture_output=True, text=True
-    )
+    result = subprocess.run([sys.executable, "-m", "hanzo_mcp", "--help"], capture_output=True, text=True)
 
     print(f"Return code: {result.returncode}")
     print(f"STDOUT: {result.stdout[:200]}")
@@ -31,9 +29,7 @@ def test_cli_help():
 
 def test_cli_version():
     """Test version command."""
-    result = subprocess.run(
-        [sys.executable, "-m", "hanzo_mcp", "--version"], capture_output=True, text=True
-    )
+    result = subprocess.run([sys.executable, "-m", "hanzo_mcp", "--version"], capture_output=True, text=True)
 
     print(f"Version output: {result.stdout}")
     # Version command might not be supported, so just check if command doesn't crash
@@ -81,9 +77,7 @@ async def test_stdio_server():
 
             # Read response with timeout
             try:
-                response_line = await asyncio.wait_for(
-                    proc.stdout.readline(), timeout=5.0
-                )
+                response_line = await asyncio.wait_for(proc.stdout.readline(), timeout=5.0)
                 response = json.loads(response_line.decode())
 
                 print(f"Initialize response: {response}")
@@ -102,9 +96,7 @@ async def test_stdio_server():
                 proc.stdin.write((json.dumps(list_request) + "\n").encode())
                 await proc.stdin.drain()
 
-                response_line = await asyncio.wait_for(
-                    proc.stdout.readline(), timeout=5.0
-                )
+                response_line = await asyncio.wait_for(proc.stdout.readline(), timeout=5.0)
                 response = json.loads(response_line.decode())
 
                 print(f"Found {len(response['result']['tools'])} tools")

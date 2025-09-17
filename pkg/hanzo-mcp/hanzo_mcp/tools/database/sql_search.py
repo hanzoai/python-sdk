@@ -66,9 +66,7 @@ class SqlSearchParams(TypedDict, total=False):
 class SqlSearchTool(BaseTool):
     """Tool for searching text in SQLite database."""
 
-    def __init__(
-        self, permission_manager: PermissionManager, db_manager: DatabaseManager
-    ):
+    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
         """Initialize the SQL search tool.
 
         Args:
@@ -253,9 +251,7 @@ Use sql_query for complex queries with joins, conditions, etc."""
 
         return text_columns
 
-    def _format_results(
-        self, table: str, results: list, pattern: str, search_columns: list[str]
-    ) -> str:
+    def _format_results(self, table: str, results: list, pattern: str, search_columns: list[str]) -> str:
         """Format search results based on table type."""
         output = []
 

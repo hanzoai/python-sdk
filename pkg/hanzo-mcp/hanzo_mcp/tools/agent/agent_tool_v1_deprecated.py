@@ -151,12 +151,8 @@ Usage notes:
         self.max_iterations = max_iterations
         self.max_tool_uses = max_tool_uses
         self.available_tools: list[BaseTool] = []
-        self.available_tools.extend(
-            get_read_only_filesystem_tools(self.permission_manager)
-        )
-        self.available_tools.extend(
-            get_read_only_jupyter_tools(self.permission_manager)
-        )
+        self.available_tools.extend(get_read_only_filesystem_tools(self.permission_manager))
+        self.available_tools.extend(get_read_only_jupyter_tools(self.permission_manager))
 
         # Always add edit tools - agents should have edit access
         self.available_tools.append(Edit(self.permission_manager))
@@ -174,9 +170,7 @@ Usage notes:
         # Add I Ching tool for creative guidance
         self.available_tools.append(IChingTool())
 
-        self.available_tools.append(
-            BatchTool({t.name: t for t in self.available_tools})
-        )
+        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
         # Initialize protocols
         self.critic_protocol = CriticProtocol()
@@ -239,9 +233,7 @@ Example of correct usage:
         absolute_path_pattern = r"/(?:[^/\s]+/)*[^/\s]+"
         for prompt in prompt_list:
             if not re.search(absolute_path_pattern, prompt):
-                await tool_ctx.error(
-                    f"Prompt does not contain absolute path: {prompt[:50]}..."
-                )
+                await tool_ctx.error(f"Prompt does not contain absolute path: {prompt[:50]}...")
                 return """Error: All prompts must contain at least one absolute path.
 
 IMPORTANT REMINDER FOR CLAUDE:
@@ -271,9 +263,7 @@ AGENT RESPONSE:
 
 AGENT RESPONSES:
 {result}"""
-            await tool_ctx.info(
-                f"Multi-agent execution completed in {execution_time:.2f}s"
-            )
+            await tool_ctx.info(f"Multi-agent execution completed in {execution_time:.2f}s")
             return formatted_result
 
     async def _execute_agent(self, prompt: str, tool_ctx: ToolContext) -> str:
@@ -310,9 +300,7 @@ AGENT RESPONSES:
 
             # Execute agent
             await tool_ctx.info(f"Executing agent task: {prompt[:50]}...")
-            result = await self._execute_agent_with_tools(
-                system_prompt, prompt, agent_tools, openai_tools, tool_ctx
-            )
+            result = await self._execute_agent_with_tools(system_prompt, prompt, agent_tools, openai_tools, tool_ctx)
         except Exception as e:
             # Log and return error result
             error_message = f"Error executing agent: {str(e)}"
@@ -321,9 +309,7 @@ AGENT RESPONSES:
 
         return result if result else "No results returned from agent"
 
-    async def _execute_multiple_agents(
-        self, prompts: list[str], tool_ctx: ToolContext
-    ) -> str:
+    async def _execute_multiple_agents(self, prompts: list[str], tool_ctx: ToolContext) -> str:
         """Execute multiple agents concurrently.
 
         Args:
@@ -352,9 +338,7 @@ AGENT RESPONSES:
         tasks = []
         for i, prompt in enumerate(prompts):
             await tool_ctx.info(f"Creating agent task {i + 1}: {prompt[:50]}...")
-            task = self._execute_agent_with_tools(
-                system_prompt, prompt, agent_tools, openai_tools, tool_ctx
-            )
+            task = self._execute_agent_with_tools(system_prompt, prompt, agent_tools, openai_tools, tool_ctx)
             tasks.append(task)
 
         # Execute all agents concurrently
@@ -413,9 +397,7 @@ AGENT RESPONSES:
         total_tool_use_count = 0
         iteration_count = 0
         max_tool_uses = self.max_tool_uses  # Safety limit to prevent infinite loops
-        max_iterations = (
-            self.max_iterations
-        )  # Add a maximum number of iterations for safety
+        max_iterations = self.max_iterations  # Add a maximum number of iterations for safety
 
         # Execute until the agent completes or reaches the limit
         while total_tool_use_count < max_tool_uses and iteration_count < max_iterations:
@@ -480,9 +462,7 @@ AGENT RESPONSES:
                         function_args = {}
 
                     # Find the matching tool
-                    tool = next(
-                        (t for t in available_tools if t.name == function_name), None
-                    )
+                    tool = next((t for t in available_tools if t.name == function_name), None)
                     if not tool:
                         tool_result = f"Error: Tool '{function_name}' not found"
                     # Special handling for clarification requests
@@ -505,9 +485,7 @@ AGENT RESPONSES:
                                 options=options,
                             )
 
-                            tool_result = self.format_clarification_in_output(
-                                question, answer
-                            )
+                            tool_result = self.format_clarification_in_output(question, answer)
                         except Exception as e:
                             tool_result = f"Error processing clarification: {str(e)}"
                     # Special handling for critic requests
@@ -552,9 +530,7 @@ AGENT RESPONSES:
                             tool_result = f"Error processing review: {str(e)}"
                     else:
                         try:
-                            tool_result = await tool.call(
-                                ctx=tool_ctx.mcp_context, **function_args
-                            )
+                            tool_result = await tool.call(ctx=tool_ctx.mcp_context, **function_args)
                         except Exception as e:
                             tool_result = f"Error executing {function_name}: {str(e)}"
 
@@ -572,9 +548,7 @@ AGENT RESPONSES:
                     )
 
                 # Log progress
-                await tool_ctx.info(
-                    f"Processed {len(message.tool_calls)} tool calls. Total: {total_tool_use_count}"
-                )
+                await tool_ctx.info(f"Processed {len(message.tool_calls)} tool calls. Total: {total_tool_use_count}")
 
             except Exception as e:
                 await tool_ctx.error(f"Error in model call: {str(e)}")
@@ -602,8 +576,7 @@ AGENT RESPONSES:
                 )
 
                 return (
-                    final_response.choices[0].message.content
-                    or "Agent reached max iteration limit without a response."
+                    final_response.choices[0].message.content or "Agent reached max iteration limit without a response."
                 )  # pyright: ignore
             except Exception as e:
                 await tool_ctx.error(f"Error in final model call: {str(e)}")

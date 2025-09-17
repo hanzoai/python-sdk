@@ -93,9 +93,7 @@ class APIClient:
         return FastMCP("test-server")
 
     @pytest.mark.asyncio
-    async def test_swarm_parallel_file_editing(
-        self, tool_helper, test_dir, permission_manager, mcp_server
-    ):
+    async def test_swarm_parallel_file_editing(self, tool_helper, test_dir, permission_manager, mcp_server):
         """Test editing multiple files in parallel with swarm tool."""
         # Create swarm tool with default model (should use Sonnet)
         swarm_tool = SwarmTool(
@@ -145,25 +143,19 @@ class APIClient:
 
         # Verify results
         tool_helper.assert_in_result("Swarm Execution Summary:", result)
-        assert (
-            "Successful: 3" in result or "Successful: 2" in result
-        )  # Allow for some failures in test
+        assert "Successful: 3" in result or "Successful: 2" in result  # Allow for some failures in test
 
         # Check if files were actually modified
         with open(os.path.join(test_dir, "config.py"), "r") as f:
             config_content = f.read()
             # Should have NEW_ variables now
-            assert (
-                "NEW_API_KEY" in config_content or "OLD_API_KEY" in config_content
-            )  # Allow for partial success
+            assert "NEW_API_KEY" in config_content or "OLD_API_KEY" in config_content  # Allow for partial success
 
         print("Swarm execution result:")
         print(result)
 
     @pytest.mark.asyncio
-    async def test_batch_tool_with_agents(
-        self, tool_helper, test_dir, permission_manager, mcp_server
-    ):
+    async def test_batch_tool_with_agents(self, tool_helper, test_dir, permission_manager, mcp_server):
         """Test using batch tool to launch multiple agents."""
         # Create tools
         agent_tool = AgentTool(
@@ -195,9 +187,7 @@ class APIClient:
             },
             {
                 "tool_name": "agent",
-                "input": {
-                    "prompts": f"Search for all imports from config module in {test_dir} and list the files"
-                },
+                "input": {"prompts": f"Search for all imports from config module in {test_dir} and list the files"},
             },
             {
                 "tool_name": "read",
@@ -206,9 +196,7 @@ class APIClient:
         ]
 
         # Execute batch
-        result = await batch_tool.call(
-            ctx, description="Analyze codebase", invocations=invocations
-        )
+        result = await batch_tool.call(ctx, description="Analyze codebase", invocations=invocations)
 
         # Check results
         tool_helper.assert_in_result("Batch operation: Analyze codebase", result)
@@ -220,16 +208,11 @@ class APIClient:
         print(result)
 
     @pytest.mark.asyncio
-    async def test_pagination_with_large_agent_response(
-        self, tool_helper, test_dir, permission_manager
-    ):
+    async def test_pagination_with_large_agent_response(self, tool_helper, test_dir, permission_manager):
         """Test that large agent responses are properly paginated."""
         # Create a large file that will produce a big response
         large_content = "\n".join(
-            [
-                f"LINE_{i}: This is a test line with some content that needs to be analyzed"
-                for i in range(1000)
-            ]
+            [f"LINE_{i}: This is a test line with some content that needs to be analyzed" for i in range(1000)]
         )
         large_file = os.path.join(test_dir, "large_file.py")
         with open(large_file, "w") as f:
@@ -256,9 +239,7 @@ class APIClient:
         print(f"Agent response length: {len(result)} characters")
 
     @pytest.mark.asyncio
-    async def test_claude_code_compatibility(
-        self, tool_helper, test_dir, permission_manager
-    ):
+    async def test_claude_code_compatibility(self, tool_helper, test_dir, permission_manager):
         """Test that agent tool works with Claude Code style prompts."""
         # Create agent configured for Claude Code
         agent = AgentTool(

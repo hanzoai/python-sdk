@@ -68,9 +68,7 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
     assert len(openai_functions) == 1
     assert openai_functions[0]["type"] == "function"
     assert openai_functions[0]["function"]["name"] == "echo"
-    assert (
-        openai_functions[0]["function"]["description"] == "Echo back the input message."
-    )
+    assert openai_functions[0]["function"]["description"] == "Echo back the input message."
     assert "parameters" in openai_functions[0]["function"]
 
 
