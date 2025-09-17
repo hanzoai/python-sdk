@@ -177,9 +177,7 @@ async def test_find_tool_advanced_filters(tool_helper):
         find_tool = create_find_tool()
 
         # Test modified_after filter
-        result = await find_tool.run(
-            pattern="*.txt", path=tmpdir, modified_after="2 days ago"
-        )
+        result = await find_tool.run(pattern="*.txt", path=tmpdir, modified_after="2 days ago")
 
         recent_files = result.data["results"]
         recent_names = [f["name"] for f in recent_files]
@@ -188,9 +186,7 @@ async def test_find_tool_advanced_filters(tool_helper):
         assert "new_file.txt" in recent_names
 
         # Test modified_before filter
-        result = await find_tool.run(
-            pattern="*.txt", path=tmpdir, modified_before="30 minutes ago"
-        )
+        result = await find_tool.run(pattern="*.txt", path=tmpdir, modified_before="30 minutes ago")
 
         older_files = result.data["results"]
         older_names = [f["name"] for f in older_files]
@@ -207,9 +203,7 @@ async def test_find_tool_advanced_filters(tool_helper):
         assert sorted_files[-1]["name"] == "new_file.txt"
 
         # Test reverse sorting
-        result = await find_tool.run(
-            pattern="*.txt", path=tmpdir, sort_by="modified", reverse=True
-        )
+        result = await find_tool.run(pattern="*.txt", path=tmpdir, sort_by="modified", reverse=True)
 
         reverse_sorted = result.data["results"]
         assert reverse_sorted[0]["name"] == "new_file.txt"

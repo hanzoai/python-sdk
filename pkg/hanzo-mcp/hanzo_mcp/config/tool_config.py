@@ -204,6 +204,4 @@ def disable_tool(tool_name: str) -> bool:
 
 def is_tool_enabled(tool_name: str) -> bool:
     """Check if a tool is enabled."""
-    return TOOL_REGISTRY.get(
-        tool_name, ToolConfig("", ToolCategory.COMMON, False)
-    ).enabled
+    return TOOL_REGISTRY.get(tool_name, ToolConfig("", ToolCategory.COMMON, False)).enabled

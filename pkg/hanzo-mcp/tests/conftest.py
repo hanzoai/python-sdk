@@ -40,12 +40,8 @@ def pytest_configure(config):
     config._inicache["asyncio_default_fixture_loop_scope"] = "function"
 
     # Register custom markers
-    config.addinivalue_line(
-        "markers", "requires_hanzo_agents: mark test as requiring hanzo-agents SDK"
-    )
-    config.addinivalue_line(
-        "markers", "requires_memory_tools: mark test as requiring hanzo-memory package"
-    )
+    config.addinivalue_line("markers", "requires_hanzo_agents: mark test as requiring hanzo-agents SDK")
+    config.addinivalue_line("markers", "requires_memory_tools: mark test as requiring hanzo-memory package")
     config.addinivalue_line("markers", "slow: mark test as slow running")
     config.addinivalue_line("markers", "integration: mark test as integration test")
 

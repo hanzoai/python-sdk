@@ -87,17 +87,11 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
 
         try:
             if action == "get":
-                return await self._get_config(
-                    scope, setting_path, project_name, project_path
-                )
+                return await self._get_config(scope, setting_path, project_name, project_path)
             elif action == "set":
-                return await self._set_config(
-                    scope, setting_path, value, project_name, project_path
-                )
+                return await self._set_config(scope, setting_path, value, project_name, project_path)
             elif action == "add_server":
-                return await self._add_mcp_server(
-                    server_name, server_config, scope, project_name
-                )
+                return await self._add_mcp_server(server_name, server_config, scope, project_name)
             elif action == "remove_server":
                 return await self._remove_mcp_server(server_name, scope, project_name)
             elif action == "enable_server":
@@ -158,10 +152,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
                 "agent": settings.agent.__dict__,
                 "vector_store": settings.vector_store.__dict__,
                 "hub_enabled": settings.hub_enabled,
-                "mcp_servers": {
-                    name: server.__dict__
-                    for name, server in settings.mcp_servers.items()
-                },
+                "mcp_servers": {name: server.__dict__ for name, server in settings.mcp_servers.items()},
                 "current_project": settings.current_project,
                 "projects": list(settings.projects.keys()),
             }
@@ -239,9 +230,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
         else:
             return f"Error: MCP server '{server_name}' already exists"
 
-    async def _remove_mcp_server(
-        self, server_name: Optional[str], scope: str, project_name: Optional[str]
-    ) -> str:
+    async def _remove_mcp_server(self, server_name: Optional[str], scope: str, project_name: Optional[str]) -> str:
         """Remove an MCP server."""
         if not server_name:
             return "Error: server_name is required"
@@ -254,9 +243,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
         else:
             return f"Error: MCP server '{server_name}' not found"
 
-    async def _enable_mcp_server(
-        self, server_name: Optional[str], scope: str, project_name: Optional[str]
-    ) -> str:
+    async def _enable_mcp_server(self, server_name: Optional[str], scope: str, project_name: Optional[str]) -> str:
         """Enable an MCP server."""
         if not server_name:
             return "Error: server_name is required"
@@ -269,9 +256,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
         else:
             return f"Error: MCP server '{server_name}' not found"
 
-    async def _disable_mcp_server(
-        self, server_name: Optional[str], scope: str, project_name: Optional[str]
-    ) -> str:
+    async def _disable_mcp_server(self, server_name: Optional[str], scope: str, project_name: Optional[str]) -> str:
         """Disable an MCP server."""
         if not server_name:
             return "Error: server_name is required"
@@ -297,9 +282,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
         else:
             return f"Error: MCP server '{server_name}' not found"
 
-    async def _add_project(
-        self, project_name: Optional[str], project_path: Optional[str]
-    ) -> str:
+    async def _add_project(self, project_name: Optional[str], project_path: Optional[str]) -> str:
         """Add a project configuration."""
         if not project_path:
             return "Error: project_path is required"
@@ -325,9 +308,7 @@ Automatically detects projects based on LLM.md files and manages .hanzo/ directo
         else:
             return f"Error: Project '{project_name}' already exists"
 
-    async def _set_current_project(
-        self, project_name: Optional[str], project_path: Optional[str]
-    ) -> str:
+    async def _set_current_project(self, project_name: Optional[str], project_path: Optional[str]) -> str:
         """Set the current active project."""
         settings = load_settings()
 

@@ -294,9 +294,7 @@ Available: {", ".join(available) if available else "None"}"""
             # Other actions can fall through to regular path if available
 
         if not LITELLM_AVAILABLE:
-            return (
-                "Error: LiteLLM is not installed. Install it with: pip install litellm"
-            )
+            return "Error: LiteLLM is not installed. Install it with: pip install litellm"
 
         # Extract action
         action = params.get("action", "query")
@@ -315,9 +313,7 @@ Available: {", ".join(available) if available else "None"}"""
         elif action == "disable":
             return self._handle_disable(params.get("provider"))
         elif action == "test":
-            return await self._handle_test(
-                tool_ctx, params.get("model"), params.get("provider")
-            )
+            return await self._handle_test(tool_ctx, params.get("model"), params.get("provider"))
         else:
             return f"Error: Unknown action '{action}'. Valid actions: query, consensus, list, models, enable, disable, test"
 
@@ -407,9 +403,7 @@ Available: {", ".join(available) if available else "None"}"""
         models = params.get("models")
         if not models:
             # Use configured or default models
-            consensus_size = params.get("consensus_size") or self.config.get(
-                "consensus_size", 3
-            )
+            consensus_size = params.get("consensus_size") or self.config.get("consensus_size", 3)
             models = self._get_consensus_models(consensus_size)
 
         if not models:
@@ -449,11 +443,7 @@ Available: {", ".join(available) if available else "None"}"""
         if devil_model:
             # Create devil's advocate prompt
             responses_text = "\n\n".join(
-                [
-                    f"Model {i + 1}: {resp['response']}"
-                    for i, resp in enumerate(responses)
-                    if resp["response"]
-                ]
+                [f"Model {i + 1}: {resp['response']}" for i, resp in enumerate(responses) if resp["response"]]
             )
 
             devil_prompt = f"""You are a critical analyst. Review these responses to the question below and provide a devil's advocate perspective. Challenge assumptions, point out weaknesses, and suggest alternative viewpoints.
@@ -477,14 +467,10 @@ Provide your critical analysis:"""
                 }
 
         # Aggregate responses
-        judge_model = params.get("judge_model") or self.config.get(
-            "default_judge_model", "gpt-4o"
-        )
+        judge_model = params.get("judge_model") or self.config.get("default_judge_model", "gpt-4o")
         include_raw = params.get("include_raw", False)
 
-        return await self._aggregate_consensus(
-            responses, prompt, judge_model, include_raw, devil_response, tool_ctx
-        )
+        return await self._aggregate_consensus(responses, prompt, judge_model, include_raw, devil_response, tool_ctx)
 
     def _handle_list(self) -> str:
         """List available providers."""
@@ -518,9 +504,7 @@ Provide your critical analysis:"""
             output.append(f"{provider}: {status}")
             output.append(f"  Environment variables: {', '.join(env_vars)}")
 
-        output.append(
-            "\nUse 'llm --action enable/disable --provider <name>' to manage providers"
-        )
+        output.append("\nUse 'llm --action enable/disable --provider <name>' to manage providers")
 
         return "\n".join(output)
 
@@ -560,16 +544,10 @@ Provide your critical analysis:"""
                 # Show providers with counts
                 for provider_name, models in sorted(all_models.items()):
                     if models:
-                        available = (
-                            "✅" if provider_name in self.available_providers else "❌"
-                        )
-                        output.append(
-                            f"{available} {provider_name}: {len(models)} models"
-                        )
+                        available = "✅" if provider_name in self.available_providers else "❌"
+                        output.append(f"{available} {provider_name}: {len(models)} models")
 
-                output.append(
-                    "\nUse 'llm --action models --provider <name>' to see specific models"
-                )
+                output.append("\nUse 'llm --action models --provider <name>' to see specific models")
 
             return "\n".join(output)
 
@@ -608,9 +586,7 @@ Provide your critical analysis:"""
         else:
             return f"{provider} is already disabled"
 
-    async def _handle_test(
-        self, tool_ctx, model: Optional[str], provider: Optional[str]
-    ) -> str:
+    async def _handle_test(self, tool_ctx, model: Optional[str], provider: Optional[str]) -> str:
         """Test a model or provider."""
         if not model and not provider:
             return "Error: Either model or provider is required for test action"
@@ -666,11 +642,7 @@ Provide your critical analysis:"""
                 break
 
             provider = self._get_provider_for_model(model)
-            if (
-                provider
-                and provider in self.available_providers
-                and provider not in disabled
-            ):
+            if provider and provider in self.available_providers and provider not in disabled:
                 models.append(model)
 
         # If still need more, add from available providers
@@ -703,9 +675,7 @@ Provide your critical analysis:"""
         """Query multiple models in parallel."""
 
         async def query_with_info(model: str) -> Dict[str, Any]:
-            result = await self._query_single_model(
-                model, prompt, system_prompt, temperature, max_tokens
-            )
+            result = await self._query_single_model(model, prompt, system_prompt, temperature, max_tokens)
             return {
                 "model": model,
                 "response": result.get("response"),
@@ -784,12 +754,7 @@ Provide your critical analysis:"""
             return "Error: All models failed to respond"
 
         # Format responses for aggregation
-        responses_text = "\n\n".join(
-            [
-                f"Model: {r['model']}\nResponse: {r['response']}"
-                for r in successful_responses
-            ]
-        )
+        responses_text = "\n\n".join([f"Model: {r['model']}\nResponse: {r['response']}" for r in successful_responses])
 
         if devil_response:
             responses_text += f"\n\nDevil's Advocate ({devil_response['model']}):\n{devil_response['response']}"
@@ -818,23 +783,17 @@ Be concise and highlight the most important findings."""
             if tool_ctx:
                 await tool_ctx.info(f"Aggregating responses with {judge_model}...")
 
-            judge_result = await self._query_single_model(
-                judge_model, aggregation_prompt, None, 0.3, None
-            )
+            judge_result = await self._query_single_model(judge_model, aggregation_prompt, None, 0.3, None)
 
             if not judge_result["success"]:
                 return f"Error: Judge model failed: {judge_result.get('error', 'Unknown error')}"
 
             # Format output
-            output = [
-                f"=== Consensus Analysis ({len(successful_responses)} models) ===\n"
-            ]
+            output = [f"=== Consensus Analysis ({len(successful_responses)} models) ===\n"]
             output.append(judge_result["response"])
 
             # Add model list
-            output.append(
-                f"\nModels consulted: {', '.join([r['model'] for r in successful_responses])}"
-            )
+            output.append(f"\nModels consulted: {', '.join([r['model'] for r in successful_responses])}")
             if devil_response:
                 output.append(f"Devil's Advocate: {devil_response['model']}")
 

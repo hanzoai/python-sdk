@@ -322,9 +322,7 @@ class CodeAuthManager:
             api_key = None
             if parent_info.get("has_keyring"):
                 try:
-                    api_key = keyring.get_password(
-                        f"hanzo-{parent_info['provider']}", parent_account
-                    )
+                    api_key = keyring.get_password(f"hanzo-{parent_info['provider']}", parent_account)
                 except Exception:
                     pass
 

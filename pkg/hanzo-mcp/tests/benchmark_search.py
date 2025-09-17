@@ -240,14 +240,8 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
                 "source_size_bytes": total_size,
                 "database_size_bytes": db_size,
                 "storage_ratio": storage_ratio,
-                "files_per_second": (
-                    len(python_files) / indexing_time if indexing_time > 0 else 0
-                ),
-                "mb_per_second": (
-                    (total_size / 1024 / 1024) / indexing_time
-                    if indexing_time > 0
-                    else 0
-                ),
+                "files_per_second": (len(python_files) / indexing_time if indexing_time > 0 else 0),
+                "mb_per_second": ((total_size / 1024 / 1024) / indexing_time if indexing_time > 0 else 0),
             }
 
             print(f"Indexing completed in {indexing_time:.2f} seconds")
@@ -269,9 +263,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
                 "indexing_time_seconds": time.time() - start_time,
             }
 
-    async def benchmark_search_performance(
-        self, project_path: Path, queries: List[str]
-    ) -> Dict[str, Any]:
+    async def benchmark_search_performance(self, project_path: Path, queries: List[str]) -> Dict[str, Any]:
         """Benchmark search performance across different query types."""
         print(f"\\n=== Benchmarking Search Performance ===")
 
@@ -301,9 +293,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
 
                 try:
                     # Mock path validation methods
-                    unified_tool.validate_path = lambda x: type(
-                        "obj", (object,), {"is_error": False}
-                    )()
+                    unified_tool.validate_path = lambda x: type("obj", (object,), {"is_error": False})()
                     unified_tool.check_path_allowed = lambda x, y: (True, None)
                     unified_tool.check_path_exists = lambda x, y: (True, None)
 
@@ -334,9 +324,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             valid_times = [t for t in times if t != float("inf")]
 
             search_results[query] = {
-                "avg_time_seconds": (
-                    statistics.mean(valid_times) if valid_times else float("inf")
-                ),
+                "avg_time_seconds": (statistics.mean(valid_times) if valid_times else float("inf")),
                 "min_time_seconds": min(valid_times) if valid_times else float("inf"),
                 "max_time_seconds": max(valid_times) if valid_times else float("inf"),
                 "avg_results": statistics.mean(result_counts) if result_counts else 0,
@@ -385,13 +373,9 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             "total_files": len(python_files),
             "successful_analyses": len(valid_times),
             "total_time_seconds": total_time,
-            "avg_time_per_file": (
-                statistics.mean(valid_times) if valid_times else float("inf")
-            ),
+            "avg_time_per_file": (statistics.mean(valid_times) if valid_times else float("inf")),
             "total_symbols": sum(symbol_counts),
-            "avg_symbols_per_file": (
-                statistics.mean(symbol_counts) if symbol_counts else 0
-            ),
+            "avg_symbols_per_file": (statistics.mean(symbol_counts) if symbol_counts else 0),
             "files_per_second": len(valid_times) / total_time if total_time > 0 else 0,
         }
 
@@ -436,14 +420,10 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             size_results["indexing"] = await self.benchmark_indexing(test_project)
 
             # 2. Benchmark AST analysis
-            size_results["ast_analysis"] = await self.benchmark_ast_analysis(
-                test_project
-            )
+            size_results["ast_analysis"] = await self.benchmark_ast_analysis(test_project)
 
             # 3. Benchmark search performance
-            size_results["search_performance"] = (
-                await self.benchmark_search_performance(test_project, test_queries)
-            )
+            size_results["search_performance"] = await self.benchmark_search_performance(test_project, test_queries)
 
             benchmark_results["results"][size] = size_results
 
@@ -465,24 +445,16 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             indexing = size_results["indexing"]
             report.append("### Indexing Performance")
             if indexing["success"]:
-                report.append(
-                    f"- **Indexing Time**: {indexing['indexing_time_seconds']:.2f} seconds"
-                )
+                report.append(f"- **Indexing Time**: {indexing['indexing_time_seconds']:.2f} seconds")
                 report.append(f"- **Files Indexed**: {indexing['files_count']}")
-                report.append(
-                    f"- **Source Size**: {indexing['source_size_bytes'] / 1024 / 1024:.2f} MB"
-                )
-                report.append(
-                    f"- **Database Size**: {indexing['database_size_bytes'] / 1024 / 1024:.2f} MB"
-                )
+                report.append(f"- **Source Size**: {indexing['source_size_bytes'] / 1024 / 1024:.2f} MB")
+                report.append(f"- **Database Size**: {indexing['database_size_bytes'] / 1024 / 1024:.2f} MB")
                 report.append(f"- **Storage Ratio**: {indexing['storage_ratio']:.2f}x")
                 report.append(
                     f"- **Performance**: {indexing['files_per_second']:.1f} files/sec, {indexing['mb_per_second']:.1f} MB/sec"
                 )
             else:
-                report.append(
-                    f"- **Status**: Failed - {indexing.get('error', 'Unknown error')}"
-                )
+                report.append(f"- **Status**: Failed - {indexing.get('error', 'Unknown error')}")
             report.append("")
 
             # AST Analysis results
@@ -491,13 +463,9 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             report.append(f"- **Total Files**: {ast['total_files']}")
             report.append(f"- **Successful Analyses**: {ast['successful_analyses']}")
             report.append(f"- **Total Time**: {ast['total_time_seconds']:.2f} seconds")
-            report.append(
-                f"- **Avg Time per File**: {ast['avg_time_per_file']:.3f} seconds"
-            )
+            report.append(f"- **Avg Time per File**: {ast['avg_time_per_file']:.3f} seconds")
             report.append(f"- **Total Symbols**: {ast['total_symbols']}")
-            report.append(
-                f"- **Avg Symbols per File**: {ast['avg_symbols_per_file']:.1f}"
-            )
+            report.append(f"- **Avg Symbols per File**: {ast['avg_symbols_per_file']:.1f}")
             report.append(f"- **Files per Second**: {ast['files_per_second']:.1f}")
             report.append("")
 
@@ -517,9 +485,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
                 else:
                     time_str = f"{avg_time:.3f}"
 
-                report.append(
-                    f"| `{query}` | {time_str} | {avg_results:.1f} | {success_rate:.1f}% |"
-                )
+                report.append(f"| `{query}` | {time_str} | {avg_results:.1f} | {success_rate:.1f}% |")
 
             report.append("")
 
@@ -533,15 +499,9 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
 
             if indexing["success"]:
                 report.append(f"**{size.upper()} Project:**")
-                report.append(
-                    f"- Indexed {indexing['files_count']} files in {indexing['indexing_time_seconds']:.2f}s"
-                )
-                report.append(
-                    f"- Database compression: {indexing['storage_ratio']:.2f}x"
-                )
-                report.append(
-                    f"- AST analysis: {ast['files_per_second']:.1f} files/sec"
-                )
+                report.append(f"- Indexed {indexing['files_count']} files in {indexing['indexing_time_seconds']:.2f}s")
+                report.append(f"- Database compression: {indexing['storage_ratio']:.2f}x")
+                report.append(f"- AST analysis: {ast['files_per_second']:.1f} files/sec")
                 report.append("")
 
         return "\\n".join(report)

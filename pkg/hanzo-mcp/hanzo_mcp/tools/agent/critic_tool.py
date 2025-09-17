@@ -117,9 +117,7 @@ class AutoCritic:
     ) -> str:
         """Perform automated critical review."""
         review_func = self.review_patterns.get(review_type, self._review_general)
-        return review_func(
-            work_description, code_snippets, file_paths, specific_concerns
-        )
+        return review_func(work_description, code_snippets, file_paths, specific_concerns)
 
     def _review_code_quality(
         self,
@@ -137,15 +135,11 @@ class AutoCritic:
             for snippet in code_snippets:
                 # Check for proper error handling
                 if "error" in snippet.lower() and "if err" not in snippet:
-                    issues.append(
-                        "❌ Missing error handling - always check errors in Go"
-                    )
+                    issues.append("❌ Missing error handling - always check errors in Go")
 
                 # Check for magic numbers
                 if any(char.isdigit() for char in snippet) and "const" not in snippet:
-                    suggestions.append(
-                        "💡 Consider extracting magic numbers to named constants"
-                    )
+                    suggestions.append("💡 Consider extracting magic numbers to named constants")
 
                 # Check for proper imports
                 if "import" in snippet:
@@ -160,9 +154,7 @@ class AutoCritic:
             suggestions.append("💡 Consider edge cases and error scenarios")
 
         if file_paths and len(file_paths) > 5:
-            suggestions.append(
-                "💡 Large number of files modified - consider breaking into smaller PRs"
-            )
+            suggestions.append("💡 Large number of files modified - consider breaking into smaller PRs")
 
         # Build response
         response = "🔍 CODE QUALITY REVIEW:\n\n"
@@ -173,9 +165,7 @@ class AutoCritic:
             response += "✅ No major code quality issues detected.\n\n"
 
         if suggestions:
-            response += (
-                "Suggestions for Improvement:\n" + "\n".join(suggestions) + "\n\n"
-            )
+            response += "Suggestions for Improvement:\n" + "\n".join(suggestions) + "\n\n"
 
         if specific_concerns:
             response += f"Regarding your concern: '{specific_concerns}'\n"
@@ -183,9 +173,7 @@ class AutoCritic:
                 response += "→ Imports look properly formatted. Ensure they're in the standard order: stdlib, external, internal.\n"
 
         response += "\nOverall: " + (
-            "⚠️ Address the issues before proceeding."
-            if issues
-            else "✅ Good work, but always room for improvement!"
+            "⚠️ Address the issues before proceeding." if issues else "✅ Good work, but always room for improvement!"
         )
 
         return response
@@ -269,9 +257,7 @@ Security Checklist:
         response = "🔍 COMPLETENESS REVIEW:\n\n"
 
         if "fix" in tasks_mentioned and "test" not in tasks_mentioned:
-            response += (
-                "❌ No mention of tests - have you verified the fix with tests?\n"
-            )
+            response += "❌ No mention of tests - have you verified the fix with tests?\n"
 
         if "import" in tasks_mentioned:
             response += "✓ Import fixes mentioned\n"
@@ -382,8 +368,6 @@ class CriticProtocol:
         except KeyError:
             review_enum = ReviewType.GENERAL
 
-        review = self.auto_critic.review(
-            review_enum, work_description, code_snippets, file_paths, specific_concerns
-        )
+        review = self.auto_critic.review(review_enum, work_description, code_snippets, file_paths, specific_concerns)
 
         return f"Review {self.review_count}/{self.max_reviews}:\n\n{review}"

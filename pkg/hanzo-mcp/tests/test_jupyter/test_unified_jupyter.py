@@ -68,9 +68,7 @@ class TestUnifiedJupyterTool:
         ctx = MCPContext()
 
         # Read entire notebook
-        result = await jupyter_tool.call(
-            ctx, action="read", notebook_path=str(sample_notebook)
-        )
+        result = await jupyter_tool.call(ctx, action="read", notebook_path=str(sample_notebook))
 
         assert "Notebook with 2 cells" in result
         assert "Hello, World!" in result
@@ -78,9 +76,7 @@ class TestUnifiedJupyterTool:
         assert "[stdout]: Hello, World!" in result
 
         # Read specific cell by index
-        result = await jupyter_tool.call(
-            ctx, action="read", notebook_path=str(sample_notebook), cell_index=0
-        )
+        result = await jupyter_tool.call(ctx, action="read", notebook_path=str(sample_notebook), cell_index=0)
 
         assert "Cell 0 (code)" in result
         assert "print('Hello, World!')" in result
@@ -91,9 +87,7 @@ class TestUnifiedJupyterTool:
         ctx = MCPContext()
         new_notebook = tmp_path / "new.ipynb"
 
-        result = await jupyter_tool.call(
-            ctx, action="create", notebook_path=str(new_notebook)
-        )
+        result = await jupyter_tool.call(ctx, action="create", notebook_path=str(new_notebook))
 
         assert "Successfully created notebook" in result
         assert new_notebook.exists()
@@ -187,9 +181,7 @@ class TestUnifiedJupyterTool:
         """Test deleting entire notebook."""
         ctx = MCPContext()
 
-        result = await jupyter_tool.call(
-            ctx, action="delete", notebook_path=str(sample_notebook)
-        )
+        result = await jupyter_tool.call(ctx, action="delete", notebook_path=str(sample_notebook))
 
         assert "Successfully deleted notebook" in result
         assert not sample_notebook.exists()
@@ -200,15 +192,11 @@ class TestUnifiedJupyterTool:
         ctx = MCPContext()
 
         # Non-existent file
-        result = await jupyter_tool.call(
-            ctx, action="read", notebook_path=str(tmp_path / "nonexistent.ipynb")
-        )
+        result = await jupyter_tool.call(ctx, action="read", notebook_path=str(tmp_path / "nonexistent.ipynb"))
         assert "Error: File does not exist" in result
 
         # Invalid action
-        result = await jupyter_tool.call(
-            ctx, action="invalid", notebook_path=str(tmp_path / "test.ipynb")
-        )
+        result = await jupyter_tool.call(ctx, action="invalid", notebook_path=str(tmp_path / "test.ipynb"))
         assert "Error: Unknown action" in result
 
         # Missing required params for edit (need to test insert mode)

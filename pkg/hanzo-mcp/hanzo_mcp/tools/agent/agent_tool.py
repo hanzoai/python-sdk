@@ -197,9 +197,7 @@ class MCPAgent(Agent):
             adapter = MCPToolAdapter(mcp_tool, ctx)
             self.register_tool(adapter)
 
-    async def run(
-        self, state: MCPAgentState, history: History, network: Network
-    ) -> InferenceResult:
+    async def run(self, state: MCPAgentState, history: History, network: Network) -> InferenceResult:
         """Execute the agent."""
         # Get current prompt
         if state.current_prompt_index >= len(state.prompts):
@@ -324,12 +322,8 @@ Usage notes:
 
         # Set up available tools
         self.available_tools: list[BaseTool] = []
-        self.available_tools.extend(
-            get_read_only_filesystem_tools(self.permission_manager)
-        )
-        self.available_tools.extend(
-            get_read_only_jupyter_tools(self.permission_manager)
-        )
+        self.available_tools.extend(get_read_only_filesystem_tools(self.permission_manager))
+        self.available_tools.extend(get_read_only_jupyter_tools(self.permission_manager))
 
         # Add edit tools
         self.available_tools.append(Edit(self.permission_manager))
@@ -341,9 +335,7 @@ Usage notes:
         self.available_tools.append(ReviewTool())
         self.available_tools.append(IChingTool())
 
-        self.available_tools.append(
-            BatchTool({t.name: t for t in self.available_tools})
-        )
+        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @override
     async def call(
@@ -399,9 +391,7 @@ Usage notes:
                 times = (concurrency + len(prompt_list) - 1) // len(prompt_list)
                 prompt_list = (prompt_list * times)[:concurrency]
 
-        await tool_ctx.info(
-            f"Launching {len(prompt_list)} agent(s) using hanzo-agents SDK"
-        )
+        await tool_ctx.info(f"Launching {len(prompt_list)} agent(s) using hanzo-agents SDK")
 
         # Determine model and agent type
         model = params.get("model", self.model_override)

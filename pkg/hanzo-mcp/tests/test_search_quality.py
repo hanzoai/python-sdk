@@ -307,15 +307,9 @@ if __name__ == "__main__":
 
         # Test with different search types
         search_tools = {
-            "grep": lambda: self._test_grep_relevance(
-                test_codebase, test_cases, permission_manager
-            ),
-            "ast": lambda: self._test_ast_relevance(
-                test_codebase, test_cases, permission_manager
-            ),
-            "symbol": lambda: self._test_symbol_relevance(
-                test_codebase, test_cases, permission_manager
-            ),
+            "grep": lambda: self._test_grep_relevance(test_codebase, test_cases, permission_manager),
+            "ast": lambda: self._test_ast_relevance(test_codebase, test_cases, permission_manager),
+            "symbol": lambda: self._test_symbol_relevance(test_codebase, test_cases, permission_manager),
         }
 
         results = {}
@@ -366,21 +360,9 @@ if __name__ == "__main__":
 
                 # Calculate relevance score
                 expected_set = set(expected_files)
-                precision = (
-                    len(found_files & expected_set) / len(found_files)
-                    if found_files
-                    else 0
-                )
-                recall = (
-                    len(found_files & expected_set) / len(expected_set)
-                    if expected_set
-                    else 0
-                )
-                f1_score = (
-                    2 * (precision * recall) / (precision + recall)
-                    if (precision + recall) > 0
-                    else 0
-                )
+                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
+                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
+                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
                 results[query] = {
                     "found_files": list(found_files),
@@ -439,21 +421,9 @@ if __name__ == "__main__":
 
                 # Calculate relevance metrics
                 expected_set = set(expected_files)
-                precision = (
-                    len(found_files & expected_set) / len(found_files)
-                    if found_files
-                    else 0
-                )
-                recall = (
-                    len(found_files & expected_set) / len(expected_set)
-                    if expected_set
-                    else 0
-                )
-                f1_score = (
-                    2 * (precision * recall) / (precision + recall)
-                    if (precision + recall) > 0
-                    else 0
-                )
+                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
+                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
+                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
                 results[query] = {
                     "found_files": list(found_files),
@@ -506,21 +476,9 @@ if __name__ == "__main__":
 
                 # Calculate relevance metrics
                 expected_set = set(expected_files)
-                precision = (
-                    len(found_files & expected_set) / len(found_files)
-                    if found_files
-                    else 0
-                )
-                recall = (
-                    len(found_files & expected_set) / len(expected_set)
-                    if expected_set
-                    else 0
-                )
-                f1_score = (
-                    2 * (precision * recall) / (precision + recall)
-                    if (precision + recall) > 0
-                    else 0
-                )
+                precision = len(found_files & expected_set) / len(found_files) if found_files else 0
+                recall = len(found_files & expected_set) / len(expected_set) if expected_set else 0
+                f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
                 results[query] = {
                     "found_files": list(found_files),
@@ -577,9 +535,7 @@ if __name__ == "__main__":
                     )
                 )
                 grep_time = time.time() - start_time
-                grep_matches = (
-                    result.count("\\n") if result and "Found" in result else 0
-                )
+                grep_matches = result.count("\\n") if result and "Found" in result else 0
 
                 query_results["grep"] = {
                     "time": grep_time,
@@ -607,11 +563,7 @@ if __name__ == "__main__":
                     )
                 )
                 ast_time = time.time() - start_time
-                ast_matches = (
-                    result.count("\\n")
-                    if result and not result.startswith("No matches")
-                    else 0
-                )
+                ast_matches = result.count("\\n") if result and not result.startswith("No matches") else 0
 
                 query_results["ast"] = {
                     "time": ast_time,

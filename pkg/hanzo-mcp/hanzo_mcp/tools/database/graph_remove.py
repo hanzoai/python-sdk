@@ -74,9 +74,7 @@ class GraphRemoveParams(TypedDict, total=False):
 class GraphRemoveTool(BaseTool):
     """Tool for removing nodes and edges from graph database."""
 
-    def __init__(
-        self, permission_manager: PermissionManager, db_manager: DatabaseManager
-    ):
+    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
         """Initialize the graph remove tool.
 
         Args:
@@ -220,9 +218,7 @@ Examples:
                 # Remove edge(s)
                 if relationship:
                     # Remove specific edge
-                    await tool_ctx.info(
-                        f"Removing edge: {source} --[{relationship}]--> {target}"
-                    )
+                    await tool_ctx.info(f"Removing edge: {source} --[{relationship}]--> {target}")
 
                     cursor = graph_conn.cursor()
                     cursor.execute(
@@ -242,9 +238,7 @@ Examples:
                     return f"Successfully removed edge: {source} --[{relationship}]--> {target}"
                 else:
                     # Remove all edges between nodes
-                    await tool_ctx.info(
-                        f"Removing all edges between {source} and {target}"
-                    )
+                    await tool_ctx.info(f"Removing all edges between {source} and {target}")
 
                     cursor = graph_conn.cursor()
                     cursor.execute(

@@ -199,9 +199,7 @@ Fast, intuitive file content search."""
             # Fallback
             selected_backend = "grep"
 
-        await tool_ctx.info(
-            f"Using {selected_backend} to search for '{pattern}' in {path}"
-        )
+        await tool_ctx.info(f"Using {selected_backend} to search for '{pattern}' in {path}")
 
         # Execute search
         if selected_backend == "rg":
@@ -459,9 +457,7 @@ Fast, intuitive file content search."""
                                 context_lines = []
                                 for j in range(start, end):
                                     prefix = ":" if j + 1 == i else "-"
-                                    context_lines.append(
-                                        f"{file_path}:{j + 1}{prefix}{lines[j].rstrip()}"
-                                    )
+                                    context_lines.append(f"{file_path}:{j + 1}{prefix}{lines[j].rstrip()}")
                                 results.extend(context_lines)
                                 results.append("")  # Separator
                             else:
@@ -482,9 +478,7 @@ Fast, intuitive file content search."""
             await tool_ctx.error(f"Error in fallback grep: {str(e)}")
             return f"Error in fallback grep: {str(e)}"
 
-    def _match_file_pattern(
-        self, filename: str, include: Optional[str], exclude: Optional[str]
-    ) -> bool:
+    def _match_file_pattern(self, filename: str, include: Optional[str], exclude: Optional[str]) -> bool:
         """Check if filename matches include/exclude patterns."""
         if include and not fnmatch.fnmatch(filename, include):
             return False

@@ -24,9 +24,7 @@ def test_basic_import():
 def test_server_creation():
     """Test creating an MCP server."""
     with tempfile.TemporaryDirectory() as tmpdir:
-        server = create_server(
-            name="test-server", allowed_paths=[tmpdir], enable_all_tools=True
-        )
+        server = create_server(name="test-server", allowed_paths=[tmpdir], enable_all_tools=True)
 
         print(f"✓ Created server: {server.__class__.__name__}")
 
@@ -63,9 +61,7 @@ import pytest
 async def test_file_operations():
     """Test basic file operations."""
     with tempfile.TemporaryDirectory() as tmpdir:
-        server = create_server(
-            name="test-server", allowed_paths=[tmpdir], enable_all_tools=True
-        )
+        server = create_server(name="test-server", allowed_paths=[tmpdir], enable_all_tools=True)
 
         test_file = Path(tmpdir) / "test.txt"
         test_content = "Hello from hanzo-mcp test!"
@@ -80,9 +76,7 @@ async def test_file_operations():
         assert test_file.read_text() == test_content
 
         # Test read operation
-        read_result = await server.mcp.call_tool(
-            "read", arguments={"file_path": str(test_file)}
-        )
+        read_result = await server.mcp.call_tool("read", arguments={"file_path": str(test_file)})
 
         # Handle tuple result from call_tool
         if isinstance(read_result, tuple) and len(read_result) > 0:
@@ -113,9 +107,7 @@ async def test_file_operations():
 async def test_search_functionality():
     """Test search functionality."""
     with tempfile.TemporaryDirectory() as tmpdir:
-        server = create_server(
-            name="test-server", allowed_paths=[tmpdir], enable_all_tools=True
-        )
+        server = create_server(name="test-server", allowed_paths=[tmpdir], enable_all_tools=True)
 
         # Create test files
         for i in range(3):
@@ -130,9 +122,7 @@ def function_{i}():
             )
 
         # Search for TODOs using the search tool
-        search_result = await server.mcp.call_tool(
-            "search", arguments={"pattern": "TODO", "path": str(tmpdir)}
-        )
+        search_result = await server.mcp.call_tool("search", arguments={"pattern": "TODO", "path": str(tmpdir)})
 
         # Handle tuple result from call_tool
         if isinstance(search_result, tuple) and len(search_result) > 0:
@@ -158,9 +148,7 @@ def test_cli_invocation():
     print("\n Testing CLI:")
 
     # Test help
-    result = subprocess.run(
-        [sys.executable, "-m", "hanzo_mcp", "--help"], capture_output=True, text=True
-    )
+    result = subprocess.run([sys.executable, "-m", "hanzo_mcp", "--help"], capture_output=True, text=True)
 
     if result.returncode == 0:
         print("  ✓ CLI help works")
@@ -168,9 +156,7 @@ def test_cli_invocation():
         print(f"  ✗ CLI help failed: {result.stderr}")
 
     # Test version
-    result = subprocess.run(
-        [sys.executable, "-m", "hanzo_mcp", "--version"], capture_output=True, text=True
-    )
+    result = subprocess.run([sys.executable, "-m", "hanzo_mcp", "--version"], capture_output=True, text=True)
 
     if result.returncode == 0 and "0.7" in result.stdout:
         print(f"  ✓ CLI version works: {result.stdout.strip()}")
@@ -182,9 +168,7 @@ def test_cli_invocation():
 async def test_notebook_operations():
     """Test notebook operations."""
     with tempfile.TemporaryDirectory() as tmpdir:
-        server = create_server(
-            name="test-server", allowed_paths=[tmpdir], enable_all_tools=True
-        )
+        server = create_server(name="test-server", allowed_paths=[tmpdir], enable_all_tools=True)
 
         notebook_path = Path(tmpdir) / "test.ipynb"
 

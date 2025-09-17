@@ -88,10 +88,7 @@ personalities = [
         programmer="Guido van Rossum",
         description="Python's BDFL - readability counts",
         philosophy="There should be one-- and preferably only one --obvious way to do it.",
-        tools=ESSENTIAL_TOOLS
-        + ["uvx", "jupyter", "multi_edit", "symbols", "rules"]
-        + AI_TOOLS
-        + SEARCH_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["uvx", "jupyter", "multi_edit", "symbols", "rules"] + AI_TOOLS + SEARCH_TOOLS,
         environment={"PYTHONPATH": ".", "PYTEST_ARGS": "-xvs"},
     ),
     ToolPersonality(
@@ -107,10 +104,7 @@ personalities = [
         programmer="Brendan Eich",
         description="JavaScript creator - dynamic and flexible",
         philosophy="Always bet on JS.",
-        tools=ESSENTIAL_TOOLS
-        + ["npx", "watch", "symbols", "todo", "rules"]
-        + BUILD_TOOLS
-        + SEARCH_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["npx", "watch", "symbols", "todo", "rules"] + BUILD_TOOLS + SEARCH_TOOLS,
         environment={"NODE_ENV": "development", "NPM_CONFIG_LOGLEVEL": "warn"},
     ),
     ToolPersonality(
@@ -126,10 +120,7 @@ personalities = [
         programmer="Bjarne Stroustrup",
         description="C++ creator - zero-overhead abstractions",
         philosophy="C++ is designed to allow you to express ideas.",
-        tools=ESSENTIAL_TOOLS
-        + ["symbols", "multi_edit", "content_replace"]
-        + UNIX_TOOLS
-        + BUILD_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["symbols", "multi_edit", "content_replace"] + UNIX_TOOLS + BUILD_TOOLS,
         environment={"CXX": "g++", "CXXFLAGS": "-std=c++20 -Wall"},
     ),
     ToolPersonality(
@@ -145,10 +136,7 @@ personalities = [
         programmer="Anders Hejlsberg",
         description="TypeScript/C# creator - type safety matters",
         philosophy="TypeScript is JavaScript that scales.",
-        tools=ESSENTIAL_TOOLS
-        + ["npx", "symbols", "watch", "rules"]
-        + BUILD_TOOLS
-        + SEARCH_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["npx", "symbols", "watch", "rules"] + BUILD_TOOLS + SEARCH_TOOLS,
         environment={"TYPESCRIPT_VERSION": "5.0"},
     ),
     ToolPersonality(
@@ -181,9 +169,7 @@ personalities = [
         programmer="Linus Torvalds",
         description="Linux & Git creator - pragmatic excellence",
         philosophy="Talk is cheap. Show me the code.",
-        tools=ESSENTIAL_TOOLS
-        + ["git_search", "diff", "content_replace", "critic"]
-        + UNIX_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["git_search", "diff", "content_replace", "critic"] + UNIX_TOOLS,
         environment={"KERNEL_VERSION": "6.0", "GIT_AUTHOR_NAME": "Linus Torvalds"},
     ),
     ToolPersonality(
@@ -191,10 +177,7 @@ personalities = [
         programmer="Rob Pike",
         description="Go creator - simplicity and concurrency",
         philosophy="A little copying is better than a little dependency.",
-        tools=ESSENTIAL_TOOLS
-        + ["symbols", "batch", "process"]
-        + UNIX_TOOLS
-        + BUILD_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["symbols", "batch", "process"] + UNIX_TOOLS + BUILD_TOOLS,
         environment={"GOPATH": "~/go", "GO111MODULE": "on"},
     ),
     ToolPersonality(
@@ -242,9 +225,7 @@ personalities = [
         programmer="Graydon Hoare",
         description="Rust creator - memory safety without GC",
         philosophy="Memory safety without garbage collection, concurrency without data races.",
-        tools=ESSENTIAL_TOOLS
-        + ["symbols", "multi_edit", "critic", "todo"]
-        + BUILD_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["symbols", "multi_edit", "critic", "todo"] + BUILD_TOOLS,
         environment={"RUST_BACKTRACE": "1", "CARGO_HOME": "~/.cargo"},
     ),
     ToolPersonality(
@@ -871,10 +852,7 @@ personalities = [
         programmer="Data Scientist",
         description="Analyze all the things",
         philosophy="In God we trust. All others must bring data.",
-        tools=ESSENTIAL_TOOLS
-        + ["jupyter", "sql_query", "stats"]
-        + VECTOR_TOOLS
-        + AI_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["jupyter", "sql_query", "stats"] + VECTOR_TOOLS + AI_TOOLS,
         environment={"JUPYTER_THEME": "dark"},
     ),
     ToolPersonality(
@@ -906,10 +884,7 @@ personalities = [
         programmer="Startup Founder",
         description="Move fast and fix things",
         philosophy="Done is better than perfect.",
-        tools=ESSENTIAL_TOOLS
-        + ["todo", "agent", "consensus"]
-        + BUILD_TOOLS
-        + DATABASE_TOOLS,
+        tools=ESSENTIAL_TOOLS + ["todo", "agent", "consensus"] + BUILD_TOOLS + DATABASE_TOOLS,
         environment={"STARTUP_MODE": "hustle"},
     ),
     ToolPersonality(

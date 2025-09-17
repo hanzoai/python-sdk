@@ -24,9 +24,7 @@ class SessionManager:
     _instance: Self | None = None
     _lock = threading.Lock()
 
-    def __new__(
-        cls, use_singleton: bool = True, session_storage: SessionStorage | None = None
-    ) -> "SessionManager":
+    def __new__(cls, use_singleton: bool = True, session_storage: SessionStorage | None = None) -> "SessionManager":
         """Create SessionManager instance.
 
         Args:
@@ -45,9 +43,7 @@ class SessionManager:
                     cls._instance._initialized = False
         return cls._instance
 
-    def __init__(
-        self, use_singleton: bool = True, session_storage: SessionStorage | None = None
-    ) -> None:
+    def __init__(self, use_singleton: bool = True, session_storage: SessionStorage | None = None) -> None:
         """Initialize the session manager.
 
         Args:

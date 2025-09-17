@@ -170,25 +170,19 @@ The project includes comprehensive error handling throughout.
         assert use_symbol
 
         # Function name should enable symbol and AST
-        use_vector, use_ast, use_symbol = search_tool._detect_search_intent(
-            "hello_world"
-        )
+        use_vector, use_ast, use_symbol = search_tool._detect_search_intent("hello_world")
         assert use_vector  # Could be semantic
         assert use_ast
         assert use_symbol
 
         # Natural language should enable vector search
-        use_vector, use_ast, use_symbol = search_tool._detect_search_intent(
-            "error handling functionality"
-        )
+        use_vector, use_ast, use_symbol = search_tool._detect_search_intent("error handling functionality")
         assert use_vector
         assert use_ast
         assert use_symbol
 
     @pytest.mark.asyncio
-    async def test_grep_search(
-        self, tool_helper, search_tool, test_files, mock_context
-    ):
+    async def test_grep_search(self, tool_helper, search_tool, test_files, mock_context):
         """Test grep search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
@@ -202,9 +196,7 @@ The project includes comprehensive error handling throughout.
 test_module.py:3: def hello_world():
 test_module.py:15: result = hello_world()"""
 
-                results = await search_tool._run_grep_search(
-                    "hello_world", str(test_files["dir"]), "*", tool_ctx, 10
-                )
+                results = await search_tool._run_grep_search("hello_world", str(test_files["dir"]), "*", tool_ctx, 10)
 
                 assert len(results) == 2
                 assert all(r.search_type == SearchType.GREP for r in results)
@@ -230,17 +222,13 @@ test_module.py:15: result = hello_world()"""
 6:     return "greeting"
 """
 
-                results = await search_tool._run_ast_search(
-                    "hello_world", str(test_files["dir"]), "*", tool_ctx, 10
-                )
+                results = await search_tool._run_ast_search("hello_world", str(test_files["dir"]), "*", tool_ctx, 10)
 
                 assert len(results) > 0
                 assert all(r.search_type == SearchType.AST for r in results)
 
     @pytest.mark.asyncio
-    async def test_symbol_search(
-        self, tool_helper, search_tool, test_files, mock_context
-    ):
+    async def test_symbol_search(self, tool_helper, search_tool, test_files, mock_context):
         """Test symbol search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
@@ -277,9 +265,7 @@ test_module.py:15: result = hello_world()"""
 
                 mock_analyze.return_value = mock_ast
 
-                results = await search_tool._run_symbol_search(
-                    "hello_world", str(test_files["dir"]), tool_ctx, 10
-                )
+                results = await search_tool._run_symbol_search("hello_world", str(test_files["dir"]), tool_ctx, 10)
 
                 assert len(results) > 0
                 assert all(r.search_type == SearchType.SYMBOL for r in results)
@@ -287,9 +273,7 @@ test_module.py:15: result = hello_world()"""
                 assert results[0].symbol_info.name == "hello_world"
 
     @pytest.mark.asyncio
-    async def test_vector_search(
-        self, tool_helper, search_tool, test_files, mock_context
-    ):
+    async def test_vector_search(self, tool_helper, search_tool, test_files, mock_context):
         """Test vector search functionality."""
         tool_ctx = MagicMock()
         tool_ctx.info = AsyncMock()
@@ -312,17 +296,13 @@ except Exception as e:
     print(f"Error occurred: {e}")"""
 
         with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
-            results = await search_tool._run_vector_search(
-                "error handling", str(test_files["dir"]), tool_ctx, 10
-            )
+            results = await search_tool._run_vector_search("error handling", str(test_files["dir"]), tool_ctx, 10)
 
             assert len(results) > 0
             assert all(r.search_type == SearchType.VECTOR for r in results)
 
     @pytest.mark.asyncio
-    async def test_full_search(
-        self, tool_helper, search_tool, test_files, mock_context
-    ):
+    async def test_full_search(self, tool_helper, search_tool, test_files, mock_context):
         """Test complete search functionality."""
         with patch.object(search_tool, "validate_path") as mock_validate:
             mock_validate.return_value = MagicMock(is_error=False)
@@ -333,9 +313,7 @@ except Exception as e:
                 with patch.object(search_tool, "check_path_exists") as mock_exists:
                     mock_exists.return_value = (True, None)
 
-                    with patch.object(
-                        search_tool, "create_tool_context"
-                    ) as mock_tool_ctx:
+                    with patch.object(search_tool, "create_tool_context") as mock_tool_ctx:
                         tool_ctx = MagicMock()
                         tool_ctx.info = AsyncMock()
                         tool_ctx.error = AsyncMock()
@@ -344,12 +322,8 @@ except Exception as e:
 
                         # Mock all search methods
                         with patch.object(search_tool, "_run_grep_search") as mock_grep:
-                            with patch.object(
-                                search_tool, "_run_ast_search"
-                            ) as mock_ast:
-                                with patch.object(
-                                    search_tool, "_run_symbol_search"
-                                ) as mock_symbol:
+                            with patch.object(search_tool, "_run_ast_search") as mock_ast:
+                                with patch.object(search_tool, "_run_symbol_search") as mock_symbol:
                                     # Setup mock results
                                     grep_result = SearchResult(
                                         file_path="test.py",
@@ -388,9 +362,7 @@ except Exception as e:
                                         max_results=10,
                                     )
 
-                                    tool_helper.assert_in_result(
-                                        "Unified Search Results", result
-                                    )
+                                    tool_helper.assert_in_result("Unified Search Results", result)
                                     tool_helper.assert_in_result("hello_world", result)
                                     tool_helper.assert_in_result("Found", result)
 
@@ -607,9 +579,7 @@ def extract_function_names(code: str) -> List[str]:
     @pytest.mark.asyncio
     async def test_real_search(self, tool_helper, real_test_environment):
         """Test search on real files."""
-        permission_manager = create_permission_manager(
-            [str(real_test_environment["dir"])]
-        )
+        permission_manager = create_permission_manager([str(real_test_environment["dir"])])
 
         # Test without vector search (no project manager)
         unified_tool = SearchTool(permission_manager, None)

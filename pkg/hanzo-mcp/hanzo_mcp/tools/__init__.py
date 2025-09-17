@@ -68,13 +68,16 @@ except Exception:
     # Define stub functions for required imports
     def activate_mode_from_env():
         pass
+
     class ModeLoader:
         @staticmethod
         def get_enabled_tools_from_mode(base_enabled_tools=None, force_mode=None):
             return base_enabled_tools or {}
+
         @staticmethod
         def apply_environment_from_mode():
             pass
+
 
 # Try to import LSP tool
 try:
@@ -134,9 +137,7 @@ def register_all_tools(
 
         logger = logging.getLogger(__name__)
         if plugins:
-            logger.info(
-                f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}"
-            )
+            logger.info(f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}")
     except Exception as e:
         import logging
 
@@ -149,9 +150,7 @@ def register_all_tools(
         # First check for mode activation from environment
         activate_mode_from_env()
 
-        tool_config = ModeLoader.get_enabled_tools_from_mode(
-            base_enabled_tools=enabled_tools, force_mode=force_mode
-        )
+        tool_config = ModeLoader.get_enabled_tools_from_mode(base_enabled_tools=enabled_tools, force_mode=force_mode)
         # Apply mode environment variables
         ModeLoader.apply_environment_from_mode()
     else:
@@ -196,9 +195,7 @@ def register_all_tools(
             search_paths = [str(path) for path in permission_manager.allowed_paths]
             project_manager = ProjectVectorManager(
                 global_db_path=vector_config.get("data_path"),
-                embedding_model=vector_config.get(
-                    "embedding_model", "text-embedding-3-small"
-                ),
+                embedding_model=vector_config.get("embedding_model", "text-embedding-3-small"),
                 dimension=vector_config.get("dimension", 1536),
             )
             # Auto-detect projects from search paths
@@ -225,9 +222,7 @@ def register_all_tools(
     }
 
     if any(jupyter_enabled.values()):
-        jupyter_tools = register_jupyter_tools(
-            mcp_server, permission_manager, enabled_tools=jupyter_enabled
-        )
+        jupyter_tools = register_jupyter_tools(mcp_server, permission_manager, enabled_tools=jupyter_enabled)
         for tool in jupyter_tools:
             all_tools[tool.name] = tool
 
@@ -238,11 +233,7 @@ def register_all_tools(
             all_tools[tool.name] = tool
 
     # Register agent tools if enabled
-    agent_enabled = (
-        enable_agent_tool
-        or is_tool_enabled("agent", False)
-        or is_tool_enabled("dispatch_agent", False)
-    )
+    agent_enabled = enable_agent_tool or is_tool_enabled("agent", False) or is_tool_enabled("dispatch_agent", False)
     swarm_enabled = is_tool_enabled("swarm", False)
 
     if agent_enabled or swarm_enabled:
@@ -258,12 +249,7 @@ def register_all_tools(
         )
         # Filter based on what's enabled
         for tool in agent_tools:
-            if (
-                tool.name == "agent"
-                and agent_enabled
-                or tool.name == "swarm"
-                and swarm_enabled
-            ):
+            if tool.name == "agent" and agent_enabled or tool.name == "swarm" and swarm_enabled:
                 all_tools[tool.name] = tool
             elif tool.name in ["claude", "codex", "gemini", "grok", "code_auth"]:
                 # CLI tools and auth are always included when agent tools are enabled

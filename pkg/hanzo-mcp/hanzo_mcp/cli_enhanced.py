@@ -344,10 +344,7 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
         vector_config["enabled"] = True
     if hasattr(args, "vector_store_path") and args.vector_store_path:
         vector_config["data_path"] = args.vector_store_path
-    if (
-        hasattr(args, "embedding_model")
-        and args.embedding_model != "text-embedding-3-small"
-    ):
+    if hasattr(args, "embedding_model") and args.embedding_model != "text-embedding-3-small":
         vector_config["embedding_model"] = args.embedding_model
 
     if vector_config:
@@ -380,9 +377,7 @@ def list_tools(settings: HanzoMCPSettings) -> None:
 
     logger.info(f"\nTotal: {len(TOOL_REGISTRY)} tools")
     enabled_count = len(settings.get_enabled_tools())
-    logger.info(
-        f"Enabled: {enabled_count}, Disabled: {len(TOOL_REGISTRY) - enabled_count}"
-    )
+    logger.info(f"Enabled: {enabled_count}, Disabled: {len(TOOL_REGISTRY) - enabled_count}")
 
 
 def main() -> None:
@@ -442,15 +437,11 @@ def main() -> None:
         agent_base_url=settings.agent.base_url,
         agent_max_iterations=settings.agent.max_iterations,
         agent_max_tool_uses=settings.agent.max_tool_uses,
-        enable_agent_tool=settings.agent.enabled
-        or settings.is_tool_enabled("dispatch_agent"),
+        enable_agent_tool=settings.agent.enabled or settings.is_tool_enabled("dispatch_agent"),
         disable_write_tools=not any(
-            settings.is_tool_enabled(t)
-            for t in ["write", "edit", "multi_edit", "content_replace"]
+            settings.is_tool_enabled(t) for t in ["write", "edit", "multi_edit", "content_replace"]
         ),
-        disable_search_tools=not any(
-            settings.is_tool_enabled(t) for t in ["grep", "grep_ast"]
-        ),
+        disable_search_tools=not any(settings.is_tool_enabled(t) for t in ["grep", "grep_ast"]),
         host=settings.server.host,
         port=settings.server.port,
         enabled_tools=settings.enabled_tools,  # Pass individual tool configuration

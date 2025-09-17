@@ -28,9 +28,7 @@ class BashTool(BaseScriptTool):
             env: Optional[dict[str, str]] = None,
             timeout: Optional[int] = None,
         ) -> str:
-            return await tool_self.run(
-                ctx, command=command, cwd=cwd, env=env, timeout=timeout
-            )
+            return await tool_self.run(ctx, command=command, cwd=cwd, env=env, timeout=timeout)
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
@@ -71,7 +69,7 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
                 if Path(path).exists():
                     return path
             return "cmd.exe"  # Fall back to cmd if no bash found
-        
+
         # On Unix-like systems, always use bash
         return "bash"
 
@@ -112,9 +110,7 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
         work_dir = Path(cwd).resolve() if cwd else Path.cwd()
 
         # Always use execute_sync which now has auto-backgrounding
-        output = await self.execute_sync(
-            command, cwd=work_dir, env=env, timeout=timeout
-        )
+        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
         return output if output else "Command completed successfully (no output)"
 
 

@@ -171,9 +171,7 @@ class UnifiedSearch(BaseTool):
         # Use vector search for natural language queries
         indicators = [
             len(query.split()) > 2,  # Multi-word queries
-            not any(
-                c in query for c in ["(", ")", "{", "}", "[", "]"]
-            ),  # Not code syntax
+            not any(c in query for c in ["(", ")", "{", "}", "[", "]"]),  # Not code syntax
             " " in query,  # Has spaces (natural language)
             not query.startswith("^") and not query.endswith("$"),  # Not regex anchors
         ]
@@ -185,10 +183,7 @@ class UnifiedSearch(BaseTool):
         indicators = [
             "class " in query or "function " in query or "def " in query,
             "import " in query or "from " in query,
-            any(
-                kw in query.lower()
-                for kw in ["method", "function", "class", "interface", "struct"]
-            ),
+            any(kw in query.lower() for kw in ["method", "function", "class", "interface", "struct"]),
             "::" in query or "->" in query or "." in query,  # Member access
         ]
         return any(indicators)
@@ -198,9 +193,7 @@ class UnifiedSearch(BaseTool):
         # Use symbol search for identifiers
         return (
             len(query.split()) <= 2  # Short queries
-            and query.replace("_", "")
-            .replace("-", "")
-            .isalnum()  # Looks like identifier
+            and query.replace("_", "").replace("-", "").isalnum()  # Looks like identifier
             and not " " in query.strip()  # Single token
         )
 
@@ -243,19 +236,14 @@ class UnifiedSearch(BaseTool):
             # Search memory for natural language queries or specific references
             search_memory = MEMORY_AVAILABLE and (
                 self._should_use_vector_search(pattern)
-                or any(
-                    word in pattern.lower()
-                    for word in ["previous", "discussion", "remember", "last"]
-                )
+                or any(word in pattern.lower() for word in ["previous", "discussion", "remember", "last"])
             )
 
         if enable_text is None:
             enable_text = True  # Always use text search as baseline
 
         if enable_vector is None:
-            enable_vector = (
-                self._should_use_vector_search(pattern) and VECTOR_SEARCH_AVAILABLE
-            )
+            enable_vector = self._should_use_vector_search(pattern) and VECTOR_SEARCH_AVAILABLE
 
         if enable_ast is None:
             enable_ast = self._should_use_ast_search(pattern) and TREESITTER_AVAILABLE
@@ -277,9 +265,7 @@ class UnifiedSearch(BaseTool):
         # 1. Text search (ripgrep) - always fast, do first
         if enable_text:
             start = time.time()
-            text_results = await self._text_search(
-                pattern, path, include, exclude, max_results_per_type, context_lines
-            )
+            text_results = await self._text_search(pattern, path, include, exclude, max_results_per_type, context_lines)
             search_stats["time_ms"]["text"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("text")
             all_results.extend(text_results)
@@ -287,9 +273,7 @@ class UnifiedSearch(BaseTool):
         # 2. AST search - for code structure
         if enable_ast and TREESITTER_AVAILABLE:
             start = time.time()
-            ast_results = await self._ast_search(
-                pattern, path, include, exclude, max_results_per_type, context_lines
-            )
+            ast_results = await self._ast_search(pattern, path, include, exclude, max_results_per_type, context_lines)
             search_stats["time_ms"]["ast"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("ast")
             all_results.extend(ast_results)
@@ -297,9 +281,7 @@ class UnifiedSearch(BaseTool):
         # 3. Symbol search - for definitions
         if enable_symbol:
             start = time.time()
-            symbol_results = await self._symbol_search(
-                pattern, path, include, exclude, max_results_per_type
-            )
+            symbol_results = await self._symbol_search(pattern, path, include, exclude, max_results_per_type)
             search_stats["time_ms"]["symbol"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("symbol")
             all_results.extend(symbol_results)
@@ -317,9 +299,7 @@ class UnifiedSearch(BaseTool):
         # 5. File search - for finding files by name/pattern
         if search_files:
             start = time.time()
-            file_results = await self._file_search(
-                pattern, path, include, exclude, max_results_per_type
-            )
+            file_results = await self._file_search(pattern, path, include, exclude, max_results_per_type)
             search_stats["time_ms"]["files"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("files")
             all_results.extend(file_results)
@@ -327,9 +307,7 @@ class UnifiedSearch(BaseTool):
         # 6. Memory search - for knowledge base and previous discussions
         if search_memory:
             start = time.time()
-            memory_results = await self._memory_search(
-                pattern, max_results_per_type, context_lines
-            )
+            memory_results = await self._memory_search(pattern, max_results_per_type, context_lines)
             search_stats["time_ms"]["memory"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("memory")
             all_results.extend(memory_results)
@@ -428,9 +406,7 @@ class UnifiedSearch(BaseTool):
 
         if not self.ripgrep_available:
             # Fallback to Python implementation
-            return await self._python_text_search(
-                pattern, path, include, exclude, max_results, context_lines
-            )
+            return await self._python_text_search(pattern, path, include, exclude, max_results, context_lines)
 
         # Build ripgrep command
         cmd = ["rg", "--json", "--max-count", str(max_results)]
@@ -547,17 +523,9 @@ class UnifiedSearch(BaseTool):
                             file_path=str(file_path),
                             line_number=line_num,
                             column=0,
-                            match_text=(
-                                lines[line_num - 1]
-                                if 0 < line_num <= len(lines)
-                                else ""
-                            ),
-                            context_before=lines[
-                                max(0, line_num - context_lines - 1) : line_num - 1
-                            ],
-                            context_after=lines[
-                                line_num : min(len(lines), line_num + context_lines)
-                            ],
+                            match_text=(lines[line_num - 1] if 0 < line_num <= len(lines) else ""),
+                            context_before=lines[max(0, line_num - context_lines - 1) : line_num - 1],
+                            context_after=lines[line_num : min(len(lines), line_num + context_lines)],
                             match_type="ast",
                             score=0.9,
                             node_type="ast_match",
@@ -650,10 +618,7 @@ class UnifiedSearch(BaseTool):
                         context_before=[],
                         context_after=[],
                         match_type="vector",
-                        score=1.0
-                        - search_results["distances"][0][
-                            i
-                        ],  # Convert distance to similarity
+                        score=1.0 - search_results["distances"][0][i],  # Convert distance to similarity
                         semantic_context=metadata.get("context", ""),
                     )
                     results.append(result)
@@ -712,9 +677,7 @@ class UnifiedSearch(BaseTool):
 
         return results
 
-    async def _memory_search(
-        self, query: str, max_results: int, context_lines: int
-    ) -> List[SearchResult]:
+    async def _memory_search(self, query: str, max_results: int, context_lines: int) -> List[SearchResult]:
         """Search in memory/knowledge base."""
         results = []
 
@@ -748,9 +711,7 @@ class UnifiedSearch(BaseTool):
                         file_path=virtual_path,
                         line_number=1,
                         column=0,
-                        match_text=(
-                            content[:200] + "..." if len(content) > 200 else content
-                        ),
+                        match_text=(content[:200] + "..." if len(content) > 200 else content),
                         context_before=[],
                         context_after=[],
                         match_type="memory",
@@ -793,9 +754,7 @@ class UnifiedSearch(BaseTool):
 
         return unique
 
-    def _rank_results(
-        self, results: List[SearchResult], query: str
-    ) -> List[SearchResult]:
+    def _rank_results(self, results: List[SearchResult], query: str) -> List[SearchResult]:
         """Rank results by relevance."""
         # Simple ranking based on:
         # 1. Match type score
@@ -808,16 +767,11 @@ class UnifiedSearch(BaseTool):
                 result.score *= 1.2
 
             # Path relevance (prefer non-test, non-vendor files)
-            if any(
-                skip in result.file_path for skip in ["test", "vendor", "node_modules"]
-            ):
+            if any(skip in result.file_path for skip in ["test", "vendor", "node_modules"]):
                 result.score *= 0.8
 
             # Prefer definition files
-            if any(
-                pattern in result.file_path
-                for pattern in ["index.", "main.", "api.", "types."]
-            ):
+            if any(pattern in result.file_path for pattern in ["index.", "main.", "api.", "types."]):
                 result.score *= 1.1
 
         # Sort by score descending, then by file path
@@ -955,13 +909,9 @@ class CodeIndexer:
         # Batch embed and store
         if documents:
             embeddings = self.embedder.encode(documents).tolist()
-            self.collection.add(
-                embeddings=embeddings, documents=documents, metadatas=metadatas, ids=ids
-            )
+            self.collection.add(embeddings=embeddings, documents=documents, metadatas=metadatas, ids=ids)
 
-    def _split_code_intelligently(
-        self, content: str, file_path: Path
-    ) -> List[Dict[str, Any]]:
+    def _split_code_intelligently(self, content: str, file_path: Path) -> List[Dict[str, Any]]:
         """Split code into meaningful chunks."""
         # Simple line-based splitting for now
         # TODO: Use AST for better splitting
@@ -976,9 +926,7 @@ class CodeIndexer:
             current_chunk.append(line)
 
             # Split on function/class definitions or every 50 lines
-            if len(current_chunk) >= 50 or any(
-                kw in line for kw in ["def ", "function ", "class ", "interface "]
-            ):
+            if len(current_chunk) >= 50 or any(kw in line for kw in ["def ", "function ", "class ", "interface "]):
                 if current_chunk:
                     chunks.append(
                         {
@@ -992,9 +940,7 @@ class CodeIndexer:
 
         # Add remaining
         if current_chunk:
-            chunks.append(
-                {"text": "\n".join(current_chunk), "line": current_line, "type": "code"}
-            )
+            chunks.append({"text": "\n".join(current_chunk), "line": current_line, "type": "code"})
 
         return chunks
 

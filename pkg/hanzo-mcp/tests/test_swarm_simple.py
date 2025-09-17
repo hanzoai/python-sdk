@@ -18,15 +18,9 @@ def test_defaults():
 
     # Default behavior
     model = model or "anthropic/claude-3-5-sonnet-20241022"
-    api_key = (
-        api_key
-        or os.environ.get("ANTHROPIC_API_KEY")
-        or os.environ.get("CLAUDE_API_KEY")
-    )
+    api_key = api_key or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
 
-    assert (
-        model == "anthropic/claude-3-5-sonnet-20241022"
-    ), f"Expected Claude Sonnet, got {model}"
+    assert model == "anthropic/claude-3-5-sonnet-20241022", f"Expected Claude Sonnet, got {model}"
     print("✓ Swarm defaults to Claude 3.5 Sonnet")
 
     # Check API key detection
@@ -248,16 +242,12 @@ def main():
         print("\nAPI key detected! Running live demos...")
 
         # Run parallel edit demo
-        demo_path = os.path.join(
-            os.path.dirname(__file__), "..", "examples", "parallel_edit_demo.py"
-        )
+        demo_path = os.path.join(os.path.dirname(__file__), "..", "examples", "parallel_edit_demo.py")
         if os.path.exists(demo_path):
             print("\nRunning parallel_edit_demo.py...")
             import subprocess
 
-            result = subprocess.run(
-                [sys.executable, demo_path], capture_output=True, text=True
-            )
+            result = subprocess.run([sys.executable, demo_path], capture_output=True, text=True)
             if result.returncode == 0:
                 print("✓ Parallel edit demo completed successfully")
                 if "NEW_VERSION" in result.stdout:
