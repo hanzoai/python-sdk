@@ -1,1 +1,0 @@
-/Users/z/.cache/uv/archive-v0/cdL7jo0af331JtTEBIMGV/bin/python: No module named pytest

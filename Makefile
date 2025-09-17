@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 SHELL := /bin/bash
-.PHONY: help all setup install-python venv deps test lint format build clean publish-all
+.PHONY: help all setup install-python venv deps test lint format build clean publish-all check check-forbidden check-functions test-no-stubs test-all security install-hooks
 
 # Colors for output
 CYAN := \033[0;36m
@@ -134,7 +134,7 @@ publish-hanzo-agents: ## Publish hanzo-agents package
 	@echo -e "$(CYAN)Publishing hanzo-agents...$(NC)"
 	@cd pkg/hanzo-agents && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
-publish-hanzo-mcp: ## Publish hanzo-mcp package
+publish-hanzo-mcp: check ## Publish hanzo-mcp package (REQUIRES ALL CHECKS TO PASS)
 	@echo -e "$(CYAN)Publishing hanzo-mcp...$(NC)"
 	@cd pkg/hanzo-mcp && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
@@ -205,3 +205,68 @@ coverage: ## Run tests with coverage
 	@source .venv/bin/activate && coverage report
 	@source .venv/bin/activate && coverage html
 	@echo -e "$(GREEN)Coverage report generated in htmlcov/$(NC)"
+
+# ==================== STRICT QUALITY GATES ====================
+
+install-hooks: ## Install pre-commit hooks to catch issues locally
+	@echo -e "$(GREEN)Installing pre-commit hooks...$(NC)"
+	@pip install pre-commit
+	@pre-commit install
+	@pre-commit install --hook-type pre-push
+	@echo -e "$(GREEN)✅ Pre-commit hooks installed!$(NC)"
+
+check-forbidden: ## Check for TODO/STUB/FAKE patterns (BLOCKS DEPLOYMENT)
+	@echo -e "$(YELLOW)Checking for TODO/STUB/FAKE patterns...$(NC)"
+	@! grep -r "TODO\|STUB\|FAKE\|UNFINISHED\|HACK\|XXX\|NotImplementedError" \
+		--include="*.py" \
+		--exclude-dir=test \
+		--exclude-dir=.git \
+		--exclude-dir=build \
+		--exclude-dir=dist \
+		pkg/hanzo-mcp 2>/dev/null || (echo -e "$(RED)❌ FORBIDDEN PATTERNS FOUND! Remove them!$(NC)" && exit 1)
+	@echo -e "$(GREEN)✅ No forbidden patterns$(NC)"
+
+check-functions: ## Check for empty/stub functions (BLOCKS DEPLOYMENT)
+	@echo -e "$(YELLOW)Checking for empty functions...$(NC)"
+	@python scripts/check_empty_functions.py
+	@echo -e "$(GREEN)✅ All functions implemented$(NC)"
+
+test-no-stubs: ## Run anti-stub tests (BLOCKS DEPLOYMENT)
+	@echo -e "$(YELLOW)Running anti-stub tests...$(NC)"
+	@source .venv/bin/activate && cd pkg/hanzo-mcp && python -m pytest tests/test_no_stubs.py -v
+	@echo -e "$(GREEN)✅ No stubs found$(NC)"
+
+test-all: ## Run ALL tests - NO SKIPS ALLOWED (BLOCKS DEPLOYMENT)
+	@echo -e "$(YELLOW)Running ALL tests (no skips allowed)...$(NC)"
+	@source .venv/bin/activate && cd pkg/hanzo-mcp && python -m pytest tests/ \
+		-v \
+		--strict-markers \
+		--tb=short \
+		--maxfail=1 \
+		-x \
+		2>&1 | tee test-output.log
+	@if grep -q "SKIPPED" test-output.log; then \
+		echo -e "$(RED)❌ TESTS WERE SKIPPED! Fix or remove them!$(NC)"; \
+		exit 1; \
+	fi
+	@if grep -q "FAILED" test-output.log; then \
+		echo -e "$(RED)❌ TESTS FAILED! All tests must pass!$(NC)"; \
+		exit 1; \
+	fi
+	@rm -f test-output.log
+	@echo -e "$(GREEN)✅ All tests passed!$(NC)"
+
+security: ## Security scan with bandit (BLOCKS DEPLOYMENT)
+	@echo -e "$(YELLOW)Security scanning...$(NC)"
+	@source .venv/bin/activate && bandit -r pkg/hanzo-mcp/hanzo_mcp -ll
+	@echo -e "$(GREEN)✅ Security scan passed$(NC)"
+
+# MASTER CHECK - Runs ALL quality gates (REQUIRED BEFORE DEPLOYMENT)
+check: check-forbidden check-functions lint test-no-stubs test-all security
+	@echo -e "$(GREEN)════════════════════════════════════════$(NC)"
+	@echo -e "$(GREEN)✅ ALL QUALITY CHECKS PASSED!$(NC)"
+	@echo -e "$(GREEN)✅ NO TODOs, STUBs, or FAKE code found$(NC)"
+	@echo -e "$(GREEN)✅ All tests are passing$(NC)"
+	@echo -e "$(GREEN)✅ All functions are implemented$(NC)"
+	@echo -e "$(GREEN)🚀 Code is ready for deployment!$(NC)"
+	@echo -e "$(GREEN)════════════════════════════════════════$(NC)"
