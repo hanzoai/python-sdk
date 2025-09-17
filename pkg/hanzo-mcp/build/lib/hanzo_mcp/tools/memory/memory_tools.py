@@ -21,7 +21,7 @@ try:
 except ImportError:
     MEMORY_AVAILABLE = False
     raise ImportError(
-        "hanzo-memory package is required for memory tools. Install it from ~/work/hanzo/ide/pkg/memory"
+        "hanzo-memory package is required for memory tools. Install it from ~/work/hanzo/python-sdk/pkg/hanzo-memory"
     )
 
 

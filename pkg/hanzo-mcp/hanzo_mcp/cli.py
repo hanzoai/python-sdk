@@ -288,9 +288,9 @@ def main() -> None:
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
-    # If no allowed paths are specified, use the current directory
+    # If no allowed paths are specified, use the home directory
     if not allowed_paths:
-        allowed_paths = [os.getcwd()]
+        allowed_paths = [os.path.expanduser("~")]
 
     # Run in dev mode if requested
     if dev:

@@ -5,8 +5,6 @@ from structlog import get_logger
 
 from ..config import settings
 from .base import BaseVectorDB
-from .client import InfinityClient
-from .lancedb_client import LanceDBClient
 
 logger = get_logger()
 
@@ -23,9 +21,11 @@ def get_db_client() -> BaseVectorDB:
 
         if backend == "lancedb":
             logger.info("Using LanceDB backend")
+            from .lancedb_client import LanceDBClient
             _db_client = LanceDBClient()
         elif backend == "infinity":
             logger.info("Using InfinityDB backend")
+            from .client import InfinityClient
             _db_client = InfinityClient()
         else:
             raise ValueError(f"Unknown database backend: {backend}")

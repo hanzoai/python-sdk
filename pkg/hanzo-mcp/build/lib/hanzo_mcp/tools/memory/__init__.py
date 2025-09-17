@@ -4,19 +4,25 @@ from mcp.server import FastMCP
 
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.memory.memory_tools import (
-    CreateMemoriesTool,
-    DeleteMemoriesTool,
-    ManageMemoriesTool,
-    RecallMemoriesTool,
-    UpdateMemoriesTool,
-)
-from hanzo_mcp.tools.memory.knowledge_tools import (
-    StoreFactsTool,
-    RecallFactsTool,
-    SummarizeToMemoryTool,
-    ManageKnowledgeBasesTool,
-)
+
+# Import memory tools if available
+try:
+    from hanzo_mcp.tools.memory.memory_tools import (
+        CreateMemoriesTool,
+        DeleteMemoriesTool,
+        ManageMemoriesTool,
+        RecallMemoriesTool,
+        UpdateMemoriesTool,
+    )
+    from hanzo_mcp.tools.memory.knowledge_tools import (
+        StoreFactsTool,
+        RecallFactsTool,
+        SummarizeToMemoryTool,
+        ManageKnowledgeBasesTool,
+    )
+    MEMORY_TOOLS_AVAILABLE = True
+except ImportError:
+    MEMORY_TOOLS_AVAILABLE = False
 
 
 def register_memory_tools(
@@ -38,6 +44,10 @@ def register_memory_tools(
     Returns:
         List of registered tools
     """
+    if not MEMORY_TOOLS_AVAILABLE:
+        print("Warning: Memory tools not available (hanzo-memory package not found)")
+        return []
+
     # Create memory tools
     recall_tool = RecallMemoriesTool(
         user_id=user_id, project_id=project_id, **memory_config
