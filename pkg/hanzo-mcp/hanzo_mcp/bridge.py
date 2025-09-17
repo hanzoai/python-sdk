@@ -324,7 +324,7 @@ class ClaudeBridge(FastMCP):
             prompt += f"""
         
         Options to consider:
-        {chr(10).join(f"{i+1}. {opt}" for i, opt in enumerate(options))}
+        {chr(10).join(f"{i + 1}. {opt}" for i, opt in enumerate(options))}
         """
 
         if criteria:
