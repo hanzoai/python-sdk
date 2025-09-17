@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: hanzo-memory
-Version: 1.0.0
+Version: 1.0.1
 Summary: AI memory service with FastAPI and MCP support
 Author-email: "Hanzo Industries Inc." <dev@hanzo.ai>
 License: BSD

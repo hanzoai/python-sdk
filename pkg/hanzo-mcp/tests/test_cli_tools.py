@@ -14,8 +14,10 @@ from hanzo_mcp.tools.agent.cli_tools import (
     CodexCLITool,
     ClaudeCLITool,
     GeminiCLITool,
+    OpenHandsCLITool,
     HanzoDevCLITool,
     OpenHandsCLITool,
+    HanzoDevCLITool,
     ClaudeCodeCLITool,
     OpenHandsShortCLITool,
 )
@@ -160,7 +162,7 @@ class TestCLITools:
     @pytest.mark.asyncio
     async def test_hanzo_dev_cli_tool(self, mock_context, mock_permission_manager):
         """Test Hanzo Dev CLI tool execution."""
-        tool = HanzoDevCLITool(mock_permission_manager)
+        tool = OpenHandsCLITool(mock_permission_manager)
         
         assert tool.name == "hanzo_dev"
         assert "Hanzo Dev" in tool.description
@@ -231,7 +233,7 @@ class TestCLITools:
         
         # Test unified Hanzo auth
         with patch.dict('os.environ', {'HANZO_API_KEY': 'test-hanzo-key'}):
-            tool = HanzoDevCLITool(mock_permission_manager)
+            tool = OpenHandsCLITool(mock_permission_manager)
             env = tool.get_auth_env()
             assert env['HANZO_API_KEY'] == 'test-hanzo-key'
     
@@ -296,7 +298,6 @@ class TestBatchWithCLITools:
             'grok': GrokCLITool(mock_permission_manager),
             'openhands': OpenHandsCLITool(mock_permission_manager),
             'oh': OpenHandsShortCLITool(mock_permission_manager),
-            'hanzo_dev': HanzoDevCLITool(mock_permission_manager),
             'cline': ClineCLITool(mock_permission_manager),
             'aider': AiderCLITool(mock_permission_manager),
         }
