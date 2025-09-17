@@ -17,7 +17,10 @@ try:
     from fastmcp import FastMCP
 except ImportError:
     # Fallback for older MCP versions
-    from mcp.server import FastMCP
+    try:
+        from mcp.server import FastMCP
+    except ImportError:
+        from mcp import FastMCP
 
 # Import our enhanced server
 from hanzo_mcp.tools import register_all_tools
