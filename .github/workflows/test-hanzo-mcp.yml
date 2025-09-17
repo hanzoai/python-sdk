@@ -43,7 +43,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd pkg/hanzo-mcp
-        uv sync --extra test --extra performance --extra analytics
+        uv pip install -e ".[test,performance,analytics]"
     
     - name: Run type checking with mypy
       run: |
@@ -92,7 +92,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd pkg/hanzo-mcp
-        uv sync --extra test --extra performance --extra analytics
+        uv pip install -e ".[test,performance,analytics]"
     
     - name: Run integration tests with API keys
       env:
