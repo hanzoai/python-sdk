@@ -130,9 +130,7 @@ class ASTAnalyzer:
                 return self._analyze_python_file(file_path, content, file_hash)
             else:
                 # Generic analysis for other languages
-                return self._analyze_generic_file(
-                    file_path, content, file_hash, language
-                )
+                return self._analyze_generic_file(file_path, content, file_hash, language)
 
         except Exception as e:
             import logging
@@ -177,9 +175,7 @@ class ASTAnalyzer:
 
         return language_map.get(extension)
 
-    def _analyze_python_file(
-        self, file_path: str, content: str, file_hash: str
-    ) -> FileAST:
+    def _analyze_python_file(self, file_path: str, content: str, file_hash: str) -> FileAST:
         """Analyze Python file using both AST and tree-sitter."""
         symbols = []
         ast_nodes = []
@@ -228,9 +224,7 @@ class ASTAnalyzer:
             dependencies=dependencies,
         )
 
-    def _analyze_generic_file(
-        self, file_path: str, content: str, file_hash: str, language: str
-    ) -> FileAST:
+    def _analyze_generic_file(self, file_path: str, content: str, file_hash: str, language: str) -> FileAST:
         """Generic analysis for non-Python files."""
         # For now, just basic line-based analysis
         # Could be enhanced with language-specific parsers
@@ -248,11 +242,7 @@ class ASTAnalyzer:
 
             # Basic function detection (works for many C-style languages)
             if language in ["javascript", "typescript", "java", "cpp", "c"]:
-                if (
-                    "function " in line
-                    or line.startswith("def ")
-                    or " function(" in line
-                ):
+                if "function " in line or line.startswith("def ") or " function(" in line:
                     # Extract function name
                     parts = line.split()
                     for j, part in enumerate(parts):
@@ -399,9 +389,7 @@ class PythonSymbolExtractor(ast.NodeVisitor):
 
         # Extract base classes
         bases = [self._get_name(base) for base in node.bases]
-        signature = (
-            f"class {node.name}({', '.join(bases)})" if bases else f"class {node.name}"
-        )
+        signature = f"class {node.name}({', '.join(bases)})" if bases else f"class {node.name}"
 
         symbol = Symbol(
             name=node.name,
@@ -441,9 +429,7 @@ class PythonSymbolExtractor(ast.NodeVisitor):
 
         for alias in node.names:
             if alias.name != "*":
-                import_item = (
-                    f"{node.module}.{alias.name}" if node.module else alias.name
-                )
+                import_item = f"{node.module}.{alias.name}" if node.module else alias.name
                 self.imports.append(import_item)
 
     def visit_Assign(self, node):

@@ -108,6 +108,7 @@ def register_agent_tools(
                 if memory_backend is not None:
                     p["memory_backend"] = memory_backend
                 return await tool_self.call(ctx, **p)
+
             return tool_self
 
     # Create auth management tool
@@ -127,6 +128,6 @@ def register_agent_tools(
 
     # Register all CLI tools (includes claude, codex, gemini, grok, etc.)
     cli_tools = register_cli_tools(mcp_server, permission_manager)
-    
+
     # Return list of registered tools
     return [agent_tool, network_tool, code_auth_tool] + cli_tools

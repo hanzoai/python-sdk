@@ -77,9 +77,7 @@ class RunCommandToolParams(TypedDict):
 class RunCommandTool(ShellBaseTool):
     """Tool for executing shell commands."""
 
-    def __init__(
-        self, permission_manager: Any, command_executor: BashSessionExecutor
-    ) -> None:
+    def __init__(self, permission_manager: Any, command_executor: BashSessionExecutor) -> None:
         """Initialize the run command tool.
 
         Args:

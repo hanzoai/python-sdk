@@ -94,11 +94,7 @@ def register_default_modes():
 def get_mode_from_env() -> Optional[str]:
     """Get mode name from environment variables."""
     # Check for HANZO_MODE, PERSONALITY, or MODE env vars
-    return (
-        os.environ.get("HANZO_MODE")
-        or os.environ.get("PERSONALITY")
-        or os.environ.get("MODE")
-    )
+    return os.environ.get("HANZO_MODE") or os.environ.get("PERSONALITY") or os.environ.get("MODE")
 
 
 def activate_mode_from_env():

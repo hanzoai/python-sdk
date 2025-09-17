@@ -117,9 +117,7 @@ Providers: claude, openai, azure, deepseek, google, groq"""
             model = params.get("model")
             description = params.get("description")
 
-            success, msg = self.auth_manager.create_account(
-                account, provider, api_key, model, description
-            )
+            success, msg = self.auth_manager.create_account(account, provider, api_key, model, description)
             return msg
 
         elif action == "login":
@@ -148,9 +146,7 @@ Providers: claude, openai, azure, deepseek, google, groq"""
             parent_account = params.get("parent_account")
 
             # Try to create agent account
-            success, result = self.auth_manager.create_agent_account(
-                agent_id, provider, parent_account
-            )
+            success, result = self.auth_manager.create_agent_account(agent_id, provider, parent_account)
 
             if success:
                 # Get credentials

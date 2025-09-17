@@ -111,12 +111,8 @@ class TestAutoBackgrounding:
         assert "backgrounded" not in result.lower()
 
     @pytest.mark.asyncio
-    @patch(
-        "hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background"
-    )
-    async def test_long_command_backgrounds(
-        self, tool_helper, mock_execute, bash_tool, mock_ctx
-    ):
+    @patch("hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background")
+    async def test_long_command_backgrounds(self, tool_helper, mock_execute, bash_tool, mock_ctx):
         """Test that long-running commands are backgrounded."""
         # Simulate backgrounding
         mock_execute.return_value = (
@@ -176,9 +172,7 @@ class TestProcessManagement:
         mock_process.pid = 12345
         mock_process.poll.return_value = None
 
-        process_tool.process_manager.add_process(
-            "test_123", mock_process, "/tmp/test.log"
-        )
+        process_tool.process_manager.add_process("test_123", mock_process, "/tmp/test.log")
 
         result = await process_tool.call(mock_ctx, action="list")
         tool_helper.assert_in_result("test_123", result)
@@ -193,22 +187,16 @@ class TestProcessManagement:
         mock_process.pid = 12345
         mock_process.send_signal = MagicMock()
 
-        process_tool.process_manager.add_process(
-            "test_123", mock_process, "/tmp/test.log"
-        )
+        process_tool.process_manager.add_process("test_123", mock_process, "/tmp/test.log")
 
-        result = await process_tool.call(
-            mock_ctx, action="kill", id="test_123", signal_type="TERM"
-        )
+        result = await process_tool.call(mock_ctx, action="kill", id="test_123", signal_type="TERM")
 
         tool_helper.assert_in_result("Sent TERM signal", result)
         tool_helper.assert_in_result("12345", result)
         mock_process.send_signal.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_process_logs_command(
-        self, tool_helper, process_tool, mock_ctx, tmp_path
-    ):
+    async def test_process_logs_command(self, tool_helper, process_tool, mock_ctx, tmp_path):
         """Test process logs command."""
         # Create log file
         log_file = tmp_path / "test.log"
@@ -216,13 +204,9 @@ class TestProcessManagement:
 
         # Add process with log file
         mock_process = MagicMock()
-        process_tool.process_manager.add_process(
-            "test_123", mock_process, str(log_file)
-        )
+        process_tool.process_manager.add_process("test_123", mock_process, str(log_file))
 
-        result = await process_tool.call(
-            mock_ctx, action="logs", id="test_123", lines=2
-        )
+        result = await process_tool.call(mock_ctx, action="logs", id="test_123", lines=2)
 
         tool_helper.assert_in_result("Line 2", result)
         tool_helper.assert_in_result("Line 3", result)
@@ -233,9 +217,7 @@ class TestIntegration:
     """Integration tests for shell features."""
 
     @pytest.mark.asyncio
-    async def test_bash_and_process_integration(
-        self, bash_tool, process_tool, mock_ctx
-    ):
+    async def test_bash_and_process_integration(self, bash_tool, process_tool, mock_ctx):
         """Test bash and process tools work together."""
         # Execute a command that would be backgrounded
         with patch.object(
@@ -247,9 +229,7 @@ class TestIntegration:
                 "bash_abc123",
             ),
         ):
-            bash_result = await bash_tool.call(
-                mock_ctx, command="python long_running_script.py"
-            )
+            bash_result = await bash_tool.call(mock_ctx, command="python long_running_script.py")
             assert "backgrounded" in bash_result
             assert "bash_abc123" in bash_result
 
@@ -269,9 +249,7 @@ class TestIntegration:
         ]
 
         for shell_name, _command in shells:
-            with patch.object(
-                bash_tool, "get_interpreter", return_value=f"/bin/{shell_name}"
-            ):
+            with patch.object(bash_tool, "get_interpreter", return_value=f"/bin/{shell_name}"):
                 # This would execute the command with the specific shell
                 tool_name = bash_tool.get_tool_name()
                 assert tool_name == shell_name

@@ -133,9 +133,7 @@ class TestToolRegistration:
             "agent": False,
         }
 
-        register_all_tools(
-            mcp_server, permission_manager, enabled_tools=enabled_tools, use_mode=False
-        )
+        register_all_tools(mcp_server, permission_manager, enabled_tools=enabled_tools, use_mode=False)
 
         assert True
 
@@ -193,9 +191,7 @@ class TestPaginationSystem:
         items = [f"Item {i}" for i in range(100)]
 
         # Create paginated response using wrapper
-        response = PaginatedResponse(
-            items=items[:10], next_cursor="cursor_10", has_more=True, total_items=100
-        )
+        response = PaginatedResponse(items=items[:10], next_cursor="cursor_10", has_more=True, total_items=100)
 
         # Check response attributes
         assert len(response.items) == 10
@@ -226,9 +222,7 @@ class TestPaginationSystem:
         # Check if there's a next cursor
         if "nextCursor" in result:
             # Get next page using cursor
-            next_result = paginator.paginate_list(
-                items, cursor=result["nextCursor"], page_size=10
-            )
+            next_result = paginator.paginate_list(items, cursor=result["nextCursor"], page_size=10)
             assert next_result is not None
             assert "items" in next_result
 
@@ -354,22 +348,15 @@ class TestMemoryIntegration:
 
             mcp_server = FastMCP("test-server")
             permission_manager = create_permission_manager(["/tmp"])
-            tools = register_memory_tools(
-                mcp_server, permission_manager, user_id="test", project_id="test"
-            )
+            tools = register_memory_tools(mcp_server, permission_manager, user_id="test", project_id="test")
             assert isinstance(tools, list)
 
         except ImportError as e:
             # This is the expected path when hanzo_memory is not installed
             error_msg = str(e)
-            if (
-                "hanzo-memory package is required" in error_msg
-                or "hanzo_memory" in error_msg
-            ):
+            if "hanzo-memory package is required" in error_msg or "hanzo_memory" in error_msg:
                 # This is expected and valid - memory tools require the package
-                print(
-                    f"Memory tools correctly require hanzo-memory package: {error_msg}"
-                )
+                print(f"Memory tools correctly require hanzo-memory package: {error_msg}")
                 assert True  # Test passes - correct behavior
             else:
                 # Some other import error - this is not expected
@@ -487,9 +474,7 @@ class TestAutoBackgrounding:
         from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
 
         process_manager = ProcessManager()
-        executor = AutoBackgroundExecutor(
-            process_manager, timeout=0.1
-        )  # Very short timeout
+        executor = AutoBackgroundExecutor(process_manager, timeout=0.1)  # Very short timeout
 
         # Test that executor is created properly
         assert executor is not None
@@ -645,9 +630,7 @@ class TestBatchTool:
         # Execute batch with multiple tools
         invocations = [{"tool": f"tool_{i}", "parameters": {}} for i in range(5)]
 
-        result = asyncio.run(
-            batch_tool.call(mock_ctx, description="Test batch", invocations=invocations)
-        )
+        result = asyncio.run(batch_tool.call(mock_ctx, description="Test batch", invocations=invocations))
 
         # Should handle without error
         assert "results" in result or "error" in result
@@ -728,9 +711,7 @@ class TestPropertyBasedPagination:
             max_pages = (num_items + page_size - 1) // page_size + 1  # Safety limit
 
             while pages_retrieved < max_pages:
-                result = paginator.paginate_list(
-                    items, cursor=cursor, page_size=page_size
-                )
+                result = paginator.paginate_list(items, cursor=cursor, page_size=page_size)
                 if not result or "items" not in result:
                     break
 
@@ -767,9 +748,7 @@ class TestPropertyBasedToolConfig:
         ]
 
         for enable_write, enable_search, enable_agent, max_tokens in test_cases:
-            mcp_server = FastMCP(
-                f"test-server-{enable_write}-{enable_search}-{enable_agent}"
-            )
+            mcp_server = FastMCP(f"test-server-{enable_write}-{enable_search}-{enable_agent}")
             permission_manager = create_permission_manager(["/tmp"])
 
             # Should never raise an exception

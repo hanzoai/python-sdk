@@ -77,9 +77,7 @@ class NetworkTool(BaseTool):
         """
         self.permission_manager = permission_manager
         self.default_mode = default_mode
-        self.cluster_endpoint = cluster_endpoint or os.environ.get(
-            "HANZO_CLUSTER_ENDPOINT", "http://localhost:8000"
-        )
+        self.cluster_endpoint = cluster_endpoint or os.environ.get("HANZO_CLUSTER_ENDPOINT", "http://localhost:8000")
         self._cluster = None
 
     async def _ensure_cluster(self):
@@ -160,9 +158,7 @@ class NetworkTool(BaseTool):
                         results["results"].append(
                             {
                                 "agent": "local-cluster",
-                                "response": local_result.get("choices", [{}])[0].get(
-                                    "text", ""
-                                ),
+                                "response": local_result.get("choices", [{}])[0].get("text", ""),
                                 "local": True,
                             }
                         )
@@ -180,6 +176,7 @@ class NetworkTool(BaseTool):
                 # Agent-based execution with concurrency
                 if not results["success"] or mode in ["distributed", "hybrid"]:
                     from hanzo_mcp.tools.agent.agent_tool import AgentTool
+
                     agent = AgentTool(permission_manager=self.permission_manager, model=model_pref)
                     concurrency = max(1, len(agents_list)) if agents_list else 5 if routing == "parallel" else 1
                     agent_params = {"prompts": task, "concurrency": concurrency}
@@ -206,25 +203,17 @@ class NetworkTool(BaseTool):
         async def network_handler(
             ctx: MCPContext,
             task: Annotated[str, Field(description="Task to execute on the network")],
-            agents: Annotated[
-                Optional[List[str]], Field(description="Specific agents to use")
-            ] = None,
+            agents: Annotated[Optional[List[str]], Field(description="Specific agents to use")] = None,
             mode: Annotated[
                 Optional[str],
                 Field(description="Execution mode: local, distributed, or hybrid"),
             ] = None,
-            model: Annotated[
-                Optional[str], Field(description="Model preference")
-            ] = None,
+            model: Annotated[Optional[str], Field(description="Model preference")] = None,
             routing: Annotated[
                 Optional[str],
-                Field(
-                    description="Routing strategy: sequential, parallel, or consensus"
-                ),
+                Field(description="Routing strategy: sequential, parallel, or consensus"),
             ] = None,
-            require_local: Annotated[
-                Optional[bool], Field(description="Require local-only execution")
-            ] = None,
+            require_local: Annotated[Optional[bool], Field(description="Require local-only execution")] = None,
         ) -> str:
             """Dispatch work to agent networks."""
             params = NetworkToolParams(

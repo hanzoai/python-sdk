@@ -56,9 +56,7 @@ try:
             store_config = vector_config.copy()
             project_manager = ProjectVectorManager(
                 global_db_path=store_config.get("data_path"),
-                embedding_model=store_config.get(
-                    "embedding_model", "text-embedding-3-small"
-                ),
+                embedding_model=store_config.get("embedding_model", "text-embedding-3-small"),
                 dimension=store_config.get("dimension", 1536),
             )
 
@@ -68,9 +66,7 @@ try:
                 import logging
 
                 logger = logging.getLogger(__name__)
-                logger.info(
-                    f"Detected {len(detected_projects)} projects with LLM.md files"
-                )
+                logger.info(f"Detected {len(detected_projects)} projects with LLM.md files")
 
         # Register individual tools if enabled
         if tool_enabled.get("index", True):
@@ -97,9 +93,7 @@ except ImportError:
         import logging
 
         logger = logging.getLogger(__name__)
-        logger.warning(
-            "Vector tools not available. Install infinity-embedded: pip install infinity-embedded"
-        )
+        logger.warning("Vector tools not available. Install infinity-embedded: pip install infinity-embedded")
         return []
 
 

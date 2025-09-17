@@ -140,15 +140,9 @@ recall_facts(queries=["company policies"], scope="global", limit=5)
             if fact.metadata and fact.metadata.get("kb_name"):
                 kb_info = f" (KB: {fact.metadata['kb_name']})"
             formatted.append(f"{i}. {fact.content}{kb_info}")
-            if (
-                fact.metadata and len(fact.metadata) > 2
-            ):  # More than just type and kb_name
+            if fact.metadata and len(fact.metadata) > 2:  # More than just type and kb_name
                 # Show other metadata
-                other_meta = {
-                    k: v
-                    for k, v in fact.metadata.items()
-                    if k not in ["type", "kb_name"]
-                }
+                other_meta = {k: v for k, v in fact.metadata.items() if k not in ["type", "kb_name"]}
                 if other_meta:
                     formatted.append(f"   Metadata: {other_meta}")
 
@@ -167,9 +161,7 @@ recall_facts(queries=["company policies"], scope="global", limit=5)
             scope: str = "project",
             limit: int = 10,
         ) -> str:
-            return await tool_self.call(
-                ctx, queries=queries, kb_name=kb_name, scope=scope, limit=limit
-            )
+            return await tool_self.call(ctx, queries=queries, kb_name=kb_name, scope=scope, limit=limit)
 
 
 @final
@@ -265,9 +257,7 @@ store_facts(facts=["Company founded in 2020"], scope="global", kb_name="company_
             scope: str = "project",
             metadata: Optional[Dict[str, Any]] = None,
         ) -> str:
-            return await tool_self.call(
-                ctx, facts=facts, kb_name=kb_name, scope=scope, metadata=metadata
-            )
+            return await tool_self.call(ctx, facts=facts, kb_name=kb_name, scope=scope, metadata=metadata)
 
 
 @final
@@ -323,11 +313,7 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
 
         # Use the memory service to create a summary
         # This would typically use an LLM to summarize, but for now we'll store as-is
-        summary = (
-            f"Summary of {topic}:\n{content[:500]}..."
-            if len(content) > 500
-            else content
-        )
+        summary = f"Summary of {topic}:\n{content[:500]}..." if len(content) > 500 else content
 
         # Store the summary as a memory
         from hanzo_memory.services.memory import get_memory_service
@@ -358,9 +344,7 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
         if auto_facts:
             # In a real implementation, this would use LLM to extract key facts
             # For now, we'll just note it
-            result += (
-                "\n(Auto-fact extraction would extract key facts from the summary)"
-            )
+            result += "\n(Auto-fact extraction would extract key facts from the summary)"
 
         return result
 
@@ -377,9 +361,7 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
             scope: str = "project",
             auto_facts: bool = True,
         ) -> str:
-            return await tool_self.call(
-                ctx, content=content, topic=topic, scope=scope, auto_facts=auto_facts
-            )
+            return await tool_self.call(ctx, content=content, topic=topic, scope=scope, auto_facts=auto_facts)
 
 
 @final

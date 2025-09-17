@@ -34,10 +34,7 @@ class TestCLIAgentsConsolidated:
 
             # Verify model configuration
             if hasattr(cli, "model"):
-                assert (
-                    model_name in str(cli.model).lower()
-                    or expected_provider in str(cli.model).lower()
-                )
+                assert model_name in str(cli.model).lower() or expected_provider in str(cli.model).lower()
 
     @pytest.mark.parametrize(
         "cli_class,command,expected_output",

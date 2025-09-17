@@ -68,11 +68,7 @@ class PaginatedBaseTool(BaseTool):
         if cursor:
             # For continuation, check if we have cached results
             cursor_data = CursorManager.parse_cursor(cursor)
-            if (
-                cursor_data
-                and "tool" in cursor_data
-                and cursor_data["tool"] != self.name
-            ):
+            if cursor_data and "tool" in cursor_data and cursor_data["tool"] != self.name:
                 return {"error": "Cursor is for a different tool", "code": -32602}
 
         # Execute the tool
@@ -90,15 +86,11 @@ class PaginatedBaseTool(BaseTool):
             if isinstance(paginated_result, dict) and "nextCursor" in paginated_result:
                 # Enhance the cursor with tool information
                 if "nextCursor" in paginated_result:
-                    cursor_data = CursorManager.parse_cursor(
-                        paginated_result["nextCursor"]
-                    )
+                    cursor_data = CursorManager.parse_cursor(paginated_result["nextCursor"])
                     if cursor_data:
                         cursor_data["tool"] = self.name
                         cursor_data["params"] = params  # Store params for continuation
-                        paginated_result["nextCursor"] = CursorManager.create_cursor(
-                            cursor_data
-                        )
+                        paginated_result["nextCursor"] = CursorManager.create_cursor(cursor_data)
 
             return paginated_result
         else:

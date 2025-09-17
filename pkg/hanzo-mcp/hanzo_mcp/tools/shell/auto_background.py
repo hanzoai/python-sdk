@@ -19,9 +19,7 @@ class AutoBackgroundExecutor:
     # Default timeout before auto-backgrounding (2 minutes)
     DEFAULT_TIMEOUT = 120.0
 
-    def __init__(
-        self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT
-    ):
+    def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
         """Initialize the auto-background executor.
 
         Args:
@@ -148,9 +146,7 @@ class AutoBackgroundExecutor:
                     task.cancel()
 
                 # Continue reading output in background
-                asyncio.create_task(
-                    self._background_reader(process, process_id, log_file)
-                )
+                asyncio.create_task(self._background_reader(process, process_id, log_file))
 
                 # Return status message
                 elapsed = time.time() - start_time

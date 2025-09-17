@@ -151,13 +151,9 @@ Usage:
             if not force:
                 stats = await vector_store.get_stats()
                 if stats and stats.get("document_count", 0) > 0:
-                    await tool_ctx.info(
-                        "Project already indexed, use --force to re-index"
-                    )
+                    await tool_ctx.info("Project already indexed, use --force to re-index")
                     if show_stats:
-                        return self._format_stats(
-                            stats, abs_path, time.time() - start_time
-                        )
+                        return self._format_stats(stats, abs_path, time.time() - start_time)
                     return "Project is already indexed. Use --force to re-index."
 
             # Prepare file patterns
@@ -268,9 +264,7 @@ Usage:
                     except Exception as e:
                         errors.append(f"{file_path}: {str(e)}")
 
-            await tool_ctx.info(
-                f"Indexed {indexed_files} files ({total_size / 1024 / 1024:.1f} MB)"
-            )
+            await tool_ctx.info(f"Indexed {indexed_files} files ({total_size / 1024 / 1024:.1f} MB)")
 
             # Index git history if requested
             git_stats = {}

@@ -90,18 +90,18 @@ directories alongside them. Use this to build searchable knowledge bases per pro
                     return f"Error: File does not exist: {file_path}"
 
                 # Index file using project-aware manager
-                doc_ids, project_info = (
-                    self.project_manager.add_file_to_appropriate_store(
-                        file_path=file_path,
-                        chunk_size=chunk_size,
-                        chunk_overlap=chunk_overlap,
-                        metadata=metadata,
-                    )
+                doc_ids, project_info = self.project_manager.add_file_to_appropriate_store(
+                    file_path=file_path,
+                    chunk_size=chunk_size,
+                    chunk_overlap=chunk_overlap,
+                    metadata=metadata,
                 )
 
                 file_name = Path(file_path).name
                 if project_info:
-                    return f"Successfully indexed {file_name} with {len(doc_ids)} chunks in project '{project_info.name}'"
+                    return (
+                        f"Successfully indexed {file_name} with {len(doc_ids)} chunks in project '{project_info.name}'"
+                    )
                 else:
                     return f"Successfully indexed {file_name} with {len(doc_ids)} chunks in global database"
 

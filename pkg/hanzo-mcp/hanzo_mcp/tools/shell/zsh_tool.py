@@ -29,9 +29,7 @@ class ZshTool(BaseScriptTool):
             env: Optional[dict[str, str]] = None,
             timeout: Optional[int] = None,
         ) -> str:
-            return await tool_self.run(
-                ctx, command=command, cwd=cwd, env=env, timeout=timeout
-            )
+            return await tool_self.run(ctx, command=command, cwd=cwd, env=env, timeout=timeout)
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
@@ -79,12 +77,12 @@ zsh "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
                     return path
             # Fall back to bash if no zsh found
             return "bash"
-        
+
         # On Unix-like systems, check for zsh
         zsh_path = shutil.which("zsh")
         if zsh_path:
             return zsh_path
-        
+
         # Fall back to bash if zsh not found
         return "bash"
 
@@ -124,14 +122,12 @@ zsh "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
         # Check if zsh is available
         if not shutil.which("zsh") and platform.system() != "Windows":
             return "Error: Zsh is not installed. Please install zsh first."
-        
+
         # Prepare working directory
         work_dir = Path(cwd).resolve() if cwd else Path.cwd()
 
         # Use execute_sync which has auto-backgrounding
-        output = await self.execute_sync(
-            command, cwd=work_dir, env=env, timeout=timeout
-        )
+        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
         return output if output else "Command completed successfully (no output)"
 
 
@@ -152,12 +148,12 @@ class ShellTool(BaseScriptTool):
             # Also check if .zshrc exists
             if (Path.home() / ".zshrc").exists():
                 return "zsh"
-        
+
         # Check for user's preferred shell
         user_shell = os.environ.get("SHELL", "")
         if user_shell and Path(user_shell).exists():
             return user_shell
-        
+
         # Default to bash
         return "bash"
 
@@ -173,9 +169,7 @@ class ShellTool(BaseScriptTool):
             env: Optional[dict[str, str]] = None,
             timeout: Optional[int] = None,
         ) -> str:
-            return await tool_self.run(
-                ctx, command=command, cwd=cwd, env=env, timeout=timeout
-            )
+            return await tool_self.run(ctx, command=command, cwd=cwd, env=env, timeout=timeout)
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
@@ -249,12 +243,10 @@ shell "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
 
         # Add shell info to output if verbose
         shell_name = os.path.basename(self._best_shell)
-        
+
         # Use execute_sync which has auto-backgrounding
-        output = await self.execute_sync(
-            command, cwd=work_dir, env=env, timeout=timeout
-        )
-        
+        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
+
         if output:
             return output
         else:

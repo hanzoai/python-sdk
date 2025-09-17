@@ -129,9 +129,7 @@ class ASTMultiEdit(BaseTool):
 
         return parser.parse(bytes(content, "utf-8"))
 
-    def _find_references(
-        self, symbol: str, file_path: str, project_root: Optional[str] = None
-    ) -> List[ASTMatch]:
+    def _find_references(self, symbol: str, file_path: str, project_root: Optional[str] = None) -> List[ASTMatch]:
         """Find all references to a symbol across the project."""
         matches = []
 
@@ -149,9 +147,7 @@ class ASTMultiEdit(BaseTool):
 
         return matches
 
-    def _get_reference_patterns(
-        self, symbol: str, file_path: str
-    ) -> List[Dict[str, Any]]:
+    def _get_reference_patterns(self, symbol: str, file_path: str) -> List[Dict[str, Any]]:
         """Get language-specific patterns for finding references."""
         ext = Path(file_path).suffix.lower()
         lang = self.languages.get(ext, "generic")
@@ -262,9 +258,7 @@ class ASTMultiEdit(BaseTool):
                     matches.extend(self._query_ast(tree, pattern, file_path, content))
                 else:
                     # Fallback to text search
-                    matches.extend(
-                        self._text_search(content, pattern["query"], file_path)
-                    )
+                    matches.extend(self._text_search(content, pattern["query"], file_path))
 
             except Exception:
                 continue
@@ -313,9 +307,7 @@ class ASTMultiEdit(BaseTool):
 
         return matches
 
-    def _get_parent_context(
-        self, node: tree_sitter.Node, content: str
-    ) -> Optional[str]:
+    def _get_parent_context(self, node: tree_sitter.Node, content: str) -> Optional[str]:
         """Get parent context for better understanding."""
         parent = node.parent
         if parent:
@@ -335,9 +327,7 @@ class ASTMultiEdit(BaseTool):
 
         return None
 
-    def _text_search(
-        self, content: str, pattern: str, file_path: str
-    ) -> List[ASTMatch]:
+    def _text_search(self, content: str, pattern: str, file_path: str) -> List[ASTMatch]:
         """Fallback text search."""
         matches = []
         lines = content.split("\n")
@@ -412,18 +402,14 @@ class ASTMultiEdit(BaseTool):
 
         return str(path.parent)
 
-    def _group_matches_by_file(
-        self, matches: List[ASTMatch]
-    ) -> Dict[str, List[ASTMatch]]:
+    def _group_matches_by_file(self, matches: List[ASTMatch]) -> Dict[str, List[ASTMatch]]:
         """Group matches by file for efficient editing."""
         grouped = defaultdict(list)
         for match in matches:
             grouped[match.file_path].append(match)
         return grouped
 
-    def _create_unique_context(
-        self, content: str, match: ASTMatch, context_lines: int
-    ) -> str:
+    def _create_unique_context(self, content: str, match: ASTMatch, context_lines: int) -> str:
         """Create unique context for edit identification."""
         lines = content.split("\n")
 
@@ -499,27 +485,20 @@ class ASTMultiEdit(BaseTool):
                         pattern = {"query": edit_op.old_string, "type": "text"}
                         matches = self._query_ast(tree, pattern, file_path, content)
                     else:
-                        matches = self._text_search(
-                            content, edit_op.old_string, file_path
-                        )
+                        matches = self._text_search(content, edit_op.old_string, file_path)
 
                 # Filter by node types if specified
                 if edit_op.node_types:
                     matches = [m for m in matches if m.node_type in edit_op.node_types]
 
                 # Check expected count
-                if (
-                    edit_op.expect_count is not None
-                    and len(matches) != edit_op.expect_count
-                ):
+                if edit_op.expect_count is not None and len(matches) != edit_op.expect_count:
                     results["errors"].append(
                         {
                             "edit": edit_op.old_string,
                             "expected": edit_op.expect_count,
                             "found": len(matches),
-                            "locations": [
-                                f"{m.file_path}:{m.line_start}" for m in matches[:5]
-                            ],
+                            "locations": [f"{m.file_path}:{m.line_start}" for m in matches[:5]],
                         }
                     )
                     continue
@@ -547,9 +526,7 @@ class ASTMultiEdit(BaseTool):
                 success = await self._apply_file_changes(file_path, changes)
                 if success:
                     results["edits_applied"] += len(changes)
-                    results["changes"].append(
-                        {"file": file_path, "edits": len(changes)}
-                    )
+                    results["changes"].append({"file": file_path, "edits": len(changes)})
             except Exception as e:
                 results["errors"].append({"file": file_path, "error": str(e)})
 
@@ -564,9 +541,7 @@ class ASTMultiEdit(BaseTool):
             grouped[match.file_path].append((edit_op, match))
         return grouped
 
-    async def _apply_file_changes(
-        self, file_path: str, changes: List[Tuple[EditOperation, ASTMatch]]
-    ) -> bool:
+    async def _apply_file_changes(self, file_path: str, changes: List[Tuple[EditOperation, ASTMatch]]) -> bool:
         """Apply changes to a single file."""
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -600,9 +575,7 @@ class ASTMultiEdit(BaseTool):
 
         return True
 
-    def _generate_preview(
-        self, matches: List[Tuple[EditOperation, ASTMatch]], page_size: int
-    ) -> List[Dict[str, Any]]:
+    def _generate_preview(self, matches: List[Tuple[EditOperation, ASTMatch]], page_size: int) -> List[Dict[str, Any]]:
         """Generate preview of changes."""
         preview = []
 
@@ -625,9 +598,7 @@ class ASTMultiEdit(BaseTool):
 
         return preview
 
-    def _fallback_to_basic_edit(
-        self, file_path: str, edits: List[Dict[str, Any]]
-    ) -> MCPResourceDocument:
+    def _fallback_to_basic_edit(self, file_path: str, edits: List[Dict[str, Any]]) -> MCPResourceDocument:
         """Fallback to basic multi-edit when treesitter not available."""
         # Delegate to existing multi_edit tool
         from hanzo_mcp.tools.filesystem.multi_edit import MultiEdit

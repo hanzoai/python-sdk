@@ -69,9 +69,7 @@ class Calculator:
             )  # Make it long enough to require chunking
             f.flush()
 
-            doc_ids = temp_store.add_file(
-                f.name, chunk_size=500, chunk_overlap=50, metadata={"project": "test"}
-            )
+            doc_ids = temp_store.add_file(f.name, chunk_size=500, chunk_overlap=50, metadata={"project": "test"})
 
             assert len(doc_ids) > 1  # Should be chunked
             assert all(isinstance(doc_id, str) for doc_id in doc_ids)
@@ -132,17 +130,13 @@ class Calculator:
         temp_store._store_symbols(symbols)
 
         # Search for function
-        func_results = temp_store.search_symbols(
-            "calculate average numbers", symbol_type="function"
-        )
+        func_results = temp_store.search_symbols("calculate average numbers", symbol_type="function")
 
         assert len(func_results) > 0
         assert any(r.symbol.name == "calculate_average" for r in func_results)
 
         # Search for class
-        class_results = temp_store.search_symbols(
-            "data processing", symbol_type="class"
-        )
+        class_results = temp_store.search_symbols("data processing", symbol_type="class")
 
         assert len(class_results) > 0
         assert any(r.symbol.name == "DataProcessor" for r in class_results)
@@ -173,9 +167,7 @@ class Calculator:
         # Add multiple files
         test_files = []
         for i in range(3):
-            with tempfile.NamedTemporaryFile(
-                mode="w", suffix=f".py", delete=False
-            ) as f:
+            with tempfile.NamedTemporaryFile(mode="w", suffix=f".py", delete=False) as f:
                 f.write(f"Test file {i} content")
                 f.flush()
                 test_files.append(f.name)
@@ -279,9 +271,7 @@ class Calculator:
         assert isinstance(embedding, list)
         assert len(embedding) == temp_store.dimension
         assert all(isinstance(val, float) for val in embedding)
-        assert all(
-            0 <= val <= 1 for val in embedding
-        )  # Mock embeddings use random [0,1]
+        assert all(0 <= val <= 1 for val in embedding)  # Mock embeddings use random [0,1]
 
 
 class TestVectorStoreIntegration:

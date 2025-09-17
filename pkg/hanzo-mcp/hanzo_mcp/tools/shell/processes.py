@@ -126,9 +126,7 @@ Examples:
             await tool_ctx.error(f"Failed to list processes: {str(e)}")
             return f"Error listing processes: {str(e)}"
 
-    def _list_background_processes(
-        self, filter_name: Optional[str], show_details: bool
-    ) -> str:
+    def _list_background_processes(self, filter_name: Optional[str], show_details: bool) -> str:
         """List background processes started with run_background."""
         processes = RunBackgroundTool.get_processes()
 
@@ -154,11 +152,7 @@ Examples:
         filtered_processes.sort(key=lambda x: x[1].start_time, reverse=True)
 
         for proc_id, process in filtered_processes:
-            status = (
-                "running"
-                if process.is_running
-                else f"finished (code: {process.return_code})"
-            )
+            status = "running" if process.is_running else f"finished (code: {process.return_code})"
             runtime = datetime.now() - process.start_time
             runtime_str = str(runtime).split(".")[0]  # Remove microseconds
 
@@ -191,9 +185,7 @@ Examples:
 
         return "\n".join(output)
 
-    def _list_system_processes(
-        self, filter_name: Optional[str], show_details: bool
-    ) -> str:
+    def _list_system_processes(self, filter_name: Optional[str], show_details: bool) -> str:
         """List all system processes."""
         try:
             processes = []
@@ -229,9 +221,7 @@ Examples:
 
                     if show_details:
                         process_info["cpu"] = proc.cpu_percent(interval=0.1)
-                        process_info["memory"] = (
-                            proc.memory_info().rss / 1024 / 1024
-                        )  # MB
+                        process_info["memory"] = proc.memory_info().rss / 1024 / 1024  # MB
 
                     processes.append(process_info)
 
@@ -250,9 +240,7 @@ Examples:
 
             # Header
             if show_details:
-                output.append(
-                    f"{'PID':>7} {'CPU%':>5} {'MEM(MB)':>8} {'NAME':<20} COMMAND"
-                )
+                output.append(f"{'PID':>7} {'CPU%':>5} {'MEM(MB)':>8} {'NAME':<20} COMMAND")
                 output.append("-" * 80)
 
                 for proc in processes:

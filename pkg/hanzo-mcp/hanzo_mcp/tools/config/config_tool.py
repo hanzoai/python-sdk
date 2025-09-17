@@ -131,9 +131,7 @@ config --action toggle index.scope --path ./project"""
         else:
             return f"Error: Unknown action '{action}'. Valid actions: get, set, list, toggle"
 
-    async def _handle_get(
-        self, key: Optional[str], scope: str, path: Optional[str], tool_ctx
-    ) -> str:
+    async def _handle_get(self, key: Optional[str], scope: str, path: Optional[str], tool_ctx) -> str:
         """Get configuration value."""
         if not key:
             return "Error: key required for get action"
@@ -173,7 +171,9 @@ config --action toggle index.scope --path ./project"""
             project_path = Path(project_dir)
             project_path.mkdir(parents=True, exist_ok=True)
             cfg = project_path / ".hanzo-mcp.json"
-            cfg.write_text(__import__("json").dumps(settings.__dict__ if hasattr(settings, "__dict__") else {}, indent=2))
+            cfg.write_text(
+                __import__("json").dumps(settings.__dict__ if hasattr(settings, "__dict__") else {}, indent=2)
+            )
             return cfg
         # Fallback to global handler
         return save_settings(settings, global_config=True)
@@ -196,9 +196,7 @@ config --action toggle index.scope --path ./project"""
         if key == "index.scope":
             try:
                 new_scope = IndexScope(value)
-                self.index_config.set_scope(
-                    new_scope, path if scope == "local" else None
-                )
+                self.index_config.set_scope(new_scope, path if scope == "local" else None)
                 return f"Set {key}={value} ({'project' if path else 'global'})"
             except ValueError:
                 return f"Error: Invalid scope value '{value}'. Valid: project, global, auto"
@@ -281,18 +279,14 @@ config --action toggle index.scope --path ./project"""
 
         return "\n".join(output)
 
-    async def _handle_toggle(
-        self, key: Optional[str], scope: str, path: Optional[str], tool_ctx
-    ) -> str:
+    async def _handle_toggle(self, key: Optional[str], scope: str, path: Optional[str], tool_ctx) -> str:
         """Toggle configuration value."""
         if not key:
             return "Error: key required for toggle action"
 
         # Handle index scope toggle
         if key == "index.scope":
-            new_scope = self.index_config.toggle_scope(
-                path if scope == "local" else None
-            )
+            new_scope = self.index_config.toggle_scope(path if scope == "local" else None)
             return f"Toggled index.scope to {new_scope.value}"
 
         # Handle execution tool enable/disable: tools.<name>.enabled or enabled_tools.<name>

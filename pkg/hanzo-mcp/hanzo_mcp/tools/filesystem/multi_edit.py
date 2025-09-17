@@ -170,15 +170,11 @@ If you want to create a new file, use:
             expected_replacements = edit.get("expected_replacements", 1)
 
             if old_string is None:
-                await tool_ctx.error(
-                    f"Parameter 'old_string' in edit at index {i} is required but was None"
-                )
+                await tool_ctx.error(f"Parameter 'old_string' in edit at index {i} is required but was None")
                 return f"Error: Parameter 'old_string' in edit at index {i} is required but was None"
 
             if new_string is None:
-                await tool_ctx.error(
-                    f"Parameter 'new_string' in edit at index {i} is required but was None"
-                )
+                await tool_ctx.error(f"Parameter 'new_string' in edit at index {i} is required but was None")
                 return f"Error: Parameter 'new_string' in edit at index {i} is required but was None"
 
             if (
@@ -192,12 +188,8 @@ If you want to create a new file, use:
                 return f"Error: Parameter 'expected_replacements' in edit at index {i} must be a non-negative number"
 
             if old_string == new_string:
-                await tool_ctx.error(
-                    f"Edit at index {i}: old_string and new_string are identical"
-                )
-                return (
-                    f"Error: Edit at index {i}: old_string and new_string are identical"
-                )
+                await tool_ctx.error(f"Edit at index {i}: old_string and new_string are identical")
+                return f"Error: Edit at index {i}: old_string and new_string are identical"
 
         await tool_ctx.info(f"Applying {len(edits)} edits to file: {file_path}")
 
@@ -261,9 +253,7 @@ If you want to create a new file, use:
 
                 # Check if old_string exists in current content
                 if old_string not in current_content:
-                    edit_index = (
-                        i + 1 if not creation_mode else i + 2
-                    )  # Adjust for display
+                    edit_index = i + 1 if not creation_mode else i + 2  # Adjust for display
                     await tool_ctx.error(
                         f"Edit {edit_index}: The specified old_string was not found in the file content"
                     )
@@ -274,9 +264,7 @@ If you want to create a new file, use:
 
                 # Check if the number of occurrences matches expected_replacements
                 if occurrences != expected_replacements:
-                    edit_index = (
-                        i + 1 if not creation_mode else i + 2
-                    )  # Adjust for display
+                    edit_index = i + 1 if not creation_mode else i + 2  # Adjust for display
                     await tool_ctx.error(
                         f"Edit {edit_index}: Found {occurrences} occurrences of the specified old_string, but expected {expected_replacements}"
                     )

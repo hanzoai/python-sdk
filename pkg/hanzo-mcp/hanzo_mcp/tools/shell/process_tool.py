@@ -61,11 +61,7 @@ process --action logs --id bash_ghi789 --lines 50"""
 
             output = ["Background processes:"]
             for proc_id, info in processes.items():
-                status = (
-                    "running"
-                    if info["running"]
-                    else f"stopped (exit code: {info.get('return_code', 'unknown')})"
-                )
+                status = "running" if info["running"] else f"stopped (exit code: {info.get('return_code', 'unknown')})"
                 output.append(f"- {proc_id}: PID {info['pid']} - {status}")
                 if info.get("log_file"):
                     output.append(f"  Log: {info['log_file']}")
@@ -134,9 +130,7 @@ process --action logs --id bash_ghi789 --lines 50"""
             signal_type: str = "TERM",
             lines: int = 100,
         ) -> str:
-            return await tool_self.run(
-                ctx, action=action, id=id, signal_type=signal_type, lines=lines
-            )
+            return await tool_self.run(ctx, action=action, id=id, signal_type=signal_type, lines=lines)
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""

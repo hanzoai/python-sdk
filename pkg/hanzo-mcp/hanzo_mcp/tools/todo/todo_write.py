@@ -309,9 +309,7 @@ When in doubt, use this tool. Being proactive with task management demonstrates 
 
             # Log storage stats
             session_count = TodoStorage.get_session_count()
-            await tool_ctx.info(
-                f"Successfully stored todos. Total active sessions: {session_count}"
-            )
+            await tool_ctx.info(f"Successfully stored todos. Total active sessions: {session_count}")
 
             # Provide feedback about the todos
             if todos:
@@ -328,23 +326,15 @@ When in doubt, use this tool. Being proactive with task management demonstrates 
                 # Create summary
                 summary_parts = []
                 if status_counts:
-                    status_summary = ", ".join(
-                        [f"{count} {status}" for status, count in status_counts.items()]
-                    )
+                    status_summary = ", ".join([f"{count} {status}" for status, count in status_counts.items()])
                     summary_parts.append(f"Status: {status_summary}")
 
                 if priority_counts:
-                    priority_summary = ", ".join(
-                        [
-                            f"{count} {priority}"
-                            for priority, count in priority_counts.items()
-                        ]
-                    )
+                    priority_summary = ", ".join([f"{count} {priority}" for priority, count in priority_counts.items()])
                     summary_parts.append(f"Priority: {priority_summary}")
 
-                summary = (
-                    f"Successfully stored {len(todos)} todos for session {session_id}.\n"
-                    + "; ".join(summary_parts)
+                summary = f"Successfully stored {len(todos)} todos for session {session_id}.\n" + "; ".join(
+                    summary_parts
                 )
 
                 return summary
@@ -368,7 +358,5 @@ When in doubt, use this tool. Being proactive with task management demonstrates 
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def todo_write(
-            session_id: SessionId, todos: Todos, ctx: MCPContext
-        ) -> str:
+        async def todo_write(session_id: SessionId, todos: Todos, ctx: MCPContext) -> str:
             return await tool_self.call(ctx, session_id=session_id, todos=todos)

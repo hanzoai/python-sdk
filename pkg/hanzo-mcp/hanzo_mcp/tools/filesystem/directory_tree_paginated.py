@@ -152,9 +152,7 @@ Returns nextCursor if more entries are available."""
             await tool_ctx.error(path_validation.error_message)
             return {"error": path_validation.error_message}
 
-        await tool_ctx.info(
-            f"Getting paginated directory tree: {path} (depth: {depth}, page_size: {page_size})"
-        )
+        await tool_ctx.info(f"Getting paginated directory tree: {path} (depth: {depth}, page_size: {page_size})")
 
         # Check if path is allowed
         allowed, error_msg = await self.check_path_allowed(path, tool_ctx)
@@ -196,35 +194,27 @@ Returns nextCursor if more entries are available."""
             def should_filter(current_path: Path) -> bool:
                 if str(current_path.absolute()) == str(dir_path.absolute()):
                     return False
-                return (
-                    current_path.name in FILTERED_DIRECTORIES and not include_filtered
-                )
+                return current_path.name in FILTERED_DIRECTORIES and not include_filtered
 
             # Collect all entries in a flat list for pagination
             all_entries: List[Dict[str, Any]] = []
 
             # Build the tree and collect entries
-            def collect_entries(
-                current_path: Path, current_depth: int = 0, parent_path: str = ""
-            ) -> None:
+            def collect_entries(current_path: Path, current_depth: int = 0, parent_path: str = "") -> None:
                 """Collect entries in a flat list for pagination."""
                 if not self.is_path_allowed(str(current_path)):
                     return
 
                 try:
                     # Sort entries: directories first, then files alphabetically
-                    entries = sorted(
-                        current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name)
-                    )
+                    entries = sorted(current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name))
 
                     for entry in entries:
                         if not self.is_path_allowed(str(entry)):
                             continue
 
                         # Calculate relative path for display
-                        relative_path = (
-                            f"{parent_path}/{entry.name}" if parent_path else entry.name
-                        )
+                        relative_path = f"{parent_path}/{entry.name}" if parent_path else entry.name
 
                         if entry.is_dir():
                             entry_data: Dict[str, Any] = {

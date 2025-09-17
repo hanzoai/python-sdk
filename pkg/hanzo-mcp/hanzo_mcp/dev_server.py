@@ -159,12 +159,8 @@ class DevServer:
         # Since MCP servers run in the same process, we need to handle this differently
         # For now, we'll log a message indicating a restart is needed
         logger = logging.getLogger(__name__)
-        logger.warning(
-            "\n⚠️  Server restart required. Please restart the MCP client to reload changes."
-        )
-        logger.info(
-            "💡 Tip: In development, consider using the MCP test client for easier reloading."
-        )
+        logger.warning("\n⚠️  Server restart required. Please restart the MCP client to reload changes.")
+        logger.info("💡 Tip: In development, consider using the MCP test client for easier reloading.")
 
     async def run_async(self, transport: str = "stdio"):
         """Run the development server asynchronously."""
@@ -218,12 +214,8 @@ def run_dev_server():
     """Entry point for development server."""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Run Hanzo AI in development mode with hot reload"
-    )
-    parser.add_argument(
-        "--name", type=str, default="hanzo-dev", help="Name of the MCP server"
-    )
+    parser = argparse.ArgumentParser(description="Run Hanzo AI in development mode with hot reload")
+    parser.add_argument("--name", type=str, default="hanzo-dev", help="Name of the MCP server")
     parser.add_argument("--project-dir", type=str, help="Project directory to serve")
     parser.add_argument(
         "--allowed-path",
@@ -239,9 +231,7 @@ def run_dev_server():
         choices=["stdio", "sse"],
         help="Transport type (default: stdio)",
     )
-    parser.add_argument(
-        "--host", type=str, default="127.0.0.1", help="Host for SSE transport"
-    )
+    parser.add_argument("--host", type=str, default="127.0.0.1", help="Host for SSE transport")
     parser.add_argument("--port", type=int, default=3000, help="Port for SSE transport")
 
     args = parser.parse_args()

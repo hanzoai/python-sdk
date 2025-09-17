@@ -14,9 +14,7 @@ from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
 
 SessionId = Annotated[
     str | int | float,
-    Field(
-        description="Unique identifier for the Claude Desktop session (generate using timestamp command)"
-    ),
+    Field(description="Unique identifier for the Claude Desktop session (generate using timestamp command)"),
 ]
 
 
@@ -109,13 +107,9 @@ Usage:
 
             # Log status
             if todos:
-                await tool_ctx.info(
-                    f"Found {len(todos)} todos for session {session_id}"
-                )
+                await tool_ctx.info(f"Found {len(todos)} todos for session {session_id}")
             else:
-                await tool_ctx.info(
-                    f"No todos found for session {session_id} (returning empty list)"
-                )
+                await tool_ctx.info(f"No todos found for session {session_id} (returning empty list)")
 
             # Return todos as JSON string
             result = json.dumps(todos, indent=2)

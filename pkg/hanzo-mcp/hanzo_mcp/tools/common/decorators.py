@@ -120,9 +120,7 @@ def _is_valid_context(ctx: Any) -> bool:
     )
 
 
-def mcp_tool(
-    server: Any, name: str | None = None, description: str | None = None
-) -> Callable[[F], F]:
+def mcp_tool(server: Any, name: str | None = None, description: str | None = None) -> Callable[[F], F]:
     """Enhanced MCP tool decorator that includes context normalization.
 
     This decorator combines the standard MCP tool registration with
@@ -192,9 +190,7 @@ def create_tool_handler(server: Any, tool: Any) -> Callable[[], None]:
                 # Apply context normalization
                 normalized = with_context_normalization(func)
                 # Apply original decorator
-                return original_tool_decorator(name=name, description=description)(
-                    normalized
-                )
+                return original_tool_decorator(name=name, description=description)(normalized)
 
             return decorator
 

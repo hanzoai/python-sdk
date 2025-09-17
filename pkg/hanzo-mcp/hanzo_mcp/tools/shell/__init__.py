@@ -49,8 +49,8 @@ def get_shell_tools(
     # Return shell_tool first (smart default), then specific shells
     return [
         shell_tool,  # Smart shell (prefers zsh if available)
-        zsh_tool,    # Explicit zsh
-        bash_tool,   # Explicit bash
+        zsh_tool,  # Explicit zsh
+        bash_tool,  # Explicit bash
         npx_tool,
         uvx_tool,
         process_tool,

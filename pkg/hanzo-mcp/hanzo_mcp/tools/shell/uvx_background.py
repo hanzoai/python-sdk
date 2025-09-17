@@ -156,9 +156,7 @@ Use 'processes' to list running processes and 'pkill' to stop them.
 
             try:
                 # Run installation
-                install_result = subprocess.run(
-                    install_cmd, shell=True, capture_output=True, text=True, timeout=60
-                )
+                install_result = subprocess.run(install_cmd, shell=True, capture_output=True, text=True, timeout=60)
 
                 if install_result.returncode == 0:
                     await tool_ctx.info("uvx installed successfully!")
@@ -167,9 +165,7 @@ Use 'processes' to list running processes and 'pkill' to stop them.
                     import os
 
                     home = os.path.expanduser("~")
-                    os.environ["PATH"] = (
-                        f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
-                    )
+                    os.environ["PATH"] = f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
 
                     # Check again
                     if not shutil.which("uvx"):

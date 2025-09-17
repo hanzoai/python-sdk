@@ -18,9 +18,7 @@ from unittest.mock import Mock, AsyncMock, patch
 import pytest
 
 # Add the parent directory to the path for imports
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
@@ -332,16 +330,10 @@ Detailed Results:
         print("=" * 60)
 
         # Verify improvements
-        assert (
-            '"""' in refactored_content or "'''" in refactored_content
-        )  # Has docstrings
+        assert '"""' in refactored_content or "'''" in refactored_content  # Has docstrings
         assert "->" in refactored_content  # Has type hints
-        assert (
-            "a * b" in refactored_content or "return a * b" in refactored_content
-        )  # Optimized multiply
-        assert (
-            "typing" in refactored_content or "Optional" in refactored_content
-        )  # Uses typing module
+        assert "a * b" in refactored_content or "return a * b" in refactored_content  # Optimized multiply
+        assert "typing" in refactored_content or "Optional" in refactored_content  # Uses typing module
 
         print("\n✓ All improvements verified:")
         print("  - Docstrings added")
@@ -377,9 +369,7 @@ Detailed Results:
         # Create a mock for the fallback SwarmTool
         mock_original_class = Mock()
         mock_original_instance = Mock()
-        mock_original_instance.call = AsyncMock(
-            return_value="Fallback result from original SwarmTool"
-        )
+        mock_original_instance.call = AsyncMock(return_value="Fallback result from original SwarmTool")
         mock_original_class.return_value = mock_original_instance
 
         # Patch where the import happens inside the call method
@@ -389,11 +379,7 @@ Detailed Results:
         ):
             with patch.dict(
                 "sys.modules",
-                {
-                    "hanzo_mcp.tools.agent.swarm_tool": Mock(
-                        SwarmTool=mock_original_class
-                    )
-                },
+                {"hanzo_mcp.tools.agent.swarm_tool": Mock(SwarmTool=mock_original_class)},
             ):
                 with patch.dict(os.environ, {"MOCK_HANZO_AGENTS": "true"}):
                     result = await swarm.call(
@@ -403,9 +389,7 @@ Detailed Results:
                     )
 
                     # The result should come from the fallback
-                    tool_helper.assert_in_result(
-                        "Fallback result from original SwarmTool", result
-                    )
+                    tool_helper.assert_in_result("Fallback result from original SwarmTool", result)
                     print("✓ Fallback to original SwarmTool works correctly")
 
     @pytest.mark.asyncio

@@ -225,13 +225,9 @@ class PermissibleOperation:
         """
         self.permission_manager: PermissionManager = permission_manager
         self.operation: str = operation
-        self.get_path_fn: Callable[[list[Any], dict[str, Any]], str] | None = (
-            get_path_fn
-        )
+        self.get_path_fn: Callable[[list[Any], dict[str, Any]], str] | None = get_path_fn
 
-    def __call__(
-        self, func: Callable[..., Awaitable[T]]
-    ) -> Callable[..., Awaitable[T]]:
+    def __call__(self, func: Callable[..., Awaitable[T]]) -> Callable[..., Awaitable[T]]:
         """Decorate the function.
 
         Args:
@@ -255,9 +251,7 @@ class PermissibleOperation:
 
             # Check permission
             if not self.permission_manager.is_path_allowed(path):
-                raise PermissionError(
-                    f"Operation '{self.operation}' not allowed for path: {path}"
-                )
+                raise PermissionError(f"Operation '{self.operation}' not allowed for path: {path}")
 
             # Call the function
             return await func(*args, **kwargs)

@@ -80,10 +80,7 @@ class BatchSearchResults:
         return {
             "query": self.query,
             "total_results": self.total_results,
-            "results_by_type": {
-                k.value: [r.to_dict() for r in v]
-                for k, v in self.results_by_type.items()
-            },
+            "results_by_type": {k.value: [r.to_dict() for r in v] for k, v in self.results_by_type.items()},
             "combined_results": [r.to_dict() for r in self.combined_results],
             "search_time_ms": self.search_time_ms,
         }
@@ -96,12 +93,8 @@ Queries = Annotated[
 SearchPath = Annotated[str, Field(description="Path to search in", default=".")]
 Include = Annotated[str, Field(description="File pattern to include", default="*")]
 MaxResults = Annotated[int, Field(description="Maximum results per query", default=20)]
-IncludeContext = Annotated[
-    bool, Field(description="Include function/method context", default=True)
-]
-CombineResults = Annotated[
-    bool, Field(description="Combine and deduplicate results", default=True)
-]
+IncludeContext = Annotated[bool, Field(description="Include function/method context", default=True)]
+CombineResults = Annotated[bool, Field(description="Combine and deduplicate results", default=True)]
 
 
 class BatchSearchParams(TypedDict):
@@ -212,9 +205,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
         # If pattern contains natural language, prioritize vector search
         words = pattern.split()
-        if len(words) > 2 and not any(
-            c in pattern for c in ["(", ")", "{", "}", "[", "]"]
-        ):
+        if len(words) > 2 and not any(c in pattern for c in ["(", ")", "{", "}", "[", "]"]):
             use_vector = True
 
         return use_vector, use_ast, use_symbol
@@ -227,9 +218,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
         try:
             # Use the existing grep tool
-            grep_result = await self.grep_tool.call(
-                tool_ctx.mcp_context, pattern=pattern, path=path, include=include
-            )
+            grep_result = await self.grep_tool.call(tool_ctx.mcp_context, pattern=pattern, path=path, include=include)
 
             results = []
             if "Found" in grep_result and "matches" in grep_result:
@@ -265,9 +254,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
             await tool_ctx.error(f"Grep search failed: {str(e)}")
             return []
 
-    async def _run_vector_search(
-        self, pattern: str, path: str, tool_ctx, max_results: int
-    ) -> List[SearchResult]:
+    async def _run_vector_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
         """Run vector search and convert results."""
         if not self.vector_tool:
             return []
@@ -373,11 +360,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                                     content=content,
                                     search_type=SearchType.AST,
                                     score=0.9,  # High score for AST matches
-                                    context=(
-                                        "\n".join(context_lines)
-                                        if context_lines
-                                        else None
-                                    ),
+                                    context=("\n".join(context_lines) if context_lines else None),
                                 )
                                 results.append(result)
 
@@ -396,9 +379,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
             await tool_ctx.error(f"AST search failed: {str(e)}")
             return []
 
-    async def _run_symbol_search(
-        self, pattern: str, path: str, tool_ctx, max_results: int
-    ) -> List[SearchResult]:
+    async def _run_symbol_search(self, pattern: str, path: str, tool_ctx, max_results: int) -> List[SearchResult]:
         """Run symbol search using AST analysis."""
         await tool_ctx.info(f"Running symbol search for: {pattern}")
 
@@ -414,9 +395,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                 # Look for source files
                 for ext in [".py", ".js", ".ts", ".java", ".cpp", ".c"]:
                     files_to_check.extend(path_obj.rglob(f"*{ext}"))
-                files_to_check = [
-                    str(f) for f in files_to_check[:50]
-                ]  # Limit for performance
+                files_to_check = [str(f) for f in files_to_check[:50]]  # Limit for performance
 
             # Analyze files for symbols
             for file_path in files_to_check:
@@ -439,11 +418,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                             file_path=symbol.file_path,
                             line_number=symbol.line_start,
                             content=f"{symbol.type} {symbol.name}"
-                            + (
-                                f" - {symbol.docstring[:100]}..."
-                                if symbol.docstring
-                                else ""
-                            ),
+                            + (f" - {symbol.docstring[:100]}..." if symbol.docstring else ""),
                             search_type=SearchType.SYMBOL,
                             score=0.95,  # Very high score for symbol matches
                             symbol_info=symbol,
@@ -464,9 +439,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
             await tool_ctx.error(f"Symbol search failed: {str(e)}")
             return []
 
-    async def _add_function_context(
-        self, results: List[SearchResult], tool_ctx
-    ) -> List[SearchResult]:
+    async def _add_function_context(self, results: List[SearchResult], tool_ctx) -> List[SearchResult]:
         """Add function/method context to results where relevant."""
         enhanced_results = []
 
@@ -488,16 +461,10 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                         if file_ast:
                             # Find symbol containing this line
                             for symbol in file_ast.symbols:
-                                if (
-                                    symbol.line_start
-                                    <= result.line_number
-                                    <= symbol.line_end
-                                    and symbol.type
-                                    in [
-                                        "function",
-                                        "method",
-                                    ]
-                                ):
+                                if symbol.line_start <= result.line_number <= symbol.line_end and symbol.type in [
+                                    "function",
+                                    "method",
+                                ]:
                                     enhanced_result = SearchResult(
                                         file_path=result.file_path,
                                         line_number=result.line_number,
@@ -510,17 +477,13 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                                     )
                                     break
                 except Exception as e:
-                    await tool_ctx.warning(
-                        f"Could not add context for {result.file_path}: {str(e)}"
-                    )
+                    await tool_ctx.warning(f"Could not add context for {result.file_path}: {str(e)}")
 
             enhanced_results.append(enhanced_result)
 
         return enhanced_results
 
-    def _combine_and_rank_results(
-        self, results_by_type: Dict[SearchType, List[SearchResult]]
-    ) -> List[SearchResult]:
+    def _combine_and_rank_results(self, results_by_type: Dict[SearchType, List[SearchResult]]) -> List[SearchResult]:
         """Combine results from different search types and rank by relevance."""
         all_results = []
         seen_combinations = set()
@@ -552,8 +515,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
                             # Replace existing if: higher priority type, or same priority but higher score
                             if result_priority > existing_priority or (
-                                result_priority == existing_priority
-                                and result.score > existing.score
+                                result_priority == existing_priority and result.score > existing.score
                             ):
                                 # Replace the entire result to preserve type
                                 idx = all_results.index(existing)
@@ -561,9 +523,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                             else:
                                 # Still merge useful information
                                 existing.context = existing.context or result.context
-                                existing.symbol_info = (
-                                    existing.symbol_info or result.symbol_info
-                                )
+                                existing.symbol_info = existing.symbol_info or result.symbol_info
                             break
 
         # Sort by score (descending) then by search type priority
@@ -574,9 +534,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
             SearchType.VECTOR: 1,
         }
 
-        all_results.sort(
-            key=lambda r: (r.score, type_priority[r.search_type]), reverse=True
-        )
+        all_results.sort(key=lambda r: (r.score, type_priority[r.search_type]), reverse=True)
 
         return all_results
 
@@ -612,9 +570,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
         if not exists:
             return error_msg
 
-        await tool_ctx.info(
-            f"Starting batch search with {len(queries)} queries in {path}"
-        )
+        await tool_ctx.info(f"Starting batch search with {len(queries)} queries in {path}")
 
         # Run all queries in parallel
         search_tasks = []
@@ -627,44 +583,26 @@ Perfect for comprehensive code analysis and refactoring tasks."""
             if query_type == "grep":
                 pattern = query.get("pattern")
                 if pattern:
-                    search_tasks.append(
-                        self._run_grep_search(
-                            pattern, path, include, tool_ctx, max_results
-                        )
-                    )
+                    search_tasks.append(self._run_grep_search(pattern, path, include, tool_ctx, max_results))
 
             elif query_type == "grep_ast":
                 pattern = query.get("pattern")
                 if pattern:
-                    search_tasks.append(
-                        self._run_ast_search(
-                            pattern, path, include, tool_ctx, max_results
-                        )
-                    )
+                    search_tasks.append(self._run_ast_search(pattern, path, include, tool_ctx, max_results))
 
             elif query_type == "vector_search" and self.vector_tool:
                 search_query = query.get("query") or query.get("pattern")
                 if search_query:
-                    search_tasks.append(
-                        self._run_vector_search(
-                            search_query, path, tool_ctx, max_results
-                        )
-                    )
+                    search_tasks.append(self._run_vector_search(search_query, path, tool_ctx, max_results))
 
             elif query_type == "git_search":
                 pattern = query.get("pattern")
                 search_type = query.get("search_type", "content")
                 if pattern:
-                    search_tasks.append(
-                        self._run_git_search(
-                            pattern, path, search_type, tool_ctx, max_results
-                        )
-                    )
+                    search_tasks.append(self._run_git_search(pattern, path, search_type, tool_ctx, max_results))
 
             else:
-                await tool_ctx.warning(
-                    f"Unknown or unavailable search type: {query_type}"
-                )
+                await tool_ctx.warning(f"Unknown or unavailable search type: {query_type}")
 
         # Execute all searches in parallel
         search_results = await asyncio.gather(*search_tasks, return_exceptions=True)
@@ -689,9 +627,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
         # Add context if requested
         if include_context:
-            combined_results = await self._add_context_to_results(
-                combined_results, tool_ctx
-            )
+            combined_results = await self._add_context_to_results(combined_results, tool_ctx)
 
         end_time = time.time()
         search_time_ms = (end_time - start_time) * 1000
@@ -700,27 +636,17 @@ Perfect for comprehensive code analysis and refactoring tasks."""
         combined_results.sort(key=lambda r: r.score, reverse=True)
 
         # Limit total results
-        combined_results = combined_results[
-            : max_results * 2
-        ]  # Allow more when combining
+        combined_results = combined_results[: max_results * 2]  # Allow more when combining
 
         # Create batch results object
         batch_results = BatchSearchResults(
             query=f"Batch search with {len(queries)} queries",
             total_results=len(combined_results),
             results_by_type={
-                SearchType.GREP: [
-                    r for r in combined_results if r.search_type == SearchType.GREP
-                ],
-                SearchType.VECTOR: [
-                    r for r in combined_results if r.search_type == SearchType.VECTOR
-                ],
-                SearchType.AST: [
-                    r for r in combined_results if r.search_type == SearchType.AST
-                ],
-                SearchType.GIT: [
-                    r for r in combined_results if r.search_type == SearchType.GIT
-                ],
+                SearchType.GREP: [r for r in combined_results if r.search_type == SearchType.GREP],
+                SearchType.VECTOR: [r for r in combined_results if r.search_type == SearchType.VECTOR],
+                SearchType.AST: [r for r in combined_results if r.search_type == SearchType.AST],
+                SearchType.GIT: [r for r in combined_results if r.search_type == SearchType.GIT],
             },
             combined_results=combined_results,
             search_time_ms=search_time_ms,
@@ -802,16 +728,12 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
         return combined
 
-    async def _add_context_to_results(
-        self, results: List[SearchResult], tool_ctx
-    ) -> List[SearchResult]:
+    async def _add_context_to_results(self, results: List[SearchResult], tool_ctx) -> List[SearchResult]:
         """Add function/method context to results."""
         # This is a simplified version - you could enhance with full AST context
         return await self._add_function_context(results, tool_ctx)
 
-    def _format_batch_results(
-        self, results: BatchSearchResults, query_info: List[Dict]
-    ) -> str:
+    def _format_batch_results(self, results: BatchSearchResults, query_info: List[Dict]) -> str:
         """Format batch search results for display."""
         output = []
 
@@ -859,9 +781,7 @@ Perfect for comprehensive code analysis and refactoring tasks."""
                     score_str = f"[{result.search_type.value} {result.score:.2f}]"
 
                     if result.line_number:
-                        output.append(
-                            f"  {result.line_number:>4}: {score_str} {result.content}"
-                        )
+                        output.append(f"  {result.line_number:>4}: {score_str} {result.content}")
                     else:
                         output.append(f"       {score_str} {result.content}")
 

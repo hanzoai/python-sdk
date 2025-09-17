@@ -335,9 +335,7 @@ For database search, use 'sql_search' or 'vector_search'.
                 return f"No files found matching '{pattern}' (using fallback search)"
 
             # Format output
-            output = [
-                f"Found {len(results)} file(s) matching '{pattern}' (using fallback search):"
-            ]
+            output = [f"Found {len(results)} file(s) matching '{pattern}' (using fallback search):"]
             output.append("")
 
             for filepath in sorted(results):
@@ -346,9 +344,7 @@ For database search, use 'sql_search' or 'vector_search'.
             if count >= max_results:
                 output.append(f"\n... (showing first {max_results} results)")
 
-            output.append(
-                "\nNote: Install 'ffind' for faster searching: pip install ffind"
-            )
+            output.append("\nNote: Install 'ffind' for faster searching: pip install ffind")
 
             return "\n".join(output)
 

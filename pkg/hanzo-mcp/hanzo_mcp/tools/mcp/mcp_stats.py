@@ -68,9 +68,7 @@ Example:
         servers = McpAddTool.get_servers()
 
         if not servers:
-            return (
-                "No MCP servers have been added yet.\n\nUse 'mcp_add' to add servers."
-            )
+            return "No MCP servers have been added yet.\n\nUse 'mcp_add' to add servers."
 
         output = []
         output.append("=== MCP Server Statistics ===")

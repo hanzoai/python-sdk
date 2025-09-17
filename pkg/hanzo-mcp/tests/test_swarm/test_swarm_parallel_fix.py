@@ -249,18 +249,13 @@ func (g *gossipMessage) Type() MessageType {
             content = (test_project / "vms" / "xvm" / "network" / go_file).read_text()
             assert "github.com/luxfi/node/common" in content
             # Verify the import is in the correct format
-            assert (
-                "import (\n" in content
-                or 'import "github.com/luxfi/node/common"' in content
-            )
+            assert "import (\n" in content or 'import "github.com/luxfi/node/common"' in content
 
         # Print performance metrics
         print(f"\nPerformance Metrics:")
         print(f"Total time: {results['total_time']:.2f}s")
         print(f"Files fixed: {results['completed']}")
-        print(
-            f"Parallel speedup: ~{results['completed']}x (all files fixed simultaneously)"
-        )
+        print(f"Parallel speedup: ~{results['completed']}x (all files fixed simultaneously)")
 
     @pytest.mark.asyncio
     async def test_swarm_with_batch_analysis(self, tool_helper, test_project):
@@ -323,12 +318,7 @@ vms/xvm/network/gossip.go:55:13: undefined: common
             )
 
         assert len(tasks) == 3
-        assert all(
-            "atomic.go" in t["file"]
-            or "network.go" in t["file"]
-            or "gossip.go" in t["file"]
-            for t in tasks
-        )
+        assert all("atomic.go" in t["file"] or "network.go" in t["file"] or "gossip.go" in t["file"] for t in tasks)
 
 
 if __name__ == "__main__":

@@ -159,15 +159,11 @@ Only works within allowed directories."""
             # Process based on whether path is a file or directory
             if input_path.is_file():
                 # Single file search
-                if file_pattern == "*" or fnmatch.fnmatch(
-                    input_path.name, file_pattern
-                ):
+                if file_pattern == "*" or fnmatch.fnmatch(input_path.name, file_pattern):
                     matching_files.append(input_path)
                     await tool_ctx.info(f"Searching single file: {path}")
                 else:
-                    await tool_ctx.info(
-                        f"File does not match pattern '{file_pattern}': {path}"
-                    )
+                    await tool_ctx.info(f"File does not match pattern '{file_pattern}': {path}")
                     return f"File does not match pattern '{file_pattern}': {path}"
             elif input_path.is_dir():
                 # Directory search - optimized file finding
@@ -186,9 +182,7 @@ Only works within allowed directories."""
                 for entry in input_path.rglob("*"):
                     entry_path = str(entry)
                     if entry_path in allowed_paths and entry.is_file():
-                        if file_pattern == "*" or fnmatch.fnmatch(
-                            entry.name, file_pattern
-                        ):
+                        if file_pattern == "*" or fnmatch.fnmatch(entry.name, file_pattern):
                             matching_files.append(entry)
 
                 await tool_ctx.info(f"Found {len(matching_files)} matching files")
@@ -251,9 +245,7 @@ Only works within allowed directories."""
                 )
                 message = f"Dry run: {replacements_made} replacements of '{pattern}' with '{replacement}' would be made in {files_modified} files:"
             else:
-                await tool_ctx.info(
-                    f"Made {replacements_made} replacements in {files_modified} files"
-                )
+                await tool_ctx.info(f"Made {replacements_made} replacements in {files_modified} files")
                 message = f"Made {replacements_made} replacements of '{pattern}' with '{replacement}' in {files_modified} files:"
 
             return message + "\n\n" + "\n".join(results)

@@ -177,30 +177,22 @@ Not available: think,write,edit,multi_edit,notebook_edit
 
         # Validate required parameters
         if not description:
-            await tool_ctx.error(
-                "Parameter 'description' is required but was None or empty"
-            )
+            await tool_ctx.error("Parameter 'description' is required but was None or empty")
             return "Error: Parameter 'description' is required but was None or empty"
 
         if not invocations:
-            await tool_ctx.error(
-                "Parameter 'invocations' is required but was None or empty"
-            )
+            await tool_ctx.error("Parameter 'invocations' is required but was None or empty")
             return "Error: Parameter 'invocations' is required but was None or empty"
 
         if not isinstance(invocations, list) or len(invocations) == 0:
             await tool_ctx.error("Parameter 'invocations' must be a non-empty list")
             return "Error: Parameter 'invocations' must be a non-empty list"
 
-        await tool_ctx.info(
-            f"Executing batch operation: {description} ({len(invocations)} invocations)"
-        )
+        await tool_ctx.info(f"Executing batch operation: {description} ({len(invocations)} invocations)")
 
         # Execute all tool invocations in parallel
         tasks: list[asyncio.Future[dict[str, Any]]] = []
-        invocation_map: dict[asyncio.Future[dict[str, Any]], dict[str, Any]] = (
-            {}
-        )  # Map task Future to invocation
+        invocation_map: dict[asyncio.Future[dict[str, Any]], dict[str, Any]] = {}  # Map task Future to invocation
 
         for i, invocation in enumerate(invocations):
             # Extract tool name and input from invocation
@@ -213,9 +205,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 await tool_ctx.error(error_message)
                 # Add direct result for this invocation
                 tasks.append(asyncio.Future())
-                tasks[-1].set_result(
-                    {"invocation": invocation, "result": f"Error: {error_message}"}
-                )
+                tasks[-1].set_result({"invocation": invocation, "result": f"Error: {error_message}"})
                 invocation_map[tasks[-1]] = invocation
                 continue
 
@@ -225,9 +215,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 await tool_ctx.error(error_message)
                 # Add direct result for this invocation
                 tasks.append(asyncio.Future())
-                tasks[-1].set_result(
-                    {"invocation": invocation, "result": f"Error: {error_message}"}
-                )
+                tasks[-1].set_result({"invocation": invocation, "result": f"Error: {error_message}"})
                 invocation_map[tasks[-1]] = invocation
                 continue
 
@@ -237,9 +225,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 await tool_ctx.info(f"Creating task for tool: {tool_name}")
 
                 # Create coroutine for this tool execution
-                async def execute_tool(
-                    tool_obj: BaseTool, tool_name: str, tool_input: dict[str, Any]
-                ):
+                async def execute_tool(tool_obj: BaseTool, tool_name: str, tool_input: dict[str, Any]):
                     try:
                         await tool_ctx.info(f"Executing tool: {tool_name}")
                         result = await tool_obj.call(ctx, **tool_input)
@@ -265,9 +251,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 await tool_ctx.error(error_message)
                 # Add direct result for this invocation
                 tasks.append(asyncio.Future())
-                tasks[-1].set_result(
-                    {"invocation": invocation, "result": f"Error: {error_message}"}
-                )
+                tasks[-1].set_result({"invocation": invocation, "result": f"Error: {error_message}"})
                 invocation_map[tasks[-1]] = invocation
 
         # Wait for all tasks to complete
@@ -284,9 +268,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
                 tool_name: str = invocation.get("tool_name", "unknown")
                 error_message = f"Unexpected error in tool '{tool_name}': {str(e)}"
                 await tool_ctx.error(error_message)
-                results.append(
-                    {"invocation": invocation, "result": f"Error: {error_message}"}
-                )
+                results.append({"invocation": invocation, "result": f"Error: {error_message}"})
 
         # Extract cursor if provided
         cursor = params.get("cursor")
@@ -314,9 +296,7 @@ Not available: think,write,edit,multi_edit,notebook_edit
             )
 
         # Create paginated response with token awareness
-        paginated_response = create_paginated_response(
-            formatted_results, cursor=cursor, use_token_limit=True
-        )
+        paginated_response = create_paginated_response(formatted_results, cursor=cursor, use_token_limit=True)
 
         # Convert paginated response to string format for MCP
         if isinstance(paginated_response, dict) and "items" in paginated_response:
@@ -326,13 +306,9 @@ Not available: think,write,edit,multi_edit,notebook_edit
             # Add header
             result_parts.append(f"=== Batch operation: {description} ===")
             result_parts.append(f"Total invocations: {len(invocations)}")
-            result_parts.append(
-                f"Showing results: {len(paginated_response['items'])} of {len(results)}"
-            )
+            result_parts.append(f"Showing results: {len(paginated_response['items'])} of {len(results)}")
             if paginated_response.get("hasMore"):
-                result_parts.append(
-                    f"More results available - use cursor: {paginated_response.get('nextCursor')}"
-                )
+                result_parts.append(f"More results available - use cursor: {paginated_response.get('nextCursor')}")
             result_parts.append("")
 
             # Format each result
@@ -352,12 +328,8 @@ Not available: think,write,edit,multi_edit,notebook_edit
 
             # If there's a next cursor, we need to preserve it in the response
             # For now, append it as a note at the end
-            if paginated_response.get("hasMore") and paginated_response.get(
-                "nextCursor"
-            ):
-                formatted_output += (
-                    f"\n\n[To continue, use cursor: {paginated_response['nextCursor']}]"
-                )
+            if paginated_response.get("hasMore") and paginated_response.get("nextCursor"):
+                formatted_output += f"\n\n[To continue, use cursor: {paginated_response['nextCursor']}]"
 
             await tool_ctx.info(
                 f"Batch operation '{description}' completed with {len(paginated_response['items'])} results"
@@ -424,6 +396,4 @@ Not available: think,write,edit,multi_edit,notebook_edit
             cursor: Cursor,
             ctx: MCPContext,
         ) -> str:
-            return await tool_self.call(
-                ctx, description=description, invocations=invocations, cursor=cursor
-            )
+            return await tool_self.call(ctx, description=description, invocations=invocations, cursor=cursor)

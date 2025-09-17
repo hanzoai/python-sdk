@@ -135,9 +135,7 @@ For long-running servers, use uvx_background instead.
 
             try:
                 # Run installation
-                install_result = subprocess.run(
-                    install_cmd, shell=True, capture_output=True, text=True, timeout=60
-                )
+                install_result = subprocess.run(install_cmd, shell=True, capture_output=True, text=True, timeout=60)
 
                 if install_result.returncode == 0:
                     await tool_ctx.info("uvx installed successfully!")
@@ -146,9 +144,7 @@ For long-running servers, use uvx_background instead.
                     import os
 
                     home = os.path.expanduser("~")
-                    os.environ["PATH"] = (
-                        f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
-                    )
+                    os.environ["PATH"] = f"{home}/.cargo/bin:{os.environ.get('PATH', '')}"
 
                     # Check again
                     if not shutil.which("uvx"):
@@ -197,9 +193,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
 
         try:
             # Execute command
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=timeout, check=True
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=True)
 
             output = []
             if result.stdout:
@@ -207,11 +201,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
             if result.stderr:
                 output.append(f"\nSTDERR:\n{result.stderr}")
 
-            return (
-                "\n".join(output)
-                if output
-                else "Command completed successfully with no output."
-            )
+            return "\n".join(output) if output else "Command completed successfully with no output."
 
         except subprocess.TimeoutExpired:
             return f"Error: Command timed out after {timeout} seconds. Use uvx_background for long-running processes."

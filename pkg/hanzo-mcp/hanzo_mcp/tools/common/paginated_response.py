@@ -35,31 +35,21 @@ class AutoPaginatedResponse:
         """
         # Handle different content types
         if isinstance(content, str):
-            return AutoPaginatedResponse._handle_string_response(
-                content, cursor, max_tokens
-            )
+            return AutoPaginatedResponse._handle_string_response(content, cursor, max_tokens)
         elif isinstance(content, list):
-            return AutoPaginatedResponse._handle_list_response(
-                content, cursor, max_tokens
-            )
+            return AutoPaginatedResponse._handle_list_response(content, cursor, max_tokens)
         elif isinstance(content, dict):
             # If dict already has pagination info, return as-is
             if "nextCursor" in content or "cursor" in content:
                 return content
             # Otherwise treat as single item
-            return AutoPaginatedResponse._handle_dict_response(
-                content, cursor, max_tokens
-            )
+            return AutoPaginatedResponse._handle_dict_response(content, cursor, max_tokens)
         else:
             # Convert to string for other types
-            return AutoPaginatedResponse._handle_string_response(
-                str(content), cursor, max_tokens
-            )
+            return AutoPaginatedResponse._handle_string_response(str(content), cursor, max_tokens)
 
     @staticmethod
-    def _handle_string_response(
-        content: str, cursor: Optional[str], max_tokens: int
-    ) -> Dict[str, Any]:
+    def _handle_string_response(content: str, cursor: Optional[str], max_tokens: int) -> Dict[str, Any]:
         """Handle pagination for string responses."""
         # Parse cursor to get offset
         offset = 0
@@ -124,9 +114,7 @@ class AutoPaginatedResponse:
         return response
 
     @staticmethod
-    def _handle_list_response(
-        items: List[Any], cursor: Optional[str], max_tokens: int
-    ) -> Dict[str, Any]:
+    def _handle_list_response(items: List[Any], cursor: Optional[str], max_tokens: int) -> Dict[str, Any]:
         """Handle pagination for list responses."""
         # Parse cursor to get offset
         offset = 0
@@ -164,9 +152,7 @@ class AutoPaginatedResponse:
                         truncated = item[:5000] + "... [truncated]"
                         result_items.append(truncated)
                     else:
-                        result_items.append(
-                            {"error": "Item too large", "index": item_index}
-                        )
+                        result_items.append({"error": "Item too large", "index": item_index})
                     item_index += 1
                 break
 
@@ -199,9 +185,7 @@ class AutoPaginatedResponse:
         return response
 
     @staticmethod
-    def _handle_dict_response(
-        content: Dict[str, Any], cursor: Optional[str], max_tokens: int
-    ) -> Dict[str, Any]:
+    def _handle_dict_response(content: Dict[str, Any], cursor: Optional[str], max_tokens: int) -> Dict[str, Any]:
         """Handle pagination for dict responses."""
         # For dicts, check if it's too large as-is
         content_str = json.dumps(content, indent=2)
@@ -280,17 +264,13 @@ def paginate_if_needed(
         Original response if small enough, otherwise paginated dict
     """
     # Quick check - if response is already paginated, return as-is
-    if isinstance(response, dict) and (
-        "nextCursor" in response or "pagination_info" in response
-    ):
+    if isinstance(response, dict) and ("nextCursor" in response or "pagination_info" in response):
         return response
 
     # For small responses, don't paginate unless forced
     if not force_pagination:
         try:
-            response_str = (
-                json.dumps(response) if not isinstance(response, str) else response
-            )
+            response_str = json.dumps(response) if not isinstance(response, str) else response
             if len(response_str) < 10000:  # Quick heuristic
                 return response
         except Exception:

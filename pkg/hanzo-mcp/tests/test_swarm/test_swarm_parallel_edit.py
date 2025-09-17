@@ -54,9 +54,7 @@ def old_function():
         return MockContext()
 
     @pytest.mark.asyncio
-    async def test_swarm_parallel_file_edits(
-        self, tool_helper, temp_project, mock_mcp_context, monkeypatch
-    ):
+    async def test_swarm_parallel_file_edits(self, tool_helper, temp_project, mock_mcp_context, monkeypatch):
         """Test that swarm can edit multiple files in parallel."""
         project_dir, files = temp_project
 
@@ -84,9 +82,7 @@ def old_function():
                     # Replace old_function with new_function
                     content = content.replace("def old_function(", "def new_function(")
                     # Replace old_attribute with new_attribute
-                    content = content.replace(
-                        "self.old_attribute", "self.new_attribute"
-                    )
+                    content = content.replace("self.old_attribute", "self.new_attribute")
 
                     file_path.write_text(content)
                     return f"Successfully updated {file_path.name}: replaced old references with new ones"
@@ -141,9 +137,7 @@ def old_function():
             assert "self.old_attribute" not in content
 
     @pytest.mark.asyncio
-    async def test_swarm_handles_errors(
-        self, tool_helper, temp_project, mock_mcp_context, monkeypatch
-    ):
+    async def test_swarm_handles_errors(self, tool_helper, temp_project, mock_mcp_context, monkeypatch):
         """Test that swarm handles errors gracefully."""
         project_dir, files = temp_project
 
@@ -166,9 +160,7 @@ def old_function():
 
                 return "Error: No file path found"
 
-        monkeypatch.setattr(
-            "hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentWithErrors
-        )
+        monkeypatch.setattr("hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentWithErrors)
 
         permission_manager = PermissionManager(allowed_paths=[str(project_dir)])
         swarm_tool = SwarmTool(permission_manager=permission_manager)
@@ -193,9 +185,7 @@ def old_function():
         tool_helper.assert_in_result("✅", result)  # Success indicator
 
     @pytest.mark.asyncio
-    async def test_swarm_respects_concurrency_limit(
-        self, tool_helper, temp_project, mock_mcp_context, monkeypatch
-    ):
+    async def test_swarm_respects_concurrency_limit(self, tool_helper, temp_project, mock_mcp_context, monkeypatch):
         """Test that swarm respects max_concurrent setting."""
         project_dir, files = temp_project
 
@@ -219,9 +209,7 @@ def old_function():
                 concurrent_count -= 1
                 return "Success"
 
-        monkeypatch.setattr(
-            "hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentConcurrency
-        )
+        monkeypatch.setattr("hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentConcurrency)
 
         permission_manager = PermissionManager(allowed_paths=[str(project_dir)])
         swarm_tool = SwarmTool(permission_manager=permission_manager)

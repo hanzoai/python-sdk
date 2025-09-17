@@ -97,9 +97,7 @@ Example:
         memory_used_gb = memory.used / (1024**3)
         memory_total_gb = memory.total / (1024**3)
         memory_percent = memory.percent
-        output.append(
-            f"Memory: {memory_used_gb:.1f}/{memory_total_gb:.1f} GB ({memory_percent}%)"
-        )
+        output.append(f"Memory: {memory_used_gb:.1f}/{memory_total_gb:.1f} GB ({memory_percent}%)")
         if memory_percent > 90:
             warnings.append(f"⚠️  HIGH MEMORY USAGE: {memory_percent}%")
 
@@ -109,14 +107,10 @@ Example:
         disk_total_gb = disk.total / (1024**3)
         disk_percent = disk.percent
         disk_free_gb = disk.free / (1024**3)
-        output.append(
-            f"Disk: {disk_used_gb:.1f}/{disk_total_gb:.1f} GB ({disk_percent}%)"
-        )
+        output.append(f"Disk: {disk_used_gb:.1f}/{disk_total_gb:.1f} GB ({disk_percent}%)")
         output.append(f"Free Space: {disk_free_gb:.1f} GB")
         if disk_percent > 90:
-            warnings.append(
-                f"⚠️  LOW DISK SPACE: Only {disk_free_gb:.1f} GB free ({100 - disk_percent:.1f}% remaining)"
-            )
+            warnings.append(f"⚠️  LOW DISK SPACE: Only {disk_free_gb:.1f} GB free ({100 - disk_percent:.1f}% remaining)")
 
         output.append("")
 
@@ -173,9 +167,7 @@ Example:
                     size = db_file.stat().st_size
                     total_db_size += size
 
-                output.append(
-                    f"Total Database Size: {total_db_size / (1024**2):.1f} MB"
-                )
+                output.append(f"Total Database Size: {total_db_size / (1024**2):.1f} MB")
                 output.append(f"Active Projects: {len(self.db_manager.projects)}")
 
                 # List largest databases
@@ -201,9 +193,7 @@ Example:
         output.append("=== MCP Servers ===")
         mcp_servers = McpAddTool.get_servers()
         if mcp_servers:
-            running_mcp = sum(
-                1 for s in mcp_servers.values() if s.get("status") == "running"
-            )
+            running_mcp = sum(1 for s in mcp_servers.values() if s.get("status") == "running")
             total_mcp_tools = sum(len(s.get("tools", [])) for s in mcp_servers.values())
 
             output.append(f"Total Servers: {len(mcp_servers)}")
@@ -225,9 +215,7 @@ Example:
             output.append(f"Log Files: {log_count} ({log_size / (1024**2):.1f} MB)")
 
             if log_size > 100 * 1024**2:  # > 100MB
-                warnings.append(
-                    f"⚠️  Large log directory: {log_size / (1024**2):.1f} MB"
-                )
+                warnings.append(f"⚠️  Large log directory: {log_size / (1024**2):.1f} MB")
 
         # Config directory
         config_dir = Path.home() / ".hanzo" / "mcp"

@@ -51,9 +51,7 @@ def get_os_info() -> tuple[str, str, str]:
     return system, release, version
 
 
-def get_directory_structure(
-    path: str, max_depth: int = 3, include_filtered: bool = False
-) -> str:
+def get_directory_structure(path: str, max_depth: int = 3, include_filtered: bool = False) -> str:
     """Get a directory structure similar to directory_tree tool.
 
     Args:
@@ -102,9 +100,7 @@ def get_directory_structure(
 
             try:
                 # Sort entries: directories first, then files alphabetically
-                entries = sorted(
-                    current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name)
-                )
+                entries = sorted(current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name))
 
                 for entry in entries:
                     if entry.is_dir():
@@ -147,9 +143,7 @@ def get_directory_structure(
                 # Format based on type
                 if item["type"] == "directory":
                     if "skipped" in item:
-                        lines.append(
-                            f"{indent}{item['name']}/ [skipped - {item['skipped']}]"
-                        )
+                        lines.append(f"{indent}{item['name']}/ [skipped - {item['skipped']}]")
                     else:
                         lines.append(f"{indent}{item['name']}/")
                         # Add children with increased indentation if present
@@ -228,9 +222,7 @@ def get_git_info(path: str) -> dict[str, str | None]:
                     change_type = item.change_type
                     status_lines.append(f"{change_type[0].upper()} {item.a_path}")
                 if len(staged_files) > 25:
-                    status_lines.append(
-                        f"... and {len(staged_files) - 25} more staged files"
-                    )
+                    status_lines.append(f"... and {len(staged_files) - 25} more staged files")
 
             # Check for unstaged changes
             unstaged_files = list(repo.index.diff(None))
@@ -238,9 +230,7 @@ def get_git_info(path: str) -> dict[str, str | None]:
                 for item in unstaged_files[:25]:  # Limit to first 25
                     status_lines.append(f"M {item.a_path}")
                 if len(unstaged_files) > 25:
-                    status_lines.append(
-                        f"... and {len(unstaged_files) - 25} more modified files"
-                    )
+                    status_lines.append(f"... and {len(unstaged_files) - 25} more modified files")
 
             # Check for untracked files
             untracked_files = repo.untracked_files
@@ -248,13 +238,9 @@ def get_git_info(path: str) -> dict[str, str | None]:
                 for file in untracked_files[:25]:  # Limit to first 25
                     status_lines.append(f"?? {file}")
                 if len(untracked_files) > 25:
-                    status_lines.append(
-                        f"... and {len(untracked_files) - 25} more untracked files"
-                    )
+                    status_lines.append(f"... and {len(untracked_files) - 25} more untracked files")
 
-            git_status = (
-                "\n".join(status_lines) if status_lines else "Working tree clean"
-            )
+            git_status = "\n".join(status_lines) if status_lines else "Working tree clean"
 
         except Exception:
             git_status = "Unable to get git status"

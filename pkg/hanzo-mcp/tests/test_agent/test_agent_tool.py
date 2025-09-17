@@ -59,17 +59,9 @@ class TestAgentTool:
         """Test agent tool initialization."""
         assert agent_tool.name == "agent"
         assert "agent" in agent_tool.description.lower()
-        assert (
-            hasattr(agent_tool, "model_override") and agent_tool.model_override is None
-        )
-        assert (
-            hasattr(agent_tool, "api_key_override")
-            and agent_tool.api_key_override is None
-        )
-        assert (
-            hasattr(agent_tool, "max_tokens_override")
-            and agent_tool.max_tokens_override is None
-        )
+        assert hasattr(agent_tool, "model_override") and agent_tool.model_override is None
+        assert hasattr(agent_tool, "api_key_override") and agent_tool.api_key_override is None
+        assert hasattr(agent_tool, "max_tokens_override") and agent_tool.max_tokens_override is None
         assert hasattr(agent_tool, "max_iterations") and agent_tool.max_iterations == 10
         assert hasattr(agent_tool, "max_tool_uses") and agent_tool.max_tool_uses == 30
 
@@ -88,14 +80,8 @@ class TestAgentTool:
             hasattr(agent_tool_with_params, "max_tokens_override")
             and agent_tool_with_params.max_tokens_override == 2000
         )
-        assert (
-            hasattr(agent_tool_with_params, "max_iterations")
-            and agent_tool_with_params.max_iterations == 40
-        )
-        assert (
-            hasattr(agent_tool_with_params, "max_tool_uses")
-            and agent_tool_with_params.max_tool_uses == 150
-        )
+        assert hasattr(agent_tool_with_params, "max_iterations") and agent_tool_with_params.max_iterations == 40
+        assert hasattr(agent_tool_with_params, "max_tool_uses") and agent_tool_with_params.max_tool_uses == 150
 
     # Parameters are not exposed directly in the new interface
     # def test_parameters(self, tool_helper, agent_tool):
@@ -175,9 +161,7 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_valid_prompt_string(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    async def test_call_with_valid_prompt_string(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test agent tool call with valid prompt as string."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -192,18 +176,14 @@ class TestAgentTool:
             return_value=tool_ctx,
         ):
             # Update the test to use a list instead of a string
-            result = await agent_tool.call(
-                ctx=mcp_context, prompts=["Test prompt /home/test/path"]
-            )
+            result = await agent_tool.call(ctx=mcp_context, prompts=["Test prompt /home/test/path"])
 
         tool_helper.assert_in_result("Error", result)
         tool_helper.assert_in_result("hanzo-agents SDK is required", result)
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_multiple_prompts(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    async def test_call_with_multiple_prompts(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test agent tool call with multiple prompts for parallel execution."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -231,9 +211,7 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_empty_prompt_list(
-        self, tool_helper, agent_tool, mcp_context
-    ):
+    async def test_call_with_empty_prompt_list(self, tool_helper, agent_tool, mcp_context):
         """Test agent tool call with an empty prompt list."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -274,12 +252,8 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(
-        reason="Method _execute_agent_with_tools no longer exists in current implementation"
-    )
-    async def test_execute_agent_with_tools_simple(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
+    async def test_execute_agent_with_tools_simple(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test _execute_agent_with_tools with a simple response."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -312,12 +286,8 @@ class TestAgentTool:
         assert result == "Simple result"
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(
-        reason="Method _execute_agent_with_tools no longer exists in current implementation"
-    )
-    async def test_execute_agent_with_tools_tool_calls(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
+    async def test_execute_agent_with_tools_tool_calls(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test _execute_agent_with_tools with tool calls."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -366,9 +336,7 @@ class TestAgentTool:
                 "System prompt",
                 "User prompt",
                 mock_tools,
-                [
-                    {"type": "function", "function": {"name": mock_tool.name}}
-                ],  # openai_tools
+                [{"type": "function", "function": {"name": mock_tool.name}}],  # openai_tools
                 tool_ctx,
             )
 
@@ -376,12 +344,8 @@ class TestAgentTool:
         mock_tool.call.assert_called_once()
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(
-        reason="Method _execute_agent_with_tools no longer exists in current implementation"
-    )
-    async def test_execute_multiple_agents(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
+    async def test_execute_multiple_agents(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test the _execute_multiple_agents method."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -417,9 +381,7 @@ class TestAgentTool:
                             "gather",
                             AsyncMock(return_value=["Result 1", "Result 2"]),
                         ):
-                            result = await agent_tool._execute_multiple_agents(
-                                test_prompts, tool_ctx
-                            )
+                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
 
         # Check the result format
         tool_helper.assert_in_result("Agent 1 Result", result)
@@ -429,12 +391,8 @@ class TestAgentTool:
         assert "---" in result  # Check for the separator
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(
-        reason="Method _execute_agent_with_tools no longer exists in current implementation"
-    )
-    async def test_execute_multiple_agents_single_prompt(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
+    async def test_execute_multiple_agents_single_prompt(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test the _execute_multiple_agents method with a single prompt."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -465,12 +423,8 @@ class TestAgentTool:
                     ):
                         import asyncio
 
-                        with patch.object(
-                            asyncio, "gather", AsyncMock(return_value=["Single result"])
-                        ):
-                            result = await agent_tool._execute_multiple_agents(
-                                test_prompts, tool_ctx
-                            )
+                        with patch.object(asyncio, "gather", AsyncMock(return_value=["Single result"])):
+                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
 
         # Check that the single result is returned directly without agent prefix or separator
         assert result == "Single result"
@@ -478,12 +432,8 @@ class TestAgentTool:
         assert "---" not in result
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(
-        reason="Method _execute_agent_with_tools no longer exists in current implementation"
-    )
-    async def test_execute_multiple_agents_with_exceptions(
-        self, tool_helper, agent_tool, mcp_context, mock_tools
-    ):
+    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
+    async def test_execute_multiple_agents_with_exceptions(self, tool_helper, agent_tool, mcp_context, mock_tools):
         """Test the _execute_multiple_agents method with exceptions."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -521,12 +471,8 @@ class TestAgentTool:
                     ):
                         import asyncio
 
-                        with patch.object(
-                            asyncio, "gather", AsyncMock(return_value=gather_results)
-                        ):
-                            result = await agent_tool._execute_multiple_agents(
-                                test_prompts, tool_ctx
-                            )
+                        with patch.object(asyncio, "gather", AsyncMock(return_value=gather_results)):
+                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
 
         # Check the result format
         tool_helper.assert_in_result("Agent 1 Result", result)

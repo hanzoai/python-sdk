@@ -61,9 +61,7 @@ try:
     print("\n✓ Web3Agent config imported")
 
     config = Web3AgentConfig(wallet_enabled=True, tee_enabled=True, task_price_eth=0.01)
-    print(
-        f"✓ Created Web3 config: wallet={config.wallet_enabled}, tee={config.tee_enabled}"
-    )
+    print(f"✓ Created Web3 config: wallet={config.wallet_enabled}, tee={config.tee_enabled}")
 
 except Exception as e:
     print(f"\n✗ Web3Agent test failed: {e}")
