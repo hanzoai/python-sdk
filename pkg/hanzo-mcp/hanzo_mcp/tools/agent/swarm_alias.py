@@ -1,3 +1,5 @@
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 """Swarm tool as an alias to Network tool for backward compatibility.
 
 This module makes swarm an alias to the network tool, as network is the
@@ -62,6 +64,9 @@ For new code, prefer using 'network' directly."""
         """
         # Just pass through to NetworkTool
         super().__init__(permission_manager=permission_manager, default_mode=default_mode, **kwargs)
+
+    @auto_timeout("swarm_alias")
+
 
     async def call(self, **kwargs) -> str:
         """Execute swarm via network tool.

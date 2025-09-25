@@ -23,6 +23,8 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 # Parameter types
@@ -147,6 +149,9 @@ Fast, intuitive file content search."""
         return self._available_backends
 
     @override
+    @auto_timeout("find")
+
+
     async def call(
         self,
         ctx: MCPContext,

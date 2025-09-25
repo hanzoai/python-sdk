@@ -7,6 +7,8 @@ The hanzo-memory package provides embedded database and vector search capabiliti
 from typing import Dict, List, Optional, final, override
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -69,6 +71,9 @@ recall_memories(queries=["coding standards"], scope="global")
 """
 
     @override
+    @auto_timeout("memory_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,
@@ -155,6 +160,9 @@ create_memories(statements=["User prefers dark mode", "User works in Python"])
 """
 
     @override
+    @auto_timeout("memory_tools")
+
+
     async def call(self, ctx: MCPContext, statements: List[str]) -> str:
         """Create new memories.
 
@@ -219,6 +227,9 @@ update_memories(updates=[
 """
 
     @override
+    @auto_timeout("memory_tools")
+
+
     async def call(self, ctx: MCPContext, updates: List[Dict[str, str]]) -> str:
         """Update memories.
 
@@ -283,6 +294,9 @@ delete_memories(ids=["mem_1", "mem_2"])
 """
 
     @override
+    @auto_timeout("memory_tools")
+
+
     async def call(self, ctx: MCPContext, ids: List[str]) -> str:
         """Delete memories.
 
@@ -345,6 +359,9 @@ manage_memories(
 """
 
     @override
+    @auto_timeout("memory_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,

@@ -21,6 +21,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Check if litellm is available
 try:
@@ -263,6 +264,7 @@ llm --action models --provider openai
 Available: {", ".join(available) if available else "None"}"""
 
     @override
+    @auto_timeout("llm")
     async def call(
         self,
         ctx: MCPContext,

@@ -11,6 +11,8 @@ from typing import Any, Callable, final
 from collections.abc import Awaitable
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.validation import (
@@ -88,6 +90,8 @@ class BaseTool(ABC):
         pass
 
     @abstractmethod
+    @auto_timeout("base")
+
     async def call(self, ctx: MCPContext, **params: Any) -> Any:
         """Execute the tool with the given parameters.
 

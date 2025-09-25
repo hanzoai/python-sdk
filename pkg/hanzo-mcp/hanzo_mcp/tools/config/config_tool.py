@@ -9,6 +9,8 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.config import load_settings, save_settings
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
@@ -104,6 +106,9 @@ config --action list
 config --action toggle index.scope --path ./project"""
 
     @override
+    @auto_timeout("config")
+
+
     async def call(
         self,
         ctx: MCPContext,
