@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional, override
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 
 
@@ -42,6 +43,7 @@ request_clarification(
     options=["github.com/luxfi/node/common", "github.com/project/common"]
 )"""
 
+    @auto_timeout("clarification")
     async def call(
         self,
         ctx: MCPContext,

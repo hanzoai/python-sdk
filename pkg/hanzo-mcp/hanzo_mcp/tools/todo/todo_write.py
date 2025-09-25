@@ -7,6 +7,8 @@ from typing import Unpack, Literal, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
@@ -254,6 +256,9 @@ The assistant did not use the todo list because this is a single command executi
 When in doubt, use this tool. Being proactive with task management demonstrates attentiveness and ensures you complete all requirements successfully."""
 
     @override
+    @auto_timeout("todo_write")
+
+
     async def call(
         self,
         ctx: MCPContext,

@@ -15,7 +15,7 @@ from typing import Any, Callable, Optional, Tuple
 from collections.abc import Awaitable
 
 from mcp.server.fastmcp import Context as MCPContext
-from hanzo_mcp.tools.shell.base_process import ProcessManager
+from .timeout_parser import parse_timeout, format_timeout
 
 
 class MCPToolTimeoutManager:
@@ -27,19 +27,28 @@ class MCPToolTimeoutManager:
     # Environment variable to configure timeout
     TIMEOUT_ENV_VAR = "HANZO_MCP_TOOL_TIMEOUT"
     
-    def __init__(self, process_manager: Optional[ProcessManager] = None):
+    def __init__(self, process_manager: Optional[Any] = None):
         """Initialize the timeout manager.
-        
+
         Args:
             process_manager: Process manager for tracking background operations
         """
-        self.process_manager = process_manager or ProcessManager()
+        if process_manager is None:
+            # Lazy import to avoid circular imports
+            try:
+                from hanzo_mcp.tools.shell.base_process import ProcessManager
+                self.process_manager = ProcessManager()
+            except ImportError:
+                # If ProcessManager is not available, disable backgrounding
+                self.process_manager = None
+        else:
+            self.process_manager = process_manager
         
         # Get timeout from environment or use default
         env_timeout = os.getenv(self.TIMEOUT_ENV_VAR)
         if env_timeout:
             try:
-                self.timeout = float(env_timeout)
+                self.timeout = parse_timeout(env_timeout)
             except ValueError:
                 self.timeout = self.DEFAULT_TIMEOUT
         else:
@@ -59,7 +68,7 @@ class MCPToolTimeoutManager:
         tool_timeout = os.getenv(env_var)
         if tool_timeout:
             try:
-                return float(tool_timeout)
+                return parse_timeout(tool_timeout)
             except ValueError:
                 pass
         
@@ -161,8 +170,9 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 )
                 
                 # Return backgrounding message
+                timeout_formatted = format_timeout(tool_timeout)
                 return (
-                    f"Operation automatically backgrounded after {tool_timeout:.1f}s\\n"
+                    f"Operation automatically backgrounded after {timeout_formatted}\\n"
                     f"Process ID: {process_id}\\n"
                     f"Log file: {log_file}\\n\\n"
                     f"Use 'process --action logs --id {process_id}' to view results\\n"

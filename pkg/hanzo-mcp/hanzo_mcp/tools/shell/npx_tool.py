@@ -4,6 +4,8 @@ from typing import Optional, override
 from pathlib import Path
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.shell.base_process import BaseBinaryTool
@@ -87,6 +89,9 @@ npx json-server db.json  # Auto-backgrounds if needed"""
             yes: bool = True,
         ) -> str:
             return await tool_self.run(ctx, package=package, args=args, cwd=cwd, yes=yes)
+
+    @auto_timeout("npx")
+
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""

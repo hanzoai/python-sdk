@@ -18,6 +18,8 @@ from typing import (
 )
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -203,6 +205,9 @@ Models can be specified as:
         self.agent_max_tool_uses = agent_max_tool_uses
 
     @override
+    @auto_timeout("swarm_tool_v1_deprecated")
+
+
     async def call(
         self,
         ctx: MCPContext,

@@ -7,6 +7,8 @@ import psutil
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
@@ -106,6 +108,9 @@ Examples:
 """
 
     @override
+    @auto_timeout("pkill")
+
+
     async def call(
         self,
         ctx: MCPContext,

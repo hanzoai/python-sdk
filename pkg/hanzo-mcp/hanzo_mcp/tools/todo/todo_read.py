@@ -8,6 +8,8 @@ from typing import Unpack, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
@@ -66,6 +68,9 @@ Usage:
 - If no todos exist yet for the session, an empty list will be returned"""
 
     @override
+    @auto_timeout("todo_read")
+
+
     async def call(
         self,
         ctx: MCPContext,
