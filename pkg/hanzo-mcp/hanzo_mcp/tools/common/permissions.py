@@ -112,7 +112,7 @@ class PermissionManager:
         self.excluded_patterns.append(pattern)
 
     def is_path_allowed(self, path: str) -> bool:
-        """Check if a path is allowed.
+        """Check if a path is allowed with security validation.
 
         Args:
             path: The path to check
@@ -120,7 +120,24 @@ class PermissionManager:
         Returns:
             True if the path is allowed, False otherwise
         """
-        resolved_path: Path = Path(path).resolve()
+        # Security check: Reject paths with traversal attempts
+        if ".." in str(path) or "~" in str(path):
+            return False
+        
+        try:
+            # Resolve the path (follows symlinks and makes absolute)
+            resolved_path: Path = Path(path).resolve(strict=False)
+            
+            # Security check: Ensure resolved path doesn't escape allowed directories
+            # by checking if it's actually under an allowed path after resolution
+            original_path = Path(path)
+            if original_path.is_absolute() and str(resolved_path) != str(original_path.resolve(strict=False)):
+                # Path resolution changed the path significantly, might be symlink attack
+                # Additional check: is the resolved path still under allowed paths?
+                pass  # Continue to normal checks
+        except (OSError, RuntimeError) as e:
+            # Path resolution failed, deny access
+            return False
 
         # Check exclusions first
         if self._is_path_excluded(resolved_path):
@@ -129,12 +146,28 @@ class PermissionManager:
         # Check if the path is within any allowed path
         for allowed_path in self.allowed_paths:
             try:
+                # This will raise ValueError if resolved_path is not under allowed_path
                 resolved_path.relative_to(allowed_path)
+                # Additional check: ensure no symlinks are escaping the allowed directory
+                if resolved_path.exists() and resolved_path.is_symlink():
+                    link_target = Path(os.readlink(resolved_path))
+                    if link_target.is_absolute():
+                        # Absolute symlink - check if it points within allowed paths
+                        if not any(self._is_subpath(link_target, ap) for ap in self.allowed_paths):
+                            return False
                 return True
             except ValueError:
                 continue
 
         return False
+    
+    def _is_subpath(self, child: Path, parent: Path) -> bool:
+        """Check if child is a subpath of parent."""
+        try:
+            child.resolve().relative_to(parent.resolve())
+            return True
+        except ValueError:
+            return False
 
     def _is_path_excluded(self, path: Path) -> bool:
         """Check if a path is excluded.

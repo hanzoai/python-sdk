@@ -14,6 +14,7 @@ from dataclasses import dataclass
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Import memory tools if available
 try:
@@ -349,7 +350,8 @@ class UnifiedSearch(BaseTool):
 
         return MCPResourceDocument(data=response_data)
 
-    async def call(self, **kwargs) -> str:
+    @auto_timeout("search")
+    async def call(self, ctx=None, **kwargs) -> str:
         """Tool interface for MCP - converts result to JSON string."""
         result = await self.run(**kwargs)
         return result.to_json_string()

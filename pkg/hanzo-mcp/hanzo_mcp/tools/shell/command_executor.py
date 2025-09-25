@@ -109,13 +109,12 @@ class CommandExecutor:
         if shell_basename in ["wsl", "wsl.exe"]:
             # For WSL, handle commands with shell operators differently
             if any(char in command for char in ";&|<>(){}[]$\"'`"):
-                # For commands with special characters, use a more reliable approach
-                # with bash -c and double quotes around the entire command
-                escaped_command = command.replace('"', '\\"')
+                # Use shlex.quote for proper escaping to prevent command injection
+                escaped_command = shlex.quote(command)
                 if use_login_shell:
-                    formatted_command = f'{user_shell} bash -l -c "{escaped_command}"'
+                    formatted_command = f'{user_shell} bash -l -c {escaped_command}'
                 else:
-                    formatted_command = f'{user_shell} bash -c "{escaped_command}"'
+                    formatted_command = f'{user_shell} bash -c {escaped_command}'
             else:
                 # # For simple commands without special characters
                 # # Still respect login shell preference
@@ -125,8 +124,9 @@ class CommandExecutor:
                 formatted_command = f"{user_shell} {command}"
 
         elif shell_basename in ["powershell", "powershell.exe", "pwsh", "pwsh.exe"]:
-            # For PowerShell, escape double quotes with backslash most robust
-            escaped_command = command.replace('"', '\\"')
+            # Use proper escaping for PowerShell to prevent injection
+            # PowerShell requires different escaping than POSIX shells
+            escaped_command = command.replace('"', '`"').replace("'", "``'").replace('$', '`$')
             formatted_command = f'"{user_shell}" -Command "{escaped_command}"'
 
         else:

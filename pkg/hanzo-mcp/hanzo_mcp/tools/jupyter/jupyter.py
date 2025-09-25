@@ -311,8 +311,31 @@ jupyter --action create "new.ipynb"
             return f"Error deleting notebook: {str(e)}"
 
     async def _handle_execute(self, notebook_path: str, params: Dict[str, Any], tool_ctx) -> str:
-        """Execute notebook cells (placeholder for future implementation)."""
-        return "Error: Cell execution not yet implemented. Use a Jupyter kernel or server for execution."
+        """Execute notebook cells using nbclient."""
+        try:
+            import nbclient
+            from nbclient import NotebookClient
+
+            nb = nbformat.read(notebook_path, as_version=4)
+
+            # Create a notebook client with default kernel
+            client = NotebookClient(
+                nb,
+                timeout=params.get('timeout', 600),
+                kernel_name=params.get('kernel_name', 'python3')
+            )
+
+            # Execute the notebook
+            await client.async_execute()
+
+            # Save the executed notebook
+            nbformat.write(nb, notebook_path)
+
+            return f"Successfully executed all cells in {notebook_path}"
+        except ImportError:
+            return "Error: nbclient not installed. Install with: pip install nbclient"
+        except Exception as e:
+            return f"Error executing notebook: {str(e)}"
 
     def _format_cell(self, cell: dict, index: int) -> str:
         """Format a single cell for display."""
