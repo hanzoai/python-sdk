@@ -16,6 +16,7 @@ import traceback
 from typing import Any, Dict, TypeVar, Callable, Optional
 from datetime import datetime
 from dataclasses import dataclass
+from importlib.metadata import version, PackageNotFoundError
 
 # Try to import PostHog, but make it optional
 try:
@@ -98,7 +99,7 @@ class Analytics:
                 "timestamp": datetime.utcnow().isoformat(),
                 "platform": platform.system(),
                 "python_version": platform.python_version(),
-                "mcp_version": "0.6.13",  # TODO: Get from package
+                "mcp_version": self._get_package_version(),
                 **(properties or {}),
             }
 
@@ -178,6 +179,18 @@ class Analytics:
                 self._client.flush()
             except Exception:
                 pass
+
+    def _get_package_version(self) -> str:
+        """Get the current package version."""
+        try:
+            return version('hanzo-mcp')
+        except PackageNotFoundError:
+            # Fallback to hardcoded version if package not installed
+            try:
+                from hanzo_mcp import __version__
+                return __version__
+            except ImportError:
+                return "0.8.14"
 
     def shutdown(self) -> None:
         """Shutdown analytics client."""

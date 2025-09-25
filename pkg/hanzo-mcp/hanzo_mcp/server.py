@@ -3,6 +3,7 @@
 import os
 import atexit
 import signal
+import secrets
 import logging
 import warnings
 import threading
@@ -53,6 +54,7 @@ class HanzoMCPServer:
         port: int = 8888,
         enabled_tools: dict[str, bool] | None = None,
         disabled_tools: list[str] | None = None,
+        auth_token: str | None = None,
     ):
         """Initialize the Hanzo AI server.
 
@@ -79,6 +81,15 @@ class HanzoMCPServer:
         """
         # Use enhanced server for automatic context normalization
         self.mcp = mcp_instance if mcp_instance is not None else EnhancedFastMCP(name)
+
+        # Initialize authentication token
+        self.auth_token = auth_token or os.environ.get('HANZO_MCP_TOKEN')
+        if not self.auth_token:
+            # Generate a secure random token if none provided
+            self.auth_token = secrets.token_urlsafe(32)
+            logger = logging.getLogger(__name__)
+            logger.warning(f"No auth token provided. Generated token: {self.auth_token}")
+            logger.warning("Set HANZO_MCP_TOKEN environment variable for persistent auth")
 
         # Initialize permissions and command executor
         self.permission_manager = PermissionManager()
