@@ -11,6 +11,7 @@ from dataclasses import dataclass
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Check if ffind command is available
 try:
@@ -375,7 +376,8 @@ class FindTool(BaseTool):
             }
         )
 
-    async def call(self, **kwargs) -> str:
+    @auto_timeout("find")
+    async def call(self, ctx=None, **kwargs) -> str:
         """Tool interface for MCP - converts result to JSON string."""
         result = await self.run(**kwargs)
         return result.to_json_string()

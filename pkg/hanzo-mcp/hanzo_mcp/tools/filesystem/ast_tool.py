@@ -15,6 +15,7 @@ from grep_ast.grep_ast import TreeContext
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Pattern = Annotated[
     str,
@@ -97,6 +98,7 @@ ast "def test_" ./tests
 Searches code structure intelligently, understanding syntax and providing semantic context."""
 
     @override
+    @auto_timeout("ast")
     async def call(
         self,
         ctx: MCPContext,
