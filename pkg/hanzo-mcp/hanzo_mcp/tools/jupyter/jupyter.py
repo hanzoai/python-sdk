@@ -16,6 +16,8 @@ import nbformat
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.jupyter.base import JupyterBaseTool
 
 # Parameter types
@@ -111,6 +113,9 @@ jupyter --action create "new.ipynb"
 """
 
     @override
+    @auto_timeout("jupyter")
+
+
     async def call(
         self,
         ctx: MCPContext,

@@ -14,6 +14,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.context import ToolContext
@@ -353,6 +355,9 @@ When you are doing an open ended search that may require multiple rounds of glob
             return f"Error searching file contents: {str(e)}"
 
     @override
+    @auto_timeout("grep")
+
+
     async def call(
         self,
         ctx: MCPContext,

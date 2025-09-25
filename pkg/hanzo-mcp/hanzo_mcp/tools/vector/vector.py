@@ -15,6 +15,8 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
@@ -131,6 +133,9 @@ vector --action clear --path ./old_code
 """
 
     @override
+    @auto_timeout("vector")
+
+
     async def call(
         self,
         ctx: MCPContext,

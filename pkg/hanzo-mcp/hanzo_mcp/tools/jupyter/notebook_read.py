@@ -9,6 +9,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.jupyter.base import JupyterBaseTool
@@ -56,6 +58,9 @@ class NotebookReadTool(JupyterBaseTool):
         return "Reads a Jupyter notebook (.ipynb file) and returns all of the cells with their outputs. Jupyter notebooks are interactive documents that combine code, text, and visualizations, commonly used for data analysis and scientific computing. The notebook_path parameter must be an absolute path, not a relative path."
 
     @override
+    @auto_timeout("notebook_read")
+
+
     async def call(
         self,
         ctx: MCPContext,

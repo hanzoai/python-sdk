@@ -9,6 +9,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
@@ -74,6 +76,9 @@ The tool returns the contents of all found configuration files to help
 understand project-specific requirements and preferences."""
 
     @override
+    @auto_timeout("rules")
+
+
     async def call(
         self,
         ctx: MCPContext,

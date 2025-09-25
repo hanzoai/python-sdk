@@ -11,6 +11,8 @@ from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context
 
 from ..common.base import BaseTool
@@ -141,6 +143,9 @@ class UnifiedCLITool(BaseTool, CLIAgent):
         # Default format
         command.append(prompt)
         return command
+
+    @auto_timeout("unified_cli_tools")
+
 
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         """Execute the CLI tool via MCP interface.

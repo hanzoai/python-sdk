@@ -9,6 +9,8 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 
 # Parameter types
@@ -95,6 +97,9 @@ tree --dirs-only
 tree --pattern "*.py" --show-size"""
 
     @override
+    @auto_timeout("tree")
+
+
     async def call(
         self,
         ctx: MCPContext,
