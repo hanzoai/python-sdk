@@ -5,6 +5,8 @@ from enum import Enum
 from typing import List, override
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -598,6 +600,9 @@ Use this when you need:
         """Initialize the I Ching tool."""
         super().__init__()
         self.oracle = IChing()
+
+    @auto_timeout("iching")
+
 
     async def call(self, ctx: MCPContext, challenge: str) -> str:
         """Cast I Ching and provide guidance."""

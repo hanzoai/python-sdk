@@ -8,6 +8,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.truncate import truncate_response
@@ -85,6 +87,9 @@ indented list for readability. By default, common development directories like
 requested. Only works within allowed directories."""
 
     @override
+    @auto_timeout("directory_tree")
+
+
     async def call(
         self,
         ctx: MCPContext,

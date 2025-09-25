@@ -9,6 +9,8 @@ from typing import Any, Unpack, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -154,6 +156,9 @@ Not available: think,write,edit,multi_edit,notebook_edit
         self.tools = tools
 
     @override
+    @auto_timeout("batch")
+
+
     async def call(
         self,
         ctx: MCPContext,

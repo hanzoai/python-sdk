@@ -3,6 +3,8 @@
 from typing import Optional, override
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -309,6 +311,9 @@ mode --action current"""
         async def mode_handler(ctx: MCPContext, action: str = "list", name: Optional[str] = None) -> str:
             """Handle mode tool calls."""
             return await tool_self.run(ctx, action=action, name=name)
+
+    @auto_timeout("mode")
+
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""

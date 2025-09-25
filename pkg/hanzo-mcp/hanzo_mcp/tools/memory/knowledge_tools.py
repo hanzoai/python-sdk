@@ -7,6 +7,8 @@ supporting hierarchical organization (session, project, global).
 from typing import Any, Dict, List, Optional, final, override
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -69,6 +71,9 @@ recall_facts(queries=["company policies"], scope="global", limit=5)
 """
 
     @override
+    @auto_timeout("knowledge_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,
@@ -190,6 +195,9 @@ store_facts(facts=["Company founded in 2020"], scope="global", kb_name="company_
 """
 
     @override
+    @auto_timeout("knowledge_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,
@@ -286,6 +294,9 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
 """
 
     @override
+    @auto_timeout("knowledge_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,
@@ -390,6 +401,9 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
 """
 
     @override
+    @auto_timeout("knowledge_tools")
+
+
     async def call(
         self,
         ctx: MCPContext,
