@@ -66,7 +66,11 @@ review(
         file_paths: Optional[List[str]] = None,
         context: Optional[str] = None,
     ) -> str:
-        """This is a placeholder - actual implementation happens in AgentTool."""
+        """Delegate to AgentTool for actual implementation.
+
+        This method provides the interface, but the actual review logic
+        is handled by the AgentTool's execution framework.
+        """
         # This tool is handled specially in the agent execution
         return f"Review requested for: {work_description}"
 

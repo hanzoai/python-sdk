@@ -3,21 +3,21 @@
 import sys
 from pathlib import Path
 
-# Add hanzo-network to path
+# Add hanzo-network to path if needed (though it should be installed)
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
 
 def test_imports():
     """Test that all imports work correctly."""
     # Test hanzo-network imports
-
-    # Test core imports
-
+    from hanzo_network import __version__ as network_version
+    
     # Test hanzo-mcp imports
-    from hanzo_mcp import __version__
+    from hanzo_mcp import __version__ as mcp_version
 
-    assert __version__ is not None
-    print(f"✅ All imports successful! hanzo-mcp version: {__version__}")
+    assert network_version is not None
+    assert mcp_version is not None
+    print(f"✅ All imports successful! hanzo-network: {network_version}, hanzo-mcp: {mcp_version}")
 
 
 def test_hanzo_net_provider():

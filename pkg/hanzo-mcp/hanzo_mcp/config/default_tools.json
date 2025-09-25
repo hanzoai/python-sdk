@@ -1,99 +1,144 @@
 {
   "_comment": "Default tool configuration for Hanzo MCP. Tools not listed here default to enabled.",
-  "_version": "1.1.0",
-  
+  "_version": "1.2.0",
+
   "tools": {
-    "_comment_tools": "Core tools - typically always enabled",
+    "_comment_tools": "Core tools - all enabled",
     "read": true,
     "write": true,
     "edit": true,
     "multi_edit": true,
     "directory_tree": true,
+    "rules": true,
     "grep": true,
     "find": true,
     "find_files": true,
     "search": true,
     "run_command": true,
+    "run": true,
     "bash": true,
+    "shell": true,
+    "zsh": true,
     "stats": true,
     "tool_list": true,
     "tool_enable": true,
     "tool_disable": true,
-    
-    "_comment_agent": "Agent and orchestration tools",
+
+    "_comment_agent": "Agent and orchestration tools - all enabled",
     "agent": true,
+    "dispatch_agent": true,
     "network": true,
     "swarm": true,
+    "claude": true,
     "claude_cli": true,
-    "codex_cli": false,
-    "gemini_cli": false,
-    "grok_cli": false,
+    "cc": true,
+    "codex": true,
+    "codex_cli": true,
+    "gemini": true,
+    "gemini_cli": true,
+    "grok": true,
+    "grok_cli": true,
+    "aider": true,
+    "cline": true,
+    "openhands": true,
+    "oh": true,
+    "hanzo_dev": true,
     "think": true,
     "critic": true,
-    
-    "_comment_search": "Advanced search tools",
+
+    "_comment_search": "Advanced search tools - all enabled",
     "ast": true,
     "grep_ast": true,
     "git_search": true,
     "batch_search": true,
     "unified_search": true,
     "symbols": true,
-    "vector_search": false,
-    "vector_index": false,
-    
-    "_comment_process": "Process management tools",
+    "mode": true,
+    "vector": true,
+    "node": true,
+    "vector_search": true,
+    "vector_index": true,
+
+    "_comment_process": "Process management tools - all enabled",
     "process": true,
     "run_background": true,
     "processes": true,
     "pkill": true,
     "logs": true,
-    
-    "_comment_packages": "Package runner tools",
+
+    "_comment_packages": "Package runner tools - all enabled",
     "uvx": true,
     "uvx_background": true,
     "npx": true,
     "npx_background": true,
-    
-    "_comment_database": "Database tools - enable if needed",
-    "sql_query": false,
-    "sql_search": false,
-    "sql_stats": false,
-    "graph_add": false,
-    "graph_remove": false,
-    "graph_query": false,
-    "graph_search": false,
-    "graph_stats": false,
-    
-    "_comment_mcp": "MCP management tools",
+
+    "_comment_database": "Database tools - all enabled",
+    "sql_query": true,
+    "sql_search": true,
+    "sql_stats": true,
+    "graph_add": true,
+    "graph_remove": true,
+    "graph_query": true,
+    "graph_search": true,
+    "graph_stats": true,
+
+    "_comment_mcp": "MCP management tools - all enabled",
     "mcp": true,
     "mcp_add": true,
     "mcp_remove": true,
     "mcp_stats": true,
-    
-    "_comment_specialized": "Specialized tools",
+
+    "_comment_memory": "Memory and knowledge tools - all enabled",
+    "memory": true,
+    "recall_memories": true,
+    "create_memories": true,
+    "update_memories": true,
+    "delete_memories": true,
+    "manage_memories": true,
+    "recall_facts": true,
+    "store_facts": true,
+    "summarize_to_memory": true,
+    "manage_knowledge_bases": true,
+
+    "_comment_editor": "Editor integration tools - all enabled",
+    "neovim_edit": true,
+    "neovim_command": true,
+    "neovim_session": true,
+
+    "_comment_llm": "LLM tools - all enabled",
+    "llm": true,
+    "consensus": true,
+    "llm_manage": true,
+
+    "_comment_specialized": "Specialized tools - unified jupyter",
     "todo": true,
-    "todo_read": true,
-    "todo_write": true,
-    "notebook_read": true,
-    "notebook_edit": true,
+    "jupyter": true,
     "batch": true,
     "content_replace": true,
-    "lsp": false,
-    "open": true
+    "lsp": true,
+    "open": true,
+    
+    "_comment_deprecated": "Legacy tools disabled in favor of unified versions",
+    "todo_read": false,
+    "todo_write": false,
+    "notebook_read": false,
+    "notebook_edit": false
   },
-  
+
   "categories": {
     "_comment": "Tool categories for easier management",
     "essential": [
-      "read", "write", "edit", "multi_edit", "directory_tree", "grep", "find",
-      "run_command", "bash", "stats", "tool_list", "tool_enable", "tool_disable"
+      "read", "write", "edit", "multi_edit", "directory_tree", "rules", "grep", "find",
+      "run_command", "run", "bash", "shell", "zsh", "stats", "tool_list", "tool_enable", "tool_disable"
     ],
     "agent": [
-      "agent", "network", "swarm", "claude_cli", "think", "critic"
+      "agent", "dispatch_agent", "network", "swarm", "claude", "claude_cli", "cc", 
+      "codex", "codex_cli", "gemini", "gemini_cli", "grok", "grok_cli",
+      "aider", "cline", "openhands", "oh", "hanzo_dev", "think", "critic"
     ],
     "search": [
-      "grep", "grep_ast", "ast", "search", "unified_search", "symbols",
-      "git_search", "batch_search", "vector_search", "vector_index", "find_files"
+      "grep", "grep_ast", "ast", "search", "unified_search", "symbols", "mode",
+      "git_search", "batch_search", "vector", "node", "vector_search", "vector_index", "find_files"
     ],
     "process": [
       "process", "run_background", "processes", "pkill", "logs"
@@ -108,12 +153,21 @@
     "mcp": [
       "mcp", "mcp_add", "mcp_remove", "mcp_stats"
     ],
+    "memory": [
+      "memory", "recall_memories", "create_memories", "update_memories", "delete_memories",
+      "manage_memories", "recall_facts", "store_facts", "summarize_to_memory", "manage_knowledge_bases"
+    ],
+    "editor": [
+      "neovim_edit", "neovim_command", "neovim_session"
+    ],
+    "llm": [
+      "llm", "consensus", "llm_manage"
+    ],
     "productivity": [
-      "todo", "todo_read", "todo_write", "batch", "content_replace",
-      "notebook_read", "notebook_edit", "lsp", "open"
+      "todo", "jupyter", "batch", "content_replace", "lsp", "open"
     ]
   },
-  
+
   "presets": {
     "_comment": "Predefined tool configurations",
     "minimal": {
@@ -122,21 +176,18 @@
     },
     "standard": {
       "_enable_categories": ["essential", "search", "process", "productivity"],
-      "_disable_tools": ["vector_search", "vector_index", "lsp"]
+      "_disable_tools": []
     },
     "full": {
-      "_enable_all": true,
-      "_except": ["codex_cli", "gemini_cli", "grok_cli"]
+      "_enable_all": true
     },
     "development": {
-      "_enable_categories": ["essential", "agent", "search", "process", "packages", "productivity"],
-      "_disable_categories": ["database"],
+      "_enable_categories": ["essential", "agent", "search", "process", "packages", "productivity", "memory", "editor"],
       "_enable_tools": ["lsp"]
     },
     "ai_research": {
-      "_enable_categories": ["essential", "agent", "search", "productivity"],
-      "_enable_tools": ["vector_search", "vector_index"],
-      "_disable_categories": ["database", "packages"]
+      "_enable_categories": ["essential", "agent", "search", "productivity", "memory", "llm"],
+      "_enable_tools": ["vector_search", "vector_index"]
     }
   }
 }

@@ -50,7 +50,11 @@ request_clarification(
         context: Dict[str, Any],
         options: Optional[List[str]] = None,
     ) -> str:
-        """This is a placeholder - actual implementation happens in AgentTool."""
+        """Delegate to AgentTool for actual implementation.
+
+        This method provides the interface, but the actual clarification logic
+        is handled by the AgentTool's execution framework.
+        """
         # This tool is handled specially in the agent execution
         return f"Clarification request: {question}"
 

@@ -252,7 +252,7 @@ Or visit: https://neovim.io/"""
                             end if
                         end tell"""
 
-                        subprocess.run(["osascript", "-e", applescript])
+                        subprocess.run(["osascript", "-e", applescript], timeout=10)
                         return f"Opened {file_path} in Neovim (new terminal window)"
 
                 elif shutil.which("gnome-terminal"):
@@ -272,7 +272,7 @@ Or visit: https://neovim.io/"""
 
             else:
                 # Run and wait for completion
-                result = subprocess.run(cmd)
+                result = subprocess.run(cmd, timeout=120)
 
                 if result.returncode == 0:
                     return f"Successfully edited {file_path} in Neovim"
