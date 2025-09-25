@@ -248,6 +248,27 @@ def main() -> None:
     )
 
     _ = parser.add_argument(
+        "--daemon",
+        action="store_true",
+        help="Run as daemon process for multiple agent connections",
+    )
+
+    _ = parser.add_argument(
+        "--socket-path",
+        dest="socket_path",
+        default="/tmp/hanzo-mcp.sock",
+        help="Unix socket path for daemon mode (default: /tmp/hanzo-mcp.sock)",
+    )
+
+    _ = parser.add_argument(
+        "--max-connections",
+        dest="max_connections",
+        type=int,
+        default=100,
+        help="Maximum number of concurrent connections in daemon mode (default: 100)",
+    )
+
+    _ = parser.add_argument(
         "--install",
         action="store_true",
         help="Install server configuration in Claude Desktop",
@@ -287,6 +308,9 @@ def main() -> None:
     name: str = cast(str, args.name)
     install: bool = cast(bool, args.install)
     dev: bool = cast(bool, args.dev)
+    daemon: bool = cast(bool, args.daemon)
+    socket_path: str = cast(str, args.socket_path)
+    max_connections: int = cast(int, args.max_connections)
     transport: str = cast(str, args.transport)
     agent_model: str | None = cast(str | None, args.agent_model)
     agent_max_tokens: int | None = cast(int | None, args.agent_max_tokens)
@@ -344,6 +368,26 @@ def main() -> None:
     # If no allowed paths are specified, use the home directory
     if not allowed_paths:
         allowed_paths = [os.path.expanduser("~")]
+
+    # Set daemon mode environment variables
+    if daemon:
+        os.environ["HANZO_MCP_DAEMON"] = "true"
+        os.environ["HANZO_MCP_SOCKET_PATH"] = socket_path
+        os.environ["HANZO_MCP_MAX_CONNECTIONS"] = str(max_connections)
+
+        if transport != "stdio":
+            logger.info(f"Starting Hanzo MCP daemon on {socket_path}")
+            logger.info(f"Max connections: {max_connections}")
+
+        # Ensure only one daemon runs per socket
+        try:
+            import fcntl
+            lock_file = f"{socket_path}.lock"
+            with open(lock_file, 'w') as f:
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except (ImportError, IOError):
+            # Fallback for systems without fcntl or if lock fails
+            pass
 
     # Run in dev mode if requested
     if dev:
