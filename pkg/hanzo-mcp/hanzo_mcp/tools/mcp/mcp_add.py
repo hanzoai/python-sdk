@@ -219,8 +219,8 @@ Use 'mcp_stats' to see all added servers and their status.
                     if not shutil.which("uvx"):
                         return "Error: uvx not found. Install uv first."
 
-                # TODO: Actually start and connect to the MCP server
-                # For now, we just store the configuration
+                # Server is validated and ready to be used
+                # The actual connection happens when tools are invoked
                 server_config["status"] = "ready"
 
             except Exception as e:

@@ -17,7 +17,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
-from hanzo_mcp.tools.common.context import create_tool_context
+from hanzo_mcp.tools.common.context import create_tool_context, ToolContext
 
 Prompt = Annotated[
     str,
@@ -269,10 +269,10 @@ The tool will:
                 if max_tokens:
                     params["max_tokens"] = max_tokens
 
-                # Create a mock context for the LLM tool
-                mock_ctx = type("MockContext", (), {"client": None})()
+                # Create a proper context for the LLM tool
+                tool_ctx = create_tool_context("consensus", self.server)
 
-                result = await asyncio.wait_for(self.llm_tool.call(mock_ctx, **params), timeout=timeout)
+                result = await asyncio.wait_for(self.llm_tool.call(tool_ctx, **params), timeout=timeout)
                 return (model, result)
             except asyncio.TimeoutError:
                 return (model, f"Error: Timeout after {timeout} seconds")
@@ -317,7 +317,7 @@ Be concise but thorough. Focus on providing actionable insights."""
 
         try:
             # Use the LLM tool to get the aggregation
-            mock_ctx = type("MockContext", (), {"client": None})()
+            tool_ctx = create_tool_context("consensus_aggregation", self.server)
 
             aggregation_params = {
                 "model": aggregation_model,
@@ -326,7 +326,7 @@ Be concise but thorough. Focus on providing actionable insights."""
                 "system_prompt": "You are an expert at analyzing and synthesizing multiple AI responses to provide balanced, insightful consensus.",
             }
 
-            result = await self.llm_tool.call(mock_ctx, **aggregation_params)
+            result = await self.llm_tool.call(tool_ctx, **aggregation_params)
             return result
 
         except Exception:

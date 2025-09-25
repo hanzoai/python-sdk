@@ -103,8 +103,16 @@ Use 'mcp_stats' to see all servers before removing.
             if not force:
                 return f"Error: Server '{name}' is currently running. Use --force to remove anyway."
             else:
-                # TODO: Stop the server process
-                await tool_ctx.info(f"Stopping running server '{name}'")
+                # Stop the server process if it's running
+                process_id = server.get("process_id")
+                if process_id:
+                    try:
+                        import signal
+                        import os
+                        os.kill(process_id, signal.SIGTERM)
+                        await tool_ctx.info(f"Stopped running server '{name}' (PID: {process_id})")
+                    except ProcessLookupError:
+                        await tool_ctx.info(f"Server '{name}' process not found (already stopped)")
 
         # Remove from registry
         del McpAddTool._mcp_servers[name]
