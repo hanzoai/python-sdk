@@ -27,6 +27,8 @@ from dataclasses import dataclass
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
@@ -528,6 +530,9 @@ This is the recommended search tool for comprehensive results."""
         return results
 
     @override
+    @auto_timeout("search")
+
+
     async def call(
         self,
         ctx: MCPContext,

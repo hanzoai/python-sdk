@@ -20,6 +20,8 @@ from typing import (
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 # Import hanzo-agents SDK
 try:
     from hanzo_agents import (
@@ -338,6 +340,7 @@ Usage notes:
         self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @override
+    @auto_timeout("agent")
     async def call(
         self,
         ctx: MCPContext,

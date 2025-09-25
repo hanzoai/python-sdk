@@ -7,6 +7,8 @@ from datetime import datetime
 import psutil
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
 from hanzo_mcp.tools.common.context import create_tool_context
@@ -57,6 +59,9 @@ Example:
 """
 
     @override
+    @auto_timeout("stats")
+
+
     async def call(
         self,
         ctx: MCPContext,

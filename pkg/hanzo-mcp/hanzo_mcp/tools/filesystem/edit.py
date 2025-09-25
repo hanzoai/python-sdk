@@ -9,6 +9,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
@@ -88,6 +90,9 @@ Usage:
 - ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required."""
 
     @override
+    @auto_timeout("edit")
+
+
     async def call(
         self,
         ctx: MCPContext,

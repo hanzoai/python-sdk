@@ -8,6 +8,7 @@ from pathlib import Path
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.shell.base_process import BaseScriptTool
 
 
@@ -30,6 +31,7 @@ class BashTool(BaseScriptTool):
         ) -> str:
             return await tool_self.run(ctx, command=command, cwd=cwd, env=env, timeout=timeout)
 
+    @auto_timeout("bash")
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(

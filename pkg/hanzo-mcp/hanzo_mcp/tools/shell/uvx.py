@@ -7,6 +7,8 @@ from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
@@ -100,6 +102,9 @@ For long-running servers, use uvx_background instead.
 """
 
     @override
+    @auto_timeout("uvx")
+
+
     async def call(
         self,
         ctx: MCPContext,

@@ -19,6 +19,8 @@ with warnings.catch_warnings():
     import litellm
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from openai.types.chat import ChatCompletionToolParam, ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
 
@@ -177,6 +179,9 @@ Usage notes:
         self.review_protocol = ReviewProtocol()
 
     @override
+    @auto_timeout("agent_tool_v1_deprecated")
+
+
     async def call(
         self,
         ctx: MCPContext,

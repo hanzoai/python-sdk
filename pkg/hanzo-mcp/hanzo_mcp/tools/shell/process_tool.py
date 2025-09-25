@@ -4,6 +4,8 @@ import signal
 from typing import Optional, override
 
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
@@ -131,6 +133,9 @@ process --action logs --id bash_ghi789 --lines 50"""
             lines: int = 100,
         ) -> str:
             return await tool_self.run(ctx, action=action, id=id, signal_type=signal_type, lines=lines)
+
+    @auto_timeout("process")
+
 
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""

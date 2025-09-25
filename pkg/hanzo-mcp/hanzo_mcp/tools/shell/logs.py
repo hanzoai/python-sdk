@@ -6,6 +6,8 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
@@ -105,6 +107,9 @@ Use run_command with 'tail -f' for continuous monitoring.
 """
 
     @override
+    @auto_timeout("logs")
+
+
     async def call(
         self,
         ctx: MCPContext,

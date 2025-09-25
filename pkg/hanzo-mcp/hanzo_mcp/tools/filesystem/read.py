@@ -8,6 +8,8 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.truncate import truncate_response
@@ -91,6 +93,9 @@ Usage:
 - When reading multiple files, you MUST use the batch tool to read them all at once"""
 
     @override
+    @auto_timeout("read")
+
+
     async def call(
         self,
         ctx: MCPContext,

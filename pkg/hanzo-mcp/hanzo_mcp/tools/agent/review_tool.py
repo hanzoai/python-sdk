@@ -6,6 +6,7 @@ from typing import List, Optional, override
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 
 
@@ -57,6 +58,7 @@ review(
     context="This will be used to automatically fix missing imports in Go files"
 )"""
 
+    @auto_timeout("review")
     async def call(
         self,
         ctx: MCPContext,

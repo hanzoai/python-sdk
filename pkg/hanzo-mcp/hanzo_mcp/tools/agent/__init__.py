@@ -6,6 +6,8 @@ enabling concurrent execution of multiple operations and specialized processing.
 
 from mcp.server import FastMCP
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 
 # Import unified CLI tools (single source of truth)
@@ -77,6 +79,9 @@ def register_agent_tools(
 
         def __init__(self, agent_tool: AgentTool):
             self._agent = agent_tool
+
+        @auto_timeout("__init__")
+
 
         async def call(self, ctx, **params):  # type: ignore[override]
             # Default to 5 agents unless explicitly provided

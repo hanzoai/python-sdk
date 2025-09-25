@@ -15,6 +15,7 @@ from typing import (
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
 from hanzo_mcp.tools.common.context import create_tool_context, ToolContext
@@ -155,6 +156,7 @@ The tool will:
 """
 
     @override
+    @auto_timeout("consensus")
     async def call(
         self,
         ctx: MCPContext,

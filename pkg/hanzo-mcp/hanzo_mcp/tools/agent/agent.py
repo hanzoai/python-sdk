@@ -30,6 +30,8 @@ from pydantic import Field
 from openai.types.chat import ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
 from hanzo_mcp.tools.filesystem import get_read_only_filesystem_tools
 from hanzo_mcp.tools.common.base import BaseTool
@@ -212,6 +214,9 @@ Modes:
 - rpc: Long-running agent for multiple calls (A2A support)"""
 
     @override
+    @auto_timeout("agent")
+
+
     async def call(
         self,
         ctx: MCPContext,
