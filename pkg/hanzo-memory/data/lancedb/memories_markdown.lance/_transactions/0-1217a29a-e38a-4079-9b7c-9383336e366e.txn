@@ -1,0 +1,8 @@
+$1217a29a-e38a-4079-9b7c-9383336e366e²÷)	memory_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault)user_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+project_id ÿÿÿÿÿÿÿÿÿ*string8Zdefault)content ÿÿÿÿÿÿÿÿÿ*string8Zdefault*metadata ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+importance ÿÿÿÿÿÿÿÿÿ*double8Zdefault-memory_type ÿÿÿÿÿÿÿÿÿ*string8Zdefault)context ÿÿÿÿÿÿÿÿÿ*string8Zdefault(source ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+created_at	 ÿÿÿÿÿÿÿÿÿ*string8Zdefault,
+updated_at
+ ÿÿÿÿÿÿÿÿÿ*string8Zdefault@	embedding ÿÿÿÿÿÿÿÿÿ*fixed_size_list:float:38408Zdefault"'
+lance.auto_cleanup.older_than14days"!
+lance.auto_cleanup.interval20

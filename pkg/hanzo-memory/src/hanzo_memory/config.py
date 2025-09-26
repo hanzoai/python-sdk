@@ -28,8 +28,8 @@ class Settings(BaseSettings):
 
     # Database Backend Settings
     db_backend: str = Field(
-        "lancedb",  # LanceDB works on all platforms
-        description="Database backend to use (lancedb, infinity)",
+        "local",  # Local file-based storage by default
+        description="Database backend to use (local, lancedb, infinity)",
     )
 
     # InfinityDB Settings
@@ -106,7 +106,7 @@ settings = Settings(
     disable_auth=False,
     host="0.0.0.0",
     port=4000,
-    db_backend="lancedb",
+    db_backend="local",
     infinity_db_path=Path("data/infinity_db"),
     lancedb_path=Path("data/lancedb"),
     llm_model="gpt-4o-mini",
