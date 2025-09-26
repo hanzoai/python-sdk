@@ -18,7 +18,11 @@ src/hanzo_memory/db/base.py
 src/hanzo_memory/db/client.py
 src/hanzo_memory/db/factory.py
 src/hanzo_memory/db/lancedb_client.py
+src/hanzo_memory/db/local_client.py
+src/hanzo_memory/db/markdown_reader.py
 src/hanzo_memory/db/mock_infinity.py
+src/hanzo_memory/db/backends/__init__.py
+src/hanzo_memory/db/backends/backend_registry.py
 src/hanzo_memory/mcp/__init__.py
 src/hanzo_memory/mcp/__main__.py
 src/hanzo_memory/mcp/server.py
