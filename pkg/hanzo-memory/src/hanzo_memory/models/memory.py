@@ -24,6 +24,10 @@ class MemoryCreate(MemoryBase):
         None, description="Additional context for the memory"
     )
     strip_pii: bool = Field(False, description="Strip PII from content")
+    memory_type: str | None = Field(None, description="Type of memory")
+    context: dict[str, Any] | None = Field(None, description="Context information")
+    source: str | None = Field(None, description="Source of the memory")
+    embedding: list[float] | None = Field(None, description="Embedding vector")
 
 
 class MemoryUpdate(BaseModel):
@@ -37,8 +41,13 @@ class MemoryUpdate(BaseModel):
 class Memory(MemoryBase, ProjectScopedModel, TimestampedModel):
     """Complete memory model."""
 
-    memory_id: str = Field(..., description="Memory ID")
+    memory_id: str | None = Field(None, description="Memory ID")
+    id: str | None = Field(None, description="Memory ID alias")
     embedding: list[float] | None = Field(None, description="Embedding vector")
+    memory_type: str | None = Field(None, description="Type of memory")
+    context: dict[str, Any] | None = Field(None, description="Context information")
+    source: str | None = Field(None, description="Source of the memory")
+    timestamp: str | None = Field(None, description="Timestamp")
 
     model_config = {"from_attributes": True}
 
@@ -50,14 +59,19 @@ class MemoryWithScore(Memory):
 
 
 class MemoryResponse(BaseModel):
-    """Memory response model."""
+    """Memory response model with search results."""
 
-    user_id: str = Field(..., description="User ID")
-    relevant_memories: list[str | dict[str, str]] = Field(
-        ..., description="Relevant memories"
+    memory: Memory = Field(..., description="Memory object")
+    similarity: float | None = Field(None, description="Similarity score")
+    relevance_score: float | None = Field(None, description="Relevance score")
+
+    # Legacy fields for compatibility
+    user_id: str | None = Field(None, description="User ID")
+    relevant_memories: list[str | dict[str, str]] | None = Field(
+        None, description="Relevant memories"
     )
-    memory_stored: bool = Field(True, description="Whether the memory was stored")
-    usage_info: dict[str, int] = Field(..., description="Usage information")
+    memory_stored: bool | None = Field(None, description="Whether the memory was stored")
+    usage_info: dict[str, int] | None = Field(None, description="Usage information")
 
 
 class MemoryListResponse(BaseModel):

@@ -108,33 +108,39 @@ class MemoryService:
             limit=limit * 2 if filter_with_llm else limit,  # Get more if filtering
         )
 
-        if results_df.is_empty():
+        if results_df.empty:
             return []
 
         # Convert to memories with scores
         memories = []
-        for row in results_df.iter_rows(named=True):
-            # Calculate similarity score (cosine similarity)
-            embedding = row["embedding"]
-            score = self.embeddings.compute_similarity(
-                query_embedding, [embedding], metric="cosine"
-            )[0]
+        for _, row in results_df.iterrows():
+            # Get similarity score if available, otherwise calculate it
+            if "similarity_score" in row:
+                score = row["similarity_score"]
+            elif "embedding" in row:
+                # Calculate similarity score (cosine similarity)
+                embedding = row["embedding"]
+                score = self.embeddings.compute_similarity(
+                    query_embedding, [embedding], metric="cosine"
+                )[0]
+            else:
+                score = 0.0  # Default score if no embedding available
 
             # Parse metadata if it's a string
-            metadata = row["metadata"]
+            metadata = row.get("metadata", {})
             if isinstance(metadata, str):
                 metadata = json.loads(metadata)
 
             memory = MemoryWithScore(
-                memory_id=row["memory_id"],
-                user_id=row["user_id"],
-                project_id=row["project_id"],
-                content=row["content"],
+                memory_id=row.get("memory_id", row.get("id")),
+                user_id=row.get("user_id"),
+                project_id=row.get("project_id"),
+                content=row.get("content"),
                 metadata=metadata,
-                importance=row["importance"],
-                created_at=datetime.fromisoformat(row["created_at"]),
-                updated_at=datetime.fromisoformat(row["updated_at"]),
-                embedding=embedding,
+                importance=row.get("importance", 0.5),
+                created_at=datetime.fromisoformat(row.get("created_at", datetime.now().isoformat())),
+                updated_at=datetime.fromisoformat(row.get("updated_at", datetime.now().isoformat())),
+                embedding=row.get("embedding"),
                 similarity_score=score,
             )
             memories.append(memory)
