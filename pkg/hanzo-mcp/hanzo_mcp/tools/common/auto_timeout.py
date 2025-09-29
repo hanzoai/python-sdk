@@ -128,47 +128,67 @@ class MCPToolTimeoutManager:
 
 def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutManager] = None):
     """Decorator to add automatic timeout and backgrounding to MCP tools.
-    
+
     Args:
         tool_name: Name of the tool (for logging and process tracking)
         timeout_manager: Optional timeout manager instance
-        
+
     Returns:
         Decorator function
     """
     if timeout_manager is None:
         timeout_manager = MCPToolTimeoutManager()
-    
+
     def decorator(func: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:
         @functools.wraps(func)
-        async def wrapper(ctx: MCPContext, **params: Any) -> Any:
+        async def wrapper(*args: Any, **params: Any) -> Any:
+            # Handle both method calls (with self) and function calls
+            # For methods: args = (self, ctx), For functions: args = (ctx,)
+            if len(args) >= 2:
+                # Method call: self, ctx, **params
+                self_or_ctx = args[0]
+                ctx = args[1]
+                call_func = lambda: func(self_or_ctx, ctx, **params)
+            elif len(args) == 1:
+                # Function call: ctx, **params
+                ctx = args[0]
+                call_func = lambda: func(ctx, **params)
+            else:
+                raise TypeError(f"Expected at least 1 argument (ctx), got {len(args)}")
+
             # Fast path for tests - skip timeout logic
             if os.getenv("HANZO_MCP_FAST_TESTS") == "1":
-                return await func(ctx, **params)
-            
+                return await call_func()
+
             # Get tool-specific timeout
             tool_timeout = timeout_manager._get_timeout_for_tool(tool_name)
-            
+
             # Create task for the tool execution
-            tool_task = asyncio.create_task(func(ctx, **params))
-            
+            tool_task = asyncio.create_task(call_func())
+
             try:
                 # Wait for completion with timeout
                 result = await asyncio.wait_for(tool_task, timeout=tool_timeout)
                 return result
-                
+
             except asyncio.TimeoutError:
                 # Tool timed out - background it
                 process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
                 log_file = timeout_manager.process_manager.create_log_file(process_id)
-                
-                # Start background execution
+
+                # Start background execution (need to reconstruct the call)
+                async def background_call():
+                    if len(args) >= 2:
+                        return await func(args[0], ctx, **params)
+                    else:
+                        return await func(ctx, **params)
+
                 asyncio.create_task(
                     timeout_manager._background_tool_execution(
-                        func, tool_name, ctx, process_id, log_file, **params
+                        background_call, tool_name, ctx, process_id, log_file, **params
                     )
                 )
-                
+
                 # Return backgrounding message
                 timeout_formatted = format_timeout(tool_timeout)
                 return (
@@ -179,7 +199,7 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                     f"Use 'process --action kill --id {process_id}' to cancel\\n\\n"
                     f"The {tool_name} operation is continuing in the background..."
                 )
-                
+
         return wrapper
     return decorator
 

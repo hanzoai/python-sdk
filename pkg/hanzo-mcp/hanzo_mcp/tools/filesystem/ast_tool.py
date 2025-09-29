@@ -114,7 +114,7 @@ Searches code structure intelligently, understanding syntax and providing semant
             Tool result
         """
         tool_ctx = self.create_tool_context(ctx)
-        self.set_tool_context_info(tool_ctx)
+        await self.set_tool_context_info(tool_ctx)
 
         # Extract parameters
         pattern: Pattern = params["pattern"]

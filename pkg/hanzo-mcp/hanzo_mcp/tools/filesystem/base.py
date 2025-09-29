@@ -104,10 +104,10 @@ class FilesystemBaseTool(FileSystemTool, ABC):
         tool_ctx = create_tool_context(ctx)
         return tool_ctx
 
-    def set_tool_context_info(self, tool_ctx: ToolContext) -> None:
+    async def set_tool_context_info(self, tool_ctx: ToolContext) -> None:
         """Set the tool info on the context.
 
         Args:
             tool_ctx: Tool context
         """
-        tool_ctx.set_tool_info(self.name)
+        await tool_ctx.set_tool_info(self.name)
