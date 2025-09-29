@@ -94,8 +94,6 @@ Usage:
 
     @override
     @auto_timeout("read")
-
-
     async def call(
         self,
         ctx: MCPContext,
@@ -111,7 +109,7 @@ Usage:
             Tool result
         """
         tool_ctx = self.create_tool_context(ctx)
-        self.set_tool_context_info(tool_ctx)
+        await self.set_tool_context_info(tool_ctx)
 
         # Extract parameters
         file_path = params.get("file_path")
