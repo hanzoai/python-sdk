@@ -138,7 +138,7 @@ Finds code structures (functions, classes, methods) with full context."""
     ) -> str:
         """Execute symbols operation."""
         tool_ctx = self.create_tool_context(ctx)
-        self.set_tool_context_info(tool_ctx)
+        await self.set_tool_context_info(tool_ctx)
 
         # Extract action
         action = params.get("action", "search")
