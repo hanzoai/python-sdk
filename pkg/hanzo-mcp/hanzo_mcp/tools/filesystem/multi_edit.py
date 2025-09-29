@@ -152,7 +152,7 @@ If you want to create a new file, use:
             Tool result
         """
         tool_ctx = self.create_tool_context(ctx)
-        self.set_tool_context_info(tool_ctx)
+        await self.set_tool_context_info(tool_ctx)
 
         # Extract parameters
         file_path: FilePath = params["file_path"]
