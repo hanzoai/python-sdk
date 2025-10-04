@@ -450,6 +450,9 @@ AGENT RESPONSES:
                 tool_call_count = len(message.tool_calls)
                 await tool_ctx.info(f"Processing {tool_call_count} tool calls")
 
+                # Track which tool calls we've processed to ensure all get results
+                tool_results_to_add = []
+
                 for tool_call in message.tool_calls:
                     total_tool_use_count += 1
                     function_name = tool_call.function.name
@@ -542,8 +545,8 @@ AGENT RESPONSES:
                     await tool_ctx.info(
                         f"tool {function_name} run with args {function_args} and return {tool_result[: min(100, len(tool_result))]}"
                     )
-                    # Add the tool result to messages
-                    messages.append(
+                    # Add the tool result to the list
+                    tool_results_to_add.append(
                         {
                             "role": "tool",
                             "tool_call_id": tool_call.id,
@@ -552,6 +555,9 @@ AGENT RESPONSES:
                         }
                     )
 
+                # Add all tool results to messages atomically
+                messages.extend(tool_results_to_add)
+
                 # Log progress
                 await tool_ctx.info(f"Processed {len(message.tool_calls)} tool calls. Total: {total_tool_use_count}")
 
@@ -559,6 +565,41 @@ AGENT RESPONSES:
                 await tool_ctx.error(f"Error in model call: {str(e)}")
                 # Avoid trying to JSON serialize message objects
                 await tool_ctx.error(f"Message count: {len(messages)}")
+
+                # CRITICAL FIX: Ensure we add tool_result messages for any tool_use blocks that were added
+                # Get the last assistant message (which has the tool_calls)
+                last_assistant_msg = None
+                for msg in reversed(messages):
+                    if msg.get("role") == "assistant" and hasattr(msg, "tool_calls"):
+                        last_assistant_msg = msg
+                        break
+
+                # If there are orphaned tool calls, add error results for them
+                if last_assistant_msg and hasattr(last_assistant_msg, "tool_calls"):
+                    # Count how many tool results we already have after this message
+                    tool_results_count = 0
+                    found_assistant = False
+                    for msg in reversed(messages):
+                        if msg == last_assistant_msg:
+                            found_assistant = True
+                            break
+                        if found_assistant and msg.get("role") == "tool":
+                            tool_results_count += 1
+
+                    # Add error results for any missing tool calls
+                    expected_results = len(last_assistant_msg.tool_calls)
+                    if tool_results_count < expected_results:
+                        for i in range(tool_results_count, expected_results):
+                            tool_call = last_assistant_msg.tool_calls[i]
+                            messages.append(
+                                {
+                                    "role": "tool",
+                                    "tool_call_id": tool_call.id,
+                                    "name": tool_call.function.name,
+                                    "content": f"Error: Tool execution interrupted - {str(e)}",
+                                }
+                            )
+
                 return f"Error in agent execution: {str(e)}"
 
         # If we've reached the limit, add a warning and get final response
