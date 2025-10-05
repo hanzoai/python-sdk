@@ -14,6 +14,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.base import with_error_logging
 
 FilePath = Annotated[
     str,
@@ -252,6 +253,7 @@ Usage:
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
+        @with_error_logging(self.name)
         async def read(
             ctx: MCPContext,
             file_path: FilePath,
