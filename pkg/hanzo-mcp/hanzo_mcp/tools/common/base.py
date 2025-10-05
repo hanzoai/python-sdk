@@ -6,6 +6,7 @@ behavior and provide a foundation for tool registration and management.
 """
 
 import functools
+import inspect
 from abc import ABC, abstractmethod
 from typing import Any, Callable, final
 from collections.abc import Awaitable
@@ -20,6 +21,60 @@ from hanzo_mcp.tools.common.validation import (
     validate_path_parameter,
 )
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.error_logger import log_tool_error, log_call_signature_error
+
+
+def with_error_logging(tool_name: str) -> Callable:
+    """Decorator to add comprehensive error logging to tool functions.
+
+    Args:
+        tool_name: Name of the tool for logging purposes
+
+    Returns:
+        Decorator function
+    """
+    def decorator(func: Callable[..., Awaitable[str]]) -> Callable[..., Awaitable[str]]:
+        @functools.wraps(func)
+        async def wrapper(*args: Any, **kwargs: Any) -> str:
+            try:
+                return await func(*args, **kwargs)
+            except TypeError as e:
+                # This often indicates a call signature mismatch
+                error_msg = str(e)
+                if "takes" in error_msg and "positional argument" in error_msg:
+                    # Log call signature error
+                    sig = inspect.signature(func)
+                    expected = f"{func.__name__}{sig}"
+                    actual = f"{func.__name__}(*args={args}, **kwargs={kwargs})"
+                    log_call_signature_error(tool_name, expected, actual, e)
+
+                # Log the error
+                log_tool_error(
+                    tool_name,
+                    e,
+                    params=kwargs,
+                    context=f"Call signature mismatch or type error"
+                )
+
+                # Return user-friendly error message
+                return (
+                    f"Error executing tool '{tool_name}': {error_msg}\n\n"
+                    f"This error has been logged to ~/.hanzo/mcp/logs/ for debugging.\n"
+                    f"Check ~/.hanzo/mcp/logs/{tool_name}-errors.log for details."
+                )
+            except Exception as e:
+                # Log all other errors
+                log_tool_error(tool_name, e, params=kwargs)
+
+                # Return error message
+                return (
+                    f"Error executing tool '{tool_name}': {str(e)}\n\n"
+                    f"This error has been logged to ~/.hanzo/mcp/logs/ for debugging.\n"
+                    f"Check ~/.hanzo/mcp/logs/{tool_name}-errors.log for details."
+                )
+
+        return wrapper
+    return decorator
 
 
 def handle_connection_errors(
