@@ -12,6 +12,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.truncate import truncate_response
 
 
 class BashCommandStatus(Enum):
@@ -95,14 +96,15 @@ class CommandResult:
             return f"Command `{self.command}` failed: {self.error_message}"
         return f"Command `{self.command}` executed with exit code {self.return_code}."
 
-    def format_output(self, include_exit_code: bool = True) -> str:
+    def format_output(self, include_exit_code: bool = True, max_tokens: int = 25000) -> str:
         """Format the command output as a string.
 
         Args:
             include_exit_code: Whether to include the exit code in the output
+            max_tokens: Maximum tokens allowed in the response (default: 25000)
 
         Returns:
-            Formatted output string
+            Formatted output string, truncated if necessary
         """
         result_parts: list[str] = []
 
@@ -131,10 +133,24 @@ class CommandResult:
             result_parts.append(f"STDERR:\n{self.stderr}")
 
         # Join with newlines
-        return "\n\n".join(result_parts)
+        result = "\n\n".join(result_parts)
 
-    def to_agent_observation(self) -> str:
-        """Format the result for agent consumption."""
+        # Truncate if necessary
+        return truncate_response(
+            result,
+            max_tokens=max_tokens,
+            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]"
+        )
+
+    def to_agent_observation(self, max_tokens: int = 25000) -> str:
+        """Format the result for agent consumption.
+
+        Args:
+            max_tokens: Maximum tokens allowed in the response (default: 25000)
+
+        Returns:
+            Formatted output, truncated if necessary
+        """
         content = self.stdout
 
         additional_info: list[str] = []
@@ -144,7 +160,12 @@ class CommandResult:
         if additional_info:
             content += "\n" + "\n".join(additional_info)
 
-        return content
+        # Truncate if necessary
+        return truncate_response(
+            content,
+            max_tokens=max_tokens,
+            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]"
+        )
 
 
 class ShellBaseTool(BaseTool, ABC):
