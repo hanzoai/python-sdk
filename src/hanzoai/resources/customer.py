@@ -15,7 +15,7 @@ from ..types import (
     customer_unblock_params,
     customer_retrieve_info_params,
 )
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -56,24 +56,24 @@ class CustomerResource(SyncAPIResource):
         self,
         *,
         user_id: str,
-        alias: Optional[str] | NotGiven = NOT_GIVEN,
-        allowed_model_region: Optional[Literal["eu", "us"]] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        default_model: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        alias: Optional[str] | Omit = omit,
+        allowed_model_region: Optional[Literal["eu", "us"]] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        default_model: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Allow creating a new Customer
@@ -182,18 +182,18 @@ class CustomerResource(SyncAPIResource):
         self,
         *,
         user_id: str,
-        alias: Optional[str] | NotGiven = NOT_GIVEN,
-        allowed_model_region: Optional[Literal["eu", "us"]] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        default_model: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
+        alias: Optional[str] | Omit = omit,
+        allowed_model_region: Optional[Literal["eu", "us"]] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        default_model: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Example curl
@@ -258,7 +258,7 @@ class CustomerResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerListResponse:
         """
         [Admin-only] List all available customers
@@ -286,7 +286,7 @@ class CustomerResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete multiple end-users.
@@ -332,7 +332,7 @@ class CustomerResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA] Reject calls with this end-user id
@@ -379,7 +379,7 @@ class CustomerResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerRetrieveInfoResponse:
         """Get information about an end-user.
 
@@ -430,7 +430,7 @@ class CustomerResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA] Unblock calls with this user id
@@ -488,24 +488,24 @@ class AsyncCustomerResource(AsyncAPIResource):
         self,
         *,
         user_id: str,
-        alias: Optional[str] | NotGiven = NOT_GIVEN,
-        allowed_model_region: Optional[Literal["eu", "us"]] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        default_model: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        alias: Optional[str] | Omit = omit,
+        allowed_model_region: Optional[Literal["eu", "us"]] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        default_model: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Allow creating a new Customer
@@ -614,18 +614,18 @@ class AsyncCustomerResource(AsyncAPIResource):
         self,
         *,
         user_id: str,
-        alias: Optional[str] | NotGiven = NOT_GIVEN,
-        allowed_model_region: Optional[Literal["eu", "us"]] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        default_model: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
+        alias: Optional[str] | Omit = omit,
+        allowed_model_region: Optional[Literal["eu", "us"]] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        default_model: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Example curl
@@ -690,7 +690,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerListResponse:
         """
         [Admin-only] List all available customers
@@ -718,7 +718,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete multiple end-users.
@@ -764,7 +764,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA] Reject calls with this end-user id
@@ -811,7 +811,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CustomerRetrieveInfoResponse:
         """Get information about an end-user.
 
@@ -862,7 +862,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA] Unblock calls with this user id

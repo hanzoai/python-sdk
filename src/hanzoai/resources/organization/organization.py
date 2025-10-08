@@ -23,7 +23,7 @@ from ...types import (
     organization_delete_member_params,
     organization_update_member_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -72,23 +72,23 @@ class OrganizationResource(SyncAPIResource):
         self,
         *,
         organization_alias: str,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Iterable[object] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        models: Iterable[object] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationCreateResponse:
         """
         Allow orgs to own teams
@@ -193,19 +193,19 @@ class OrganizationResource(SyncAPIResource):
     def update(
         self,
         *,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        organization_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        updated_by: Optional[str] | NotGiven = NOT_GIVEN,
+        budget_id: Optional[str] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        models: Optional[SequenceNotStr[str]] | Omit = omit,
+        organization_alias: Optional[str] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        updated_by: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationUpdateResponse:
         """
         Update an organization
@@ -247,7 +247,7 @@ class OrganizationResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationListResponse:
         """
         ```
@@ -271,7 +271,7 @@ class OrganizationResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationDeleteResponse:
         """
         Delete an organization
@@ -305,13 +305,13 @@ class OrganizationResource(SyncAPIResource):
         *,
         member: organization_add_member_params.Member,
         organization_id: str,
-        max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_organization: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationAddMemberResponse:
         """
         [BETA]
@@ -381,14 +381,14 @@ class OrganizationResource(SyncAPIResource):
         self,
         *,
         organization_id: str,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete a member from an organization
@@ -422,7 +422,7 @@ class OrganizationResource(SyncAPIResource):
         self,
         *,
         organization_id: str,
-        max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_organization: Optional[float] | Omit = omit,
         role: Optional[
             Literal[
                 "proxy_admin",
@@ -434,15 +434,15 @@ class OrganizationResource(SyncAPIResource):
                 "customer",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
@@ -515,23 +515,23 @@ class AsyncOrganizationResource(AsyncAPIResource):
         self,
         *,
         organization_alias: str,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Iterable[object] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        models: Iterable[object] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationCreateResponse:
         """
         Allow orgs to own teams
@@ -636,19 +636,19 @@ class AsyncOrganizationResource(AsyncAPIResource):
     async def update(
         self,
         *,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        organization_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        updated_by: Optional[str] | NotGiven = NOT_GIVEN,
+        budget_id: Optional[str] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        models: Optional[SequenceNotStr[str]] | Omit = omit,
+        organization_alias: Optional[str] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        updated_by: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationUpdateResponse:
         """
         Update an organization
@@ -690,7 +690,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationListResponse:
         """
         ```
@@ -714,7 +714,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationDeleteResponse:
         """
         Delete an organization
@@ -748,13 +748,13 @@ class AsyncOrganizationResource(AsyncAPIResource):
         *,
         member: organization_add_member_params.Member,
         organization_id: str,
-        max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_organization: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationAddMemberResponse:
         """
         [BETA]
@@ -824,14 +824,14 @@ class AsyncOrganizationResource(AsyncAPIResource):
         self,
         *,
         organization_id: str,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete a member from an organization
@@ -865,7 +865,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         self,
         *,
         organization_id: str,
-        max_budget_in_organization: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_organization: Optional[float] | Omit = omit,
         role: Optional[
             Literal[
                 "proxy_admin",
@@ -877,15 +877,15 @@ class AsyncOrganizationResource(AsyncAPIResource):
                 "customer",
             ]
         ]
-        | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization

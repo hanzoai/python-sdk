@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -48,15 +48,15 @@ class SpendResource(SyncAPIResource):
     def list_tags(
         self,
         *,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        tags: Optional[str] | NotGiven = NOT_GIVEN,
+        end_date: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        tags: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """LLM Enterprise - View Spend Per Request Tag.
 
@@ -116,7 +116,7 @@ class SpendResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         ADMIN ONLY / MASTER KEY Only Endpoint
@@ -139,19 +139,19 @@ class SpendResource(SyncAPIResource):
     def retrieve_report(
         self,
         *,
-        api_key: Optional[str] | NotGiven = NOT_GIVEN,
-        customer_id: Optional[str] | NotGiven = NOT_GIVEN,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        group_by: Optional[Literal["team", "customer", "api_key"]] | NotGiven = NOT_GIVEN,
-        internal_user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
+        api_key: Optional[str] | Omit = omit,
+        customer_id: Optional[str] | Omit = omit,
+        end_date: Optional[str] | Omit = omit,
+        group_by: Optional[Literal["team", "customer", "api_key"]] | Omit = omit,
+        internal_user_id: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendRetrieveReportResponse:
         """Get Daily Spend per Team, based on specific startTime and endTime.
 
@@ -233,15 +233,15 @@ class AsyncSpendResource(AsyncAPIResource):
     async def list_tags(
         self,
         *,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        tags: Optional[str] | NotGiven = NOT_GIVEN,
+        end_date: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        tags: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """LLM Enterprise - View Spend Per Request Tag.
 
@@ -301,7 +301,7 @@ class AsyncSpendResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         ADMIN ONLY / MASTER KEY Only Endpoint
@@ -324,19 +324,19 @@ class AsyncSpendResource(AsyncAPIResource):
     async def retrieve_report(
         self,
         *,
-        api_key: Optional[str] | NotGiven = NOT_GIVEN,
-        customer_id: Optional[str] | NotGiven = NOT_GIVEN,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        group_by: Optional[Literal["team", "customer", "api_key"]] | NotGiven = NOT_GIVEN,
-        internal_user_id: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
+        api_key: Optional[str] | Omit = omit,
+        customer_id: Optional[str] | Omit = omit,
+        end_date: Optional[str] | Omit = omit,
+        group_by: Optional[Literal["team", "customer", "api_key"]] | Omit = omit,
+        internal_user_id: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendRetrieveReportResponse:
         """Get Daily Spend per Team, based on specific startTime and endTime.
 
