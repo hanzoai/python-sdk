@@ -13,7 +13,7 @@ from ..types import (
     budget_update_params,
     budget_settings_params,
 )
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -51,20 +51,20 @@ class BudgetResource(SyncAPIResource):
     def create(
         self,
         *,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Create a new budget object.
 
@@ -135,20 +135,20 @@ class BudgetResource(SyncAPIResource):
     def update(
         self,
         *,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Update an existing budget object.
@@ -223,7 +223,7 @@ class BudgetResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """List all the created budgets in proxy db. Used on Admin UI."""
         return self._get(
@@ -243,7 +243,7 @@ class BudgetResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete budget
@@ -279,7 +279,7 @@ class BudgetResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get the budget id specific information
@@ -315,7 +315,7 @@ class BudgetResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get list of configurable params + current value for a budget item + description
@@ -372,20 +372,20 @@ class AsyncBudgetResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Create a new budget object.
 
@@ -456,20 +456,20 @@ class AsyncBudgetResource(AsyncAPIResource):
     async def update(
         self,
         *,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        budget_id: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
+        budget_duration: Optional[str] | Omit = omit,
+        budget_id: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        soft_budget: Optional[float] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Update an existing budget object.
@@ -544,7 +544,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """List all the created budgets in proxy db. Used on Admin UI."""
         return await self._get(
@@ -564,7 +564,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Delete budget
@@ -600,7 +600,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get the budget id specific information
@@ -636,7 +636,7 @@ class AsyncBudgetResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get list of configurable params + current value for a budget item + description

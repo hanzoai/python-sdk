@@ -28,7 +28,7 @@ from ...types import (
     team_update_member_params,
     team_list_available_params,
 )
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from .callback import (
     CallbackResource,
@@ -86,29 +86,29 @@ class TeamResource(SyncAPIResource):
     def create(
         self,
         *,
-        admins: Iterable[object] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        members: Iterable[object] | NotGiven = NOT_GIVEN,
-        members_with_roles: Iterable[MemberParam] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Iterable[object] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        team_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        admins: Iterable[object] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        members: Iterable[object] | Omit = omit,
+        members_with_roles: Iterable[MemberParam] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
+        models: Iterable[object] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        tags: Optional[Iterable[object]] | Omit = omit,
+        team_alias: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamCreateResponse:
         """Allow users to create a new team.
 
@@ -225,25 +225,25 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_id: str,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        team_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        tags: Optional[Iterable[object]] | Omit = omit,
+        team_alias: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Use `/team/member_add` AND `/team/member/delete` to add/remove new team members
@@ -340,14 +340,14 @@ class TeamResource(SyncAPIResource):
     def list(
         self,
         *,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        organization_id: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         ```
@@ -395,13 +395,13 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_ids: SequenceNotStr[str],
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         delete team and associated team keys
@@ -444,13 +444,13 @@ class TeamResource(SyncAPIResource):
         *,
         member: team_add_member_params.Member,
         team_id: str,
-        max_budget_in_team: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_team: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamAddMemberResponse:
         """
         [BETA]
@@ -501,7 +501,7 @@ class TeamResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Blocks all calls from keys with this team id.
@@ -549,7 +549,7 @@ class TeamResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Disable all logging callbacks for a team
@@ -586,13 +586,13 @@ class TeamResource(SyncAPIResource):
     def list_available(
         self,
         *,
-        response_model: object | NotGiven = NOT_GIVEN,
+        response_model: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         List Available Teams
@@ -624,14 +624,14 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_id: str,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA]
@@ -678,13 +678,13 @@ class TeamResource(SyncAPIResource):
     def retrieve_info(
         self,
         *,
-        team_id: str | NotGiven = NOT_GIVEN,
+        team_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """get info on team + related keys
 
@@ -730,7 +730,7 @@ class TeamResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Blocks all calls from keys with this team id.
@@ -769,16 +769,16 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_id: str,
-        max_budget_in_team: Optional[float] | NotGiven = NOT_GIVEN,
-        role: Optional[Literal["admin", "user"]] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        max_budget_in_team: Optional[float] | Omit = omit,
+        role: Optional[Literal["admin", "user"]] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamUpdateMemberResponse:
         """
         [BETA]
@@ -844,29 +844,29 @@ class AsyncTeamResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        admins: Iterable[object] | NotGiven = NOT_GIVEN,
-        blocked: bool | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        members: Iterable[object] | NotGiven = NOT_GIVEN,
-        members_with_roles: Iterable[MemberParam] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Iterable[object] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        team_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        admins: Iterable[object] | Omit = omit,
+        blocked: bool | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        members: Iterable[object] | Omit = omit,
+        members_with_roles: Iterable[MemberParam] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
+        models: Iterable[object] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        tags: Optional[Iterable[object]] | Omit = omit,
+        team_alias: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamCreateResponse:
         """Allow users to create a new team.
 
@@ -983,25 +983,25 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_id: str,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        tags: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        team_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        tags: Optional[Iterable[object]] | Omit = omit,
+        team_alias: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Use `/team/member_add` AND `/team/member/delete` to add/remove new team members
@@ -1098,14 +1098,14 @@ class AsyncTeamResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        organization_id: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        organization_id: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         ```
@@ -1153,13 +1153,13 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_ids: SequenceNotStr[str],
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         delete team and associated team keys
@@ -1202,13 +1202,13 @@ class AsyncTeamResource(AsyncAPIResource):
         *,
         member: team_add_member_params.Member,
         team_id: str,
-        max_budget_in_team: Optional[float] | NotGiven = NOT_GIVEN,
+        max_budget_in_team: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamAddMemberResponse:
         """
         [BETA]
@@ -1259,7 +1259,7 @@ class AsyncTeamResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Blocks all calls from keys with this team id.
@@ -1307,7 +1307,7 @@ class AsyncTeamResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Disable all logging callbacks for a team
@@ -1344,13 +1344,13 @@ class AsyncTeamResource(AsyncAPIResource):
     async def list_available(
         self,
         *,
-        response_model: object | NotGiven = NOT_GIVEN,
+        response_model: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         List Available Teams
@@ -1382,14 +1382,14 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_id: str,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [BETA]
@@ -1436,13 +1436,13 @@ class AsyncTeamResource(AsyncAPIResource):
     async def retrieve_info(
         self,
         *,
-        team_id: str | NotGiven = NOT_GIVEN,
+        team_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """get info on team + related keys
 
@@ -1490,7 +1490,7 @@ class AsyncTeamResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Blocks all calls from keys with this team id.
@@ -1529,16 +1529,16 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_id: str,
-        max_budget_in_team: Optional[float] | NotGiven = NOT_GIVEN,
-        role: Optional[Literal["admin", "user"]] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        max_budget_in_team: Optional[float] | Omit = omit,
+        role: Optional[Literal["admin", "user"]] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamUpdateMemberResponse:
         """
         [BETA]

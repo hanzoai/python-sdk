@@ -7,7 +7,7 @@ from typing import Iterable, Optional
 import httpx
 
 from ..types import spend_list_logs_params, spend_list_tags_params, spend_calculate_spend_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -47,15 +47,15 @@ class SpendResource(SyncAPIResource):
     def calculate_spend(
         self,
         *,
-        completion_response: Optional[object] | NotGiven = NOT_GIVEN,
-        messages: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        model: Optional[str] | NotGiven = NOT_GIVEN,
+        completion_response: Optional[object] | Omit = omit,
+        messages: Optional[Iterable[object]] | Omit = omit,
+        model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Accepts all the params of completion_cost.
@@ -134,17 +134,17 @@ class SpendResource(SyncAPIResource):
     def list_logs(
         self,
         *,
-        api_key: Optional[str] | NotGiven = NOT_GIVEN,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        request_id: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        api_key: Optional[str] | Omit = omit,
+        end_date: Optional[str] | Omit = omit,
+        request_id: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListLogsResponse:
         """
         View all spend logs, if request_id is provided, only logs for that request_id
@@ -218,14 +218,14 @@ class SpendResource(SyncAPIResource):
     def list_tags(
         self,
         *,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
+        end_date: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """
         LLM Enterprise - View Spend Per Request Tag
@@ -297,15 +297,15 @@ class AsyncSpendResource(AsyncAPIResource):
     async def calculate_spend(
         self,
         *,
-        completion_response: Optional[object] | NotGiven = NOT_GIVEN,
-        messages: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        model: Optional[str] | NotGiven = NOT_GIVEN,
+        completion_response: Optional[object] | Omit = omit,
+        messages: Optional[Iterable[object]] | Omit = omit,
+        model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Accepts all the params of completion_cost.
@@ -384,17 +384,17 @@ class AsyncSpendResource(AsyncAPIResource):
     async def list_logs(
         self,
         *,
-        api_key: Optional[str] | NotGiven = NOT_GIVEN,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        request_id: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        api_key: Optional[str] | Omit = omit,
+        end_date: Optional[str] | Omit = omit,
+        request_id: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListLogsResponse:
         """
         View all spend logs, if request_id is provided, only logs for that request_id
@@ -468,14 +468,14 @@ class AsyncSpendResource(AsyncAPIResource):
     async def list_tags(
         self,
         *,
-        end_date: Optional[str] | NotGiven = NOT_GIVEN,
-        start_date: Optional[str] | NotGiven = NOT_GIVEN,
+        end_date: Optional[str] | Omit = omit,
+        start_date: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """
         LLM Enterprise - View Spend Per Request Tag

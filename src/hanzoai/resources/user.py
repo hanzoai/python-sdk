@@ -14,7 +14,7 @@ from ..types import (
     user_update_params,
     user_retrieve_info_params,
 )
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, strip_not_given, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -53,40 +53,40 @@ class UserResource(SyncAPIResource):
     def create(
         self,
         *,
-        aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        allowed_cache_controls: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        auto_create_key: bool | NotGiven = NOT_GIVEN,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        config: Optional[object] | NotGiven = NOT_GIVEN,
-        duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        key_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        model_rpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        model_tpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        permissions: Optional[object] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        teams: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        user_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        aliases: Optional[object] | Omit = omit,
+        allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
+        auto_create_key: bool | Omit = omit,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        config: Optional[object] | Omit = omit,
+        duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        key_alias: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        send_invite_email: Optional[bool] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        teams: Optional[Iterable[object]] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        user_alias: Optional[str] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserCreateResponse:
         """Use this to create a new INTERNAL user with a budget.
 
@@ -225,37 +225,37 @@ class UserResource(SyncAPIResource):
     def update(
         self,
         *,
-        aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        allowed_cache_controls: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        config: Optional[object] | NotGiven = NOT_GIVEN,
-        duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        key_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        model_rpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        model_tpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        password: Optional[str] | NotGiven = NOT_GIVEN,
-        permissions: Optional[object] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        aliases: Optional[object] | Omit = omit,
+        allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        config: Optional[object] | Omit = omit,
+        duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        key_alias: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        password: Optional[str] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Example curl
@@ -364,16 +364,16 @@ class UserResource(SyncAPIResource):
     def list(
         self,
         *,
-        page: int | NotGiven = NOT_GIVEN,
-        page_size: int | NotGiven = NOT_GIVEN,
-        role: Optional[str] | NotGiven = NOT_GIVEN,
-        user_ids: Optional[str] | NotGiven = NOT_GIVEN,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        role: Optional[str] | Omit = omit,
+        user_ids: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get a paginated list of users, optionally filtered by role.
@@ -435,13 +435,13 @@ class UserResource(SyncAPIResource):
         self,
         *,
         user_ids: SequenceNotStr[str],
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         delete user and associated user keys
@@ -484,13 +484,13 @@ class UserResource(SyncAPIResource):
     def retrieve_info(
         self,
         *,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [10/07/2024] Note: To get all users (+pagination), use `/user/list` endpoint.
@@ -550,40 +550,40 @@ class AsyncUserResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        allowed_cache_controls: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        auto_create_key: bool | NotGiven = NOT_GIVEN,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        config: Optional[object] | NotGiven = NOT_GIVEN,
-        duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        key_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        model_rpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        model_tpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        permissions: Optional[object] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        send_invite_email: Optional[bool] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        teams: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        user_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        aliases: Optional[object] | Omit = omit,
+        allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
+        auto_create_key: bool | Omit = omit,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        config: Optional[object] | Omit = omit,
+        duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        key_alias: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        send_invite_email: Optional[bool] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        teams: Optional[Iterable[object]] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        user_alias: Optional[str] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserCreateResponse:
         """Use this to create a new INTERNAL user with a budget.
 
@@ -722,37 +722,37 @@ class AsyncUserResource(AsyncAPIResource):
     async def update(
         self,
         *,
-        aliases: Optional[object] | NotGiven = NOT_GIVEN,
-        allowed_cache_controls: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        blocked: Optional[bool] | NotGiven = NOT_GIVEN,
-        budget_duration: Optional[str] | NotGiven = NOT_GIVEN,
-        config: Optional[object] | NotGiven = NOT_GIVEN,
-        duration: Optional[str] | NotGiven = NOT_GIVEN,
-        guardrails: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        key_alias: Optional[str] | NotGiven = NOT_GIVEN,
-        max_budget: Optional[float] | NotGiven = NOT_GIVEN,
-        max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        model_max_budget: Optional[object] | NotGiven = NOT_GIVEN,
-        model_rpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        model_tpm_limit: Optional[object] | NotGiven = NOT_GIVEN,
-        models: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        password: Optional[str] | NotGiven = NOT_GIVEN,
-        permissions: Optional[object] | NotGiven = NOT_GIVEN,
-        rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        spend: Optional[float] | NotGiven = NOT_GIVEN,
-        team_id: Optional[str] | NotGiven = NOT_GIVEN,
-        tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
-        user_email: Optional[str] | NotGiven = NOT_GIVEN,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        aliases: Optional[object] | Omit = omit,
+        allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
+        blocked: Optional[bool] | Omit = omit,
+        budget_duration: Optional[str] | Omit = omit,
+        config: Optional[object] | Omit = omit,
+        duration: Optional[str] | Omit = omit,
+        guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
+        key_alias: Optional[str] | Omit = omit,
+        max_budget: Optional[float] | Omit = omit,
+        max_parallel_requests: Optional[int] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
+        models: Optional[Iterable[object]] | Omit = omit,
+        password: Optional[str] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
+        rpm_limit: Optional[int] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
+        tpm_limit: Optional[int] | Omit = omit,
+        user_email: Optional[str] | Omit = omit,
+        user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Example curl
@@ -861,16 +861,16 @@ class AsyncUserResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        page: int | NotGiven = NOT_GIVEN,
-        page_size: int | NotGiven = NOT_GIVEN,
-        role: Optional[str] | NotGiven = NOT_GIVEN,
-        user_ids: Optional[str] | NotGiven = NOT_GIVEN,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        role: Optional[str] | Omit = omit,
+        user_ids: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Get a paginated list of users, optionally filtered by role.
@@ -932,13 +932,13 @@ class AsyncUserResource(AsyncAPIResource):
         self,
         *,
         user_ids: SequenceNotStr[str],
-        llm_changed_by: str | NotGiven = NOT_GIVEN,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         delete user and associated user keys
@@ -981,13 +981,13 @@ class AsyncUserResource(AsyncAPIResource):
     async def retrieve_info(
         self,
         *,
-        user_id: Optional[str] | NotGiven = NOT_GIVEN,
+        user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         [10/07/2024] Note: To get all users (+pagination), use `/user/list` endpoint.
