@@ -15,7 +15,7 @@ from .cancel import (
     CancelResourceWithStreamingResponse,
     AsyncCancelResourceWithStreamingResponse,
 )
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -61,17 +61,17 @@ class JobsResource(SyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: Optional[job_create_params.Hyperparameters] | NotGiven = NOT_GIVEN,
-        integrations: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        seed: Optional[int] | NotGiven = NOT_GIVEN,
-        suffix: Optional[str] | NotGiven = NOT_GIVEN,
-        validation_file: Optional[str] | NotGiven = NOT_GIVEN,
+        hyperparameters: Optional[job_create_params.Hyperparameters] | Omit = omit,
+        integrations: Optional[SequenceNotStr[str]] | Omit = omit,
+        seed: Optional[int] | Omit = omit,
+        suffix: Optional[str] | Omit = omit,
+        validation_file: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Creates a fine-tuning job which begins the process of creating a new model from
@@ -133,7 +133,7 @@ class JobsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Retrieves a fine-tuning job.
 
@@ -174,14 +174,14 @@ class JobsResource(SyncAPIResource):
         self,
         *,
         custom_llm_provider: Literal["openai", "azure"],
-        after: Optional[str] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        after: Optional[str] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Lists fine-tuning jobs for the organization.
 
@@ -253,17 +253,17 @@ class AsyncJobsResource(AsyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: Optional[job_create_params.Hyperparameters] | NotGiven = NOT_GIVEN,
-        integrations: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
-        seed: Optional[int] | NotGiven = NOT_GIVEN,
-        suffix: Optional[str] | NotGiven = NOT_GIVEN,
-        validation_file: Optional[str] | NotGiven = NOT_GIVEN,
+        hyperparameters: Optional[job_create_params.Hyperparameters] | Omit = omit,
+        integrations: Optional[SequenceNotStr[str]] | Omit = omit,
+        seed: Optional[int] | Omit = omit,
+        suffix: Optional[str] | Omit = omit,
+        validation_file: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
         Creates a fine-tuning job which begins the process of creating a new model from
@@ -325,7 +325,7 @@ class AsyncJobsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Retrieves a fine-tuning job.
 
@@ -366,14 +366,14 @@ class AsyncJobsResource(AsyncAPIResource):
         self,
         *,
         custom_llm_provider: Literal["openai", "azure"],
-        after: Optional[str] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        after: Optional[str] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """Lists fine-tuning jobs for the organization.
 

@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..types import credential_create_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -47,14 +47,14 @@ class CredentialsResource(SyncAPIResource):
         *,
         credential_info: object,
         credential_name: str,
-        credential_values: Optional[object] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
+        credential_values: Optional[object] | Omit = omit,
+        model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint.
 
@@ -95,7 +95,7 @@ class CredentialsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint. This might change unexpectedly."""
         return self._get(
@@ -115,7 +115,7 @@ class CredentialsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint.
 
@@ -166,14 +166,14 @@ class AsyncCredentialsResource(AsyncAPIResource):
         *,
         credential_info: object,
         credential_name: str,
-        credential_values: Optional[object] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
+        credential_values: Optional[object] | Omit = omit,
+        model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint.
 
@@ -214,7 +214,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint. This might change unexpectedly."""
         return await self._get(
@@ -234,7 +234,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """[BETA] endpoint.
 
