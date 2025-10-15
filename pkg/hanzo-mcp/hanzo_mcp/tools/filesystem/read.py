@@ -5,6 +5,7 @@ This module provides the ReadTool for reading the contents of files.
 
 from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
+import os
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -58,9 +59,10 @@ class ReadToolParams(TypedDict):
 class ReadTool(FilesystemBaseTool):
     """Tool for reading file contents."""
 
-    # Default values for truncation
-    DEFAULT_LINE_LIMIT = 2000
-    MAX_LINE_LENGTH = 2000
+    # Default values for truncation (configurable via env vars)
+    DEFAULT_LINE_LIMIT = int(os.getenv("HANZO_MCP_READ_LINE_LIMIT", "2000"))
+    MAX_LINE_LENGTH = int(os.getenv("HANZO_MCP_MAX_LINE_LENGTH", "2000"))
+    MAX_TOKENS = int(os.getenv("HANZO_MCP_READ_MAX_TOKENS", "22000"))
     LINE_TRUNCATION_INDICATOR = "... [line truncated]"
 
     @property
@@ -212,10 +214,10 @@ Usage:
                 await tool_ctx.info(f"Successfully read file: {file_path}")
 
                 # Apply token limit to prevent excessive output
-                # Reduce to 20000 to leave buffer for MCP overhead
+                # Default 22000 tokens (configurable via HANZO_MCP_READ_MAX_TOKENS)
                 return truncate_response(
                     result,
-                    max_tokens=20000,
+                    max_tokens=self.MAX_TOKENS,
                     truncation_message="\n\n[File content truncated due to token limit. Use offset/limit parameters to read specific sections.]",
                 )
 
