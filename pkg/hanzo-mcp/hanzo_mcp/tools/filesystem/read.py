@@ -212,9 +212,10 @@ Usage:
                 await tool_ctx.info(f"Successfully read file: {file_path}")
 
                 # Apply token limit to prevent excessive output
+                # Reduce to 20000 to leave buffer for MCP overhead
                 return truncate_response(
                     result,
-                    max_tokens=25000,
+                    max_tokens=20000,
                     truncation_message="\n\n[File content truncated due to token limit. Use offset/limit parameters to read specific sections.]",
                 )
 
