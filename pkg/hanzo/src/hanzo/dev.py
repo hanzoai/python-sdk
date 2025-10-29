@@ -33,6 +33,19 @@ from rich.progress import Progress, TextColumn, SpinnerColumn
 logger = logging.getLogger(__name__)
 console = Console()
 
+# Import GRPO for training-free learning
+try:
+    from hanzoai.grpo import (
+        ExperienceManager,
+        EnhancedSemanticExtractor,
+        EnhancedDeepSeekAdapter,
+        EnhancedTrajectory,
+    )
+    GRPO_AVAILABLE = True
+except ImportError:
+    GRPO_AVAILABLE = False
+    logger.warning("hanzoai.grpo not available - GRPO learning disabled")
+
 # Import hanzo-network for agent orchestration
 try:
     from hanzo_network import (
@@ -168,12 +181,14 @@ class HanzoDevOrchestrator:
         self,
         workspace_dir: str = "~/.hanzo/dev",
         claude_code_path: Optional[str] = None,
+        enable_grpo: bool = True,
     ):
         """Initialize the orchestrator.
 
         Args:
             workspace_dir: Directory for persistence and checkpoints
             claude_code_path: Path to Claude Code executable
+            enable_grpo: Enable Training-Free GRPO learning (default: True)
         """
         self.workspace_dir = Path(workspace_dir).expanduser()
         self.workspace_dir.mkdir(parents=True, exist_ok=True)
@@ -198,6 +213,31 @@ class HanzoDevOrchestrator:
         self.claude_process: Optional[subprocess.Popen] = None
         self.thinking_history: List[ThinkingResult] = []
         self._shutdown = False
+
+        # Initialize GRPO for training-free learning
+        self.grpo_enabled = enable_grpo and GRPO_AVAILABLE
+        if self.grpo_enabled:
+            grpo_dir = self.workspace_dir / "grpo"
+            grpo_dir.mkdir(exist_ok=True)
+            
+            self.experience_manager = ExperienceManager(str(grpo_dir / "experience_library.json"))
+            
+            # Initialize with DeepSeek if API key available
+            deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+            if deepseek_key:
+                from hanzoai.grpo import EnhancedLLMClient
+                
+                self.grpo_llm = EnhancedLLMClient(api_key=deepseek_key)
+                self.grpo_extractor = EnhancedSemanticExtractor(
+                    llm_client=self.grpo_llm,
+                    cache_dir=str(grpo_dir / "cache"),
+                )
+                logger.info("GRPO learning enabled with DeepSeek")
+            else:
+                self.grpo_enabled = False
+                logger.warning("GRPO disabled: DEEPSEEK_API_KEY not set")
+        else:
+            logger.info("GRPO learning disabled")
 
     def _find_claude_code(self) -> str:
         """Find Claude Code executable."""
@@ -641,6 +681,108 @@ class HanzoDevOrchestrator:
                 self.claude_process.kill()
 
         console.print("[green]✓ Orchestrator shutdown complete[/green]")
+
+    async def learn_from_interactions(
+        self,
+        query: str,
+        responses: List[str],
+        rewards: List[float],
+        groundtruth: Optional[str] = None,
+    ) -> int:
+        """Learn from agent interactions using Training-Free GRPO.
+
+        Args:
+            query: The task/query that was processed
+            responses: List of agent responses (G trajectories)
+            rewards: Reward scores for each response (0.0 to 1.0)
+            groundtruth: Optional ground truth answer for evaluation
+
+        Returns:
+            Number of experiences learned
+        """
+        if not self.grpo_enabled:
+            logger.debug("GRPO learning disabled, skipping")
+            return 0
+
+        try:
+            console.print("[cyan]🧠 Learning from interactions with GRPO...[/cyan]")
+
+            # Create trajectories from interactions
+            trajectories = [
+                EnhancedTrajectory(
+                    query=query,
+                    output=response,
+                    reward=reward,
+                    groundtruth=groundtruth,
+                )
+                for response, reward in zip(responses, rewards)
+            ]
+
+            # Stage 1: Summarize trajectories
+            summarized = self.grpo_extractor.summarize_trajectories(
+                trajectories, use_groundtruth=(groundtruth is not None)
+            )
+
+            # Stage 2: Extract group advantages
+            advantages = self.grpo_extractor.extract_group_advantages(
+                summarized, 
+                self.experience_manager.experiences,
+                use_groundtruth=(groundtruth is not None)
+            )
+
+            # Stage 3: Consolidate into experience library
+            operations = self.grpo_extractor.consolidate_batch_experiences(
+                advantages, self.experience_manager.experiences
+            )
+
+            # Apply operations to experience library
+            experiences_before = len(self.experience_manager.experiences)
+            self.experience_manager.apply_operations(operations)
+            experiences_after = len(self.experience_manager.experiences)
+
+            # Save updated library
+            self.experience_manager.save(
+                str(self.workspace_dir / "grpo" / "experience_library.json")
+            )
+
+            learned_count = experiences_after - experiences_before
+            console.print(
+                f"[green]✓ Learned {learned_count} new experiences "
+                f"(total: {experiences_after})[/green]"
+            )
+
+            return learned_count
+
+        except Exception as e:
+            logger.error(f"GRPO learning failed: {e}")
+            console.print(f"[yellow]⚠ GRPO learning failed: {e}[/yellow]")
+            return 0
+
+    def get_relevant_experiences(self, query: str, top_k: int = 5) -> List[str]:
+        """Retrieve relevant experiences from the library for a query.
+
+        Args:
+            query: The current task/query
+            top_k: Number of top experiences to retrieve
+
+        Returns:
+            List of relevant experience strings
+        """
+        if not self.grpo_enabled:
+            return []
+
+        # Simple keyword matching for now
+        # In production, would use semantic similarity
+        query_lower = query.lower()
+        relevant = []
+
+        for exp in self.experience_manager.experiences:
+            # Score based on keyword overlap
+            exp_lower = exp.lower()
+            if any(word in exp_lower for word in query_lower.split()):
+                relevant.append(exp)
+
+        return relevant[:top_k]
 
 
 class HanzoDevREPL:
@@ -1953,7 +2095,10 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         api_key = None
 
         # Determine provider from model name
-        if model_name.startswith("gpt") or model_name == "codex":
+        if model_name.startswith("deepseek"):
+            provider = "deepseek"
+            api_key = os.getenv("DEEPSEEK_API_KEY")
+        elif model_name.startswith("gpt") or model_name == "codex":
             provider = "openai"
             api_key = os.getenv("OPENAI_API_KEY")
         elif model_name.startswith("claude"):
