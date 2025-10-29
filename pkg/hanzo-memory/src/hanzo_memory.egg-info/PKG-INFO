@@ -1,4 +1,4 @@
-Metadata-Version: 2.2
+Metadata-Version: 2.4
 Name: hanzo-memory
 Version: 1.0.1
 Summary: AI memory service with FastAPI and MCP support
@@ -66,6 +66,7 @@ Provides-Extra: docs
 Requires-Dist: mkdocs>=1.6.0; extra == "docs"
 Requires-Dist: mkdocs-material>=9.5.0; extra == "docs"
 Requires-Dist: mkdocstrings[python]>=0.27.0; extra == "docs"
+Dynamic: license-file
 
 # Hanzo Memory Service
 

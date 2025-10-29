@@ -342,7 +342,6 @@ python_version = "3.8"
 ignore_missing_imports = true
 exclude = [
     "pkg/hanzo-mcp/tests/__init__.py",
-    "pkg/hanzo-agents/tests/__init__.py",
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
