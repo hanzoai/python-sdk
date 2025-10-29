@@ -4,6 +4,7 @@ pyproject.toml
 src/hanzo_memory/__init__.py
 src/hanzo_memory/cli.py
 src/hanzo_memory/config.py
+src/hanzo_memory/memory.py
 src/hanzo_memory/server.py
 src/hanzo_memory.egg-info/PKG-INFO
 src/hanzo_memory.egg-info/SOURCES.txt
@@ -17,6 +18,7 @@ src/hanzo_memory/db/__init__.py
 src/hanzo_memory/db/base.py
 src/hanzo_memory/db/client.py
 src/hanzo_memory/db/factory.py
+src/hanzo_memory/db/kuzudb_client.py
 src/hanzo_memory/db/lancedb_client.py
 src/hanzo_memory/db/local_client.py
 src/hanzo_memory/db/markdown_reader.py
