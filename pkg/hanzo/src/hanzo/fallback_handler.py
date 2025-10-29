@@ -20,6 +20,7 @@ class FallbackHandler:
     def _detect_available_options(self) -> Dict[str, bool]:
         """Detect which AI options are available."""
         options = {
+            "deepseek_api": bool(os.getenv("DEEPSEEK_API_KEY")),  # Added DeepSeek
             "openai_api": bool(os.getenv("OPENAI_API_KEY")),
             "anthropic_api": bool(os.getenv("ANTHROPIC_API_KEY")),
             "google_api": bool(
@@ -53,6 +54,9 @@ class FallbackHandler:
         order = []
 
         # Priority 1: API keys (fastest, most reliable)
+        # DeepSeek first for cost efficiency ($0.14/M vs $10+/M for GPT-4)
+        if self.available_options["deepseek_api"]:
+            order.append(("deepseek_api", "deepseek-chat"))
         if self.available_options["openai_api"]:
             order.append(("openai_api", "gpt-4"))
         if self.available_options["anthropic_api"]:
@@ -98,6 +102,9 @@ class FallbackHandler:
         """Suggest setup instructions for unavailable options."""
         suggestions = []
 
+        if not self.available_options["deepseek_api"]:
+            suggestions.append("• Set DEEPSEEK_API_KEY for cost-effective DeepSeek access ($0.14/M tokens)")
+
         if not self.available_options["openai_api"]:
             suggestions.append("• Set OPENAI_API_KEY for GPT-4/GPT-5 access")
 
@@ -134,6 +141,7 @@ class FallbackHandler:
         table.add_column("Model", width=20)
 
         status_map = {
+            "deepseek_api": ("DeepSeek API", "deepseek-chat"),  # Added DeepSeek
             "openai_api": ("OpenAI API", "gpt-4"),
             "anthropic_api": ("Anthropic API", "claude-3-5"),
             "google_api": ("Google API", "gemini-pro"),
@@ -188,7 +196,25 @@ async def smart_chat(message: str, console=None) -> Optional[str]:
 
     # Try the primary option with rate limiting
     try:
-        if option_type == "openai_api":
+        if option_type == "deepseek_api":
+            # DeepSeek API (OpenAI-compatible)
+            from openai import AsyncOpenAI
+
+            async def call_deepseek():
+                client = AsyncOpenAI(
+                    api_key=os.getenv("DEEPSEEK_API_KEY"),
+                    base_url="https://api.deepseek.com/v1"
+                )
+                response = await client.chat.completions.create(
+                    model="deepseek-chat",
+                    messages=[{"role": "user", "content": message}],
+                    max_tokens=500,
+                )
+                return response.choices[0].message.content
+
+            return await smart_limiter.execute_with_limit("deepseek", call_deepseek)
+
+        elif option_type == "openai_api":
 
             async def call_openai():
                 from openai import AsyncOpenAI

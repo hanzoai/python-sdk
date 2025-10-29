@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 # Import new modules
-from . import mcp, auth, types, agents, cluster
+from . import mcp, auth, types, agents, cluster, grpo
 from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
 from ._client import (
@@ -88,6 +88,7 @@ __all__ = [
     "mcp",
     "cluster",
     "auth",
+    "grpo",
 ]
 
 _setup_logging()
