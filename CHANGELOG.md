@@ -1,5 +1,58 @@
 # Changelog
 
+## 2.1.0 (2025-11-04)
+
+Full Changelog: [v2.0.2...v2.1.0](https://github.com/hanzoai/python-sdk/compare/v2.0.2...v2.1.0)
+
+### Features
+
+* **api:** api update ([a05f652](https://github.com/hanzoai/python-sdk/commit/a05f6527170be1bd2d2c87bcd7f64057f77e8640))
+* **api:** api update ([63610f1](https://github.com/hanzoai/python-sdk/commit/63610f15db91dbad94e87e51ebbea6ac8c85b278))
+* **client:** add follow_redirects request option ([043f901](https://github.com/hanzoai/python-sdk/commit/043f9013103047d31680d29ada3dff35e3bf3f64))
+
+
+### Bug Fixes
+
+* **docs/api:** remove references to nonexistent types ([e28c7f6](https://github.com/hanzoai/python-sdk/commit/e28c7f6386b5c42a111a85f1cd4a588747fa8d83))
+* **package:** support direct resource imports ([dd95dad](https://github.com/hanzoai/python-sdk/commit/dd95dadc573369de39916f8bf4bd0e36fbe3feaf))
+* **perf:** optimize some hot paths ([6da686a](https://github.com/hanzoai/python-sdk/commit/6da686a68775c8d364e16790752773392ed21329))
+* **perf:** skip traversing types for NotGiven values ([5eade63](https://github.com/hanzoai/python-sdk/commit/5eade63f698e112a8c2a07fb7f3466bff33fdc39))
+* **pydantic v1:** more robust ModelField.annotation check ([c060430](https://github.com/hanzoai/python-sdk/commit/c0604303395ca27f73f16ea4bc4d05841acba51d))
+
+
+### Chores
+
+* broadly detect json family of content-type headers ([11bc5fd](https://github.com/hanzoai/python-sdk/commit/11bc5fd48e6536cbec838b676c64ce7a175f6b09))
+* **ci:** add timeout thresholds for CI jobs ([a283e86](https://github.com/hanzoai/python-sdk/commit/a283e8611476e227244e75d30c0340aa6afd67a1))
+* **ci:** fix installation instructions ([d92f111](https://github.com/hanzoai/python-sdk/commit/d92f1116f14aaaa9bb2c8a5b186b37dc5781a7d7))
+* **ci:** only use depot for staging repos ([15b3705](https://github.com/hanzoai/python-sdk/commit/15b3705165b138b4827f9fa18fa9b7b8966ab5bb))
+* **ci:** upload sdks to package manager ([51807ff](https://github.com/hanzoai/python-sdk/commit/51807ff9c91fbf15152c4d8850eec0e9a300e685))
+* **client:** minor internal fixes ([8b19fe5](https://github.com/hanzoai/python-sdk/commit/8b19fe5acf34e3f9d7da0b6b8739cc893fe784ed))
+* configure new SDK language ([2d6ad21](https://github.com/hanzoai/python-sdk/commit/2d6ad21c1518cb21658d308357a4017ff3e97973))
+* **docs:** grammar improvements ([f95243c](https://github.com/hanzoai/python-sdk/commit/f95243ce876224facdb415f49a893c9c4b891b48))
+* **docs:** remove reference to rye shell ([00fb01e](https://github.com/hanzoai/python-sdk/commit/00fb01e3fec2b8c4e70158ed6bdb796acc0d33bb))
+* **docs:** remove unnecessary param examples ([389eb26](https://github.com/hanzoai/python-sdk/commit/389eb26846c6920186f1751e6dba087d9b09ab0f))
+* **internal:** avoid errors for isinstance checks on proxies ([ef6b7d3](https://github.com/hanzoai/python-sdk/commit/ef6b7d319cee29263bac020390d6b3ec513648a4))
+* **internal:** base client updates ([d417414](https://github.com/hanzoai/python-sdk/commit/d417414c3430003fed22f62c10de07c0088588a2))
+* **internal:** bump pyright version ([c7706f0](https://github.com/hanzoai/python-sdk/commit/c7706f0871c28d186e5f249d24eb3a2a93b23cb2))
+* **internal:** codegen related update ([69e3e3a](https://github.com/hanzoai/python-sdk/commit/69e3e3a8d2abc0902ee637dbd4dab136992f5409))
+* **internal:** codegen related update ([809bfb2](https://github.com/hanzoai/python-sdk/commit/809bfb24f0872713c561ad0946d1581c48f53411))
+* **internal:** codegen related update ([ccb23d0](https://github.com/hanzoai/python-sdk/commit/ccb23d013dd8c8582d49f959ed8a3342ae2b3f3f))
+* **internal:** codegen related update ([b742fa1](https://github.com/hanzoai/python-sdk/commit/b742fa12ecd53d7f94a4ef142868ee211494d39b))
+* **internal:** codegen related update ([eca6f32](https://github.com/hanzoai/python-sdk/commit/eca6f3283793c38d6e070c53d5aff33977e0a279))
+* **internal:** codegen related update ([7d7c3ce](https://github.com/hanzoai/python-sdk/commit/7d7c3cee07ff188e208df8fc14df73d9bbc5827e))
+* **internal:** codegen related update ([697ab40](https://github.com/hanzoai/python-sdk/commit/697ab40b8cd1bedf4cf7398a35408ca364e33d52))
+* **internal:** expand CI branch coverage ([fd3cd26](https://github.com/hanzoai/python-sdk/commit/fd3cd268f6d853b66702f5e05934b0b7deb29abf))
+* **internal:** fix list file params ([e2d6428](https://github.com/hanzoai/python-sdk/commit/e2d64282e2feaa9e239f434e2644d1a5e5271ede))
+* **internal:** import reformatting ([3a69aa9](https://github.com/hanzoai/python-sdk/commit/3a69aa9c55cc2bd2289335ce353c9da067a1b4f6))
+* **internal:** minor formatting changes ([c4357ac](https://github.com/hanzoai/python-sdk/commit/c4357ac7f204b602cb29c4d4beb9bd1ca99773fc))
+* **internal:** reduce CI branch coverage ([56b4e45](https://github.com/hanzoai/python-sdk/commit/56b4e459a37ed1510622d2ff2127d789ddaa9893))
+* **internal:** refactor retries to not use recursion ([25ce097](https://github.com/hanzoai/python-sdk/commit/25ce0973aaa11be64968f6236ec101ce524dc855))
+* **internal:** slight transform perf improvement ([#24](https://github.com/hanzoai/python-sdk/issues/24)) ([f35d86d](https://github.com/hanzoai/python-sdk/commit/f35d86ddeba896b99c00874cbd3bfba0086741cd))
+* **internal:** update models test ([77dbb5e](https://github.com/hanzoai/python-sdk/commit/77dbb5e3520be7aabad5a8e1259ab060d8d3dfca))
+* **internal:** update pyright settings ([bbb302d](https://github.com/hanzoai/python-sdk/commit/bbb302d80ca7a6cf3b5bf2a58fdaac4f3a6e7e2e))
+* slight wording improvement in README ([#25](https://github.com/hanzoai/python-sdk/issues/25)) ([b42f098](https://github.com/hanzoai/python-sdk/commit/b42f098ec1005979a4ee2cb1bd2bb394c16ae2a3))
+
 ## 2.0.2 (2025-04-04)
 
 Full Changelog: [v2.0.1...v2.0.2](https://github.com/hanzoai/python-sdk/compare/v2.0.1...v2.0.2)
