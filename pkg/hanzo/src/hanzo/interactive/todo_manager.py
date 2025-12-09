@@ -117,7 +117,10 @@ class TodoManager:
     def save_todos(self):
         """Save todos to file."""
         self.config_dir.mkdir(exist_ok=True)
-        data = {"todos": [t.to_dict() for t in self.todos], "last_updated": datetime.now().isoformat()}
+        data = {
+            "todos": [t.to_dict() for t in self.todos],
+            "last_updated": datetime.now().isoformat(),
+        }
         self.todos_file.write_text(json.dumps(data, indent=2))
 
     def add_todo(
@@ -134,7 +137,13 @@ class TodoManager:
         except ValueError:
             priority_enum = TodoPriority.MEDIUM
 
-        todo = Todo(title=title, description=description, priority=priority_enum, tags=tags or [], due_date=due_date)
+        todo = Todo(
+            title=title,
+            description=description,
+            priority=priority_enum,
+            tags=tags or [],
+            due_date=due_date,
+        )
 
         self.todos.append(todo)
         self.save_todos()
@@ -196,7 +205,10 @@ class TodoManager:
         return None
 
     def list_todos(
-        self, status: Optional[str] = None, priority: Optional[str] = None, tag: Optional[str] = None
+        self,
+        status: Optional[str] = None,
+        priority: Optional[str] = None,
+        tag: Optional[str] = None,
     ) -> List[Todo]:
         """List todos with optional filters."""
         filtered = self.todos
@@ -222,12 +234,26 @@ class TodoManager:
             filtered = [t for t in filtered if tag in t.tags]
 
         # Sort by priority and status
-        priority_order = {TodoPriority.URGENT: 0, TodoPriority.HIGH: 1, TodoPriority.MEDIUM: 2, TodoPriority.LOW: 3}
+        priority_order = {
+            TodoPriority.URGENT: 0,
+            TodoPriority.HIGH: 1,
+            TodoPriority.MEDIUM: 2,
+            TodoPriority.LOW: 3,
+        }
 
-        status_order = {TodoStatus.IN_PROGRESS: 0, TodoStatus.TODO: 1, TodoStatus.DONE: 2, TodoStatus.CANCELLED: 3}
+        status_order = {
+            TodoStatus.IN_PROGRESS: 0,
+            TodoStatus.TODO: 1,
+            TodoStatus.DONE: 2,
+            TodoStatus.CANCELLED: 3,
+        }
 
         filtered.sort(
-            key=lambda t: (status_order.get(t.status, 999), priority_order.get(t.priority, 999), t.created_at)
+            key=lambda t: (
+                status_order.get(t.status, 999),
+                priority_order.get(t.priority, 999),
+                t.created_at,
+            )
         )
 
         return filtered
@@ -267,7 +293,9 @@ class TodoManager:
                 TodoPriority.LOW: "green",
             }.get(todo.priority, "white")
 
-            priority_display = f"[{priority_color}]{todo.priority.value.upper()}[/{priority_color}]"
+            priority_display = (
+                f"[{priority_color}]{todo.priority.value.upper()}[/{priority_color}]"
+            )
 
             # Tags
             tags_display = ", ".join(todo.tags) if todo.tags else "-"
@@ -275,7 +303,14 @@ class TodoManager:
             # Due date
             due_display = todo.due_date if todo.due_date else "-"
 
-            table.add_row(todo.id, status_display, priority_display, todo.title, tags_display, due_display)
+            table.add_row(
+                todo.id,
+                status_display,
+                priority_display,
+                todo.title,
+                tags_display,
+                due_display,
+            )
 
         self.console.print(table)
 
@@ -354,7 +389,9 @@ class TodoManager:
         if not title:
             raise ValueError("Todo title cannot be empty")
 
-        return self.add_todo(title=title, priority=priority, tags=tags, due_date=due_date)
+        return self.add_todo(
+            title=title, priority=priority, tags=tags, due_date=due_date
+        )
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get todo statistics."""
