@@ -124,9 +124,7 @@ class HanzoMCPSwarmLauncher:
 
         # Code Generator Agent
         def generate_code(spec: str) -> str:
-            return (
-                f"Generated code for: {spec}\ndef example():\n    return 'Hello World'"
-            )
+            return f"Generated code for: {spec}\ndef example():\n    return 'Hello World'"
 
         generator_agent = create_local_agent(
             name="generator_agent",
@@ -227,14 +225,10 @@ class HanzoMCPSwarmLauncher:
         print(f"\n🎯 Coordinating swarms for: {complex_task}")
 
         # Phase 1: Analysis
-        analysis_result = await self.launch_swarm(
-            "analysis", f"Analyze the codebase for: {complex_task}"
-        )
+        analysis_result = await self.launch_swarm("analysis", f"Analyze the codebase for: {complex_task}")
 
         # Phase 2: Development based on analysis
-        dev_result = await self.launch_swarm(
-            "development", f"Based on analysis, implement: {complex_task}"
-        )
+        dev_result = await self.launch_swarm("development", f"Based on analysis, implement: {complex_task}")
 
         return {"analysis": analysis_result, "development": dev_result}
 
@@ -263,9 +257,7 @@ async def main():
 
     # Demo 1: Simple swarm launch
     print("\n\n📋 Demo 1: Simple Analysis Swarm")
-    await launcher.launch_swarm(
-        "analysis", "Find all authentication-related code and analyze security"
-    )
+    await launcher.launch_swarm("analysis", "Find all authentication-related code and analyze security")
 
     # Demo 2: Development swarm
     print("\n\n📋 Demo 2: Development Swarm")
@@ -278,9 +270,7 @@ async def main():
     # Show final statistics
     print("\n\n📊 Session Statistics:")
     print(f"Total swarms launched: {len(launcher.networks)}")
-    print(
-        f"Total agents created: {sum(len(n.agents) for n in launcher.networks.values())}"
-    )
+    print(f"Total agents created: {sum(len(n.agents) for n in launcher.networks.values())}")
     print("Inference engine: hanzo/net (local)")
     print("External API calls: 0")
     print("Privacy: 100% on-device execution")

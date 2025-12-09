@@ -16,9 +16,8 @@ import nbformat
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.jupyter.base import JupyterBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Parameter types
 Action = Annotated[
@@ -114,8 +113,6 @@ jupyter --action create "new.ipynb"
 
     @override
     @auto_timeout("jupyter")
-
-
     async def call(
         self,
         ctx: MCPContext,
@@ -325,9 +322,7 @@ jupyter --action create "new.ipynb"
 
             # Create a notebook client with default kernel
             client = NotebookClient(
-                nb,
-                timeout=params.get('timeout', 600),
-                kernel_name=params.get('kernel_name', 'python3')
+                nb, timeout=params.get("timeout", 600), kernel_name=params.get("kernel_name", "python3")
             )
 
             # Execute the notebook

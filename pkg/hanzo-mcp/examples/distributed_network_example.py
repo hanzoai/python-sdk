@@ -133,16 +133,12 @@ Work with the file_agent to read code files.""",
 
     # Example 2: Read and analyze
     print("\n📖 Example 2: Read and analyze a file")
-    result = await network.run(
-        prompt="Read the pyproject.toml file and tell me what this project is about"
-    )
+    result = await network.run(prompt="Read the pyproject.toml file and tell me what this project is about")
     print(f"Response: {result['final_output']}")
 
     # Example 3: Multi-agent collaboration
     print("\n🤝 Example 3: Multi-agent collaboration")
-    result = await network.run(
-        prompt="Find all Python files that might contain the main entry point and analyze them"
-    )
+    result = await network.run(prompt="Find all Python files that might contain the main entry point and analyze them")
     print(f"Response: {result['final_output']}")
     print(f"Agents used: {result['iterations']}")
 

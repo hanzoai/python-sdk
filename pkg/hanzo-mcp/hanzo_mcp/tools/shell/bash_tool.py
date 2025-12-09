@@ -8,8 +8,8 @@ from pathlib import Path
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.shell.base_process import BaseScriptTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class BashTool(BaseScriptTool):

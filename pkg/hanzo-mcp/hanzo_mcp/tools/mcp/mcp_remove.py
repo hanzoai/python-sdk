@@ -5,11 +5,10 @@ from typing import Unpack, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
 from hanzo_mcp.tools.common.context import create_tool_context
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 ServerName = Annotated[
     str,
@@ -67,8 +66,6 @@ Use 'mcp_stats' to see all servers before removing.
 
     @override
     @auto_timeout("mcp_remove")
-
-
     async def call(
         self,
         ctx: MCPContext,
@@ -112,8 +109,9 @@ Use 'mcp_stats' to see all servers before removing.
                 process_id = server.get("process_id")
                 if process_id:
                     try:
-                        import signal
                         import os
+                        import signal
+
                         os.kill(process_id, signal.SIGTERM)
                         await tool_ctx.info(f"Stopped running server '{name}' (PID: {process_id})")
                     except ProcessLookupError:

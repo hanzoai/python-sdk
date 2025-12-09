@@ -1,5 +1,5 @@
-
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 """Language Server Protocol (LSP) tool for code intelligence.
 
 This tool provides on-demand LSP configuration and installation for various
@@ -475,8 +475,6 @@ class LSPTool(BaseTool):
         return MCPResourceDocument(data=result)
 
     @auto_timeout("lsp")
-
-
     async def call(self, **kwargs) -> str:
         """Tool interface for MCP - converts result to JSON string."""
         result = await self.run(**kwargs)

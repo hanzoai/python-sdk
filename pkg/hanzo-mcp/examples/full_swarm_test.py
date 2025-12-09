@@ -166,11 +166,7 @@ class TestModels(unittest.TestCase):
             ],
         )
 
-        print(
-            analysis_result[:1000] + "..."
-            if len(analysis_result) > 1000
-            else analysis_result
-        )
+        print(analysis_result[:1000] + "..." if len(analysis_result) > 1000 else analysis_result)
 
         print("\n" + "=" * 60)
         print("PHASE 2: Parallel editing with swarm")
@@ -225,9 +221,7 @@ class TestModels(unittest.TestCase):
             max_concurrent=2,
         )
 
-        print(
-            review_result[:1500] + "..." if len(review_result) > 1500 else review_result
-        )
+        print(review_result[:1500] + "..." if len(review_result) > 1500 else review_result)
 
         print("\n" + "=" * 60)
         print("PHASE 4: Final verification with batch")
@@ -240,22 +234,16 @@ class TestModels(unittest.TestCase):
             invocations=[
                 {
                     "tool_name": "read",
-                    "input": {
-                        "file_path": os.path.join(test_dir, "src/models/user.py")
-                    },
+                    "input": {"file_path": os.path.join(test_dir, "src/models/user.py")},
                 },
                 {
                     "tool_name": "agent",
-                    "input": {
-                        "prompts": f"Verify that all files in {test_dir}/src/models/ now have proper type hints"
-                    },
+                    "input": {"prompts": f"Verify that all files in {test_dir}/src/models/ now have proper type hints"},
                 },
             ],
         )
 
-        print(
-            verify_result[:1000] + "..." if len(verify_result) > 1000 else verify_result
-        )
+        print(verify_result[:1000] + "..." if len(verify_result) > 1000 else verify_result)
 
         print("\n" + "=" * 60)
         print("TEST COMPLETE!")

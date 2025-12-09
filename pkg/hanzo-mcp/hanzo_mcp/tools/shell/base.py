@@ -11,8 +11,8 @@ from typing import Any, final
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.common.truncate import truncate_response
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 class BashCommandStatus(Enum):
@@ -139,7 +139,7 @@ class CommandResult:
         return truncate_response(
             result,
             max_tokens=max_tokens,
-            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]"
+            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]",
         )
 
     def to_agent_observation(self, max_tokens: int = 25000) -> str:
@@ -164,7 +164,7 @@ class CommandResult:
         return truncate_response(
             content,
             max_tokens=max_tokens,
-            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]"
+            truncation_message="\n\n[Shell output truncated due to token limit. Use pagination, filtering, or limit parameters to reduce output size.]",
         )
 
 

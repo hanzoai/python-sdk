@@ -9,11 +9,10 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.jupyter.base import JupyterBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 NotebookPath = Annotated[
     str,
@@ -59,8 +58,6 @@ class NotebookReadTool(JupyterBaseTool):
 
     @override
     @auto_timeout("notebook_read")
-
-
     async def call(
         self,
         ctx: MCPContext,

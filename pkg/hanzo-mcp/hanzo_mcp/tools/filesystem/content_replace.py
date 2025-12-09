@@ -9,11 +9,10 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Pattern = Annotated[
     str,
@@ -104,8 +103,6 @@ Only works within allowed directories."""
 
     @override
     @auto_timeout("content_replace")
-
-
     async def call(
         self,
         ctx: MCPContext,

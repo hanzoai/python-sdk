@@ -9,10 +9,10 @@ from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.common.base import handle_connection_errors
 from hanzo_mcp.tools.common.context import create_tool_context
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.shell.bash_session_executor import BashSessionExecutor
 
 Command = Annotated[
