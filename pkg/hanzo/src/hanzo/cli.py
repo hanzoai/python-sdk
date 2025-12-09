@@ -62,7 +62,7 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
             # Show startup UI (unless in quiet mode)
             if not ctx.obj.get("quiet") and not os.environ.get("HANZO_NO_STARTUP"):
                 show_startup(minimal=os.environ.get("HANZO_MINIMAL_UI") == "1")
-            
+
             # Enter interactive REPL mode
             try:
                 # Use enhanced REPL if available, otherwise fallback
@@ -115,15 +115,9 @@ def serve(ctx, name: str, port: int):
 
 @cli.command()
 @click.option("--name", "-n", help="Node name (auto-generated if not provided)")
-@click.option(
-    "--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)"
-)
-@click.option(
-    "--network", default="local", help="Network to join (mainnet/testnet/local)"
-)
-@click.option(
-    "--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)"
-)
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
 def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
@@ -137,15 +131,9 @@ def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 
 @cli.command()
 @click.option("--name", "-n", help="Node name (auto-generated if not provided)")
-@click.option(
-    "--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)"
-)
-@click.option(
-    "--network", default="local", help="Network to join (mainnet/testnet/local)"
-)
-@click.option(
-    "--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)"
-)
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
 def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
@@ -180,15 +168,9 @@ def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 @click.option("--repl", is_flag=True, help="Start REPL interface (default)")
 @click.option("--instances", type=int, default=2, help="Number of worker agents")
 @click.option("--mcp-tools", is_flag=True, default=True, help="Enable all MCP tools")
-@click.option(
-    "--network-mode", is_flag=True, default=True, help="Network agents together"
-)
-@click.option(
-    "--guardrails", is_flag=True, default=True, help="Enable code quality guardrails"
-)
-@click.option(
-    "--use-network/--no-network", default=True, help="Use hanzo-network if available"
-)
+@click.option("--network-mode", is_flag=True, default=True, help="Network agents together")
+@click.option("--guardrails", is_flag=True, default=True, help="Enable code quality guardrails")
+@click.option("--use-network/--no-network", default=True, help="Use hanzo-network if available")
 @click.option(
     "--use-hanzo-net",
     is_flag=True,
@@ -266,9 +248,7 @@ def dev(
         console.print(f"  Router Endpoint: {orch_config.router.endpoint}")
     if orch_config.codex:
         console.print(f"  Codex Model: {orch_config.codex.model}")
-    console.print(
-        f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}"
-    )
+    console.print(f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}")
     console.print()
 
     asyncio.run(
@@ -351,9 +331,7 @@ async def start_compute_node(
 
                 console.print(f"\n[green]✓[/green] Node initialized")
                 console.print(f"  Port: {port}")
-                console.print(
-                    f"  Models: {', '.join(models) if models else 'auto-detect'}"
-                )
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
                 console.print("\n[bold green]Hanzo Net is running![/bold green]")
                 console.print("WebUI: http://localhost:52415")
                 console.print("API: http://localhost:52415/v1/chat/completions")
@@ -375,9 +353,7 @@ async def start_compute_node(
                     stop_task = asyncio.create_task(stop_event.wait())
 
                     # Wait for either net to complete or stop signal
-                    done, pending = await asyncio.wait(
-                        [net_task, stop_task], return_when=asyncio.FIRST_COMPLETED
-                    )
+                    done, pending = await asyncio.wait([net_task, stop_task], return_when=asyncio.FIRST_COMPLETED)
 
                     # Cancel pending tasks
                     for task in pending:
@@ -413,15 +389,11 @@ async def start_compute_node(
                     env["NET_MODELS"] = ",".join(models)
                 if name:
                     env["NET_NODE_NAME"] = name
-                env["PYTHONPATH"] = (
-                    os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
-                )
+                env["PYTHONPATH"] = os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
 
                 console.print(f"\n[green]✓[/green] Starting net node")
                 console.print(f"  Port: {port}")
-                console.print(
-                    f"  Models: {', '.join(models) if models else 'auto-detect'}"
-                )
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
                 console.print("\n[bold green]Hanzo Net is running![/bold green]")
                 console.print("WebUI: http://localhost:52415")
                 console.print("API: http://localhost:52415/v1/chat/completions")

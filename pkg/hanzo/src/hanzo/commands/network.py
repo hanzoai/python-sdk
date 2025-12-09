@@ -26,9 +26,7 @@ def network_group():
 @click.option("--consensus", is_flag=True, help="Require consensus")
 @click.option("--timeout", "-t", type=int, default=300, help="Timeout in seconds")
 @click.pass_context
-async def dispatch(
-    ctx, prompt: str, agents: int, model: str, mode: str, consensus: bool, timeout: int
-):
+async def dispatch(ctx, prompt: str, agents: int, model: str, mode: str, consensus: bool, timeout: int):
     """Dispatch work to agent network."""
     try:
         from hanzo_network import NetworkDispatcher
@@ -348,8 +346,8 @@ async def discovery(ctx, enable: bool):
 def topology(ctx, json: bool):
     """Show local device topology and GPU information."""
     try:
-        from hanzo_network.topology.device_capabilities import device_capabilities
         from hanzo_network.topology.topology import Topology
+        from hanzo_network.topology.device_capabilities import device_capabilities
     except ImportError:
         console.print("[red]Error:[/red] hanzo-network not installed")
         console.print("Install with: pip install hanzo[network]")
@@ -357,40 +355,39 @@ def topology(ctx, json: bool):
 
     # Get device capabilities
     caps = device_capabilities()
-    
+
     if json:
         import json as json_lib
+
         console.print(json_lib.dumps(caps.to_dict(), indent=2))
         return
 
     # Display in nice table format
     console.print("\n[cyan]Device Topology[/cyan]")
     console.print("=" * 60)
-    
+
     table = Table(title="Local Device Information")
     table.add_column("Property", style="cyan", no_wrap=True)
     table.add_column("Value", style="green")
-    
+
     table.add_row("Model", caps.model)
     table.add_row("Chip/GPU", caps.chip)
     table.add_row("Memory", f"{caps.memory:,} MB")
     table.add_row("FP32 Performance", f"{caps.flops.fp32:.2f} TFLOPS")
     table.add_row("FP16 Performance", f"{caps.flops.fp16:.2f} TFLOPS")
     table.add_row("INT8 Performance", f"{caps.flops.int8:.2f} TFLOPS")
-    
+
     console.print(table)
     console.print()
-    
+
     # Show GPU availability
-    gpu_available = (
-        caps.flops.fp32 > 0 and (
-            "GPU" in caps.chip.upper() or 
-            "NVIDIA" in caps.chip.upper() or 
-            "AMD" in caps.chip.upper() or
-            "APPLE M" in caps.chip.upper()  # Apple Silicon has integrated GPU
-        )
+    gpu_available = caps.flops.fp32 > 0 and (
+        "GPU" in caps.chip.upper()
+        or "NVIDIA" in caps.chip.upper()
+        or "AMD" in caps.chip.upper()
+        or "APPLE M" in caps.chip.upper()  # Apple Silicon has integrated GPU
     )
-    
+
     if gpu_available:
         console.print("[green]✓[/green] GPU/Accelerator detected and available for AI workloads")
         if "APPLE M" in caps.chip.upper():
@@ -405,9 +402,10 @@ def topology(ctx, json: bool):
     # Show QR code for easy device connection
     console.print("[bold cyan]Connect Other Devices:[/bold cyan]")
     try:
-        import qrcode
         import json as json_lib
         import socket
+
+        import qrcode
 
         # Get local IP - try multiple methods
         local_ip = "localhost"
@@ -427,19 +425,17 @@ def topology(ctx, json: bool):
                 local_ip = "127.0.0.1"
 
         # Generate connection data
-        connection_data = json_lib.dumps({
-            "node_id": f"{caps.model.lower().replace(' ', '-')}",
-            "model": caps.model,
-            "chip": caps.chip,
-            "memory": caps.memory,
-            "flops": {
-                "fp32": caps.flops.fp32,
-                "fp16": caps.flops.fp16,
-                "int8": caps.flops.int8
-            },
-            "host": local_ip,
-            "port": 8080  # Default port for device connection
-        })
+        connection_data = json_lib.dumps(
+            {
+                "node_id": f"{caps.model.lower().replace(' ', '-')}",
+                "model": caps.model,
+                "chip": caps.chip,
+                "memory": caps.memory,
+                "flops": {"fp32": caps.flops.fp32, "fp16": caps.flops.fp16, "int8": caps.flops.int8},
+                "host": local_ip,
+                "port": 8080,  # Default port for device connection
+            }
+        )
 
         # Generate QR code
         qr = qrcode.QRCode(
@@ -474,30 +470,38 @@ def topology(ctx, json: bool):
 @click.option("--port", type=int, help="Port for remote access")
 @click.option("--qr", is_flag=True, help="Generate QR code for easy device joining")
 @click.pass_context
-def topology_add(ctx, node_id: str, model: str, chip: str, memory: int, fp32: float, fp16: float, int8: float, host: str, port: int, qr: bool):
+def topology_add(
+    ctx,
+    node_id: str,
+    model: str,
+    chip: str,
+    memory: int,
+    fp32: float,
+    fp16: float,
+    int8: float,
+    host: str,
+    port: int,
+    qr: bool,
+):
     """Add a GPU/device node to the network topology."""
     try:
-        from hanzo_network.topology.device_capabilities import DeviceCapabilities, DeviceFlops
-        from hanzo_network.topology.topology import Topology
-        import json as json_lib
         import os
+        import json as json_lib
+
+        from hanzo_network.topology.topology import Topology
+        from hanzo_network.topology.device_capabilities import DeviceFlops, DeviceCapabilities
     except ImportError:
         console.print("[red]Error:[/red] hanzo-network not installed")
         console.print("Install with: pip install hanzo[network]")
         return
 
     # Create device capabilities
-    caps = DeviceCapabilities(
-        model=model,
-        chip=chip,
-        memory=memory,
-        flops=DeviceFlops(fp32=fp32, fp16=fp16, int8=int8)
-    )
-    
+    caps = DeviceCapabilities(model=model, chip=chip, memory=memory, flops=DeviceFlops(fp32=fp32, fp16=fp16, int8=int8))
+
     # Load or create topology
     topology_file = os.path.expanduser("~/.hanzo/topology.json")
     os.makedirs(os.path.dirname(topology_file), exist_ok=True)
-    
+
     topo = Topology()
     if os.path.exists(topology_file):
         with open(topology_file, "r") as f:
@@ -505,21 +509,21 @@ def topology_add(ctx, node_id: str, model: str, chip: str, memory: int, fp32: fl
             # Reconstruct topology from JSON
             for nid, ncaps in data.get("nodes", {}).items():
                 topo.update_node(nid, DeviceCapabilities.model_validate(ncaps))
-    
+
     # Add new node
     topo.update_node(node_id, caps)
-    
+
     # Save topology
     with open(topology_file, "w") as f:
         json_lib.dump(topo.to_json(), f, indent=2)
-    
+
     console.print(f"[green]✓[/green] Added node '{node_id}' to topology")
     console.print(f"  Model: {model}")
     console.print(f"  Chip: {chip}")
     console.print(f"  Memory: {memory:,} MB")
     console.print(f"  Performance: {fp32:.2f} TFLOPS (FP32)")
     console.print(f"\nTopology saved to: {topology_file}")
-    
+
     # Generate QR code if requested
     if qr or (host and port):
         try:
@@ -528,24 +532,24 @@ def topology_add(ctx, node_id: str, model: str, chip: str, memory: int, fp32: fl
             console.print("\n[yellow]QR code generation requires qrcode library[/yellow]")
             console.print("Install with: pip install qrcode[pil]")
             return
-        
+
         # Create connection info
         connection_info = {
             "node_id": node_id,
             "model": model,
             "chip": chip,
             "memory": memory,
-            "flops": {"fp32": fp32, "fp16": fp16, "int8": int8}
+            "flops": {"fp32": fp32, "fp16": fp16, "int8": int8},
         }
-        
+
         if host:
             connection_info["host"] = host
         if port:
             connection_info["port"] = port
-        
+
         # Generate QR code data
         qr_data = json_lib.dumps(connection_info)
-        
+
         # Create QR code
         qr_obj = qrcode.QRCode(
             version=1,
@@ -555,11 +559,11 @@ def topology_add(ctx, node_id: str, model: str, chip: str, memory: int, fp32: fl
         )
         qr_obj.add_data(qr_data)
         qr_obj.make(fit=True)
-        
+
         # Print QR code to terminal
         console.print("\n[cyan]QR Code for Device Join:[/cyan]")
         qr_obj.print_ascii(invert=True)
-        
+
         # Also print connection command
         console.print("\n[cyan]Connection Info:[/cyan]")
         if host and port:
@@ -575,10 +579,11 @@ def topology_add(ctx, node_id: str, model: str, chip: str, memory: int, fp32: fl
 def join_network(ctx, connection_data: str):
     """Join a GPU node to the network using QR code data or connection info."""
     try:
-        from hanzo_network.topology.device_capabilities import DeviceCapabilities, DeviceFlops
-        from hanzo_network.topology.topology import Topology
-        import json as json_lib
         import os
+        import json as json_lib
+
+        from hanzo_network.topology.topology import Topology
+        from hanzo_network.topology.device_capabilities import DeviceFlops, DeviceCapabilities
     except ImportError:
         console.print("[red]Error:[/red] hanzo-network not installed")
         console.print("Install with: pip install hanzo[network]")
@@ -591,7 +596,7 @@ def join_network(ctx, connection_data: str):
         console.print("[red]Error:[/red] Invalid connection data")
         console.print("Expected JSON format from QR code")
         return
-    
+
     # Extract node information
     node_id = conn_info.get("node_id")
     model = conn_info.get("model")
@@ -600,41 +605,39 @@ def join_network(ctx, connection_data: str):
     flops_data = conn_info.get("flops", {})
     host = conn_info.get("host")
     port = conn_info.get("port")
-    
+
     if not all([node_id, model, chip, memory]):
         console.print("[red]Error:[/red] Missing required node information")
         return
-    
+
     # Create device capabilities
     caps = DeviceCapabilities(
         model=model,
         chip=chip,
         memory=memory,
         flops=DeviceFlops(
-            fp32=flops_data.get("fp32", 0),
-            fp16=flops_data.get("fp16", 0),
-            int8=flops_data.get("int8", 0)
-        )
+            fp32=flops_data.get("fp32", 0), fp16=flops_data.get("fp16", 0), int8=flops_data.get("int8", 0)
+        ),
     )
-    
+
     # Load or create topology
     topology_file = os.path.expanduser("~/.hanzo/topology.json")
     os.makedirs(os.path.dirname(topology_file), exist_ok=True)
-    
+
     topo = Topology()
     if os.path.exists(topology_file):
         with open(topology_file, "r") as f:
             data = json_lib.load(f)
             for nid, ncaps in data.get("nodes", {}).items():
                 topo.update_node(nid, DeviceCapabilities.model_validate(ncaps))
-    
+
     # Add new node
     topo.update_node(node_id, caps)
-    
+
     # Save topology
     with open(topology_file, "w") as f:
         json_lib.dump(topo.to_json(), f, indent=2)
-    
+
     console.print(f"[green]✓[/green] Joined node '{node_id}' to network")
     console.print(f"  Model: {model}")
     console.print(f"  Chip: {chip}")
@@ -653,6 +656,7 @@ def models(ctx, endpoint: str):
 
     if not endpoint:
         from hanzo.orchestrator_config import get_default_router_endpoint
+
         endpoint = get_default_router_endpoint()
 
     console.print(f"\n[cyan]Models Available on {endpoint}[/cyan]")
@@ -669,7 +673,8 @@ def models(ctx, endpoint: str):
             # Filter out embedding models - only show LLMs
             embedding_keywords = ["embedding", "voyage", "embed", "text-embedding"]
             models_list = [
-                model for model in all_models
+                model
+                for model in all_models
                 if not any(keyword in model.get("id", "").lower() for keyword in embedding_keywords)
             ]
 
@@ -683,7 +688,7 @@ def models(ctx, endpoint: str):
 
                 for i, model in enumerate(models_list, 1):
                     model_id = model.get("id", "unknown")
-                    
+
                     # All gateway models are FREE! 🎉
                     tier = "Free"
 
@@ -722,7 +727,9 @@ def models(ctx, endpoint: str):
     console.print("\n[dim]To use a model:[/dim]")
     console.print("  [cyan]hanzo dev --model llama3-8b-instruct[/cyan]")
     console.print("\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]")
-    console.print("[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]")
+    console.print(
+        "[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]"
+    )
     console.print()
 
 
@@ -740,7 +747,6 @@ def _show_static_models():
         ("gpt-3.5-turbo", "Free", "OpenAI"),
         ("llama-3.1-8b", "Free", "Meta"),
         ("llama-3.2-3b", "Free", "Meta"),
-
         # Premium (requires login)
         ("gpt-4o", "Premium", "OpenAI"),
         ("gpt-4-turbo", "Premium", "OpenAI"),
@@ -766,35 +772,36 @@ def _show_static_models():
 def topology_list(ctx, json: bool):
     """List all nodes in the network topology."""
     try:
-        from hanzo_network.topology.device_capabilities import DeviceCapabilities
-        from hanzo_network.topology.topology import Topology
-        import json as json_lib
         import os
+        import json as json_lib
+
+        from hanzo_network.topology.topology import Topology
+        from hanzo_network.topology.device_capabilities import DeviceCapabilities
     except ImportError:
         console.print("[red]Error:[/red] hanzo-network not installed")
         console.print("Install with: pip install hanzo[network]")
         return
 
     topology_file = os.path.expanduser("~/.hanzo/topology.json")
-    
+
     if not os.path.exists(topology_file):
         console.print("[yellow]No topology file found[/yellow]")
         console.print(f"Create one by adding nodes with: hanzo network topology-add")
         return
-    
+
     # Load topology
     with open(topology_file, "r") as f:
         data = json_lib.load(f)
-    
+
     if json:
         console.print(json_lib.dumps(data, indent=2))
         return
-    
+
     nodes = data.get("nodes", {})
     if not nodes:
         console.print("[yellow]No nodes in topology[/yellow]")
         return
-    
+
     # Display nodes table
     table = Table(title="Network Topology Nodes")
     table.add_column("Node ID", style="cyan", no_wrap=True)
@@ -802,16 +809,16 @@ def topology_list(ctx, json: bool):
     table.add_column("Chip/GPU", style="yellow")
     table.add_column("Memory", style="blue")
     table.add_column("FP32", style="magenta")
-    
+
     for node_id, caps in nodes.items():
         table.add_row(
             node_id,
             caps.get("model", "Unknown"),
             caps.get("chip", "Unknown"),
             f"{caps.get('memory', 0):,} MB",
-            f"{caps.get('flops', {}).get('fp32', 0):.2f} TF"
+            f"{caps.get('flops', {}).get('fp32', 0):.2f} TF",
         )
-    
+
     console.print("\n")
     console.print(table)
     console.print(f"\nTopology file: {topology_file}")
