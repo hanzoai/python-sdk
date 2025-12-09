@@ -3,13 +3,34 @@
 from unittest.mock import Mock, AsyncMock, patch
 
 import pytest
-from test_memory_base import MemoryTestBase
-from hanzo_mcp.tools.memory import (
-    CreateMemoriesTool,
-    DeleteMemoriesTool,
-    RecallMemoriesTool,
-    UpdateMemoriesTool,
+
+# Import guard for optional hanzo_memory dependency
+try:
+    from hanzo_memory.models import Memory
+    HANZO_MEMORY_AVAILABLE = True
+except ImportError:
+    HANZO_MEMORY_AVAILABLE = False
+
+# Skip entire module if hanzo_memory is not available
+pytestmark = pytest.mark.skipif(
+    not HANZO_MEMORY_AVAILABLE,
+    reason="hanzo_memory package not installed"
 )
+
+# Only import these if hanzo_memory is available
+if HANZO_MEMORY_AVAILABLE:
+    from test_memory_base import MemoryTestBase
+    from hanzo_mcp.tools.memory import (
+        CreateMemoriesTool,
+        DeleteMemoriesTool,
+        RecallMemoriesTool,
+        UpdateMemoriesTool,
+        register_memory_tools,
+    )
+else:
+    # Dummy class to prevent NameError when module is skipped
+    class MemoryTestBase:
+        pass
 
 
 class TestMemoryToolsConsolidated(MemoryTestBase):
@@ -50,7 +71,7 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
                 {"query": "test query", "limit": 5},
                 "Found 1 relevant memories",
             ),
-        ],
+        ] if HANZO_MEMORY_AVAILABLE else [],
     )
     async def test_memory_operations(
         self,
