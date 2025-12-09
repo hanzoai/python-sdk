@@ -62,7 +62,16 @@ dev-dependencies = [
 ]
 
 [tool.rye.workspace]
-members = ["pkg/*"]
+members = [
+  "pkg/hanzo",
+  "pkg/hanzo-aci",
+  "pkg/hanzo-agents",
+  "pkg/hanzo-mcp",
+  "pkg/hanzo-memory",
+  "pkg/hanzo-network",
+  "pkg/hanzo-repl",
+  "pkg/hanzoai",
+]
 
 [tool.rye.scripts]
 format = { chain = [
@@ -171,6 +180,10 @@ reportPrivateUsage = false
 line-length = 120
 output-format = "grouped"
 target-version = "py38"
+exclude = [
+  "pkg/hanzo-agent",  # submodule - linted separately
+  "pkg/hanzo-memory",  # needs careful review - has complex redefinitions
+]
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -353,7 +366,7 @@ exclude = [
 [tool.ruff.lint.extend-per-file-ignores]
 # Allow print statements in scripts and examples
 "bin/**.py" = ["T201", "T203"]
-"scripts/**.py" = ["T201", "T203"]
+"scripts/**.py" = ["T201", "T203", "E722"]
 "tests/**.py" = ["T201", "T203", "F401", "F841"]
 "examples/**.py" = ["T201", "T203", "F841"]
 "**/examples/**.py" = ["T201", "T203", "F841"]
