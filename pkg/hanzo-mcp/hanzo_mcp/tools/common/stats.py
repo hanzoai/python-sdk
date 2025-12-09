@@ -226,7 +226,7 @@ Example:
             output.append(f"Config Files: {config_count}")
 
         # Tool status (if available)
-        # TODO: Track tool usage statistics
+        # Note: Tool usage statistics tracking can be added here
         output.append("\nTool Categories:")
         output.append("  - File Operations: grep, find_files, read, write, edit")
         output.append("  - Shell: bash, run_background, processes, pkill")
