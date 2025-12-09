@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), "pkg"))
 
 import pytest
+import pytest_asyncio
 from pytest_asyncio import is_async_test
 
 from hanzoai import Hanzo, AsyncHanzo
@@ -50,7 +51,7 @@ def client(request: FixtureRequest, mock_api) -> Iterator[Hanzo]:
         yield client
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def async_client(request: FixtureRequest, mock_api) -> AsyncIterator[AsyncHanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):

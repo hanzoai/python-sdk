@@ -12,6 +12,16 @@ from rich import box
 from rich.table import Table
 from rich.console import Console
 
+# Import router detection
+try:
+    from hanzo.orchestrator_config import get_default_router_endpoint, check_local_node
+except ImportError:
+    # Fallback if not available
+    def get_default_router_endpoint():
+        return "https://gateway.hanzo.ai"
+    def check_local_node():
+        return False
+
 
 @dataclass
 class AITool:
@@ -167,6 +177,20 @@ class ToolDetector:
         """Detect if a specific tool is available."""
         # Check API endpoint first (for services like hanzod)
         if tool.api_endpoint:
+            # For Hanzo Router, only detect if local node is actually running
+            if tool.name == "hanzo-router":
+                if check_local_node():
+                    try:
+                        response = httpx.get(tool.api_endpoint, timeout=0.5)
+                        if response.status_code == 200:
+                            tool.detected = True
+                            tool.version = "Local Node"
+                            return True
+                    except Exception:
+                        pass
+                # If no local node, router is not available (will use gateway instead)
+                return False
+
             # For Hanzo Node, directly test the chat endpoint since health may lie
             if tool.name == "hanzod":
                 try:
@@ -372,13 +396,14 @@ class ToolDetector:
                     return False, f"Hanzo Node error: {e}"
             
             elif tool.name == "hanzo-router":
-                # Use the router API
+                # Use the router API (local or gateway)
                 try:
+                    endpoint = get_default_router_endpoint()
                     response = httpx.post(
-                        "http://localhost:4000/chat/completions",
+                        f"{endpoint}/v1/chat/completions",
                         json={
                             "messages": [{"role": "user", "content": prompt}],
-                            "model": "gpt-3.5-turbo",  # Router will route to best available
+                            "model": "gpt-4o-mini",  # Use free model by default
                             "stream": False
                         },
                         timeout=30.0

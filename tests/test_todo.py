@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 """Test the todo manager directly."""
 
+import sys
 import asyncio
+from pathlib import Path
 
+import pytest
 from rich.console import Console
 
-from pkg.hanzo.src.hanzo.interactive.todo_manager import TodoManager
+# Add hanzo src to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "pkg" / "hanzo" / "src"))
+
+from hanzo.interactive.todo_manager import TodoManager
 
 
 async def test_todo():

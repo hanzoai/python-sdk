@@ -877,8 +877,8 @@ class HanzoDevREPL:
                     console.print()  # New line before exit
                     break
                 except KeyboardInterrupt:
-                    console.print("\n[dim yellow]Use /exit to quit[/dim]")
-                    continue
+                    console.print("\n[yellow]Interrupted. Exiting...[/yellow]")
+                    break
 
                 if not user_input:
                     continue
@@ -913,7 +913,8 @@ class HanzoDevREPL:
                     await self.chat_with_agents(user_input)
 
             except KeyboardInterrupt:
-                console.print("\n[yellow]Use /exit to quit[/yellow]")
+                console.print("\n[yellow]Interrupted. Exiting...[/yellow]")
+                break
             except Exception as e:
                 console.print(f"[red]Error: {e}[/red]")
 
@@ -1546,12 +1547,14 @@ Examples:
             # Send message to Claude via CLI or AppleScript on macOS
             if sys.platform == "darwin":
                 # Use AppleScript to interact with Claude Desktop
+                # Escape quotes for AppleScript
+                escaped_message = message.replace('"', '\\"')
                 script = f"""
                 tell application "Claude"
                     activate
                     delay 0.5
                     tell application "System Events"
-                        keystroke "{message.replace('"', '\\"')}"
+                        keystroke "{escaped_message}"
                         key code 36  -- Enter key
                     end tell
                 end tell
@@ -2978,4 +2981,9 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Interrupted. Exiting...[/yellow]")
+        import sys
+        sys.exit(0)

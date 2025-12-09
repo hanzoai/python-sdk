@@ -29,7 +29,7 @@ from .interactive.repl import HanzoREPL
 from .interactive.enhanced_repl import EnhancedHanzoREPL
 
 # Version
-__version__ = "0.3.23"
+__version__ = "0.3.31"
 
 
 @click.group(invoke_without_command=True)

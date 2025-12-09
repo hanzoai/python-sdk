@@ -430,19 +430,20 @@ class EnhancedHanzoREPL:
                 self.console.print(f"[red]Tool not found: {tool_name}[/red]")
                 self.console.print("[dim]Use /tools to see available tools[/dim]")
         
-        # Regular model
-        elif args in self.MODELS or args.startswith("local:"):
+        # Regular model - accept any model name (all gateway models are free!)
+        else:
             self.current_model = args
             self.current_tool = None
             self.config["default_model"] = args
             self.save_config()
-            
+
+            # Get pretty name if it's a known model
             model_name = self.MODELS.get(args, args)
             self.console.print(f"[green]✅ Switched to {model_name}[/green]")
-        
-        else:
-            self.console.print(f"[red]Unknown model or tool: {args}[/red]")
-            self.console.print("[dim]Use /models or /tools to see available options[/dim]")
+
+            # Show hint if it's a gateway model (not in our predefined list)
+            if args not in self.MODELS and not args.startswith("local:"):
+                self.console.print("[dim]Using gateway model - all models free! Use /models to see full list.[/dim]")
 
     async def list_tools(self, args: str = ""):
         """List available AI tools."""
@@ -452,7 +453,7 @@ class EnhancedHanzoREPL:
             self.console.print("[yellow]Tool detection not available[/yellow]")
     
     async def list_models(self, args: str = ""):
-        """List available models."""
+        """List available models from gateway.hanzo.ai."""
         # Show tools first if available
         if self.detected_tools:
             self.console.print("[bold cyan]AI Coding Assistants (Detected):[/bold cyan]")
@@ -460,43 +461,83 @@ class EnhancedHanzoREPL:
                 marker = "→" if self.current_model == f"tool:{tool.name}" else " "
                 self.console.print(f"  {marker} {i}. {tool.display_name} ({tool.provider})")
             self.console.print()
-        
-        table = Table(title="Language Models", box=box.ROUNDED)
+
+        # Try to fetch live models from gateway
+        models_list = []
+        try:
+            from hanzo.orchestrator_config import get_default_router_endpoint
+            endpoint = get_default_router_endpoint()
+
+            response = httpx.get(f"{endpoint}/v1/models", timeout=5.0)
+            if response.status_code == 200:
+                data = response.json()
+                all_models = data.get("data", [])
+                
+                # Filter out embedding models - only show chat/completion LLMs
+                embedding_keywords = ["embedding", "voyage", "embed", "text-embedding"]
+                models_list = [
+                    model for model in all_models
+                    if not any(keyword in model.get("id", "").lower() for keyword in embedding_keywords)
+                ]
+        except Exception:
+            pass
+
+        # Fallback to static models if gateway fetch fails
+        if not models_list:
+            models_list = [
+                {"id": model_id, "name": model_name}
+                for model_id, model_name in self.MODELS.items()
+            ]
+
+        # Create table
+        table = Table(title="Gateway LLMs (Chat Models)", box=box.ROUNDED)
         table.add_column("#", style="dim")
         table.add_column("Model ID", style="cyan")
-        table.add_column("Name", style="white")
+        table.add_column("Tier", style="white")
         table.add_column("Provider", style="yellow")
-        
+
         start_idx = len(self.detected_tools) + 1 if self.detected_tools else 1
-        for i, (model_id, model_name) in enumerate(self.MODELS.items(), start_idx):
-            # Extract provider
-            if model_id.startswith("gpt"):
+
+        for i, model in enumerate(models_list, start_idx):
+            model_id = model.get("id", "unknown")
+
+            # All gateway models are FREE! 🎉
+            tier = "[green]Free[/green]"
+
+            # Get provider
+            if "gpt" in model_id or "openai" in model_id:
                 provider = "OpenAI"
-            elif model_id.startswith("claude"):
+            elif "claude" in model_id or "anthropic" in model_id:
                 provider = "Anthropic"
-            elif model_id.startswith("gemini"):
+            elif "gemini" in model_id or "google" in model_id:
                 provider = "Google"
-            elif model_id.startswith("llama") or model_id.startswith("codellama"):
+            elif "llama" in model_id:
                 provider = "Meta"
-            elif model_id.startswith("mistral") or model_id.startswith("mixtral"):
+            elif "mistral" in model_id or "mixtral" in model_id:
                 provider = "Mistral"
-            elif model_id.startswith("local:"):
+            elif "qwen" in model_id or "alibaba" in model_id:
+                provider = "Alibaba"
+            elif "deepseek" in model_id:
+                provider = "DeepSeek"
+            elif "local:" in model_id:
                 provider = "Local"
             else:
                 provider = "Other"
-            
+
             # Highlight current model
             if model_id == self.current_model:
                 table.add_row(
                     str(i),
                     f"[bold green]→ {model_id}[/bold green]",
-                    f"[bold]{model_name}[/bold]",
+                    tier,
                     provider
                 )
             else:
-                table.add_row(str(i), model_id, model_name, provider)
-        
+                table.add_row(str(i), model_id, tier, provider)
+
         self.console.print(table)
+        self.console.print("\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]")
+        self.console.print("[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]")
         self.console.print("\n[dim]Use /model <name> or /model <number> to switch[/dim]")
 
     async def login(self, args: str = ""):
