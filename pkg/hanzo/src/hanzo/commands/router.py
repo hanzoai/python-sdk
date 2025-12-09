@@ -30,32 +30,34 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
         Path.home() / "hanzo" / "router",
         Path.cwd().parent / "router",
     ]
-    
+
     router_dir = None
     for path in router_paths:
         if path.exists() and (path / "litellm" / "proxy" / "proxy_server.py").exists():
             router_dir = path
             break
-    
+
     if not router_dir:
         console.print("[red]Error:[/red] Hanzo router not found")
         console.print("\nPlease clone the router:")
         console.print("  git clone https://github.com/hanzoai/router.git ~/work/hanzo/router")
         return
-    
+
     console.print(f"[green]✓[/green] Found router at {router_dir}")
-    
+
     # Prepare environment
     env = os.environ.copy()
     env["PYTHONPATH"] = str(router_dir) + ":" + env.get("PYTHONPATH", "")
-    
+
     # Build command
     cmd = [
         sys.executable,
-        "-m", "litellm.proxy.proxy_server",
-        "--port", str(port),
+        "-m",
+        "litellm.proxy.proxy_server",
+        "--port",
+        str(port),
     ]
-    
+
     if config:
         # Use provided config
         config_path = Path(config)
@@ -69,23 +71,19 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
         if default_config.exists():
             cmd.extend(["--config", str(default_config)])
             console.print(f"[dim]Using config: {default_config}[/dim]")
-    
+
     console.print(f"\n[bold cyan]Starting Hanzo Router on port {port}[/bold cyan]")
     console.print(f"API endpoint: http://localhost:{port}/v1")
     console.print("\nPress Ctrl+C to stop\n")
-    
+
     try:
         # Change to router directory and run
         os.chdir(router_dir)
-        
+
         if detach:
             # Run in background
             process = subprocess.Popen(
-                cmd,
-                env=env,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                start_new_session=True
+                cmd, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True
             )
             console.print(f"[green]✓[/green] Router started in background (PID: {process.pid})")
             console.print(f"Check status: curl http://localhost:{port}/health")
@@ -105,12 +103,12 @@ def stop_router(port: int):
     import signal
 
     import psutil
-    
+
     found = False
-    for proc in psutil.process_iter(['pid', 'cmdline']):
+    for proc in psutil.process_iter(["pid", "cmdline"]):
         try:
-            cmdline = proc.info['cmdline']
-            if cmdline and 'proxy_server' in ' '.join(cmdline) and str(port) in ' '.join(cmdline):
+            cmdline = proc.info["cmdline"]
+            if cmdline and "proxy_server" in " ".join(cmdline) and str(port) in " ".join(cmdline):
                 console.print(f"[yellow]Stopping router (PID: {proc.info['pid']})[/yellow]")
                 proc.send_signal(signal.SIGTERM)
                 proc.wait(timeout=5)
@@ -118,7 +116,7 @@ def stop_router(port: int):
                 console.print("[green]✓[/green] Router stopped")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
             continue
-    
+
     if not found:
         console.print(f"[yellow]No router found on port {port}[/yellow]")
 
@@ -128,12 +126,12 @@ def stop_router(port: int):
 def router_status(port: int):
     """Check router status."""
     import httpx
-    
+
     try:
         response = httpx.get(f"http://localhost:{port}/health", timeout=2.0)
         if response.status_code == 200:
             console.print(f"[green]✓[/green] Router is running on port {port}")
-            
+
             # Try to get models
             try:
                 models_response = httpx.get(f"http://localhost:{port}/models", timeout=2.0)
