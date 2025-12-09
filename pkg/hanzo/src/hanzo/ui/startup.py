@@ -267,6 +267,99 @@ class StartupUI:
             padding=(0, 1)
         )
     
+    def _create_qr_panel(self) -> Panel:
+        """Create compact QR code panel for device connection."""
+        try:
+            import qrcode
+            import socket
+
+            # Get local IP
+            local_ip = "localhost"
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.connect(("8.8.8.8", 80))
+                local_ip = s.getsockname()[0]
+                s.close()
+            except Exception:
+                try:
+                    hostname = socket.gethostname()
+                    local_ip = socket.gethostbyname(hostname)
+                except Exception:
+                    local_ip = "127.0.0.1"
+
+            # Try to get device capabilities
+            try:
+                from hanzo_network.topology.device_capabilities import device_capabilities
+                caps = device_capabilities()
+                
+                # Generate connection data with GPU info
+                connection_data = json.dumps({
+                    "id": f"{caps.model.lower().replace(' ', '-')}",
+                    "host": local_ip,
+                    "gpu": caps.chip,
+                    "tflops": caps.flops.fp32
+                })
+                gpu_info = caps.chip[:20]
+            except Exception:
+                # Fallback - basic connection info
+                connection_data = json.dumps({
+                    "id": socket.gethostname(),
+                    "host": local_ip,
+                    "type": "hanzo-node"
+                })
+                gpu_info = "CPU"
+
+            # Generate smallest possible QR code
+            qr = qrcode.QRCode(version=1, box_size=1, border=0)
+            qr.add_data(connection_data)
+            qr.make(fit=True)
+
+            # Get compact ASCII representation using half blocks for smaller size
+            qr_text = qr.get_matrix()
+            qr_lines = []
+            for i in range(0, len(qr_text), 2):
+                line = ""
+                for j in range(len(qr_text[i])):
+                    top = qr_text[i][j] if i < len(qr_text) else False
+                    bottom = qr_text[i+1][j] if i+1 < len(qr_text) else False
+                    if top and bottom:
+                        line += "█"
+                    elif top:
+                        line += "▀"
+                    elif bottom:
+                        line += "▄"
+                    else:
+                        line += " "
+                qr_lines.append(line)
+            qr_str = "\n".join(qr_lines)
+
+            # Build compact content
+            content = Text()
+            content.append(qr_str + "\n", style="white")
+            content.append(f"{local_ip} • {gpu_info}", style="dim cyan")
+
+            return Panel(
+                content,
+                title="[cyan]📱 Scan to Join[/cyan]",
+                box=box.ROUNDED,
+                border_style="cyan",
+                padding=(0, 1)
+            )
+
+        except Exception:
+            # Absolute fallback - show IP only
+            content = Text()
+            content.append("QR unavailable\n", style="dim yellow")
+            content.append(f"{local_ip}", style="cyan")
+            
+            return Panel(
+                content,
+                title="[cyan]📱 Device Info[/cyan]",
+                box=box.ROUNDED,
+                border_style="cyan",
+                padding=(0, 1)
+            )
+
     def _check_for_updates(self) -> Optional[str]:
         """Check if updates are available."""
         try:
@@ -311,11 +404,14 @@ class StartupUI:
             console.print(whats_new)
             self._save_last_shown_version()
         
-        # Quick start and status in columns
+        # Quick start on left, status and QR on right
         quick_start = self._create_quick_start_panel()
         status = self._create_status_panel()
-        
+        qr_panel = self._create_qr_panel()
+
         console.print(Columns([quick_start, status], equal=True, expand=True))
+        console.print()
+        console.print(qr_panel)
         
         # Check for updates
         latest = self._check_for_updates()

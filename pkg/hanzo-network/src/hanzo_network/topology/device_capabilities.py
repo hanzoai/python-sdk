@@ -170,21 +170,125 @@ def mac_device_capabilities() -> DeviceCapabilities:
 
 def linux_device_capabilities() -> DeviceCapabilities:
     """Get Linux device capabilities."""
-    # Basic implementation - can be extended with GPU detection
-    return DeviceCapabilities(
-        model="Linux Box",
-        chip="CPU",
-        memory=psutil.virtual_memory().total // 2**20,
-        flops=DeviceFlops(fp32=0, fp16=0, int8=0),
-    )
+    try:
+        import subprocess
+        
+        # Try to detect NVIDIA GPU using nvidia-smi
+        try:
+            result = subprocess.run(
+                ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode == 0 and result.stdout.strip():
+                gpu_info = result.stdout.strip().split(",")
+                gpu_name = gpu_info[0].strip()
+                gpu_memory = int(gpu_info[1].strip().split()[0])  # Memory in MiB
+                
+                # Lookup FLOPS from known GPUs
+                flops = CHIP_FLOPS.get(gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0))
+                
+                return DeviceCapabilities(
+                    model="Linux Box with GPU",
+                    chip=gpu_name,
+                    memory=gpu_memory,
+                    flops=flops,
+                )
+        except (subprocess.SubprocessError, FileNotFoundError, IndexError):
+            pass
+        
+        # Try to detect AMD GPU using rocm-smi
+        try:
+            result = subprocess.run(
+                ["rocm-smi", "--showproductname"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode == 0 and result.stdout.strip():
+                # Parse AMD GPU info
+                for line in result.stdout.split("\n"):
+                    if "GPU" in line:
+                        gpu_name = line.split(":")[-1].strip() if ":" in line else "AMD GPU"
+                        memory = psutil.virtual_memory().total // 2**20
+                        
+                        return DeviceCapabilities(
+                            model="Linux Box with AMD GPU",
+                            chip=gpu_name,
+                            memory=memory,
+                            flops=DeviceFlops(fp32=0, fp16=0, int8=0),
+                        )
+        except (subprocess.SubprocessError, FileNotFoundError):
+            pass
+        
+        # Fallback to CPU
+        return DeviceCapabilities(
+            model="Linux Box",
+            chip="CPU",
+            memory=psutil.virtual_memory().total // 2**20,
+            flops=DeviceFlops(fp32=0, fp16=0, int8=0),
+        )
+        
+    except Exception as e:
+        if DEBUG >= 1:
+            print(f"Error getting Linux device capabilities: {e}")
+        return DeviceCapabilities(
+            model="Linux Box",
+            chip="CPU",
+            memory=psutil.virtual_memory().total // 2**20,
+            flops=DeviceFlops(fp32=0, fp16=0, int8=0),
+        )
 
 
 def windows_device_capabilities() -> DeviceCapabilities:
     """Get Windows device capabilities."""
-    # Basic implementation - can be extended with GPU detection
-    return DeviceCapabilities(
-        model="Windows Box",
-        chip="CPU",
-        memory=psutil.virtual_memory().total // 2**20,
-        flops=DeviceFlops(fp32=0, fp16=0, int8=0),
-    )
+    try:
+        import subprocess
+        
+        # Try to detect NVIDIA GPU using nvidia-smi
+        try:
+            result = subprocess.run(
+                ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                shell=True  # Windows may need shell
+            )
+            
+            if result.returncode == 0 and result.stdout.strip():
+                gpu_info = result.stdout.strip().split(",")
+                gpu_name = gpu_info[0].strip()
+                gpu_memory = int(gpu_info[1].strip().split()[0])  # Memory in MiB
+                
+                # Lookup FLOPS from known GPUs
+                flops = CHIP_FLOPS.get(gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0))
+                
+                return DeviceCapabilities(
+                    model="Windows Box with GPU",
+                    chip=gpu_name,
+                    memory=gpu_memory,
+                    flops=flops,
+                )
+        except (subprocess.SubprocessError, FileNotFoundError, IndexError):
+            pass
+        
+        # Fallback to CPU
+        return DeviceCapabilities(
+            model="Windows Box",
+            chip="CPU",
+            memory=psutil.virtual_memory().total // 2**20,
+            flops=DeviceFlops(fp32=0, fp16=0, int8=0),
+        )
+        
+    except Exception as e:
+        if DEBUG >= 1:
+            print(f"Error getting Windows device capabilities: {e}")
+        return DeviceCapabilities(
+            model="Windows Box",
+            chip="CPU",
+            memory=psutil.virtual_memory().total // 2**20,
+            flops=DeviceFlops(fp32=0, fp16=0, int8=0),
+        )
