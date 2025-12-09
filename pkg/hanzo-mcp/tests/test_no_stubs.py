@@ -47,10 +47,12 @@ class StubDetector(ast.NodeVisitor):
             self.issues.append((node.lineno, f"Function '{node.name}' contains only 'pass' statement"))
         elif len(node.body) == 2:
             # Check for docstring + pass (also a stub)
-            if (isinstance(node.body[0], ast.Expr) and
-                isinstance(node.body[0].value, ast.Constant) and
-                isinstance(node.body[0].value.value, str) and
-                isinstance(node.body[1], ast.Pass)):
+            if (
+                isinstance(node.body[0], ast.Expr)
+                and isinstance(node.body[0].value, ast.Constant)
+                and isinstance(node.body[0].value.value, str)
+                and isinstance(node.body[1], ast.Pass)
+            ):
                 # Has docstring + pass - this is a documented stub, skip it
                 pass
 
@@ -63,10 +65,12 @@ class StubDetector(ast.NodeVisitor):
                     pass
         elif len(node.body) == 2:
             # Docstring + NotImplementedError - legitimate abstract method
-            if (isinstance(node.body[0], ast.Expr) and
-                isinstance(node.body[0].value, ast.Constant) and
-                isinstance(node.body[0].value.value, str) and
-                isinstance(node.body[1], ast.Raise)):
+            if (
+                isinstance(node.body[0], ast.Expr)
+                and isinstance(node.body[0].value, ast.Constant)
+                and isinstance(node.body[0].value.value, str)
+                and isinstance(node.body[1], ast.Raise)
+            ):
                 # Has docstring + raise, this is a documented abstract method
                 pass
 
@@ -230,7 +234,9 @@ class TestNoStubs:
                                         pytest.fail(f"Function {function_name} in {module_path} contains only '...'")
                                 if isinstance(body, ast.Raise) and isinstance(body.exc, ast.Call):
                                     if hasattr(body.exc.func, "id") and body.exc.func.id == "NotImplementedError":
-                                        pytest.fail(f"Function {function_name} in {module_path} raises NotImplementedError")
+                                        pytest.fail(
+                                            f"Function {function_name} in {module_path} raises NotImplementedError"
+                                        )
                             break
             except SyntaxError:
                 pass  # If we can't parse, skip AST check
@@ -333,10 +339,7 @@ class TestNoStubs:
                                 elif isinstance(base, ast.Attribute):
                                     base_name = base.attr
                                 # If any base ends with Tool, Base, Mixin it's likely OK
-                                if any(
-                                    base_name.endswith(suffix)
-                                    for suffix in ("Tool", "Base", "Mixin")
-                                ):
+                                if any(base_name.endswith(suffix) for suffix in ("Tool", "Base", "Mixin")):
                                     inherits_from_something_meaningful = True
                                     break
                         else:
