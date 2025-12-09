@@ -47,43 +47,38 @@ class EnhancedHanzoREPL:
         "gpt-4": "OpenAI GPT-4",
         "gpt-4-turbo": "OpenAI GPT-4 Turbo",
         "gpt-3.5-turbo": "OpenAI GPT-3.5 Turbo",
-        
         # Anthropic
         "claude-3-opus": "Anthropic Claude 3 Opus",
-        "claude-3-sonnet": "Anthropic Claude 3 Sonnet", 
+        "claude-3-sonnet": "Anthropic Claude 3 Sonnet",
         "claude-3-haiku": "Anthropic Claude 3 Haiku",
         "claude-2.1": "Anthropic Claude 2.1",
-        
         # Google
         "gemini-pro": "Google Gemini Pro",
         "gemini-pro-vision": "Google Gemini Pro Vision",
-        
         # Meta
         "llama2-70b": "Meta Llama 2 70B",
         "llama2-13b": "Meta Llama 2 13B",
         "llama2-7b": "Meta Llama 2 7B",
         "codellama-34b": "Meta Code Llama 34B",
-        
         # Mistral
         "mistral-medium": "Mistral Medium",
         "mistral-small": "Mistral Small",
         "mixtral-8x7b": "Mixtral 8x7B",
-        
         # Local models
         "local:llama2": "Local Llama 2",
         "local:mistral": "Local Mistral",
         "local:phi-2": "Local Phi-2",
     }
-    
+
     def get_all_models(self):
         """Get all available models including detected tools."""
         models = dict(self.MODELS)
-        
+
         # Add detected tools as models
         if self.detected_tools:
             for tool in self.detected_tools:
                 models[f"tool:{tool.name}"] = f"{tool.display_name} (Tool)"
-        
+
         return models
 
     def __init__(self, console: Optional[Console] = None):
@@ -91,28 +86,28 @@ class EnhancedHanzoREPL:
         self.config_dir = Path.home() / ".hanzo"
         self.config_file = self.config_dir / "config.json"
         self.auth_file = self.config_dir / "auth.json"
-        
+
         # Load configuration
         self.config = self.load_config()
         self.auth = self.load_auth()
-        
+
         # Initialize tool detector
         self.tool_detector = ToolDetector(console) if ToolDetector else None
         self.detected_tools = []
         self.current_tool = None
         self.failed_tools = set()  # Track tools that have failed this session
-        
+
         # Initialize background task manager
         self.task_manager = BackgroundTaskManager(console) if BackgroundTaskManager else None
-        
+
         # Initialize todo manager
         self.todo_manager = TodoManager(console) if TodoManager else None
-        
+
         # Detect available tools and set default
         if self.tool_detector:
             self.detected_tools = self.tool_detector.detect_all()
             default_tool = self.tool_detector.get_default_tool()
-            
+
             # If Claude Code is available, use it as default
             if default_tool:
                 self.current_model = f"tool:{default_tool.name}"
@@ -124,13 +119,13 @@ class EnhancedHanzoREPL:
         else:
             # No tool detector, use regular models
             self.current_model = self.config.get("default_model", "gpt-3.5-turbo")
-        
+
         # Setup session
         self.session = PromptSession(
             history=FileHistory(str(self.config_dir / ".repl_history")),
             auto_suggest=AutoSuggestFromHistory(),
         )
-        
+
         # Commands
         self.commands = {
             "help": self.show_help,
@@ -151,7 +146,7 @@ class EnhancedHanzoREPL:
             "todo": self.manage_todos,
             "todos": self.manage_todos,  # Alias
         }
-        
+
         self.running = False
 
     def load_config(self) -> Dict[str, Any]:
@@ -192,21 +187,21 @@ class EnhancedHanzoREPL:
         # Check for API key
         if os.getenv("HANZO_API_KEY"):
             return True
-        
+
         # Check auth file
         if self.auth.get("api_key"):
             return True
-            
+
         # Check if logged in
         if self.auth.get("logged_in"):
             return True
-            
+
         return False
 
     def get_model_info(self):
         """Get current model info string."""
         model = self.current_model
-        
+
         # Check if using a tool
         if model.startswith("tool:"):
             if self.current_tool:
@@ -214,7 +209,7 @@ class EnhancedHanzoREPL:
             else:
                 tool_name = model.replace("tool:", "")
                 return f"[dim cyan]agent: {tool_name}[/dim cyan]"
-        
+
         # Determine provider from model name
         if model.startswith("gpt"):
             provider = "openai"
@@ -230,20 +225,33 @@ class EnhancedHanzoREPL:
             provider = "local"
         else:
             provider = "unknown"
-        
+
         return f"[dim]model: {provider}/{model}[/dim]"
-    
+
     async def run(self):
         """Run the enhanced REPL."""
         self.running = True
-        
+
         # Setup completer
         commands = list(self.commands.keys())
         models = list(self.MODELS.keys())
-        cli_commands = ["chat", "ask", "agent", "node", "mcp", "network", 
-                       "auth", "config", "tools", "miner", "serve", "net", 
-                       "dev", "router"]
-        
+        cli_commands = [
+            "chat",
+            "ask",
+            "agent",
+            "node",
+            "mcp",
+            "network",
+            "auth",
+            "config",
+            "tools",
+            "miner",
+            "serve",
+            "net",
+            "dev",
+            "router",
+        ]
+
         completer = WordCompleter(
             commands + models + cli_commands,
             ignore_case=True,
@@ -253,12 +261,12 @@ class EnhancedHanzoREPL:
             try:
                 # Show model info above prompt
                 self.console.print(self.get_model_info())
-                
+
                 # Get input with simple prompt
                 command = await self.session.prompt_async(
                     self.get_prompt(),
                     completer=completer,
-                    vi_mode=True  # Enable vi mode for better navigation
+                    vi_mode=True,  # Enable vi mode for better navigation
                 )
 
                 if not command.strip():
@@ -295,7 +303,7 @@ class EnhancedHanzoREPL:
         parts = command.strip().split(maxsplit=1)
         cmd = parts[0].lower()
         args = parts[1] if len(parts) > 1 else ""
-        
+
         # Map slash commands to regular commands
         slash_map = {
             "m": "model",
@@ -310,9 +318,9 @@ class EnhancedHanzoREPL:
             "todos": "todos",
             "t": "todo",  # Shortcut for todo
         }
-        
+
         mapped_cmd = slash_map.get(cmd, cmd)
-        
+
         if mapped_cmd in self.commands:
             await self.commands[mapped_cmd](args)
         else:
@@ -326,7 +334,7 @@ class EnhancedHanzoREPL:
         table.add_column("Component", style="cyan")
         table.add_column("Status", style="green")
         table.add_column("Details", style="dim")
-        
+
         # Authentication status
         if self.is_authenticated():
             auth_status = "✅ Authenticated"
@@ -335,11 +343,11 @@ class EnhancedHanzoREPL:
             auth_status = "❌ Not authenticated"
             auth_details = "Run /login to authenticate"
         table.add_row("Authentication", auth_status, auth_details)
-        
+
         # Current model
         model_name = self.MODELS.get(self.current_model, self.current_model)
         table.add_row("Current Model", f"🤖 {self.current_model}", model_name)
-        
+
         # Router status
         try:
             response = httpx.get("http://localhost:4000/health", timeout=1)
@@ -349,7 +357,7 @@ class EnhancedHanzoREPL:
             router_status = "❌ Offline"
             router_details = "Run 'hanzo router start'"
         table.add_row("Router", router_status, router_details)
-        
+
         # Node status
         try:
             response = httpx.get("http://localhost:3690/health", timeout=1)
@@ -359,7 +367,7 @@ class EnhancedHanzoREPL:
             node_status = "❌ Offline"
             node_details = "Run 'hanzo node start'"
         table.add_row("Node", node_status, node_details)
-        
+
         # API endpoints
         if os.getenv("HANZO_API_KEY"):
             api_status = "✅ Configured"
@@ -368,9 +376,9 @@ class EnhancedHanzoREPL:
             api_status = "⚠️ Not configured"
             api_details = "Set HANZO_API_KEY environment variable"
         table.add_row("Cloud API", api_status, api_details)
-        
+
         self.console.print(table)
-        
+
         # Show additional info
         if self.auth.get("last_login"):
             self.console.print(f"\n[dim]Last login: {self.auth['last_login']}[/dim]")
@@ -381,15 +389,15 @@ class EnhancedHanzoREPL:
             # Show model selection menu
             await self.list_models("")
             self.console.print("\n[cyan]Enter model/tool name or number:[/cyan]")
-            
+
             # Get selection
             try:
                 selection = await self.session.prompt_async("> ")
-                
+
                 # Handle numeric selection
                 if selection.isdigit():
                     num = int(selection)
-                    
+
                     # Check if it's a tool selection
                     if self.detected_tools and num <= len(self.detected_tools):
                         tool = self.detected_tools[num - 1]
@@ -407,19 +415,19 @@ class EnhancedHanzoREPL:
                     args = selection
             except (KeyboardInterrupt, EOFError):
                 return
-        
+
         # Check if it's a tool
         if args.startswith("tool:") or args in [t.name for t in self.detected_tools] if self.detected_tools else False:
             # Handle tool selection
             tool_name = args.replace("tool:", "") if args.startswith("tool:") else args
-            
+
             # Find the tool
             tool = None
             for t in self.detected_tools:
                 if t.name == tool_name or t.display_name.lower() == tool_name.lower():
                     tool = t
                     break
-            
+
             if tool:
                 self.current_model = f"tool:{tool.name}"
                 self.current_tool = tool
@@ -429,7 +437,7 @@ class EnhancedHanzoREPL:
             else:
                 self.console.print(f"[red]Tool not found: {tool_name}[/red]")
                 self.console.print("[dim]Use /tools to see available tools[/dim]")
-        
+
         # Regular model - accept any model name (all gateway models are free!)
         else:
             self.current_model = args
@@ -451,7 +459,7 @@ class EnhancedHanzoREPL:
             self.tool_detector.show_available_tools()
         else:
             self.console.print("[yellow]Tool detection not available[/yellow]")
-    
+
     async def list_models(self, args: str = ""):
         """List available models from gateway.hanzo.ai."""
         # Show tools first if available
@@ -466,17 +474,19 @@ class EnhancedHanzoREPL:
         models_list = []
         try:
             from hanzo.orchestrator_config import get_default_router_endpoint
+
             endpoint = get_default_router_endpoint()
 
             response = httpx.get(f"{endpoint}/v1/models", timeout=5.0)
             if response.status_code == 200:
                 data = response.json()
                 all_models = data.get("data", [])
-                
+
                 # Filter out embedding models - only show chat/completion LLMs
                 embedding_keywords = ["embedding", "voyage", "embed", "text-embedding"]
                 models_list = [
-                    model for model in all_models
+                    model
+                    for model in all_models
                     if not any(keyword in model.get("id", "").lower() for keyword in embedding_keywords)
                 ]
         except Exception:
@@ -484,10 +494,7 @@ class EnhancedHanzoREPL:
 
         # Fallback to static models if gateway fetch fails
         if not models_list:
-            models_list = [
-                {"id": model_id, "name": model_name}
-                for model_id, model_name in self.MODELS.items()
-            ]
+            models_list = [{"id": model_id, "name": model_name} for model_id, model_name in self.MODELS.items()]
 
         # Create table
         table = Table(title="Gateway LLMs (Chat Models)", box=box.ROUNDED)
@@ -526,55 +533,53 @@ class EnhancedHanzoREPL:
 
             # Highlight current model
             if model_id == self.current_model:
-                table.add_row(
-                    str(i),
-                    f"[bold green]→ {model_id}[/bold green]",
-                    tier,
-                    provider
-                )
+                table.add_row(str(i), f"[bold green]→ {model_id}[/bold green]", tier, provider)
             else:
                 table.add_row(str(i), model_id, tier, provider)
 
         self.console.print(table)
         self.console.print("\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]")
-        self.console.print("[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]")
+        self.console.print(
+            "[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]"
+        )
         self.console.print("\n[dim]Use /model <name> or /model <number> to switch[/dim]")
 
     async def login(self, args: str = ""):
         """Login to Hanzo."""
         self.console.print("[cyan]Hanzo Authentication[/cyan]\n")
-        
+
         # Check if already logged in
         if self.is_authenticated():
             self.console.print("[yellow]Already authenticated[/yellow]")
             if self.auth.get("email"):
                 self.console.print(f"Logged in as: {self.auth['email']}")
             return
-        
+
         # Get credentials
         try:
             # Email
             email = await self.session.prompt_async("Email: ")
-            
+
             # Password (hidden)
             from prompt_toolkit import prompt
+
             password = prompt("Password: ", is_password=True)
-            
+
             # Attempt login
             self.console.print("\n[dim]Authenticating...[/dim]")
-            
+
             # TODO: Implement actual authentication
             # For now, simulate successful login
             await asyncio.sleep(1)
-            
+
             # Save auth
             self.auth["email"] = email
             self.auth["logged_in"] = True
             self.auth["last_login"] = datetime.now().isoformat()
             self.save_auth()
-            
+
             self.console.print("[green]✅ Successfully logged in![/green]")
-            
+
         except (KeyboardInterrupt, EOFError):
             self.console.print("\n[yellow]Login cancelled[/yellow]")
 
@@ -583,15 +588,15 @@ class EnhancedHanzoREPL:
         if not self.is_authenticated():
             self.console.print("[yellow]Not logged in[/yellow]")
             return
-        
+
         # Clear auth
         self.auth = {}
         self.save_auth()
-        
+
         # Clear environment variable if set
         if "HANZO_API_KEY" in os.environ:
             del os.environ["HANZO_API_KEY"]
-        
+
         self.console.print("[green]✅ Successfully logged out[/green]")
 
     async def show_config(self, args: str = ""):
@@ -655,23 +660,18 @@ class EnhancedHanzoREPL:
         """Execute a CLI command."""
         # Import here to avoid circular imports
         import subprocess
-        
+
         full_cmd = f"hanzo {cmd} {args}".strip()
         self.console.print(f"[dim]Executing: {full_cmd}[/dim]")
-        
+
         try:
-            result = subprocess.run(
-                full_cmd,
-                shell=True,
-                capture_output=True,
-                text=True
-            )
-            
+            result = subprocess.run(full_cmd, shell=True, capture_output=True, text=True)
+
             if result.stdout:
                 self.console.print(result.stdout)
             if result.stderr:
                 self.console.print(f"[red]{result.stderr}[/red]")
-                
+
         except Exception as e:
             self.console.print(f"[red]Error executing command: {e}[/red]")
 
@@ -688,12 +688,12 @@ class EnhancedHanzoREPL:
                         self.current_model = f"tool:{tool.name}"
                         self.console.print(f"[yellow]Switched to {tool.display_name}[/yellow]")
                         break
-            
+
             # Try the current tool
             if self.current_tool.name not in self.failed_tools:
                 self.console.print(f"[dim]Using {self.current_tool.display_name}...[/dim]")
                 success, output = self.tool_detector.execute_with_tool(self.current_tool, message)
-                
+
                 if success:
                     self.console.print(output)
                     return
@@ -701,7 +701,7 @@ class EnhancedHanzoREPL:
                     # Mark this tool as failed for the session
                     self.failed_tools.add(self.current_tool.name)
                     self.console.print(f"[red]Error: {output}[/red]")
-            
+
             # Try to find next available tool
             found_working = False
             if self.tool_detector and self.tool_detector.detected_tools:
@@ -716,14 +716,16 @@ class EnhancedHanzoREPL:
                             self.current_model = f"tool:{fallback_tool.name}"
                             self.config["default_model"] = self.current_model
                             self.save_config()
-                            self.console.print(f"\n[green]Switched to {fallback_tool.display_name} (now default)[/green]")
+                            self.console.print(
+                                f"\n[green]Switched to {fallback_tool.display_name} (now default)[/green]"
+                            )
                             found_working = True
                             return
                         else:
                             # Mark as failed
                             self.failed_tools.add(fallback_tool.name)
                             self.console.print(f"[red]{fallback_tool.display_name} also failed[/red]")
-            
+
             if not found_working:
                 # Final fallback to cloud model
                 self.console.print(f"[yellow]Falling back to cloud model...[/yellow]")
@@ -731,37 +733,37 @@ class EnhancedHanzoREPL:
         else:
             # Use regular model through hanzo ask
             await self.execute_command("ask", f"--cloud --model {self.current_model} {message}")
-    
+
     async def quick_model_select(self, args: str = ""):
         """Quick model selector with arrow keys."""
         if not QuickModelSelector:
             self.console.print("[yellow]Quick selector not available[/yellow]")
             return
-        
+
         # Prepare tools and models
         tools = [(f"tool:{t.name}", t.display_name) for t in self.detected_tools] if self.detected_tools else []
         models = list(self.MODELS.items())
-        
+
         selector = QuickModelSelector(models, tools, self.current_model)
         selected = await selector.run()
-        
+
         if selected:
             # Change to selected model
             await self.change_model(selected)
-    
+
     async def show_tasks(self, args: str = ""):
         """Show background tasks."""
         if self.task_manager:
             self.task_manager.list_tasks()
         else:
             self.console.print("[yellow]Task manager not available[/yellow]")
-    
+
     async def kill_task(self, args: str = ""):
         """Kill a background task."""
         if not self.task_manager:
             self.console.print("[yellow]Task manager not available[/yellow]")
             return
-        
+
         if args:
             if args.lower() == "all":
                 self.task_manager.kill_all()
@@ -780,24 +782,24 @@ class EnhancedHanzoREPL:
                         self.task_manager.kill_task(task_id)
             except (KeyboardInterrupt, EOFError):
                 pass
-    
+
     async def manage_todos(self, args: str = ""):
         """Manage todos."""
         if not self.todo_manager:
             self.console.print("[yellow]Todo manager not available[/yellow]")
             return
-        
+
         # Parse command
         parts = args.strip().split(maxsplit=1)
-        
+
         if not parts:
             # Show todos
             self.todo_manager.display_todos()
             return
-        
+
         subcommand = parts[0].lower()
         rest = parts[1] if len(parts) > 1 else ""
-        
+
         # Handle subcommands
         if subcommand in ["add", "a", "+"]:
             # Add todo
@@ -811,30 +813,30 @@ class EnhancedHanzoREPL:
             else:
                 # Interactive add
                 await self.add_todo_interactive()
-        
+
         elif subcommand in ["list", "ls", "l"]:
             # List todos with optional filter
             filter_parts = rest.split()
             status = None
             priority = None
             tag = None
-            
+
             for i in range(0, len(filter_parts), 2):
                 if i + 1 < len(filter_parts):
                     key = filter_parts[i]
                     value = filter_parts[i + 1]
-                    
+
                     if key in ["status", "s"]:
                         status = value
                     elif key in ["priority", "p"]:
                         priority = value
                     elif key in ["tag", "t"]:
                         tag = value
-            
+
             todos = self.todo_manager.list_todos(status=status, priority=priority, tag=tag)
             title = "Filtered Todos" if (status or priority or tag) else "All Todos"
             self.todo_manager.display_todos(todos, title)
-        
+
         elif subcommand in ["done", "d", "complete", "finish"]:
             # Mark as done
             if rest:
@@ -845,7 +847,7 @@ class EnhancedHanzoREPL:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
                 self.console.print("[yellow]Usage: /todo done <id>[/yellow]")
-        
+
         elif subcommand in ["start", "begin", "progress"]:
             # Mark as in progress
             if rest:
@@ -856,7 +858,7 @@ class EnhancedHanzoREPL:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
                 self.console.print("[yellow]Usage: /todo start <id>[/yellow]")
-        
+
         elif subcommand in ["cancel", "x"]:
             # Cancel todo
             if rest:
@@ -867,7 +869,7 @@ class EnhancedHanzoREPL:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
                 self.console.print("[yellow]Usage: /todo cancel <id>[/yellow]")
-        
+
         elif subcommand in ["delete", "del", "rm", "remove"]:
             # Delete todo
             if rest:
@@ -877,7 +879,7 @@ class EnhancedHanzoREPL:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
                 self.console.print("[yellow]Usage: /todo delete <id>[/yellow]")
-        
+
         elif subcommand in ["view", "show", "detail"]:
             # View todo detail
             if rest:
@@ -888,11 +890,11 @@ class EnhancedHanzoREPL:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
                 self.console.print("[yellow]Usage: /todo view <id>[/yellow]")
-        
+
         elif subcommand in ["stats", "statistics"]:
             # Show statistics
             self.todo_manager.display_statistics()
-        
+
         elif subcommand in ["clear", "reset"]:
             # Clear all todos (with confirmation)
             try:
@@ -905,11 +907,11 @@ class EnhancedHanzoREPL:
                     self.console.print("[yellow]Cancelled[/yellow]")
             except (KeyboardInterrupt, EOFError):
                 self.console.print("[yellow]Cancelled[/yellow]")
-        
+
         elif subcommand in ["help", "h", "?"]:
             # Show todo help
             self.show_todo_help()
-        
+
         else:
             # Unknown subcommand, treat as quick add
             try:
@@ -918,7 +920,7 @@ class EnhancedHanzoREPL:
             except ValueError:
                 self.console.print(f"[yellow]Unknown todo command: {subcommand}[/yellow]")
                 self.console.print("[dim]Use /todo help for available commands[/dim]")
-    
+
     async def add_todo_interactive(self):
         """Add todo interactively."""
         try:
@@ -927,36 +929,36 @@ class EnhancedHanzoREPL:
             if not title:
                 self.console.print("[yellow]Cancelled[/yellow]")
                 return
-            
+
             # Get description
             description = await self.session.prompt_async("Description (optional): ")
-            
+
             # Get priority
             priority = await self.session.prompt_async("Priority (low/medium/high/urgent) [medium]: ")
             if not priority:
                 priority = "medium"
-            
+
             # Get tags
             tags_input = await self.session.prompt_async("Tags (comma-separated, optional): ")
             tags = [t.strip() for t in tags_input.split(",") if t.strip()] if tags_input else []
-            
+
             # Get due date
             due_date = await self.session.prompt_async("Due date (optional): ")
-            
+
             # Add todo
             todo = self.todo_manager.add_todo(
                 title=title,
                 description=description,
                 priority=priority,
                 tags=tags,
-                due_date=due_date if due_date else None
+                due_date=due_date if due_date else None,
             )
-            
+
             self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
-            
+
         except (KeyboardInterrupt, EOFError):
             self.console.print("[yellow]Cancelled[/yellow]")
-    
+
     def show_todo_help(self):
         """Show todo help."""
         help_text = """

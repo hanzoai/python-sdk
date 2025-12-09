@@ -14,11 +14,12 @@ from rich.console import Console
 
 # Import router detection
 try:
-    from hanzo.orchestrator_config import get_default_router_endpoint, check_local_node
+    from hanzo.orchestrator_config import check_local_node, get_default_router_endpoint
 except ImportError:
     # Fallback if not available
     def get_default_router_endpoint():
         return "https://gateway.hanzo.ai"
+
     def check_local_node():
         return False
 
@@ -26,6 +27,7 @@ except ImportError:
 @dataclass
 class AITool:
     """Represents an AI coding tool."""
+
     name: str
     command: str
     display_name: str
@@ -41,7 +43,7 @@ class AITool:
 
 class ToolDetector:
     """Detect and manage available AI coding tools."""
-    
+
     # Define available tools with priority order
     TOOLS = [
         # Hanzo Local Node - highest priority for privacy and local control
@@ -53,7 +55,7 @@ class ToolDetector:
             priority=0,  # Highest priority - local and private
             check_command=None,  # Check via API endpoint
             api_endpoint="http://localhost:3690/health",
-            env_var=None
+            env_var=None,
         ),
         AITool(
             name="hanzo-router",
@@ -63,7 +65,7 @@ class ToolDetector:
             priority=1,
             check_command=None,
             api_endpoint="http://localhost:4000/health",
-            env_var=None
+            env_var=None,
         ),
         AITool(
             name="claude-code",
@@ -72,7 +74,7 @@ class ToolDetector:
             provider="anthropic",
             priority=2,
             check_command="claude --version",
-            env_var="ANTHROPIC_API_KEY"
+            env_var="ANTHROPIC_API_KEY",
         ),
         AITool(
             name="hanzo-dev",
@@ -81,7 +83,7 @@ class ToolDetector:
             provider="hanzo",
             priority=3,
             check_command="hanzo --version",
-            env_var="HANZO_API_KEY"
+            env_var="HANZO_API_KEY",
         ),
         AITool(
             name="openai-codex",
@@ -90,7 +92,7 @@ class ToolDetector:
             provider="openai",
             priority=4,
             check_command="openai --version",
-            env_var="OPENAI_API_KEY"
+            env_var="OPENAI_API_KEY",
         ),
         AITool(
             name="gemini-cli",
@@ -99,7 +101,7 @@ class ToolDetector:
             provider="google",
             priority=5,
             check_command="gemini --version",
-            env_var="GEMINI_API_KEY"
+            env_var="GEMINI_API_KEY",
         ),
         AITool(
             name="grok-cli",
@@ -108,7 +110,7 @@ class ToolDetector:
             provider="xai",
             priority=6,
             check_command="grok --version",
-            env_var="GROK_API_KEY"
+            env_var="GROK_API_KEY",
         ),
         AITool(
             name="openhands",
@@ -117,7 +119,7 @@ class ToolDetector:
             provider="openhands",
             priority=7,
             check_command="openhands --version",
-            env_var=None
+            env_var=None,
         ),
         AITool(
             name="cursor",
@@ -126,7 +128,7 @@ class ToolDetector:
             provider="cursor",
             priority=8,
             check_command="cursor --version",
-            env_var=None
+            env_var=None,
         ),
         AITool(
             name="codeium",
@@ -135,7 +137,7 @@ class ToolDetector:
             provider="codeium",
             priority=9,
             check_command="codeium --version",
-            env_var="CODEIUM_API_KEY"
+            env_var="CODEIUM_API_KEY",
         ),
         AITool(
             name="aider",
@@ -144,7 +146,7 @@ class ToolDetector:
             provider="aider",
             priority=10,
             check_command="aider --version",
-            env_var=None
+            env_var=None,
         ),
         AITool(
             name="continue",
@@ -153,26 +155,26 @@ class ToolDetector:
             provider="continue",
             priority=11,
             check_command="continue --version",
-            env_var=None
-        )
+            env_var=None,
+        ),
     ]
-    
+
     def __init__(self, console: Optional[Console] = None):
         self.console = console or Console()
         self.detected_tools: List[AITool] = []
-        
+
     def detect_all(self) -> List[AITool]:
         """Detect all available AI tools."""
         self.detected_tools = []
-        
+
         for tool in self.TOOLS:
             if self.detect_tool(tool):
                 self.detected_tools.append(tool)
-        
+
         # Sort by priority
         self.detected_tools.sort(key=lambda t: t.priority)
         return self.detected_tools
-    
+
     def detect_tool(self, tool: AITool) -> bool:
         """Detect if a specific tool is available."""
         # Check API endpoint first (for services like hanzod)
@@ -203,16 +205,20 @@ class ToolDetector:
                                 json={
                                     "messages": [{"role": "user", "content": "test"}],
                                     "model": "default",
-                                    "max_tokens": 1
+                                    "max_tokens": 1,
                                 },
-                                timeout=1.0
+                                timeout=1.0,
                             )
                             # Only accept if we get a proper response (not 404, not connection error)
-                            if test_response.status_code in [200, 400, 422]:  # 400/422 means endpoint exists but params wrong
+                            if test_response.status_code in [
+                                200,
+                                400,
+                                422,
+                            ]:  # 400/422 means endpoint exists but params wrong
                                 tool.detected = True
                                 tool.version = f"Running (Port {port})"
                                 tool.api_endpoint = f"http://localhost:{port}/health"  # Update port
-                                
+
                                 # Try to get model info
                                 try:
                                     models_response = httpx.get(f"http://localhost:{port}/v1/models", timeout=0.5)
@@ -222,7 +228,7 @@ class ToolDetector:
                                             tool.version = f"Running ({len(models)} models, Port {port})"
                                 except Exception:
                                     pass
-                                
+
                                 return True
                         except (httpx.ConnectError, httpx.TimeoutException):
                             # Connection refused or timeout - node not available on this port
@@ -241,45 +247,40 @@ class ToolDetector:
                         return True
                 except Exception:
                     pass
-        
+
         # Check if command exists
         if tool.command:
             tool.path = shutil.which(tool.command.split()[0])
             if tool.path:
                 tool.detected = True
-                
+
                 # Try to get version
                 if tool.check_command:
                     try:
-                        result = subprocess.run(
-                            tool.check_command.split(),
-                            capture_output=True,
-                            text=True,
-                            timeout=2
-                        )
+                        result = subprocess.run(tool.check_command.split(), capture_output=True, text=True, timeout=2)
                         if result.returncode == 0:
                             tool.version = result.stdout.strip().split()[-1]
                     except Exception:
                         pass
-                
+
                 return True
-        
+
         # Check environment variable as fallback
         if tool.env_var and os.getenv(tool.env_var):
             tool.detected = True
             return True
-        
+
         return False
-    
+
     def get_default_tool(self) -> Optional[AITool]:
         """Get the default tool based on priority and availability."""
         if not self.detected_tools:
             self.detect_all()
-        
+
         if self.detected_tools:
             return self.detected_tools[0]
         return None
-    
+
     def get_tool_by_name(self, name: str) -> Optional[AITool]:
         """Get a specific tool by name."""
         for tool in self.TOOLS:
@@ -287,11 +288,11 @@ class ToolDetector:
                 if self.detect_tool(tool):
                     return tool
         return None
-    
+
     def show_available_tools(self):
         """Display available tools in a table."""
         self.detect_all()
-        
+
         table = Table(title="Available AI Coding Tools", box=box.ROUNDED)
         table.add_column("#", style="dim")
         table.add_column("Tool", style="cyan")
@@ -299,11 +300,11 @@ class ToolDetector:
         table.add_column("Status", style="green")
         table.add_column("Version", style="blue")
         table.add_column("Priority", style="magenta")
-        
+
         for i, tool in enumerate(self.TOOLS, 1):
             status = "✅ Available" if tool.detected else "❌ Not Found"
             version = tool.version or "Unknown" if tool.detected else "-"
-            
+
             # Highlight the default tool
             if tool.detected and tool == self.detected_tools[0] if self.detected_tools else False:
                 table.add_row(
@@ -312,24 +313,17 @@ class ToolDetector:
                     tool.provider,
                     status,
                     version,
-                    str(tool.priority)
+                    str(tool.priority),
                 )
             else:
-                table.add_row(
-                    str(i),
-                    tool.display_name,
-                    tool.provider,
-                    status,
-                    version,
-                    str(tool.priority)
-                )
-        
+                table.add_row(str(i), tool.display_name, tool.provider, status, version, str(tool.priority))
+
         self.console.print(table)
-        
+
         if self.detected_tools:
             default = self.detected_tools[0]
             self.console.print(f"\n[green]Default tool: {default.display_name}[/green]")
-            
+
             # Special message for Hanzo Node
             if default.name == "hanzod":
                 self.console.print("[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]")
@@ -338,7 +332,7 @@ class ToolDetector:
             self.console.print("\n[yellow]No AI coding tools detected.[/yellow]")
             self.console.print("[dim]Start Hanzo Node for local AI: hanzo node start[/dim]")
             self.console.print("[dim]Or install Claude Code, OpenAI CLI, etc.[/dim]")
-    
+
     def get_tool_command(self, tool: AITool, prompt: str) -> List[str]:
         """Get the command to execute for a tool with a prompt."""
         if tool.name == "hanzod":
@@ -365,7 +359,7 @@ class ToolDetector:
             return ["aider", "--message", prompt]
         else:
             return [tool.command, prompt]
-    
+
     def execute_with_tool(self, tool: AITool, prompt: str) -> Tuple[bool, str]:
         """Execute a prompt with a specific tool."""
         try:
@@ -375,17 +369,18 @@ class ToolDetector:
                 try:
                     # Extract port from api_endpoint (e.g., "http://localhost:3690/health")
                     import re
-                    port_match = re.search(r':(\d+)', tool.api_endpoint)
+
+                    port_match = re.search(r":(\d+)", tool.api_endpoint)
                     port = port_match.group(1) if port_match else "3690"
-                    
+
                     response = httpx.post(
                         f"http://localhost:{port}/v1/chat/completions",
                         json={
                             "messages": [{"role": "user", "content": prompt}],
                             "model": "default",  # Use default model
-                            "stream": False
+                            "stream": False,
                         },
-                        timeout=30.0
+                        timeout=30.0,
                     )
                     if response.status_code == 200:
                         result = response.json()
@@ -394,7 +389,7 @@ class ToolDetector:
                         return False, f"Hanzo Node returned {response.status_code}: {response.text}"
                 except Exception as e:
                     return False, f"Hanzo Node error: {e}"
-            
+
             elif tool.name == "hanzo-router":
                 # Use the router API (local or gateway)
                 try:
@@ -404,25 +399,20 @@ class ToolDetector:
                         json={
                             "messages": [{"role": "user", "content": prompt}],
                             "model": "gpt-4o-mini",  # Use free model by default
-                            "stream": False
+                            "stream": False,
                         },
-                        timeout=30.0
+                        timeout=30.0,
                     )
                     if response.status_code == 200:
                         result = response.json()
                         return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
                 except Exception as e:
                     return False, f"Router error: {e}"
-            
+
             # Default command execution
             command = self.get_tool_command(tool, prompt)
-            result = subprocess.run(
-                command,
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            
+            result = subprocess.run(command, capture_output=True, text=True, timeout=30)
+
             if result.returncode == 0:
                 return True, result.stdout
             else:
@@ -431,19 +421,19 @@ class ToolDetector:
             return False, "Command timed out"
         except Exception as e:
             return False, str(e)
-    
+
     def execute_with_fallback(self, prompt: str) -> Tuple[bool, str, AITool]:
         """Execute with fallback through available tools."""
         if not self.detected_tools:
             self.detect_all()
-        
+
         for tool in self.detected_tools:
             self.console.print(f"[dim]Trying {tool.display_name}...[/dim]")
             success, output = self.execute_with_tool(tool, prompt)
-            
+
             if success:
                 return True, output, tool
             else:
                 self.console.print(f"[yellow]{tool.display_name} failed: {output}[/yellow]")
-        
+
         return False, "No available tools could handle the request", None

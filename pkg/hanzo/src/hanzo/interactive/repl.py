@@ -35,9 +35,22 @@ class HanzoREPL:
         # Don't print welcome message here since it's already printed in cli.py
 
         # Set up command completer
-        cli_commands = ["chat", "ask", "agent", "node", "mcp", "network", 
-                       "auth", "config", "tools", "miner", "serve", "net", 
-                       "dev", "router"]
+        cli_commands = [
+            "chat",
+            "ask",
+            "agent",
+            "node",
+            "mcp",
+            "network",
+            "auth",
+            "config",
+            "tools",
+            "miner",
+            "serve",
+            "net",
+            "dev",
+            "router",
+        ]
         completer = WordCompleter(
             list(self.commands.keys()) + cli_commands,
             ignore_case=True,
@@ -46,9 +59,7 @@ class HanzoREPL:
         while self.running:
             try:
                 # Get input with simple prompt
-                command = await self.session.prompt_async(
-                    "> ", completer=completer
-                )
+                command = await self.session.prompt_async("> ", completer=completer)
 
                 if not command.strip():
                     continue
@@ -61,7 +72,22 @@ class HanzoREPL:
                 # Execute command
                 if cmd in self.commands:
                     await self.commands[cmd](args)
-                elif cmd in ["chat", "ask", "agent", "node", "mcp", "network", "auth", "config", "tools", "miner", "serve", "net", "dev", "router"]:
+                elif cmd in [
+                    "chat",
+                    "ask",
+                    "agent",
+                    "node",
+                    "mcp",
+                    "network",
+                    "auth",
+                    "config",
+                    "tools",
+                    "miner",
+                    "serve",
+                    "net",
+                    "dev",
+                    "router",
+                ]:
                     # Execute known CLI commands
                     await self.execute_command(cmd, args)
                 else:
@@ -146,9 +172,10 @@ hanzo> mcp run read_file --arg path=README.md
             argv = [hanzo_cmd, "-m", "hanzo", cmd]
         else:
             argv = [hanzo_cmd, cmd]
-        
+
         if args:
             import shlex
+
             argv.extend(shlex.split(args))
 
         # Execute as subprocess to avoid context issues
@@ -158,14 +185,14 @@ hanzo> mcp run read_file --arg path=README.md
                 capture_output=True,
                 text=True,
                 timeout=30,
-                env=os.environ.copy()  # Pass environment variables
+                env=os.environ.copy(),  # Pass environment variables
             )
-            
+
             if result.stdout:
                 self.console.print(result.stdout.rstrip())
             if result.stderr and result.returncode != 0:
                 self.console.print(f"[red]{result.stderr.rstrip()}[/red]")
-                
+
         except subprocess.TimeoutExpired:
             self.console.print("[red]Command timed out[/red]")
         except FileNotFoundError:
@@ -199,7 +226,7 @@ hanzo> mcp run read_file --arg path=README.md
             return "authenticated (saved)"
         else:
             return "not authenticated"
-    
+
     async def chat_with_ai(self, message: str):
         """Chat with AI when user types natural language."""
         # For natural language input, try to use it as a chat message

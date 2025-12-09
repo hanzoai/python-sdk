@@ -23,9 +23,7 @@ class FallbackHandler:
             "deepseek_api": bool(os.getenv("DEEPSEEK_API_KEY")),  # Added DeepSeek
             "openai_api": bool(os.getenv("OPENAI_API_KEY")),
             "anthropic_api": bool(os.getenv("ANTHROPIC_API_KEY")),
-            "google_api": bool(
-                os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-            ),
+            "google_api": bool(os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")),
             "openai_cli": shutil.which("openai") is not None,
             "claude_cli": shutil.which("claude") is not None,
             "gemini_cli": shutil.which("gemini") is not None,
@@ -112,30 +110,22 @@ class FallbackHandler:
             suggestions.append("• Set ANTHROPIC_API_KEY for Claude access")
 
         if not self.available_options["ollama"]:
-            suggestions.append(
-                "• Install Ollama: curl -fsSL https://ollama.com/install.sh | sh"
-            )
+            suggestions.append("• Install Ollama: curl -fsSL https://ollama.com/install.sh | sh")
             suggestions.append("  Then run: ollama pull llama3.2")
 
         if not self.available_options["openai_cli"]:
             suggestions.append("• Install OpenAI CLI: pip install openai-cli")
 
         if not self.available_options["claude_cli"]:
-            suggestions.append(
-                "• Install Claude Desktop from https://claude.ai/download"
-            )
+            suggestions.append("• Install Claude Desktop from https://claude.ai/download")
 
-        return (
-            "\n".join(suggestions) if suggestions else "All AI options are available!"
-        )
+        return "\n".join(suggestions) if suggestions else "All AI options are available!"
 
     def print_status(self, console):
         """Print the current status of available AI options."""
         from rich.table import Table
 
-        table = Table(
-            title="Available AI Options", show_header=True, header_style="bold magenta"
-        )
+        table = Table(title="Available AI Options", show_header=True, header_style="bold magenta")
         table.add_column("Option", style="cyan", width=20)
         table.add_column("Status", width=10)
         table.add_column("Model", width=20)
@@ -162,9 +152,7 @@ class FallbackHandler:
         console.print(table)
 
         if self.fallback_order:
-            console.print(
-                f"\n[green]Primary option: {self.fallback_order[0][1]}[/green]"
-            )
+            console.print(f"\n[green]Primary option: {self.fallback_order[0][1]}[/green]")
             if len(self.fallback_order) > 1:
                 fallbacks = ", ".join([opt[1] for opt in self.fallback_order[1:]])
                 console.print(f"[yellow]Fallback options: {fallbacks}[/yellow]")
@@ -201,10 +189,7 @@ async def smart_chat(message: str, console=None) -> Optional[str]:
             from openai import AsyncOpenAI
 
             async def call_deepseek():
-                client = AsyncOpenAI(
-                    api_key=os.getenv("DEEPSEEK_API_KEY"),
-                    base_url="https://api.deepseek.com/v1"
-                )
+                client = AsyncOpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com/v1")
                 response = await client.chat.completions.create(
                     model="deepseek-chat",
                     messages=[{"role": "user", "content": message}],
