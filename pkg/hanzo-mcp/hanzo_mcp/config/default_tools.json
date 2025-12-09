@@ -24,9 +24,9 @@
     "tool_enable": true,
     "tool_disable": true,
 
-    "_comment_agent": "Agent and orchestration tools - all enabled",
+    "_comment_agent": "Agent and orchestration tools - agent replaces dispatch_agent",
     "agent": true,
-    "dispatch_agent": true,
+    "dispatch_agent": false,
     "network": true,
     "swarm": true,
     "claude": true,
@@ -132,7 +132,7 @@
       "run_command", "run", "bash", "shell", "zsh", "stats", "tool_list", "tool_enable", "tool_disable"
     ],
     "agent": [
-      "agent", "dispatch_agent", "network", "swarm", "claude", "claude_cli", "cc", 
+      "agent", "network", "swarm", "claude", "claude_cli", "cc",
       "codex", "codex_cli", "gemini", "gemini_cli", "grok", "grok_cli",
       "aider", "cline", "openhands", "oh", "hanzo_dev", "think", "critic"
     ],

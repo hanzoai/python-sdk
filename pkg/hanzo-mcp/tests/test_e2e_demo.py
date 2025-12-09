@@ -5,14 +5,26 @@ from pathlib import Path
 
 import pytest
 
-# Add hanzo-network to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
+# Import guard for optional hanzo_network dependency
+try:
+    # Add hanzo-network to path
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
-from hanzo_network import (
-    create_tool,
-    create_local_agent,
-    check_local_llm_status,
-    create_local_distributed_network,
+    from hanzo_network import (
+        create_tool,
+        create_local_agent,
+        check_local_llm_status,
+        create_local_distributed_network,
+    )
+    HANZO_NETWORK_AVAILABLE = True
+except ImportError:
+    HANZO_NETWORK_AVAILABLE = False
+
+
+# Skip entire module if hanzo_network is not available
+pytestmark = pytest.mark.skipif(
+    not HANZO_NETWORK_AVAILABLE,
+    reason="hanzo_network package not installed or numpy not available"
 )
 
 
