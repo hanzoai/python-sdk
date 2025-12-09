@@ -275,18 +275,10 @@ class SmartRateLimiter:
 
         # Default configs for known APIs
         self.configs = {
-            "openai": RateLimitConfig(
-                requests_per_minute=60, requests_per_hour=1000, burst_size=10
-            ),
-            "anthropic": RateLimitConfig(
-                requests_per_minute=50, requests_per_hour=1000, burst_size=5
-            ),
-            "local": RateLimitConfig(
-                requests_per_minute=100, requests_per_hour=10000, burst_size=20
-            ),
-            "free": RateLimitConfig(
-                requests_per_minute=10, requests_per_hour=100, burst_size=2
-            ),
+            "openai": RateLimitConfig(requests_per_minute=60, requests_per_hour=1000, burst_size=10),
+            "anthropic": RateLimitConfig(requests_per_minute=50, requests_per_hour=1000, burst_size=5),
+            "local": RateLimitConfig(requests_per_minute=100, requests_per_hour=10000, burst_size=20),
+            "free": RateLimitConfig(requests_per_minute=10, requests_per_hour=100, burst_size=2),
         }
 
     def get_limiter(self, api_type: str) -> RateLimiter:
@@ -296,9 +288,7 @@ class SmartRateLimiter:
             self.limiters[api_type] = RateLimiter(config)
         return self.limiters[api_type]
 
-    async def execute_with_limit(
-        self, api_type: str, func: Callable, *args, **kwargs
-    ) -> Any:
+    async def execute_with_limit(self, api_type: str, func: Callable, *args, **kwargs) -> Any:
         """Execute function with appropriate rate limiting."""
         limiter = self.get_limiter(api_type)
         recovery = ErrorRecovery(limiter)
@@ -307,10 +297,7 @@ class SmartRateLimiter:
 
     def get_all_status(self) -> Dict[str, Dict[str, Any]]:
         """Get status of all limiters."""
-        return {
-            api_type: limiter.get_status()
-            for api_type, limiter in self.limiters.items()
-        }
+        return {api_type: limiter.get_status() for api_type, limiter in self.limiters.items()}
 
 
 # Global instance for easy use
