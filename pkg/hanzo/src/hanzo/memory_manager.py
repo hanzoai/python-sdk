@@ -57,7 +57,9 @@ class MemoryManager:
             try:
                 with open(self.memory_file, "r") as f:
                     data = json.load(f)
-                    self.memories = [MemoryItem.from_dict(item) for item in data.get("memories", [])]
+                    self.memories = [
+                        MemoryItem.from_dict(item) for item in data.get("memories", [])
+                    ]
             except Exception as e:
                 print(f"Error loading memories: {e}")
                 self.memories = []
@@ -178,7 +180,9 @@ class MemoryManager:
             self.memories = []
         self.save_memories()
 
-    def get_memories(self, type: str = None, tags: List[str] = None) -> List[MemoryItem]:
+    def get_memories(
+        self, type: str = None, tags: List[str] = None
+    ) -> List[MemoryItem]:
         """Get memories filtered by type or tags."""
         result = self.memories
 
@@ -331,7 +335,9 @@ def handle_memory_command(command: str, memory_manager: MemoryManager, console) 
             console.print("[yellow]No memories stored.[/yellow]")
             return True
 
-        table = Table(title="Current Memories", show_header=True, header_style="bold magenta")
+        table = Table(
+            title="Current Memories", show_header=True, header_style="bold magenta"
+        )
         table.add_column("ID", style="cyan", width=10)
         table.add_column("Type", width=12)
         table.add_column("Content", width=50)
