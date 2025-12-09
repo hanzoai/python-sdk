@@ -325,8 +325,11 @@ class TestMetaAIOrchestrator:
     @pytest.mark.asyncio
     async def test_parse_batch_command(self, meta_orchestrator):
         """Test parsing batch commands."""
-        result = await meta_orchestrator.parse_and_execute("batch:5 add copyright")
-        
+        # Mock file finding to avoid filesystem scan
+        meta_orchestrator.mcp_client.call_tool.return_value = "file1.py\nfile2.py"
+
+        result = await meta_orchestrator.parse_and_execute("batch:5 files:*.py add copyright")
+
         # Should recognize as batch command
         assert "total_tasks" in result or "error" not in result
     
