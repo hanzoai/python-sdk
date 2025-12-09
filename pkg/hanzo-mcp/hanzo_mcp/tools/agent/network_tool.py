@@ -18,12 +18,11 @@ from typing import (
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Import hanzo cluster if available
 try:
@@ -107,8 +106,6 @@ class NetworkTool(BaseTool):
 
     @override
     @auto_timeout("network")
-
-
     async def call(self, ctx: MCPContext, **params: Unpack[NetworkToolParams]) -> str:
         """Execute a task on the agent network.
 

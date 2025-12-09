@@ -5,8 +5,6 @@ from typing import Any, Dict, Unpack, Optional, TypedDict, final
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.config.settings import (
     ProjectConfig,
     MCPServerConfig,
@@ -16,6 +14,7 @@ from hanzo_mcp.config.settings import (
 )
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class ConfigToolParams(TypedDict, total=False):
@@ -65,8 +64,6 @@ Perfect for AI-driven configuration where users can say things like:
 Automatically detects projects based on LLM.md files and manages .hanzo/ directories."""
 
     @auto_timeout("config")
-
-
     async def call(
         self,
         ctx: MCPContext,

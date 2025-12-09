@@ -9,10 +9,9 @@ from typing import Any, Dict, Union
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool, handle_connection_errors
 from hanzo_mcp.tools.common.pagination import CursorManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.paginated_response import paginate_if_needed
 
 
@@ -47,7 +46,6 @@ class PaginatedBaseTool(BaseTool):
 
     @handle_connection_errors
     @auto_timeout("paginated_base")
-
     async def call(self, ctx: MCPContext, **params: Any) -> Union[str, Dict[str, Any]]:
         """Execute the tool with automatic pagination support.
 

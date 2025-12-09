@@ -113,9 +113,7 @@ def main():
     print("=" * 60)
 
     # Check for API key
-    has_key = bool(
-        os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
-    )
+    has_key = bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY"))
     if has_key:
         print("\n✅ Claude API key detected!")
         print("   In real usage, actual Claude agents would edit the files.")

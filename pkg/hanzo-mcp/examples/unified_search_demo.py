@@ -28,18 +28,14 @@ async def demo_unified_search():
 
     if result.data and "results" in result.data:
         print(f"   Found {len(result.data['results'])} results")
-        print(
-            f"   Search types used: {', '.join(result.data['statistics']['search_types_used'])}"
-        )
+        print(f"   Search types used: {', '.join(result.data['statistics']['search_types_used'])}")
         for r in result.data["results"][:3]:
             print(f"   - {r['file']}:{r['line']} ({r['type']})")
     print()
 
     # Demo 2: Natural language query
     print("2. Natural language query:")
-    result = await search.run(
-        pattern="how does pagination work in search results", max_results_per_type=3
-    )
+    result = await search.run(pattern="how does pagination work in search results", max_results_per_type=3)
 
     if result.data:
         stats = result.data["statistics"]
@@ -63,9 +59,7 @@ async def demo_unified_search():
 
     # Demo 4: File search
     print("4. Find Python test files:")
-    result = await search.run(
-        pattern="test_*.py", search_files=True, max_results_per_type=5
-    )
+    result = await search.run(pattern="test_*.py", search_files=True, max_results_per_type=5)
 
     if result.data:
         stats = result.data["statistics"]
@@ -85,9 +79,7 @@ async def demo_unified_search():
 
     if result.data:
         # Should find symbol definitions
-        symbol_results = [
-            r for r in result.data["results"] if r.get("context", {}).get("node_type")
-        ]
+        symbol_results = [r for r in result.data["results"] if r.get("context", {}).get("node_type")]
         if symbol_results:
             print(f"   Found {len(symbol_results)} symbol matches")
         else:
@@ -101,9 +93,7 @@ async def demo_unified_search():
     if result.data and "pagination" in result.data:
         pag = result.data["pagination"]
         print(f"   Page {pag['page']} of {pag['total_pages']}")
-        print(
-            f"   Showing {len(result.data['results'])} of {pag['total_results']} total results"
-        )
+        print(f"   Showing {len(result.data['results'])} of {pag['total_results']} total results")
         print(f"   Has next page: {pag['has_next']}")
     print()
 
@@ -112,9 +102,7 @@ async def demo_unified_search():
     result = await search.run(pattern="import", include="*.py", max_results_per_type=5)
 
     if result.data:
-        print(
-            f"   Found {len(result.data['results'])} import statements in Python files"
-        )
+        print(f"   Found {len(result.data['results'])} import statements in Python files")
         stats = result.data["statistics"]
         print(f"   Search completed in {stats['time_ms'].get('text', 0)}ms")
     print()

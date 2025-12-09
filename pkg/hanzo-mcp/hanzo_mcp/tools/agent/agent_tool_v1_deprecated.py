@@ -19,8 +19,6 @@ with warnings.catch_warnings():
     import litellm
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from openai.types.chat import ChatCompletionToolParam, ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
 
@@ -45,6 +43,7 @@ from hanzo_mcp.tools.agent.tool_adapter import (
     convert_tools_to_openai_functions,
 )
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.agent.clarification_tool import ClarificationTool
 from hanzo_mcp.tools.agent.clarification_protocol import (
     ClarificationType,
@@ -180,8 +179,6 @@ Usage notes:
 
     @override
     @auto_timeout("agent_tool_v1_deprecated")
-
-
     async def call(
         self,
         ctx: MCPContext,

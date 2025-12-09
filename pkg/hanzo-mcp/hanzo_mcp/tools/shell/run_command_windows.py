@@ -8,13 +8,12 @@ from typing import Any, Annotated, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.shell.base import ShellBaseTool
 from hanzo_mcp.tools.common.base import handle_connection_errors
 from hanzo_mcp.tools.common.context import create_tool_context
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.shell.command_executor import CommandExecutor
 
 
@@ -197,8 +196,6 @@ Important:
 
     @override
     @auto_timeout("run_command_windows")
-
-
     async def call(self, ctx: MCPContext, **params: Any) -> str:
         """Execute the tool with the given parameters.
 

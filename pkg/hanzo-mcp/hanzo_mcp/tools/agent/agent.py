@@ -30,8 +30,6 @@ from pydantic import Field
 from openai.types.chat import ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
 from hanzo_mcp.tools.filesystem import get_read_only_filesystem_tools
 from hanzo_mcp.tools.common.base import BaseTool
@@ -46,6 +44,7 @@ from hanzo_mcp.tools.common.context import (
 )
 from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Parameter types
 Action = Annotated[
@@ -215,8 +214,6 @@ Modes:
 
     @override
     @auto_timeout("agent")
-
-
     async def call(
         self,
         ctx: MCPContext,

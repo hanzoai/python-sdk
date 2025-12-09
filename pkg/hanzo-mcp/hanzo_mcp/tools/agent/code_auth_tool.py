@@ -6,13 +6,12 @@ This tool manages API keys and accounts for Claude Code and other AI coding tool
 from typing import Unpack, Optional, TypedDict, final, override
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.agent.code_auth import CodeAuthManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class CodeAuthParams(TypedDict, total=False):
@@ -70,8 +69,6 @@ Providers: claude, openai, azure, deepseek, google, groq"""
 
     @override
     @auto_timeout("code_auth")
-
-
     async def call(
         self,
         ctx: MCPContext,

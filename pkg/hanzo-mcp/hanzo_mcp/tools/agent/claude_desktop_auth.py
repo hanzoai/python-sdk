@@ -1,5 +1,5 @@
-
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 """Claude Desktop authentication management.
 
 This module provides tools to automate Claude Desktop login/logout,
@@ -451,8 +451,6 @@ claude_auth ensure_agent swarm_agent_1"""
         self.auth = ClaudeDesktopAuth()
 
     @auto_timeout("claude_desktop_auth")
-
-
     async def call(self, ctx, action: str = "status", **kwargs) -> str:
         """Execute auth action."""
         tool_ctx = create_tool_context(ctx)

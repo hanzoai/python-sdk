@@ -16,9 +16,8 @@ from datetime import datetime
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.todo.base import TodoBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Parameter types
 Action = Annotated[
@@ -107,8 +106,6 @@ todo --filter in_progress
 
     @override
     @auto_timeout("todo")
-
-
     async def call(
         self,
         ctx: MCPContext,

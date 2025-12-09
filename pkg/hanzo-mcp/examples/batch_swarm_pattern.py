@@ -191,9 +191,7 @@ async def demonstrate_performance_gains():
 
     speedup = sequential_total / parallel_total
     print(f"\nSPEEDUP: {speedup:.1f}x faster!")
-    print(
-        f"Time saved: {sequential_total - parallel_total}s ({(sequential_total - parallel_total) / 60:.1f} minutes)"
-    )
+    print(f"Time saved: {sequential_total - parallel_total}s ({(sequential_total - parallel_total) / 60:.1f} minutes)")
 
     print("\n" + "=" * 60)
     print("KEY INSIGHTS:")

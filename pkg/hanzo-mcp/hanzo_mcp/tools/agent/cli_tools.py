@@ -13,13 +13,12 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Parameter types for CLI tools
 Prompt = Annotated[
@@ -189,8 +188,6 @@ class ClaudeCLITool(BaseCLITool):
         return "Execute Claude CLI for AI assistance using Anthropic's models"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt: str = params.get("prompt", "")
         model: Optional[str] = params.get("model") or self.default_model
@@ -242,8 +239,6 @@ class CodexCLITool(BaseCLITool):
         return "Execute OpenAI Codex/GPT-4 CLI for code generation and AI assistance"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt: str = params.get("prompt", "")
         model: Optional[str] = params.get("model") or self.default_model
@@ -283,8 +278,6 @@ class GeminiCLITool(BaseCLITool):
         return "Execute Google Gemini CLI for multimodal AI assistance"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt: str = params.get("prompt", "")
         model: Optional[str] = params.get("model") or self.default_model
@@ -324,8 +317,6 @@ class GrokCLITool(BaseCLITool):
         return "Execute xAI Grok CLI for real-time AI assistance"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt: str = params.get("prompt", "")
         model: Optional[str] = params.get("model") or self.default_model
@@ -365,8 +356,6 @@ class OpenHandsCLITool(BaseCLITool):
         return "Execute OpenHands (OpenDevin) for autonomous coding assistance"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt = params.get("prompt", "")
         model = params.get("model") or self.default_model
@@ -418,8 +407,6 @@ class HanzoDevCLITool(BaseCLITool):
         return "Execute Hanzo Dev for AI-powered code editing and development"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt = params.get("prompt", "")
         model = params.get("model") or self.default_model
@@ -459,8 +446,6 @@ class ClineCLITool(BaseCLITool):
         return "Execute Cline for autonomous coding with Claude"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt = params.get("prompt", "")
         working_dir: str = params.get("working_dir") or os.getcwd()
@@ -497,8 +482,6 @@ class AiderCLITool(BaseCLITool):
         return "Execute Aider for AI pair programming"
 
     @auto_timeout("cli_tools")
-
-
     async def call(self, ctx: Context[Any, Any, Any], **params: Any) -> str:
         prompt = params.get("prompt", "")
         model = params.get("model") or self.default_model

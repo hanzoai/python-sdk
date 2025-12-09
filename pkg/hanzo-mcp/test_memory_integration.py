@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Test memory integration in hanzo-mcp."""
 
-import asyncio
 import sys
+import asyncio
 from pathlib import Path
 
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+
 class Console:
     """Simple console replacement."""
+
     def print(self, text):
         print(text)
+
 
 console = Console()
 
@@ -24,6 +27,7 @@ async def test_memory_integration():
     # Test importing hanzo-memory
     try:
         import hanzo_memory
+
         console.print("✅ hanzo-memory package imported successfully")
     except ImportError as e:
         console.print(f"❌ Failed to import hanzo-memory: {e}")
@@ -32,6 +36,7 @@ async def test_memory_integration():
     # Test local memory client
     try:
         from hanzo_memory.db.local_client import LocalMemoryClient
+
         console.print("✅ LocalMemoryClient imported successfully")
 
         # Create client
@@ -59,6 +64,7 @@ async def test_memory_integration():
     try:
         # Check if memory tools can be imported
         from hanzo_mcp.tools.memory import memory_tools
+
         console.print("✅ Memory tools module imported")
 
         tool_names = [t.name for t in memory_tools.MEMORY_TOOLS]
@@ -69,7 +75,9 @@ async def test_memory_integration():
         console.print("  This is OK - memory tools are loaded dynamically when MCP server starts")
 
     console.print("\n[bold green]✅ Memory integration test completed successfully![/bold green]")
-    console.print("\nYour markdown files (LLM.md, CLAUDE.md, etc.) will be automatically loaded into memory when using hanzo-mcp tools.")
+    console.print(
+        "\nYour markdown files (LLM.md, CLAUDE.md, etc.) will be automatically loaded into memory when using hanzo-mcp tools."
+    )
 
 
 if __name__ == "__main__":

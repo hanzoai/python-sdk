@@ -5,10 +5,9 @@ from pathlib import Path
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 from .project_manager import ProjectVectorManager
 
@@ -59,8 +58,6 @@ Projects are detected by finding LLM.md files, with databases stored in .hanzo/d
 directories alongside them. Use this to build searchable knowledge bases per project."""
 
     @auto_timeout("vector_index")
-
-
     async def call(
         self,
         ctx: MCPContext,

@@ -5,15 +5,13 @@ for all tools used in Hanzo AI. These abstractions help ensure consistent tool
 behavior and provide a foundation for tool registration and management.
 """
 
-import functools
 import inspect
+import functools
 from abc import ABC, abstractmethod
 from typing import Any, Callable, final
 from collections.abc import Awaitable
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.validation import (
@@ -21,6 +19,7 @@ from hanzo_mcp.tools.common.validation import (
     validate_path_parameter,
 )
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.error_logger import log_tool_error, log_call_signature_error
 
 
@@ -33,6 +32,7 @@ def with_error_logging(tool_name: str) -> Callable:
     Returns:
         Decorator function
     """
+
     def decorator(func: Callable[..., Awaitable[str]]) -> Callable[..., Awaitable[str]]:
         @functools.wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> str:
@@ -49,12 +49,7 @@ def with_error_logging(tool_name: str) -> Callable:
                     log_call_signature_error(tool_name, expected, actual, e)
 
                 # Log the error
-                log_tool_error(
-                    tool_name,
-                    e,
-                    params=kwargs,
-                    context=f"Call signature mismatch or type error"
-                )
+                log_tool_error(tool_name, e, params=kwargs, context=f"Call signature mismatch or type error")
 
                 # Return user-friendly error message
                 return (
@@ -74,6 +69,7 @@ def with_error_logging(tool_name: str) -> Callable:
                 )
 
         return wrapper
+
     return decorator
 
 
@@ -146,7 +142,6 @@ class BaseTool(ABC):
 
     @abstractmethod
     @auto_timeout("base")
-
     async def call(self, ctx: MCPContext, **params: Any) -> Any:
         """Execute the tool with the given parameters.
 

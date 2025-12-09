@@ -9,11 +9,10 @@ from typing import List, Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Command = Annotated[
     Optional[str],
@@ -131,8 +130,6 @@ Note: Requires Neovim to be installed.
 
     @override
     @auto_timeout("neovim_command")
-
-
     async def call(
         self,
         ctx: MCPContext,

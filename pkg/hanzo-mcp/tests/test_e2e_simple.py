@@ -10,10 +10,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "
 def test_imports():
     """Test that all imports work correctly."""
     # Test hanzo-network imports
-    from hanzo_network import __version__ as network_version
-    
     # Test hanzo-mcp imports
     from hanzo_mcp import __version__ as mcp_version
+    from hanzo_network import __version__ as network_version
 
     assert network_version is not None
     assert mcp_version is not None

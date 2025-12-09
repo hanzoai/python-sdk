@@ -107,9 +107,7 @@ IMPORTANT: Use multi_edit for efficiency - add all imports in one operation!
         ctx = type("Context", (), {})()  # Mock context for example
 
         start_time = asyncio.get_event_loop().time()
-        result = await self.swarm.call(
-            ctx, tasks=tasks, max_concurrency=max_concurrency
-        )
+        result = await self.swarm.call(ctx, tasks=tasks, max_concurrency=max_concurrency)
         end_time = asyncio.get_event_loop().time()
 
         # Parse and display results
@@ -140,9 +138,7 @@ IMPORTANT: Use multi_edit for efficiency - add all imports in one operation!
         print(f"  Sequential estimate: {sequential_estimate:.1f}s")
         print(f"  Parallel actual: {parallel_time:.1f}s")
         print(f"  Speedup: {speedup:.1f}x")
-        print(
-            f"  Efficiency: {(speedup / min(max_concurrency, len(tasks))) * 100:.1f}%"
-        )
+        print(f"  Efficiency: {(speedup / min(max_concurrency, len(tasks))) * 100:.1f}%")
 
 
 async def main():

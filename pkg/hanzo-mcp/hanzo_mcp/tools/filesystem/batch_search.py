@@ -21,13 +21,12 @@ from typing_extensions import Unpack, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.filesystem.grep import Grep
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.filesystem.ast_tool import ASTTool
 from hanzo_mcp.tools.vector.ast_analyzer import Symbol, ASTAnalyzer
 from hanzo_mcp.tools.vector.vector_search import VectorSearchTool
@@ -542,8 +541,6 @@ Perfect for comprehensive code analysis and refactoring tasks."""
 
     @override
     @auto_timeout("batch_search")
-
-
     async def call(self, ctx: MCPContext, **params: Unpack[BatchSearchParams]) -> str:
         """Execute batch search with multiple queries in parallel."""
         import time

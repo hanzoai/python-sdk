@@ -123,11 +123,11 @@ class PermissionManager:
         # Security check: Reject paths with traversal attempts
         if ".." in str(path) or "~" in str(path):
             return False
-        
+
         try:
             # Resolve the path (follows symlinks and makes absolute)
             resolved_path: Path = Path(path).resolve(strict=False)
-            
+
             # Security check: Ensure resolved path doesn't escape allowed directories
             # by checking if it's actually under an allowed path after resolution
             original_path = Path(path)
@@ -160,7 +160,7 @@ class PermissionManager:
                 continue
 
         return False
-    
+
     def _is_subpath(self, child: Path, parent: Path) -> bool:
         """Check if child is a subpath of parent."""
         try:

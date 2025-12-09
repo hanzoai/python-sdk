@@ -115,13 +115,9 @@ async def main():
     coder = create_agent(
         name="coder",
         description="Code writing assistant using MLX",
-        model=ModelConfig(
-            provider=ModelProvider.LOCAL, model="mlx", temperature=0.3, max_tokens=200
-        ),
+        model=ModelConfig(provider=ModelProvider.LOCAL, model="mlx", temperature=0.3, max_tokens=200),
         system="You are a code writing assistant. Write clean, efficient code.",
-        tools=[
-            create_tool(name="write_code", description="Write code", handler=write_code)
-        ],
+        tools=[create_tool(name="write_code", description="Write code", handler=write_code)],
     )
 
     # Create network
@@ -137,9 +133,7 @@ async def main():
 
     # Test 1: Simple question
     print("\n💬 Test 1: Simple Question")
-    result = await network.run(
-        prompt="What is machine learning?", initial_agent=assistant
-    )
+    result = await network.run(prompt="What is machine learning?", initial_agent=assistant)
     print(f"Response: {result['final_output']}")
 
     # Test 2: Summarization
@@ -152,9 +146,7 @@ async def main():
 
     # Test 3: Code generation
     print("\n💻 Test 3: Code Generation")
-    result = await network.run(
-        prompt="Write a Python function to calculate factorial", initial_agent=coder
-    )
+    result = await network.run(prompt="Write a Python function to calculate factorial", initial_agent=coder)
     print(f"Response: {result['final_output']}")
 
     # Test 4: Multi-agent

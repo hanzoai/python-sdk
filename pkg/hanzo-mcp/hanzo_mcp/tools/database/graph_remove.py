@@ -5,11 +5,10 @@ from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.database.database_manager import DatabaseManager
 
 NodeId = Annotated[
@@ -119,8 +118,6 @@ Examples:
 
     @override
     @auto_timeout("graph_remove")
-
-
     async def call(
         self,
         ctx: MCPContext,

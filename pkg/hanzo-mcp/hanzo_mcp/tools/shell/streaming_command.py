@@ -1,5 +1,5 @@
-
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
 """Streaming command execution with disk-based logging and session management."""
 
 import os
@@ -176,8 +176,6 @@ class StreamingCommandTool(BaseProcessTool):
         return None
 
     @auto_timeout("streaming_command")
-
-
     async def call(self, ctx: Any, **kwargs) -> Dict[str, Any]:
         """MCP tool entry point.
 

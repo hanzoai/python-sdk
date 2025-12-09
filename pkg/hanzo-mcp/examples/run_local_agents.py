@@ -60,9 +60,7 @@ async def main():
     search_agent = create_agent(
         name="search_agent",
         description="Searches through codebase",
-        model=ModelConfig(
-            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.3
-        ),
+        model=ModelConfig(provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.3),
         system="""You are a code search specialist. Use the search_code tool to find patterns in code.
 Be precise and helpful in locating code elements.""",
         tools=[
@@ -78,9 +76,7 @@ Be precise and helpful in locating code elements.""",
     analyzer_agent = create_agent(
         name="analyzer",
         description="Analyzes code structure and quality",
-        model=ModelConfig(
-            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.5
-        ),
+        model=ModelConfig(provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.5),
         system="""You are a code analysis expert. Use your tools to analyze functions and provide insights.
 Focus on code quality, performance, and best practices.""",
         tools=[
@@ -96,9 +92,7 @@ Focus on code quality, performance, and best practices.""",
     test_agent = create_agent(
         name="test_generator",
         description="Generates unit tests",
-        model=ModelConfig(
-            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.7
-        ),
+        model=ModelConfig(provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.7),
         system="""You are a test generation specialist. Create comprehensive unit tests for given code.
 Follow pytest conventions and ensure good coverage.""",
         tools=[
@@ -114,9 +108,7 @@ Follow pytest conventions and ensure good coverage.""",
     teacher_agent = create_agent(
         name="teacher",
         description="Explains programming concepts",
-        model=ModelConfig(
-            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.8
-        ),
+        model=ModelConfig(provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.8),
         system="""You are a programming teacher. Explain concepts clearly and provide examples.
 Make complex topics accessible to learners.""",
         tools=[
@@ -158,23 +150,17 @@ Make complex topics accessible to learners.""",
 
     # Test 2: Code Analysis
     print("\n📊 Test 2: Code Analysis")
-    result = await network.run(
-        prompt="Analyze the add function implementation", initial_agent=analyzer_agent
-    )
+    result = await network.run(prompt="Analyze the add function implementation", initial_agent=analyzer_agent)
     print(f"Result: {result['final_output']}")
 
     # Test 3: Test Generation
     print("\n🧪 Test 3: Test Generation")
-    result = await network.run(
-        prompt="Generate tests for an add function", initial_agent=test_agent
-    )
+    result = await network.run(prompt="Generate tests for an add function", initial_agent=test_agent)
     print(f"Result: {result['final_output']}")
 
     # Test 4: Concept Explanation
     print("\n📚 Test 4: Concept Explanation")
-    result = await network.run(
-        prompt="Explain what recursion is", initial_agent=teacher_agent
-    )
+    result = await network.run(prompt="Explain what recursion is", initial_agent=teacher_agent)
     print(f"Result: {result['final_output']}")
 
     # Test 5: Multi-Agent Collaboration
@@ -187,9 +173,7 @@ Make complex topics accessible to learners.""",
 
     # Test 6: Complex Query
     print("\n🎯 Test 6: Complex Development Task")
-    result = await network.run(
-        prompt="I need help understanding and testing a binary search implementation"
-    )
+    result = await network.run(prompt="I need help understanding and testing a binary search implementation")
     print(f"Result: {result['final_output']}")
 
     print("\n✅ Local agent demo complete!")

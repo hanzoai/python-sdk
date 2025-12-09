@@ -5,12 +5,11 @@ from typing import override
 from pathlib import Path
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class DiffTool(BaseTool):
@@ -203,8 +202,6 @@ diff a.json b.json --ignore-whitespace"""
             )
 
     @auto_timeout("diff")
-
-
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(

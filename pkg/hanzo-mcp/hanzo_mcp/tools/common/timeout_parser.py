@@ -37,11 +37,11 @@ def parse_timeout(timeout_str: Union[str, int, float]) -> float:
         # Regex patterns for different time units
         patterns = [
             # Hours: 1h, 1.5hr, 2hour, 3hours
-            (r'^(\d*\.?\d+)\s*h(?:r|our|ours)?$', 3600),
+            (r"^(\d*\.?\d+)\s*h(?:r|our|ours)?$", 3600),
             # Minutes: 2m, 5min, 10mins, 1.5minute
-            (r'^(\d*\.?\d+)\s*m(?:in|ins|inute|inutes)?$', 60),
+            (r"^(\d*\.?\d+)\s*m(?:in|ins|inute|inutes)?$", 60),
             # Seconds: 30s, 120sec, 45secs, 60second, 90seconds
-            (r'^(\d*\.?\d+)\s*s(?:ec|ecs|econd|econds)?$', 1),
+            (r"^(\d*\.?\d+)\s*s(?:ec|ecs|econd|econds)?$", 1),
         ]
 
         for pattern, multiplier in patterns:
@@ -89,10 +89,7 @@ def format_timeout(seconds: float) -> str:
 
 # Test the parser
 if __name__ == "__main__":
-    test_cases = [
-        "2min", "5m", "120s", "30sec", "1.5h", "0.5hr",
-        "90", 120, 3600.0, "1hour", "2hours", "30seconds"
-    ]
+    test_cases = ["2min", "5m", "120s", "30sec", "1.5h", "0.5hr", "90", 120, 3600.0, "1hour", "2hours", "30seconds"]
 
     for case in test_cases:
         try:
