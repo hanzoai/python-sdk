@@ -916,7 +916,7 @@ class CodeIndexer:
     def _split_code_intelligently(self, content: str, file_path: Path) -> List[Dict[str, Any]]:
         """Split code into meaningful chunks."""
         # Simple line-based splitting for now
-        # TODO: Use AST for better splitting
+        # Note: Consider using AST for better splitting in future
         chunks = []
         lines = content.split("\n")
 
