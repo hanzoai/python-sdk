@@ -5,11 +5,12 @@ import sys
 import asyncio
 from pathlib import Path
 
+import pytest
 from rich.table import Table
 from rich.console import Console
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
+# Add hanzo src to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "pkg" / "hanzo" / "src"))
 
 from hanzo.rate_limiter import (
     RateLimiter,
