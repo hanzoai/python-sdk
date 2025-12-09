@@ -35,7 +35,7 @@ console = Console()
 @dataclass
 class BatchTask:
     """Represents a single task in a batch operation."""
-    
+
     id: str
     description: str
     file_path: Optional[Path] = None
@@ -44,23 +44,25 @@ class BatchTask:
     result: Optional[AgentResult] = None
     start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
-    
+    error: Optional[str] = None  # Direct error message for exceptions
+
     def duration(self) -> Optional[float]:
         """Calculate task duration in seconds."""
         if self.start_time and self.end_time:
             return (self.end_time - self.start_time).total_seconds()
         return None
-    
+
     @property
     def success(self) -> bool:
         """Check if task succeeded."""
-        return self.status == "completed" and self.result and self.result.success
-    
-    @property
-    def error(self) -> Optional[str]:
-        """Get error message if any."""
-        if self.result and not self.result.success:
-            return self.result.error
+        return self.status == "completed" and self.result and getattr(self.result, 'success', True)
+
+    def get_error(self) -> Optional[str]:
+        """Get error message from direct error or result."""
+        if self.error:
+            return self.error
+        if self.result and hasattr(self.result, 'success') and not self.result.success:
+            return getattr(self.result, 'error', None)
         return None
 
 
