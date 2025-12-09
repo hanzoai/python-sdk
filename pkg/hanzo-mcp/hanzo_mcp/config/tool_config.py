@@ -105,7 +105,7 @@ TOOL_REGISTRY: Dict[str, ToolConfig] = {
         description="Edit Jupyter notebook cells (replace, insert, delete)",
         cli_flag="--disable-notebook-edit",
     ),
-    # Todo Tools (2)
+    # Task List Tools (2)
     "todo_read": ToolConfig(
         name="todo_read",
         category=ToolCategory.TODO,
