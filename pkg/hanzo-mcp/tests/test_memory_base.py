@@ -6,14 +6,30 @@ from unittest.mock import Mock, AsyncMock, patch
 import pytest
 from fastmcp import FastMCP
 from conftest import ToolTestHelper, create_mock_ctx
-from hanzo_memory.models import Memory
-from hanzo_mcp.tools.memory import (
-    CreateMemoriesTool,
-    DeleteMemoriesTool,
-    RecallMemoriesTool,
-    UpdateMemoriesTool,
-    register_memory_tools,
+
+# Import guard for optional hanzo_memory dependency
+try:
+    from hanzo_memory.models import Memory
+    HANZO_MEMORY_AVAILABLE = True
+except ImportError:
+    HANZO_MEMORY_AVAILABLE = False
+    Memory = None  # type: ignore
+
+# Skip entire module if hanzo_memory is not available
+pytestmark = pytest.mark.skipif(
+    not HANZO_MEMORY_AVAILABLE,
+    reason="hanzo_memory package not installed"
 )
+
+# Only import these if hanzo_memory is available
+if HANZO_MEMORY_AVAILABLE:
+    from hanzo_mcp.tools.memory import (
+        CreateMemoriesTool,
+        DeleteMemoriesTool,
+        RecallMemoriesTool,
+        UpdateMemoriesTool,
+        register_memory_tools,
+    )
 
 
 class MemoryTestBase:
