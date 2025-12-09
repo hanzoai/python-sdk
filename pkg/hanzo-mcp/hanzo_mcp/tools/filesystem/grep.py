@@ -14,13 +14,12 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.context import ToolContext
 from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Pattern = Annotated[
     str,
@@ -356,8 +355,6 @@ When you are doing an open ended search that may require multiple rounds of glob
 
     @override
     @auto_timeout("grep")
-
-
     async def call(
         self,
         ctx: MCPContext,

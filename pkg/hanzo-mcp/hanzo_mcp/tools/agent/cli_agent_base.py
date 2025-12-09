@@ -13,11 +13,10 @@ from typing import List, Optional
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class CLIAgentBase(BaseTool):
@@ -169,8 +168,6 @@ class CLIAgentBase(BaseTool):
             return f"Error: {str(e)}"
 
     @auto_timeout("cli_agent_base")
-
-
     async def call(self, ctx: MCPContext, prompts: str, **kwargs) -> str:
         """Execute the CLI agent.
 

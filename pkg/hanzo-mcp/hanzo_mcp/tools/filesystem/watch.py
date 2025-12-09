@@ -7,11 +7,10 @@ from pathlib import Path
 from datetime import datetime
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class WatchTool(BaseTool):
@@ -44,8 +43,6 @@ class WatchTool(BaseTool):
             )
 
     @auto_timeout("watch")
-
-
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(

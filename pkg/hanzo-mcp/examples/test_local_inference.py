@@ -80,17 +80,13 @@ async def main():
 
     # Test with tool-aware prompt
     messages_with_tools = [
-        Message(
-            role="system", content="You are a helpful assistant with access to tools."
-        ),
+        Message(role="system", content="You are a helpful assistant with access to tools."),
         Message(role="user", content="Calculate 100 divided by 4"),
     ]
 
     tools = [{"name": "calculate", "description": "Calculate mathematical expressions"}]
 
-    response = await provider.generate(
-        messages_with_tools, model="llama3.2", tools=tools
-    )
+    response = await provider.generate(messages_with_tools, model="llama3.2", tools=tools)
 
     print("\nTool-aware response:")
     print(f"Output: {response['output'][0]['content']}")
@@ -100,9 +96,7 @@ async def main():
     print("✅ All inference done locally via hanzo/net")
     print("✅ No external API calls made")
     print("✅ Using distributed inference engine: dummy")
-    print(
-        "\nNote: In production, this would use MLX (Apple Silicon) or Tinygrad engines"
-    )
+    print("\nNote: In production, this would use MLX (Apple Silicon) or Tinygrad engines")
     print("      with actual model weights loaded locally.")
 
     # Test 5: Concurrent inference
@@ -111,9 +105,7 @@ async def main():
     async def run_inference(prompt: str, id: int):
         """Run a single inference."""
         start = asyncio.get_event_loop().time()
-        response = await provider.generate(
-            [Message(role="user", content=prompt)], model="llama3.2"
-        )
+        response = await provider.generate([Message(role="user", content=prompt)], model="llama3.2")
         end = asyncio.get_event_loop().time()
         return {
             "id": id,

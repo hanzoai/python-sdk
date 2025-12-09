@@ -9,13 +9,12 @@ from typing import Any, Unpack, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.truncate import truncate_response
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.fastmcp_pagination import (
     CursorData,
     create_paginated_response,
@@ -157,8 +156,6 @@ Not available: think,write,edit,multi_edit,notebook_edit
 
     @override
     @auto_timeout("batch")
-
-
     async def call(
         self,
         ctx: MCPContext,

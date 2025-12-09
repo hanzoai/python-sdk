@@ -3,8 +3,8 @@
 import os
 import atexit
 import signal
-import secrets
 import logging
+import secrets
 import warnings
 import threading
 from typing import Literal, cast, final
@@ -83,7 +83,7 @@ class HanzoMCPServer:
         self.mcp = mcp_instance if mcp_instance is not None else EnhancedFastMCP(name)
 
         # Initialize authentication token
-        self.auth_token = auth_token or os.environ.get('HANZO_MCP_TOKEN')
+        self.auth_token = auth_token or os.environ.get("HANZO_MCP_TOKEN")
         if not self.auth_token:
             # Generate a secure random token if none provided
             self.auth_token = secrets.token_urlsafe(32)

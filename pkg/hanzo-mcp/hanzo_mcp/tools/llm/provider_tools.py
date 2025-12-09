@@ -5,10 +5,9 @@ from typing import Dict, Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Prompt = Annotated[
     str,
@@ -101,8 +100,6 @@ class BaseProviderTool(BaseTool):
 
     @override
     @auto_timeout("provider_tools")
-
-
     async def call(
         self,
         ctx: MCPContext,

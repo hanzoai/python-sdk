@@ -8,11 +8,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class OpenTool(BaseTool):
@@ -29,8 +28,6 @@ class OpenTool(BaseTool):
             return await tool_self.run(ctx, path)
 
     @auto_timeout("open")
-
-
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(ctx, params["path"])

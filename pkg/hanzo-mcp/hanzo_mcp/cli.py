@@ -15,11 +15,13 @@ import argparse
 from typing import Any, cast
 from pathlib import Path
 
+
 # Import timeout parser (deferred to avoid early imports)
 def _parse_timeout_arg(timeout_str: str) -> float:
     """Parse timeout argument with human-readable format support."""
     try:
         from hanzo_mcp.tools.common.timeout_parser import parse_timeout
+
         return parse_timeout(timeout_str)
     except ImportError:
         # Fallback if parser not available
@@ -169,7 +171,8 @@ def main() -> None:
     )
 
     _ = parser.add_argument(
-        "--timeout", "-t",
+        "--timeout",
+        "-t",
         dest="tool_timeout",
         type=str,
         help="Default timeout for MCP tool operations (default: 2min). Supports: 2min, 5m, 120s, 30sec, 1.5h",
@@ -288,19 +291,19 @@ def main() -> None:
     command_timeout = _parse_timeout_arg(str(args.command_timeout))
 
     # Set timeout environment variables from CLI args
-    if hasattr(args, 'tool_timeout') and args.tool_timeout:
+    if hasattr(args, "tool_timeout") and args.tool_timeout:
         tool_timeout = _parse_timeout_arg(args.tool_timeout)
         os.environ["HANZO_MCP_TOOL_TIMEOUT"] = str(tool_timeout)
 
-    if hasattr(args, 'search_timeout') and args.search_timeout:
+    if hasattr(args, "search_timeout") and args.search_timeout:
         search_timeout = _parse_timeout_arg(args.search_timeout)
         os.environ["HANZO_MCP_SEARCH_TIMEOUT"] = str(search_timeout)
 
-    if hasattr(args, 'find_timeout') and args.find_timeout:
+    if hasattr(args, "find_timeout") and args.find_timeout:
         find_timeout = _parse_timeout_arg(args.find_timeout)
         os.environ["HANZO_MCP_FIND_TIMEOUT"] = str(find_timeout)
 
-    if hasattr(args, 'ast_timeout') and args.ast_timeout:
+    if hasattr(args, "ast_timeout") and args.ast_timeout:
         ast_timeout = _parse_timeout_arg(args.ast_timeout)
         os.environ["HANZO_MCP_AST_TIMEOUT"] = str(ast_timeout)
 
@@ -382,8 +385,9 @@ def main() -> None:
         # Ensure only one daemon runs per socket
         try:
             import fcntl
+
             lock_file = f"{socket_path}.lock"
-            with open(lock_file, 'w') as f:
+            with open(lock_file, "w") as f:
                 fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except (ImportError, IOError):
             # Fallback for systems without fcntl or if lock fails
