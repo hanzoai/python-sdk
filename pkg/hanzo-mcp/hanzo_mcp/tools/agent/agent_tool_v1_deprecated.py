@@ -97,7 +97,7 @@ class AgentTool(AgentClarificationMixin, BaseTool):
         Returns:
             Tool description
         """
-        # TODO: Add glob when it is implemented
+        # Note: Consider adding glob pattern support in future
         at = [t.name for t in self.available_tools]
 
         return f"""Launch a new agent that has access to the following tools: {at}. When you are searching for a keyword or file and are not confident that you will find the right match in the first few tries, use the Agent tool to perform the search for you.
