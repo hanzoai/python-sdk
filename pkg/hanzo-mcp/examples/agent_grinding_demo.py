@@ -198,18 +198,12 @@ async def run_agent_grinding_demo():
 
     # Show the key benefits
     print("\n=== Key Benefits of Agent Grinding ===")
-    print(
-        "1. Parallel Processing: Multiple agents work on different files simultaneously"
-    )
-    print(
-        "2. Full Context: Each agent has all tools - can read, search, understand before editing"
-    )
+    print("1. Parallel Processing: Multiple agents work on different files simultaneously")
+    print("2. Full Context: Each agent has all tools - can read, search, understand before editing")
     print("3. Smart Filtering: Agents skip files that don't need changes")
     print("4. Precise Edits: Agents make surgical changes based on understanding")
     print("5. Scalable: Add more agents to handle larger codebases")
-    print(
-        "6. Flexible: Different patterns (pipeline, parallel, consensus) for different tasks"
-    )
+    print("6. Flexible: Different patterns (pipeline, parallel, consensus) for different tasks")
 
     # Show example swarm command
     print("\n=== Example Swarm Command ===")
@@ -231,9 +225,7 @@ swarm_tool(
     print("\nThe agents will:")
     print("- finder: Search and categorize all FIXMEs")
     print("- grinders: Work in parallel on different directories")
-    print(
-        "- Each grinder: Read file → Understand context → Fix if needed → Move to next"
-    )
+    print("- Each grinder: Read file → Understand context → Fix if needed → Move to next")
     print("- reviewer: Ensure all fixes are appropriate")
 
 

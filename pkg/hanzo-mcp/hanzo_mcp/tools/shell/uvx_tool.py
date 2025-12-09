@@ -4,11 +4,10 @@ from typing import Optional, override
 from pathlib import Path
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.shell.base_process import BaseBinaryTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class UvxTool(BaseBinaryTool):
@@ -91,8 +90,6 @@ uvx jupyter lab --port 8888  # Auto-backgrounds if needed"""
             return await tool_self.run(ctx, package=package, args=args, cwd=cwd, python=python)
 
     @auto_timeout("uvx")
-
-
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
         return await self.run(

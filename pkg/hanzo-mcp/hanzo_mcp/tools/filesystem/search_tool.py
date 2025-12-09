@@ -27,13 +27,12 @@ from dataclasses import dataclass
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
 from hanzo_mcp.tools.filesystem.grep import Grep
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.vector.vector_search import VectorSearchTool
 from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
@@ -531,8 +530,6 @@ This is the recommended search tool for comprehensive results."""
 
     @override
     @auto_timeout("search")
-
-
     async def call(
         self,
         ctx: MCPContext,

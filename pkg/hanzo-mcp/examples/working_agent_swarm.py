@@ -23,9 +23,7 @@ class LocalAgentSwarm:
 
         # Code Scanner Agent
         def scan_files(pattern: str) -> str:
-            return (
-                f"Scanned files matching '{pattern}': Found 15 Python files, 8 JS files"
-            )
+            return f"Scanned files matching '{pattern}': Found 15 Python files, 8 JS files"
 
         self.agents["scanner"] = create_local_agent(
             name="scanner",
@@ -43,9 +41,7 @@ class LocalAgentSwarm:
 
         # Vulnerability Detector Agent
         def detect_vulnerabilities(code: str) -> str:
-            return (
-                "Found 2 potential issues: SQL injection risk, missing input validation"
-            )
+            return "Found 2 potential issues: SQL injection risk, missing input validation"
 
         self.agents["detector"] = create_local_agent(
             name="detector",
@@ -197,9 +193,7 @@ class LocalAgentSwarm:
         yes_count = sum(1 for v in votes.values() if "yes" in v.lower())
         no_count = len(votes) - yes_count
 
-        print(
-            f"\n🗳️  Consensus: {'YES' if yes_count > no_count else 'NO'} ({yes_count} yes, {no_count} no)"
-        )
+        print(f"\n🗳️  Consensus: {'YES' if yes_count > no_count else 'NO'} ({yes_count} yes, {no_count} no)")
 
         return votes
 

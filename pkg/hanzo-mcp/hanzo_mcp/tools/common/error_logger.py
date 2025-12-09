@@ -4,13 +4,13 @@ This module provides comprehensive error logging for all MCP tool operations,
 writing errors to ~/.hanzo/mcp/logs/ for debugging and analysis.
 """
 
+import os
 import json
 import logging
 import traceback
-from datetime import datetime
-from pathlib import Path
 from typing import Any, Optional
-import os
+from pathlib import Path
+from datetime import datetime
 
 
 class MCPErrorLogger:
@@ -58,8 +58,7 @@ class MCPErrorLogger:
 
         # Formatter
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
         )
         file_handler.setFormatter(formatter)
         general_handler.setFormatter(formatter)
@@ -106,16 +105,16 @@ class MCPErrorLogger:
         # Also log to standard logger
         self.logger.error(
             f"Tool '{tool_name}' error: {type(error).__name__}: {str(error)}",
-            extra={"tool": tool_name, "params": error_data.get("params")}
+            extra={"tool": tool_name, "params": error_data.get("params")},
         )
 
         # Write detailed error to tool-specific file
         tool_log_file = self.log_dir / f"{tool_name}-errors.log"
         try:
             with open(tool_log_file, "a") as f:
-                f.write(f"\n{'='*80}\n")
+                f.write(f"\n{'=' * 80}\n")
                 f.write(f"ERROR at {error_data['timestamp']}\n")
-                f.write(f"{'='*80}\n")
+                f.write(f"{'=' * 80}\n")
                 f.write(f"Tool: {tool_name}\n")
                 f.write(f"Error Type: {error_data['error_type']}\n")
                 f.write(f"Error Message: {error_data['error_message']}\n")
@@ -156,9 +155,9 @@ class MCPErrorLogger:
         sig_log_file = self.log_dir / "signature-errors.log"
         try:
             with open(sig_log_file, "a") as f:
-                f.write(f"\n{'='*80}\n")
+                f.write(f"\n{'=' * 80}\n")
                 f.write(f"CALL SIGNATURE ERROR at {error_data['timestamp']}\n")
-                f.write(f"{'='*80}\n")
+                f.write(f"{'=' * 80}\n")
                 f.write(f"Tool: {tool_name}\n")
                 f.write(f"Expected: {expected_signature}\n")
                 f.write(f"Actual: {actual_call}\n")
@@ -169,9 +168,7 @@ class MCPErrorLogger:
 
         # Also log as regular tool error
         self.log_tool_error(
-            tool_name,
-            error,
-            context=f"Call signature mismatch - Expected: {expected_signature}, Got: {actual_call}"
+            tool_name, error, context=f"Call signature mismatch - Expected: {expected_signature}, Got: {actual_call}"
         )
 
     def _sanitize_params(self, params: dict[str, Any]) -> dict[str, Any]:
@@ -185,8 +182,16 @@ class MCPErrorLogger:
         """
         sanitized = {}
         sensitive_keys = {
-            "password", "token", "key", "secret", "api_key", "auth",
-            "credential", "private", "ssh_key", "passphrase"
+            "password",
+            "token",
+            "key",
+            "secret",
+            "api_key",
+            "auth",
+            "credential",
+            "private",
+            "ssh_key",
+            "passphrase",
         }
 
         for key, value in params.items():
@@ -214,7 +219,7 @@ class MCPErrorLogger:
         Returns:
             List of error dictionaries
         """
-        today = datetime.now().strftime('%Y-%m-%d')
+        today = datetime.now().strftime("%Y-%m-%d")
         json_log_file = self.log_dir / f"tool-errors-{today}.jsonl"
 
         if not json_log_file.exists():

@@ -1,13 +1,13 @@
 """Tests for MCP error logging functionality."""
 
-import pytest
 from pathlib import Path
 from datetime import datetime
 
+import pytest
 from hanzo_mcp.tools.common.error_logger import (
     MCPErrorLogger,
-    get_error_logger,
     log_tool_error,
+    get_error_logger,
     log_call_signature_error,
 )
 
@@ -36,12 +36,7 @@ class TestMCPErrorLogger:
         params = {"file_path": "/test/path", "limit": 100}
 
         # Log the error
-        logger.log_tool_error(
-            tool_name="read",
-            error=test_error,
-            params=params,
-            context="Testing error logging"
-        )
+        logger.log_tool_error(tool_name="read", error=test_error, params=params, context="Testing error logging")
 
         # Check that log files were created
         tool_log = tmp_path / "read-errors.log"
@@ -70,7 +65,7 @@ class TestMCPErrorLogger:
             tool_name="read",
             expected_signature="read(ctx, file_path: str)",
             actual_call="read(ctx, '/path/to/file')",
-            error=test_error
+            error=test_error,
         )
 
         # Check that signature errors log was created
@@ -93,7 +88,7 @@ class TestMCPErrorLogger:
             "api_key": "secret-key-123",
             "password": "super-secret",
             "token": "bearer-token",
-            "normal_param": "normal-value"
+            "normal_param": "normal-value",
         }
 
         sanitized = logger._sanitize_params(params)
@@ -114,11 +109,7 @@ class TestMCPErrorLogger:
         # Log multiple errors
         for i in range(5):
             error = ValueError(f"Error {i}")
-            logger.log_tool_error(
-                tool_name=f"tool_{i}",
-                error=error,
-                params={"index": i}
-            )
+            logger.log_tool_error(tool_name=f"tool_{i}", error=error, params={"index": i})
 
         # Get recent errors
         recent = logger.get_recent_errors(limit=3)
@@ -140,6 +131,7 @@ class TestMCPErrorLogger:
         """Test convenience logging functions."""
         # Override global logger for testing
         from hanzo_mcp.tools.common import error_logger as el_module
+
         el_module._global_error_logger = MCPErrorLogger(log_dir=tmp_path)
 
         # Test log_tool_error
@@ -152,12 +144,7 @@ class TestMCPErrorLogger:
 
         # Test log_call_signature_error
         sig_error = TypeError("signature mismatch")
-        log_call_signature_error(
-            "test_tool",
-            "expected signature",
-            "actual call",
-            sig_error
-        )
+        log_call_signature_error("test_tool", "expected signature", "actual call", sig_error)
 
         sig_log = tmp_path / "signature-errors.log"
         assert sig_log.exists()
@@ -169,10 +156,10 @@ class TestErrorLoggingIntegration:
     @pytest.mark.asyncio
     async def test_read_tool_with_error_logging(self, tmp_path):
         """Test that ReadTool logs errors correctly."""
-        from hanzo_mcp.tools.filesystem.read import ReadTool
-        from hanzo_mcp.tools.common.permissions import PermissionManager
         from mcp.server.fastmcp import Context as MCPContext
         from hanzo_mcp.tools.common import error_logger as el_module
+        from hanzo_mcp.tools.filesystem.read import ReadTool
+        from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Override global logger
         el_module._global_error_logger = MCPErrorLogger(log_dir=tmp_path)
@@ -183,9 +170,14 @@ class TestErrorLoggingIntegration:
 
         # Create mock context
         class MockContext:
-            async def info(self, msg): pass
-            async def error(self, msg): pass
-            async def warning(self, msg): pass
+            async def info(self, msg):
+                pass
+
+            async def error(self, msg):
+                pass
+
+            async def warning(self, msg):
+                pass
 
         ctx = MockContext()
 

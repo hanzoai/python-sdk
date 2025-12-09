@@ -5,8 +5,8 @@ from typing import Any, Dict, List, Optional, override
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class ClarificationTool(BaseTool):

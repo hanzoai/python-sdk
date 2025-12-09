@@ -3,19 +3,18 @@
 This module provides the ReadTool for reading the contents of files.
 """
 
+import os
 from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
-import os
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_mcp.tools.common.base import with_error_logging
 from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
-from hanzo_mcp.tools.common.base import with_error_logging
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 FilePath = Annotated[
     str,

@@ -5,10 +5,9 @@ from typing import List, Unpack, Optional, TypedDict, final
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 from .project_manager import ProjectVectorManager
 
@@ -65,8 +64,6 @@ Features:
 Use 'grep' for exact text/pattern matching, 'vector_search' for semantic similarity."""
 
     @auto_timeout("vector_search")
-
-
     async def call(
         self,
         ctx: MCPContext,

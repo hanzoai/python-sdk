@@ -23,9 +23,8 @@ from pydantic import Field
 from grep_ast.grep_ast import TreeContext
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Parameter types
 Action = Annotated[
@@ -129,8 +128,6 @@ Finds code structures (functions, classes, methods) with full context."""
 
     @override
     @auto_timeout("symbols")
-
-
     async def call(
         self,
         ctx: MCPContext,

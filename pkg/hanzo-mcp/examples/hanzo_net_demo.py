@@ -48,11 +48,7 @@ async def main():
         name="code_analyzer",
         description="Analyzes code using distributed inference",
         system="You are powered by hanzo/net distributed inference. Analyze code efficiently.",
-        tools=[
-            create_tool(
-                name="analyze_code", description="Analyze code", handler=analyze_code
-            )
-        ],
+        tools=[create_tool(name="analyze_code", description="Analyze code", handler=analyze_code)],
         local_model="llama3.2",  # Will use hanzo/net
     )
 
