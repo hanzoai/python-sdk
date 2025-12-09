@@ -16,6 +16,7 @@ try:
         check_local_llm_status,
         create_local_distributed_network,
     )
+
     HANZO_NETWORK_AVAILABLE = True
 except ImportError:
     HANZO_NETWORK_AVAILABLE = False
@@ -23,8 +24,7 @@ except ImportError:
 
 # Skip entire module if hanzo_network is not available
 pytestmark = pytest.mark.skipif(
-    not HANZO_NETWORK_AVAILABLE,
-    reason="hanzo_network package not installed or numpy not available"
+    not HANZO_NETWORK_AVAILABLE, reason="hanzo_network package not installed or numpy not available"
 )
 
 

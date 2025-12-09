@@ -7,15 +7,13 @@ import pytest
 # Import guard for optional hanzo_memory dependency
 try:
     from hanzo_memory.models import Memory
+
     HANZO_MEMORY_AVAILABLE = True
 except ImportError:
     HANZO_MEMORY_AVAILABLE = False
 
 # Skip entire module if hanzo_memory is not available
-pytestmark = pytest.mark.skipif(
-    not HANZO_MEMORY_AVAILABLE,
-    reason="hanzo_memory package not installed"
-)
+pytestmark = pytest.mark.skipif(not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory package not installed")
 
 # Only import these if hanzo_memory is available
 if HANZO_MEMORY_AVAILABLE:
@@ -71,7 +69,9 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
                 {"query": "test query", "limit": 5},
                 "Found 1 relevant memories",
             ),
-        ] if HANZO_MEMORY_AVAILABLE else [],
+        ]
+        if HANZO_MEMORY_AVAILABLE
+        else [],
     )
     async def test_memory_operations(
         self,
