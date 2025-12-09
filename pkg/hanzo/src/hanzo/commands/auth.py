@@ -79,7 +79,11 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
         if api_key:
             # Direct API key authentication
             console.print("Authenticating with API key...")
-            auth = {"api_key": api_key, "logged_in": True, "last_login": datetime.now().isoformat()}
+            auth = {
+                "api_key": api_key,
+                "logged_in": True,
+                "last_login": datetime.now().isoformat(),
+            }
             auth_mgr.save_auth(auth)
             console.print("[green]✓[/green] Successfully authenticated with API key")
 
@@ -97,7 +101,11 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
                 console.print("[yellow]SSO authentication not yet implemented[/yellow]")
                 return
 
-                auth = {"email": result.get("email"), "logged_in": True, "last_login": datetime.now().isoformat()}
+                auth = {
+                    "email": result.get("email"),
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
                 auth_mgr.save_auth(auth)
                 console.print(f"[green]✓[/green] Logged in as {result.get('email')}")
             except ImportError:
@@ -119,15 +127,25 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
 
                 hanzo_auth = HanzoAuth()
                 # Email auth not implemented yet
-                console.print("[yellow]Email authentication not yet implemented[/yellow]")
+                console.print(
+                    "[yellow]Email authentication not yet implemented[/yellow]"
+                )
                 console.print("[dim]Saving credentials locally for development[/dim]")
 
-                auth = {"email": email, "logged_in": True, "last_login": datetime.now().isoformat()}
+                auth = {
+                    "email": email,
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
                 auth_mgr.save_auth(auth)
                 console.print(f"[green]✓[/green] Logged in as {email}")
             except ImportError:
                 # Fallback to saving credentials locally
-                auth = {"email": email, "logged_in": True, "last_login": datetime.now().isoformat()}
+                auth = {
+                    "email": email,
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
                 auth_mgr.save_auth(auth)
                 console.print(f"[green]✓[/green] Credentials saved for {email}")
 
@@ -231,7 +249,9 @@ def whoami():
 
     content = "\n".join(lines) if lines else "[dim]No user information available[/dim]"
 
-    console.print(Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED))
+    console.print(
+        Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED)
+    )
 
 
 @auth_group.command(name="set-key")

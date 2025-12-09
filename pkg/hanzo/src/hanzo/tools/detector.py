@@ -217,11 +217,16 @@ class ToolDetector:
                             ]:  # 400/422 means endpoint exists but params wrong
                                 tool.detected = True
                                 tool.version = f"Running (Port {port})"
-                                tool.api_endpoint = f"http://localhost:{port}/health"  # Update port
+                                tool.api_endpoint = (
+                                    f"http://localhost:{port}/health"  # Update port
+                                )
 
                                 # Try to get model info
                                 try:
-                                    models_response = httpx.get(f"http://localhost:{port}/v1/models", timeout=0.5)
+                                    models_response = httpx.get(
+                                        f"http://localhost:{port}/v1/models",
+                                        timeout=0.5,
+                                    )
                                     if models_response.status_code == 200:
                                         models = models_response.json().get("data", [])
                                         if models:
@@ -257,7 +262,12 @@ class ToolDetector:
                 # Try to get version
                 if tool.check_command:
                     try:
-                        result = subprocess.run(tool.check_command.split(), capture_output=True, text=True, timeout=2)
+                        result = subprocess.run(
+                            tool.check_command.split(),
+                            capture_output=True,
+                            text=True,
+                            timeout=2,
+                        )
                         if result.returncode == 0:
                             tool.version = result.stdout.strip().split()[-1]
                     except Exception:
@@ -306,7 +316,11 @@ class ToolDetector:
             version = tool.version or "Unknown" if tool.detected else "-"
 
             # Highlight the default tool
-            if tool.detected and tool == self.detected_tools[0] if self.detected_tools else False:
+            if (
+                tool.detected and tool == self.detected_tools[0]
+                if self.detected_tools
+                else False
+            ):
                 table.add_row(
                     str(i),
                     f"[bold green]→ {tool.display_name}[/bold green]",
@@ -316,7 +330,14 @@ class ToolDetector:
                     str(tool.priority),
                 )
             else:
-                table.add_row(str(i), tool.display_name, tool.provider, status, version, str(tool.priority))
+                table.add_row(
+                    str(i),
+                    tool.display_name,
+                    tool.provider,
+                    status,
+                    version,
+                    str(tool.priority),
+                )
 
         self.console.print(table)
 
@@ -326,11 +347,15 @@ class ToolDetector:
 
             # Special message for Hanzo Node
             if default.name == "hanzod":
-                self.console.print("[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]")
+                self.console.print(
+                    "[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]"
+                )
                 self.console.print("[dim]Manage models with: hanzo node models[/dim]")
         else:
             self.console.print("\n[yellow]No AI coding tools detected.[/yellow]")
-            self.console.print("[dim]Start Hanzo Node for local AI: hanzo node start[/dim]")
+            self.console.print(
+                "[dim]Start Hanzo Node for local AI: hanzo node start[/dim]"
+            )
             self.console.print("[dim]Or install Claude Code, OpenAI CLI, etc.[/dim]")
 
     def get_tool_command(self, tool: AITool, prompt: str) -> List[str]:
@@ -346,7 +371,15 @@ class ToolDetector:
         elif tool.name == "hanzo-dev":
             return ["hanzo", "dev", "--prompt", prompt]
         elif tool.name == "openai-codex":
-            return ["openai", "api", "completions.create", "-m", "code-davinci-002", "-p", prompt]
+            return [
+                "openai",
+                "api",
+                "completions.create",
+                "-m",
+                "code-davinci-002",
+                "-p",
+                prompt,
+            ]
         elif tool.name == "gemini-cli":
             return ["gemini", "generate", "--prompt", prompt]
         elif tool.name == "grok-cli":
@@ -384,9 +417,14 @@ class ToolDetector:
                     )
                     if response.status_code == 200:
                         result = response.json()
-                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                        return True, result.get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
                     else:
-                        return False, f"Hanzo Node returned {response.status_code}: {response.text}"
+                        return (
+                            False,
+                            f"Hanzo Node returned {response.status_code}: {response.text}",
+                        )
                 except Exception as e:
                     return False, f"Hanzo Node error: {e}"
 
@@ -405,7 +443,9 @@ class ToolDetector:
                     )
                     if response.status_code == 200:
                         result = response.json()
-                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                        return True, result.get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
                 except Exception as e:
                     return False, f"Router error: {e}"
 
@@ -434,6 +474,8 @@ class ToolDetector:
             if success:
                 return True, output, tool
             else:
-                self.console.print(f"[yellow]{tool.display_name} failed: {output}[/yellow]")
+                self.console.print(
+                    f"[yellow]{tool.display_name} failed: {output}[/yellow]"
+                )
 
         return False, "No available tools could handle the request", None
