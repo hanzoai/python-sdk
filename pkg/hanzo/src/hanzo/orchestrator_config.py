@@ -10,9 +10,68 @@ Supports multiple orchestration modes:
 """
 
 import os
+import socket
 from enum import Enum
 from typing import Any, Dict, List, Optional
 from dataclasses import field, dataclass
+
+
+def check_local_node(host: str = "localhost", port: int = 4000, timeout: float = 0.5) -> bool:
+    """Check if hanzo-node is running locally.
+
+    Args:
+        host: Host to check (default: localhost)
+        port: Port to check (default: 4000)
+        timeout: Connection timeout in seconds
+
+    Returns:
+        True if node is reachable, False otherwise
+    """
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        result = sock.connect_ex((host, port))
+        sock.close()
+        return result == 0
+    except Exception:
+        return False
+
+
+def is_authenticated() -> bool:
+    """Check if user is authenticated with Hanzo cloud."""
+    api_key = os.getenv("HANZO_API_KEY")
+    return api_key is not None and len(api_key) > 0
+
+
+def get_auth_status() -> str:
+    """Get authentication status message."""
+    if is_authenticated():
+        return "authenticated (cloud account)"
+    return "free tier (no login)"
+
+
+def get_default_router_endpoint() -> str:
+    """Get default router endpoint with smart detection.
+
+    Priority:
+    1. HANZO_ROUTER_URL environment variable (explicit override)
+    2. Gateway (gateway.hanzo.ai) - free tier by default
+
+    Upgrade paths:
+    - Login: `hanzo login` - Use cloud account with full features
+    - Local: `hanzo node start` - Private AI on your machine
+
+    Returns:
+        Router endpoint URL
+    """
+    # Check environment variable first (explicit override)
+    env_url = os.getenv("HANZO_ROUTER_URL")
+    if env_url:
+        return env_url
+
+    # Default to free gateway - best UX for new users
+    # Users can login or run local node for more features
+    return "https://gateway.hanzo.ai"
 
 
 class OrchestratorMode(Enum):
@@ -58,9 +117,15 @@ class ModelConfig:
 
 @dataclass
 class RouterConfig:
-    """Configuration for hanzo-router."""
+    """Configuration for hanzo-router.
 
-    endpoint: str = "http://localhost:4000"  # Router endpoint
+    Automatically detects and prioritizes:
+    1. HANZO_ROUTER_URL env var
+    2. Local hanzo-node (localhost:4000)
+    3. Gateway (gateway.hanzo.ai)
+    """
+
+    endpoint: Optional[str] = None  # Router endpoint (auto-detected if None)
     api_key: Optional[str] = None  # Router API key
     model_preferences: List[str] = field(default_factory=list)  # Preferred models
     fallback_models: List[str] = field(default_factory=list)  # Fallback models
@@ -68,6 +133,11 @@ class RouterConfig:
     cache_enabled: bool = True  # Enable response caching
     retry_on_failure: bool = True  # Retry failed requests
     max_retries: int = 3  # Max retry attempts
+
+    def __post_init__(self):
+        """Auto-detect endpoint if not provided."""
+        if self.endpoint is None:
+            self.endpoint = get_default_router_endpoint()
 
 
 @dataclass
@@ -141,16 +211,16 @@ CONFIGS = {
     ),
     "router-based": OrchestratorConfig(
         mode=OrchestratorMode.ROUTER,
-        primary_model="router:gpt-5",
+        primary_model="router:gpt-4o-mini",  # Free on gateway
         router=RouterConfig(
-            endpoint=os.getenv("HANZO_ROUTER_URL", "http://localhost:4000"),
-            model_preferences=["gpt-5", "gpt-4o", "claude-3-5-sonnet"],
-            fallback_models=["gpt-4-turbo", "gpt-3.5-turbo"],
+            # Auto-detect: local node → gateway (free models)
+            model_preferences=["gpt-4o-mini", "gpt-3.5-turbo", "llama-3.1-8b"],
+            fallback_models=["gpt-4o", "claude-3-5-sonnet"],
             load_balancing=True,
             cache_enabled=True,
         ),
-        worker_models=["router:gpt-4o", "router:claude-3-5"],
-        critic_models=["router:gpt-5"],
+        worker_models=["router:gpt-4o-mini", "router:llama-3.1-8b"],
+        critic_models=["router:gpt-4o-mini"],
         enable_cost_optimization=True,
     ),
     "direct-gpt5": OrchestratorConfig(
@@ -199,12 +269,12 @@ CONFIGS = {
             ),
         },
         router=RouterConfig(
-            endpoint="http://localhost:4000",
-            model_preferences=["gpt-4o", "claude-3-5"],
+            # Auto-detect: local node → gateway (free models)
+            model_preferences=["gpt-4o-mini", "llama-3.1-8b"],
             fallback_models=["gpt-3.5-turbo"],
         ),
         worker_models=["local:llama3.2", "local:qwen2.5"],
-        critic_models=["router:gpt-4o"],  # Only use API for critical review
+        critic_models=["router:gpt-4o-mini"],  # Use free model for review
         local_models=["llama3.2", "qwen2.5", "mistral"],
         enable_cost_optimization=True,
         prefer_local=True,
@@ -291,7 +361,7 @@ def build_custom_config(
         worker_models: Worker agent models
         critic_models: Critic agent models
         enable_cost_optimization: Enable cost optimization
-        router_endpoint: Custom router endpoint
+        router_endpoint: Custom router endpoint (None for auto-detect)
 
     Returns:
         Custom OrchestratorConfig
@@ -306,7 +376,7 @@ def build_custom_config(
 
     if use_router:
         config.router = RouterConfig(
-            endpoint=router_endpoint or "http://localhost:4000",
+            endpoint=router_endpoint,  # None triggers auto-detection in __post_init__
             model_preferences=[primary_model],
         )
 

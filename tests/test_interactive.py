@@ -13,8 +13,10 @@ import sys
 import asyncio
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
+import pytest
+
+# Add hanzo src to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "pkg" / "hanzo" / "src"))
 
 from hanzo.dev import HanzoDevREPL, MultiClaudeOrchestrator
 from rich.console import Console

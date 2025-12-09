@@ -239,7 +239,8 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
             console.print()
 
         except KeyboardInterrupt:
-            continue
+            console.print("\n[yellow]Interrupted. Exiting...[/yellow]")
+            break
         except EOFError:
             break
         except Exception as e:

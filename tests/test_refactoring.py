@@ -5,9 +5,11 @@ import sys
 import asyncio
 from pathlib import Path
 
+import pytest
+
 # Add packages to path
-sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
-sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo-mcp"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "pkg" / "hanzo" / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "pkg" / "hanzo-mcp"))
 
 from hanzo.batch_orchestrator import BatchConfig
 from hanzo_mcp.core.base_agent import AgentConfig, AgentOrchestrator
