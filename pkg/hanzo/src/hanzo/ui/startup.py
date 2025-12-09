@@ -83,7 +83,10 @@ class StartupUI:
                     )
 
                 # Cache the results
-                cache_data = {"timestamp": datetime.now().isoformat(), "entries": entries}
+                cache_data = {
+                    "timestamp": datetime.now().isoformat(),
+                    "entries": entries,
+                }
                 self.changelog_cache.write_text(json.dumps(cache_data))
                 return entries
 
@@ -189,7 +192,11 @@ class StartupUI:
             content.append("\n")
 
         return Panel(
-            content, title="[yellow]Recent Updates[/yellow]", box=box.ROUNDED, border_style="yellow", padding=(0, 1)
+            content,
+            title="[yellow]Recent Updates[/yellow]",
+            box=box.ROUNDED,
+            border_style="yellow",
+            padding=(0, 1),
         )
 
     def _create_quick_start_panel(self) -> Panel:
@@ -210,7 +217,13 @@ class StartupUI:
         for cmd, desc in tips:
             table.add_row(f"hanzo {cmd}", desc)
 
-        return Panel(table, title="[green]Quick Start[/green]", box=box.ROUNDED, border_style="green", padding=(0, 1))
+        return Panel(
+            table,
+            title="[green]Quick Start[/green]",
+            box=box.ROUNDED,
+            border_style="green",
+            padding=(0, 1),
+        )
 
     def _create_status_panel(self) -> Panel:
         """Create status panel showing system state."""
@@ -219,7 +232,9 @@ class StartupUI:
         # Check router status
         try:
             response = httpx.get("http://localhost:4000/health", timeout=1)
-            router_status = "🟢 Running" if response.status_code == 200 else "🔴 Offline"
+            router_status = (
+                "🟢 Running" if response.status_code == 200 else "🔴 Offline"
+            )
         except Exception:
             router_status = "⚫ Offline"
 
@@ -243,7 +258,9 @@ class StartupUI:
         status.append("API: ", style="bold")
         status.append(api_status, style="white")
 
-        return Panel(Align.center(status), box=box.ROUNDED, border_style="blue", padding=(0, 1))
+        return Panel(
+            Align.center(status), box=box.ROUNDED, border_style="blue", padding=(0, 1)
+        )
 
     def _create_qr_panel(self) -> Panel:
         """Create compact QR code panel for device connection."""
@@ -268,7 +285,9 @@ class StartupUI:
 
             # Try to get device capabilities
             try:
-                from hanzo_network.topology.device_capabilities import device_capabilities
+                from hanzo_network.topology.device_capabilities import (
+                    device_capabilities,
+                )
 
                 caps = device_capabilities()
 
@@ -284,7 +303,9 @@ class StartupUI:
                 gpu_info = caps.chip[:20]
             except Exception:
                 # Fallback - basic connection info
-                connection_data = json.dumps({"id": socket.gethostname(), "host": local_ip, "type": "hanzo-node"})
+                connection_data = json.dumps(
+                    {"id": socket.gethostname(), "host": local_ip, "type": "hanzo-node"}
+                )
                 gpu_info = "CPU"
 
             # Generate smallest possible QR code
@@ -317,7 +338,11 @@ class StartupUI:
             content.append(f"{local_ip} • {gpu_info}", style="dim cyan")
 
             return Panel(
-                content, title="[cyan]📱 Scan to Join[/cyan]", box=box.ROUNDED, border_style="cyan", padding=(0, 1)
+                content,
+                title="[cyan]📱 Scan to Join[/cyan]",
+                box=box.ROUNDED,
+                border_style="cyan",
+                padding=(0, 1),
             )
 
         except Exception:
@@ -327,7 +352,11 @@ class StartupUI:
             content.append(f"{local_ip}", style="cyan")
 
             return Panel(
-                content, title="[cyan]📱 Device Info[/cyan]", box=box.ROUNDED, border_style="cyan", padding=(0, 1)
+                content,
+                title="[cyan]📱 Device Info[/cyan]",
+                box=box.ROUNDED,
+                border_style="cyan",
+                padding=(0, 1),
             )
 
     def _check_for_updates(self) -> Optional[str]:
