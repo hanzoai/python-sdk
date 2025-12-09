@@ -176,26 +176,28 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test]
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install uv
       uses: astral-sh/setup-uv@v3
-    
+
     - name: Set up Python
       run: uv python install 3.12
-    
+
     - name: Build package
       run: |
         cd pkg/hanzo-mcp
         uv build
-    
+
     - name: Check package with twine
       run: |
         cd pkg/hanzo-mcp
+        uv venv
+        source .venv/bin/activate
         uv pip install twine
-        uv run twine check dist/*
+        twine check dist/*
     
     - name: Test installation
       run: |
