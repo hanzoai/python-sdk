@@ -4,29 +4,30 @@ This module provides automatic timeout and backgrounding for any MCP tool operat
 that takes longer than the configured threshold (default: 2 minutes).
 """
 
-import asyncio
-import functools
+import os
 import json
 import time
 import uuid
-import os
+import asyncio
+import functools
+from typing import Any, Tuple, Callable, Optional
 from pathlib import Path
-from typing import Any, Callable, Optional, Tuple
 from collections.abc import Awaitable
 
 from mcp.server.fastmcp import Context as MCPContext
+
 from .timeout_parser import parse_timeout, format_timeout
 
 
 class MCPToolTimeoutManager:
     """Manager for MCP tool timeouts and backgrounding."""
-    
+
     # Default timeout before auto-backgrounding (2 minutes)
     DEFAULT_TIMEOUT = 120.0
-    
+
     # Environment variable to configure timeout
     TIMEOUT_ENV_VAR = "HANZO_MCP_TOOL_TIMEOUT"
-    
+
     def __init__(self, process_manager: Optional[Any] = None):
         """Initialize the timeout manager.
 
@@ -37,13 +38,14 @@ class MCPToolTimeoutManager:
             # Lazy import to avoid circular imports
             try:
                 from hanzo_mcp.tools.shell.base_process import ProcessManager
+
                 self.process_manager = ProcessManager()
             except ImportError:
                 # If ProcessManager is not available, disable backgrounding
                 self.process_manager = None
         else:
             self.process_manager = process_manager
-        
+
         # Get timeout from environment or use default
         env_timeout = os.getenv(self.TIMEOUT_ENV_VAR)
         if env_timeout:
@@ -53,13 +55,13 @@ class MCPToolTimeoutManager:
                 self.timeout = self.DEFAULT_TIMEOUT
         else:
             self.timeout = self.DEFAULT_TIMEOUT
-    
+
     def _get_timeout_for_tool(self, tool_name: str) -> float:
         """Get timeout setting for a specific tool.
-        
+
         Args:
             tool_name: Name of the tool
-            
+
         Returns:
             Timeout in seconds
         """
@@ -71,20 +73,14 @@ class MCPToolTimeoutManager:
                 return parse_timeout(tool_timeout)
             except ValueError:
                 pass
-        
+
         return self.timeout
-    
+
     async def _background_tool_execution(
-        self,
-        tool_func: Callable,
-        tool_name: str,
-        ctx: MCPContext,
-        process_id: str,
-        log_file: Path,
-        **params: Any
+        self, tool_func: Callable, tool_name: str, ctx: MCPContext, process_id: str, log_file: Path, **params: Any
     ) -> None:
         """Execute tool in background and log results.
-        
+
         Args:
             tool_func: The tool function to execute
             tool_name: Name of the tool
@@ -99,10 +95,10 @@ class MCPToolTimeoutManager:
                 f.write(f"=== Background execution started for {tool_name} ===\\n")
                 f.write(f"Parameters: {json.dumps(params, indent=2, default=str)}\\n")
                 f.write(f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n\\n")
-            
+
             # Execute the tool
             result = await tool_func(ctx, **params)
-            
+
             # Log completion
             with open(log_file, "a") as f:
                 f.write(f"\\n\\n=== Tool execution completed ===\\n")
@@ -111,10 +107,10 @@ class MCPToolTimeoutManager:
                 f.write("\\n=== RESULT ===\\n")
                 f.write(str(result))
                 f.write("\\n=== END RESULT ===\\n")
-            
+
             # Mark as completed
             self.process_manager.mark_completed(process_id, 0)
-            
+
         except Exception as e:
             # Log error
             with open(log_file, "a") as f:
@@ -122,7 +118,7 @@ class MCPToolTimeoutManager:
                 f.write(f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n")
                 f.write(f"Error: {str(e)}\\n")
                 f.write(f"Error type: {type(e).__name__}\\n")
-            
+
             self.process_manager.mark_completed(process_id, 1)
 
 
@@ -201,6 +197,7 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 )
 
         return wrapper
+
     return decorator
 
 
@@ -210,7 +207,7 @@ _global_timeout_manager = None
 
 def get_global_timeout_manager() -> MCPToolTimeoutManager:
     """Get the global timeout manager instance.
-    
+
     Returns:
         Global timeout manager
     """
@@ -222,7 +219,7 @@ def get_global_timeout_manager() -> MCPToolTimeoutManager:
 
 def set_global_timeout(timeout_seconds: float) -> None:
     """Set the global timeout for all MCP tools.
-    
+
     Args:
         timeout_seconds: Timeout in seconds
     """
@@ -232,7 +229,7 @@ def set_global_timeout(timeout_seconds: float) -> None:
 
 def set_tool_timeout(tool_name: str, timeout_seconds: float) -> None:
     """Set timeout for a specific tool via environment variable.
-    
+
     Args:
         tool_name: Name of the tool
         timeout_seconds: Timeout in seconds
@@ -244,10 +241,10 @@ def set_tool_timeout(tool_name: str, timeout_seconds: float) -> None:
 # Convenience decorator using global manager
 def auto_timeout(tool_name: str):
     """Convenience decorator using the global timeout manager.
-    
+
     Args:
         tool_name: Name of the tool
-        
+
     Returns:
         Decorator function
     """

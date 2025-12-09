@@ -7,11 +7,10 @@ from typing import Unpack, Literal, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class TodoItem(TypedDict):
@@ -257,8 +256,6 @@ When in doubt, use this tool. Being proactive with task management demonstrates 
 
     @override
     @auto_timeout("todo_write")
-
-
     async def call(
         self,
         ctx: MCPContext,

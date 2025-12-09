@@ -112,9 +112,9 @@ class CommandExecutor:
                 # Use shlex.quote for proper escaping to prevent command injection
                 escaped_command = shlex.quote(command)
                 if use_login_shell:
-                    formatted_command = f'{user_shell} bash -l -c {escaped_command}'
+                    formatted_command = f"{user_shell} bash -l -c {escaped_command}"
                 else:
-                    formatted_command = f'{user_shell} bash -c {escaped_command}'
+                    formatted_command = f"{user_shell} bash -c {escaped_command}"
             else:
                 # # For simple commands without special characters
                 # # Still respect login shell preference
@@ -126,7 +126,7 @@ class CommandExecutor:
         elif shell_basename in ["powershell", "powershell.exe", "pwsh", "pwsh.exe"]:
             # Use proper escaping for PowerShell to prevent injection
             # PowerShell requires different escaping than POSIX shells
-            escaped_command = command.replace('"', '`"').replace("'", "``'").replace('$', '`$')
+            escaped_command = command.replace('"', '`"').replace("'", "``'").replace("$", "`$")
             formatted_command = f'"{user_shell}" -Command "{escaped_command}"'
 
         else:

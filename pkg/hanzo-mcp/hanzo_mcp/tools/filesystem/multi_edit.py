@@ -9,11 +9,10 @@ from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.filesystem.base import FilesystemBaseTool
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 FilePath = Annotated[
     str,
@@ -135,8 +134,6 @@ If you want to create a new file, use:
 
     @override
     @auto_timeout("multi_edit")
-
-
     async def call(
         self,
         ctx: MCPContext,

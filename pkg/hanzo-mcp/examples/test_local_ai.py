@@ -38,9 +38,7 @@ async def main():
 
     # Check LLM status
     ollama_status = await check_local_llm_status("ollama")
-    print(
-        f"\n📡 Ollama status: {'✅ Available' if ollama_status['available'] else '❌ Not available'}"
-    )
+    print(f"\n📡 Ollama status: {'✅ Available' if ollama_status['available'] else '❌ Not available'}")
 
     # Create AI agents
     analyzer = create_local_agent(

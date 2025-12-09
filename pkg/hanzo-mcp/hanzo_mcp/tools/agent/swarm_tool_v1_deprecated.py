@@ -18,14 +18,13 @@ from typing import (
 )
 
 from mcp.server import FastMCP
-
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.agent.agent_tool import AgentTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 
 class AgentNode(TypedDict):
@@ -206,8 +205,6 @@ Models can be specified as:
 
     @override
     @auto_timeout("swarm_tool_v1_deprecated")
-
-
     async def call(
         self,
         ctx: MCPContext,

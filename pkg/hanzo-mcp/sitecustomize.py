@@ -10,4 +10,3 @@ import os as _os
 
 # Disable pytest's auto plugin discovery unless already set by the user/CI
 _os.environ.setdefault("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
-

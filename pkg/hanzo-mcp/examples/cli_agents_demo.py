@@ -69,9 +69,7 @@ def show_usage_examples():
 
     print("\n1. Claude Code CLI:")
     print("   claude_cli(prompts='Fix the type errors in main.py')")
-    print(
-        "   claude_cli(prompts='Refactor this function', model='claude-3-opus-20240229')"
-    )
+    print("   claude_cli(prompts='Refactor this function', model='claude-3-opus-20240229')")
 
     print("\n2. OpenAI Codex CLI:")
     print("   codex_cli(prompts='Generate unit tests for the Calculator class')")
@@ -79,9 +77,7 @@ def show_usage_examples():
 
     print("\n3. Google Gemini CLI:")
     print("   gemini_cli(prompts='Create a REST API with FastAPI')")
-    print(
-        "   gemini_cli(prompts='Analyze security vulnerabilities', model='gemini-1.5-flash')"
-    )
+    print("   gemini_cli(prompts='Analyze security vulnerabilities', model='gemini-1.5-flash')")
 
     print("\n4. xAI Grok CLI:")
     print("   grok_cli(prompts='Explain this regex pattern')")

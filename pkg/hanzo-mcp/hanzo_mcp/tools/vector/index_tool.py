@@ -8,11 +8,10 @@ from pathlib import Path
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.vector.git_ingester import GitIngester
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
 
@@ -108,8 +107,6 @@ Usage:
 
     @override
     @auto_timeout("index")
-
-
     async def call(
         self,
         ctx: MCPContext,
