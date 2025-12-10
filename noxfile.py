@@ -44,6 +44,7 @@ filterwarnings =
     try:
         session.run(
             "pytest",
+            "tests/",  # Explicitly specify tests/ to avoid collecting from pkg/* subpackages
             "-c", pytest_ini_path,
             "--showlocals",
             "--ignore=tests/functional",
