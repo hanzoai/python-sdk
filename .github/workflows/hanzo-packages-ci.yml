@@ -8,7 +8,7 @@ on:
       - 'pkg/hanzo/**'
       - 'pkg/hanzo-network/**'
       - 'pkg/hanzo-mcp/**'
-      - 'pkg/hanzo-agents/**'
+      # hanzo-agent is now a git submodule - not tested here
       - 'pkg/hanzo-memory/**'
       - 'pkg/hanzo-aci/**'
       - 'pkg/hanzo-repl/**'
@@ -19,7 +19,7 @@ on:
       - 'hanzo-*'
       - 'hanzo-network-*'
       - 'hanzo-mcp-*'
-      - 'hanzo-agents-*'
+      # hanzo-agents is now a git submodule
       - 'hanzo-memory-*'
       - 'hanzo-aci-*'
       - 'hanzo-repl-*'
@@ -30,7 +30,7 @@ on:
       - 'pkg/hanzo/**'
       - 'pkg/hanzo-network/**'
       - 'pkg/hanzo-mcp/**'
-      - 'pkg/hanzo-agents/**'
+      # hanzo-agent is now a git submodule - not tested here
       - 'pkg/hanzo-memory/**'
       - 'pkg/hanzo-aci/**'
       - 'pkg/hanzo-repl/**'
@@ -85,9 +85,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-asyncio pytest-cov pytest-xdist numpy
           pip install -e .
-          # Install all hanzo dependencies from the monorepo
+          # Install hanzo dependencies from the monorepo
           pip install -e ../hanzo-network
-          pip install -e ../hanzo-agents
+          # hanzo-agents is now a PyPI package (git submodule)
+          pip install hanzo-agents || true
           pip install -e ../hanzo-memory
       
       - name: Run ALL tests
@@ -120,34 +121,9 @@ jobs:
         run: |
           timeout 120 python -m pytest tests/ -v --tb=short --cov=dev_aci --cov-report=term-missing -n 4 --maxfail=5 || true  # Parallel with 2min timeout
   
-  test-hanzo-agents:
-    name: Test hanzo-agents
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    defaults:
-      run:
-        working-directory: pkg/hanzo-agents
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-asyncio pytest-cov pytest-xdist eth-account web3 numpy
-          pip install -e .
-          # Install hanzo dependencies from the monorepo
-          pip install -e ../hanzo-network
-      
-      - name: Run ALL tests
-        run: |
-          timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true  # Parallel with 2min timeout
-  
+  # test-hanzo-agents: REMOVED - hanzo-agent is now a git submodule at pkg/hanzo-agent
+  # Tests run in the original repository: https://github.com/hanzoai/agent
+
   test-hanzo-memory:
     name: Test hanzo-memory
     runs-on: ubuntu-latest
@@ -176,7 +152,7 @@ jobs:
   
   integration-test:
     name: Integration Test
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-agents, test-hanzo-memory, test-hanzo, test-hanzo-repl]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl]
     runs-on: ubuntu-latest
     
     steps:
@@ -194,11 +170,12 @@ jobs:
           cd pkg/hanzo && pip install -e . && cd ../..
           cd pkg/hanzo-network && pip install -e . && cd ../..
           cd pkg/hanzo-mcp && pip install -e . && cd ../..
-          cd pkg/hanzo-agents && pip install -e . && cd ../..
+          # hanzo-agents is now a PyPI package (git submodule)
+          pip install hanzo-agents || true
           cd pkg/hanzo-memory && pip install -e . && cd ../..
           cd pkg/hanzo-aci && pip install -e . && cd ../..
           cd pkg/hanzo-repl && pip install -e . && cd ../..
-      
+
       - name: Run integration tests
         run: |
           timeout 60 python -m pytest pkg/hanzo-mcp/tests/test_hanzo_mcp_integration.py -v -n 4 --maxfail=5 || true
@@ -232,12 +209,8 @@ jobs:
           ruff check . || true
           mypy . --ignore-missing-imports || true
       
-      - name: Lint hanzo-agents
-        run: |
-          cd pkg/hanzo-agents
-          ruff check . || true
-          mypy . --ignore-missing-imports || true
-      
+      # Lint hanzo-agents: SKIPPED - hanzo-agent is now a git submodule
+
       - name: Lint hanzo-aci
         run: |
           cd pkg/hanzo-aci
@@ -329,7 +302,7 @@ jobs:
   auto-publish-new-versions:
     name: Auto-Publish New Versions
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-agents, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
     runs-on: ubuntu-latest
 
     steps:
@@ -352,7 +325,7 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPI (Tag)
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-agents, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
     runs-on: ubuntu-latest
 
     steps:
@@ -379,14 +352,13 @@ jobs:
         run: |
           TAG="${{ steps.get_tag.outputs.TAG }}"
           PACKAGES=""
-          
+
           # Determine which package(s) to publish based on tag
+          # Note: hanzo-agents is now a separate repo (git submodule), not published from here
           if [[ $TAG == hanzo-network-* ]]; then
             PACKAGES="hanzo-network"
           elif [[ $TAG == hanzo-mcp-* ]]; then
             PACKAGES="hanzo-mcp"
-          elif [[ $TAG == hanzo-agents-* ]]; then
-            PACKAGES="hanzo-agents"
           elif [[ $TAG == hanzo-memory-* ]]; then
             PACKAGES="hanzo-memory"
           elif [[ $TAG == hanzo-aci-* ]]; then
@@ -396,10 +368,10 @@ jobs:
           elif [[ $TAG == hanzo-* ]]; then
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
-            # For general version tags, publish all packages
-            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-agents hanzo-memory hanzo-aci hanzo-repl"
+            # For general version tags, publish all packages (except hanzo-agents which is a submodule)
+            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
           fi
-          
+
           echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
           echo "Publishing packages: $PACKAGES"
 
