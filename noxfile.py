@@ -1,4 +1,6 @@
 import nox
+import os
+import tempfile
 
 
 @nox.session(reuse_venv=True, name="test-pydantic-v1")
@@ -17,4 +19,34 @@ def test_pydantic_v1(session: nox.Session) -> None:
         "rich>=13.7.1",
     )
 
-    session.run("pytest", "--showlocals", "--ignore=tests/functional", *session.posargs)
+    # Create a temporary pytest.ini that doesn't include the pydantic v2-specific warning filter
+    # The main pyproject.toml has a filter for pydantic.warnings.PydanticDeprecatedSince20
+    # which doesn't exist in pydantic v1 and causes pytest to fail at startup
+    pytest_ini_content = """[pytest]
+testpaths = ["tests"]
+addopts = "--tb=short"
+xfail_strict = true
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+"""
+
+    # Write temporary config and use it
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.ini', delete=False) as f:
+        f.write(pytest_ini_content)
+        pytest_ini_path = f.name
+
+    try:
+        session.run(
+            "pytest",
+            "-c", pytest_ini_path,
+            "--showlocals",
+            "--ignore=tests/functional",
+            *session.posargs
+        )
+    finally:
+        os.unlink(pytest_ini_path)
