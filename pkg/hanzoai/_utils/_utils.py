@@ -109,9 +109,7 @@ def _extract_items(
                     item,
                     path,
                     index=index,
-                    flattened_key=(
-                        flattened_key + "[]" if flattened_key is not None else "[]"
-                    ),
+                    flattened_key=(flattened_key + "[]" if flattened_key is not None else "[]"),
                 )
                 for item in obj
             ]
@@ -261,12 +259,7 @@ def required_args(*variants: Sequence[str]) -> Callable[[CallableT], CallableT]:
             else:  # no break
                 if len(variants) > 1:
                     variations = human_join(
-                        [
-                            "("
-                            + human_join([quote(arg) for arg in variant], final="and")
-                            + ")"
-                            for variant in variants
-                        ]
+                        ["(" + human_join([quote(arg) for arg in variant], final="and") + ")" for variant in variants]
                     )
                     msg = f"Missing required arguments; Expected either {variations} arguments to be given"
                 else:

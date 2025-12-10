@@ -12,8 +12,6 @@ __all__ = ["CredentialUpdateParams"]
 class CredentialUpdateParams(TypedDict, total=False):
     credential_info: Required[object]
 
-    body_credential_name: Required[
-        Annotated[str, PropertyInfo(alias="credential_name")]
-    ]
+    body_credential_name: Required[Annotated[str, PropertyInfo(alias="credential_name")]]
 
     credential_values: Required[object]

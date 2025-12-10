@@ -57,9 +57,7 @@ class HanzoCluster:
             # Try to install exo
             print("exo not found. Installing exo-explore...")
             try:
-                subprocess.run(
-                    ["pip", "install", "exo-explore"], check=True, capture_output=True
-                )
+                subprocess.run(["pip", "install", "exo-explore"], check=True, capture_output=True)
                 # Try importing again
                 import exo
                 from exo import ExoNode as _ExoNode, ExoCluster as _ExoCluster
@@ -76,9 +74,7 @@ class HanzoCluster:
     async def start(self):
         """Start the cluster node."""
         if not EXO_AVAILABLE:
-            raise RuntimeError(
-                "exo is not available. Please install: pip install exo-explore"
-            )
+            raise RuntimeError("exo is not available. Please install: pip install exo-explore")
 
         # Build exo command
         cmd = ["exo"]
@@ -140,9 +136,7 @@ class HanzoCluster:
         # Default exo API endpoint
         return f"http://localhost:8000"
 
-    async def inference(
-        self, prompt: str, model: str = None, **kwargs
-    ) -> Dict[str, Any]:
+    async def inference(self, prompt: str, model: str = None, **kwargs) -> Dict[str, Any]:
         """Run inference on the cluster.
 
         Args:
@@ -171,9 +165,7 @@ class HanzoCluster:
 class HanzoMiner:
     """Hanzo Miner for distributed AI compute contribution."""
 
-    def __init__(
-        self, wallet_address: str = None, cluster_config: ClusterConfig = None
-    ):
+    def __init__(self, wallet_address: str = None, cluster_config: ClusterConfig = None):
         """Initialize the miner.
 
         Args:

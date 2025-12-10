@@ -115,9 +115,7 @@ class ThreadsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not thread_id:
-            raise ValueError(
-                f"Expected a non-empty value for `thread_id` but received {thread_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
         return self._get(
             f"/v1/threads/{thread_id}",
             options=make_request_options(
@@ -211,9 +209,7 @@ class AsyncThreadsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not thread_id:
-            raise ValueError(
-                f"Expected a non-empty value for `thread_id` but received {thread_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
         return await self._get(
             f"/v1/threads/{thread_id}",
             options=make_request_options(

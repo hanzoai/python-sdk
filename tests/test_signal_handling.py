@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Test signal handling for hanzo net command."""
 
-import sys
 import os
+import sys
 import time
 import signal
 import subprocess
@@ -21,10 +21,7 @@ class TestSignalHandling:
         env["PYTHONPATH"] = pkg_path + ":" + env.get("PYTHONPATH", "")
         return env
 
-    @pytest.mark.skipif(
-        sys.platform == "win32",
-        reason="Signal handling test not supported on Windows"
-    )
+    @pytest.mark.skipif(sys.platform == "win32", reason="Signal handling test not supported on Windows")
     def test_sigint_graceful_shutdown(self, env_with_pythonpath):
         """Test that Ctrl-C (SIGINT) properly stops hanzo net."""
         import fcntl
