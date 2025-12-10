@@ -61,8 +61,4 @@ class UserCreateParams(TypedDict, total=False):
 
     user_id: Optional[str]
 
-    user_role: Optional[
-        Literal[
-            "proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"
-        ]
-    ]
+    user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]

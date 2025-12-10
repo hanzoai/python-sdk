@@ -87,9 +87,7 @@ class DeploymentsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
             f"/openai/deployments/{model}/completions",
             options=make_request_options(
@@ -136,9 +134,7 @@ class DeploymentsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
             f"/openai/deployments/{model}/embeddings",
             options=make_request_options(
@@ -212,9 +208,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
             f"/openai/deployments/{model}/completions",
             options=make_request_options(
@@ -261,9 +255,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
             f"/openai/deployments/{model}/embeddings",
             options=make_request_options(

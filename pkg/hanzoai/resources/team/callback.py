@@ -89,9 +89,7 @@ class CallbackResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return self._get(
             f"/team/{team_id}/callback",
             options=make_request_options(
@@ -109,9 +107,7 @@ class CallbackResource(SyncAPIResource):
         *,
         callback_name: str,
         callback_vars: Dict[str, str],
-        callback_type: (
-            Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven
-        ) = NOT_GIVEN,
+        callback_type: (Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven) = NOT_GIVEN,
         hanzo_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -176,9 +172,7 @@ class CallbackResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         extra_headers = {
             **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
             **(extra_headers or {}),
@@ -265,9 +259,7 @@ class AsyncCallbackResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return await self._get(
             f"/team/{team_id}/callback",
             options=make_request_options(
@@ -285,9 +277,7 @@ class AsyncCallbackResource(AsyncAPIResource):
         *,
         callback_name: str,
         callback_vars: Dict[str, str],
-        callback_type: (
-            Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven
-        ) = NOT_GIVEN,
+        callback_type: (Optional[Literal["success", "failure", "success_and_failure"]] | NotGiven) = NOT_GIVEN,
         hanzo_changed_by: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -352,9 +342,7 @@ class AsyncCallbackResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         extra_headers = {
             **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
             **(extra_headers or {}),

@@ -92,9 +92,7 @@ class HealthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"model": model}, health_check_all_params.HealthCheckAllParams
-                ),
+                query=maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
             ),
             cast_to=object,
         )
@@ -290,9 +288,7 @@ class AsyncHealthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {"model": model}, health_check_all_params.HealthCheckAllParams
-                ),
+                query=await async_maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
             ),
             cast_to=object,
         )

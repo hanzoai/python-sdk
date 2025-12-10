@@ -72,9 +72,7 @@ class ConfigResourceWithRawResponse:
 
     @cached_property
     def pass_through_endpoint(self) -> PassThroughEndpointResourceWithRawResponse:
-        return PassThroughEndpointResourceWithRawResponse(
-            self._config.pass_through_endpoint
-        )
+        return PassThroughEndpointResourceWithRawResponse(self._config.pass_through_endpoint)
 
 
 class AsyncConfigResourceWithRawResponse:
@@ -83,9 +81,7 @@ class AsyncConfigResourceWithRawResponse:
 
     @cached_property
     def pass_through_endpoint(self) -> AsyncPassThroughEndpointResourceWithRawResponse:
-        return AsyncPassThroughEndpointResourceWithRawResponse(
-            self._config.pass_through_endpoint
-        )
+        return AsyncPassThroughEndpointResourceWithRawResponse(self._config.pass_through_endpoint)
 
 
 class ConfigResourceWithStreamingResponse:
@@ -94,9 +90,7 @@ class ConfigResourceWithStreamingResponse:
 
     @cached_property
     def pass_through_endpoint(self) -> PassThroughEndpointResourceWithStreamingResponse:
-        return PassThroughEndpointResourceWithStreamingResponse(
-            self._config.pass_through_endpoint
-        )
+        return PassThroughEndpointResourceWithStreamingResponse(self._config.pass_through_endpoint)
 
 
 class AsyncConfigResourceWithStreamingResponse:
@@ -107,6 +101,4 @@ class AsyncConfigResourceWithStreamingResponse:
     def pass_through_endpoint(
         self,
     ) -> AsyncPassThroughEndpointResourceWithStreamingResponse:
-        return AsyncPassThroughEndpointResourceWithStreamingResponse(
-            self._config.pass_through_endpoint
-        )
+        return AsyncPassThroughEndpointResourceWithStreamingResponse(self._config.pass_through_endpoint)

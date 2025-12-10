@@ -68,9 +68,7 @@ class AddResource(SyncAPIResource):
         """
         return self._post(
             "/add/allowed_ip",
-            body=maybe_transform(
-                {"ip": ip}, add_add_allowed_ip_params.AddAddAllowedIPParams
-            ),
+            body=maybe_transform({"ip": ip}, add_add_allowed_ip_params.AddAddAllowedIPParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -126,9 +124,7 @@ class AsyncAddResource(AsyncAPIResource):
         """
         return await self._post(
             "/add/allowed_ip",
-            body=await async_maybe_transform(
-                {"ip": ip}, add_add_allowed_ip_params.AddAddAllowedIPParams
-            ),
+            body=await async_maybe_transform({"ip": ip}, add_add_allowed_ip_params.AddAddAllowedIPParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

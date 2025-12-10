@@ -50,17 +50,11 @@ class UserCreateResponse(BaseModel):
 
     metadata: Optional[object] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(
-        alias="model_max_budget", default=None
-    )
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
-    api_model_rpm_limit: Optional[object] = FieldInfo(
-        alias="model_rpm_limit", default=None
-    )
+    api_model_rpm_limit: Optional[object] = FieldInfo(alias="model_rpm_limit", default=None)
 
-    api_model_tpm_limit: Optional[object] = FieldInfo(
-        alias="model_tpm_limit", default=None
-    )
+    api_model_tpm_limit: Optional[object] = FieldInfo(alias="model_tpm_limit", default=None)
 
     models: Optional[List[object]] = None
 
@@ -88,8 +82,4 @@ class UserCreateResponse(BaseModel):
 
     user_id: Optional[str] = None
 
-    user_role: Optional[
-        Literal[
-            "proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"
-        ]
-    ] = None
+    user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]] = None

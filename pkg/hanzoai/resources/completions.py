@@ -88,9 +88,7 @@ class CompletionsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"model": model}, completion_create_params.CompletionCreateParams
-                ),
+                query=maybe_transform({"model": model}, completion_create_params.CompletionCreateParams),
             ),
             cast_to=object,
         )
@@ -159,9 +157,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {"model": model}, completion_create_params.CompletionCreateParams
-                ),
+                query=await async_maybe_transform({"model": model}, completion_create_params.CompletionCreateParams),
             ),
             cast_to=object,
         )

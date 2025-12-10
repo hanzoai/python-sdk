@@ -15,8 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List, Literal
 import json
+from typing import Dict, List, Literal
 from pathlib import Path
 
 Operation = Literal["add", "delete", "modify", "merge", "keep"]
@@ -24,11 +24,11 @@ Operation = Literal["add", "delete", "modify", "merge", "keep"]
 
 class ExperienceManager:
     """Manages the experience library E for Training-Free GRPO.
-    
+
     The experience library stores generalizable strategic insights extracted
     from trajectory groups. Each experience is a concise (≤32 words) natural
     language statement that guides future problem-solving.
-    
+
     Example experiences:
     - "When solving equations, verify solutions by substitution to catch errors."
     - "For optimization problems, check boundary conditions before applying calculus."
@@ -37,7 +37,7 @@ class ExperienceManager:
 
     def __init__(self, checkpoint_path: str = None):
         """Initialize experience manager.
-        
+
         Args:
             checkpoint_path: Path to load/save experiences (JSON format)
         """
@@ -50,10 +50,10 @@ class ExperienceManager:
 
     def add(self, experience: str) -> str:
         """Add new experience, return assigned ID.
-        
+
         Args:
             experience: Natural language experience statement (≤32 words)
-            
+
         Returns:
             exp_id: Assigned experience ID (format: "G{N}")
         """
@@ -64,10 +64,10 @@ class ExperienceManager:
 
     def delete(self, exp_id: str) -> bool:
         """Delete experience by ID.
-        
+
         Args:
             exp_id: Experience ID to delete
-            
+
         Returns:
             success: True if deleted, False if ID not found
         """
@@ -78,11 +78,11 @@ class ExperienceManager:
 
     def modify(self, exp_id: str, new_experience: str) -> bool:
         """Modify existing experience.
-        
+
         Args:
             exp_id: Experience ID to modify
             new_experience: New experience text
-            
+
         Returns:
             success: True if modified, False if ID not found
         """
@@ -93,13 +93,13 @@ class ExperienceManager:
 
     def merge(self, exp_ids: List[str], merged_experience: str) -> str:
         """Merge multiple experiences into one.
-        
+
         Deletes the original experiences and creates a new merged one.
-        
+
         Args:
             exp_ids: List of experience IDs to merge
             merged_experience: Merged experience text
-            
+
         Returns:
             new_exp_id: ID of the newly created merged experience
         """
@@ -111,10 +111,10 @@ class ExperienceManager:
 
     def apply_operations(self, operations: List[Dict]) -> None:
         """Apply batch of operations from LLM.
-        
+
         This is the main interface for updating the experience library based
         on LLM-extracted semantic advantages.
-        
+
         Args:
             operations: List of operation dictionaries with keys:
                 - "option": One of ["add", "modify", "delete", "merge", "keep"]
@@ -122,7 +122,7 @@ class ExperienceManager:
                 - "modified_from": Original experience ID (for modify)
                 - "delete_id": Experience ID to delete (for delete)
                 - "merged_from": List of experience IDs to merge (for merge)
-                
+
         Example:
             operations = [
                 {"option": "add", "experience": "When solving..."},
@@ -145,15 +145,15 @@ class ExperienceManager:
 
             elif option == "merge":
                 self.merge(op["merged_from"], op["experience"])
-                
+
             # "keep" option does nothing
 
     def format_for_prompt(self) -> str:
         """Format experiences for injection into prompts.
-        
+
         Returns:
             formatted: Multi-line string with numbered experiences
-            
+
         Example output:
             [G0]. When solving equations, verify solutions by substitution.
             [G1]. For optimization, check boundary conditions first.
@@ -170,21 +170,18 @@ class ExperienceManager:
 
     def save(self, path: str) -> None:
         """Save experiences to JSON file.
-        
+
         Args:
             path: Output file path
         """
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(path, 'w') as f:
-            json.dump({
-                "experiences": self.experiences,
-                "next_id": self._next_id
-            }, f, indent=2)
+
+        with open(path, "w") as f:
+            json.dump({"experiences": self.experiences, "next_id": self._next_id}, f, indent=2)
 
     def load(self, path: str) -> None:
         """Load experiences from JSON file.
-        
+
         Args:
             path: Input file path
         """

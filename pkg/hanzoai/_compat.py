@@ -88,9 +88,7 @@ def parse_obj(model: type[_ModelT], value: object) -> _ModelT:
     if PYDANTIC_V2:
         return model.model_validate(value)
     else:
-        return cast(
-            _ModelT, model.parse_obj(value)
-        )  # pyright: ignore[reportDeprecated, reportUnnecessaryCast]
+        return cast(_ModelT, model.parse_obj(value))  # pyright: ignore[reportDeprecated, reportUnnecessaryCast]
 
 
 def field_is_required(field: FieldInfo) -> bool:
@@ -216,9 +214,7 @@ if TYPE_CHECKING:
         @overload
         def __get__(self, instance: object, owner: type[Any] | None = None) -> _T: ...
 
-        def __get__(
-            self, instance: object, owner: type[Any] | None = None
-        ) -> _T | Self:
+        def __get__(self, instance: object, owner: type[Any] | None = None) -> _T | Self:
             raise NotImplementedError()
 
         def __set_name__(self, owner: type[Any], name: str) -> None: ...

@@ -15,16 +15,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import List, Dict, Optional, Any
-from dataclasses import dataclass
-import json
 import re
+import json
+from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
 
 
 @dataclass
 class Trajectory:
     """Single rollout trajectory.
-    
+
     Attributes:
         query: Input query/problem statement
         output: Model-generated output/response
@@ -32,6 +32,7 @@ class Trajectory:
         groundtruth: Optional ground truth answer for supervised learning
         summary: Optional LLM-generated step-by-step summary
     """
+
     query: str
     output: str
     reward: float
@@ -41,19 +42,19 @@ class Trajectory:
 
 class SemanticExtractor:
     """Extracts semantic advantages from groups of trajectories.
-    
+
     Implements the 3-stage LLM process from Training-Free GRPO paper:
     1. Trajectory Summarization (Figure 11): Analyze each rollout step-by-step
     2. Group Advantage Extraction (Figure 12): Compare G trajectories to identify patterns
     3. Batch Consolidation (Figure 13): Merge/modify/delete experiences across batch
-    
+
     This replaces numerical advantages with natural language experiences,
     enabling learning without parameter updates.
     """
 
     def __init__(self, llm_client: Any, max_operations: int = 3):
         """Initialize semantic extractor.
-        
+
         Args:
             llm_client: LLM client with .chat() method (e.g., OpenAI, DeepSeek)
             max_operations: Max operations per group critique (default: 3)
@@ -65,38 +66,34 @@ class SemanticExtractor:
     # STAGE 1: Trajectory Summarization (Figure 11)
     # =========================================================================
 
-    def summarize_trajectory(
-        self,
-        trajectory: Trajectory,
-        use_groundtruth: bool = True
-    ) -> str:
+    def summarize_trajectory(self, trajectory: Trajectory, use_groundtruth: bool = True) -> str:
         """Summarize a single trajectory step-by-step.
-        
+
         This stage analyzes what happened in each step of the trajectory,
         identifies which experiences were used, and highlights any errors
         or detours that occurred.
-        
+
         Args:
             trajectory: Trajectory to summarize
             use_groundtruth: Whether to include ground truth in prompt
-            
+
         Returns:
             summary: Step-by-step analysis of the trajectory
         """
         # Determine evaluation status
         evaluation = (
-            "This trajectory delivers **correct** answer" 
-            if trajectory.reward > 0 
+            "This trajectory delivers **correct** answer"
+            if trajectory.reward > 0
             else "This trajectory delivers **wrong** answer"
         )
-        
+
         # Include groundtruth if available and requested
         groundtruth_section = (
-            f"\n<groundtruth>{trajectory.groundtruth}</groundtruth>" 
-            if use_groundtruth and trajectory.groundtruth 
+            f"\n<groundtruth>{trajectory.groundtruth}</groundtruth>"
+            if use_groundtruth and trajectory.groundtruth
             else ""
         )
-        
+
         prompt = f"""An agent system may be provided with some experiences, and then it produces the following trajectory to solve the given problem. Please summarize the trajectory step-by-step:
 
 1. For each step, describe what action is being taken, and which experience has been used in this step.
@@ -124,22 +121,19 @@ Only return the trajectory summary of each step, e.g.,
     # =========================================================================
 
     def extract_group_advantage(
-        self,
-        trajectories: List[Trajectory],
-        experiences: str,
-        use_groundtruth: bool = True
+        self, trajectories: List[Trajectory], experiences: str, use_groundtruth: bool = True
     ) -> List[Dict]:
         """Extract semantic advantage from a group of trajectories.
-        
+
         This stage compares multiple trajectories (both correct and incorrect)
         to identify patterns, extract insights, and propose updates to the
         experience library.
-        
+
         Args:
             trajectories: List of G trajectories for the same query
             experiences: Formatted experience library string
             use_groundtruth: Whether to include ground truth in prompt
-            
+
         Returns:
             operations: List of operations to apply to experience library
                 Example: [
@@ -157,16 +151,14 @@ Only return the trajectory summary of each step, e.g.,
         for i, traj in enumerate(trajectories):
             status = "correct" if traj.reward > 0 else "wrong"
             content = traj.summary or traj.output
-            formatted_trajectories.append(
-                f"Attempt {i+1} (Answer {status}):\n{content}"
-            )
+            formatted_trajectories.append(f"Attempt {i + 1} (Answer {status}):\n{content}")
 
         trajectories_text = "\n\n".join(formatted_trajectories)
-        
+
         # Include groundtruth if available
         groundtruth_section = (
-            f"\n<groundtruth>{trajectories[0].groundtruth}</groundtruth>" 
-            if use_groundtruth and trajectories[0].groundtruth 
+            f"\n<groundtruth>{trajectories[0].groundtruth}</groundtruth>"
+            if use_groundtruth and trajectories[0].groundtruth
             else ""
         )
 
@@ -238,23 +230,19 @@ Note that your updated experiences may not need to cover all the options.
     # STAGE 3: Batch Consolidation (Figure 13)
     # =========================================================================
 
-    def consolidate_batch(
-        self,
-        all_group_operations: List[List[Dict]],
-        experiences: str
-    ) -> List[Dict]:
+    def consolidate_batch(self, all_group_operations: List[List[Dict]], experiences: str) -> List[Dict]:
         """Consolidate all group advantages into final experience updates.
-        
+
         This stage merges operations from all groups in the batch, ensuring:
         - Experiences are ≤32 words
         - No redundancy between experiences
         - Strategic focus (not specific calculations)
         - Generalizable insights
-        
+
         Args:
             all_group_operations: List of operations from each group
             experiences: Current formatted experience library
-            
+
         Returns:
             final_operations: Consolidated list of operations to apply
         """
@@ -318,25 +306,21 @@ After generating the step-by-step reasoning, you need to give the final experien
     # Helper Methods
     # =========================================================================
 
-    def _parse_json_operations(
-        self, 
-        response: str, 
-        max_ops: Optional[int] = None
-    ) -> List[Dict]:
+    def _parse_json_operations(self, response: str, max_ops: Optional[int] = None) -> List[Dict]:
         """Parse JSON operations from LLM response.
-        
+
         Extracts JSON block from markdown code fence and validates format.
-        
+
         Args:
             response: LLM response text
             max_ops: Optional limit on number of operations
-            
+
         Returns:
             operations: List of operation dictionaries
         """
         # Extract JSON block from markdown code fence
-        json_match = re.search(r'```json\s*(.*?)\s*```', response, re.DOTALL)
-        
+        json_match = re.search(r"```json\s*(.*?)\s*```", response, re.DOTALL)
+
         if json_match:
             try:
                 operations = json.loads(json_match.group(1))
@@ -351,7 +335,7 @@ After generating the step-by-step reasoning, you need to give the final experien
         # Also try to find plain JSON arrays (without code fence)
         try:
             # Look for array pattern
-            array_match = re.search(r'\[\s*\{.*?\}\s*\]', response, re.DOTALL)
+            array_match = re.search(r"\[\s*\{.*?\}\s*\]", response, re.DOTALL)
             if array_match:
                 operations = json.loads(array_match.group(0))
                 if max_ops:
@@ -365,14 +349,14 @@ After generating the step-by-step reasoning, you need to give the final experien
 
 class LLMClient:
     """Simple wrapper for LLM API clients.
-    
+
     Provides a unified .chat() interface for various LLM providers.
     Supports OpenAI-compatible APIs (OpenAI, DeepSeek, etc.).
     """
 
     def __init__(self, api_key: str, base_url: str = "https://api.deepseek.com/v1", model: str = "deepseek-chat"):
         """Initialize LLM client.
-        
+
         Args:
             api_key: API key for the LLM service
             base_url: Base URL for the API endpoint
@@ -381,21 +365,19 @@ class LLMClient:
         try:
             from openai import OpenAI
         except ImportError:
-            raise ImportError(
-                "OpenAI package not found. Install with: pip install openai"
-            )
+            raise ImportError("OpenAI package not found. Install with: pip install openai")
 
         self.client = OpenAI(api_key=api_key, base_url=base_url)
         self.model = model
 
     def chat(self, prompt: str, temperature: float = 0.7, max_tokens: int = 4096) -> str:
         """Send chat request to LLM.
-        
+
         Args:
             prompt: User prompt
             temperature: Sampling temperature (default: 0.7)
             max_tokens: Max tokens to generate (default: 4096)
-            
+
         Returns:
             response: LLM response text
         """
@@ -403,7 +385,7 @@ class LLMClient:
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
             temperature=temperature,
-            max_tokens=max_tokens
+            max_tokens=max_tokens,
         )
-        
+
         return response.choices[0].message.content

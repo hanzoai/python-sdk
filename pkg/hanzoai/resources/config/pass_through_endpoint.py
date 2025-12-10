@@ -127,9 +127,7 @@ class PassThroughEndpointResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint_id:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
         return self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
             options=make_request_options(
@@ -319,9 +317,7 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint_id:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
         return await self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
             options=make_request_options(
