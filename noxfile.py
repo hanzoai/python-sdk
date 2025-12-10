@@ -1,6 +1,7 @@
-import nox
 import os
 import tempfile
+
+import nox
 
 
 @nox.session(reuse_venv=True, name="test-pydantic-v1")
