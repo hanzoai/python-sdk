@@ -50,7 +50,8 @@ jobs:
                   return 'not published'
           
           packages = [
-              'hanzo', 'hanzo-network', 'hanzo-mcp', 'hanzo-agents',
+              'hanzo', 'hanzo-network', 'hanzo-mcp',
+              # hanzo-agents is now a git submodule
               'hanzo-memory', 'hanzo-aci', 'hanzo-repl'
           ]
           

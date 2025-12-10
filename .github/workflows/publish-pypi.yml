@@ -11,7 +11,7 @@ on:
       - 'hanzo-*'
       - 'hanzo-network-*'
       - 'hanzo-mcp-*'
-      - 'hanzo-agents-*'
+      # hanzo-agents is now a git submodule
       - 'hanzo-memory-*'
       - 'hanzo-aci-*'
       - 'hanzo-repl-*'
@@ -57,12 +57,11 @@ jobs:
           PACKAGES=""
           
           # If tag starts with a specific package name, publish only that package
+          # Note: hanzo-agents is now a git submodule, not published from here
           if [[ $TAG == hanzo-network-* ]]; then
             PACKAGES="hanzo-network"
           elif [[ $TAG == hanzo-mcp-* ]]; then
             PACKAGES="hanzo-mcp"
-          elif [[ $TAG == hanzo-agents-* ]]; then
-            PACKAGES="hanzo-agents"
           elif [[ $TAG == hanzo-memory-* ]]; then
             PACKAGES="hanzo-memory"
           elif [[ $TAG == hanzo-aci-* ]]; then
@@ -72,8 +71,8 @@ jobs:
           elif [[ $TAG == hanzo-* ]]; then
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
-            # For general version tags, publish all packages
-            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-agents hanzo-memory hanzo-aci hanzo-repl"
+            # For general version tags, publish all packages (except hanzo-agents which is a submodule)
+            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
           fi
           
           echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
