@@ -68,9 +68,7 @@ class JobsResource(SyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: (
-            Optional[job_create_params.Hyperparameters] | NotGiven
-        ) = NOT_GIVEN,
+        hyperparameters: (Optional[job_create_params.Hyperparameters] | NotGiven) = NOT_GIVEN,
         integrations: Optional[List[str]] | NotGiven = NOT_GIVEN,
         seed: Optional[int] | NotGiven = NOT_GIVEN,
         suffix: Optional[str] | NotGiven = NOT_GIVEN,
@@ -167,9 +165,7 @@ class JobsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(
-                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
         return self._get(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}",
             options=make_request_options(
@@ -268,9 +264,7 @@ class AsyncJobsResource(AsyncAPIResource):
         custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
-        hyperparameters: (
-            Optional[job_create_params.Hyperparameters] | NotGiven
-        ) = NOT_GIVEN,
+        hyperparameters: (Optional[job_create_params.Hyperparameters] | NotGiven) = NOT_GIVEN,
         integrations: Optional[List[str]] | NotGiven = NOT_GIVEN,
         seed: Optional[int] | NotGiven = NOT_GIVEN,
         suffix: Optional[str] | NotGiven = NOT_GIVEN,
@@ -367,9 +361,7 @@ class AsyncJobsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(
-                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
         return await self._get(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}",
             options=make_request_options(

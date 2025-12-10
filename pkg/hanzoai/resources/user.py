@@ -506,9 +506,7 @@ class UserResource(SyncAPIResource):
         }
         return self._post(
             "/user/delete",
-            body=maybe_transform(
-                {"user_ids": user_ids}, user_delete_params.UserDeleteParams
-            ),
+            body=maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1039,9 +1037,7 @@ class AsyncUserResource(AsyncAPIResource):
         }
         return await self._post(
             "/user/delete",
-            body=await async_maybe_transform(
-                {"user_ids": user_ids}, user_delete_params.UserDeleteParams
-            ),
+            body=await async_maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

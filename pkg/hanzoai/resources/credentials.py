@@ -140,9 +140,7 @@ class CredentialsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not credential_name:
-            raise ValueError(
-                f"Expected a non-empty value for `credential_name` but received {credential_name!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return self._delete(
             f"/credentials/{credential_name}",
             options=make_request_options(
@@ -270,9 +268,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not credential_name:
-            raise ValueError(
-                f"Expected a non-empty value for `credential_name` but received {credential_name!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return await self._delete(
             f"/credentials/{credential_name}",
             options=make_request_options(

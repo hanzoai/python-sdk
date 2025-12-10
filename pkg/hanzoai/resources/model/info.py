@@ -104,9 +104,7 @@ class InfoResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"hanzo_model_id": hanzo_model_id}, info_list_params.InfoListParams
-                ),
+                query=maybe_transform({"hanzo_model_id": hanzo_model_id}, info_list_params.InfoListParams),
             ),
             cast_to=object,
         )
@@ -191,9 +189,7 @@ class AsyncInfoResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {"hanzo_model_id": hanzo_model_id}, info_list_params.InfoListParams
-                ),
+                query=await async_maybe_transform({"hanzo_model_id": hanzo_model_id}, info_list_params.InfoListParams),
             ),
             cast_to=object,
         )

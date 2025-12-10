@@ -2,8 +2,8 @@
 """Test memory management system."""
 
 import sys
-import tempfile
 import shutil
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -31,24 +31,18 @@ class TestMemoryManager:
 
     def test_add_memory_fact(self, memory_manager):
         """Test adding a fact memory."""
-        memory_id = memory_manager.add_memory(
-            "User prefers Python over JavaScript", type="fact", priority=5
-        )
+        memory_id = memory_manager.add_memory("User prefers Python over JavaScript", type="fact", priority=5)
         assert memory_id is not None
         assert len(memory_id) > 0
 
     def test_add_memory_instruction(self, memory_manager):
         """Test adding an instruction memory."""
-        memory_id = memory_manager.add_memory(
-            "Always use type hints in Python code", type="instruction", priority=8
-        )
+        memory_id = memory_manager.add_memory("Always use type hints in Python code", type="instruction", priority=8)
         assert memory_id is not None
 
     def test_add_memory_context(self, memory_manager):
         """Test adding a context memory."""
-        memory_id = memory_manager.add_memory(
-            "Working on REST API project", type="context", priority=3
-        )
+        memory_id = memory_manager.add_memory("Working on REST API project", type="context", priority=3)
         assert memory_id is not None
 
     def test_get_all_memories(self, memory_manager):

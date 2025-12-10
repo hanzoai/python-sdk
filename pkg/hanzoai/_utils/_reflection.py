@@ -39,7 +39,4 @@ def assert_signatures_in_sync(
             continue
 
     if errors:
-        raise AssertionError(
-            f"{len(errors)} errors encountered when comparing signatures:\n\n"
-            + "\n\n".join(errors)
-        )
+        raise AssertionError(f"{len(errors)} errors encountered when comparing signatures:\n\n" + "\n\n".join(errors))

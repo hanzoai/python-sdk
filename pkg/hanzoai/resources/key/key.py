@@ -775,9 +775,7 @@ class KeyResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not path_key:
-            raise ValueError(
-                f"Expected a non-empty value for `path_key` but received {path_key!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
         extra_headers = {
             **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
             **(extra_headers or {}),
@@ -875,9 +873,7 @@ class KeyResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams
-                ),
+                query=maybe_transform({"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams),
             ),
             cast_to=object,
         )
@@ -1316,9 +1312,7 @@ class AsyncKeyResource(AsyncAPIResource):
         }
         return await self._post(
             "/key/block",
-            body=await async_maybe_transform(
-                {"key": key}, key_block_params.KeyBlockParams
-            ),
+            body=await async_maybe_transform({"key": key}, key_block_params.KeyBlockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1679,9 +1673,7 @@ class AsyncKeyResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not path_key:
-            raise ValueError(
-                f"Expected a non-empty value for `path_key` but received {path_key!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
         extra_headers = {
             **strip_not_given({"hanzo-changed-by": hanzo_changed_by}),
             **(extra_headers or {}),
@@ -1779,9 +1771,7 @@ class AsyncKeyResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams
-                ),
+                query=await async_maybe_transform({"key": key}, key_retrieve_info_params.KeyRetrieveInfoParams),
             ),
             cast_to=object,
         )
@@ -1835,9 +1825,7 @@ class AsyncKeyResource(AsyncAPIResource):
         }
         return await self._post(
             "/key/unblock",
-            body=await async_maybe_transform(
-                {"key": key}, key_unblock_params.KeyUnblockParams
-            ),
+            body=await async_maybe_transform({"key": key}, key_unblock_params.KeyUnblockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

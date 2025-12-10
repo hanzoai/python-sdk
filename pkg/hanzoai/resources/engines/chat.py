@@ -78,9 +78,7 @@ class ChatResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
             f"/engines/{model}/chat/completions",
             options=make_request_options(
@@ -153,9 +151,7 @@ class AsyncChatResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model:
-            raise ValueError(
-                f"Expected a non-empty value for `model` but received {model!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
             f"/engines/{model}/chat/completions",
             options=make_request_options(

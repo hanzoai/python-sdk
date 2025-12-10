@@ -27,9 +27,7 @@ class OrganizationListResponseItemLlmBudgetTable(BaseModel):
 
     max_parallel_requests: Optional[int] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(
-        alias="model_max_budget", default=None
-    )
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
     rpm_limit: Optional[int] = None
 
@@ -45,9 +43,7 @@ class OrganizationListResponseItemMemberLlmBudgetTable(BaseModel):
 
     max_parallel_requests: Optional[int] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(
-        alias="model_max_budget", default=None
-    )
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
     rpm_limit: Optional[int] = None
 
@@ -82,9 +78,7 @@ class OrganizationListResponseItemTeamLlmModelTable(BaseModel):
 
     updated_by: str
 
-    api_model_aliases: Union[str, object, None] = FieldInfo(
-        alias="model_aliases", default=None
-    )
+    api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)
 
 
 class OrganizationListResponseItemTeam(BaseModel):

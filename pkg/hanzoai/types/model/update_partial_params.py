@@ -25,9 +25,7 @@ class UpdatePartialParams(TypedDict, total=False):
     model_name: Optional[str]
 
 
-LitellmParamsConfigurableClientsideAuthParam: TypeAlias = Union[
-    str, ConfigurableClientsideParamsCustomAuthParam
-]
+LitellmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
 
 
 class LitellmParamsTyped(TypedDict, total=False):
@@ -45,9 +43,7 @@ class LitellmParamsTyped(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    configurable_clientside_auth_params: Optional[
-        List[LitellmParamsConfigurableClientsideAuthParam]
-    ]
+    configurable_clientside_auth_params: Optional[List[LitellmParamsConfigurableClientsideAuthParam]]
 
     custom_llm_provider: Optional[str]
 

@@ -94,9 +94,7 @@ class UpdateResource(SyncAPIResource):
         self,
         model_id: str,
         *,
-        hanzo_params: (
-            Optional[update_partial_params.LitellmParams] | NotGiven
-        ) = NOT_GIVEN,
+        hanzo_params: (Optional[update_partial_params.LitellmParams] | NotGiven) = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -130,9 +128,7 @@ class UpdateResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model_id:
-            raise ValueError(
-                f"Expected a non-empty value for `model_id` but received {model_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
         return self._patch(
             f"/model/{model_id}/update",
             body=maybe_transform(
@@ -221,9 +217,7 @@ class AsyncUpdateResource(AsyncAPIResource):
         self,
         model_id: str,
         *,
-        hanzo_params: (
-            Optional[update_partial_params.LitellmParams] | NotGiven
-        ) = NOT_GIVEN,
+        hanzo_params: (Optional[update_partial_params.LitellmParams] | NotGiven) = NOT_GIVEN,
         model_info: Optional[ModelInfoParam] | NotGiven = NOT_GIVEN,
         model_name: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -257,9 +251,7 @@ class AsyncUpdateResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not model_id:
-            raise ValueError(
-                f"Expected a non-empty value for `model_id` but received {model_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
         return await self._patch(
             f"/model/{model_id}/update",
             body=await async_maybe_transform(
