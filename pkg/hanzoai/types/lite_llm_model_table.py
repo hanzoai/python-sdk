@@ -14,6 +14,4 @@ class HanzoModelTable(BaseModel):
 
     updated_by: str
 
-    api_model_aliases: Union[str, object, None] = FieldInfo(
-        alias="model_aliases", default=None
-    )
+    api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)

@@ -184,9 +184,7 @@ class HanzoAuth:
         if self._token:
             # Revoke token
             async with httpx.AsyncClient() as client:
-                await client.post(
-                    f"{self.base_url}/api/logout", headers=self._get_headers()
-                )
+                await client.post(f"{self.base_url}/api/logout", headers=self._get_headers())
 
         self._token = None
         self.api_key = None
@@ -202,9 +200,7 @@ class HanzoAuth:
             return self._user_info
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{self.api_base_url}/v1/user", headers=self._get_headers()
-            )
+            response = await client.get(f"{self.api_base_url}/v1/user", headers=self._get_headers())
             response.raise_for_status()
 
             self._user_info = response.json()
@@ -247,9 +243,7 @@ class HanzoAuth:
             List of API key information
         """
         async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{self.api_base_url}/v1/api-keys", headers=self._get_headers()
-            )
+            response = await client.get(f"{self.api_base_url}/v1/api-keys", headers=self._get_headers())
             response.raise_for_status()
 
             return response.json().get("keys", [])
@@ -261,9 +255,7 @@ class HanzoAuth:
             name: Key name to revoke
         """
         async with httpx.AsyncClient() as client:
-            response = await client.delete(
-                f"{self.api_base_url}/v1/api-keys/{name}", headers=self._get_headers()
-            )
+            response = await client.delete(f"{self.api_base_url}/v1/api-keys/{name}", headers=self._get_headers())
             response.raise_for_status()
 
     async def save_credentials(self, path: Path):
@@ -324,9 +316,7 @@ class HanzoAuth:
 
 
 # MCP Authentication Flow
-async def authenticate_for_mcp(
-    server_name: str = "hanzo-mcp", permissions: List[str] = None
-) -> str:
+async def authenticate_for_mcp(server_name: str = "hanzo-mcp", permissions: List[str] = None) -> str:
     """Authenticate and get token for MCP server.
 
     Args:

@@ -62,9 +62,7 @@ class AnthropicResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return self._post(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -100,9 +98,7 @@ class AnthropicResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return self._get(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -138,9 +134,7 @@ class AnthropicResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return self._put(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -176,9 +170,7 @@ class AnthropicResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return self._delete(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -214,9 +206,7 @@ class AnthropicResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return self._patch(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -273,9 +263,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return await self._post(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -311,9 +299,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return await self._get(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -349,9 +335,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return await self._put(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -387,9 +371,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return await self._delete(
             f"/anthropic/{endpoint}",
             options=make_request_options(
@@ -425,9 +407,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(
-                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
         return await self._patch(
             f"/anthropic/{endpoint}",
             options=make_request_options(

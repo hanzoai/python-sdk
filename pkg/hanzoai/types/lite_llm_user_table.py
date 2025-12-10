@@ -22,9 +22,7 @@ class HanzoUserTable(BaseModel):
 
     metadata: Optional[object] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(
-        alias="model_max_budget", default=None
-    )
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
     api_model_spend: Optional[object] = FieldInfo(alias="model_spend", default=None)
 

@@ -76,13 +76,9 @@ class ContentResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(
-                f"Expected a non-empty value for `provider` but received {provider!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
         if not file_id:
-            raise ValueError(
-                f"Expected a non-empty value for `file_id` but received {file_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._get(
             f"/{provider}/v1/files/{file_id}/content",
             options=make_request_options(
@@ -153,13 +149,9 @@ class AsyncContentResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(
-                f"Expected a non-empty value for `provider` but received {provider!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
         if not file_id:
-            raise ValueError(
-                f"Expected a non-empty value for `file_id` but received {file_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._get(
             f"/{provider}/v1/files/{file_id}/content",
             options=make_request_options(
