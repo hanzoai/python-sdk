@@ -454,9 +454,7 @@ class TeamResource(SyncAPIResource):
         }
         return self._post(
             "/team/delete",
-            body=maybe_transform(
-                {"team_ids": team_ids}, team_delete_params.TeamDeleteParams
-            ),
+            body=maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -563,9 +561,7 @@ class TeamResource(SyncAPIResource):
         """
         return self._post(
             "/team/block",
-            body=maybe_transform(
-                {"team_id": team_id}, team_block_params.TeamBlockParams
-            ),
+            body=maybe_transform({"team_id": team_id}, team_block_params.TeamBlockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -609,9 +605,7 @@ class TeamResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return self._post(
             f"/team/{team_id}/disable_logging",
             options=make_request_options(
@@ -805,9 +799,7 @@ class TeamResource(SyncAPIResource):
         """
         return self._post(
             "/team/unblock",
-            body=maybe_transform(
-                {"team_id": team_id}, team_unblock_params.TeamUnblockParams
-            ),
+            body=maybe_transform({"team_id": team_id}, team_unblock_params.TeamUnblockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1263,9 +1255,7 @@ class AsyncTeamResource(AsyncAPIResource):
         }
         return await self._post(
             "/team/delete",
-            body=await async_maybe_transform(
-                {"team_ids": team_ids}, team_delete_params.TeamDeleteParams
-            ),
+            body=await async_maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1372,9 +1362,7 @@ class AsyncTeamResource(AsyncAPIResource):
         """
         return await self._post(
             "/team/block",
-            body=await async_maybe_transform(
-                {"team_id": team_id}, team_block_params.TeamBlockParams
-            ),
+            body=await async_maybe_transform({"team_id": team_id}, team_block_params.TeamBlockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1418,9 +1406,7 @@ class AsyncTeamResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not team_id:
-            raise ValueError(
-                f"Expected a non-empty value for `team_id` but received {team_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return await self._post(
             f"/team/{team_id}/disable_logging",
             options=make_request_options(
@@ -1614,9 +1600,7 @@ class AsyncTeamResource(AsyncAPIResource):
         """
         return await self._post(
             "/team/unblock",
-            body=await async_maybe_transform(
-                {"team_id": team_id}, team_unblock_params.TeamUnblockParams
-            ),
+            body=await async_maybe_transform({"team_id": team_id}, team_unblock_params.TeamUnblockParams),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

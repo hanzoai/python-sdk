@@ -82,9 +82,7 @@ class CancelResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not batch_id:
-            raise ValueError(
-                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
         return self._post(
             f"/batches/{batch_id}/cancel",
             options=make_request_options(
@@ -92,9 +90,7 @@ class CancelResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform(
-                    {"provider": provider}, cancel_cancel_params.CancelCancelParams
-                ),
+                query=maybe_transform({"provider": provider}, cancel_cancel_params.CancelCancelParams),
             ),
             cast_to=object,
         )
@@ -157,9 +153,7 @@ class AsyncCancelResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not batch_id:
-            raise ValueError(
-                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
-            )
+            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
         return await self._post(
             f"/batches/{batch_id}/cancel",
             options=make_request_options(
@@ -167,9 +161,7 @@ class AsyncCancelResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
-                    {"provider": provider}, cancel_cancel_params.CancelCancelParams
-                ),
+                query=await async_maybe_transform({"provider": provider}, cancel_cancel_params.CancelCancelParams),
             ),
             cast_to=object,
         )

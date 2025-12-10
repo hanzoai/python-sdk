@@ -17,9 +17,7 @@ class LlmBudgetTable(BaseModel):
 
     max_parallel_requests: Optional[int] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(
-        alias="model_max_budget", default=None
-    )
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
     rpm_limit: Optional[int] = None
 

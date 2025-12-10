@@ -131,6 +131,4 @@ class AsyncAudioResourceWithStreamingResponse:
 
     @cached_property
     def transcriptions(self) -> AsyncTranscriptionsResourceWithStreamingResponse:
-        return AsyncTranscriptionsResourceWithStreamingResponse(
-            self._audio.transcriptions
-        )
+        return AsyncTranscriptionsResourceWithStreamingResponse(self._audio.transcriptions)
