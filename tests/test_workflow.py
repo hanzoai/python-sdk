@@ -73,7 +73,20 @@ class TestBasicClient:
     """Test basic Hanzo client functionality."""
 
     def test_client_initialization(self):
-        """Test client can be initialized."""
+        """Test client can be initialized with API key."""
+        from hanzoai import Hanzo
+
+        # Use a dummy API key for testing - this only tests client instantiation
+        # not actual API connectivity
+        client = Hanzo(api_key="test-api-key-for-unit-tests")
+        assert client is not None
+
+    @pytest.mark.skipif(
+        not os.environ.get("HANZO_API_KEY"),
+        reason="HANZO_API_KEY not set"
+    )
+    def test_client_initialization_from_env(self):
+        """Test client can be initialized from environment."""
         from hanzoai import Hanzo
 
         client = Hanzo()
