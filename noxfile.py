@@ -23,17 +23,17 @@ def test_pydantic_v1(session: nox.Session) -> None:
     # Create a temporary pytest.ini that doesn't include the pydantic v2-specific warning filter
     # The main pyproject.toml has a filter for pydantic.warnings.PydanticDeprecatedSince20
     # which doesn't exist in pydantic v1 and causes pytest to fail at startup
+    # Note: pytest.ini uses INI format, not TOML - multiline values use indentation
     pytest_ini_content = """[pytest]
-testpaths = ["tests"]
-addopts = "--tb=short"
+testpaths = tests
+addopts = --tb=short
 xfail_strict = true
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
-filterwarnings = [
-    "error",
-    "ignore::DeprecationWarning",
-    "ignore::UserWarning",
-]
+asyncio_mode = auto
+asyncio_default_fixture_loop_scope = function
+filterwarnings =
+    error
+    ignore::DeprecationWarning
+    ignore::UserWarning
 """
 
     # Write temporary config and use it
