@@ -18,6 +18,7 @@ def test_pydantic_v1(session: nox.Session) -> None:
         "dirty-equals>=0.6.0",
         "importlib-metadata>=6.7.0",
         "rich>=13.7.1",
+        "nest_asyncio",  # Required for test_get_platform
     )
 
     # Create a temporary pytest.ini that doesn't include the pydantic v2-specific warning filter
@@ -58,6 +59,7 @@ filterwarnings =
             "--ignore=tests/test_refactoring.py",
             "--ignore=tests/test_streaming.py",
             "--ignore=tests/test_todo.py",
+            "--ignore=tests/test_hanzo_dev.py",  # Requires hanzo package
             *session.posargs
         )
     finally:
