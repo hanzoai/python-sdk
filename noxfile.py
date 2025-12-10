@@ -48,6 +48,16 @@ filterwarnings =
             "-c", pytest_ini_path,
             "--showlocals",
             "--ignore=tests/functional",
+            # Ignore tests that require optional dependencies (hanzo, hanzo_network, click, etc.)
+            # These are tested in the main test suite which has all dependencies installed
+            "--ignore=tests/e2e",
+            "--ignore=tests/test_fallback.py",
+            "--ignore=tests/test_interactive.py",
+            "--ignore=tests/test_memory.py",
+            "--ignore=tests/test_rate_limiter.py",
+            "--ignore=tests/test_refactoring.py",
+            "--ignore=tests/test_streaming.py",
+            "--ignore=tests/test_todo.py",
             *session.posargs
         )
     finally:
