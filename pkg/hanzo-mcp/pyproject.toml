@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.9.3"
+version = "0.9.8"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -88,7 +88,9 @@ include = ["hanzo_mcp"]
 
 [tool.pytest.ini_options]
 # Configuration for pytest
-addopts = "--no-header --no-summary"
+addopts = "--no-header --no-summary -p asyncio"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 # Note: --cov-fail-under=96.3 will be added after achieving target coverage
 markers = [
   "asyncio: mark test as using asyncio",
@@ -101,8 +103,6 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
 
 [tool.mypy]
 python_version = "3.12"
