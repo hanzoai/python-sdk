@@ -20,7 +20,7 @@ try:
 
     logger.info("Using InfinityDB")
 except ImportError:
-    logger.warning(
+    logger.debug(
         f"InfinityDB not available on {platform.system()} {platform.machine()}, using mock implementation"
     )
     from . import mock_infinity as infinity_embedded
