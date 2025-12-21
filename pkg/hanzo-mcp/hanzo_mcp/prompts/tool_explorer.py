@@ -152,7 +152,7 @@ batch(
 
 1. **Use batch for parallel operations**: When you need to run multiple independent operations, use batch to run them concurrently.
 
-2. **Combine search tools**: Use unified_search for comprehensive results, grep for simple text matching, and grep_ast for code structure understanding.
+2. **Combine search tools**: Use search for comprehensive results, grep for simple text matching, and grep_ast for code structure understanding.
 
 3. **Leverage agents for complex tasks**: Use dispatch_agent for tasks requiring deep analysis or multiple steps.
 
