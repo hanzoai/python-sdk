@@ -51,7 +51,6 @@
     "grep_ast": true,
     "git_search": true,
     "batch_search": true,
-    "unified_search": true,
     "symbols": true,
     "mode": true,
     "vector": true,
@@ -137,7 +136,7 @@
       "aider", "cline", "openhands", "oh", "hanzo_dev", "think", "critic"
     ],
     "search": [
-      "grep", "grep_ast", "ast", "search", "unified_search", "symbols", "mode",
+      "grep", "grep_ast", "ast", "search", "symbols", "mode",
       "git_search", "batch_search", "vector", "node", "vector_search", "vector_index", "find_files"
     ],
     "process": [

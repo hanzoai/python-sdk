@@ -54,6 +54,7 @@ try:  # pragma: no cover
     from hanzo_mcp.tools.common.permissions import PermissionManager
     from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
     from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
+    from hanzo_mcp.tools.common.plugin_loader import load_user_plugins
 
     # Try memory tools
     try:
@@ -78,6 +79,9 @@ except Exception:
         def apply_environment_from_mode():
             pass
 
+    def load_user_plugins():
+        return {}
+
 
 # Try to import LSP tool
 try:
@@ -86,6 +90,14 @@ try:
     LSP_TOOL_AVAILABLE = True
 except ImportError:
     LSP_TOOL_AVAILABLE = False
+
+# Try to import refactor tool
+try:
+    from hanzo_mcp.tools.refactor import RefactorTool, create_refactor_tool
+
+    REFACTOR_TOOL_AVAILABLE = True
+except ImportError:
+    REFACTOR_TOOL_AVAILABLE = False
 
 
 def register_all_tools(
@@ -183,7 +195,7 @@ def register_all_tools(
         "vector_search": is_tool_enabled("vector_search", False),
     }
 
-    # Create project manager if vector tools, batch_search, or unified_search are enabled
+    # Create project manager if vector tools, batch_search, or search are enabled
     if (
         any(vector_enabled.values())
         or filesystem_enabled.get("batch_search", False)
@@ -474,6 +486,15 @@ def register_all_tools(
             all_tools[tool.name] = tool
         except Exception as e:
             logger.warning(f"Failed to register LSP tool: {e}")
+
+    # Register refactor tool if enabled
+    if is_tool_enabled("refactor", True) and REFACTOR_TOOL_AVAILABLE:
+        try:
+            tool = create_refactor_tool()
+            tool.register(mcp_server)
+            all_tools[tool.name] = tool
+        except Exception as e:
+            logger.warning(f"Failed to register refactor tool: {e}")
 
     # Register user plugins last (so they can override built-in tools)
     for plugin_name, plugin in plugins.items():

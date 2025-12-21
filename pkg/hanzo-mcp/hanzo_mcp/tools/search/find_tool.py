@@ -1,9 +1,8 @@
-"""Fast file finding tool using ffind and intelligent caching."""
+"""Fast file finding tool using ffind library and intelligent caching."""
 
 import os
 import time
 import fnmatch
-import subprocess
 from typing import Any, Set, Dict, List, Optional
 from pathlib import Path
 from datetime import datetime
@@ -13,11 +12,11 @@ from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
-# Check if ffind command is available
+# Check if ffind library is available
 try:
-    subprocess.run(["ffind", "--version"], capture_output=True, check=True)
+    from ffind.ffind import search as ffind_search
     FFIND_AVAILABLE = True
-except (subprocess.CalledProcessError, FileNotFoundError):
+except ImportError:
     FFIND_AVAILABLE = False
 
 
@@ -188,21 +187,32 @@ class FindTool(BaseTool):
         self._gitignore_cache[root] = patterns
         return patterns
 
-    def _should_ignore(self, path: str, ignore_patterns: Set[str]) -> bool:
-        """Check if path should be ignored."""
+    def _should_ignore(self, path: str, ignore_patterns: Set[str], root: Optional[Path] = None) -> bool:
+        """Check if path should be ignored.
+
+        Args:
+            path: The absolute path to check
+            ignore_patterns: Set of gitignore-style patterns
+            root: Optional search root - only check parents BELOW this root
+        """
         path_obj = Path(path)
 
         for pattern in ignore_patterns:
-            # Check against full path and basename
+            # Check against basename only
             if fnmatch.fnmatch(path_obj.name, pattern):
                 return True
-            if fnmatch.fnmatch(str(path_obj), pattern):
-                return True
 
-            # Check if any parent directory matches
-            for parent in path_obj.parents:
-                if fnmatch.fnmatch(parent.name, pattern):
-                    return True
+            # Check relative path if we have a root
+            if root:
+                try:
+                    rel_path = path_obj.relative_to(root)
+                    # Check relative path parts (parents below root)
+                    for part in rel_path.parts[:-1]:  # Exclude the filename itself
+                        if fnmatch.fnmatch(part, pattern):
+                            return True
+                except ValueError:
+                    # Path is not relative to root, skip parent checks
+                    pass
 
         return False
 
@@ -441,75 +451,31 @@ class FindTool(BaseTool):
         respect_gitignore: bool,
         ignore_patterns: Set[str],
     ) -> List[FileMatch]:
-        """Use ffind for fast file discovery."""
+        """Use ffind library for fast file discovery."""
         matches = []
 
-        # Configure ffind
-        ffind_args = {
-            "path": str(root),
-            "pattern": pattern,
-            "regex": regex,
-            "case_sensitive": case_sensitive,
-            "follow_symlinks": follow_symlinks,
-        }
-
-        if fuzzy:
-            ffind_args["fuzzy"] = True
-
-        if max_depth:
-            ffind_args["max_depth"] = max_depth
-
         try:
-            # Build ffind command
-            cmd = ["ffind"]
-
-            if not case_sensitive:
-                cmd.append("-i")
-
-            if regex:
-                cmd.append("-E")
-
-            if fuzzy:
-                cmd.append("-f")
-
-            if follow_symlinks:
-                cmd.append("-L")
-
-            if max_depth:
-                cmd.extend(["-D", str(max_depth)])
-
-            # Add path and pattern (ffind expects directory first)
-            cmd.append(str(root))
-            cmd.append(pattern)
-
-            # Run ffind command
-            result = subprocess.run(cmd, capture_output=True, text=True, check=False)
-
-            if result.returncode != 0:
-                # Fall back to Python implementation on error
-                return await self._find_with_python(
-                    pattern,
-                    root,
-                    file_type,
-                    case_sensitive,
-                    regex,
-                    fuzzy,
-                    False,
-                    max_depth,
-                    follow_symlinks,
-                    respect_gitignore,
-                    ignore_patterns,
-                )
-
-            # Parse results
-            results = result.stdout.strip().split("\n") if result.stdout else []
+            # Use ffind as Python library directly
+            results = ffind_search(
+                directory=str(root),
+                file_pattern=pattern,
+                path_match=False,  # Match filename only, not full path
+                follow_symlinks=follow_symlinks,
+                output=False,  # Don't print
+                colored=False,
+                ignore_hidden=True,
+                ignore_case=not case_sensitive,
+                ignore_vcs=respect_gitignore,
+                return_results=True,
+                fuzzy=fuzzy,
+            )
 
             for path in results:
                 if not path:  # Skip empty lines
                     continue
 
-                # Check ignore patterns
-                if self._should_ignore(path, ignore_patterns):
+                # Check ignore patterns (pass root to only check relative parents)
+                if self._should_ignore(path, ignore_patterns, root):
                     continue
 
                 # Get file info
@@ -609,7 +575,7 @@ class FindTool(BaseTool):
             # Filter directories to skip
             if respect_gitignore:
                 dirnames[:] = [
-                    d for d in dirnames if not self._should_ignore(os.path.join(dirpath, d), ignore_patterns)
+                    d for d in dirnames if not self._should_ignore(os.path.join(dirpath, d), ignore_patterns, root)
                 ]
 
             # Check directories
@@ -617,7 +583,7 @@ class FindTool(BaseTool):
                 for dirname in dirnames:
                     if matcher(dirname):
                         full_path = os.path.join(dirpath, dirname)
-                        if not self._should_ignore(full_path, ignore_patterns):
+                        if not self._should_ignore(full_path, ignore_patterns, root):
                             try:
                                 stat = os.stat(full_path)
                                 match = FileMatch(
@@ -638,7 +604,7 @@ class FindTool(BaseTool):
                 for filename in filenames:
                     full_path = os.path.join(dirpath, filename)
 
-                    if self._should_ignore(full_path, ignore_patterns):
+                    if self._should_ignore(full_path, ignore_patterns, root):
                         continue
 
                     # Match against filename

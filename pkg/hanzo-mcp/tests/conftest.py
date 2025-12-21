@@ -10,6 +10,9 @@ import tempfile
 
 import pytest
 
+# Register pytest-asyncio plugin explicitly
+pytest_plugins = ["pytest_asyncio"]
+
 # Add tests directory to path so we can import test_utils
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,12 +36,6 @@ os.environ["PYTEST_CURRENT_TEST"] = "1"  # Mark as pytest run
 # Configure pytest
 def pytest_configure(config):
     """Configure pytest."""
-    # Register asyncio marker
-    config.addinivalue_line("markers", "asyncio: mark test as using asyncio")
-
-    # Configure pytest-asyncio
-    config._inicache["asyncio_default_fixture_loop_scope"] = "function"
-
     # Register custom markers
     config.addinivalue_line("markers", "requires_hanzo_agents: mark test as requiring hanzo-agents SDK")
     config.addinivalue_line("markers", "requires_memory_tools: mark test as requiring hanzo-memory package")

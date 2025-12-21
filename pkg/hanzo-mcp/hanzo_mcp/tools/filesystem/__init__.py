@@ -28,14 +28,14 @@ from hanzo_mcp.tools.filesystem.content_replace import ContentReplaceTool
 try:
     from hanzo_mcp.tools.search import (
         FindTool,
-        UnifiedSearch,
+        SearchTool,
         create_find_tool,
-        create_unified_search_tool,
+        create_search_tool,
     )
 
-    UNIFIED_SEARCH_AVAILABLE = True
+    SEARCH_AVAILABLE = True
 except ImportError:
-    UNIFIED_SEARCH_AVAILABLE = False
+    SEARCH_AVAILABLE = False
 
 # Export all tool classes
 __all__ = [
@@ -87,8 +87,8 @@ def get_read_only_filesystem_tools(
         tools.append(SearchTool(permission_manager, project_manager))
 
     # Add new search tools if available
-    if UNIFIED_SEARCH_AVAILABLE:
-        tools.extend([create_unified_search_tool(), create_find_tool()])
+    if SEARCH_AVAILABLE:
+        tools.extend([create_search_tool(), create_find_tool()])
 
     return tools
 
@@ -124,8 +124,8 @@ def get_filesystem_tools(permission_manager: PermissionManager, project_manager=
         tools.append(SearchTool(permission_manager, project_manager))
 
     # Add new search tools if available
-    if UNIFIED_SEARCH_AVAILABLE:
-        tools.extend([create_unified_search_tool(), create_find_tool()])
+    if SEARCH_AVAILABLE:
+        tools.extend([create_search_tool(), create_find_tool()])
 
     return tools
 
@@ -171,8 +171,8 @@ def register_filesystem_tools(
     }
 
     # Add new search tools if available
-    if UNIFIED_SEARCH_AVAILABLE:
-        tool_classes["unified_search"] = lambda pm: create_unified_search_tool()
+    if SEARCH_AVAILABLE:
+        tool_classes["search"] = lambda pm: create_search_tool()
         tool_classes["find"] = lambda pm: create_find_tool()
 
     tools = []
@@ -188,7 +188,7 @@ def register_filesystem_tools(
                 elif tool_name == "watch":
                     # Watch tool is a singleton
                     tools.append(tool_class(permission_manager))
-                elif tool_name in ["unified_search", "find"]:
+                elif tool_name in ["search", "find"]:
                     # New search tools are factory functions
                     tools.append(tool_class(permission_manager))
                 else:
