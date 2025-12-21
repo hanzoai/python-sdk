@@ -244,6 +244,96 @@ def main():
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.asyncio
+    async def test_change_signature_missing_args(self, tool, temp_python_file):
+        """Test change_signature without required arguments."""
+        result = await tool.run(action="change_signature")
+        assert result.data["success"] is False
+        assert "required" in result.data["errors"][0].lower()
+
+    @pytest.mark.asyncio
+    async def test_change_signature_add_parameter_preview(self, tool):
+        """Test adding a parameter with preview."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
+            f.write('''def greet(name):
+    return f"Hello, {name}!"
+
+def main():
+    msg = greet("World")
+    print(msg)
+''')
+            temp_path = f.name
+
+        try:
+            result = await tool.run(
+                action="change_signature",
+                file=temp_path,
+                line=1,
+                add_parameter={"name": "greeting", "default": "'Hello'"},
+                preview=True,
+            )
+            assert result.data["success"] is True
+            assert result.data["action"] == "change_signature"
+            assert len(result.data["preview"]) > 0
+
+            # Verify file wasn't modified
+            with open(temp_path, "r") as f:
+                content = f.read()
+            assert "greeting" not in content
+
+        finally:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+
+    @pytest.mark.asyncio
+    async def test_change_signature_rename_parameter(self, tool):
+        """Test renaming a parameter."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
+            f.write('''def compute(x, y):
+    return x + y
+
+result = compute(1, 2)
+''')
+            temp_path = f.name
+
+        try:
+            result = await tool.run(
+                action="change_signature",
+                file=temp_path,
+                line=1,
+                rename_parameter={"old": "x", "new": "first"},
+                preview=True,
+            )
+            assert result.data["success"] is True
+            assert "first" in str(result.data["preview"])
+
+        finally:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+
+    @pytest.mark.asyncio
+    async def test_change_signature_no_function(self, tool):
+        """Test change_signature when no function at line."""
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
+            f.write('''x = 10
+y = 20
+''')
+            temp_path = f.name
+
+        try:
+            result = await tool.run(
+                action="change_signature",
+                file=temp_path,
+                line=1,
+                add_parameter={"name": "z"},
+            )
+            assert result.data["success"] is False
+            assert "function signature" in result.data["errors"][0].lower()
+
+        finally:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+
 
 class TestRefactorToolHelpers:
     """Tests for RefactorTool helper methods."""
@@ -330,6 +420,60 @@ class TestRefactorToolHelpers:
         """Test building JavaScript variable declaration."""
         decl = tool._build_variable_declaration("x", "10 + 20", "javascript", "  ")
         assert decl == "  const x = 10 + 20;"
+
+    def test_parse_python_params(self, tool):
+        """Test parsing Python parameters."""
+        params = tool._parse_python_params("x, y: int, z: str = 'hello'")
+        assert len(params) == 3
+        assert params[0]["name"] == "x"
+        assert params[1]["name"] == "y"
+        assert params[1]["type"] == "int"
+        assert params[2]["name"] == "z"
+        assert params[2]["type"] == "str"
+        assert params[2]["default"] == "'hello'"
+
+    def test_parse_python_params_empty(self, tool):
+        """Test parsing empty parameters."""
+        params = tool._parse_python_params("")
+        assert params == []
+
+    def test_parse_python_params_complex_default(self, tool):
+        """Test parsing parameters with complex defaults."""
+        params = tool._parse_python_params("items: List[int] = [1, 2, 3]")
+        assert len(params) == 1
+        assert params[0]["name"] == "items"
+        assert params[0]["type"] == "List[int]"
+        assert params[0]["default"] == "[1, 2, 3]"
+
+    def test_build_signature_python(self, tool):
+        """Test building Python function signature."""
+        params = [
+            {"name": "x", "type": "int", "default": None},
+            {"name": "y", "type": "str", "default": "'default'"},
+        ]
+        sig = tool._build_signature("my_func", params, "python")
+        assert "def my_func(x: int, y: str = 'default'):" in sig
+
+    def test_build_signature_javascript(self, tool):
+        """Test building JavaScript function signature."""
+        params = [
+            {"name": "x", "type": None, "default": None},
+            {"name": "y", "type": None, "default": "10"},
+        ]
+        sig = tool._build_signature("myFunc", params, "javascript")
+        assert "function myFunc(x, y = 10) {" in sig
+
+    def test_parse_call_arguments(self, tool):
+        """Test parsing function call arguments."""
+        args = tool._parse_call_arguments("myFunc(1, 2, 'hello')", "myFunc")
+        assert args == ["1", "2", "'hello'"]
+
+    def test_parse_call_arguments_nested(self, tool):
+        """Test parsing nested function call arguments."""
+        args = tool._parse_call_arguments("foo(bar(1, 2), [3, 4])", "foo")
+        assert len(args) == 2
+        assert args[0] == "bar(1, 2)"
+        assert args[1] == "[3, 4]"
 
 
 # Test factory function
