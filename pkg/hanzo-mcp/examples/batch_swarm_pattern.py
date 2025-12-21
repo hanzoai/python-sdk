@@ -53,7 +53,7 @@ async def batch_analyze_codebase(project_path: str) -> Dict[str, Any]:
                 "-A": 10,  # Get 10 lines after to see full import block
             },
         },
-        {"tool_name": "directory_tree", "input": {"path": project_path, "depth": 3}},
+        {"tool_name": "tree", "input": {"path": project_path, "depth": 3}},
     ]
 
     print(f"Running {len(batch_tasks)} analysis tasks in parallel...")

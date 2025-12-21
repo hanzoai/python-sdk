@@ -54,8 +54,8 @@ class RunCommandTool(ShellBaseTool):
 Before executing the command, please follow these steps:
 
 1. Directory Verification:
-   - If the command will create new directories or files, first use the directory_tree tool to verify the parent directory exists and is the correct location
-   - For example, before running \"mkdir foo/bar\", first use directory_tree to check that \"foo\" exists and is the intended parent directory
+   - If the command will create new directories or files, first use the tree tool to verify the parent directory exists and is the correct location
+   - For example, before running \"mkdir foo/bar\", first use tree to check that \"foo\" exists and is the intended parent directory
 
 2. Command Execution:
    - After ensuring proper quoting, execute the command.
@@ -66,7 +66,7 @@ Usage notes:
   - You can specify an optional timeout in milliseconds (up to 600000ms / 10 minutes). If not specified, commands will timeout after 120000ms (2 minutes).
   - It is very helpful if you write a clear, concise description of what this command does in 5-10 words.
   - If the output exceeds 30000 characters, output will be truncated before being returned to you.
-  - VERY IMPORTANT: You MUST avoid using search commands like `find` and `grep`. Instead use Grep, Glob, or Task to search. You MUST avoid read tools like `cat`, `head`, `tail`, and `ls`, and use read and directory_tree to read files.
+  - VERY IMPORTANT: You MUST avoid using search commands like `find` and `grep`. Instead use Grep, Glob, or Task to search. You MUST avoid read tools like `cat`, `head`, `tail`, and `ls`, and use read and tree to read files.
   - If you _still_ need to run `grep`, STOP. ALWAYS USE ripgrep at `rg` (or /opt/homebrew/Cellar/ripgrep/14.1.1/bin/rg) first, which all Hanzo Code users have pre-installed.
   - When issuing multiple commands, use the ';' or '&&' operator to separate them. DO NOT use newlines (newlines are ok in quoted strings).
     <good-example>

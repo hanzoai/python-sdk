@@ -67,7 +67,7 @@ class DirectoryTreeTool(FilesystemBaseTool):
         Returns:
             Tool name
         """
-        return "directory_tree"
+        return "tree"
 
     @property
     @override
@@ -86,7 +86,7 @@ indented list for readability. By default, common development directories like
 requested. Only works within allowed directories."""
 
     @override
-    @auto_timeout("directory_tree")
+    @auto_timeout("tree")
     async def call(
         self,
         ctx: MCPContext,
@@ -290,7 +290,7 @@ requested. Only works within allowed directories."""
         tool_self = self  # Create a reference to self for use in the closure
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def directory_tree(
+        async def tree(
             ctx: MCPContext,
             path: DirectoryPath,
             depth: Depth = 3,

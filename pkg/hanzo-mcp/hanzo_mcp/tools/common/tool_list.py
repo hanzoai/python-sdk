@@ -104,7 +104,7 @@ class ToolListTool(BaseTool):
         "legacy": [
             ("directory_tree", "Legacy: Use 'tree' instead"),
             ("grep", "Legacy: Use 'find' instead"),
-            ("grep_ast", "Legacy: Use 'symbols' instead"),
+            ("grep_ast", "Legacy: Use 'ast' instead"),
             ("batch_search", "Legacy: Use 'search' instead"),
             ("find_files", "Legacy: Use 'glob' instead"),
             ("run_background", "Legacy: Use 'run_command --background'"),

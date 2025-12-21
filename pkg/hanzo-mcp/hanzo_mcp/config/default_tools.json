@@ -8,7 +8,7 @@
     "write": true,
     "edit": true,
     "multi_edit": true,
-    "directory_tree": true,
+    "tree": true,
     "rules": true,
     "grep": true,
     "find": true,
@@ -127,7 +127,7 @@
   "categories": {
     "_comment": "Tool categories for easier management",
     "essential": [
-      "read", "write", "edit", "multi_edit", "directory_tree", "rules", "grep", "find",
+      "read", "write", "edit", "multi_edit", "tree", "rules", "grep", "find",
       "run_command", "run", "bash", "shell", "zsh", "stats", "tool_list", "tool_enable", "tool_disable"
     ],
     "agent": [
