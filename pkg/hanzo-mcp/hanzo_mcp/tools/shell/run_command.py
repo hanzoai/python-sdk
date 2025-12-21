@@ -111,8 +111,8 @@ class RunCommandTool(ShellBaseTool):
 Before executing the command, please follow these steps:
 
 1. Directory Verification:
-   - If the command will create new directories or files, first use the directory_tree tool to verify the parent directory exists and is the correct location
-   - For example, before running \"mkdir foo/bar\", first use directory_tree to check that \"foo\" exists and is the intended parent directory
+   - If the command will create new directories or files, first use the tree tool to verify the parent directory exists and is the correct location
+   - For example, before running \"mkdir foo/bar\", first use tree to check that \"foo\" exists and is the intended parent directory
 
 2. Command Execution:
    - After ensuring proper quoting, execute the command.
@@ -134,7 +134,7 @@ Interactive Process Handling:
   - Send control sequences (\"C-c\", \"C-z\", \"C-d\") as commands with is_input=true to interrupt processes
   - The tool prevents sending new commands while a previous command is still running (use is_input=true to interact)
 
-  VERY IMPORTANT: You MUST avoid using search commands like `grep`. Instead use grep, or dispatch_agent to search. You MUST avoid read tools like `cat`, `head`, `tail`, and `ls`, and use read and directory_tree to read files.
+  VERY IMPORTANT: You MUST avoid using search commands like `grep`. Instead use grep, or dispatch_agent to search. You MUST avoid read tools like `cat`, `head`, `tail`, and `ls`, and use read and tree to read files.
   - If you _still_ need to run `grep`, STOP. ALWAYS USE ripgrep at `rg` first, which all Hanzo users have pre-installed.
   - When issuing multiple commands, use the ';' or '&&' operator to separate them. DO NOT use newlines (newlines are ok in quoted strings).
   - Working Directory: New sessions start in the user's home directory. Use 'cd' commands to navigate to different directories within a session. Directory changes persist within the same session.

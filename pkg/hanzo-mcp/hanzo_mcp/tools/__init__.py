@@ -181,7 +181,7 @@ def register_all_tools(
         "write": is_tool_enabled("write", not disable_write_tools),
         "edit": is_tool_enabled("edit", not disable_write_tools),
         "multi_edit": is_tool_enabled("multi_edit", not disable_write_tools),
-        "directory_tree": is_tool_enabled("directory_tree", True),
+        "tree": is_tool_enabled("tree", True),
         "ast": is_tool_enabled("ast", not disable_search_tools),
         "rules": is_tool_enabled("rules", True),
         "search": is_tool_enabled("search", not disable_search_tools),
