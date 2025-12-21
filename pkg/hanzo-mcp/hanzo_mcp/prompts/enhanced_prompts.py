@@ -7,7 +7,7 @@ QUICK_START_PROMPT = """# Hanzo MCP Quick Start Guide
 ### 1. Explore a New Codebase
 ```python
 # Get project overview
-directory_tree(path=".", depth=3)
+tree(path=".", depth=3)
 
 # Find main entry points
 find(pattern="main.*|index.*", path=".")

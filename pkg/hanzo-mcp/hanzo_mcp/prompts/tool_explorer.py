@@ -21,12 +21,11 @@ Tools for file and directory operations:
 - **write_file**: Create or overwrite files
 - **edit_file**: Make precise edits to files
 - **multi_edit**: Multiple edits in one operation
-- **directory_tree**: View directory structure
+- **tree**: View directory structure
 - **find**: Find files by pattern
 - **grep**: Search file contents
 - **grep_ast**: Search with AST context
 - **search_content**: Unified search across multiple methods
-- **symbols**: Find code symbols
 - **content_replace**: Replace patterns across files
 - **batch_search**: Run multiple searches in parallel
 
@@ -89,7 +88,7 @@ The batch tool allows you to run multiple tools in parallel for maximum efficien
 batch(
     description="Analyze project structure",
     invocations=[
-        {"tool_name": "directory_tree", "input": {"path": "/project"}},
+        {"tool_name": "tree", "input": {"path": "/project"}},
         {"tool_name": "grep", "input": {"pattern": "TODO", "path": "/project"}},
         {"tool_name": "find", "input": {"pattern": "*.test.js", "path": "/project"}}
     ]
@@ -101,7 +100,7 @@ batch(
 ### Example 1: Code Analysis Workflow
 ```python
 # First, explore the project structure
-directory_tree(path="/project", depth=3)
+tree(path="/project", depth=3)
 
 # Search for specific patterns
 batch(
@@ -257,7 +256,7 @@ content_replace(
 ### Directory Exploration
 ```python
 # View directory structure
-directory_tree(path="/project", depth=3, include_filtered=False)
+tree(path="/project", depth=3, include_filtered=False)
 
 # Find specific file types
 find(
@@ -462,7 +461,7 @@ batch(
     invocations=[
         {"tool_name": "run_command", "input": {"command": "npm install"}},
         {"tool_name": "run_command", "input": {"command": "pip install -r requirements.txt"}},
-        {"tool_name": "directory_tree", "input": {"path": ".", "depth": 2}}
+        {"tool_name": "tree", "input": {"path": ".", "depth": 2}}
     ]
 )
 ```
@@ -568,14 +567,14 @@ fix_batch = batch(
 The following tools can be used in batch operations:
 - dispatch_agent
 - read_files
-- directory_tree
+- tree
 - grep
 - grep_ast
 - run_command
 - notebook_read
 - find
 - search_content
-- symbols
+- ast
 - git_search
 
 Tools NOT available in batch (require state/session):
