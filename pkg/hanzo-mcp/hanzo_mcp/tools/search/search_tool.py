@@ -39,6 +39,14 @@ try:
 except ImportError:
     VECTOR_SEARCH_AVAILABLE = False
 
+# LSP availability check
+try:
+    from hanzo_mcp.tools.lsp.lsp_tool import LSPTool, LSP_SERVERS
+
+    LSP_AVAILABLE = True
+except ImportError:
+    LSP_AVAILABLE = False
+
 
 @dataclass
 class SearchResult:
@@ -76,7 +84,7 @@ class SearchResult:
         return hash((self.file_path, self.line_number, self.column, self.match_text))
 
 
-class UnifiedSearch(BaseTool):
+class SearchTool(BaseTool):
     """THE primary search tool - your universal interface for finding anything.
 
     This is the main search tool you should use for finding:
@@ -137,14 +145,20 @@ class UnifiedSearch(BaseTool):
     Automatically detects query intent and runs appropriate searches in parallel.
     """
 
-    def __init__(self):
+    def __init__(self, enable_vector_index: bool = False):
+        """Initialize search tool.
+
+        Args:
+            enable_vector_index: Whether to enable vector search indexing (default: False).
+                                 When False, vector search is disabled for faster startup.
+                                 Set to True to enable semantic search capabilities.
+        """
         super().__init__()
         self.ripgrep_available = self._check_ripgrep()
         self.vector_db = None
         self.embedder = None
-
-        if VECTOR_SEARCH_AVAILABLE:
-            self._init_vector_search()
+        self._vector_initialized = False
+        self._enable_vector_index = enable_vector_index
 
     def _check_ripgrep(self) -> bool:
         """Check if ripgrep is available."""
@@ -154,8 +168,23 @@ class UnifiedSearch(BaseTool):
         except Exception:
             return False
 
-    def _init_vector_search(self):
-        """Initialize vector search components."""
+    def _init_vector_search(self) -> bool:
+        """Initialize vector search components lazily.
+
+        Returns:
+            True if initialization succeeded, False otherwise.
+        """
+        if self._vector_initialized:
+            return self.vector_db is not None
+
+        self._vector_initialized = True
+
+        if not VECTOR_SEARCH_AVAILABLE:
+            return False
+
+        if not self._enable_vector_index:
+            return False
+
         try:
             self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
             self.vector_db = chromadb.Client()
@@ -163,9 +192,11 @@ class UnifiedSearch(BaseTool):
             self.collection = self.vector_db.get_or_create_collection(
                 name="code_search", metadata={"description": "Code semantic search"}
             )
+            return True
         except Exception as e:
             print(f"Failed to initialize vector search: {e}")
             self.vector_db = None
+            return False
 
     def _should_use_vector_search(self, query: str) -> bool:
         """Determine if vector search would be helpful."""
@@ -212,6 +243,7 @@ class UnifiedSearch(BaseTool):
         enable_ast: bool = None,
         enable_vector: bool = None,
         enable_symbol: bool = None,
+        enable_lsp: bool = None,
         page_size: int = 50,
         page: int = 1,
         **kwargs,
@@ -228,6 +260,7 @@ class UnifiedSearch(BaseTool):
             search_files: Also search for matching filenames
             search_memory: Search in memory/knowledge base (auto-detected if None)
             enable_*: Force enable/disable specific search types (auto if None)
+            enable_lsp: Enable LSP-based reference search (auto if None)
             page_size: Results per page (default: 50)
             page: Page number to retrieve (default: 1)
         """
@@ -244,13 +277,22 @@ class UnifiedSearch(BaseTool):
             enable_text = True  # Always use text search as baseline
 
         if enable_vector is None:
-            enable_vector = self._should_use_vector_search(pattern) and VECTOR_SEARCH_AVAILABLE
+            # Only enable vector search if explicitly enabled via enable_vector_index
+            enable_vector = (
+                self._enable_vector_index
+                and self._should_use_vector_search(pattern)
+                and VECTOR_SEARCH_AVAILABLE
+            )
 
         if enable_ast is None:
             enable_ast = self._should_use_ast_search(pattern) and TREESITTER_AVAILABLE
 
         if enable_symbol is None:
             enable_symbol = self._should_use_symbol_search(pattern)
+
+        if enable_lsp is None:
+            # Use LSP for symbol-like queries when LSP is available
+            enable_lsp = LSP_AVAILABLE and self._should_use_symbol_search(pattern)
 
         # Collect results from all enabled search types
         all_results = []
@@ -287,8 +329,8 @@ class UnifiedSearch(BaseTool):
             search_stats["search_types_used"].append("symbol")
             all_results.extend(symbol_results)
 
-        # 4. Vector search - for semantic similarity
-        if enable_vector and self.vector_db:
+        # 4. Vector search - for semantic similarity (lazy init)
+        if enable_vector and self._init_vector_search():
             start = time.time()
             vector_results = await self._vector_search(
                 pattern, path, include, exclude, max_results_per_type, context_lines
@@ -312,6 +354,14 @@ class UnifiedSearch(BaseTool):
             search_stats["time_ms"]["memory"] = int((time.time() - start) * 1000)
             search_stats["search_types_used"].append("memory")
             all_results.extend(memory_results)
+
+        # 7. LSP search - for precise symbol references and definitions
+        if enable_lsp and LSP_AVAILABLE:
+            start = time.time()
+            lsp_results = await self._lsp_search(pattern, path, include, max_results_per_type)
+            search_stats["time_ms"]["lsp"] = int((time.time() - start) * 1000)
+            search_stats["search_types_used"].append("lsp")
+            all_results.extend(lsp_results)
 
         # Deduplicate and rank results
         unique_results = self._deduplicate_results(all_results)
@@ -433,11 +483,23 @@ class UnifiedSearch(BaseTool):
                     if data.get("type") == "match":
                         match_data = data["data"]
 
+                        # Handle different ripgrep output formats
+                        lines_data = match_data.get("lines", {})
+                        match_text = lines_data.get("text", "") if isinstance(lines_data, dict) else str(lines_data)
+
+                        # Get file path - handle both dict and str formats
+                        path_data = match_data.get("path", {})
+                        file_path = path_data.get("text", str(path_data)) if isinstance(path_data, dict) else str(path_data)
+
+                        # Get column safely
+                        submatches = match_data.get("submatches", [{}])
+                        column = submatches[0].get("start", 0) if submatches else 0
+
                         result = SearchResult(
-                            file_path=match_data["path"]["text"],
-                            line_number=match_data["line_number"],
-                            column=match_data["submatches"][0]["start"],
-                            match_text=match_data["lines"]["text"].strip(),
+                            file_path=file_path,
+                            line_number=match_data.get("line_number", 0),
+                            column=column,
+                            match_text=match_text.strip() if isinstance(match_text, str) else str(match_text),
                             context_before=[],
                             context_after=[],
                             match_type="text",
@@ -727,6 +789,125 @@ class UnifiedSearch(BaseTool):
 
         return results
 
+    async def _lsp_search(
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        max_results: int,
+    ) -> List[SearchResult]:
+        """Search using LSP for precise symbol references.
+
+        Uses AST search to find initial symbol locations, then LSP to find
+        all references across the codebase.
+        """
+        results = []
+
+        if not LSP_AVAILABLE:
+            return results
+
+        try:
+            # First, find files that might contain the symbol
+            root_path = Path(path).resolve()
+
+            # Get file extensions we can search with LSP
+            supported_extensions = set()
+            for lang_info in LSP_SERVERS.values():
+                supported_extensions.update(lang_info.get("extensions", []))
+
+            # Find matching files using grep to locate the symbol
+            grep_cmd = ["rg", "--files-with-matches", "-l", pattern]
+            if include:
+                grep_cmd.extend(["--glob", include])
+            grep_cmd.append(str(root_path))
+
+            try:
+                result = subprocess.run(
+                    grep_cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
+                matching_files = [f.strip() for f in result.stdout.strip().split("\n") if f.strip()]
+            except (subprocess.SubprocessError, FileNotFoundError):
+                matching_files = []
+
+            if not matching_files:
+                return results
+
+            # Create LSP tool
+            lsp_tool = LSPTool()
+
+            # For each matching file, try to find references using LSP
+            files_checked = 0
+            for file_path in matching_files[:5]:  # Limit to first 5 files to avoid slowdown
+                if files_checked >= 3:  # Also limit files we actually query LSP on
+                    break
+
+                # Check if file extension is supported
+                ext = Path(file_path).suffix
+                if ext not in supported_extensions:
+                    continue
+
+                # Find the symbol's line and column in this file
+                try:
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                        for line_num, line in enumerate(f, 1):
+                            col = line.find(pattern)
+                            if col >= 0:
+                                # Found the pattern, try to get LSP references
+                                try:
+                                    lsp_result = await lsp_tool.run(
+                                        action="references",
+                                        file=file_path,
+                                        line=line_num,
+                                        character=col,
+                                    )
+
+                                    if lsp_result.data and "references" in lsp_result.data:
+                                        for ref in lsp_result.data["references"][:max_results]:
+                                            ref_path = ref.get("uri", "").replace("file://", "")
+                                            ref_line = ref.get("range", {}).get("start", {}).get("line", 0) + 1
+
+                                            # Read the line content
+                                            try:
+                                                with open(ref_path, "r", encoding="utf-8", errors="ignore") as rf:
+                                                    lines = rf.readlines()
+                                                    match_text = lines[ref_line - 1].strip() if ref_line <= len(lines) else pattern
+                                            except (IOError, IndexError):
+                                                match_text = pattern
+
+                                            result = SearchResult(
+                                                file_path=ref_path,
+                                                line_number=ref_line,
+                                                column=ref.get("range", {}).get("start", {}).get("character", 0),
+                                                match_text=match_text,
+                                                context_before=[],
+                                                context_after=[],
+                                                match_type="lsp",
+                                                score=0.95,  # High confidence from LSP
+                                                semantic_context=f"LSP reference to '{pattern}'",
+                                            )
+                                            results.append(result)
+
+                                            if len(results) >= max_results:
+                                                return results
+
+                                except Exception:
+                                    # LSP query failed, continue to next occurrence
+                                    pass
+
+                                files_checked += 1
+                                break  # Only check first occurrence in each file
+
+                except (IOError, UnicodeDecodeError):
+                    continue
+
+        except Exception as e:
+            print(f"LSP search error: {e}")
+
+        return results
+
     def _deduplicate_results(self, results: List[SearchResult]) -> List[SearchResult]:
         """Remove duplicate results across search types."""
         seen = set()
@@ -948,6 +1129,11 @@ class CodeIndexer:
 
 
 # Tool registration
-def create_unified_search_tool():
-    """Factory function to create unified search tool."""
-    return UnifiedSearch()
+def create_search_tool(enable_vector_index: bool = False):
+    """Factory function to create search tool.
+
+    Args:
+        enable_vector_index: Enable vector/semantic search (requires chromadb + sentence-transformers).
+                             Default False for fast startup without database dependencies.
+    """
+    return SearchTool(enable_vector_index=enable_vector_index)

@@ -1,5 +1,3 @@
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 """Language Server Protocol (LSP) tool for code intelligence.
 
 This tool provides on-demand LSP configuration and installation for various
@@ -9,13 +7,16 @@ rename symbol, and diagnostics.
 """
 
 import os
+import re
 import json
 import shutil
 import asyncio
 import logging
-from typing import Any, Dict, Optional
+import subprocess
+import atexit
+from typing import Any, Dict, List, Optional, Tuple
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
@@ -39,12 +40,12 @@ LSP_SERVERS = {
         ],
     },
     "python": {
-        "name": "pylsp",
-        "install_cmd": ["pip", "install", "python-lsp-server[all]"],
-        "check_cmd": ["pylsp", "--version"],
-        "start_cmd": ["pylsp"],
-        "root_markers": ["pyproject.toml", "setup.py", "requirements.txt"],
-        "file_extensions": [".py"],
+        "name": "pyright",
+        "install_cmd": ["npm", "install", "-g", "pyright"],
+        "check_cmd": ["pyright-langserver", "--version"],
+        "start_cmd": ["pyright-langserver", "--stdio"],
+        "root_markers": ["pyproject.toml", "setup.py", "requirements.txt", "pyrightconfig.json"],
+        "file_extensions": [".py", ".pyi"],
         "capabilities": [
             "definition",
             "references",
@@ -52,6 +53,7 @@ LSP_SERVERS = {
             "diagnostics",
             "hover",
             "completion",
+            "typeDefinition",
         ],
     },
     "typescript": {
@@ -156,7 +158,41 @@ LSP_SERVERS = {
             "completion",
         ],
     },
+    "solidity": {
+        "name": "solc",
+        "install_cmd": ["npm", "install", "-g", "solc"],
+        "check_cmd": ["solc", "--version"],
+        "start_cmd": ["solc", "--lsp"],
+        "root_markers": ["foundry.toml", "hardhat.config.js", "hardhat.config.ts", "truffle-config.js"],
+        "file_extensions": [".sol"],
+        "capabilities": [
+            "definition",
+            "references",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
+    },
 }
+
+
+# Global LSP server registry - singleton per language:root_uri
+_GLOBAL_SERVERS: Dict[str, "LSPServer"] = {}
+_GLOBAL_LOCK = asyncio.Lock()
+_CLEANUP_REGISTERED = False
+
+logger = logging.getLogger(__name__)
+
+
+def _cleanup_all_servers():
+    """Cleanup all LSP servers on process exit."""
+    for server in _GLOBAL_SERVERS.values():
+        if server.process and server.process.returncode is None:
+            try:
+                server.process.terminate()
+            except Exception:
+                pass
+    _GLOBAL_SERVERS.clear()
 
 
 @dataclass
@@ -168,6 +204,14 @@ class LSPServer:
     config: Dict[str, Any]
     root_uri: str
     initialized: bool = False
+    request_id: int = field(default=0)
+    pending_responses: Dict[int, asyncio.Future] = field(default_factory=dict)
+    lock: asyncio.Lock = field(default_factory=asyncio.Lock)
+
+    def next_id(self) -> int:
+        """Get next request ID."""
+        self.request_id += 1
+        return self.request_id
 
 
 class LSPTool(BaseTool):
@@ -222,8 +266,11 @@ class LSPTool(BaseTool):
 
     def __init__(self):
         super().__init__()
-        self.servers: Dict[str, LSPServer] = {}
-        self.logger = logging.getLogger(__name__)
+        # Use global servers registry for persistence across tool instances
+        global _CLEANUP_REGISTERED
+        if not _CLEANUP_REGISTERED:
+            atexit.register(_cleanup_all_servers)
+            _CLEANUP_REGISTERED = True
 
     def _get_language_from_file(self, file_path: str) -> Optional[str]:
         """Detect language from file extension."""
@@ -270,13 +317,13 @@ class LSPTool(BaseTool):
         if not config:
             return False
 
-        self.logger.info(f"Installing {config['name']} for {language}")
+        logger.info(f"Installing {config['name']} for {language}")
 
         try:
             # Check if installer is available
             installer = config["install_cmd"][0]
             if not shutil.which(installer):
-                self.logger.error(f"Installer {installer} not found")
+                logger.error(f"Installer {installer} not found")
                 return False
 
             # Run installation command
@@ -289,108 +336,254 @@ class LSPTool(BaseTool):
             stdout, stderr = await result.communicate()
 
             if result.returncode != 0:
-                self.logger.error(f"Installation failed: {stderr.decode()}")
+                logger.error(f"Installation failed: {stderr.decode()}")
                 return False
 
-            self.logger.info(f"Successfully installed {config['name']}")
+            logger.info(f"Successfully installed {config['name']}")
             return True
 
         except Exception as e:
-            self.logger.error(f"Installation error: {e}")
+            logger.error(f"Installation error: {e}")
             return False
 
     async def _ensure_lsp_running(self, language: str, root_uri: str) -> Optional[LSPServer]:
-        """Ensure LSP server is running for language."""
-        # Check if already running
+        """Ensure LSP server is running for language (uses global singleton)."""
         server_key = f"{language}:{root_uri}"
-        if server_key in self.servers:
-            server = self.servers[server_key]
+
+        # Fast path - check without lock first
+        if server_key in _GLOBAL_SERVERS:
+            server = _GLOBAL_SERVERS[server_key]
             if server.process and server.process.returncode is None:
                 return server
 
-        # Check if installed
-        if not await self._check_lsp_installed(language):
-            # Try to install
-            if not await self._install_lsp(language):
+        # Need to start server - acquire global lock
+        async with _GLOBAL_LOCK:
+            # Double-check after acquiring lock
+            if server_key in _GLOBAL_SERVERS:
+                server = _GLOBAL_SERVERS[server_key]
+                if server.process and server.process.returncode is None:
+                    return server
+                # Server died, remove it
+                del _GLOBAL_SERVERS[server_key]
+
+            # Check if installed
+            if not await self._check_lsp_installed(language):
+                if not await self._install_lsp(language):
+                    return None
+
+            # Start LSP server
+            config = LSP_SERVERS[language]
+
+            try:
+                process = await asyncio.create_subprocess_exec(
+                    *config["start_cmd"],
+                    stdin=asyncio.subprocess.PIPE,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                    cwd=root_uri,
+                )
+
+                server = LSPServer(language=language, process=process, config=config, root_uri=root_uri)
+
+                # Initialize LSP
+                if not await self._initialize_lsp(server):
+                    if server.process:
+                        server.process.terminate()
+                    return None
+
+                _GLOBAL_SERVERS[server_key] = server
+                logger.info(f"Started global LSP server: {config['name']} for {root_uri}")
+                return server
+
+            except Exception as e:
+                logger.error(f"Failed to start LSP: {e}")
                 return None
 
-        # Start LSP server
-        config = LSP_SERVERS[language]
-
-        try:
-            process = await asyncio.create_subprocess_exec(
-                *config["start_cmd"],
-                stdin=asyncio.subprocess.PIPE,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-                cwd=root_uri,
-            )
-
-            server = LSPServer(language=language, process=process, config=config, root_uri=root_uri)
-
-            # Initialize LSP
-            await self._initialize_lsp(server)
-
-            self.servers[server_key] = server
-            return server
-
-        except Exception as e:
-            self.logger.error(f"Failed to start LSP: {e}")
-            return None
-
-    async def _initialize_lsp(self, server: LSPServer):
+    async def _initialize_lsp(self, server: LSPServer) -> bool:
         """Send initialize request to LSP server."""
-        # This is a simplified initialization
-        # In a real implementation, you'd use the full LSP protocol
         init_params = {
             "processId": os.getpid(),
             "rootUri": f"file://{server.root_uri}",
+            "rootPath": server.root_uri,
             "capabilities": {
+                "workspace": {
+                    "workspaceFolders": True,
+                    "applyEdit": True,
+                    "symbol": {"dynamicRegistration": True},
+                },
                 "textDocument": {
-                    "definition": {"dynamicRegistration": True},
+                    "synchronization": {
+                        "dynamicRegistration": True,
+                        "willSave": True,
+                        "willSaveWaitUntil": True,
+                        "didSave": True,
+                    },
+                    "completion": {
+                        "dynamicRegistration": True,
+                        "completionItem": {
+                            "snippetSupport": True,
+                            "documentationFormat": ["markdown", "plaintext"],
+                        },
+                    },
+                    "hover": {
+                        "dynamicRegistration": True,
+                        "contentFormat": ["markdown", "plaintext"],
+                    },
+                    "signatureHelp": {"dynamicRegistration": True},
+                    "definition": {"dynamicRegistration": True, "linkSupport": True},
                     "references": {"dynamicRegistration": True},
-                    "rename": {"dynamicRegistration": True},
-                }
+                    "documentHighlight": {"dynamicRegistration": True},
+                    "documentSymbol": {"dynamicRegistration": True},
+                    "formatting": {"dynamicRegistration": True},
+                    "rename": {"dynamicRegistration": True, "prepareSupport": True},
+                    "publishDiagnostics": {"relatedInformation": True},
+                    "implementation": {"dynamicRegistration": True, "linkSupport": True},
+                    "typeDefinition": {"dynamicRegistration": True, "linkSupport": True},
+                },
             },
+            "workspaceFolders": [
+                {"uri": f"file://{server.root_uri}", "name": Path(server.root_uri).name}
+            ],
         }
 
         # Send initialize request
         request = {
             "jsonrpc": "2.0",
-            "id": 1,
+            "id": server.next_id(),
             "method": "initialize",
             "params": init_params,
         }
 
-        await self._send_request(server, request)
-        server.initialized = True
+        response = await self._send_request(server, request, timeout=60.0)
+        if not response or "error" in response:
+            logger.error(f"Failed to initialize LSP: {response}")
+            return False
 
-    async def _send_request(self, server: LSPServer, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """Send JSON-RPC request to LSP server."""
-        if not server.process or server.process.returncode is not None:
+        # Send initialized notification
+        await self._send_notification(server, "initialized", {})
+        server.initialized = True
+        logger.info(f"LSP server {server.config['name']} initialized for {server.root_uri}")
+        return True
+
+    async def _read_lsp_message(self, server: LSPServer, timeout: float = 30.0) -> Optional[Dict[str, Any]]:
+        """Read a single LSP message from server stdout."""
+        if not server.process or not server.process.stdout:
             return None
 
         try:
-            # Serialize request
-            request_str = json.dumps(request)
-            content_length = len(request_str.encode("utf-8"))
+            # Read headers until empty line
+            headers = {}
+            while True:
+                line = await asyncio.wait_for(
+                    server.process.stdout.readline(),
+                    timeout=timeout
+                )
+                if not line:
+                    return None
+                line_str = line.decode("utf-8").strip()
+                if not line_str:
+                    break
+                if ":" in line_str:
+                    key, value = line_str.split(":", 1)
+                    headers[key.strip().lower()] = value.strip()
 
-            # Send LSP message
-            message = f"Content-Length: {content_length}\r\n\r\n{request_str}"
-            server.process.stdin.write(message.encode("utf-8"))
+            # Get content length
+            content_length = int(headers.get("content-length", 0))
+            if content_length == 0:
+                return None
+
+            # Read content
+            content = await asyncio.wait_for(
+                server.process.stdout.read(content_length),
+                timeout=timeout
+            )
+            return json.loads(content.decode("utf-8"))
+
+        except asyncio.TimeoutError:
+            logger.debug("Timeout reading LSP message")
+            return None
+        except Exception as e:
+            logger.error(f"Error reading LSP message: {e}")
+            return None
+
+    async def _send_request(self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0) -> Optional[Dict[str, Any]]:
+        """Send JSON-RPC request to LSP server and wait for response."""
+        if not server.process or server.process.returncode is not None:
+            return None
+        if not server.process.stdin:
+            return None
+
+        import time
+        async with server.lock:
+            try:
+                # Serialize request
+                request_str = json.dumps(request)
+                content = request_str.encode("utf-8")
+                content_length = len(content)
+
+                # Build and send LSP message
+                header = f"Content-Length: {content_length}\r\n\r\n"
+                message = header.encode("utf-8") + content
+                server.process.stdin.write(message)
+                await server.process.stdin.drain()
+
+                # Read response(s) until we get one with matching id
+                request_id = request.get("id")
+                start_time = time.monotonic()
+                deadline = start_time + timeout
+
+                while time.monotonic() < deadline:
+                    remaining = max(0.1, deadline - time.monotonic())
+                    response = await self._read_lsp_message(server, timeout=remaining)
+                    if response is None:
+                        # Check if server died
+                        if server.process.returncode is not None:
+                            logger.error(f"LSP server died with code {server.process.returncode}")
+                            return None
+                        continue
+
+                    # Check if this is our response
+                    if "id" in response and response["id"] == request_id:
+                        return response
+
+                    # Handle notifications (no id) - log and continue
+                    if "id" not in response and "method" in response:
+                        logger.debug(f"LSP notification: {response.get('method')}")
+                        continue
+
+                logger.warning(f"Timeout waiting for response to request {request_id}")
+                return None
+
+            except Exception as e:
+                logger.error(f"LSP communication error: {e}")
+                return None
+
+    async def _send_notification(self, server: LSPServer, method: str, params: Dict[str, Any]) -> bool:
+        """Send JSON-RPC notification (no response expected)."""
+        if not server.process or server.process.returncode is not None:
+            return False
+        if not server.process.stdin:
+            return False
+
+        try:
+            notification = {
+                "jsonrpc": "2.0",
+                "method": method,
+                "params": params,
+            }
+            notification_str = json.dumps(notification)
+            content = notification_str.encode("utf-8")
+            content_length = len(content)
+
+            header = f"Content-Length: {content_length}\r\n\r\n"
+            message = header.encode("utf-8") + content
+            server.process.stdin.write(message)
             await server.process.stdin.drain()
-
-            # Read response (simplified - real implementation needs proper parsing)
-            # This is a placeholder - actual LSP requires parsing Content-Length headers
-            response_data = await server.process.stdout.readline()
-
-            if response_data:
-                return json.loads(response_data.decode("utf-8"))
+            return True
 
         except Exception as e:
-            self.logger.error(f"LSP communication error: {e}")
-
-        return None
+            logger.error(f"Failed to send notification: {e}")
+            return False
 
     async def run(
         self,
@@ -474,7 +667,6 @@ class LSPTool(BaseTool):
 
         return MCPResourceDocument(data=result)
 
-    @auto_timeout("lsp")
     async def call(self, **kwargs) -> str:
         """Tool interface for MCP - converts result to JSON string."""
         result = await self.run(**kwargs)
@@ -500,6 +692,53 @@ class LSPTool(BaseTool):
                 new_name=new_name,
             )
 
+    async def _open_document(self, server: LSPServer, file_path: str) -> bool:
+        """Notify LSP server that a document is opened."""
+        abs_path = str(Path(file_path).resolve())
+        uri = f"file://{abs_path}"
+
+        # Read file content
+        try:
+            with open(abs_path, "r", encoding="utf-8") as f:
+                content = f.read()
+        except Exception as e:
+            logger.error(f"Failed to read file {file_path}: {e}")
+            return False
+
+        # Determine language ID
+        language_id = server.language
+        if server.language == "typescript":
+            ext = Path(file_path).suffix.lower()
+            if ext in [".tsx", ".jsx"]:
+                language_id = "typescriptreact" if "ts" in ext else "javascriptreact"
+            elif ext in [".js", ".mjs", ".cjs"]:
+                language_id = "javascript"
+
+        params = {
+            "textDocument": {
+                "uri": uri,
+                "languageId": language_id,
+                "version": 1,
+                "text": content,
+            }
+        }
+
+        return await self._send_notification(server, "textDocument/didOpen", params)
+
+    def _parse_location(self, location: Dict[str, Any]) -> Dict[str, Any]:
+        """Parse LSP Location into a readable format."""
+        uri = location.get("uri", "")
+        file_path = uri.replace("file://", "") if uri.startswith("file://") else uri
+        range_info = location.get("range", {})
+        start = range_info.get("start", {})
+        end = range_info.get("end", {})
+
+        return {
+            "file": file_path,
+            "start": {"line": start.get("line", 0) + 1, "character": start.get("character", 0)},
+            "end": {"line": end.get("line", 0) + 1, "character": end.get("character", 0)},
+        }
+
     async def _execute_lsp_action(
         self,
         server: LSPServer,
@@ -510,76 +749,247 @@ class LSPTool(BaseTool):
         new_name: Optional[str],
     ) -> Dict[str, Any]:
         """Execute specific LSP action."""
+        abs_path = str(Path(file).resolve())
+        uri = f"file://{abs_path}"
 
-        # This is a simplified implementation
-        # Real implementation would use proper LSP protocol
+        # Open document first
+        await self._open_document(server, file)
+
+        # Build position (LSP uses 0-based line and character)
+        position = {
+            "line": (line - 1) if line else 0,
+            "character": character if character else 0,
+        }
 
         if action == "definition":
-            # textDocument/definition request
-            return {
-                "action": "definition",
-                "file": file,
-                "position": {"line": line, "character": character},
-                "note": "LSP integration pending full implementation",
-                "fallback": "Use mcp__lsp__find_definition tool for now",
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/definition",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                },
             }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                result = response["result"]
+                if result is None:
+                    return {"action": "definition", "file": file, "result": None, "message": "No definition found"}
+                if isinstance(result, list):
+                    return {
+                        "action": "definition",
+                        "file": file,
+                        "definitions": [self._parse_location(loc) for loc in result],
+                    }
+                elif isinstance(result, dict):
+                    return {
+                        "action": "definition",
+                        "file": file,
+                        "definition": self._parse_location(result),
+                    }
+            return {"action": "definition", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "references":
-            # textDocument/references request
-            return {
-                "action": "references",
-                "file": file,
-                "position": {"line": line, "character": character},
-                "note": "LSP integration pending full implementation",
-                "fallback": "Use mcp__lsp__find_references tool for now",
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/references",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                    "context": {"includeDeclaration": True},
+                },
             }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                result = response["result"]
+                if result is None:
+                    return {"action": "references", "file": file, "references": [], "count": 0}
+                refs = [self._parse_location(loc) for loc in result] if isinstance(result, list) else []
+                return {"action": "references", "file": file, "references": refs, "count": len(refs)}
+            return {"action": "references", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "rename":
-            # textDocument/rename request
-            return {
-                "action": "rename",
-                "file": file,
-                "position": {"line": line, "character": character},
-                "new_name": new_name,
-                "note": "LSP integration pending full implementation",
-                "fallback": "Use mcp__lsp__rename_symbol tool for now",
+            if not new_name:
+                return {"action": "rename", "error": "new_name is required for rename action"}
+
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/rename",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                    "newName": new_name,
+                },
             }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                result = response["result"]
+                if result is None:
+                    return {"action": "rename", "file": file, "error": "Rename not possible at this location"}
+
+                # Parse workspace edit
+                changes = {}
+                if "changes" in result:
+                    for file_uri, edits in result["changes"].items():
+                        file_path = file_uri.replace("file://", "")
+                        changes[file_path] = [
+                            {
+                                "range": self._parse_location({"uri": file_uri, "range": edit["range"]}),
+                                "newText": edit["newText"],
+                            }
+                            for edit in edits
+                        ]
+                elif "documentChanges" in result:
+                    for change in result["documentChanges"]:
+                        if "textDocument" in change:
+                            file_path = change["textDocument"]["uri"].replace("file://", "")
+                            changes[file_path] = [
+                                {
+                                    "range": self._parse_location({"uri": change["textDocument"]["uri"], "range": edit["range"]}),
+                                    "newText": edit["newText"],
+                                }
+                                for edit in change.get("edits", [])
+                            ]
+
+                return {
+                    "action": "rename",
+                    "file": file,
+                    "new_name": new_name,
+                    "changes": changes,
+                    "files_affected": len(changes),
+                }
+            return {"action": "rename", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "diagnostics":
-            # textDocument/diagnostic request
+            # For diagnostics, we read file to trigger analysis and then wait for publishDiagnostics
+            # However, diagnostics are typically push-based, so we'll use a workaround
+            # Some LSP servers support textDocument/diagnostic (LSP 3.17+)
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/diagnostic",
+                "params": {
+                    "textDocument": {"uri": uri},
+                },
+            }
+            response = await self._send_request(server, request, timeout=10.0)
+            if response and "result" in response:
+                result = response["result"]
+                items = result.get("items", []) if isinstance(result, dict) else []
+                return {
+                    "action": "diagnostics",
+                    "file": file,
+                    "diagnostics": [
+                        {
+                            "severity": item.get("severity", 1),
+                            "message": item.get("message", ""),
+                            "range": self._parse_location({"uri": uri, "range": item.get("range", {})}),
+                            "source": item.get("source", ""),
+                        }
+                        for item in items
+                    ],
+                    "count": len(items),
+                }
+            # Fallback: Return note about push-based diagnostics
             return {
                 "action": "diagnostics",
                 "file": file,
-                "note": "LSP integration pending full implementation",
-                "fallback": "Use mcp__lsp__get_diagnostics tool for now",
+                "note": "Diagnostics are push-based; use language-specific tools (go vet, pylint, etc.) for on-demand checking",
             }
 
         elif action == "hover":
-            # textDocument/hover request
-            return {
-                "action": "hover",
-                "file": file,
-                "position": {"line": line, "character": character},
-                "note": "LSP integration pending full implementation",
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/hover",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                },
             }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                result = response["result"]
+                if result is None:
+                    return {"action": "hover", "file": file, "result": None, "message": "No hover info"}
+
+                contents = result.get("contents", "")
+                # Handle different content formats
+                if isinstance(contents, dict):
+                    hover_text = contents.get("value", str(contents))
+                elif isinstance(contents, list):
+                    hover_text = "\n".join(
+                        c.get("value", str(c)) if isinstance(c, dict) else str(c)
+                        for c in contents
+                    )
+                else:
+                    hover_text = str(contents)
+
+                return {
+                    "action": "hover",
+                    "file": file,
+                    "position": {"line": line, "character": character},
+                    "contents": hover_text,
+                }
+            return {"action": "hover", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "completion":
-            # textDocument/completion request
-            return {
-                "action": "completion",
-                "file": file,
-                "position": {"line": line, "character": character},
-                "note": "LSP integration pending full implementation",
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/completion",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                },
             }
+            response = await self._send_request(server, request, timeout=10.0)
+            if response and "result" in response:
+                result = response["result"]
+                if result is None:
+                    return {"action": "completion", "file": file, "completions": [], "count": 0}
 
-        return {"error": "Unknown action"}
+                items = result if isinstance(result, list) else result.get("items", [])
+                completions = [
+                    {
+                        "label": item.get("label", ""),
+                        "kind": item.get("kind", 0),
+                        "detail": item.get("detail", ""),
+                        "documentation": (
+                            item.get("documentation", {}).get("value", "")
+                            if isinstance(item.get("documentation"), dict)
+                            else str(item.get("documentation", ""))
+                        ),
+                    }
+                    for item in items[:50]  # Limit to 50 items
+                ]
+                return {
+                    "action": "completion",
+                    "file": file,
+                    "position": {"line": line, "character": character},
+                    "completions": completions,
+                    "count": len(completions),
+                }
+            return {"action": "completion", "file": file, "error": response.get("error") if response else "No response"}
+
+        return {"error": f"Unknown action: {action}"}
 
     async def cleanup(self):
-        """Clean up LSP servers."""
-        for server in self.servers.values():
-            if server.process and server.process.returncode is None:
-                server.process.terminate()
-                await server.process.wait()
+        """Clean up LSP servers (uses global registry)."""
+        async with _GLOBAL_LOCK:
+            for server_key, server in list(_GLOBAL_SERVERS.items()):
+                if server.process and server.process.returncode is None:
+                    try:
+                        server.process.terminate()
+                        await asyncio.wait_for(server.process.wait(), timeout=5.0)
+                    except asyncio.TimeoutError:
+                        server.process.kill()
+                    except Exception:
+                        pass
+            _GLOBAL_SERVERS.clear()
 
 
 # Tool registration

@@ -1,4 +1,4 @@
-"""Test unified search tool functionality."""
+"""Test search tool functionality."""
 
 import os
 import asyncio
@@ -6,17 +6,17 @@ import tempfile
 from pathlib import Path
 
 import pytest
-from hanzo_mcp.tools.search import create_find_tool, create_unified_search_tool
+from hanzo_mcp.tools.search import create_find_tool, create_search_tool
 
 
 @pytest.mark.asyncio
-async def test_unified_search_basic():
-    """Test basic unified search functionality."""
+async def test_search_basic():
+    """Test basic search functionality."""
     # Create search tool
-    search_tool = create_unified_search_tool()
+    search_tool = create_search_tool()
 
     # Test with current directory
-    result = await search_tool.run(pattern="UnifiedSearch", path=".", max_results_per_type=5)
+    result = await search_tool.run(pattern="SearchTool", path=".", max_results_per_type=5)
 
     assert result.data is not None
     assert "results" in result.data
@@ -29,15 +29,15 @@ async def test_unified_search_basic():
     # Check statistics
     stats = result.data["statistics"]
     assert "query" in stats
-    assert stats["query"] == "UnifiedSearch"
+    assert stats["query"] == "SearchTool"
     assert "search_types_used" in stats
     assert "text" in stats["search_types_used"]  # Should use text search
 
 
 @pytest.mark.asyncio
-async def test_unified_search_auto_detection():
+async def test_search_auto_detection():
     """Test automatic search type detection."""
-    search_tool = create_unified_search_tool()
+    search_tool = create_search_tool()
 
     # Test natural language query (should trigger vector search if available)
     result = await search_tool.run(pattern="how does search work in this codebase", max_results_per_type=5)
@@ -55,9 +55,9 @@ async def test_unified_search_auto_detection():
 
 
 @pytest.mark.asyncio
-async def test_unified_search_code_patterns():
+async def test_search_code_patterns():
     """Test code pattern search."""
-    search_tool = create_unified_search_tool()
+    search_tool = create_search_tool()
 
     # Test AST pattern detection
     result = await search_tool.run(pattern="class SearchResult", max_results_per_type=5)
@@ -74,9 +74,9 @@ async def test_unified_search_code_patterns():
 
 
 @pytest.mark.asyncio
-async def test_unified_search_with_files():
+async def test_search_with_files():
     """Test file search integration."""
-    search_tool = create_unified_search_tool()
+    search_tool = create_search_tool()
 
     # Test file search
     result = await search_tool.run(pattern="*.py", search_files=True, max_results_per_type=10)
@@ -151,20 +151,20 @@ async def test_find_tool_fuzzy_search():
 
     # Test fuzzy matching
     result = await find_tool.run(
-        pattern="unifd",  # Misspelled "unified"
+        pattern="srchtl",  # Misspelled "search_tool"
         fuzzy=True,
         max_results=5,
     )
 
     assert result.data is not None
-    # Fuzzy search might find "unified_search.py"
+    # Fuzzy search might find "search_tool.py"
     # But results depend on actual files in directory
 
 
 @pytest.mark.asyncio
-async def test_unified_search_pagination():
-    """Test pagination in unified search."""
-    search_tool = create_unified_search_tool()
+async def test_search_pagination():
+    """Test pagination in search."""
+    search_tool = create_search_tool()
 
     # First page
     result1 = await search_tool.run(pattern="def", page_size=5, page=1)
@@ -195,8 +195,21 @@ async def test_unified_search_pagination():
         assert files1 != files2 or len(files1) == 0 or len(files2) == 0
 
 
+@pytest.mark.asyncio
+async def test_search_vector_opt_in():
+    """Test that vector search is opt-in and disabled by default."""
+    # Default: vector search disabled
+    search_tool = create_search_tool()
+    assert search_tool._enable_vector_index is False
+    assert search_tool._vector_initialized is False
+
+    # Explicitly enable vector search
+    search_tool_with_vector = create_search_tool(enable_vector_index=True)
+    assert search_tool_with_vector._enable_vector_index is True
+
+
 if __name__ == "__main__":
     # Run tests
-    asyncio.run(test_unified_search_basic())
+    asyncio.run(test_search_basic())
     asyncio.run(test_find_tool_basic())
     print("Basic tests passed!")
