@@ -297,7 +297,7 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
             "write",
             "edit",
             "multi_edit",
-            "directory_tree",
+            "tree",
             "grep",
             "grep_ast",
             "content_replace",

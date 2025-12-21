@@ -52,7 +52,7 @@ def get_os_info() -> tuple[str, str, str]:
 
 
 def get_directory_structure(path: str, max_depth: int = 3, include_filtered: bool = False) -> str:
-    """Get a directory structure similar to directory_tree tool.
+    """Get a directory structure similar to tree tool.
 
     Args:
         path: The directory path to scan
@@ -68,7 +68,7 @@ def get_directory_structure(path: str, max_depth: int = 3, include_filtered: boo
         if not dir_path.exists() or not dir_path.is_dir():
             return f"Error: {path} is not a valid directory"
 
-        # Define filtered directories (same as directory_tree.py)
+        # Define filtered directories (same as tree tool)
         FILTERED_DIRECTORIES = {
             ".git",
             "node_modules",

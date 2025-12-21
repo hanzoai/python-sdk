@@ -61,8 +61,8 @@ TOOL_REGISTRY: Dict[str, ToolConfig] = {
         description="Perform multiple edits to a single file in one operation",
         cli_flag="--disable-multi-edit",
     ),
-    "directory_tree": ToolConfig(
-        name="directory_tree",
+    "tree": ToolConfig(
+        name="tree",
         category=ToolCategory.FILESYSTEM,
         description="Display directory structure as a tree",
         cli_flag="--disable-directory-tree",
