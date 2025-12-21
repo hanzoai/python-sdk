@@ -157,7 +157,7 @@ def register_filesystem_tools(
         "write": Write,
         "edit": Edit,
         "multi_edit": MultiEdit,
-        "directory_tree": DirectoryTreeTool,
+        "tree": DirectoryTreeTool,
         "grep": Grep,
         "ast": ASTTool,  # AST-based code structure search with tree-sitter
         "git_search": GitSearchTool,
@@ -182,15 +182,18 @@ def register_filesystem_tools(
         for tool_name, enabled in enabled_tools.items():
             if enabled and tool_name in tool_classes:
                 tool_class = tool_classes[tool_name]
-                if tool_name in ["batch_search", "search"]:
-                    # Batch search and search require project_manager
+                if tool_name == "batch_search":
+                    # Batch search requires project_manager
                     tools.append(tool_class(permission_manager, project_manager))
                 elif tool_name == "watch":
                     # Watch tool is a singleton
                     tools.append(tool_class(permission_manager))
-                elif tool_name in ["search", "find"]:
-                    # New search tools are factory functions
+                elif tool_name in ["search", "find"] and SEARCH_AVAILABLE:
+                    # New search tools are factory functions that take no args
                     tools.append(tool_class(permission_manager))
+                elif tool_name == "search":
+                    # Old search tool requires project_manager
+                    tools.append(tool_class(permission_manager, project_manager))
                 else:
                     tools.append(tool_class(permission_manager))
     else:
@@ -219,23 +222,4 @@ def register_filesystem_tools(
             tools = get_filesystem_tools(permission_manager, project_manager)
 
     ToolRegistry.register_tools(mcp_server, tools)
-
-    # Register 'symbols' as an alias for 'ast' to match common terminology
-    try:
-        ast_tool = next((t for t in tools if getattr(t, "name", "") == "ast"), None)
-        if ast_tool is not None:
-
-            class _SymbolsAlias(ASTTool):  # type: ignore[misc]
-                @property
-                def name(self) -> str:  # type: ignore[override]
-                    return "symbols"
-
-                @property
-                def description(self) -> str:  # type: ignore[override]
-                    return f"Alias of 'ast' tool.\n\n{ast_tool.description}"
-
-            ToolRegistry.register_tool(mcp_server, _SymbolsAlias(permission_manager))
-    except Exception:
-        # Alias is best-effort; don't fail tool registration if aliasing fails
-        pass
     return tools

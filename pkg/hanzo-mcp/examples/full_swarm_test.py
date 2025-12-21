@@ -140,7 +140,7 @@ class TestModels(unittest.TestCase):
                 "agent": agent,
                 "read": read,
                 "write": write,
-                "directory_tree": tree,
+                "tree": tree,
             }
         )
 
@@ -156,7 +156,7 @@ class TestModels(unittest.TestCase):
             ctx,
             description="Analyze project",
             invocations=[
-                {"tool_name": "directory_tree", "input": {"path": test_dir}},
+                {"tool_name": "tree", "input": {"path": test_dir}},
                 {
                     "tool_name": "agent",
                     "input": {

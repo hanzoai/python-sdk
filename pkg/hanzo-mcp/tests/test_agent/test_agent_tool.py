@@ -46,7 +46,7 @@ class TestAgentTool:
     def mock_tools(self):
         """Create a list of mock tools."""
         tools = []
-        for name in ["read_files", "search_content", "directory_tree"]:
+        for name in ["read_files", "search_content", "tree"]:
             tool = MagicMock(spec=BaseTool)
             tool.name = name
             tool.description = f"Description for {name}"
