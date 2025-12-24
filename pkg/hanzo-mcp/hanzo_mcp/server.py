@@ -1,4 +1,10 @@
-"""MCP server implementing Hanzo capabilities."""
+"""MCP server implementing Hanzo capabilities.
+
+IMPORTANT: This module uses lazy imports to ensure fast startup.
+Heavy imports happen only when the server is actually created, not at module load time.
+"""
+
+from __future__ import annotations
 
 import os
 import atexit
@@ -7,26 +13,87 @@ import logging
 import secrets
 import warnings
 import threading
-from typing import Literal, cast, final
+from typing import TYPE_CHECKING, Literal, cast, final
+
+# Type-only imports - don't execute at runtime
+if TYPE_CHECKING:
+    from mcp.server import FastMCP
+    from hanzo_mcp.server_enhanced import EnhancedFastMCP
+    from hanzo_mcp.tools.common.permissions import PermissionManager
+    from hanzo_mcp.tools.shell.session_storage import SessionStorage
 
 # Suppress litellm deprecation warnings about event loop
 warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
 
-try:
-    from fastmcp import FastMCP
-except ImportError:
-    # Fallback for older MCP versions
-    try:
-        from mcp.server import FastMCP
-    except ImportError:
-        from mcp import FastMCP
+# Cached imports - lazy loaded on first use
+_FastMCP = None
+_EnhancedFastMCP = None
+_PermissionManager = None
+_SessionStorage = None
+_register_all_tools = None
+_register_all_prompts = None
 
-# Import our enhanced server
-from hanzo_mcp.tools import register_all_tools
-from hanzo_mcp.prompts import register_all_prompts
-from hanzo_mcp.server_enhanced import EnhancedFastMCP
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.shell.session_storage import SessionStorage
+
+def _get_fast_mcp():
+    """Get FastMCP class lazily."""
+    global _FastMCP
+    if _FastMCP is None:
+        try:
+            from fastmcp import FastMCP
+            _FastMCP = FastMCP
+        except ImportError:
+            try:
+                from mcp.server import FastMCP
+                _FastMCP = FastMCP
+            except ImportError:
+                from mcp import FastMCP
+                _FastMCP = FastMCP
+    return _FastMCP
+
+
+def _get_enhanced_fast_mcp():
+    """Get EnhancedFastMCP class lazily."""
+    global _EnhancedFastMCP
+    if _EnhancedFastMCP is None:
+        from hanzo_mcp.server_enhanced import EnhancedFastMCP
+        _EnhancedFastMCP = EnhancedFastMCP
+    return _EnhancedFastMCP
+
+
+def _get_permission_manager():
+    """Get PermissionManager class lazily."""
+    global _PermissionManager
+    if _PermissionManager is None:
+        from hanzo_mcp.tools.common.permissions import PermissionManager
+        _PermissionManager = PermissionManager
+    return _PermissionManager
+
+
+def _get_session_storage():
+    """Get SessionStorage class lazily."""
+    global _SessionStorage
+    if _SessionStorage is None:
+        from hanzo_mcp.tools.shell.session_storage import SessionStorage
+        _SessionStorage = SessionStorage
+    return _SessionStorage
+
+
+def _get_register_all_tools():
+    """Get register_all_tools function lazily."""
+    global _register_all_tools
+    if _register_all_tools is None:
+        from hanzo_mcp.tools import register_all_tools
+        _register_all_tools = register_all_tools
+    return _register_all_tools
+
+
+def _get_register_all_prompts():
+    """Get register_all_prompts function lazily."""
+    global _register_all_prompts
+    if _register_all_prompts is None:
+        from hanzo_mcp.prompts import register_all_prompts
+        _register_all_prompts = register_all_prompts
+    return _register_all_prompts
 
 
 @final
@@ -80,6 +147,7 @@ class HanzoMCPServer:
             disabled_tools: List of tool names to disable (default: None)
         """
         # Use enhanced server for automatic context normalization
+        EnhancedFastMCP = _get_enhanced_fast_mcp()
         self.mcp = mcp_instance if mcp_instance is not None else EnhancedFastMCP(name)
 
         # Initialize authentication token
@@ -92,6 +160,7 @@ class HanzoMCPServer:
             logger.warning("Set HANZO_MCP_TOKEN environment variable for persistent auth")
 
         # Initialize permissions and command executor
+        PermissionManager = _get_permission_manager()
         self.permission_manager = PermissionManager()
 
         # Handle project_dir parameter
@@ -143,7 +212,8 @@ class HanzoMCPServer:
         # Store the final processed tool configuration
         self.enabled_tools = final_enabled_tools
 
-        # Register all tools
+        # Register all tools (lazy import)
+        register_all_tools = _get_register_all_tools()
         register_all_tools(
             mcp_server=self.mcp,
             permission_manager=self.permission_manager,
@@ -159,6 +229,7 @@ class HanzoMCPServer:
             enabled_tools=final_enabled_tools,
         )
 
+        register_all_prompts = _get_register_all_prompts()
         register_all_prompts(mcp_server=self.mcp, projects=self.project_paths)
 
     def _setup_cleanup_handlers(self) -> None:
@@ -192,6 +263,7 @@ class HanzoMCPServer:
 
     def _background_cleanup(self) -> None:
         """Background thread for periodic session cleanup."""
+        SessionStorage = _get_session_storage()
         while not self._shutdown_event.is_set():
             try:
                 # Clean up expired sessions every 2 minutes
@@ -207,6 +279,7 @@ class HanzoMCPServer:
     def _cleanup_sessions(self) -> None:
         """Clean up all active sessions."""
         try:
+            SessionStorage = _get_session_storage()
             cleared_count = SessionStorage.clear_all_sessions()
             if cleared_count > 0:
                 # Only log if not stdio transport

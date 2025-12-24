@@ -222,7 +222,6 @@ grep_ast(pattern="class.*Controller", path="/project/src")
 search_content(
     pattern="authentication",
     path="/project",
-    enable_vector=True,
     enable_ast=True
 )
 ```

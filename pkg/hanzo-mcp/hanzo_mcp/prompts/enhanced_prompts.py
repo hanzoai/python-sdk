@@ -129,29 +129,20 @@ batch(
 3. Check `has_next` before requesting next page
 4. Use batch for parallel page fetching"""
 
-MEMORY_VECTOR_HELP_PROMPT = """# Memory & Vector Tools Guide
+MEMORY_VECTOR_HELP_PROMPT = """# Memory & Search Tools Guide
 
-## Semantic Search and Memory
+## Search
 
-### Vector Search
-Search using semantic similarity rather than exact text matching.
+### Unified Search
+Fast search using text, AST, and symbol matching.
 
 ```python
-# Enable vector search in unified search
+# Text and code pattern search
 search(
-    pattern="how to handle user authentication",
+    pattern="authentication",
     path="/project",
-    enable_vector=true
-)
-
-# Index project for vector search
-vector_index(path="/project", recursive=true)
-
-# Pure vector search
-vector_search(
-    query="error handling patterns",
-    path="/project",
-    top_k=10
+    enable_ast=true,
+    enable_symbol=true
 )
 ```
 
