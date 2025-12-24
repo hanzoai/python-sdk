@@ -196,16 +196,14 @@ async def test_search_pagination():
 
 
 @pytest.mark.asyncio
-async def test_search_vector_opt_in():
-    """Test that vector search is opt-in and disabled by default."""
-    # Default: vector search disabled
+async def test_search_no_vector():
+    """Test that search tool is lightweight without vector/ML dependencies."""
+    # Vector search has been removed - tool should be fast and lightweight
     search_tool = create_search_tool()
-    assert search_tool._enable_vector_index is False
-    assert search_tool._vector_initialized is False
-
-    # Explicitly enable vector search
-    search_tool_with_vector = create_search_tool(enable_vector_index=True)
-    assert search_tool_with_vector._enable_vector_index is True
+    # No vector-related attributes should exist
+    assert not hasattr(search_tool, '_enable_vector_index')
+    assert not hasattr(search_tool, 'embedder')
+    assert not hasattr(search_tool, 'vector_db')
 
 
 if __name__ == "__main__":

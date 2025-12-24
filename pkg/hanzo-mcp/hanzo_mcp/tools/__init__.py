@@ -5,21 +5,123 @@ robust across environments (e.g., older Python during CI), heavy imports are
 guarded. Submodules can still be imported directly, e.g.:
 
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
+
+IMPORTANT: All heavy imports are LAZY to ensure fast MCP startup (<1 second).
+Imports only happen when register_all_tools() is called, not at module load time.
 """
 
 # Defer annotation evaluation to avoid import-time NameErrors in constrained envs
 from __future__ import annotations
 
-# NOTE: Keep top-level imports resilient for environments without optional deps
-try:  # pragma: no cover - import guards for CI environments
-    from mcp.server import FastMCP  # type: ignore
-except Exception:  # pragma: no cover
+from typing import TYPE_CHECKING, Any
 
-    class FastMCP:  # type: ignore
-        pass
+# TYPE_CHECKING imports - these don't execute at runtime
+if TYPE_CHECKING:
+    from mcp.server import FastMCP
+    from hanzo_mcp.tools.common.base import BaseTool
+    from hanzo_mcp.tools.common.permissions import PermissionManager
+
+# Flags for optional tool availability - checked lazily
+_LSP_TOOL_AVAILABLE: bool | None = None
+_REFACTOR_TOOL_AVAILABLE: bool | None = None
+_MEMORY_TOOLS_AVAILABLE: bool | None = None
 
 
-try:  # pragma: no cover
+def _check_lsp_available() -> bool:
+    """Check if LSP tool is available (lazy check)."""
+    global _LSP_TOOL_AVAILABLE
+    if _LSP_TOOL_AVAILABLE is None:
+        try:
+            from hanzo_mcp.tools.lsp import LSPTool  # noqa: F401
+            _LSP_TOOL_AVAILABLE = True
+        except ImportError:
+            _LSP_TOOL_AVAILABLE = False
+    return _LSP_TOOL_AVAILABLE
+
+
+def _check_refactor_available() -> bool:
+    """Check if refactor tool is available (lazy check)."""
+    global _REFACTOR_TOOL_AVAILABLE
+    if _REFACTOR_TOOL_AVAILABLE is None:
+        try:
+            from hanzo_mcp.tools.refactor import RefactorTool  # noqa: F401
+            _REFACTOR_TOOL_AVAILABLE = True
+        except ImportError:
+            _REFACTOR_TOOL_AVAILABLE = False
+    return _REFACTOR_TOOL_AVAILABLE
+
+
+def _check_memory_available() -> bool:
+    """Check if memory tools are available (lazy check)."""
+    global _MEMORY_TOOLS_AVAILABLE
+    if _MEMORY_TOOLS_AVAILABLE is None:
+        try:
+            from hanzo_mcp.tools.memory import register_memory_tools  # noqa: F401
+            _MEMORY_TOOLS_AVAILABLE = True
+        except ImportError:
+            _MEMORY_TOOLS_AVAILABLE = False
+    return _MEMORY_TOOLS_AVAILABLE
+
+
+# Expose availability flags as properties for backward compatibility
+@property
+def LSP_TOOL_AVAILABLE() -> bool:
+    return _check_lsp_available()
+
+
+@property
+def REFACTOR_TOOL_AVAILABLE() -> bool:
+    return _check_refactor_available()
+
+
+@property
+def MEMORY_TOOLS_AVAILABLE() -> bool:
+    return _check_memory_available()
+
+
+def register_all_tools(
+    mcp_server: "FastMCP",
+    permission_manager: "PermissionManager",
+    agent_model: str | None = None,
+    agent_max_tokens: int | None = None,
+    agent_api_key: str | None = None,
+    agent_base_url: str | None = None,
+    agent_max_iterations: int = 10,
+    agent_max_tool_uses: int = 30,
+    enable_agent_tool: bool = False,
+    disable_write_tools: bool = False,
+    disable_search_tools: bool = False,
+    enabled_tools: dict[str, bool] | None = None,
+    vector_config: dict | None = None,
+    use_mode: bool = True,
+    force_mode: str | None = None,
+) -> list["BaseTool"]:
+    """Register all Hanzo tools with the MCP server.
+
+    Args:
+        mcp_server: The FastMCP server instance
+        permission_manager: Permission manager for access control
+        agent_model: Optional model name for agent tool in LiteLLM format
+        agent_max_tokens: Optional maximum tokens for agent responses
+        agent_api_key: Optional API key for the LLM provider
+        agent_base_url: Optional base URL for the LLM provider API endpoint
+        agent_max_iterations: Maximum number of iterations for agent (default: 10)
+        agent_max_tool_uses: Maximum number of total tool uses for agent (default: 30)
+        enable_agent_tool: Whether to enable the agent tool (default: False)
+        disable_write_tools: Whether to disable write tools (default: False)
+        disable_search_tools: Whether to disable search tools (default: False)
+        enabled_tools: Dictionary of individual tool enable/disable states (default: None)
+        vector_config: Vector store configuration (default: None)
+        use_mode: Whether to use mode system for tool configuration (default: True)
+        force_mode: Force a specific mode to be active (default: None)
+
+    Returns:
+        List of registered BaseTool instances
+    """
+    # LAZY IMPORTS - Only import when this function is called, not at module load time
+    # This is critical for fast MCP startup (<1 second)
+    import logging
+
     from hanzo_mcp.tools.llm import (
         LLMTool,
         ConsensusTool,
@@ -51,109 +153,21 @@ try:  # pragma: no cover
     from hanzo_mcp.tools.common.tool_list import ToolListTool
     from hanzo_mcp.tools.config.mode_tool import mode_tool
     from hanzo_mcp.tools.common.mode_loader import ModeLoader
-    from hanzo_mcp.tools.common.permissions import PermissionManager
     from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
     from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
     from hanzo_mcp.tools.common.plugin_loader import load_user_plugins
 
-    # Try memory tools
-    try:
-        from hanzo_mcp.tools.memory import register_memory_tools
+    logger = logging.getLogger(__name__)
 
-        MEMORY_TOOLS_AVAILABLE = True
-    except Exception:
-        MEMORY_TOOLS_AVAILABLE = False
-        register_memory_tools = None  # type: ignore
-except Exception:
-    # Minimal surface to allow submodule imports elsewhere
-    # Define stub functions for required imports
-    def activate_mode_from_env():
-        pass
-
-    class ModeLoader:
-        @staticmethod
-        def get_enabled_tools_from_mode(base_enabled_tools=None, force_mode=None):
-            return base_enabled_tools or {}
-
-        @staticmethod
-        def apply_environment_from_mode():
-            pass
-
-    def load_user_plugins():
-        return {}
-
-
-# Try to import LSP tool
-try:
-    from hanzo_mcp.tools.lsp import LSPTool, create_lsp_tool
-
-    LSP_TOOL_AVAILABLE = True
-except ImportError:
-    LSP_TOOL_AVAILABLE = False
-
-# Try to import refactor tool
-try:
-    from hanzo_mcp.tools.refactor import RefactorTool, create_refactor_tool
-
-    REFACTOR_TOOL_AVAILABLE = True
-except ImportError:
-    REFACTOR_TOOL_AVAILABLE = False
-
-
-def register_all_tools(
-    mcp_server: FastMCP,
-    permission_manager: PermissionManager,
-    agent_model: str | None = None,
-    agent_max_tokens: int | None = None,
-    agent_api_key: str | None = None,
-    agent_base_url: str | None = None,
-    agent_max_iterations: int = 10,
-    agent_max_tool_uses: int = 30,
-    enable_agent_tool: bool = False,
-    disable_write_tools: bool = False,
-    disable_search_tools: bool = False,
-    enabled_tools: dict[str, bool] | None = None,
-    vector_config: dict | None = None,
-    use_mode: bool = True,
-    force_mode: str | None = None,
-) -> list[BaseTool]:
-    """Register all Hanzo tools with the MCP server.
-
-    Args:
-        mcp_server: The FastMCP server instance
-        permission_manager: Permission manager for access control
-        agent_model: Optional model name for agent tool in LiteLLM format
-        agent_max_tokens: Optional maximum tokens for agent responses
-        agent_api_key: Optional API key for the LLM provider
-        agent_base_url: Optional base URL for the LLM provider API endpoint
-        agent_max_iterations: Maximum number of iterations for agent (default: 10)
-        agent_max_tool_uses: Maximum number of total tool uses for agent (default: 30)
-        enable_agent_tool: Whether to enable the agent tool (default: False)
-        disable_write_tools: Whether to disable write tools (default: False)
-        disable_search_tools: Whether to disable search tools (default: False)
-        enabled_tools: Dictionary of individual tool enable/disable states (default: None)
-        vector_config: Vector store configuration (default: None)
-        use_mode: Whether to use mode system for tool configuration (default: True)
-        force_mode: Force a specific mode to be active (default: None)
-
-    Returns:
-        List of registered BaseTool instances
-    """
     # Dictionary to store all registered tools
     all_tools: dict[str, BaseTool] = {}
 
     # Load user plugins early
     try:
         plugins = load_user_plugins()
-        import logging
-
-        logger = logging.getLogger(__name__)
         if plugins:
             logger.info(f"Loaded {len(plugins)} user plugin tools: {', '.join(plugins.keys())}")
     except Exception as e:
-        import logging
-
-        logger = logging.getLogger(__name__)
         logger.warning(f"Failed to load user plugins: {e}")
         plugins = {}
 
@@ -212,9 +226,6 @@ def register_all_tools(
             )
             # Auto-detect projects from search paths
             detected_projects = project_manager.detect_projects(search_paths)
-            import logging
-
-            logger = logging.getLogger(__name__)
             logger.info(f"Detected {len(detected_projects)} projects with LLM.md files")
 
     filesystem_tools = register_filesystem_tools(
@@ -466,8 +477,9 @@ def register_all_tools(
         "manage_knowledge_bases": is_tool_enabled("manage_knowledge_bases", True),
     }
 
-    if any(memory_enabled.values()) and MEMORY_TOOLS_AVAILABLE:
+    if any(memory_enabled.values()) and _check_memory_available():
         try:
+            from hanzo_mcp.tools.memory import register_memory_tools
             memory_tools = register_memory_tools(
                 mcp_server, permission_manager, user_id="default", project_id="default"
             )
@@ -479,8 +491,9 @@ def register_all_tools(
             logger.warning(f"Failed to register memory tools: {e}")
 
     # Register LSP tool if enabled
-    if is_tool_enabled("lsp", True) and LSP_TOOL_AVAILABLE:
+    if is_tool_enabled("lsp", True) and _check_lsp_available():
         try:
+            from hanzo_mcp.tools.lsp import create_lsp_tool
             tool = create_lsp_tool()
             tool.register(mcp_server)
             all_tools[tool.name] = tool
@@ -488,8 +501,9 @@ def register_all_tools(
             logger.warning(f"Failed to register LSP tool: {e}")
 
     # Register refactor tool if enabled
-    if is_tool_enabled("refactor", True) and REFACTOR_TOOL_AVAILABLE:
+    if is_tool_enabled("refactor", True) and _check_refactor_available():
         try:
+            from hanzo_mcp.tools.refactor import create_refactor_tool
             tool = create_refactor_tool()
             tool.register(mcp_server)
             all_tools[tool.name] = tool

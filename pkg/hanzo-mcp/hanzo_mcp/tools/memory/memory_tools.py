@@ -2,9 +2,12 @@
 
 This module provides MCP tools that use the hanzo-memory package as a library.
 The hanzo-memory package provides embedded database and vector search capabilities.
+
+IMPORTANT: All hanzo-memory imports are lazy to avoid slow startup.
+The embedding service initialization takes 3+ seconds which would block MCP startup.
 """
 
-from typing import Dict, List, Optional, final, override
+from typing import TYPE_CHECKING, Dict, List, Optional, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -13,17 +16,40 @@ from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
-# Import from hanzo-memory package
-try:
+# Type hints only - no runtime import
+if TYPE_CHECKING:
     from hanzo_memory.models.memory import Memory, MemoryWithScore
-    from hanzo_memory.services.memory import MemoryService, get_memory_service
+    from hanzo_memory.services.memory import MemoryService
 
-    MEMORY_AVAILABLE = True
-except ImportError:
-    MEMORY_AVAILABLE = False
-    raise ImportError(
-        "hanzo-memory package is required for memory tools. Install it from ~/work/hanzo/python-sdk/pkg/hanzo-memory"
-    )
+# Lazy loading - don't import at module load time
+MEMORY_AVAILABLE: Optional[bool] = None
+_memory_service: Optional["MemoryService"] = None
+
+
+def _check_memory_available() -> bool:
+    """Check if hanzo-memory is available (lazy check)."""
+    global MEMORY_AVAILABLE
+    if MEMORY_AVAILABLE is None:
+        try:
+            import hanzo_memory  # noqa: F401
+            MEMORY_AVAILABLE = True
+        except ImportError:
+            MEMORY_AVAILABLE = False
+    return MEMORY_AVAILABLE
+
+
+def _get_lazy_memory_service() -> "MemoryService":
+    """Get memory service lazily - only import when actually needed."""
+    global _memory_service
+    if _memory_service is None:
+        if not _check_memory_available():
+            raise ImportError(
+                "hanzo-memory package is required for memory tools. "
+                "Install with: pip install hanzo-memory"
+            )
+        from hanzo_memory.services.memory import get_memory_service
+        _memory_service = get_memory_service()
+    return _memory_service
 
 
 class MemoryToolBase(BaseTool):
@@ -39,8 +65,15 @@ class MemoryToolBase(BaseTool):
         """
         self.user_id = user_id
         self.project_id = project_id
-        # Use the global memory service from hanzo-memory
-        self.service = get_memory_service()
+        # Lazy service loading - don't initialize until first use
+        self._service: Optional["MemoryService"] = None
+
+    @property
+    def service(self) -> "MemoryService":
+        """Get memory service lazily."""
+        if self._service is None:
+            self._service = _get_lazy_memory_service()
+        return self._service
 
 
 @final
