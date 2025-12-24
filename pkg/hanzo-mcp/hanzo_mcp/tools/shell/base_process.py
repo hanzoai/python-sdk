@@ -47,7 +47,15 @@ class ProcessManager:
         """List all tracked processes."""
         result = {}
         for pid, proc in list(self._processes.items()):
-            if proc.poll() is None:
+            # Handle both subprocess.Popen and asyncio.subprocess.Process
+            # subprocess.Popen has .poll(), asyncio.subprocess.Process uses .returncode
+            try:
+                is_running = proc.poll() is None if hasattr(proc, 'poll') else proc.returncode is None
+            except Exception:
+                # If we can't determine, assume running
+                is_running = True
+
+            if is_running:
                 result[pid] = {
                     "pid": proc.pid,
                     "running": True,
