@@ -1,9 +1,12 @@
-"""Base classes for process execution tools."""
+"""Base classes for process execution tools.
 
+All process execution uses asyncio.subprocess for consistency.
+"""
+
+import asyncio
 import os
 import uuid
 import tempfile
-import subprocess
 from abc import abstractmethod
 from typing import Any, Dict, List, Optional, override
 from pathlib import Path
@@ -12,14 +15,15 @@ from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.truncate import truncate_response
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
-# Import moved to __init__ to avoid circular import
-
 
 class ProcessManager:
-    """Singleton manager for background processes."""
+    """Singleton manager for background processes.
+
+    All processes are asyncio.subprocess.Process instances.
+    """
 
     _instance = None
-    _processes: Dict[str, Any] = {}
+    _processes: Dict[str, asyncio.subprocess.Process] = {}
     _logs: Dict[str, str] = {}
     _log_dir = Path(tempfile.gettempdir()) / "hanzo_mcp_logs"
 
@@ -29,12 +33,18 @@ class ProcessManager:
             cls._instance._log_dir.mkdir(exist_ok=True)
         return cls._instance
 
-    def add_process(self, process_id: str, process: Any, log_file: str) -> None:
-        """Add a process to track."""
+    def add_process(self, process_id: str, process: asyncio.subprocess.Process, log_file: str) -> None:
+        """Add a process to track.
+
+        Args:
+            process_id: Unique process identifier
+            process: asyncio subprocess instance
+            log_file: Path to log file
+        """
         self._processes[process_id] = process
         self._logs[process_id] = log_file
 
-    def get_process(self, process_id: str) -> Optional[Any]:
+    def get_process(self, process_id: str) -> Optional[asyncio.subprocess.Process]:
         """Get a tracked process."""
         return self._processes.get(process_id)
 
@@ -44,16 +54,16 @@ class ProcessManager:
         self._logs.pop(process_id, None)
 
     def list_processes(self) -> Dict[str, Dict[str, Any]]:
-        """List all tracked processes."""
+        """List all tracked processes.
+
+        Uses returncode attribute which works for asyncio.subprocess.Process.
+        returncode is None if process is still running.
+        """
         result = {}
         for pid, proc in list(self._processes.items()):
-            # Handle both subprocess.Popen and asyncio.subprocess.Process
-            # subprocess.Popen has .poll(), asyncio.subprocess.Process uses .returncode
-            try:
-                is_running = proc.poll() is None if hasattr(proc, 'poll') else proc.returncode is None
-            except Exception:
-                # If we can't determine, assume running
-                is_running = True
+            # asyncio.subprocess.Process uses returncode directly (no poll())
+            # returncode is None while running, set to exit code when done
+            is_running = proc.returncode is None
 
             if is_running:
                 result[pid] = {
@@ -102,8 +112,7 @@ class ProcessManager:
             process_id: Process identifier
             return_code: Process exit code
         """
-        # For now, just remove from tracking
-        # In the future, we might want to keep a history
+        # Remove from tracking
         self.remove_process(process_id)
 
 
@@ -207,7 +216,7 @@ class BaseProcessTool(BaseTool):
         env: Optional[Dict[str, str]] = None,
         **kwargs,
     ) -> Dict[str, Any]:
-        """Execute a command in the background.
+        """Execute a command in the background using asyncio.
 
         Args:
             command: Command to execute
@@ -235,19 +244,20 @@ class BaseProcessTool(BaseTool):
         if env:
             process_env.update(env)
 
-        # Start process with output to log file
-        with open(log_file, "w") as f:
-            process = subprocess.Popen(
-                cmd_args,
-                cwd=cwd,
-                env=process_env,
-                stdout=f,
-                stderr=subprocess.STDOUT,
-                text=True,
-            )
+        # Start process using asyncio (pure async, no sync subprocess)
+        process = await asyncio.create_subprocess_exec(
+            *cmd_args,
+            cwd=cwd,
+            env=process_env,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.STDOUT,
+        )
 
         # Track the process
-        self.process_manager.add_process(process_id, process, log_file)
+        self.process_manager.add_process(process_id, process, str(log_file))
+
+        # Start background task to read output to log file
+        asyncio.create_task(self._write_output_to_log(process, log_file, process_id))
 
         return {
             "process_id": process_id,
@@ -255,6 +265,41 @@ class BaseProcessTool(BaseTool):
             "log_file": str(log_file),
             "status": "started",
         }
+
+    async def _write_output_to_log(
+        self,
+        process: asyncio.subprocess.Process,
+        log_file: Path,
+        process_id: str
+    ) -> None:
+        """Write process output to log file in background.
+
+        Args:
+            process: The asyncio subprocess
+            log_file: Path to write output
+            process_id: Process identifier for cleanup
+        """
+        try:
+            with open(log_file, "w") as f:
+                if process.stdout:
+                    async for line in process.stdout:
+                        f.write(line.decode("utf-8", errors="replace"))
+                        f.flush()
+
+            # Wait for process to complete
+            return_code = await process.wait()
+
+            # Add completion marker
+            with open(log_file, "a") as f:
+                f.write(f"\n=== Process completed with exit code {return_code} ===\n")
+
+            # Mark as completed
+            self.process_manager.mark_completed(process_id, return_code)
+
+        except Exception as e:
+            with open(log_file, "a") as f:
+                f.write(f"\n=== Error: {str(e)} ===\n")
+            self.process_manager.mark_completed(process_id, -1)
 
 
 class BaseBinaryTool(BaseProcessTool):
@@ -339,7 +384,3 @@ class BaseScriptTool(BaseProcessTool):
     def get_tool_name(self) -> str:
         """Get the tool name (interpreter name by default)."""
         return self.get_interpreter()
-
-
-# Import os at the top of the file
-import os
