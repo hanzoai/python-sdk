@@ -2,9 +2,12 @@
 
 These tools use the hanzo-memory package to manage knowledge bases and facts,
 supporting hierarchical organization (session, project, global).
+
+IMPORTANT: All hanzo-memory imports are lazy to avoid slow startup.
+The embedding service initialization takes 3+ seconds which would block MCP startup.
 """
 
-from typing import Any, Dict, List, Optional, final, override
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -13,18 +16,12 @@ from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
-# Import from hanzo-memory package
-try:
-    from hanzo_memory.models.memory import Memory, MemoryWithScore
-    from hanzo_memory.services.memory import MemoryService, get_memory_service
-    from hanzo_memory.models.knowledge import Fact, FactCreate, KnowledgeBase
+# Type hints only - no runtime import
+if TYPE_CHECKING:
+    from hanzo_memory.services.memory import MemoryService
 
-    KNOWLEDGE_AVAILABLE = True
-except ImportError:
-    KNOWLEDGE_AVAILABLE = False
-    raise ImportError(
-        "hanzo-memory package is required for knowledge tools. Install it from ~/work/hanzo/ide/pkg/memory"
-    )
+# Use lazy loading from memory_tools
+from hanzo_mcp.tools.memory.memory_tools import _check_memory_available, _get_lazy_memory_service
 
 
 class KnowledgeToolBase(BaseTool):
@@ -40,8 +37,15 @@ class KnowledgeToolBase(BaseTool):
         """
         self.user_id = user_id
         self.project_id = project_id
-        # Use the memory service for knowledge management
-        self.service = get_memory_service()
+        # Lazy service loading - don't initialize until first use
+        self._service: Optional["MemoryService"] = None
+
+    @property
+    def service(self) -> "MemoryService":
+        """Get memory service lazily."""
+        if self._service is None:
+            self._service = _get_lazy_memory_service()
+        return self._service
 
 
 @final
@@ -319,10 +323,8 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
         # This would typically use an LLM to summarize, but for now we'll store as-is
         summary = f"Summary of {topic}:\n{content[:500]}..." if len(content) > 500 else content
 
-        # Store the summary as a memory
-        from hanzo_memory.services.memory import get_memory_service
-
-        memory_service = get_memory_service()
+        # Store the summary as a memory (using lazy service)
+        memory_service = self.service
 
         # Determine scope
         if scope == "global":

@@ -6,7 +6,6 @@ search capabilities including text, AST, symbols, memory, and semantic search.
 
 import json
 import time
-import hashlib
 import subprocess
 from typing import Any, Dict, List, Optional
 from pathlib import Path
@@ -31,13 +30,8 @@ try:
 except ImportError:
     TREESITTER_AVAILABLE = False
 
-try:
-    import chromadb
-    from sentence_transformers import SentenceTransformer
-
-    VECTOR_SEARCH_AVAILABLE = True
-except ImportError:
-    VECTOR_SEARCH_AVAILABLE = False
+# Vector search removed - too heavy for MCP tools
+# If semantic search is needed, use external services (hanzo-node, hanzo desktop)
 
 # LSP availability check
 try:
@@ -46,6 +40,14 @@ try:
     LSP_AVAILABLE = True
 except ImportError:
     LSP_AVAILABLE = False
+
+# Git search availability
+try:
+    from hanzo_mcp.tools.filesystem.git_search import GitSearchTool
+
+    GIT_SEARCH_AVAILABLE = True
+except ImportError:
+    GIT_SEARCH_AVAILABLE = False
 
 
 @dataclass
@@ -93,7 +95,6 @@ class SearchTool(BaseTool):
     - Symbol definitions and references (using ctags/LSP)
     - Files and directories (using find tool)
     - Memory and knowledge base entries
-    - Semantic/conceptual matches (using vector search)
 
     The tool automatically determines the best search strategy based on your query
     and runs multiple search types in parallel for comprehensive results.
@@ -114,11 +115,7 @@ class SearchTool(BaseTool):
        search("test_*.py", search_files=True)  # Find test files
        search("config", search_files=True)      # Find config files
 
-    4. Semantic search:
-       search("how authentication works")    # Natural language query
-       search("database connection logic")   # Conceptual search
-
-    5. Memory search:
+    4. Memory search:
        search("previous discussion about API design")  # Search memories
        search("that bug we fixed last week")          # Search knowledge
 
@@ -131,7 +128,6 @@ class SearchTool(BaseTool):
     - Respects .gitignore and other exclusions
 
     PRO TIPS:
-    - Use natural language for conceptual searches
     - Use code syntax for exact matches
     - Add search_files=True to also find filenames
     - Results are ranked by relevance and type
@@ -139,26 +135,17 @@ class SearchTool(BaseTool):
     """
 
     name = "search"
-    description = """THE primary unified search tool for rapid parallel search across all modalities.
-    
-    Find anything in your codebase using text, AST, symbols, files, memory, and semantic search.
-    Automatically detects query intent and runs appropriate searches in parallel.
+    description = """THE primary unified search tool for rapid parallel search.
+
+    Find anything in your codebase using text, AST, symbols, files, and memory search.
+    Fast and lightweight - no heavy ML dependencies.
     """
 
-    def __init__(self, enable_vector_index: bool = False):
-        """Initialize search tool.
-
-        Args:
-            enable_vector_index: Whether to enable vector search indexing (default: False).
-                                 When False, vector search is disabled for faster startup.
-                                 Set to True to enable semantic search capabilities.
-        """
+    def __init__(self):
+        """Initialize search tool - fast and lightweight."""
         super().__init__()
         self.ripgrep_available = self._check_ripgrep()
-        self.vector_db = None
-        self.embedder = None
-        self._vector_initialized = False
-        self._enable_vector_index = enable_vector_index
+        self.git_available = self._check_git()
 
     def _check_ripgrep(self) -> bool:
         """Check if ripgrep is available."""
@@ -168,46 +155,13 @@ class SearchTool(BaseTool):
         except Exception:
             return False
 
-    def _init_vector_search(self) -> bool:
-        """Initialize vector search components lazily.
-
-        Returns:
-            True if initialization succeeded, False otherwise.
-        """
-        if self._vector_initialized:
-            return self.vector_db is not None
-
-        self._vector_initialized = True
-
-        if not VECTOR_SEARCH_AVAILABLE:
-            return False
-
-        if not self._enable_vector_index:
-            return False
-
+    def _check_git(self) -> bool:
+        """Check if git is available."""
         try:
-            self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
-            self.vector_db = chromadb.Client()
-            # Create or get collection
-            self.collection = self.vector_db.get_or_create_collection(
-                name="code_search", metadata={"description": "Code semantic search"}
-            )
+            subprocess.run(["git", "--version"], capture_output=True, check=True)
             return True
-        except Exception as e:
-            print(f"Failed to initialize vector search: {e}")
-            self.vector_db = None
+        except Exception:
             return False
-
-    def _should_use_vector_search(self, query: str) -> bool:
-        """Determine if vector search would be helpful."""
-        # Use vector search for natural language queries
-        indicators = [
-            len(query.split()) > 2,  # Multi-word queries
-            not any(c in query for c in ["(", ")", "{", "}", "[", "]"]),  # Not code syntax
-            " " in query,  # Has spaces (natural language)
-            not query.startswith("^") and not query.endswith("$"),  # Not regex anchors
-        ]
-        return sum(indicators) >= 2
 
     def _should_use_ast_search(self, query: str) -> bool:
         """Determine if AST search would be helpful."""
@@ -229,6 +183,19 @@ class SearchTool(BaseTool):
             and not " " in query.strip()  # Single token
         )
 
+    def _is_git_repo(self, path: str) -> bool:
+        """Check if path is inside a git repository."""
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--git-dir"],
+                capture_output=True,
+                cwd=path or ".",
+                timeout=2,
+            )
+            return result.returncode == 0
+        except Exception:
+            return False
+
     async def run(
         self,
         pattern: str,
@@ -239,9 +206,9 @@ class SearchTool(BaseTool):
         context_lines: int = 3,
         search_files: bool = False,
         search_memory: bool = None,
+        search_git_history: bool = None,
         enable_text: bool = None,
         enable_ast: bool = None,
-        enable_vector: bool = None,
         enable_symbol: bool = None,
         enable_lsp: bool = None,
         page_size: int = 50,
@@ -259,6 +226,7 @@ class SearchTool(BaseTool):
             context_lines: Lines of context around text matches
             search_files: Also search for matching filenames
             search_memory: Search in memory/knowledge base (auto-detected if None)
+            search_git_history: Search git commit history (auto-detected if None)
             enable_*: Force enable/disable specific search types (auto if None)
             enable_lsp: Enable LSP-based reference search (auto if None)
             page_size: Results per page (default: 50)
@@ -268,21 +236,12 @@ class SearchTool(BaseTool):
         # Auto-detect search types based on query
         if search_memory is None:
             # Search memory for natural language queries or specific references
-            search_memory = MEMORY_AVAILABLE and (
-                self._should_use_vector_search(pattern)
-                or any(word in pattern.lower() for word in ["previous", "discussion", "remember", "last"])
+            search_memory = MEMORY_AVAILABLE and any(
+                word in pattern.lower() for word in ["previous", "discussion", "remember", "last"]
             )
 
         if enable_text is None:
             enable_text = True  # Always use text search as baseline
-
-        if enable_vector is None:
-            # Only enable vector search if explicitly enabled via enable_vector_index
-            enable_vector = (
-                self._enable_vector_index
-                and self._should_use_vector_search(pattern)
-                and VECTOR_SEARCH_AVAILABLE
-            )
 
         if enable_ast is None:
             enable_ast = self._should_use_ast_search(pattern) and TREESITTER_AVAILABLE
@@ -293,6 +252,10 @@ class SearchTool(BaseTool):
         if enable_lsp is None:
             # Use LSP for symbol-like queries when LSP is available
             enable_lsp = LSP_AVAILABLE and self._should_use_symbol_search(pattern)
+
+        if search_git_history is None:
+            # Auto-enable git history for identifier-like patterns in git repos
+            search_git_history = (GIT_SEARCH_AVAILABLE or self.git_available) and self._is_git_repo(path) and self._should_use_symbol_search(pattern)
 
         # Collect results from all enabled search types
         all_results = []
@@ -305,63 +268,76 @@ class SearchTool(BaseTool):
             "time_ms": {},
         }
 
-        # 1. Text search (ripgrep) - always fast, do first
+        # Run all searches in PARALLEL using asyncio.gather
+        import asyncio
+        
+        async def timed_search(name: str, coro):
+            """Wrapper to time each search."""
+            start = time.time()
+            try:
+                results = await coro
+            except Exception as e:
+                print(f"{name} search error: {e}")
+                results = []
+            elapsed = int((time.time() - start) * 1000)
+            return name, results, elapsed
+        
+        # Build list of search coroutines to run in parallel
+        search_tasks = []
+        
         if enable_text:
-            start = time.time()
-            text_results = await self._text_search(pattern, path, include, exclude, max_results_per_type, context_lines)
-            search_stats["time_ms"]["text"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("text")
-            all_results.extend(text_results)
-
-        # 2. AST search - for code structure
+            search_tasks.append(timed_search(
+                "text", 
+                self._text_search(pattern, path, include, exclude, max_results_per_type, context_lines)
+            ))
+        
         if enable_ast and TREESITTER_AVAILABLE:
-            start = time.time()
-            ast_results = await self._ast_search(pattern, path, include, exclude, max_results_per_type, context_lines)
-            search_stats["time_ms"]["ast"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("ast")
-            all_results.extend(ast_results)
-
-        # 3. Symbol search - for definitions
+            search_tasks.append(timed_search(
+                "ast",
+                self._ast_search(pattern, path, include, exclude, max_results_per_type, context_lines)
+            ))
+        
         if enable_symbol:
-            start = time.time()
-            symbol_results = await self._symbol_search(pattern, path, include, exclude, max_results_per_type)
-            search_stats["time_ms"]["symbol"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("symbol")
-            all_results.extend(symbol_results)
-
-        # 4. Vector search - for semantic similarity (lazy init)
-        if enable_vector and self._init_vector_search():
-            start = time.time()
-            vector_results = await self._vector_search(
-                pattern, path, include, exclude, max_results_per_type, context_lines
-            )
-            search_stats["time_ms"]["vector"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("vector")
-            all_results.extend(vector_results)
-
-        # 5. File search - for finding files by name/pattern
+            search_tasks.append(timed_search(
+                "symbol",
+                self._symbol_search(pattern, path, include, exclude, max_results_per_type)
+            ))
+        
         if search_files:
-            start = time.time()
-            file_results = await self._file_search(pattern, path, include, exclude, max_results_per_type)
-            search_stats["time_ms"]["files"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("files")
-            all_results.extend(file_results)
-
-        # 6. Memory search - for knowledge base and previous discussions
+            search_tasks.append(timed_search(
+                "files",
+                self._file_search(pattern, path, include, exclude, max_results_per_type)
+            ))
+        
         if search_memory:
-            start = time.time()
-            memory_results = await self._memory_search(pattern, max_results_per_type, context_lines)
-            search_stats["time_ms"]["memory"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("memory")
-            all_results.extend(memory_results)
-
-        # 7. LSP search - for precise symbol references and definitions
+            search_tasks.append(timed_search(
+                "memory",
+                self._memory_search(pattern, max_results_per_type, context_lines)
+            ))
+        
         if enable_lsp and LSP_AVAILABLE:
-            start = time.time()
-            lsp_results = await self._lsp_search(pattern, path, include, max_results_per_type)
-            search_stats["time_ms"]["lsp"] = int((time.time() - start) * 1000)
-            search_stats["search_types_used"].append("lsp")
-            all_results.extend(lsp_results)
+            search_tasks.append(timed_search(
+                "lsp",
+                self._lsp_search(pattern, path, include, max_results_per_type)
+            ))
+
+        if search_git_history and self.git_available:
+            search_tasks.append(timed_search(
+                "git",
+                self._git_history_search(pattern, path, max_results_per_type)
+            ))
+
+        # Execute all searches in parallel
+        if search_tasks:
+            results_list = await asyncio.gather(*search_tasks, return_exceptions=True)
+            
+            for result in results_list:
+                if isinstance(result, Exception):
+                    continue
+                name, results, elapsed = result
+                search_stats["time_ms"][name] = elapsed
+                search_stats["search_types_used"].append(name)
+                all_results.extend(results)
 
         # Deduplicate and rank results
         unique_results = self._deduplicate_results(all_results)
@@ -421,10 +397,10 @@ class SearchTool(BaseTool):
             page: int = 1,
             enable_text: bool = True,
             enable_ast: bool = True,
-            enable_vector: bool = True,
             enable_symbol: bool = True,
             search_files: bool = False,
             search_memory: bool = False,
+            search_git_history: bool = False,
         ) -> str:
             """Execute unified search."""
             return await self.call(
@@ -438,10 +414,10 @@ class SearchTool(BaseTool):
                 page=page,
                 enable_text=enable_text,
                 enable_ast=enable_ast,
-                enable_vector=enable_vector,
                 enable_symbol=enable_symbol,
                 search_files=search_files,
                 search_memory=search_memory,
+                search_git_history=search_git_history,
             )
 
     async def _text_search(
@@ -530,7 +506,10 @@ class SearchTool(BaseTool):
         max_results: int,
         context_lines: int,
     ) -> List[SearchResult]:
-        """Perform AST-based search using treesitter."""
+        """Perform AST-based search using treesitter.
+        
+        OPTIMIZED: Uses ripgrep first to narrow down files before tree-sitter parsing.
+        """
         # Try to use grep-ast if available
         try:
             from grep_ast.grep_ast import TreeContext
@@ -541,23 +520,49 @@ class SearchTool(BaseTool):
         results = []
 
         try:
-            # Get files to search
             search_path = Path(path or ".")
             files_to_search = []
 
             if search_path.is_file():
                 files_to_search = [search_path]
             else:
-                # Find files matching include pattern
-                pattern_to_use = include or "*.py"
-                for ext in ["*.py", "*.js", "*.ts", "*.go", "*.java", "*.cpp", "*.c"]:
-                    if include and include != ext:
-                        continue
-                    files_to_search.extend(search_path.rglob(ext))
-                    if len(files_to_search) >= max_results:
-                        break
+                # OPTIMIZATION: Use ripgrep first to find files containing the pattern
+                # This is MUCH faster than scanning all files with rglob + tree-sitter
+                if self.ripgrep_available:
+                    cmd = ["rg", "--files-with-matches", "-l", "--max-count", "1"]
+                    
+                    # Add file type filters
+                    if include:
+                        cmd.extend(["--glob", include])
+                    else:
+                        # Default to common source files
+                        for ext in ["*.py", "*.js", "*.ts", "*.go", "*.java", "*.cpp", "*.c", "*.rs"]:
+                            cmd.extend(["--glob", ext])
+                    
+                    if exclude:
+                        cmd.extend(["--glob", f"!{exclude}"])
+                    
+                    cmd.extend([pattern, str(search_path)])
+                    
+                    try:
+                        result = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
+                        if result.returncode == 0 and result.stdout.strip():
+                            files_to_search = [Path(f) for f in result.stdout.strip().split("\n") if f]
+                    except (subprocess.TimeoutExpired, subprocess.SubprocessError):
+                        pass
+                
+                # Fallback to limited rglob if ripgrep didn't find anything or isn't available
+                if not files_to_search:
+                    exts = [include] if include else ["*.py", "*.js", "*.ts", "*.go"]
+                    for ext in exts[:3]:  # Limit extensions to check
+                        for f in search_path.rglob(ext):
+                            files_to_search.append(f)
+                            if len(files_to_search) >= max_results:
+                                break
+                        if len(files_to_search) >= max_results:
+                            break
 
-            # Search each file
+            # Search each file with tree-sitter (now limited to files that actually contain pattern)
             for file_path in files_to_search[:max_results]:
                 if not file_path.is_file():
                     continue
@@ -641,54 +646,6 @@ class SearchTool(BaseTool):
                 res.match_type = "symbol"
                 res.score = 1.1  # Boost symbol definitions
                 results.append(res)
-
-        return results
-
-    async def _vector_search(
-        self,
-        query: str,
-        path: str,
-        include: Optional[str],
-        exclude: Optional[str],
-        max_results: int,
-        context_lines: int,
-    ) -> List[SearchResult]:
-        """Perform semantic vector search."""
-        if not self.vector_db or not self.embedder:
-            return []
-
-        results = []
-
-        try:
-            # Embed the query
-            query_embedding = self.embedder.encode(query).tolist()
-
-            # Search in vector database
-            search_results = self.collection.query(
-                query_embeddings=[query_embedding],
-                n_results=max_results,
-                where={"path": {"$contains": path}} if path != "." else None,
-            )
-
-            if search_results["ids"][0]:
-                for i, _doc_id in enumerate(search_results["ids"][0]):
-                    metadata = search_results["metadatas"][0][i]
-
-                    result = SearchResult(
-                        file_path=metadata["file_path"],
-                        line_number=metadata["line_number"],
-                        column=0,
-                        match_text=search_results["documents"][0][i],
-                        context_before=[],
-                        context_after=[],
-                        match_type="vector",
-                        score=1.0 - search_results["distances"][0][i],  # Convert distance to similarity
-                        semantic_context=metadata.get("context", ""),
-                    )
-                    results.append(result)
-
-        except Exception as e:
-            print(f"Vector search error: {e}")
 
         return results
 
@@ -908,6 +865,102 @@ class SearchTool(BaseTool):
 
         return results
 
+    async def _git_history_search(
+        self,
+        pattern: str,
+        path: str,
+        max_results: int,
+    ) -> List[SearchResult]:
+        """Search git commit history for pattern using git log -S (pickaxe)."""
+        results = []
+
+        if not self.git_available:
+            return results
+
+        try:
+            # Use git log -S to find commits that added/removed the pattern
+            # This is much faster than searching through all commits
+            cmd = [
+                "git", "log",
+                f"-S{pattern}",  # Search for commits that add/remove pattern
+                "--oneline",
+                f"-n{max_results}",
+                "--pretty=format:%h|%s|%an|%ar",
+            ]
+
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=path or ".",
+                timeout=10,
+            )
+
+            if result.returncode == 0 and result.stdout.strip():
+                for line in result.stdout.strip().split("\n"):
+                    parts = line.split("|", 3)
+                    if len(parts) >= 4:
+                        commit_hash, subject, author, date = parts
+                        
+                        # Create a result for this commit
+                        search_result = SearchResult(
+                            file_path=f"git://{commit_hash}",
+                            line_number=0,
+                            column=0,
+                            match_text=subject.strip(),
+                            context_before=[],
+                            context_after=[],
+                            match_type="git",
+                            score=0.85,
+                            semantic_context=f"Commit by {author} ({date})",
+                        )
+                        results.append(search_result)
+
+            # Also try git grep for current HEAD if we don't have many results
+            if len(results) < max_results // 2:
+                grep_cmd = [
+                    "git", "grep",
+                    "-n",  # Line numbers
+                    "-I",  # Skip binary files
+                    f"--max-count={max_results - len(results)}",
+                    pattern,
+                ]
+
+                grep_result = subprocess.run(
+                    grep_cmd,
+                    capture_output=True,
+                    text=True,
+                    cwd=path or ".",
+                    timeout=10,
+                )
+
+                if grep_result.returncode == 0 and grep_result.stdout.strip():
+                    for line in grep_result.stdout.strip().split("\n")[:max_results - len(results)]:
+                        # Format: file:line:content
+                        parts = line.split(":", 2)
+                        if len(parts) >= 3:
+                            file_path, line_num, content = parts
+                            
+                            search_result = SearchResult(
+                                file_path=str(Path(path or ".").resolve() / file_path),
+                                line_number=int(line_num) if line_num.isdigit() else 1,
+                                column=0,
+                                match_text=content.strip(),
+                                context_before=[],
+                                context_after=[],
+                                match_type="git",
+                                score=0.9,
+                                semantic_context="git grep match",
+                            )
+                            results.append(search_result)
+
+        except subprocess.TimeoutExpired:
+            print("Git history search timed out")
+        except Exception as e:
+            print(f"Git history search error: {e}")
+
+        return results
+
     def _deduplicate_results(self, results: List[SearchResult]) -> List[SearchResult]:
         """Remove duplicate results across search types."""
         seen = set()
@@ -1042,98 +1095,7 @@ class SearchTool(BaseTool):
         return results
 
 
-# Index builder for vector search
-class CodeIndexer:
-    """Build and maintain vector search index."""
-
-    def __init__(self, vector_db, embedder):
-        self.vector_db = vector_db
-        self.embedder = embedder
-        self.collection = vector_db.get_or_create_collection("code_search")
-
-    async def index_directory(self, path: str, file_patterns: List[str] = None):
-        """Index a directory for vector search."""
-        if file_patterns is None:
-            file_patterns = ["*.py", "*.js", "*.ts", "*.go", "*.java", "*.cpp", "*.c"]
-
-        documents = []
-        metadatas = []
-        ids = []
-
-        for pattern in file_patterns:
-            for file_path in Path(path).rglob(pattern):
-                if file_path.is_file():
-                    try:
-                        with open(file_path, "r", encoding="utf-8") as f:
-                            content = f.read()
-
-                        # Split into chunks (functions, classes, etc.)
-                        chunks = self._split_code_intelligently(content, file_path)
-
-                        for chunk in chunks:
-                            doc_id = hashlib.md5(
-                                f"{file_path}:{chunk['line']}:{chunk['text'][:50]}".encode()
-                            ).hexdigest()
-
-                            documents.append(chunk["text"])
-                            metadatas.append(
-                                {
-                                    "file_path": str(file_path),
-                                    "line_number": chunk["line"],
-                                    "context": chunk.get("context", ""),
-                                    "type": chunk.get("type", "code"),
-                                }
-                            )
-                            ids.append(doc_id)
-
-                    except Exception as e:
-                        print(f"Error indexing {file_path}: {e}")
-
-        # Batch embed and store
-        if documents:
-            embeddings = self.embedder.encode(documents).tolist()
-            self.collection.add(embeddings=embeddings, documents=documents, metadatas=metadatas, ids=ids)
-
-    def _split_code_intelligently(self, content: str, file_path: Path) -> List[Dict[str, Any]]:
-        """Split code into meaningful chunks."""
-        # Simple line-based splitting for now
-        # Note: Consider using AST for better splitting in future
-        chunks = []
-        lines = content.split("\n")
-
-        # Group into function-sized chunks
-        current_chunk = []
-        current_line = 1
-
-        for i, line in enumerate(lines):
-            current_chunk.append(line)
-
-            # Split on function/class definitions or every 50 lines
-            if len(current_chunk) >= 50 or any(kw in line for kw in ["def ", "function ", "class ", "interface "]):
-                if current_chunk:
-                    chunks.append(
-                        {
-                            "text": "\n".join(current_chunk),
-                            "line": current_line,
-                            "type": "code",
-                        }
-                    )
-                    current_chunk = []
-                    current_line = i + 2
-
-        # Add remaining
-        if current_chunk:
-            chunks.append({"text": "\n".join(current_chunk), "line": current_line, "type": "code"})
-
-        return chunks
-
-
 # Tool registration
-def create_search_tool(enable_vector_index: bool = False):
-    """Factory function to create search tool.
-
-    Args:
-        enable_vector_index: Enable vector/semantic search (requires chromadb + sentence-transformers).
-                             Default False for fast startup without database dependencies.
-    """
-    return SearchTool(enable_vector_index=enable_vector_index)
+def create_search_tool():
+    """Factory function to create search tool - fast and lightweight."""
+    return SearchTool()

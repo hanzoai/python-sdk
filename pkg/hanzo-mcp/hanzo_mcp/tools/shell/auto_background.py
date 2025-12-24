@@ -124,7 +124,17 @@ class AutoBackgroundExecutor:
             if wait_task in done:
                 # Process completed within timeout
                 return_code = await wait_task
-                await read_task  # Ensure all output is read
+                
+                # Give read_task a short time to finish (0.5s max)
+                # This prevents hanging if stdout has issues
+                try:
+                    await asyncio.wait_for(read_task, timeout=0.5)
+                except asyncio.TimeoutError:
+                    read_task.cancel()
+                    try:
+                        await read_task
+                    except asyncio.CancelledError:
+                        pass
 
                 # Mark process as completed
                 self.process_manager.mark_completed(process_id, return_code)
