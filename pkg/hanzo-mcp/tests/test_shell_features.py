@@ -112,7 +112,7 @@ class TestAutoBackgrounding:
 
     @pytest.mark.asyncio
     @patch("hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background")
-    async def test_long_command_backgrounds(self, tool_helper, mock_execute, bash_tool, mock_ctx):
+    async def test_long_command_backgrounds(self, mock_execute, tool_helper, bash_tool, mock_ctx):
         """Test that long-running commands are backgrounded."""
         # Simulate backgrounding
         mock_execute.return_value = (
@@ -147,10 +147,10 @@ class TestProcessManagement:
 
     def test_process_tracking(self, tool_helper, process_manager):
         """Test process tracking functionality."""
-        # Create mock process
+        # Create mock process (asyncio.subprocess.Process uses returncode, not poll())
         mock_process = MagicMock()
         mock_process.pid = 12345
-        mock_process.poll.return_value = None  # Still running
+        mock_process.returncode = None  # Still running (asyncio.subprocess.Process style)
 
         # Add process
         process_manager.add_process("test_123", mock_process, "/tmp/test.log")
@@ -167,10 +167,10 @@ class TestProcessManagement:
     @pytest.mark.asyncio
     async def test_process_list_command(self, tool_helper, process_tool, mock_ctx):
         """Test process list command."""
-        # Add a mock process
+        # Add a mock process (asyncio.subprocess.Process uses returncode, not poll())
         mock_process = MagicMock()
         mock_process.pid = 12345
-        mock_process.poll.return_value = None
+        mock_process.returncode = None  # Still running
 
         process_tool.process_manager.add_process("test_123", mock_process, "/tmp/test.log")
 
