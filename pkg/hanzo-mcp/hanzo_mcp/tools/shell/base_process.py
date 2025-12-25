@@ -1,6 +1,7 @@
 """Base classes for process execution tools.
 
 All process execution uses asyncio.subprocess for consistency.
+All file I/O uses aiofiles for non-blocking operations.
 """
 
 import asyncio
@@ -10,6 +11,9 @@ import tempfile
 from abc import abstractmethod
 from typing import Any, Dict, List, Optional, override
 from pathlib import Path
+
+import aiofiles
+import aiofiles.os
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.truncate import truncate_response
@@ -27,11 +31,18 @@ class ProcessManager:
     _logs: Dict[str, str] = {}
     _log_dir = Path(tempfile.gettempdir()) / "hanzo_mcp_logs"
 
+    _initialized: bool = False
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance._log_dir.mkdir(exist_ok=True)
         return cls._instance
+
+    async def _ensure_log_dir(self) -> None:
+        """Ensure log directory exists (async-safe)."""
+        if not self._initialized:
+            await aiofiles.os.makedirs(self._log_dir, exist_ok=True)
+            self._initialized = True
 
     def add_process(self, process_id: str, process: asyncio.subprocess.Process, log_file: str) -> None:
         """Add a process to track.
@@ -92,8 +103,8 @@ class ProcessManager:
         """Get the log directory."""
         return self._log_dir
 
-    def create_log_file(self, process_id: str) -> Path:
-        """Create a log file for a process.
+    async def create_log_file(self, process_id: str) -> Path:
+        """Create a log file for a process (async-safe).
 
         Args:
             process_id: Process identifier
@@ -101,8 +112,11 @@ class ProcessManager:
         Returns:
             Path to the created log file
         """
+        await self._ensure_log_dir()
         log_file = self._log_dir / f"{process_id}.log"
-        log_file.touch()
+        # Create empty file asynchronously
+        async with aiofiles.open(log_file, "w") as f:
+            pass
         return log_file
 
     def mark_completed(self, process_id: str, return_code: int) -> None:
@@ -274,31 +288,33 @@ class BaseProcessTool(BaseTool):
     ) -> None:
         """Write process output to log file in background.
 
+        Uses aiofiles for non-blocking file I/O to avoid blocking the event loop.
+
         Args:
             process: The asyncio subprocess
             log_file: Path to write output
             process_id: Process identifier for cleanup
         """
         try:
-            with open(log_file, "w") as f:
+            async with aiofiles.open(log_file, "w") as f:
                 if process.stdout:
                     async for line in process.stdout:
-                        f.write(line.decode("utf-8", errors="replace"))
-                        f.flush()
+                        await f.write(line.decode("utf-8", errors="replace"))
+                        await f.flush()
 
             # Wait for process to complete
             return_code = await process.wait()
 
             # Add completion marker
-            with open(log_file, "a") as f:
-                f.write(f"\n=== Process completed with exit code {return_code} ===\n")
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n=== Process completed with exit code {return_code} ===\n")
 
             # Mark as completed
             self.process_manager.mark_completed(process_id, return_code)
 
         except Exception as e:
-            with open(log_file, "a") as f:
-                f.write(f"\n=== Error: {str(e)} ===\n")
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n=== Error: {str(e)} ===\n")
             self.process_manager.mark_completed(process_id, -1)
 
 
