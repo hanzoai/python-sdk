@@ -2,6 +2,7 @@
 
 This module provides automatic backgrounding of long-running processes.
 Commands that take more than 2 minutes automatically continue in background.
+All file I/O uses aiofiles for non-blocking operations.
 """
 
 import time
@@ -9,6 +10,8 @@ import uuid
 import asyncio
 from typing import Tuple, Optional
 from pathlib import Path
+
+import aiofiles
 
 from hanzo_mcp.tools.shell.base_process import ProcessManager
 
@@ -74,8 +77,8 @@ class AutoBackgroundExecutor:
         # Generate process ID
         process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
 
-        # Create log file
-        log_file = self.process_manager.create_log_file(process_id)
+        # Create log file (async)
+        log_file = await self.process_manager.create_log_file(process_id)
 
         # Start the process
         process = await asyncio.create_subprocess_exec(
@@ -96,14 +99,14 @@ class AutoBackgroundExecutor:
         try:
             # Create tasks for reading output and waiting for process
             async def read_output():
-                """Read output from process."""
+                """Read output from process (non-blocking)."""
                 if process.stdout:
                     async for line in process.stdout:
                         line_str = line.decode("utf-8", errors="replace")
                         output_lines.append(line_str)
-                        # Also write to log file
-                        with open(log_file, "a") as f:
-                            f.write(line_str)
+                        # Also write to log file (async)
+                        async with aiofiles.open(log_file, "a") as f:
+                            await f.write(line_str)
 
             async def wait_for_process():
                 """Wait for process to complete."""
@@ -181,17 +184,19 @@ class AutoBackgroundExecutor:
     async def _background_reader(self, process, process_id: str, log_file: Path):
         """Continue reading output from a backgrounded process.
 
+        Uses aiofiles for non-blocking file I/O.
+
         Args:
             process: The subprocess
             process_id: Process identifier
             log_file: Log file path
         """
         try:
-            # Continue reading output
+            # Continue reading output (non-blocking)
             if process.stdout:
                 async for line in process.stdout:
-                    with open(log_file, "a") as f:
-                        f.write(line.decode("utf-8", errors="replace"))
+                    async with aiofiles.open(log_file, "a") as f:
+                        await f.write(line.decode("utf-8", errors="replace"))
 
             # Wait for process to complete
             return_code = await process.wait()
@@ -199,14 +204,14 @@ class AutoBackgroundExecutor:
             # Mark as completed
             self.process_manager.mark_completed(process_id, return_code)
 
-            # Add completion marker to log
-            with open(log_file, "a") as f:
-                f.write(f"\n\n=== Process completed with exit code {return_code} ===\n")
+            # Add completion marker to log (async)
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n\n=== Process completed with exit code {return_code} ===\n")
 
         except Exception as e:
-            # Log error
-            with open(log_file, "a") as f:
-                f.write(f"\n\n=== Background reader error: {str(e)} ===\n")
+            # Log error (async)
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n\n=== Background reader error: {str(e)} ===\n")
 
             self.process_manager.mark_completed(process_id, -1)
 

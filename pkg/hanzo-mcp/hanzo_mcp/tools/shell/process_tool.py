@@ -1,7 +1,12 @@
-"""Process management tool."""
+"""Process management tool.
+
+Uses aiofiles for non-blocking log file reads.
+"""
 
 import signal
 from typing import Optional, override
+
+import aiofiles
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -101,8 +106,10 @@ process --action logs --id bash_ghi789 --lines 50"""
                 return f"No log file found for process {id}"
 
             try:
-                with open(log_file, "r") as f:
-                    log_lines = f.readlines()
+                # Read log file asynchronously (non-blocking)
+                async with aiofiles.open(log_file, "r") as f:
+                    content = await f.read()
+                    log_lines = content.splitlines(keepends=True)
 
                 # Get last N lines
                 if len(log_lines) > lines:
