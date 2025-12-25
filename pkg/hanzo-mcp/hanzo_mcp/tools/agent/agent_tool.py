@@ -157,19 +157,20 @@ class MCPToolAdapter(Tool):
         """Initialize adapter."""
         self.mcp_tool = mcp_tool
         self.ctx = ctx
+        # Set required Tool class attributes
+        self.name = mcp_tool.name
+        self.description = mcp_tool.description
 
-    @property
-    def name(self) -> str:
-        """Get tool name."""
-        return self.mcp_tool.name
-
-    @property
-    def description(self) -> str:
-        """Get tool description."""
-        return self.mcp_tool.description
+    def handle(self, **kwargs) -> Any:
+        """Execute the tool synchronously (required by Tool ABC).
+        
+        Note: This is called via Tool.__call__ which handles async properly.
+        We return the coroutine and let the framework await it.
+        """
+        return self.mcp_tool.call(self.ctx, **kwargs)
 
     async def execute(self, **kwargs) -> str:
-        """Execute the MCP tool."""
+        """Execute the MCP tool asynchronously."""
         return await self.mcp_tool.call(self.ctx, **kwargs)
 
 
@@ -194,10 +195,8 @@ class MCPAgent(Agent):
         self.permission_manager = permission_manager
         self.ctx = ctx
 
-        # Register MCP tools as agent tools
-        for mcp_tool in available_tools:
-            adapter = MCPToolAdapter(mcp_tool, ctx)
-            self.register_tool(adapter)
+        # Set up agent tools by wrapping MCP tools
+        self.tools = [MCPToolAdapter(mcp_tool, ctx) for mcp_tool in available_tools]
 
     async def run(self, state: MCPAgentState, history: History, network: Network) -> InferenceResult:
         """Execute the agent."""
@@ -247,7 +246,7 @@ class MCPAgent(Agent):
     def _get_system_prompt(self) -> str:
         """Get system prompt for the agent."""
         tool_descriptions = []
-        for tool in self.tools.values():
+        for tool in self.tools:
             tool_descriptions.append(f"- {tool.name}: {tool.description}")
 
         return f"""You are an AI assistant with access to the following tools:
@@ -402,7 +401,7 @@ Usage notes:
         memory_backend = params.get("memory_backend", "sqlite")
 
         # Get appropriate agent class
-        agent_class = self._get_agent_class(model)
+        agent_class = self._get_agent_class(model, ctx)
 
         # Create state
         state = MCPAgentState(
@@ -461,8 +460,16 @@ AGENT RESPONSES:
             await tool_ctx.error(f"Agent execution failed: {str(e)}")
             return f"Error: {str(e)}"
 
-    def _get_agent_class(self, model: Optional[str]) -> type[Agent]:
-        """Get appropriate agent class based on model."""
+    def _get_agent_class(self, model: Optional[str], ctx: MCPContext) -> type[Agent]:
+        """Get appropriate agent class based on model.
+        
+        Args:
+            model: Model identifier
+            ctx: MCP context for the agent
+            
+        Returns:
+            Agent class type
+        """
         if not model:
             model = "model://anthropic/claude-3-5-sonnet-20241022"
 
@@ -477,19 +484,28 @@ AGENT RESPONSES:
         if model in cli_agents:
             return cli_agents[model]
 
-        # Return generic MCP agent
+        # Capture values from outer scope for the dynamic class
+        available_tools = self.available_tools
+        permission_manager = self.permission_manager
+        captured_model = model
+        captured_ctx = ctx
+
+        # Return generic MCP agent with proper closure
+        def dynamic_init(agent_self):
+            MCPAgent.__init__(
+                agent_self,
+                available_tools=available_tools,
+                permission_manager=permission_manager,
+                ctx=captured_ctx,
+                model=captured_model,
+            )
+
         return type(
             "DynamicMCPAgent",
             (MCPAgent,),
             {
-                "model": model,
-                "__init__": lambda self: MCPAgent.__init__(
-                    self,
-                    available_tools=self.available_tools,
-                    permission_manager=self.permission_manager,
-                    ctx=self.ctx,
-                    model=model,
-                ),
+                "model": captured_model,
+                "__init__": dynamic_init,
             },
         )
 

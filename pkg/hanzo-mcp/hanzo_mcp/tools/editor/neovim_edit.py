@@ -189,7 +189,7 @@ Or visit: https://neovim.io/"""
         file_path = os.path.abspath(file_path)
 
         # Check permissions
-        if not self.permission_manager.has_permission(file_path):
+        if not self.permission_manager.is_path_allowed(file_path):
             return f"Error: No permission to access {file_path}"
 
         # Build Neovim command

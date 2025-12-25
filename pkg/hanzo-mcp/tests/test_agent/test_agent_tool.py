@@ -162,7 +162,7 @@ class TestAgentTool:
 
     @pytest.mark.asyncio
     async def test_call_with_valid_prompt_string(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test agent tool call with valid prompt as string."""
+        """Test agent tool call with valid prompt as string - without hanzo-agents SDK."""
         # Mock the tool context
         tool_ctx = MagicMock()
         tool_ctx.set_tool_info = AsyncMock()
@@ -170,13 +170,17 @@ class TestAgentTool:
         tool_ctx.error = AsyncMock()
         tool_ctx.mcp_context = mcp_context
 
-        # Without hanzo-agents SDK, the tool returns an error
+        # Mock HANZO_AGENTS_AVAILABLE = False to test fallback behavior
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
-            return_value=tool_ctx,
+            "hanzo_mcp.tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
+            False,
         ):
-            # Update the test to use a list instead of a string
-            result = await agent_tool.call(ctx=mcp_context, prompts=["Test prompt /home/test/path"])
+            with patch(
+                "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+                return_value=tool_ctx,
+            ):
+                # Update the test to use a list instead of a string
+                result = await agent_tool.call(ctx=mcp_context, prompts=["Test prompt /home/test/path"])
 
         tool_helper.assert_in_result("Error", result)
         tool_helper.assert_in_result("hanzo-agents SDK is required", result)
@@ -184,7 +188,7 @@ class TestAgentTool:
 
     @pytest.mark.asyncio
     async def test_call_with_multiple_prompts(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test agent tool call with multiple prompts for parallel execution."""
+        """Test agent tool call with multiple prompts - without hanzo-agents SDK."""
         # Mock the tool context
         tool_ctx = MagicMock()
         tool_ctx.set_tool_info = AsyncMock()
@@ -199,12 +203,16 @@ class TestAgentTool:
             "Task 3 /home/test/path3",
         ]
 
-        # Without hanzo-agents SDK, the tool returns an error
+        # Mock HANZO_AGENTS_AVAILABLE = False to test fallback behavior
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
-            return_value=tool_ctx,
+            "hanzo_mcp.tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
+            False,
         ):
-            result = await agent_tool.call(ctx=mcp_context, prompts=test_prompts)
+            with patch(
+                "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+                return_value=tool_ctx,
+            ):
+                result = await agent_tool.call(ctx=mcp_context, prompts=test_prompts)
 
         tool_helper.assert_in_result("Error", result)
         tool_helper.assert_in_result("hanzo-agents SDK is required", result)
@@ -252,232 +260,75 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
-    async def test_execute_agent_with_tools_simple(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test _execute_agent_with_tools with a simple response."""
-        # Mock the tool context
-        tool_ctx = MagicMock()
-        tool_ctx.info = AsyncMock()
-        tool_ctx.error = AsyncMock()
-        tool_ctx.mcp_context = mcp_context
+    async def test_get_agent_class_default_model(self, tool_helper, agent_tool, mcp_context):
+        """Test _get_agent_class returns appropriate agent class for default model."""
+        agent_class = agent_tool._get_agent_class(None, mcp_context)
 
-        # Mock the OpenAI response
-        mock_message = MagicMock()
-        mock_message.content = "Simple result"
-        mock_message.tool_calls = None
+        # Should return a dynamically created class based on MCPAgent
+        assert agent_class is not None
+        assert "DynamicMCPAgent" in agent_class.__name__
 
-        mock_choice = MagicMock()
-        mock_choice.message = mock_message
+    @pytest.mark.asyncio
+    async def test_get_agent_class_with_custom_model(self, tool_helper, agent_tool, mcp_context):
+        """Test _get_agent_class with a custom model string."""
+        agent_class = agent_tool._get_agent_class("model://openai/gpt-4", mcp_context)
 
-        mock_response = MagicMock()
-        mock_response.choices = [mock_choice]
+        # Should return a dynamically created class
+        assert agent_class is not None
+        assert agent_class.model == "model://openai/gpt-4"
 
-        # Set test mode
-        os.environ["TEST_MODE"] = "1"
-        # Execute the method
-        result = await agent_tool._execute_agent_with_tools(
-            "System prompt",
-            "User prompt",
-            mock_tools,
-            [],  # openai_tools
-            tool_ctx,
+    @pytest.mark.asyncio
+    async def test_available_tools_initialized(self, tool_helper, agent_tool):
+        """Test that available_tools is properly initialized."""
+        assert hasattr(agent_tool, "available_tools")
+        assert isinstance(agent_tool.available_tools, list)
+        assert len(agent_tool.available_tools) > 0
+
+        # Check that essential tools are present
+        tool_names = [t.name for t in agent_tool.available_tools]
+        assert "edit" in tool_names
+        assert "multi_edit" in tool_names
+
+    @pytest.mark.asyncio
+    async def test_mcp_agent_state_serialization(self, tool_helper):
+        """Test MCPAgentState to_dict and from_dict methods."""
+        from hanzo_mcp.tools.agent.agent_tool import MCPAgentState
+
+        # Create state
+        state = MCPAgentState(
+            prompts=["Task 1 /path/to/file", "Task 2 /another/path"],
+            context={"key": "value"},
         )
+        state.current_prompt_index = 1
+        state.results = ["Result 1"]
 
-        assert result == "Simple result"
+        # Serialize
+        state_dict = state.to_dict()
+        assert state_dict["prompts"] == ["Task 1 /path/to/file", "Task 2 /another/path"]
+        assert state_dict["context"] == {"key": "value"}
+        assert state_dict["current_prompt_index"] == 1
+        assert state_dict["results"] == ["Result 1"]
+
+        # Deserialize
+        restored_state = MCPAgentState.from_dict(state_dict)
+        assert restored_state.prompts == state.prompts
+        assert restored_state.context == state.context
+        assert restored_state.current_prompt_index == state.current_prompt_index
+        assert restored_state.results == state.results
 
     @pytest.mark.asyncio
-    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
-    async def test_execute_agent_with_tools_tool_calls(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test _execute_agent_with_tools with tool calls."""
-        # Mock the tool context
-        tool_ctx = MagicMock()
-        tool_ctx.info = AsyncMock()
-        tool_ctx.error = AsyncMock()
-        tool_ctx.mcp_context = mcp_context
+    async def test_mcp_tool_adapter(self, tool_helper, mcp_context, mock_tools):
+        """Test MCPToolAdapter wraps MCP tools correctly."""
+        from hanzo_mcp.tools.agent.agent_tool import MCPToolAdapter
 
-        # Set up one of the mock tools
+        # Create adapter
         mock_tool = mock_tools[0]
-        mock_tool.call = AsyncMock(return_value="Tool result")
+        adapter = MCPToolAdapter(mock_tool, mcp_context)
 
-        # Create a tool call
-        mock_tool_call = MagicMock()
-        mock_tool_call.id = "call_123"
-        mock_tool_call.function = MagicMock()
-        mock_tool_call.function.name = mock_tool.name
-        mock_tool_call.function.arguments = json.dumps({"param": "value"})
+        # Check properties
+        assert adapter.name == mock_tool.name
+        assert adapter.description == mock_tool.description
 
-        # First response with tool call
-        first_message = MagicMock()
-        first_message.content = None
-        first_message.tool_calls = [mock_tool_call]
-
-        first_choice = MagicMock()
-        first_choice.message = first_message
-
-        first_response = MagicMock()
-        first_response.choices = [first_choice]
-
-        # Second response with final result
-        second_message = MagicMock()
-        second_message.content = "Final result"
-        second_message.tool_calls = None
-
-        second_choice = MagicMock()
-        second_choice.message = second_message
-
-        second_response = MagicMock()
-        second_response.choices = [second_choice]
-
-        # Set test mode
-        os.environ["TEST_MODE"] = "1"
-        # Mock any complex dictionary or string processing by directly using the expected values in the test
-        with patch.object(json, "loads", return_value={"param": "value"}):
-            result = await agent_tool._execute_agent_with_tools(
-                "System prompt",
-                "User prompt",
-                mock_tools,
-                [{"type": "function", "function": {"name": mock_tool.name}}],  # openai_tools
-                tool_ctx,
-            )
-
-        assert result == "Final result"
-        mock_tool.call.assert_called_once()
-
-    @pytest.mark.asyncio
-    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
-    async def test_execute_multiple_agents(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test the _execute_multiple_agents method."""
-        # Mock the tool context
-        tool_ctx = MagicMock()
-        tool_ctx.info = AsyncMock()
-        tool_ctx.error = AsyncMock()
-        tool_ctx.mcp_context = mcp_context
-
-        # Create test prompts
-        test_prompts = ["Task 1 /home/test/path1", "Task 2 /home/test/path2"]
-
-        # Mock the necessary dependencies
-        with patch(
-            "hanzo_mcp.tools.agent.agent_tool.get_allowed_agent_tools",
-            return_value=mock_tools,
-        ):
-            with patch(
-                "hanzo_mcp.tools.agent.agent_tool.get_system_prompt",
-                return_value="System prompt",
-            ):
-                with patch(
-                    "hanzo_mcp.tools.agent.agent_tool.convert_tools_to_openai_functions",
-                    return_value=[],
-                ):
-                    with patch.object(
-                        agent_tool,
-                        "_execute_agent_with_tools",
-                        side_effect=["Result 1", "Result 2"],
-                    ):
-                        import asyncio
-
-                        with patch.object(
-                            asyncio,
-                            "gather",
-                            AsyncMock(return_value=["Result 1", "Result 2"]),
-                        ):
-                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
-
-        # Check the result format
-        tool_helper.assert_in_result("Agent 1 Result", result)
-        tool_helper.assert_in_result("Agent 2 Result", result)
-        tool_helper.assert_in_result("Result 1", result)
-        tool_helper.assert_in_result("Result 2", result)
-        assert "---" in result  # Check for the separator
-
-    @pytest.mark.asyncio
-    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
-    async def test_execute_multiple_agents_single_prompt(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test the _execute_multiple_agents method with a single prompt."""
-        # Mock the tool context
-        tool_ctx = MagicMock()
-        tool_ctx.info = AsyncMock()
-        tool_ctx.error = AsyncMock()
-        tool_ctx.mcp_context = mcp_context
-
-        # Create test prompts - just one
-        test_prompts = ["Single task /home/test/path"]
-
-        # Mock the necessary dependencies
-        with patch(
-            "hanzo_mcp.tools.agent.agent_tool.get_allowed_agent_tools",
-            return_value=mock_tools,
-        ):
-            with patch(
-                "hanzo_mcp.tools.agent.agent_tool.get_system_prompt",
-                return_value="System prompt",
-            ):
-                with patch(
-                    "hanzo_mcp.tools.agent.agent_tool.convert_tools_to_openai_functions",
-                    return_value=[],
-                ):
-                    with patch.object(
-                        agent_tool,
-                        "_execute_agent_with_tools",
-                        AsyncMock(return_value="Single result"),
-                    ):
-                        import asyncio
-
-                        with patch.object(asyncio, "gather", AsyncMock(return_value=["Single result"])):
-                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
-
-        # Check that the single result is returned directly without agent prefix or separator
-        assert result == "Single result"
-        assert "Agent 1" not in result
-        assert "---" not in result
-
-    @pytest.mark.asyncio
-    @pytest.mark.skip(reason="Method _execute_agent_with_tools no longer exists in current implementation")
-    async def test_execute_multiple_agents_with_exceptions(self, tool_helper, agent_tool, mcp_context, mock_tools):
-        """Test the _execute_multiple_agents method with exceptions."""
-        # Mock the tool context
-        tool_ctx = MagicMock()
-        tool_ctx.info = AsyncMock()
-        tool_ctx.error = AsyncMock()
-        tool_ctx.mcp_context = mcp_context
-
-        # Create test prompts
-        test_prompts = [
-            "Task 1 /home/test/path1",
-            "Task that fails /home/test/path2",
-            "Task 3 /home/test/path3",
-        ]
-
-        # Create a mix of results and exceptions
-        gather_results = ["Result 1", Exception("Task failed"), "Result 3"]
-
-        # Mock the necessary dependencies
-        with patch(
-            "hanzo_mcp.tools.agent.agent_tool.get_allowed_agent_tools",
-            return_value=mock_tools,
-        ):
-            with patch(
-                "hanzo_mcp.tools.agent.agent_tool.get_system_prompt",
-                return_value="System prompt",
-            ):
-                with patch(
-                    "hanzo_mcp.tools.agent.agent_tool.convert_tools_to_openai_functions",
-                    return_value=[],
-                ):
-                    with patch.object(
-                        agent_tool,
-                        "_execute_agent_with_tools",
-                        side_effect=["Result 1", "Result 2", "Result 3"],
-                    ):
-                        import asyncio
-
-                        with patch.object(asyncio, "gather", AsyncMock(return_value=gather_results)):
-                            result = await agent_tool._execute_multiple_agents(test_prompts, tool_ctx)
-
-        # Check the result format
-        tool_helper.assert_in_result("Agent 1 Result", result)
-        tool_helper.assert_in_result("Agent 2 Error", result)
-        tool_helper.assert_in_result("Task failed", result)
-        tool_helper.assert_in_result("Agent 3 Result", result)
-        tool_helper.assert_in_result("Result 1", result)
-        tool_helper.assert_in_result("Result 3", result)
+        # Check handle method exists (required by Tool ABC)
+        assert hasattr(adapter, "handle")
+        assert callable(adapter.handle)

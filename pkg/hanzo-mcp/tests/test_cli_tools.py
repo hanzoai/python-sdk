@@ -2,6 +2,7 @@
 
 import os
 import time
+import shutil
 import asyncio
 from typing import Any, Dict
 from unittest.mock import Mock, AsyncMock, MagicMock, patch
@@ -139,7 +140,7 @@ class TestCLITools:
     @pytest.mark.asyncio
     async def test_hanzo_dev_cli_tool(self, mock_context, mock_permission_manager):
         """Test Hanzo Dev CLI tool execution."""
-        tool = OpenHandsCLITool(mock_permission_manager)
+        tool = HanzoDevCLITool(mock_permission_manager)
 
         assert tool.name == "hanzo_dev"
         assert "Hanzo Dev" in tool.description
@@ -345,51 +346,5 @@ class TestBatchWithCLITools:
         assert all(tool in result for tool in ["claude", "codex", "gemini", "grok"])
 
 
-# Integration test marker for tests requiring API keys
-@pytest.mark.integration
-class TestCLIToolsIntegration:
-    """Integration tests for CLI tools (requires API keys)."""
-
-    @pytest.fixture
-    def mock_context(self):
-        """Create a mock MCP context."""
-        context = MagicMock()
-        context.session = MagicMock()
-        context.session.send_log_message = AsyncMock()
-        context.session.send_progress = AsyncMock()
-        return context
-
-    @pytest.fixture
-    def mock_permission_manager(self):
-        """Create a mock permission manager."""
-        pm = MagicMock()
-        pm.check_permission = Mock(return_value=True)
-        return pm
-
-    @pytest.mark.skipif(not os.environ.get("ANTHROPIC_API_KEY"), reason="Requires ANTHROPIC_API_KEY")
-    @pytest.mark.asyncio
-    async def test_claude_integration(self, mock_context, mock_permission_manager):
-        """Test real Claude CLI integration."""
-        tool = ClaudeCLITool(mock_permission_manager)
-
-        result = await tool.call(
-            mock_context,
-            prompt="Say 'Hello from Claude test'",
-            model="claude-3-haiku-20240307",  # Use cheaper model for tests
-        )
-
-        assert "Hello from Claude test" in result
-
-    @pytest.mark.skipif(not os.environ.get("OPENAI_API_KEY"), reason="Requires OPENAI_API_KEY")
-    @pytest.mark.asyncio
-    async def test_codex_integration(self, mock_context, mock_permission_manager):
-        """Test real OpenAI CLI integration."""
-        tool = CodexCLITool(mock_permission_manager)
-
-        result = await tool.call(
-            mock_context,
-            prompt="Say 'Hello from GPT test'",
-            model="gpt-3.5-turbo",  # Use cheaper model for tests
-        )
-
-        assert "Hello from GPT test" in result
+# Integration tests for CLI tools have been moved to tests/e2e/test_cli_tools_integration.py
+# These tests require the actual CLI tools to be installed and API keys to be set

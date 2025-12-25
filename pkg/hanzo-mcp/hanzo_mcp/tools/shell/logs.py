@@ -166,7 +166,7 @@ Use run_command with 'tail -f' for continuous monitoring.
                 return "Error: Must specify --id or --file"
 
             # Check permissions
-            if not self.permission_manager.has_permission(str(log_path)):
+            if not self.permission_manager.is_path_allowed(str(log_path)):
                 return f"Permission denied: {log_path}"
 
             # Check if file exists (async)

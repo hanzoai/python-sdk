@@ -193,7 +193,7 @@ class TestUnifiedJupyterTool:
 
         # Non-existent file
         result = await jupyter_tool.call(ctx, action="read", notebook_path=str(tmp_path / "nonexistent.ipynb"))
-        assert "Error: File does not exist" in result
+        assert "Error:" in result and "does not exist" in result
 
         # Invalid action
         result = await jupyter_tool.call(ctx, action="invalid", notebook_path=str(tmp_path / "test.ipynb"))

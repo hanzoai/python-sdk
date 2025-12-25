@@ -200,7 +200,7 @@ class DatabaseManager:
         project_path = os.path.abspath(project_path)
 
         # Check permissions
-        if not self.permission_manager.has_permission(project_path):
+        if not self.permission_manager.is_path_allowed(project_path):
             raise PermissionError(f"No permission to access: {project_path}")
 
         # Create database if not exists

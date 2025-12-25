@@ -16,7 +16,7 @@ class TestCLI:
     def test_main_server_run(self) -> None:
         """Test the main function running the server."""
         with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
-            "hanzo_mcp.cli.HanzoMCPServer"
+            "hanzo_mcp.server.HanzoMCPServer"
         ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
@@ -38,8 +38,16 @@ class TestCLI:
             mock_args.host = "127.0.0.1"
             mock_args.port = 3000
             mock_args.project_paths = None
-            mock_args.command_timeout = 120.0
+            mock_args.command_timeout = "120s"
             mock_args.dev = False
+            mock_args.force_shell = None
+            mock_args.daemon = False
+            mock_args.socket_path = "/tmp/hanzo-mcp.sock"
+            mock_args.max_connections = 100
+            mock_args.tool_timeout = None
+            mock_args.search_timeout = None
+            mock_args.find_timeout = None
+            mock_args.ast_timeout = None
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -88,6 +96,16 @@ class TestCLI:
             mock_args.log_level = "INFO"
             mock_args.host = "127.0.0.1"
             mock_args.port = 3000
+            mock_args.command_timeout = "120s"
+            mock_args.dev = False
+            mock_args.force_shell = None
+            mock_args.daemon = False
+            mock_args.socket_path = "/tmp/hanzo-mcp.sock"
+            mock_args.max_connections = 100
+            mock_args.tool_timeout = None
+            mock_args.search_timeout = None
+            mock_args.find_timeout = None
+            mock_args.ast_timeout = None
             mock_parse_args.return_value = mock_args
 
             # Call main
@@ -106,8 +124,8 @@ class TestCLI:
     def test_main_without_allowed_paths(self) -> None:
         """Test the main function without specified allowed paths."""
         with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
-            "hanzo_mcp.cli.HanzoMCPServer"
-        ) as mock_server_class, patch("os.getcwd", return_value="/current/dir"):
+            "hanzo_mcp.server.HanzoMCPServer"
+        ) as mock_server_class, patch("os.path.expanduser", return_value="/home/testuser"):
             # Mock parsed arguments
             mock_args = MagicMock()
             mock_args.name = "test-server"
@@ -128,8 +146,16 @@ class TestCLI:
             mock_args.host = "127.0.0.1"
             mock_args.port = 3000
             mock_args.project_paths = None
-            mock_args.command_timeout = 120.0
+            mock_args.command_timeout = "120s"
             mock_args.dev = False
+            mock_args.force_shell = None
+            mock_args.daemon = False
+            mock_args.socket_path = "/tmp/hanzo-mcp.sock"
+            mock_args.max_connections = 100
+            mock_args.tool_timeout = None
+            mock_args.search_timeout = None
+            mock_args.find_timeout = None
+            mock_args.ast_timeout = None
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -139,10 +165,10 @@ class TestCLI:
             # Call main
             main()
 
-            # Verify server was created with current directory as allowed path
+            # Verify server was created with home directory as allowed path
             mock_server_class.assert_called_once_with(
                 name="test-server",
-                allowed_paths=["/current/dir"],
+                allowed_paths=["/home/testuser"],
                 project_paths=[],
                 project_dir=None,
                 agent_model=None,
@@ -163,7 +189,7 @@ class TestCLI:
     def test_main_with_disable_write_tools(self) -> None:
         """Test the main function with disable_write_tools=True."""
         with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
-            "hanzo_mcp.cli.HanzoMCPServer"
+            "hanzo_mcp.server.HanzoMCPServer"
         ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
@@ -185,8 +211,16 @@ class TestCLI:
             mock_args.host = "127.0.0.1"
             mock_args.port = 3000
             mock_args.project_paths = None
-            mock_args.command_timeout = 120.0
+            mock_args.command_timeout = "120s"
             mock_args.dev = False
+            mock_args.force_shell = None
+            mock_args.daemon = False
+            mock_args.socket_path = "/tmp/hanzo-mcp.sock"
+            mock_args.max_connections = 100
+            mock_args.tool_timeout = None
+            mock_args.search_timeout = None
+            mock_args.find_timeout = None
+            mock_args.ast_timeout = None
             mock_parse_args.return_value = mock_args
 
             # Mock server instance
@@ -221,7 +255,7 @@ class TestCLI:
     def test_main_with_disable_search_tools(self) -> None:
         """Test the main function with disable_search_tools=True."""
         with patch("argparse.ArgumentParser.parse_args") as mock_parse_args, patch(
-            "hanzo_mcp.cli.HanzoMCPServer"
+            "hanzo_mcp.server.HanzoMCPServer"
         ) as mock_server_class:
             # Mock parsed arguments
             mock_args = MagicMock()
@@ -243,8 +277,16 @@ class TestCLI:
             mock_args.host = "127.0.0.1"
             mock_args.port = 3000
             mock_args.project_paths = None
-            mock_args.command_timeout = 120.0
+            mock_args.command_timeout = "120s"
             mock_args.dev = False
+            mock_args.force_shell = None
+            mock_args.daemon = False
+            mock_args.socket_path = "/tmp/hanzo-mcp.sock"
+            mock_args.max_connections = 100
+            mock_args.tool_timeout = None
+            mock_args.search_timeout = None
+            mock_args.find_timeout = None
+            mock_args.ast_timeout = None
             mock_parse_args.return_value = mock_args
 
             # Mock server instance

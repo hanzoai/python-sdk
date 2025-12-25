@@ -388,11 +388,9 @@ class BaseScriptTool(BaseProcessTool):
         cmd_args = [self.get_interpreter()]
         cmd_args.extend(self.get_script_flags())
 
-        # For inline scripts, use -c flag
-        if not kwargs.get("is_file", False):
-            cmd_args.extend(["-c", command])
-        else:
-            cmd_args.append(command)
+        # For inline scripts, the -c flag is already added by get_script_flags()
+        # Just append the command (or script file path)
+        cmd_args.append(command)
 
         return cmd_args
 
