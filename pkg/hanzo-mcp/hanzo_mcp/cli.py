@@ -200,6 +200,14 @@ def main() -> None:
     )
 
     _ = parser.add_argument(
+        "--force-shell",
+        dest="force_shell",
+        choices=["bash", "zsh", "sh"],
+        default=None,
+        help="Force all shell tools (bash, zsh, shell) to use this shell (default: use requested shell)",
+    )
+
+    _ = parser.add_argument(
         "--disable-write-tools",
         dest="disable_write_tools",
         action="store_true",
@@ -306,6 +314,10 @@ def main() -> None:
     if hasattr(args, "ast_timeout") and args.ast_timeout:
         ast_timeout = _parse_timeout_arg(args.ast_timeout)
         os.environ["HANZO_MCP_AST_TIMEOUT"] = str(ast_timeout)
+
+    # Set force shell environment variable
+    if hasattr(args, "force_shell") and args.force_shell:
+        os.environ["HANZO_MCP_FORCE_SHELL"] = args.force_shell
 
     # Cast args attributes to appropriate types to avoid 'Any' warnings
     name: str = cast(str, args.name)
