@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from hanzo_mcp.tools.shell.bash_tool import BashTool
+from hanzo_mcp.tools.shell.zsh_tool import ShellTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.base_process import ProcessManager
 from hanzo_mcp.tools.shell.process_tool import ProcessTool
@@ -36,6 +37,14 @@ def bash_tool(permission_manager):
 
 
 @pytest.fixture
+def shell_tool(permission_manager):
+    """Create a shell tool instance (smart shell detection)."""
+    tool = ShellTool()
+    tool.permission_manager = permission_manager
+    return tool
+
+
+@pytest.fixture
 def process_tool():
     """Create a process tool instance."""
     return ProcessTool()
@@ -44,60 +53,61 @@ def process_tool():
 class TestShellDetection:
     """Test shell detection functionality."""
 
-    def test_default_shell(self, tool_helper, bash_tool):
-        """Test default shell is bash."""
+    def test_bash_tool_always_uses_bash(self, tool_helper, bash_tool):
+        """Test BashTool always uses bash interpreter."""
         with patch.dict(os.environ, {}, clear=True):
             interpreter = bash_tool.get_interpreter()
             assert interpreter == "bash"
+            assert bash_tool.get_tool_name() == "bash"
 
-    def test_zsh_detection_with_zshrc(self, tool_helper, bash_tool, tmp_path):
-        """Test zsh is detected when .zshrc exists."""
+    def test_shell_tool_detects_zsh_with_zshrc(self, tool_helper, tmp_path):
+        """Test ShellTool detects zsh when .zshrc exists."""
         # Create fake .zshrc
         fake_home = tmp_path / "home"
         fake_home.mkdir()
         zshrc = fake_home / ".zshrc"
         zshrc.touch()
 
-        with patch.dict(os.environ, {"SHELL": "/bin/zsh"}):
+        with patch.dict(os.environ, {"SHELL": "/bin/zsh"}, clear=True):
             with patch("pathlib.Path.home", return_value=fake_home):
-                interpreter = bash_tool.get_interpreter()
-                assert interpreter == "/bin/zsh"
+                with patch("shutil.which", return_value="/bin/zsh"):
+                    tool = ShellTool()
+                    assert tool._best_shell == "zsh"
 
-    def test_zsh_fallback_to_bash(self, tool_helper, bash_tool, tmp_path):
-        """Test fallback to bash when zsh set but no .zshrc."""
+    def test_shell_tool_uses_user_shell_without_zshrc(self, tool_helper, tmp_path):
+        """Test ShellTool uses $SHELL when zsh not available or no .zshrc."""
         fake_home = tmp_path / "home"
         fake_home.mkdir()
 
-        with patch.dict(os.environ, {"SHELL": "/bin/zsh"}):
+        with patch.dict(os.environ, {"SHELL": "/bin/bash"}, clear=True):
             with patch("pathlib.Path.home", return_value=fake_home):
-                interpreter = bash_tool.get_interpreter()
-                assert interpreter == "bash"
+                with patch("shutil.which", return_value=None):  # No zsh
+                    with patch("pathlib.Path.exists", return_value=True):  # /bin/bash exists
+                        tool = ShellTool()
+                        assert tool._best_shell == "/bin/bash"
 
-    def test_fish_detection_with_config(self, tool_helper, bash_tool, tmp_path):
-        """Test fish is detected when config exists."""
-        # Create fake fish config
+    def test_shell_tool_fallback_to_bash(self, tool_helper, tmp_path):
+        """Test ShellTool falls back to bash when no other shell available."""
         fake_home = tmp_path / "home"
         fake_home.mkdir()
-        fish_config_dir = fake_home / ".config" / "fish"
-        fish_config_dir.mkdir(parents=True)
-        fish_config = fish_config_dir / "config.fish"
-        fish_config.touch()
 
-        with patch.dict(os.environ, {"SHELL": "/usr/bin/fish"}):
+        with patch.dict(os.environ, {}, clear=True):
             with patch("pathlib.Path.home", return_value=fake_home):
-                interpreter = bash_tool.get_interpreter()
-                assert interpreter == "/usr/bin/fish"
+                with patch("shutil.which", return_value=None):  # No zsh
+                    tool = ShellTool()
+                    assert tool._best_shell == "bash"
 
-    def test_tool_name_reflects_shell(self, tool_helper, bash_tool):
-        """Test tool name reflects the actual shell being used."""
-        with patch.object(bash_tool, "get_interpreter", return_value="/bin/zsh"):
-            assert bash_tool.get_tool_name() == "zsh"
+    def test_force_shell_override(self, tool_helper, bash_tool):
+        """Test HANZO_MCP_FORCE_SHELL overrides shell detection."""
+        with patch.dict(os.environ, {"HANZO_MCP_FORCE_SHELL": "/bin/zsh"}):
+            interpreter = bash_tool.get_interpreter()
+            assert interpreter == "/bin/zsh"
 
-        with patch.object(bash_tool, "get_interpreter", return_value="/usr/bin/fish"):
-            assert bash_tool.get_tool_name() == "fish"
-
-        with patch.object(bash_tool, "get_interpreter", return_value="bash"):
-            assert bash_tool.get_tool_name() == "bash"
+    def test_shell_tool_respects_force_shell(self, tool_helper):
+        """Test ShellTool respects HANZO_MCP_FORCE_SHELL override."""
+        with patch.dict(os.environ, {"HANZO_MCP_FORCE_SHELL": "/usr/bin/fish"}):
+            tool = ShellTool()
+            assert tool._best_shell == "/usr/bin/fish"
 
 
 class TestAutoBackgrounding:
@@ -241,18 +251,12 @@ class TestIntegration:
     @pytest.mark.asyncio
     async def test_shell_specific_commands(self, tool_helper, bash_tool, mock_ctx):
         """Test shell-specific command execution."""
-        # Test with different shells
-        shells = [
-            ("bash", "echo $BASH_VERSION"),
-            ("zsh", "echo $ZSH_VERSION"),
-            ("fish", "echo $FISH_VERSION"),
-        ]
+        # BashTool always reports "bash" regardless of interpreter
+        assert bash_tool.get_tool_name() == "bash"
 
-        for shell_name, _command in shells:
-            with patch.object(bash_tool, "get_interpreter", return_value=f"/bin/{shell_name}"):
-                # This would execute the command with the specific shell
-                tool_name = bash_tool.get_tool_name()
-                assert tool_name == shell_name
+        # ShellTool reports "shell"
+        shell_tool = ShellTool()
+        assert shell_tool.get_tool_name() == "shell"
 
 
 @pytest.mark.asyncio

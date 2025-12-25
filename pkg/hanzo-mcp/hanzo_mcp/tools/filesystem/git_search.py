@@ -191,7 +191,7 @@ Examples:
         abs_path = os.path.abspath(path)
 
         # Check permissions
-        if not self.permission_manager.has_permission(abs_path):
+        if not self.permission_manager.is_path_allowed(abs_path):
             return f"Permission denied: {abs_path}"
 
         # Check if it's a git repository
