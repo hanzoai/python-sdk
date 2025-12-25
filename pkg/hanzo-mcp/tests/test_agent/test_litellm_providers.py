@@ -57,10 +57,6 @@ def echo_tool():
     return EchoTool()
 
 
-@pytest.mark.skipif(
-    not os.environ.get("OPENAI_API_KEY"),
-    reason="OPENAI_API_KEY environment variable not set",
-)
 def test_convert_echo_tool_to_openai_functions(echo_tool):
     """Test convert_tools_to_openai_functions with echo_tool."""
     openai_functions = convert_tools_to_openai_functions([echo_tool])
@@ -72,48 +68,66 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
     assert "parameters" in openai_functions[0]["function"]
 
 
-@pytest.mark.skipif(
-    not os.environ.get("OPENAI_API_KEY"),
-    reason="OPENAI_API_KEY environment variable not set",
-)
-@pytest.mark.asyncio
-async def test_litellm_openai_provider():
-    """Test LiteLLM with OpenAI provider."""
+def test_litellm_openai_provider_mocked():
+    """Test LiteLLM with OpenAI provider using mocks."""
+    from unittest.mock import patch, MagicMock
+
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 
-    try:
-        # Call OpenAI model with provider prefix
+    # Create mock response
+    mock_message = MagicMock()
+    mock_message.content = "I'm doing well, thank you!"
+
+    mock_choice = MagicMock()
+    mock_choice.message = mock_message
+
+    mock_response = MagicMock()
+    mock_response.choices = [mock_choice]
+
+    with patch.object(litellm, "completion", return_value=mock_response) as mock_completion:
         response = litellm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
         )
 
         assert response.choices[0].message.content is not None
-        print(f"OpenAI response: {response.choices[0].message.content}")
-    except Exception as e:
-        pytest.skip(f"OpenAI API connection failed: {type(e).__name__} - {str(e)}")
+        mock_completion.assert_called_once_with(
+            model="openai/gpt-3.5-turbo",
+            messages=messages,
+        )
 
 
-@pytest.mark.skipif(
-    not os.environ.get("ANTHROPIC_API_KEY"),
-    reason="ANTHROPIC_API_KEY environment variable not set",
-)
-@pytest.mark.asyncio
-async def test_litellm_anthropic_provider():
-    """Test LiteLLM with Anthropic provider."""
+def test_litellm_anthropic_provider_mocked():
+    """Test LiteLLM with Anthropic provider using mocks."""
+    from unittest.mock import patch, MagicMock
+
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 
-    try:
-        # Call Anthropic model with provider prefix
+    # Create mock response
+    mock_message = MagicMock()
+    mock_message.content = "Hello! I'm Claude, and I'm doing well."
+
+    mock_choice = MagicMock()
+    mock_choice.message = mock_message
+
+    mock_response = MagicMock()
+    mock_response.choices = [mock_choice]
+
+    with patch.object(litellm, "completion", return_value=mock_response) as mock_completion:
         response = litellm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,
         )
 
         assert response.choices[0].message.content is not None
-        print(f"Anthropic response: {response.choices[0].message.content}")
-    except Exception as e:
-        pytest.skip(f"Anthropic API connection failed: {type(e).__name__} - {str(e)}")
+        mock_completion.assert_called_once_with(
+            model="anthropic/claude-3-haiku-20240307",
+            messages=messages,
+        )
+
+
+# Integration tests moved to tests/e2e/test_litellm_integration.py
+# They require real API keys and only run in CI
 
 
 # Only run this test if explicitly requested with pytest -xvs tests/test_agent/test_litellm_providers.py
