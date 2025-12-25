@@ -172,7 +172,7 @@ For database search, use 'sql_search' or 'vector_search'.
 
         # Validate path
         search_path = os.path.abspath(search_path)
-        if not self.permission_manager.has_permission(search_path):
+        if not self.permission_manager.is_path_allowed(search_path):
             return f"Error: No permission to access {search_path}"
 
         if not os.path.exists(search_path):

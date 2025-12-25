@@ -233,7 +233,7 @@ Examples:
         abs_working_dir = os.path.abspath(working_dir)
 
         # Check permissions
-        if not self.permission_manager.has_permission(abs_working_dir):
+        if not self.permission_manager.is_path_allowed(abs_working_dir):
             return f"Permission denied: {abs_working_dir}"
 
         # Check if working directory exists
