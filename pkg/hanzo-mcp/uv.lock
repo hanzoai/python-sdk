@@ -1232,7 +1232,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.9.21"
+version = "0.9.23"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
