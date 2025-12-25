@@ -14,6 +14,8 @@ from typing import Any, Tuple, Callable, Optional
 from pathlib import Path
 from collections.abc import Awaitable
 
+import aiofiles
+
 from mcp.server.fastmcp import Context as MCPContext
 
 from .timeout_parser import parse_timeout, format_timeout
@@ -81,6 +83,8 @@ class MCPToolTimeoutManager:
     ) -> None:
         """Execute tool in background and log results.
 
+        Uses aiofiles for non-blocking file I/O.
+
         Args:
             tool_func: The tool function to execute
             tool_name: Name of the tool
@@ -90,34 +94,34 @@ class MCPToolTimeoutManager:
             **params: Tool parameters
         """
         try:
-            # Log start
-            with open(log_file, "a") as f:
-                f.write(f"=== Background execution started for {tool_name} ===\\n")
-                f.write(f"Parameters: {json.dumps(params, indent=2, default=str)}\\n")
-                f.write(f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n\\n")
+            # Log start (async)
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"=== Background execution started for {tool_name} ===\n")
+                await f.write(f"Parameters: {json.dumps(params, indent=2, default=str)}\n")
+                await f.write(f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             # Execute the tool
             result = await tool_func(ctx, **params)
 
-            # Log completion
-            with open(log_file, "a") as f:
-                f.write(f"\\n\\n=== Tool execution completed ===\\n")
-                f.write(f"Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n")
-                f.write(f"Result length: {len(str(result))} characters\\n")
-                f.write("\\n=== RESULT ===\\n")
-                f.write(str(result))
-                f.write("\\n=== END RESULT ===\\n")
+            # Log completion (async)
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n\n=== Tool execution completed ===\n")
+                await f.write(f"Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                await f.write(f"Result length: {len(str(result))} characters\n")
+                await f.write("\n=== RESULT ===\n")
+                await f.write(str(result))
+                await f.write("\n=== END RESULT ===\n")
 
             # Mark as completed
             self.process_manager.mark_completed(process_id, 0)
 
         except Exception as e:
-            # Log error
-            with open(log_file, "a") as f:
-                f.write(f"\\n\\n=== Tool execution failed ===\\n")
-                f.write(f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n")
-                f.write(f"Error: {str(e)}\\n")
-                f.write(f"Error type: {type(e).__name__}\\n")
+            # Log error (async)
+            async with aiofiles.open(log_file, "a") as f:
+                await f.write(f"\n\n=== Tool execution failed ===\n")
+                await f.write(f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                await f.write(f"Error: {str(e)}\n")
+                await f.write(f"Error type: {type(e).__name__}\n")
 
             self.process_manager.mark_completed(process_id, 1)
 
@@ -170,7 +174,7 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
             except asyncio.TimeoutError:
                 # Tool timed out - background it
                 process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
-                log_file = timeout_manager.process_manager.create_log_file(process_id)
+                log_file = await timeout_manager.process_manager.create_log_file(process_id)
 
                 # Start background execution (need to reconstruct the call)
                 async def background_call():
@@ -188,11 +192,11 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 # Return backgrounding message
                 timeout_formatted = format_timeout(tool_timeout)
                 return (
-                    f"Operation automatically backgrounded after {timeout_formatted}\\n"
-                    f"Process ID: {process_id}\\n"
-                    f"Log file: {log_file}\\n\\n"
-                    f"Use 'process --action logs --id {process_id}' to view results\\n"
-                    f"Use 'process --action kill --id {process_id}' to cancel\\n\\n"
+                    f"Operation automatically backgrounded after {timeout_formatted}\n"
+                    f"Process ID: {process_id}\n"
+                    f"Log file: {log_file}\n\n"
+                    f"Use 'process --action logs --id {process_id}' to view results\n"
+                    f"Use 'process --action kill --id {process_id}' to cancel\n\n"
                     f"The {tool_name} operation is continuing in the background..."
                 )
 
