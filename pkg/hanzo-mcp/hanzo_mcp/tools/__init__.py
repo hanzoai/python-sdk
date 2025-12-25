@@ -374,6 +374,10 @@ def register_all_tools(
         all_tools[tool.name] = tool
 
     # Register system tools (always enabled)
+    # Version tool
+    from hanzo_mcp.tools.common.version_tool import register_version_tool
+    register_version_tool(mcp_server)
+
     # Tool enable/disable tools
     tool_enable = ToolEnableTool()
     tool_enable.register(mcp_server)
