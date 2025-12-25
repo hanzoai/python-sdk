@@ -1003,9 +1003,10 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.9.10"
+version = "0.9.15"
 source = { editable = "." }
 dependencies = [
+    { name = "aiofiles" },
     { name = "bashlex" },
     { name = "fastmcp" },
     { name = "ffind" },
@@ -1074,6 +1075,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
+    { name = "aiofiles", specifier = ">=24.1.0" },
     { name = "bashlex", specifier = ">=0.18" },
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.3.0" },
     { name = "build", marker = "extra == 'publish'", specifier = ">=1.0.3" },
