@@ -1,8 +1,14 @@
-"""Tool for viewing process logs."""
+"""Tool for viewing process logs.
 
+All blocking file I/O operations use aiofiles for async reads and
+asyncio.to_thread() for Path operations.
+"""
+
+import asyncio
 from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
+import aiofiles
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
@@ -163,25 +169,27 @@ Use run_command with 'tail -f' for continuous monitoring.
             if not self.permission_manager.has_permission(str(log_path)):
                 return f"Permission denied: {log_path}"
 
-            # Check if file exists
-            if not log_path.exists():
+            # Check if file exists (async)
+            file_exists = await asyncio.to_thread(log_path.exists)
+            if not file_exists:
                 return f"Log file not found: {log_path}"
 
             # Note about follow mode
             if follow:
                 await tool_ctx.warning("Follow mode not supported in MCP. Showing latest lines instead.")
 
-            # Read log file
+            # Read log file (async)
             await tool_ctx.info(f"Reading log file: {log_path}")
 
             try:
-                with open(log_path, "r") as f:
+                async with aiofiles.open(log_path, "r") as f:
                     if lines == -1:
-                        # Read entire file
-                        content = f.read()
+                        # Read entire file asynchronously
+                        content = await f.read()
                     else:
-                        # Read last N lines
-                        all_lines = f.readlines()
+                        # Read last N lines asynchronously
+                        full_content = await f.read()
+                        all_lines = full_content.splitlines(keepends=True)
                         if len(all_lines) <= lines:
                             content = "".join(all_lines)
                         else:
@@ -214,17 +222,26 @@ Use run_command with 'tail -f' for continuous monitoring.
         """List all available log files."""
         await tool_ctx.info("Listing available log files")
 
-        if not self.log_dir.exists():
+        # Check if log directory exists (async)
+        dir_exists = await asyncio.to_thread(self.log_dir.exists)
+        if not dir_exists:
             return "No logs directory found."
 
-        # Get all log files
-        log_files = list(self.log_dir.glob("*.log"))
+        # Get all log files (async)
+        log_files = await asyncio.to_thread(lambda: list(self.log_dir.glob("*.log")))
 
         if not log_files:
             return "No log files found."
 
+        # Get stat info for sorting (async - batch all stat calls)
+        async def get_file_stat(f: Path) -> tuple[Path, float, int]:
+            stat_info = await asyncio.to_thread(f.stat)
+            return (f, stat_info.st_mtime, stat_info.st_size)
+
+        file_stats = await asyncio.gather(*[get_file_stat(f) for f in log_files])
+
         # Sort by modification time (newest first)
-        log_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
+        file_stats.sort(key=lambda x: x[1], reverse=True)
 
         # Check which logs belong to active processes
         active_processes = RunBackgroundTool.get_processes()
@@ -234,8 +251,7 @@ Use run_command with 'tail -f' for continuous monitoring.
         output = []
         output.append("=== Available Log Files ===\n")
 
-        for log_file in log_files[:50]:  # Limit to 50 most recent
-            size = log_file.stat().st_size
+        for log_file, _, size in file_stats[:50]:  # Limit to 50 most recent
             size_str = self._format_size(size)
 
             # Check if this belongs to an active process

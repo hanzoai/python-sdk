@@ -2,6 +2,9 @@
 
 This module provides tools for executing shell commands and scripts with
 comprehensive error handling, permissions checking, and progress tracking.
+
+All blocking file I/O and system calls use asyncio.to_thread() for
+non-blocking execution.
 """
 
 import os
@@ -13,6 +16,9 @@ import shutil
 import asyncio
 import tempfile
 from typing import final
+
+import aiofiles
+import aiofiles.os
 from collections.abc import Callable, Awaitable
 
 from hanzo_mcp.tools.shell.base import CommandResult
@@ -48,7 +54,7 @@ class CommandExecutor:
             "fish": self._handle_fish_script,
         }
 
-    def _get_shell_by_type(self, shell_type: str) -> tuple[str, str]:
+    async def _get_shell_by_type(self, shell_type: str) -> tuple[str, str]:
         """Get shell information for a specified shell type.
 
         Args:
@@ -57,11 +63,12 @@ class CommandExecutor:
         Returns:
             Tuple of (shell_basename, shell_path)
         """
-        shell_path = shutil.which(shell_type)
+        # Run shutil.which in thread pool to avoid blocking
+        shell_path = await asyncio.to_thread(shutil.which, shell_type)
         if shell_path is None:
             # Shell not found, fall back to default
             self._log(f"Requested shell '{shell_type}' not found, using system default")
-            return self._get_system_shell()
+            return await self._get_system_shell()
 
         if sys.platform == "win32":
             shell_path = shell_path.lower()
@@ -69,7 +76,7 @@ class CommandExecutor:
         shell_basename = os.path.basename(shell_path).lower()
         return shell_basename, shell_path
 
-    def _get_system_shell(self, shell_type: str | None = None) -> tuple[str, str]:
+    async def _get_system_shell(self, shell_type: str | None = None) -> tuple[str, str]:
         """Get the system's default shell based on the platform.
 
         Args:
@@ -80,7 +87,7 @@ class CommandExecutor:
         """
         # If a specific shell is requested, use that
         if shell_type is not None:
-            return self._get_shell_by_type(shell_type)
+            return await self._get_shell_by_type(shell_type)
 
         # Otherwise use system default
         if sys.platform == "win32":
@@ -265,8 +272,8 @@ class CommandExecutor:
             command_env.update(env)
 
         try:
-            # Get shell information
-            shell_basename, user_shell = self._get_system_shell(shell_type)
+            # Get shell information (async to avoid blocking on shutil.which)
+            shell_basename, user_shell = await self._get_system_shell(shell_type)
 
             if sys.platform == "win32":
                 # On Windows, always use shell execution
@@ -439,8 +446,8 @@ class CommandExecutor:
             command_env.update(env)
 
         try:
-            # Get shell information
-            shell_basename, user_shell = self._get_system_shell(shell_type)
+            # Get shell information (async to avoid blocking on shutil.which)
+            shell_basename, user_shell = await self._get_system_shell(shell_type)
 
             if sys.platform == "win32":
                 # On Windows, always use shell
@@ -628,8 +635,8 @@ class CommandExecutor:
         language_info = language_map[language]
         extension = language_info["extension"]
 
-        # Get interpreter command with full path if possible
-        command, language_args = self._get_interpreter_path(language, shell_type)
+        # Get interpreter command with full path if possible (async to avoid blocking)
+        command, language_args = await self._get_interpreter_path(language, shell_type)
 
         self._log(f"Interpreter path: {command} :: {language_args}")
 
@@ -638,10 +645,14 @@ class CommandExecutor:
         if env:
             command_env.update(env)
 
-        # Create a temporary file for the script
-        with tempfile.NamedTemporaryFile(suffix=extension, mode="w", delete=False) as temp:
-            temp_path = temp.name
-            _ = temp.write(script)  # Explicitly ignore the return value
+        # Create a temporary file for the script (async to avoid blocking I/O)
+        def _create_temp_file_sync() -> str:
+            """Create temp file synchronously - called via to_thread."""
+            with tempfile.NamedTemporaryFile(suffix=extension, mode="w", delete=False) as temp:
+                temp.write(script)
+                return temp.name
+
+        temp_path = await asyncio.to_thread(_create_temp_file_sync)
 
         try:
             # Normalize path for the current OS
@@ -649,8 +660,8 @@ class CommandExecutor:
             original_temp_path = temp_path
 
             if sys.platform == "win32":
-                # Windows always uses shell
-                shell_basename, user_shell = self._get_system_shell(shell_type)
+                # Windows always uses shell (async to avoid blocking on shutil.which)
+                shell_basename, user_shell = await self._get_system_shell(shell_type)
 
                 # Convert Windows path to WSL path if using WSL
                 if shell_basename in ["wsl", "wsl.exe"]:
@@ -688,8 +699,8 @@ class CommandExecutor:
             else:
                 # Unix systems - original logic
                 if use_login_shell:
-                    # Get the user's login shell
-                    shell_basename, user_shell = self._get_system_shell(shell_type)
+                    # Get the user's login shell (async to avoid blocking on shutil.which)
+                    shell_basename, user_shell = await self._get_system_shell(shell_type)
 
                     # Build the command including args
                     cmd = f"{command} {temp_path}"
@@ -752,9 +763,9 @@ class CommandExecutor:
             self._log(f"Script file execution error: {str(e)}")
             return CommandResult(return_code=1, error_message=f"Error executing script: {str(e)}")
         finally:
-            # Clean up temporary file
+            # Clean up temporary file (async to avoid blocking)
             try:
-                os.unlink(original_temp_path)
+                await aiofiles.os.unlink(original_temp_path)
             except Exception as e:
                 self._log(f"Error cleaning up temporary file: {str(e)}")
 
@@ -817,11 +828,13 @@ class CommandExecutor:
             },
         }
 
-    def _get_interpreter_path(self, language: str, shell_type: str | None = None) -> tuple[str, list[str]]:
+    async def _get_interpreter_path(self, language: str, shell_type: str | None = None) -> tuple[str, list[str]]:
         """Get the full path to the interpreter for the given language.
 
         Attempts to find the full path to the interpreter command, but only for
         Windows shell types (cmd, powershell). For WSL, just returns the command name.
+
+        Uses asyncio.to_thread for shutil.which calls to avoid blocking.
 
         Args:
             language: The language name (e.g., "python", "javascript")
@@ -856,15 +869,15 @@ class CommandExecutor:
             not shell_type or shell_type.lower() in ["cmd", "powershell", "cmd.exe", "powershell.exe"]
         ):
             try:
-                # Try to find the full path to the command
-                full_path = shutil.which(command)
+                # Try to find the full path to the command (async to avoid blocking)
+                full_path = await asyncio.to_thread(shutil.which, command)
                 if full_path:
                     self._log(f"Found full path for {language} interpreter: {full_path}")
                     return full_path, args
 
                 # If primary command not found, try alternatives
                 for alt_command in alternatives:
-                    alt_path = shutil.which(alt_command)
+                    alt_path = await asyncio.to_thread(shutil.which, alt_command)
                     if alt_path:
                         self._log(f"Found alternative path for {language} interpreter: {alt_path}")
                         return alt_path, args

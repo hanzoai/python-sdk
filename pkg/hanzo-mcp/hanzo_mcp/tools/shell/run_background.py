@@ -1,4 +1,23 @@
-"""Background process execution tool."""
+"""Background process execution tool.
+
+DEPRECATED: This module uses blocking subprocess.Popen operations.
+For new code, use the async implementations in:
+- hanzo_mcp.tools.shell.base_process.BaseProcessTool
+- hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor
+
+These provide non-blocking process execution using asyncio.create_subprocess_exec.
+This module is maintained for backwards compatibility only.
+"""
+
+import warnings
+
+# Emit deprecation warning on import
+warnings.warn(
+    "run_background.py uses blocking subprocess.Popen. "
+    "Consider using base_process.BaseProcessTool for async execution.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 import os
 import uuid
