@@ -4,6 +4,7 @@ import uuid
 from typing import (
     Any,
     Dict,
+    List,
     Unpack,
     Optional,
     Annotated,
@@ -16,8 +17,11 @@ from datetime import datetime
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.todo.base import TodoBaseTool
+from hanzo_mcp.tools.todo.base import TodoBaseTool, TodoStorage
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
+# Default session ID for the unified todo tool
+DEFAULT_SESSION_ID = "default-session"
 
 # Parameter types
 Action = Annotated[
@@ -83,6 +87,14 @@ class TodoParams(TypedDict, total=False):
 @final
 class TodoTool(TodoBaseTool):
     """Unified todo management tool."""
+
+    def read_todos(self) -> list[Dict[str, Any]]:
+        """Read todos from storage using default session."""
+        return TodoStorage.get_todos(DEFAULT_SESSION_ID)
+
+    def write_todos(self, todos: list[Dict[str, Any]]) -> None:
+        """Write todos to storage using default session."""
+        TodoStorage.set_todos(DEFAULT_SESSION_ID, todos)
 
     @property
     @override
