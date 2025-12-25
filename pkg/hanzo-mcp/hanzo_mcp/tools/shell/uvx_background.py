@@ -1,4 +1,23 @@
-"""Run Python packages in background with uvx."""
+"""Run Python packages in background with uvx.
+
+DEPRECATED: This module uses blocking subprocess.Popen and subprocess.run.
+For new code, use the async implementations in:
+- hanzo_mcp.tools.shell.uvx_tool.UvxTool (based on BaseBinaryTool)
+
+This provides non-blocking process execution using asyncio.create_subprocess_exec
+with automatic backgrounding for long-running processes.
+This module is maintained for backwards compatibility only.
+"""
+
+import warnings
+
+# Emit deprecation warning on import
+warnings.warn(
+    "uvx_background.py uses blocking subprocess. "
+    "Consider using uvx_tool.UvxTool for async execution.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 import uuid
 import shutil

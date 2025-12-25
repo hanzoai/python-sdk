@@ -1,6 +1,9 @@
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
-"""Streaming command execution with disk-based logging and session management."""
+"""Streaming command execution with disk-based logging and session management.
+
+All file I/O uses aiofiles for non-blocking operations.
+"""
 
 import os
 import json
@@ -8,10 +11,12 @@ import time
 import uuid
 import shutil
 import asyncio
-import subprocess
 from typing import Any, Dict, List, Union, Optional
 from pathlib import Path
 from datetime import datetime, timedelta
+
+import aiofiles
+import aiofiles.os
 
 from hanzo_mcp.tools.shell.base_process import BaseProcessTool
 
@@ -261,7 +266,7 @@ class StreamingCommandTool(BaseProcessTool):
         error_file = cmd_dir / "error.log"
         metadata_file = cmd_dir / "metadata.json"
 
-        # Save metadata
+        # Save metadata (async to avoid blocking)
         metadata = {
             "command_id": cmd_id,
             "command": command,
@@ -271,8 +276,8 @@ class StreamingCommandTool(BaseProcessTool):
             "status": "running",
         }
 
-        with open(metadata_file, "w") as f:
-            json.dump(metadata, f, indent=2)
+        async with aiofiles.open(metadata_file, "w") as f:
+            await f.write(json.dumps(metadata, indent=2))
 
         # Start process with output redirection
         try:
@@ -285,14 +290,14 @@ class StreamingCommandTool(BaseProcessTool):
 
             # Create tasks for streaming stdout and stderr to files
             async def stream_to_file(stream, file_path):
-                """Stream from async pipe to file."""
-                with open(file_path, "wb") as f:
+                """Stream from async pipe to file using aiofiles."""
+                async with aiofiles.open(file_path, "wb") as f:
                     while True:
                         chunk = await stream.read(8192)
                         if not chunk:
                             break
-                        f.write(chunk)
-                        f.flush()  # Ensure immediate write
+                        await f.write(chunk)
+                        await f.flush()  # Ensure immediate write
 
             # Start streaming tasks
             stdout_task = asyncio.create_task(stream_to_file(process.stdout, output_file))
@@ -307,17 +312,23 @@ class StreamingCommandTool(BaseProcessTool):
                     break
                 await asyncio.sleep(0.1)
 
-            # Read initial chunk
+            # Read initial chunk (async to avoid blocking)
             output_content = ""
             error_content = ""
 
-            if output_file.exists() and output_file.stat().st_size > 0:
-                with open(output_file, "r", errors="replace") as f:
-                    output_content = f.read(chunk_size)
+            output_exists = await asyncio.to_thread(output_file.exists)
+            if output_exists:
+                output_size = await asyncio.to_thread(lambda: output_file.stat().st_size)
+                if output_size > 0:
+                    async with aiofiles.open(output_file, "r", errors="replace") as f:
+                        output_content = await f.read(chunk_size)
 
-            if error_file.exists() and error_file.stat().st_size > 0:
-                with open(error_file, "r", errors="replace") as f:
-                    error_content = f.read(1000)  # Just first 1KB of errors
+            error_exists = await asyncio.to_thread(error_file.exists)
+            if error_exists:
+                error_size = await asyncio.to_thread(lambda: error_file.stat().st_size)
+                if error_size > 0:
+                    async with aiofiles.open(error_file, "r", errors="replace") as f:
+                        error_content = await f.read(1000)  # Just first 1KB of errors
 
             # Check if process completed quickly
             try:
@@ -328,14 +339,14 @@ class StreamingCommandTool(BaseProcessTool):
                 exit_code = None
                 status = "running"
 
-            # Update metadata
+            # Update metadata (async to avoid blocking)
             metadata["status"] = status
             if exit_code is not None:
                 metadata["exit_code"] = exit_code
                 metadata["end_time"] = datetime.now().isoformat()
 
-            with open(metadata_file, "w") as f:
-                json.dump(metadata, f, indent=2)
+            async with aiofiles.open(metadata_file, "w") as f:
+                await f.write(json.dumps(metadata, indent=2))
 
             # Build response
             result = {
@@ -354,8 +365,8 @@ class StreamingCommandTool(BaseProcessTool):
             if exit_code is not None:
                 result["exit_code"] = exit_code
 
-            # Add continuation info if more output available
-            total_size = output_file.stat().st_size
+            # Add continuation info if more output available (async stat)
+            total_size = await asyncio.to_thread(lambda: output_file.stat().st_size)
             if total_size > len(output_content) or status == "running":
                 result["has_more"] = True
                 result["total_bytes"] = total_size
@@ -377,13 +388,13 @@ class StreamingCommandTool(BaseProcessTool):
             return result
 
         except Exception as e:
-            # Update metadata with error
+            # Update metadata with error (async to avoid blocking)
             metadata["status"] = "error"
             metadata["error"] = str(e)
             metadata["end_time"] = datetime.now().isoformat()
 
-            with open(metadata_file, "w") as f:
-                json.dump(metadata, f, indent=2)
+            async with aiofiles.open(metadata_file, "w") as f:
+                await f.write(json.dumps(metadata, indent=2))
 
             return {
                 "error": str(e),
@@ -410,17 +421,20 @@ class StreamingCommandTool(BaseProcessTool):
             }
 
         cmd_dir = self.commands_dir / cmd_id
-        if not cmd_dir.exists():
+        cmd_dir_exists = await asyncio.to_thread(cmd_dir.exists)
+        if not cmd_dir_exists:
             return {"error": f"Command directory not found: {cmd_id}"}
 
-        # Load metadata
+        # Load metadata (async to avoid blocking)
         metadata_file = cmd_dir / "metadata.json"
-        with open(metadata_file, "r") as f:
-            metadata = json.load(f)
+        async with aiofiles.open(metadata_file, "r") as f:
+            content = await f.read()
+            metadata = json.loads(content)
 
         # Determine start position
         output_file = cmd_dir / "output.log"
-        if not output_file.exists():
+        output_exists = await asyncio.to_thread(output_file.exists)
+        if not output_exists:
             return {"error": "No output file found"}
 
         # If no from_byte specified, read from where we left off
@@ -428,13 +442,14 @@ class StreamingCommandTool(BaseProcessTool):
             # Try to determine from previous reads (could track this)
             from_byte = 0  # For now, start from beginning if not specified
 
-        # Read chunk
+        # Read chunk (async to avoid blocking)
         try:
-            with open(output_file, "r", errors="replace") as f:
-                f.seek(from_byte)
-                content = f.read(chunk_size)
-                new_position = f.tell()
-                file_size = output_file.stat().st_size
+            async with aiofiles.open(output_file, "r", errors="replace") as f:
+                await f.seek(from_byte)
+                content = await f.read(chunk_size)
+            # Calculate new position based on bytes read
+            new_position = from_byte + len(content.encode("utf-8"))
+            file_size = await asyncio.to_thread(lambda: output_file.stat().st_size)
 
             # Check if process is still running
             status = metadata.get("status", "unknown")
@@ -452,11 +467,14 @@ class StreamingCommandTool(BaseProcessTool):
                 "total_bytes": file_size,
             }
 
-            # Add stderr if needed
+            # Add stderr if needed (async)
             error_file = cmd_dir / "error.log"
-            if error_file.exists() and error_file.stat().st_size > 0:
-                with open(error_file, "r", errors="replace") as f:
-                    result["stderr"] = f.read(1000)
+            error_exists = await asyncio.to_thread(error_file.exists)
+            if error_exists:
+                error_size = await asyncio.to_thread(lambda: error_file.stat().st_size)
+                if error_size > 0:
+                    async with aiofiles.open(error_file, "r", errors="replace") as f:
+                        result["stderr"] = await f.read(1000)
 
             # Add continuation info
             if new_position < file_size or status == "running":
@@ -477,18 +495,26 @@ class StreamingCommandTool(BaseProcessTool):
             return {"error": f"Error reading output: {str(e)}"}
 
     async def _get_recent_commands(self, limit: int = 5) -> List[Dict[str, Any]]:
-        """Get list of recent commands for hints."""
+        """Get list of recent commands for hints (async to avoid blocking)."""
         commands = []
 
-        for cmd_dir in sorted(self.commands_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)[:limit]:
+        # Get sorted directories asynchronously
+        def _get_sorted_dirs():
+            return sorted(self.commands_dir.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)[:limit]
+
+        cmd_dirs = await asyncio.to_thread(_get_sorted_dirs)
+
+        for cmd_dir in cmd_dirs:
             try:
-                with open(cmd_dir / "metadata.json", "r") as f:
-                    meta = json.load(f)
+                async with aiofiles.open(cmd_dir / "metadata.json", "r") as f:
+                    content = await f.read()
+                    meta = json.loads(content)
 
                 output_size = 0
                 output_file = cmd_dir / "output.log"
-                if output_file.exists():
-                    output_size = output_file.stat().st_size
+                output_exists = await asyncio.to_thread(output_file.exists)
+                if output_exists:
+                    output_size = await asyncio.to_thread(lambda: output_file.stat().st_size)
 
                 commands.append(
                     {
@@ -547,16 +573,17 @@ class StreamingCommandTool(BaseProcessTool):
             return {"error": "No output file found"}
 
         try:
-            # Use tail command for efficiency
-            result = subprocess.run(
-                ["tail", "-n", str(lines or 20), str(output_file)],
-                capture_output=True,
-                text=True,
+            # Use tail command for efficiency (async to avoid blocking)
+            process = await asyncio.create_subprocess_exec(
+                "tail", "-n", str(lines or 20), str(output_file),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
             )
+            stdout, stderr = await process.communicate()
 
             return {
                 "command_id": cmd_id[:8],
-                "output": result.stdout,
+                "output": stdout.decode("utf-8", errors="replace"),
                 "lines": lines,
             }
         except Exception as e:
