@@ -1,5 +1,10 @@
-"""Tool for listing running background processes."""
+"""Tool for listing running background processes.
 
+All blocking operations (psutil calls, file I/O) are wrapped in
+asyncio.to_thread() to avoid blocking the event loop.
+"""
+
+import asyncio
 from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from datetime import datetime
 
@@ -118,11 +123,17 @@ Examples:
             if show_all:
                 # Show all system processes
                 await tool_ctx.info("Listing all system processes")
-                return self._list_system_processes(filter_name, show_details)
+                # Run in thread pool to avoid blocking event loop
+                return await asyncio.to_thread(
+                    self._list_system_processes, filter_name, show_details
+                )
             else:
                 # Show only background processes
                 await tool_ctx.info("Listing background processes")
-                return self._list_background_processes(filter_name, show_details)
+                # Run in thread pool to avoid blocking event loop
+                return await asyncio.to_thread(
+                    self._list_background_processes, filter_name, show_details
+                )
 
         except Exception as e:
             await tool_ctx.error(f"Failed to list processes: {str(e)}")
@@ -172,8 +183,10 @@ Examples:
             if show_details and process.is_running:
                 try:
                     # Get process details using psutil
+                    # Use interval=None for non-blocking CPU measurement
+                    # (returns average since last call or process start)
                     p = psutil.Process(process.pid)
-                    output.append(f"CPU: {p.cpu_percent(interval=0.1):.1f}%")
+                    output.append(f"CPU: {p.cpu_percent(interval=None):.1f}%")
                     output.append(f"Memory: {p.memory_info().rss / 1024 / 1024:.1f} MB")
                     output.append(f"Threads: {p.num_threads()}")
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
@@ -222,7 +235,8 @@ Examples:
                     }
 
                     if show_details:
-                        process_info["cpu"] = proc.cpu_percent(interval=0.1)
+                        # Use interval=None for non-blocking CPU measurement
+                        process_info["cpu"] = proc.cpu_percent(interval=None)
                         process_info["memory"] = proc.memory_info().rss / 1024 / 1024  # MB
 
                     processes.append(process_info)

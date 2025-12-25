@@ -1,4 +1,23 @@
-"""Run Node.js packages in background with npx."""
+"""Run Node.js packages in background with npx.
+
+DEPRECATED: This module uses blocking subprocess.Popen operations.
+For new code, use the async implementations in:
+- hanzo_mcp.tools.shell.npx_tool.NpxTool (based on BaseBinaryTool)
+
+This provides non-blocking process execution using asyncio.create_subprocess_exec
+with automatic backgrounding for long-running processes.
+This module is maintained for backwards compatibility only.
+"""
+
+import warnings
+
+# Emit deprecation warning on import
+warnings.warn(
+    "npx_background.py uses blocking subprocess.Popen. "
+    "Consider using npx_tool.NpxTool for async execution.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 import uuid
 import shutil
