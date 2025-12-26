@@ -88,6 +88,40 @@ except ImportError:
             self.content = content
             self.metadata = metadata or {}
 
+    # Stub CLI agent classes
+    class GrokAgent(Agent):
+        """Stub GrokAgent class when hanzo-agents is not available."""
+
+        pass
+
+    class GeminiAgent(Agent):
+        """Stub GeminiAgent class when hanzo-agents is not available."""
+
+        pass
+
+    class ClaudeCodeAgent(Agent):
+        """Stub ClaudeCodeAgent class when hanzo-agents is not available."""
+
+        pass
+
+    class OpenAICodexAgent(Agent):
+        """Stub OpenAICodexAgent class when hanzo-agents is not available."""
+
+        pass
+
+    # Stub functions
+    def create_memory_kv(*args, **kwargs):
+        """Stub create_memory_kv when hanzo-agents is not available."""
+        return None
+
+    def create_memory_vector(*args, **kwargs):
+        """Stub create_memory_vector when hanzo-agents is not available."""
+        return None
+
+    def sequential_router(*args, **kwargs):
+        """Stub sequential_router when hanzo-agents is not available."""
+        return None
+
 
 from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
 from hanzo_mcp.tools.filesystem import Edit, MultiEdit, get_read_only_filesystem_tools
