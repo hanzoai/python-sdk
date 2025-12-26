@@ -1,7 +1,7 @@
 """Run Node.js packages with npx."""
 
 import shutil
-import subprocess
+import asyncio
 from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
 from pydantic import Field
@@ -161,26 +161,37 @@ Or download from: https://nodejs.org/"""
         await tool_ctx.info(f"Running: {' '.join(cmd)}")
 
         try:
-            # Execute command
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=True)
+            # Execute command asynchronously
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
+            except asyncio.TimeoutError:
+                process.kill()
+                await process.wait()
+                return f"Error: Command timed out after {timeout} seconds. Use npx_background for long-running processes."
 
-            output = []
-            if result.stdout:
-                output.append(result.stdout)
-            if result.stderr:
-                output.append(f"\nSTDERR:\n{result.stderr}")
+            stdout_text = stdout.decode() if stdout else ""
+            stderr_text = stderr.decode() if stderr else ""
 
-            return "\n".join(output) if output else "Command completed successfully with no output."
+            if process.returncode == 0:
+                output = []
+                if stdout_text:
+                    output.append(stdout_text)
+                if stderr_text:
+                    output.append(f"\nSTDERR:\n{stderr_text}")
+                return "\n".join(output) if output else "Command completed successfully with no output."
+            else:
+                error_msg = [f"Error: Command failed with exit code {process.returncode}"]
+                if stdout_text:
+                    error_msg.append(f"\nSTDOUT:\n{stdout_text}")
+                if stderr_text:
+                    error_msg.append(f"\nSTDERR:\n{stderr_text}")
+                return "\n".join(error_msg)
 
-        except subprocess.TimeoutExpired:
-            return f"Error: Command timed out after {timeout} seconds. Use npx_background for long-running processes."
-        except subprocess.CalledProcessError as e:
-            error_msg = [f"Error: Command failed with exit code {e.returncode}"]
-            if e.stdout:
-                error_msg.append(f"\nSTDOUT:\n{e.stdout}")
-            if e.stderr:
-                error_msg.append(f"\nSTDERR:\n{e.stderr}")
-            return "\n".join(error_msg)
         except Exception as e:
             await tool_ctx.error(f"Unexpected error: {str(e)}")
             return f"Error running npx: {str(e)}"
