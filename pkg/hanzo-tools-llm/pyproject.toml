@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-llm"
-version = "0.1.0"
+version = "0.2.0"
 description = "LLM tools for Hanzo AI - model management, consensus, providers"
 requires-python = ">=3.12"
 license = { text = "MIT" }
