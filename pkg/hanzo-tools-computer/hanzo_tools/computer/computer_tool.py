@@ -22,7 +22,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Annotated, Any, Literal, final, override
+from typing import Annotated, Any, Literal, Optional, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -72,12 +72,14 @@ class ComputerTool(BaseTool):
 
     name = "computer"
 
-    def __init__(self, permission_manager: PermissionManager):
+    def __init__(self, permission_manager: Optional[PermissionManager] = None):
         """Initialize the computer tool.
 
         Args:
-            permission_manager: Permission manager for access control
+            permission_manager: Permission manager for access control (auto-created if None)
         """
+        if permission_manager is None:
+            permission_manager = PermissionManager()
         self.permission_manager = permission_manager
         self._pyautogui = None
         self._pil = None
