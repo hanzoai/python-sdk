@@ -1,6 +1,6 @@
 """Edit tool - find and replace in files."""
 
-from typing import Annotated
+from typing import Optional,  Annotated
 from pathlib import Path
 
 from pydantic import Field
@@ -29,7 +29,7 @@ Returns:
     Success message with diff or error
 """
 
-    def __init__(self, permission_manager: PermissionManager):
+    def __init__(self, permission_manager: Optional[PermissionManager] = None):
         super().__init__(permission_manager)
 
     @auto_timeout("edit")

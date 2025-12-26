@@ -97,37 +97,51 @@ class PersonalityRegistry:
         cls._active_personality = None
 
 
-# Essential tools that are always available
-ESSENTIAL_TOOLS = ["read", "write", "edit", "tree", "bash", "think"]
+# Essential tools that are always available in every mode
+ESSENTIAL_TOOLS = [
+    # File operations
+    "read", "write", "edit", "tree",
+    # Shell
+    "dag", "zsh",
+    # Reasoning
+    "think", "critic",
+    # LLM infrastructure (always available)
+    "llm", "consensus",
+    # Configuration
+    "config", "mode",
+]
 
 # Common tool sets for reuse
-UNIX_TOOLS = ["grep", "find_files", "bash", "process", "diff"]
-BUILD_TOOLS = ["bash", "npx", "uvx", "process"]
-VERSION_CONTROL = ["git_search", "diff"]
-AI_TOOLS = ["agent", "consensus", "critic", "think"]
-SEARCH_TOOLS = ["search", "symbols", "grep", "git_search"]
+UNIX_TOOLS = ["search", "find", "dag", "ps", "zsh"]
+BUILD_TOOLS = ["dag", "npx", "uvx", "ps"]
+VERSION_CONTROL = ["search", "git_search"]
+AI_TOOLS = ["agent", "consensus", "critic", "think", "llm"]
+SEARCH_TOOLS = ["search", "ast", "find", "git_search"]
 DATABASE_TOOLS = ["sql_query", "sql_search", "graph_add", "graph_query"]
 VECTOR_TOOLS = ["vector_index", "vector_search"]
 
 
 def register_default_personalities() -> None:
-    """Register personalities from hanzo-persona package.
-    
-    Falls back to minimal built-in personalities if hanzo-persona is not available.
+    """Register personalities from hanzo-persona package and builtin personalities.
+
+    Always registers builtin personalities (hanzo, minimal, fullstack, devops, security)
+    and optionally loads additional personas from hanzo-persona package.
     """
+    # Always register builtin personalities first
+    _register_builtin_personalities()
+
+    # Then load additional personas from hanzo-persona if available
     try:
         from hanzo_mcp.tools.common.persona_adapter import load_personas_from_package
         loaded = load_personas_from_package()
         if loaded > 0:
-            return
+            import logging
+            logging.getLogger(__name__).debug(f"Loaded {loaded} personas from hanzo-persona package")
     except ImportError:
         pass
     except Exception as e:
         import logging
         logging.getLogger(__name__).warning(f"Failed to load personas from package: {e}")
-    
-    # Fallback: register minimal built-in personalities
-    _register_builtin_personalities()
 
 
 def _register_builtin_personalities() -> None:
@@ -138,10 +152,10 @@ def _register_builtin_personalities() -> None:
             programmer="Hanzo AI Default",
             description="Balanced productivity and quality",
             philosophy="The Zen of Model Context Protocol.",
-            tools=ESSENTIAL_TOOLS + [
-                "agent", "consensus", "critic", "todo", "rules",
-                "symbols", "search", "git_search", "watch", "jupyter",
-            ] + BUILD_TOOLS,
+            tools=list(set(ESSENTIAL_TOOLS + [
+                "agent", "todo", "rules", "browser",
+                "search", "find", "ast", "jupyter", "refactor", "lsp",
+            ] + BUILD_TOOLS)),
             environment={"HANZO_MODE": "zen"},
         ),
         ToolPersonality(
@@ -149,7 +163,7 @@ def _register_builtin_personalities() -> None:
             programmer="Minimalist",
             description="Just the essentials",
             philosophy="Less is more.",
-            tools=ESSENTIAL_TOOLS,
+            tools=list(set(ESSENTIAL_TOOLS)),
             environment={"MINIMAL_MODE": "true"},
         ),
         ToolPersonality(
@@ -158,9 +172,9 @@ def _register_builtin_personalities() -> None:
             description="Every tool for every job",
             philosophy="Jack of all trades, master of... well, all trades.",
             tools=list(set(
-                ESSENTIAL_TOOLS + AI_TOOLS + SEARCH_TOOLS + 
+                ESSENTIAL_TOOLS + AI_TOOLS + SEARCH_TOOLS +
                 DATABASE_TOOLS + BUILD_TOOLS + UNIX_TOOLS + VECTOR_TOOLS +
-                ["todo", "rules", "watch", "jupyter", "neovim_edit", "mcp", "consensus"]
+                ["todo", "rules", "browser", "jupyter", "neovim_edit", "mcp", "refactor", "lsp"]
             )),
             environment={"ALL_TOOLS": "enabled"},
         ),
@@ -169,7 +183,7 @@ def _register_builtin_personalities() -> None:
             programmer="DevOps Engineer",
             description="Automate everything",
             philosophy="You build it, you run it.",
-            tools=ESSENTIAL_TOOLS + BUILD_TOOLS + ["process", "watch", "todo"] + UNIX_TOOLS,
+            tools=list(set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["todo", "browser"])),
             environment={"CI_CD": "enabled"},
             cli_tools=[
                 CLIToolDef("docker", "docker", "Docker container management"),
@@ -185,7 +199,7 @@ def _register_builtin_personalities() -> None:
             programmer="Security Researcher",
             description="Break it to secure it",
             philosophy="The only secure system is one that's powered off.",
-            tools=ESSENTIAL_TOOLS + ["critic", "symbols", "git_search"] + UNIX_TOOLS,
+            tools=list(set(ESSENTIAL_TOOLS + UNIX_TOOLS + ["browser", "ast"])),
             environment={"SECURITY_MODE": "paranoid"},
         ),
     ]
