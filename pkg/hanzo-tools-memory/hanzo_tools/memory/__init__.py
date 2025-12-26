@@ -15,7 +15,6 @@ Provides a unified `memory` tool for all memory and knowledge operations:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-from hanzo_tools.memory.unified_memory_tool import UnifiedMemoryTool
 
 # Legacy imports for backwards compatibility
 from hanzo_tools.memory.memory_tools import (
@@ -33,6 +32,7 @@ from hanzo_tools.memory.knowledge_tools import (
     SummarizeToMemoryTool,
     ManageKnowledgeBasesTool,
 )
+from hanzo_tools.memory.unified_memory_tool import UnifiedMemoryTool
 
 __all__ = [
     # Primary unified tool

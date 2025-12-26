@@ -267,12 +267,13 @@ class CodeAuthManager:
         # Check if claude command exists
         try:
             process = await asyncio.create_subprocess_exec(
-                "which", "claude",
+                "which",
+                "claude",
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL,
             )
             await asyncio.wait_for(process.wait(), timeout=5)
-            
+
             if process.returncode == 0:
                 # Claude command exists, update its config
                 claude_config = Path.home() / ".claude" / "config.json"
@@ -296,9 +297,10 @@ class CodeAuthManager:
         """Update claude command configuration if needed (sync wrapper)."""
         # Use sync check for existence, skip if not found
         import shutil
+
         if not shutil.which("claude"):
             return
-        
+
         claude_config = Path.home() / ".claude" / "config.json"
         if claude_config.exists():
             try:
