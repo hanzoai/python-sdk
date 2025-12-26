@@ -4,7 +4,7 @@ import os
 import tempfile
 
 import pytest
-from hanzo_mcp.tools.refactor import RefactorTool, create_refactor_tool
+from hanzo_tools.refactor import RefactorTool, create_refactor_tool
 
 
 class TestRefactorTool:

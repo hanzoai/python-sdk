@@ -11,7 +11,7 @@ import asyncio
 from typing import Set, Dict, List
 from pathlib import Path
 
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

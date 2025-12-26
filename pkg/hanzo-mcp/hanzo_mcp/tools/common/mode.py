@@ -6,8 +6,9 @@ from dataclasses import dataclass
 
 from hanzo_mcp.tools.common.personality import (
     ToolPersonality,
-    personalities,
+    PersonalityRegistry,
     ensure_agent_enabled,
+    register_default_personalities,
 )
 
 
@@ -60,6 +61,23 @@ class ModeRegistry:
             for key, value in mode.environment.items():
                 os.environ[key] = value
 
+        # Create CLI tools for this mode
+        if mode.cli_tools:
+            try:
+                from hanzo_mcp.tools.common.cli_tool_factory import CLIToolFactory
+                factory = CLIToolFactory.get_instance()
+                for cli_tool in mode.cli_tools:
+                    # Only create if not already exists
+                    if cli_tool.name not in [t["name"] for t in factory.list()]:
+                        factory.create(
+                            name=cli_tool.name,
+                            command=cli_tool.command,
+                            description=cli_tool.description,
+                            timeout=cli_tool.timeout,
+                        )
+            except ImportError:
+                pass  # CLI factory not available
+
     @classmethod
     def get_active(cls) -> Optional[Mode]:
         """Get the active mode."""
@@ -75,11 +93,20 @@ class ModeRegistry:
             return set(mode.tools)
         return set()
 
+    @classmethod
+    def clear(cls) -> None:
+        """Clear all modes (for testing/reload)."""
+        cls._modes = {}
+        cls._active_mode = None
+
 
 def register_default_modes():
-    """Register all default development modes."""
+    """Register all default development modes from personalities."""
+    # First ensure personalities are loaded
+    register_default_personalities()
+    
     # Convert personalities to modes
-    for personality in personalities:
+    for personality in PersonalityRegistry.list():
         mode = Mode(
             name=personality.name,
             programmer=personality.programmer,
@@ -87,6 +114,15 @@ def register_default_modes():
             tools=personality.tools,
             environment=personality.environment,
             philosophy=personality.philosophy,
+            cli_tools=personality.cli_tools,
+            category=personality.category,
+            ocean=personality.ocean,
+            behavioral_traits=personality.behavioral_traits,
+            cognitive_style=personality.cognitive_style,
+            social_dynamics=personality.social_dynamics,
+            communication_patterns=personality.communication_patterns,
+            work_methodology=personality.work_methodology,
+            emotional_profile=personality.emotional_profile,
         )
         ModeRegistry.register(mode)
 

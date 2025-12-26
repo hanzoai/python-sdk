@@ -29,15 +29,15 @@ with warnings.catch_warnings():
 from pydantic import Field
 from openai.types.chat import ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
-from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
-from hanzo_mcp.tools.filesystem import get_read_only_filesystem_tools
-from hanzo_mcp.tools.common.context import (
+from hanzo_tools.jupyter import get_read_only_jupyter_tools
+from hanzo_tools.filesystem import get_read_only_filesystem_tools
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
     ToolContext,
     create_tool_context,
+    auto_timeout,
 )
-from hanzo_mcp.tools.common.batch_tool import BatchTool
-
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout
 
 from .prompt import (
     get_default_model,
@@ -185,7 +185,6 @@ class AgentTool(BaseTool):
         self.available_tools: list[BaseTool] = []
         self.available_tools.extend(get_read_only_filesystem_tools(self.permission_manager))
         self.available_tools.extend(get_read_only_jupyter_tools(self.permission_manager))
-        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @property
     @override

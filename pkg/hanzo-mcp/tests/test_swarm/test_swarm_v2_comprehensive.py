@@ -21,7 +21,7 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from mcp.server.fastmcp import Context as MCPContext
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -379,7 +379,7 @@ Detailed Results:
         ):
             with patch.dict(
                 "sys.modules",
-                {"hanzo_mcp.tools.agent.swarm_tool": Mock(SwarmTool=mock_original_class)},
+                {"hanzo_tools.agent.swarm_tool": Mock(SwarmTool=mock_original_class)},
             ):
                 with patch.dict(os.environ, {"MOCK_HANZO_AGENTS": "true"}):
                     result = await swarm.call(

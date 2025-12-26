@@ -6,8 +6,8 @@ Claude Code CLI and OpenAI Codex, allowing separate accounts for swarm agents.
 
 import os
 import json
+import asyncio
 import getpass
-import subprocess
 from typing import Any, Dict, List, Tuple, Optional
 from pathlib import Path
 from dataclasses import dataclass
@@ -262,12 +262,18 @@ class CodeAuthManager:
                 os.environ[env_var] = self._env_backup[env_var]
                 del self._env_backup[env_var]
 
-    def _update_claude_command(self, account_info: Dict[str, Any]):
-        """Update claude command configuration if needed."""
+    async def _update_claude_command_async(self, account_info: Dict[str, Any]):
+        """Update claude command configuration if needed (async)."""
         # Check if claude command exists
         try:
-            result = subprocess.run(["which", "claude"], capture_output=True, text=True, timeout=5)
-            if result.returncode == 0:
+            process = await asyncio.create_subprocess_exec(
+                "which", "claude",
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            await asyncio.wait_for(process.wait(), timeout=5)
+            
+            if process.returncode == 0:
                 # Claude command exists, update its config
                 claude_config = Path.home() / ".claude" / "config.json"
                 if claude_config.exists():
@@ -285,6 +291,28 @@ class CodeAuthManager:
                         pass
         except Exception:
             pass
+
+    def _update_claude_command(self, account_info: Dict[str, Any]):
+        """Update claude command configuration if needed (sync wrapper)."""
+        # Use sync check for existence, skip if not found
+        import shutil
+        if not shutil.which("claude"):
+            return
+        
+        claude_config = Path.home() / ".claude" / "config.json"
+        if claude_config.exists():
+            try:
+                with open(claude_config, "r") as f:
+                    config = json.load(f)
+
+                # Update model if specified
+                if account_info.get("model"):
+                    config["default_model"] = account_info["model"]
+
+                with open(claude_config, "w") as f:
+                    json.dump(config, f, indent=2)
+            except Exception:
+                pass
 
     def switch_account(self, account: str) -> Tuple[bool, str]:
         """Switch to a different account."""

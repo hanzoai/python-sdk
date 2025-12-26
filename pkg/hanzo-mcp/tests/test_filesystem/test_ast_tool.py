@@ -1,7 +1,7 @@
 """Tests for the Symbols tool."""
 
 import pytest
-from hanzo_mcp.tools.filesystem.ast_tool import ASTTool as SymbolsTool
+from hanzo_tools.filesystem import ASTTool as SymbolsTool
 
 
 def test_symbols_simple():
