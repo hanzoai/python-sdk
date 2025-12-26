@@ -16,26 +16,26 @@ Convenience tools:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
-
-# Base classes
-from hanzo_tools.shell.base_process import (
-    ProcessManager,
-    AutoBackgroundExecutor,
-    BaseProcessTool,
-    BaseBinaryTool,
-    BaseScriptTool,
-)
-from hanzo_tools.shell.truncate import truncate_response, truncate_lines, estimate_tokens
+from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
 # Core tools
 from hanzo_tools.shell.dag_tool import DagTool, create_dag_tool
-from hanzo_tools.shell.ps_tool import PsTool, ps_tool
-from hanzo_tools.shell.zsh_tool import ZshTool, zsh_tool, ShellTool, shell_tool
+from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
+from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
+from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
+from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, zsh_tool, shell_tool
 
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
-from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
-from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
+
+# Base classes
+from hanzo_tools.shell.base_process import (
+    BaseBinaryTool,
+    BaseScriptTool,
+    ProcessManager,
+    BaseProcessTool,
+    AutoBackgroundExecutor,
+)
 
 # Tools list for entry point discovery
 TOOLS = [DagTool, PsTool, ZshTool, ShellTool, NpxTool, UvxTool, OpenTool]

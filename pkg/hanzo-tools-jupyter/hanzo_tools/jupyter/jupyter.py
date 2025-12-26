@@ -16,8 +16,9 @@ import nbformat
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from .base import JupyterBaseTool
 from hanzo_tools.core import auto_timeout
+
+from .base import JupyterBaseTool
 
 # Parameter types
 Action = Annotated[

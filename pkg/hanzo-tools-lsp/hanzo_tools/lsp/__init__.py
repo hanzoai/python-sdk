@@ -7,7 +7,6 @@ This package provides LSP-based code intelligence:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-
 from hanzo_tools.lsp.lsp_tool import LSPTool, create_lsp_tool
 
 __all__ = [

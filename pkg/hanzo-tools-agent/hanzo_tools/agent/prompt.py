@@ -7,8 +7,7 @@ including filtering tools based on permissions and formatting system instruction
 import os
 from typing import Any
 
-from hanzo_tools.core import BaseTool
-from hanzo_tools.core import PermissionManager
+from hanzo_tools.core import BaseTool, PermissionManager
 
 
 def get_allowed_agent_tools(

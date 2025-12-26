@@ -5,8 +5,8 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.shell.zsh_tool import ShellTool
+from hanzo_mcp.tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_mcp.tools.shell.base_process import ProcessManager
 from hanzo_mcp.tools.shell.process_tool import ProcessTool

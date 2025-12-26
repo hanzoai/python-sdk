@@ -7,14 +7,13 @@ Supports shared browser instance for low latency and cross-MCP sharing via CDP.
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-
 from hanzo_tools.browser.browser_tool import (
-    BrowserTool,
+    PLAYWRIGHT_AVAILABLE,
     BrowserPool,
+    BrowserTool,
+    browser_tool,
     create_browser_tool,
     launch_browser_server,
-    browser_tool,
-    PLAYWRIGHT_AVAILABLE,
 )
 
 # Tools list for entry point discovery

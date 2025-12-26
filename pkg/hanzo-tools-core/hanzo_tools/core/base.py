@@ -6,13 +6,13 @@ Provides the foundation for all tool implementations:
 - ToolRegistry: Central registry for tool management
 """
 
-import functools
 import inspect
 import logging
+import functools
 from abc import ABC, abstractmethod
 from typing import Any, Callable, ClassVar, final
-from collections.abc import Awaitable
 from pathlib import Path
+from collections.abc import Awaitable
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -240,5 +240,5 @@ class ToolRegistry:
 
 
 # Import PermissionManager type for type hints
-from hanzo_tools.core.permissions import PermissionManager
 from hanzo_tools.core.validation import ValidationResult
+from hanzo_tools.core.permissions import PermissionManager

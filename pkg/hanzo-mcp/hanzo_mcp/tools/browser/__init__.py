@@ -19,11 +19,11 @@ Cross-MCP sharing:
 """
 
 from hanzo_mcp.tools.browser.browser_tool import (
-    BrowserTool,
+    PLAYWRIGHT_AVAILABLE,
     BrowserPool,
+    BrowserTool,
     create_browser_tool,
     launch_browser_server,
-    PLAYWRIGHT_AVAILABLE,
 )
 
 __all__ = [

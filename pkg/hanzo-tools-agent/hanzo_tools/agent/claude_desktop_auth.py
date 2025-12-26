@@ -16,8 +16,7 @@ from typing import Any, Dict, Tuple, Optional
 from pathlib import Path
 from urllib.parse import parse_qs
 
-from hanzo_tools.core import BaseTool
-from hanzo_tools.core import create_tool_context
+from hanzo_tools.core import BaseTool, create_tool_context
 
 
 class ClaudeDesktopAuth:

@@ -8,10 +8,9 @@ from typing import Unpack, Optional, TypedDict, final, override
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool
-from hanzo_tools.core import create_tool_context
+from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
+
 from .code_auth import CodeAuthManager
-from hanzo_tools.core import auto_timeout
 
 
 class CodeAuthParams(TypedDict, total=False):

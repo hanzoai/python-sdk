@@ -9,8 +9,9 @@ from typing import List, Optional, final, override
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from .code_auth import get_latest_claude_model
 from hanzo_tools.core import PermissionManager
+
+from .code_auth import get_latest_claude_model
 from .cli_agent_base import CLIAgentBase
 
 

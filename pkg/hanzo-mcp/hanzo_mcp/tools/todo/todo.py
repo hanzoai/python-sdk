@@ -17,7 +17,7 @@ from datetime import datetime
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.todo.base import TodoBaseTool, TodoStorage
+from hanzo_mcp.tools.todo.base import TodoStorage, TodoBaseTool
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 # Default session ID for the unified todo tool

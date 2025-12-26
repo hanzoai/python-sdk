@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor
 
 from .index_config import IndexScope, IndexConfig
-
 from .infinity_store import SearchResult, InfinityVectorStore
 
 
