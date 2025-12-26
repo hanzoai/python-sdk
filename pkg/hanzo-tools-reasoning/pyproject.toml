@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-reasoning"
+version = "0.1.0"
+description = "Reasoning and critical analysis tools for Hanzo MCP"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "tools", "reasoning", "thinking", "critic", "mcp", "ai"]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.25.0",
+    "pydantic>=2.12.5",
+]
+
+[project.entry-points."hanzo.tools"]
+reasoning = "hanzo_tools.reasoning:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-shell"
+version = "0.1.0"
+description = "Shell/command execution tools - dag, ps, zsh, npx, uvx, open"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "tools", "shell", "mcp", "ai", "dag", "zsh"]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.25.0",
+    "pydantic>=2.12.5",
+    "aiofiles>=24.0.0",
+    "tiktoken>=0.8.0",
+]
+
+[project.entry-points."hanzo.tools"]
+shell = "hanzo_tools.shell:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
