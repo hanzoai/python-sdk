@@ -74,7 +74,38 @@ class EntryPointToolLoader:
         self.permission_manager = permission_manager
         self._discovered_packages: dict[str, Any] = {}
         self._loaded_tools: dict[str, "BaseTool"] = {}
-        
+
+    def _get_tool_name(self, tool_class: type) -> str:
+        """Extract tool name from class, handling @property decorators.
+
+        When 'name' is defined as a @property, we need to instantiate
+        the class to get the actual value.
+        """
+        # Check if name is a property in the class hierarchy
+        for klass in tool_class.__mro__:
+            if "name" in getattr(klass, "__dict__", {}):
+                attr = klass.__dict__["name"]
+                if isinstance(attr, property):
+                    # Need to instantiate to get property value
+                    try:
+                        instance = tool_class()
+                        name = getattr(instance, "name", None)
+                        if isinstance(name, str):
+                            return name
+                    except Exception:
+                        pass
+                    # Fall back to class name
+                    return tool_class.__name__.lower().replace("tool", "")
+                break
+
+        # Try class-level attribute
+        name = getattr(tool_class, "name", None)
+        if isinstance(name, str):
+            return name
+
+        # Fall back to class name
+        return tool_class.__name__.lower().replace("tool", "")
+
     def discover_packages(self) -> dict[str, list[str]]:
         """Discover installed hanzo-tools-* packages.
         
@@ -99,7 +130,7 @@ class EntryPointToolLoader:
                     if isinstance(tools_list, list):
                         tool_names = []
                         for tool_class in tools_list:
-                            name = getattr(tool_class, "name", None) or tool_class.__name__
+                            name = self._get_tool_name(tool_class)
                             tool_names.append(name)
                         
                         discovered[ep.name] = tool_names
@@ -141,8 +172,8 @@ class EntryPointToolLoader:
         enabled_tools = enabled_tools or {}
         
         for tool_class in tools_list:
-            tool_name = getattr(tool_class, "name", None) or tool_class.__name__
-            
+            tool_name = self._get_tool_name(tool_class)
+
             # Check if tool is enabled
             if not enabled_tools.get(tool_name, True):
                 logger.debug(f"Skipping disabled tool: {tool_name}")
