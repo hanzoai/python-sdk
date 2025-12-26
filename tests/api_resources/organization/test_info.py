@@ -15,9 +15,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestInfo:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_retrieve(self, client: Hanzo) -> None:
@@ -83,9 +81,7 @@ class TestInfo:
 
 
 class TestAsyncInfo:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
@@ -137,9 +133,7 @@ class TestAsyncInfo:
         assert_matches_type(object, info, path=["response"])
 
     @parametrize
-    async def test_streaming_response_deprecated(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_deprecated(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.info.with_streaming_response.deprecated(
             organizations=["string"],
         ) as response:

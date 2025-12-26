@@ -65,9 +65,7 @@ class MinimalDiscovery(Discovery):
         self.is_running = False
         print(f"MinimalDiscovery stopped for node {self.node_id}")
 
-    async def discover_peers(
-        self, wait_for_peers: int = 0
-    ) -> List[SimplifiedPeerHandle]:
+    async def discover_peers(self, wait_for_peers: int = 0) -> List[SimplifiedPeerHandle]:
         """Discover peers (returns empty list for now)."""
         # For testing, we don't actually discover peers
         # Real implementation would use UDP broadcast, mDNS, etc.

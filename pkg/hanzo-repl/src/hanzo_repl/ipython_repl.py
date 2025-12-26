@@ -36,9 +36,7 @@ class HanzoMagics(Magics):
 
         # Run async chat in sync context
         loop = asyncio.get_event_loop()
-        response = loop.run_until_complete(
-            self.repl.tool_executor.execute_with_tools(line)
-        )
+        response = loop.run_until_complete(self.repl.tool_executor.execute_with_tools(line))
         self.console.print(Markdown(response))
 
     @cell_magic
@@ -49,9 +47,7 @@ class HanzoMagics(Magics):
             return
 
         loop = asyncio.get_event_loop()
-        response = loop.run_until_complete(
-            self.repl.tool_executor.execute_with_tools(message)
-        )
+        response = loop.run_until_complete(self.repl.tool_executor.execute_with_tools(message))
         self.console.print(Markdown(response))
 
     @line_magic
@@ -130,9 +126,7 @@ class HanzoIPythonREPL:
         self.llm_client = LLMClient()
         if not self.llm_client.get_available_providers():
             self.console.print("[red]No LLM providers available![/red]")
-            self.console.print(
-                "Set OPENAI_API_KEY, ANTHROPIC_API_KEY, or other provider keys"
-            )
+            self.console.print("Set OPENAI_API_KEY, ANTHROPIC_API_KEY, or other provider keys")
             sys.exit(1)
 
         # Initialize tool executor
@@ -142,11 +136,7 @@ class HanzoIPythonREPL:
         """List available tools with their methods."""
         for _name, tool in sorted(self.tools.items()):
             # Show available methods
-            methods = [
-                m
-                for m in dir(tool)
-                if not m.startswith("_") and callable(getattr(tool, m))
-            ]
+            methods = [m for m in dir(tool) if not m.startswith("_") and callable(getattr(tool, m))]
             for method in methods:
                 if method not in ["execute", "get_schema"]:
                     pass
@@ -200,9 +190,7 @@ class HanzoIPythonREPL:
     def _chat_sync(self, message: str) -> str:
         """Synchronous chat wrapper."""
         loop = asyncio.get_event_loop()
-        response = loop.run_until_complete(
-            self.tool_executor.execute_with_tools(message)
-        )
+        response = loop.run_until_complete(self.tool_executor.execute_with_tools(message))
         self.console.print(Markdown(response))
         return response
 
@@ -233,9 +221,7 @@ class HanzoIPythonREPL:
             }
         }
 
-        shell = InteractiveShellEmbed(
-            config=config, user_ns=namespace, exit_msg="Goodbye!"
-        )
+        shell = InteractiveShellEmbed(config=config, user_ns=namespace, exit_msg="Goodbye!")
 
         # Register magic commands
         shell.register_magics(HanzoMagics(shell, self))
@@ -247,9 +233,7 @@ class HanzoIPythonREPL:
         # Print welcome info
         self.console.print(f"[green]Model: {self.llm_client.current_model}[/green]")
         self.console.print("[dim]Type ? for help, ?? for more details[/dim]")
-        self.console.print(
-            "[dim]Use %chat for AI chat, tools.<tab> for completion[/dim]"
-        )
+        self.console.print("[dim]Use %chat for AI chat, tools.<tab> for completion[/dim]")
 
         # Start the shell
         shell()

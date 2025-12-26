@@ -19,7 +19,7 @@ def check_file(filepath: Path) -> list:
     for node in ast.walk(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # Skip test functions
-            if node.name.startswith('test_'):
+            if node.name.startswith("test_"):
                 continue
 
             # Check for empty body
@@ -37,25 +37,27 @@ def check_file(filepath: Path) -> list:
 
                 # Check for NotImplementedError
                 elif isinstance(stmt, ast.Raise):
-                    if hasattr(stmt, 'exc') and isinstance(stmt.exc, ast.Call):
-                        if hasattr(stmt.exc.func, 'id') and stmt.exc.func.id == 'NotImplementedError':
-                            issues.append(f"{filepath}:{node.lineno} - Function '{node.name}' raises NotImplementedError")
+                    if hasattr(stmt, "exc") and isinstance(stmt.exc, ast.Call):
+                        if hasattr(stmt.exc.func, "id") and stmt.exc.func.id == "NotImplementedError":
+                            issues.append(
+                                f"{filepath}:{node.lineno} - Function '{node.name}' raises NotImplementedError"
+                            )
 
     return issues
 
 
 def main():
     """Main function."""
-    pkg_dir = Path('pkg/hanzo-mcp')
+    pkg_dir = Path("pkg/hanzo-mcp")
     if not pkg_dir.exists():
-        pkg_dir = Path('.')
+        pkg_dir = Path(".")
 
     all_issues = []
 
     # Check all Python files
-    for pyfile in pkg_dir.rglob('*.py'):
+    for pyfile in pkg_dir.rglob("*.py"):
         # Skip test files
-        if 'test' in str(pyfile) or '__pycache__' in str(pyfile):
+        if "test" in str(pyfile) or "__pycache__" in str(pyfile):
             continue
 
         issues = check_file(pyfile)
@@ -72,5 +74,5 @@ def main():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

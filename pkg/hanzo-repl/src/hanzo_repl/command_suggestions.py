@@ -76,13 +76,9 @@ class CommandSuggestions(Vertical):
         SlashCommand("/backend", "Switch AI backend (claude/openai/embedded)"),
         SlashCommand("/bug", "Submit feedback about Hanzo REPL"),
         SlashCommand("/clear", "Clear conversation history and free up context"),
-        SlashCommand(
-            "/compact", "Clear conversation history but keep a summary in context"
-        ),
+        SlashCommand("/compact", "Clear conversation history but keep a summary in context"),
         SlashCommand("/config", "Open config panel", ["theme"]),
-        SlashCommand(
-            "/cost", "Show the total cost and duration of the current session"
-        ),
+        SlashCommand("/cost", "Show the total cost and duration of the current session"),
         SlashCommand("/doctor", "Checks the health of your Hanzo installation"),
         SlashCommand("/exit", "Exit the REPL", ["quit"]),
         SlashCommand("/help", "Show help and available commands"),
@@ -115,9 +111,7 @@ class CommandSuggestions(Vertical):
             self.filtered_commands = self.COMMANDS
         else:
             query = self.query[1:] if self.query.startswith("/") else self.query
-            self.filtered_commands = [
-                cmd for cmd in self.COMMANDS if cmd.matches(query)
-            ]
+            self.filtered_commands = [cmd for cmd in self.COMMANDS if cmd.matches(query)]
         self.selected_index = 0
 
     def compose(self) -> ComposeResult:

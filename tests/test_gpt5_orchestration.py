@@ -83,8 +83,7 @@ class GPT5CodeReviewer:
 
         console.print(
             Panel.fit(
-                f"[bold cyan]Code Review with {self.model.upper()} Orchestrator[/bold cyan]\n"
-                f"Project: {project_path}",
+                f"[bold cyan]Code Review with {self.model.upper()} Orchestrator[/bold cyan]\nProject: {project_path}",
                 title="🤖 AI Code Review",
             )
         )
@@ -176,9 +175,7 @@ class GPT5CodeReviewer:
                 console.print(f"  [green]✓ No major issues found[/green]")
 
             if result.get("suggestions"):
-                console.print(
-                    f"  [yellow]💡 {len(result['suggestions'])} suggestions[/yellow]"
-                )
+                console.print(f"  [yellow]💡 {len(result['suggestions'])} suggestions[/yellow]")
 
         return results
 
@@ -235,9 +232,7 @@ class GPT5CodeReviewer:
             color = "red"
             message = "Significant improvements required"
 
-        console.print(
-            f"\n[bold]Overall Grade:[/bold] [{color}]{grade}[/{color}] ({avg_score:.1f}/100)"
-        )
+        console.print(f"\n[bold]Overall Grade:[/bold] [{color}]{grade}[/{color}] ({avg_score:.1f}/100)")
         console.print(f"[italic]{message}[/italic]\n")
 
         # Detailed results

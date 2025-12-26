@@ -53,21 +53,15 @@ class Topology:
                 self.add_edge(conn.from_id, conn.to_id, conn.description)
 
     def __str__(self):
-        nodes_str = ", ".join(
-            f"{node_id}: {cap}" for node_id, cap in self.nodes.items()
-        )
+        nodes_str = ", ".join(f"{node_id}: {cap}" for node_id, cap in self.nodes.items())
         edges_str = ", ".join(
-            f"{node}: {[f'{c.to_id}({c.description})' for c in conns]}"
-            for node, conns in self.peer_graph.items()
+            f"{node}: {[f'{c.to_id}({c.description})' for c in conns]}" for node, conns in self.peer_graph.items()
         )
         return f"Topology(Nodes: {{{nodes_str}}}, Edges: {{{edges_str}}})"
 
     def to_json(self):
         return {
-            "nodes": {
-                node_id: capabilities.to_dict()
-                for node_id, capabilities in self.nodes.items()
-            },
+            "nodes": {node_id: capabilities.to_dict() for node_id, capabilities in self.nodes.items()},
             "peer_graph": {
                 node_id: [
                     {

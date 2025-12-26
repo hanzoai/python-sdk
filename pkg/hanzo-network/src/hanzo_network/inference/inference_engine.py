@@ -58,9 +58,7 @@ class InferenceEngine(ABC):
             x = tokens.reshape(1, -1)
         else:
             x = tokens
-        output_data, inference_state = await self.infer_tensor(
-            request_id, shard, x, inference_state
-        )
+        output_data, inference_state = await self.infer_tensor(request_id, shard, x, inference_state)
 
         return output_data, inference_state
 

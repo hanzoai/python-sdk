@@ -52,13 +52,9 @@ class BroadcastProtocol(asyncio.DatagramProtocol):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # Try both subnet-specific and global broadcast
         broadcast_addr = get_broadcast_address(self.source_ip)
-        transport.sendto(
-            self.message.encode("utf-8"), (broadcast_addr, self.broadcast_port)
-        )
+        transport.sendto(self.message.encode("utf-8"), (broadcast_addr, self.broadcast_port))
         if broadcast_addr != "255.255.255.255":
-            transport.sendto(
-                self.message.encode("utf-8"), ("255.255.255.255", self.broadcast_port)
-            )
+            transport.sendto(self.message.encode("utf-8"), ("255.255.255.255", self.broadcast_port))
 
 
 class UDPDiscovery(Discovery):
@@ -115,18 +111,14 @@ class UDPDiscovery(Discovery):
         if wait_for_peers > 0:
             while len(self.known_peers) < wait_for_peers:
                 if DEBUG_DISCOVERY >= 2:
-                    print(
-                        f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers..."
-                    )
+                    print(f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers...")
                 await asyncio.sleep(0.1)
         return [peer_handle for peer_handle, _, _, _ in self.known_peers.values()]
 
     async def task_broadcast_presence(self):
         while True:
             for addr, interface_name in get_all_ip_addresses_and_interfaces():
-                interface_priority, interface_type = (
-                    await get_interface_priority_and_type(interface_name)
-                )
+                interface_priority, interface_type = await get_interface_priority_and_type(interface_name)
                 message = json.dumps(
                     {
                         "type": "discovery",
@@ -158,9 +150,7 @@ class UDPDiscovery(Discovery):
                         sock=sock,
                     )
                 except Exception as e:
-                    print(
-                        f"Error in broadcast presence ({addr} - {interface_name} - {interface_priority}): {e}"
-                    )
+                    print(f"Error in broadcast presence ({addr} - {interface_name} - {interface_priority}): {e}")
                 finally:
                     if transport:
                         try:
@@ -200,9 +190,7 @@ class UDPDiscovery(Discovery):
             # Skip if peer_id is not in allowed list
             if self.allowed_node_ids and peer_id not in self.allowed_node_ids:
                 if DEBUG_DISCOVERY >= 2:
-                    print(
-                        f"Ignoring peer {peer_id} as it's not in the allowed node IDs list"
-                    )
+                    print(f"Ignoring peer {peer_id} as it's not in the allowed node IDs list")
                 return
 
             peer_host = addr[0]
@@ -212,10 +200,7 @@ class UDPDiscovery(Discovery):
             peer_interface_type = message["interface_type"]
 
             # Skip if interface type is not in allowed list
-            if (
-                self.allowed_interface_types
-                and peer_interface_type not in self.allowed_interface_types
-            ):
+            if self.allowed_interface_types and peer_interface_type not in self.allowed_interface_types:
                 if DEBUG_DISCOVERY >= 2:
                     print(
                         f"Ignoring peer {peer_id} as its interface type {peer_interface_type} is not in the allowed interface types list"
@@ -224,10 +209,7 @@ class UDPDiscovery(Discovery):
 
             device_capabilities = DeviceCapabilities(**message["device_capabilities"])
 
-            if (
-                peer_id not in self.known_peers
-                or self.known_peers[peer_id][0].addr() != f"{peer_host}:{peer_port}"
-            ):
+            if peer_id not in self.known_peers or self.known_peers[peer_id][0].addr() != f"{peer_host}:{peer_port}":
                 if peer_id in self.known_peers:
                     existing_peer_prio = self.known_peers[peer_id][3]
                     if existing_peer_prio >= peer_prio:
@@ -244,9 +226,7 @@ class UDPDiscovery(Discovery):
                 )
                 if not await new_peer_handle.health_check():
                     if DEBUG >= 1:
-                        print(
-                            f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Skipping."
-                        )
+                        print(f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Skipping.")
                     return
                 if DEBUG >= 1:
                     print(
@@ -261,9 +241,7 @@ class UDPDiscovery(Discovery):
             else:
                 if not await self.known_peers[peer_id][0].health_check():
                     if DEBUG >= 1:
-                        print(
-                            f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Removing."
-                        )
+                        print(f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Removing.")
                     if peer_id in self.known_peers:
                         del self.known_peers[peer_id]
                     return
@@ -312,9 +290,7 @@ class UDPDiscovery(Discovery):
                     if peer_id in self.known_peers:
                         del self.known_peers[peer_id]
                         if DEBUG_DISCOVERY >= 2:
-                            print(
-                                f"Removed peer {peer_id} due to inactivity or failed health check."
-                            )
+                            print(f"Removed peer {peer_id} due to inactivity or failed health check.")
             except Exception as e:
                 print(f"Error in cleanup peers: {e}")
                 print(traceback.format_exc())
@@ -322,9 +298,7 @@ class UDPDiscovery(Discovery):
                 await asyncio.sleep(self.broadcast_interval)
 
     async def check_peer(self, peer_id: str, current_time: float) -> bool:
-        peer_handle, connected_at, last_seen, prio = self.known_peers.get(
-            peer_id, (None, None, None, None)
-        )
+        peer_handle, connected_at, last_seen, prio = self.known_peers.get(peer_id, (None, None, None, None))
         if peer_handle is None:
             return False
 

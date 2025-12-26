@@ -40,14 +40,10 @@ class ManualDiscovery(Discovery):
         if wait_for_peers > 0:
             while len(self.known_peers) < wait_for_peers:
                 if DEBUG_DISCOVERY >= 2:
-                    print(
-                        f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers..."
-                    )
+                    print(f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers...")
                 await asyncio.sleep(0.1)
         if DEBUG_DISCOVERY >= 2:
-            print(
-                f"Discovered peers: {[peer.id() for peer in self.known_peers.values()]}"
-            )
+            print(f"Discovered peers: {[peer.id() for peer in self.known_peers.values()]}")
         return list(self.known_peers.values())
 
     async def task_find_peers_from_config(self):
@@ -59,9 +55,7 @@ class ManualDiscovery(Discovery):
             for peer_id, peer_config in peers_from_config.items():
                 try:
                     if DEBUG_DISCOVERY >= 2:
-                        print(
-                            f"Checking peer {peer_id=} at {peer_config.address}:{peer_config.port}"
-                        )
+                        print(f"Checking peer {peer_id=} at {peer_config.address}:{peer_config.port}")
                     peer = self.known_peers.get(peer_id)
                     if not peer:
                         if DEBUG_DISCOVERY >= 2:
@@ -75,33 +69,23 @@ class ManualDiscovery(Discovery):
                     is_healthy = await peer.health_check()
                     if is_healthy:
                         if DEBUG_DISCOVERY >= 2:
-                            print(
-                                f"{peer_id=} at {peer_config.address}:{peer_config.port} is healthy."
-                            )
+                            print(f"{peer_id=} at {peer_config.address}:{peer_config.port} is healthy.")
                         new_known_peers[peer_id] = peer
                     elif DEBUG_DISCOVERY >= 2:
-                        print(
-                            f"{peer_id=} at {peer_config.address}:{peer_config.port} is not healthy. Removing."
-                        )
+                        print(f"{peer_id=} at {peer_config.address}:{peer_config.port} is not healthy. Removing.")
                 except Exception as e:
                     if DEBUG_DISCOVERY >= 2:
-                        print(
-                            f"Exception occurred when attempting to add {peer_id=}: {e}"
-                        )
+                        print(f"Exception occurred when attempting to add {peer_id=}: {e}")
             self.known_peers = new_known_peers
             await asyncio.sleep(5.0)
 
             if DEBUG_DISCOVERY >= 2:
-                print(
-                    f"Current known peers: {[peer.id() for peer in self.known_peers.values()]}"
-                )
+                print(f"Current known peers: {[peer.id() for peer in self.known_peers.values()]}")
 
     async def _get_peers(self):
         try:
             loop = asyncio.get_running_loop()
-            current_mtime = await loop.run_in_executor(
-                self._file_executor, os.path.getmtime, self.network_config_path
-            )
+            current_mtime = await loop.run_in_executor(self._file_executor, os.path.getmtime, self.network_config_path)
 
             if (
                 self._cached_peers is not None

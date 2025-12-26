@@ -40,21 +40,15 @@ class PeerHandle(ABC):
         pass
 
     @abstractmethod
-    async def send_prompt(
-        self, shard: Shard, prompt: str, request_id: Optional[str] = None
-    ) -> Optional[np.array]:
+    async def send_prompt(self, shard: Shard, prompt: str, request_id: Optional[str] = None) -> Optional[np.array]:
         pass
 
     @abstractmethod
-    async def send_tensor(
-        self, shard: Shard, tensor: np.array, request_id: Optional[str] = None
-    ) -> Optional[np.array]:
+    async def send_tensor(self, shard: Shard, tensor: np.array, request_id: Optional[str] = None) -> Optional[np.array]:
         pass
 
     @abstractmethod
-    async def send_result(
-        self, request_id: str, result: List[int], is_finished: bool
-    ) -> None:
+    async def send_result(self, request_id: str, result: List[int], is_finished: bool) -> None:
         pass
 
     @abstractmethod

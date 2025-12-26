@@ -88,9 +88,7 @@ Activation Lock Status: Disabled
     assert result.memory == 8192  # 8 GB in MB
 
 
-@pytest.mark.skip(
-    reason="Unskip this test when running on a MacBook Pro, Apple M3 Max, 128GB"
-)
+@pytest.mark.skip(reason="Unskip this test when running on a MacBook Pro, Apple M3 Max, 128GB")
 def test_mac_device_capabilities_real():
     # Call the function without mocking
     result = mac_device_capabilities()
@@ -100,9 +98,7 @@ def test_mac_device_capabilities_real():
     assert result.model == "MacBook Pro"
     assert result.chip == "Apple M3 Max"
     assert result.memory == 131072  # 128 GB in MB
-    assert result.flops == DeviceFlops(
-        fp32=14.20 * TFLOPS, fp16=28.40 * TFLOPS, int8=56.80 * TFLOPS
-    )
+    assert result.flops == DeviceFlops(fp32=14.20 * TFLOPS, fp16=28.40 * TFLOPS, int8=56.80 * TFLOPS)
     assert (
         str(result)
         == "Model: MacBook Pro. Chip: Apple M3 Max. Memory: 131072MB. Flops: fp32: 14.20 TFLOPS, fp16: 28.40 TFLOPS, int8: 56.80 TFLOPS"

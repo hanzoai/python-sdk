@@ -108,9 +108,7 @@ def build_package(package_dir: Path) -> bool:
         subprocess.run(["rm", "-rf", str(egg_info)], check=True)
 
     # Build the package
-    result = subprocess.run(
-        ["python", "-m", "build"], cwd=package_dir, capture_output=True, text=True
-    )
+    result = subprocess.run(["python", "-m", "build"], cwd=package_dir, capture_output=True, text=True)
 
     if result.returncode != 0:
         print_error(f"Build failed: {result.stderr}")
@@ -226,9 +224,7 @@ def main():
                 capture_output=True,
             )
         except Exception:
-            print_warn(
-                "Could not install build tools. Make sure pip, build, and twine are available."
-            )
+            print_warn("Could not install build tools. Make sure pip, build, and twine are available.")
             print_info("You can install them with: pip install build twine")
 
     # Track results

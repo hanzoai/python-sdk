@@ -62,17 +62,13 @@ class LLMClient:
             for provider in preferred_order:
                 if provider in self.available_providers:
                     self.current_provider = provider
-                    self.current_model = self.DEFAULT_MODELS.get(
-                        provider, "gpt-3.5-turbo"
-                    )
+                    self.current_model = self.DEFAULT_MODELS.get(provider, "gpt-3.5-turbo")
                     break
 
             # If no preferred provider, use the first available
             if not self.current_provider:
                 self.current_provider = list(self.available_providers)[0]
-                self.current_model = self.DEFAULT_MODELS.get(
-                    self.current_provider, "gpt-3.5-turbo"
-                )
+                self.current_model = self.DEFAULT_MODELS.get(self.current_provider, "gpt-3.5-turbo")
 
     def _detect_providers(self) -> Set[str]:
         """Detect which LLM providers have API keys configured."""
@@ -81,9 +77,7 @@ class LLMClient:
         for provider, env_vars in self.PROVIDER_ENV_VARS.items():
             if not env_vars:  # No API key needed (e.g., Ollama)
                 # Check if the provider is accessible
-                if provider == "ollama" and os.path.exists(
-                    os.path.expanduser("~/.ollama")
-                ):
+                if provider == "ollama" and os.path.exists(os.path.expanduser("~/.ollama")):
                     # TODO: Check if Ollama is running
                     available.add(provider)
                 continue
@@ -173,10 +167,7 @@ class LLMClient:
 
         # Try to infer provider from model name
         for prefix, provider in provider_prefixes.items():
-            if (
-                model.lower().startswith(prefix)
-                and provider in self.available_providers
-            ):
+            if model.lower().startswith(prefix) and provider in self.available_providers:
                 self.current_provider = provider
                 self.current_model = model
                 return

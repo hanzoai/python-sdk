@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestJobs:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -160,9 +158,7 @@ class TestJobs:
 
 
 class TestAsyncJobs:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -174,9 +170,7 @@ class TestAsyncJobs:
         assert_matches_type(object, job, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         job = await async_client.fine_tuning.jobs.create(
             custom_llm_provider="openai",
             model="model",
