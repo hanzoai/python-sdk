@@ -6,7 +6,8 @@ No configuration needed. Just search.
 
 import json
 import time
-import subprocess
+import asyncio
+import aiofiles
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 from dataclasses import dataclass
@@ -96,25 +97,50 @@ class SearchTool(BaseTool):
 
     def __init__(self):
         super().__init__()
-        self.ripgrep_available = self._check_cmd("rg")
-        self.git_available = self._check_cmd("git")
+        self._ripgrep_available: Optional[bool] = None
+        self._git_available: Optional[bool] = None
 
-    def _check_cmd(self, cmd: str) -> bool:
+    async def _check_cmd_async(self, cmd: str) -> bool:
+        """Check if a command is available (async)."""
         try:
-            subprocess.run([cmd, "--version"], capture_output=True, check=True)
-            return True
+            proc = await asyncio.create_subprocess_exec(
+                cmd, "--version",
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            await proc.wait()
+            return proc.returncode == 0
         except Exception:
             return False
 
-    def _is_git_repo(self, path: str) -> bool:
+    async def _ensure_ripgrep_checked(self) -> bool:
+        """Lazily check ripgrep availability."""
+        if self._ripgrep_available is None:
+            self._ripgrep_available = await self._check_cmd_async("rg")
+        return self._ripgrep_available
+
+    async def _ensure_git_checked(self) -> bool:
+        """Lazily check git availability."""
+        if self._git_available is None:
+            self._git_available = await self._check_cmd_async("git")
+        return self._git_available
+
+    async def _is_git_repo(self, path: str) -> bool:
+        """Check if path is in a git repo (async)."""
         try:
-            result = subprocess.run(
-                ["git", "rev-parse", "--git-dir"],
-                capture_output=True,
+            proc = await asyncio.create_subprocess_exec(
+                "git", "rev-parse", "--git-dir",
                 cwd=path or ".",
-                timeout=2,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
             )
-            return result.returncode == 0
+            try:
+                await asyncio.wait_for(proc.wait(), timeout=2)
+            except asyncio.TimeoutError:
+                proc.kill()
+                await proc.wait()
+                return False
+            return proc.returncode == 0
         except Exception:
             return False
 
@@ -131,10 +157,14 @@ class SearchTool(BaseTool):
         **kwargs,
     ) -> MCPResourceDocument:
         """Search everything in parallel. No configuration needed."""
-        import asyncio
-
         max_per_engine = max(5, max_results // 5)
-        is_git_repo = self._is_git_repo(path)
+        
+        # Check prerequisites in parallel
+        ripgrep_available, git_available, is_git_repo = await asyncio.gather(
+            self._ensure_ripgrep_checked(),
+            self._ensure_git_checked(),
+            self._is_git_repo(path),
+        )
 
         # Stats tracking
         stats = {"query": pattern, "path": path, "engines": [], "time_ms": {}}
@@ -154,17 +184,17 @@ class SearchTool(BaseTool):
 
         # Always run ALL available engines in parallel
         tasks = [
-            timed("grep", self._grep_search(pattern, path, include, exclude, max_per_engine, context_lines)),
+            timed("grep", self._grep_search(pattern, path, include, exclude, max_per_engine, context_lines, ripgrep_available)),
             timed("file", self._file_search(pattern, path, include, exclude, max_per_engine)),
         ]
 
         if TREESITTER_AVAILABLE:
-            tasks.append(timed("ast", self._ast_search(pattern, path, include, exclude, max_per_engine, context_lines)))
+            tasks.append(timed("ast", self._ast_search(pattern, path, include, exclude, max_per_engine, context_lines, ripgrep_available)))
 
         if LSP_AVAILABLE:
-            tasks.append(timed("lsp", self._lsp_search(pattern, path, include, max_per_engine)))
+            tasks.append(timed("lsp", self._lsp_search(pattern, path, include, max_per_engine, ripgrep_available)))
 
-        if is_git_repo and self.git_available:
+        if is_git_repo and git_available:
             tasks.append(timed("git", self._git_search(pattern, path, max_per_engine)))
 
         # Execute all in parallel
@@ -244,9 +274,10 @@ class SearchTool(BaseTool):
         exclude: Optional[str],
         max_results: int,
         context_lines: int,
+        ripgrep_available: bool,
     ) -> List[SearchResult]:
         """Text search using ripgrep."""
-        if not self.ripgrep_available:
+        if not ripgrep_available:
             return await self._python_grep(pattern, path, include, exclude, max_results, context_lines)
 
         cmd = ["rg", "--json", "--max-count", str(max_results)]
@@ -260,8 +291,19 @@ class SearchTool(BaseTool):
 
         results = []
         try:
-            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-            for line in proc.stdout.splitlines():
+            proc = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=30)
+            except asyncio.TimeoutError:
+                proc.kill()
+                await proc.wait()
+                return results
+
+            for line in stdout.decode().splitlines():
                 try:
                     data = json.loads(line)
                     if data.get("type") == "match":
@@ -301,6 +343,7 @@ class SearchTool(BaseTool):
         exclude: Optional[str],
         max_results: int,
         context_lines: int,
+        ripgrep_available: bool,
     ) -> List[SearchResult]:
         """AST search using tree-sitter via grep-ast."""
         try:
@@ -313,7 +356,7 @@ class SearchTool(BaseTool):
 
         # Use ripgrep to find candidate files first (fast)
         files = []
-        if self.ripgrep_available:
+        if ripgrep_available:
             cmd = ["rg", "--files-with-matches", "-l", "--max-count", "1"]
             if include:
                 cmd.extend(["--glob", include])
@@ -325,16 +368,25 @@ class SearchTool(BaseTool):
             cmd.extend([pattern, str(search_path)])
 
             try:
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
-                if result.returncode == 0:
-                    files = [Path(f) for f in result.stdout.strip().split("\n") if f]
+                proc = await asyncio.create_subprocess_exec(
+                    *cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+                try:
+                    stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=5)
+                    if proc.returncode == 0:
+                        files = [Path(f) for f in stdout.decode().strip().split("\n") if f]
+                except asyncio.TimeoutError:
+                    proc.kill()
+                    await proc.wait()
             except Exception:
                 pass
 
         for file_path in files[:max_results]:
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    code = f.read()
+                async with aiofiles.open(file_path, "r", encoding="utf-8") as f:
+                    code = await f.read()
                 tc = TreeContext(str(file_path), code, color=False, verbose=False, line_number=True)
                 matches = tc.grep(pattern, ignore_case=False)
                 lines = code.split("\n")
@@ -405,6 +457,7 @@ class SearchTool(BaseTool):
         path: str,
         include: Optional[str],
         max_results: int,
+        ripgrep_available: bool,
     ) -> List[SearchResult]:
         """LSP reference search."""
         if not LSP_AVAILABLE:
@@ -415,22 +468,36 @@ class SearchTool(BaseTool):
             root_path = Path(path).resolve()
 
             # Find files containing pattern
-            cmd = ["rg", "--files-with-matches", "-l", pattern]
-            if include:
-                cmd.extend(["--glob", include])
-            cmd.append(str(root_path))
+            matching_files = []
+            if ripgrep_available:
+                cmd = ["rg", "--files-with-matches", "-l", pattern]
+                if include:
+                    cmd.extend(["--glob", include])
+                cmd.append(str(root_path))
 
-            try:
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
-                matching_files = [f.strip() for f in result.stdout.strip().split("\n") if f.strip()]
-            except Exception:
-                return []
+                try:
+                    proc = await asyncio.create_subprocess_exec(
+                        *cmd,
+                        stdout=asyncio.subprocess.PIPE,
+                        stderr=asyncio.subprocess.PIPE,
+                    )
+                    try:
+                        stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=10)
+                        matching_files = [f.strip() for f in stdout.decode().strip().split("\n") if f.strip()]
+                    except asyncio.TimeoutError:
+                        proc.kill()
+                        await proc.wait()
+                        return []
+                except Exception:
+                    return []
 
             lsp = LSPTool()
             for file_path in matching_files[:3]:
                 try:
-                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                        for line_num, line in enumerate(f, 1):
+                    async with aiofiles.open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                        line_num = 0
+                        async for line in f:
+                            line_num += 1
                             col = line.find(pattern)
                             if col >= 0:
                                 lsp_result = await lsp.run(
@@ -466,10 +533,21 @@ class SearchTool(BaseTool):
         try:
             # git log -S (pickaxe)
             cmd = ["git", "log", f"-S{pattern}", "--oneline", f"-n{max_results}", "--pretty=format:%h|%s|%an|%ar"]
-            result = subprocess.run(cmd, capture_output=True, text=True, cwd=path or ".", timeout=10)
+            proc = await asyncio.create_subprocess_exec(
+                *cmd,
+                cwd=path or ".",
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=10)
+            except asyncio.TimeoutError:
+                proc.kill()
+                await proc.wait()
+                return results
 
-            if result.returncode == 0:
-                for line in result.stdout.strip().split("\n"):
+            if proc.returncode == 0:
+                for line in stdout.decode().strip().split("\n"):
                     parts = line.split("|", 3)
                     if len(parts) >= 4:
                         commit, subject, author, date = parts
@@ -490,10 +568,21 @@ class SearchTool(BaseTool):
             # git grep
             if len(results) < max_results:
                 grep_cmd = ["git", "grep", "-n", "-I", f"--max-count={max_results - len(results)}", pattern]
-                grep_result = subprocess.run(grep_cmd, capture_output=True, text=True, cwd=path or ".", timeout=10)
+                grep_proc = await asyncio.create_subprocess_exec(
+                    *grep_cmd,
+                    cwd=path or ".",
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+                try:
+                    grep_stdout, _ = await asyncio.wait_for(grep_proc.communicate(), timeout=10)
+                except asyncio.TimeoutError:
+                    grep_proc.kill()
+                    await grep_proc.wait()
+                    return results
 
-                if grep_result.returncode == 0:
-                    for line in grep_result.stdout.strip().split("\n"):
+                if grep_proc.returncode == 0:
+                    for line in grep_stdout.decode().strip().split("\n"):
                         parts = line.split(":", 2)
                         if len(parts) >= 3:
                             fp, ln, content = parts
@@ -537,8 +626,8 @@ class SearchTool(BaseTool):
                 break
             if file_path.is_file():
                 try:
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        lines = f.readlines()
+                    async with aiofiles.open(file_path, "r", encoding="utf-8") as f:
+                        lines = await f.readlines()
                     for i, line in enumerate(lines):
                         if count >= max_results:
                             break
