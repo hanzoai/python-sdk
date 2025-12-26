@@ -3,10 +3,13 @@
 import os
 import sys
 import json
+import logging
 import tempfile
 from typing import Any, TypeVar, final
 from pathlib import Path
 from collections.abc import Callable, Awaitable
+
+logger = logging.getLogger(__name__)
 
 # Define type variables for better type annotations
 T = TypeVar("T")
@@ -136,7 +139,8 @@ class PermissionManager:
                 # Additional check: is the resolved path still under allowed paths?
                 pass  # Continue to normal checks
         except (OSError, RuntimeError) as e:
-            # Path resolution failed, deny access
+            # Path resolution failed, deny access - log for debugging
+            logger.debug(f"Path resolution failed for '{path}': {e}")
             return False
 
         # Check exclusions first

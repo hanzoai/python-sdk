@@ -1232,7 +1232,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.9.23"
+version = "0.10.0"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
@@ -1308,7 +1308,7 @@ requires-dist = [
     { name = "bashlex", specifier = ">=0.18" },
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.3.0" },
     { name = "build", marker = "extra == 'publish'", specifier = ">=1.0.3" },
-    { name = "fastmcp", specifier = ">=2.9.2" },
+    { name = "fastmcp", specifier = ">=2.14.1" },
     { name = "ffind", specifier = ">=1.3.0" },
     { name = "grep-ast", specifier = ">=0.8.1" },
     { name = "hanzo-agents", marker = "extra == 'agents'", specifier = ">=0.1.0" },
@@ -1316,26 +1316,26 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "keyring", specifier = ">=24.0.0" },
     { name = "libtmux", specifier = ">=0.39.0" },
-    { name = "litellm", specifier = ">=1.73.2" },
-    { name = "mcp", specifier = ">=1.9.4" },
+    { name = "litellm", specifier = ">=1.80.11" },
+    { name = "mcp", specifier = ">=1.25.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
     { name = "myst-parser", marker = "extra == 'dev'", specifier = ">=4.0.0" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=4.0.0" },
     { name = "nbformat", specifier = ">=5.10.4" },
-    { name = "openai", specifier = ">=1.62.0" },
+    { name = "openai", specifier = ">=1.82.0" },
     { name = "orjson", marker = "extra == 'performance'", specifier = ">=3.9.0" },
     { name = "posthog", marker = "extra == 'analytics'", specifier = ">=3.0.0" },
     { name = "psutil", specifier = ">=6.0.0" },
-    { name = "pydantic", specifier = ">=2.9.2" },
-    { name = "pydantic-settings", specifier = ">=2.7.0" },
+    { name = "pydantic", specifier = ">=2.12.5" },
+    { name = "pydantic-settings", specifier = ">=2.12.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=7.0.0" },
-    { name = "pytest-asyncio", marker = "extra == 'test'", specifier = ">=0.25.3" },
+    { name = "pytest-asyncio", marker = "extra == 'test'", specifier = ">=0.26.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=4.1.0" },
     { name = "pytest-mock", marker = "extra == 'test'", specifier = ">=3.10.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.13.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.14.0" },
     { name = "sphinx", marker = "extra == 'dev'", specifier = ">=8.0.0" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=8.0.0" },
     { name = "sphinx-copybutton", marker = "extra == 'dev'", specifier = ">=0.5.0" },
