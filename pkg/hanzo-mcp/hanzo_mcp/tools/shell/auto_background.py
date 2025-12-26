@@ -54,7 +54,7 @@ class AutoBackgroundExecutor:
         """
         # Use passed timeout or default
         effective_timeout = timeout if timeout is not None else self.default_timeout
-        
+
         # Fast path for tests/offline: run synchronously
         import os
 
@@ -132,7 +132,7 @@ class AutoBackgroundExecutor:
             if wait_task in done:
                 # Process completed within timeout
                 return_code = await wait_task
-                
+
                 # Give read_task a short time to finish (0.5s max)
                 # This prevents hanging if stdout has issues
                 try:

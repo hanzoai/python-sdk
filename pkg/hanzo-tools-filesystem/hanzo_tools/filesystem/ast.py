@@ -24,6 +24,7 @@ def _get_tree_context():
     global _tree_context_cls
     if _tree_context_cls is None:
         from grep_ast.grep_ast import TreeContext
+
         _tree_context_cls = TreeContext
     return _tree_context_cls
 
@@ -80,30 +81,48 @@ class ASTToolParams(TypedDict, total=False):
 
 # Extensions supported by tree-sitter (common programming languages)
 SUPPORTED_EXTENSIONS = {
-    '.py', '.pyw',  # Python
-    '.js', '.jsx', '.mjs', '.cjs',  # JavaScript
-    '.ts', '.tsx', '.mts', '.cts',  # TypeScript
-    '.go',  # Go
-    '.rs',  # Rust
-    '.c', '.h',  # C
-    '.cpp', '.cc', '.cxx', '.hpp', '.hh', '.hxx',  # C++
-    '.java',  # Java
-    '.rb',  # Ruby
-    '.php',  # PHP
-    '.cs',  # C#
-    '.swift',  # Swift
-    '.kt', '.kts',  # Kotlin
-    '.scala',  # Scala
-    '.lua',  # Lua
-    '.r', '.R',  # R
-    '.jl',  # Julia
-    '.ex', '.exs',  # Elixir
-    '.erl', '.hrl',  # Erlang
-    '.ml', '.mli',  # OCaml
-    '.hs',  # Haskell
-    '.elm',  # Elm
-    '.vue',  # Vue
-    '.svelte',  # Svelte
+    ".py",
+    ".pyw",  # Python
+    ".js",
+    ".jsx",
+    ".mjs",
+    ".cjs",  # JavaScript
+    ".ts",
+    ".tsx",
+    ".mts",
+    ".cts",  # TypeScript
+    ".go",  # Go
+    ".rs",  # Rust
+    ".c",
+    ".h",  # C
+    ".cpp",
+    ".cc",
+    ".cxx",
+    ".hpp",
+    ".hh",
+    ".hxx",  # C++
+    ".java",  # Java
+    ".rb",  # Ruby
+    ".php",  # PHP
+    ".cs",  # C#
+    ".swift",  # Swift
+    ".kt",
+    ".kts",  # Kotlin
+    ".scala",  # Scala
+    ".lua",  # Lua
+    ".r",
+    ".R",  # R
+    ".jl",  # Julia
+    ".ex",
+    ".exs",  # Elixir
+    ".erl",
+    ".hrl",  # Erlang
+    ".ml",
+    ".mli",  # OCaml
+    ".hs",  # Haskell
+    ".elm",  # Elm
+    ".vue",  # Vue
+    ".svelte",  # Svelte
 }
 
 
@@ -175,12 +194,14 @@ Searches code structure intelligently, understanding syntax and providing semant
             for root, _, files in os.walk(path_obj):
                 # Skip hidden directories and common non-code directories
                 root_path = Path(root)
-                if any(part.startswith('.') for part in root_path.parts):
+                if any(part.startswith(".") for part in root_path.parts):
                     continue
-                if any(part in ('node_modules', '__pycache__', 'venv', '.venv', 'dist', 'build') 
-                       for part in root_path.parts):
+                if any(
+                    part in ("node_modules", "__pycache__", "venv", ".venv", "dist", "build")
+                    for part in root_path.parts
+                ):
                     continue
-                    
+
                 for file in files:
                     file_path = Path(root) / file
                     if self._is_supported_file(str(file_path)):

@@ -37,24 +37,25 @@ def register_critic_tool(mcp_server: FastMCP) -> list[BaseTool]:
 
 def register_batch_tool(mcp_server: FastMCP, tools: dict[str, BaseTool]) -> None:
     """DEPRECATED: Use `dag` tool from shell package instead.
-    
+
     The dag tool provides DAG execution with serial, parallel, and mixed modes.
     It can invoke any tool, not just shell commands.
-    
+
     Migration:
         # Old (batch)
         batch(invocations=[{"tool_name": "read", "input": {...}}])
-        
-        # New (dag)  
+
+        # New (dag)
         dag([{"tool": "read", "input": {...}}], parallel=True)
     """
     warnings.warn(
         "batch tool is deprecated in 1.0.0. Use 'dag' from shell tools instead. "
-        "dag([{\"tool\": \"name\", \"input\": {...}}], parallel=True)",
+        'dag([{"tool": "name", "input": {...}}], parallel=True)',
         DeprecationWarning,
         stacklevel=2,
     )
     # Still register for backward compatibility
     from hanzo_mcp.tools.common.batch_tool import BatchTool
+
     batch_tool = BatchTool(tools)
     ToolRegistry.register_tool(mcp_server, batch_tool)

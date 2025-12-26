@@ -268,11 +268,11 @@ class TestPaginationPerformance:
 
         # Test pagination creation with new API
         start_time = time.time()
-        
+
         # Use the new AutoPaginatedResponse API
         content_str = "\n".join([str(item) for item in large_data])
         response = AutoPaginatedResponse.create_response(content_str)
-        
+
         pagination_time = time.time() - start_time
 
         assert "content" in response  # New API returns content dict

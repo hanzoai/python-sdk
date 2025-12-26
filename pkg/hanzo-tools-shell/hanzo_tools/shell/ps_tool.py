@@ -23,6 +23,7 @@ from hanzo_tools.shell.base_process import ProcessManager
 @dataclass
 class ProcessInfo:
     """Process information."""
+
     id: str
     pid: int
     cmd: str
@@ -78,14 +79,16 @@ USAGE:
         """Get all tracked processes."""
         processes = []
         for proc_id, info in self.process_manager.list_processes().items():
-            processes.append(ProcessInfo(
-                id=proc_id,
-                pid=info.get("pid", 0),
-                cmd=info.get("cmd", ""),
-                running=info.get("running", False),
-                exit_code=info.get("return_code"),
-                log_file=Path(info["log_file"]) if info.get("log_file") else None,
-            ))
+            processes.append(
+                ProcessInfo(
+                    id=proc_id,
+                    pid=info.get("pid", 0),
+                    cmd=info.get("cmd", ""),
+                    running=info.get("running", False),
+                    exit_code=info.get("return_code"),
+                    log_file=Path(info["log_file"]) if info.get("log_file") else None,
+                )
+            )
         return processes
 
     def _get_process(self, proc_id: str) -> Optional[ProcessInfo]:
@@ -190,26 +193,11 @@ USAGE:
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def ps_handler(
-            id: Annotated[
-                Optional[str],
-                Field(description="Get specific process by ID", default=None)
-            ] = None,
-            kill: Annotated[
-                Optional[str],
-                Field(description="Kill process by ID", default=None)
-            ] = None,
-            logs: Annotated[
-                Optional[str],
-                Field(description="Get logs for process ID", default=None)
-            ] = None,
-            sig: Annotated[
-                int,
-                Field(description="Signal for kill (default: 15/SIGTERM)", default=15)
-            ] = 15,
-            n: Annotated[
-                int,
-                Field(description="Number of log lines", default=100)
-            ] = 100,
+            id: Annotated[Optional[str], Field(description="Get specific process by ID", default=None)] = None,
+            kill: Annotated[Optional[str], Field(description="Kill process by ID", default=None)] = None,
+            logs: Annotated[Optional[str], Field(description="Get logs for process ID", default=None)] = None,
+            sig: Annotated[int, Field(description="Signal for kill (default: 15/SIGTERM)", default=15)] = 15,
+            n: Annotated[int, Field(description="Number of log lines", default=100)] = 100,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(ctx, id=id, kill=kill, logs=logs, sig=sig, n=n)

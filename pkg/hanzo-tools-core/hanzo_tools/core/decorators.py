@@ -20,7 +20,7 @@ DEFAULT_TIMEOUTS: dict[str, int] = {
 
 def get_timeout(tool_name: str) -> int:
     """Get timeout for a tool.
-    
+
     Checks environment variable HANZO_TIMEOUT_{TOOL_NAME} first,
     then falls back to defaults.
     """
@@ -30,7 +30,7 @@ def get_timeout(tool_name: str) -> int:
             return int(env_val)
         except ValueError:
             pass
-    
+
     return DEFAULT_TIMEOUTS.get(tool_name, DEFAULT_TIMEOUTS["default"])
 
 
@@ -39,19 +39,20 @@ def auto_timeout(
     timeout: Optional[int] = None,
 ) -> Callable:
     """Decorator to add automatic timeout to async tool functions.
-    
+
     Args:
         tool_name: Name of the tool (for logging and config)
         timeout: Override timeout in seconds (optional)
-        
+
     Returns:
         Decorator that wraps the function with timeout handling
     """
+
     def decorator(func: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:
         @functools.wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
             effective_timeout = timeout or get_timeout(tool_name)
-            
+
             try:
                 return await asyncio.wait_for(
                     func(*args, **kwargs),
@@ -59,9 +60,9 @@ def auto_timeout(
                 )
             except asyncio.TimeoutError:
                 return f"Tool '{tool_name}' timed out after {effective_timeout}s"
-        
+
         return wrapper
-    
+
     return decorator
 
 
@@ -72,19 +73,20 @@ def retry(
     exceptions: tuple = (Exception,),
 ) -> Callable:
     """Decorator to add retry logic to async functions.
-    
+
     Args:
         max_attempts: Maximum number of attempts
         delay: Initial delay between retries (seconds)
         backoff: Multiplier for delay after each attempt
         exceptions: Tuple of exceptions to catch and retry
     """
+
     def decorator(func: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:
         @functools.wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
             current_delay = delay
             last_exception = None
-            
+
             for attempt in range(max_attempts):
                 try:
                     return await func(*args, **kwargs)
@@ -93,9 +95,9 @@ def retry(
                     if attempt < max_attempts - 1:
                         await asyncio.sleep(current_delay)
                         current_delay *= backoff
-            
+
             raise last_exception
-        
+
         return wrapper
-    
+
     return decorator

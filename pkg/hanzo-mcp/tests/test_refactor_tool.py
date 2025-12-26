@@ -19,7 +19,7 @@ class TestRefactorTool:
     def temp_python_file(self):
         """Create a temporary Python file for testing."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write('''def old_function(x, y):
+            f.write("""def old_function(x, y):
     result = x + y
     return result
 
@@ -30,7 +30,7 @@ def caller():
 class MyClass:
     def method(self):
         return old_function(3, 4)
-''')
+""")
             temp_path = f.name
 
         yield temp_path
@@ -43,7 +43,7 @@ class MyClass:
     def temp_js_file(self):
         """Create a temporary JavaScript file for testing."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".js", delete=False) as f:
-            f.write('''function oldFunction(x, y) {
+            f.write("""function oldFunction(x, y) {
     const result = x + y;
     return result;
 }
@@ -52,7 +52,7 @@ function caller() {
     const value = oldFunction(1, 2);
     return value;
 }
-''')
+""")
             temp_path = f.name
 
         yield temp_path
@@ -209,7 +209,7 @@ function caller() {
     async def test_organize_imports_python(self, tool):
         """Test organize imports for Python file."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write('''import os
+            f.write("""import os
 from typing import List
 import sys
 from collections import defaultdict
@@ -217,7 +217,7 @@ import json
 
 def main():
     pass
-''')
+""")
             temp_path = f.name
 
         try:
@@ -255,13 +255,13 @@ def main():
     async def test_change_signature_add_parameter_preview(self, tool):
         """Test adding a parameter with preview."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write('''def greet(name):
+            f.write("""def greet(name):
     return f"Hello, {name}!"
 
 def main():
     msg = greet("World")
     print(msg)
-''')
+""")
             temp_path = f.name
 
         try:
@@ -289,11 +289,11 @@ def main():
     async def test_change_signature_rename_parameter(self, tool):
         """Test renaming a parameter."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write('''def compute(x, y):
+            f.write("""def compute(x, y):
     return x + y
 
 result = compute(1, 2)
-''')
+""")
             temp_path = f.name
 
         try:
@@ -315,9 +315,9 @@ result = compute(1, 2)
     async def test_change_signature_no_function(self, tool):
         """Test change_signature when no function at line."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write('''x = 10
+            f.write("""x = 10
 y = 20
-''')
+""")
             temp_path = f.name
 
         try:

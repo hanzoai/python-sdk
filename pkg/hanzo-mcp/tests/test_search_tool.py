@@ -201,9 +201,9 @@ async def test_search_no_vector():
     # Vector search has been removed - tool should be fast and lightweight
     search_tool = create_search_tool()
     # No vector-related attributes should exist
-    assert not hasattr(search_tool, '_enable_vector_index')
-    assert not hasattr(search_tool, 'embedder')
-    assert not hasattr(search_tool, 'vector_db')
+    assert not hasattr(search_tool, "_enable_vector_index")
+    assert not hasattr(search_tool, "embedder")
+    assert not hasattr(search_tool, "vector_db")
 
 
 if __name__ == "__main__":

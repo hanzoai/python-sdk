@@ -47,15 +47,11 @@ def with_error_logging(tool_name: str) -> Callable:
                     )
                 logger.exception(f"Tool {tool_name} TypeError: {e}")
                 return (
-                    f"Error executing tool '{tool_name}': {error_msg}\n\n"
-                    f"Check logs at ~/.hanzo/mcp/logs/ for details."
+                    f"Error executing tool '{tool_name}': {error_msg}\n\nCheck logs at ~/.hanzo/mcp/logs/ for details."
                 )
             except Exception as e:
                 logger.exception(f"Tool {tool_name} error: {e}")
-                return (
-                    f"Error executing tool '{tool_name}': {str(e)}\n\n"
-                    f"Check logs at ~/.hanzo/mcp/logs/ for details."
-                )
+                return f"Error executing tool '{tool_name}': {str(e)}\n\nCheck logs at ~/.hanzo/mcp/logs/ for details."
 
         return wrapper
 
@@ -73,10 +69,7 @@ def handle_connection_errors(
             return await func(*args, **kwargs)
         except Exception as e:
             error_name = type(e).__name__
-            if any(
-                name in error_name
-                for name in ["ClosedResourceError", "ConnectionError", "BrokenPipeError"]
-            ):
+            if any(name in error_name for name in ["ClosedResourceError", "ConnectionError", "BrokenPipeError"]):
                 return f"Client disconnected during operation: {error_name}"
             raise
 
@@ -88,20 +81,20 @@ class BaseTool(ABC):
 
     All tool packages must implement this interface to be compatible
     with the hanzo-mcp server and tool registry.
-    
+
     Example:
         class MyTool(BaseTool):
             @property
             def name(self) -> str:
                 return "my_tool"
-            
+
             @property
             def description(self) -> str:
                 return "Does something useful"
-            
+
             async def call(self, ctx, **params) -> str:
                 return "Result"
-            
+
             def register(self, mcp_server):
                 @mcp_server.tool()
                 async def my_tool(...):
@@ -164,6 +157,7 @@ class FileSystemTool(BaseTool, ABC):
     def validate_path(self, path: str, param_name: str = "path") -> "ValidationResult":
         """Validate a path parameter."""
         from hanzo_tools.core.validation import validate_path_parameter
+
         return validate_path_parameter(path, param_name)
 
     def is_path_allowed(self, path: str) -> bool:
@@ -178,7 +172,7 @@ class ToolRegistry:
     Provides functionality for registering tool implementations
     with an MCP server, with support for enable/disable states.
     """
-    
+
     # Class-level storage for tool states
     _enabled_tools: ClassVar[dict[str, bool]] = {}
     _config_loaded: ClassVar[bool] = False
@@ -188,8 +182,9 @@ class ToolRegistry:
         """Load tool enable/disable states from config."""
         if cls._config_loaded:
             return
-        
+
         import json
+
         config_file = Path.home() / ".hanzo" / "mcp" / "tool_states.json"
         if config_file.exists():
             try:
@@ -209,9 +204,10 @@ class ToolRegistry:
     def set_tool_enabled(cls, tool_name: str, enabled: bool, persist: bool = True) -> None:
         """Enable or disable a tool."""
         import json
+
         cls._load_config()
         cls._enabled_tools[tool_name] = enabled
-        
+
         if persist:
             config_file = Path.home() / ".hanzo" / "mcp" / "tool_states.json"
             config_file.parent.mkdir(parents=True, exist_ok=True)

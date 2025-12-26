@@ -95,11 +95,11 @@ def get_shell_tools(
     uvx_tool.permission_manager = permission_manager
 
     return [
-        dag,        # DAG execution for complex workflows
-        zsh_tool,   # Zsh shell execution (with auto-backgrounding)
-        ps_tool,    # Process management
-        npx_tool,   # Node packages
-        uvx_tool,   # Python packages
+        dag,  # DAG execution for complex workflows
+        zsh_tool,  # Zsh shell execution (with auto-backgrounding)
+        ps_tool,  # Process management
+        npx_tool,  # Node packages
+        uvx_tool,  # Python packages
         open_tool,  # Open files/URLs
     ]
 
@@ -126,10 +126,11 @@ def register_shell_tools(
 
 def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """Register all shell tools with the MCP server.
-    
+
     This is the standard entry point called by the tool discovery system.
     """
     from hanzo_tools.core import PermissionManager
+
     permission_manager = kwargs.get("permission_manager") or PermissionManager()
     all_tools = kwargs.get("all_tools")
     return register_shell_tools(mcp_server, permission_manager, all_tools)

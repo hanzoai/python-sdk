@@ -22,6 +22,7 @@ from hanzo_tools.core import BaseTool
 # Playwright import with graceful fallback
 try:
     from playwright.async_api import Page, Browser, Playwright, BrowserContext, async_playwright
+
     PLAYWRIGHT_AVAILABLE = True
 except ImportError:
     PLAYWRIGHT_AVAILABLE = False
@@ -32,18 +33,18 @@ logger = logging.getLogger(__name__)
 
 Action = Annotated[
     Literal[
-        "navigate",      # Go to URL
-        "click",         # Click element
-        "type",          # Type text into element
-        "fill",          # Fill form field (clears first)
-        "press",         # Press key
-        "screenshot",    # Take screenshot
-        "snapshot",      # Get accessibility tree
-        "evaluate",      # Run JavaScript
-        "wait",          # Wait for selector or time
-        "close",         # Close browser
-        "tabs",          # List/switch tabs
-        "connect",       # Connect to existing browser (CDP)
+        "navigate",  # Go to URL
+        "click",  # Click element
+        "type",  # Type text into element
+        "fill",  # Fill form field (clears first)
+        "press",  # Press key
+        "screenshot",  # Take screenshot
+        "snapshot",  # Get accessibility tree
+        "evaluate",  # Run JavaScript
+        "wait",  # Wait for selector or time
+        "close",  # Close browser
+        "tabs",  # List/switch tabs
+        "connect",  # Connect to existing browser (CDP)
     ],
     Field(description="Browser action to perform"),
 ]
@@ -95,15 +96,10 @@ class BrowserPool:
     ) -> Page:
         """Ensure browser is running, return current page."""
         if not PLAYWRIGHT_AVAILABLE:
-            raise RuntimeError(
-                "Playwright not installed. Run: pip install playwright && playwright install chromium"
-            )
+            raise RuntimeError("Playwright not installed. Run: pip install playwright && playwright install chromium")
 
         needs_init = (
-            not self._initialized or
-            self._page is None or
-            self._browser is None or
-            self._cdp_endpoint != cdp_endpoint
+            not self._initialized or self._page is None or self._browser is None or self._cdp_endpoint != cdp_endpoint
         )
 
         if needs_init:
@@ -413,10 +409,7 @@ Examples:
                     return {
                         "success": True,
                         "count": len(pool.pages),
-                        "tabs": [
-                            {"index": i, "url": p.url}
-                            for i, p in enumerate(pool.pages)
-                        ],
+                        "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)],
                     }
 
             else:

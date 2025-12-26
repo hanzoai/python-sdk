@@ -281,12 +281,7 @@ class BaseProcessTool(BaseTool):
             "status": "started",
         }
 
-    async def _write_output_to_log(
-        self,
-        process: asyncio.subprocess.Process,
-        log_file: Path,
-        process_id: str
-    ) -> None:
+    async def _write_output_to_log(self, process: asyncio.subprocess.Process, log_file: Path, process_id: str) -> None:
         """Write process output to log file in background.
 
         Uses aiofiles for non-blocking file I/O to avoid blocking the event loop.

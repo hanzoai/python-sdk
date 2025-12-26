@@ -16,6 +16,7 @@ _tools = []
 
 try:
     from .config_tool import ConfigTool
+
     _tools.append(ConfigTool)
 except ImportError as e:
     logger.debug(f"ConfigTool not available: {e}")
@@ -23,6 +24,7 @@ except ImportError as e:
 
 try:
     from .mode_tool import ModeTool
+
     _tools.append(ModeTool)
 except ImportError as e:
     logger.debug(f"ModeTool not available: {e}")
@@ -41,14 +43,14 @@ __all__ = [
 def register_tools(mcp_server, enabled_tools: dict[str, bool] | None = None):
     """Register config tools with MCP server."""
     from hanzo_tools.core import ToolRegistry
-    
+
     enabled = enabled_tools or {}
     registered = []
-    
+
     for tool_class in TOOLS:
         if tool_class is None:
             continue
-        tool_name = getattr(tool_class, 'name', tool_class.__name__.lower())
+        tool_name = getattr(tool_class, "name", tool_class.__name__.lower())
         if enabled.get(tool_name, True):
             try:
                 tool = tool_class()
@@ -56,5 +58,5 @@ def register_tools(mcp_server, enabled_tools: dict[str, bool] | None = None):
                 registered.append(tool)
             except Exception as e:
                 logger.warning(f"Failed to register {tool_name}: {e}")
-    
+
     return registered

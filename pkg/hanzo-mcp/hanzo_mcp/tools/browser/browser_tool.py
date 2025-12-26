@@ -19,6 +19,7 @@ from pydantic import Field
 # Playwright import with graceful fallback
 try:
     from playwright.async_api import Page, Browser, Playwright, BrowserContext, async_playwright
+
     PLAYWRIGHT_AVAILABLE = True
 except ImportError:
     PLAYWRIGHT_AVAILABLE = False
@@ -29,18 +30,18 @@ logger = logging.getLogger(__name__)
 
 Action = Annotated[
     Literal[
-        "navigate",      # Go to URL
-        "click",         # Click element
-        "type",          # Type text into element
-        "fill",          # Fill form field (clears first)
-        "press",         # Press key
-        "screenshot",    # Take screenshot
-        "snapshot",      # Get accessibility tree
-        "evaluate",      # Run JavaScript
-        "wait",          # Wait for selector or time
-        "close",         # Close browser
-        "tabs",          # List/switch tabs
-        "connect",       # Connect to existing browser (CDP)
+        "navigate",  # Go to URL
+        "click",  # Click element
+        "type",  # Type text into element
+        "fill",  # Fill form field (clears first)
+        "press",  # Press key
+        "screenshot",  # Take screenshot
+        "snapshot",  # Get accessibility tree
+        "evaluate",  # Run JavaScript
+        "wait",  # Wait for selector or time
+        "close",  # Close browser
+        "tabs",  # List/switch tabs
+        "connect",  # Connect to existing browser (CDP)
     ],
     Field(description="Browser action to perform"),
 ]
@@ -48,17 +49,17 @@ Action = Annotated[
 
 class BrowserPool:
     """Shared browser instance pool for high-performance automation.
-    
+
     Features:
     - Singleton browser instance across all MCP calls
     - Connection to remote browser via CDP (cross-MCP sharing)
     - Context pooling for parallel operations
     - Automatic cleanup on shutdown
     """
-    
+
     _instance: ClassVar[Optional["BrowserPool"]] = None
     _lock: ClassVar[asyncio.Lock] = asyncio.Lock()
-    
+
     def __init__(self):
         self._playwright: Optional[Playwright] = None
         self._browser: Optional[Browser] = None
@@ -68,7 +69,7 @@ class BrowserPool:
         self._headless: bool = True
         self._cdp_endpoint: Optional[str] = None
         self._initialized: bool = False
-    
+
     @classmethod
     async def get_instance(cls) -> "BrowserPool":
         """Get or create the singleton browser pool."""
@@ -76,7 +77,7 @@ class BrowserPool:
             if cls._instance is None:
                 cls._instance = BrowserPool()
             return cls._instance
-    
+
     @classmethod
     async def shutdown(cls) -> None:
         """Shutdown the browser pool."""
@@ -84,41 +85,36 @@ class BrowserPool:
             if cls._instance is not None:
                 await cls._instance.close()
                 cls._instance = None
-    
+
     async def ensure_browser(
         self,
         headless: bool = True,
         cdp_endpoint: Optional[str] = None,
     ) -> Page:
         """Ensure browser is running, return current page.
-        
+
         Args:
             headless: Run in headless mode (ignored if connecting via CDP)
             cdp_endpoint: Connect to existing browser via CDP endpoint
                           e.g., "http://localhost:9222"
         """
         if not PLAYWRIGHT_AVAILABLE:
-            raise RuntimeError(
-                "Playwright not installed. Run: pip install playwright && playwright install chromium"
-            )
-        
+            raise RuntimeError("Playwright not installed. Run: pip install playwright && playwright install chromium")
+
         # Check if we need to reconnect
         needs_init = (
-            not self._initialized or
-            self._page is None or
-            self._browser is None or
-            self._cdp_endpoint != cdp_endpoint
+            not self._initialized or self._page is None or self._browser is None or self._cdp_endpoint != cdp_endpoint
         )
-        
+
         if needs_init:
             # Close existing if reconnecting
             if self._initialized:
                 await self.close()
-            
+
             self._playwright = await async_playwright().start()
             self._headless = headless
             self._cdp_endpoint = cdp_endpoint
-            
+
             if cdp_endpoint:
                 # Connect to existing browser via CDP (for cross-MCP sharing)
                 logger.info(f"Connecting to browser at {cdp_endpoint}")
@@ -155,12 +151,12 @@ class BrowserPool:
                 )
                 self._page = await self._context.new_page()
                 self._pages = [self._page]
-            
+
             self._initialized = True
             logger.info("Browser initialized")
-        
+
         return self._page
-    
+
     async def new_tab(self) -> Page:
         """Open a new tab and switch to it."""
         if not self._context:
@@ -169,14 +165,14 @@ class BrowserPool:
         self._pages.append(page)
         self._page = page
         return page
-    
+
     async def switch_tab(self, index: int) -> Page:
         """Switch to tab by index."""
         if 0 <= index < len(self._pages):
             self._page = self._pages[index]
             return self._page
         raise ValueError(f"Invalid tab index: {index}")
-    
+
     async def close(self) -> None:
         """Close browser and cleanup."""
         if self._browser:
@@ -184,13 +180,13 @@ class BrowserPool:
                 await self._browser.close()
             except Exception as e:
                 logger.warning(f"Error closing browser: {e}")
-        
+
         if self._playwright:
             try:
                 await self._playwright.stop()
             except Exception as e:
                 logger.warning(f"Error stopping playwright: {e}")
-        
+
         self._browser = None
         self._context = None
         self._page = None
@@ -198,11 +194,11 @@ class BrowserPool:
         self._playwright = None
         self._initialized = False
         logger.info("Browser closed")
-    
+
     @property
     def page(self) -> Optional[Page]:
         return self._page
-    
+
     @property
     def pages(self) -> list[Page]:
         return self._pages
@@ -210,19 +206,19 @@ class BrowserPool:
 
 class BrowserTool:
     """Unified browser automation tool.
-    
+
     High-performance, async-first browser automation.
     Uses shared browser pool for low latency.
     """
-    
+
     name: str = "browser"
     description: str = "Unified browser automation with Playwright"
-    
+
     def __init__(self, headless: bool = True, cdp_endpoint: Optional[str] = None):
         self.headless = headless
         self.cdp_endpoint = cdp_endpoint or os.environ.get("BROWSER_CDP_ENDPOINT")
         self.timeout = 30000
-    
+
     async def _get_page(self) -> Page:
         """Get page from shared pool."""
         pool = await BrowserPool.get_instance()
@@ -230,7 +226,7 @@ class BrowserTool:
             headless=self.headless,
             cdp_endpoint=self.cdp_endpoint,
         )
-    
+
     async def execute(
         self,
         action: str,
@@ -266,7 +262,7 @@ class BrowserTool:
         pool = await BrowserPool.get_instance()
         timeout = timeout or self.timeout
         sel = selector or ref  # Accept either
-        
+
         try:
             # Special action: connect to existing browser
             if action == "connect":
@@ -283,9 +279,9 @@ class BrowserTool:
                     "endpoint": endpoint,
                     "url": page.url if page else None,
                 }
-            
+
             page = await self._get_page()
-            
+
             if action == "navigate":
                 if not url:
                     return {"error": "url required for navigate"}
@@ -382,10 +378,7 @@ class BrowserTool:
                     return {
                         "success": True,
                         "count": len(pool.pages),
-                        "tabs": [
-                            {"index": i, "url": p.url}
-                            for i, p in enumerate(pool.pages)
-                        ],
+                        "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)],
                     }
 
             else:
@@ -394,13 +387,13 @@ class BrowserTool:
         except Exception as e:
             logger.exception(f"Browser action failed: {action}")
             return {"error": str(e), "action": action}
-    
+
     def register(self, mcp_server) -> None:
         """Register the browser tool with an MCP server."""
         from mcp.server import FastMCP
-        
+
         tool_instance = self
-        
+
         @mcp_server.tool()
         async def browser(
             action: Action,
@@ -458,12 +451,12 @@ class BrowserTool:
 
 def create_browser_tool(headless: bool = True, cdp_endpoint: Optional[str] = None) -> BrowserTool:
     """Create a browser tool instance.
-    
+
     Args:
         headless: Run browser in headless mode
         cdp_endpoint: Connect to existing browser via CDP endpoint
                       (or set BROWSER_CDP_ENDPOINT env var)
-    
+
     Returns:
         BrowserTool instance ready for registration
     """
@@ -472,28 +465,28 @@ def create_browser_tool(headless: bool = True, cdp_endpoint: Optional[str] = Non
 
 async def launch_browser_server(port: int = 9222, headless: bool = False) -> str:
     """Launch a persistent browser server for cross-MCP sharing.
-    
+
     This launches Chrome with remote debugging enabled.
     Multiple MCP instances can connect to this browser.
-    
+
     Args:
         port: CDP debugging port (default: 9222)
         headless: Run in headless mode
-        
+
     Returns:
         CDP endpoint URL
-    
+
     Example:
         # Terminal 1: Launch browser server
         endpoint = await launch_browser_server(port=9222, headless=False)
         print(f"Browser server at: {endpoint}")
-        
+
         # MCP instances can now connect:
         # BROWSER_CDP_ENDPOINT=http://localhost:9222 hanzo-mcp
     """
     if not PLAYWRIGHT_AVAILABLE:
         raise RuntimeError("Playwright not installed")
-    
+
     pw = await async_playwright().start()
     browser = await pw.chromium.launch(
         headless=headless,
@@ -503,9 +496,9 @@ async def launch_browser_server(port: int = 9222, headless: bool = False) -> str
             "--no-sandbox",
         ],
     )
-    
+
     # Keep browser running
     endpoint = f"http://localhost:{port}"
     logger.info(f"Browser server launched at {endpoint}")
-    
+
     return endpoint

@@ -13,10 +13,9 @@ import warnings
 
 # Emit deprecation warning on import
 warnings.warn(
-    "uvx_background.py uses blocking subprocess. "
-    "Consider using uvx_tool.UvxTool for async execution.",
+    "uvx_background.py uses blocking subprocess. Consider using uvx_tool.UvxTool for async execution.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 import uuid

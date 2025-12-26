@@ -94,6 +94,7 @@ class RefactorResult:
 @dataclass
 class FileCache:
     """Cache for file contents to avoid redundant I/O."""
+
     content: str
     lines: List[str]
     mtime: float
@@ -302,6 +303,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             parallel: Enable parallel processing (default: True)
         """
         import time
+
         start_time = time.time()
 
         valid_actions = [
@@ -317,9 +319,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         ]
 
         if action not in valid_actions:
-            return MCPResourceDocument(
-                data={"error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"}
-            )
+            return MCPResourceDocument(data={"error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"})
 
         # Resolve file path if provided
         file_path = str(Path(file).resolve()) if file else None
@@ -384,7 +384,8 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             "rg",
             "--json",
             "--word-regexp",
-            "--max-count", str(RIPGREP_BATCH_SIZE),
+            "--max-count",
+            str(RIPGREP_BATCH_SIZE),
             "--no-ignore-vcs",  # Respect .gitignore
         ]
 
@@ -427,13 +428,15 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                         submatches = match_data.get("submatches", [])
                         for submatch in submatches:
                             col = submatch.get("start", 0)
-                            references.append(RefactorLocation(
-                                file=file_path,
-                                line=line_num,
-                                column=col,
-                                text=identifier,
-                                context=context,
-                            ))
+                            references.append(
+                                RefactorLocation(
+                                    file=file_path,
+                                    line=line_num,
+                                    column=col,
+                                    text=identifier,
+                                    context=context,
+                                )
+                            )
                 except json.JSONDecodeError:
                     continue
 
@@ -502,13 +505,15 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                 refs = []
                 for i, line in enumerate(cache.lines):
                     for match in pattern.finditer(line):
-                        refs.append(RefactorLocation(
-                            file=file_path,
-                            line=i + 1,
-                            column=match.start(),
-                            text=identifier,
-                            context=line.strip(),
-                        ))
+                        refs.append(
+                            RefactorLocation(
+                                file=file_path,
+                                line=i + 1,
+                                column=match.start(),
+                                text=identifier,
+                                context=line.strip(),
+                            )
+                        )
                 return refs
 
         # Run all file scans concurrently
@@ -545,7 +550,9 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         # Get the identifier at the position
         cache = await self._get_file_cached(file_path)
         if not cache or line > len(cache.lines):
-            return RefactorResult(success=False, action="rename", errors=[f"Cannot read file or line {line} out of range"])
+            return RefactorResult(
+                success=False, action="rename", errors=[f"Cannot read file or line {line} out of range"]
+            )
 
         target_line = cache.lines[line - 1]
         old_name = self._get_identifier_at(target_line, column)
@@ -560,9 +567,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         references = await self._find_all_references_parallel(file_path, old_name, project_root)
 
         if not references:
-            return RefactorResult(
-                success=False, action="rename", errors=[f"No references found for '{old_name}'"]
-            )
+            return RefactorResult(success=False, action="rename", errors=[f"No references found for '{old_name}'"])
 
         # Group by file for efficient batch edits
         changes_by_file: Dict[str, List[RefactorChange]] = defaultdict(list)
@@ -582,13 +587,15 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             preview_data = []
             for file, changes in changes_by_file.items():
                 for change in changes[:50]:  # Limit preview per file
-                    preview_data.append({
-                        "file": file,
-                        "line": change.line,
-                        "column": change.column,
-                        "old": change.old_text,
-                        "new": change.new_text,
-                    })
+                    preview_data.append(
+                        {
+                            "file": file,
+                            "line": change.line,
+                            "column": change.column,
+                            "old": change.old_text,
+                            "new": change.new_text,
+                        }
+                    )
 
             return RefactorResult(
                 success=True,
@@ -670,12 +677,14 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             preview_data = []
             for file, changes in list(all_changes.items())[:20]:  # Limit files in preview
                 for change in changes[:10]:
-                    preview_data.append({
-                        "file": file,
-                        "line": change.line,
-                        "old": change.old_text,
-                        "new": change.new_text,
-                    })
+                    preview_data.append(
+                        {
+                            "file": file,
+                            "line": change.line,
+                            "old": change.old_text,
+                            "new": change.new_text,
+                        }
+                    )
 
             return RefactorResult(
                 success=True,
@@ -767,9 +776,9 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
 
             line = lines[change.line - 1]
             # Verify the old text matches
-            actual = line[change.column:change.column + len(change.old_text)]
+            actual = line[change.column : change.column + len(change.old_text)]
             if actual == change.old_text:
-                new_line = line[:change.column] + change.new_text + line[change.column + len(change.old_text):]
+                new_line = line[: change.column] + change.new_text + line[change.column + len(change.old_text) :]
                 lines[change.line - 1] = new_line
                 applied += 1
 
@@ -809,17 +818,12 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
 
         identifier = self._get_identifier_at(cache.lines[line - 1], column)
         if not identifier:
-            return RefactorResult(
-                success=False, action="find_references", errors=["No identifier found at position"]
-            )
+            return RefactorResult(success=False, action="find_references", errors=["No identifier found at position"])
 
         project_root = self._find_project_root(file_path)
         references = await self._find_all_references_parallel(file_path, identifier, project_root)
 
-        ref_data = [
-            {"file": r.file, "line": r.line, "column": r.column, "context": r.context}
-            for r in references
-        ]
+        ref_data = [{"file": r.file, "line": r.line, "column": r.column, "context": r.context} for r in references]
 
         return RefactorResult(
             success=True,
@@ -856,12 +860,10 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             return RefactorResult(success=False, action="extract_function", errors=["Cannot read file"])
 
         if start_line < 1 or end_line > len(cache.lines):
-            return RefactorResult(
-                success=False, action="extract_function", errors=["Line range out of bounds"]
-            )
+            return RefactorResult(success=False, action="extract_function", errors=["Line range out of bounds"])
 
         # Extract the code block
-        extracted_lines = cache.lines[start_line - 1:end_line]
+        extracted_lines = cache.lines[start_line - 1 : end_line]
         extracted_code = "\n".join(extracted_lines)
 
         # Detect language and indentation
@@ -887,14 +889,19 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                 action="extract_function",
                 preview=[
                     {"type": "new_function", "code": new_function, "insert_at": f"Before line {start_line}"},
-                    {"type": "replacement", "lines": f"{start_line}-{end_line}", "old_code": extracted_code, "new_code": function_call},
+                    {
+                        "type": "replacement",
+                        "lines": f"{start_line}-{end_line}",
+                        "old_code": extracted_code,
+                        "new_code": function_call,
+                    },
                 ],
                 message=f"Would extract lines {start_line}-{end_line} to function '{new_name}'",
             )
 
         # Apply the extraction
         try:
-            new_lines = cache.lines[:start_line - 1]
+            new_lines = cache.lines[: start_line - 1]
             new_lines.append(new_function)
             new_lines.append("")
             new_lines.append(function_call)
@@ -930,9 +937,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                 success=False, action="extract_variable", errors=["file, line and column are required"]
             )
         if not new_name:
-            return RefactorResult(
-                success=False, action="extract_variable", errors=["new_name is required"]
-            )
+            return RefactorResult(success=False, action="extract_variable", errors=["new_name is required"])
 
         cache = await self._get_file_cached(file_path)
         if not cache or line > len(cache.lines):
@@ -1000,9 +1005,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
     ) -> RefactorResult:
         """Inline a variable or function at all usage sites."""
         if not file_path or not line or column is None:
-            return RefactorResult(
-                success=False, action="inline", errors=["file, line and column are required"]
-            )
+            return RefactorResult(success=False, action="inline", errors=["file, line and column are required"])
 
         cache = await self._get_file_cached(file_path)
         if not cache or line > len(cache.lines):
@@ -1012,9 +1015,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         identifier = self._get_identifier_at(target_line, column)
 
         if not identifier:
-            return RefactorResult(
-                success=False, action="inline", errors=["No identifier found at position"]
-            )
+            return RefactorResult(success=False, action="inline", errors=["No identifier found at position"])
 
         language = self._get_language(file_path)
         definition = self._find_definition(cache.content, identifier, language)
@@ -1031,16 +1032,13 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         usages = [u for u in usages if not (u.file == file_path and u.line == definition["line"])]
 
         if not usages:
-            return RefactorResult(
-                success=False, action="inline", errors=[f"No usages found for '{identifier}'"]
-            )
+            return RefactorResult(success=False, action="inline", errors=[f"No usages found for '{identifier}'"])
 
         inline_value = definition["value"]
 
         if preview:
             preview_data = [
-                {"file": u.file, "line": u.line, "replace": identifier, "with": inline_value}
-                for u in usages[:20]
+                {"file": u.file, "line": u.line, "replace": identifier, "with": inline_value} for u in usages[:20]
             ]
             return RefactorResult(
                 success=True,
@@ -1144,7 +1142,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
 
         # Remove from source file
         try:
-            new_lines = cache.lines[:block["start"] - 1] + cache.lines[block["end"]:]
+            new_lines = cache.lines[: block["start"] - 1] + cache.lines[block["end"] :]
             await loop.run_in_executor(None, self._write_file_sync, file_path, "\n".join(new_lines))
             await self._invalidate_cache(file_path)
         except Exception as e:
@@ -1178,8 +1176,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         """
         if not file_path or not line:
             return RefactorResult(
-                success=False, action="change_signature",
-                errors=["file and line are required to locate the function"]
+                success=False, action="change_signature", errors=["file and line are required to locate the function"]
             )
 
         cache = await self._get_file_cached(file_path)
@@ -1192,8 +1189,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         func_info = self._parse_function_signature(cache.lines, line, language)
         if not func_info:
             return RefactorResult(
-                success=False, action="change_signature",
-                errors=[f"No function signature found at line {line}"]
+                success=False, action="change_signature", errors=[f"No function signature found at line {line}"]
             )
 
         func_name = func_info["name"]
@@ -1217,22 +1213,26 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         changes_by_file: Dict[str, List[RefactorChange]] = defaultdict(list)
 
         # First, change the function definition
-        old_sig_lines = cache.lines[signature_line - 1:signature_end_line]
+        old_sig_lines = cache.lines[signature_line - 1 : signature_end_line]
         old_sig = "\n".join(old_sig_lines)
 
-        changes_by_file[file_path].append(RefactorChange(
-            file=file_path,
-            line=signature_line,
-            column=0,
-            end_line=signature_end_line,
-            end_column=len(cache.lines[signature_end_line - 1]) if signature_end_line <= len(cache.lines) else 0,
-            old_text=old_sig,
-            new_text=new_signature,
-            description="Update function signature",
-        ))
+        changes_by_file[file_path].append(
+            RefactorChange(
+                file=file_path,
+                line=signature_line,
+                column=0,
+                end_line=signature_end_line,
+                end_column=len(cache.lines[signature_end_line - 1]) if signature_end_line <= len(cache.lines) else 0,
+                old_text=old_sig,
+                new_text=new_signature,
+                description="Update function signature",
+            )
+        )
 
         # Then update all call sites
-        call_changes = await self._update_call_sites(call_sites, func_name, params, new_params, param_mapping, changes, language)
+        call_changes = await self._update_call_sites(
+            call_sites, func_name, params, new_params, param_mapping, changes, language
+        )
         for call_change in call_changes:
             changes_by_file[call_change.file].append(call_change)
 
@@ -1240,17 +1240,24 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
 
         if preview:
             preview_data = [
-                {"type": "signature", "file": file_path, "line": signature_line,
-                 "old": old_sig.strip(), "new": new_signature.strip()}
+                {
+                    "type": "signature",
+                    "file": file_path,
+                    "line": signature_line,
+                    "old": old_sig.strip(),
+                    "new": new_signature.strip(),
+                }
             ]
             for call_change in call_changes[:20]:
-                preview_data.append({
-                    "type": "call_site",
-                    "file": call_change.file,
-                    "line": call_change.line,
-                    "old": call_change.old_text,
-                    "new": call_change.new_text,
-                })
+                preview_data.append(
+                    {
+                        "type": "call_site",
+                        "file": call_change.file,
+                        "line": call_change.line,
+                        "old": call_change.old_text,
+                        "new": call_change.new_text,
+                    }
+                )
 
             return RefactorResult(
                 success=True,
@@ -1259,19 +1266,23 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                 changes_applied=total_changes,
                 preview=preview_data,
                 message=f"Would update signature of '{func_name}' and {len(call_changes)} call sites",
-                stats={"call_sites_found": len(call_sites), "params_before": len(params), "params_after": len(new_params)},
+                stats={
+                    "call_sites_found": len(call_sites),
+                    "params_before": len(params),
+                    "params_after": len(new_params),
+                },
             )
 
         # Apply all changes
-        result = await self._apply_signature_changes_to_files(changes_by_file, cache, file_path, signature_line, signature_end_line, new_signature)
+        result = await self._apply_signature_changes_to_files(
+            changes_by_file, cache, file_path, signature_line, signature_end_line, new_signature
+        )
         result.action = "change_signature"
         result.message = f"Updated signature of '{func_name}' and {len(call_changes)} call sites"
         result.stats = {"call_sites_updated": len(call_changes)}
         return result
 
-    def _parse_function_signature(
-        self, lines: List[str], line_num: int, language: str
-    ) -> Optional[Dict[str, Any]]:
+    def _parse_function_signature(self, lines: List[str], line_num: int, language: str) -> Optional[Dict[str, Any]]:
         """Parse a function signature at the given line."""
         if line_num > len(lines):
             return None
@@ -1667,16 +1678,18 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             new_call = f"{func_name}({', '.join(new_args)})"
 
             if new_call != call_text:
-                call_changes.append(RefactorChange(
-                    file=site.file,
-                    line=site.line,
-                    column=call_start,
-                    end_line=site.line,  # Simplified - assuming single line
-                    end_column=call_start + len(call_text),
-                    old_text=call_text,
-                    new_text=new_call,
-                    description=f"Update call to {func_name}",
-                ))
+                call_changes.append(
+                    RefactorChange(
+                        file=site.file,
+                        line=site.line,
+                        column=call_start,
+                        end_line=site.line,  # Simplified - assuming single line
+                        end_column=call_start + len(call_text),
+                        old_text=call_text,
+                        new_text=new_call,
+                        description=f"Update call to {func_name}",
+                    )
+                )
 
         return call_changes
 
@@ -1698,7 +1711,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         paren_count = 1
         pos = paren_start + 1
         current_line = line_idx
-        call_text = line[start_col:paren_start + 1]
+        call_text = line[start_col : paren_start + 1]
 
         while paren_count > 0:
             if pos >= len(lines[current_line]):
@@ -1720,12 +1733,12 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
 
         # Include the final character
         if current_line == line_idx:
-            call_text = line[start_col:paren_start + 1 + (pos - paren_start - 1)]
+            call_text = line[start_col : paren_start + 1 + (pos - paren_start - 1)]
 
         # Simple single-line extraction
         end = line.find(")", paren_start)
         if end >= 0:
-            return line[start_col:end + 1], end + 1
+            return line[start_col : end + 1], end + 1
 
         return None, 0
 
@@ -1738,7 +1751,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             start = call_text.find("(")
             end = call_text.rfind(")")
             if start >= 0 and end > start:
-                args_str = call_text[start + 1:end]
+                args_str = call_text[start + 1 : end]
             else:
                 return []
         else:
@@ -1838,13 +1851,13 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
                     # Handle signature change specially (may span multiple lines)
                     if target_file == file_path and change.line == sig_line:
                         # Replace signature lines
-                        lines = lines[:sig_line - 1] + [new_signature] + lines[sig_end_line:]
+                        lines = lines[: sig_line - 1] + [new_signature] + lines[sig_end_line:]
                         changes_applied += 1
                     else:
                         # Normal single-line change
                         if change.line <= len(lines):
                             line = lines[change.line - 1]
-                            new_line = line[:change.column] + change.new_text + line[change.end_column:]
+                            new_line = line[: change.column] + change.new_text + line[change.end_column :]
                             lines[change.line - 1] = new_line
                             changes_applied += 1
 
@@ -1949,12 +1962,56 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         """Find variables used in a code block."""
         identifiers = set(re.findall(r"\b([a-zA-Z_][a-zA-Z0-9_]*)\b", code))
         keywords = {
-            "if", "else", "for", "while", "def", "class", "return", "import", "from",
-            "in", "and", "or", "not", "True", "False", "None", "async", "await",
-            "try", "except", "finally", "with", "as", "is", "lambda", "yield",
-            "break", "continue", "pass", "raise", "global", "nonlocal", "assert", "del",
-            "function", "const", "let", "var", "new", "this", "super", "extends",
-            "func", "type", "struct", "interface", "package", "fn", "mut", "pub",
+            "if",
+            "else",
+            "for",
+            "while",
+            "def",
+            "class",
+            "return",
+            "import",
+            "from",
+            "in",
+            "and",
+            "or",
+            "not",
+            "True",
+            "False",
+            "None",
+            "async",
+            "await",
+            "try",
+            "except",
+            "finally",
+            "with",
+            "as",
+            "is",
+            "lambda",
+            "yield",
+            "break",
+            "continue",
+            "pass",
+            "raise",
+            "global",
+            "nonlocal",
+            "assert",
+            "del",
+            "function",
+            "const",
+            "let",
+            "var",
+            "new",
+            "this",
+            "super",
+            "extends",
+            "func",
+            "type",
+            "struct",
+            "interface",
+            "package",
+            "fn",
+            "mut",
+            "pub",
         }
         return identifiers - keywords
 

@@ -18,12 +18,14 @@ from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 # Check available search backends
 try:
     import tree_sitter
+
     TREESITTER_AVAILABLE = True
 except ImportError:
     TREESITTER_AVAILABLE = False
 
 try:
     from hanzo_mcp.tools.lsp.lsp_tool import LSP_SERVERS, LSPTool
+
     LSP_AVAILABLE = True
 except ImportError:
     LSP_AVAILABLE = False
@@ -32,6 +34,7 @@ except ImportError:
 @dataclass
 class SearchResult:
     """Unified search result."""
+
     file_path: str
     line_number: int
     column: int
@@ -65,16 +68,16 @@ class SearchResult:
 
 class SearchTool(BaseTool):
     """THE search tool - finds anything, fast.
-    
+
     Runs ALL available search engines in parallel:
     - grep (ripgrep) - fast text/regex
     - ast (tree-sitter) - code structure
-    - lsp - precise references  
+    - lsp - precise references
     - file - filename matching
     - git - history search
-    
+
     No toggles. No configuration. Just search.
-    
+
     For manual control: exec.parallel([grep(...), ast(...), lsp(...)])
     """
 
@@ -103,7 +106,9 @@ class SearchTool(BaseTool):
         try:
             result = subprocess.run(
                 ["git", "rev-parse", "--git-dir"],
-                capture_output=True, cwd=path or ".", timeout=2,
+                capture_output=True,
+                cwd=path or ".",
+                timeout=2,
             )
             return result.returncode == 0
         except Exception:
@@ -148,19 +153,19 @@ class SearchTool(BaseTool):
             timed("grep", self._grep_search(pattern, path, include, exclude, max_per_engine, context_lines)),
             timed("file", self._file_search(pattern, path, include, exclude, max_per_engine)),
         ]
-        
+
         if TREESITTER_AVAILABLE:
             tasks.append(timed("ast", self._ast_search(pattern, path, include, exclude, max_per_engine, context_lines)))
-        
+
         if LSP_AVAILABLE:
             tasks.append(timed("lsp", self._lsp_search(pattern, path, include, max_per_engine)))
-        
+
         if is_git_repo and self.git_available:
             tasks.append(timed("git", self._git_search(pattern, path, max_per_engine)))
 
         # Execute all in parallel
         results_list = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
         for result in results_list:
             if isinstance(result, Exception):
                 continue
@@ -172,7 +177,7 @@ class SearchTool(BaseTool):
         # Dedupe and rank
         unique = self._deduplicate(all_results)
         ranked = self._rank(unique, pattern)
-        
+
         stats["total"] = len(all_results)
         stats["unique"] = len(ranked)
 
@@ -181,16 +186,18 @@ class SearchTool(BaseTool):
         end_idx = start_idx + page_size
         page_results = ranked[start_idx:end_idx]
 
-        return MCPResourceDocument(data={
-            "results": [r.to_dict() for r in page_results],
-            "stats": stats,
-            "pagination": {
-                "page": page,
-                "page_size": page_size,
-                "total": len(ranked),
-                "has_next": end_idx < len(ranked),
-            },
-        })
+        return MCPResourceDocument(
+            data={
+                "results": [r.to_dict() for r in page_results],
+                "stats": stats,
+                "pagination": {
+                    "page": page,
+                    "page_size": page_size,
+                    "total": len(ranked),
+                    "has_next": end_idx < len(ranked),
+                },
+            }
+        )
 
     @auto_timeout("search")
     async def call(self, ctx=None, **kwargs) -> str:
@@ -213,16 +220,26 @@ class SearchTool(BaseTool):
         ) -> str:
             """Search everything in parallel."""
             return await self.call(
-                pattern=pattern, path=path, include=include, exclude=exclude,
-                max_results=max_results, context_lines=context_lines,
-                page=page, page_size=page_size,
+                pattern=pattern,
+                path=path,
+                include=include,
+                exclude=exclude,
+                max_results=max_results,
+                context_lines=context_lines,
+                page=page,
+                page_size=page_size,
             )
 
     # --- Search Engines ---
 
     async def _grep_search(
-        self, pattern: str, path: str, include: Optional[str],
-        exclude: Optional[str], max_results: int, context_lines: int,
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        exclude: Optional[str],
+        max_results: int,
+        context_lines: int,
     ) -> List[SearchResult]:
         """Text search using ripgrep."""
         if not self.ripgrep_available:
@@ -248,18 +265,24 @@ class SearchTool(BaseTool):
                         lines_data = m.get("lines", {})
                         match_text = lines_data.get("text", "") if isinstance(lines_data, dict) else str(lines_data)
                         path_data = m.get("path", {})
-                        file_path = path_data.get("text", str(path_data)) if isinstance(path_data, dict) else str(path_data)
+                        file_path = (
+                            path_data.get("text", str(path_data)) if isinstance(path_data, dict) else str(path_data)
+                        )
                         submatches = m.get("submatches", [{}])
                         column = submatches[0].get("start", 0) if submatches else 0
-                        
-                        results.append(SearchResult(
-                            file_path=file_path,
-                            line_number=m.get("line_number", 0),
-                            column=column,
-                            match_text=match_text.strip() if isinstance(match_text, str) else str(match_text),
-                            context_before=[], context_after=[],
-                            match_type="grep", score=1.0,
-                        ))
+
+                        results.append(
+                            SearchResult(
+                                file_path=file_path,
+                                line_number=m.get("line_number", 0),
+                                column=column,
+                                match_text=match_text.strip() if isinstance(match_text, str) else str(match_text),
+                                context_before=[],
+                                context_after=[],
+                                match_type="grep",
+                                score=1.0,
+                            )
+                        )
                 except json.JSONDecodeError:
                     continue
         except Exception:
@@ -267,8 +290,13 @@ class SearchTool(BaseTool):
         return results
 
     async def _ast_search(
-        self, pattern: str, path: str, include: Optional[str],
-        exclude: Optional[str], max_results: int, context_lines: int,
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        exclude: Optional[str],
+        max_results: int,
+        context_lines: int,
     ) -> List[SearchResult]:
         """AST search using tree-sitter via grep-ast."""
         try:
@@ -278,7 +306,7 @@ class SearchTool(BaseTool):
 
         results = []
         search_path = Path(path or ".")
-        
+
         # Use ripgrep to find candidate files first (fast)
         files = []
         if self.ripgrep_available:
@@ -291,7 +319,7 @@ class SearchTool(BaseTool):
             if exclude:
                 cmd.extend(["--glob", f"!{exclude}"])
             cmd.extend([pattern, str(search_path)])
-            
+
             try:
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
                 if result.returncode == 0:
@@ -306,63 +334,88 @@ class SearchTool(BaseTool):
                 tc = TreeContext(str(file_path), code, color=False, verbose=False, line_number=True)
                 matches = tc.grep(pattern, ignore_case=False)
                 lines = code.split("\n")
-                
+
                 for line_num in matches:
-                    results.append(SearchResult(
-                        file_path=str(file_path),
-                        line_number=line_num,
-                        column=0,
-                        match_text=lines[line_num - 1] if 0 < line_num <= len(lines) else "",
-                        context_before=lines[max(0, line_num - context_lines - 1):line_num - 1],
-                        context_after=lines[line_num:min(len(lines), line_num + context_lines)],
-                        match_type="ast", score=0.9, node_type="ast_match",
-                    ))
+                    results.append(
+                        SearchResult(
+                            file_path=str(file_path),
+                            line_number=line_num,
+                            column=0,
+                            match_text=lines[line_num - 1] if 0 < line_num <= len(lines) else "",
+                            context_before=lines[max(0, line_num - context_lines - 1) : line_num - 1],
+                            context_after=lines[line_num : min(len(lines), line_num + context_lines)],
+                            match_type="ast",
+                            score=0.9,
+                            node_type="ast_match",
+                        )
+                    )
             except Exception:
                 continue
         return results
 
     async def _file_search(
-        self, pattern: str, path: str, include: Optional[str],
-        exclude: Optional[str], max_results: int,
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        exclude: Optional[str],
+        max_results: int,
     ) -> List[SearchResult]:
         """Filename search."""
         results = []
         try:
             from hanzo_mcp.tools.search.find_tool import FindTool
+
             find = FindTool()
             find_result = await find.run(
-                pattern=pattern, path=path, type="file",
-                max_results=max_results, regex=False, fuzzy=False, case_sensitive=False,
+                pattern=pattern,
+                path=path,
+                type="file",
+                max_results=max_results,
+                regex=False,
+                fuzzy=False,
+                case_sensitive=False,
             )
             if find_result.data and "results" in find_result.data:
                 for f in find_result.data["results"]:
-                    results.append(SearchResult(
-                        file_path=f["path"], line_number=1, column=0,
-                        match_text=f["name"], context_before=[], context_after=[],
-                        match_type="file", score=1.0,
-                        semantic_context=f"File: {f.get('extension', '')} ({f.get('size', 0)} bytes)",
-                    ))
+                    results.append(
+                        SearchResult(
+                            file_path=f["path"],
+                            line_number=1,
+                            column=0,
+                            match_text=f["name"],
+                            context_before=[],
+                            context_after=[],
+                            match_type="file",
+                            score=1.0,
+                            semantic_context=f"File: {f.get('extension', '')} ({f.get('size', 0)} bytes)",
+                        )
+                    )
         except Exception:
             pass
         return results
 
     async def _lsp_search(
-        self, pattern: str, path: str, include: Optional[str], max_results: int,
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        max_results: int,
     ) -> List[SearchResult]:
         """LSP reference search."""
         if not LSP_AVAILABLE:
             return []
-            
+
         results = []
         try:
             root_path = Path(path).resolve()
-            
+
             # Find files containing pattern
             cmd = ["rg", "--files-with-matches", "-l", pattern]
             if include:
                 cmd.extend(["--glob", include])
             cmd.append(str(root_path))
-            
+
             try:
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
                 matching_files = [f.strip() for f in result.stdout.strip().split("\n") if f.strip()]
@@ -376,18 +429,26 @@ class SearchTool(BaseTool):
                         for line_num, line in enumerate(f, 1):
                             col = line.find(pattern)
                             if col >= 0:
-                                lsp_result = await lsp.run(action="references", file=file_path, line=line_num, character=col)
+                                lsp_result = await lsp.run(
+                                    action="references", file=file_path, line=line_num, character=col
+                                )
                                 if lsp_result.data and "references" in lsp_result.data:
                                     for ref in lsp_result.data["references"][:max_results]:
                                         ref_path = ref.get("uri", "").replace("file://", "")
                                         ref_line = ref.get("range", {}).get("start", {}).get("line", 0) + 1
-                                        results.append(SearchResult(
-                                            file_path=ref_path, line_number=ref_line,
-                                            column=ref.get("range", {}).get("start", {}).get("character", 0),
-                                            match_text=pattern, context_before=[], context_after=[],
-                                            match_type="lsp", score=0.95,
-                                            semantic_context=f"LSP ref to '{pattern}'",
-                                        ))
+                                        results.append(
+                                            SearchResult(
+                                                file_path=ref_path,
+                                                line_number=ref_line,
+                                                column=ref.get("range", {}).get("start", {}).get("character", 0),
+                                                match_text=pattern,
+                                                context_before=[],
+                                                context_after=[],
+                                                match_type="lsp",
+                                                score=0.95,
+                                                semantic_context=f"LSP ref to '{pattern}'",
+                                            )
+                                        )
                                 break
                 except Exception:
                     continue
@@ -402,46 +463,64 @@ class SearchTool(BaseTool):
             # git log -S (pickaxe)
             cmd = ["git", "log", f"-S{pattern}", "--oneline", f"-n{max_results}", "--pretty=format:%h|%s|%an|%ar"]
             result = subprocess.run(cmd, capture_output=True, text=True, cwd=path or ".", timeout=10)
-            
+
             if result.returncode == 0:
                 for line in result.stdout.strip().split("\n"):
                     parts = line.split("|", 3)
                     if len(parts) >= 4:
                         commit, subject, author, date = parts
-                        results.append(SearchResult(
-                            file_path=f"git://{commit}", line_number=0, column=0,
-                            match_text=subject.strip(), context_before=[], context_after=[],
-                            match_type="git", score=0.85,
-                            semantic_context=f"Commit by {author} ({date})",
-                        ))
+                        results.append(
+                            SearchResult(
+                                file_path=f"git://{commit}",
+                                line_number=0,
+                                column=0,
+                                match_text=subject.strip(),
+                                context_before=[],
+                                context_after=[],
+                                match_type="git",
+                                score=0.85,
+                                semantic_context=f"Commit by {author} ({date})",
+                            )
+                        )
 
             # git grep
             if len(results) < max_results:
                 grep_cmd = ["git", "grep", "-n", "-I", f"--max-count={max_results - len(results)}", pattern]
                 grep_result = subprocess.run(grep_cmd, capture_output=True, text=True, cwd=path or ".", timeout=10)
-                
+
                 if grep_result.returncode == 0:
                     for line in grep_result.stdout.strip().split("\n"):
                         parts = line.split(":", 2)
                         if len(parts) >= 3:
                             fp, ln, content = parts
-                            results.append(SearchResult(
-                                file_path=str(Path(path or ".").resolve() / fp),
-                                line_number=int(ln) if ln.isdigit() else 1,
-                                column=0, match_text=content.strip(),
-                                context_before=[], context_after=[],
-                                match_type="git", score=0.9,
-                            ))
+                            results.append(
+                                SearchResult(
+                                    file_path=str(Path(path or ".").resolve() / fp),
+                                    line_number=int(ln) if ln.isdigit() else 1,
+                                    column=0,
+                                    match_text=content.strip(),
+                                    context_before=[],
+                                    context_after=[],
+                                    match_type="git",
+                                    score=0.9,
+                                )
+                            )
         except Exception:
             pass
         return results
 
     async def _python_grep(
-        self, pattern: str, path: str, include: Optional[str],
-        exclude: Optional[str], max_results: int, context_lines: int,
+        self,
+        pattern: str,
+        path: str,
+        include: Optional[str],
+        exclude: Optional[str],
+        max_results: int,
+        context_lines: int,
     ) -> List[SearchResult]:
         """Fallback Python text search."""
         import re
+
         results = []
         try:
             regex = re.compile(pattern)
@@ -461,13 +540,18 @@ class SearchTool(BaseTool):
                             break
                         match = regex.search(line)
                         if match:
-                            results.append(SearchResult(
-                                file_path=str(file_path), line_number=i + 1, column=match.start(),
-                                match_text=line.strip(),
-                                context_before=lines[max(0, i - context_lines):i],
-                                context_after=lines[i + 1:i + 1 + context_lines],
-                                match_type="grep", score=1.0,
-                            ))
+                            results.append(
+                                SearchResult(
+                                    file_path=str(file_path),
+                                    line_number=i + 1,
+                                    column=match.start(),
+                                    match_text=line.strip(),
+                                    context_before=lines[max(0, i - context_lines) : i],
+                                    context_after=lines[i + 1 : i + 1 + context_lines],
+                                    match_type="grep",
+                                    score=1.0,
+                                )
+                            )
                             count += 1
                 except Exception:
                     continue

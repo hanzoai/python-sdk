@@ -575,7 +575,10 @@ class StreamingCommandTool(BaseProcessTool):
         try:
             # Use tail command for efficiency (async to avoid blocking)
             process = await asyncio.create_subprocess_exec(
-                "tail", "-n", str(lines or 20), str(output_file),
+                "tail",
+                "-n",
+                str(lines or 20),
+                str(output_file),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
             )
