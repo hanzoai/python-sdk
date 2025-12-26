@@ -4,7 +4,7 @@ This package provides agent orchestration and multi-agent tools:
 - agent: Agent spawning and orchestration
 - swarm: Multi-agent swarm coordination
 - CLI agents: Claude, Codex, Gemini, Grok CLI tools
-- code_review: Critical code review tool
+- critic: Critical analysis and review tool
 - review: Code review tool
 
 Install:
@@ -25,7 +25,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Core tools that don't have external dependencies
-from .critic_tool import CodeReviewTool
+from .critic_tool import CriticTool
 from .iching_tool import IChingTool
 from .review_tool import ReviewTool
 from .network_tool import NetworkTool
@@ -58,7 +58,7 @@ except ImportError as e:
 
 # Export list for tool discovery
 TOOLS = [
-    CodeReviewTool,
+    CriticTool,
     IChingTool,
     ReviewTool,
     ClarificationTool,
@@ -73,7 +73,7 @@ TOOLS = [
 __all__ = [
     "register_tools",
     "TOOLS",
-    "CodeReviewTool",
+    "CriticTool",
     "IChingTool",
     "ReviewTool",
     "ClarificationTool",
