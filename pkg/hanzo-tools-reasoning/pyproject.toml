@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-reasoning"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reasoning and critical analysis tools for Hanzo MCP"
 readme = "README.md"
 requires-python = ">=3.12"

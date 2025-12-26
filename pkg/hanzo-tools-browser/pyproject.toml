@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.1.0"
+version = "0.2.0"
 description = "Browser automation tools using Playwright - async-first, shared browser pool"
 readme = "README.md"
 requires-python = ">=3.12"
