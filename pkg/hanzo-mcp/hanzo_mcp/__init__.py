@@ -26,4 +26,4 @@ if os.environ.get("HANZO_MCP_TRANSPORT") == "stdio":
     except ImportError:
         pass
 
-__version__ = "0.10.9"
+__version__ = "0.10.13"

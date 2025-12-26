@@ -1,9 +1,11 @@
 """Search tool - search file contents."""
 
 import re
-import subprocess
+import asyncio
 from typing import Optional, Annotated
 from pathlib import Path
+
+import aiofiles
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -70,7 +72,7 @@ Returns:
         context_lines: int,
         max_results: int,
     ) -> Optional[str]:
-        """Search using ripgrep."""
+        """Search using ripgrep (async)."""
         cmd = [
             "rg",
             "--line-number",
@@ -87,20 +89,26 @@ Returns:
         cmd.extend([pattern, str(root)])
 
         try:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=30,
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
             )
 
-            if result.returncode == 0:
-                return result.stdout or "No matches found"
-            elif result.returncode == 1:
+            try:
+                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=30)
+            except asyncio.TimeoutError:
+                process.kill()
+                await process.wait()
+                return None
+
+            if process.returncode == 0:
+                return stdout.decode("utf-8", errors="replace") or "No matches found"
+            elif process.returncode == 1:
                 return "No matches found"
             else:
                 return None  # Fall back to Python
-        except (subprocess.TimeoutExpired, FileNotFoundError):
+        except FileNotFoundError:
             return None
 
     async def _search_with_python(
@@ -111,7 +119,7 @@ Returns:
         context_lines: int,
         max_results: int,
     ) -> str:
-        """Search using Python regex."""
+        """Search using Python regex (async file I/O)."""
         import fnmatch
 
         try:
@@ -135,8 +143,9 @@ Returns:
                 continue
 
             try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    lines = f.readlines()
+                async with aiofiles.open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = await f.read()
+                    lines = content.splitlines()
 
                 for i, line in enumerate(lines, 1):
                     if regex.search(line):

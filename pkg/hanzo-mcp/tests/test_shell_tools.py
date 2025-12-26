@@ -13,8 +13,8 @@ import pytest
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_mcp.tools.shell.zsh_tool import ZshTool, ShellTool
-from hanzo_mcp.tools.shell.bash_tool import BashTool
+from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool
+from hanzo_tools.shell.bash_tool import BashTool
 
 
 class MockContext:
@@ -218,7 +218,7 @@ class TestShellIntegration:
     @pytest.mark.asyncio
     async def test_shell_tools_registration(self):
         """Test that shell tools can be registered."""
-        from hanzo_mcp.tools.shell import get_shell_tools
+        from hanzo_tools.shell import get_shell_tools
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         pm = PermissionManager()
@@ -235,7 +235,7 @@ class TestShellIntegration:
 
     def test_shell_tool_ordering(self):
         """Test that shell tools are returned in correct order."""
-        from hanzo_mcp.tools.shell import get_shell_tools
+        from hanzo_tools.shell import get_shell_tools
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         pm = PermissionManager()

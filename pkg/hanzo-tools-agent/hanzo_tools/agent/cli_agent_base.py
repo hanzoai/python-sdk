@@ -21,9 +21,9 @@ class CLIAgentBase(BaseTool):
 
     def __init__(
         self,
-        permission_manager: PermissionManager,
-        command_name: str,
-        provider_name: str,
+        permission_manager: Optional[PermissionManager] = None,
+        command_name: str = "",
+        provider_name: str = "",
         default_model: Optional[str] = None,
         env_vars: Optional[List[str]] = None,
         **kwargs,

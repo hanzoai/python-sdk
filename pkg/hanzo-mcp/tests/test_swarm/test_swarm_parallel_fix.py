@@ -7,7 +7,7 @@ achieving 10-100x performance gains for complex refactoring tasks.
 import json
 
 import pytest
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

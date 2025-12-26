@@ -12,7 +12,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from hanzo_mcp.tools.agent.code_auth import CodeAuthManager, get_latest_claude_model
+from hanzo_tools.agent.code_auth import CodeAuthManager, get_latest_claude_model
 from hanzo_mcp.tools.common.truncate import estimate_tokens
 
 

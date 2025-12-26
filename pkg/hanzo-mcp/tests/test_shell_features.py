@@ -5,11 +5,11 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.shell.zsh_tool import ShellTool
-from hanzo_mcp.tools.shell.bash_tool import BashTool
+from hanzo_tools.shell.zsh_tool import ShellTool
+from hanzo_tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.shell.base_process import ProcessManager
-from hanzo_mcp.tools.shell.process_tool import ProcessTool
+from hanzo_tools.shell.base_process import ProcessManager
+from hanzo_tools.shell.process_tool import ProcessTool
 
 
 @pytest.fixture
@@ -121,7 +121,7 @@ class TestAutoBackgrounding:
         assert "backgrounded" not in result.lower()
 
     @pytest.mark.asyncio
-    @patch("hanzo_mcp.tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background")
+    @patch("hanzo_tools.shell.auto_background.AutoBackgroundExecutor.execute_with_auto_background")
     async def test_long_command_backgrounds(self, mock_execute, tool_helper, bash_tool, mock_ctx):
         """Test that long-running commands are backgrounded."""
         # Simulate backgrounding
