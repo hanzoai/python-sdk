@@ -163,6 +163,10 @@ class DagTool(BaseTool):
 Execute shell commands or tools with DAG (directed acyclic graph) semantics.
 Supports serial, parallel, and complex mixed execution patterns.
 
+DISPLAY INSTRUCTIONS: This tool returns plain text output. Show the output
+in a fenced code block. The final line shows execution summary:
+[dag] N nodes, Xms, ✓ (or ✗ if failed)
+
 MODES:
 
 Serial (default): dag(["ls", "pwd"])
@@ -187,10 +191,8 @@ Named with dependencies:
       {"id": "test", "run": "make test", "after": ["build"]},
   ])
 
-Uses zsh for shell execution.
-
-AUTO-BACKGROUNDING: Commands that exceed timeout are automatically
-backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
+Uses zsh for shell execution. Commands exceeding timeout auto-background.
+Use ps --logs <id> to view output, ps --kill <id> to stop."""
 
     async def _run_shell(
         self,
