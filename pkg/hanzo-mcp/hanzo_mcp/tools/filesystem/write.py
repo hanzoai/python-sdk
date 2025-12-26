@@ -64,13 +64,16 @@ class Write(FilesystemBaseTool):
         Returns:
             Tool description
         """
-        return """Writes a file to the local filesystem.
+        return """Write content to a file.
+
+DISPLAY INSTRUCTIONS: Returns confirmation message.
+Show as a brief status: "Wrote N bytes to path" or error message.
 
 Usage:
-- This tool will overwrite the existing file if there is one at the provided path.
-- If this is an existing file, you MUST use the Read tool first to read the file's contents. This tool will fail if you did not read the file first.
-- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.
-- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User."""
+- Overwrites existing file at path
+- MUST read file first before overwriting (will fail otherwise)
+- Prefer editing over writing new files
+- Never create docs unless explicitly requested"""
 
     @override
     @auto_timeout("write")
