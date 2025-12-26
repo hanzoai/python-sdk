@@ -13,10 +13,9 @@ import warnings
 
 # Emit deprecation warning on import
 warnings.warn(
-    "npx_background.py uses blocking subprocess.Popen. "
-    "Consider using npx_tool.NpxTool for async execution.",
+    "npx_background.py uses blocking subprocess.Popen. Consider using npx_tool.NpxTool for async execution.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 import uuid

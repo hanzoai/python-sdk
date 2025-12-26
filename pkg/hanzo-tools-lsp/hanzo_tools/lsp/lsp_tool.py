@@ -137,7 +137,7 @@ class LSPTool(BaseTool):
     """Language Server Protocol tool for code intelligence."""
 
     name = "lsp"
-    
+
     @property
     def description(self) -> str:
         return """Language Server Protocol tool for code intelligence.
@@ -317,11 +317,14 @@ class LSPTool(BaseTool):
             logger.error(f"Error reading LSP message: {e}")
             return None
 
-    async def _send_request(self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0) -> Optional[Dict[str, Any]]:
+    async def _send_request(
+        self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0
+    ) -> Optional[Dict[str, Any]]:
         """Send JSON-RPC request to LSP server and wait for response."""
         if not server.process or server.process.returncode is not None or not server.process.stdin:
             return None
         import time
+
         async with server.lock:
             try:
                 request_str = json.dumps(request)
@@ -361,7 +364,15 @@ class LSPTool(BaseTool):
             logger.error(f"Failed to send notification: {e}")
             return False
 
-    async def run(self, action: str, file: str, line: Optional[int] = None, character: Optional[int] = None, new_name: Optional[str] = None, **kwargs) -> MCPResourceDocument:
+    async def run(
+        self,
+        action: str,
+        file: str,
+        line: Optional[int] = None,
+        character: Optional[int] = None,
+        new_name: Optional[str] = None,
+        **kwargs,
+    ) -> MCPResourceDocument:
         """Execute LSP action."""
         valid_actions = ["definition", "references", "rename", "diagnostics", "hover", "completion", "status"]
         if action not in valid_actions:
@@ -369,20 +380,36 @@ class LSPTool(BaseTool):
 
         language = self._get_language_from_file(file)
         if not language:
-            return MCPResourceDocument(data={"error": f"Unsupported file type: {file}", "supported_languages": list(LSP_SERVERS.keys())})
+            return MCPResourceDocument(
+                data={"error": f"Unsupported file type: {file}", "supported_languages": list(LSP_SERVERS.keys())}
+            )
 
         capabilities = LSP_SERVERS[language]["capabilities"]
         if action not in capabilities and action != "status":
-            return MCPResourceDocument(data={"error": f"Action '{action}' not supported for {language}", "supported_actions": capabilities})
+            return MCPResourceDocument(
+                data={"error": f"Action '{action}' not supported for {language}", "supported_actions": capabilities}
+            )
 
         if action == "status":
             installed = await self._check_lsp_installed(language)
-            return MCPResourceDocument(data={"language": language, "lsp_server": LSP_SERVERS[language]["name"], "installed": installed, "capabilities": capabilities})
+            return MCPResourceDocument(
+                data={
+                    "language": language,
+                    "lsp_server": LSP_SERVERS[language]["name"],
+                    "installed": installed,
+                    "capabilities": capabilities,
+                }
+            )
 
         root_uri = self._find_project_root(file, language)
         server = await self._ensure_lsp_running(language, root_uri)
         if not server:
-            return MCPResourceDocument(data={"error": f"Failed to start LSP server for {language}", "install_command": " ".join(LSP_SERVERS[language]["install_cmd"])})
+            return MCPResourceDocument(
+                data={
+                    "error": f"Failed to start LSP server for {language}",
+                    "install_command": " ".join(LSP_SERVERS[language]["install_cmd"]),
+                }
+            )
 
         result = await self._execute_lsp_action(server, action, file, line, character, new_name)
         return MCPResourceDocument(data=result)
@@ -394,8 +421,15 @@ class LSPTool(BaseTool):
 
     def register(self, mcp_server) -> None:
         """Register tool with MCP server."""
+
         @mcp_server.tool(name=self.name, description=self.description)
-        async def lsp_handler(action: str, file: str, line: Optional[int] = None, character: Optional[int] = None, new_name: Optional[str] = None) -> str:
+        async def lsp_handler(
+            action: str,
+            file: str,
+            line: Optional[int] = None,
+            character: Optional[int] = None,
+            new_name: Optional[str] = None,
+        ) -> str:
             return await self.call(action=action, file=file, line=line, character=character, new_name=new_name)
 
     async def _open_document(self, server: LSPServer, file_path: str) -> bool:
@@ -414,7 +448,9 @@ class LSPTool(BaseTool):
                 language_id = "typescriptreact" if "ts" in ext else "javascriptreact"
             elif ext in [".js", ".mjs", ".cjs"]:
                 language_id = "javascript"
-        params = {"textDocument": {"uri": f"file://{abs_path}", "languageId": language_id, "version": 1, "text": content}}
+        params = {
+            "textDocument": {"uri": f"file://{abs_path}", "languageId": language_id, "version": 1, "text": content}
+        }
         return await self._send_notification(server, "textDocument/didOpen", params)
 
     def _parse_location(self, location: Dict[str, Any]) -> Dict[str, Any]:
@@ -430,7 +466,15 @@ class LSPTool(BaseTool):
             "end": {"line": end.get("line", 0) + 1, "character": end.get("character", 0)},
         }
 
-    async def _execute_lsp_action(self, server: LSPServer, action: str, file: str, line: Optional[int], character: Optional[int], new_name: Optional[str]) -> Dict[str, Any]:
+    async def _execute_lsp_action(
+        self,
+        server: LSPServer,
+        action: str,
+        file: str,
+        line: Optional[int],
+        character: Optional[int],
+        new_name: Optional[str],
+    ) -> Dict[str, Any]:
         """Execute specific LSP action."""
         abs_path = str(Path(file).resolve())
         uri = f"file://{abs_path}"
@@ -438,20 +482,34 @@ class LSPTool(BaseTool):
         position = {"line": (line - 1) if line else 0, "character": character if character else 0}
 
         if action == "definition":
-            request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "textDocument/definition", "params": {"textDocument": {"uri": uri}, "position": position}}
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/definition",
+                "params": {"textDocument": {"uri": uri}, "position": position},
+            }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
                     return {"action": "definition", "file": file, "result": None, "message": "No definition found"}
                 if isinstance(result, list):
-                    return {"action": "definition", "file": file, "definitions": [self._parse_location(loc) for loc in result]}
+                    return {
+                        "action": "definition",
+                        "file": file,
+                        "definitions": [self._parse_location(loc) for loc in result],
+                    }
                 elif isinstance(result, dict):
                     return {"action": "definition", "file": file, "definition": self._parse_location(result)}
             return {"action": "definition", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "references":
-            request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "textDocument/references", "params": {"textDocument": {"uri": uri}, "position": position, "context": {"includeDeclaration": True}}}
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/references",
+                "params": {"textDocument": {"uri": uri}, "position": position, "context": {"includeDeclaration": True}},
+            }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
@@ -462,7 +520,12 @@ class LSPTool(BaseTool):
         elif action == "rename":
             if not new_name:
                 return {"action": "rename", "error": "new_name is required for rename action"}
-            request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "textDocument/rename", "params": {"textDocument": {"uri": uri}, "position": position, "newName": new_name}}
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/rename",
+                "params": {"textDocument": {"uri": uri}, "position": position, "newName": new_name},
+            }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
@@ -472,12 +535,29 @@ class LSPTool(BaseTool):
                 if "changes" in result:
                     for file_uri, edits in result["changes"].items():
                         file_path = file_uri.replace("file://", "")
-                        changes[file_path] = [{"range": self._parse_location({"uri": file_uri, "range": edit["range"]}), "newText": edit["newText"]} for edit in edits]
-                return {"action": "rename", "file": file, "new_name": new_name, "changes": changes, "files_affected": len(changes)}
+                        changes[file_path] = [
+                            {
+                                "range": self._parse_location({"uri": file_uri, "range": edit["range"]}),
+                                "newText": edit["newText"],
+                            }
+                            for edit in edits
+                        ]
+                return {
+                    "action": "rename",
+                    "file": file,
+                    "new_name": new_name,
+                    "changes": changes,
+                    "files_affected": len(changes),
+                }
             return {"action": "rename", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "hover":
-            request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "textDocument/hover", "params": {"textDocument": {"uri": uri}, "position": position}}
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/hover",
+                "params": {"textDocument": {"uri": uri}, "position": position},
+            }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
@@ -490,23 +570,46 @@ class LSPTool(BaseTool):
                     hover_text = "\n".join(c.get("value", str(c)) if isinstance(c, dict) else str(c) for c in contents)
                 else:
                     hover_text = str(contents)
-                return {"action": "hover", "file": file, "position": {"line": line, "character": character}, "contents": hover_text}
+                return {
+                    "action": "hover",
+                    "file": file,
+                    "position": {"line": line, "character": character},
+                    "contents": hover_text,
+                }
             return {"action": "hover", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "completion":
-            request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "textDocument/completion", "params": {"textDocument": {"uri": uri}, "position": position}}
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/completion",
+                "params": {"textDocument": {"uri": uri}, "position": position},
+            }
             response = await self._send_request(server, request, timeout=10.0)
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
                     return {"action": "completion", "file": file, "completions": [], "count": 0}
                 items = result if isinstance(result, list) else result.get("items", [])
-                completions = [{"label": item.get("label", ""), "kind": item.get("kind", 0), "detail": item.get("detail", "")} for item in items[:50]]
-                return {"action": "completion", "file": file, "position": {"line": line, "character": character}, "completions": completions, "count": len(completions)}
+                completions = [
+                    {"label": item.get("label", ""), "kind": item.get("kind", 0), "detail": item.get("detail", "")}
+                    for item in items[:50]
+                ]
+                return {
+                    "action": "completion",
+                    "file": file,
+                    "position": {"line": line, "character": character},
+                    "completions": completions,
+                    "count": len(completions),
+                }
             return {"action": "completion", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "diagnostics":
-            return {"action": "diagnostics", "file": file, "note": "Diagnostics are push-based; use language-specific tools (go vet, pylint, etc.) for on-demand checking"}
+            return {
+                "action": "diagnostics",
+                "file": file,
+                "note": "Diagnostics are push-based; use language-specific tools (go vet, pylint, etc.) for on-demand checking",
+            }
 
         return {"error": f"Unknown action: {action}"}
 

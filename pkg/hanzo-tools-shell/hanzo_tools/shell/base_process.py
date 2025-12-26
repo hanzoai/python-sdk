@@ -127,10 +127,11 @@ class AutoBackgroundExecutor:
         """
         # Use passed timeout or default
         effective_timeout = timeout if timeout is not None else self.default_timeout
-        
+
         # Fast path for tests
         if os.getenv("HANZO_MCP_FAST_TESTS") == "1":
             import subprocess
+
             try:
                 proc = subprocess.run(
                     cmd_args,
@@ -172,6 +173,7 @@ class AutoBackgroundExecutor:
         output_lines = []
 
         try:
+
             async def read_output():
                 if process.stdout:
                     async for line in process.stdout:
@@ -359,12 +361,7 @@ class BaseProcessTool(BaseTool):
             "status": "started",
         }
 
-    async def _write_output_to_log(
-        self,
-        process: asyncio.subprocess.Process,
-        log_file: Path,
-        process_id: str
-    ) -> None:
+    async def _write_output_to_log(self, process: asyncio.subprocess.Process, log_file: Path, process_id: str) -> None:
         """Write process output to log file in background."""
         try:
             async with aiofiles.open(log_file, "w") as f:

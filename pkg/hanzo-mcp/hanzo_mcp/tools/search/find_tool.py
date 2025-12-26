@@ -15,6 +15,7 @@ from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 # Check if ffind library is available
 try:
     from ffind.ffind import search as ffind_search
+
     FFIND_AVAILABLE = True
 except ImportError:
     FFIND_AVAILABLE = False

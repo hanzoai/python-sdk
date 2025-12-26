@@ -32,6 +32,7 @@ def _check_memory_available() -> bool:
     if MEMORY_AVAILABLE is None:
         try:
             import hanzo_memory  # noqa: F401
+
             MEMORY_AVAILABLE = True
         except ImportError:
             MEMORY_AVAILABLE = False
@@ -44,10 +45,10 @@ def _get_lazy_memory_service() -> "MemoryService":
     if _memory_service is None:
         if not _check_memory_available():
             raise ImportError(
-                "hanzo-memory package is required for memory tools. "
-                "Install with: pip install hanzo-memory"
+                "hanzo-memory package is required for memory tools. Install with: pip install hanzo-memory"
             )
         from hanzo_memory.services.memory import get_memory_service
+
         _memory_service = get_memory_service()
     return _memory_service
 

@@ -163,7 +163,7 @@ class MCPToolAdapter(Tool):
 
     def handle(self, **kwargs) -> Any:
         """Execute the tool synchronously (required by Tool ABC).
-        
+
         Note: This is called via Tool.__call__ which handles async properly.
         We return the coroutine and let the framework await it.
         """
@@ -462,11 +462,11 @@ AGENT RESPONSES:
 
     def _get_agent_class(self, model: Optional[str], ctx: MCPContext) -> type[Agent]:
         """Get appropriate agent class based on model.
-        
+
         Args:
             model: Model identifier
             ctx: MCP context for the agent
-            
+
         Returns:
             Agent class type
         """

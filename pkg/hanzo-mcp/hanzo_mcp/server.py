@@ -41,13 +41,16 @@ def _get_fast_mcp():
     if _FastMCP is None:
         try:
             from fastmcp import FastMCP
+
             _FastMCP = FastMCP
         except ImportError:
             try:
                 from mcp.server import FastMCP
+
                 _FastMCP = FastMCP
             except ImportError:
                 from mcp import FastMCP
+
                 _FastMCP = FastMCP
     return _FastMCP
 
@@ -57,6 +60,7 @@ def _get_enhanced_fast_mcp():
     global _EnhancedFastMCP
     if _EnhancedFastMCP is None:
         from hanzo_mcp.server_enhanced import EnhancedFastMCP
+
         _EnhancedFastMCP = EnhancedFastMCP
     return _EnhancedFastMCP
 
@@ -66,6 +70,7 @@ def _get_permission_manager():
     global _PermissionManager
     if _PermissionManager is None:
         from hanzo_mcp.tools.common.permissions import PermissionManager
+
         _PermissionManager = PermissionManager
     return _PermissionManager
 
@@ -75,6 +80,7 @@ def _get_session_storage():
     global _SessionStorage
     if _SessionStorage is None:
         from hanzo_mcp.tools.shell.session_storage import SessionStorage
+
         _SessionStorage = SessionStorage
     return _SessionStorage
 
@@ -84,6 +90,7 @@ def _get_register_all_tools():
     global _register_all_tools
     if _register_all_tools is None:
         from hanzo_mcp.tools import register_all_tools
+
         _register_all_tools = register_all_tools
     return _register_all_tools
 
@@ -93,6 +100,7 @@ def _get_register_all_prompts():
     global _register_all_prompts
     if _register_all_prompts is None:
         from hanzo_mcp.prompts import register_all_prompts
+
         _register_all_prompts = register_all_prompts
     return _register_all_prompts
 

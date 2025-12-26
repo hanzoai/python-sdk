@@ -25,6 +25,7 @@ from hanzo_tools.shell.base_process import ProcessManager
 
 class NodeStatus(Enum):
     """Execution status of a DAG node."""
+
     PENDING = "pending"
     RUNNING = "running"
     SUCCESS = "success"
@@ -35,6 +36,7 @@ class NodeStatus(Enum):
 @dataclass
 class DagResult:
     """Result from a single DAG node execution."""
+
     node_id: str
     command: str
     stdout: str
@@ -48,6 +50,7 @@ class DagResult:
 @dataclass
 class DagNode:
     """A node in the execution DAG."""
+
     id: str
     command: Union[str, Dict[str, Any]]
     depends_on: List[str] = field(default_factory=list)
@@ -177,7 +180,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         start_time = datetime.now()
         node_id = f"shell_{id(cmd)}"
         process_manager = ProcessManager()
-        
+
         # Defensive check - should never happen but provides better error message
         if process_manager is None:
             raise RuntimeError("ProcessManager() returned None - singleton initialization failed")
@@ -191,7 +194,9 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             log_file = await process_manager.create_log_file(process_id)
 
             proc = await asyncio.create_subprocess_exec(
-                shell, "-c", cmd,
+                shell,
+                "-c",
+                cmd,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=cwd,
@@ -199,10 +204,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             )
 
             try:
-                stdout, stderr = await asyncio.wait_for(
-                    proc.communicate(),
-                    timeout=timeout
-                )
+                stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=timeout)
 
                 duration = int((datetime.now() - start_time).total_seconds() * 1000)
                 exit_code = proc.returncode or 0
@@ -235,8 +237,8 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                     node_id=node_id,
                     command=cmd,
                     stdout=f"[backgrounded] Process {process_id} (PID {proc.pid}) running in background.\n"
-                           f"Use: ps --logs {process_id}  # view output\n"
-                           f"Use: ps --kill {process_id}  # stop process",
+                    f"Use: ps --logs {process_id}  # view output\n"
+                    f"Use: ps --kill {process_id}  # stop process",
                     stderr="",
                     status=NodeStatus.SUCCESS,
                     exit_code=0,
@@ -257,14 +259,11 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                 node_type="shell",
             )
 
-    async def _capture_background_output(
-        self,
-        proc: asyncio.subprocess.Process,
-        log_file: Path
-    ) -> None:
+    async def _capture_background_output(self, proc: asyncio.subprocess.Process, log_file: Path) -> None:
         """Capture output from backgrounded process to log file."""
         try:
             async with aiofiles.open(log_file, "a") as f:
+
                 async def read_stream(stream, prefix: str):
                     if stream:
                         while True:
@@ -284,12 +283,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         except Exception:
             pass
 
-    async def _run_tool(
-        self,
-        tool_name: str,
-        tool_input: Dict[str, Any],
-        ctx: MCPContext
-    ) -> DagResult:
+    async def _run_tool(self, tool_name: str, tool_input: Dict[str, Any], ctx: MCPContext) -> DagResult:
         """Run an MCP tool invocation."""
         start_time = datetime.now()
         node_id = f"tool_{tool_name}"
@@ -350,18 +344,11 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
 
         if isinstance(cmd, dict):
             if "tool" in cmd:
-                return await self._run_tool(
-                    cmd["tool"],
-                    cmd.get("input", {}),
-                    ctx
-                )
+                return await self._run_tool(cmd["tool"], cmd.get("input", {}), ctx)
 
             if "parallel" in cmd:
                 parallel_cmds = cmd["parallel"]
-                tasks = [
-                    self._execute_node(c, ctx, shell, cwd, env, timeout)
-                    for c in parallel_cmds
-                ]
+                tasks = [self._execute_node(c, ctx, shell, cwd, env, timeout) for c in parallel_cmds]
                 results = await asyncio.gather(*tasks, return_exceptions=True)
 
                 combined_stdout = []
@@ -442,13 +429,11 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         results: List[DagResult] = []
 
         if parallel:
-            tasks = [
-                self._execute_node(cmd, ctx, shell, cwd, env, timeout)
-                for cmd in commands
-            ]
+            tasks = [self._execute_node(cmd, ctx, shell, cwd, env, timeout) for cmd in commands]
             results = await asyncio.gather(*tasks, return_exceptions=True)
             results = [
-                r if not isinstance(r, Exception)
+                r
+                if not isinstance(r, Exception)
                 else DagResult(
                     node_id=f"error_{i}",
                     command=str(commands[i]),
@@ -503,37 +488,15 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         @mcp_server.tool(name=self.name, description=self.description)
         async def dag_handler(
             commands: Annotated[
-                List[Any],
-                Field(description="Commands to execute (strings, tool dicts, or parallel blocks)")
+                List[Any], Field(description="Commands to execute (strings, tool dicts, or parallel blocks)")
             ],
-            parallel: Annotated[
-                bool,
-                Field(description="Run all commands in parallel", default=False)
-            ] = False,
-            shell: Annotated[
-                Optional[str],
-                Field(description="Shell to use (default: zsh)", default=None)
-            ] = None,
-            cwd: Annotated[
-                Optional[str],
-                Field(description="Working directory", default=None)
-            ] = None,
-            env: Annotated[
-                Optional[Dict[str, str]],
-                Field(description="Environment variables", default=None)
-            ] = None,
-            timeout: Annotated[
-                int,
-                Field(description="Timeout per command (seconds)", default=120)
-            ] = 120,
-            strict: Annotated[
-                bool,
-                Field(description="Stop on first error", default=False)
-            ] = False,
-            quiet: Annotated[
-                bool,
-                Field(description="Suppress stdout", default=False)
-            ] = False,
+            parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
+            shell: Annotated[Optional[str], Field(description="Shell to use (default: zsh)", default=None)] = None,
+            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
+            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
+            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=120)] = 120,
+            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
+            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -549,9 +512,6 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             )
 
 
-def create_dag_tool(
-    tools: Optional[Dict[str, BaseTool]] = None,
-    default_shell: str = "zsh"
-) -> DagTool:
+def create_dag_tool(tools: Optional[Dict[str, BaseTool]] = None, default_shell: str = "zsh") -> DagTool:
     """Factory to create DAG execution tool."""
     return DagTool(tools, default_shell)
