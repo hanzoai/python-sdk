@@ -7,6 +7,11 @@ Core tools:
 - ps: Process management (list, kill, logs)
 - zsh: Zsh shell execution with auto-backgrounding
 
+HTTP/Data tools:
+- curl: HTTP client without shell escaping issues
+- jq: JSON processor without shell escaping issues
+- wget: File/site downloads with mirroring support
+
 Convenience tools:
 - npx: Node package execution with auto-backgrounding
 - uvx: Python package execution with auto-backgrounding
@@ -28,6 +33,11 @@ from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, zsh_tool, shell_tool
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
 
+# HTTP/Data tools (no shell escaping issues)
+from hanzo_tools.shell.curl_tool import CurlTool
+from hanzo_tools.shell.jq_tool import JqTool
+from hanzo_tools.shell.wget_tool import WgetTool
+
 # Base classes
 from hanzo_tools.shell.base_process import (
     BaseBinaryTool,
@@ -38,7 +48,7 @@ from hanzo_tools.shell.base_process import (
 )
 
 # Tools list for entry point discovery
-TOOLS = [DagTool, PsTool, ZshTool, ShellTool, NpxTool, UvxTool, OpenTool]
+TOOLS = [DagTool, PsTool, ZshTool, ShellTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
     # Base classes
@@ -67,6 +77,10 @@ __all__ = [
     "npx_tool",
     "UvxTool",
     "uvx_tool",
+    # HTTP/Data tools
+    "CurlTool",
+    "JqTool",
+    "WgetTool",
     # Registration
     "TOOLS",
     "get_shell_tools",
