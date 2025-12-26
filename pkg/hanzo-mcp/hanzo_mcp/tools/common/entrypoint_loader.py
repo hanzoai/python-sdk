@@ -29,7 +29,7 @@ TOOLS_ENTRY_POINT_GROUP = "hanzo.tools"
 # Package to tool prefix mapping (for enable/disable)
 PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "filesystem": ["read", "write", "edit", "tree", "ast", "search", "find"],
-    "shell": ["dag", "ps", "zsh", "shell", "npx", "uvx", "open"],
+    "shell": ["dag", "ps", "zsh", "shell", "npx", "uvx", "open", "curl", "jq", "wget"],
     "browser": ["browser"],
     "memory": ["memory"],  # Unified memory tool
     "todo": ["todo"],
