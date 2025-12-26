@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-vector"
+version = "0.1.0"
+description = "Vector search and embedding tools"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+dependencies = ["mcp>=1.25.0", "fastmcp>=2.14.1", "pydantic>=2.12.5"]
+
+[project.optional-dependencies]
+chroma = ["chromadb>=0.5.0"]
+openai = ["openai>=1.82.0"]
+
+[project.entry-points."hanzo.tools"]
+vector = "hanzo_tools.vector:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]

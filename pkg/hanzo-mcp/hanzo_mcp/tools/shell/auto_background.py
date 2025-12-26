@@ -19,18 +19,18 @@ from hanzo_mcp.tools.shell.base_process import ProcessManager
 class AutoBackgroundExecutor:
     """Executor that automatically backgrounds long-running processes."""
 
-    # Default timeout before auto-backgrounding (2 minutes)
-    DEFAULT_TIMEOUT = 120.0
+    # Default timeout before auto-backgrounding (60 seconds for efficiency)
+    DEFAULT_TIMEOUT = 60.0
 
     def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
         """Initialize the auto-background executor.
 
         Args:
             process_manager: Process manager for tracking background processes
-            timeout: Timeout in seconds before auto-backgrounding (default: 120s)
+            timeout: Default timeout in seconds before auto-backgrounding (default: 60s)
         """
         self.process_manager = process_manager
-        self.timeout = timeout
+        self.default_timeout = timeout
 
     async def execute_with_auto_background(
         self,
@@ -38,6 +38,7 @@ class AutoBackgroundExecutor:
         tool_name: str,
         cwd: Optional[Path] = None,
         env: Optional[dict[str, str]] = None,
+        timeout: Optional[float] = None,
     ) -> Tuple[str, bool, Optional[str]]:
         """Execute a command with automatic backgrounding if it takes too long.
 
@@ -46,10 +47,14 @@ class AutoBackgroundExecutor:
             tool_name: Name of the tool (for process ID generation)
             cwd: Working directory
             env: Environment variables
+            timeout: Override timeout in seconds (uses default if None)
 
         Returns:
             Tuple of (output/status, was_backgrounded, process_id)
         """
+        # Use passed timeout or default
+        effective_timeout = timeout if timeout is not None else self.default_timeout
+        
         # Fast path for tests/offline: run synchronously
         import os
 
@@ -119,7 +124,7 @@ class AutoBackgroundExecutor:
             # Wait for either timeout or completion
             done, pending = await asyncio.wait(
                 [read_task, wait_task],
-                timeout=self.timeout,
+                timeout=effective_timeout,
                 return_when=asyncio.FIRST_COMPLETED,
             )
 

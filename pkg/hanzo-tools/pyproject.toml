@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools"
+version = "0.1.0"
+description = "All Hanzo AI tools - install everything at once"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "tools", "mcp", "ai", "agent"]
+
+# Base dependencies - just the core
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+]
+
+[project.optional-dependencies]
+# Individual tool packages
+filesystem = ["hanzo-tools-filesystem>=0.1.0"]
+shell = ["hanzo-tools-shell>=0.1.0"]
+browser = ["hanzo-tools-browser>=0.1.0"]
+llm = ["hanzo-tools-llm>=0.1.0"]
+database = ["hanzo-tools-database>=0.1.0"]
+memory = ["hanzo-tools-memory>=0.1.0"]
+agent = ["hanzo-tools-agent>=0.1.0"]
+editor = ["hanzo-tools-editor>=0.1.0"]
+jupyter = ["hanzo-tools-jupyter>=0.1.0"]
+lsp = ["hanzo-tools-lsp>=0.1.0"]
+refactor = ["hanzo-tools-refactor>=0.1.0"]
+vector = ["hanzo-tools-vector>=0.1.0"]
+todo = ["hanzo-tools-todo>=0.1.0"]
+
+# Bundles
+core = [
+    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-shell>=0.1.0",
+    "hanzo-tools-todo>=0.1.0",
+]
+dev = [
+    "hanzo-tools[core]",
+    "hanzo-tools-editor>=0.1.0",
+    "hanzo-tools-lsp>=0.1.0",
+    "hanzo-tools-refactor>=0.1.0",
+]
+ai = [
+    "hanzo-tools-llm>=0.1.0",
+    "hanzo-tools-agent>=0.1.0",
+    "hanzo-tools-memory>=0.1.0",
+]
+all = [
+    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-shell>=0.1.0",
+    "hanzo-tools-browser>=0.1.0",
+    "hanzo-tools-llm>=0.1.0",
+    "hanzo-tools-database>=0.1.0",
+    "hanzo-tools-memory>=0.1.0",
+    "hanzo-tools-agent>=0.1.0",
+    "hanzo-tools-editor>=0.1.0",
+    "hanzo-tools-jupyter>=0.1.0",
+    "hanzo-tools-lsp>=0.1.0",
+    "hanzo-tools-refactor>=0.1.0",
+    "hanzo-tools-vector>=0.1.0",
+    "hanzo-tools-todo>=0.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+"Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]
