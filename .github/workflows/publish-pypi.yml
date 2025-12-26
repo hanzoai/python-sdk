@@ -4,17 +4,17 @@
 name: Publish PyPI
 on:
   workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Packages to publish (space-separated, or "all" for everything)'
+        required: false
+        default: 'all'
 
   push:
     tags:
       - 'v*'
       - 'hanzo-*'
-      - 'hanzo-network-*'
-      - 'hanzo-mcp-*'
-      # hanzo-agents is now a git submodule
-      - 'hanzo-memory-*'
-      - 'hanzo-aci-*'
-      - 'hanzo-repl-*'
+      - 'hanzo-tools-*'
 
   release:
     types: [published]
@@ -24,7 +24,7 @@ jobs:
   test:
     name: Run Tests
     uses: ./.github/workflows/test.yml
-    
+
   publish-all-packages:
     name: Publish All Python Packages
     runs-on: ubuntu-latest
@@ -48,17 +48,67 @@ jobs:
 
       - name: Get tag name
         id: get_tag
-        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: echo "TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_OUTPUT
 
       - name: Determine packages to publish
         id: determine_packages
         run: |
           TAG="${{ steps.get_tag.outputs.TAG }}"
+          MANUAL_INPUT="${{ github.event.inputs.packages }}"
           PACKAGES=""
-          
-          # If tag starts with a specific package name, publish only that package
-          # Note: hanzo-agents is now a git submodule, not published from here
-          if [[ $TAG == hanzo-network-* ]]; then
+
+          # All hanzo-tools packages
+          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-filesystem hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools"
+
+          # Main packages
+          MAIN_PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
+
+          # Handle manual workflow dispatch
+          if [ -n "$MANUAL_INPUT" ]; then
+            if [ "$MANUAL_INPUT" = "all" ]; then
+              PACKAGES="$MAIN_PACKAGES $TOOLS_PACKAGES"
+            else
+              PACKAGES="$MANUAL_INPUT"
+            fi
+          # Handle specific package tags
+          elif [[ $TAG == hanzo-tools-core-* ]]; then
+            PACKAGES="hanzo-tools-core"
+          elif [[ $TAG == hanzo-tools-filesystem-* ]]; then
+            PACKAGES="hanzo-tools-filesystem"
+          elif [[ $TAG == hanzo-tools-shell-* ]]; then
+            PACKAGES="hanzo-tools-shell"
+          elif [[ $TAG == hanzo-tools-browser-* ]]; then
+            PACKAGES="hanzo-tools-browser"
+          elif [[ $TAG == hanzo-tools-memory-* ]]; then
+            PACKAGES="hanzo-tools-memory"
+          elif [[ $TAG == hanzo-tools-todo-* ]]; then
+            PACKAGES="hanzo-tools-todo"
+          elif [[ $TAG == hanzo-tools-reasoning-* ]]; then
+            PACKAGES="hanzo-tools-reasoning"
+          elif [[ $TAG == hanzo-tools-lsp-* ]]; then
+            PACKAGES="hanzo-tools-lsp"
+          elif [[ $TAG == hanzo-tools-refactor-* ]]; then
+            PACKAGES="hanzo-tools-refactor"
+          elif [[ $TAG == hanzo-tools-database-* ]]; then
+            PACKAGES="hanzo-tools-database"
+          elif [[ $TAG == hanzo-tools-agent-* ]]; then
+            PACKAGES="hanzo-tools-agent"
+          elif [[ $TAG == hanzo-tools-jupyter-* ]]; then
+            PACKAGES="hanzo-tools-jupyter"
+          elif [[ $TAG == hanzo-tools-editor-* ]]; then
+            PACKAGES="hanzo-tools-editor"
+          elif [[ $TAG == hanzo-tools-llm-* ]]; then
+            PACKAGES="hanzo-tools-llm"
+          elif [[ $TAG == hanzo-tools-vector-* ]]; then
+            PACKAGES="hanzo-tools-vector"
+          elif [[ $TAG == hanzo-tools-config-* ]]; then
+            PACKAGES="hanzo-tools-config"
+          elif [[ $TAG == hanzo-tools-mcp-* ]]; then
+            PACKAGES="hanzo-tools-mcp"
+          elif [[ $TAG == hanzo-tools-* ]]; then
+            # All tools packages
+            PACKAGES="$TOOLS_PACKAGES"
+          elif [[ $TAG == hanzo-network-* ]]; then
             PACKAGES="hanzo-network"
           elif [[ $TAG == hanzo-mcp-* ]]; then
             PACKAGES="hanzo-mcp"
@@ -71,10 +121,10 @@ jobs:
           elif [[ $TAG == hanzo-* ]]; then
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
-            # For general version tags, publish all packages (except hanzo-agents which is a submodule)
-            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
+            # For general version tags, publish all packages
+            PACKAGES="$MAIN_PACKAGES $TOOLS_PACKAGES"
           fi
-          
+
           echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
           echo "Publishing packages: $PACKAGES"
 
@@ -84,26 +134,33 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
         run: |
           PACKAGES="${{ steps.determine_packages.outputs.PACKAGES }}"
-          
+
           if [ -z "$PACKAGES" ]; then
             echo "No packages to publish for tag ${{ steps.get_tag.outputs.TAG }}"
             exit 0
           fi
-          
+
           for package in $PACKAGES; do
+            echo "=========================================="
             echo "Building and publishing $package..."
-            cd "pkg/$package"
+            echo "=========================================="
             
-            # Clean any previous builds
-            rm -rf dist/ build/ *.egg-info
-            
-            # Build the package
-            python -m build
-            
-            # Upload to PyPI
-            python -m twine upload dist/* --skip-existing
-            
-            cd ../..
+            if [ -d "pkg/$package" ]; then
+              cd "pkg/$package"
+
+              # Clean any previous builds
+              rm -rf dist/ build/ *.egg-info
+
+              # Build the package
+              python -m build
+
+              # Upload to PyPI
+              python -m twine upload dist/* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
+
+              cd ../..
+            else
+              echo "Warning: Package directory pkg/$package does not exist, skipping"
+            fi
           done
 
       - name: Create GitHub Release Notes
@@ -112,29 +169,33 @@ jobs:
         with:
           script: |
             const tag = '${{ steps.get_tag.outputs.TAG }}';
-            const packages = '${{ steps.determine_packages.outputs.PACKAGES }}'.split(' ');
-            
+            const packages = '${{ steps.determine_packages.outputs.PACKAGES }}'.split(' ').filter(p => p);
+
             let body = `## 🚀 Published Python Packages\n\n`;
             body += `The following packages have been published to PyPI:\n\n`;
-            
+
             for (const pkg of packages) {
               body += `- ✅ **${pkg}** - [View on PyPI](https://pypi.org/project/${pkg}/)\n`;
             }
-            
+
             body += `\n### Installation\n\n`;
             body += `\`\`\`bash\n`;
-            for (const pkg of packages) {
-              body += `pip install ${pkg}\n`;
-            }
+            body += `# Install main SDK\n`;
+            body += `pip install hanzo\n\n`;
+            body += `# Install MCP tools\n`;
+            body += `pip install hanzo-mcp\n\n`;
+            body += `# Install individual tool packages\n`;
+            body += `pip install hanzo-tools  # All tools\n`;
+            body += `pip install hanzo-tools-core  # Core only\n`;
             body += `\`\`\`\n`;
-            
+
             // Update release if it exists
             try {
               const releases = await github.rest.repos.listReleases({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
               });
-              
+
               const release = releases.data.find(r => r.tag_name === tag);
               if (release) {
                 await github.rest.repos.updateRelease({
