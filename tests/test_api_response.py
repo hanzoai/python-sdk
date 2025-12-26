@@ -56,9 +56,7 @@ async def test_anthropic_api():
         client = AsyncAnthropic()
         response = await client.messages.create(
             model="claude-3-5-sonnet-20241022",
-            messages=[
-                {"role": "user", "content": "Reply with exactly: 'API test successful'"}
-            ],
+            messages=[{"role": "user", "content": "Reply with exactly: 'API test successful'"}],
             max_tokens=50,
         )
 

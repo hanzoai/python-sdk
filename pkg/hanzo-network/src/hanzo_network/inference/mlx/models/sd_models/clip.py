@@ -31,11 +31,7 @@ class CLIPTextModelConfig:
             num_heads=config["num_attention_heads"],
             max_length=config["max_position_embeddings"],
             vocab_size=config["vocab_size"],
-            projection_dim=(
-                config["projection_dim"]
-                if "WithProjection" in config["architectures"][0]
-                else None
-            ),
+            projection_dim=(config["projection_dim"] if "WithProjection" in config["architectures"][0] else None),
             hidden_act=config.get("hidden_act", "quick_gelu"),
             weight_files=config.get("weight_files", []),
         )
@@ -51,9 +47,7 @@ class ModelArgs(CLIPTextModelConfig):
             self.shard = Shard(**self.shard)
 
         if not isinstance(self.shard, Shard):
-            raise TypeError(
-                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
-            )
+            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
 
         if not self.shard.is_first_layer():
             self.vision_config = None
@@ -106,35 +100,23 @@ class CLIPTextModel(nn.Module):
         super().__init__()
 
         self.shard = shard
-        self.layers_range = range(
-            self.shard.start_layer * 2, self.shard.end_layer * 2 + 2
-        )
+        self.layers_range = range(self.shard.start_layer * 2, self.shard.end_layer * 2 + 2)
         if self.shard.is_first_layer():
             self.token_embedding = nn.Embedding(config.vocab_size, config.model_dims)
             self.position_embedding = nn.Embedding(config.max_length, config.model_dims)
         self.layers = []
         for i in range(math.ceil(config.num_layers / 2)):
             if 2 * i in self.layers_range:
-                self.layers.append(
-                    CLIPEncoderLayer(
-                        config.model_dims, config.num_heads, config.hidden_act
-                    )
-                )
+                self.layers.append(CLIPEncoderLayer(config.model_dims, config.num_heads, config.hidden_act))
             if 2 * i + 1 in self.layers_range and 2 * i + 1 < config.num_layers:
-                self.layers.append(
-                    CLIPEncoderLayer(
-                        config.model_dims, config.num_heads, config.hidden_act
-                    )
-                )
+                self.layers.append(CLIPEncoderLayer(config.model_dims, config.num_heads, config.hidden_act))
             else:
                 self.layers.append(IdentityBlock())
         if self.shard.is_last_layer():
             self.final_layer_norm = nn.LayerNorm(config.model_dims)
 
         if config.projection_dim is not None:
-            self.text_projection = nn.Linear(
-                config.model_dims, config.projection_dim, bias=False
-            )
+            self.text_projection = nn.Linear(config.model_dims, config.projection_dim, bias=False)
 
     def _get_mask(self, N, dtype):
         indices = mx.arange(N)

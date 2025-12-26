@@ -14,11 +14,7 @@ def get_config_paths() -> Dict[str, Path]:
 
     # System config
     if os.name == "nt":  # Windows
-        paths["system"] = (
-            Path(os.environ.get("PROGRAMDATA", "C:\\ProgramData"))
-            / "hanzo"
-            / "config.yaml"
-        )
+        paths["system"] = Path(os.environ.get("PROGRAMDATA", "C:\\ProgramData")) / "hanzo" / "config.yaml"
     else:  # Unix-like
         paths["system"] = Path("/etc/hanzo/config.yaml")
 
@@ -142,9 +138,7 @@ def init_config() -> Dict[str, Path]:
 
 def get_default_model() -> str:
     """Get default model from config or environment."""
-    return os.environ.get("HANZO_DEFAULT_MODEL") or get_config_value(
-        "default_model", "llama-3.2-3b"
-    )
+    return os.environ.get("HANZO_DEFAULT_MODEL") or get_config_value("default_model", "llama-3.2-3b")
 
 
 def get_api_key(provider: str) -> Optional[str]:
@@ -167,6 +161,4 @@ def get_api_key(provider: str) -> Optional[str]:
 
 def is_local_preferred() -> bool:
     """Check if local execution is preferred."""
-    return os.environ.get("HANZO_USE_LOCAL", "").lower() == "true" or get_config_value(
-        "prefer_local", False
-    )
+    return os.environ.get("HANZO_USE_LOCAL", "").lower() == "true" or get_config_value("prefer_local", False)

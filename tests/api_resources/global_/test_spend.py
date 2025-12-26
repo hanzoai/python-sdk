@@ -18,9 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestSpend:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_list_tags(self, client: Hanzo) -> None:
@@ -121,9 +119,7 @@ class TestSpend:
 
 
 class TestAsyncSpend:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_list_tags(self, async_client: AsyncHanzo) -> None:
@@ -131,9 +127,7 @@ class TestAsyncSpend:
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
     @parametrize
-    async def test_method_list_tags_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_list_tags_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.list_tags(
             end_date="end_date",
             start_date="start_date",
@@ -192,9 +186,7 @@ class TestAsyncSpend:
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_report_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_report_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.global_.spend.retrieve_report(
             api_key="api_key",
             customer_id="customer_id",
@@ -216,9 +208,7 @@ class TestAsyncSpend:
         assert_matches_type(SpendRetrieveReportResponse, spend, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_report(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_report(self, async_client: AsyncHanzo) -> None:
         async with async_client.global_.spend.with_streaming_response.retrieve_report() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

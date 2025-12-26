@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestDeployments:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_complete(self, client: Hanzo) -> None:
@@ -51,9 +49,7 @@ class TestDeployments:
 
     @parametrize
     def test_path_params_complete(self, client: Hanzo) -> None:
-        with pytest.raises(
-            ValueError, match=r"Expected a non-empty value for `model` but received ''"
-        ):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             client.openai.deployments.with_raw_response.complete(
                 "",
             )
@@ -91,18 +87,14 @@ class TestDeployments:
 
     @parametrize
     def test_path_params_embed(self, client: Hanzo) -> None:
-        with pytest.raises(
-            ValueError, match=r"Expected a non-empty value for `model` but received ''"
-        ):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             client.openai.deployments.with_raw_response.embed(
                 "",
             )
 
 
 class TestAsyncDeployments:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_complete(self, async_client: AsyncHanzo) -> None:
@@ -137,9 +129,7 @@ class TestAsyncDeployments:
 
     @parametrize
     async def test_path_params_complete(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(
-            ValueError, match=r"Expected a non-empty value for `model` but received ''"
-        ):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             await async_client.openai.deployments.with_raw_response.complete(
                 "",
             )
@@ -177,9 +167,7 @@ class TestAsyncDeployments:
 
     @parametrize
     async def test_path_params_embed(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(
-            ValueError, match=r"Expected a non-empty value for `model` but received ''"
-        ):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             await async_client.openai.deployments.with_raw_response.embed(
                 "",
             )

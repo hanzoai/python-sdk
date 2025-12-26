@@ -144,9 +144,7 @@ def build_transformer(model_path: Path, shard: Shard, model_size="8B", device=No
     return model
 
 
-_executor = ThreadPoolExecutor(
-    max_workers=1
-)  # singleton so tinygrad always runs on the same thread
+_executor = ThreadPoolExecutor(max_workers=1)  # singleton so tinygrad always runs on the same thread
 
 
 class TinygradDynamicShardInferenceEngine(InferenceEngine):
@@ -166,50 +164,31 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
         state = self.states[request_id]
         return {"start_pos": state.start, "cache": state.cache}
 
-    async def sample(
-        self, x: np.ndarray, temp=TEMPERATURE, top_p: float = 0.0
-    ) -> np.ndarray:
+    async def sample(self, x: np.ndarray, temp=TEMPERATURE, top_p: float = 0.0) -> np.ndarray:
         def sample_wrapper():
             logits = x[:, -1, :]
-            return (
-                sample_logits(Tensor(logits).flatten(), temp, 0, 0.8, top_p, 0.0)
-                .realize()
-                .numpy()
-                .astype(int)
-            )
+            return sample_logits(Tensor(logits).flatten(), temp, 0, 0.8, top_p, 0.0).realize().numpy().astype(int)
 
-        return await asyncio.get_running_loop().run_in_executor(
-            self.executor, sample_wrapper
-        )
+        return await asyncio.get_running_loop().run_in_executor(self.executor, sample_wrapper)
 
     async def encode(self, shard: Shard, prompt: str) -> np.ndarray:
         await self.ensure_shard(shard)
-        tokens = await asyncio.get_running_loop().run_in_executor(
-            self.executor, self.tokenizer.encode, prompt
-        )
-        return await asyncio.get_running_loop().run_in_executor(
-            self.executor, np.array, tokens
-        )
+        tokens = await asyncio.get_running_loop().run_in_executor(self.executor, self.tokenizer.encode, prompt)
+        return await asyncio.get_running_loop().run_in_executor(self.executor, np.array, tokens)
 
     async def decode(self, shard: Shard, tokens) -> str:
         await self.ensure_shard(shard)
-        tokens = await asyncio.get_running_loop().run_in_executor(
-            self.executor, self.tokenizer.decode, tokens
-        )
+        tokens = await asyncio.get_running_loop().run_in_executor(self.executor, self.tokenizer.decode, tokens)
         return tokens
 
     async def load_checkpoint(self, shard: Shard, path: str):
         await self.ensure_shard(shard)
         state_dict = safe_load(path)
-        await asyncio.get_running_loop().run_in_executor(
-            self.executor, load_state_dict, self.model, state_dict
-        )
+        await asyncio.get_running_loop().run_in_executor(self.executor, load_state_dict, self.model, state_dict)
 
     async def save_checkpoint(self, shard: Shard, path: str):
         await self.ensure_shard(shard)
-        state_dict = await asyncio.get_running_loop().run_in_executor(
-            self.executor, get_state_dict, self.model
-        )
+        state_dict = await asyncio.get_running_loop().run_in_executor(self.executor, get_state_dict, self.model)
         safe_save(state_dict, path)
 
     async def infer_tensor(
@@ -229,9 +208,7 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
             self.states[request_id].start += x.shape[1]
             return out.numpy()
 
-        output_data = await asyncio.get_running_loop().run_in_executor(
-            self.executor, wrap_infer
-        )
+        output_data = await asyncio.get_running_loop().run_in_executor(self.executor, wrap_infer)
         return output_data, inference_state
 
     async def evaluate(
@@ -286,28 +263,18 @@ class TinygradDynamicShardInferenceEngine(InferenceEngine):
         if self.shard == shard:
             return
 
-        model_path = await self.shard_downloader.ensure_shard(
-            shard, self.__class__.__name__
-        )
+        model_path = await self.shard_downloader.ensure_shard(shard, self.__class__.__name__)
 
         if self.shard != shard:
             loop = asyncio.get_running_loop()
             parameters = (
                 "1B"
                 if "1b" in shard.model_id.lower()
-                else (
-                    "3B"
-                    if "3b" in shard.model_id.lower()
-                    else "8B" if "8b" in shard.model_id.lower() else "70B"
-                )
+                else ("3B" if "3b" in shard.model_id.lower() else "8B" if "8b" in shard.model_id.lower() else "70B")
             )
-            model_shard = await loop.run_in_executor(
-                self.executor, build_transformer, model_path, shard, parameters
-            )
+            model_shard = await loop.run_in_executor(self.executor, build_transformer, model_path, shard, parameters)
 
-            tokenizer_path = str(
-                (model_path if model_path.is_dir() else model_path.parent)
-            )
+            tokenizer_path = str((model_path if model_path.is_dir() else model_path.parent))
             self.tokenizer = await resolve_tokenizer(tokenizer_path)
             self.shard = shard
             self.model = model_shard

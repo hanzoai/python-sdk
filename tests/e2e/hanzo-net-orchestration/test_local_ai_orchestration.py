@@ -37,9 +37,7 @@ from hanzo_network import (
 from hanzo_network.local_network import check_local_llm_status
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -69,9 +67,7 @@ class HanzoNetE2ETest:
         # Check if hanzo net is installed
         result = subprocess.run(["which", "hanzo"], capture_output=True, text=True)
         if result.returncode != 0:
-            raise RuntimeError(
-                "hanzo CLI not found. Please install: pip install -e pkg/hanzo/"
-            )
+            raise RuntimeError("hanzo CLI not found. Please install: pip install -e pkg/hanzo/")
 
         # Check for required environment variables
         self.check_api_keys()
@@ -105,9 +101,7 @@ class HanzoNetE2ETest:
 
         # Check if port is already in use
         if self.is_port_open("localhost", port):
-            logger.warning(
-                f"Port {port} already in use, attempting to use existing instance"
-            )
+            logger.warning(f"Port {port} already in use, attempting to use existing instance")
             return True
 
         try:
@@ -128,9 +122,7 @@ class HanzoNetE2ETest:
 
             logger.info(f"Command: {' '.join(cmd)}")
 
-            self.hanzo_net_process = subprocess.Popen(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-            )
+            self.hanzo_net_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
             # Wait for hanzo net to start
             for i in range(30):  # 30 seconds timeout
@@ -142,9 +134,7 @@ class HanzoNetE2ETest:
                 # Check if process has died
                 if self.hanzo_net_process.poll() is not None:
                     stdout, stderr = self.hanzo_net_process.communicate()
-                    logger.error(
-                        f"hanzo net failed to start:\nSTDOUT: {stdout}\nSTDERR: {stderr}"
-                    )
+                    logger.error(f"hanzo net failed to start:\nSTDOUT: {stdout}\nSTDERR: {stderr}")
                     return False
 
             logger.error("Timeout waiting for hanzo net to start")
@@ -303,9 +293,7 @@ class HanzoNetE2ETest:
         )
 
         # 6. Create the network
-        network = create_network(
-            agents=agents, router=router, default_agent=orchestrator.name
-        )
+        network = create_network(agents=agents, router=router, default_agent=orchestrator.name)
 
         logger.info(f"✓ Created agent network with {len(agents)} agents")
         return network
@@ -353,9 +341,7 @@ class HanzoNetE2ETest:
 
                 # Check which agent handled it
                 last_message = state.messages[-1] if state.messages else None
-                agent_used = (
-                    last_message.get("agent", "unknown") if last_message else "unknown"
-                )
+                agent_used = last_message.get("agent", "unknown") if last_message else "unknown"
 
                 # Validate routing
                 expected_agents = test["expected_agent"].split("|")
@@ -376,9 +362,7 @@ class HanzoNetE2ETest:
 
             except Exception as e:
                 logger.error(f"  Error: {e}")
-                results.append(
-                    {"task": test["task"][:50], "error": str(e), "success": False}
-                )
+                results.append({"task": test["task"][:50], "error": str(e), "success": False})
 
         # Print summary
         logger.info("\n=== Routing Test Summary ===")
@@ -390,9 +374,7 @@ class HanzoNetE2ETest:
             logger.info(f"  {status} {result.get('task', 'Unknown')}")
             if not result.get("success"):
                 logger.info(f"    Expected: {result.get('expected', 'N/A')}")
-                logger.info(
-                    f"    Actual: {result.get('actual', result.get('error', 'N/A'))}"
-                )
+                logger.info(f"    Actual: {result.get('actual', result.get('error', 'N/A'))}")
 
         return results
 
@@ -471,9 +453,7 @@ class HanzoNetE2ETest:
             logger.info(f"Starting hanzo dev: {' '.join(cmd)}")
 
             # Run hanzo dev for a short time to test initialization
-            process = subprocess.Popen(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-            )
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
             # Give it time to initialize
             await asyncio.sleep(10)
@@ -513,9 +493,9 @@ class HanzoNetE2ETest:
 
             # Test with different local models
             for model in self.models_to_test:
-                logger.info(f"\n{'='*60}")
+                logger.info(f"\n{'=' * 60}")
                 logger.info(f"Testing with model: {model}")
-                logger.info(f"{'='*60}")
+                logger.info(f"{'=' * 60}")
 
                 model_results = {}
 
@@ -526,12 +506,8 @@ class HanzoNetE2ETest:
 
                     # Run tests
                     model_results["routing"] = await self.test_task_routing(network)
-                    model_results["cost_optimization"] = (
-                        await self.test_cost_optimization(network)
-                    )
-                    model_results["hanzo_dev"] = await self.test_hanzo_dev_integration(
-                        model
-                    )
+                    model_results["cost_optimization"] = await self.test_cost_optimization(network)
+                    model_results["hanzo_dev"] = await self.test_hanzo_dev_integration(model)
 
                     # Stop hanzo net
                     if self.hanzo_net_process:
@@ -539,9 +515,7 @@ class HanzoNetE2ETest:
                         await asyncio.sleep(2)
                         self.hanzo_net_process = None
                 else:
-                    logger.warning(
-                        f"Skipping tests for {model} - failed to start hanzo net"
-                    )
+                    logger.warning(f"Skipping tests for {model} - failed to start hanzo net")
                     model_results["error"] = "Failed to start hanzo net"
 
                 all_results[model] = model_results
@@ -582,9 +556,7 @@ class HanzoNetE2ETest:
             if "cost_optimization" in model_results:
                 cost = model_results["cost_optimization"]
                 if cost.get("success"):
-                    logger.info(
-                        f"  Cost Optimization: ✓ ({cost['cost_savings_percent']:.1f}% savings)"
-                    )
+                    logger.info(f"  Cost Optimization: ✓ ({cost['cost_savings_percent']:.1f}% savings)")
                 else:
                     logger.info(f"  Cost Optimization: ✗")
 

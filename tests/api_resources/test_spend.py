@@ -18,9 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestSpend:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_calculate_spend(self, client: Hanzo) -> None:
@@ -127,9 +125,7 @@ class TestSpend:
 
 
 class TestAsyncSpend:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_calculate_spend(self, async_client: AsyncHanzo) -> None:
@@ -137,9 +133,7 @@ class TestAsyncSpend:
         assert_matches_type(object, spend, path=["response"])
 
     @parametrize
-    async def test_method_calculate_spend_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_calculate_spend_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.calculate_spend(
             completion_response={},
             messages=[{}],
@@ -157,9 +151,7 @@ class TestAsyncSpend:
         assert_matches_type(object, spend, path=["response"])
 
     @parametrize
-    async def test_streaming_response_calculate_spend(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_calculate_spend(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.calculate_spend() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -175,9 +167,7 @@ class TestAsyncSpend:
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
 
     @parametrize
-    async def test_method_list_logs_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_list_logs_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_logs(
             api_key="api_key",
             end_date="end_date",
@@ -213,9 +203,7 @@ class TestAsyncSpend:
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
     @parametrize
-    async def test_method_list_tags_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_list_tags_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.list_tags(
             end_date="end_date",
             start_date="start_date",

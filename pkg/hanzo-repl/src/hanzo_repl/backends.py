@@ -123,9 +123,7 @@ class ClaudeCodeBackend(Backend):
         # Check authentication
         if not self.authenticated and not self._check_auth():
             console = Console()
-            console.print(
-                "[yellow]Not authenticated with Claude. Attempting login...[/yellow]"
-            )
+            console.print("[yellow]Not authenticated with Claude. Attempting login...[/yellow]")
             if not await self.authenticate():
                 raise RuntimeError("Failed to authenticate with Claude")
 
@@ -150,14 +148,9 @@ class ClaudeCodeBackend(Backend):
 
         if proc.returncode != 0:
             # Check if it's an auth error
-            if (
-                "unauthorized" in stderr.decode().lower()
-                or "auth" in stderr.decode().lower()
-            ):
+            if "unauthorized" in stderr.decode().lower() or "auth" in stderr.decode().lower():
                 self.authenticated = False
-                raise RuntimeError(
-                    "Claude authentication expired. Please re-authenticate."
-                )
+                raise RuntimeError("Claude authentication expired. Please re-authenticate.")
             raise RuntimeError(f"Claude Code error: {stderr.decode()}")
 
         return stdout.decode()
@@ -257,9 +250,7 @@ class OpenAICodexBackend(Backend):
                 tool_choice="auto",
             )
         else:
-            response = await client.chat.completions.create(
-                model="gpt-4-turbo-preview", messages=messages
-            )
+            response = await client.chat.completions.create(model="gpt-4-turbo-preview", messages=messages)
 
         return response.choices[0].message.content
 
@@ -277,9 +268,7 @@ class HanzoDevBackend(Backend):
             "/usr/local/bin/hanzo-dev",
             os.path.expanduser("~/.local/bin/hanzo-dev"),
             # Check in parent directory
-            os.path.join(
-                os.path.dirname(os.path.dirname(__file__)), "..", "dev", "hanzo-dev"
-            ),
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), "..", "dev", "hanzo-dev"),
         ]
 
         for path in paths:
@@ -342,9 +331,7 @@ class EmbeddedBackend(Backend):
             {"role": "user", "content": message},
         ]
 
-        response = await self.llm_client.chat(
-            messages=messages, tools=tools, tool_choice="auto" if tools else None
-        )
+        response = await self.llm_client.chat(messages=messages, tools=tools, tool_choice="auto" if tools else None)
 
         return response.choices[0].message.content
 
@@ -394,10 +381,7 @@ class BackendManager:
 
     def list_backends(self) -> Dict[str, bool]:
         """List all backends and their availability."""
-        return {
-            name: backend.is_available() if backend else False
-            for name, backend in self.backends.items()
-        }
+        return {name: backend.is_available() if backend else False for name, backend in self.backends.items()}
 
     async def load_config(self) -> Optional[str]:
         """Load configuration from the appropriate file."""

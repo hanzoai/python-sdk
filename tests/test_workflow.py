@@ -33,10 +33,7 @@ def check_environment():
 class TestEnvironment:
     """Test environment configuration."""
 
-    @pytest.mark.skipif(
-        not os.environ.get("ANTHROPIC_API_KEY"),
-        reason="ANTHROPIC_API_KEY not set"
-    )
+    @pytest.mark.skipif(not os.environ.get("ANTHROPIC_API_KEY"), reason="ANTHROPIC_API_KEY not set")
     def test_anthropic_key_set(self):
         """Test that ANTHROPIC_API_KEY is set."""
         assert os.environ.get("ANTHROPIC_API_KEY") is not None
@@ -48,24 +45,28 @@ class TestImports:
     def test_hanzoai_import(self):
         """Test hanzoai package import."""
         import hanzoai
+
         assert hanzoai is not None
 
     @pytest.mark.skip(reason="hanzo_mcp may not be installed in test environment")
     def test_hanzo_mcp_import(self):
         """Test hanzo_mcp package import."""
         import hanzo_mcp
+
         assert hanzo_mcp is not None
 
     @pytest.mark.skip(reason="hanzo_agents may not be installed in test environment")
     def test_hanzo_agents_import(self):
         """Test hanzo_agents package import."""
         import hanzo_agents
+
         assert hanzo_agents is not None
 
     @pytest.mark.skip(reason="hanzo_repl may not be installed in test environment")
     def test_hanzo_repl_import(self):
         """Test hanzo_repl package import."""
         import hanzo_repl
+
         assert hanzo_repl is not None
 
 
@@ -81,10 +82,7 @@ class TestBasicClient:
         client = Hanzo(api_key="test-api-key-for-unit-tests")
         assert client is not None
 
-    @pytest.mark.skipif(
-        not os.environ.get("HANZO_API_KEY"),
-        reason="HANZO_API_KEY not set"
-    )
+    @pytest.mark.skipif(not os.environ.get("HANZO_API_KEY"), reason="HANZO_API_KEY not set")
     def test_client_initialization_from_env(self):
         """Test client can be initialized from environment."""
         from hanzoai import Hanzo
@@ -104,12 +102,7 @@ class TestCLI:
 
     def test_hanzo_cli_help(self):
         """Test hanzo CLI --help works."""
-        result = subprocess.run(
-            ["python", "-m", "hanzo", "--help"],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
+        result = subprocess.run(["python", "-m", "hanzo", "--help"], capture_output=True, text=True, timeout=10)
         # Allow both success and some specific error codes
         assert result.returncode in [0, 1, 2]
 

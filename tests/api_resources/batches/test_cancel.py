@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestCancel:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_cancel(self, client: Hanzo) -> None:
@@ -69,9 +67,7 @@ class TestCancel:
 
 
 class TestAsyncCancel:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_cancel(self, async_client: AsyncHanzo) -> None:
@@ -81,9 +77,7 @@ class TestAsyncCancel:
         assert_matches_type(object, cancel, path=["response"])
 
     @parametrize
-    async def test_method_cancel_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_cancel_with_all_params(self, async_client: AsyncHanzo) -> None:
         cancel = await async_client.batches.cancel.cancel(
             batch_id="batch_id",
             provider="provider",

@@ -38,7 +38,7 @@ filterwarnings =
 """
 
     # Write temporary config and use it
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.ini', delete=False) as f:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".ini", delete=False) as f:
         f.write(pytest_ini_content)
         pytest_ini_path = f.name
 
@@ -46,7 +46,8 @@ filterwarnings =
         session.run(
             "pytest",
             "tests/",  # Explicitly specify tests/ to avoid collecting from pkg/* subpackages
-            "-c", pytest_ini_path,
+            "-c",
+            pytest_ini_path,
             "--showlocals",
             "--ignore=tests/functional",
             # Ignore tests that require optional dependencies (hanzo, hanzo_network, click, etc.)
@@ -60,7 +61,7 @@ filterwarnings =
             "--ignore=tests/test_streaming.py",
             "--ignore=tests/test_todo.py",
             "--ignore=tests/test_hanzo_dev.py",  # Requires hanzo package
-            *session.posargs
+            *session.posargs,
         )
     finally:
         os.unlink(pytest_ini_path)

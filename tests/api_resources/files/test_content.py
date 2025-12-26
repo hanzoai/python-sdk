@@ -17,9 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestContent:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_retrieve(self, client: Hanzo, request: FixtureRequest) -> None:
@@ -30,9 +28,7 @@ class TestContent:
         assert_matches_type(object, content, path=["response"])
 
     @parametrize
-    def test_raw_response_retrieve(
-        self, client: Hanzo, request: FixtureRequest
-    ) -> None:
+    def test_raw_response_retrieve(self, client: Hanzo, request: FixtureRequest) -> None:
         response = client.files.content.with_raw_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -43,9 +39,7 @@ class TestContent:
         assert_matches_type(object, content, path=["response"])
 
     @parametrize
-    def test_streaming_response_retrieve(
-        self, client: Hanzo, request: FixtureRequest
-    ) -> None:
+    def test_streaming_response_retrieve(self, client: Hanzo, request: FixtureRequest) -> None:
         with client.files.content.with_streaming_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -78,14 +72,10 @@ class TestContent:
 
 
 class TestAsyncContent:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_retrieve(
-        self, async_client: AsyncHanzo, request: FixtureRequest
-    ) -> None:
+    async def test_method_retrieve(self, async_client: AsyncHanzo, request: FixtureRequest) -> None:
         content = await async_client.files.content.retrieve(
             file_id="file_id",
             provider="provider",
@@ -93,9 +83,7 @@ class TestAsyncContent:
         assert_matches_type(object, content, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(
-        self, async_client: AsyncHanzo, request: FixtureRequest
-    ) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncHanzo, request: FixtureRequest) -> None:
         response = await async_client.files.content.with_raw_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -106,9 +94,7 @@ class TestAsyncContent:
         assert_matches_type(object, content, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(
-        self, async_client: AsyncHanzo, request: FixtureRequest
-    ) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncHanzo, request: FixtureRequest) -> None:
         async with async_client.files.content.with_streaming_response.retrieve(
             file_id="file_id",
             provider="provider",
@@ -116,9 +102,7 @@ class TestAsyncContent:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
             content = await response.parse()
-            assert content == "file content" or isinstance(
-                content, (str, bytes, object)
-            )
+            assert content == "file content" or isinstance(content, (str, bytes, object))
         assert cast(Any, response.is_closed) is True
 
     @parametrize

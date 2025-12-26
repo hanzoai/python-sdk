@@ -22,9 +22,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestOrganization:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -71,9 +69,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationCreateResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -111,9 +107,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationUpdateResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -138,9 +132,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationListResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -171,9 +163,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationDeleteResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -183,9 +173,7 @@ class TestOrganization:
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
         )
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_method_add_member_with_all_params(self, client: Hanzo) -> None:
@@ -200,9 +188,7 @@ class TestOrganization:
             organization_id="organization_id",
             max_budget_in_organization=0,
         )
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_raw_response_add_member(self, client: Hanzo) -> None:
@@ -214,9 +200,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_streaming_response_add_member(self, client: Hanzo) -> None:
@@ -228,9 +212,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationAddMemberResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -279,9 +261,7 @@ class TestOrganization:
         organization = client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_method_update_member_with_all_params(self, client: Hanzo) -> None:
@@ -292,9 +272,7 @@ class TestOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_raw_response_update_member(self, client: Hanzo) -> None:
@@ -305,9 +283,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
     def test_streaming_response_update_member(self, client: Hanzo) -> None:
@@ -318,17 +294,13 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(
-                OrganizationUpdateMemberResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
 
 class TestAsyncOrganization:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -338,9 +310,7 @@ class TestAsyncOrganization:
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.create(
             organization_alias="organization_alias",
             budget_duration="budget_duration",
@@ -377,9 +347,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationCreateResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -389,9 +357,7 @@ class TestAsyncOrganization:
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update(
             budget_id="budget_id",
             metadata={},
@@ -419,9 +385,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationUpdateResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -446,9 +410,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationListResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -479,9 +441,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationDeleteResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -491,14 +451,10 @@ class TestAsyncOrganization:
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
         )
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
-    async def test_method_add_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_add_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.add_member(
             member=[
                 {
@@ -510,9 +466,7 @@ class TestAsyncOrganization:
             organization_id="organization_id",
             max_budget_in_organization=0,
         )
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
     async def test_raw_response_add_member(self, async_client: AsyncHanzo) -> None:
@@ -524,14 +478,10 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(
-            OrganizationAddMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
     @parametrize
-    async def test_streaming_response_add_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_add_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.add_member(
             member=[{"role": "org_admin"}],
             organization_id="organization_id",
@@ -540,9 +490,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationAddMemberResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -554,9 +502,7 @@ class TestAsyncOrganization:
         assert_matches_type(object, organization, path=["response"])
 
     @parametrize
-    async def test_method_delete_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_delete_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete_member(
             organization_id="organization_id",
             user_email="user_email",
@@ -576,9 +522,7 @@ class TestAsyncOrganization:
         assert_matches_type(object, organization, path=["response"])
 
     @parametrize
-    async def test_streaming_response_delete_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_delete_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.delete_member(
             organization_id="organization_id",
         ) as response:
@@ -595,14 +539,10 @@ class TestAsyncOrganization:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
-    async def test_method_update_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
             max_budget_in_organization=0,
@@ -610,9 +550,7 @@ class TestAsyncOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
     async def test_raw_response_update_member(self, async_client: AsyncHanzo) -> None:
@@ -623,14 +561,10 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(
-            OrganizationUpdateMemberResponse, organization, path=["response"]
-        )
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @parametrize
-    async def test_streaming_response_update_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_update_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update_member(
             organization_id="organization_id",
         ) as response:
@@ -638,8 +572,6 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(
-                OrganizationUpdateMemberResponse, organization, path=["response"]
-            )
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True

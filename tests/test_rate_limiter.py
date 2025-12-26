@@ -38,9 +38,9 @@ async def test_rate_limiter():
 
         if allowed:
             await limiter.acquire()
-            console.print(f"✅ Request {i+1} allowed")
+            console.print(f"✅ Request {i + 1} allowed")
         else:
-            console.print(f"⏳ Request {i+1} blocked, wait {wait:.1f}s")
+            console.print(f"⏳ Request {i + 1} blocked, wait {wait:.1f}s")
 
         # Small delay between requests
         await asyncio.sleep(0.1)
@@ -95,9 +95,7 @@ async def test_rate_limiter():
     # Test different API types
     for api_type in ["openai", "anthropic", "local", "free"]:
         try:
-            result = await smart_limiter.execute_with_limit(
-                api_type, mock_api_call, api_type
-            )
+            result = await smart_limiter.execute_with_limit(api_type, mock_api_call, api_type)
             console.print(f"  ✅ {api_type}: {result}")
         except Exception as e:
             console.print(f"  ❌ {api_type}: {e}")

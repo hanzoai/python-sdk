@@ -17,9 +17,7 @@ from typing import Dict, List, Optional
 from pathlib import Path
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -67,9 +65,7 @@ class SimpleHanzoNetTest:
 
             logger.info(f"Starting: {' '.join(cmd)}")
 
-            self.hanzo_net_process = subprocess.Popen(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-            )
+            self.hanzo_net_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
             # Wait for startup
             for i in range(30):
@@ -157,8 +153,7 @@ class SimpleHanzoNetTest:
             # Check if we saw success indicators
             full_output = "\n".join(output_lines)
             if any(
-                indicator in full_output.lower()
-                for indicator in ["network initialized", "orchestrator", "started"]
+                indicator in full_output.lower() for indicator in ["network initialized", "orchestrator", "started"]
             ):
                 logger.info("✓ hanzo dev initialized successfully")
                 return True
@@ -175,14 +170,7 @@ class SimpleHanzoNetTest:
         logger.info("\n=== Testing Cost Optimization Configuration ===")
 
         # Check if the dev.py file has cost optimization logic
-        dev_file = (
-            Path(__file__).parent.parent.parent.parent
-            / "pkg"
-            / "hanzo"
-            / "src"
-            / "hanzo"
-            / "dev.py"
-        )
+        dev_file = Path(__file__).parent.parent.parent.parent / "pkg" / "hanzo" / "src" / "hanzo" / "dev.py"
 
         if dev_file.exists():
             content = dev_file.read_text()

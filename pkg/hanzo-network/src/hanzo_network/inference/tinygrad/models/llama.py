@@ -27,9 +27,7 @@ def precompute_freqs_cis(
 
     freqs = Tensor.arange(end).unsqueeze(dim=1) * freqs.unsqueeze(dim=0)
     # TODO: move dtype outside this
-    return Tensor.stack(
-        freqs.cos().cast(dtype), freqs.sin().cast(dtype), dim=-1
-    ).reshape(1, end, 1, dim // 2, 2)
+    return Tensor.stack(freqs.cos().cast(dtype), freqs.sin().cast(dtype), dim=-1).reshape(1, end, 1, dim // 2, 2)
 
 
 # (a+i*b) * (c+i*d) = (ac-bd) + i*(ad+bc)
@@ -40,12 +38,10 @@ def complex_mult(A, c, d):
     return ro.cat(co, dim=-1)
 
 
-def apply_rotary_emb(
-    xq: Tensor, xk: Tensor, freqs_cis: Tensor
-) -> Tuple[Tensor, Tensor]:
-    assert (
-        freqs_cis.shape[1] == xq.shape[1] == xk.shape[1]
-    ), f"freqs_cis shape mismatch {freqs_cis.shape} xq:{xq.shape} xk:{xk.shape}"
+def apply_rotary_emb(xq: Tensor, xk: Tensor, freqs_cis: Tensor) -> Tuple[Tensor, Tensor]:
+    assert freqs_cis.shape[1] == xq.shape[1] == xk.shape[1], (
+        f"freqs_cis shape mismatch {freqs_cis.shape} xq:{xq.shape} xk:{xk.shape}"
+    )
     xq = xq.reshape(*xq.shape[0:-1], -1, 2)
     xk = xk.reshape(*xk.shape[0:-1], -1, 2)
     assert len(xq.shape) == len(xk.shape) == len(freqs_cis.shape) == 5
@@ -110,23 +106,13 @@ class Attention:
 
         if cache is not None:
             # update the cache
-            assert (
-                xk.dtype == xv.dtype == cache.dtype
-            ), f"{xk.dtype=}, {xv.dtype=}, {cache.dtype=}"
-            cache.shrink(
-                (None, None, (start_pos, start_pos + seqlen), None, None)
-            ).assign(Tensor.stack(xk, xv)).realize()
+            assert xk.dtype == xv.dtype == cache.dtype, f"{xk.dtype=}, {xv.dtype=}, {cache.dtype=}"
+            cache.shrink((None, None, (start_pos, start_pos + seqlen), None, None)).assign(
+                Tensor.stack(xk, xv)
+            ).realize()
 
-            keys = (
-                cache[0].shrink((None, (0, start_pos + seqlen), None, None))
-                if start_pos > 0
-                else xk
-            )
-            values = (
-                cache[1].shrink((None, (0, start_pos + seqlen), None, None))
-                if start_pos > 0
-                else xv
-            )
+            keys = cache[0].shrink((None, (0, start_pos + seqlen), None, None)) if start_pos > 0 else xk
+            values = cache[1].shrink((None, (0, start_pos + seqlen), None, None)) if start_pos > 0 else xv
         else:
             keys = xk
             values = xv
@@ -149,9 +135,7 @@ class FeedForward:
         self.w3 = linear(dim, hidden_dim, bias=False)  # the gate in Gated Linear Unit
 
     def __call__(self, x: Tensor) -> Tensor:
-        return self.w2(
-            self.w1(x).silu() * self.w3(x)
-        )  # SwiGLU [arxiv/2002.05202, eq (5)]
+        return self.w2(self.w1(x).silu() * self.w3(x))  # SwiGLU [arxiv/2002.05202, eq (5)]
 
 
 class TransformerBlock:
@@ -179,16 +163,12 @@ class TransformerBlock:
         mask: Optional[Tensor],
         cache: Optional[Tensor] = None,
     ):
-        h = x + self.attention(
-            self.attention_norm(x), start_pos, freqs_cis, mask, cache=cache
-        )
+        h = x + self.attention(self.attention_norm(x), start_pos, freqs_cis, mask, cache=cache)
         return (h + self.feed_forward(self.ffn_norm(h))).contiguous()
 
 
 # standard openai sampling
-def sample_logits(
-    logits: Tensor, temp: float, k: int, p: float, af: float, ap: float, sample=None
-):
+def sample_logits(logits: Tensor, temp: float, k: int, p: float, af: float, ap: float, sample=None):
     assert logits.ndim == 1, "only works on 1d tensors"
     assert 0 <= p <= 1, "p must be between 0 and 1"
     assert 0 <= k <= logits.numel(), "k must be between 0 and numel"
@@ -224,13 +204,9 @@ def sample_logits(
             Tensor.zeros(k, device=logits.device, dtype=dtypes.int32).contiguous(),
         )
         for i in range(k):
-            t_argmax = (
-                t.numel() - ((t == (t_max := t.max())) * counter2).max() - 1
-            ).cast(dtypes.default_int)
+            t_argmax = (t.numel() - ((t == (t_max := t.max())) * counter2).max() - 1).cast(dtypes.default_int)
             output = output + t_max.unsqueeze(0).pad(((i, k - i - 1),))
-            output_indices = output_indices + t_argmax.unsqueeze(0).pad(
-                ((i, k - i - 1),)
-            )
+            output_indices = output_indices + t_argmax.unsqueeze(0).pad(((i, k - i - 1),))
             t = (counter == t_argmax).where(0, t)
 
         # approximate top p
@@ -247,9 +223,7 @@ def sample_logits(
 
     # increase alpha counter
     if af or ap:
-        sample.alpha_counter = (counter == output_token).where(
-            sample.alpha_counter + 1, sample.alpha_counter
-        )
+        sample.alpha_counter = (counter == output_token).where(sample.alpha_counter + 1, sample.alpha_counter)
 
     return output_token
 
@@ -305,9 +279,7 @@ class Transformer:
         cache: Optional[List[Tensor]] = None,
     ):
         seqlen = x.shape[1]
-        freqs_cis = self.freqs_cis.shrink(
-            (None, (start_pos, start_pos + seqlen), None, None, None)
-        )
+        freqs_cis = self.freqs_cis.shrink((None, (start_pos, start_pos + seqlen), None, None, None))
         mask = (
             Tensor.full(
                 (1, 1, seqlen, start_pos + seqlen),
@@ -324,9 +296,7 @@ class Transformer:
         h = x
 
         if cache is None:
-            cache = [
-                None for _ in range(self.shard.start_layer, self.shard.end_layer + 1)
-            ]
+            cache = [None for _ in range(self.shard.start_layer, self.shard.end_layer + 1)]
         for i, c in zip(range(self.shard.start_layer, self.shard.end_layer + 1), cache):
             layer = self.layers[i]
             h = layer(h, start_pos, freqs_cis, mask, cache=c)
@@ -353,9 +323,7 @@ class Transformer:
             )
         return self.forward_base(x, start_pos, cache=cache)
 
-    def __call__(
-        self, x: Tensor, start_pos: Variable, cache: Optional[List[Tensor]] = None
-    ):
+    def __call__(self, x: Tensor, start_pos: Variable, cache: Optional[List[Tensor]] = None):
         # TODO: better way to handle the first call v.s. the rest?
         h = self.embed(x)
         return self.forward(h, start_pos, cache=cache)
@@ -369,22 +337,12 @@ class TransformerShard:
         jit: bool = True,
     ):
         shardrange = range(shard.start_layer, shard.end_layer + 1)
-        self.layers = [
-            layer
-            for layer, n in zip(base.layers, range(shard.n_layers))
-            if n in shardrange
-        ]
+        self.layers = [layer for layer, n in zip(base.layers, range(shard.n_layers)) if n in shardrange]
         self.norm = base.norm
         self.tok_embeddings = base.tok_embeddings
-        self.embed = (
-            (lambda x: self.tok_embeddings(x))
-            if shard.is_first_layer()
-            else (lambda x: x)
-        )
+        self.embed = (lambda x: self.tok_embeddings(x)) if shard.is_first_layer() else (lambda x: x)
         self.output = base.output
-        self.post = (
-            (lambda x: self.output(x)) if shard.is_last_layer() else (lambda x: x)
-        )
+        self.post = (lambda x: self.output(x)) if shard.is_last_layer() else (lambda x: x)
         self.max_context = base.max_context
         self.null_cache = [None for _ in shardrange]
         self.freqs_cis = base.freqs_cis
@@ -392,9 +350,7 @@ class TransformerShard:
 
     def forward_base(self, x: Tensor, start_pos: Union[Variable, int], cache):
         seqlen = x.shape[1]
-        freqs_cis = self.freqs_cis.shrink(
-            (None, (start_pos, start_pos + seqlen), None, None, None)
-        )
+        freqs_cis = self.freqs_cis.shrink((None, (start_pos, start_pos + seqlen), None, None, None))
         mask = (
             Tensor.full(
                 (1, 1, seqlen, start_pos + seqlen),
@@ -423,28 +379,18 @@ class TransformerShard:
             )
         return self.forward_base(x, start_pos, cache=cache)
 
-    def __call__(
-        self, x: Tensor, start_pos: Variable, cache: Optional[List[Tensor]] = None
-    ):
+    def __call__(self, x: Tensor, start_pos: Variable, cache: Optional[List[Tensor]] = None):
         # TODO: better way to handle the first call v.s. the rest?
         h = self.embed(x)
-        return self.forward(
-            h, start_pos, cache=self.null_cache if cache is None else cache
-        )
+        return self.forward(h, start_pos, cache=self.null_cache if cache is None else cache)
 
 
 # *** helpers ***
 
 
-def convert_from_huggingface(
-    weights: Dict[str, Tensor], model: Transformer, n_heads: int, n_kv_heads: int
-):
+def convert_from_huggingface(weights: Dict[str, Tensor], model: Transformer, n_heads: int, n_kv_heads: int):
     def permute(v: Tensor, n_heads: int):
-        return (
-            v.reshape(n_heads, 2, v.shape[0] // n_heads // 2, v.shape[1])
-            .transpose(1, 2)
-            .reshape(*v.shape[:2])
-        )
+        return v.reshape(n_heads, 2, v.shape[0] // n_heads // 2, v.shape[1]).transpose(1, 2).reshape(*v.shape[:2])
 
     keymap = {
         "model.embed_tokens.weight": "tok_embeddings.weight",
@@ -490,29 +436,16 @@ def fix_bf16(weights: Dict[Any, Tensor]):
     if Device.DEFAULT == "CLANG":
         # TODO: without casting to float16, 70B llama OOM on tinybox.
         return {
-            k: (
-                v.llvm_bf16_cast(dtypes.float32).to(v.device)
-                if v.dtype == dtypes.bfloat16
-                else v
-            )
+            k: (v.llvm_bf16_cast(dtypes.float32).to(v.device) if v.dtype == dtypes.bfloat16 else v)
             for k, v in weights.items()
         }
     if getenv("SUPPORT_BF16", 1):
         # TODO: without casting to float16, 70B llama OOM on tinybox.
         return {
-            k: (
-                v.cast(dtypes.float32).cast(dtypes.float16)
-                if v.dtype == dtypes.bfloat16
-                else v
-            )
+            k: (v.cast(dtypes.float32).cast(dtypes.float16) if v.dtype == dtypes.bfloat16 else v)
             for k, v in weights.items()
         }
     # TODO: check if device supports bf16
     return {
-        k: (
-            v.llvm_bf16_cast(dtypes.half).to(v.device)
-            if v.dtype == dtypes.bfloat16
-            else v
-        )
-        for k, v in weights.items()
+        k: (v.llvm_bf16_cast(dtypes.half).to(v.device) if v.dtype == dtypes.bfloat16 else v) for k, v in weights.items()
     }

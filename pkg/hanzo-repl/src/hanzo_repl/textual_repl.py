@@ -239,9 +239,7 @@ class HanzoTextualREPL(App):
             # Show specific info based on backend
             if backend_name == "claude":
                 if hasattr(backend, "authenticated") and backend.authenticated:
-                    messages.write(
-                        Text("● Using Claude personal account", style="cyan")
-                    )
+                    messages.write(Text("● Using Claude personal account", style="cyan"))
                 else:
                     messages.write(
                         Text(
@@ -250,9 +248,7 @@ class HanzoTextualREPL(App):
                         )
                     )
             elif backend_name == "embedded":
-                messages.write(
-                    Text(f"● Model: {self.llm_client.current_model}", style="green")
-                )
+                messages.write(Text(f"● Model: {self.llm_client.current_model}", style="green"))
 
             # Initialize tool executor with backend
             self.tool_executor = ToolExecutor(self.mcp_server, self.backend_manager)
@@ -260,9 +256,7 @@ class HanzoTextualREPL(App):
             # List available backends
             backends = self.backend_manager.list_backends()
             available = [name for name, avail in backends.items() if avail]
-            messages.write(
-                Text(f"● Available backends: {', '.join(available)}", style="dim")
-            )
+            messages.write(Text(f"● Available backends: {', '.join(available)}", style="dim"))
 
         except Exception as e:
             self.show_error(f"Initialization error: {e}")
@@ -505,9 +499,7 @@ class HanzoTextualREPL(App):
             # Execute MCP tool
             await self.execute_tool(command.name, command.parameters)
 
-    async def execute_tool(
-        self, tool_name: str, parameters: Optional[Dict] = None
-    ) -> None:
+    async def execute_tool(self, tool_name: str, parameters: Optional[Dict] = None) -> None:
         """Execute an MCP tool."""
         self.show_message(f"Executing: {tool_name}", "cyan")
 
@@ -522,10 +514,7 @@ class HanzoTextualREPL(App):
                 return
 
             # Get parameters if needed
-            if parameters and any(
-                p.get("required", False)
-                for p in parameters.get("properties", {}).values()
-            ):
+            if parameters and any(p.get("required", False) for p in parameters.get("properties", {}).values()):
                 # TODO: Show parameter input dialog
                 self.show_message("Tool requires parameters. Using defaults.", "yellow")
                 params = {}
@@ -637,9 +626,7 @@ class HanzoTextualREPL(App):
                     self.llm_client.set_model(arg)
                     self.show_message(f"Model changed to: {arg}", "green")
                 else:
-                    self.show_message(
-                        "Model selection only available for embedded backend", "yellow"
-                    )
+                    self.show_message("Model selection only available for embedded backend", "yellow")
                 return True
             if command == "auth":
                 await self.handle_auth_command()
@@ -683,9 +670,7 @@ class HanzoTextualREPL(App):
             from .voice_mode import VOICE_AVAILABLE, VoiceCommands, VoiceMode
 
             if not VOICE_AVAILABLE:
-                self.show_error(
-                    "Voice mode not available. Install: pip install speechrecognition pyttsx3 pyaudio"
-                )
+                self.show_error("Voice mode not available. Install: pip install speechrecognition pyttsx3 pyaudio")
                 return
 
             if not hasattr(self, "voice_mode"):
@@ -700,17 +685,13 @@ class HanzoTextualREPL(App):
                 # Start voice mode
                 def on_speech(text: str):
                     # Process voice input
-                    processed, should_stop = self.voice_commands.process_voice_input(
-                        text
-                    )
+                    processed, should_stop = self.voice_commands.process_voice_input(text)
 
                     if should_stop:
                         self.call_from_thread(self.toggle_voice_mode)
                     elif processed:
                         # Show what was heard
-                        self.call_from_thread(
-                            self.show_message, f"Heard: {text}", "dim"
-                        )
+                        self.call_from_thread(self.show_message, f"Heard: {text}", "dim")
                         # Process the command
                         self.call_from_thread(self.process_voice_command, processed)
 
@@ -775,9 +756,7 @@ class HanzoTextualREPL(App):
                 try:
                     success = await backend.authenticate()
                     if success:
-                        self.show_message(
-                            "Successfully authenticated with Claude!", "green"
-                        )
+                        self.show_message("Successfully authenticated with Claude!", "green")
                         self.show_message(
                             "You can now use your personal Claude account without API keys.",
                             "cyan",
@@ -787,9 +766,7 @@ class HanzoTextualREPL(App):
                 except Exception as e:
                     self.show_error(f"Authentication error: {e}")
             else:
-                self.show_message(
-                    "Claude backend doesn't support authentication", "yellow"
-                )
+                self.show_message("Claude backend doesn't support authentication", "yellow")
         else:
             self.show_message(
                 f"Authentication not available for {self.backend_manager.current_backend} backend",
@@ -807,9 +784,7 @@ class HanzoTextualREPL(App):
 
             for name, available in backends.items():
                 status = "✓" if available else "✗"
-                current = (
-                    " (current)" if name == self.backend_manager.current_backend else ""
-                )
+                current = " (current)" if name == self.backend_manager.current_backend else ""
                 style = "green" if available else "red"
                 messages.write(Text(f"  {status} {name}{current}", style=style))
 
@@ -842,9 +817,7 @@ class HanzoTextualREPL(App):
         """Handle /logout command."""
         backend = self.backend_manager.get_backend()
 
-        if self.backend_manager.current_backend == "claude" and hasattr(
-            backend, "logout"
-        ):
+        if self.backend_manager.current_backend == "claude" and hasattr(backend, "logout"):
             await backend.logout()
             self.show_message("Logged out from Claude account", "yellow")
         else:
@@ -863,9 +836,7 @@ class HanzoTextualREPL(App):
 
         if backend_name == "claude":
             auth_status = (
-                "Authenticated"
-                if hasattr(backend, "authenticated") and backend.authenticated
-                else "Not authenticated"
+                "Authenticated" if hasattr(backend, "authenticated") and backend.authenticated else "Not authenticated"
             )
             messages.write(f"  Auth status: {auth_status}")
         elif backend_name == "embedded":

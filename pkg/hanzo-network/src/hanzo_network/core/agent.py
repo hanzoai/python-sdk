@@ -108,38 +108,28 @@ class Agent:
 
         # Call lifecycle hook
         if self.lifecycle and self.lifecycle.on_start:
-            result = await self.lifecycle.on_start(
-                agent=self, messages=messages, state=state, context=context
-            )
+            result = await self.lifecycle.on_start(agent=self, messages=messages, state=state, context=context)
             if result and result.get("stop"):
                 return result
             messages = result.get("messages", messages)
 
         try:
             # Execute with appropriate backend
-            if (
-                self.model
-                and isinstance(self.model, ModelConfig)
-                and self.model.provider == ModelProvider.CLI
-            ):
+            if self.model and isinstance(self.model, ModelConfig) and self.model.provider == ModelProvider.CLI:
                 result = await self._execute_cli(messages, state, context)
             else:
                 result = await self._execute_llm(messages, state, context)
 
             # Call finish hook
             if self.lifecycle and self.lifecycle.on_finish:
-                await self.lifecycle.on_finish(
-                    agent=self, result=result, state=state, context=context
-                )
+                await self.lifecycle.on_finish(agent=self, result=result, state=state, context=context)
 
             return result
 
         except Exception as e:
             # Call error hook
             if self.lifecycle and self.lifecycle.on_error:
-                await self.lifecycle.on_error(
-                    agent=self, error=e, state=state, context=context
-                )
+                await self.lifecycle.on_error(agent=self, error=e, state=state, context=context)
             raise
 
     async def _execute_llm(
@@ -158,9 +148,7 @@ class Agent:
                 tools = [t.to_anthropic_tool() for t in self.tools]
             elif self.model.provider == ModelProvider.LOCAL:
                 # Simple tool format for local LLMs
-                tools = [
-                    {"name": t.name, "description": t.description} for t in self.tools
-                ]
+                tools = [{"name": t.name, "description": t.description} for t in self.tools]
 
         # Handle local LLM providers using hanzo/net
         if self.model and self.model.provider == ModelProvider.LOCAL:
@@ -174,9 +162,7 @@ class Agent:
                 engine_type = "tinygrad"
 
             # Create hanzo/net provider
-            provider = HanzoNetProvider(
-                engine_type=engine_type, base_url=self.model.base_url
-            )
+            provider = HanzoNetProvider(engine_type=engine_type, base_url=self.model.base_url)
 
             # Generate using distributed inference
             return await provider.generate(
