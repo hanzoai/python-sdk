@@ -111,10 +111,35 @@ class DagTool(BaseTool):
         self.default_shell = self._resolve_shell(default_shell)
     
     def _resolve_shell(self, preferred: str) -> str:
-        """Resolve shell - zsh only."""
-        for path in ["zsh", "/bin/zsh", "/usr/bin/zsh"]:
-            if shutil.which(path):
-                return path
+        """Resolve shell - prefer zsh, fallback to bash.
+        
+        Search order:
+        1. Homebrew paths (Apple Silicon + Intel)
+        2. Standard system paths
+        3. PATH lookup
+        """
+        # Prefer zsh, then bash
+        shell_priority = ["zsh", "bash"]
+        
+        # Homebrew + system paths
+        search_paths = [
+            "/opt/homebrew/bin",   # Apple Silicon Homebrew
+            "/usr/local/bin",      # Intel Homebrew
+            "/bin",                # System
+            "/usr/bin",            # System
+        ]
+        
+        for shell in shell_priority:
+            # Check explicit paths first
+            for prefix in search_paths:
+                full_path = f"{prefix}/{shell}"
+                if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
+                    return full_path
+            # Fallback to PATH lookup
+            found = shutil.which(shell)
+            if found:
+                return found
+        
         return "sh"  # Bare minimum fallback
 
     @property
