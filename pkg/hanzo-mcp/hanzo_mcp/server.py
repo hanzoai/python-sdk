@@ -199,10 +199,11 @@ class HanzoMCPServer:
         self.enable_agent_tool = enable_agent_tool
         self.command_timeout = command_timeout
 
-        # Initialize cleanup tracking
+        # Initialize cleanup tracking with thread-safe lock
         self._cleanup_thread: threading.Thread | None = None
         self._shutdown_event = threading.Event()
         self._cleanup_registered = False
+        self._cleanup_lock = threading.Lock()
 
         # Apply disabled_tools to enabled_tools
         final_enabled_tools = self.enabled_tools.copy()
@@ -234,32 +235,35 @@ class HanzoMCPServer:
 
     def _setup_cleanup_handlers(self) -> None:
         """Set up signal handlers and background cleanup thread."""
-        if self._cleanup_registered:
-            return
+        # Use lock to prevent race condition in concurrent calls
+        with self._cleanup_lock:
+            if self._cleanup_registered:
+                return
 
-        # Register cleanup on normal exit
-        atexit.register(self._cleanup_sessions)
+            # Mark as registered first to prevent re-entry
+            self._cleanup_registered = True
 
-        # Register signal handlers for graceful shutdown
-        def signal_handler(signum, frame):
-            import sys
+            # Register cleanup on normal exit
+            atexit.register(self._cleanup_sessions)
 
-            # Only log if not stdio transport
-            if hasattr(self, "_transport") and self._transport != "stdio":
-                logger = logging.getLogger(__name__)
-                logger.info("\nShutting down gracefully...")
-            self._cleanup_sessions()
-            self._shutdown_event.set()
-            sys.exit(0)
+            # Register signal handlers for graceful shutdown
+            def signal_handler(signum, frame):
+                import sys
 
-        signal.signal(signal.SIGTERM, signal_handler)
-        signal.signal(signal.SIGINT, signal_handler)
+                # Only log if not stdio transport
+                if hasattr(self, "_transport") and self._transport != "stdio":
+                    logger = logging.getLogger(__name__)
+                    logger.info("\nShutting down gracefully...")
+                self._cleanup_sessions()
+                self._shutdown_event.set()
+                sys.exit(0)
 
-        # Start background cleanup thread for periodic cleanup
-        self._cleanup_thread = threading.Thread(target=self._background_cleanup, daemon=True)
-        self._cleanup_thread.start()
+            signal.signal(signal.SIGTERM, signal_handler)
+            signal.signal(signal.SIGINT, signal_handler)
 
-        self._cleanup_registered = True
+            # Start background cleanup thread for periodic cleanup
+            self._cleanup_thread = threading.Thread(target=self._background_cleanup, daemon=True)
+            self._cleanup_thread.start()
 
     def _background_cleanup(self) -> None:
         """Background thread for periodic session cleanup."""
