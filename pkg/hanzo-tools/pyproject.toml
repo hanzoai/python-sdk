@@ -37,12 +37,17 @@ lsp = ["hanzo-tools-lsp>=0.1.0"]
 refactor = ["hanzo-tools-refactor>=0.1.0"]
 vector = ["hanzo-tools-vector>=0.1.0"]
 todo = ["hanzo-tools-todo>=0.1.0"]
+config = ["hanzo-tools-config>=0.1.0"]
+mcp_tools = ["hanzo-tools-mcp>=0.1.0"]
+reasoning = ["hanzo-tools-reasoning>=0.1.0"]
 
 # Bundles
 core = [
     "hanzo-tools-filesystem>=0.1.0",
     "hanzo-tools-shell>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
+    "hanzo-tools-reasoning>=0.1.0",
+    "hanzo-tools-config>=0.1.0",
 ]
 dev = [
     "hanzo-tools[core]",
@@ -69,6 +74,9 @@ all = [
     "hanzo-tools-refactor>=0.1.0",
     "hanzo-tools-vector>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
+    "hanzo-tools-reasoning>=0.1.0",
+    "hanzo-tools-config>=0.1.0",
+    "hanzo-tools-mcp>=0.1.0",
 ]
 
 [project.urls]

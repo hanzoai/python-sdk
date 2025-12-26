@@ -3,13 +3,13 @@ requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hanzo-tools-llm"
+name = "hanzo-tools-config"
 version = "0.1.0"
-description = "LLM tools for Hanzo AI - model management, consensus, providers"
+description = "Configuration tools for Hanzo AI - mode, settings management"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
-keywords = ["hanzo", "tools", "llm", "mcp", "ai"]
+keywords = ["hanzo", "tools", "config", "mcp", "ai"]
 dependencies = [
     "hanzo-tools-core>=0.1.0",
     "mcp>=1.25.0",
@@ -17,11 +17,8 @@ dependencies = [
     "pydantic>=2.12.5",
 ]
 
-[project.optional-dependencies]
-full = ["litellm>=1.0.0", "openai>=1.0.0", "anthropic>=0.40.0"]
-
 [project.entry-points."hanzo.tools"]
-llm = "hanzo_tools.llm:TOOLS"
+config = "hanzo_tools.config:TOOLS"
 
 [tool.setuptools.packages.find]
 where = ["."]
