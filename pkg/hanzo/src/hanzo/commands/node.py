@@ -31,7 +31,9 @@ async def start(ctx, name: str, port: int, models: tuple, device: str):
     await start_node(ctx, name, port, list(models) if models else None, device)
 
 
-async def start_node(ctx, name: str, port: int, models: Optional[List[str]] = None, device: str = "auto"):
+async def start_node(
+    ctx, name: str, port: int, models: Optional[List[str]] = None, device: str = "auto"
+):
     """Start a local node via hanzo-cluster."""
     try:
         from hanzo_cluster import HanzoCluster
@@ -138,7 +140,9 @@ async def status(ctx, name: str):
             if workers := status.get("node_details", []):
                 console.print("\n[cyan]Workers:[/cyan]")
                 for worker in workers:
-                    console.print(f"  • {worker.get('name', 'unknown')} ({worker.get('state', 'unknown')})")
+                    console.print(
+                        f"  • {worker.get('name', 'unknown')} ({worker.get('state', 'unknown')})"
+                    )
                     if device := worker.get("device"):
                         console.print(f"    Device: {device}")
         else:
@@ -252,7 +256,9 @@ def worker_group():
     default="auto",
     help="Device to use",
 )
-@click.option("--port", "-p", type=int, help="Worker port (auto-assigned if not specified)")
+@click.option(
+    "--port", "-p", type=int, help="Worker port (auto-assigned if not specified)"
+)
 @click.option("--blockchain", is_flag=True, help="Enable blockchain features")
 @click.option("--network", is_flag=True, help="Enable network discovery")
 @click.pass_context
@@ -425,7 +431,9 @@ async def worker_info(ctx, name: str):
         if resources := info.get("resources"):
             console.print("\n[cyan]Resources:[/cyan]")
             console.print(f"  CPU: {resources.get('cpu_percent', 'N/A')}%")
-            console.print(f"  Memory: {resources.get('memory_used', 'N/A')} / {resources.get('memory_total', 'N/A')}")
+            console.print(
+                f"  Memory: {resources.get('memory_used', 'N/A')} / {resources.get('memory_total', 'N/A')}"
+            )
             if gpu := resources.get("gpu"):
                 console.print(
                     f"  GPU: {gpu.get('name', 'N/A')} ({gpu.get('memory_used', 'N/A')} / {gpu.get('memory_total', 'N/A')})"
@@ -438,8 +446,12 @@ async def worker_info(ctx, name: str):
 
         if network := info.get("network"):
             console.print("\n[cyan]Network:[/cyan]")
-            console.print(f"  Blockchain: {'enabled' if network.get('blockchain') else 'disabled'}")
-            console.print(f"  Discovery: {'enabled' if network.get('discovery') else 'disabled'}")
+            console.print(
+                f"  Blockchain: {'enabled' if network.get('blockchain') else 'disabled'}"
+            )
+            console.print(
+                f"  Discovery: {'enabled' if network.get('discovery') else 'disabled'}"
+            )
             if peers := network.get("peers"):
                 console.print(f"  Peers: {len(peers)}")
 

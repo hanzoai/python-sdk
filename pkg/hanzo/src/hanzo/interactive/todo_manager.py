@@ -293,7 +293,9 @@ class TodoManager:
                 TodoPriority.LOW: "green",
             }.get(todo.priority, "white")
 
-            priority_display = f"[{priority_color}]{todo.priority.value.upper()}[/{priority_color}]"
+            priority_display = (
+                f"[{priority_color}]{todo.priority.value.upper()}[/{priority_color}]"
+            )
 
             # Tags
             tags_display = ", ".join(todo.tags) if todo.tags else "-"
@@ -387,7 +389,9 @@ class TodoManager:
         if not title:
             raise ValueError("Todo title cannot be empty")
 
-        return self.add_todo(title=title, priority=priority, tags=tags, due_date=due_date)
+        return self.add_todo(
+            title=title, priority=priority, tags=tags, due_date=due_date
+        )
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get todo statistics."""
