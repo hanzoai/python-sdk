@@ -1,6 +1,6 @@
 """Edit tool - find and replace in files."""
 
-from typing import Optional,  Annotated
+from typing import Optional, Annotated
 from pathlib import Path
 
 from pydantic import Field

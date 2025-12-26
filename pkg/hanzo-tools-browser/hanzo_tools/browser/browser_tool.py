@@ -24,9 +24,9 @@ import json
 import base64
 import asyncio
 import logging
-from typing import Any, Literal, ClassVar, Optional, Annotated, Union
+from typing import Any, Union, Literal, ClassVar, Optional, Annotated
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -36,10 +36,20 @@ from hanzo_tools.core import BaseTool
 # Playwright import with graceful fallback
 try:
     from playwright.async_api import (
-        Page, Browser, Playwright, BrowserContext, 
-        async_playwright, Route, Request, Response,
-        Dialog, ConsoleMessage, Download, Locator
+        Page,
+        Route,
+        Dialog,
+        Browser,
+        Locator,
+        Request,
+        Download,
+        Response,
+        Playwright,
+        BrowserContext,
+        ConsoleMessage,
+        async_playwright,
     )
+
     PLAYWRIGHT_AVAILABLE = True
 except ImportError:
     PLAYWRIGHT_AVAILABLE = False
@@ -122,158 +132,136 @@ DEVICES = {
 Action = Annotated[
     Literal[
         # === Core Page Navigation & Lifecycle ===
-        "navigate",       # goto(url)
-        "set_content",    # setContent(html)
-        "content",        # content() - get full HTML
-        "url",            # url() - get current URL
-        "title",          # title() - get page title
-        "reload",         # reload()
-        "go_back",        # goBack()
-        "go_forward",     # goForward()
-        "close",          # close page/browser
-        
+        "navigate",  # goto(url)
+        "set_content",  # setContent(html)
+        "content",  # content() - get full HTML
+        "url",  # url() - get current URL
+        "title",  # title() - get page title
+        "reload",  # reload()
+        "go_back",  # goBack()
+        "go_forward",  # goForward()
+        "close",  # close page/browser
         # === Input - Click/Type ===
-        "click",          # click(selector)
-        "dblclick",       # dblclick(selector)
-        "type",           # type(selector, text) - character by character
-        "fill",           # fill(selector, text) - instant, clears first
-        "clear",          # clear input
-        "press",          # press key combo (Ctrl+A, Enter, etc.)
-        
+        "click",  # click(selector)
+        "dblclick",  # dblclick(selector)
+        "type",  # type(selector, text) - character by character
+        "fill",  # fill(selector, text) - instant, clears first
+        "clear",  # clear input
+        "press",  # press key combo (Ctrl+A, Enter, etc.)
         # === Input - Forms ===
         "select_option",  # select dropdown option
-        "check",          # check checkbox/radio
-        "uncheck",        # uncheck checkbox
-        "upload",         # set_input_files
-        
+        "check",  # check checkbox/radio
+        "uncheck",  # uncheck checkbox
+        "upload",  # set_input_files
         # === Mouse ===
-        "hover",          # hover(selector)
-        "drag",           # drag_and_drop(source, target)
-        "mouse_move",     # mouse.move(x, y)
-        "mouse_down",     # mouse.down()
-        "mouse_up",       # mouse.up()
-        "mouse_wheel",    # mouse.wheel(dx, dy)
-        "scroll",         # scroll element into view or scroll by delta
-        
+        "hover",  # hover(selector)
+        "drag",  # drag_and_drop(source, target)
+        "mouse_move",  # mouse.move(x, y)
+        "mouse_down",  # mouse.down()
+        "mouse_up",  # mouse.up()
+        "mouse_wheel",  # mouse.wheel(dx, dy)
+        "scroll",  # scroll element into view or scroll by delta
         # === Touch (Mobile) ===
-        "tap",            # tap(selector) - touch tap
-        "swipe",          # swipe gesture
-        "pinch",          # pinch zoom
-        
+        "tap",  # tap(selector) - touch tap
+        "swipe",  # swipe gesture
+        "pinch",  # pinch zoom
         # === Locator Creation ===
-        "locator",        # Create locator (CSS, text, role, xpath)
+        "locator",  # Create locator (CSS, text, role, xpath)
         "frame_locator",  # frameLocator(selector)
-        
         # === Built-in Locators (get_by_*) ===
-        "get_by_role",        # getByRole(role, {name})
-        "get_by_text",        # getByText(text)
-        "get_by_label",       # getByLabel(text)
-        "get_by_placeholder", # getByPlaceholder(text)
-        "get_by_test_id",     # getByTestId(id)
-        "get_by_alt_text",    # getByAltText(text)
-        "get_by_title",       # getByTitle(text)
-        
+        "get_by_role",  # getByRole(role, {name})
+        "get_by_text",  # getByText(text)
+        "get_by_label",  # getByLabel(text)
+        "get_by_placeholder",  # getByPlaceholder(text)
+        "get_by_test_id",  # getByTestId(id)
+        "get_by_alt_text",  # getByAltText(text)
+        "get_by_title",  # getByTitle(text)
         # === Locator Composition ===
-        "first",          # locator.first
-        "last",           # locator.last
-        "nth",            # locator.nth(index)
-        "filter",         # locator.filter({has, hasText, hasNotText})
-        "all",            # locator.all() - get all matching
-        "count",          # locator.count()
-        
+        "first",  # locator.first
+        "last",  # locator.last
+        "nth",  # locator.nth(index)
+        "filter",  # locator.filter({has, hasText, hasNotText})
+        "all",  # locator.all() - get all matching
+        "count",  # locator.count()
         # === Content Extraction ===
-        "get_text",       # textContent()
-        "get_inner_text", # innerText()
+        "get_text",  # textContent()
+        "get_inner_text",  # innerText()
         "get_attribute",  # getAttribute(name)
-        "get_value",      # inputValue()
-        "get_html",       # innerHTML() or content()
-        "get_bounding_box", # boundingBox()
-        
+        "get_value",  # inputValue()
+        "get_html",  # innerHTML() or content()
+        "get_bounding_box",  # boundingBox()
         # === State Checks ===
-        "is_visible",     # isVisible()
-        "is_enabled",     # isEnabled()
-        "is_checked",     # isChecked()
-        "is_hidden",      # isHidden()
-        "is_editable",    # isEditable()
-        
+        "is_visible",  # isVisible()
+        "is_enabled",  # isEnabled()
+        "is_checked",  # isChecked()
+        "is_hidden",  # isHidden()
+        "is_editable",  # isEditable()
         # === Assertions (expect) ===
-        "expect_visible",     # expect(loc).toBeVisible()
-        "expect_hidden",      # expect(loc).toBeHidden()
-        "expect_enabled",     # expect(loc).toBeEnabled()
-        "expect_text",        # expect(loc).toHaveText()
-        "expect_value",       # expect(loc).toHaveValue()
-        "expect_checked",     # expect(loc).toBeChecked()
-        "expect_url",         # expect(page).toHaveURL()
-        "expect_title",       # expect(page).toHaveTitle()
-        "expect_count",       # expect(loc).toHaveCount()
-        "expect_attribute",   # expect(loc).toHaveAttribute()
-        
+        "expect_visible",  # expect(loc).toBeVisible()
+        "expect_hidden",  # expect(loc).toBeHidden()
+        "expect_enabled",  # expect(loc).toBeEnabled()
+        "expect_text",  # expect(loc).toHaveText()
+        "expect_value",  # expect(loc).toHaveValue()
+        "expect_checked",  # expect(loc).toBeChecked()
+        "expect_url",  # expect(page).toHaveURL()
+        "expect_title",  # expect(page).toHaveTitle()
+        "expect_count",  # expect(loc).toHaveCount()
+        "expect_attribute",  # expect(loc).toHaveAttribute()
         # === Page Actions ===
-        "screenshot",     # screenshot()
-        "pdf",            # pdf()
-        "snapshot",       # accessibility.snapshot()
-        "evaluate",       # evaluate(js)
-        "focus",          # focus(selector)
-        "blur",           # blur()
-        
+        "screenshot",  # screenshot()
+        "pdf",  # pdf()
+        "snapshot",  # accessibility.snapshot()
+        "evaluate",  # evaluate(js)
+        "focus",  # focus(selector)
+        "blur",  # blur()
         # === Wait Primitives ===
-        "wait",               # waitForSelector or sleep
-        "wait_for_load",      # waitForLoadState(networkidle, etc)
-        "wait_for_url",       # waitForURL(pattern)
-        "wait_for_event",     # waitForEvent(event) - request, response, download, filechooser, popup
-        "wait_for_request",   # waitForRequest(pattern)
+        "wait",  # waitForSelector or sleep
+        "wait_for_load",  # waitForLoadState(networkidle, etc)
+        "wait_for_url",  # waitForURL(pattern)
+        "wait_for_event",  # waitForEvent(event) - request, response, download, filechooser, popup
+        "wait_for_request",  # waitForRequest(pattern)
         "wait_for_response",  # waitForResponse(pattern)
         "wait_for_function",  # waitForFunction(js)
-        
         # === Viewport & Device ===
-        "viewport",       # setViewportSize
-        "emulate",        # emulate device (mobile, tablet, laptop)
-        "geolocation",    # setGeolocation
-        "permissions",    # grantPermissions
-        
+        "viewport",  # setViewportSize
+        "emulate",  # emulate device (mobile, tablet, laptop)
+        "geolocation",  # setGeolocation
+        "permissions",  # grantPermissions
         # === Network Interception ===
-        "route",          # route(pattern, handler) - mock/block
-        "unroute",        # unroute(pattern)
-        
+        "route",  # route(pattern, handler) - mock/block
+        "unroute",  # unroute(pattern)
         # === Storage & Cookies ===
-        "cookies",        # cookies() or addCookies()
+        "cookies",  # cookies() or addCookies()
         "clear_cookies",  # clearCookies()
-        "storage",        # localStorage/sessionStorage
+        "storage",  # localStorage/sessionStorage
         "storage_state",  # storageState() - save/load auth
-        
         # === Events & Handlers ===
-        "on",             # page.on(event, handler)
-        "off",            # removeListener
-        
+        "on",  # page.on(event, handler)
+        "off",  # removeListener
         # === Dialogs ===
-        "dialog",         # handle pending dialog
-        
+        "dialog",  # handle pending dialog
         # === Frames ===
-        "frame",          # switch to frame
-        "main_frame",     # back to main frame
-        
+        "frame",  # switch to frame
+        "main_frame",  # back to main frame
         # === File Chooser & Downloads ===
-        "file_chooser",   # waitForEvent('filechooser')
-        "download",       # waitForEvent('download')
-        
+        "file_chooser",  # waitForEvent('filechooser')
+        "download",  # waitForEvent('download')
         # === Console & Errors ===
-        "console",        # get console messages
-        "errors",         # get page errors
-        
+        "console",  # get console messages
+        "errors",  # get page errors
         # === Browser/Context Management ===
-        "new_page",       # context.newPage()
-        "new_context",    # browser.newContext() - isolated session
-        "new_tab",        # alias for new_page
-        "close_tab",      # close current page
-        "tabs",           # list/switch tabs
-        "connect",        # connect via CDP
-        "set_headless",   # toggle headless/headed
-        "status",         # get browser status
-        
+        "new_page",  # context.newPage()
+        "new_context",  # browser.newContext() - isolated session
+        "new_tab",  # alias for new_page
+        "close_tab",  # close current page
+        "tabs",  # list/switch tabs
+        "connect",  # connect via CDP
+        "set_headless",  # toggle headless/headed
+        "status",  # get browser status
         # === Debug/Tracing ===
-        "trace_start",    # tracing.start()
-        "trace_stop",     # tracing.stop()
-        "highlight",      # highlight element for debugging
+        "trace_start",  # tracing.start()
+        "trace_stop",  # tracing.stop()
+        "highlight",  # highlight element for debugging
     ],
     Field(description="Browser action to perform"),
 ]
@@ -282,6 +270,7 @@ Action = Annotated[
 @dataclass
 class BrowserState:
     """Track browser state for debugging and monitoring."""
+
     console_messages: list[dict] = field(default_factory=list)
     page_errors: list[str] = field(default_factory=list)
     routes: dict[str, dict] = field(default_factory=dict)
@@ -337,28 +326,36 @@ class BrowserPool:
     def _setup_page_listeners(self, page: Page) -> None:
         """Set up event listeners for a page."""
         # Console messages
-        page.on("console", lambda msg: self._state.console_messages.append({
-            "type": msg.type,
-            "text": msg.text,
-            "location": getattr(msg, 'location', None),
-        }))
-        
+        page.on(
+            "console",
+            lambda msg: self._state.console_messages.append(
+                {
+                    "type": msg.type,
+                    "text": msg.text,
+                    "location": getattr(msg, "location", None),
+                }
+            ),
+        )
+
         # Page errors
         page.on("pageerror", lambda err: self._state.page_errors.append(str(err)))
-        
+
         # Dialogs
         async def handle_dialog(dialog: Dialog):
             self._state.pending_dialog = dialog
+
         page.on("dialog", handle_dialog)
-        
+
         # Downloads
         def handle_download(download: Download):
             self._state.pending_download = download
+
         page.on("download", handle_download)
-        
+
         # File chooser
         def handle_filechooser(file_chooser):
             self._state.pending_file_chooser = file_chooser
+
         page.on("filechooser", handle_filechooser)
 
     async def ensure_browser(
@@ -372,9 +369,9 @@ class BrowserPool:
             raise RuntimeError("Playwright not installed. Run: pip install playwright && playwright install chromium")
 
         needs_init = (
-            not self._initialized 
-            or self._page is None 
-            or self._browser is None 
+            not self._initialized
+            or self._page is None
+            or self._browser is None
             or self._cdp_endpoint != cdp_endpoint
             or self._device != device
         )
@@ -419,14 +416,14 @@ class BrowserPool:
                         "--no-sandbox",
                     ],
                 )
-                
+
                 context_opts = {
                     "viewport": {"width": 1440, "height": 900},
                     "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                 }
                 if device_settings:
                     context_opts.update(device_settings)
-                
+
                 self._context = await self._browser.new_context(**context_opts)
                 self._contexts = [self._context]
                 self._page = await self._context.new_page()
@@ -442,12 +439,12 @@ class BrowserPool:
         """Create a new isolated browser context for parallel agents."""
         if not self._browser:
             raise RuntimeError("Browser not initialized")
-        
+
         context_opts = {}
         if device and device in DEVICES:
             context_opts.update(DEVICES[device])
         context_opts.update(kwargs)
-        
+
         context = await self._browser.new_context(**context_opts)
         self._contexts.append(context)
         return context
@@ -469,7 +466,7 @@ class BrowserPool:
         """Close a page by index (default: current page)."""
         if not self._pages:
             return
-        
+
         idx = index if index is not None else self._pages.index(self._page) if self._page in self._pages else -1
         if 0 <= idx < len(self._pages):
             page = self._pages.pop(idx)
@@ -524,7 +521,7 @@ class BrowserPool:
     @property
     def pages(self) -> list[Page]:
         return self._pages
-    
+
     @property
     def state(self) -> BrowserState:
         return self._state
@@ -537,7 +534,7 @@ class BrowserTool(BaseTool):
     Use `new_context` action to create isolated sessions.
     Each context has separate cookies, storage, and cache.
     One Chrome process, many parallel agent sessions.
-    
+
     DEVICES:
     - mobile, tablet, laptop (user-friendly)
     - iphone_14, iphone_15_pro, pixel_7, galaxy_s23, ipad_pro (specific)
@@ -716,7 +713,12 @@ CATEGORIES:
                 if not url:
                     return {"error": "url required"}
                 resp = await page.goto(url, timeout=timeout, wait_until=state or "domcontentloaded")
-                return {"success": True, "url": page.url, "title": await page.title(), "status": resp.status if resp else None}
+                return {
+                    "success": True,
+                    "url": page.url,
+                    "title": await page.title(),
+                    "status": resp.status if resp else None,
+                }
 
             elif action == "set_content":
                 if not html:
@@ -747,37 +749,43 @@ CATEGORIES:
 
             # === Input ===
             elif action == "click":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.click(timeout=timeout, button=button or "left")
                 return {"success": True, "clicked": sel}
 
             elif action == "dblclick":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.dblclick(timeout=timeout)
                 return {"success": True, "double_clicked": sel}
 
             elif action == "type":
-                if not sel or text is None: return {"error": "selector and text required"}
+                if not sel or text is None:
+                    return {"error": "selector and text required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.type(text, timeout=timeout)
                 return {"success": True, "typed": len(text), "selector": sel}
 
             elif action == "fill":
-                if not sel or text is None: return {"error": "selector and text required"}
+                if not sel or text is None:
+                    return {"error": "selector and text required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.fill(text, timeout=timeout)
                 return {"success": True, "filled": sel}
 
             elif action == "clear":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.clear(timeout=timeout)
                 return {"success": True, "cleared": sel}
 
             elif action == "press":
-                if not key: return {"error": "key required"}
+                if not key:
+                    return {"error": "key required"}
                 if sel:
                     loc = self._get_locator(page, sel, frame)
                     await loc.press(key, timeout=timeout)
@@ -787,43 +795,50 @@ CATEGORIES:
 
             # === Forms ===
             elif action == "select_option":
-                if not sel or value is None: return {"error": "selector and value required"}
+                if not sel or value is None:
+                    return {"error": "selector and value required"}
                 loc = self._get_locator(page, sel, frame)
                 selected = await loc.select_option(value if isinstance(value, list) else [value], timeout=timeout)
                 return {"success": True, "selected": selected}
 
             elif action == "check":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.check(timeout=timeout)
                 return {"success": True, "checked": sel}
 
             elif action == "uncheck":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.uncheck(timeout=timeout)
                 return {"success": True, "unchecked": sel}
 
             elif action == "upload":
-                if not sel or not files: return {"error": "selector and files required"}
+                if not sel or not files:
+                    return {"error": "selector and files required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.set_input_files(files, timeout=timeout)
                 return {"success": True, "uploaded": len(files)}
 
             # === Mouse ===
             elif action == "hover":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.hover(timeout=timeout)
                 return {"success": True, "hovered": sel}
 
             elif action == "drag":
-                if not sel or not target_selector: return {"error": "selector and target_selector required"}
+                if not sel or not target_selector:
+                    return {"error": "selector and target_selector required"}
                 await page.drag_and_drop(sel, target_selector, timeout=timeout)
                 return {"success": True, "dragged": sel, "to": target_selector}
 
             elif action == "mouse_move":
-                if x is None or y is None: return {"error": "x and y required"}
+                if x is None or y is None:
+                    return {"error": "x and y required"}
                 await page.mouse.move(x, y)
                 return {"success": True, "moved_to": {"x": x, "y": y}}
 
@@ -850,16 +865,19 @@ CATEGORIES:
 
             # === Touch ===
             elif action == "tap":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.tap(timeout=timeout)
                 return {"success": True, "tapped": sel}
 
             elif action == "swipe":
-                if not sel or not direction: return {"error": "selector and direction required"}
+                if not sel or not direction:
+                    return {"error": "selector and direction required"}
                 loc = self._get_locator(page, sel, frame)
                 box = await loc.bounding_box()
-                if not box: return {"error": "Element not visible"}
+                if not box:
+                    return {"error": "Element not visible"}
                 cx, cy = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
                 dist = distance or 200
                 offsets = {"left": (-dist, 0), "right": (dist, 0), "up": (0, -dist), "down": (0, dist)}
@@ -872,85 +890,107 @@ CATEGORIES:
                 return {"success": True, "swiped": sel, "direction": direction}
 
             elif action == "pinch":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 zoom = scale or 0.5
-                await page.evaluate(f"""(sel) => {{
+                await page.evaluate(
+                    f"""(sel) => {{
                     const el = document.querySelector(sel);
-                    if (el) el.dispatchEvent(new WheelEvent('wheel', {{deltaY: {'-100' if zoom > 1 else '100'}, ctrlKey: true, bubbles: true}}));
-                }}""", sel)
+                    if (el) el.dispatchEvent(new WheelEvent('wheel', {{deltaY: {"-100" if zoom > 1 else "100"}, ctrlKey: true, bubbles: true}}));
+                }}""",
+                    sel,
+                )
                 return {"success": True, "pinched": sel, "scale": zoom}
 
             # === Locator Creation ===
             elif action == "locator":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 cnt = await loc.count()
-                return {"success": True, "selector": sel, "count": cnt, "visible": await loc.first.is_visible() if cnt > 0 else False}
+                return {
+                    "success": True,
+                    "selector": sel,
+                    "count": cnt,
+                    "visible": await loc.first.is_visible() if cnt > 0 else False,
+                }
 
             elif action == "frame_locator":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 # Just validate frame exists
                 frame_loc = page.frame_locator(sel)
                 return {"success": True, "frame": sel, "note": "Use frame parameter in subsequent actions"}
 
             # === Built-in Locators ===
             elif action == "get_by_role":
-                if not role: return {"error": "role required"}
+                if not role:
+                    return {"error": "role required"}
                 loc = page.get_by_role(role, name=name, exact=exact)
                 cnt = await loc.count()
                 return {"success": True, "role": role, "name": name, "count": cnt}
 
             elif action == "get_by_text":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_text(text, exact=exact)
                 return {"success": True, "text": text, "count": await loc.count()}
 
             elif action == "get_by_label":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_label(text, exact=exact)
                 return {"success": True, "label": text, "count": await loc.count()}
 
             elif action == "get_by_placeholder":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_placeholder(text, exact=exact)
                 return {"success": True, "placeholder": text, "count": await loc.count()}
 
             elif action == "get_by_test_id":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_test_id(text)
                 return {"success": True, "test_id": text, "count": await loc.count()}
 
             elif action == "get_by_alt_text":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_alt_text(text, exact=exact)
                 return {"success": True, "alt_text": text, "count": await loc.count()}
 
             elif action == "get_by_title":
-                if not text: return {"error": "text required"}
+                if not text:
+                    return {"error": "text required"}
                 loc = page.get_by_title(text, exact=exact)
                 return {"success": True, "title": text, "count": await loc.count()}
 
             # === Locator Composition ===
             elif action == "first":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame).first
                 visible = await loc.is_visible()
                 return {"success": True, "first": True, "visible": visible}
 
             elif action == "last":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame).last
                 visible = await loc.is_visible()
                 return {"success": True, "last": True, "visible": visible}
 
             elif action == "nth":
-                if not sel or index is None: return {"error": "selector and index required"}
+                if not sel or index is None:
+                    return {"error": "selector and index required"}
                 loc = self._get_locator(page, sel, frame).nth(index)
                 visible = await loc.is_visible()
                 return {"success": True, "nth": index, "visible": visible}
 
             elif action == "filter":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 filter_opts = {}
                 if has_text:
@@ -964,41 +1004,53 @@ CATEGORIES:
                 return {"success": True, "filtered": True, "count": await loc.count()}
 
             elif action == "all":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 elements = await loc.all()
                 results = []
                 for i, el in enumerate(elements):
-                    results.append({
-                        "index": i,
-                        "visible": await el.is_visible(),
-                        "text": await el.text_content(),
-                    })
+                    results.append(
+                        {
+                            "index": i,
+                            "visible": await el.is_visible(),
+                            "text": await el.text_content(),
+                        }
+                    )
                 return {"success": True, "count": len(results), "elements": results[:20]}  # Limit to 20
 
             elif action == "count":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "count": await loc.count()}
 
             # === Content Extraction ===
             elif action == "get_text":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "text": await loc.text_content(timeout=timeout)}
 
             elif action == "get_inner_text":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "inner_text": await loc.inner_text(timeout=timeout)}
 
             elif action == "get_attribute":
-                if not sel or not attribute: return {"error": "selector and attribute required"}
+                if not sel or not attribute:
+                    return {"error": "selector and attribute required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "attribute": attribute, "value": await loc.get_attribute(attribute, timeout=timeout)}
+                return {
+                    "success": True,
+                    "attribute": attribute,
+                    "value": await loc.get_attribute(attribute, timeout=timeout),
+                }
 
             elif action == "get_value":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "value": await loc.input_value(timeout=timeout)}
 
@@ -1009,65 +1061,77 @@ CATEGORIES:
                 return {"success": True, "html": await page.content()}
 
             elif action == "get_bounding_box":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 box = await loc.bounding_box(timeout=timeout)
                 return {"success": True, "bounding_box": box} if box else {"error": "Element not visible"}
 
             # === State Checks ===
             elif action == "is_visible":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "visible": await loc.is_visible(timeout=timeout)}
 
             elif action == "is_hidden":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "hidden": await loc.is_hidden(timeout=timeout)}
 
             elif action == "is_enabled":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "enabled": await loc.is_enabled(timeout=timeout)}
 
             elif action == "is_editable":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "editable": await loc.is_editable(timeout=timeout)}
 
             elif action == "is_checked":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 return {"success": True, "checked": await loc.is_checked(timeout=timeout)}
 
             # === Assertions (expect) ===
             elif action.startswith("expect_"):
                 from playwright.async_api import expect
-                
+
                 if action == "expect_url":
                     pattern = expected or url or pattern
-                    if not pattern: return {"error": "expected URL pattern required"}
+                    if not pattern:
+                        return {"error": "expected URL pattern required"}
                     try:
-                        await expect(page).to_have_url(re.compile(pattern) if "*" in pattern else pattern, timeout=timeout)
+                        await expect(page).to_have_url(
+                            re.compile(pattern) if "*" in pattern else pattern, timeout=timeout
+                        )
                         return {"success": True, "assertion": "url", "passed": True}
                     except Exception as e:
                         return {"success": False, "assertion": "url", "passed": False, "error": str(e)}
 
                 elif action == "expect_title":
                     pattern = expected or text
-                    if not pattern: return {"error": "expected title required"}
+                    if not pattern:
+                        return {"error": "expected title required"}
                     try:
-                        await expect(page).to_have_title(re.compile(pattern) if "*" in pattern else pattern, timeout=timeout)
+                        await expect(page).to_have_title(
+                            re.compile(pattern) if "*" in pattern else pattern, timeout=timeout
+                        )
                         return {"success": True, "assertion": "title", "passed": True}
                     except Exception as e:
                         return {"success": False, "assertion": "title", "passed": False, "error": str(e)}
 
                 elif not sel:
                     return {"error": "selector required for element assertions"}
-                
+
                 loc = self._get_locator(page, sel, frame)
                 assertion_type = action.replace("expect_", "")
-                
+
                 try:
                     if assertion_type == "visible":
                         if not_:
@@ -1085,14 +1149,16 @@ CATEGORIES:
                         else:
                             await expect(loc).to_be_enabled(timeout=timeout)
                     elif assertion_type == "text":
-                        if not expected and not text: return {"error": "expected text required"}
+                        if not expected and not text:
+                            return {"error": "expected text required"}
                         exp = expected or text
                         if not_:
                             await expect(loc).not_to_have_text(exp, timeout=timeout)
                         else:
                             await expect(loc).to_have_text(exp, timeout=timeout)
                     elif assertion_type == "value":
-                        if not expected and not value: return {"error": "expected value required"}
+                        if not expected and not value:
+                            return {"error": "expected value required"}
                         exp = expected or value
                         if not_:
                             await expect(loc).not_to_have_value(exp, timeout=timeout)
@@ -1104,20 +1170,28 @@ CATEGORIES:
                         else:
                             await expect(loc).to_be_checked(timeout=timeout)
                     elif assertion_type == "count":
-                        if index is None: return {"error": "index (expected count) required"}
+                        if index is None:
+                            return {"error": "index (expected count) required"}
                         await expect(loc).to_have_count(index, timeout=timeout)
                     elif assertion_type == "attribute":
-                        if not attribute or not expected: return {"error": "attribute and expected required"}
+                        if not attribute or not expected:
+                            return {"error": "attribute and expected required"}
                         if not_:
                             await expect(loc).not_to_have_attribute(attribute, expected, timeout=timeout)
                         else:
                             await expect(loc).to_have_attribute(attribute, expected, timeout=timeout)
                     else:
                         return {"error": f"Unknown assertion: {assertion_type}"}
-                    
+
                     return {"success": True, "assertion": assertion_type, "passed": True, "selector": sel}
                 except Exception as e:
-                    return {"success": False, "assertion": assertion_type, "passed": False, "selector": sel, "error": str(e)}
+                    return {
+                        "success": False,
+                        "assertion": assertion_type,
+                        "passed": False,
+                        "selector": sel,
+                        "error": str(e),
+                    }
 
             # === Page Actions ===
             elif action == "screenshot":
@@ -1134,27 +1208,36 @@ CATEGORIES:
                 return {"success": True, "format": "pdf", "size": len(data), "base64": base64.b64encode(data).decode()}
 
             elif action == "snapshot":
-                return {"success": True, "url": page.url, "title": await page.title(), "snapshot": await page.accessibility.snapshot()}
+                return {
+                    "success": True,
+                    "url": page.url,
+                    "title": await page.title(),
+                    "snapshot": await page.accessibility.snapshot(),
+                }
 
             elif action == "evaluate":
-                if not code: return {"error": "code required"}
+                if not code:
+                    return {"error": "code required"}
                 result = await page.evaluate(code)
                 return {"success": True, "result": result}
 
             elif action == "focus":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.focus(timeout=timeout)
                 return {"success": True, "focused": sel}
 
             elif action == "blur":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.blur(timeout=timeout)
                 return {"success": True, "blurred": sel}
 
             elif action == "highlight":
-                if not sel: return {"error": "selector required"}
+                if not sel:
+                    return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 await loc.highlight()
                 return {"success": True, "highlighted": sel}
@@ -1175,12 +1258,14 @@ CATEGORIES:
                 return {"success": True, "state": state or "load"}
 
             elif action == "wait_for_url":
-                if not pattern and not url: return {"error": "pattern or url required"}
+                if not pattern and not url:
+                    return {"error": "pattern or url required"}
                 await page.wait_for_url(pattern or url, timeout=timeout)
                 return {"success": True, "url": page.url}
 
             elif action == "wait_for_event":
-                if not event: return {"error": "event required (request, response, download, filechooser, popup)"}
+                if not event:
+                    return {"error": "event required (request, response, download, filechooser, popup)"}
                 result = await page.wait_for_event(event, timeout=timeout)
                 if event == "request":
                     return {"success": True, "event": event, "url": result.url, "method": result.method}
@@ -1191,17 +1276,20 @@ CATEGORIES:
                 return {"success": True, "event": event}
 
             elif action == "wait_for_request":
-                if not pattern: return {"error": "pattern required"}
+                if not pattern:
+                    return {"error": "pattern required"}
                 req = await page.wait_for_request(pattern, timeout=timeout)
                 return {"success": True, "url": req.url, "method": req.method}
 
             elif action == "wait_for_response":
-                if not pattern: return {"error": "pattern required"}
+                if not pattern:
+                    return {"error": "pattern required"}
                 resp = await page.wait_for_response(pattern, timeout=timeout)
                 return {"success": True, "url": resp.url, "status": resp.status}
 
             elif action == "wait_for_function":
-                if not code: return {"error": "code (JavaScript function) required"}
+                if not code:
+                    return {"error": "code (JavaScript function) required"}
                 await page.wait_for_function(code, timeout=timeout)
                 return {"success": True, "function_returned_truthy": True}
 
@@ -1213,18 +1301,24 @@ CATEGORIES:
                 return {"success": True, "viewport": {"width": width, "height": height}}
 
             elif action == "geolocation":
-                if latitude is None or longitude is None: return {"error": "latitude and longitude required"}
-                await pool._context.set_geolocation({"latitude": latitude, "longitude": longitude, "accuracy": accuracy or 100})
+                if latitude is None or longitude is None:
+                    return {"error": "latitude and longitude required"}
+                await pool._context.set_geolocation(
+                    {"latitude": latitude, "longitude": longitude, "accuracy": accuracy or 100}
+                )
                 return {"success": True, "geolocation": {"lat": latitude, "lon": longitude}}
 
             elif action == "permissions":
-                if not permission: return {"error": "permission required"}
+                if not permission:
+                    return {"error": "permission required"}
                 await pool._context.grant_permissions([permission])
                 return {"success": True, "granted": permission}
 
             # === Network ===
             elif action == "route":
-                if not pattern: return {"error": "pattern required"}
+                if not pattern:
+                    return {"error": "pattern required"}
+
                 async def handle(route: Route):
                     if block:
                         await route.abort()
@@ -1233,12 +1327,14 @@ CATEGORIES:
                         await route.fulfill(status=status_code or 200, content_type="application/json", body=body)
                     else:
                         await route.continue_()
+
                 await page.route(pattern, handle)
                 pool._state.routes[pattern] = {"block": block, "mock": response is not None}
                 return {"success": True, "route": pattern}
 
             elif action == "unroute":
-                if not pattern: return {"error": "pattern required"}
+                if not pattern:
+                    return {"error": "pattern required"}
                 await page.unroute(pattern)
                 pool._state.routes.pop(pattern, None)
                 return {"success": True, "unrouted": pattern}
@@ -1259,12 +1355,15 @@ CATEGORIES:
                 store = "localStorage" if st == "local" else "sessionStorage"
                 if storage_data:
                     for k, v in storage_data.items():
-                        await page.evaluate(f"{store}.setItem('{k}', '{json.dumps(v) if isinstance(v, (dict, list)) else v}')")
+                        await page.evaluate(
+                            f"{store}.setItem('{k}', '{json.dumps(v) if isinstance(v, (dict, list)) else v}')"
+                        )
                     return {"success": True, "set_keys": list(storage_data.keys())}
                 return {"success": True, "data": await page.evaluate(f"Object.fromEntries(Object.entries({store}))")}
 
             elif action == "storage_state":
-                if not auth_file: return {"error": "auth_file required"}
+                if not auth_file:
+                    return {"error": "auth_file required"}
                 path = Path(auth_file)
                 if path.exists():
                     storage = json.loads(path.read_text())
@@ -1276,9 +1375,14 @@ CATEGORIES:
 
             # === Events ===
             elif action == "on":
-                if not event: return {"error": "event required"}
+                if not event:
+                    return {"error": "event required"}
                 # Events are auto-handled by _setup_page_listeners
-                return {"success": True, "listening": event, "note": "Use console/errors/dialog actions to retrieve captured events"}
+                return {
+                    "success": True,
+                    "listening": event,
+                    "note": "Use console/errors/dialog actions to retrieve captured events",
+                }
 
             elif action == "off":
                 return {"success": True, "note": "Event listeners managed automatically"}
@@ -1297,7 +1401,8 @@ CATEGORIES:
 
             # === Frames ===
             elif action == "frame":
-                if not sel: return {"error": "selector required for frame"}
+                if not sel:
+                    return {"error": "selector required for frame"}
                 return {"success": True, "frame": sel, "note": "Use frame parameter in subsequent actions"}
 
             elif action == "main_frame":
@@ -1319,7 +1424,12 @@ CATEGORIES:
                     d = pool._state.pending_download
                     path = await d.path()
                     pool._state.pending_download = None
-                    return {"success": True, "filename": d.suggested_filename, "path": str(path) if path else None, "url": d.url}
+                    return {
+                        "success": True,
+                        "filename": d.suggested_filename,
+                        "path": str(path) if path else None,
+                        "url": d.url,
+                    }
                 # Trigger download by clicking
                 if sel:
                     async with page.expect_download(timeout=timeout) as dl:
@@ -1368,7 +1478,11 @@ CATEGORIES:
                         return {"success": True, "switched_to": tab_index, "url": page.url}
                     except ValueError as e:
                         return {"error": str(e)}
-                return {"success": True, "count": len(pool.pages), "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)]}
+                return {
+                    "success": True,
+                    "count": len(pool.pages),
+                    "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)],
+                }
 
             elif action == "set_headless":
                 new_headless = headless if headless is not None else not pool._headless
@@ -1379,7 +1493,11 @@ CATEGORIES:
                 page = await pool.ensure_browser(headless=new_headless)
                 if current_url and current_url != "about:blank":
                     await page.goto(current_url)
-                return {"success": True, "previous_mode": old_mode, "current_mode": "headless" if new_headless else "headed"}
+                return {
+                    "success": True,
+                    "previous_mode": old_mode,
+                    "current_mode": "headless" if new_headless else "headed",
+                }
 
             elif action == "status":
                 return {
@@ -1398,13 +1516,15 @@ CATEGORIES:
 
             # === Debug ===
             elif action == "trace_start":
-                if pool._state.tracing: return {"error": "Tracing already active"}
+                if pool._state.tracing:
+                    return {"error": "Tracing already active"}
                 await pool._context.tracing.start(screenshots=True, snapshots=True, sources=True)
                 pool._state.tracing = True
                 return {"success": True, "tracing": True}
 
             elif action == "trace_stop":
-                if not pool._state.tracing: return {"error": "Tracing not active"}
+                if not pool._state.tracing:
+                    return {"error": "Tracing not active"}
                 path = trace_path or f"trace-{int(asyncio.get_event_loop().time())}.zip"
                 await pool._context.tracing.stop(path=path)
                 pool._state.tracing = False
@@ -1481,24 +1601,61 @@ CATEGORIES:
         ) -> dict[str, Any]:
             """Complete browser automation with full Playwright API surface area."""
             return await tool_instance.execute(
-                action=action, url=url, selector=selector, ref=ref,
-                target_selector=target_selector, text=text, value=value,
-                key=key, code=code, html=html, attribute=attribute,
-                role=role, name=name, exact=exact, index=index,
-                has_text=has_text, has_not_text=has_not_text, has=has,
-                files=files, x=x, y=y, button=button,
-                delta_x=delta_x, delta_y=delta_y, direction=direction,
-                distance=distance, scale=scale, width=width, height=height,
-                device=device, latitude=latitude, longitude=longitude,
-                permission=permission, pattern=pattern, response=response,
-                status_code=status_code, block=block, state=state,
-                event=event, expected=expected, not_=not_, timeout=timeout,
-                full_page=full_page, tab_index=tab_index,
-                cdp_endpoint=cdp_endpoint, headless=headless,
-                cookies=cookies, storage_type=storage_type,
-                storage_data=storage_data, auth_file=auth_file,
-                accept=accept, prompt_text=prompt_text, frame=frame,
-                trace_path=trace_path, level=level,
+                action=action,
+                url=url,
+                selector=selector,
+                ref=ref,
+                target_selector=target_selector,
+                text=text,
+                value=value,
+                key=key,
+                code=code,
+                html=html,
+                attribute=attribute,
+                role=role,
+                name=name,
+                exact=exact,
+                index=index,
+                has_text=has_text,
+                has_not_text=has_not_text,
+                has=has,
+                files=files,
+                x=x,
+                y=y,
+                button=button,
+                delta_x=delta_x,
+                delta_y=delta_y,
+                direction=direction,
+                distance=distance,
+                scale=scale,
+                width=width,
+                height=height,
+                device=device,
+                latitude=latitude,
+                longitude=longitude,
+                permission=permission,
+                pattern=pattern,
+                response=response,
+                status_code=status_code,
+                block=block,
+                state=state,
+                event=event,
+                expected=expected,
+                not_=not_,
+                timeout=timeout,
+                full_page=full_page,
+                tab_index=tab_index,
+                cdp_endpoint=cdp_endpoint,
+                headless=headless,
+                cookies=cookies,
+                storage_type=storage_type,
+                storage_data=storage_data,
+                auth_file=auth_file,
+                accept=accept,
+                prompt_text=prompt_text,
+                frame=frame,
+                trace_path=trace_path,
+                level=level,
             )
 
 

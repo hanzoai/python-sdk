@@ -89,9 +89,9 @@ except ImportError:
             self.metadata = metadata or {}
 
 
+from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
 from hanzo_tools.filesystem import Edit, get_read_only_filesystem_tools
-from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 
 from .critic_tool import CriticTool
 from .iching_tool import IChingTool

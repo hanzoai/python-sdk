@@ -34,13 +34,13 @@ __all__ = [
 
 def get_read_only_jupyter_tools(permission_manager) -> list:
     """Get read-only jupyter tools for sandboxed agents.
-    
+
     Returns tools that can read jupyter notebooks:
     - jupyter: Read and analyze notebook contents
-    
+
     Args:
         permission_manager: PermissionManager instance
-        
+
     Returns:
         List of instantiated read-only tools
     """

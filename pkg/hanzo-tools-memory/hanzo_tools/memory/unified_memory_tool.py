@@ -3,7 +3,7 @@
 Single tool with action parameter replaces 9 separate memory tools.
 """
 
-from typing import TYPE_CHECKING, Optional, List, Dict, Any, Literal, final, override, Annotated
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Annotated, final, override
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -25,6 +25,7 @@ def _check_memory_available() -> bool:
     if MEMORY_AVAILABLE is None:
         try:
             import hanzo_memory  # noqa: F401
+
             MEMORY_AVAILABLE = True
         except ImportError:
             MEMORY_AVAILABLE = False
@@ -38,22 +39,23 @@ def _get_lazy_memory_service() -> "MemoryService":
         if not _check_memory_available():
             raise ImportError("hanzo-memory required. Install: pip install hanzo-memory")
         from hanzo_memory.services.memory import get_memory_service
+
         _memory_service = get_memory_service()
     return _memory_service
 
 
 Action = Annotated[
     Literal[
-        "recall",       # Search memories
-        "create",       # Store new memories
-        "update",       # Update existing memories
-        "delete",       # Delete memories
-        "manage",       # Atomic create/update/delete
-        "facts",        # Recall facts from knowledge bases
-        "store",        # Store facts in knowledge bases
-        "summarize",    # Summarize and store
-        "kb",           # Manage knowledge bases
-        "list",         # List memories/knowledge bases
+        "recall",  # Search memories
+        "create",  # Store new memories
+        "update",  # Update existing memories
+        "delete",  # Delete memories
+        "manage",  # Atomic create/update/delete
+        "facts",  # Recall facts from knowledge bases
+        "store",  # Store facts in knowledge bases
+        "summarize",  # Summarize and store
+        "kb",  # Manage knowledge bases
+        "list",  # List memories/knowledge bases
     ],
     Field(description="Memory action to perform"),
 ]
@@ -296,6 +298,7 @@ Examples:
 
         try:
             from hanzo_memory.services.knowledge import get_knowledge_service
+
             ks = get_knowledge_service()
 
             results = []
@@ -326,6 +329,7 @@ Examples:
 
         try:
             from hanzo_memory.services.knowledge import get_knowledge_service
+
             ks = get_knowledge_service()
 
             stored = []
@@ -366,6 +370,7 @@ Examples:
         """Manage knowledge bases."""
         try:
             from hanzo_memory.services.knowledge import get_knowledge_service
+
             ks = get_knowledge_service()
 
             if action == "list":

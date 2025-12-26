@@ -11,22 +11,22 @@ Performance optimizations:
 - Async-first design with no blocking in event loop
 """
 
-import asyncio
-import base64
-import functools
 import io
-import json
 import re
-import subprocess
 import sys
+import json
 import time
-from concurrent.futures import ThreadPoolExecutor
+import base64
+import asyncio
+import functools
+import subprocess
+from typing import Any, Literal, Optional, Annotated, final, override
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional, final, override
+from concurrent.futures import ThreadPoolExecutor
 
+from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
-from pydantic import Field
 
 from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout
 
@@ -37,28 +37,56 @@ _EXECUTOR = ThreadPoolExecutor(max_workers=4, thread_name_prefix="computer_")
 # All supported actions
 Action = Literal[
     # Mouse actions
-    "click", "double_click", "right_click", "middle_click",
-    "move", "move_relative", "drag", "drag_relative", "scroll",
+    "click",
+    "double_click",
+    "right_click",
+    "middle_click",
+    "move",
+    "move_relative",
+    "drag",
+    "drag_relative",
+    "scroll",
     # Keyboard actions
-    "type", "write", "press", "key_down", "key_up", "hotkey",
+    "type",
+    "write",
+    "press",
+    "key_down",
+    "key_up",
+    "hotkey",
     # Screen actions
-    "screenshot", "screenshot_region",
+    "screenshot",
+    "screenshot_region",
     # Image location
-    "locate", "locate_all", "locate_center", "wait_for_image", "wait_while_image",
+    "locate",
+    "locate_all",
+    "locate_center",
+    "wait_for_image",
+    "wait_while_image",
     # Pixel operations
-    "pixel", "pixel_matches",
+    "pixel",
+    "pixel_matches",
     # Window management
-    "get_active_window", "list_windows", "focus_window",
+    "get_active_window",
+    "list_windows",
+    "focus_window",
     # Screen management
-    "get_screens", "screen_size", "current_screen",
+    "get_screens",
+    "screen_size",
+    "current_screen",
     # Region helpers
-    "define_region", "region_screenshot", "region_locate",
+    "define_region",
+    "region_screenshot",
+    "region_locate",
     # Timing/flow
-    "sleep", "countdown", "set_pause", "set_failsafe",
+    "sleep",
+    "countdown",
+    "set_pause",
+    "set_failsafe",
     # Batch operations
     "batch",
     # Info
-    "info", "position",
+    "info",
+    "position",
 ]
 
 
@@ -568,11 +596,13 @@ Examples:
                 displays = []
                 for gpu in data.get("SPDisplaysDataType", []):
                     for disp in gpu.get("spdisplays_ndrvs", []):
-                        displays.append({
-                            "name": disp.get("_name", "Unknown"),
-                            "resolution": disp.get("_spdisplays_resolution", "Unknown"),
-                            "main": disp.get("spdisplays_main") == "spdisplays_yes",
-                        })
+                        displays.append(
+                            {
+                                "name": disp.get("_name", "Unknown"),
+                                "resolution": disp.get("_spdisplays_resolution", "Unknown"),
+                                "main": disp.get("spdisplays_main") == "spdisplays_yes",
+                            }
+                        )
                 return json.dumps(displays, indent=2)
         except Exception as e:
             pass
@@ -611,16 +641,16 @@ Examples:
         pg = self._ensure_pyautogui()
         pos = pg.position()
         size = pg.size()
-        return json.dumps({
-            "size": {"width": size.width, "height": size.height},
-            "mouse": {"x": pos.x, "y": pos.y},
-        })
+        return json.dumps(
+            {
+                "size": {"width": size.width, "height": size.height},
+                "mouse": {"x": pos.x, "y": pos.y},
+            }
+        )
 
     # ========== Image Location Methods ==========
 
-    def _locate(
-        self, image_path: str, confidence: float, region: tuple | None
-    ) -> str:
+    def _locate(self, image_path: str, confidence: float, region: tuple | None) -> str:
         pg = self._ensure_pyautogui()
         path = Path(image_path)
         if not path.exists():
@@ -636,12 +666,18 @@ Examples:
             location = pg.locateOnScreen(str(path), **kwargs)
             if location:
                 center = pg.center(location)
-                return json.dumps({
-                    "found": True,
-                    "center": {"x": center.x, "y": center.y},
-                    "box": {"left": location.left, "top": location.top,
-                           "width": location.width, "height": location.height},
-                })
+                return json.dumps(
+                    {
+                        "found": True,
+                        "center": {"x": center.x, "y": center.y},
+                        "box": {
+                            "left": location.left,
+                            "top": location.top,
+                            "width": location.width,
+                            "height": location.height,
+                        },
+                    }
+                )
             else:
                 return json.dumps({"found": False, "message": "Image not found on screen"})
         except Exception as e:
@@ -662,11 +698,12 @@ Examples:
             results = []
             for loc in locations:
                 center = pg.center(loc)
-                results.append({
-                    "center": {"x": center.x, "y": center.y},
-                    "box": {"left": loc.left, "top": loc.top,
-                           "width": loc.width, "height": loc.height},
-                })
+                results.append(
+                    {
+                        "center": {"x": center.x, "y": center.y},
+                        "box": {"left": loc.left, "top": loc.top, "width": loc.width, "height": loc.height},
+                    }
+                )
             return json.dumps({"found": len(results), "locations": results})
         except Exception as e:
             return f"Error locating images: {str(e)}"
@@ -690,9 +727,7 @@ Examples:
         except Exception as e:
             return f"Error: {str(e)}"
 
-    async def _wait_for_image(
-        self, image_path: str, timeout: float, confidence: float, run
-    ) -> str:
+    async def _wait_for_image(self, image_path: str, timeout: float, confidence: float, run) -> str:
         """Wait until image appears on screen."""
         path = Path(image_path)
         if not path.exists():
@@ -704,19 +739,19 @@ Examples:
             data = json.loads(result) if result.startswith("{") else {}
             if data.get("found"):
                 elapsed = time.time() - start
-                return json.dumps({
-                    "found": True,
-                    "x": data["x"],
-                    "y": data["y"],
-                    "elapsed": round(elapsed, 2),
-                })
+                return json.dumps(
+                    {
+                        "found": True,
+                        "x": data["x"],
+                        "y": data["y"],
+                        "elapsed": round(elapsed, 2),
+                    }
+                )
             await asyncio.sleep(0.1)  # Faster polling
 
         return json.dumps({"found": False, "timeout": timeout})
 
-    async def _wait_while_image(
-        self, image_path: str, timeout: float, confidence: float, run
-    ) -> str:
+    async def _wait_while_image(self, image_path: str, timeout: float, confidence: float, run) -> str:
         """Wait while image is visible on screen."""
         path = Path(image_path)
         if not path.exists():
@@ -744,22 +779,20 @@ Examples:
         except Exception as e:
             return f"Error: {str(e)}"
 
-    def _pixel_matches(
-        self, x: int, y: int, color: tuple[int, int, int], tolerance: int
-    ) -> str:
+    def _pixel_matches(self, x: int, y: int, color: tuple[int, int, int], tolerance: int) -> str:
         pg = self._ensure_pyautogui()
         try:
             screenshot = pg.screenshot(region=(x, y, 1, 1))
             pixel = screenshot.getpixel((0, 0))
-            matches = all(
-                abs(pixel[i] - color[i]) <= tolerance for i in range(3)
+            matches = all(abs(pixel[i] - color[i]) <= tolerance for i in range(3))
+            return json.dumps(
+                {
+                    "matches": matches,
+                    "expected": {"r": color[0], "g": color[1], "b": color[2]},
+                    "actual": {"r": pixel[0], "g": pixel[1], "b": pixel[2]},
+                    "tolerance": tolerance,
+                }
             )
-            return json.dumps({
-                "matches": matches,
-                "expected": {"r": color[0], "g": color[1], "b": color[2]},
-                "actual": {"r": pixel[0], "g": pixel[1], "b": pixel[2]},
-                "tolerance": tolerance,
-            })
         except Exception as e:
             return f"Error: {str(e)}"
 
@@ -768,7 +801,7 @@ Examples:
     def _get_active_window(self) -> str:
         """Get frontmost window info using AppleScript."""
         try:
-            script = '''
+            script = """
             tell application "System Events"
                 set frontApp to first application process whose frontmost is true
                 set appName to name of frontApp
@@ -782,7 +815,7 @@ Examples:
                     return appName & "|||" & "" & "|||0,0|||0,0"
                 end try
             end tell
-            '''
+            """
             result = subprocess.run(
                 ["osascript", "-e", script],
                 capture_output=True,
@@ -794,12 +827,14 @@ Examples:
                 if len(parts) >= 4:
                     pos = parts[2].split(",")
                     size = parts[3].split(",")
-                    return json.dumps({
-                        "app": parts[0],
-                        "title": parts[1],
-                        "position": {"x": int(pos[0]), "y": int(pos[1])},
-                        "size": {"width": int(size[0]), "height": int(size[1])},
-                    })
+                    return json.dumps(
+                        {
+                            "app": parts[0],
+                            "title": parts[1],
+                            "position": {"x": int(pos[0]), "y": int(pos[1])},
+                            "size": {"width": int(size[0]), "height": int(size[1])},
+                        }
+                    )
             return json.dumps({"error": "Could not get active window"})
         except Exception as e:
             return json.dumps({"error": str(e)})
@@ -807,7 +842,7 @@ Examples:
     def _list_windows(self) -> str:
         """List all windows using AppleScript."""
         try:
-            script = '''
+            script = """
             set windowList to ""
             tell application "System Events"
                 set allProcesses to application processes whose visible is true
@@ -825,7 +860,7 @@ Examples:
                 end repeat
             end tell
             return windowList
-            '''
+            """
             result = subprocess.run(
                 ["osascript", "-e", script],
                 capture_output=True,
@@ -840,12 +875,14 @@ Examples:
                         if len(parts) >= 4:
                             pos = parts[2].split(",")
                             size = parts[3].split(",")
-                            windows.append({
-                                "app": parts[0],
-                                "title": parts[1],
-                                "position": {"x": int(pos[0]), "y": int(pos[1])},
-                                "size": {"width": int(size[0]), "height": int(size[1])},
-                            })
+                            windows.append(
+                                {
+                                    "app": parts[0],
+                                    "title": parts[1],
+                                    "position": {"x": int(pos[0]), "y": int(pos[1])},
+                                    "size": {"width": int(size[0]), "height": int(size[1])},
+                                }
+                            )
                 return json.dumps({"windows": windows, "count": len(windows)})
             return json.dumps({"error": "Could not list windows", "windows": []})
         except Exception as e:
@@ -950,7 +987,9 @@ Examples:
         elif action == "type":
             return await run(self._type_text, params.get("text", ""), params.get("interval", 0.02))
         elif action == "write":
-            return await run(self._write_text, params.get("text", ""), params.get("clear", False), params.get("interval", 0.02))
+            return await run(
+                self._write_text, params.get("text", ""), params.get("clear", False), params.get("interval", 0.02)
+            )
         elif action == "press":
             return await run(self._press_key, params.get("key", ""))
         elif action == "key_down":
@@ -978,13 +1017,15 @@ Examples:
         pg = self._ensure_pyautogui()
         size = pg.size()
         pos = pg.position()
-        return json.dumps({
-            "screen": {"width": size.width, "height": size.height},
-            "mouse": {"x": pos.x, "y": pos.y},
-            "pause": self._pause,
-            "failsafe": self._failsafe,
-            "regions": list(self._defined_regions.keys()),
-        })
+        return json.dumps(
+            {
+                "screen": {"width": size.width, "height": size.height},
+                "mouse": {"x": pos.x, "y": pos.y},
+                "pause": self._pause,
+                "failsafe": self._failsafe,
+                "regions": list(self._defined_regions.keys()),
+            }
+        )
 
     def _get_position(self) -> str:
         pg = self._ensure_pyautogui()
@@ -1028,14 +1069,28 @@ Examples:
             return await tool_self.call(
                 ctx,
                 action=action,
-                x=x, y=y, dx=dx, dy=dy,
-                text=text, key=key, keys=keys,
-                amount=amount, duration=duration, interval=interval,
-                region=region, clear=clear,
-                image_path=image_path, confidence=confidence, timeout=timeout,
-                color=tuple(color) if color else None, tolerance=tolerance,
-                title=title, use_regex=use_regex,
-                name=name, width=width, height=height,
+                x=x,
+                y=y,
+                dx=dx,
+                dy=dy,
+                text=text,
+                key=key,
+                keys=keys,
+                amount=amount,
+                duration=duration,
+                interval=interval,
+                region=region,
+                clear=clear,
+                image_path=image_path,
+                confidence=confidence,
+                timeout=timeout,
+                color=tuple(color) if color else None,
+                tolerance=tolerance,
+                title=title,
+                use_regex=use_regex,
+                name=name,
+                width=width,
+                height=height,
                 value=value,
                 actions=actions,
             )

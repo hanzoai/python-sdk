@@ -54,7 +54,8 @@ class ClaudeDesktopAuth:
         # Check if claude command is available
         try:
             process = await asyncio.create_subprocess_exec(
-                "which", "claude",
+                "which",
+                "claude",
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL,
             )
