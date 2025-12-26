@@ -15,11 +15,11 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_tools.agent.grok_cli_tool import GrokCLITool
 from hanzo_tools.agent.codex_cli_tool import CodexCLITool
 from hanzo_tools.agent.claude_cli_tool import ClaudeCLITool
 from hanzo_tools.agent.gemini_cli_tool import GeminiCLITool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 def check_cli_availability():
