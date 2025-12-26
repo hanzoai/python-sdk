@@ -10,7 +10,7 @@ def test_memory_registration():
 
     # Skip if memory not available
     try:
-        from hanzo_mcp.tools.memory import register_memory_tools
+        from hanzo_tools.memory import register_memory_tools
     except ImportError:
         pytest.skip("hanzo-memory not available")
 
@@ -27,7 +27,7 @@ def test_memory_registration():
 def test_memory_descriptions():
     """Test memory tool descriptions."""
     try:
-        from hanzo_mcp.tools.memory.memory_tools import CreateMemoriesTool
+        from hanzo_tools.memory.memory_tools import CreateMemoriesTool
     except ImportError:
         pytest.skip("hanzo-memory not available")
 

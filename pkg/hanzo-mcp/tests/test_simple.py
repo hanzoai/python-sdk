@@ -34,8 +34,8 @@ async def test_file_operations():
     print("\n📁 Testing File Operations\n")
 
     try:
-        from hanzo_mcp.tools.filesystem.diff import create_diff_tool
-        from hanzo_mcp.tools.filesystem.read import ReadTool
+        from hanzo_tools.filesystem.diff import create_diff_tool
+        from hanzo_tools.filesystem.read import ReadTool
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Create temp files

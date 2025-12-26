@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
+from hanzo_tools.shell.streaming_command import StreamingCommandTool
 
 
 class TestStreamingCommandTool:

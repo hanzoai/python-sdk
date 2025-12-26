@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
     from hanzo_mcp.server_enhanced import EnhancedFastMCP
     from hanzo_mcp.tools.common.permissions import PermissionManager
-    from hanzo_mcp.tools.shell.session_storage import SessionStorage
+    from hanzo_tools.shell.session_storage import SessionStorage
 
 # Suppress litellm deprecation warnings about event loop
 warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
@@ -79,7 +79,7 @@ def _get_session_storage():
     """Get SessionStorage class lazily."""
     global _SessionStorage
     if _SessionStorage is None:
-        from hanzo_mcp.tools.shell.session_storage import SessionStorage
+        from hanzo_tools.shell.session_storage import SessionStorage
 
         _SessionStorage = SessionStorage
     return _SessionStorage

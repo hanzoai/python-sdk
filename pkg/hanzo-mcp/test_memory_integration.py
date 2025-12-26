@@ -63,7 +63,7 @@ async def test_memory_integration():
     # Test MCP tools integration
     try:
         # Check if memory tools can be imported
-        from hanzo_mcp.tools.memory import memory_tools
+        from hanzo_tools.memory import memory_tools
 
         console.print("✅ Memory tools module imported")
 

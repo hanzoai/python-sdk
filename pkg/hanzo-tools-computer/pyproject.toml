@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hanzo-tools-computer"
+version = "0.1.0"
+description = "Computer control tools for Hanzo AI - pyautogui-based Mac automation"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "Hanzo AI", email = "dev@hanzo.ai" },
+]
+keywords = ["hanzo", "ai", "tools", "computer", "automation", "pyautogui", "mcp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "pyautogui>=0.9.54",
+    "pillow>=10.0.0",
+    "mcp>=1.25.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+]
+
+[project.entry-points."hanzo.tools"]
+computer = "hanzo_tools.computer:TOOLS"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]

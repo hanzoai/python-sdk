@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.agent.agent_tool import AgentTool
+from hanzo_tools.agent.agent_tool import AgentTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -129,7 +129,7 @@ class TestAgentTool:
         tool_ctx.set_tool_info = AsyncMock()
 
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+            "hanzo_tools.agent.agent_tool.create_tool_context",
             return_value=tool_ctx,
         ):
             result = await agent_tool.call(ctx=mcp_context)
@@ -150,7 +150,7 @@ class TestAgentTool:
 
         # Mock to raise an error
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+            "hanzo_tools.agent.agent_tool.create_tool_context",
             return_value=tool_ctx,
         ):
             # Update the test to use a list instead of a string
@@ -172,11 +172,11 @@ class TestAgentTool:
 
         # Mock HANZO_AGENTS_AVAILABLE = False to test fallback behavior
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
+            "hanzo_tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
             False,
         ):
             with patch(
-                "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+                "hanzo_tools.agent.agent_tool.create_tool_context",
                 return_value=tool_ctx,
             ):
                 # Update the test to use a list instead of a string
@@ -205,11 +205,11 @@ class TestAgentTool:
 
         # Mock HANZO_AGENTS_AVAILABLE = False to test fallback behavior
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
+            "hanzo_tools.agent.agent_tool.HANZO_AGENTS_AVAILABLE",
             False,
         ):
             with patch(
-                "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+                "hanzo_tools.agent.agent_tool.create_tool_context",
                 return_value=tool_ctx,
             ):
                 result = await agent_tool.call(ctx=mcp_context, prompts=test_prompts)
@@ -228,7 +228,7 @@ class TestAgentTool:
         tool_ctx.error = AsyncMock()
 
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+            "hanzo_tools.agent.agent_tool.create_tool_context",
             return_value=tool_ctx,
         ):
             # Test with empty list
@@ -248,7 +248,7 @@ class TestAgentTool:
         tool_ctx.error = AsyncMock()
 
         with patch(
-            "hanzo_mcp.tools.agent.agent_tool.create_tool_context",
+            "hanzo_tools.agent.agent_tool.create_tool_context",
             return_value=tool_ctx,
         ):
             # Test with invalid type (number)
@@ -292,7 +292,7 @@ class TestAgentTool:
     @pytest.mark.asyncio
     async def test_mcp_agent_state_serialization(self, tool_helper):
         """Test MCPAgentState to_dict and from_dict methods."""
-        from hanzo_mcp.tools.agent.agent_tool import MCPAgentState
+        from hanzo_tools.agent.agent_tool import MCPAgentState
 
         # Create state
         state = MCPAgentState(
@@ -319,7 +319,7 @@ class TestAgentTool:
     @pytest.mark.asyncio
     async def test_mcp_tool_adapter(self, tool_helper, mcp_context, mock_tools):
         """Test MCPToolAdapter wraps MCP tools correctly."""
-        from hanzo_mcp.tools.agent.agent_tool import MCPToolAdapter
+        from hanzo_tools.agent.agent_tool import MCPToolAdapter
 
         # Create adapter
         mock_tool = mock_tools[0]

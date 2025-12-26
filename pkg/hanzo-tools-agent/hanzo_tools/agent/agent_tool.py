@@ -89,10 +89,8 @@ except ImportError:
             self.metadata = metadata or {}
 
 
-from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
-from hanzo_mcp.tools.filesystem import Edit, MultiEdit, get_read_only_filesystem_tools
-from hanzo_mcp.tools.common.batch_tool import BatchTool
-
+from hanzo_tools.jupyter import get_read_only_jupyter_tools
+from hanzo_tools.filesystem import Edit, get_read_only_filesystem_tools
 from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 
 from .critic_tool import CriticTool
@@ -328,15 +326,12 @@ Usage notes:
 
         # Add edit tools
         self.available_tools.append(Edit(self.permission_manager))
-        self.available_tools.append(MultiEdit(self.permission_manager))
 
         # Add special tools
         self.available_tools.append(ClarificationTool())
         self.available_tools.append(CriticTool())
         self.available_tools.append(ReviewTool())
         self.available_tools.append(IChingTool())
-
-        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @override
     @auto_timeout("agent")

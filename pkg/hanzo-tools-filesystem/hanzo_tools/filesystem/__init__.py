@@ -32,6 +32,20 @@ from hanzo_tools.filesystem.tree import TreeTool
 from hanzo_tools.filesystem.write import WriteTool
 from hanzo_tools.filesystem.search import SearchTool
 
+# Backwards compatibility aliases
+Edit = EditTool
+Read = ReadTool
+Write = WriteTool
+
+# Read-only tools (for agent sandboxing)
+READ_ONLY_TOOLS = [
+    ReadTool,
+    TreeTool,
+    FindTool,
+    SearchTool,
+    ASTTool,
+]
+
 # Export list for tool discovery
 TOOLS = [
     ReadTool,
@@ -52,10 +66,41 @@ __all__ = [
     "FindTool",
     "SearchTool",
     "ASTTool",
+    # Aliases
+    "Edit",
+    "Read",
+    "Write",
     # Registration
     "register_tools",
+    "get_read_only_filesystem_tools",
     "TOOLS",
+    "READ_ONLY_TOOLS",
 ]
+
+
+def get_read_only_filesystem_tools(permission_manager) -> list:
+    """Get read-only filesystem tools for sandboxed agents.
+    
+    Returns tools that can only read files, not modify them:
+    - read: Read file contents
+    - tree: View directory structure
+    - find: Find files by pattern
+    - search: Search file contents
+    - ast: Code structure analysis
+    
+    Args:
+        permission_manager: PermissionManager instance
+        
+    Returns:
+        List of instantiated read-only tools
+    """
+    tools = []
+    for tool_class in READ_ONLY_TOOLS:
+        try:
+            tools.append(tool_class(permission_manager))
+        except TypeError:
+            tools.append(tool_class())
+    return tools
 
 
 def register_tools(mcp_server, permission_manager, enabled_tools: dict[str, bool] | None = None):

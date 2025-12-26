@@ -80,7 +80,7 @@ print("Testing MCP Integration")
 
 try:
     # Import MCP swarm tool to verify it can use hanzo-agents
-    from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+    from hanzo_tools.agent.swarm_tool import SwarmTool
 
     print("✓ SwarmTool imports successfully")
 

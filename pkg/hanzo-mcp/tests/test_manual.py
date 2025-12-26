@@ -7,11 +7,11 @@ import tempfile
 from pathlib import Path
 
 from hanzo_mcp.server import HanzoMCPServer
-from hanzo_mcp.tools.filesystem.diff import create_diff_tool
-from hanzo_mcp.tools.filesystem.read import ReadTool
+from hanzo_tools.filesystem.diff import create_diff_tool
+from hanzo_tools.filesystem.read import ReadTool
 
 # from hanzo_mcp.tools.common.palette import PaletteRegistry  # Module doesn't exist
-from hanzo_mcp.tools.shell.bash_tool import bash_tool
+from hanzo_tools.shell.bash_tool import bash_tool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

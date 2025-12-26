@@ -8,7 +8,7 @@ from unittest.mock import Mock, AsyncMock, patch
 def test_basic_memory():
     """Basic test without pytest complexity."""
     with patch("hanzo_memory.services.memory.get_memory_service") as mock_get_service:
-        with patch("hanzo_mcp.tools.memory.memory_tools.create_tool_context") as mock_create_tool_context:
+        with patch("hanzo_tools.memory.memory_tools.create_tool_context") as mock_create_tool_context:
             # Mock the tool context
             mock_tool_ctx = Mock()
             mock_tool_ctx.set_tool_info = AsyncMock()
@@ -37,7 +37,7 @@ def test_basic_memory():
             mock_service.create_memory.return_value = mock_memory
 
             # Create and test the tool
-            from hanzo_mcp.tools.memory.memory_tools import CreateMemoriesTool
+            from hanzo_tools.memory.memory_tools import CreateMemoriesTool
 
             tool = CreateMemoriesTool(user_id="test_user", project_id="test_project")
 
