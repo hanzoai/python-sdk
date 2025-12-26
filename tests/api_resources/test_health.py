@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestHealth:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_check_all(self, client: Hanzo) -> None:
@@ -158,9 +156,7 @@ class TestHealth:
 
 
 class TestAsyncHealth:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_check_all(self, async_client: AsyncHanzo) -> None:
@@ -168,9 +164,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_method_check_all_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_check_all_with_all_params(self, async_client: AsyncHanzo) -> None:
         health = await async_client.health.check_all(
             model="model",
         )
@@ -202,9 +196,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_raw_response_check_liveliness(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_check_liveliness(self, async_client: AsyncHanzo) -> None:
         response = await async_client.health.with_raw_response.check_liveliness()
 
         assert response.is_closed is True
@@ -213,9 +205,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_streaming_response_check_liveliness(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_check_liveliness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_liveliness() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -240,9 +230,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_streaming_response_check_liveness(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_check_liveness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_liveness() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -267,9 +255,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_streaming_response_check_readiness(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_check_readiness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_readiness() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -298,9 +284,7 @@ class TestAsyncHealth:
         assert_matches_type(object, health, path=["response"])
 
     @parametrize
-    async def test_streaming_response_check_services(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_check_services(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_services(
             service="slack_budget_alerts",
         ) as response:

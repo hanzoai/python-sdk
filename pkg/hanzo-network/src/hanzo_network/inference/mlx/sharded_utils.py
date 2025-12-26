@@ -233,9 +233,7 @@ async def get_image_from_str(_image_str: str):
 
         return img
     else:
-        raise ValueError(
-            "Invalid image_str format. Must be a URL or a base64 encoded image."
-        )
+        raise ValueError("Invalid image_str format. Must be a URL or a base64 encoded image.")
 
 
 # loading a combined config for all models in the index
@@ -256,13 +254,7 @@ def load_model_index(model_path: Path, model_index_path: Path):
                 model_config["path"] = model_path / model
                 if model_config["path"] / "*model.safetensors":
                     model_config["config"].update(
-                        {
-                            "weight_files": list(
-                                glob.glob(
-                                    str(model_config["path"] / "*model.safetensors")
-                                )
-                            )
-                        }
+                        {"weight_files": list(glob.glob(str(model_config["path"] / "*model.safetensors")))}
                     )
                 model_config["path"] = str(model_path / model)
                 m = {}

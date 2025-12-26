@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestRedis:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_retrieve_info(self, client: Hanzo) -> None:
@@ -45,9 +43,7 @@ class TestRedis:
 
 
 class TestAsyncRedis:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_retrieve_info(self, async_client: AsyncHanzo) -> None:
@@ -64,9 +60,7 @@ class TestAsyncRedis:
         assert_matches_type(object, redi, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_info(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.cache.redis.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

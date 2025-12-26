@@ -32,9 +32,9 @@ def test_file_editor_happy_path(temp_file):
         result,
         re.DOTALL,
     )
-    assert (
-        match
-    ), "Output does not contain the expected <oh_aci_output_> tags in the correct format."
+    assert match, (
+        "Output does not contain the expected <oh_aci_output_> tags in the correct format."
+    )
     result_dict = json.loads(match.group(1))
 
     # Validate the formatted output in the result dictionary
@@ -89,9 +89,9 @@ match = re.search(
         re.DOTALL,
     )
 
-    assert (
-        match
-    ), "Output does not contain the expected <oh_aci_output_> tags in the correct format."
+    assert match, (
+        "Output does not contain the expected <oh_aci_output_> tags in the correct format."
+    )
     result_dict = json.loads(match.group(1))
 
     # Validate the formatted output in the result dictionary

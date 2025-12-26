@@ -19,9 +19,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestTeam:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -500,9 +498,7 @@ class TestTeam:
 
 
 class TestAsyncTeam:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -510,9 +506,7 @@ class TestAsyncTeam:
         assert_matches_type(HanzoTeamTable, team, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.create(
             admins=[{}],
             blocked=True,
@@ -568,9 +562,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update(
             team_id="team_id",
             blocked=True,
@@ -654,9 +646,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_method_delete_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.delete(
             team_ids=["string"],
             hanzo_changed_by="hanzo-changed-by",
@@ -696,9 +686,7 @@ class TestAsyncTeam:
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
     @parametrize
-    async def test_method_add_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_add_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.add_member(
             member=[
                 {
@@ -725,9 +713,7 @@ class TestAsyncTeam:
         assert_matches_type(TeamAddMemberResponse, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_add_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_add_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.add_member(
             member=[{"role": "admin"}],
             team_id="team_id",
@@ -790,9 +776,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_disable_logging(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_disable_logging(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.disable_logging(
             "team_id",
         ) as response:
@@ -820,9 +804,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_method_list_available_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_list_available_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.list_available(
             response_model={},
         )
@@ -838,9 +820,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list_available(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_list_available(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.list_available() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -858,9 +838,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_method_remove_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_remove_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.remove_member(
             team_id="team_id",
             user_email="user_email",
@@ -880,9 +858,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_remove_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_remove_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.remove_member(
             team_id="team_id",
         ) as response:
@@ -900,9 +876,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_info_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.retrieve_info(
             team_id="team_id",
         )
@@ -918,9 +892,7 @@ class TestAsyncTeam:
         assert_matches_type(object, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_info(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -969,9 +941,7 @@ class TestAsyncTeam:
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
     @parametrize
-    async def test_method_update_member_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update_member(
             team_id="team_id",
             max_budget_in_team=0,
@@ -993,9 +963,7 @@ class TestAsyncTeam:
         assert_matches_type(TeamUpdateMemberResponse, team, path=["response"])
 
     @parametrize
-    async def test_streaming_response_update_member(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_update_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.with_streaming_response.update_member(
             team_id="team_id",
         ) as response:

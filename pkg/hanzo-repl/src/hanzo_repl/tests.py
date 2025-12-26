@@ -9,9 +9,7 @@ from rich.console import Console
 from rich.table import Table
 
 
-async def run_tool_tests(
-    console: Console, mcp_server: HanzoMCPServer, tool_executor: Any
-):
+async def run_tool_tests(console: Console, mcp_server: HanzoMCPServer, tool_executor: Any):
     """Run comprehensive tests for MCP tools."""
 
     console.print("\n[bold cyan]Running MCP Tool Tests[/bold cyan]\n")
@@ -209,9 +207,7 @@ async def test_agent_delegation(
     try:
         tool = mcp_server.tools.get("dispatch_agent")
         if tool:
-            result = await tool.execute(
-                instruction="List the current directory contents"
-            )
+            result = await tool.execute(instruction="List the current directory contents")
             success = result is not None
             results.append(("Agent dispatch", success, "Agent completed task"))
         else:

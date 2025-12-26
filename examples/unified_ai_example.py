@@ -34,9 +34,7 @@ async def main():
     )
 
     # Cloud agent as fallback
-    cloud_agent = agents.create_agent(
-        name="cloud-helper", model="anthropic/claude-3-5-sonnet-20241022"
-    )
+    cloud_agent = agents.create_agent(name="cloud-helper", model="anthropic/claude-3-5-sonnet-20241022")
 
     # 3. Create an agent network
     print("\nCreating agent network...")
@@ -47,24 +45,18 @@ async def main():
 
     # 4. Create MCP server with tools
     print("\nStarting MCP server...")
-    mcp_server = mcp.create_mcp_server(
-        name="hanzo-unified", allowed_paths=[".", "/tmp"], enable_agent_tool=True
-    )
+    mcp_server = mcp.create_mcp_server(name="hanzo-unified", allowed_paths=[".", "/tmp"], enable_agent_tool=True)
 
     # 5. Example: Use local AI for simple tasks
     print("\n--- Local AI Example ---")
-    local_result = await local_cluster.inference(
-        prompt="Write a haiku about distributed AI", max_tokens=50
-    )
+    local_result = await local_cluster.inference(prompt="Write a haiku about distributed AI", max_tokens=50)
     print(f"Local AI: {local_result}")
 
     # 6. Example: Use cloud AI for complex tasks
     print("\n--- Cloud AI Example ---")
     cloud_result = completion(
         model="anthropic/claude-3-5-sonnet-20241022",
-        messages=[
-            {"role": "user", "content": "Explain the benefits of local AI clusters"}
-        ],
+        messages=[{"role": "user", "content": "Explain the benefits of local AI clusters"}],
     )
     print(f"Cloud AI: {cloud_result}")
 
