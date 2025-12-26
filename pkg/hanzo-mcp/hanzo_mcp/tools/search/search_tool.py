@@ -131,10 +131,13 @@ class SearchTool(BaseTool):
         stats = {"query": pattern, "path": path, "engines": [], "time_ms": {}}
         all_results = []
 
-        async def timed(name: str, coro):
+        async def timed(name: str, coro, timeout: float = 30.0):
+            """Run coroutine with timeout and timing."""
             start = time.time()
             try:
-                results = await coro
+                results = await asyncio.wait_for(coro, timeout=timeout)
+            except asyncio.TimeoutError:
+                results = []  # Engine timed out
             except Exception:
                 results = []
             elapsed = int((time.time() - start) * 1000)
