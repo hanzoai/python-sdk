@@ -1,25 +1,36 @@
 """Shell tools package for Hanzo AI.
 
-This package provides tools for executing shell commands and scripts.
+Minimal, orthogonal shell execution.
+
+Core tools:
+- dag: Execute commands/tools with DAG flow control (serial, parallel, graph)
+- ps: Process management (list, kill, logs)
+
+Convenience tools (optional):
+- npx: Node package execution with auto-backgrounding
+- uvx: Python package execution with auto-backgrounding
+- open: Open files/URLs in system apps
 """
 
 from mcp.server import FastMCP
 
-from hanzo_mcp.tools.shell.open import open_tool
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
+from hanzo_mcp.tools.common.permissions import PermissionManager
+
+# Core tools
+from hanzo_mcp.tools.shell.dag_tool import DagTool, create_dag_tool
+from hanzo_mcp.tools.shell.ps_tool import PsTool, ps_tool
+
+# Convenience tools
+from hanzo_mcp.tools.shell.open import open_tool
 from hanzo_mcp.tools.shell.npx_tool import npx_tool
 from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
-from hanzo_mcp.tools.shell.zsh_tool import zsh_tool, shell_tool
 
-# Import tools
-from hanzo_mcp.tools.shell.bash_tool import bash_tool
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.shell.process_tool import process_tool
-
-# from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
-
-# Export all tool classes
 __all__ = [
+    "DagTool",
+    "PsTool",
+    "create_dag_tool",
+    "ps_tool",
     "get_shell_tools",
     "register_shell_tools",
 ]
@@ -27,51 +38,48 @@ __all__ = [
 
 def get_shell_tools(
     permission_manager: PermissionManager,
+    all_tools: dict[str, BaseTool] | None = None,
 ) -> list[BaseTool]:
-    """Create instances of all shell tools.
+    """Create instances of shell tools.
 
     Args:
         permission_manager: Permission manager for access control
+        all_tools: Dict of all registered tools (for dag tool invocations)
 
     Returns:
         List of shell tool instances
     """
-    # Set permission manager for tools that need it
-    bash_tool.permission_manager = permission_manager
-    zsh_tool.permission_manager = permission_manager
-    shell_tool.permission_manager = permission_manager
+    # Create dag tool with access to other tools
+    dag = create_dag_tool(tools=all_tools or {})
+    
+    # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
-    # Note: StreamingCommandTool is abstract and shouldn't be instantiated directly
-    # It's used as a base class for other streaming tools
-
-    # Return shell_tool first (smart default), then specific shells
     return [
-        shell_tool,  # Smart shell (prefers zsh if available)
-        zsh_tool,  # Explicit zsh
-        bash_tool,  # Explicit bash
-        npx_tool,
-        uvx_tool,
-        process_tool,
-        open_tool,
-        # streaming_command_tool,  # Removed as it's abstract
+        dag,        # DAG execution (replaces bash, zsh, shell, exec, batch)
+        ps_tool,    # Process management (replaces process)
+        npx_tool,   # Node packages
+        uvx_tool,   # Python packages
+        open_tool,  # Open files/URLs
     ]
 
 
 def register_shell_tools(
     mcp_server: FastMCP,
     permission_manager: PermissionManager,
+    all_tools: dict[str, BaseTool] | None = None,
 ) -> list[BaseTool]:
-    """Register all shell tools with the MCP server.
+    """Register shell tools with the MCP server.
 
     Args:
         mcp_server: The FastMCP server instance
         permission_manager: Permission manager for access control
+        all_tools: Dict of all registered tools (for dag tool invocations)
 
     Returns:
         List of registered tools
     """
-    tools = get_shell_tools(permission_manager)
+    tools = get_shell_tools(permission_manager, all_tools)
     ToolRegistry.register_tools(mcp_server, tools)
     return tools

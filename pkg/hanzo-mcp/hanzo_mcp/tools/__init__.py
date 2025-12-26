@@ -249,9 +249,9 @@ def register_all_tools(
         for tool in jupyter_tools:
             all_tools[tool.name] = tool
 
-    # Register shell tools if enabled
-    if is_tool_enabled("run_command", True):
-        shell_tools = register_shell_tools(mcp_server, permission_manager)
+    # Register shell tools if enabled (dag, ps, npx, uvx, open)
+    if is_tool_enabled("dag", True) or is_tool_enabled("run_command", True):
+        shell_tools = register_shell_tools(mcp_server, permission_manager, all_tools=all_tools)
         for tool in shell_tools:
             all_tools[tool.name] = tool
 
@@ -316,8 +316,9 @@ def register_all_tools(
         for tool in vector_tools:
             all_tools[tool.name] = tool
 
-    # Register batch tool if enabled (batch tool is typically always enabled)
-    if is_tool_enabled("batch", True):
+    # Register batch tool if enabled (DEPRECATED - use dag instead)
+    # dag tool can do everything batch does: dag([{"tool": "x", "input": {...}}], parallel=True)
+    if is_tool_enabled("batch", False):  # Disabled by default in 1.0.0
         register_batch_tool(mcp_server, all_tools)
 
     # Register database tools if enabled
