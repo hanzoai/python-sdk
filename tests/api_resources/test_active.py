@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestActive:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_list_callbacks(self, client: Hanzo) -> None:
@@ -45,9 +43,7 @@ class TestActive:
 
 
 class TestAsyncActive:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_list_callbacks(self, async_client: AsyncHanzo) -> None:
@@ -64,9 +60,7 @@ class TestAsyncActive:
         assert_matches_type(object, active, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list_callbacks(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_list_callbacks(self, async_client: AsyncHanzo) -> None:
         async with async_client.active.with_streaming_response.list_callbacks() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

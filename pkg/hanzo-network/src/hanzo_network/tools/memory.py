@@ -73,9 +73,7 @@ class MemoryManager:
         ids = []
 
         for statement in statements:
-            memory_id = await self.store.add(
-                {"content": statement, "type": "statement"}
-            )
+            memory_id = await self.store.add({"content": statement, "type": "statement"})
             ids.append(memory_id)
 
         return ids
@@ -92,9 +90,7 @@ class MemoryManager:
         results = []
 
         for update in updates:
-            success = await self.store.update(
-                update["id"], {"content": update["statement"]}
-            )
+            success = await self.store.update(update["id"], {"content": update["statement"]})
             results.append(success)
 
         return results
@@ -139,9 +135,7 @@ def create_memory_tools(memory_manager: Optional[MemoryManager] = None) -> List[
         name="recall_memories",
         description="Recall memories relevant to one or more queries. Can run multiple queries in parallel.",
     )
-    async def recall_memories_tool(
-        queries: List[str], limit: int = 10, context: ToolContext = None
-    ) -> str:
+    async def recall_memories_tool(queries: List[str], limit: int = 10, context: ToolContext = None) -> str:
         """Recall relevant memories."""
         memories = await memory_manager.recall(queries, limit)
 
@@ -162,9 +156,7 @@ def create_memory_tools(memory_manager: Optional[MemoryManager] = None) -> List[
         name="create_memories",
         description="Save one or more new pieces of information to memory.",
     )
-    async def create_memories_tool(
-        statements: List[str], context: ToolContext = None
-    ) -> str:
+    async def create_memories_tool(statements: List[str], context: ToolContext = None) -> str:
         """Create new memories."""
         ids = await memory_manager.create(statements)
         return f"Created {len(ids)} new memories."
@@ -176,9 +168,7 @@ def create_memory_tools(memory_manager: Optional[MemoryManager] = None) -> List[
         name="update_memories",
         description="Update existing memories with corrected information.",
     )
-    async def update_memories_tool(
-        updates: List[Dict[str, str]], context: ToolContext = None
-    ) -> str:
+    async def update_memories_tool(updates: List[Dict[str, str]], context: ToolContext = None) -> str:
         """Update memories."""
         results = await memory_manager.update(updates)
         success_count = sum(results)

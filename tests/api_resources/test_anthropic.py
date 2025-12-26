@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestAnthropic:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -225,9 +223,7 @@ class TestAnthropic:
 
 
 class TestAsyncAnthropic:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:

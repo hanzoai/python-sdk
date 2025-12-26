@@ -1,8 +1,8 @@
 """Test all hanzo-tools-* packages import and register correctly."""
 
-import asyncio
 import sys
 import time
+import asyncio
 
 import pytest
 
@@ -143,7 +143,7 @@ class TestToolPackages:
     )
     def test_llm_tools(self):
         """Test hanzo-tools-llm imports (tools depend on litellm)."""
-        from hanzo_tools.llm import LLM_AVAILABLE, TOOLS
+        from hanzo_tools.llm import TOOLS, LLM_AVAILABLE
 
         # LLM tools are optional, depend on litellm
         if LLM_AVAILABLE:

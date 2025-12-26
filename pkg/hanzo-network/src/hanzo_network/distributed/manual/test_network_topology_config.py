@@ -30,9 +30,7 @@ class TestNetworkTopologyConfig(unittest.TestCase):
         config = NetworkTopology.from_path(root_path + "test_config.json")
 
         self.assertEqual(config.peers["node1"].port, 50051)
-        self.assertEqual(
-            config.peers["node1"].device_capabilities.model, "Unknown Model"
-        )
+        self.assertEqual(config.peers["node1"].device_capabilities.model, "Unknown Model")
         self.assertEqual(config.peers["node1"].address, "localhost")
         self.assertEqual(config.peers["node1"].device_capabilities.chip, "Unknown Chip")
         self.assertEqual(config.peers["node1"].device_capabilities.memory, 0)
@@ -41,9 +39,7 @@ class TestNetworkTopologyConfig(unittest.TestCase):
         self.assertEqual(config.peers["node1"].device_capabilities.flops.int8, 0)
 
         self.assertEqual(config.peers["node2"].port, 50052)
-        self.assertEqual(
-            config.peers["node2"].device_capabilities.model, "Unknown Model"
-        )
+        self.assertEqual(config.peers["node2"].device_capabilities.model, "Unknown Model")
         self.assertEqual(config.peers["node2"].address, "localhost")
         self.assertEqual(config.peers["node2"].device_capabilities.chip, "Unknown Chip")
         self.assertEqual(config.peers["node2"].device_capabilities.memory, 0)

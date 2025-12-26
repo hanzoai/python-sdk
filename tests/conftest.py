@@ -41,13 +41,9 @@ api_key = "My API Key"
 def client(request: FixtureRequest, mock_api) -> Iterator[Hanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
-        raise TypeError(
-            f"Unexpected fixture parameter type {type(strict)}, expected {bool}"
-        )
+        raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with Hanzo(
-        base_url=base_url, api_key=api_key, _strict_response_validation=strict
-    ) as client:
+    with Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
 
 
@@ -55,11 +51,7 @@ def client(request: FixtureRequest, mock_api) -> Iterator[Hanzo]:
 async def async_client(request: FixtureRequest, mock_api) -> AsyncIterator[AsyncHanzo]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
-        raise TypeError(
-            f"Unexpected fixture parameter type {type(strict)}, expected {bool}"
-        )
+        raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncHanzo(
-        base_url=base_url, api_key=api_key, _strict_response_validation=strict
-    ) as client:
+    async with AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client

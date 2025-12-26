@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestResponses:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -36,9 +34,7 @@ class TestResponses:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.responses.with_streaming_response.create() as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = http_response.parse()
             assert_matches_type(object, response, path=["response"])
@@ -69,9 +65,7 @@ class TestResponses:
             "response_id",
         ) as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = http_response.parse()
             assert_matches_type(object, response, path=["response"])
@@ -112,9 +106,7 @@ class TestResponses:
             "response_id",
         ) as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = http_response.parse()
             assert_matches_type(object, response, path=["response"])
@@ -133,9 +125,7 @@ class TestResponses:
 
 
 class TestAsyncResponses:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -155,9 +145,7 @@ class TestAsyncResponses:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.responses.with_streaming_response.create() as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = await http_response.parse()
             assert_matches_type(object, response, path=["response"])
@@ -188,9 +176,7 @@ class TestAsyncResponses:
             "response_id",
         ) as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = await http_response.parse()
             assert_matches_type(object, response, path=["response"])
@@ -231,9 +217,7 @@ class TestAsyncResponses:
             "response_id",
         ) as http_response:
             assert not http_response.is_closed
-            assert (
-                http_response.http_request.headers.get("X-Stainless-Lang") == "python"
-            )
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             response = await http_response.parse()
             assert_matches_type(object, response, path=["response"])

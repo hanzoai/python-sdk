@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent / "pkg" / "hanzo" / "src"))
 
 def print_test(name):
     """Print test header."""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"TESTING: {name}")
     print("=" * 60)
 
@@ -79,9 +79,7 @@ async def test_orchestrator_configs():
     for config_name in test_configs:
         try:
             config = get_orchestrator_config(config_name)
-            print(
-                f"✓ Config '{config_name}': mode={config.mode.value}, primary={config.primary_model}"
-            )
+            print(f"✓ Config '{config_name}': mode={config.mode.value}, primary={config.primary_model}")
         except Exception as e:
             print(f"✗ Config '{config_name}' failed: {e}")
             return False
@@ -287,9 +285,7 @@ async def test_subprocess_commands():
 
     try:
         # Test basic command execution
-        result = subprocess.run(
-            ["echo", "test"], capture_output=True, text=True, timeout=5
-        )
+        result = subprocess.run(["echo", "test"], capture_output=True, text=True, timeout=5)
 
         if result.returncode == 0 and result.stdout.strip() == "test":
             print("✓ Subprocess execution works")

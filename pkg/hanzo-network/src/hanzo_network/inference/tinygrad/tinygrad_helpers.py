@@ -16,19 +16,11 @@ def concat_weights(models, device=None):
         disk_tensors: List[Tensor] = [model[name] for model in models]
         if len(disk_tensors) == 1 or len(disk_tensors[0].shape) == 1:
             return disk_tensors[0].to(device=device)
-        axis = (
-            1
-            if name.endswith(".attention.wo.weight")
-            or name.endswith(".feed_forward.w2.weight")
-            else 0
-        )
+        axis = 1 if name.endswith(".attention.wo.weight") or name.endswith(".feed_forward.w2.weight") else 0
         lazy_tensors = [data.to(device=device) for data in disk_tensors]
         return lazy_tensors[0].cat(*lazy_tensors[1:], dim=axis)
 
-    return {
-        name: convert(name)
-        for name in {name: None for model in models for name in model}
-    }
+    return {name: convert(name) for name in {name: None for model in models for name in model}}
 
 
 def load(fn: str, shard: Shard):
@@ -39,9 +31,7 @@ def load(fn: str, shard: Shard):
         filtered_weight_map = {}
         allow_patterns = get_allow_patterns(weight_map, shard)
         for k, n in weight_map.items():
-            if allow_patterns is not None and not any(
-                fnmatch(n, r) for r in allow_patterns
-            ):
+            if allow_patterns is not None and not any(fnmatch(n, r) for r in allow_patterns):
                 continue
             if k.startswith("model.layers."):
                 layer_num = int(k.split(".")[2])
@@ -58,9 +48,7 @@ def load(fn: str, shard: Shard):
     elif fn.endswith(".safetensors"):
         weight_map = safe_load(fn)
         for k in list(weight_map):
-            if (n := re.search(r"\.(\d+)\.", k)) and not (
-                shard.start_layer <= int(n.group(1)) <= shard.end_layer
-            ):
+            if (n := re.search(r"\.(\d+)\.", k)) and not (shard.start_layer <= int(n.group(1)) <= shard.end_layer):
                 del weight_map[k]
         return weight_map
     else:

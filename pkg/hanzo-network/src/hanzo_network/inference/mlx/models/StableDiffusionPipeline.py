@@ -29,13 +29,7 @@ class DiffusionConfig:
 
     @classmethod
     def from_dict(cls, params):
-        return cls(
-            **{
-                k: v
-                for k, v in params.items()
-                if k in inspect.signature(cls).parameters
-            }
-        )
+        return cls(**{k: v for k, v in params.items() if k in inspect.signature(cls).parameters})
 
 
 # Sampler
@@ -66,22 +60,16 @@ class SimpleEulerSampler:
     def __init__(self, config: DiffusionConfig):
         # Compute the noise schedule
         if config.beta_schedule == "linear":
-            betas = _linspace(
-                config.beta_start, config.beta_end, config.num_train_steps
-            )
+            betas = _linspace(config.beta_start, config.beta_end, config.num_train_steps)
         elif config.beta_schedule == "scaled_linear":
-            betas = _linspace(
-                config.beta_start**0.5, config.beta_end**0.5, config.num_train_steps
-            ).square()
+            betas = _linspace(config.beta_start**0.5, config.beta_end**0.5, config.num_train_steps).square()
         else:
             raise NotImplementedError(f"{config.beta_schedule} is not implemented.")
 
         alphas = 1 - betas
         alphas_cumprod = mx.cumprod(alphas)
 
-        self._sigmas = mx.concatenate(
-            [mx.zeros(1), ((1 - alphas_cumprod) / alphas_cumprod).sqrt()]
-        )
+        self._sigmas = mx.concatenate([mx.zeros(1), ((1 - alphas_cumprod) / alphas_cumprod).sqrt()])
 
     @property
     def max_time(self):
@@ -89,9 +77,7 @@ class SimpleEulerSampler:
 
     def sample_prior(self, shape, dtype=mx.float32, key=None):
         noise = mx.random.normal(shape, key=key)
-        return (
-            noise * self._sigmas[-1] * (self._sigmas[-1].square() + 1).rsqrt()
-        ).astype(dtype)
+        return (noise * self._sigmas[-1] * (self._sigmas[-1].square() + 1).rsqrt()).astype(dtype)
 
     def add_noise(self, x, t, key=None):
         noise = mx.random.normal(x.shape, key=key)
@@ -145,13 +131,7 @@ class StableDiffusionConfig:
 
     @classmethod
     def from_dict(cls, params):
-        return cls(
-            **{
-                k: v
-                for k, v in params.items()
-                if k in inspect.signature(cls).parameters
-            }
-        )
+        return cls(**{k: v for k, v in params.items() if k in inspect.signature(cls).parameters})
 
 
 @dataclass
@@ -163,9 +143,7 @@ class ModelArgs(StableDiffusionConfig):
             self.shard = Shard(**self.shard)
 
         if not isinstance(self.shard, Shard):
-            raise TypeError(
-                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
-            )
+            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
 
 
 class Model(nn.Module):
@@ -175,17 +153,13 @@ class Model(nn.Module):
         self.config = config
         self.model_path = config.vae["path"].split("/vae")[0]
         self.shard = config.shard
-        self.shard_clip, self.shard_encoder, self.shard_unet, self.shard_decoder = (
-            model_shards(config.shard)
-        )
+        self.shard_clip, self.shard_encoder, self.shard_unet, self.shard_decoder = model_shards(config.shard)
         self.config_clip = CLIPArgs.from_dict(config.text_encoder["config"])
         if self.shard_clip.start_layer != -1:
             self.text_encoder = CLIPTextModel(self.config_clip, shard=self.shard_clip)
         else:
             self.text_encoder = nn.Identity()
-        self.tokenizer = load_tokenizer(
-            Path(self.model_path), "vocab.json", "merges.txt"
-        )
+        self.tokenizer = load_tokenizer(Path(self.model_path), "vocab.json", "merges.txt")
         self.diffusion_config = DiffusionConfig.from_dict(config.scheduler["config"])
         self.sampler = SimpleEulerSampler(self.diffusion_config)
         if self.shard_unet.start_layer != -1:
@@ -195,15 +169,11 @@ class Model(nn.Module):
             self.unet = nn.Identity()
         self.config_vae = VAEArgs.from_dict(config.vae["config"])
         if self.shard_encoder.start_layer != -1:
-            self.encoder = Autoencoder(
-                self.config_vae, self.shard_encoder, "vae_encoder"
-            )
+            self.encoder = Autoencoder(self.config_vae, self.shard_encoder, "vae_encoder")
         else:
             self.encoder = nn.Identity()
         if self.shard_decoder.start_layer != -1:
-            self.decoder = Autoencoder(
-                self.config_vae, self.shard_decoder, "vae_decoder"
-            )
+            self.decoder = Autoencoder(self.config_vae, self.shard_decoder, "vae_decoder")
         else:
             self.decoder = nn.Identity()
 
@@ -223,9 +193,7 @@ class Model(nn.Module):
         strength=0.65,
         start_step=None,
     ):
-        t, t_prev = self.sampler.current_timestep(
-            step=step, total_steps=total_steps, start_time=start_step
-        )
+        t, t_prev = self.sampler.current_timestep(step=step, total_steps=total_steps, start_time=start_step)
         is_finished = False
         is_step_finished = False
         if t.item() == 1000:
@@ -261,15 +229,11 @@ class Model(nn.Module):
                 if step < total_steps:
                     x = x_t_prev
                     if self.shard_unet.is_first_layer():
-                        x_t_unet = (
-                            mx.concatenate([x] * 2, axis=0) if cfg_weight > 1 else x
-                        )
+                        x_t_unet = mx.concatenate([x] * 2, axis=0) if cfg_weight > 1 else x
                     else:
                         x_t_unet = x
                     t_unet = mx.broadcast_to(t, [len(x_t_unet)])
-                    x, residual = self.unet(
-                        x_t_unet, t_unet, encoder_x=conditioning, residuals=residual
-                    )
+                    x, residual = self.unet(x_t_unet, t_unet, encoder_x=conditioning, residuals=residual)
                     if self.shard_unet.is_last_layer():
                         if cfg_weight > 1:
                             eps_text, eps_neg = x.split(2)
@@ -340,9 +304,7 @@ def model_shards(shard: ShardConfig):
                 # Adjust the layers relative to the model's range
                 relative_start = overlap_start - range_start
                 relative_end = overlap_end - range_start
-                shards[model_name] = Shard(
-                    model_name, relative_start, relative_end, range_end - range_start
-                )
+                shards[model_name] = Shard(model_name, relative_start, relative_end, range_end - range_start)
             else:
                 # If no overlap, create a zero-layer shard
                 shards[model_name] = Shard(model_name, -1, -1, range_end - range_start)

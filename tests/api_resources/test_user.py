@@ -17,9 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestUser:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -242,9 +240,7 @@ class TestUser:
 
 
 class TestAsyncUser:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -252,9 +248,7 @@ class TestAsyncUser:
         assert_matches_type(UserCreateResponse, user, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.create(
             aliases={},
             allowed_cache_controls=[{}],
@@ -312,9 +306,7 @@ class TestAsyncUser:
         assert_matches_type(object, user, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.update(
             aliases={},
             allowed_cache_controls=[{}],
@@ -406,9 +398,7 @@ class TestAsyncUser:
         assert_matches_type(object, user, path=["response"])
 
     @parametrize
-    async def test_method_delete_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
             hanzo_changed_by="hanzo-changed-by",
@@ -445,9 +435,7 @@ class TestAsyncUser:
         assert_matches_type(object, user, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_info_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.retrieve_info(
             user_id="user_id",
         )
@@ -463,9 +451,7 @@ class TestAsyncUser:
         assert_matches_type(object, user, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_info(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

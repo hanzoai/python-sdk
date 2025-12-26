@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestFiles:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -236,9 +234,7 @@ class TestFiles:
 
 
 class TestAsyncFiles:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -250,9 +246,7 @@ class TestAsyncFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         file = await async_client.files.create(
             provider="provider",
             file=b"raw file contents",
