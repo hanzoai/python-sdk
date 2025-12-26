@@ -53,17 +53,17 @@ def get_shell_tools(
     """
     # Create dag tool with access to other tools
     dag = create_dag_tool(tools=all_tools or {})
-    
+
     # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
     return [
-        dag,        # DAG execution for complex workflows
-        zsh_tool,   # Simple single-command zsh (with auto-backgrounding)
-        ps_tool,    # Process management
-        npx_tool,   # Node packages
-        uvx_tool,   # Python packages
+        dag,  # DAG execution for complex workflows
+        zsh_tool,  # Simple single-command zsh (with auto-backgrounding)
+        ps_tool,  # Process management
+        npx_tool,  # Node packages
+        uvx_tool,  # Python packages
         open_tool,  # Open files/URLs
     ]
 

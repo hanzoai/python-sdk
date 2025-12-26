@@ -24,6 +24,7 @@ from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 @dataclass
 class ProcessInfo:
     """Process information."""
+
     id: str
     pid: int
     cmd: str
@@ -35,9 +36,9 @@ class ProcessInfo:
 
 class PsTool(BaseTool):
     """Process management - list, kill, logs.
-    
+
     USAGE:
-    
+
     ps()                  # List all processes
     ps(id="abc123")       # Get specific process info
     ps(kill="abc123")     # Kill process (SIGTERM)
@@ -45,17 +46,17 @@ class PsTool(BaseTool):
     ps(logs="abc123")     # Get process logs
     ps(logs="abc123", n=50)  # Last 50 lines
     """
-    
+
     _instance: Optional["PsTool"] = None
     _process_manager: Optional[ProcessManager] = None
-    
+
     def __new__(cls):
         """Singleton - share process manager across instances."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._process_manager = ProcessManager()
         return cls._instance
-    
+
     def __init__(self):
         super().__init__()
         self.process_manager = self._process_manager
@@ -82,14 +83,16 @@ USAGE:
         """Get all tracked processes."""
         processes = []
         for proc_id, info in self.process_manager.list_processes().items():
-            processes.append(ProcessInfo(
-                id=proc_id,
-                pid=info.get("pid", 0),
-                cmd=info.get("cmd", ""),
-                running=info.get("running", False),
-                exit_code=info.get("return_code"),
-                log_file=Path(info["log_file"]) if info.get("log_file") else None,
-            ))
+            processes.append(
+                ProcessInfo(
+                    id=proc_id,
+                    pid=info.get("pid", 0),
+                    cmd=info.get("cmd", ""),
+                    running=info.get("running", False),
+                    exit_code=info.get("return_code"),
+                    log_file=Path(info["log_file"]) if info.get("log_file") else None,
+                )
+            )
         return processes
 
     def _get_process(self, proc_id: str) -> Optional[ProcessInfo]:
@@ -104,7 +107,7 @@ USAGE:
         process = self.process_manager.get_process(proc_id)
         if not process:
             return f"Process not found: {proc_id}"
-        
+
         try:
             process.send_signal(sig)
             sig_name = signal.Signals(sig).name
@@ -119,15 +122,15 @@ USAGE:
         log_file = self.process_manager.get_log_file(proc_id)
         if not log_file or not log_file.exists():
             return f"No logs for process: {proc_id}"
-        
+
         try:
             async with aiofiles.open(log_file, "r") as f:
                 content = await f.read()
                 lines = content.splitlines()
-                
+
             if len(lines) > n:
                 lines = lines[-n:]
-            
+
             return "\n".join(lines)
         except Exception as e:
             return f"Error reading logs: {e}"
@@ -136,15 +139,15 @@ USAGE:
         """Format process list for display."""
         if not processes:
             return "No background processes"
-        
+
         lines = ["PID     ID              STATUS    CMD"]
         lines.append("-" * 60)
-        
+
         for p in processes:
             status = "running" if p.running else f"exit({p.exit_code})"
             cmd = p.cmd[:30] + "..." if len(p.cmd) > 30 else p.cmd
             lines.append(f"{p.pid:<7} {p.id:<15} {status:<9} {cmd}")
-        
+
         return "\n".join(lines)
 
     @override
@@ -160,7 +163,7 @@ USAGE:
         **kwargs,
     ) -> str:
         """Process management.
-        
+
         Args:
             ctx: MCP context
             id: Get specific process info
@@ -168,18 +171,18 @@ USAGE:
             logs: Get logs for process
             sig: Signal number for kill (default: 15/SIGTERM)
             n: Number of log lines to show
-            
+
         Returns:
             Process information or action result
         """
         # Kill action
         if kill:
             return await self._kill_process(kill, sig)
-        
+
         # Logs action
         if logs:
             return await self._get_logs(logs, n)
-        
+
         # Get specific process
         if id:
             proc = self._get_process(id)
@@ -187,7 +190,7 @@ USAGE:
                 return f"Process not found: {id}"
             status = "running" if proc.running else f"exited ({proc.exit_code})"
             return f"ID: {proc.id}\nPID: {proc.pid}\nStatus: {status}\nCommand: {proc.cmd}"
-        
+
         # Default: list all
         return self._format_list(self._list_processes())
 
@@ -198,26 +201,11 @@ USAGE:
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def ps_handler(
-            id: Annotated[
-                Optional[str],
-                Field(description="Get specific process by ID", default=None)
-            ] = None,
-            kill: Annotated[
-                Optional[str],
-                Field(description="Kill process by ID", default=None)
-            ] = None,
-            logs: Annotated[
-                Optional[str],
-                Field(description="Get logs for process ID", default=None)
-            ] = None,
-            sig: Annotated[
-                int,
-                Field(description="Signal for kill (default: 15/SIGTERM)", default=15)
-            ] = 15,
-            n: Annotated[
-                int,
-                Field(description="Number of log lines", default=100)
-            ] = 100,
+            id: Annotated[Optional[str], Field(description="Get specific process by ID", default=None)] = None,
+            kill: Annotated[Optional[str], Field(description="Kill process by ID", default=None)] = None,
+            logs: Annotated[Optional[str], Field(description="Get logs for process ID", default=None)] = None,
+            sig: Annotated[int, Field(description="Signal for kill (default: 15/SIGTERM)", default=15)] = 15,
+            n: Annotated[int, Field(description="Number of log lines", default=100)] = 100,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(ctx, id=id, kill=kill, logs=logs, sig=sig, n=n)

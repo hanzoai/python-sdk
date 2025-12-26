@@ -67,14 +67,14 @@ zsh "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
     @override
     def get_interpreter(self) -> str:
         """Get the zsh interpreter path.
-        
+
         Respects HANZO_MCP_FORCE_SHELL environment variable to override.
         """
         # Check for forced shell override
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
-            
+
         if platform.system() == "Windows":
             # Try to find zsh on Windows (WSL, Git Bash, etc.)
             zsh_paths = [
@@ -153,14 +153,14 @@ class ShellTool(BaseScriptTool):
 
     def _detect_best_shell(self) -> str:
         """Detect the best available shell.
-        
+
         Respects HANZO_MCP_FORCE_SHELL environment variable to override.
         """
         # Check for forced shell override first
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
-            
+
         # Check for zsh first
         if shutil.which("zsh"):
             # Also check if .zshrc exists

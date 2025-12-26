@@ -24,8 +24,8 @@ import pytest
 # Maximum allowed import times (in seconds)
 # These are intentionally generous to avoid flaky tests
 MAX_MODULE_IMPORT_TIME = 0.5  # hanzo_mcp.tools module
-MAX_TOTAL_IMPORT_TIME = 1.0   # All core imports combined
-MAX_CLI_STARTUP_TIME = 3.0    # CLI --help should respond quickly
+MAX_TOTAL_IMPORT_TIME = 1.0  # All core imports combined
+MAX_CLI_STARTUP_TIME = 3.0  # CLI --help should respond quickly
 
 
 class TestImportPerformance:
@@ -37,13 +37,13 @@ class TestImportPerformance:
         This is critical because slow imports cause MCP to hang.
         The tools module must NOT import heavy dependencies at load time.
         """
-        code = '''
+        code = """
 import time
 start = time.time()
 import hanzo_mcp.tools
 elapsed = time.time() - start
 print(f"ELAPSED:{elapsed:.3f}")
-'''
+"""
         result = subprocess.run(
             [sys.executable, "-c", code],
             capture_output=True,
@@ -69,7 +69,7 @@ print(f"ELAPSED:{elapsed:.3f}")
 
     def test_no_heavy_imports_at_module_level(self):
         """Test that heavy packages are NOT imported at module load time."""
-        code = '''
+        code = """
 import sys
 # Clear any cached modules
 for mod in list(sys.modules.keys()):
@@ -90,7 +90,7 @@ if heavy_modules:
     sys.exit(1)
 else:
     print("PASS:No heavy modules imported")
-'''
+"""
         result = subprocess.run(
             [sys.executable, "-c", code],
             capture_output=True,
@@ -105,7 +105,7 @@ else:
 
     def test_total_import_time(self):
         """Test that all core imports combined are fast."""
-        code = '''
+        code = """
 import time
 start = time.time()
 import hanzo_mcp
@@ -113,7 +113,7 @@ import hanzo_mcp.tools
 from hanzo_mcp.server import create_server
 elapsed = time.time() - start
 print(f"ELAPSED:{elapsed:.3f}")
-'''
+"""
         result = subprocess.run(
             [sys.executable, "-c", code],
             capture_output=True,
@@ -152,8 +152,7 @@ class TestCLIPerformance:
 
         assert result.returncode == 0, f"CLI help failed: {result.stderr}"
         assert elapsed < MAX_CLI_STARTUP_TIME, (
-            f"CLI --help took {elapsed:.2f}s (max: {MAX_CLI_STARTUP_TIME}s). "
-            "This is too slow for MCP connections."
+            f"CLI --help took {elapsed:.2f}s (max: {MAX_CLI_STARTUP_TIME}s). This is too slow for MCP connections."
         )
 
     def test_cli_does_not_hang(self):
@@ -171,10 +170,7 @@ class TestCLIPerformance:
             )
             assert "hanzo" in result.stdout.lower() or "mcp" in result.stdout.lower()
         except subprocess.TimeoutExpired:
-            pytest.fail(
-                "CLI hung for more than 10 seconds! "
-                "This indicates slow imports causing MCP to hang."
-            )
+            pytest.fail("CLI hung for more than 10 seconds! This indicates slow imports causing MCP to hang.")
 
 
 class TestLazyImportPattern:
@@ -182,7 +178,7 @@ class TestLazyImportPattern:
 
     def test_memory_tools_use_lazy_import(self):
         """Test that memory tools use lazy imports."""
-        code = '''
+        code = """
 import sys
 
 # Import the memory tools module
@@ -193,7 +189,7 @@ if 'hanzo_memory' in sys.modules:
     print("FAIL:hanzo_memory imported at module load")
     sys.exit(1)
 print("PASS:hanzo_memory not imported at module load")
-'''
+"""
         result = subprocess.run(
             [sys.executable, "-c", code],
             capture_output=True,
@@ -203,17 +199,16 @@ print("PASS:hanzo_memory not imported at module load")
 
         if "FAIL:" in result.stdout:
             pytest.fail(
-                "memory_tools.py imports hanzo_memory at module load time. "
-                "Use lazy imports with TYPE_CHECKING pattern."
+                "memory_tools.py imports hanzo_memory at module load time. Use lazy imports with TYPE_CHECKING pattern."
             )
 
     def test_search_tool_no_heavy_deps(self):
         """Test that search tool does not import heavy ML dependencies.
-        
+
         Vector search with sentence_transformers has been removed to keep MCP lightweight.
         If semantic search is needed, use external services (hanzo-node, hanzo desktop).
         """
-        code = '''
+        code = """
 import sys
 
 # Import the search tool module
@@ -224,7 +219,7 @@ if 'sentence_transformers' in sys.modules:
     print("FAIL:sentence_transformers imported - should be removed from search_tool")
     sys.exit(1)
 print("PASS:no heavy ML dependencies in search_tool")
-'''
+"""
         result = subprocess.run(
             [sys.executable, "-c", code],
             capture_output=True,
@@ -234,8 +229,7 @@ print("PASS:no heavy ML dependencies in search_tool")
 
         if "FAIL:" in result.stdout:
             pytest.fail(
-                "search_tool.py imports sentence_transformers. "
-                "Vector search has been removed - keep MCP lightweight."
+                "search_tool.py imports sentence_transformers. Vector search has been removed - keep MCP lightweight."
             )
 
 
