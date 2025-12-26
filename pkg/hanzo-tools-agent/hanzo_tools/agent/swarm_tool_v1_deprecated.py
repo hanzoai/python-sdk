@@ -228,6 +228,7 @@ Models can be specified as:
         reviewer_query = params.get("reviewer_query")
         common_context = params.get("common_context", "")
         max_concurrent = params.get("max_concurrent", 10)
+        semaphore = asyncio.Semaphore(max_concurrent)
 
         if not agents:
             await tool_ctx.error("No agents provided")
