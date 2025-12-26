@@ -48,7 +48,7 @@ jobs:
 
       - name: Get tag name
         id: get_tag
-        run: echo "TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_OUTPUT
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Determine packages to publish
         id: determine_packages
