@@ -388,6 +388,9 @@ class BrowserTool:
             logger.exception(f"Browser action failed: {action}")
             return {"error": str(e), "action": action}
 
+    # Alias call to execute for compatibility with BaseTool interface
+    call = execute
+
     def register(self, mcp_server) -> None:
         """Register the browser tool with an MCP server."""
         from mcp.server import FastMCP
