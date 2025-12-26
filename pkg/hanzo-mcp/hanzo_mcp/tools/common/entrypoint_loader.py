@@ -12,14 +12,13 @@ Where TOOLS is a list of BaseTool subclasses.
 
 from __future__ import annotations
 
-import logging
 import sys
-from importlib.metadata import entry_points
+import logging
 from typing import TYPE_CHECKING, Any
+from importlib.metadata import entry_points
 
 if TYPE_CHECKING:
     from mcp.server import FastMCP
-
     from hanzo_tools.core import BaseTool, PermissionManager
 
 logger = logging.getLogger(__name__)
@@ -51,14 +50,14 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
 
 class EntryPointToolLoader:
     """Loads tools from hanzo-tools-* packages via entry points.
-    
+
     This loader discovers installed tool packages and dynamically loads
     and registers their tools with the MCP server.
     """
-    
+
     def __init__(self, permission_manager: "PermissionManager" | None = None):
         """Initialize the loader.
-        
+
         Args:
             permission_manager: Optional permission manager for file tools
         """
@@ -99,12 +98,12 @@ class EntryPointToolLoader:
 
     def discover_packages(self) -> dict[str, list[str]]:
         """Discover installed hanzo-tools-* packages.
-        
+
         Returns:
             Dict mapping package name to list of tool names
         """
         discovered = {}
-        
+
         # Get entry points for hanzo.tools group
         try:
             if sys.version_info >= (3, 10):
@@ -112,30 +111,30 @@ class EntryPointToolLoader:
             else:
                 # Python 3.9 compatibility
                 eps = entry_points().get(TOOLS_ENTRY_POINT_GROUP, [])
-            
+
             for ep in eps:
                 try:
                     # Load the TOOLS list from the entry point
                     tools_list = ep.load()
-                    
+
                     if isinstance(tools_list, list):
                         tool_names = []
                         for tool_class in tools_list:
                             name = self._get_tool_name(tool_class)
                             tool_names.append(name)
-                        
+
                         discovered[ep.name] = tool_names
                         self._discovered_packages[ep.name] = tools_list
                         logger.debug(f"Discovered package '{ep.name}' with tools: {tool_names}")
-                    
+
                 except Exception as e:
                     logger.warning(f"Failed to load entry point '{ep.name}': {e}")
-                    
+
         except Exception as e:
             logger.error(f"Failed to discover entry points: {e}")
-            
+
         return discovered
-    
+
     def load_package(
         self,
         package_name: str,
@@ -144,24 +143,24 @@ class EntryPointToolLoader:
         **kwargs: Any,
     ) -> list["BaseTool"]:
         """Load tools from a specific package.
-        
+
         Args:
             package_name: Name of the package (e.g., "filesystem", "shell")
             mcp_server: The FastMCP server to register tools with
             enabled_tools: Dict of tool_name -> enabled state
             **kwargs: Additional arguments passed to tool registration
-            
+
         Returns:
             List of registered BaseTool instances
         """
         if package_name not in self._discovered_packages:
             logger.warning(f"Package '{package_name}' not discovered")
             return []
-            
+
         tools_list = self._discovered_packages[package_name]
         registered = []
         enabled_tools = enabled_tools or {}
-        
+
         for tool_class in tools_list:
             tool_name = self._get_tool_name(tool_class)
 
@@ -169,35 +168,36 @@ class EntryPointToolLoader:
             if not enabled_tools.get(tool_name, True):
                 logger.debug(f"Skipping disabled tool: {tool_name}")
                 continue
-                
+
             try:
                 # Try different instantiation patterns
                 if self.permission_manager and hasattr(tool_class, "__init__"):
                     # Check if tool accepts permission_manager
                     import inspect
+
                     sig = inspect.signature(tool_class.__init__)
                     params = list(sig.parameters.keys())
-                    
+
                     if "permission_manager" in params:
                         tool = tool_class(permission_manager=self.permission_manager)
                     else:
                         tool = tool_class()
                 else:
                     tool = tool_class()
-                
+
                 # Register with MCP server
                 if hasattr(tool, "register"):
                     tool.register(mcp_server)
-                    
+
                 self._loaded_tools[tool_name] = tool
                 registered.append(tool)
                 logger.debug(f"Registered tool: {tool_name}")
-                
+
             except Exception as e:
                 logger.warning(f"Failed to register tool '{tool_name}': {e}")
-                
+
         return registered
-    
+
     def load_all(
         self,
         mcp_server: "FastMCP",
@@ -206,52 +206,49 @@ class EntryPointToolLoader:
         **kwargs: Any,
     ) -> dict[str, "BaseTool"]:
         """Load all discovered tools.
-        
+
         Args:
             mcp_server: The FastMCP server to register tools with
             enabled_tools: Dict of tool_name -> enabled state
             enabled_packages: Dict of package_name -> enabled state
             **kwargs: Additional arguments passed to tool registration
-            
+
         Returns:
             Dict mapping tool name to BaseTool instance
         """
         if not self._discovered_packages:
             self.discover_packages()
-            
+
         enabled_tools = enabled_tools or {}
         enabled_packages = enabled_packages or {}
-        
+
         for package_name in self._discovered_packages:
             # Check if package is enabled
             if not enabled_packages.get(package_name, True):
                 logger.debug(f"Skipping disabled package: {package_name}")
                 continue
-                
+
             # Build package-specific enabled_tools
             package_tool_names = PACKAGE_TOOL_PREFIXES.get(package_name, [])
-            package_enabled = {
-                name: enabled_tools.get(name, True)
-                for name in package_tool_names
-            }
-            
+            package_enabled = {name: enabled_tools.get(name, True) for name in package_tool_names}
+
             self.load_package(
                 package_name,
                 mcp_server,
                 enabled_tools=package_enabled,
                 **kwargs,
             )
-            
+
         return self._loaded_tools
-    
+
     def get_tool(self, name: str) -> "BaseTool | None":
         """Get a loaded tool by name."""
         return self._loaded_tools.get(name)
-    
+
     def list_tools(self) -> list[str]:
         """List all loaded tool names."""
         return list(self._loaded_tools.keys())
-    
+
     def list_packages(self) -> list[str]:
         """List all discovered package names."""
         return list(self._discovered_packages.keys())
@@ -259,7 +256,7 @@ class EntryPointToolLoader:
 
 def discover_tools() -> dict[str, list[str]]:
     """Discover all available tools from installed packages.
-    
+
     Returns:
         Dict mapping package name to list of tool names
     """
@@ -275,16 +272,16 @@ def register_tools_from_entrypoints(
     **kwargs: Any,
 ) -> dict[str, "BaseTool"]:
     """Register tools from all discovered hanzo-tools-* packages.
-    
+
     This is the main entry point for loading tools via entry points.
-    
+
     Args:
         mcp_server: The FastMCP server to register tools with
         permission_manager: Optional permission manager for file tools
         enabled_tools: Dict of tool_name -> enabled state
         enabled_packages: Dict of package_name -> enabled state
         **kwargs: Additional arguments passed to tool registration
-        
+
     Returns:
         Dict mapping tool name to BaseTool instance
     """

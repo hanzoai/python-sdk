@@ -65,6 +65,7 @@ class ModeRegistry:
         if mode.cli_tools:
             try:
                 from hanzo_mcp.tools.common.cli_tool_factory import CLIToolFactory
+
                 factory = CLIToolFactory.get_instance()
                 for cli_tool in mode.cli_tools:
                     # Only create if not already exists
@@ -104,7 +105,7 @@ def register_default_modes():
     """Register all default development modes from personalities."""
     # First ensure personalities are loaded
     register_default_personalities()
-    
+
     # Convert personalities to modes
     for personality in PersonalityRegistry.list():
         mode = Mode(

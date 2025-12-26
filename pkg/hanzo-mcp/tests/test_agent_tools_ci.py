@@ -8,8 +8,8 @@ from hanzo_tools.agent import register_agent_tools
 from hanzo_tools.agent.agent_tool import AgentTool
 from hanzo_tools.agent.swarm_alias import SwarmTool
 from hanzo_tools.agent.network_tool import NetworkTool
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_tools.agent.claude_cli_tool import ClaudeCLITool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 @pytest.fixture

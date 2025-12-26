@@ -1,7 +1,7 @@
 """Tool mode loader for dynamic tool configuration."""
 
 import os
-from typing import Dict, Optional, Set
+from typing import Set, Dict, Optional
 
 from hanzo_mcp.tools.common.mode import (
     ModeRegistry,
@@ -13,22 +13,18 @@ from hanzo_mcp.tools.common.mode import (
 # These are core infrastructure tools that should never be disabled
 ESSENTIAL_SYSTEM_TOOLS: Set[str] = {
     # Core LLM infrastructure
-    "llm",           # Primary LLM interaction
-    "consensus",     # Multi-model consensus
-
+    "llm",  # Primary LLM interaction
+    "consensus",  # Multi-model consensus
     # Configuration and mode management
-    "config",        # System configuration
-    "mode",          # Mode switching
-
+    "config",  # System configuration
+    "mode",  # Mode switching
     # Tool management (unified command)
-    "tool",          # Unified tool management (install, enable, disable, list)
-
+    "tool",  # Unified tool management (install, enable, disable, list)
     # Core system
-    "version",       # Version info
-    "stats",         # Statistics
-
+    "version",  # Version info
+    "stats",  # Statistics
     # Memory (always available)
-    "memory",        # Unified memory operations
+    "memory",  # Unified memory operations
 }
 
 

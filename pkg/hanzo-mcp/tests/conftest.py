@@ -10,8 +10,7 @@ import tempfile
 
 import pytest
 
-# Register pytest-asyncio plugin explicitly
-pytest_plugins = ["pytest_asyncio.plugin"]
+# pytest-asyncio is auto-discovered, no manual registration needed
 
 # Add tests directory to path so we can import test_utils
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

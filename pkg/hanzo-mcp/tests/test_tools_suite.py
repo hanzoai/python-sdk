@@ -339,7 +339,7 @@ class TestMemoryIntegration:
             # Check that module has expected lazy-loading infrastructure
             assert hasattr(memory_tools, "MEMORY_AVAILABLE")
             assert hasattr(memory_tools, "_check_memory_available")
-            
+
             # Call the check function to initialize the lazy state
             is_available = memory_tools._check_memory_available()
             # After calling, MEMORY_AVAILABLE should be set (True or False, not None)

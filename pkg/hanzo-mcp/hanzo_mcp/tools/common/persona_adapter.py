@@ -6,20 +6,20 @@ with the hanzo-mcp tool personality system.
 
 import json
 import logging
+from typing import Any, Dict, List, Optional
 from pathlib import Path
-from typing import Dict, List, Any, Optional
 
 from hanzo_mcp.tools.common.personality import (
-    ToolPersonality,
-    CLIToolDef,
-    PersonalityRegistry,
-    ESSENTIAL_TOOLS,
     AI_TOOLS,
-    SEARCH_TOOLS,
-    BUILD_TOOLS,
     UNIX_TOOLS,
-    DATABASE_TOOLS,
+    BUILD_TOOLS,
+    SEARCH_TOOLS,
     VECTOR_TOOLS,
+    DATABASE_TOOLS,
+    ESSENTIAL_TOOLS,
+    CLIToolDef,
+    ToolPersonality,
+    PersonalityRegistry,
 )
 
 logger = logging.getLogger(__name__)
@@ -48,10 +48,10 @@ CATEGORY_TOOL_MAPPINGS = {
 
 def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersonality]:
     """Convert a hanzo-persona profile to a ToolPersonality.
-    
+
     Args:
         persona: Raw persona dict from hanzo-persona package
-        
+
     Returns:
         ToolPersonality instance or None if invalid
     """
@@ -60,20 +60,20 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
         name = persona.get("id") or persona.get("name", "").lower().replace(" ", "_")
         if not name:
             return None
-        
+
         # Get programmer name (display name)
         programmer = persona.get("programmer") or persona.get("name", name)
-        
+
         # Get description
         description = persona.get("description", "")
-        
+
         # Get philosophy
         philosophy = persona.get("philosophy", "")
-        
+
         # Determine tools based on category and persona's tool preferences
         category = persona.get("category", "default")
         base_tools = CATEGORY_TOOL_MAPPINGS.get(category, CATEGORY_TOOL_MAPPINGS["default"])
-        
+
         # Add tools from persona's tool preferences
         tools_config = persona.get("tools", {})
         if isinstance(tools_config, dict):
@@ -84,7 +84,7 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
             all_tools = list(set(base_tools + tools_config))
         else:
             all_tools = list(base_tools)
-        
+
         # Map common tool names to hanzo-mcp tool names
         tool_name_map = {
             "python": "uvx",
@@ -95,10 +95,10 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
         }
         all_tools = [tool_name_map.get(t, t) for t in all_tools]
         all_tools = list(set(all_tools))  # Dedupe
-        
+
         # Get environment variables
         environment = persona.get("environment", {})
-        
+
         # Extract extended fields
         ocean = persona.get("ocean")
         behavioral_traits = persona.get("behavioral_traits")
@@ -107,7 +107,7 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
         communication_patterns = persona.get("communication_patterns")
         work_methodology = persona.get("work_methodology")
         emotional_profile = persona.get("emotional_profile")
-        
+
         return ToolPersonality(
             name=name,
             programmer=programmer,
@@ -131,16 +131,16 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
 
 def load_personas_from_package() -> int:
     """Load all personas from hanzo-persona package.
-    
+
     Returns:
         Number of personas loaded
     """
     loaded_count = 0
-    
+
     try:
         # Try to import hanzo-persona package
-        from personalities.personality_loader import PersonalityLoader, PERSONA_DIR
-        
+        from personalities.personality_loader import PERSONA_DIR, PersonalityLoader
+
         # Load from all_personalities.json if exists
         all_personalities_file = PERSONA_DIR / "all_personalities.json"
         if all_personalities_file.exists():
@@ -156,7 +156,7 @@ def load_personas_from_package() -> int:
         pass
     except Exception as e:
         logger.debug(f"Could not load from personalities module: {e}")
-    
+
     # Try loading from profiles directory
     try:
         profiles_dir = _find_profiles_dir()
@@ -166,7 +166,7 @@ def load_personas_from_package() -> int:
             return loaded_count
     except Exception as e:
         logger.debug(f"Could not load from profiles dir: {e}")
-    
+
     return loaded_count
 
 
@@ -178,39 +178,40 @@ def _find_profiles_dir() -> Optional[Path]:
         Path.home() / "work" / "hanzo" / "persona" / "profiles",
         Path("/opt/hanzo/persona/profiles"),
     ]
-    
+
     # Check HANZO_PERSONA_DIR environment variable
     import os
+
     env_path = os.environ.get("HANZO_PERSONA_DIR")
     if env_path:
         search_paths.insert(0, Path(env_path) / "profiles")
-    
+
     for path in search_paths:
         if path.exists():
             return path
-    
+
     return None
 
 
 def _load_from_profiles_dir(profiles_dir: Path) -> int:
     """Load personas from individual JSON files in profiles directory."""
     loaded_count = 0
-    
+
     for json_file in profiles_dir.glob("*.json"):
         if json_file.name in ["index.json", "categories.json"]:
             continue
-            
+
         try:
             with open(json_file, "r", encoding="utf-8") as f:
                 persona = json.load(f)
-            
+
             tp = persona_to_tool_personality(persona)
             if tp:
                 PersonalityRegistry.register(tp)
                 loaded_count += 1
         except Exception as e:
             logger.debug(f"Failed to load {json_file}: {e}")
-    
+
     return loaded_count
 
 

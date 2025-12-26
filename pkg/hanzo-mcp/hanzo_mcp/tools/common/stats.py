@@ -6,13 +6,13 @@ from datetime import datetime
 
 import psutil
 from mcp.server.fastmcp import Context as MCPContext
+from hanzo_tools.shell.run_background import RunBackgroundTool
+from hanzo_tools.database.database_manager import DatabaseManager
 
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-from hanzo_tools.shell.run_background import RunBackgroundTool
-from hanzo_tools.database.database_manager import DatabaseManager
 
 
 class StatsParams(TypedDict, total=False):
