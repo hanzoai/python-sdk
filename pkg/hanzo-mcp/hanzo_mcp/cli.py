@@ -64,11 +64,15 @@ def main() -> None:
         )
 
         # Redirect stderr to devnull for stdio transport to prevent any output
-        sys.stderr = open(os.devnull, "w")
+        # Store handles for proper cleanup to avoid resource leaks
+        _stderr_devnull = open(os.devnull, "w")
+        sys.stderr = _stderr_devnull
 
         # Suppress stdout during potentially noisy imports unless user requested help/version
+        _stdout_devnull = None
         if not any(flag in sys.argv for flag in ("--version", "-h", "--help")):
-            sys.stdout = open(os.devnull, "w")
+            _stdout_devnull = open(os.devnull, "w")
+            sys.stdout = _stdout_devnull
             suppress_stdout = True
 
     # Import the server only AFTER transport/logging have been configured to avoid import-time noise
@@ -290,10 +294,14 @@ def main() -> None:
     # Restore stdout after parsing, before any explicit output or server start
     if suppress_stdout:
         try:
-            sys.stdout.close()  # Close devnull handle
+            if _stdout_devnull is not None:
+                _stdout_devnull.close()  # Close devnull handle properly
         except Exception:
             pass
         sys.stdout = original_stdout
+
+    # Note: We intentionally keep stderr redirected to devnull for stdio transport
+    # to prevent any library noise from corrupting the protocol
 
     # Parse timeout arguments with human-readable format support
     command_timeout = _parse_timeout_arg(str(args.command_timeout))
