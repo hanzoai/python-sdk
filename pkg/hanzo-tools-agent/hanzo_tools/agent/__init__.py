@@ -28,16 +28,16 @@ logger = logging.getLogger(__name__)
 from .critic_tool import CriticTool
 from .iching_tool import IChingTool
 from .review_tool import ReviewTool
-from .clarification_tool import ClarificationTool
 from .network_tool import NetworkTool
-from .code_auth_tool import CodeAuthTool
+from .grok_cli_tool import GrokCLITool
 
 # CLI agent tools
 from .cli_agent_base import CLIAgentBase
-from .claude_cli_tool import ClaudeCLITool
+from .code_auth_tool import CodeAuthTool
 from .codex_cli_tool import CodexCLITool
+from .claude_cli_tool import ClaudeCLITool
 from .gemini_cli_tool import GeminiCLITool
-from .grok_cli_tool import GrokCLITool
+from .clarification_tool import ClarificationTool
 
 # Tools with optional dependencies - imported lazily
 _optional_tools = []

@@ -2,7 +2,7 @@
 
 import logging
 from typing import Any, Optional
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 from mcp.server.fastmcp import Context as MCPContext
 

@@ -5,9 +5,9 @@ from typing import Dict, Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool
+from hanzo_tools.core import BaseTool, auto_timeout
+
 from .llm_tool import LLMTool
-from hanzo_tools.core import auto_timeout
 
 Prompt = Annotated[
     str,

@@ -9,14 +9,14 @@ rename symbol, and diagnostics.
 import os
 import re
 import json
+import atexit
 import shutil
 import asyncio
 import logging
 import subprocess
-import atexit
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool

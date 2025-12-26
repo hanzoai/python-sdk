@@ -1,7 +1,8 @@
 """Test all hanzo-tools-* packages import and register correctly."""
 
-import asyncio
 import time
+import asyncio
+
 import pytest
 
 
@@ -11,8 +12,8 @@ class TestToolPackages:
     def test_core_imports(self):
         """Test hanzo-tools-core imports."""
         from hanzo_tools.core import BaseTool, ToolContext
-        from hanzo_tools.core.permissions import PermissionManager
         from hanzo_tools.core.decorators import auto_timeout
+        from hanzo_tools.core.permissions import PermissionManager
         assert BaseTool is not None
         assert ToolContext is not None
         assert PermissionManager is not None

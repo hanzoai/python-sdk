@@ -8,13 +8,13 @@ rename symbol, and diagnostics.
 
 import os
 import json
+import atexit
 import shutil
 import asyncio
 import logging
-import atexit
 from typing import Any, Dict, List, Optional
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 from hanzo_tools.core import BaseTool, MCPResourceDocument
 
@@ -518,7 +518,7 @@ class LSPTool(BaseTool):
                     try:
                         server.process.terminate()
                         await asyncio.wait_for(server.process.wait(), timeout=5.0)
-                    except:
+                    except Exception:
                         pass
             _GLOBAL_SERVERS.clear()
 
