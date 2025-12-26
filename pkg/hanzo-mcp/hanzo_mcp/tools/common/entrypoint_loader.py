@@ -29,32 +29,23 @@ TOOLS_ENTRY_POINT_GROUP = "hanzo.tools"
 
 # Package to tool prefix mapping (for enable/disable)
 PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
-    "filesystem": ["read", "write", "edit", "multi_edit", "tree", "ast", "rules", "search", "find"],
+    "filesystem": ["read", "write", "edit", "tree", "ast", "search", "find"],
     "shell": ["dag", "ps", "zsh", "shell", "npx", "uvx", "open"],
     "browser": ["browser"],
-    "memory": [
-        "recall_memories", "create_memories", "update_memories", "delete_memories",
-        "manage_memories", "recall_facts", "store_facts", "summarize_to_memory",
-        "manage_knowledge_bases"
-    ],
+    "memory": ["memory"],  # Unified memory tool
     "todo": ["todo"],
     "reasoning": ["think", "critic"],
     "lsp": ["lsp"],
     "refactor": ["refactor"],
-    "database": [
-        "sql_query", "sql_search", "sql_stats",
-        "graph_add", "graph_remove", "graph_query", "graph_search", "graph_stats"
-    ],
-    "agent": [
-        "agent", "swarm", "dispatch_agent", "claude", "codex", "gemini", "grok",
-        "code_auth", "critic", "iching", "review", "clarification", "network"
-    ],
-    "jupyter": ["jupyter", "notebook_read", "notebook_edit"],
+    "database": ["sql", "graph"],  # Consolidated database tools
+    "agent": ["agent", "iching", "review"],  # Consolidated agent tools (critic is from reasoning)
+    "jupyter": ["jupyter"],
     "editor": ["neovim_edit", "neovim_command", "neovim_session"],
-    "llm": ["llm", "unified_llm", "consensus", "llm_manage"],
+    "llm": ["llm", "consensus"],  # Removed llm_manage
     "vector": ["index", "vector_index", "vector_search"],
     "config": ["config", "mode"],
-    "mcp_tools": ["mcp", "mcp_add", "mcp_remove", "mcp_stats"],
+    "mcp_tools": ["mcp"],  # Consolidated MCP tool
+    "computer": ["computer"],
 }
 
 
