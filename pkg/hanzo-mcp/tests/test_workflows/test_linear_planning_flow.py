@@ -36,9 +36,9 @@ from mcp.server.fastmcp import Context as MCPContext
 
 # Import MCP tools after making sure typing.override is available
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
+from hanzo_tools.shell.bash_tool import BashTool
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
 from hanzo_mcp.tools.mcp.mcp_stats import McpStatsTool
-from hanzo_tools.shell.bash_tool import BashTool
 
 
 def _mock_acompletion_factory(responses: Dict[str, str]):

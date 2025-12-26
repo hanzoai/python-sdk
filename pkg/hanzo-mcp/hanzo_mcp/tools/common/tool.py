@@ -4,7 +4,7 @@ Combines install, uninstall, upgrade, enable, disable, and list into a single to
 """
 
 import json
-from typing import Any, Unpack, Literal, Annotated, TypedDict, final, override, Optional
+from typing import Any, Unpack, Literal, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
 from pydantic import Field
@@ -16,14 +16,14 @@ from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Action = Annotated[
     Literal[
-        "install",      # Install a tool package
-        "uninstall",    # Remove a tool package
-        "upgrade",      # Upgrade package(s)
-        "reload",       # Hot-reload a package
-        "enable",       # Enable a tool
-        "disable",      # Disable a tool
-        "list",         # List installed tools
-        "status",       # Show tool status
+        "install",  # Install a tool package
+        "uninstall",  # Remove a tool package
+        "upgrade",  # Upgrade package(s)
+        "reload",  # Hot-reload a package
+        "enable",  # Enable a tool
+        "disable",  # Disable a tool
+        "list",  # List installed tools
+        "status",  # Show tool status
         "self_update",  # Update hanzo-mcp itself
     ],
     Field(description="Action to perform"),
@@ -34,13 +34,13 @@ class ToolParams(TypedDict, total=False):
     """Parameters for unified tool command."""
 
     action: str
-    name: Optional[str]      # Tool or package name
-    source: str              # For install: pypi, git, local
-    version: Optional[str]   # Version constraint
-    persist: bool            # Persist enable/disable changes
+    name: Optional[str]  # Tool or package name
+    source: str  # For install: pypi, git, local
+    version: Optional[str]  # Version constraint
+    persist: bool  # Persist enable/disable changes
     category: Optional[str]  # Filter list by category
-    disabled: bool           # Show only disabled tools
-    enabled: bool            # Show only enabled tools
+    disabled: bool  # Show only disabled tools
+    enabled: bool  # Show only enabled tools
 
 
 @final
@@ -237,8 +237,8 @@ Examples:
 
         return f"""Tool: {name}
 Status: {status}
-Category: {config.category.value if config.category else 'unknown'}
-Package: {config.package or 'built-in'}
+Category: {config.category.value if config.category else "unknown"}
+Package: {config.package or "built-in"}
 Description: {config.description}"""
 
     async def _handle_enable(self, name: Optional[str], persist: bool) -> str:

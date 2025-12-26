@@ -6,7 +6,7 @@ Discovers tools from entry points instead of hardcoding.
 import logging
 from enum import Enum
 from typing import Dict, List, Optional
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 logger = logging.getLogger(__name__)
 

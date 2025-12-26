@@ -18,10 +18,10 @@ from typing import TYPE_CHECKING, Literal, cast, final
 # Type-only imports - don't execute at runtime
 if TYPE_CHECKING:
     from mcp.server import FastMCP
+    from hanzo_tools.shell.session_storage import SessionStorage
 
     from hanzo_mcp.server_enhanced import EnhancedFastMCP
     from hanzo_mcp.tools.common.permissions import PermissionManager
-    from hanzo_tools.shell.session_storage import SessionStorage
 
 # Suppress litellm deprecation warnings about event loop
 warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
