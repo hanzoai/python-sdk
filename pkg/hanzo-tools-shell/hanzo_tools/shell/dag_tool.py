@@ -423,7 +423,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
     ) -> str:
         """Execute commands with DAG semantics."""
         tool_ctx = create_tool_context(ctx)
-        tool_ctx.set_tool_info(self.name)
+        await tool_ctx.set_tool_info(self.name)
 
         shell = shell or self.default_shell
         results: List[DagResult] = []
