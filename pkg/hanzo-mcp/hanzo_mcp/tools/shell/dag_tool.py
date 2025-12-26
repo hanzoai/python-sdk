@@ -7,10 +7,15 @@ Supports serial (default), parallel, and complex mixed execution graphs.
 import asyncio
 import os
 import shutil
+import uuid
+import tempfile
 from typing import Any, Union, List, Dict, Optional, Annotated, override
 from dataclasses import dataclass, field
 from enum import Enum
 from datetime import datetime
+from pathlib import Path
+
+import aiofiles
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -19,6 +24,7 @@ from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+from hanzo_mcp.tools.shell.base_process import ProcessManager
 
 
 class NodeStatus(Enum):
@@ -179,26 +185,38 @@ Named with dependencies:
       {"id": "test", "run": "make test", "after": ["build"]},
   ])
 
-Uses zsh for shell execution."""
+Uses zsh for shell execution.
+
+AUTO-BACKGROUNDING: Commands that exceed timeout are automatically
+backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
 
     async def _run_shell(
-        self, 
-        cmd: str, 
-        shell: str, 
+        self,
+        cmd: str,
+        shell: str,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         timeout: int = 120,
     ) -> DagResult:
-        """Run a shell command asynchronously."""
+        """Run a shell command with auto-backgrounding on timeout.
+
+        Commands that exceed the timeout are automatically backgrounded
+        and can be monitored with the ps tool. All I/O is async.
+        """
         start_time = datetime.now()
         node_id = f"shell_{id(cmd)}"
-        
+        process_manager = ProcessManager()
+
         try:
             # Merge environment
             run_env = os.environ.copy()
             if env:
                 run_env.update(env)
-            
+
+            # Create log file for potential backgrounding
+            process_id = f"dag_{uuid.uuid4().hex[:8]}"
+            log_file = await process_manager.create_log_file(process_id)
+
             proc = await asyncio.create_subprocess_exec(
                 shell, "-c", cmd,
                 stdout=asyncio.subprocess.PIPE,
@@ -206,38 +224,58 @@ Uses zsh for shell execution."""
                 cwd=cwd,
                 env=run_env,
             )
-            
-            stdout, stderr = await asyncio.wait_for(
-                proc.communicate(), 
-                timeout=timeout
-            )
-            
-            duration = int((datetime.now() - start_time).total_seconds() * 1000)
-            exit_code = proc.returncode or 0
-            
-            return DagResult(
-                node_id=node_id,
-                command=cmd,
-                stdout=stdout.decode("utf-8", errors="replace"),
-                stderr=stderr.decode("utf-8", errors="replace"),
-                status=NodeStatus.SUCCESS if exit_code == 0 else NodeStatus.FAILED,
-                exit_code=exit_code,
-                duration_ms=duration,
-                node_type="shell",
-            )
-            
-        except asyncio.TimeoutError:
-            duration = int((datetime.now() - start_time).total_seconds() * 1000)
-            return DagResult(
-                node_id=node_id,
-                command=cmd,
-                stdout="",
-                stderr=f"Command timed out after {timeout}s",
-                status=NodeStatus.FAILED,
-                exit_code=124,
-                duration_ms=duration,
-                node_type="shell",
-            )
+
+            try:
+                stdout, stderr = await asyncio.wait_for(
+                    proc.communicate(),
+                    timeout=timeout
+                )
+
+                duration = int((datetime.now() - start_time).total_seconds() * 1000)
+                exit_code = proc.returncode or 0
+
+                return DagResult(
+                    node_id=node_id,
+                    command=cmd,
+                    stdout=stdout.decode("utf-8", errors="replace"),
+                    stderr=stderr.decode("utf-8", errors="replace"),
+                    status=NodeStatus.SUCCESS if exit_code == 0 else NodeStatus.FAILED,
+                    exit_code=exit_code,
+                    duration_ms=duration,
+                    node_type="shell",
+                )
+
+            except asyncio.TimeoutError:
+                # Auto-background: register process and return status
+                duration = int((datetime.now() - start_time).total_seconds() * 1000)
+
+                # Write initial status to log (async)
+                async with aiofiles.open(log_file, "w") as f:
+                    await f.write(f"[dag] Command backgrounded after {timeout}s timeout\n")
+                    await f.write(f"[dag] Command: {cmd}\n")
+                    await f.write(f"[dag] PID: {proc.pid}\n")
+                    await f.write(f"[dag] Started: {start_time.isoformat()}\n")
+                    await f.write("-" * 40 + "\n")
+
+                # Register with ProcessManager for ps tool
+                process_manager.add_process(process_id, proc, str(log_file))
+
+                # Start background log capture (non-blocking task)
+                asyncio.create_task(self._capture_background_output(proc, log_file))
+
+                return DagResult(
+                    node_id=node_id,
+                    command=cmd,
+                    stdout=f"[backgrounded] Process {process_id} (PID {proc.pid}) running in background.\n"
+                           f"Use: ps --logs {process_id}  # view output\n"
+                           f"Use: ps --kill {process_id}  # stop process",
+                    stderr="",
+                    status=NodeStatus.SUCCESS,  # Backgrounding is success, not failure
+                    exit_code=0,
+                    duration_ms=duration,
+                    node_type="shell",
+                )
+
         except Exception as e:
             duration = int((datetime.now() - start_time).total_seconds() * 1000)
             return DagResult(
@@ -250,6 +288,36 @@ Uses zsh for shell execution."""
                 duration_ms=duration,
                 node_type="shell",
             )
+
+    async def _capture_background_output(
+        self,
+        proc: asyncio.subprocess.Process,
+        log_file: Path
+    ) -> None:
+        """Capture output from backgrounded process to log file (async)."""
+        try:
+            async with aiofiles.open(log_file, "a") as f:
+                # Read stdout/stderr concurrently
+                async def read_stream(stream, prefix: str):
+                    if stream:
+                        while True:
+                            line = await stream.readline()
+                            if not line:
+                                break
+                            await f.write(f"{prefix}{line.decode('utf-8', errors='replace')}")
+                            await f.flush()
+
+                await asyncio.gather(
+                    read_stream(proc.stdout, ""),
+                    read_stream(proc.stderr, "[stderr] "),
+                )
+
+                # Write completion status
+                await proc.wait()
+                await f.write(f"\n[dag] Process exited with code {proc.returncode}\n")
+        except Exception:
+            # Silently handle errors in background capture
+            pass
 
     async def _run_tool(
         self, 
