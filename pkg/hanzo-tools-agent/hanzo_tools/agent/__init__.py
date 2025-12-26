@@ -1,8 +1,7 @@
 """Agent tools for Hanzo AI.
 
 Provides consolidated agent tools:
-- agent: Unified agent runner (claude, codex, gemini, grok)
-- critic: Critical analysis tool
+- agent: Multi-agent orchestration (run, dag, swarm, consensus, dispatch)
 - iching: I Ching wisdom for decisions
 - review: Code review tool
 
@@ -10,33 +9,34 @@ Install:
     pip install hanzo-tools-agent
 
 Usage:
-    from hanzo_tools.agent import register_tools, TOOLS
+    from hanzo_tools.agent import register_tools, TOOLS, AgentTool
 
     # Register with MCP server
     register_tools(mcp_server)
+
+Consensus: https://github.com/luxfi/consensus
 """
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-# Core consolidated tools
-from .critic_tool import CriticTool  # Legacy - use reasoning.critic instead
+# Core tools
+from .agent_tool import AgentTool
 from .iching_tool import IChingTool
 from .review_tool import ReviewTool
-from .grok_cli_tool import GrokCLITool
 
 # Legacy imports for backwards compatibility
+from .critic_tool import CriticTool  # Legacy - use reasoning.critic instead
 from .cli_agent_base import CLIAgentBase
 from .codex_cli_tool import CodexCLITool
 from .claude_cli_tool import ClaudeCLITool
 from .gemini_cli_tool import GeminiCLITool
-from .unified_agent_tool import UnifiedAgentTool
+from .grok_cli_tool import GrokCLITool
 
-# Export list for tool discovery - consolidated to 3 tools
-# Note: critic is from hanzo-tools-reasoning, not here
+# Export list for tool discovery
 TOOLS = [
-    UnifiedAgentTool,  # Unified agent runner
+    AgentTool,   # Multi-agent orchestration
     IChingTool,  # I Ching wisdom
     ReviewTool,  # Code review
 ]
@@ -45,11 +45,11 @@ __all__ = [
     "register_tools",
     "TOOLS",
     # Primary tools
-    "UnifiedAgentTool",
-    "CriticTool",
+    "AgentTool",
     "IChingTool",
     "ReviewTool",
     # Legacy (for backwards compatibility)
+    "CriticTool",
     "CLIAgentBase",
     "ClaudeCLITool",
     "CodexCLITool",
