@@ -23,7 +23,6 @@ from typing import Any, Dict, List, Optional, Tuple, Set, AsyncIterator
 from pathlib import Path
 from dataclasses import dataclass, field
 from collections import defaultdict
-from functools import lru_cache
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
