@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.10.17"
+version = "0.10.18"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -24,6 +24,15 @@ dependencies = [
     "pydantic-settings>=2.12.0",
     "typing-extensions>=4.13.0",
     "aiofiles>=23.2.1",
+    # Hanzo tool infrastructure
+    "hanzo-tools-core>=0.1.0",
+    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-shell>=0.1.0",
+    "hanzo-tools-browser>=0.1.0",
+    "hanzo-tools-memory>=0.1.0",
+    "hanzo-tools-todo>=0.1.0",
+    "hanzo-tools-reasoning>=0.1.0",
+    "hanzo-persona>=1.0.0",
 ]
 
 # For local development, install hanzo-tools-* packages from pkg/
