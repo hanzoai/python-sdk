@@ -1,0 +1,93 @@
+name: Test Hanzo Tools
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-tools-*/**'
+      - '.github/workflows/test-hanzo-tools.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-tools-*/**'
+      - '.github/workflows/test-hanzo-tools.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ['3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+    
+    - name: Install hanzo-tools packages
+      run: |
+        uv venv
+        source .venv/bin/activate
+        # Install all tool packages
+        uv pip install -e pkg/hanzo-tools-core
+        uv pip install -e pkg/hanzo-tools-filesystem
+        uv pip install -e pkg/hanzo-tools-shell
+        uv pip install -e pkg/hanzo-tools-browser
+        uv pip install -e pkg/hanzo-tools-memory
+        uv pip install -e pkg/hanzo-tools-todo
+        uv pip install -e pkg/hanzo-tools-reasoning
+        uv pip install -e pkg/hanzo-tools-lsp
+        uv pip install -e pkg/hanzo-tools-refactor
+        uv pip install -e pkg/hanzo-tools-database
+        uv pip install -e pkg/hanzo-tools-agent
+        uv pip install -e pkg/hanzo-tools-jupyter
+        uv pip install -e pkg/hanzo-tools-editor
+        uv pip install pytest pytest-asyncio
+    
+    - name: Run tests
+      run: |
+        source .venv/bin/activate
+        python -m pytest pkg/hanzo-tools-core/tests/test_all_tools.py -v --tb=short
+    
+    - name: Verify tool counts
+      run: |
+        source .venv/bin/activate
+        python -c "
+        packages = [
+            ('hanzo_tools.filesystem', 7),
+            ('hanzo_tools.shell', 7),
+            ('hanzo_tools.browser', 1),
+            ('hanzo_tools.memory', 9),
+            ('hanzo_tools.todo', 1),
+            ('hanzo_tools.reasoning', 2),
+            ('hanzo_tools.lsp', 1),
+            ('hanzo_tools.refactor', 1),
+            ('hanzo_tools.database', 8),
+            ('hanzo_tools.agent', 12),
+            ('hanzo_tools.jupyter', 1),
+            ('hanzo_tools.editor', 3),
+        ]
+        
+        total = 0
+        for pkg_name, expected in packages:
+            import importlib
+            pkg = importlib.import_module(pkg_name)
+            tools = getattr(pkg, 'TOOLS', [])
+            actual = len(tools)
+            status = '✓' if actual == expected else '✗'
+            print(f'{status} {pkg_name}: {actual}/{expected} tools')
+            assert actual == expected, f'{pkg_name}: expected {expected}, got {actual}'
+            total += actual
+        
+        print(f'\\nTotal: {total} tools')
+        assert total == 53, f'Expected 53 tools, got {total}'
+        print('✓ All tool packages verified')
+        "
