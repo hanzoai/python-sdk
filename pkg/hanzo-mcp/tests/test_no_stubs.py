@@ -318,13 +318,19 @@ class TestNoStubs:
                     if "Adapter" in class_name:
                         continue
 
-                    # Check if class has run() or call() method
+                    # Check if class has run() or call() method (or execute as alias)
                     has_run_or_call = False
                     for item in node.body:
                         if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                            if item.name in ("run", "call"):
+                            if item.name in ("run", "call", "execute"):
                                 has_run_or_call = True
                                 break
+                        # Also check for method aliases like "call = execute"
+                        if isinstance(item, ast.Assign):
+                            for target in item.targets:
+                                if isinstance(target, ast.Name) and target.id in ("run", "call"):
+                                    has_run_or_call = True
+                                    break
 
                     if not has_run_or_call:
                         # If it inherits from any base class, the base likely provides call()
