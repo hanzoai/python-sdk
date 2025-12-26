@@ -1,4 +1,8 @@
-"""Permission system for the Hanzo AI server."""
+"""Permission system for the Hanzo AI server.
+
+Extends the base PermissionManager from hanzo-tools-core with additional
+security features and MCP-specific functionality.
+"""
 
 import os
 import sys
@@ -9,6 +13,9 @@ from typing import Any, TypeVar, final
 from pathlib import Path
 from collections.abc import Callable, Awaitable
 
+# Import base from hanzo-tools-core
+from hanzo_tools.core.permissions import PermissionManager as BasePermissionManager
+
 logger = logging.getLogger(__name__)
 
 # Define type variables for better type annotations
@@ -17,13 +24,25 @@ P = TypeVar("P")
 
 
 @final
-class PermissionManager:
-    """Manages permissions for file and command operations."""
+class PermissionManager(BasePermissionManager):
+    """Enhanced permission manager for MCP server.
+    
+    Extends the base PermissionManager with:
+    - Additional security patterns for sensitive files
+    - Path traversal protection
+    - Symlink attack protection
+    - JSON serialization for config persistence
+    """
 
     def __init__(self) -> None:
-        """Initialize the permission manager."""
-        # Allowed paths
+        """Initialize the permission manager with secure defaults."""
+        # Initialize with empty allowed paths - we'll add our own
+        super().__init__(allowed_paths=[], deny_patterns=[])
+        
+        # Convert to set for O(1) lookups
         self.allowed_paths: set[Path] = set()
+        self.excluded_paths: set[Path] = set()
+        self.excluded_patterns: list[str] = []
 
         # Allowed paths based on platform
         if sys.platform == "win32":  # Windows
@@ -40,11 +59,7 @@ class PermissionManager:
             if work_dir.exists():
                 self.allowed_paths.add(work_dir.resolve())
 
-        # Excluded paths
-        self.excluded_paths: set[Path] = set()
-        self.excluded_patterns: list[str] = []
-
-        # Default excluded patterns
+        # Add default exclusions
         self._add_default_exclusions()
 
     def _add_default_exclusions(self) -> None:

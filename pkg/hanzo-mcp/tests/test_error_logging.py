@@ -158,7 +158,7 @@ class TestErrorLoggingIntegration:
         """Test that ReadTool logs errors correctly."""
         from mcp.server.fastmcp import Context as MCPContext
         from hanzo_mcp.tools.common import error_logger as el_module
-        from hanzo_mcp.tools.filesystem.read import ReadTool
+        from hanzo_tools.filesystem.read import ReadTool
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Override global logger

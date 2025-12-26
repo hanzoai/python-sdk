@@ -18,7 +18,7 @@ pytestmark = pytest.mark.skipif(not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory
 # Only import these if hanzo_memory is available
 if HANZO_MEMORY_AVAILABLE:
     from test_memory_base import MemoryTestBase
-    from hanzo_mcp.tools.memory import (
+    from hanzo_tools.memory import (
         CreateMemoriesTool,
         DeleteMemoriesTool,
         RecallMemoriesTool,

@@ -160,10 +160,8 @@ except ImportError:
         """Stub - requires hanzo-agents."""
 
 
-from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
-from hanzo_mcp.tools.filesystem import Edit, MultiEdit, get_read_only_filesystem_tools
-from hanzo_mcp.tools.common.batch_tool import BatchTool
-
+from hanzo_tools.jupyter import get_read_only_jupyter_tools
+from hanzo_tools.filesystem import Edit, get_read_only_filesystem_tools
 from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 
 from .agent_tool import MCPAgent
@@ -514,10 +512,6 @@ Models can be specified as:
 
         # Add edit tools
         self.available_tools.append(Edit(self.permission_manager))
-        self.available_tools.append(MultiEdit(self.permission_manager))
-
-        # Add batch tool
-        self.available_tools.append(BatchTool({t.name: t for t in self.available_tools}))
 
     @override
     @auto_timeout("swarm")

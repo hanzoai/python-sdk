@@ -10,7 +10,6 @@ import os
 import json
 import time
 import asyncio
-import subprocess
 import webbrowser
 from typing import Any, Dict, Tuple, Optional
 from pathlib import Path
@@ -41,14 +40,26 @@ class ClaudeDesktopAuth:
         self.CLAUDE_CONFIG_DIR.mkdir(exist_ok=True)
 
     def is_claude_installed(self) -> bool:
-        """Check if Claude Desktop is installed."""
+        """Check if Claude Desktop is installed (sync check for app path)."""
+        if os.path.exists(self.CLAUDE_APP_MAC):
+            return True
+        # For command check, use async version
+        return False
+
+    async def is_claude_installed_async(self) -> bool:
+        """Check if Claude Desktop is installed (async version)."""
         if os.path.exists(self.CLAUDE_APP_MAC):
             return True
 
         # Check if claude command is available
         try:
-            result = subprocess.run(["which", "claude"], capture_output=True, text=True, timeout=5)
-            return result.returncode == 0
+            process = await asyncio.create_subprocess_exec(
+                "which", "claude",
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            await asyncio.wait_for(process.wait(), timeout=5)
+            return process.returncode == 0
         except Exception:
             return False
 
@@ -238,29 +249,28 @@ class ClaudeDesktopAuth:
                 self.CLAUDE_SESSION_FILE.unlink()
 
             # Clear any cached credentials
-            self._clear_credentials_cache()
+            await self._clear_credentials_cache()
 
             return True, f"Successfully logged out {current}"
         except Exception as e:
             return False, f"Logout failed: {str(e)}"
 
-    def _clear_credentials_cache(self):
-        """Clear any cached credentials."""
+    async def _clear_credentials_cache(self):
+        """Clear any cached credentials (async)."""
         # Clear keychain on macOS
         if os.path.exists("/usr/bin/security"):
             try:
-                subprocess.run(
-                    [
-                        "/usr/bin/security",
-                        "delete-generic-password",
-                        "-s",
-                        "claude.ai",
-                        "-a",
-                        "claude-desktop",
-                    ],
-                    capture_output=True,
-                    timeout=10,
+                process = await asyncio.create_subprocess_exec(
+                    "/usr/bin/security",
+                    "delete-generic-password",
+                    "-s",
+                    "claude.ai",
+                    "-a",
+                    "claude-desktop",
+                    stdout=asyncio.subprocess.DEVNULL,
+                    stderr=asyncio.subprocess.DEVNULL,
                 )
+                await asyncio.wait_for(process.wait(), timeout=10)
             except Exception:
                 pass
 

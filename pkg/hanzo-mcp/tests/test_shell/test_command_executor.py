@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
-from hanzo_mcp.tools.shell.command_executor import CommandResult, CommandExecutor
+from hanzo_tools.shell.command_executor import CommandResult, CommandExecutor
 
 
 class TestCommandResult:
@@ -274,5 +274,5 @@ class TestCommandExecutor:
     # async def test_register_tools(self, tool_helper, executor: CommandExecutor) -> None:
     #     """Test registering command execution tools."""
     #     # This test is no longer applicable as tools are registered
-    #     # through the hanzo_mcp.tools.shell.register_shell_tools function
+    #     # through the hanzo_tools.shell.register_shell_tools function
     #     pass

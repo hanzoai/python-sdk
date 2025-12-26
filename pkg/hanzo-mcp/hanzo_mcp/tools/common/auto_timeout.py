@@ -38,7 +38,7 @@ class MCPToolTimeoutManager:
         if process_manager is None:
             # Lazy import to avoid circular imports
             try:
-                from hanzo_mcp.tools.shell.base_process import ProcessManager
+                from hanzo_tools.shell.base_process import ProcessManager
 
                 self.process_manager = ProcessManager()
             except ImportError:

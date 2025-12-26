@@ -38,7 +38,7 @@ from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
 from hanzo_mcp.tools.llm.llm_tool import LLMTool
 from hanzo_mcp.tools.mcp.mcp_stats import McpStatsTool
-from hanzo_mcp.tools.shell.bash_tool import BashTool
+from hanzo_tools.shell.bash_tool import BashTool
 
 
 def _mock_acompletion_factory(responses: Dict[str, str]):

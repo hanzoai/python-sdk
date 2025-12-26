@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.filesystem.search_tool import SearchTool, SearchType, SearchResult
+from hanzo_tools.filesystem.search_tool import SearchTool, SearchType, SearchResult
 
 from tests.test_utils import create_permission_manager
 

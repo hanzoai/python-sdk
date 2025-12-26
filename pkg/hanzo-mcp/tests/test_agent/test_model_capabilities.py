@@ -1,6 +1,6 @@
 """Tests for model capability checking functions."""
 
-from hanzo_mcp.tools.agent.tool_adapter import (
+from hanzo_tools.agent.tool_adapter import (
     supports_parallel_function_calling,
 )
 

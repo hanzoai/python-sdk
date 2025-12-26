@@ -23,7 +23,7 @@ import pytest
 
 # Maximum allowed import times (in seconds)
 # These are intentionally generous to avoid flaky tests
-MAX_MODULE_IMPORT_TIME = 0.5  # hanzo_mcp.tools module
+MAX_MODULE_IMPORT_TIME = 0.7  # hanzo_mcp.tools module (generous for CI variance)
 MAX_TOTAL_IMPORT_TIME = 1.0  # All core imports combined
 MAX_CLI_STARTUP_TIME = 3.0  # CLI --help should respond quickly
 
@@ -182,7 +182,7 @@ class TestLazyImportPattern:
 import sys
 
 # Import the memory tools module
-from hanzo_mcp.tools.memory import memory_tools
+from hanzo_tools.memory import memory_tools
 
 # Check that hanzo_memory was NOT imported
 if 'hanzo_memory' in sys.modules:

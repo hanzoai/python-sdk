@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from hanzo_mcp.tools.common.base import BaseTool
-from hanzo_mcp.tools.agent.prompt import (
+from hanzo_tools.agent.prompt import (
     get_default_model,
     get_system_prompt,
     get_model_parameters,

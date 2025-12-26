@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.lsp import create_lsp_tool
+from hanzo_tools.lsp import create_lsp_tool
 
 
 @pytest.mark.asyncio

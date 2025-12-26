@@ -40,7 +40,7 @@ def test_agent_tool_no_warnings():
 
         # Import agent tools (which imports litellm)
         # This import happens in the test process directly
-        from hanzo_mcp.tools.agent import register_agent_tools  # noqa: F401
+        from hanzo_tools.agent import register_agent_tools  # noqa: F401
 
         # Check specifically for Pydantic deprecation warnings
         # Other packages may produce warnings that we don't control

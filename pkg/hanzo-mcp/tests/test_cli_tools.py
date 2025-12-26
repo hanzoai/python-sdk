@@ -8,7 +8,7 @@ from typing import Any, Dict
 from unittest.mock import Mock, AsyncMock, MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.agent.cli_tools import (
+from hanzo_tools.agent.cli_tools import (
     GrokCLITool,
     AiderCLITool,
     ClineCLITool,

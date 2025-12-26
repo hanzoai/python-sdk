@@ -12,7 +12,7 @@ import asyncio
 from typing import Any, Dict, List
 
 # This example shows the pattern - in real usage you'd import the actual tools
-# from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+# from hanzo_tools.agent.swarm_tool import SwarmTool
 # from hanzo_mcp.tools.common.batch_tool import BatchTool
 
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.10.9"
+version = "0.10.16"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,26 +17,18 @@ classifiers = [
 ]
 keywords = ["mcp", "claude", "hanzo", "code", "agent"]
 dependencies = [
-    "aiofiles>=24.1.0",
+    # Core MCP dependencies
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
-    "httpx>=0.28.1",
-    "uvicorn>=0.34.0",
-    "openai>=1.82.0",
-    "python-dotenv>=1.0.1",
-    "litellm>=1.80.11",
-    "grep-ast>=0.8.1",
-    "bashlex>=0.18",
-    "libtmux>=0.39.0",
-    "nbformat>=5.10.4",
-    "psutil>=6.0.0",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "typing-extensions>=4.13.0",
-    "watchdog>=6.0.0",
-    "keyring>=24.0.0",
-    "ffind>=1.3.0",
+    "aiofiles>=23.2.1",
 ]
+
+# For local development, install hanzo-tools-* packages from pkg/
+# pip install -e ../hanzo-tools-core ../hanzo-tools-filesystem etc.
+# Or when published, add them back as dependencies
 
 [project.urls]
 "Homepage" = "https://github.com/hanzoai/mcp"
@@ -44,33 +36,32 @@ dependencies = [
 "Documentation" = "https://mcp.hanzo.ai"
 
 [project.optional-dependencies]
+# NOTE: hanzo-tools-* packages are installed separately from pkg/
+# Use: pip install -e ../hanzo-tools-core -e ../hanzo-tools-filesystem etc.
+# When published to PyPI, these extras will work:
+# filesystem = ["hanzo-tools-filesystem>=0.1.0"]
+# shell = ["hanzo-tools-shell>=0.1.0"]
+# etc.
+
+# Development
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.1.0",
     "ruff>=0.14.0",
     "black>=23.3.0",
-    "sphinx>=8.0.0",
-    "sphinx-rtd-theme>=3.0.0",
-    "myst-parser>=4.0.0",
-    "sphinx-copybutton>=0.5.0",
     "mypy>=1.10.0",
     "types-aiofiles>=23.2.0",
     "types-psutil>=5.9.5",
     "types-setuptools>=69.5.0",
 ]
 docs = ["sphinx>=8.0.0", "sphinx-rtd-theme>=3.0.0", "myst-parser>=4.0.0", "sphinx-copybutton>=0.5.0"]
-analytics = ["posthog>=3.0.0"]
 test = [
-  "pytest>=7.0.0",
-  "pytest-cov>=4.1.0",
-  "pytest-mock>=3.10.0",
-  "pytest-asyncio>=0.26.0",
-  "twisted",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.10.0",
+    "pytest-asyncio>=0.26.0",
 ]
-agents = ["hanzo-agents>=0.1.0"]
-memory = ["hanzo-memory>=1.0.0"]
 performance = ["ujson>=5.7.0", "orjson>=3.9.0", "uvloop>=0.21.0; sys_platform != 'win32'"]
-browser = ["playwright>=1.49.0"]
 publish = ["twine>=4.0.2", "build>=1.0.3"]
 
 [project.scripts]
@@ -90,7 +81,7 @@ include = ["hanzo_mcp"]
 
 [tool.pytest.ini_options]
 # Configuration for pytest
-addopts = "--no-header --no-summary -p asyncio"
+addopts = "--no-header --no-summary"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 # Note: --cov-fail-under=96.3 will be added after achieving target coverage
@@ -105,6 +96,10 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+
+[tool.pytest_asyncio]
+mode = "auto"
+default_loop_scope = "function"
 
 [tool.mypy]
 python_version = "3.12"
@@ -137,6 +132,7 @@ module = [
     "mcp.*",
     "hanzo_agents.*",
     "hanzo_memory.*",
+    "personalities.*",
 ]
 ignore_missing_imports = true
 

@@ -4,7 +4,7 @@ import json
 
 import pytest
 from mcp.server.fastmcp import Context as MCPContext
-from hanzo_mcp.tools.jupyter.jupyter import JupyterTool
+from hanzo_tools.jupyter.jupyter import JupyterTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

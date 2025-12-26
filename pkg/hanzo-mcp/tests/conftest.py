@@ -11,7 +11,7 @@ import tempfile
 import pytest
 
 # Register pytest-asyncio plugin explicitly
-pytest_plugins = ["pytest_asyncio"]
+pytest_plugins = ["pytest_asyncio.plugin"]
 
 # Add tests directory to path so we can import test_utils
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -199,7 +199,7 @@ def js_project_dir(temp_dir, fs_helper, test_data):
 @pytest.fixture
 def command_executor(permission_manager):
     """Create a command executor for testing."""
-    from hanzo_mcp.tools.shell.bash_session_executor import BashSessionExecutor
+    from hanzo_tools.shell.bash_session_executor import BashSessionExecutor
 
     return BashSessionExecutor(permission_manager=permission_manager)
 
@@ -215,7 +215,7 @@ def tool_context(mcp_context):
 @pytest.fixture
 def db_manager(permission_manager):
     """Create a database manager for testing."""
-    from hanzo_mcp.tools.database.database_manager import DatabaseManager
+    from hanzo_tools.database.database_manager import DatabaseManager
 
     return DatabaseManager(permission_manager)
 
@@ -236,7 +236,7 @@ def mock_litellm():
     """Create a mock litellm module."""
     from test_utils import MockServiceHelper
 
-    with pytest.mock.patch("hanzo_mcp.tools.agent.agent_tool.litellm") as mock:
+    with pytest.mock.patch("hanzo_tools.agent.agent_tool.litellm") as mock:
         mock.completion = MockServiceHelper.mock_litellm_completion()
         yield mock
 
