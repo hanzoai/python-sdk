@@ -1,9 +1,9 @@
 """Zsh shell tool for command execution with enhanced features."""
 
 import os
+import json
 import shutil
 import platform
-import json
 from typing import Optional, override
 from pathlib import Path
 
