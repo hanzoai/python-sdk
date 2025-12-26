@@ -154,6 +154,7 @@ class FileSystemTool(BaseTool, ABC):
         """
         if permission_manager is None:
             from hanzo_tools.core.permissions import PermissionManager
+
             permission_manager = PermissionManager()
         self.permission_manager = permission_manager
 

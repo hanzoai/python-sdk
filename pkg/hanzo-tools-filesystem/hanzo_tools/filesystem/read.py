@@ -1,6 +1,6 @@
 """Read tool - read file contents."""
 
-from typing import Optional,  Any, Annotated
+from typing import Any, Optional, Annotated
 from pathlib import Path
 
 from pydantic import Field

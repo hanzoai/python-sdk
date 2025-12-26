@@ -1,6 +1,6 @@
 """Write tool - write/create files."""
 
-from typing import Optional,  Annotated
+from typing import Optional, Annotated
 from pathlib import Path
 
 from pydantic import Field
