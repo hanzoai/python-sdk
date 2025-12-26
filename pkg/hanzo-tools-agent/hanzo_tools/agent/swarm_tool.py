@@ -37,35 +37,44 @@ try:
 
     HANZO_AGENTS_AVAILABLE = True
 except ImportError:
-    # Define minimal stubs if hanzo-agents is not available
+    # hanzo-agents not available - provide stub classes that raise on use
     HANZO_AGENTS_AVAILABLE = False
 
-    class Agent:
-        pass
+    class _StubMeta(type):
+        """Metaclass that raises ImportError when stub class is instantiated."""
 
-    class State:
-        pass
+        def __call__(cls, *args, **kwargs):
+            raise ImportError(
+                f"{cls.__name__} requires hanzo-agents package. "
+                "Install with: pip install hanzo-agents"
+            )
 
-    class Network:
-        pass
+    class Agent(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class Tool:
-        pass
+    class State(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class History:
-        pass
+    class Network(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class ModelRegistry:
-        pass
+    class Tool(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class InferenceResult:
-        pass
+    class History(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class ToolCall:
-        pass
+    class ModelRegistry(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class Router:
-        pass
+    class InferenceResult(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
+
+    class ToolCall(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
+
+    class Router(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
 
 # Import optional components with fallbacks
@@ -80,52 +89,53 @@ except ImportError:
             DeterministicRouter,
         )
     except ImportError:
-        # Define stubs if not available
-        class DeterministicRouter:
-            pass
+        # Stubs that raise on use
+        class DeterministicRouter(metaclass=_StubMeta):
+            """Stub - requires hanzo-agents."""
 
-        class LLMRouter:
-            pass
+        class LLMRouter(metaclass=_StubMeta):
+            """Stub - requires hanzo-agents."""
 
-        class HybridRouter:
-            pass
+        class HybridRouter(metaclass=_StubMeta):
+            """Stub - requires hanzo-agents."""
+
+
+def _stub_factory(name: str):
+    """Create a stub function that raises ImportError."""
+
+    def stub(*args, **kwargs):
+        raise ImportError(
+            f"{name} requires hanzo-agents package. "
+            "Install with: pip install hanzo-agents"
+        )
+
+    stub.__name__ = name
+    return stub
 
 
 try:
     from hanzo_agents import create_memory_kv, create_memory_vector
 except ImportError:
     try:
-        # Try core module import
         from hanzo_agents.core.memory import create_memory_kv, create_memory_vector
     except ImportError:
-        # Define stubs if not available
-        def create_memory_kv(*args, **kwargs):
-            pass
-
-        def create_memory_vector(*args, **kwargs):
-            pass
+        create_memory_kv = _stub_factory("create_memory_kv")
+        create_memory_vector = _stub_factory("create_memory_vector")
 
 
 try:
     from hanzo_agents import sequential_router, conditional_router, state_based_router
 except ImportError:
     try:
-        # Try core module import
         from hanzo_agents.core.router import (
             sequential_router,
             conditional_router,
             state_based_router,
         )
     except ImportError:
-        # Define stubs if not available
-        def sequential_router(*args, **kwargs):
-            pass
-
-        def conditional_router(*args, **kwargs):
-            pass
-
-        def state_based_router(*args, **kwargs):
-            pass
+        sequential_router = _stub_factory("sequential_router")
+        conditional_router = _stub_factory("conditional_router")
+        state_based_router = _stub_factory("state_based_router")
 
 
 try:
@@ -136,18 +146,18 @@ try:
         OpenAICodexAgent,
     )
 except ImportError:
-    # Define stub classes if not available
-    class ClaudeCodeAgent(Agent):
-        pass
+    # Stubs that raise on use
+    class ClaudeCodeAgent(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class OpenAICodexAgent(Agent):
-        pass
+    class OpenAICodexAgent(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class GeminiAgent(Agent):
-        pass
+    class GeminiAgent(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
-    class GrokAgent(Agent):
-        pass
+    class GrokAgent(metaclass=_StubMeta):
+        """Stub - requires hanzo-agents."""
 
 
 from hanzo_mcp.tools.jupyter import get_read_only_jupyter_tools
