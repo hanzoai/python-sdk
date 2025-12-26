@@ -9,7 +9,7 @@ from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, create_tool_context, auto_timeout
+from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 
 Analysis = Annotated[
     str,

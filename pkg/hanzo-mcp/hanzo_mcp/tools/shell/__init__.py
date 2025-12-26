@@ -14,18 +14,17 @@ Convenience tools (optional):
 
 from mcp.server import FastMCP
 
+# Convenience tools
+from hanzo_mcp.tools.shell.open import open_tool
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
-from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_mcp.tools.shell.ps_tool import PsTool, ps_tool
 
 # Core tools
 from hanzo_mcp.tools.shell.dag_tool import DagTool, create_dag_tool
-from hanzo_mcp.tools.shell.ps_tool import PsTool, ps_tool
-from hanzo_mcp.tools.shell.zsh_tool import ZshTool, zsh_tool
-
-# Convenience tools
-from hanzo_mcp.tools.shell.open import open_tool
 from hanzo_mcp.tools.shell.npx_tool import npx_tool
 from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
+from hanzo_mcp.tools.shell.zsh_tool import ZshTool, zsh_tool
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 __all__ = [
     "DagTool",

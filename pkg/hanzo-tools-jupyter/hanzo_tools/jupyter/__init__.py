@@ -14,6 +14,7 @@ Usage:
 """
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
+
 from .jupyter import JupyterTool
 
 # Export list for tool discovery

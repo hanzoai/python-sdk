@@ -16,10 +16,10 @@ import shutil
 import asyncio
 import tempfile
 from typing import final
+from collections.abc import Callable, Awaitable
 
 import aiofiles
 import aiofiles.os
-from collections.abc import Callable, Awaitable
 
 from hanzo_mcp.tools.shell.base import CommandResult
 from hanzo_mcp.tools.common.permissions import PermissionManager

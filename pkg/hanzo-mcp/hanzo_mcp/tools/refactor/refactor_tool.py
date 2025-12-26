@@ -14,15 +14,15 @@ PERFORMANCE FEATURES:
 import os
 import re
 import json
+import shutil
 import asyncio
 import logging
-import shutil
 import subprocess
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-from typing import Any, Dict, List, Optional, Tuple, Set, AsyncIterator
+from typing import Any, Set, Dict, List, Tuple, Optional, AsyncIterator
 from pathlib import Path
-from dataclasses import dataclass, field
 from collections import defaultdict
+from dataclasses import field, dataclass
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 from hanzo_mcp.types import MCPResourceDocument
 from hanzo_mcp.tools.common.base import BaseTool
@@ -30,11 +30,11 @@ from hanzo_mcp.tools.common.base import BaseTool
 # Try importing tree-sitter for AST analysis
 try:
     import tree_sitter
+    import tree_sitter_go
+    import tree_sitter_rust
     import tree_sitter_python
     import tree_sitter_javascript
     import tree_sitter_typescript
-    import tree_sitter_go
-    import tree_sitter_rust
 
     TREESITTER_AVAILABLE = True
 except ImportError:
@@ -1954,7 +1954,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             "try", "except", "finally", "with", "as", "is", "lambda", "yield",
             "break", "continue", "pass", "raise", "global", "nonlocal", "assert", "del",
             "function", "const", "let", "var", "new", "this", "super", "extends",
-            "func", "type", "struct", "interface", "package", "fn", "let", "mut", "pub",
+            "func", "type", "struct", "interface", "package", "fn", "mut", "pub",
         }
         return identifiers - keywords
 

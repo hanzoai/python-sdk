@@ -23,17 +23,17 @@ Usage:
     register_tools(mcp_server, permission_manager)
 """
 
-from hanzo_tools.core import BaseTool, PermissionManager, ToolRegistry
+from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 
-from .database_manager import DatabaseManager
+from .graph_add import GraphAddTool
 from .sql_query import SqlQueryTool
 from .sql_stats import SqlStatsTool
 from .sql_search import SqlSearchTool
-from .graph_add import GraphAddTool
 from .graph_query import GraphQueryTool
 from .graph_stats import GraphStatsTool
 from .graph_remove import GraphRemoveTool
 from .graph_search import GraphSearchTool
+from .database_manager import DatabaseManager
 
 # Export list for tool discovery
 TOOLS = [

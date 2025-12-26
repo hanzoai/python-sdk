@@ -7,7 +7,7 @@ Allows the AI to:
 - Hot-reload without restart
 """
 
-from typing import Annotated, Any, Literal, TypedDict, Unpack, final, override
+from typing import Any, Unpack, Literal, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
@@ -15,7 +15,6 @@ from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
-
 
 Action = Annotated[
     Literal[

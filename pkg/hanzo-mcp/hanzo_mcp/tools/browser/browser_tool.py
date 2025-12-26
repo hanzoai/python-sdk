@@ -7,18 +7,18 @@ Design goals:
 - Cross-MCP sharing: Connect to existing browser via CDP endpoint
 """
 
-import asyncio
-import base64
 import os
-from typing import Annotated, Any, Literal, Optional, ClassVar
-from pathlib import Path
+import base64
+import asyncio
 import logging
+from typing import Any, Literal, ClassVar, Optional, Annotated
+from pathlib import Path
 
 from pydantic import Field
 
 # Playwright import with graceful fallback
 try:
-    from playwright.async_api import async_playwright, Browser, Page, BrowserContext, Playwright
+    from playwright.async_api import Page, Browser, Playwright, BrowserContext, async_playwright
     PLAYWRIGHT_AVAILABLE = True
 except ImportError:
     PLAYWRIGHT_AVAILABLE = False

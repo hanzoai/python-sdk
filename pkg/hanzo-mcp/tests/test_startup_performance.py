@@ -14,13 +14,12 @@ Common culprits for slow imports:
 - hanzo_memory embedding services (3+ seconds)
 """
 
-import subprocess
 import sys
 import time
+import subprocess
 from pathlib import Path
 
 import pytest
-
 
 # Maximum allowed import times (in seconds)
 # These are intentionally generous to avoid flaky tests

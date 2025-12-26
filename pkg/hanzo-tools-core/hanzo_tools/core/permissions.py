@@ -1,8 +1,8 @@
 """Permission management for filesystem tools."""
 
 import os
-from pathlib import Path
 from typing import Optional
+from pathlib import Path
 
 
 class PermissionManager:

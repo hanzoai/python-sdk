@@ -8,7 +8,6 @@ This package provides tools for structured reasoning:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-
 from hanzo_tools.reasoning.think_tool import ThinkTool
 from hanzo_tools.reasoning.critic_tool import CriticTool
 

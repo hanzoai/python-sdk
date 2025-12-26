@@ -70,7 +70,7 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
 
 def test_litellm_openai_provider_mocked():
     """Test LiteLLM with OpenAI provider using mocks."""
-    from unittest.mock import patch, MagicMock
+    from unittest.mock import MagicMock, patch
 
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 
@@ -99,7 +99,7 @@ def test_litellm_openai_provider_mocked():
 
 def test_litellm_anthropic_provider_mocked():
     """Test LiteLLM with Anthropic provider using mocks."""
-    from unittest.mock import patch, MagicMock
+    from unittest.mock import MagicMock, patch
 
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 

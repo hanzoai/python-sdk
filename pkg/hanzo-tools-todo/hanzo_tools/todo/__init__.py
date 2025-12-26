@@ -7,7 +7,6 @@ This package provides task management tools:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-
 from hanzo_tools.todo.base import TodoStorage, TodoBaseTool
 from hanzo_tools.todo.todo_tool import TodoTool
 

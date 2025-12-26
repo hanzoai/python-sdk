@@ -4,8 +4,8 @@ This module provides utilities for configuring the asyncio event loop
 with optional uvloop support for improved performance on Linux/macOS.
 """
 
-import asyncio
 import sys
+import asyncio
 from typing import Optional
 
 

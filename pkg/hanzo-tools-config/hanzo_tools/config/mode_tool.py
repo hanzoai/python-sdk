@@ -4,10 +4,9 @@ from typing import Optional, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
-
-from hanzo_tools.core import BaseTool
 from hanzo_mcp.tools.common.mode import ModeRegistry, register_default_modes
-from hanzo_tools.core import auto_timeout
+
+from hanzo_tools.core import BaseTool, auto_timeout
 
 
 class ModeTool(BaseTool):

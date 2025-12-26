@@ -19,7 +19,7 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import auto_timeout
-from hanzo_tools.todo.base import TodoBaseTool, TodoStorage
+from hanzo_tools.todo.base import TodoStorage, TodoBaseTool
 
 # Default session ID for the unified todo tool
 DEFAULT_SESSION_ID = "default-session"
