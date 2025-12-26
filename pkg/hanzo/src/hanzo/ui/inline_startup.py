@@ -33,9 +33,7 @@ class InlineStartup:
         # Check last shown time
         if self.last_shown_file.exists():
             try:
-                last_shown = datetime.fromisoformat(
-                    self.last_shown_file.read_text().strip()
-                )
+                last_shown = datetime.fromisoformat(self.last_shown_file.read_text().strip())
                 if datetime.now() - last_shown < self.show_interval:
                     return False
             except Exception:
@@ -65,9 +63,7 @@ class InlineStartup:
         message.append("Router management, improved docs", style="yellow dim")
 
         # Show panel
-        console.print(
-            Panel(message, box=box.MINIMAL, border_style="cyan", padding=(0, 1))
-        )
+        console.print(Panel(message, box=box.MINIMAL, border_style="cyan", padding=(0, 1)))
 
         self.mark_shown()
 

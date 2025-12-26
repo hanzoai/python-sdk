@@ -23,8 +23,7 @@ async def test_integration():
 
     console.print(
         Panel.fit(
-            "[bold]🧪 Hanzo Dev Integration Test Suite v0.3.21[/bold]\n"
-            "Testing all major features end-to-end",
+            "[bold]🧪 Hanzo Dev Integration Test Suite v0.3.21[/bold]\nTesting all major features end-to-end",
             border_style="bold cyan",
         )
     )
@@ -212,18 +211,14 @@ async def test_integration():
             warned += 1
 
     console.print("\n" + "=" * 60)
-    console.print(
-        f"[bold]Total:[/bold] {passed} passed, {failed} failed, {warned} warnings"
-    )
+    console.print(f"[bold]Total:[/bold] {passed} passed, {failed} failed, {warned} warnings")
 
     if failed == 0:
         console.print("\n[bold green]🎉 All critical tests passed![/bold green]")
         console.print("\nHanzo Dev v0.3.21 is fully operational!")
         return True
     else:
-        console.print(
-            "\n[bold red]Some tests failed. Please check the errors above.[/bold red]"
-        )
+        console.print("\n[bold red]Some tests failed. Please check the errors above.[/bold red]")
         return False
 
 

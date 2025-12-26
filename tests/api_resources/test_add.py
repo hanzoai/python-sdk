@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestAdd:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_add_allowed_ip(self, client: Hanzo) -> None:
@@ -51,9 +49,7 @@ class TestAdd:
 
 
 class TestAsyncAdd:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_add_allowed_ip(self, async_client: AsyncHanzo) -> None:
@@ -74,9 +70,7 @@ class TestAsyncAdd:
         assert_matches_type(object, add, path=["response"])
 
     @parametrize
-    async def test_streaming_response_add_allowed_ip(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_add_allowed_ip(self, async_client: AsyncHanzo) -> None:
         async with async_client.add.with_streaming_response.add_allowed_ip(
             ip="ip",
         ) as response:

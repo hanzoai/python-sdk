@@ -14,9 +14,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestBatches:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
@@ -334,9 +332,7 @@ class TestBatches:
 
 
 class TestAsyncBatches:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
@@ -344,9 +340,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.create(
             provider="provider",
         )
@@ -380,9 +374,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.retrieve(
             batch_id="batch_id",
             provider="provider",
@@ -466,9 +458,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_raw_response_cancel_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.cancel_with_provider(
             batch_id="batch_id",
             provider="provider",
@@ -480,9 +470,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_streaming_response_cancel_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.cancel_with_provider(
             batch_id="batch_id",
             provider="provider",
@@ -496,9 +484,7 @@ class TestAsyncBatches:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_cancel_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_path_params_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(
             ValueError,
             match=r"Expected a non-empty value for `provider` but received ''",
@@ -525,9 +511,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_raw_response_create_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_create_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.create_with_provider(
             "provider",
         )
@@ -538,9 +522,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_create_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.create_with_provider(
             "provider",
         ) as response:
@@ -553,9 +535,7 @@ class TestAsyncBatches:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_create_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_path_params_create_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(
             ValueError,
             match=r"Expected a non-empty value for `provider` but received ''",
@@ -572,9 +552,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_method_list_with_provider_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_list_with_provider_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.list_with_provider(
             provider="provider",
             after="after",
@@ -583,9 +561,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_raw_response_list_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_list_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.list_with_provider(
             provider="provider",
         )
@@ -596,9 +572,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_list_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.list_with_provider(
             provider="provider",
         ) as response:
@@ -611,9 +585,7 @@ class TestAsyncBatches:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_list_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_path_params_list_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(
             ValueError,
             match=r"Expected a non-empty value for `provider` but received ''",
@@ -623,9 +595,7 @@ class TestAsyncBatches:
             )
 
     @parametrize
-    async def test_method_retrieve_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.retrieve_with_provider(
             batch_id="batch_id",
             provider="provider",
@@ -633,9 +603,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.retrieve_with_provider(
             batch_id="batch_id",
             provider="provider",
@@ -647,9 +615,7 @@ class TestAsyncBatches:
         assert_matches_type(object, batch, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.retrieve_with_provider(
             batch_id="batch_id",
             provider="provider",
@@ -663,9 +629,7 @@ class TestAsyncBatches:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve_with_provider(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_path_params_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(
             ValueError,
             match=r"Expected a non-empty value for `provider` but received ''",

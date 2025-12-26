@@ -21,9 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestKey:
-    parametrize = pytest.mark.parametrize(
-        "client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
@@ -437,9 +435,7 @@ class TestKey:
 
 
 class TestAsyncKey:
-    parametrize = pytest.mark.parametrize(
-        "async_client", [False, True], indirect=True, ids=["loose", "strict"]
-    )
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
@@ -449,9 +445,7 @@ class TestAsyncKey:
         assert_matches_type(object, key, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.update(
             key="key",
             aliases={},
@@ -553,9 +547,7 @@ class TestAsyncKey:
         assert_matches_type(object, key, path=["response"])
 
     @parametrize
-    async def test_method_delete_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.delete(
             key_aliases=["string"],
             keys=["string"],
@@ -637,9 +629,7 @@ class TestAsyncKey:
         assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
 
     @parametrize
-    async def test_streaming_response_check_health(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_check_health(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.check_health() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -655,9 +645,7 @@ class TestAsyncKey:
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
     @parametrize
-    async def test_method_generate_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_generate_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.generate(
             aliases={},
             allowed_cache_controls=[{}],
@@ -718,9 +706,7 @@ class TestAsyncKey:
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
     @parametrize
-    async def test_method_regenerate_by_key_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_regenerate_by_key_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.regenerate_by_key(
             path_key="key",
             aliases={},
@@ -756,9 +742,7 @@ class TestAsyncKey:
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
     @parametrize
-    async def test_raw_response_regenerate_by_key(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_raw_response_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         response = await async_client.key.with_raw_response.regenerate_by_key(
             path_key="key",
         )
@@ -769,9 +753,7 @@ class TestAsyncKey:
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
     @parametrize
-    async def test_streaming_response_regenerate_by_key(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.regenerate_by_key(
             path_key="key",
         ) as response:
@@ -784,9 +766,7 @@ class TestAsyncKey:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_regenerate_by_key(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_path_params_regenerate_by_key(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(
             ValueError,
             match=r"Expected a non-empty value for `path_key` but received ''",
@@ -802,9 +782,7 @@ class TestAsyncKey:
         assert_matches_type(object, key, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_info_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_retrieve_info_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.retrieve_info(
             key="key",
         )
@@ -820,9 +798,7 @@ class TestAsyncKey:
         assert_matches_type(object, key, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve_info(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -840,9 +816,7 @@ class TestAsyncKey:
         assert_matches_type(object, key, path=["response"])
 
     @parametrize
-    async def test_method_unblock_with_all_params(
-        self, async_client: AsyncHanzo
-    ) -> None:
+    async def test_method_unblock_with_all_params(self, async_client: AsyncHanzo) -> None:
         key = await async_client.key.unblock(
             key="key",
             hanzo_changed_by="hanzo-changed-by",

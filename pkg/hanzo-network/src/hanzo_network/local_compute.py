@@ -115,9 +115,7 @@ class LocalComputeNode:
             models: List of available models
         """
         self.node_id = node_id
-        self.wallet_address = (
-            wallet_address or f"0x{hashlib.sha256(node_id.encode()).hexdigest()[:40]}"
-        )
+        self.wallet_address = wallet_address or f"0x{hashlib.sha256(node_id.encode()).hexdigest()[:40]}"
         self.models: Dict[str, ModelConfig] = {}
         self.loaded_models: Dict[str, Any] = {}
 
@@ -254,9 +252,7 @@ class LocalComputeNode:
                 tokenizer = AutoTokenizer.from_pretrained(config.model_path)
                 model = AutoModelForCausalLM.from_pretrained(
                     config.model_path,
-                    torch_dtype=(
-                        torch.float16 if config.device != "cpu" else torch.float32
-                    ),
+                    torch_dtype=(torch.float16 if config.device != "cpu" else torch.float32),
                     device_map="auto" if config.device == "cuda" else None,
                 )
 
@@ -332,9 +328,7 @@ class LocalComputeNode:
 
             # Calculate cost
             tokens_generated = len(result_text.split())  # Approximate
-            cost = (tokens_generated / 1000) * self.models[
-                selected_model
-            ].price_per_1k_tokens
+            cost = (tokens_generated / 1000) * self.models[selected_model].price_per_1k_tokens
 
             # Update statistics
             self.total_requests += 1
@@ -411,9 +405,7 @@ class LocalComputeNode:
 
         return response
 
-    def _create_attestation(
-        self, request: InferenceRequest, result: InferenceResult
-    ) -> Dict[str, Any]:
+    def _create_attestation(self, request: InferenceRequest, result: InferenceResult) -> Dict[str, Any]:
         """Create attestation for inference result."""
         # In production, this would use TEE attestation
         attestation_data = {
@@ -484,13 +476,8 @@ class LocalComputeOrchestrator:
         for node in self.nodes.values():
             for model in node.list_models():
                 if model["available"]:
-                    estimated_cost = (request.max_tokens / 1000) * model[
-                        "price_per_1k_tokens"
-                    ]
-                    if (
-                        estimated_cost <= request.max_price_eth
-                        and estimated_cost < best_price
-                    ):
+                    estimated_cost = (request.max_tokens / 1000) * model["price_per_1k_tokens"]
+                    if estimated_cost <= request.max_price_eth and estimated_cost < best_price:
                         best_node = node
                         best_price = estimated_cost
 
@@ -522,9 +509,7 @@ class LocalComputeOrchestrator:
             "completed_requests": len(self.completed_requests),
             "total_requests_processed": total_requests,
             "total_earnings_eth": total_earnings,
-            "nodes_detail": {
-                node_id: node.get_stats() for node_id, node in self.nodes.items()
-            },
+            "nodes_detail": {node_id: node.get_stats() for node_id, node in self.nodes.items()},
         }
 
 
@@ -536,9 +521,7 @@ orchestrator = LocalComputeOrchestrator()
 async def demo_local_compute():
     """Demonstrate local compute capabilities."""
     # Create a compute node
-    node1 = LocalComputeNode(
-        node_id="node_001", wallet_address="0x1234567890123456789012345678901234567890"
-    )
+    node1 = LocalComputeNode(node_id="node_001", wallet_address="0x1234567890123456789012345678901234567890")
 
     # Register with orchestrator
     orchestrator.register_node(node1)
@@ -546,9 +529,7 @@ async def demo_local_compute():
     # List available models
     print("\nAvailable models:")
     for model in node1.list_models():
-        print(
-            f"  - {model['name']}: {model['device']}, ${model['price_per_1k_tokens']}/1k tokens"
-        )
+        print(f"  - {model['name']}: {model['device']}, ${model['price_per_1k_tokens']}/1k tokens")
 
     # Create inference request
     request = InferenceRequest(

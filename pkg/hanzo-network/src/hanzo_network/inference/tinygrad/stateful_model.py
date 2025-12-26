@@ -18,9 +18,7 @@ def create_kv_cache(x: Tensor, layer):
     )
     if isinstance(x.device, tuple):
         # TODO: instead of specifying how to shard, it can follow how xk and xv are being sharded
-        cache_kv.shard_(
-            (x.device), axis=3 if getenv("SHARD_KVCACHE") else None
-        ).realize()
+        cache_kv.shard_((x.device), axis=3 if getenv("SHARD_KVCACHE") else None).realize()
     return cache_kv.realize()
 
 

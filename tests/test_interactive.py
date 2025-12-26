@@ -59,8 +59,7 @@ async def test_full_chat_flow():
     console.print()
     console.print(
         Panel(
-            "[bold cyan]Hanzo Dev - AI Chat[/bold cyan]\n"
-            "[dim]Test Mode - Validating Everything Works[/dim]",
+            "[bold cyan]Hanzo Dev - AI Chat[/bold cyan]\n[dim]Test Mode - Validating Everything Works[/dim]",
             box=ROUNDED,
             style="dim white",
             padding=(0, 1),
@@ -71,9 +70,7 @@ async def test_full_chat_flow():
     # Input box
     console.print()
     console.print("[dim white]╭" + "─" * 78 + "╮[/dim white]")
-    console.print(
-        "[dim white]│[/dim white] › Test message: Hello AI, respond with 'SUCCESS' if you can hear me"
-    )
+    console.print("[dim white]│[/dim white] › Test message: Hello AI, respond with 'SUCCESS' if you can hear me")
     console.print("[dim white]╰" + "─" * 78 + "╯[/dim white]")
     print("   ✓ Input box renders")
 

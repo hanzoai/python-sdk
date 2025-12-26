@@ -72,12 +72,8 @@ class TestManualDiscoveryWithGRPCPeerHandle(unittest.IsolatedAsyncioTestCase):
 
         self.node1 = mock.AsyncMock(spec=Node)
         self.node2 = mock.AsyncMock(spec=Node)
-        self.server1 = GRPCServer(
-            self.node1, config.peers["node1"].address, config.peers["node1"].port
-        )
-        self.server2 = GRPCServer(
-            self.node2, config.peers["node2"].address, config.peers["node2"].port
-        )
+        self.server1 = GRPCServer(self.node1, config.peers["node1"].address, config.peers["node1"].port)
+        self.server2 = GRPCServer(self.node2, config.peers["node2"].address, config.peers["node2"].port)
         await self.server1.start()
         await self.server2.start()
         self.discovery1 = ManualDiscovery(

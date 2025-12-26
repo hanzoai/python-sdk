@@ -24,9 +24,7 @@ async def test_streaming():
     console.print("[bold]Testing typewriter effect:[/bold]")
     typewriter = TypewriterEffect(console)
 
-    await typewriter.type_text(
-        "This is a typewriter effect demonstration...", speed=0.02
-    )
+    await typewriter.type_text("This is a typewriter effect demonstration...", speed=0.02)
 
     # Test code typing
     console.print("\n[bold]Testing code typing:[/bold]")

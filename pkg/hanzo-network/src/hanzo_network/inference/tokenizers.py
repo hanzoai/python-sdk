@@ -49,9 +49,7 @@ async def resolve_tokenizer(repo_id: Union[str, PathLike]):
         return DummyTokenizer()
     local_path = await ensure_downloads_dir() / str(repo_id).replace("/", "--")
     if DEBUG >= 2:
-        print(
-            f"Checking if local path exists to load tokenizer from local {local_path=}"
-        )
+        print(f"Checking if local path exists to load tokenizer from local {local_path=}")
     try:
         if local_path and await aios.path.exists(local_path):
             if DEBUG >= 2:
@@ -59,9 +57,7 @@ async def resolve_tokenizer(repo_id: Union[str, PathLike]):
             return await _resolve_tokenizer(local_path)
     except Exception:
         if DEBUG >= 5:
-            print(
-                f"Local check for {local_path=} failed. Resolving tokenizer for {repo_id=} normally..."
-            )
+            print(f"Local check for {local_path=} failed. Resolving tokenizer for {repo_id=} normally...")
         if DEBUG >= 5:
             traceback.print_exc()
     return await _resolve_tokenizer(repo_id)
@@ -81,13 +77,9 @@ async def _resolve_tokenizer(repo_id_or_local_path: Union[str, PathLike]):
                 processor, "tokenizer", getattr(processor, "_tokenizer", processor)
             ).eos_token_id
         if not hasattr(processor, "encode"):
-            processor.encode = getattr(
-                processor, "tokenizer", getattr(processor, "_tokenizer", processor)
-            ).encode
+            processor.encode = getattr(processor, "tokenizer", getattr(processor, "_tokenizer", processor)).encode
         if not hasattr(processor, "decode"):
-            processor.decode = getattr(
-                processor, "tokenizer", getattr(processor, "_tokenizer", processor)
-            ).decode
+            processor.decode = getattr(processor, "tokenizer", getattr(processor, "_tokenizer", processor)).decode
         return processor
     except Exception as e:
         if DEBUG >= 4:
@@ -98,9 +90,7 @@ async def _resolve_tokenizer(repo_id_or_local_path: Union[str, PathLike]):
     try:
         if DEBUG >= 4:
             print(f"Trying AutoTokenizer for {repo_id_or_local_path}")
-        return AutoTokenizer.from_pretrained(
-            repo_id_or_local_path, trust_remote_code=True
-        )
+        return AutoTokenizer.from_pretrained(repo_id_or_local_path, trust_remote_code=True)
     except Exception as e:
         if DEBUG >= 4:
             print(
