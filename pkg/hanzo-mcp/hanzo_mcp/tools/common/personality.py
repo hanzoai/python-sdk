@@ -102,13 +102,17 @@ ESSENTIAL_TOOLS = [
     # File operations
     "read", "write", "edit", "tree",
     # Shell
-    "dag", "zsh",
+    "dag", "zsh", "shell", "open",
+    # Memory
+    "memory",
     # Reasoning
     "think", "critic",
     # LLM infrastructure (always available)
     "llm", "consensus",
     # Configuration
     "config", "mode",
+    # Tool management
+    "tool",
 ]
 
 # Common tool sets for reuse
@@ -153,8 +157,9 @@ def _register_builtin_personalities() -> None:
             description="Balanced productivity and quality",
             philosophy="The Zen of Model Context Protocol.",
             tools=list(set(ESSENTIAL_TOOLS + [
-                "agent", "todo", "rules", "browser",
+                "agent", "todo", "browser", "computer",
                 "search", "find", "ast", "jupyter", "refactor", "lsp",
+                "iching", "review",  # Agent sub-tools
             ] + BUILD_TOOLS)),
             environment={"HANZO_MODE": "zen"},
         ),
