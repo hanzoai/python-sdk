@@ -4,6 +4,10 @@ Core thinking tools:
 - think: Structured reasoning
 - critic: Critical analysis
 
+Dynamic tool management:
+- tool_install: Install, update, reload tools dynamically
+- tool_enable/tool_disable: Enable/disable tools at runtime
+
 Note: batch tool is DEPRECATED in 1.0.0 - use `dag` from shell tools instead.
 """
 
@@ -13,6 +17,7 @@ from mcp.server import FastMCP
 from hanzo_mcp.tools.common.base import BaseTool, ToolRegistry
 from hanzo_mcp.tools.common.critic_tool import CriticTool
 from hanzo_mcp.tools.common.thinking_tool import ThinkingTool
+from hanzo_mcp.tools.common.tool_install import ToolInstallTool, register_tool_install
 
 
 def register_thinking_tool(mcp_server: FastMCP) -> list[BaseTool]:

@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-editor"
+version = "0.1.0"
+description = "Editor integration tools for Hanzo AI - Neovim, VSCode, etc."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "tools", "editor", "neovim", "vscode", "mcp", "ai"]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.25.0",
+    "fastmcp>=2.14.1",
+    "pydantic>=2.12.5",
+]
+
+[project.optional-dependencies]
+neovim = ["pynvim>=0.5.0"]
+dev = ["pytest>=7.0.0", "ruff>=0.14.0"]
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+
+[project.entry-points."hanzo.tools"]
+editor = "hanzo_tools.editor:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]
+
+[tool.setuptools.package-data]
+hanzo_tools = ["py.typed"]
