@@ -63,17 +63,21 @@ class FindTool(BaseTool):
 
     name = "find"
     description = """Find files and directories by name, pattern, or attributes.
-    
+
+    DISPLAY INSTRUCTIONS: Output is formatted text with numbered file matches.
+    Each match shows path, size, and modification time. Display directly.
+
+    Example output:
+    # Find: '*.py' (15 results)
+    1. /project/src/main.py (2.4KB, 2h ago)
+    2. /project/src/utils.py (1.1KB, 1d ago)
+    ...
+
     Examples:
-    - find("*.py") - Find all Python files
-    - find("test_", type="file") - Find files starting with test_
-    - find("src", type="dir") - Find directories named src
-    - find("TODO", in_content=True) - Find files containing TODO
-    - find("large", min_size="10MB") - Find files larger than 10MB
-    - find("recent", modified_after="1 day ago") - Recently modified files
-    
-    This is the primary tool for discovering files in a project. Use it before
-    reading or searching within files.
+    - find("*.py") - All Python files
+    - find("test_", type="file") - Files starting with test_
+    - find("src", type="dir") - Directories named src
+    - find("large", min_size="10MB") - Files > 10MB
     """
 
     def __init__(self):
