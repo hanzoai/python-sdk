@@ -4,7 +4,7 @@ import asyncio
 
 from fastmcp import FastMCP
 from hanzo_mcp.server import HanzoMCPServer
-from hanzo_mcp.tools.filesystem import register_filesystem_tools
+from hanzo_tools.filesystem import register_filesystem_tools
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

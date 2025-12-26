@@ -7,7 +7,7 @@ import asyncio
 from pathlib import Path
 
 import pytest
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -90,7 +90,7 @@ def old_function():
                     return f"Error: File {file_path} not found"
 
         # Patch AgentTool
-        monkeypatch.setattr("hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentTool)
+        monkeypatch.setattr("hanzo_tools.agent.swarm_tool.AgentTool", MockAgentTool)
 
         # Create permission manager
         permission_manager = PermissionManager(allowed_paths=[str(project_dir)])
@@ -160,7 +160,7 @@ def old_function():
 
                 return "Error: No file path found"
 
-        monkeypatch.setattr("hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentWithErrors)
+        monkeypatch.setattr("hanzo_tools.agent.swarm_tool.AgentTool", MockAgentWithErrors)
 
         permission_manager = PermissionManager(allowed_paths=[str(project_dir)])
         swarm_tool = SwarmTool(permission_manager=permission_manager)
@@ -209,7 +209,7 @@ def old_function():
                 concurrent_count -= 1
                 return "Success"
 
-        monkeypatch.setattr("hanzo_mcp.tools.agent.swarm_tool.AgentTool", MockAgentConcurrency)
+        monkeypatch.setattr("hanzo_tools.agent.swarm_tool.AgentTool", MockAgentConcurrency)
 
         permission_manager = PermissionManager(allowed_paths=[str(project_dir)])
         swarm_tool = SwarmTool(permission_manager=permission_manager)

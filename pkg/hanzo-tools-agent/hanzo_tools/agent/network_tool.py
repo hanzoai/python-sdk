@@ -63,7 +63,7 @@ class NetworkTool(BaseTool):
 
     def __init__(
         self,
-        permission_manager: PermissionManager,
+        permission_manager: Optional[PermissionManager] = None,
         default_mode: str = "hybrid",
         cluster_endpoint: str = None,
     ):

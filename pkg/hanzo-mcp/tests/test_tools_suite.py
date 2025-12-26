@@ -137,7 +137,7 @@ class TestToolRegistration:
 
         assert True
 
-    @patch("hanzo_mcp.tools.agent.AgentTool")
+    @patch("hanzo_tools.agent.AgentTool")
     def test_agent_tool_configuration(self, mock_agent_tool):
         """Test agent tool configuration."""
         mcp_server = FastMCP("test-server")
@@ -266,7 +266,7 @@ class TestCLIAgentTools:
 
     def test_claude_cli_tool(self):
         """Test Claude CLI tool."""
-        from hanzo_mcp.tools.agent.claude_cli_tool import ClaudeCLITool
+        from hanzo_tools.agent.claude_cli_tool import ClaudeCLITool
 
         permission_manager = create_permission_manager(["/tmp"])
         tool = ClaudeCLITool(permission_manager)
@@ -276,7 +276,7 @@ class TestCLIAgentTools:
 
     def test_codex_cli_tool(self):
         """Test Codex CLI tool."""
-        from hanzo_mcp.tools.agent.codex_cli_tool import CodexCLITool
+        from hanzo_tools.agent.codex_cli_tool import CodexCLITool
 
         permission_manager = create_permission_manager(["/tmp"])
         tool = CodexCLITool(permission_manager)
@@ -286,7 +286,7 @@ class TestCLIAgentTools:
 
     def test_gemini_cli_tool(self):
         """Test Gemini CLI tool."""
-        from hanzo_mcp.tools.agent.gemini_cli_tool import GeminiCLITool
+        from hanzo_tools.agent.gemini_cli_tool import GeminiCLITool
 
         permission_manager = create_permission_manager(["/tmp"])
         tool = GeminiCLITool(permission_manager)
@@ -296,7 +296,7 @@ class TestCLIAgentTools:
 
     def test_grok_cli_tool(self):
         """Test Grok CLI tool."""
-        from hanzo_mcp.tools.agent.grok_cli_tool import GrokCLITool
+        from hanzo_tools.agent.grok_cli_tool import GrokCLITool
 
         permission_manager = create_permission_manager(["/tmp"])
         tool = GrokCLITool(permission_manager)
@@ -310,7 +310,7 @@ class TestSwarmTool:
 
     def test_swarm_basic_configuration(self):
         """Test basic swarm configuration."""
-        from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+        from hanzo_tools.agent.swarm_tool import SwarmTool
 
         permission_manager = create_permission_manager(["/tmp"])
         tool = SwarmTool(permission_manager)
@@ -334,7 +334,7 @@ class TestMemoryIntegration:
         """
         # Test that memory tools handle missing dependencies gracefully
         try:
-            from hanzo_mcp.tools.memory import memory_tools
+            from hanzo_tools.memory import memory_tools
 
             # Check that module has expected lazy-loading infrastructure
             assert hasattr(memory_tools, "MEMORY_AVAILABLE")
@@ -350,7 +350,7 @@ class TestMemoryIntegration:
             assert hasattr(memory_tools, "MemoryToolBase")
 
             # Test that we can register tools
-            from hanzo_mcp.tools.memory import register_memory_tools
+            from hanzo_tools.memory import register_memory_tools
 
             mcp_server = FastMCP("test-server")
             permission_manager = create_permission_manager(["/tmp"])
@@ -476,8 +476,8 @@ class TestAutoBackgrounding:
 
     def test_auto_background_timeout(self):
         """Test that long-running processes auto-background."""
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
+        from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
 
         process_manager = ProcessManager()
         executor = AutoBackgroundExecutor(process_manager, timeout=0.1)  # Very short timeout
@@ -495,8 +495,8 @@ class TestAutoBackgrounding:
 
         Guido: 'Special cases aren't special enough to break the rules.'
         """
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
+        from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
 
         process_manager = ProcessManager()
 
@@ -518,7 +518,7 @@ class TestAutoBackgrounding:
         Guido: 'There should be one-- and preferably only one --obvious way to do it.'
         ProcessManager uses the singleton pattern for global process tracking.
         """
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
+        from hanzo_tools.shell.base_process import ProcessManager
 
         pm1 = ProcessManager()
         pm2 = ProcessManager()
@@ -563,7 +563,7 @@ class TestCriticAndReviewTools:
 
     def test_review_tool_basic(self):
         """Test review tool basic functionality."""
-        from hanzo_mcp.tools.agent.review_tool import ReviewTool
+        from hanzo_tools.agent.review_tool import ReviewTool
 
         tool = ReviewTool()
         mock_ctx = create_mock_ctx()
@@ -589,7 +589,7 @@ class TestStreamingCommand:
 
     def test_streaming_command_basic(self):
         """Test basic streaming command."""
-        from hanzo_mcp.tools.shell.streaming_command import StreamingCommandTool
+        from hanzo_tools.shell.streaming_command import StreamingCommandTool
 
         # Test that the abstract class exists and has expected properties
         assert StreamingCommandTool is not None
@@ -812,8 +812,8 @@ class TestEdgeCasesAndRobustness:
         # Should either handle or use default
 
         # Test negative values in auto-backgrounding
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
-        from hanzo_mcp.tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
+        from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
 
         pm = ProcessManager()
         # These should not crash
@@ -829,7 +829,7 @@ class TestEdgeCasesAndRobustness:
         """
         import threading
 
-        from hanzo_mcp.tools.shell.base_process import ProcessManager
+        from hanzo_tools.shell.base_process import ProcessManager
 
         results = []
 

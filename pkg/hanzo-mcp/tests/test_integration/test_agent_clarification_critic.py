@@ -4,10 +4,10 @@ import json
 from unittest.mock import Mock, patch
 
 import pytest
-from hanzo_mcp.tools.agent.agent_tool import AgentTool
-from hanzo_mcp.tools.agent.critic_tool import ReviewType
+from hanzo_tools.agent.agent_tool import AgentTool
+from hanzo_tools.agent.critic_tool import ReviewType
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.agent.clarification_protocol import ClarificationType
+from hanzo_tools.agent.clarification_protocol import ClarificationType
 
 
 @pytest.fixture
@@ -451,7 +451,7 @@ async def test_critic_limits(test_project, mock_context):
 @pytest.mark.asyncio
 async def test_clarification_protocol_types():
     """Test all clarification types work correctly."""
-    from hanzo_mcp.tools.agent.clarification_protocol import ClarificationHandler
+    from hanzo_tools.agent.clarification_protocol import ClarificationHandler
 
     handler = ClarificationHandler()
 
@@ -487,7 +487,7 @@ async def test_clarification_protocol_types():
 @pytest.mark.asyncio
 async def test_critic_review_types():
     """Test all review types work correctly."""
-    from hanzo_mcp.tools.agent.critic_tool import AutoCritic
+    from hanzo_tools.agent.critic_tool import AutoCritic
 
     critic = AutoCritic()
 

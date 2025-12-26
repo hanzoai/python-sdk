@@ -21,7 +21,7 @@ class ClaudeCLITool(CLIAgentBase):
 
     def __init__(
         self,
-        permission_manager: PermissionManager,
+        permission_manager: Optional[PermissionManager] = None,
         model: Optional[str] = None,
         **kwargs,
     ):

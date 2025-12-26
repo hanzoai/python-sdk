@@ -1,10 +1,14 @@
-"""Dynamic tool registry with hot-reload and self-update capabilities.
+"""Dynamic package manager with hot-reload and self-update capabilities.
 
 Enables:
 - Installing tool packages dynamically
 - Hot-reloading tools without server restart
 - Self-updating the AI's tooling
 - Cross-session tool persistence
+
+Note: This is distinct from:
+- tools/common/base.py::ToolRegistry - For registering tools with FastMCP
+- config/tool_config.py::DynamicToolRegistry - For discovering tools from entry points
 """
 
 import os
@@ -34,7 +38,7 @@ class ToolPackage:
     enabled: bool = True
 
 
-class ToolRegistry:
+class PackageManager:
     """Centralized registry for dynamic tool management.
 
     Features:
@@ -44,7 +48,7 @@ class ToolRegistry:
     - Enable/disable per tool
     """
 
-    _instance: Optional["ToolRegistry"] = None
+    _instance: Optional["PackageManager"] = None
     _lock = asyncio.Lock()
 
     def __init__(self):
@@ -60,11 +64,11 @@ class ToolRegistry:
         self._load_config()
 
     @classmethod
-    async def get_instance(cls) -> "ToolRegistry":
+    async def get_instance(cls) -> "PackageManager":
         """Get singleton instance."""
         async with cls._lock:
             if cls._instance is None:
-                cls._instance = ToolRegistry()
+                cls._instance = PackageManager()
             return cls._instance
 
     def set_mcp_server(self, mcp_server) -> None:
@@ -455,12 +459,18 @@ class ToolRegistry:
 
 
 # Singleton access
-_registry: Optional[ToolRegistry] = None
+_package_manager: Optional[PackageManager] = None
 
 
-async def get_registry() -> ToolRegistry:
-    """Get the global tool registry."""
-    global _registry
-    if _registry is None:
-        _registry = await ToolRegistry.get_instance()
-    return _registry
+async def get_package_manager() -> PackageManager:
+    """Get the global package manager instance."""
+    global _package_manager
+    if _package_manager is None:
+        _package_manager = await PackageManager.get_instance()
+    return _package_manager
+
+
+# Backwards compatibility alias
+async def get_registry() -> PackageManager:
+    """Deprecated: Use get_package_manager() instead."""
+    return await get_package_manager()

@@ -12,7 +12,7 @@ from tests.test_utils import create_mock_ctx
 
 # Try to import memory tools, skip tests if not available
 try:
-    from hanzo_mcp.tools.memory.memory_tools import (
+    from hanzo_tools.memory.memory_tools import (
         CreateMemoriesTool,
         RecallMemoriesTool,
     )
@@ -23,9 +23,9 @@ except ImportError:
     RecallMemoriesTool = None
     CreateMemoriesTool = None
 
-from hanzo_mcp.tools.agent.swarm_tool import SwarmTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
-from hanzo_mcp.tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
+from hanzo_tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
 
 
 class TestMemoryPerformance:
@@ -130,7 +130,7 @@ class TestSearchPerformance:
             pm.add_allowed_path(tmpdir)
 
             # Create search tool
-            with patch("hanzo_mcp.tools.filesystem.search_tool.ProjectVectorManager"):
+            with patch("hanzo_tools.filesystem.search_tool.ProjectVectorManager"):
                 tool = UnifiedSearchTool(permission_manager=pm)
                 mock_ctx = create_mock_ctx()
 
@@ -337,8 +337,8 @@ class TestConcurrentFileOperations:
 
     def test_concurrent_file_access(self):
         """Test multiple tools accessing files concurrently."""
-        from hanzo_mcp.tools.filesystem.read import ReadTool
-        from hanzo_mcp.tools.filesystem.write import Write as WriteTool
+        from hanzo_tools.filesystem.read import ReadTool
+        from hanzo_tools.filesystem.write import Write as WriteTool
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -9,7 +9,7 @@ import pytest
 if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
-from hanzo_mcp.tools.filesystem import Edit, Write, ReadTool, get_filesystem_tools
+from hanzo_tools.filesystem import Edit, Write, ReadTool, get_filesystem_tools
 
 
 class TestRefactoredFileTools:
@@ -70,7 +70,7 @@ class TestRefactoredFileTools:
         # Mock context calls
         tool_ctx = AsyncMock()
         with patch(
-            "hanzo_mcp.tools.filesystem.base.create_tool_context",
+            "hanzo_tools.filesystem.base.create_tool_context",
             return_value=tool_ctx,
         ):
             # Call the tool directly
@@ -96,7 +96,7 @@ class TestRefactoredFileTools:
         # Mock context calls
         tool_ctx = AsyncMock()
         with patch(
-            "hanzo_mcp.tools.filesystem.base.create_tool_context",
+            "hanzo_tools.filesystem.base.create_tool_context",
             return_value=tool_ctx,
         ):
             # Call the tool directly
@@ -128,7 +128,7 @@ class TestRefactoredFileTools:
         # Mock context calls
         tool_ctx = AsyncMock()
         with patch(
-            "hanzo_mcp.tools.filesystem.base.create_tool_context",
+            "hanzo_tools.filesystem.base.create_tool_context",
             return_value=tool_ctx,
         ):
             # Call the tool directly

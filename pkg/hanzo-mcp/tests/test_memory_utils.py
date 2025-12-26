@@ -22,7 +22,7 @@ def create_memory_mock_ctx():
 
     # Patch create_tool_context to return our mock
     with patch(
-        "hanzo_mcp.tools.memory.memory_tools.create_tool_context",
+        "hanzo_tools.memory.memory_tools.create_tool_context",
         return_value=mock_tool_ctx,
     ):
         yield mock_ctx, mock_tool_ctx
