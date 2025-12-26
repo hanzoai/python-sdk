@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 _LSP_TOOL_AVAILABLE: bool | None = None
 _REFACTOR_TOOL_AVAILABLE: bool | None = None
 _MEMORY_TOOLS_AVAILABLE: bool | None = None
+_BROWSER_TOOL_AVAILABLE: bool | None = None
 
 
 def _check_lsp_available() -> bool:
@@ -61,6 +62,18 @@ def _check_memory_available() -> bool:
         except ImportError:
             _MEMORY_TOOLS_AVAILABLE = False
     return _MEMORY_TOOLS_AVAILABLE
+
+
+def _check_browser_available() -> bool:
+    """Check if browser tool is available (requires playwright)."""
+    global _BROWSER_TOOL_AVAILABLE
+    if _BROWSER_TOOL_AVAILABLE is None:
+        try:
+            import playwright  # noqa: F401
+            _BROWSER_TOOL_AVAILABLE = True
+        except ImportError:
+            _BROWSER_TOOL_AVAILABLE = False
+    return _BROWSER_TOOL_AVAILABLE
 
 
 # Expose availability flags as properties for backward compatibility
@@ -137,7 +150,7 @@ def register_all_tools(
     from hanzo_mcp.tools.todo import register_todo_tools
     from hanzo_mcp.tools.agent import register_agent_tools
     from hanzo_mcp.tools.shell import register_shell_tools
-    from hanzo_mcp.tools.common import register_batch_tool, register_critic_tool, register_thinking_tool
+    from hanzo_mcp.tools.common import register_batch_tool, register_critic_tool, register_thinking_tool, register_tool_install
     from hanzo_mcp.tools.editor import (
         NeovimEditTool,
         NeovimCommandTool,
@@ -379,6 +392,12 @@ def register_all_tools(
     from hanzo_mcp.tools.common.version_tool import register_version_tool
     register_version_tool(mcp_server)
 
+    # Tool install tool (for dynamic tool management)
+    if is_tool_enabled("tool_install", True):
+        install_tools = register_tool_install(mcp_server)
+        for tool in install_tools:
+            all_tools[tool.name] = tool
+
     # Tool enable/disable tools
     tool_enable = ToolEnableTool()
     tool_enable.register(mcp_server)
@@ -514,6 +533,16 @@ def register_all_tools(
             all_tools[tool.name] = tool
         except Exception as e:
             logger.warning(f"Failed to register refactor tool: {e}")
+
+    # Register browser tool if enabled (requires playwright)
+    if is_tool_enabled("browser", True) and _check_browser_available():
+        try:
+            from hanzo_mcp.tools.browser import create_browser_tool
+            tool = create_browser_tool()
+            tool.register(mcp_server)
+            all_tools[tool.name] = tool
+        except Exception as e:
+            logger.warning(f"Failed to register browser tool: {e}")
 
     # Register user plugins last (so they can override built-in tools)
     for plugin_name, plugin in plugins.items():

@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-filesystem"
+version = "0.1.0"
+description = "Filesystem tools for Hanzo AI - read, write, edit, search, find"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "tools", "filesystem", "mcp", "ai"]
+dependencies = [
+    "aiofiles>=24.1.0",
+    "grep-ast>=0.8.1",
+    "ffind>=1.3.0",
+    "watchdog>=6.0.0",
+    "mcp>=1.25.0",
+    "fastmcp>=2.14.1",
+    "pydantic>=2.12.5",
+]
+
+# For development, install hanzo-tools-core from local:
+# uv pip install -e ../hanzo-tools-core
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "ruff>=0.14.0"]
+
+[project.entry-points."hanzo.tools"]
+filesystem = "hanzo_tools.filesystem:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]
+
+[tool.setuptools.package-data]
+hanzo_tools = ["py.typed"]

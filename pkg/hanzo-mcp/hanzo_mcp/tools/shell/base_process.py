@@ -207,6 +207,7 @@ class BaseProcessTool(BaseTool):
             tool_name=self.get_tool_name(),
             cwd=cwd,
             env=process_env,
+            timeout=float(timeout) if timeout is not None else None,
         )
 
         if was_backgrounded:
