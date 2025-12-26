@@ -20,6 +20,7 @@ from hanzo_mcp.tools.common.permissions import PermissionManager
 # Core tools
 from hanzo_mcp.tools.shell.dag_tool import DagTool, create_dag_tool
 from hanzo_mcp.tools.shell.ps_tool import PsTool, ps_tool
+from hanzo_mcp.tools.shell.zsh_tool import ZshTool, zsh_tool
 
 # Convenience tools
 from hanzo_mcp.tools.shell.open import open_tool
@@ -29,8 +30,10 @@ from hanzo_mcp.tools.shell.uvx_tool import uvx_tool
 __all__ = [
     "DagTool",
     "PsTool",
+    "ZshTool",
     "create_dag_tool",
     "ps_tool",
+    "zsh_tool",
     "get_shell_tools",
     "register_shell_tools",
 ]
@@ -57,8 +60,9 @@ def get_shell_tools(
     uvx_tool.permission_manager = permission_manager
 
     return [
-        dag,        # DAG execution (replaces bash, zsh, shell, exec, batch)
-        ps_tool,    # Process management (replaces process)
+        dag,        # DAG execution for complex workflows
+        zsh_tool,   # Simple single-command zsh (with auto-backgrounding)
+        ps_tool,    # Process management
         npx_tool,   # Node packages
         uvx_tool,   # Python packages
         open_tool,  # Open files/URLs
