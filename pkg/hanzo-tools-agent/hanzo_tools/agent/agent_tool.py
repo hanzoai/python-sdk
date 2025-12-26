@@ -1,7 +1,7 @@
 """Agent tool - multi-agent orchestration.
 
 Lightweight agent spawning with DAG execution, work distribution (swarm),
-and Lux Quasar consensus protocol.
+and Metastable consensus protocol.
 
 Consensus: https://github.com/luxfi/consensus
 """
@@ -25,7 +25,7 @@ Action = Annotated[
         "run",        # Run single agent
         "dag",        # DAG execution with dependencies
         "swarm",      # Work distribution across agents
-        "consensus",  # Lux Quasar multi-model consensus
+        "consensus",  # Metastable multi-model consensus
         "dispatch",   # Different agents for different tasks
         "list",       # List available agents
         "status",     # Check agent availability
@@ -52,13 +52,13 @@ class Result:
 
 @dataclass
 class Consensus:
-    """Lux consensus state.
+    """Metastable consensus state.
     
-    Implements Quasar protocol from https://github.com/luxfi/consensus
+    Implements Metastable protocol from https://github.com/luxfi/consensus
     
     Two-phase finality:
-    - Phase I (Nova DAG): k-peer sampling, confidence accumulation
-    - Phase II (Quasar): Threshold aggregation for finality
+    - Phase I (Sampling): k-peer sampling, confidence accumulation
+    - Phase II (Finality): Threshold aggregation for finality
     """
     prompt: str
     agents: List[str]
@@ -77,16 +77,89 @@ class Consensus:
     synthesis: Optional[str] = None
 
 
-# Agent configurations: (command, args, env_key, priority)
-AGENTS = {
-    "claude": ("claude", ["-p"], "ANTHROPIC_API_KEY", 1),
-    "codex": ("codex", [], "OPENAI_API_KEY", 2),
-    "gemini": ("gemini", [], "GOOGLE_API_KEY", 3),
-    "grok": ("grok", [], "XAI_API_KEY", 4),
-    "qwen": ("qwen", [], "DASHSCOPE_API_KEY", 5),
-    "vibe": ("vibe", [], None, 6),
-    "dev": ("hanzo-dev", [], None, 8),
+# Agent configurations
+# Format: {name: AgentConfig}
+# AgentConfig: (command, args, env_key, priority, base_url, auth_env)
+# For Anthropic-compatible APIs: base_url + auth_env override ANTHROPIC_BASE_URL/ANTHROPIC_AUTH_TOKEN
+
+@dataclass
+class AgentConfig:
+    """Agent configuration."""
+    cmd: str
+    args: List[str] = field(default_factory=list)
+    env_key: Optional[str] = None
+    priority: int = 10
+    base_url: Optional[str] = None  # Anthropic-compatible base URL
+    auth_env: Optional[str] = None  # Env var for auth token (uses this instead of ANTHROPIC_API_KEY)
+    model: Optional[str] = None     # Model name override
+
+
+# Native CLI agents
+NATIVE_AGENTS = {
+    "claude": AgentConfig("claude", ["-p"], "ANTHROPIC_API_KEY", 1),
+    "codex": AgentConfig("codex", [], "OPENAI_API_KEY", 2),
+    "gemini": AgentConfig("gemini", [], "GOOGLE_API_KEY", 3),
+    "grok": AgentConfig("grok", [], "XAI_API_KEY", 4),
+    "qwen": AgentConfig("qwen", [], "DASHSCOPE_API_KEY", 5),
+    "vibe": AgentConfig("vibe", [], None, 6),
+    "dev": AgentConfig("hanzo-dev", [], None, 8),
 }
+
+# Anthropic-compatible API agents (use claude CLI with custom base URL)
+ANTHROPIC_COMPAT_AGENTS = {
+    # MiniMax M2.1 - https://api.minimax.io
+    "minimax": AgentConfig(
+        "claude", ["-p"], None, 10,
+        base_url="https://api.minimax.io/anthropic",
+        auth_env="MINIMAX_API_KEY",
+        model="MiniMax-M2.1",
+    ),
+    # Kimi K2 (Moonshot) - https://api.moonshot.cn
+    "kimi": AgentConfig(
+        "claude", ["-p"], None, 11,
+        base_url="https://api.moonshot.cn/anthropic",
+        auth_env="MOONSHOT_API_KEY",
+        model="kimi-k2",
+    ),
+    # DeepSeek - https://api.deepseek.com
+    "deepseek": AgentConfig(
+        "claude", ["-p"], None, 12,
+        base_url="https://api.deepseek.com/anthropic",
+        auth_env="DEEPSEEK_API_KEY",
+        model="deepseek-chat",
+    ),
+    # Yi/01.AI - https://api.01.ai
+    "yi": AgentConfig(
+        "claude", ["-p"], None, 13,
+        base_url="https://api.01.ai/anthropic",
+        auth_env="YI_API_KEY",
+        model="yi-large",
+    ),
+    # Zhipu GLM-4 - https://open.bigmodel.cn
+    "glm": AgentConfig(
+        "claude", ["-p"], None, 14,
+        base_url="https://open.bigmodel.cn/api/paas/v4/anthropic",
+        auth_env="ZHIPU_API_KEY",
+        model="glm-4",
+    ),
+    # Baichuan - https://api.baichuan-ai.com
+    "baichuan": AgentConfig(
+        "claude", ["-p"], None, 15,
+        base_url="https://api.baichuan-ai.com/anthropic",
+        auth_env="BAICHUAN_API_KEY",
+        model="Baichuan4",
+    ),
+    # StepFun - https://api.stepfun.com
+    "step": AgentConfig(
+        "claude", ["-p"], None, 16,
+        base_url="https://api.stepfun.com/anthropic",
+        auth_env="STEPFUN_API_KEY",
+        model="step-2",
+    ),
+}
+
+# Combined agents dict
+AGENTS = {**NATIVE_AGENTS, **ANTHROPIC_COMPAT_AGENTS}
 
 
 def detect_env() -> Dict[str, Any]:
@@ -124,7 +197,7 @@ class AgentTool(BaseTool):
     - run: Single agent execution (default: claude -p)
     - dag: DAG execution with dependencies
     - swarm: Work distribution across parallel agents
-    - consensus: Lux Quasar multi-model consensus
+    - consensus: Metastable multi-model consensus
     - dispatch: Different agents for different tasks
     """
     
@@ -145,7 +218,7 @@ Actions:
 - run: Execute single agent (default: {default})
 - dag: DAG execution with dependencies
 - swarm: Work distribution across N agents
-- consensus: Lux Quasar multi-model agreement
+- consensus: Metastable multi-model agreement
 - dispatch: Different agents for different tasks
 - list/status/config: Management
 
@@ -165,8 +238,13 @@ Consensus: https://github.com/luxfi/consensus
         """Get default agent based on environment."""
         if self._env.get("in_claude"):
             return "claude"
-        for name, (_, _, env_key, _) in sorted(AGENTS.items(), key=lambda x: x[1][3]):
-            if env_key and os.environ.get(env_key):
+        # Check native agents first by priority
+        for name, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
+            if cfg.env_key and os.environ.get(cfg.env_key):
+                return name
+        # Then check Anthropic-compatible agents
+        for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+            if cfg.auth_env and os.environ.get(cfg.auth_env):
                 return name
         return "dev"
     
@@ -224,9 +302,20 @@ Consensus: https://github.com/luxfi/consensus
         """List available agents."""
         default = self._default_agent()
         lines = ["Agents:"]
-        for name, (cmd, args, _, _) in sorted(AGENTS.items(), key=lambda x: x[1][3]):
+        
+        # Native agents
+        lines.append("  Native:")
+        for name, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
             mark = " (default)" if name == default else ""
-            lines.append(f"  • {name}: {cmd}{mark}")
+            lines.append(f"    • {name}: {cfg.cmd}{mark}")
+        
+        # Anthropic-compatible agents
+        lines.append("  Anthropic-compatible:")
+        for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+            has_key = bool(cfg.auth_env and os.environ.get(cfg.auth_env))
+            key_mark = " ✓" if has_key else ""
+            lines.append(f"    • {name}: {cfg.model}{key_mark}")
+        
         lines.append("")
         lines.append("Actions: run, dag, swarm, consensus, dispatch")
         if self._env.get("in_claude"):
@@ -253,16 +342,37 @@ Consensus: https://github.com/luxfi/consensus
         if name:
             if name not in AGENTS:
                 return f"Unknown: {name}. Available: {', '.join(AGENTS.keys())}"
-            ok = await self._available(AGENTS[name][0])
-            return f"{'✓' if ok else '✗'} {name}"
+            cfg = AGENTS[name]
+            ok = await self._available(cfg.cmd)
+            # For Anthropic-compat, check auth_env; for native, check env_key
+            env_to_check = cfg.auth_env or cfg.env_key
+            has_key = bool(env_to_check and os.environ.get(env_to_check))
+            return f"{'✓' if ok else '✗'} {name} ({'✓ key' if has_key else '○ no key'})"
         
         lines = ["Status:"]
-        for agent, (cmd, _, env_key, _) in sorted(AGENTS.items(), key=lambda x: x[1][3]):
-            ok = await self._available(cmd)
-            has_key = bool(env_key and os.environ.get(env_key))
+        
+        # Native agents
+        lines.append("  Native:")
+        for agent, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
+            ok = await self._available(cfg.cmd)
+            has_key = bool(cfg.env_key and os.environ.get(cfg.env_key))
             key_status = "✓ key" if has_key else "○ no key"
             status = f"✓ ({key_status})" if ok else "✗ not found"
-            lines.append(f"  {agent}: {status}")
+            lines.append(f"    {agent}: {status}")
+        
+        # Anthropic-compatible agents
+        lines.append("  Anthropic-compatible (via claude):")
+        claude_ok = await self._available("claude")
+        for agent, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+            has_key = bool(cfg.auth_env and os.environ.get(cfg.auth_env))
+            if claude_ok and has_key:
+                status = f"✓ ready ({cfg.model})"
+            elif claude_ok:
+                status = f"○ need {cfg.auth_env}"
+            else:
+                status = "✗ need claude CLI"
+            lines.append(f"    {agent}: {status}")
+        
         return "\n".join(lines)
     
     async def _available(self, cmd: str) -> bool:
@@ -283,13 +393,28 @@ Consensus: https://github.com/luxfi/consensus
         if agent not in AGENTS:
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"Unknown agent: {agent}")
         
-        cmd, args, _, _ = AGENTS[agent]
-        full_cmd = [cmd] + args + [prompt]
+        cfg = AGENTS[agent]
         
+        # Build command
+        full_cmd = [cfg.cmd] + cfg.args
+        
+        # Add model override for Anthropic-compatible APIs
+        if cfg.model:
+            full_cmd.extend(["--model", cfg.model])
+        
+        full_cmd.append(prompt)
+        
+        # Build environment
         env = os.environ.copy()
         env.update(self._mcp_env)
         env["HANZO_AGENT_PARENT"] = "true"
         env["HANZO_AGENT_NAME"] = agent
+        
+        # Set Anthropic-compatible API overrides
+        if cfg.base_url:
+            env["ANTHROPIC_BASE_URL"] = cfg.base_url
+        if cfg.auth_env and os.environ.get(cfg.auth_env):
+            env["ANTHROPIC_AUTH_TOKEN"] = os.environ[cfg.auth_env]
         
         start = time.time()
         try:
@@ -314,7 +439,7 @@ Consensus: https://github.com/luxfi/consensus
         except asyncio.TimeoutError:
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"Timeout after {timeout}s", ms=timeout * 1000)
         except FileNotFoundError:
-            return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"{agent} not found")
+            return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"{cfg.cmd} not found")
         except Exception as e:
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=str(e))
     
@@ -454,7 +579,7 @@ Consensus: https://github.com/luxfi/consensus
         return "\n".join(lines)
     
     async def _consensus(self, prompt: str, agents: List[str], rounds: int, k: int, alpha: float, beta_1: float, beta_2: float, cwd: Optional[str], timeout: int) -> str:
-        """Lux Quasar consensus protocol.
+        """Metastable consensus protocol.
         
         https://github.com/luxfi/consensus
         
@@ -463,7 +588,7 @@ Consensus: https://github.com/luxfi/consensus
         - k-peer sampling per round
         - Confidence accumulation toward beta_1
         
-        Phase II (Quasar):
+        Phase II (Finality):
         - Threshold aggregation 
         - Beta_2 finality threshold
         - Critic synthesizes final answer
@@ -489,7 +614,7 @@ Consensus: https://github.com/luxfi/consensus
             state.confidence[agent] = 0.0
             state.responses[agent] = []
         
-        lines = ["Lux Quasar Consensus"]
+        lines = ["Metastable Consensus"]
         lines.append(f"  Agents: {', '.join(agents)}")
         lines.append(f"  Rounds: {rounds}, k={k}, α={alpha}, β₁={beta_1}, β₂={beta_2}")
         lines.append("")
@@ -561,8 +686,8 @@ Consensus: https://github.com/luxfi/consensus
             if max_conf >= beta_1:
                 lines.append(f"  β₁ threshold reached")
         
-        # Phase II: Quasar - Threshold aggregation
-        lines.append("\nPhase II: Quasar - Threshold aggregation")
+        # Phase II: Finality - Threshold aggregation
+        lines.append("\nPhase II: Finality - Threshold aggregation")
         
         # Find winner based on confidence + luminance
         scores = {a: state.confidence[a] * state.luminance[a] for a in agents}
@@ -597,7 +722,7 @@ Consensus: https://github.com/luxfi/consensus
         lines.append(synth_result.output)
         
         elapsed = time.time() - start
-        lines.insert(0, f"[Lux Quasar] {elapsed:.1f}s, winner: {winner}, finalized: {state.finalized}")
+        lines.insert(0, f"[Metastable] {elapsed:.1f}s, winner: {winner}, finalized: {state.finalized}")
         
         return "\n".join(lines)
     
