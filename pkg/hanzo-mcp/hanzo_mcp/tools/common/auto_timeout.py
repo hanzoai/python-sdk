@@ -172,7 +172,12 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 return result
 
             except asyncio.TimeoutError:
-                # Tool timed out - background it
+                # Tool timed out - background it if process manager is available
+                if timeout_manager.process_manager is None:
+                    # No process manager - just report timeout
+                    timeout_formatted = format_timeout(tool_timeout)
+                    return f"Operation timed out after {timeout_formatted}. Backgrounding unavailable."
+                
                 process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
                 log_file = await timeout_manager.process_manager.create_log_file(process_id)
 
