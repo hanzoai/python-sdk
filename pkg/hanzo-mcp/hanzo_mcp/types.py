@@ -25,12 +25,11 @@ class MCPResourceDocument:
         return result
 
     def to_json_string(self) -> str:
-        """Convert to clean JSON string - just the data, not wrapped."""
+        """Convert to clean JSON string - just the data, no wrapper."""
         import json
 
-        # Return just the data content, not wrapped in {"data": ...}
-        # This makes output cleaner when MCP adds its own wrapper
-        return json.dumps({"result": self.data}, indent=2)
+        # Return just the data content directly, no wrapper
+        return json.dumps(self.data, indent=2)
 
     def to_readable_string(self) -> str:
         """Convert to human-readable formatted string for display."""

@@ -1,4 +1,4 @@
-"""Critic tool for agents to request critical review from main loop."""
+"""Code review tool for agents to request critical review from main loop."""
 
 from enum import Enum
 from typing import List, Optional, override
@@ -21,10 +21,10 @@ class ReviewType(Enum):
     GENERAL = "general"
 
 
-class CriticTool(BaseTool):
-    """Tool for agents to request critical review from the main loop."""
+class CodeReviewTool(BaseTool):
+    """Tool for agents to request critical code review from the main loop."""
 
-    name = "critic"
+    name = "code_review"
 
     @property
     @override

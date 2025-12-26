@@ -9,7 +9,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, ToolContext, auto_timeout, create_tool_context
 
-from .llm_tool import LLMTool
+from .llm_unified import LLMTool
 
 Action = Annotated[
     str,
@@ -275,7 +275,7 @@ Providers are automatically detected based on environment variables:
     def _list_all_models(self, provider: Optional[str] = None) -> str:
         """List all available models from LiteLLM."""
         try:
-            from .llm_tool import LLMTool
+            from .llm_unified import LLMTool
 
             all_models = LLMTool.get_all_models()
 

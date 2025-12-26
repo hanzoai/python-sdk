@@ -108,6 +108,10 @@ class TodoTool(TodoBaseTool):
         """Get the tool description."""
         return """Manage todos. Actions: list (default), add, update, remove, clear.
 
+DISPLAY INSTRUCTIONS: Output is plain text with formatted todo list.
+Show directly without modification. The list uses === headers ===
+and checkmarks for completed items.
+
 Usage:
 todo
 todo "Fix the bug in authentication"
