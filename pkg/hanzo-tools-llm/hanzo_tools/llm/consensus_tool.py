@@ -17,7 +17,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, ToolContext, auto_timeout, create_tool_context
 
-from .llm_tool import LLMTool
+from .llm_unified import LLMTool
 
 Prompt = Annotated[
     str,
