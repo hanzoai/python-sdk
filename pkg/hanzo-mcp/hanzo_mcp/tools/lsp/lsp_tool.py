@@ -668,9 +668,10 @@ class LSPTool(BaseTool):
         return MCPResourceDocument(data=result)
 
     async def call(self, **kwargs) -> str:
-        """Tool interface for MCP - converts result to JSON string."""
+        """Tool interface for MCP - converts result to readable format."""
         result = await self.run(**kwargs)
-        return result.to_json_string()
+        # Use readable format for better Claude Code display
+        return result.to_readable_string()
 
     def register(self, mcp_server) -> None:
         """Register tool with MCP server."""
