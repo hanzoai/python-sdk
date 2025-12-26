@@ -80,17 +80,17 @@ __all__ = [
 
 def get_read_only_filesystem_tools(permission_manager) -> list:
     """Get read-only filesystem tools for sandboxed agents.
-    
+
     Returns tools that can only read files, not modify them:
     - read: Read file contents
     - tree: View directory structure
     - find: Find files by pattern
     - search: Search file contents
     - ast: Code structure analysis
-    
+
     Args:
         permission_manager: PermissionManager instance
-        
+
     Returns:
         List of instantiated read-only tools
     """
