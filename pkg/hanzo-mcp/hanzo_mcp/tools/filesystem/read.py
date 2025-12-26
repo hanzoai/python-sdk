@@ -82,17 +82,26 @@ class ReadTool(FilesystemBaseTool):
         Returns:
             Tool description
         """
-        return """Reads a file from the local filesystem. You can access any file directly by using this tool.
-Assume this tool is able to read all files on the machine. If the User provides a path to a file assume that path is valid. It is okay to read a file that does not exist; an error will be returned.
+        return """Read file contents with line numbers.
+
+DISPLAY INSTRUCTIONS: Output is formatted like `cat -n` with line numbers.
+Show directly in a fenced code block with appropriate language hint.
+Never summarize or truncate the content unless asked.
+
+Example output:
+```python
+     1	import os
+     2	from pathlib import Path
+     3	
+     4	def main():
+```
 
 Usage:
-- The file_path parameter must be an absolute path, not a relative path
-- By default, it reads up to 2000 lines starting from the beginning of the file
-- You can optionally specify a line offset and limit (especially handy for long files), but it's recommended to read the whole file by not providing these parameters
-- Any lines longer than 2000 characters will be truncated
-- Results are returned using cat -n format, with line numbers starting at 1
-- For Jupyter notebooks (.ipynb files), use the notebook_read instead
-- When reading multiple files, you MUST use the batch tool to read them all at once"""
+- file_path must be absolute path
+- Default: reads up to 2000 lines from start
+- Optional offset/limit for large files
+- Lines > 2000 chars are truncated
+- For notebooks use notebook_read"""
 
     @override
     @auto_timeout("read")

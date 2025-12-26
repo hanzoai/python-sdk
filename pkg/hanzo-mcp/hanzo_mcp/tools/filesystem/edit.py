@@ -82,11 +82,24 @@ class Edit(FilesystemBaseTool):
         Returns:
             Tool description
         """
-        return """Performs exact string replacements in files with strict occurrence count validation.
+        return """Replace exact text in files.
+
+DISPLAY INSTRUCTIONS: Returns diff showing changes made.
+Show the diff in a fenced code block with `diff` language hint.
+
+Example output:
+```diff
+--- file.py (before)
++++ file.py (after)
+@@ -10,3 +10,3 @@
+-    old_function()
++    new_function()
+```
 
 Usage:
-- When editing text from Read tool output, ensure you preserve the exact indentation (tabs/spaces) as it appears AFTER the line number prefix. The line number prefix format is: spaces + line number + tab. Everything after that tab is the actual file content to match. Never include any part of the line number prefix in the old_string or new_string.
-- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required."""
+- old_string must match file content EXACTLY (whitespace matters)
+- Preserve indentation from Read output (after line number prefix)
+- expected_replacements validates occurrence count"""
 
     @override
     @auto_timeout("edit")
