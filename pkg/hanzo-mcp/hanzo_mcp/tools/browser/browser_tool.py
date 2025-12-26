@@ -42,6 +42,8 @@ Action = Annotated[
         "close",  # Close browser
         "tabs",  # List/switch tabs
         "connect",  # Connect to existing browser (CDP)
+        "set_headless",  # Switch headless/headed mode (restarts browser)
+        "status",  # Get current browser status
     ],
     Field(description="Browser action to perform"),
 ]
@@ -381,6 +383,49 @@ class BrowserTool:
                         "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)],
                     }
 
+            elif action == "set_headless":
+                # Toggle or set headless mode (requires browser restart)
+                # Use the 'text' param as "true"/"false" or toggle if not provided
+                if text is not None:
+                    new_headless = text.lower() in ("true", "1", "yes", "on")
+                else:
+                    # Toggle current mode
+                    new_headless = not pool._headless
+
+                current_url = page.url if page else None
+                old_mode = "headless" if pool._headless else "headed"
+
+                # Close and relaunch with new mode
+                await pool.close()
+                self.headless = new_headless
+                page = await pool.ensure_browser(headless=new_headless)
+
+                # Restore URL if we had one
+                if current_url and current_url != "about:blank":
+                    await page.goto(current_url)
+
+                new_mode = "headless" if new_headless else "headed"
+                return {
+                    "success": True,
+                    "previous_mode": old_mode,
+                    "current_mode": new_mode,
+                    "headless": new_headless,
+                    "url": page.url,
+                }
+
+            elif action == "status":
+                # Get current browser status
+                return {
+                    "success": True,
+                    "initialized": pool._initialized,
+                    "headless": pool._headless,
+                    "mode": "headless" if pool._headless else "headed",
+                    "cdp_endpoint": pool._cdp_endpoint,
+                    "tabs": len(pool.pages),
+                    "current_url": page.url if page else None,
+                    "playwright_available": PLAYWRIGHT_AVAILABLE,
+                }
+
             else:
                 return {"error": f"Unknown action: {action}"}
 
@@ -416,6 +461,12 @@ class BrowserTool:
             Uses shared browser instance for low latency.
             Supports CDP connection for cross-MCP browser sharing.
 
+            DISPLAY INSTRUCTIONS: Show the action result as a bullet point.
+            For navigate: • Navigated to [url] (status: [status])
+            For click/type/fill: • [action] completed on [selector]
+            For screenshot: • Screenshot captured, [format] ([size] bytes)
+            For errors: • Error: [message]
+
             Actions:
             - navigate: Go to URL (requires url)
             - click: Click element (requires selector)
@@ -429,6 +480,8 @@ class BrowserTool:
             - close: Close browser
             - tabs: List or switch tabs
             - connect: Connect to existing browser via CDP
+            - set_headless: Switch headless/headed mode (text="true"/"false" or omit to toggle)
+            - status: Get current browser status (headless, tabs, url)
 
             Examples:
                 browser(action="navigate", url="https://example.com")
@@ -436,6 +489,9 @@ class BrowserTool:
                 browser(action="type", selector="input[name=q]", text="hello")
                 browser(action="screenshot", full_page=True)
                 browser(action="connect", cdp_endpoint="http://localhost:9222")
+                browser(action="set_headless", text="false")  # Switch to visible
+                browser(action="set_headless")  # Toggle mode
+                browser(action="status")  # Check current state
             """
             return await tool_instance.execute(
                 action=action,

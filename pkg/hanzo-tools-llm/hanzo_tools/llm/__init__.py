@@ -17,20 +17,15 @@ logger = logging.getLogger(__name__)
 _tools = []
 
 try:
-    from .llm_tool import LLMTool
-
-    _tools.append(LLMTool)
-except ImportError as e:
-    logger.debug(f"LLMTool not available: {e}")
-    LLMTool = None
-
-try:
     from .llm_unified import UnifiedLLMTool
 
+    # Alias for backwards compatibility
+    LLMTool = UnifiedLLMTool
     _tools.append(UnifiedLLMTool)
 except ImportError as e:
     logger.debug(f"UnifiedLLMTool not available: {e}")
     UnifiedLLMTool = None
+    LLMTool = None
 
 try:
     from .consensus_tool import ConsensusTool

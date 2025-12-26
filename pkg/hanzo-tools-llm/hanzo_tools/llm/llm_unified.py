@@ -868,3 +868,7 @@ Be concise and highlight the most important findings."""
     def register(self, mcp_server) -> None:
         """Register this tool with the MCP server."""
         pass
+
+
+# Alias for backwards compatibility
+LLMTool = UnifiedLLMTool
