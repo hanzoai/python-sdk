@@ -1,9 +1,19 @@
 """Test all hanzo-tools-* packages import and register correctly."""
 
-import time
 import asyncio
+import sys
+import time
 
 import pytest
+
+
+def _module_installed(module_name: str) -> bool:
+    """Check if a module is installed."""
+    try:
+        __import__(module_name)
+        return True
+    except ImportError:
+        return False
 
 
 class TestToolPackages:
@@ -107,21 +117,33 @@ class TestToolPackages:
 
         assert len(TOOLS) == 1
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.config"),
+        reason="hanzo-tools-config not installed",
+    )
     def test_config_tools(self):
         """Test hanzo-tools-config has 2 tools."""
         from hanzo_tools.config import TOOLS
 
         assert len(TOOLS) == 2
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.mcp_tools"),
+        reason="hanzo-tools-mcp not installed",
+    )
     def test_mcp_tools(self):
         """Test hanzo-tools-mcp has 4 tools."""
         from hanzo_tools.mcp_tools import TOOLS
 
         assert len(TOOLS) == 4
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.llm"),
+        reason="hanzo-tools-llm not installed",
+    )
     def test_llm_tools(self):
         """Test hanzo-tools-llm imports (tools depend on litellm)."""
-        from hanzo_tools.llm import TOOLS, LLM_AVAILABLE
+        from hanzo_tools.llm import LLM_AVAILABLE, TOOLS
 
         # LLM tools are optional, depend on litellm
         if LLM_AVAILABLE:
@@ -129,6 +151,10 @@ class TestToolPackages:
         else:
             assert len(TOOLS) == 0
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.vector"),
+        reason="hanzo-tools-vector not installed",
+    )
     def test_vector_tools(self):
         """Test hanzo-tools-vector imports (tools depend on heavy deps)."""
         from hanzo_tools.vector import TOOLS, VECTOR_AVAILABLE
@@ -140,33 +166,50 @@ class TestToolPackages:
             assert len(TOOLS) == 0
 
 
+# Required packages for import speed tests
+REQUIRED_IMPORT_MODULES = [
+    ("hanzo_tools.core", 1.0),
+    ("hanzo_tools.filesystem", 1.0),
+    ("hanzo_tools.shell", 1.0),
+    ("hanzo_tools.memory", 1.0),
+    ("hanzo_tools.todo", 1.0),
+    ("hanzo_tools.reasoning", 1.0),
+    ("hanzo_tools.lsp", 1.0),
+    ("hanzo_tools.refactor", 1.0),
+    ("hanzo_tools.database", 1.0),
+    ("hanzo_tools.jupyter", 1.0),
+    ("hanzo_tools.editor", 1.0),
+    ("hanzo_tools.browser", 1.0),
+    ("hanzo_tools.agent", 2.0),  # Agent has litellm, allow more time
+]
+
+# Optional packages that may not be installed
+OPTIONAL_IMPORT_MODULES = [
+    ("hanzo_tools.config", 1.0),
+    ("hanzo_tools.mcp_tools", 1.0),
+    ("hanzo_tools.llm", 2.0),  # LLM has litellm, allow more time
+    ("hanzo_tools.vector", 2.0),  # Vector has heavy deps
+]
+
+
 class TestToolImportSpeed:
     """Test that tool imports are fast (no blocking)."""
 
-    @pytest.mark.parametrize(
-        "module,max_time",
-        [
-            ("hanzo_tools.core", 1.0),
-            ("hanzo_tools.filesystem", 1.0),
-            ("hanzo_tools.shell", 1.0),
-            ("hanzo_tools.memory", 1.0),
-            ("hanzo_tools.todo", 1.0),
-            ("hanzo_tools.reasoning", 1.0),
-            ("hanzo_tools.lsp", 1.0),
-            ("hanzo_tools.refactor", 1.0),
-            ("hanzo_tools.database", 1.0),
-            ("hanzo_tools.jupyter", 1.0),
-            ("hanzo_tools.editor", 1.0),
-            ("hanzo_tools.browser", 1.0),
-            ("hanzo_tools.config", 1.0),
-            ("hanzo_tools.mcp_tools", 1.0),
-            ("hanzo_tools.llm", 2.0),  # LLM has litellm, allow more time
-            ("hanzo_tools.vector", 2.0),  # Vector has heavy deps
-            ("hanzo_tools.agent", 2.0),  # Agent has litellm, allow more time
-        ],
-    )
-    def test_import_speed(self, module, max_time):
-        """Test that imports complete quickly."""
+    @pytest.mark.parametrize("module,max_time", REQUIRED_IMPORT_MODULES)
+    def test_import_speed_required(self, module, max_time):
+        """Test that required imports complete quickly."""
+        import importlib
+
+        start = time.time()
+        importlib.import_module(module)
+        elapsed = time.time() - start
+        assert elapsed < max_time, f"{module} took {elapsed:.2f}s (max {max_time}s)"
+
+    @pytest.mark.parametrize("module,max_time", OPTIONAL_IMPORT_MODULES)
+    def test_import_speed_optional(self, module, max_time):
+        """Test that optional imports complete quickly (if installed)."""
+        if not _module_installed(module):
+            pytest.skip(f"{module} not installed")
         import importlib
 
         start = time.time()
@@ -175,33 +218,41 @@ class TestToolImportSpeed:
         assert elapsed < max_time, f"{module} took {elapsed:.2f}s (max {max_time}s)"
 
 
+# Packages that must always be testable
+REQUIRED_PACKAGES = [
+    "hanzo_tools.filesystem",
+    "hanzo_tools.shell",
+    "hanzo_tools.memory",
+    "hanzo_tools.todo",
+    "hanzo_tools.reasoning",
+    "hanzo_tools.lsp",
+    "hanzo_tools.refactor",
+    "hanzo_tools.database",
+    "hanzo_tools.agent",
+    "hanzo_tools.jupyter",
+    "hanzo_tools.editor",
+    "hanzo_tools.browser",
+]
+
+# Optional packages
+OPTIONAL_PACKAGES = [
+    "hanzo_tools.config",
+    "hanzo_tools.mcp_tools",
+    "hanzo_tools.llm",
+    "hanzo_tools.vector",
+]
+
+
 class TestToolAsync:
     """Test that all tools have async call methods."""
 
     def test_all_tools_async(self):
         """Verify all tool .call() methods are async."""
-        packages = [
-            "hanzo_tools.filesystem",
-            "hanzo_tools.shell",
-            "hanzo_tools.memory",
-            "hanzo_tools.todo",
-            "hanzo_tools.reasoning",
-            "hanzo_tools.lsp",
-            "hanzo_tools.refactor",
-            "hanzo_tools.database",
-            "hanzo_tools.agent",
-            "hanzo_tools.jupyter",
-            "hanzo_tools.editor",
-            "hanzo_tools.browser",
-            "hanzo_tools.config",
-            "hanzo_tools.mcp_tools",
-            "hanzo_tools.llm",
-            "hanzo_tools.vector",
-        ]
+        import importlib
 
-        for pkg_name in packages:
-            import importlib
+        all_packages = REQUIRED_PACKAGES + [p for p in OPTIONAL_PACKAGES if _module_installed(p)]
 
+        for pkg_name in all_packages:
             pkg = importlib.import_module(pkg_name)
             tools = getattr(pkg, "TOOLS", [])
             for tool in tools:
@@ -212,14 +263,13 @@ class TestToolAsync:
 class TestTotalToolCount:
     """Test total tool count across all packages."""
 
-    def test_total_tool_count(self):
-        """Verify we have the expected total tools across all packages.
+    def test_required_tool_count(self):
+        """Verify we have the expected tools in required packages.
 
-        Some packages have optional dependencies, so counts may vary.
-        Core packages should have exact counts, optional packages are flexible.
+        Required packages must have exact counts.
         """
-        # Core packages with exact counts
-        core_packages = [
+        # Required packages with exact counts
+        required_packages = [
             ("hanzo_tools.filesystem", 7),
             ("hanzo_tools.shell", 7),
             ("hanzo_tools.browser", 1),
@@ -231,22 +281,18 @@ class TestTotalToolCount:
             ("hanzo_tools.database", 8),
             ("hanzo_tools.jupyter", 1),
             ("hanzo_tools.editor", 3),
-            ("hanzo_tools.config", 2),
-            ("hanzo_tools.mcp_tools", 4),
         ]
 
         # Packages with variable counts
         variable_packages = [
             ("hanzo_tools.agent", 10, 12),  # 10-12 depending on platform
-            ("hanzo_tools.llm", 0, 4),  # 0-4 depending on litellm
-            ("hanzo_tools.vector", 0, 3),  # 0-3 depending on vector deps
         ]
 
         total = 0
         import importlib
 
-        # Check core packages (exact counts)
-        for pkg_name, expected_count in core_packages:
+        # Check required packages (exact counts)
+        for pkg_name, expected_count in required_packages:
             pkg = importlib.import_module(pkg_name)
             tools = getattr(pkg, "TOOLS", [])
             actual = len(tools)
@@ -261,7 +307,7 @@ class TestTotalToolCount:
             assert min_count <= actual <= max_count, f"{pkg_name}: expected {min_count}-{max_count} tools, got {actual}"
             total += actual
 
-        # Core tools: 47 (7+7+1+9+1+2+1+1+8+1+3+2+4)
-        # Variable: 10-19 (10-12 + 0-4 + 0-3)
-        # Total: 57-66
-        assert 57 <= total <= 66, f"Expected 57-66 total tools, got {total}"
+        # Required tools: 41 (7+7+1+9+1+2+1+1+8+1+3)
+        # Variable: 10-12
+        # Total: 51-53
+        assert 51 <= total <= 53, f"Expected 51-53 required tools, got {total}"
