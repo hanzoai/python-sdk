@@ -127,7 +127,9 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
 
                 hanzo_auth = HanzoAuth()
                 # Email auth not implemented yet
-                console.print("[yellow]Email authentication not yet implemented[/yellow]")
+                console.print(
+                    "[yellow]Email authentication not yet implemented[/yellow]"
+                )
                 console.print("[dim]Saving credentials locally for development[/dim]")
 
                 auth = {
@@ -247,7 +249,9 @@ def whoami():
 
     content = "\n".join(lines) if lines else "[dim]No user information available[/dim]"
 
-    console.print(Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED))
+    console.print(
+        Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED)
+    )
 
 
 @auth_group.command(name="set-key")

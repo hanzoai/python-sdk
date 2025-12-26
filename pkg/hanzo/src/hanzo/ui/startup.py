@@ -232,7 +232,9 @@ class StartupUI:
         # Check router status
         try:
             response = httpx.get("http://localhost:4000/health", timeout=1)
-            router_status = "🟢 Running" if response.status_code == 200 else "🔴 Offline"
+            router_status = (
+                "🟢 Running" if response.status_code == 200 else "🔴 Offline"
+            )
         except Exception:
             router_status = "⚫ Offline"
 
@@ -256,7 +258,9 @@ class StartupUI:
         status.append("API: ", style="bold")
         status.append(api_status, style="white")
 
-        return Panel(Align.center(status), box=box.ROUNDED, border_style="blue", padding=(0, 1))
+        return Panel(
+            Align.center(status), box=box.ROUNDED, border_style="blue", padding=(0, 1)
+        )
 
     def _create_qr_panel(self) -> Panel:
         """Create compact QR code panel for device connection."""
@@ -299,7 +303,9 @@ class StartupUI:
                 gpu_info = caps.chip[:20]
             except Exception:
                 # Fallback - basic connection info
-                connection_data = json.dumps({"id": socket.gethostname(), "host": local_ip, "type": "hanzo-node"})
+                connection_data = json.dumps(
+                    {"id": socket.gethostname(), "host": local_ip, "type": "hanzo-node"}
+                )
                 gpu_info = "CPU"
 
             # Generate smallest possible QR code
