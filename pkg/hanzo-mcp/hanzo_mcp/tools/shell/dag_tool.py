@@ -206,6 +206,10 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         start_time = datetime.now()
         node_id = f"shell_{id(cmd)}"
         process_manager = ProcessManager()
+        
+        # Defensive check - should never happen but provides better error message
+        if process_manager is None:
+            raise RuntimeError("ProcessManager() returned None - singleton initialization failed")
 
         try:
             # Merge environment
