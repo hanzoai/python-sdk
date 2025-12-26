@@ -7,7 +7,6 @@ import signal
 from typing import Optional, override
 
 import aiofiles
-
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 

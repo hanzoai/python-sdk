@@ -12,8 +12,7 @@ from pathlib import Path
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import ToolContext, create_tool_context
-from hanzo_tools.core import FileSystemTool as FilesystemBaseTool
+from hanzo_tools.core import ToolContext, FileSystemTool as FilesystemBaseTool, create_tool_context
 
 # Pattern to match ANSI escape sequences
 ANSI_ESCAPE_PATTERN = re.compile(r"\x1B\[[0-9;]*[a-zA-Z]")

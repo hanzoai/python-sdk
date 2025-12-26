@@ -7,12 +7,11 @@ from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
 
 from pydantic import Field
+from hanzo_mcp.config import load_settings, save_settings
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.config import load_settings, save_settings
-from hanzo_tools.core import BaseTool
-from hanzo_tools.core import PermissionManager
-from hanzo_tools.core import auto_timeout
+from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout
+
 from .index_config import IndexScope, IndexConfig
 
 # Parameter types

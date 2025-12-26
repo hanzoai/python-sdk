@@ -6,8 +6,9 @@ This module makes swarm an alias to the network tool, as network is the
 evolution of swarm with better distributed execution capabilities.
 """
 
-from .network_tool import NetworkTool
 from hanzo_tools.core import PermissionManager
+
+from .network_tool import NetworkTool
 
 
 class SwarmTool(NetworkTool):

@@ -337,9 +337,9 @@ class TestConcurrentFileOperations:
 
     def test_concurrent_file_access(self):
         """Test multiple tools accessing files concurrently."""
-        from hanzo_mcp.tools.common.permissions import PermissionManager
         from hanzo_mcp.tools.filesystem.read import ReadTool
         from hanzo_mcp.tools.filesystem.write import Write as WriteTool
+        from hanzo_mcp.tools.common.permissions import PermissionManager
 
         with tempfile.TemporaryDirectory() as tmpdir:
             pm = PermissionManager()

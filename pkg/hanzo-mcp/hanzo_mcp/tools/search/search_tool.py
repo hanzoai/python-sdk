@@ -23,7 +23,7 @@ except ImportError:
     TREESITTER_AVAILABLE = False
 
 try:
-    from hanzo_mcp.tools.lsp.lsp_tool import LSPTool, LSP_SERVERS
+    from hanzo_mcp.tools.lsp.lsp_tool import LSP_SERVERS, LSPTool
     LSP_AVAILABLE = True
 except ImportError:
     LSP_AVAILABLE = False
