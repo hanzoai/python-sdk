@@ -195,7 +195,9 @@ class SearchTool(BaseTool):
     @auto_timeout("search")
     async def call(self, ctx=None, **kwargs) -> str:
         result = await self.run(**kwargs)
-        return result.to_json_string()
+        # Use readable format for better Claude Code display
+        # Structured data still available via result.to_json_string() if needed
+        return result.to_readable_string()
 
     def register(self, mcp_server) -> None:
         @mcp_server.tool(name=self.name, description=self.description)
