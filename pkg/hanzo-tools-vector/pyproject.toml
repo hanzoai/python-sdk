@@ -5,15 +5,20 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hanzo-tools-vector"
 version = "0.1.0"
-description = "Vector search and embedding tools"
+description = "Vector/embedding tools for Hanzo AI - indexing, search, RAG"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
-dependencies = ["mcp>=1.25.0", "fastmcp>=2.14.1", "pydantic>=2.12.5"]
+keywords = ["hanzo", "tools", "vector", "embeddings", "rag", "mcp", "ai"]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.25.0",
+    "fastmcp>=2.14.1",
+    "pydantic>=2.12.5",
+]
 
 [project.optional-dependencies]
-chroma = ["chromadb>=0.5.0"]
-openai = ["openai>=1.82.0"]
+full = ["sentence-transformers>=2.0.0", "faiss-cpu>=1.7.0"]
 
 [project.entry-points."hanzo.tools"]
 vector = "hanzo_tools.vector:TOOLS"
