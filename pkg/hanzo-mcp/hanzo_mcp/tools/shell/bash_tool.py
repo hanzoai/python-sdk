@@ -60,14 +60,14 @@ bash "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
     @override
     def get_interpreter(self) -> str:
         """Get the bash interpreter.
-        
+
         Respects HANZO_MCP_FORCE_SHELL environment variable to override.
         """
         # Check for forced shell override
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
-        
+
         if platform.system() == "Windows":
             # Try to find bash on Windows (Git Bash, WSL, etc.)
             bash_paths = [

@@ -18,7 +18,7 @@ Install:
 
 Usage:
     from hanzo_tools.database import register_tools, TOOLS
-    
+
     # Register with MCP server
     register_tools(mcp_server, permission_manager)
 """
@@ -99,7 +99,7 @@ def register_tools(
     ]
 
     for tool in tool_instances:
-        tool_name = tool.name if hasattr(tool, 'name') else tool.__class__.__name__.lower()
+        tool_name = tool.name if hasattr(tool, "name") else tool.__class__.__name__.lower()
         if enabled.get(tool_name, True):  # Enabled by default
             ToolRegistry.register_tool(mcp_server, tool)
             registered.append(tool)

@@ -78,6 +78,7 @@ open /path/to/image.png"""
                         raise RuntimeError("No suitable file opener found on Linux")
             elif system == "windows":
                 import os
+
                 os.startfile(str(file_path))
             else:
                 raise RuntimeError(f"Unsupported platform: {system}")

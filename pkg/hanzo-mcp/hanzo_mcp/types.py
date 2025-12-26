@@ -7,7 +7,7 @@ from dataclasses import dataclass
 @dataclass
 class MCPResourceDocument:
     """Resource document returned by MCP tools.
-    
+
     Output format options:
     - to_json_string(): Clean JSON without outer wrapper (default)
     - to_readable_string(): Human-readable formatted text
@@ -27,16 +27,17 @@ class MCPResourceDocument:
     def to_json_string(self) -> str:
         """Convert to clean JSON string - just the data, not wrapped."""
         import json
+
         # Return just the data content, not wrapped in {"data": ...}
         # This makes output cleaner when MCP adds its own wrapper
         return json.dumps({"result": self.data}, indent=2)
-    
+
     def to_readable_string(self) -> str:
         """Convert to human-readable formatted string for display."""
         import json
-        
+
         lines = []
-        
+
         # Format the main data
         if isinstance(self.data, dict):
             # Handle common result structures
@@ -44,7 +45,7 @@ class MCPResourceDocument:
                 results = self.data["results"]
                 stats = self.data.get("stats", {})
                 pagination = self.data.get("pagination", {})
-                
+
                 # Header with stats
                 if stats:
                     query = stats.get("query", "")
@@ -56,7 +57,7 @@ class MCPResourceDocument:
                     else:
                         lines.append(f"# Found {total} results")
                     lines.append("")
-                
+
                 # Results
                 for i, result in enumerate(results[:50], 1):  # Limit display
                     if isinstance(result, dict):
@@ -64,7 +65,7 @@ class MCPResourceDocument:
                         line = result.get("line", "")
                         match = result.get("match", result.get("text", ""))
                         rtype = result.get("type", "")
-                        
+
                         if file_path:
                             loc = f"{file_path}:{line}" if line else file_path
                             lines.append(f"{i}. {loc}")
@@ -78,7 +79,7 @@ class MCPResourceDocument:
                             lines.append(f"{i}. {json.dumps(result)}")
                     else:
                         lines.append(f"{i}. {result}")
-                
+
                 # Pagination info
                 if pagination:
                     page = pagination.get("page", 1)
@@ -97,12 +98,12 @@ class MCPResourceDocument:
         else:
             # Non-dict data - just dump as JSON
             lines.append(json.dumps(self.data, indent=2))
-        
+
         # Add metadata footer if present
         if self.metadata:
             lines.append("")
             lines.append("---")
             for key, value in self.metadata.items():
                 lines.append(f"{key}: {value}")
-        
+
         return "\n".join(lines)
