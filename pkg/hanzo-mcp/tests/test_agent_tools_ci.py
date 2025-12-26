@@ -1,23 +1,14 @@
-"""CI tests for all agent tools to ensure they work properly."""
+"""CI tests for unified agent tools."""
 
 from pathlib import Path
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import Mock
 
 import pytest
-from hanzo_tools.agent import register_agent_tools
-from hanzo_tools.agent.agent_tool import AgentTool
-from hanzo_tools.agent.swarm_alias import SwarmTool
-from hanzo_tools.agent.network_tool import NetworkTool
-from hanzo_tools.agent.claude_cli_tool import ClaudeCLITool
-from hanzo_mcp.tools.common.permissions import PermissionManager
 
-
-@pytest.fixture
-def permission_manager():
-    """Create a permission manager for testing."""
-    pm = PermissionManager()
-    pm.allowed_paths = ["/tmp", str(Path.home())]
-    return pm
+from hanzo_tools.agent import TOOLS, register_tools
+from hanzo_tools.agent.unified_agent_tool import UnifiedAgentTool
+from hanzo_tools.agent.iching_tool import IChingTool
+from hanzo_tools.agent.review_tool import ReviewTool
 
 
 @pytest.fixture
@@ -28,140 +19,74 @@ def mock_mcp_server():
     return server
 
 
-class TestAgentTools:
-    """Test all agent tools work correctly."""
+class TestUnifiedAgentTools:
+    """Test unified agent tools work correctly."""
 
-    def test_agent_tool_creation(self, permission_manager):
-        """Test AgentTool can be created."""
-        tool = AgentTool(
-            permission_manager=permission_manager,
-            model="claude-3-sonnet",
-            max_iterations=10,
-        )
+    def test_tools_export(self):
+        """Test TOOLS exports the correct tools."""
+        tool_classes = [t.__name__ for t in TOOLS]
+        assert "UnifiedAgentTool" in tool_classes
+        assert "IChingTool" in tool_classes
+        assert "ReviewTool" in tool_classes
+        assert len(TOOLS) == 3
+
+    def test_unified_agent_tool_creation(self):
+        """Test UnifiedAgentTool can be created."""
+        tool = UnifiedAgentTool()
         assert tool.name == "agent"
-        # Check description contains either delegate or fallback message
+        assert "claude" in tool.description.lower() or "agent" in tool.description.lower()
+
+    def test_unified_agent_tool_agents(self):
+        """Test UnifiedAgentTool has expected agents."""
+        tool = UnifiedAgentTool()
+        assert "claude" in tool.AGENTS
+        assert "codex" in tool.AGENTS
+        assert "gemini" in tool.AGENTS
+        assert "grok" in tool.AGENTS
+
+    def test_unified_agent_tool_list_agents(self):
+        """Test agent listing."""
+        tool = UnifiedAgentTool()
+        result = tool._list_agents()
+        assert "Available agents:" in result
+        assert "claude" in result
+        assert "codex" in result
+
+    def test_iching_tool_creation(self):
+        """Test IChingTool can be created."""
+        tool = IChingTool()
+        assert tool.name == "iching"
         desc_lower = tool.description.lower()
-        assert "delegate" in desc_lower or "fallback" in desc_lower
+        assert "i ching" in desc_lower or "wisdom" in desc_lower or "hexagram" in desc_lower
 
-    def test_network_tool_creation(self, permission_manager):
-        """Test NetworkTool can be created."""
-        tool = NetworkTool(permission_manager=permission_manager, default_mode="hybrid")
-        assert tool.name == "network"
-        assert "distributed" in tool.description.lower()
+    def test_review_tool_creation(self):
+        """Test ReviewTool can be created."""
+        tool = ReviewTool()
+        assert tool.name == "review"
+        assert "review" in tool.description.lower()
 
-    def test_swarm_is_alias_to_network(self, permission_manager):
-        """Test SwarmTool is an alias to NetworkTool."""
-        tool = SwarmTool(permission_manager=permission_manager)
-        assert tool.name == "swarm"
-        assert "alias" in tool.description.lower()
-        assert "network" in tool.description.lower()
-        # SwarmTool should inherit from NetworkTool
-        assert isinstance(tool, NetworkTool)
-
-    def test_claude_cli_tool_creation(self, permission_manager):
-        """Test ClaudeCLITool can be created."""
-        tool = ClaudeCLITool(permission_manager=permission_manager)
-        assert tool.name == "claude_cli"
-        assert "claude" in tool.description.lower()
-
-    def test_all_tools_register(self, mock_mcp_server, permission_manager):
+    def test_all_tools_register(self, mock_mcp_server):
         """Test all agent tools register correctly."""
-        tools = register_agent_tools(
-            mcp_server=mock_mcp_server,
-            permission_manager=permission_manager,
-            agent_model="claude-3-sonnet",
-        )
+        tools = register_tools(mcp_server=mock_mcp_server)
 
         # Should return list of registered tools
-        assert len(tools) >= 4  # At least agent, network, swarm, claude_cli
+        assert len(tools) == 3
 
         # Check tool names
         tool_names = [t.name for t in tools]
-        assert "agent" in tool_names or any("agent" in n for n in tool_names)
-        assert "network" in tool_names or any("network" in n for n in tool_names)
-        assert "claude_cli" in tool_names or any("claude" in n for n in tool_names)
+        assert "agent" in tool_names
+        assert "iching" in tool_names
+        assert "review" in tool_names
 
-    @pytest.mark.skip(reason="Async test framework issue - tool works when tested directly")
-    @pytest.mark.asyncio
-    async def test_agent_tool_basic_call(self, permission_manager):
-        """Test AgentTool can handle basic calls."""
-        tool = AgentTool(permission_manager=permission_manager, model="claude-3-sonnet")
-
-        # We can't properly test call() without a real MCPContext
-        # Just verify the tool was created and has expected properties
-        assert tool.name == "agent"
-        assert tool.permission_manager == permission_manager
-        assert tool.max_iterations == 10
-        assert tool.max_tool_uses == 30
-        assert len(tool.available_tools) > 0  # Should have some tools available
-
-    @pytest.mark.skip(reason="Async test framework issue - tool works when tested directly")
-    @pytest.mark.asyncio
-    async def test_network_tool_modes(self, permission_manager):
-        """Test NetworkTool supports different modes."""
-        tool = NetworkTool(permission_manager=permission_manager)
-
-        # Test mode validation happens
-        with patch.object(tool, "_ensure_cluster", new_callable=AsyncMock):
-            # These modes should be accepted
-            for mode in ["local", "distributed", "hybrid"]:
-                try:
-                    # Just test parameter acceptance, not execution
-                    params = tool._validate_params(task="test", mode=mode)
-                    assert params is not None or True  # Either validates or we're OK
-                except AttributeError:
-                    # Method might not exist, that's OK for this test
-                    pass
-
-    def test_pagination_support(self, permission_manager):
-        """Test tools support pagination where applicable."""
-        # Agent tools typically don't paginate, but check they handle params
-        tool = AgentTool(permission_manager=permission_manager)
-
-        # Should not error with pagination params
-        try:
-            # Tools should gracefully handle unexpected params
-            tool._prepare_params = Mock()
-            tool._prepare_params(page=1, page_size=10)
-        except Exception:
-            # If method doesn't exist, that's fine
-            pass
-
-    def test_tool_naming_consistency(self, permission_manager):
+    def test_tool_naming_consistency(self):
         """Ensure tool naming is consistent."""
-        # Create all tools
-        agent = AgentTool(permission_manager=permission_manager)
-        network = NetworkTool(permission_manager=permission_manager)
-        swarm = SwarmTool(permission_manager=permission_manager)
-        claude = ClaudeCLITool(permission_manager=permission_manager)
+        agent = UnifiedAgentTool()
+        iching = IChingTool()
+        review = ReviewTool()
 
-        # Check names match expectations
-        assert agent.name == "agent"  # Not "dispatch_agent"
-        assert network.name == "network"
-        assert swarm.name == "swarm"
-        assert claude.name == "claude_cli"
-
-        # Swarm should be network-based
-        assert isinstance(swarm, NetworkTool)
-
-    def test_default_configuration(self):
-        """Test default configuration enables agent tools."""
-        import json
-        from pathlib import Path
-
-        config_path = Path(__file__).parent.parent / "hanzo_mcp" / "config" / "default_tools.json"
-        if config_path.exists():
-            with open(config_path) as f:
-                config = json.load(f)
-
-            # Check agent tools are enabled by default
-            assert config["tools"].get("agent", False) == True
-            assert config["tools"].get("network", False) == True
-            assert config["tools"].get("swarm", False) == True
-            assert config["tools"].get("claude_cli", False) == True
-
-            # dispatch_agent should not exist (replaced by agent)
-            assert "dispatch_agent" not in config["tools"] or config["tools"]["dispatch_agent"] == False
+        assert agent.name == "agent"
+        assert iching.name == "iching"
+        assert review.name == "review"
 
 
 if __name__ == "__main__":
