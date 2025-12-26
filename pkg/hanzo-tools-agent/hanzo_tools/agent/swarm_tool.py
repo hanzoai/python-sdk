@@ -44,10 +44,7 @@ except ImportError:
         """Metaclass that raises ImportError when stub class is instantiated."""
 
         def __call__(cls, *args, **kwargs):
-            raise ImportError(
-                f"{cls.__name__} requires hanzo-agents package. "
-                "Install with: pip install hanzo-agents"
-            )
+            raise ImportError(f"{cls.__name__} requires hanzo-agents package. Install with: pip install hanzo-agents")
 
     class Agent(metaclass=_StubMeta):
         """Stub - requires hanzo-agents."""
@@ -104,10 +101,7 @@ def _stub_factory(name: str):
     """Create a stub function that raises ImportError."""
 
     def stub(*args, **kwargs):
-        raise ImportError(
-            f"{name} requires hanzo-agents package. "
-            "Install with: pip install hanzo-agents"
-        )
+        raise ImportError(f"{name} requires hanzo-agents package. Install with: pip install hanzo-agents")
 
     stub.__name__ = name
     return stub
@@ -160,9 +154,9 @@ except ImportError:
         """Stub - requires hanzo-agents."""
 
 
+from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
 from hanzo_tools.filesystem import Edit, get_read_only_filesystem_tools
-from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 
 from .agent_tool import MCPAgent
 
