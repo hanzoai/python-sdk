@@ -3,8 +3,8 @@
 Returns structured JSON with markdown-ready fields that Claude knows how to render.
 """
 
-import json
 import os
+import json
 from typing import Optional
 
 
