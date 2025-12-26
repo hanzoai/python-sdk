@@ -35,6 +35,7 @@ def _check_lsp_available() -> bool:
     if _LSP_TOOL_AVAILABLE is None:
         try:
             from hanzo_mcp.tools.lsp import LSPTool  # noqa: F401
+
             _LSP_TOOL_AVAILABLE = True
         except ImportError:
             _LSP_TOOL_AVAILABLE = False
@@ -47,6 +48,7 @@ def _check_refactor_available() -> bool:
     if _REFACTOR_TOOL_AVAILABLE is None:
         try:
             from hanzo_mcp.tools.refactor import RefactorTool  # noqa: F401
+
             _REFACTOR_TOOL_AVAILABLE = True
         except ImportError:
             _REFACTOR_TOOL_AVAILABLE = False
@@ -59,6 +61,7 @@ def _check_memory_available() -> bool:
     if _MEMORY_TOOLS_AVAILABLE is None:
         try:
             from hanzo_mcp.tools.memory import register_memory_tools  # noqa: F401
+
             _MEMORY_TOOLS_AVAILABLE = True
         except ImportError:
             _MEMORY_TOOLS_AVAILABLE = False
@@ -71,6 +74,7 @@ def _check_browser_available() -> bool:
     if _BROWSER_TOOL_AVAILABLE is None:
         try:
             import playwright  # noqa: F401
+
             _BROWSER_TOOL_AVAILABLE = True
         except ImportError:
             _BROWSER_TOOL_AVAILABLE = False
@@ -396,6 +400,7 @@ def register_all_tools(
     # Register system tools (always enabled)
     # Version tool
     from hanzo_mcp.tools.common.version_tool import register_version_tool
+
     register_version_tool(mcp_server)
 
     # Tool install tool (for dynamic tool management)
@@ -510,6 +515,7 @@ def register_all_tools(
     if any(memory_enabled.values()) and _check_memory_available():
         try:
             from hanzo_mcp.tools.memory import register_memory_tools
+
             memory_tools = register_memory_tools(
                 mcp_server, permission_manager, user_id="default", project_id="default"
             )
@@ -524,6 +530,7 @@ def register_all_tools(
     if is_tool_enabled("lsp", True) and _check_lsp_available():
         try:
             from hanzo_mcp.tools.lsp import create_lsp_tool
+
             tool = create_lsp_tool()
             tool.register(mcp_server)
             all_tools[tool.name] = tool
@@ -534,6 +541,7 @@ def register_all_tools(
     if is_tool_enabled("refactor", True) and _check_refactor_available():
         try:
             from hanzo_mcp.tools.refactor import create_refactor_tool
+
             tool = create_refactor_tool()
             tool.register(mcp_server)
             all_tools[tool.name] = tool
@@ -544,6 +552,7 @@ def register_all_tools(
     if is_tool_enabled("browser", True) and _check_browser_available():
         try:
             from hanzo_mcp.tools.browser import create_browser_tool
+
             tool = create_browser_tool()
             tool.register(mcp_server)
             all_tools[tool.name] = tool

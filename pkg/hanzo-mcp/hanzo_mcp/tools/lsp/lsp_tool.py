@@ -441,9 +441,7 @@ class LSPTool(BaseTool):
                     "typeDefinition": {"dynamicRegistration": True, "linkSupport": True},
                 },
             },
-            "workspaceFolders": [
-                {"uri": f"file://{server.root_uri}", "name": Path(server.root_uri).name}
-            ],
+            "workspaceFolders": [{"uri": f"file://{server.root_uri}", "name": Path(server.root_uri).name}],
         }
 
         # Send initialize request
@@ -474,10 +472,7 @@ class LSPTool(BaseTool):
             # Read headers until empty line
             headers = {}
             while True:
-                line = await asyncio.wait_for(
-                    server.process.stdout.readline(),
-                    timeout=timeout
-                )
+                line = await asyncio.wait_for(server.process.stdout.readline(), timeout=timeout)
                 if not line:
                     return None
                 line_str = line.decode("utf-8").strip()
@@ -493,10 +488,7 @@ class LSPTool(BaseTool):
                 return None
 
             # Read content
-            content = await asyncio.wait_for(
-                server.process.stdout.read(content_length),
-                timeout=timeout
-            )
+            content = await asyncio.wait_for(server.process.stdout.read(content_length), timeout=timeout)
             return json.loads(content.decode("utf-8"))
 
         except asyncio.TimeoutError:
@@ -506,7 +498,9 @@ class LSPTool(BaseTool):
             logger.error(f"Error reading LSP message: {e}")
             return None
 
-    async def _send_request(self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0) -> Optional[Dict[str, Any]]:
+    async def _send_request(
+        self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0
+    ) -> Optional[Dict[str, Any]]:
         """Send JSON-RPC request to LSP server and wait for response."""
         if not server.process or server.process.returncode is not None:
             return None
@@ -514,6 +508,7 @@ class LSPTool(BaseTool):
             return None
 
         import time
+
         async with server.lock:
             try:
                 # Serialize request
@@ -849,7 +844,9 @@ class LSPTool(BaseTool):
                             file_path = change["textDocument"]["uri"].replace("file://", "")
                             changes[file_path] = [
                                 {
-                                    "range": self._parse_location({"uri": change["textDocument"]["uri"], "range": edit["range"]}),
+                                    "range": self._parse_location(
+                                        {"uri": change["textDocument"]["uri"], "range": edit["range"]}
+                                    ),
                                     "newText": edit["newText"],
                                 }
                                 for edit in change.get("edits", [])
@@ -922,10 +919,7 @@ class LSPTool(BaseTool):
                 if isinstance(contents, dict):
                     hover_text = contents.get("value", str(contents))
                 elif isinstance(contents, list):
-                    hover_text = "\n".join(
-                        c.get("value", str(c)) if isinstance(c, dict) else str(c)
-                        for c in contents
-                    )
+                    hover_text = "\n".join(c.get("value", str(c)) if isinstance(c, dict) else str(c) for c in contents)
                 else:
                     hover_text = str(contents)
 

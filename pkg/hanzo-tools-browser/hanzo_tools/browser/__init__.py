@@ -48,7 +48,7 @@ def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """
     headless = kwargs.get("headless", True)
     cdp_endpoint = kwargs.get("cdp_endpoint")
-    
+
     tool = create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint)
     ToolRegistry.register_tool(mcp_server, tool)
     return [tool]
@@ -56,7 +56,7 @@ def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
 
 def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """Register all browser tools with the MCP server.
-    
+
     This is the standard entry point called by the tool discovery system.
     """
     return register_browser_tools(mcp_server, **kwargs)

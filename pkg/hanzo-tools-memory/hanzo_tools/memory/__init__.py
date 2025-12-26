@@ -68,10 +68,7 @@ def get_memory_tools(
     Returns:
         List of tool instances
     """
-    return [
-        cls(user_id=user_id, project_id=project_id, **kwargs)
-        for cls in ALL_TOOL_CLASSES
-    ]
+    return [cls(user_id=user_id, project_id=project_id, **kwargs) for cls in ALL_TOOL_CLASSES]
 
 
 def register_memory_tools(

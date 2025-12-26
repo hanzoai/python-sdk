@@ -12,7 +12,7 @@ Install:
 
 Usage:
     from hanzo_tools.agent import register_tools, TOOLS
-    
+
     # Register with MCP server
     register_tools(mcp_server)
 
@@ -44,12 +44,14 @@ _optional_tools = []
 
 try:
     from .agent_tool import AgentTool
+
     _optional_tools.append(AgentTool)
 except ImportError as e:
     logger.debug(f"AgentTool not available: {e}")
 
 try:
     from .swarm_tool import SwarmTool
+
     _optional_tools.append(SwarmTool)
 except ImportError as e:
     logger.debug(f"SwarmTool not available: {e}")
@@ -101,7 +103,7 @@ def register_tools(mcp_server, enabled_tools: dict[str, bool] | None = None):
     registered = []
 
     for tool_class in TOOLS:
-        tool_name = tool_class.name if hasattr(tool_class, 'name') else tool_class.__name__.lower()
+        tool_name = tool_class.name if hasattr(tool_class, "name") else tool_class.__name__.lower()
 
         if enabled.get(tool_name, True):  # Enabled by default
             try:

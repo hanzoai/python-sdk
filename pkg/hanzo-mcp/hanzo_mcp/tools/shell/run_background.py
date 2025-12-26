@@ -16,7 +16,7 @@ warnings.warn(
     "run_background.py uses blocking subprocess.Popen. "
     "Consider using base_process.BaseProcessTool for async execution.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 import os

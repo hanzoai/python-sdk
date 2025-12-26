@@ -124,16 +124,12 @@ Examples:
                 # Show all system processes
                 await tool_ctx.info("Listing all system processes")
                 # Run in thread pool to avoid blocking event loop
-                return await asyncio.to_thread(
-                    self._list_system_processes, filter_name, show_details
-                )
+                return await asyncio.to_thread(self._list_system_processes, filter_name, show_details)
             else:
                 # Show only background processes
                 await tool_ctx.info("Listing background processes")
                 # Run in thread pool to avoid blocking event loop
-                return await asyncio.to_thread(
-                    self._list_background_processes, filter_name, show_details
-                )
+                return await asyncio.to_thread(self._list_background_processes, filter_name, show_details)
 
         except Exception as e:
             await tool_ctx.error(f"Failed to list processes: {str(e)}")

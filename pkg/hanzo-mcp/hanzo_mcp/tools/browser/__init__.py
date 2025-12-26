@@ -13,7 +13,7 @@ Basic usage:
 Cross-MCP sharing:
     # Terminal 1: Launch persistent browser
     endpoint = await launch_browser_server(port=9222)
-    
+
     # MCP instances connect via:
     # BROWSER_CDP_ENDPOINT=http://localhost:9222
 """
@@ -28,7 +28,7 @@ from hanzo_mcp.tools.browser.browser_tool import (
 
 __all__ = [
     "BrowserTool",
-    "BrowserPool", 
+    "BrowserPool",
     "create_browser_tool",
     "launch_browser_server",
     "PLAYWRIGHT_AVAILABLE",
