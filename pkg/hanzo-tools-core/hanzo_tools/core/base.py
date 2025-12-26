@@ -146,12 +146,15 @@ class FileSystemTool(BaseTool, ABC):
     including permission checking and path validation.
     """
 
-    def __init__(self, permission_manager: "PermissionManager") -> None:
+    def __init__(self, permission_manager: "PermissionManager | None" = None) -> None:
         """Initialize filesystem tool.
 
         Args:
-            permission_manager: Permission manager for access control
+            permission_manager: Permission manager for access control (auto-created if None)
         """
+        if permission_manager is None:
+            from hanzo_tools.core.permissions import PermissionManager
+            permission_manager = PermissionManager()
         self.permission_manager = permission_manager
 
     def validate_path(self, path: str, param_name: str = "path") -> "ValidationResult":

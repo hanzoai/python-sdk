@@ -79,9 +79,12 @@ def _parse_bool(value: str) -> Optional[bool]:
 class ConfigTool(BaseTool):
     """Git-style configuration management tool."""
 
-    def __init__(self, permission_manager: PermissionManager):
+    def __init__(self, permission_manager: Optional[PermissionManager] = None):
         """Initialize config tool."""
-        super().__init__(permission_manager)
+        super().__init__()
+        if permission_manager is None:
+            permission_manager = PermissionManager()
+        self.permission_manager = permission_manager
         self.index_config = IndexConfig()
 
     @property

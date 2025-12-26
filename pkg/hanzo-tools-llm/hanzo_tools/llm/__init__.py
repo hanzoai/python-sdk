@@ -1,8 +1,7 @@
 """LLM tools for Hanzo AI.
 
 Tools:
-- llm: Unified LLM interface
-- llm_manage: Model management
+- llm: Unified LLM interface with model management
 - consensus: Multi-model consensus
 
 Install:
@@ -35,10 +34,9 @@ except ImportError as e:
     logger.debug(f"ConsensusTool not available: {e}")
     ConsensusTool = None
 
+# LLMManageTool kept for backwards compatibility but not exported to TOOLS
 try:
     from .llm_manage import LLMManageTool
-
-    _tools.append(LLMManageTool)
 except ImportError as e:
     logger.debug(f"LLMManageTool not available: {e}")
     LLMManageTool = None

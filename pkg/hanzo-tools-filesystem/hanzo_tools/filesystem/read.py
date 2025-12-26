@@ -1,6 +1,6 @@
 """Read tool - read file contents."""
 
-from typing import Any, Annotated
+from typing import Optional,  Any, Annotated
 from pathlib import Path
 
 from pydantic import Field
@@ -28,7 +28,7 @@ Returns:
     File contents with line numbers
 """
 
-    def __init__(self, permission_manager: PermissionManager):
+    def __init__(self, permission_manager: Optional[PermissionManager] = None):
         super().__init__(permission_manager)
 
     @auto_timeout("read")
