@@ -26,6 +26,9 @@ ESSENTIAL_SYSTEM_TOOLS: Set[str] = {
     # Core system
     "version",       # Version info
     "stats",         # Statistics
+
+    # Memory (always available)
+    "memory",        # Unified memory operations
 }
 
 

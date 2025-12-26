@@ -228,14 +228,6 @@ def _register_system_tools(
     except ImportError:
         logger.debug("Stats tool not available")
 
-    # CLI tool factory (dynamic CLI tool creation)
-    try:
-        from hanzo_mcp.tools.common.cli_tool_factory import register_cli_factory_tools
-        register_cli_factory_tools(mcp_server)
-        logger.info("Registered CLI tool factory (cli_create, cli_list, cli_remove, cli_help)")
-    except ImportError:
-        logger.debug("CLI tool factory not available")
-
 
 # Re-export for backward compatibility
 __all__ = ["register_all_tools"]

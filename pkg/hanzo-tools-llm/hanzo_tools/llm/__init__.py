@@ -34,13 +34,6 @@ except ImportError as e:
     logger.debug(f"ConsensusTool not available: {e}")
     ConsensusTool = None
 
-# LLMManageTool kept for backwards compatibility but not exported to TOOLS
-try:
-    from .llm_manage import LLMManageTool
-except ImportError as e:
-    logger.debug(f"LLMManageTool not available: {e}")
-    LLMManageTool = None
-
 TOOLS = _tools
 LLM_AVAILABLE = len(_tools) > 0
 
@@ -50,7 +43,6 @@ __all__ = [
     "LLMTool",
     "UnifiedLLMTool",
     "ConsensusTool",
-    "LLMManageTool",
     "register_tools",
 ]
 
