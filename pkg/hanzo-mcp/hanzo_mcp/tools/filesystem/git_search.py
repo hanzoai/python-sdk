@@ -2,7 +2,7 @@
 
 import os
 import re
-import subprocess
+import asyncio
 from typing import Unpack, Annotated, TypedDict, final, override
 
 from pydantic import Field
@@ -295,19 +295,27 @@ Examples:
         if file_pattern:
             cmd.extend(["--", file_pattern])
 
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=repo_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await process.communicate()
+        stdout_text = stdout.decode() if stdout else ""
+        stderr_text = stderr.decode() if stderr else ""
 
-        if result.returncode == 0:
-            lines = result.stdout.strip().split("\n")
+        if process.returncode == 0:
+            lines = stdout_text.strip().split("\n")
             if lines and lines[0]:
                 await tool_ctx.info(f"Found {len(lines)} matches")
                 return self._format_grep_results(lines, pattern)
             else:
                 return f"No matches found for pattern: {pattern}"
-        elif result.returncode == 1:
+        elif process.returncode == 1:
             return f"No matches found for pattern: {pattern}"
         else:
-            raise subprocess.CalledProcessError(result.returncode, cmd, result.stdout, result.stderr)
+            raise RuntimeError(f"Git command failed with code {process.returncode}: {stderr_text}")
 
     async def _search_commits(
         self,
@@ -345,17 +353,25 @@ Examples:
         if file_pattern:
             cmd.extend(["--", file_pattern])
 
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=repo_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await process.communicate()
+        stdout_text = stdout.decode() if stdout else ""
+        stderr_text = stderr.decode() if stderr else ""
 
-        if result.returncode == 0:
-            lines = result.stdout.strip().split("\n")
+        if process.returncode == 0:
+            lines = stdout_text.strip().split("\n")
             if lines and lines[0]:
                 await tool_ctx.info(f"Found {len(lines)} commits")
-                return f"Found {len(lines)} commits matching '{pattern}':\n\n" + result.stdout
+                return f"Found {len(lines)} commits matching '{pattern}':\n\n" + stdout_text
             else:
                 return f"No commits found matching: {pattern}"
         else:
-            raise subprocess.CalledProcessError(result.returncode, cmd, result.stdout, result.stderr)
+            raise RuntimeError(f"Git command failed with code {process.returncode}: {stderr_text}")
 
     async def _search_diff(
         self,
@@ -403,11 +419,18 @@ Examples:
         if file_pattern:
             cmd.extend(["--", file_pattern])
 
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=repo_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, _stderr = await process.communicate()
+        stdout_text = stdout.decode() if stdout else ""
 
-        if result.returncode == 0 and result.stdout.strip():
+        if process.returncode == 0 and stdout_text.strip():
             # Parse and highlight matching lines
-            output = self._highlight_diff_matches(result.stdout, pattern, case_sensitive)
+            output = self._highlight_diff_matches(stdout_text, pattern, case_sensitive)
             matches = output.count("commit ")
             await tool_ctx.info(f"Found {matches} commits with changes")
             return f"Found {matches} commits with changes matching '{pattern}':\n\n{output}"
@@ -450,12 +473,19 @@ Examples:
         if file_pattern:
             cmd.extend(["--", file_pattern])
 
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=repo_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, _stderr = await process.communicate()
+        stdout_text = stdout.decode() if stdout else ""
 
-        if result.returncode == 0 and result.stdout.strip():
-            lines = result.stdout.strip().split("\n")
+        if process.returncode == 0 and stdout_text.strip():
+            lines = stdout_text.strip().split("\n")
             await tool_ctx.info(f"Found {len(lines)} commits")
-            return f"Found {len(lines)} commits:\n\n" + result.stdout
+            return f"Found {len(lines)} commits:\n\n" + stdout_text
         else:
             return "No commits found matching criteria"
 
@@ -473,23 +503,37 @@ Examples:
 
         # First, find files matching the pattern
         cmd = ["git", "ls-files", file_pattern]
-        result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=repo_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, _stderr = await process.communicate()
+        stdout_text = stdout.decode() if stdout else ""
 
-        if result.returncode != 0 or not result.stdout.strip():
+        if process.returncode != 0 or not stdout_text.strip():
             return f"No files found matching: {file_pattern}"
 
-        files = result.stdout.strip().split("\n")
+        files = stdout_text.strip().split("\n")
         all_matches = []
 
         for file_path in files[:10]:  # Limit to 10 files
             # Get blame for the file
-            cmd = ["git", "blame", "-l", file_path]
-            result = subprocess.run(cmd, cwd=repo_path, capture_output=True, text=True)
+            blame_cmd = ["git", "blame", "-l", file_path]
+            blame_process = await asyncio.create_subprocess_exec(
+                *blame_cmd,
+                cwd=repo_path,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            blame_stdout, _blame_stderr = await blame_process.communicate()
+            blame_text = blame_stdout.decode() if blame_stdout else ""
 
-            if result.returncode == 0:
+            if blame_process.returncode == 0:
                 # Search for pattern in blame output
                 flags = 0 if case_sensitive else re.IGNORECASE
-                for line in result.stdout.split("\n"):
+                for line in blame_text.split("\n"):
                     if re.search(pattern, line, flags):
                         all_matches.append(f"{file_path}: {line}")
 

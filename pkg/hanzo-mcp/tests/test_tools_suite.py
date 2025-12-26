@@ -336,9 +336,15 @@ class TestMemoryIntegration:
         try:
             from hanzo_mcp.tools.memory import memory_tools
 
-            # If we get here, hanzo_memory is installed
+            # Check that module has expected lazy-loading infrastructure
             assert hasattr(memory_tools, "MEMORY_AVAILABLE")
-            assert memory_tools.MEMORY_AVAILABLE == True
+            assert hasattr(memory_tools, "_check_memory_available")
+            
+            # Call the check function to initialize the lazy state
+            is_available = memory_tools._check_memory_available()
+            # After calling, MEMORY_AVAILABLE should be set (True or False, not None)
+            assert memory_tools.MEMORY_AVAILABLE is not None
+            assert memory_tools.MEMORY_AVAILABLE == is_available
 
             # Test that we can access the base class
             assert hasattr(memory_tools, "MemoryToolBase")
@@ -478,7 +484,7 @@ class TestAutoBackgrounding:
 
         # Test that executor is created properly
         assert executor is not None
-        assert executor.timeout == 0.1
+        assert executor.default_timeout == 0.1
         assert executor.process_manager == process_manager
 
         # Test has the expected method
@@ -496,15 +502,15 @@ class TestAutoBackgrounding:
 
         # Test with zero timeout
         executor_zero = AutoBackgroundExecutor(process_manager, timeout=0)
-        assert executor_zero.timeout == 0
+        assert executor_zero.default_timeout == 0
 
         # Test with very large timeout
         executor_large = AutoBackgroundExecutor(process_manager, timeout=float("inf"))
-        assert executor_large.timeout == float("inf")
+        assert executor_large.default_timeout == float("inf")
 
         # Test with negative timeout (should handle gracefully)
         executor_negative = AutoBackgroundExecutor(process_manager, timeout=-1)
-        assert executor_negative.timeout == -1  # Should accept but handle internally
+        assert executor_negative.default_timeout == -1  # Should accept but handle internally
 
     def test_process_manager_singleton(self):
         """Test that ProcessManager is a proper singleton.

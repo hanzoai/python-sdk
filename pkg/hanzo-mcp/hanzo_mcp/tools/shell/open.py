@@ -1,7 +1,8 @@
 """Open files or URLs in the default application."""
 
+import asyncio
 import platform
-import subprocess
+import shutil
 import webbrowser
 from typing import override
 from pathlib import Path
@@ -43,6 +44,27 @@ open https://example.com
 open ./document.pdf
 open /path/to/image.png"""
 
+    async def _run_opener(self, cmd: list[str], file_path: str) -> bool:
+        """Run opener command asynchronously.
+        
+        Returns True if successful, False otherwise.
+        """
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            # Don't wait long - these are fire-and-forget
+            try:
+                await asyncio.wait_for(proc.wait(), timeout=5)
+                return proc.returncode == 0
+            except asyncio.TimeoutError:
+                # Process is running (which is fine for opener commands)
+                return True
+        except Exception:
+            return False
+
     @override
     async def run(self, ctx: MCPContext, path: str) -> str:
         """Open a file or URL in the default application.
@@ -79,33 +101,33 @@ open /path/to/image.png"""
 
         try:
             if system == "darwin":  # macOS
-                subprocess.run(["open", str(file_path)], check=True)
+                success = await self._run_opener(["open", str(file_path)], str(file_path))
+                if not success:
+                    raise RuntimeError("Failed to open file with 'open' command")
             elif system == "linux":
                 # Try xdg-open first (most common)
-                try:
-                    subprocess.run(["xdg-open", str(file_path)], check=True)
-                except (subprocess.CalledProcessError, FileNotFoundError):
-                    # Fallback to other common openers
-                    for opener in ["gnome-open", "kde-open", "exo-open"]:
-                        try:
-                            subprocess.run([opener, str(file_path)], check=True)
+                success = False
+                openers = ["xdg-open", "gnome-open", "kde-open", "exo-open"]
+                
+                for opener in openers:
+                    if shutil.which(opener):
+                        success = await self._run_opener([opener, str(file_path)], str(file_path))
+                        if success:
                             break
-                        except (subprocess.CalledProcessError, FileNotFoundError):
-                            continue
-                    else:
-                        raise RuntimeError("No suitable file opener found on Linux")
+                
+                if not success:
+                    raise RuntimeError("No suitable file opener found on Linux")
             elif system == "windows":
-                # Use os.startfile on Windows
+                # Use os.startfile on Windows (this is sync but fast)
                 import os
-
                 os.startfile(str(file_path))
             else:
                 raise RuntimeError(f"Unsupported platform: {system}")
 
             return f"Opened file: {file_path}"
 
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Failed to open file: {e}")
+        except RuntimeError:
+            raise
         except Exception as e:
             raise RuntimeError(f"Error opening file: {e}")
 

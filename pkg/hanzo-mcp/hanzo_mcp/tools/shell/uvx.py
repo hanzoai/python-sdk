@@ -1,7 +1,7 @@
 """Run Python packages with uvx."""
 
 import shutil
-import subprocess
+import asyncio
 from typing import Unpack, Optional, Annotated, TypedDict, final, override
 
 from pydantic import Field
@@ -78,7 +78,7 @@ class UvxTool(BaseTool):
         """Get the tool description."""
         return """Run Python packages using uvx (Python package runner).
 
-uvx allows running Python applications in isolated environments without 
+uvx allows running Python applications in isolated environments without
 installing them globally. It automatically manages dependencies and Python versions.
 
 Common packages:
@@ -136,10 +136,23 @@ For long-running servers, use uvx_background instead.
             install_cmd = "curl -LsSf https://astral.sh/uv/install.sh | sh"
 
             try:
-                # Run installation
-                install_result = subprocess.run(install_cmd, shell=True, capture_output=True, text=True, timeout=60)
+                # Run installation asynchronously
+                install_process = await asyncio.create_subprocess_shell(
+                    install_cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+                try:
+                    install_stdout, install_stderr = await asyncio.wait_for(
+                        install_process.communicate(), timeout=60
+                    )
+                except asyncio.TimeoutError:
+                    install_process.kill()
+                    await install_process.wait()
+                    return """Error: Installation timed out. Install uvx manually with:
+curl -LsSf https://astral.sh/uv/install.sh | sh"""
 
-                if install_result.returncode == 0:
+                if install_process.returncode == 0:
                     await tool_ctx.info("uvx installed successfully!")
 
                     # Add to PATH for current session
@@ -150,29 +163,27 @@ For long-running servers, use uvx_background instead.
 
                     # Check again
                     if not shutil.which("uvx"):
-                        return """Error: uvx installed but not found in PATH. 
+                        return """Error: uvx installed but not found in PATH.
 Please add ~/.cargo/bin to your PATH and restart your shell.
 
 Add to ~/.zshrc or ~/.bashrc:
 export PATH="$HOME/.cargo/bin:$PATH"
 """
                 else:
+                    stderr_text = install_stderr.decode() if install_stderr else ""
                     return f"""Error: Failed to install uvx automatically.
-                    
+
 Install manually with:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 Or on macOS:
 brew install uv
 
-Error details: {install_result.stderr}"""
+Error details: {stderr_text}"""
 
-            except subprocess.TimeoutExpired:
-                return """Error: Installation timed out. Install uvx manually with:
-curl -LsSf https://astral.sh/uv/install.sh | sh"""
             except Exception as e:
                 return f"""Error: Failed to auto-install uvx: {str(e)}
-                
+
 Install manually with:
 curl -LsSf https://astral.sh/uv/install.sh | sh"""
 
@@ -194,26 +205,37 @@ curl -LsSf https://astral.sh/uv/install.sh | sh"""
         await tool_ctx.info(f"Running: {' '.join(cmd)}")
 
         try:
-            # Execute command
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=True)
+            # Execute command asynchronously
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
+            except asyncio.TimeoutError:
+                process.kill()
+                await process.wait()
+                return f"Error: Command timed out after {timeout} seconds. Use uvx_background for long-running processes."
 
-            output = []
-            if result.stdout:
-                output.append(result.stdout)
-            if result.stderr:
-                output.append(f"\nSTDERR:\n{result.stderr}")
+            stdout_text = stdout.decode() if stdout else ""
+            stderr_text = stderr.decode() if stderr else ""
 
-            return "\n".join(output) if output else "Command completed successfully with no output."
+            if process.returncode == 0:
+                output = []
+                if stdout_text:
+                    output.append(stdout_text)
+                if stderr_text:
+                    output.append(f"\nSTDERR:\n{stderr_text}")
+                return "\n".join(output) if output else "Command completed successfully with no output."
+            else:
+                error_msg = [f"Error: Command failed with exit code {process.returncode}"]
+                if stdout_text:
+                    error_msg.append(f"\nSTDOUT:\n{stdout_text}")
+                if stderr_text:
+                    error_msg.append(f"\nSTDERR:\n{stderr_text}")
+                return "\n".join(error_msg)
 
-        except subprocess.TimeoutExpired:
-            return f"Error: Command timed out after {timeout} seconds. Use uvx_background for long-running processes."
-        except subprocess.CalledProcessError as e:
-            error_msg = [f"Error: Command failed with exit code {e.returncode}"]
-            if e.stdout:
-                error_msg.append(f"\nSTDOUT:\n{e.stdout}")
-            if e.stderr:
-                error_msg.append(f"\nSTDERR:\n{e.stderr}")
-            return "\n".join(error_msg)
         except Exception as e:
             await tool_ctx.error(f"Unexpected error: {str(e)}")
             return f"Error running uvx: {str(e)}"
