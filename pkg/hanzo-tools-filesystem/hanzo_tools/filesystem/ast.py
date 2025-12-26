@@ -6,7 +6,7 @@ and other code structures with full context.
 """
 
 import os
-from typing import Annotated, TypedDict, Unpack, final, override
+from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
 
 from pydantic import Field

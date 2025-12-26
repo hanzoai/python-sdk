@@ -2,8 +2,8 @@
 
 import os
 import tempfile
-import pytest
 
+import pytest
 from hanzo_mcp.tools.refactor import RefactorTool, create_refactor_tool
 
 

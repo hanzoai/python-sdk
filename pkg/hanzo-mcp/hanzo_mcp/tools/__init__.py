@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING, Any
 # TYPE_CHECKING imports - these don't execute at runtime
 if TYPE_CHECKING:
     from mcp.server import FastMCP
+
     from hanzo_mcp.tools.common.base import BaseTool
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
@@ -150,7 +151,12 @@ def register_all_tools(
     from hanzo_mcp.tools.todo import register_todo_tools
     from hanzo_mcp.tools.agent import register_agent_tools
     from hanzo_mcp.tools.shell import register_shell_tools
-    from hanzo_mcp.tools.common import register_batch_tool, register_critic_tool, register_thinking_tool, register_tool_install
+    from hanzo_mcp.tools.common import (
+        register_batch_tool,
+        register_critic_tool,
+        register_tool_install,
+        register_thinking_tool,
+    )
     from hanzo_mcp.tools.editor import (
         NeovimEditTool,
         NeovimCommandTool,

@@ -2,7 +2,7 @@
 
 import re
 import subprocess
-from typing import Annotated, Optional
+from typing import Optional, Annotated
 from pathlib import Path
 
 from pydantic import Field

@@ -11,8 +11,9 @@ from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from .base import JupyterBaseTool
 from hanzo_tools.core import auto_timeout
+
+from .base import JupyterBaseTool
 
 NotebookPath = Annotated[
     str,
