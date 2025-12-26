@@ -15,6 +15,14 @@ import argparse
 from typing import Any, cast
 from pathlib import Path
 
+# Configure uvloop early (before any async imports) for better performance
+# This is a no-op on Windows or if uvloop is not installed
+try:
+    from hanzo_mcp.utils.event_loop import configure_event_loop
+    configure_event_loop(quiet=True)
+except ImportError:
+    pass
+
 
 # Import timeout parser (deferred to avoid early imports)
 def _parse_timeout_arg(timeout_str: str) -> float:

@@ -1232,7 +1232,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.10.2"
+version = "0.10.3"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
@@ -1289,6 +1289,7 @@ memory = [
 performance = [
     { name = "orjson" },
     { name = "ujson" },
+    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
 publish = [
     { name = "build" },
@@ -1350,6 +1351,7 @@ requires-dist = [
     { name = "typing-extensions", specifier = ">=4.13.0" },
     { name = "ujson", marker = "extra == 'performance'", specifier = ">=5.7.0" },
     { name = "uvicorn", specifier = ">=0.34.0" },
+    { name = "uvloop", marker = "sys_platform != 'win32' and extra == 'performance'", specifier = ">=0.21.0" },
     { name = "watchdog", specifier = ">=6.0.0" },
 ]
 provides-extras = ["dev", "docs", "analytics", "test", "agents", "memory", "performance", "publish"]

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.10.2"
+version = "0.10.3"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -69,7 +69,7 @@ test = [
 ]
 agents = ["hanzo-agents>=0.1.0"]
 memory = ["hanzo-memory>=1.0.0"]
-performance = ["ujson>=5.7.0", "orjson>=3.9.0"]
+performance = ["ujson>=5.7.0", "orjson>=3.9.0", "uvloop>=0.21.0; sys_platform != 'win32'"]
 publish = ["twine>=4.0.2", "build>=1.0.3"]
 
 [project.scripts]
