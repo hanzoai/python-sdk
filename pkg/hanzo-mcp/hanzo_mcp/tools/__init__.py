@@ -191,7 +191,7 @@ def _register_system_tools(
     all_tools: dict[str, "BaseTool"],
 ) -> None:
     """Register built-in system tools that are always available.
-    
+
     These are core tools that don't come from hanzo-tools-* packages.
     """
     # Version tool
@@ -200,40 +200,25 @@ def _register_system_tools(
         register_version_tool(mcp_server)
     except ImportError:
         logger.debug("Version tool not available")
-    
-    # Tool install (for dynamic tool management)
+
+    # Unified tool command (replaces tool_install, tool_enable, tool_disable, tool_list)
     try:
-        from hanzo_mcp.tools.common.tool_install import register_tool_install
-        install_tools = register_tool_install(mcp_server)
-        for tool in install_tools:
+        from hanzo_mcp.tools.common.tool import register_unified_tool
+        unified_tools = register_unified_tool(mcp_server)
+        for tool in unified_tools:
             all_tools[tool.name] = tool
-    except ImportError:
-        logger.debug("Tool install not available")
-    
-    # Tool enable/disable
-    try:
-        from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-        from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
-        
-        tool_enable = ToolEnableTool()
-        tool_enable.register(mcp_server)
-        all_tools[tool_enable.name] = tool_enable
-        
-        tool_disable = ToolDisableTool()
-        tool_disable.register(mcp_server)
-        all_tools[tool_disable.name] = tool_disable
-    except ImportError:
-        logger.debug("Tool enable/disable not available")
-    
-    # Tool list
-    try:
-        from hanzo_mcp.tools.common.tool_list import ToolListTool
-        tool_list = ToolListTool()
-        tool_list.register(mcp_server)
-        all_tools[tool_list.name] = tool_list
-    except ImportError:
-        logger.debug("Tool list not available")
-    
+        logger.info("Registered unified 'tool' command")
+    except ImportError as e:
+        logger.debug(f"Unified tool not available: {e}")
+        # Fallback to legacy tools if unified tool fails
+        try:
+            from hanzo_mcp.tools.common.tool_install import register_tool_install
+            install_tools = register_tool_install(mcp_server)
+            for tool in install_tools:
+                all_tools[tool.name] = tool
+        except ImportError:
+            pass
+
     # Stats tool
     try:
         from hanzo_mcp.tools.common.stats import StatsTool
@@ -242,7 +227,7 @@ def _register_system_tools(
         all_tools[stats_tool.name] = stats_tool
     except ImportError:
         logger.debug("Stats tool not available")
-    
+
     # CLI tool factory (dynamic CLI tool creation)
     try:
         from hanzo_mcp.tools.common.cli_tool_factory import register_cli_factory_tools
