@@ -26,7 +26,7 @@ P = TypeVar("P")
 @final
 class PermissionManager(BasePermissionManager):
     """Enhanced permission manager for MCP server.
-    
+
     Extends the base PermissionManager with:
     - Additional security patterns for sensitive files
     - Path traversal protection
@@ -38,7 +38,7 @@ class PermissionManager(BasePermissionManager):
         """Initialize the permission manager with secure defaults."""
         # Initialize with empty allowed paths - we'll add our own
         super().__init__(allowed_paths=[], deny_patterns=[])
-        
+
         # Convert to set for O(1) lookups
         self.allowed_paths: set[Path] = set()
         self.excluded_paths: set[Path] = set()

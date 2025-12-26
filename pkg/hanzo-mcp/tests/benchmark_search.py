@@ -12,9 +12,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from hanzo_mcp.tools.common.permissions import PermissionManager
+from hanzo_tools.filesystem.search_tool import SearchTool
 from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
 from hanzo_mcp.tools.vector.vector_index import VectorIndexTool
-from hanzo_tools.filesystem.search_tool import SearchTool
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
 
 

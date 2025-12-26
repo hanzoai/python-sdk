@@ -6,12 +6,13 @@ Actual personality profiles are loaded from the hanzo-persona package.
 
 import os
 from typing import Set, Dict, List, Optional
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 
 
 @dataclass
 class CLIToolDef:
     """Definition for a CLI tool to be created for a personality."""
+
     name: str
     command: str
     description: str
@@ -100,17 +101,26 @@ class PersonalityRegistry:
 # Essential tools that are always available in every mode
 ESSENTIAL_TOOLS = [
     # File operations
-    "read", "write", "edit", "tree",
+    "read",
+    "write",
+    "edit",
+    "tree",
     # Shell
-    "dag", "zsh", "shell", "open",
+    "dag",
+    "zsh",
+    "shell",
+    "open",
     # Memory
     "memory",
     # Reasoning
-    "think", "critic",
+    "think",
+    "critic",
     # LLM infrastructure (always available)
-    "llm", "consensus",
+    "llm",
+    "consensus",
     # Configuration
-    "config", "mode",
+    "config",
+    "mode",
     # Tool management
     "tool",
 ]
@@ -137,14 +147,17 @@ def register_default_personalities() -> None:
     # Then load additional personas from hanzo-persona if available
     try:
         from hanzo_mcp.tools.common.persona_adapter import load_personas_from_package
+
         loaded = load_personas_from_package()
         if loaded > 0:
             import logging
+
             logging.getLogger(__name__).debug(f"Loaded {loaded} personas from hanzo-persona package")
     except ImportError:
         pass
     except Exception as e:
         import logging
+
         logging.getLogger(__name__).warning(f"Failed to load personas from package: {e}")
 
 
@@ -156,11 +169,26 @@ def _register_builtin_personalities() -> None:
             programmer="Hanzo AI Default",
             description="Balanced productivity and quality",
             philosophy="The Zen of Model Context Protocol.",
-            tools=list(set(ESSENTIAL_TOOLS + [
-                "agent", "todo", "browser", "computer",
-                "search", "find", "ast", "jupyter", "refactor", "lsp",
-                "iching", "review",  # Agent sub-tools
-            ] + BUILD_TOOLS)),
+            tools=list(
+                set(
+                    ESSENTIAL_TOOLS
+                    + [
+                        "agent",
+                        "todo",
+                        "browser",
+                        "computer",
+                        "search",
+                        "find",
+                        "ast",
+                        "jupyter",
+                        "refactor",
+                        "lsp",
+                        "iching",
+                        "review",  # Agent sub-tools
+                    ]
+                    + BUILD_TOOLS
+                )
+            ),
             environment={"HANZO_MODE": "zen"},
         ),
         ToolPersonality(
@@ -176,11 +204,18 @@ def _register_builtin_personalities() -> None:
             programmer="Full Stack Developer",
             description="Every tool for every job",
             philosophy="Jack of all trades, master of... well, all trades.",
-            tools=list(set(
-                ESSENTIAL_TOOLS + AI_TOOLS + SEARCH_TOOLS +
-                DATABASE_TOOLS + BUILD_TOOLS + UNIX_TOOLS + VECTOR_TOOLS +
-                ["todo", "rules", "browser", "jupyter", "neovim_edit", "mcp", "refactor", "lsp"]
-            )),
+            tools=list(
+                set(
+                    ESSENTIAL_TOOLS
+                    + AI_TOOLS
+                    + SEARCH_TOOLS
+                    + DATABASE_TOOLS
+                    + BUILD_TOOLS
+                    + UNIX_TOOLS
+                    + VECTOR_TOOLS
+                    + ["todo", "rules", "browser", "jupyter", "neovim_edit", "mcp", "refactor", "lsp"]
+                )
+            ),
             environment={"ALL_TOOLS": "enabled"},
         ),
         ToolPersonality(
@@ -208,7 +243,7 @@ def _register_builtin_personalities() -> None:
             environment={"SECURITY_MODE": "paranoid"},
         ),
     ]
-    
+
     for personality in builtin:
         PersonalityRegistry.register(personality)
 

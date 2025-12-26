@@ -9,10 +9,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from hanzo_tools.filesystem.grep import Grep
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_tools.filesystem.ast_tool import ASTTool
-from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
+from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_tools.filesystem.search_tool import SearchTool
+from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
 
 
 async def simple_benchmark():
