@@ -86,7 +86,11 @@ class SearchTool(BaseTool):
 
     Runs ALL available engines in parallel (grep, ast, lsp, file, git).
     No configuration needed. Results deduplicated and ranked.
-    
+
+    DISPLAY INSTRUCTIONS: Output is formatted text with numbered results.
+    Each result has file:line, matched text, and [type] tag.
+    Header shows query, count, and timing. Display directly as text.
+
     For manual control: exec.parallel([grep(...), ast(...), lsp(...)])
     """
 

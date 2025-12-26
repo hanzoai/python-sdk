@@ -3,6 +3,7 @@
 import os
 import shutil
 import platform
+import json
 from typing import Optional, override
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_mcp.tools.shell.base_process import BaseScriptTool
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+from hanzo_mcp.tools.shell.output_format import format_shell_result
 
 
 class ZshTool(BaseScriptTool):
@@ -47,22 +49,33 @@ class ZshTool(BaseScriptTool):
     @override
     def description(self) -> str:
         """Get the tool description."""
-        return """Run commands in Zsh shell with enhanced features like better globbing and completion.
+        return """Run commands in Zsh shell with enhanced features.
 
-Zsh provides advanced features over bash:
-- Extended globbing patterns
-- Better tab completion
-- Array and associative array support
-- Powerful command line editing
-- Plugin ecosystem (oh-my-zsh, etc.)
+This tool returns JSON with these fields:
+- summary: Brief description of what happened
+- stdout_markdown: Output formatted as markdown code block
+- stderr_markdown: Errors formatted as markdown (if any)
+- status: "success", "error", or "backgrounded"
+- exit_code: Command exit code (0 = success)
 
-Commands that run for more than 2 minutes will automatically continue in the background.
+DISPLAY INSTRUCTIONS: Show the summary as a bullet point, then render
+stdout_markdown and stderr_markdown directly as markdown. Never show raw JSON.
+
+Example rendering:
+• Listed 12 items in /project
+```
+total 48K
+drwxr-xr-x  5 user staff 160 Dec 26 10:00 .
+...
+```
+
+Commands that exceed timeout automatically continue in background.
+Use `ps --logs <id>` to view output, `ps --kill <id>` to stop.
 
 Usage:
 zsh "ls -la"
-zsh "echo $ZSH_VERSION"
 zsh "git status && git diff"
-zsh "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
+zsh "npm run dev" --cwd ./frontend"""
 
     @override
     def get_interpreter(self) -> str:
@@ -127,18 +140,75 @@ zsh "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
             timeout: Command timeout in seconds (ignored - auto-backgrounds after 2 minutes)
 
         Returns:
-            Command output or background status
+            JSON with summary, stdout_markdown, stderr_markdown, status, exit_code
         """
         # Check if zsh is available
         if not shutil.which("zsh") and platform.system() != "Windows":
-            return "Error: Zsh is not installed. Please install zsh first."
+            return format_shell_result(
+                command=command,
+                stdout="",
+                stderr="Zsh is not installed. Please install zsh first.",
+                exit_code=1,
+                cwd=str(cwd) if cwd else None,
+            )
 
         # Prepare working directory
         work_dir = Path(cwd).resolve() if cwd else Path.cwd()
 
         # Use execute_sync which has auto-backgrounding
-        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
-        return output if output else "Command completed successfully (no output)"
+        try:
+            output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
+
+            # Check if it was backgrounded
+            if output and "automatically backgrounded" in output.lower():
+                # Extract process ID from the message
+                import re
+
+                pid_match = re.search(r"Process ID: (\S+)", output)
+                process_id = pid_match.group(1) if pid_match else None
+
+                return format_shell_result(
+                    command=command,
+                    stdout=output,
+                    exit_code=0,
+                    cwd=str(work_dir),
+                    was_backgrounded=True,
+                    process_id=process_id,
+                )
+
+            # Check for error in output
+            if output and output.startswith("Command failed"):
+                # Extract exit code from message
+                import re
+
+                exit_match = re.search(r"exit code (\d+)", output)
+                exit_code = int(exit_match.group(1)) if exit_match else 1
+
+                return format_shell_result(
+                    command=command,
+                    stdout="",
+                    stderr=output,
+                    exit_code=exit_code,
+                    cwd=str(work_dir),
+                )
+
+            # Success case
+            return format_shell_result(
+                command=command,
+                stdout=output if output else "",
+                exit_code=0,
+                cwd=str(work_dir),
+            )
+
+        except RuntimeError as e:
+            # Handle execution errors
+            return format_shell_result(
+                command=command,
+                stdout="",
+                stderr=str(e),
+                exit_code=1,
+                cwd=str(work_dir),
+            )
 
 
 class ShellTool(BaseScriptTool):
@@ -206,18 +276,25 @@ class ShellTool(BaseScriptTool):
         """Get the tool description."""
         return f"""Run shell commands using the best available shell (currently: {os.path.basename(self._best_shell)}).
 
-Automatically selects:
-- Zsh if available (with .zshrc)
-- User's preferred shell ($SHELL)
-- Bash as fallback
+This tool returns JSON with these fields:
+- summary: Brief description of what happened
+- stdout_markdown: Output formatted as markdown code block
+- stderr_markdown: Errors formatted as markdown (if any)
+- status: "success", "error", or "backgrounded"
+- exit_code: Command exit code (0 = success)
 
-Commands that run for more than 2 minutes will automatically continue in the background.
+DISPLAY INSTRUCTIONS: Show the summary as a bullet point, then render
+stdout_markdown and stderr_markdown directly as markdown. Never show raw JSON.
+
+Automatically selects: Zsh > User's $SHELL > Bash
+
+Commands that exceed timeout automatically continue in background.
+Use `ps --logs <id>` to view output, `ps --kill <id>` to stop.
 
 Usage:
 shell "ls -la"
-shell "echo $SHELL"  # Shows which shell is being used
 shell "git status && git diff"
-shell "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
+shell "npm run dev" --cwd ./frontend"""
 
     @override
     def get_interpreter(self) -> str:
@@ -255,21 +332,62 @@ shell "npm run dev" --cwd ./frontend  # Auto-backgrounds if needed"""
             timeout: Command timeout in seconds (ignored - auto-backgrounds after 2 minutes)
 
         Returns:
-            Command output or background status
+            JSON with summary, stdout_markdown, stderr_markdown, status, exit_code
         """
         # Prepare working directory
         work_dir = Path(cwd).resolve() if cwd else Path.cwd()
 
-        # Add shell info to output if verbose
-        shell_name = os.path.basename(self._best_shell)
-
         # Use execute_sync which has auto-backgrounding
-        output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
+        try:
+            output = await self.execute_sync(command, cwd=work_dir, env=env, timeout=timeout)
 
-        if output:
-            return output
-        else:
-            return f"Command completed successfully in {shell_name} (no output)"
+            # Check if it was backgrounded
+            if output and "automatically backgrounded" in output.lower():
+                import re
+
+                pid_match = re.search(r"Process ID: (\S+)", output)
+                process_id = pid_match.group(1) if pid_match else None
+
+                return format_shell_result(
+                    command=command,
+                    stdout=output,
+                    exit_code=0,
+                    cwd=str(work_dir),
+                    was_backgrounded=True,
+                    process_id=process_id,
+                )
+
+            # Check for error in output
+            if output and output.startswith("Command failed"):
+                import re
+
+                exit_match = re.search(r"exit code (\d+)", output)
+                exit_code = int(exit_match.group(1)) if exit_match else 1
+
+                return format_shell_result(
+                    command=command,
+                    stdout="",
+                    stderr=output,
+                    exit_code=exit_code,
+                    cwd=str(work_dir),
+                )
+
+            # Success case
+            return format_shell_result(
+                command=command,
+                stdout=output if output else "",
+                exit_code=0,
+                cwd=str(work_dir),
+            )
+
+        except RuntimeError as e:
+            return format_shell_result(
+                command=command,
+                stdout="",
+                stderr=str(e),
+                exit_code=1,
+                cwd=str(work_dir),
+            )
 
 
 # Create tool instances
