@@ -1,22 +1,21 @@
-# hanzo-metastable-consensus
+# hanzo-consensus
 
 Metastable consensus protocol for multi-agent agreement.
 
 ## Install
 
 ```bash
-pip install hanzo-metastable-consensus
+pip install hanzo-consensus
 ```
 
 ## Usage
 
 ```python
 import asyncio
-from hanzo_metastable_consensus import Consensus, Result, run
+from hanzo_consensus import Consensus, Result, run
 
 async def execute(participant: str, prompt: str) -> Result:
     """Your execution function."""
-    # Call your agent/model/service
     output = await call_agent(participant, prompt)
     return Result(id=participant, output=output, ok=True, ms=100)
 
