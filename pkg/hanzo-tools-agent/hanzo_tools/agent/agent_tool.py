@@ -156,6 +156,20 @@ ANTHROPIC_COMPAT_AGENTS = {
         auth_env="STEPFUN_API_KEY",
         model="step-2",
     ),
+    # Qwen via DashScope Claude Code proxy - https://dashscope-intl.aliyuncs.com
+    "dashscope": AgentConfig(
+        "claude", ["-p"], None, 17,
+        base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
+        auth_env="DASHSCOPE_API_KEY",
+        model="qwen-max",
+    ),
+    # Qwen via DashScope (alias)
+    "qwen-cc": AgentConfig(
+        "claude", ["-p"], None, 18,
+        base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
+        auth_env="DASHSCOPE_API_KEY",
+        model="qwen-plus",
+    ),
 }
 
 # Combined agents dict
@@ -212,24 +226,28 @@ class AgentTool(BaseTool):
     @override
     def description(self) -> str:
         default = self._default_agent()
+        native = ', '.join(NATIVE_AGENTS.keys())
+        compat = ', '.join(ANTHROPIC_COMPAT_AGENTS.keys())
         return f"""Multi-agent orchestration. Default: {default}
 
 Actions:
 - run: Execute single agent (default: {default})
 - dag: DAG execution with dependencies
 - swarm: Work distribution across N agents
-- consensus: Metastable multi-model agreement
+- consensus: Lux Quasar multi-model agreement
 - dispatch: Different agents for different tasks
 - list/status/config: Management
 
-Agents: {', '.join(AGENTS.keys())}
+Native: {native}
+Anthropic-compatible: {compat}
 
 Examples:
   agent run --prompt "Explain this code"
+  agent run --name minimax --prompt "Analyze with MiniMax"
   agent dag --tasks '[{{"id":"a","prompt":"analyze"}},{{"id":"b","prompt":"fix {{a}}","after":["a"]}}]'
   agent swarm --items '["f1.py","f2.py"]' --template "Review {{item}}" --max_concurrent 10
-  agent consensus --prompt "Best approach?" --agents '["claude","gemini","codex"]' --rounds 3
-  agent dispatch --tasks '[{{"agent":"claude","prompt":"review"}},{{"agent":"gemini","prompt":"test"}}]'
+  agent consensus --prompt "Best approach?" --agents '["claude","minimax","deepseek"]' --rounds 3
+  agent dispatch --tasks '[{{"agent":"claude","prompt":"review"}},{{"agent":"kimi","prompt":"test"}}]'
 
 Consensus: https://github.com/luxfi/consensus
 """
@@ -397,6 +415,10 @@ Consensus: https://github.com/luxfi/consensus
         
         # Build command
         full_cmd = [cfg.cmd] + cfg.args
+        
+        # For Anthropic-compatible APIs, add required flags
+        if cfg.base_url:
+            full_cmd.append("--dangerously-skip-permissions")
         
         # Add model override for Anthropic-compatible APIs
         if cfg.model:
