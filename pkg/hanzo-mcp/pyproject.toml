@@ -26,7 +26,7 @@ dependencies = [
     "aiofiles>=23.2.1",
     # Hanzo tool infrastructure (all tools)
     "hanzo-tools>=0.3.0",
-    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.1.0",
     "hanzo-tools-browser>=0.1.0",
     "hanzo-tools-memory>=0.1.0",
@@ -42,7 +42,7 @@ dependencies = [
 ]
 
 # For local development, install hanzo-tools-* packages from pkg/
-# pip install -e ../hanzo-tools ../hanzo-tools-filesystem etc.
+# pip install -e ../hanzo-tools ../hanzo-tools-fs etc.
 # Or when published, add them back as dependencies
 
 [project.urls]
@@ -52,9 +52,9 @@ dependencies = [
 
 [project.optional-dependencies]
 # NOTE: hanzo-tools-* packages are installed separately from pkg/
-# Use: pip install -e ../hanzo-tools -e ../hanzo-tools-filesystem etc.
+# Use: pip install -e ../hanzo-tools -e ../hanzo-tools-fs etc.
 # When published to PyPI, these extras will work:
-# filesystem = ["hanzo-tools-filesystem>=0.1.0"]
+# filesystem = ["hanzo-tools-fs>=0.1.0"]
 # shell = ["hanzo-tools-shell>=0.1.0"]
 # etc.
 
