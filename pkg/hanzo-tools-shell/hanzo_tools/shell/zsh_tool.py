@@ -131,40 +131,38 @@ MODES:
 
 Simple command:
   zsh("ls -la")
-  zsh("git status && git diff")
 
-Serial execution (default):
+Serial execution:
   zsh(["ls", "pwd", "git status"])
 
-Parallel execution:
-  zsh(["npm install", "cargo build"], parallel=True)
+Parallel (nested arrays):
+  zsh(["setup", ["task1", "task2", "task3"], "cleanup"])
+  # Runs: setup → (task1, task2, task3 in parallel) → cleanup
+
+All parallel:
+  zsh(["a", "b", "c"], parallel=True)
 
 Mixed DAG:
   zsh([
       "mkdir -p dist",
-      {{"parallel": ["cp a.txt dist/", "cp b.txt dist/"]}},
+      ["cp a.txt dist/", "cp b.txt dist/", "cp c.txt dist/"],
       "zip -r out.zip dist/"
   ])
 
 Tool invocations:
   zsh([{{"tool": "search", "input": {{"pattern": "TODO"}}}}])
 
-Named with dependencies:
-  zsh([
-      {{"id": "build", "run": "make build"}},
-      {{"id": "test", "run": "make test", "after": ["build"]}},
-  ])
-
 OPTIONS:
-  parallel: Run all commands concurrently (default: False)
-  strict: Stop on first error (default: False)
-  quiet: Suppress stdout (default: False)
-  timeout: Per-command timeout in seconds (default: 120)
+  parallel: Run ALL top-level commands concurrently
+  shell: Use different shell (bash, sh, fish)
+  strict: Stop on first error
+  quiet: Suppress stdout
+  timeout: Per-command timeout (default: 120s)
   cwd: Working directory
-  env: Additional environment variables
+  env: Environment variables
 
 AUTO-BACKGROUNDING: Commands exceeding timeout auto-background.
-Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
+Use ps --logs <id> to view, ps --kill <id> to stop."""
 
     async def _run_shell(
         self,
@@ -335,10 +333,52 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         timeout: int,
         shell: Optional[str] = None,
     ) -> DagResult:
-        """Execute a single DAG node."""
+        """Execute a single DAG node.
+        
+        Supports:
+        - str: Single command
+        - list: Nested array = parallel execution
+        - dict with "parallel": Explicit parallel block
+        - dict with "tool": Tool invocation
+        - dict with "run": Command wrapper
+        """
 
         if isinstance(cmd, str):
             return await self._run_shell(cmd, cwd, env, timeout, shell)
+
+        # Nested array = parallel execution
+        if isinstance(cmd, list):
+            tasks = [self._execute_node(c, ctx, cwd, env, timeout, shell) for c in cmd]
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+
+            combined_stdout = []
+            combined_stderr = []
+            all_success = True
+            total_duration = 0
+
+            for i, r in enumerate(results):
+                if isinstance(r, Exception):
+                    combined_stderr.append(f"[{i}] Error: {r}")
+                    all_success = False
+                else:
+                    if r.stdout:
+                        combined_stdout.append(f"[{i}] {r.stdout.rstrip()}")
+                    if r.stderr:
+                        combined_stderr.append(f"[{i}] {r.stderr.rstrip()}")
+                    if r.status != NodeStatus.SUCCESS:
+                        all_success = False
+                    total_duration = max(total_duration, r.duration_ms)
+
+            return DagResult(
+                node_id=f"parallel_{len(cmd)}",
+                command=f"parallel[{len(cmd)} tasks]",
+                stdout="\n".join(combined_stdout),
+                stderr="\n".join(combined_stderr),
+                status=NodeStatus.SUCCESS if all_success else NodeStatus.FAILED,
+                exit_code=0 if all_success else 1,
+                duration_ms=total_duration,
+                node_type="parallel",
+            )
 
         if isinstance(cmd, dict):
             if "tool" in cmd:
