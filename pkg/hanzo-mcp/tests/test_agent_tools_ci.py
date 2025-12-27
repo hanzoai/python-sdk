@@ -7,7 +7,7 @@ import pytest
 from hanzo_tools.agent import TOOLS, register_tools
 from hanzo_tools.agent.iching_tool import IChingTool
 from hanzo_tools.agent.review_tool import ReviewTool
-from hanzo_tools.agent.unified_agent_tool import UnifiedAgentTool
+from hanzo_tools.agent.agent_tool import AgentTool
 
 
 @pytest.fixture
@@ -18,26 +18,26 @@ def mock_mcp_server():
     return server
 
 
-class TestUnifiedAgentTools:
+class TestAgentTools:
     """Test unified agent tools work correctly."""
 
     def test_tools_export(self):
         """Test TOOLS exports the correct tools."""
         tool_classes = [t.__name__ for t in TOOLS]
-        assert "UnifiedAgentTool" in tool_classes
+        assert "AgentTool" in tool_classes  # Was AgentTool, now AgentTool
         assert "IChingTool" in tool_classes
         assert "ReviewTool" in tool_classes
         assert len(TOOLS) == 3
 
     def test_unified_agent_tool_creation(self):
-        """Test UnifiedAgentTool can be created."""
-        tool = UnifiedAgentTool()
+        """Test AgentTool can be created."""
+        tool = AgentTool()
         assert tool.name == "agent"
         assert "claude" in tool.description.lower() or "agent" in tool.description.lower()
 
     def test_unified_agent_tool_agents(self):
-        """Test UnifiedAgentTool has expected agents."""
-        tool = UnifiedAgentTool()
+        """Test AgentTool has expected agents."""
+        tool = AgentTool()
         # Core agents
         assert "claude" in tool.AGENTS
         assert "codex" in tool.AGENTS
@@ -53,7 +53,7 @@ class TestUnifiedAgentTools:
 
     def test_unified_agent_tool_list_agents(self):
         """Test agent listing."""
-        tool = UnifiedAgentTool()
+        tool = AgentTool()
         result = tool._list_agents()
         assert "Available agents:" in result
         assert "claude" in result
@@ -87,7 +87,7 @@ class TestUnifiedAgentTools:
 
     def test_tool_naming_consistency(self):
         """Ensure tool naming is consistent."""
-        agent = UnifiedAgentTool()
+        agent = AgentTool()
         iching = IChingTool()
         review = ReviewTool()
 
@@ -97,14 +97,14 @@ class TestUnifiedAgentTools:
 
     def test_agent_config_sharing(self):
         """Test agent shares MCP config with spawned agents."""
-        tool = UnifiedAgentTool()
+        tool = AgentTool()
         config = tool._mcp_config
         # Config is a dict
         assert isinstance(config, dict)
 
     def test_claude_env_detection(self):
         """Test Claude Code environment detection."""
-        tool = UnifiedAgentTool()
+        tool = AgentTool()
         env = tool._claude_env
         # Should have expected keys
         assert "running_in_claude" in env
@@ -114,7 +114,7 @@ class TestUnifiedAgentTools:
 
     def test_default_agent_selection(self):
         """Test default agent selection logic."""
-        tool = UnifiedAgentTool()
+        tool = AgentTool()
         default = tool._get_default_agent()
         # Should return a valid agent name
         assert default in tool.AGENTS
