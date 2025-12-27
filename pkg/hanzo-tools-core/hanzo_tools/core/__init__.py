@@ -20,7 +20,7 @@ from hanzo_tools.core.base import (
 from hanzo_tools.core.permissions import PermissionManager
 from hanzo_tools.core.context import ToolContext, create_tool_context
 from hanzo_tools.core.decorators import auto_timeout
-from hanzo_tools.core.types import ToolCategory, MCPResourceDocument
+from hanzo_tools.core.types import MCPResourceDocument
 
 __all__ = [
     "BaseTool",
@@ -31,5 +31,4 @@ __all__ = [
     "ToolContext",
     "create_tool_context",
     "auto_timeout",
-    "ToolCategory",
 ]
