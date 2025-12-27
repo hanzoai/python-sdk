@@ -9,7 +9,6 @@ Consensus: https://github.com/luxfi/consensus
 import os
 import time
 import asyncio
-import random
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Literal, Optional, Annotated, final, override
 
@@ -18,6 +17,9 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
+from hanzo_metastable_consensus import Consensus as MetastableConsensus
+from hanzo_metastable_consensus import Result as ConsensusResult
+from hanzo_metastable_consensus import run as run_consensus
 
 
 Action = Annotated[
@@ -50,31 +52,7 @@ class Result:
     lux: float = 1.0  # Luminance (Photon) - faster agents get higher weight
 
 
-@dataclass
-class Consensus:
-    """Metastable consensus state.
-    
-    Implements Metastable protocol from https://github.com/luxfi/consensus
-    
-    Two-phase finality:
-    - Phase I (Sampling): k-peer sampling, confidence accumulation
-    - Phase II (Finality): Threshold aggregation for finality
-    """
-    prompt: str
-    agents: List[str]
-    rounds: int
-    k: int  # Sample size per round
-    alpha: float  # Agreement threshold (0-1)
-    beta_1: float  # Preference threshold (Phase I)
-    beta_2: float  # Decision threshold (Phase II)
-    
-    # State
-    responses: Dict[str, List[str]] = field(default_factory=dict)
-    confidence: Dict[str, float] = field(default_factory=dict)
-    luminance: Dict[str, float] = field(default_factory=dict)  # Photon
-    finalized: bool = False
-    winner: Optional[str] = None
-    synthesis: Optional[str] = None
+
 
 
 # Agent configurations
@@ -601,152 +579,37 @@ Consensus: https://github.com/luxfi/consensus
         return "\n".join(lines)
     
     async def _consensus(self, prompt: str, agents: List[str], rounds: int, k: int, alpha: float, beta_1: float, beta_2: float, cwd: Optional[str], timeout: int) -> str:
-        """Metastable consensus protocol.
-        
-        https://github.com/luxfi/consensus
-        
-        Phase I (Nova DAG): 
-        - Each agent proposes initial response
-        - k-peer sampling per round
-        - Confidence accumulation toward beta_1
-        
-        Phase II (Finality):
-        - Threshold aggregation 
-        - Beta_2 finality threshold
-        - Critic synthesizes final answer
-        """
+        """Metastable consensus. https://github.com/luxfi/consensus"""
         if not prompt:
             return "Error: prompt required"
         if not agents:
-            return "Error: agents list required"
+            return "Error: agents required"
         
-        state = Consensus(
+        # Executor adapter
+        async def execute(agent_id: str, agent_prompt: str) -> ConsensusResult:
+            result = await self._exec(agent_id, agent_prompt, cwd, timeout)
+            return ConsensusResult(
+                id=result.agent,
+                output=result.output,
+                ok=result.ok,
+                error=result.error,
+                ms=result.ms,
+            )
+        
+        start = time.time()
+        state = await run_consensus(
             prompt=prompt,
-            agents=agents,
+            participants=agents,
+            execute=execute,
             rounds=rounds,
-            k=min(k, len(agents)),
+            k=k,
             alpha=alpha,
             beta_1=beta_1,
             beta_2=beta_2,
         )
-        
-        # Initialize luminance (Photon)
-        for agent in agents:
-            state.luminance[agent] = 1.0
-            state.confidence[agent] = 0.0
-            state.responses[agent] = []
-        
-        lines = ["Metastable Consensus"]
-        lines.append(f"  Agents: {', '.join(agents)}")
-        lines.append(f"  Rounds: {rounds}, k={k}, α={alpha}, β₁={beta_1}, β₂={beta_2}")
-        lines.append("")
-        
-        # Phase I: Nova DAG - Initial proposals
-        lines.append("Phase I: Nova - Initial proposals")
-        start = time.time()
-        initial_results = await asyncio.gather(*[
-            self._exec(agent, prompt, cwd, timeout)
-            for agent in agents
-        ])
-        
-        for result in initial_results:
-            state.responses[result.agent].append(result.output)
-            # Update luminance based on response time (faster = higher)
-            if result.ok and result.ms > 0:
-                state.luminance[result.agent] = 1.0 / (1.0 + result.ms / 1000.0)
-            lines.append(f"  {result.agent}: {result.ms}ms {'✓' if result.ok else '✗'}")
-        
-        # Multi-round sampling
-        for round_num in range(1, rounds + 1):
-            lines.append(f"\nRound {round_num}: k-peer sampling")
-            
-            # Luminance-weighted peer selection (Photon)
-            weights = [state.luminance[a] for a in agents]
-            total = sum(weights)
-            probs = [w / total for w in weights]
-            
-            # Sample k peers
-            sampled = random.choices(agents, weights=probs, k=state.k)
-            
-            # Build context from sampled peers
-            context_parts = [f"Original query: {prompt}", "", "Peer responses:"]
-            for peer in sampled:
-                if state.responses[peer]:
-                    context_parts.append(f"\n--- {peer} ---")
-                    context_parts.append(state.responses[peer][-1][:1000])
-            
-            context_parts.append("\n\nConsidering these perspectives, provide your refined response:")
-            round_prompt = "\n".join(context_parts)
-            
-            # Each agent refines based on sampled peers
-            round_results = await asyncio.gather(*[
-                self._exec(agent, round_prompt, cwd, timeout)
-                for agent in agents
-            ])
-            
-            for result in round_results:
-                state.responses[result.agent].append(result.output)
-                # Update confidence based on agreement
-                if result.ok:
-                    # Simple agreement metric: check overlap with peers
-                    agreement = 0.0
-                    for peer in sampled:
-                        if peer != result.agent and state.responses[peer]:
-                            # Basic similarity check
-                            r_words = set(result.output.lower().split())
-                            p_words = set(state.responses[peer][-1].lower().split())
-                            if r_words and p_words:
-                                overlap = len(r_words & p_words) / len(r_words | p_words)
-                                agreement += overlap
-                    if sampled:
-                        agreement /= len(sampled)
-                    state.confidence[result.agent] = state.confidence.get(result.agent, 0) * 0.5 + agreement * 0.5
-            
-            # Check for Phase I threshold (beta_1)
-            max_conf = max(state.confidence.values()) if state.confidence else 0
-            lines.append(f"  Max confidence: {max_conf:.2f}")
-            if max_conf >= beta_1:
-                lines.append(f"  β₁ threshold reached")
-        
-        # Phase II: Finality - Threshold aggregation
-        lines.append("\nPhase II: Finality - Threshold aggregation")
-        
-        # Find winner based on confidence + luminance
-        scores = {a: state.confidence[a] * state.luminance[a] for a in agents}
-        winner = max(scores, key=lambda a: scores[a])
-        state.winner = winner
-        
-        lines.append(f"  Winner: {winner} (score: {scores[winner]:.2f})")
-        
-        # Check beta_2 finality threshold
-        if scores[winner] >= beta_2:
-            state.finalized = True
-            lines.append(f"  β₂ finality achieved")
-        
-        # Synthesize final answer (critic role)
-        lines.append("\nSynthesis:")
-        synth_parts = [
-            f"Original query: {prompt}",
-            "",
-            "Agent responses (final round):",
-        ]
-        for agent in agents:
-            if state.responses[agent]:
-                synth_parts.append(f"\n--- {agent} (confidence: {state.confidence[agent]:.2f}) ---")
-                synth_parts.append(state.responses[agent][-1][:1000])
-        
-        synth_parts.append(f"\n\nThe {winner} response had highest confidence. Synthesize the best answer from all perspectives:")
-        synth_prompt = "\n".join(synth_parts)
-        
-        synth_result = await self._exec(winner, synth_prompt, cwd, timeout)
-        state.synthesis = synth_result.output
-        
-        lines.append(synth_result.output)
-        
         elapsed = time.time() - start
-        lines.insert(0, f"[Metastable] {elapsed:.1f}s, winner: {winner}, finalized: {state.finalized}")
         
-        return "\n".join(lines)
+        return f"[Metastable] {elapsed:.1f}s, winner: {state.winner}, finalized: {state.finalized}\n\n{state.synthesis or ''}"
     
     async def _dispatch(self, tasks: List[Dict], cwd: Optional[str], timeout: int) -> str:
         """Execute different agents for different tasks in parallel.
