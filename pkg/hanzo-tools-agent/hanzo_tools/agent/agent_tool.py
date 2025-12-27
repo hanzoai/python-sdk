@@ -83,7 +83,7 @@ class AgentConfig:
 
 # Native CLI agents
 NATIVE_AGENTS = {
-    "claude": AgentConfig("claude", ["-p"], "ANTHROPIC_API_KEY", 1),
+    "claude": AgentConfig("claude", ["--print"], "ANTHROPIC_API_KEY", 1),
     "codex": AgentConfig("codex", [], "OPENAI_API_KEY", 2),
     "gemini": AgentConfig("gemini", [], "GOOGLE_API_KEY", 3),
     "grok": AgentConfig("grok", [], "XAI_API_KEY", 4),
@@ -96,63 +96,63 @@ NATIVE_AGENTS = {
 ANTHROPIC_COMPAT_AGENTS = {
     # MiniMax M2.1 - https://api.minimax.io
     "minimax": AgentConfig(
-        "claude", ["-p"], None, 10,
+        "claude", ["--print"], None, 10,
         base_url="https://api.minimax.io/anthropic",
         auth_env="MINIMAX_API_KEY",
         model="MiniMax-M2.1",
     ),
     # Kimi K2 (Moonshot) - https://api.moonshot.cn
     "kimi": AgentConfig(
-        "claude", ["-p"], None, 11,
+        "claude", ["--print"], None, 11,
         base_url="https://api.moonshot.cn/anthropic",
         auth_env="MOONSHOT_API_KEY",
         model="kimi-k2",
     ),
     # DeepSeek - https://api.deepseek.com
     "deepseek": AgentConfig(
-        "claude", ["-p"], None, 12,
+        "claude", ["--print"], None, 12,
         base_url="https://api.deepseek.com/anthropic",
         auth_env="DEEPSEEK_API_KEY",
         model="deepseek-chat",
     ),
     # Yi/01.AI - https://api.01.ai
     "yi": AgentConfig(
-        "claude", ["-p"], None, 13,
+        "claude", ["--print"], None, 13,
         base_url="https://api.01.ai/anthropic",
         auth_env="YI_API_KEY",
         model="yi-large",
     ),
     # Zhipu GLM-4 - https://open.bigmodel.cn
     "glm": AgentConfig(
-        "claude", ["-p"], None, 14,
+        "claude", ["--print"], None, 14,
         base_url="https://open.bigmodel.cn/api/paas/v4/anthropic",
         auth_env="ZHIPU_API_KEY",
         model="glm-4",
     ),
     # Baichuan - https://api.baichuan-ai.com
     "baichuan": AgentConfig(
-        "claude", ["-p"], None, 15,
+        "claude", ["--print"], None, 15,
         base_url="https://api.baichuan-ai.com/anthropic",
         auth_env="BAICHUAN_API_KEY",
         model="Baichuan4",
     ),
     # StepFun - https://api.stepfun.com
     "step": AgentConfig(
-        "claude", ["-p"], None, 16,
+        "claude", ["--print"], None, 16,
         base_url="https://api.stepfun.com/anthropic",
         auth_env="STEPFUN_API_KEY",
         model="step-2",
     ),
     # Qwen via DashScope Claude Code proxy - https://dashscope-intl.aliyuncs.com
     "dashscope": AgentConfig(
-        "claude", ["-p"], None, 17,
+        "claude", ["--print"], None, 17,
         base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
         auth_env="DASHSCOPE_API_KEY",
         model="qwen-max",
     ),
     # Qwen via DashScope (alias)
     "qwen-cc": AgentConfig(
-        "claude", ["-p"], None, 18,
+        "claude", ["--print"], None, 18,
         base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
         auth_env="DASHSCOPE_API_KEY",
         model="qwen-plus",
@@ -400,21 +400,29 @@ Consensus: https://github.com/luxfi/consensus
         
         cfg = AGENTS[agent]
         
-        # Build command
-        full_cmd = [cfg.cmd] + cfg.args
+        # Build command: claude --output-format text [--model X] [--dangerously-skip-permissions] --print "prompt"
+        full_cmd = [cfg.cmd]
         
-        # For Anthropic-compatible APIs, add required flags
+        # For claude CLI, add output format first
+        if cfg.cmd == "claude":
+            full_cmd.extend(["--output-format", "text"])
+        
+        # Add model override
+        if cfg.model:
+            full_cmd.extend(["--model", cfg.model])
+        
+        # For Anthropic-compatible APIs
         if cfg.base_url:
             full_cmd.append("--dangerously-skip-permissions")
         
-        # Add model override for Anthropic-compatible APIs
-        if cfg.model:
-            full_cmd.extend(["--model", cfg.model])
+        # Add args (--print for claude)
+        full_cmd.extend(cfg.args)
         
         full_cmd.append(prompt)
         
         # Build environment
         env = os.environ.copy()
+        env["OTEL_SDK_DISABLED"] = "true"  # Disable OpenTelemetry noise
         env.update(self._mcp_env)
         env["HANZO_AGENT_PARENT"] = "true"
         env["HANZO_AGENT_NAME"] = agent
