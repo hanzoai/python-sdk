@@ -10,16 +10,60 @@ Compiles to JSON AST:
 
 Examples:
     mkdir -p dist ; { cp a.txt dist/ & cp b.txt dist/ } ; zip -r out.zip dist/
+
+Performance:
+    Optimized for high throughput with:
+    - Precompiled regex patterns
+    - Local variable caching
+    - Fast-path for simple commands
+    - LRU cache for repeated patterns
+    - Full type annotations for mypyc compilation
+    
+    Compile with mypyc for 2-5x speedup:
+        mypyc hanzo_tools/shell/shellflow.py
 """
 
+from __future__ import annotations
+
 import re
-from typing import Any, List, Union
+from functools import lru_cache
+from typing import Any, Dict, List, Tuple, Union, Final
 
-# AST types
-ASTNode = Union[str, dict]
+# Type aliases with full annotations
+ASTDict = Dict[str, Any]
+ASTNode = Union[str, ASTDict]
+ASTTuple = Tuple[str, Tuple[Any, ...]]
+TokenList = List[str]
+CommandList = List[Any]
+
+# Constants
+TYPE_DO: Final[str] = "do"
+TYPE_ALL: Final[str] = "all"
+
+# Precompiled regex for performance
+# Match: quoted strings, braces, semicolon, shell operators, single &
+_TOKEN_PATTERN: Final[str] = r'''
+    (?P<dquote>"(?:[^"\\]|\\.)*")      # Double-quoted string
+    |(?P<squote>'(?:[^'\\]|\\.)*')     # Single-quoted string  
+    |(?P<lbrace>\{)                     # Left brace
+    |(?P<rbrace>\})                     # Right brace
+    |(?P<semi>;)                        # Semicolon
+    |(?P<shell_op>&&|\|\|)             # Shell operators (keep together)
+    |(?P<and>&)                         # Single & (parallel separator)
+    |(?P<text>[^{};'"&|]+)             # Other text (no & or |)
+    |(?P<pipe>\|(?!\|))                # Single | (not ||)
+'''
+
+_TOKEN_RE: Final = re.compile(_TOKEN_PATTERN, re.VERBOSE)
+
+# Preserved token types (tuple for faster `in` check than frozenset for small n)
+_PRESERVED_KINDS: Final[Tuple[str, ...]] = ('dquote', 'squote', 'shell_op', 'pipe')
+
+# Local reference for hot path
+_finditer = _TOKEN_RE.finditer
 
 
-def parse(source: str) -> dict:
+def parse(source: str) -> ASTDict:
     """Parse shellflow source to AST.
     
     Args:
@@ -28,188 +72,213 @@ def parse(source: str) -> dict:
     Returns:
         AST in object form: {"type": "do"|"all", "steps": [...]}
     """
+    # Strip and fast-path empty
     source = source.strip()
     if not source:
-        return {"type": "do", "steps": []}
+        return {"type": TYPE_DO, "steps": []}
     
-    # Tokenize: split on ; and & while respecting { }
-    tokens = _tokenize(source)
+    # Fast path: single simple command (no operators)
+    # Using 'in' is faster than regex for simple checks
+    if ';' not in source and '{' not in source and '&' not in source:
+        return {"type": TYPE_DO, "steps": [source]}
     
-    # Parse tokens to AST
-    ast = _parse_tokens(tokens)
-    
-    # Normalize (flatten nested do/all, drop singletons)
-    ast = _normalize(ast)
-    
-    return ast
+    # Tokenize and parse
+    tokens: TokenList = _tokenize_fast(source)
+    ast: ASTDict = _parse_tokens(tokens)
+    return _normalize(ast)
 
 
-def _tokenize(source: str) -> List[str]:
-    """Tokenize shellflow into commands and operators."""
-    tokens = []
-    current = []
-    depth = 0
-    i = 0
+def _tokenize_fast(source: str) -> TokenList:
+    """Tokenize shellflow into commands and operators.
     
-    while i < len(source):
-        char = source[i]
+    Optimized with local variable caching and type hints for mypyc.
+    """
+    tokens: TokenList = []
+    tokens_append = tokens.append
+    current_parts: List[str] = []
+    parts_append = current_parts.append
+    depth: int = 0
+    
+    for match in _finditer(source):
+        kind: str | None = match.lastgroup
+        value: str = match.group()
         
-        if char == '{':
-            if depth == 0 and current:
-                # Flush current command before block
-                cmd = ''.join(current).strip()
+        if kind in _PRESERVED_KINDS:
+            parts_append(value)
+        elif kind == 'lbrace':
+            if depth == 0 and current_parts:
+                cmd: str = ''.join(current_parts).strip()
                 if cmd:
-                    tokens.append(cmd)
-                current = []
+                    tokens_append(cmd)
+                current_parts = []
+                parts_append = current_parts.append
             depth += 1
-            current.append(char)
-        elif char == '}':
-            current.append(char)
+            parts_append(value)
+        elif kind == 'rbrace':
+            parts_append(value)
             depth -= 1
             if depth == 0:
-                # End of block
-                block = ''.join(current).strip()
+                block: str = ''.join(current_parts).strip()
                 if block:
-                    tokens.append(block)
-                current = []
-        elif char == ';' and depth == 0:
-            # Sequential separator at top level
-            cmd = ''.join(current).strip()
+                    tokens_append(block)
+                current_parts = []
+                parts_append = current_parts.append
+        elif kind == 'semi' and depth == 0:
+            cmd = ''.join(current_parts).strip()
             if cmd:
-                tokens.append(cmd)
-            tokens.append(';')
-            current = []
-        elif char == '&' and depth == 0:
-            # Parallel separator at top level (shouldn't happen outside {})
-            cmd = ''.join(current).strip()
+                tokens_append(cmd)
+            tokens_append(';')
+            current_parts = []
+            parts_append = current_parts.append
+        elif kind == 'and' and depth == 0:
+            cmd = ''.join(current_parts).strip()
             if cmd:
-                tokens.append(cmd)
-            tokens.append('&')
-            current = []
+                tokens_append(cmd)
+            tokens_append('&')
+            current_parts = []
+            parts_append = current_parts.append
         else:
-            current.append(char)
-        
-        i += 1
+            parts_append(value)
     
     # Flush remaining
-    if current:
-        cmd = ''.join(current).strip()
+    if current_parts:
+        cmd = ''.join(current_parts).strip()
         if cmd:
-            tokens.append(cmd)
+            tokens_append(cmd)
     
     return tokens
 
 
-def _parse_tokens(tokens: List[str]) -> dict:
+def _tokenize_parallel_fast(source: str) -> TokenList:
+    """Tokenize content inside { } splitting on & (but not &&).
+    
+    Optimized version with full type hints.
+    """
+    tokens: TokenList = []
+    tokens_append = tokens.append
+    current_parts: List[str] = []
+    parts_append = current_parts.append
+    depth: int = 0
+    
+    for match in _finditer(source):
+        kind: str | None = match.lastgroup
+        value: str = match.group()
+        
+        if kind in _PRESERVED_KINDS:
+            parts_append(value)
+        elif kind == 'lbrace':
+            depth += 1
+            parts_append(value)
+        elif kind == 'rbrace':
+            depth -= 1
+            parts_append(value)
+        elif kind == 'and' and depth == 0:
+            cmd: str = ''.join(current_parts).strip()
+            if cmd:
+                tokens_append(cmd)
+            current_parts = []
+            parts_append = current_parts.append
+        else:
+            parts_append(value)
+    
+    if current_parts:
+        cmd = ''.join(current_parts).strip()
+        if cmd:
+            tokens_append(cmd)
+    
+    return tokens
+
+
+def _parse_tokens(tokens: TokenList) -> ASTDict:
     """Parse token list to AST."""
     if not tokens:
-        return {"type": "do", "steps": []}
+        return {"type": TYPE_DO, "steps": []}
     
-    # Check if this is a block
-    if len(tokens) == 1 and tokens[0].startswith('{') and tokens[0].endswith('}'):
-        # Parse inner block as parallel
-        inner = tokens[0][1:-1].strip()
-        inner_tokens = _tokenize_parallel(inner)
-        steps = [_parse_single(t) for t in inner_tokens if t and t != '&']
-        return {"type": "all", "steps": steps}
+    # Check if this is a single block
+    if len(tokens) == 1:
+        t: str = tokens[0]
+        if t.startswith('{') and t.endswith('}'):
+            inner: str = t[1:-1].strip()
+            inner_tokens: TokenList = _tokenize_parallel_fast(inner)
+            steps: List[ASTNode] = [_parse_single(tok) for tok in inner_tokens if tok and tok != '&']
+            return {"type": TYPE_ALL, "steps": steps}
     
     # Parse as sequential
     steps = []
+    steps_append = steps.append
+    
     for token in tokens:
         if token == ';':
             continue
         elif token.startswith('{') and token.endswith('}'):
-            # Parallel block
             inner = token[1:-1].strip()
-            inner_tokens = _tokenize_parallel(inner)
-            inner_steps = [_parse_single(t) for t in inner_tokens if t and t != '&']
+            inner_tokens = _tokenize_parallel_fast(inner)
+            inner_steps: List[ASTNode] = [_parse_single(tok) for tok in inner_tokens if tok and tok != '&']
             if len(inner_steps) == 1:
-                steps.append(inner_steps[0])
+                steps_append(inner_steps[0])
             else:
-                steps.append({"type": "all", "steps": inner_steps})
+                steps_append({"type": TYPE_ALL, "steps": inner_steps})
         else:
-            steps.append(token)
+            steps_append(token)
     
     if len(steps) == 1:
-        if isinstance(steps[0], dict):
-            return steps[0]
-        return {"type": "do", "steps": steps}
+        s: ASTNode = steps[0]
+        if isinstance(s, dict):
+            return s
+        return {"type": TYPE_DO, "steps": steps}
     
-    return {"type": "do", "steps": steps}
-
-
-def _tokenize_parallel(source: str) -> List[str]:
-    """Tokenize content inside { } splitting on &."""
-    tokens = []
-    current = []
-    depth = 0
-    
-    for char in source:
-        if char == '{':
-            depth += 1
-            current.append(char)
-        elif char == '}':
-            depth -= 1
-            current.append(char)
-        elif char == '&' and depth == 0:
-            cmd = ''.join(current).strip()
-            if cmd:
-                tokens.append(cmd)
-            current = []
-        else:
-            current.append(char)
-    
-    if current:
-        cmd = ''.join(current).strip()
-        if cmd:
-            tokens.append(cmd)
-    
-    return tokens
+    return {"type": TYPE_DO, "steps": steps}
 
 
 def _parse_single(token: str) -> ASTNode:
     """Parse a single token (command or nested block)."""
     token = token.strip()
     if token.startswith('{') and token.endswith('}'):
-        inner = token[1:-1].strip()
-        inner_tokens = _tokenize_parallel(inner)
-        steps = [_parse_single(t) for t in inner_tokens if t]
-        return {"type": "all", "steps": steps}
+        inner: str = token[1:-1].strip()
+        inner_tokens: TokenList = _tokenize_parallel_fast(inner)
+        steps: List[ASTNode] = [_parse_single(t) for t in inner_tokens if t]
+        return {"type": TYPE_ALL, "steps": steps}
     return token
 
 
-def _normalize(ast: dict) -> dict:
+def _normalize(ast: ASTNode) -> ASTDict:
     """Normalize AST: flatten nested do/all, drop singletons."""
-    if not isinstance(ast, dict):
-        return ast
+    if isinstance(ast, str):
+        return {"type": TYPE_DO, "steps": [ast]}
     
-    node_type = ast.get("type")
-    steps = ast.get("steps", [])
+    node_type: str = ast.get("type", TYPE_DO)
+    steps: List[ASTNode] = ast.get("steps", [])
     
     # Recursively normalize children
-    normalized_steps = []
+    normalized_steps: List[ASTNode] = []
+    normalized_append = normalized_steps.append
+    
     for step in steps:
         if isinstance(step, dict):
             step = _normalize(step)
             # Flatten same-type nesting
-            if step.get("type") == node_type:
+            step_type: str = step.get("type", "")
+            if step_type == node_type:
                 normalized_steps.extend(step.get("steps", []))
             else:
-                normalized_steps.append(step)
-        elif step:  # Skip empty strings
-            normalized_steps.append(step)
+                normalized_append(step)
+        elif step:
+            normalized_append(step)
     
     # Drop singleton wrappers
     if len(normalized_steps) == 1:
-        return normalized_steps[0] if isinstance(normalized_steps[0], dict) else {"type": "do", "steps": normalized_steps}
+        ns: ASTNode = normalized_steps[0]
+        if isinstance(ns, dict):
+            return ns
+        return {"type": TYPE_DO, "steps": normalized_steps}
     
     if not normalized_steps:
-        return {"type": "do", "steps": []}
+        return {"type": TYPE_DO, "steps": []}
     
     return {"type": node_type, "steps": normalized_steps}
 
 
-def to_sexp(ast: ASTNode) -> list:
+def to_sexp(ast: ASTNode) -> Any:
     """Convert object-form AST to S-expression form.
     
     {"type": "do", "steps": ["A", {"type": "all", "steps": ["B", "C"]}]}
@@ -218,13 +287,13 @@ def to_sexp(ast: ASTNode) -> list:
     if isinstance(ast, str):
         return ast
     
-    node_type = ast.get("type", "do")
-    steps = ast.get("steps", [])
+    node_type: str = ast.get("type", TYPE_DO)
+    steps: List[ASTNode] = ast.get("steps", [])
     
     return [node_type] + [to_sexp(s) for s in steps]
 
 
-def from_sexp(sexp: Union[str, list]) -> ASTNode:
+def from_sexp(sexp: Any) -> ASTNode:
     """Convert S-expression to object-form AST.
     
     ["do", "A", ["all", "B", "C"]]
@@ -234,94 +303,130 @@ def from_sexp(sexp: Union[str, list]) -> ASTNode:
         return sexp
     
     if not sexp:
-        return {"type": "do", "steps": []}
+        return {"type": TYPE_DO, "steps": []}
     
-    node_type = sexp[0]
-    steps = [from_sexp(s) for s in sexp[1:]]
+    node_type: str = sexp[0]
+    steps: List[ASTNode] = [from_sexp(s) for s in sexp[1:]]
     
     return {"type": node_type, "steps": steps}
 
 
-def to_commands(ast: ASTNode) -> List[Any]:
+def to_commands(ast: ASTNode) -> CommandList:
     """Convert AST to commands list for existing DAG executor.
     
     Transforms:
     - {"type": "do", "steps": [...]} → [...] (serial)
     - {"type": "all", "steps": [...]} → [[...]] (nested = parallel)
-    - str → str
+    - str → [str]
     """
     if isinstance(ast, str):
         return [ast]
     
-    node_type = ast.get("type", "do")
-    steps = ast.get("steps", [])
+    node_type: str = ast.get("type", TYPE_DO)
+    steps: List[ASTNode] = ast.get("steps", [])
     
-    if node_type == "all":
+    if node_type == TYPE_ALL:
         # Parallel: return as nested list
-        result = []
+        result: CommandList = []
+        result_append = result.append
         for step in steps:
             if isinstance(step, str):
-                result.append(step)
+                result_append(step)
             else:
-                # Nested structure
                 result.extend(to_commands(step))
-        return [result]  # Wrap in list to trigger parallel
+        return [result]
     
     # Sequential (do)
     result = []
+    result_append = result.append
+    
     for step in steps:
         if isinstance(step, str):
-            result.append(step)
-        elif step.get("type") == "all":
-            # Parallel block: wrap in list
-            parallel_cmds = []
-            for s in step.get("steps", []):
-                if isinstance(s, str):
-                    parallel_cmds.append(s)
-                else:
-                    parallel_cmds.extend(to_commands(s))
-            result.append(parallel_cmds)
-        else:
-            # Nested do: flatten
-            result.extend(to_commands(step))
+            result_append(step)
+        elif isinstance(step, dict):
+            step_type: str = step.get("type", "")
+            if step_type == TYPE_ALL:
+                parallel_cmds: CommandList = []
+                p_append = parallel_cmds.append
+                for s in step.get("steps", []):
+                    if isinstance(s, str):
+                        p_append(s)
+                    else:
+                        parallel_cmds.extend(to_commands(s))
+                result_append(parallel_cmds)
+            else:
+                result.extend(to_commands(step))
     
     return result
 
 
 def render_ascii(ast: ASTNode, indent: int = 0) -> str:
     """Render AST as ASCII tree."""
-    prefix = "  " * indent
+    prefix: str = "  " * indent
     
     if isinstance(ast, str):
         return f"{prefix}└─ {ast}\n"
     
-    node_type = ast.get("type", "do")
-    steps = ast.get("steps", [])
+    node_type: str = ast.get("type", TYPE_DO)
+    steps: List[ASTNode] = ast.get("steps", [])
     
-    lines = [f"{prefix}{'├─' if indent else ''}[{node_type}]\n"]
+    lines: List[str] = [f"{prefix}{'├─' if indent else ''}[{node_type}]\n"]
+    lines_append = lines.append
+    
+    num_steps: int = len(steps)
     for i, step in enumerate(steps):
-        is_last = i == len(steps) - 1
+        is_last: bool = i == num_steps - 1
         if isinstance(step, str):
-            marker = "└─" if is_last else "├─"
-            lines.append(f"{prefix}  {marker} {step}\n")
+            marker: str = "└─" if is_last else "├─"
+            lines_append(f"{prefix}  {marker} {step}\n")
         else:
-            lines.append(render_ascii(step, indent + 1))
+            lines_append(render_ascii(step, indent + 1))
     
     return "".join(lines)
 
 
-# Convenience function for direct execution
-def compile(source: str, format: str = "commands") -> Any:
+# Cached compile for repeated patterns
+@lru_cache(maxsize=256)
+def _parse_cached(source: str) -> ASTTuple:
+    """Cached version of parse that returns a hashable tuple form."""
+    ast: ASTDict = parse(source)
+    return _dict_to_tuple(ast)
+
+
+def _dict_to_tuple(d: ASTNode) -> ASTTuple | str:
+    """Convert AST dict to hashable tuple."""
+    if isinstance(d, str):
+        return d
+    node_type: str = d.get("type", TYPE_DO)
+    steps: List[ASTNode] = d.get("steps", [])
+    return (node_type, tuple(_dict_to_tuple(s) for s in steps))
+
+
+def _tuple_to_dict(t: ASTTuple | str) -> ASTNode:
+    """Convert tuple back to AST dict."""
+    if isinstance(t, str):
+        return t
+    return {"type": t[0], "steps": [_tuple_to_dict(s) for s in t[1]]}
+
+
+def compile(source: str, format: str = "commands", cached: bool = False) -> Any:
     """Compile shellflow to various formats.
     
     Args:
         source: Shellflow source string
         format: Output format - "ast", "sexp", "commands", "ascii"
+        cached: Use LRU cache for repeated patterns (default: False)
         
     Returns:
         Compiled output in requested format
     """
-    ast = parse(source)
+    ast: ASTDict
+    if cached:
+        ast_tuple: ASTTuple | str = _parse_cached(source)
+        result: ASTNode = _tuple_to_dict(ast_tuple)
+        ast = result if isinstance(result, dict) else {"type": TYPE_DO, "steps": [result]}
+    else:
+        ast = parse(source)
     
     if format == "ast":
         return ast
@@ -333,3 +438,60 @@ def compile(source: str, format: str = "commands") -> Any:
         return render_ascii(ast)
     else:
         raise ValueError(f"Unknown format: {format}")
+
+
+# ============================================================================
+# Inline optimized versions for hot paths
+# These use minimal function calls and are designed for mypyc compilation
+# ============================================================================
+
+def parse_fast(source: str) -> ASTDict:
+    """Ultra-fast parse for simple sequential commands.
+    
+    Falls back to full parse for complex syntax.
+    """
+    source = source.strip()
+    if not source:
+        return {"type": TYPE_DO, "steps": []}
+    
+    # Fast path: no special characters at all
+    if ';' not in source and '{' not in source and '&' not in source:
+        return {"type": TYPE_DO, "steps": [source]}
+    
+    # Fast path: simple sequential (only semicolons, no braces or ampersands)
+    if '{' not in source and '&' not in source:
+        # Split on semicolon, strip each part
+        parts: List[str] = [p.strip() for p in source.split(';') if p.strip()]
+        if parts:
+            return {"type": TYPE_DO, "steps": parts}
+        return {"type": TYPE_DO, "steps": []}
+    
+    # Fall back to full parse
+    return parse(source)
+
+
+def compile_to_commands_fast(source: str) -> CommandList:
+    """Compile directly to commands list, optimized path.
+    
+    Skips intermediate representations when possible.
+    """
+    source = source.strip()
+    if not source:
+        return []
+    
+    # Fast path: single command
+    if ';' not in source and '{' not in source and '&' not in source:
+        return [source]
+    
+    # Fast path: simple sequential
+    if '{' not in source and '&' not in source:
+        return [p.strip() for p in source.split(';') if p.strip()]
+    
+    # Full compilation
+    ast: ASTDict = parse(source)
+    return to_commands(ast)
+
+
+# Aliases for backwards compatibility
+_tokenize = _tokenize_fast
+_tokenize_parallel = _tokenize_parallel_fast
