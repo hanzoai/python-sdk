@@ -30,9 +30,9 @@ class TestToolPackages:
         assert PermissionManager is not None
         assert auto_timeout is not None
 
-    def test_filesystem_tools(self):
-        """Test hanzo-tools-filesystem has 7 tools."""
-        from hanzo_tools.filesystem import TOOLS
+    def test_fs_tools(self):
+        """Test hanzo-tools-fs has 7 tools."""
+        from hanzo_tools.fs import TOOLS
 
         assert len(TOOLS) == 7
         names = {t.name for t in TOOLS}
@@ -40,12 +40,12 @@ class TestToolPackages:
         assert names == expected
 
     def test_shell_tools(self):
-        """Test hanzo-tools-shell has 7 tools."""
+        """Test hanzo-tools-shell has 11 tools."""
         from hanzo_tools.shell import TOOLS
 
-        assert len(TOOLS) == 7
+        assert len(TOOLS) == 11
         names = {t.name for t in TOOLS}
-        expected = {"dag", "ps", "zsh", "shell", "npx", "uvx", "open"}
+        expected = {"dag", "ps", "zsh", "bash", "shell", "npx", "uvx", "open", "curl", "jq", "wget"}
         assert names == expected
 
     def test_memory_tools(self):
@@ -90,14 +90,15 @@ class TestToolPackages:
         assert len(TOOLS) == 8
 
     def test_agent_tools(self):
-        """Test hanzo-tools-agent has 10-12 tools.
+        """Test hanzo-tools-agent has 3 tools.
 
-        Some CLI tools may not import on all platforms.
+        Core tools: AgentTool, IChingTool, ReviewTool
         """
         from hanzo_tools.agent import TOOLS
 
-        # Allow 10-12 tools depending on platform (some CLI agents may not import)
-        assert 10 <= len(TOOLS) <= 12, f"Expected 10-12 agent tools, got {len(TOOLS)}"
+        assert len(TOOLS) == 3, f"Expected 3 agent tools, got {len(TOOLS)}"
+        names = {t.name for t in TOOLS}
+        assert names == {"agent", "iching", "review"}
 
     def test_jupyter_tools(self):
         """Test hanzo-tools-jupyter has 1 tool."""
@@ -169,7 +170,7 @@ class TestToolPackages:
 # Required packages for import speed tests
 REQUIRED_IMPORT_MODULES = [
     ("hanzo_tools.core", 1.0),
-    ("hanzo_tools.filesystem", 1.0),
+    ("hanzo_tools.fs", 1.0),
     ("hanzo_tools.shell", 1.0),
     ("hanzo_tools.memory", 1.0),
     ("hanzo_tools.todo", 1.0),
@@ -220,7 +221,7 @@ class TestToolImportSpeed:
 
 # Packages that must always be testable
 REQUIRED_PACKAGES = [
-    "hanzo_tools.filesystem",
+    "hanzo_tools.fs",
     "hanzo_tools.shell",
     "hanzo_tools.memory",
     "hanzo_tools.todo",
@@ -274,8 +275,8 @@ class TestTotalToolCount:
         """
         # Required packages with exact counts
         required_packages = [
-            ("hanzo_tools.filesystem", 7),
-            ("hanzo_tools.shell", 7),
+            ("hanzo_tools.fs", 7),
+            ("hanzo_tools.shell", 11),
             ("hanzo_tools.browser", 1),
             ("hanzo_tools.memory", 9),
             ("hanzo_tools.todo", 1),
@@ -285,11 +286,7 @@ class TestTotalToolCount:
             ("hanzo_tools.database", 8),
             ("hanzo_tools.jupyter", 1),
             ("hanzo_tools.editor", 3),
-        ]
-
-        # Packages with variable counts
-        variable_packages = [
-            ("hanzo_tools.agent", 10, 12),  # 10-12 depending on platform
+            ("hanzo_tools.agent", 3),
         ]
 
         total = 0
@@ -305,17 +302,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Check variable packages (range allowed)
-        for pkg_name, min_count, max_count in variable_packages:
-            pkg = importlib.import_module(pkg_name)
-            tools = getattr(pkg, "TOOLS", [])
-            actual = len(tools)
-            assert (
-                min_count <= actual <= max_count
-            ), f"{pkg_name}: expected {min_count}-{max_count} tools, got {actual}"
-            total += actual
-
-        # Required tools: 41 (7+7+1+9+1+2+1+1+8+1+3)
-        # Variable: 10-12
-        # Total: 51-53
-        assert 51 <= total <= 53, f"Expected 51-53 required tools, got {total}"
+        # Required tools: 48 (7+11+1+9+1+2+1+1+8+1+3+3)
+        assert total == 48, f"Expected 48 required tools, got {total}"
