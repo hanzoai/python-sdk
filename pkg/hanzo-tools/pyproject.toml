@@ -27,7 +27,7 @@ dependencies = [
 
 [project.optional-dependencies]
 # Individual tool packages
-filesystem = ["hanzo-tools-filesystem>=0.1.0"]
+filesystem = ["hanzo-tools-fs>=0.1.0"]
 shell = ["hanzo-tools-shell>=0.1.0"]
 browser = ["hanzo-tools-browser>=0.1.0"]
 llm = ["hanzo-tools-llm>=0.1.0"]
@@ -47,7 +47,7 @@ computer = ["hanzo-tools-computer>=0.1.0"]
 
 # Bundles
 dev = [
-    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
@@ -62,7 +62,7 @@ ai = [
     "hanzo-tools-memory>=0.1.0",
 ]
 all = [
-    "hanzo-tools-filesystem>=0.1.0",
+    "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.1.0",
     "hanzo-tools-browser>=0.1.0",
     "hanzo-tools-llm>=0.1.0",

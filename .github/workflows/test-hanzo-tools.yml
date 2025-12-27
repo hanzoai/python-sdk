@@ -38,7 +38,7 @@ jobs:
         source .venv/bin/activate
         # Install all tool packages
         uv pip install -e pkg/hanzo-tools-core
-        uv pip install -e pkg/hanzo-tools-filesystem
+        uv pip install -e pkg/hanzo-tools-fs
         uv pip install -e pkg/hanzo-tools-shell
         uv pip install -e pkg/hanzo-tools-browser
         uv pip install -e pkg/hanzo-tools-memory
