@@ -52,6 +52,7 @@ class State:
     finalized: bool = False
     winner: Optional[str] = None
     synthesis: Optional[str] = None
+    discussion_history: List[Dict[str, str]] = field(default_factory=list)
 
 
 @dataclass
