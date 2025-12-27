@@ -1,0 +1,29 @@
+[project]
+name = "hanzo-metastable-consensus"
+version = "0.1.0"
+description = "Metastable consensus protocol for multi-agent agreement"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["consensus", "metastable", "multi-agent", "distributed"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/python-sdk"
+Repository = "https://github.com/hanzoai/python-sdk"
+Documentation = "https://github.com/luxfi/consensus"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_metastable_consensus"]
