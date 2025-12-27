@@ -3,13 +3,8 @@
 import sys
 import time
 import asyncio
-import warnings
 
 import pytest
-
-# Filter the deprecation warning from hanzo-tools-core
-# It's expected since we're testing the backwards-compat layer
-warnings.filterwarnings("ignore", message="hanzo-tools-core is deprecated")
 
 
 def _module_installed(module_name: str) -> bool:
