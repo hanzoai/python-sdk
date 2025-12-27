@@ -32,6 +32,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 from hanzo_tools.shell.base_process import ProcessManager
+from hanzo_tools.shell.shellflow import parse as parse_shellflow, to_commands as shellflow_to_commands
 
 
 class NodeStatus(Enum):
@@ -127,34 +128,22 @@ class ZshTool(BaseTool):
         shell_name = os.path.basename(self._shell)
         return f"""Zsh shell with DAG execution support (using: {shell_name}).
 
-MODES:
+SHELLFLOW SYNTAX (inline DAG):
+  zsh("A ; B ; C")                    # Sequential
+  zsh("{{ A & B & C }}")                # Parallel
+  zsh("setup ; {{ a & b & c }} ; done") # Mixed
 
-Simple command:
-  zsh("ls -la")
+ARRAY SYNTAX:
+  zsh(["a", "b", "c"])                # Sequential
+  zsh(["a", ["b", "c", "d"], "e"])    # Nested = parallel
+  zsh(["a", "b"], parallel=True)      # All parallel
 
-Serial execution:
-  zsh(["ls", "pwd", "git status"])
-
-Parallel (nested arrays):
-  zsh(["setup", ["task1", "task2", "task3"], "cleanup"])
-  # Runs: setup → (task1, task2, task3 in parallel) → cleanup
-
-All parallel:
-  zsh(["a", "b", "c"], parallel=True)
-
-Mixed DAG:
-  zsh([
-      "mkdir -p dist",
-      ["cp a.txt dist/", "cp b.txt dist/", "cp c.txt dist/"],
-      "zip -r out.zip dist/"
-  ])
-
-Tool invocations:
-  zsh([{{"tool": "search", "input": {{"pattern": "TODO"}}}}])
+EXAMPLE:
+  zsh("mkdir -p dist ; {{ cp a dist/ & cp b dist/ }} ; zip -r out.zip dist/")
 
 OPTIONS:
-  parallel: Run ALL top-level commands concurrently
   shell: Use different shell (bash, sh, fish)
+  parallel: Run ALL top-level commands concurrently
   strict: Stop on first error
   quiet: Suppress stdout
   timeout: Per-command timeout (default: 120s)
@@ -502,10 +491,16 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         # Single command mode
         if command and not commands:
-            result = await self._run_shell(command, cwd, env, timeout, shell)
-            if result.status == NodeStatus.SUCCESS:
-                return result.stdout if result.stdout else "(no output)"
-            return f"{result.stdout}\n[stderr] {result.stderr}" if result.stderr else result.stdout
+            # Check for shellflow syntax (contains ; or { & })
+            if ';' in command or ('&' in command and '{' in command):
+                # Parse as shellflow
+                commands = shellflow_to_commands(parse_shellflow(command))
+            else:
+                # Simple command
+                result = await self._run_shell(command, cwd, env, timeout, shell)
+                if result.status == NodeStatus.SUCCESS:
+                    return result.stdout if result.stdout else "(no output)"
+                return f"{result.stdout}\n[stderr] {result.stderr}" if result.stderr else result.stdout
 
         # DAG mode
         if not commands:
