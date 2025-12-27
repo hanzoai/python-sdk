@@ -590,12 +590,16 @@ Automatically selects:
 - User's preferred shell ($SHELL)
 - Bash as fallback
 
-Supports all DAG modes (see: zsh --help).
+Full Shellflow + DAG support.
 
-Usage:
-shell("ls -la")
-shell(["cmd1", "cmd2"])  # Serial
-shell(["a", "b"], parallel=True)  # Parallel"""
+SHELLFLOW:
+  shell("A ; B ; C")                  # Sequential
+  shell("{{ A & B & C }}")              # Parallel
+  shell("setup ; {{ a & b }} ; done")   # Mixed
+
+ARRAYS:
+  shell(["a", "b", "c"])              # Sequential
+  shell(["a", ["b", "c"], "d"])       # Nested = parallel"""
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
@@ -657,13 +661,16 @@ class BashTool(ZshTool):
     def description(self) -> str:
         return """Bash shell with DAG execution support.
 
-Same capabilities as zsh tool but defaults to bash.
-Use for bash-specific scripts or when zsh is unavailable.
+Same as zsh but defaults to bash. Full Shellflow + DAG support.
 
-Usage:
-bash("ls -la")
-bash(["cmd1", "cmd2"])  # Serial
-bash([...], parallel=True)  # Parallel"""
+SHELLFLOW:
+  bash("A ; B ; C")                  # Sequential
+  bash("{ A & B & C }")              # Parallel
+  bash("setup ; { a & b } ; done")   # Mixed
+
+ARRAYS:
+  bash(["a", "b", "c"])              # Sequential
+  bash(["a", ["b", "c"], "d"])       # Nested = parallel"""
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
