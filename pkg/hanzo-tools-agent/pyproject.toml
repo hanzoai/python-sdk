@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-agent"
-version = "0.2.2"
+version = "0.2.3"
 description = "Agent tools for Hanzo AI - multi-agent orchestration, CLI agents, swarms"
 readme = "README.md"
 requires-python = ">=3.12"
