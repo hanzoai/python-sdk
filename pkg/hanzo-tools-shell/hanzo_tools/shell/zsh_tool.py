@@ -172,22 +172,27 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         timeout: int = 120,
+        shell: Optional[str] = None,
     ) -> DagResult:
         """Run a shell command with auto-backgrounding on timeout."""
         start_time = datetime.now()
         node_id = f"shell_{id(cmd)}"
         process_manager = ProcessManager()
+        
+        # Use specified shell or default
+        use_shell = shell or self._shell
 
         try:
             run_env = os.environ.copy()
             if env:
                 run_env.update(env)
 
-            process_id = f"zsh_{uuid.uuid4().hex[:8]}"
+            shell_name = os.path.basename(use_shell)
+            process_id = f"{shell_name}_{uuid.uuid4().hex[:8]}"
             log_file = await process_manager.create_log_file(process_id)
 
             proc = await asyncio.create_subprocess_exec(
-                self._shell,
+                use_shell,
                 "-c",
                 cmd,
                 stdout=asyncio.subprocess.PIPE,
@@ -217,10 +222,10 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                 duration = int((datetime.now() - start_time).total_seconds() * 1000)
 
                 async with aiofiles.open(log_file, "w") as f:
-                    await f.write(f"[zsh] Command backgrounded after {timeout}s timeout\n")
-                    await f.write(f"[zsh] Command: {cmd}\n")
-                    await f.write(f"[zsh] PID: {proc.pid}\n")
-                    await f.write(f"[zsh] Started: {start_time.isoformat()}\n")
+                    await f.write(f"[{shell_name}] Command backgrounded after {timeout}s timeout\n")
+                    await f.write(f"[{shell_name}] Command: {cmd}\n")
+                    await f.write(f"[{shell_name}] PID: {proc.pid}\n")
+                    await f.write(f"[{shell_name}] Started: {start_time.isoformat()}\n")
                     await f.write("-" * 40 + "\n")
 
                 process_manager.add_process(process_id, proc, str(log_file))
@@ -272,7 +277,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                 )
 
                 await proc.wait()
-                await f.write(f"\n[zsh] Process exited with code {proc.returncode}\n")
+                await f.write(f"\n[shell] Process exited with code {proc.returncode}\n")
         except Exception:
             pass
 
@@ -328,11 +333,12 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         cwd: Optional[str],
         env: Optional[Dict[str, str]],
         timeout: int,
+        shell: Optional[str] = None,
     ) -> DagResult:
         """Execute a single DAG node."""
 
         if isinstance(cmd, str):
-            return await self._run_shell(cmd, cwd, env, timeout)
+            return await self._run_shell(cmd, cwd, env, timeout, shell)
 
         if isinstance(cmd, dict):
             if "tool" in cmd:
@@ -340,7 +346,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
 
             if "parallel" in cmd:
                 parallel_cmds = cmd["parallel"]
-                tasks = [self._execute_node(c, ctx, cwd, env, timeout) for c in parallel_cmds]
+                tasks = [self._execute_node(c, ctx, cwd, env, timeout, shell) for c in parallel_cmds]
                 results = await asyncio.gather(*tasks, return_exceptions=True)
 
                 combined_stdout = []
@@ -430,6 +436,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         command: Optional[str] = None,
         commands: Optional[List[Command]] = None,
         parallel: bool = False,
+        shell: Optional[str] = None,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         timeout: int = 120,
@@ -443,6 +450,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             command: Single command string (simple mode)
             commands: List of commands for DAG mode
             parallel: Run all commands concurrently
+            shell: Shell to use (default: zsh, options: bash, sh, fish, etc.)
             cwd: Working directory
             env: Additional environment variables
             timeout: Per-command timeout in seconds
@@ -454,7 +462,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
 
         # Single command mode
         if command and not commands:
-            result = await self._run_shell(command, cwd, env, timeout)
+            result = await self._run_shell(command, cwd, env, timeout, shell)
             if result.status == NodeStatus.SUCCESS:
                 return result.stdout if result.stdout else "(no output)"
             return f"{result.stdout}\n[stderr] {result.stderr}" if result.stderr else result.stdout
@@ -466,7 +474,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         results: List[DagResult] = []
 
         if parallel:
-            tasks = [self._execute_node(cmd, ctx, cwd, env, timeout) for cmd in commands]
+            tasks = [self._execute_node(cmd, ctx, cwd, env, timeout, shell) for cmd in commands]
             results = await asyncio.gather(*tasks, return_exceptions=True)
             results = [
                 r
@@ -485,7 +493,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             ]
         else:
             for cmd in commands:
-                result = await self._execute_node(cmd, ctx, cwd, env, timeout)
+                result = await self._execute_node(cmd, ctx, cwd, env, timeout, shell)
                 results.append(result)
 
                 if strict and result.status == NodeStatus.FAILED:
@@ -507,6 +515,9 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                 Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
             ] = None,
             parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
+            shell: Annotated[
+                Optional[str], Field(description="Shell to use: zsh, bash, sh, fish (default: zsh)", default=None)
+            ] = None,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
             timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=120)] = 120,
@@ -519,6 +530,7 @@ Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                 command=command,
                 commands=commands,
                 parallel=parallel,
+                shell=shell,
                 cwd=cwd,
                 env=env,
                 timeout=timeout,
@@ -564,6 +576,74 @@ shell(["a", "b"], parallel=True)  # Parallel"""
                 Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
             ] = None,
             parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
+            shell: Annotated[
+                Optional[str], Field(description="Shell to use: zsh, bash, sh, fish", default=None)
+            ] = None,
+            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
+            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
+            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=120)] = 120,
+            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
+            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            ctx: MCPContext = None,
+        ) -> str:
+            return await tool_self.call(
+                ctx,
+                command=command,
+                commands=commands,
+                parallel=parallel,
+                shell=shell,
+                cwd=cwd,
+                env=env,
+                timeout=timeout,
+                strict=strict,
+                quiet=quiet,
+            )
+
+
+class BashTool(ZshTool):
+    """Bash shell with DAG support - alias for ZshTool with bash default."""
+
+    name = "bash"
+
+    def _resolve_shell(self) -> str:
+        """Use bash as default shell."""
+        force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
+        if force_shell:
+            return force_shell
+        
+        # Prefer bash
+        bash_path = shutil.which("bash")
+        if bash_path:
+            return bash_path
+        return "sh"
+
+    @property
+    @override
+    def description(self) -> str:
+        return """Bash shell with DAG execution support.
+
+Same capabilities as zsh tool but defaults to bash.
+Use for bash-specific scripts or when zsh is unavailable.
+
+Usage:
+bash("ls -la")
+bash(["cmd1", "cmd2"])  # Serial
+bash([...], parallel=True)  # Parallel"""
+
+    @override
+    def register(self, mcp_server: FastMCP) -> None:
+        """Register bash tool with MCP server."""
+        tool_self = self
+
+        @mcp_server.tool(name=self.name, description=self.description)
+        async def bash(
+            command: Annotated[
+                Optional[str], Field(description="Single command to execute", default=None)
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
+            ] = None,
+            parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
             timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=120)] = 120,
@@ -587,3 +667,4 @@ shell(["a", "b"], parallel=True)  # Parallel"""
 # Create tool instances
 zsh_tool = ZshTool()
 shell_tool = ShellTool()
+bash_tool = BashTool()
