@@ -29,6 +29,7 @@ if os.environ.get("HANZO_MCP_TRANSPORT") == "stdio":
 # Version from pyproject.toml (single source of truth)
 try:
     from importlib.metadata import version as _get_version
+
     __version__ = _get_version("hanzo-mcp")
 except Exception:
     __version__ = "0.10.24"  # fallback
