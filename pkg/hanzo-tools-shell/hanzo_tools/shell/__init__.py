@@ -32,7 +32,7 @@ from hanzo_tools.shell.dag_tool import DagTool, create_dag_tool
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
-from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, zsh_tool, shell_tool
+from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, BashTool, zsh_tool, shell_tool, bash_tool
 
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
@@ -53,7 +53,8 @@ from hanzo_tools.shell.base_process import (
 
 # Tools list for entry point discovery
 # Note: ZshTool now includes full DAG functionality. DagTool kept for backwards compatibility.
-TOOLS = [ZshTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# BashTool available for bash-specific scripts.
+TOOLS = [ZshTool, BashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
     # Base classes
@@ -75,6 +76,8 @@ __all__ = [
     "zsh_tool",
     "ShellTool",
     "shell_tool",
+    "BashTool",
+    "bash_tool",
     # Convenience tools
     "OpenTool",
     "open_tool",
