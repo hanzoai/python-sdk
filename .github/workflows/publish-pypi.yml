@@ -14,6 +14,7 @@ on:
     tags:
       - 'v*'
       - 'hanzo-*'
+      - 'hanzoai-*'
       - 'hanzo-tools-*'
 
   release:
@@ -58,10 +59,10 @@ jobs:
           PACKAGES=""
 
           # All hanzo-tools packages
-          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-filesystem hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools"
+          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-filesystem hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools-computer hanzo-tools"
 
           # Main packages
-          MAIN_PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
+          MAIN_PACKAGES="hanzoai hanzo hanzo-consensus hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
 
           # Handle manual workflow dispatch
           if [ -n "$MANUAL_INPUT" ]; then
@@ -105,9 +106,13 @@ jobs:
             PACKAGES="hanzo-tools-config"
           elif [[ $TAG == hanzo-tools-mcp-* ]]; then
             PACKAGES="hanzo-tools-mcp"
+          elif [[ $TAG == hanzo-tools-computer-* ]]; then
+            PACKAGES="hanzo-tools-computer"
           elif [[ $TAG == hanzo-tools-* ]]; then
             # All tools packages
             PACKAGES="$TOOLS_PACKAGES"
+          elif [[ $TAG == hanzo-consensus-* ]]; then
+            PACKAGES="hanzo-consensus"
           elif [[ $TAG == hanzo-network-* ]]; then
             PACKAGES="hanzo-network"
           elif [[ $TAG == hanzo-mcp-* ]]; then
@@ -118,6 +123,8 @@ jobs:
             PACKAGES="hanzo-aci"
           elif [[ $TAG == hanzo-repl-* ]]; then
             PACKAGES="hanzo-repl"
+          elif [[ $TAG == hanzoai-* ]]; then
+            PACKAGES="hanzoai"
           elif [[ $TAG == hanzo-* ]]; then
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
