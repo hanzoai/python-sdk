@@ -342,6 +342,40 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         if isinstance(cmd, str):
             return await self._run_shell(cmd, shell, cwd, env, timeout)
 
+        # Nested array = auto-parallel (e.g., ["a", ["b", "c"], "d"] runs b,c in parallel)
+        if isinstance(cmd, list):
+            tasks = [self._execute_node(c, ctx, shell, cwd, env, timeout) for c in cmd]
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+            
+            combined_stdout = []
+            combined_stderr = []
+            all_success = True
+            total_duration = 0
+            
+            for i, r in enumerate(results):
+                if isinstance(r, Exception):
+                    combined_stderr.append(f"[{i}] Error: {r}")
+                    all_success = False
+                else:
+                    if r.stdout:
+                        combined_stdout.append(f"[{i}] {r.stdout.rstrip()}")
+                    if r.stderr:
+                        combined_stderr.append(f"[{i}] {r.stderr.rstrip()}")
+                    if r.status != NodeStatus.SUCCESS:
+                        all_success = False
+                    total_duration = max(total_duration, r.duration_ms)
+            
+            return DagResult(
+                node_id=f"auto_parallel_{len(cmd)}",
+                command=f"parallel[{len(cmd)} tasks]",
+                stdout="\n".join(combined_stdout),
+                stderr="\n".join(combined_stderr),
+                status=NodeStatus.SUCCESS if all_success else NodeStatus.FAILED,
+                exit_code=0 if all_success else 1,
+                duration_ms=total_duration,
+                node_type="parallel",
+            )
+
         if isinstance(cmd, dict):
             if "tool" in cmd:
                 return await self._run_tool(cmd["tool"], cmd.get("input", {}), ctx)
