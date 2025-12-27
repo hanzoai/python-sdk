@@ -186,7 +186,10 @@ class TestSexpConversion:
         }
 
     def test_roundtrip(self):
-        original = {"type": "do", "steps": ["A", {"type": "all", "steps": ["B", "C"]}, "D"]}
+        original = {
+            "type": "do",
+            "steps": ["A", {"type": "all", "steps": ["B", "C"]}, "D"],
+        }
         sexp = to_sexp(original)
         recovered = from_sexp(sexp)
         assert recovered == original
@@ -351,12 +354,12 @@ class TestPerformance:
             parallel = "{ " + " & ".join([f"task{i}_{j}" for j in range(10)]) + " }"
             parts.append(parallel)
         src = " ; ".join(parts)
-        
+
         start = time.perf_counter()
         ast = parse(src)
         cmds = to_commands(ast)
         elapsed = time.perf_counter() - start
-        
+
         print(f"\nLarge DAG (100x10): {elapsed*1000:.2f}ms")
         assert elapsed < 0.1  # Should complete in under 100ms
         assert len(cmds) == 100
@@ -368,7 +371,7 @@ class TestIntegration:
 
     async def test_execute_sequential(self):
         from hanzo_tools.shell import ZshTool
-        
+
         zsh = ZshTool()
         result = await zsh.call(None, command="echo A ; echo B ; echo C")
         assert "A" in result
@@ -377,7 +380,7 @@ class TestIntegration:
 
     async def test_execute_parallel(self):
         from hanzo_tools.shell import ZshTool
-        
+
         zsh = ZshTool()
         result = await zsh.call(None, command="{ echo A & echo B & echo C }")
         assert "A" in result
@@ -386,9 +389,11 @@ class TestIntegration:
 
     async def test_execute_mixed(self):
         from hanzo_tools.shell import ZshTool
-        
+
         zsh = ZshTool()
-        result = await zsh.call(None, command="echo start ; { echo A & echo B } ; echo end")
+        result = await zsh.call(
+            None, command="echo start ; { echo A & echo B } ; echo end"
+        )
         assert "start" in result
         assert "A" in result
         assert "B" in result
@@ -396,28 +401,30 @@ class TestIntegration:
 
     async def test_execute_with_bash(self):
         from hanzo_tools.shell import BashTool
-        
+
         bash = BashTool()
-        result = await bash.call(None, command="echo start ; { echo A & echo B } ; echo end")
+        result = await bash.call(
+            None, command="echo start ; { echo A & echo B } ; echo end"
+        )
         assert "start" in result
         assert "end" in result
 
     async def test_parallel_execution_time(self):
         """Parallel should be faster than sequential for sleep commands."""
         from hanzo_tools.shell import ZshTool
-        
+
         zsh = ZshTool()
-        
+
         # Parallel: should take ~0.1s
         start = time.perf_counter()
         await zsh.call(None, command="{ sleep 0.1 & sleep 0.1 & sleep 0.1 }")
         parallel_time = time.perf_counter() - start
-        
+
         # Sequential: should take ~0.3s
         start = time.perf_counter()
         await zsh.call(None, command="sleep 0.1 ; sleep 0.1 ; sleep 0.1")
         sequential_time = time.perf_counter() - start
-        
+
         print(f"\nParallel: {parallel_time:.2f}s, Sequential: {sequential_time:.2f}s")
         # Parallel should be at least 2x faster
         assert parallel_time < sequential_time * 0.7
