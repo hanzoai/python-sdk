@@ -16,12 +16,11 @@ from hanzo_tools.core.base import (
     BaseTool,
     FileSystemTool,
     ToolRegistry,
-    MCPResourceDocument,
 )
 from hanzo_tools.core.permissions import PermissionManager
 from hanzo_tools.core.context import ToolContext, create_tool_context
 from hanzo_tools.core.decorators import auto_timeout
-from hanzo_tools.core.types import ToolCategory
+from hanzo_tools.core.types import ToolCategory, MCPResourceDocument
 
 __all__ = [
     "BaseTool",
