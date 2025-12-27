@@ -17,9 +17,18 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
-from hanzo_metastable_consensus import Consensus as MetastableConsensus
-from hanzo_metastable_consensus import Result as ConsensusResult
-from hanzo_metastable_consensus import run as run_consensus
+
+# Optional consensus import - fallback to local implementation
+try:
+    from hanzo_consensus import Consensus as MetastableConsensus
+    from hanzo_consensus import Result as ConsensusResult
+    from hanzo_consensus import run as run_consensus
+    HAS_CONSENSUS = True
+except ImportError:
+    HAS_CONSENSUS = False
+    MetastableConsensus = None
+    ConsensusResult = None
+    run_consensus = None
 
 
 Action = Annotated[

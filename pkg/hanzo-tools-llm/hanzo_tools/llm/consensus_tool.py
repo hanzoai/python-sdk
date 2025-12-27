@@ -7,7 +7,7 @@ from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
-from hanzo_metastable_consensus import run as run_consensus, Result as ConsensusResult
+from hanzo_consensus import run as run_consensus, Result as ConsensusResult
 
 from .llm_unified import LLMTool
 
