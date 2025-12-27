@@ -49,10 +49,12 @@ class TestToolPackages:
         assert names == expected
 
     def test_memory_tools(self):
-        """Test hanzo-tools-memory has 9 tools."""
+        """Test hanzo-tools-memory has 1 unified tool."""
         from hanzo_tools.memory import TOOLS
 
-        assert len(TOOLS) == 9
+        # Memory was consolidated into 1 unified tool with actions
+        assert len(TOOLS) == 1
+        assert TOOLS[0].name == "memory"
 
     def test_todo_tools(self):
         """Test hanzo-tools-todo has 1 tool."""
@@ -278,7 +280,7 @@ class TestTotalToolCount:
             ("hanzo_tools.fs", 7),
             ("hanzo_tools.shell", 11),
             ("hanzo_tools.browser", 1),
-            ("hanzo_tools.memory", 9),
+            ("hanzo_tools.memory", 1),  # Unified memory tool with actions
             ("hanzo_tools.todo", 1),
             ("hanzo_tools.reasoning", 2),
             ("hanzo_tools.lsp", 1),
@@ -302,5 +304,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Required tools: 48 (7+11+1+9+1+2+1+1+8+1+3+3)
-        assert total == 48, f"Expected 48 required tools, got {total}"
+        # Required tools: 40 (7+11+1+1+1+2+1+1+8+1+3+3)
+        assert total == 40, f"Expected 40 required tools, got {total}"
