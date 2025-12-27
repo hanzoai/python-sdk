@@ -26,8 +26,8 @@ dependencies = [
     "pydantic>=2.12.5",
 ]
 
-# For development, install hanzo-tools-core from local:
-# uv pip install -e ../hanzo-tools-core
+# For development, install hanzo-tools from local:
+# uv pip install -e ../hanzo-tools
 
 [project.urls]
 "Homepage" = "https://github.com/hanzoai/python-sdk"

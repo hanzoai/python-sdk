@@ -11,7 +11,7 @@ license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "vector", "embeddings", "rag", "mcp", "ai"]
 dependencies = [
-    "hanzo-tools-core>=0.1.0",
+    "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",

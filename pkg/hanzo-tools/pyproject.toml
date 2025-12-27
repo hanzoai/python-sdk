@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools"
-version = "0.2.0"
-description = "All Hanzo AI tools - install everything at once"
+version = "0.3.0"
+description = "Hanzo AI tools - core infrastructure and tool bundles"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -17,9 +17,12 @@ classifiers = [
 ]
 keywords = ["hanzo", "tools", "mcp", "ai", "agent"]
 
-# Base dependencies - just the core
+# Core dependencies (merged from hanzo-tools-core)
 dependencies = [
-    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.25.0",
+    "fastmcp>=2.14.1",
+    "pydantic>=2.12.5",
+    "typing-extensions>=4.13.0",
 ]
 
 [project.optional-dependencies]
@@ -40,17 +43,15 @@ todo = ["hanzo-tools-todo>=0.1.0"]
 config = ["hanzo-tools-config>=0.1.0"]
 mcp_tools = ["hanzo-tools-mcp>=0.1.0"]
 reasoning = ["hanzo-tools-reasoning>=0.1.0"]
+computer = ["hanzo-tools-computer>=0.1.0"]
 
 # Bundles
-core = [
+dev = [
     "hanzo-tools-filesystem>=0.1.0",
     "hanzo-tools-shell>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
     "hanzo-tools-config>=0.1.0",
-]
-dev = [
-    "hanzo-tools[core]",
     "hanzo-tools-editor>=0.1.0",
     "hanzo-tools-lsp>=0.1.0",
     "hanzo-tools-refactor>=0.1.0",
@@ -77,6 +78,7 @@ all = [
     "hanzo-tools-reasoning>=0.1.0",
     "hanzo-tools-config>=0.1.0",
     "hanzo-tools-mcp>=0.1.0",
+    "hanzo-tools-computer>=0.1.0",
 ]
 
 [project.urls]
@@ -86,3 +88,6 @@ all = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["hanzo_tools*"]
+
+[tool.setuptools.package-data]
+hanzo_tools = ["py.typed"]
