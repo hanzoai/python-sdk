@@ -8,14 +8,13 @@ Metastable consensus protocol for multi-agent agreement.
 pip install hanzo-consensus
 ```
 
-## Usage
+## Basic Usage
 
 ```python
 import asyncio
-from hanzo_consensus import Consensus, Result, run
+from hanzo_consensus import run, Result
 
 async def execute(participant: str, prompt: str) -> Result:
-    """Your execution function."""
     output = await call_agent(participant, prompt)
     return Result(id=participant, output=output, ok=True, ms=100)
 
@@ -25,14 +24,53 @@ async def main():
         participants=["agent1", "agent2", "agent3"],
         execute=execute,
         rounds=3,
-        k=2,
     )
-    
     print(f"Winner: {state.winner}")
-    print(f"Finalized: {state.finalized}")
     print(f"Synthesis: {state.synthesis}")
 
 asyncio.run(main())
+```
+
+## MCP Mesh - Agent-to-Agent Consensus
+
+Each agent in consensus is available as MCP to every other:
+
+```python
+from hanzo_consensus import MCPMesh, run_mcp_consensus
+
+# Create mesh of agents
+mesh = MCPMesh()
+mesh.register("claude", claude_server)
+mesh.register("gpt4", gpt4_server)
+mesh.register("gemini", gemini_server)
+
+# Run 10 rounds of discussion
+state = await run_mcp_consensus(
+    mesh=mesh,
+    prompt="Discuss the architecture",
+    rounds=10,
+)
+
+# Access discussion history
+for i, round_responses in enumerate(state.discussion_history):
+    print(f"Round {i+1}:")
+    for agent, response in round_responses.items():
+        print(f"  [{agent}]: {response[:100]}...")
+```
+
+### MCPMesh Features
+
+- **Agent Registration**: Local FastMCP servers or remote endpoints
+- **Tool Calling**: Any agent can call tools on any other agent
+- **Broadcasting**: Call a tool on all agents simultaneously
+- **Discussion Rounds**: Agents build on each other's responses
+
+```python
+# Call tool on specific agent
+result = await mesh.call("claude", "gpt4", "think", prompt="What do you think?")
+
+# Broadcast to all agents
+results = await mesh.broadcast("claude", "discuss", prompt="New proposal...")
 ```
 
 ## Protocol
