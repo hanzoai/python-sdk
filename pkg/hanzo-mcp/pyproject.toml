@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.10.26"
+version = "0.10.27"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -27,7 +27,7 @@ dependencies = [
     # Hanzo tool infrastructure (all tools)
     "hanzo-tools>=0.3.0",
     "hanzo-tools-fs>=0.1.0",
-    "hanzo-tools-shell>=0.1.0",
+    "hanzo-tools-shell>=0.4.1",
     "hanzo-tools-browser>=0.1.0",
     "hanzo-tools-memory>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
