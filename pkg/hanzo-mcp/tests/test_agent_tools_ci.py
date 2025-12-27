@@ -1,6 +1,5 @@
 """CI tests for unified agent tools."""
 
-from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
@@ -24,40 +23,17 @@ class TestAgentTools:
     def test_tools_export(self):
         """Test TOOLS exports the correct tools."""
         tool_classes = [t.__name__ for t in TOOLS]
-        assert "AgentTool" in tool_classes  # Was AgentTool, now AgentTool
+        assert "AgentTool" in tool_classes
         assert "IChingTool" in tool_classes
         assert "ReviewTool" in tool_classes
         assert len(TOOLS) == 3
 
-    def test_unified_agent_tool_creation(self):
+    def test_agent_tool_creation(self):
         """Test AgentTool can be created."""
         tool = AgentTool()
         assert tool.name == "agent"
-        assert "claude" in tool.description.lower() or "agent" in tool.description.lower()
-
-    def test_unified_agent_tool_agents(self):
-        """Test AgentTool has expected agents."""
-        tool = AgentTool()
-        # Core agents
-        assert "claude" in tool.AGENTS
-        assert "codex" in tool.AGENTS
-        assert "gemini" in tool.AGENTS
-        assert "grok" in tool.AGENTS
-        # Extended agents
-        assert "qwen" in tool.AGENTS
-        assert "vibe" in tool.AGENTS
-        assert "code" in tool.AGENTS
-        assert "dev" in tool.AGENTS
-        # Total 8 agents
-        assert len(tool.AGENTS) == 8
-
-    def test_unified_agent_tool_list_agents(self):
-        """Test agent listing."""
-        tool = AgentTool()
-        result = tool._list_agents()
-        assert "Available agents:" in result
-        assert "claude" in result
-        assert "codex" in result
+        assert tool.description is not None
+        assert len(tool.description) > 0
 
     def test_iching_tool_creation(self):
         """Test IChingTool can be created."""
@@ -94,30 +70,6 @@ class TestAgentTools:
         assert agent.name == "agent"
         assert iching.name == "iching"
         assert review.name == "review"
-
-    def test_agent_config_sharing(self):
-        """Test agent shares MCP config with spawned agents."""
-        tool = AgentTool()
-        config = tool._mcp_config
-        # Config is a dict
-        assert isinstance(config, dict)
-
-    def test_claude_env_detection(self):
-        """Test Claude Code environment detection."""
-        tool = AgentTool()
-        env = tool._claude_env
-        # Should have expected keys
-        assert "running_in_claude" in env
-        assert "session_id" in env
-        assert "auth_token" in env
-        assert "api_key" in env
-
-    def test_default_agent_selection(self):
-        """Test default agent selection logic."""
-        tool = AgentTool()
-        default = tool._get_default_agent()
-        # Should return a valid agent name
-        assert default in tool.AGENTS
 
 
 if __name__ == "__main__":

@@ -573,18 +573,18 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.10.22"
+version = "0.10.25"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
     { name = "fastmcp" },
     { name = "hanzo-persona" },
+    { name = "hanzo-tools" },
     { name = "hanzo-tools-agent" },
     { name = "hanzo-tools-browser" },
     { name = "hanzo-tools-computer" },
     { name = "hanzo-tools-config" },
-    { name = "hanzo-tools-core" },
-    { name = "hanzo-tools-filesystem" },
+    { name = "hanzo-tools-fs" },
     { name = "hanzo-tools-llm" },
     { name = "hanzo-tools-lsp" },
     { name = "hanzo-tools-memory" },
@@ -638,12 +638,12 @@ requires-dist = [
     { name = "build", marker = "extra == 'publish'", specifier = ">=1.0.3" },
     { name = "fastmcp", specifier = ">=2.14.1" },
     { name = "hanzo-persona", specifier = ">=1.0.0" },
-    { name = "hanzo-tools-agent", specifier = ">=0.1.0" },
+    { name = "hanzo-tools", specifier = ">=0.3.0" },
+    { name = "hanzo-tools-agent", specifier = ">=0.2.3" },
     { name = "hanzo-tools-browser", specifier = ">=0.1.0" },
     { name = "hanzo-tools-computer", specifier = ">=0.1.0" },
     { name = "hanzo-tools-config", specifier = ">=0.1.0" },
-    { name = "hanzo-tools-core", specifier = ">=0.1.0" },
-    { name = "hanzo-tools-filesystem", specifier = ">=0.1.0" },
+    { name = "hanzo-tools-fs", specifier = ">=0.1.0" },
     { name = "hanzo-tools-llm", specifier = ">=0.1.0" },
     { name = "hanzo-tools-lsp", specifier = ">=0.1.0" },
     { name = "hanzo-tools-memory", specifier = ">=0.1.0" },
@@ -687,18 +687,33 @@ wheels = [
 ]
 
 [[package]]
-name = "hanzo-tools-agent"
-version = "0.2.0"
+name = "hanzo-tools"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fastmcp" },
-    { name = "hanzo-tools-core" },
+    { name = "mcp" },
+    { name = "pydantic" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c7/3e/2d94dc54e202bdb11f6e4597dd68eebc554d2b92fffb4f6918cdf3f91fe2/hanzo_tools-0.3.0.tar.gz", hash = "sha256:d00cb3212a707e22f9bb5a21f0f9eb34a74f22ff2b5f24e2f8b6321f9880e2fb", size = 10929, upload-time = "2025-12-27T18:56:38.843Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5c/07/6ebbcf371aafa5f2d171de2916ef92c73978b927b34a8863af53e1b1a80b/hanzo_tools-0.3.0-py3-none-any.whl", hash = "sha256:c7b0f6f7c3089f06329bc1aaca39fbce4b7108fdbd048e2bbc450a3aff9941f2", size = 11928, upload-time = "2025-12-27T18:56:37.528Z" },
+]
+
+[[package]]
+name = "hanzo-tools-agent"
+version = "0.2.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastmcp" },
+    { name = "hanzo-tools" },
     { name = "mcp" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ea/bf/3d5b7b3ae7a765ee85e4743156cc2cd9e0084e93f8d33a276cc6e78a773d/hanzo_tools_agent-0.2.0.tar.gz", hash = "sha256:736fb9b26ae5eae15aa3a61c031715b3d589e1ca07d0b98187e4a3eac7a72d5d", size = 56150, upload-time = "2025-12-26T14:47:00.292Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d0/58/7bf50bf9a778664d274fbf4ca38dc96272831daa9e6ce46d008cdc3e9d57/hanzo_tools_agent-0.2.3.tar.gz", hash = "sha256:4a201a5b57976e5a6bcc24e8d046a46d932f5f4c28dee79136f10117815a3d22", size = 62408, upload-time = "2025-12-27T07:15:47.55Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/a1/f69b252e42681257ca288772346d02a6b3c852a415538737080479eb8dc9/hanzo_tools_agent-0.2.0-py3-none-any.whl", hash = "sha256:16137285b5b57c60c19cef39e686379a24d6ae7c680070789efda02e4d6d7aaa", size = 70688, upload-time = "2025-12-26T14:46:57.913Z" },
+    { url = "https://files.pythonhosted.org/packages/74/06/dd8924636e9338807778e13dcf5de6dff8570ab9605d10d8d40404dda1ee/hanzo_tools_agent-0.2.3-py3-none-any.whl", hash = "sha256:37dcdac42988e1feb9e50b429e0391c43e4cec05da18676ea2f28816de092493", size = 76852, upload-time = "2025-12-27T07:15:46.253Z" },
 ]
 
 [[package]]
@@ -762,8 +777,8 @@ wheels = [
 ]
 
 [[package]]
-name = "hanzo-tools-filesystem"
-version = "0.2.0"
+name = "hanzo-tools-fs"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -774,9 +789,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/19/44/6bf1f9832bb3fc8941ee2101e0ae7005b82f6e63643c2a9fdb7813fe63de/hanzo_tools_filesystem-0.2.0.tar.gz", hash = "sha256:88d132b7b04730576d46f795037a358b2561d63808d639a9a807097f387d702f", size = 10024, upload-time = "2025-12-26T14:46:38.937Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/05/08/d2a1678d0ea90f74dacc06574f9eb6e0616dd0ddfa658a153c1c4f7a1beb/hanzo_tools_fs-0.3.0.tar.gz", hash = "sha256:bd7da102588c14eaf7a7250057a7081fb13c4d618fe53ad56614d42a5b779141", size = 9968, upload-time = "2025-12-27T19:04:43.361Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/71/a9/5aa303af47e486519f2da0133a1b7ee1f88613a8e6016ea99b7fc37e5fb7/hanzo_tools_filesystem-0.2.0-py3-none-any.whl", hash = "sha256:6029061f96c102a29948f6faa052d47df3f2450d71ce782e22f90c94d00288d3", size = 14449, upload-time = "2025-12-26T14:46:36.519Z" },
+    { url = "https://files.pythonhosted.org/packages/6c/18/0b638f92ac4c22fd92b68ffaa405f1345f404bb17c85627977064c368325/hanzo_tools_fs-0.3.0-py3-none-any.whl", hash = "sha256:5a5dee57b8bf76e8c00da80bc0f7b764a9fda2f7d3035f04939a7809571391d2", size = 14259, upload-time = "2025-12-27T19:04:42.085Z" },
 ]
 
 [[package]]
