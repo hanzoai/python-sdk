@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-core"
-version = "0.2.0"
-description = "Core infrastructure for Hanzo tool packages"
+version = "0.3.0"
+description = "DEPRECATED: Use hanzo-tools instead. This package re-exports from hanzo-tools for backwards compatibility."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -16,26 +16,15 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 keywords = ["hanzo", "tools", "mcp", "ai"]
+# Just depends on hanzo-tools - re-exports everything
 dependencies = [
-    "mcp>=1.25.0",
-    "fastmcp>=2.14.1",
-    "pydantic>=2.12.5",
-    "typing-extensions>=4.13.0",
+    "hanzo-tools>=0.3.0",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/hanzoai/python-sdk"
 "Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "ruff>=0.14.0",
-]
-
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["hanzo_tools*"]
-
-[tool.setuptools.package-data]
-hanzo_tools = ["py.typed"]
