@@ -12,25 +12,25 @@ Tools:
 - rules: Read project rules/config
 
 Install:
-    pip install hanzo-tools-filesystem
+    pip install hanzo-tools-fs
 
 Usage:
-    from hanzo_tools.filesystem import register_tools, TOOLS
+    from hanzo_tools.fs import register_tools, TOOLS
 
     # Register with MCP server
     register_tools(mcp_server, permission_manager)
 
     # Or access individual tools
-    from hanzo_tools.filesystem import ReadTool, WriteTool
+    from hanzo_tools.fs import ReadTool, WriteTool
 """
 
-from hanzo_tools.filesystem.ast import ASTTool
-from hanzo_tools.filesystem.edit import EditTool
-from hanzo_tools.filesystem.find import FindTool
-from hanzo_tools.filesystem.read import ReadTool
-from hanzo_tools.filesystem.tree import TreeTool
-from hanzo_tools.filesystem.write import WriteTool
-from hanzo_tools.filesystem.search import SearchTool
+from hanzo_tools.fs.ast import ASTTool
+from hanzo_tools.fs.edit import EditTool
+from hanzo_tools.fs.find import FindTool
+from hanzo_tools.fs.read import ReadTool
+from hanzo_tools.fs.tree import TreeTool
+from hanzo_tools.fs.write import WriteTool
+from hanzo_tools.fs.search import SearchTool
 
 # Backwards compatibility aliases
 Edit = EditTool

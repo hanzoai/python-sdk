@@ -59,7 +59,7 @@ jobs:
           PACKAGES=""
 
           # All hanzo-tools packages
-          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-filesystem hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools-computer hanzo-tools"
+          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-fs hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools-computer hanzo-tools"
 
           # Main packages
           MAIN_PACKAGES="hanzoai hanzo hanzo-consensus hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
@@ -74,8 +74,8 @@ jobs:
           # Handle specific package tags
           elif [[ $TAG == hanzo-tools-core-* ]]; then
             PACKAGES="hanzo-tools-core"
-          elif [[ $TAG == hanzo-tools-filesystem-* ]]; then
-            PACKAGES="hanzo-tools-filesystem"
+          elif [[ $TAG == hanzo-tools-fs-* ]]; then
+            PACKAGES="hanzo-tools-fs"
           elif [[ $TAG == hanzo-tools-shell-* ]]; then
             PACKAGES="hanzo-tools-shell"
           elif [[ $TAG == hanzo-tools-browser-* ]]; then

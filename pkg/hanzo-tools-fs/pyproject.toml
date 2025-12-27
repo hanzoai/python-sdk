@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hanzo-tools-filesystem"
-version = "0.2.0"
+name = "hanzo-tools-fs"
+version = "0.3.0"
 description = "Filesystem tools for Hanzo AI - read, write, edit, search, find"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -26,9 +26,6 @@ dependencies = [
     "pydantic>=2.12.5",
 ]
 
-# For development, install hanzo-tools from local:
-# uv pip install -e ../hanzo-tools
-
 [project.urls]
 "Homepage" = "https://github.com/hanzoai/python-sdk"
 
@@ -36,7 +33,7 @@ dependencies = [
 dev = ["pytest>=7.0.0", "ruff>=0.14.0"]
 
 [project.entry-points."hanzo.tools"]
-filesystem = "hanzo_tools.filesystem:TOOLS"
+fs = "hanzo_tools.fs:TOOLS"
 
 [tool.setuptools.packages.find]
 where = ["."]
