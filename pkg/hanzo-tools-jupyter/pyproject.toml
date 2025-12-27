@@ -17,7 +17,7 @@ classifiers = [
 ]
 keywords = ["hanzo", "tools", "jupyter", "notebook", "mcp", "ai"]
 dependencies = [
-    "hanzo-tools-core>=0.1.0",
+    "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",

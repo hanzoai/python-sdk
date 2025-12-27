@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "hanzo-tools-core>=0.1.0",
+    "hanzo-tools>=0.3.0",
     "pyautogui>=0.9.54",
     "pillow>=10.0.0",
     "mcp>=1.25.0",

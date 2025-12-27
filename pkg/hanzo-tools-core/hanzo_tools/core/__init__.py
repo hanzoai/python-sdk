@@ -1,42 +1,36 @@
-"""Core infrastructure for Hanzo tool packages.
+"""DEPRECATED: Use hanzo-tools instead.
 
-Provides:
-- BaseTool: Abstract base class for all tools
-- ToolRegistry: Tool registration and discovery
-- ToolContext: Execution context utilities
-- Decorators for timeouts, error handling, etc.
+This package re-exports from hanzo_tools.core for backwards compatibility.
 """
 
+import warnings
+
+warnings.warn(
+    "hanzo-tools-core is deprecated. Use hanzo-tools instead: pip install hanzo-tools",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+# Re-export everything from hanzo-tools
 from hanzo_tools.core.base import (
     BaseTool,
-    ToolRegistry,
     FileSystemTool,
-    with_error_logging,
-    handle_connection_errors,
+    ToolRegistry,
+    MCPResourceDocument,
 )
-from hanzo_tools.core.types import MCPResourceDocument
+from hanzo_tools.core.permissions import PermissionManager
 from hanzo_tools.core.context import ToolContext, create_tool_context
 from hanzo_tools.core.decorators import auto_timeout
-from hanzo_tools.core.validation import ValidationResult, validate_path_parameter
-from hanzo_tools.core.permissions import PermissionManager
+from hanzo_tools.core.types import ToolCategory
 
 __all__ = [
-    # Base classes
     "BaseTool",
     "FileSystemTool",
     "ToolRegistry",
-    # Context
+    "MCPResourceDocument",
+    "PermissionManager",
     "ToolContext",
     "create_tool_context",
-    # Permissions
-    "PermissionManager",
-    # Decorators
     "auto_timeout",
-    "with_error_logging",
-    "handle_connection_errors",
-    # Validation
-    "ValidationResult",
-    "validate_path_parameter",
-    # Types
-    "MCPResourceDocument",
+    "ToolCategory",
 ]
