@@ -3,9 +3,11 @@
 Minimal, orthogonal shell execution.
 
 Core tools:
-- zsh: Primary shell with full DAG support (serial, parallel, graph)
-- ps: Process management (list, kill, logs)
+- dag: DAG execution (parallel, serial, graph) - RECOMMENDED for complex workflows
+- zsh: Primary shell with shellflow DSL support
 - shell: Smart shell alias (zsh > bash fallback)
+- bash: Explicit bash for bash-specific scripts
+- ps: Process management (list, kill, logs)
 
 HTTP/Data tools:
 - curl: HTTP client without shell escaping issues
@@ -17,9 +19,14 @@ Convenience tools:
 - uvx: Python package execution with auto-backgrounding
 - open: Open files/URLs in system apps
 
-Note: 'dag' is now merged into 'zsh'. Use zsh(["cmd1", "cmd2"]) for serial,
-zsh([...], parallel=True) for parallel, and full DAG syntax is supported.
-DagTool kept for backwards compatibility.
+Use 'dag' for:
+- Parallel execution: dag(["npm install", "cargo build"], parallel=True)
+- Mixed DAG: dag(["mkdir dist", {"parallel": ["cp a dist/", "cp b dist/"]}, "zip out"])
+- Tool invocations: dag([{"tool": "search", "input": {"pattern": "TODO"}}])
+
+Use 'zsh/shell' for:
+- Simple commands: zsh("ls -la")
+- Shellflow DSL: zsh("cmd1 ; { cmd2 & cmd3 } ; cmd4")
 """
 
 from mcp.server import FastMCP
@@ -53,9 +60,11 @@ from hanzo_tools.shell.base_process import (
 )
 
 # Tools list for entry point discovery
-# Note: ZshTool now includes full DAG functionality. DagTool kept for backwards compatibility.
-# BashTool available for bash-specific scripts.
-TOOLS = [ZshTool, BashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# - DagTool: Semantic DAG execution (parallel, serial, graph)
+# - ZshTool: Primary shell with shellflow DSL support  
+# - ShellTool: Smart shell alias (zsh > bash fallback)
+# - BashTool: Explicit bash for bash-specific scripts
+TOOLS = [DagTool, ZshTool, BashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
     # Base classes
@@ -105,12 +114,15 @@ def get_shell_tools(
 
     Args:
         permission_manager: Permission manager for access control
-        all_tools: Dict of all registered tools (for zsh tool invocations)
+        all_tools: Dict of all registered tools (for DAG tool invocations)
 
     Returns:
         List of shell tool instances
     """
-    # Create zsh tool with access to other tools (for DAG tool invocations)
+    # Create DAG tool with access to other tools (for tool invocations)
+    dag = DagTool(tools=all_tools or {})
+    
+    # Create zsh tool with access to other tools
     zsh = ZshTool(tools=all_tools or {})
 
     # Set permission manager for convenience tools
@@ -118,7 +130,8 @@ def get_shell_tools(
     uvx_tool.permission_manager = permission_manager
 
     return [
-        zsh,  # Primary shell with DAG support
+        dag,  # DAG execution (parallel, serial, graph)
+        zsh,  # Primary shell with shellflow DSL
         ps_tool,  # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
