@@ -3,9 +3,9 @@
 Minimal, orthogonal shell execution.
 
 Core tools:
-- dag: Execute commands/tools with DAG flow control (serial, parallel, graph)
+- zsh: Primary shell with full DAG support (serial, parallel, graph)
 - ps: Process management (list, kill, logs)
-- zsh: Zsh shell execution with auto-backgrounding
+- shell: Smart shell alias (zsh > bash fallback)
 
 HTTP/Data tools:
 - curl: HTTP client without shell escaping issues
@@ -16,6 +16,10 @@ Convenience tools:
 - npx: Node package execution with auto-backgrounding
 - uvx: Python package execution with auto-backgrounding
 - open: Open files/URLs in system apps
+
+Note: 'dag' is now merged into 'zsh'. Use zsh(["cmd1", "cmd2"]) for serial,
+zsh([...], parallel=True) for parallel, and full DAG syntax is supported.
+DagTool kept for backwards compatibility.
 """
 
 from mcp.server import FastMCP
@@ -48,7 +52,8 @@ from hanzo_tools.shell.base_process import (
 )
 
 # Tools list for entry point discovery
-TOOLS = [DagTool, PsTool, ZshTool, ShellTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# Note: ZshTool now includes full DAG functionality. DagTool kept for backwards compatibility.
+TOOLS = [ZshTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
     # Base classes
@@ -96,21 +101,20 @@ def get_shell_tools(
 
     Args:
         permission_manager: Permission manager for access control
-        all_tools: Dict of all registered tools (for dag tool invocations)
+        all_tools: Dict of all registered tools (for zsh tool invocations)
 
     Returns:
         List of shell tool instances
     """
-    # Create dag tool with access to other tools
-    dag = create_dag_tool(tools=all_tools or {})
+    # Create zsh tool with access to other tools (for DAG tool invocations)
+    zsh = ZshTool(tools=all_tools or {})
 
     # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
     return [
-        dag,  # DAG execution for complex workflows
-        zsh_tool,  # Zsh shell execution (with auto-backgrounding)
+        zsh,  # Primary shell with DAG support
         ps_tool,  # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
