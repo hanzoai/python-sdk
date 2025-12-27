@@ -33,6 +33,7 @@ from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
 from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, BashTool, zsh_tool, shell_tool, bash_tool
+from hanzo_tools.shell.shellflow import parse as parse_shellflow, compile as compile_shellflow
 
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
