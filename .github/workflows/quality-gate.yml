@@ -1,4 +1,4 @@
-name: Quality Gate - STRICT NO BULLSHIT
+name: Quality Gate
 
 on:
   push:
