@@ -112,64 +112,29 @@ jobs:
         cd pkg/hanzo-mcp
         uv run pytest tests -v -m integration --timeout=300
     
-    - name: Test CLI tools with real models (minimal)
-      env:
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    - name: Test agent tools (minimal)
       run: |
         cd pkg/hanzo-mcp
-        # Test Claude with cheap model
-        echo "Testing Claude CLI..."
+        # Test agent tool import and basic functionality
+        echo "Testing Agent tools..."
         uv run python -c "
-        from hanzo_mcp.tools.agent.cli_tools import ClaudeCLITool
-        import asyncio
+        from hanzo_tools.agent import AgentTool, IChingTool, ReviewTool, TOOLS
         
-        async def test():
-            tool = ClaudeCLITool()
-            result = await tool.execute_cli(
-                ['echo', 'Claude CLI works'],  # Test without actual API call
-                timeout=10
-            )
-            print(result)
+        # Verify all tools are available
+        tool_names = [t.__name__ for t in TOOLS]
+        assert 'AgentTool' in tool_names
+        assert 'IChingTool' in tool_names
+        assert 'ReviewTool' in tool_names
         
-        asyncio.run(test())
-        "
+        # Create tool instances
+        agent = AgentTool()
+        iching = IChingTool()
+        review = ReviewTool()
         
-        # Test batch with multiple CLI tools
-        echo "Testing batch execution..."
-        uv run python -c "
-        from hanzo_mcp.tools.common.batch_tool import BatchTool
-        from hanzo_mcp.tools.agent.cli_tools import register_cli_tools
-        from unittest.mock import MagicMock
-        import asyncio
-        
-        async def test():
-            mcp_server = MagicMock()
-            tools = {}
-            
-            # Register CLI tools
-            cli_tools = register_cli_tools(mcp_server, None)
-            for tool in cli_tools:
-                tools[tool.name] = tool
-            
-            # Create batch tool
-            batch = BatchTool(tools)
-            
-            # Test that all CLI tools are available
-            assert 'claude' in tools
-            assert 'cc' in tools
-            assert 'codex' in tools
-            assert 'gemini' in tools
-            assert 'grok' in tools
-            assert 'openhands' in tools
-            assert 'oh' in tools
-            assert 'hanzo_dev' in tools
-            assert 'cline' in tools
-            assert 'aider' in tools
-            
-            print('All CLI tools registered successfully in batch!')
-        
-        asyncio.run(test())
+        print(f'Agent tool name: {agent.name}')
+        print(f'IChing tool name: {iching.name}')
+        print(f'Review tool name: {review.name}')
+        print('All agent tools created successfully!')
         "
 
   release-check:
@@ -208,19 +173,11 @@ jobs:
         uv pip install $GITHUB_WORKSPACE/pkg/hanzo-mcp/dist/*.whl
         python -c "import hanzo_mcp; print(f'Hanzo MCP version: {hanzo_mcp.__version__}')"
         
-        # Test that CLI tools can be imported
+        # Test that agent tools can be imported from hanzo_tools.agent
         python -c "
-        from hanzo_mcp.tools.agent.cli_tools import (
-            ClaudeCLITool,
-            CodexCLITool,
-            GeminiCLITool,
-            GrokCLITool,
-            OpenHandsCLITool,
-            HanzoDevCLITool,
-            ClineCLITool,
-            AiderCLITool,
-        )
-        print('All CLI tools importable!')
+        from hanzo_tools.agent import AgentTool, IChingTool, ReviewTool, TOOLS
+        print(f'Agent tools available: {[t.__name__ for t in TOOLS]}')
+        print('All agent tools importable!')
         "
     
     - name: Archive built packages
