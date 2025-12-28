@@ -31,8 +31,8 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
-from hanzo_tools.shell.base_process import ProcessManager
 from hanzo_tools.shell.shellflow import parse as parse_shellflow, to_commands as shellflow_to_commands
+from hanzo_tools.shell.base_process import ProcessManager
 
 
 class NodeStatus(Enum):
