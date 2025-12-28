@@ -38,7 +38,7 @@ from hanzo_tools.core import (
     create_tool_context,
 )
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
-from hanzo_tools.filesystem import get_read_only_filesystem_tools
+from hanzo_tools.fs import get_read_only_filesystem_tools
 
 from .prompt import (
     get_default_model,
