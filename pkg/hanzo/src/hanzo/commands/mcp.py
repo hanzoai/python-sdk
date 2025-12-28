@@ -96,7 +96,9 @@ async def tools(ctx, category: str):
 
     # Display tools
     for cat, tools in sorted(categories.items()):
-        table = Table(title=f"{cat.title()} Tools" if len(categories) > 1 else "MCP Tools")
+        table = Table(
+            title=f"{cat.title()} Tools" if len(categories) > 1 else "MCP Tools"
+        )
         table.add_column("Name", style="cyan", no_wrap=True)
         table.add_column("Description")
 
@@ -239,7 +241,9 @@ def install(ctx, path: str):
             existing["mcpServers"]["hanzo-mcp"] = config["mcpServers"]["hanzo-mcp"]
             config = existing
         except Exception as e:
-            console.print(f"[yellow]Warning: Could not read existing config: {e}[/yellow]")
+            console.print(
+                f"[yellow]Warning: Could not read existing config: {e}[/yellow]"
+            )
 
     # Write config
     config_path.parent.mkdir(parents=True, exist_ok=True)
