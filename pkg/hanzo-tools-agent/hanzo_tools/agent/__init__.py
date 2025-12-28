@@ -23,16 +23,16 @@ logger = logging.getLogger(__name__)
 
 # Core tools
 from .agent_tool import AgentTool
-from .iching_tool import IChingTool
-from .review_tool import ReviewTool
 
 # Legacy imports for backwards compatibility
 from .critic_tool import CriticTool  # Legacy - use reasoning.critic instead
+from .iching_tool import IChingTool
+from .review_tool import ReviewTool
+from .grok_cli_tool import GrokCLITool
 from .cli_agent_base import CLIAgentBase
 from .codex_cli_tool import CodexCLITool
 from .claude_cli_tool import ClaudeCLITool
 from .gemini_cli_tool import GeminiCLITool
-from .grok_cli_tool import GrokCLITool
 
 # Export list for tool discovery
 TOOLS = [
