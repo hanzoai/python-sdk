@@ -19,10 +19,10 @@ Usage:
 """
 
 import asyncio
-from dataclasses import dataclass, field
-from typing import Any, Callable, Coroutine, Dict, List, Optional
+from typing import Any, Dict, List, Callable, Optional, Coroutine
+from dataclasses import field, dataclass
 
-from .consensus import Result, State, run
+from .consensus import State, Result, run
 
 
 @dataclass

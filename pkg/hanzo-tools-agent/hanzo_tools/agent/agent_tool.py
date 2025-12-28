@@ -13,12 +13,12 @@ Consensus: https://github.com/luxfi/consensus
 import os
 import time
 import uuid
-import asyncio
 import signal
-from pathlib import Path
-from dataclasses import dataclass, field
+import asyncio
 from typing import Any, Dict, List, Literal, Optional, Annotated, final, override
+from pathlib import Path
 from contextlib import suppress
+from dataclasses import field, dataclass
 
 import aiofiles
 from pydantic import Field
@@ -45,9 +45,7 @@ except ImportError:
 
 # Optional consensus import - fallback to local implementation
 try:
-    from hanzo_consensus import Consensus as MetastableConsensus
-    from hanzo_consensus import Result as ConsensusResult
-    from hanzo_consensus import run as run_consensus
+    from hanzo_consensus import Result as ConsensusResult, Consensus as MetastableConsensus, run as run_consensus
     HAS_CONSENSUS = True
 except ImportError:
     HAS_CONSENSUS = False
