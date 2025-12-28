@@ -18,7 +18,9 @@ from ..utils.output import console
 @click.option("--local/--cloud", default=True, help="Use local or cloud model")
 @click.option("--once", is_flag=True, help="Single question mode")
 @click.option("--system", "-s", help="System prompt")
-@click.option("--repl", is_flag=True, help="Start full REPL interface (like Claude Code)")
+@click.option(
+    "--repl", is_flag=True, help="Start full REPL interface (like Claude Code)"
+)
 @click.option("--ipython", is_flag=True, help="Use IPython REPL interface")
 @click.option("--tui", is_flag=True, help="Use beautiful TUI interface")
 @click.argument("prompt", nargs=-1)
@@ -78,7 +80,9 @@ def chat_command(
         asyncio.run(interactive_chat(ctx, model, local, system))
 
 
-async def ask_once(ctx, prompt: str, model: str, local: bool, system: Optional[str] = None):
+async def ask_once(
+    ctx, prompt: str, model: str, local: bool, system: Optional[str] = None
+):
     """Ask a single question."""
     messages = []
     if system:
@@ -168,7 +172,9 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
     from prompt_toolkit import PromptSession
     from prompt_toolkit.history import FileHistory
 
-    console.print(f"[cyan]Chat session started[/cyan] (model: {model}, mode: {'local' if local else 'cloud'})")
+    console.print(
+        f"[cyan]Chat session started[/cyan] (model: {model}, mode: {'local' if local else 'cloud'})"
+    )
     console.print("Type 'exit' or Ctrl+D to quit\n")
 
     session = PromptSession(history=FileHistory(".hanzo_chat_history"))
