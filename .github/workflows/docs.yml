@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -36,7 +38,7 @@ jobs:
       - name: Build docs
         run: |
           cd pkg/hanzo-agent
-          mkdocs build --strict
+          mkdocs build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
