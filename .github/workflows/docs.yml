@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs-material mkdocstrings[python] mkdocs-minify-plugin
+          pip install mkdocs-material "mkdocstrings[python]<0.27" mkdocs-minify-plugin
 
       - name: Build docs
         run: |
