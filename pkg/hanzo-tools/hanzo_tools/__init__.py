@@ -8,7 +8,7 @@ Installation:
     pip install hanzo-tools[all]     # Everything
 
 Individual packages:
-    pip install hanzo-tools-filesystem
+    pip install hanzo-tools-fs
     pip install hanzo-tools-shell
     pip install hanzo-tools-browser
     pip install hanzo-tools-llm
@@ -23,7 +23,7 @@ Individual packages:
     pip install hanzo-tools-todo
 
 Usage:
-    from hanzo_tools.filesystem import register_tools as register_fs
+    from hanzo_tools.fs import register_tools as register_fs
     from hanzo_tools.shell import register_tools as register_shell
 
     # Register with MCP server
