@@ -156,7 +156,7 @@ except ImportError:
 
 from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
-from hanzo_tools.filesystem import Edit, get_read_only_filesystem_tools
+from hanzo_tools.fs import Edit, get_read_only_filesystem_tools
 
 from .agent_tool import MCPAgent
 
