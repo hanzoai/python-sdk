@@ -5,8 +5,8 @@ Two-phase finality for multi-agent agreement.
 Reference: https://github.com/luxfi/consensus
 """
 
-from .consensus import Consensus, State, Result, run
-from .mcp_mesh import MCPMesh, MCPAgent, run_mcp_consensus, create_mesh
+from .mcp_mesh import MCPMesh, MCPAgent, create_mesh, run_mcp_consensus
+from .consensus import State, Result, Consensus, run
 
 __all__ = [
     # Core

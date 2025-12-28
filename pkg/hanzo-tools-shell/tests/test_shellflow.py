@@ -1,19 +1,19 @@
 """Comprehensive tests for Shellflow DSL parser and execution."""
 
-import pytest
-import asyncio
 import time
+import asyncio
 from typing import Any
 
+import pytest
 from hanzo_tools.shell.shellflow import (
     parse,
-    to_sexp,
-    from_sexp,
-    to_commands,
     compile,
-    render_ascii,
+    to_sexp,
     _tokenize,
+    from_sexp,
     _normalize,
+    to_commands,
+    render_ascii,
 )
 
 

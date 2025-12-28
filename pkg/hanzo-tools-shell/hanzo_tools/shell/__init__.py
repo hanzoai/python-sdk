@@ -32,6 +32,7 @@ Use 'zsh/shell' for:
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
+from hanzo_tools.shell.jq_tool import JqTool
 from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
 # Core tools
@@ -39,15 +40,14 @@ from hanzo_tools.shell.dag_tool import DagTool, create_dag_tool
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
-from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool, BashTool, zsh_tool, shell_tool, bash_tool
-from hanzo_tools.shell.shellflow import parse as parse_shellflow, compile as compile_shellflow
-
-# Convenience tools
-from hanzo_tools.shell.open_tool import OpenTool, open_tool
+from hanzo_tools.shell.zsh_tool import ZshTool, BashTool, ShellTool, zsh_tool, bash_tool, shell_tool
 
 # HTTP/Data tools (no shell escaping issues)
 from hanzo_tools.shell.curl_tool import CurlTool
-from hanzo_tools.shell.jq_tool import JqTool
+
+# Convenience tools
+from hanzo_tools.shell.open_tool import OpenTool, open_tool
+from hanzo_tools.shell.shellflow import parse as parse_shellflow, compile as compile_shellflow
 from hanzo_tools.shell.wget_tool import WgetTool
 
 # Base classes

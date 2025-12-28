@@ -17,8 +17,8 @@ Reference: https://github.com/luxfi/consensus
 
 import random
 import asyncio
-from dataclasses import dataclass, field
-from typing import Any, Callable, Coroutine, Dict, List, Optional, TypeVar
+from typing import Any, Dict, List, TypeVar, Callable, Optional, Coroutine
+from dataclasses import field, dataclass
 
 T = TypeVar("T")
 
