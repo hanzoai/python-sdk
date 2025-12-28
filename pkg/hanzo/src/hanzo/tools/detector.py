@@ -217,7 +217,9 @@ class ToolDetector:
                             ]:  # 400/422 means endpoint exists but params wrong
                                 tool.detected = True
                                 tool.version = f"Running (Port {port})"
-                                tool.api_endpoint = f"http://localhost:{port}/health"  # Update port
+                                tool.api_endpoint = (
+                                    f"http://localhost:{port}/health"  # Update port
+                                )
 
                                 # Try to get model info
                                 try:
@@ -314,7 +316,11 @@ class ToolDetector:
             version = tool.version or "Unknown" if tool.detected else "-"
 
             # Highlight the default tool
-            if tool.detected and tool == self.detected_tools[0] if self.detected_tools else False:
+            if (
+                tool.detected and tool == self.detected_tools[0]
+                if self.detected_tools
+                else False
+            ):
                 table.add_row(
                     str(i),
                     f"[bold green]→ {tool.display_name}[/bold green]",
@@ -341,11 +347,15 @@ class ToolDetector:
 
             # Special message for Hanzo Node
             if default.name == "hanzod":
-                self.console.print("[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]")
+                self.console.print(
+                    "[cyan]🔒 Using local private AI - your data stays on your machine[/cyan]"
+                )
                 self.console.print("[dim]Manage models with: hanzo node models[/dim]")
         else:
             self.console.print("\n[yellow]No AI coding tools detected.[/yellow]")
-            self.console.print("[dim]Start Hanzo Node for local AI: hanzo node start[/dim]")
+            self.console.print(
+                "[dim]Start Hanzo Node for local AI: hanzo node start[/dim]"
+            )
             self.console.print("[dim]Or install Claude Code, OpenAI CLI, etc.[/dim]")
 
     def get_tool_command(self, tool: AITool, prompt: str) -> List[str]:
@@ -407,7 +417,9 @@ class ToolDetector:
                     )
                     if response.status_code == 200:
                         result = response.json()
-                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                        return True, result.get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
                     else:
                         return (
                             False,
@@ -431,7 +443,9 @@ class ToolDetector:
                     )
                     if response.status_code == 200:
                         result = response.json()
-                        return True, result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                        return True, result.get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
                 except Exception as e:
                     return False, f"Router error: {e}"
 
@@ -460,6 +474,8 @@ class ToolDetector:
             if success:
                 return True, output, tool
             else:
-                self.console.print(f"[yellow]{tool.display_name} failed: {output}[/yellow]")
+                self.console.print(
+                    f"[yellow]{tool.display_name} failed: {output}[/yellow]"
+                )
 
         return False, "No available tools could handle the request", None
