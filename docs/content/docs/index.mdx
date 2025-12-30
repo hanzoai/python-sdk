@@ -1,0 +1,49 @@
+---
+title: Python SDK
+description: The official Python SDK for Hanzo AI - Unified access to 100+ LLM providers through a single OpenAI-compatible API.
+---
+
+The Hanzo Python SDK provides a unified interface to 100+ LLM providers through a single OpenAI-compatible API. It includes enterprise features like cost tracking, rate limiting, and observability.
+
+## Features
+
+- **100+ LLM Providers**: Access OpenAI, Anthropic, Google, Mistral, and more through a single API
+- **OpenAI Compatible**: Drop-in replacement for the OpenAI SDK
+- **Enterprise Ready**: Built-in cost tracking, rate limiting, and team management
+- **Type Safe**: Full type hints and Pydantic models
+- **Async Support**: Both sync and async clients available
+
+## Packages
+
+The SDK is organized as a monorepo with multiple packages:
+
+| Package | Description |
+|---------|-------------|
+| `hanzoai` | Core SDK for Hanzo AI platform |
+| `hanzo-mcp` | Model Context Protocol implementation |
+| `hanzo-agents` | Agent framework and swarm orchestration |
+| `hanzo-memory` | Memory and knowledge base management |
+| `hanzo` | CLI and orchestration tools |
+
+## Quick Example
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo(api_key="your-api-key")
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "user", "content": "Hello, world!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+## Next Steps
+
+- [Installation](/docs/python-sdk/installation) - Get started with the SDK
+- [Quickstart](/docs/python-sdk/quickstart) - Build your first application
+- [MCP Tools](/docs/mcp) - Learn about Model Context Protocol

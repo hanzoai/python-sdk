@@ -1,0 +1,220 @@
+---
+title: Hanzo MCP
+description: Model Context Protocol tools for AI assistants - 29 tools across 12 packages
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Hanzo MCP
+
+Hanzo MCP is a comprehensive implementation of the [Model Context Protocol](https://modelcontextprotocol.io/) that provides powerful tools for AI assistants like Claude Desktop, Cursor, and other MCP-compatible clients.
+
+<Callout type="info">
+  **Version 0.10.21** - 29 tools across 12 modular packages
+</Callout>
+
+## Overview
+
+MCP (Model Context Protocol) is a standard for providing tools and context to AI models. Hanzo MCP implements this protocol with a carefully curated set of tools organized into modular packages.
+
+## Tool Categories
+
+| Package | Tools | Description |
+|---------|-------|-------------|
+| **filesystem** | `read`, `write`, `edit`, `tree`, `find`, `search`, `ast` | File operations and code search |
+| **shell** | `dag`, `ps`, `zsh`, `shell`, `npx`, `uvx`, `open` | Command execution and process management |
+| **browser** | `browser` | Full Playwright automation (70+ actions) |
+| **memory** | `memory` | Persistent memory across sessions |
+| **todo** | `todo` | Task tracking and management |
+| **reasoning** | `think`, `critic` | Structured thinking and analysis |
+| **lsp** | `lsp` | Language Server Protocol integration |
+| **refactor** | `refactor` | Code refactoring operations |
+| **llm** | `llm`, `consensus` | Multi-model LLM access |
+| **config** | `config`, `mode` | Configuration and modes |
+| **agent** | `agent`, `iching`, `review` | AI agent orchestration |
+| **computer** | `computer` | Mac computer automation |
+
+## Key Features
+
+### DAG Execution Engine
+
+The `dag` tool replaces traditional shell commands with a powerful DAG (Directed Acyclic Graph) execution engine:
+
+```python
+# Serial execution (default)
+dag(["git status", "git diff", "git log -5"])
+
+# Parallel execution
+dag(["npm install", "cargo build"], parallel=True)
+
+# Mixed DAG with dependencies
+dag([
+    "mkdir -p dist",
+    {"parallel": ["cp a.txt dist/", "cp b.txt dist/"]},
+    "zip -r out.zip dist/"
+])
+```
+
+### Auto-Backgrounding
+
+Long-running commands automatically continue in the background after 60 seconds:
+
+```python
+dag(["npm run dev"])  # Auto-backgrounds after 60s
+ps()                   # Check background processes
+ps(logs="abc123")      # View process logs
+ps(kill="abc123")      # Kill process
+```
+
+### Multi-Engine Search
+
+The `search` tool runs multiple search engines in parallel:
+
+```python
+search(pattern="UserService", path="./src")
+# Runs: grep, AST, LSP, file, git - all in parallel
+```
+
+### Full Playwright Browser
+
+70+ browser actions for complete web automation:
+
+```python
+browser(action="navigate", url="https://example.com")
+browser(action="click", selector="button.submit")
+browser(action="screenshot", full_page=True)
+browser(action="expect_visible", selector=".modal")
+```
+
+### Unified Memory
+
+Persistent memory that survives across sessions:
+
+```python
+memory(action="store", content="User prefers dark mode")
+memory(action="recall", query="user preferences")
+```
+
+### 701 Personality Modes
+
+Switch between 701 programmer personas from `hanzo-persona`:
+
+```python
+mode(action="list")              # List all modes
+mode(action="activate", name="guido")  # Activate Guido van Rossum mode
+```
+
+## Quick Start
+
+### Installation
+
+<Tabs items={['pip', 'uv', 'pipx']}>
+  <Tab value="pip">
+    ```bash
+    pip install hanzo-mcp
+    ```
+  </Tab>
+  <Tab value="uv">
+    ```bash
+    uv pip install hanzo-mcp
+    ```
+  </Tab>
+  <Tab value="pipx">
+    ```bash
+    pipx install hanzo-mcp
+    ```
+  </Tab>
+</Tabs>
+
+### Start the Server
+
+```bash
+# Start MCP server (stdio transport)
+hanzo-mcp serve
+
+# With specific allowed paths
+hanzo-mcp serve --allowed-path /path/to/project
+```
+
+### Install to Claude Desktop
+
+```bash
+# Auto-install to Claude Desktop config
+hanzo-mcp install-desktop
+
+# Or manually add to ~/Library/Application Support/Claude/claude_desktop_config.json
+```
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Claude Desktop / Cursor / MCP Client            │
+└──────────────────────────┬──────────────────────────────────┘
+                           │ MCP Protocol (stdio/SSE/HTTP)
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      Hanzo MCP Server                        │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │                  Entry Point Loader                    │  │
+│  │         Discovers tools from hanzo-tools-* packages    │  │
+│  └───────────────────────────────────────────────────────┘  │
+│                                                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │ filesystem  │  │   shell     │  │      browser        │  │
+│  │  7 tools    │  │  7 tools    │  │   70+ actions       │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │  reasoning  │  │   memory    │  │    lsp/refactor     │  │
+│  │   2 tools   │  │   1 tool    │  │      2 tools        │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │    llm      │  │   config    │  │       agent         │  │
+│  │   2 tools   │  │  2 tools    │  │      3 tools        │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Modular Packages
+
+Hanzo MCP uses a modular architecture where tools are organized into independent packages:
+
+```bash
+hanzo-mcp              # Core server (thin wrapper)
+├── hanzo-tools-core        # Base classes and utilities
+├── hanzo-tools-filesystem  # File operations
+├── hanzo-tools-shell       # Command execution
+├── hanzo-tools-browser     # Playwright automation
+├── hanzo-tools-memory      # Persistent memory
+├── hanzo-tools-todo        # Task management
+├── hanzo-tools-reasoning   # Think and critic
+├── hanzo-tools-lsp         # Language server
+├── hanzo-tools-refactor    # Code refactoring
+├── hanzo-tools-llm         # Multi-model LLM
+├── hanzo-tools-config      # Configuration
+├── hanzo-tools-agent       # Agent orchestration
+└── hanzo-tools-computer    # Mac automation
+```
+
+## Supported Transports
+
+- **stdio** - Standard input/output (default for Claude Desktop)
+- **SSE** - Server-Sent Events for web clients
+- **HTTP** - REST API endpoint
+
+## Essential System Tools
+
+These tools are always enabled regardless of mode:
+
+- `llm`, `consensus` - LLM access
+- `config`, `mode` - Configuration
+- `memory` - Persistent memory
+- `version`, `stats` - System info
+
+## Next Steps
+
+- [Installation](/docs/mcp/installation) - Install and configure
+- [Tools Reference](/docs/mcp/tools) - All 29 tools documented
+- [Claude Desktop](/docs/mcp/claude-desktop) - Set up with Claude
+- [Configuration](/docs/mcp/configuration) - Advanced settings

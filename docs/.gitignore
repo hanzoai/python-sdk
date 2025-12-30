@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Fumadocs generated
+.source/
+
+# Build
+dist/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+
+# Local env
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

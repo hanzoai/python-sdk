@@ -1,0 +1,191 @@
+---
+title: Installation
+description: Install and set up Hanzo MCP
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Installation
+
+Install Hanzo MCP using your preferred package manager.
+
+## Quick Install
+
+<Tabs items={['pip', 'uv', 'pipx']}>
+  <Tab value="pip">
+    ```bash
+    pip install hanzo-mcp
+    ```
+  </Tab>
+  <Tab value="uv">
+    ```bash
+    uv pip install hanzo-mcp
+    ```
+  </Tab>
+  <Tab value="pipx">
+    ```bash
+    pipx install hanzo-mcp
+    ```
+  </Tab>
+</Tabs>
+
+## Verify Installation
+
+```bash
+hanzo-mcp --version
+```
+
+## Start the Server
+
+### Basic Usage
+
+```bash
+# Start with stdio transport (for Claude Desktop)
+hanzo-mcp serve
+```
+
+### With Allowed Paths
+
+```bash
+# Restrict to specific directories
+hanzo-mcp serve --allowed-path /path/to/project
+
+# Multiple paths
+hanzo-mcp serve \
+  --allowed-path /home/user/projects \
+  --allowed-path /home/user/documents
+```
+
+### With SSE Transport
+
+```bash
+# Start SSE server for web clients
+hanzo-mcp serve --transport sse --port 8888
+```
+
+## Claude Desktop Integration
+
+### Automatic Installation
+
+```bash
+# Auto-configure Claude Desktop
+hanzo-mcp install-desktop
+```
+
+This automatically updates your Claude Desktop configuration file.
+
+### Manual Configuration
+
+<Tabs items={['macOS', 'Windows', 'Linux']}>
+  <Tab value="macOS">
+    Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+    ```json
+    {
+      "mcpServers": {
+        "hanzo": {
+          "command": "hanzo-mcp",
+          "args": ["serve"],
+          "env": {
+            "HANZO_MCP_ALLOWED_PATHS": "/Users/you/projects"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Windows">
+    Edit `%APPDATA%\Claude\claude_desktop_config.json`:
+    ```json
+    {
+      "mcpServers": {
+        "hanzo": {
+          "command": "hanzo-mcp",
+          "args": ["serve"],
+          "env": {
+            "HANZO_MCP_ALLOWED_PATHS": "C:\\Users\\you\\projects"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Linux">
+    Edit `~/.config/Claude/claude_desktop_config.json`:
+    ```json
+    {
+      "mcpServers": {
+        "hanzo": {
+          "command": "hanzo-mcp",
+          "args": ["serve"],
+          "env": {
+            "HANZO_MCP_ALLOWED_PATHS": "/home/you/projects"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Using with Python
+
+You can also use Hanzo MCP programmatically:
+
+```python
+from hanzo_mcp import HanzoMCPServer
+
+# Create server
+server = HanzoMCPServer(
+    name="my-mcp-server",
+    allowed_paths=["/path/to/project"],
+    project_dir="/path/to/project"
+)
+
+# Run the server
+server.run(transport="stdio")
+```
+
+## Docker Installation
+
+```dockerfile
+FROM python:3.11-slim
+
+RUN pip install hanzo-mcp
+
+CMD ["hanzo-mcp", "serve"]
+```
+
+```bash
+docker build -t hanzo-mcp .
+docker run -v /your/project:/project hanzo-mcp \
+  hanzo-mcp serve --allowed-path /project
+```
+
+## Development Installation
+
+For contributing to Hanzo MCP:
+
+```bash
+# Clone the repository
+git clone https://github.com/hanzoai/python-sdk
+cd python-sdk/pkg/hanzo-mcp
+
+# Install in development mode
+uv sync --all-extras
+
+# Run tests
+uv run pytest
+```
+
+## Requirements
+
+- Python 3.9 or higher
+- For shell tools: bash or zsh
+- For LSP tools: Language servers (optional, auto-installed)
+
+## Next Steps
+
+- [Tools Reference](/docs/mcp/tools) - Explore available tools
+- [Claude Desktop](/docs/mcp/claude-desktop) - Full Claude setup guide
+- [Configuration](/docs/mcp/configuration) - Advanced options

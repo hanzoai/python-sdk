@@ -1,0 +1,185 @@
+---
+title: Models
+description: List and manage available models
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Models
+
+The Models API allows you to list and retrieve information about available models.
+
+## List Models
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+models = client.models.list()
+
+for model in models.data:
+    print(f"{model.id}: {model.owned_by}")
+```
+
+## Retrieve a Model
+
+```python
+model = client.model.retrieve("gpt-4o")
+
+print(f"ID: {model.id}")
+print(f"Owner: {model.owned_by}")
+print(f"Created: {model.created}")
+```
+
+## Available Providers
+
+Hanzo provides unified access to 100+ LLM providers:
+
+### OpenAI
+
+```python
+# GPT-4 Family
+client.chat.completions.create(model="gpt-4o", ...)
+client.chat.completions.create(model="gpt-4o-mini", ...)
+client.chat.completions.create(model="gpt-4-turbo", ...)
+
+# GPT-3.5
+client.chat.completions.create(model="gpt-3.5-turbo", ...)
+```
+
+### Anthropic Claude
+
+```python
+# Claude 3.5
+client.chat.completions.create(model="claude-3-5-sonnet-20241022", ...)
+
+# Claude 3
+client.chat.completions.create(model="claude-3-opus-20240229", ...)
+client.chat.completions.create(model="claude-3-sonnet-20240229", ...)
+client.chat.completions.create(model="claude-3-haiku-20240307", ...)
+```
+
+### Google
+
+```python
+# Gemini
+client.chat.completions.create(model="gemini/gemini-1.5-pro", ...)
+client.chat.completions.create(model="gemini/gemini-1.5-flash", ...)
+client.chat.completions.create(model="gemini/gemini-2.0-flash-exp", ...)
+```
+
+### Meta Llama
+
+```python
+# Via Together AI
+client.chat.completions.create(
+    model="together_ai/meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+    ...
+)
+client.chat.completions.create(
+    model="together_ai/meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    ...
+)
+```
+
+### Mistral
+
+```python
+client.chat.completions.create(model="mistral/mistral-large-latest", ...)
+client.chat.completions.create(model="mistral/mistral-medium-latest", ...)
+client.chat.completions.create(model="mistral/mistral-small-latest", ...)
+```
+
+### Cohere
+
+```python
+client.chat.completions.create(model="cohere/command-r-plus", ...)
+client.chat.completions.create(model="cohere/command-r", ...)
+```
+
+## Model Selection by Task
+
+<Callout type="info">
+Choose models based on your specific needs:
+</Callout>
+
+| Task | Recommended Models |
+|------|-------------------|
+| Complex reasoning | `gpt-4o`, `claude-3-opus`, `gemini-1.5-pro` |
+| General chat | `gpt-4o-mini`, `claude-3-5-sonnet`, `gemini-1.5-flash` |
+| Code generation | `gpt-4o`, `claude-3-5-sonnet` |
+| Fast responses | `gpt-3.5-turbo`, `claude-3-haiku`, `gemini-flash` |
+| Long context | `claude-3-opus` (200k), `gemini-1.5-pro` (2M) |
+| Cost efficient | `gpt-4o-mini`, `claude-3-haiku` |
+
+## Model Info Structure
+
+```python
+model = client.model.retrieve("gpt-4o")
+
+print(model.id)         # Model identifier
+print(model.object)     # "model"
+print(model.created)    # Creation timestamp
+print(model.owned_by)   # Owner/provider
+```
+
+## Async Usage
+
+```python
+import asyncio
+from hanzoai import AsyncHanzo
+
+async def main():
+    client = AsyncHanzo()
+
+    # List models
+    models = await client.models.list()
+    print(f"Found {len(models.data)} models")
+
+    # Retrieve specific model
+    model = await client.model.retrieve("gpt-4o")
+    print(f"Model: {model.id}")
+
+asyncio.run(main())
+```
+
+## Filter by Provider
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+# Get all models
+models = client.models.list()
+
+# Filter by provider
+openai_models = [m for m in models.data if m.owned_by == "openai"]
+anthropic_models = [m for m in models.data if m.owned_by == "anthropic"]
+
+print(f"OpenAI models: {len(openai_models)}")
+print(f"Anthropic models: {len(anthropic_models)}")
+```
+
+## Model Capabilities
+
+Different models have different capabilities:
+
+```python
+# Vision-capable models
+vision_models = ["gpt-4o", "gpt-4-turbo", "claude-3-opus", "gemini-1.5-pro"]
+
+# Tool/Function calling
+tool_models = ["gpt-4o", "gpt-4-turbo", "claude-3-5-sonnet", "gemini-1.5-pro"]
+
+# JSON mode
+json_models = ["gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo"]
+```
+
+## Next Steps
+
+- [Files](/docs/python-sdk/files) - Upload and manage files
+- [Chat](/docs/python-sdk/chat) - Use models for chat completions
+- [Embeddings](/docs/python-sdk/embeddings) - Generate text embeddings

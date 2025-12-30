@@ -1,0 +1,207 @@
+---
+title: Browser Tools
+description: Playwright-based browser automation with 70+ actions
+---
+
+The `hanzo-tools-browser` package provides comprehensive browser automation using Playwright.
+
+## Installation
+
+```bash
+pip install hanzo-tools-browser
+playwright install chromium
+```
+
+## Basic Usage
+
+### Navigation
+
+```python
+browser(action="navigate", url="https://example.com")
+browser(action="go_back")
+browser(action="go_forward")
+browser(action="reload")
+```
+
+### Page Content
+
+```python
+# Get page URL and title
+browser(action="url")
+browser(action="title")
+
+# Get page content
+browser(action="content")      # Full HTML
+browser(action="get_text", selector="h1")
+browser(action="get_html", selector=".container")
+```
+
+### Screenshots
+
+```python
+browser(action="screenshot")
+browser(action="screenshot", selector=".modal", full_page=False)
+```
+
+## Element Interaction
+
+### Clicking
+
+```python
+browser(action="click", selector="button.submit")
+browser(action="click", selector="a.nav-link", button="right")
+browser(action="dblclick", selector=".item")
+```
+
+### Typing
+
+```python
+browser(action="fill", selector="input[name='email']", text="user@example.com")
+browser(action="type", selector="textarea", text="Hello world", delay=50)
+browser(action="clear", selector="input")
+browser(action="press", selector="input", key="Enter")
+```
+
+### Forms
+
+```python
+browser(action="select_option", selector="select#country", value="US")
+browser(action="check", selector="input[type='checkbox']")
+browser(action="uncheck", selector="input[type='checkbox']")
+browser(action="upload", selector="input[type='file']", files=["/path/to/file.pdf"])
+```
+
+## Mouse Actions
+
+```python
+browser(action="hover", selector=".dropdown")
+browser(action="drag", source=".draggable", target=".dropzone")
+browser(action="mouse_move", x=100, y=200)
+browser(action="mouse_wheel", delta_y=-500)  # Scroll
+browser(action="scroll", selector=".container", delta_y=300)
+```
+
+## Touch / Mobile
+
+```python
+browser(action="tap", selector=".button")
+browser(action="swipe", selector=".carousel", direction="left")
+browser(action="pinch", selector=".map", scale=0.5)  # Zoom out
+```
+
+## Device Emulation
+
+```python
+# User-friendly presets
+browser(action="new_context", device="mobile")   # iPhone-like
+browser(action="new_context", device="tablet")   # iPad-like
+browser(action="new_context", device="laptop")   # MacBook-like
+
+# Specific devices
+browser(action="new_context", device="iphone_14")
+browser(action="new_context", device="pixel_7")
+browser(action="new_context", device="ipad_pro")
+```
+
+## Assertions
+
+```python
+# Page assertions
+browser(action="expect_url", expected="*/dashboard*")
+browser(action="expect_title", expected="Dashboard")
+
+# Element assertions
+browser(action="expect_visible", selector=".modal")
+browser(action="expect_hidden", selector=".loading")
+browser(action="expect_text", selector="h1", expected="Welcome")
+browser(action="expect_count", selector=".items", index=5)
+
+# Negative assertions
+browser(action="expect_visible", selector=".loading", not_=True)
+```
+
+## Locator Composition
+
+```python
+# Get specific elements
+browser(action="first", selector=".item")
+browser(action="last", selector=".item")
+browser(action="nth", selector=".item", index=2)
+
+# Filter and find
+browser(action="filter", selector=".card", has_text="Premium")
+browser(action="all", selector=".list-item")
+browser(action="count", selector=".results")
+```
+
+## Waits
+
+```python
+browser(action="wait_for_selector", selector=".loaded")
+browser(action="wait_for_url", url="*/success*")
+browser(action="wait_for_load_state", state="networkidle")
+browser(action="wait_for_event", event="download")
+```
+
+## Storage & State
+
+```python
+# Cookies
+browser(action="cookies")
+browser(action="clear_cookies")
+
+# Storage
+browser(action="storage")         # LocalStorage + SessionStorage
+browser(action="storage_state")   # Full browser state for persistence
+```
+
+## Tabs & Windows
+
+```python
+browser(action="new_tab", url="https://example.com")
+browser(action="close_tab")
+```
+
+## Headless Control
+
+```python
+browser(action="set_headless", headless=False)  # Show browser
+browser(action="set_headless", headless=True)   # Hide browser
+```
+
+## Parallel Contexts
+
+For multi-agent workflows, each agent can have isolated sessions:
+
+```python
+# Agent 1
+browser(action="new_context", context_id="agent1")
+browser(action="navigate", url="https://app.com/login", context_id="agent1")
+
+# Agent 2 (separate cookies/storage)
+browser(action="new_context", context_id="agent2")
+browser(action="navigate", url="https://app.com/login", context_id="agent2")
+```
+
+## Examples
+
+### Login Flow
+
+```python
+browser(action="navigate", url="https://app.com/login")
+browser(action="fill", selector="input[name='email']", text="user@example.com")
+browser(action="fill", selector="input[name='password']", text="secret")
+browser(action="click", selector="button[type='submit']")
+browser(action="wait_for_url", url="*/dashboard*")
+browser(action="expect_text", selector="h1", expected="Dashboard")
+```
+
+### Mobile Testing
+
+```python
+browser(action="new_context", device="mobile")
+browser(action="navigate", url="https://app.com")
+browser(action="tap", selector=".hamburger-menu")
+browser(action="expect_visible", selector=".mobile-nav")
+browser(action="swipe", selector=".carousel", direction="left")
+```

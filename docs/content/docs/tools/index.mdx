@@ -1,0 +1,93 @@
+---
+title: Hanzo Tools
+description: Modular tool packages for AI agents and MCP servers
+---
+
+Hanzo Tools is a collection of modular Python packages that provide tools for AI agents. Each package can be installed independently and registered with MCP servers.
+
+## Installation
+
+Install all tools:
+
+```bash
+pip install hanzo-tools[all]
+```
+
+Or install specific packages:
+
+```bash
+pip install hanzo-tools-shell      # Shell execution (dag, ps, zsh)
+pip install hanzo-tools-fs         # Filesystem operations
+pip install hanzo-tools-browser    # Playwright browser automation
+pip install hanzo-tools-memory     # Memory and knowledge management
+pip install hanzo-tools-reasoning  # Think and critic tools
+pip install hanzo-tools-lsp        # Language Server Protocol
+pip install hanzo-tools-database   # SQL and graph databases
+```
+
+## Package Overview
+
+| Package | Tools | Description |
+|---------|-------|-------------|
+| `hanzo-tools-core` | BaseTool, Registry | Core infrastructure |
+| `hanzo-tools-shell` | dag, ps, zsh, shell | Command execution |
+| `hanzo-tools-fs` | read, write, edit, tree, find, search | Filesystem operations |
+| `hanzo-tools-browser` | browser (70+ actions) | Playwright automation |
+| `hanzo-tools-memory` | memory (unified) | Memory management |
+| `hanzo-tools-reasoning` | think, critic | Structured reasoning |
+| `hanzo-tools-lsp` | lsp | Code intelligence |
+| `hanzo-tools-refactor` | refactor | Code refactoring |
+| `hanzo-tools-database` | sql_*, graph_* | Database operations |
+| `hanzo-tools-agent` | agent, iching, review | CLI agent runners |
+| `hanzo-tools-llm` | llm, consensus | LLM operations |
+| `hanzo-tools-vector` | vector_index, vector_search | Embeddings |
+| `hanzo-tools-todo` | todo | Task management |
+| `hanzo-tools-jupyter` | jupyter | Notebook editing |
+| `hanzo-tools-editor` | neovim_* | Editor integration |
+
+## Architecture
+
+All tools follow a common pattern:
+
+```python
+from hanzo_tools.core import BaseTool
+
+class MyTool(BaseTool):
+    name = "my_tool"
+
+    @property
+    def description(self) -> str:
+        return "Tool description"
+
+    async def call(self, ctx, **params) -> str:
+        # Implementation
+        return "result"
+```
+
+Tools are discovered via entry points:
+
+```toml
+[project.entry-points."hanzo.tools"]
+shell = "hanzo_tools.shell:TOOLS"
+```
+
+## Usage with MCP
+
+Tools automatically register with hanzo-mcp:
+
+```bash
+# Install hanzo-mcp with tools
+pip install hanzo-mcp[tools-all]
+
+# Run MCP server
+hanzo-mcp
+```
+
+Or use tools directly:
+
+```python
+from hanzo_tools.shell import DagTool
+
+dag = DagTool()
+result = await dag.call(ctx, commands=["ls", "pwd"])
+```

@@ -1,0 +1,180 @@
+---
+title: Filesystem Tools
+description: File operations - read, write, edit, search, and navigate
+---
+
+The `hanzo-tools-fs` package provides comprehensive filesystem operations.
+
+## Installation
+
+```bash
+pip install hanzo-tools-fs
+```
+
+## read
+
+Read files with line numbers.
+
+```python
+# Read entire file
+read(file_path="/path/to/file.py")
+
+# Read specific lines
+read(file_path="/path/to/file.py", offset=100, limit=50)  # Lines 100-150
+```
+
+## write
+
+Write or overwrite files.
+
+```python
+write(file_path="/path/to/file.py", content="# New content\n")
+```
+
+## edit
+
+Make precise text replacements.
+
+```python
+edit(
+    file_path="/path/to/file.py",
+    old_string="def old_function():",
+    new_string="def new_function():"
+)
+```
+
+### Replace All Occurrences
+
+```python
+edit(
+    file_path="/path/to/file.py",
+    old_string="foo",
+    new_string="bar",
+    replace_all=True
+)
+```
+
+## multi_edit
+
+Multiple edits to one file atomically.
+
+```python
+multi_edit(
+    file_path="/path/to/file.py",
+    edits=[
+        {"old_string": "foo", "new_string": "bar"},
+        {"old_string": "baz", "new_string": "qux"}
+    ]
+)
+```
+
+## tree
+
+View directory structure.
+
+```python
+# Basic tree
+tree(path="/project", depth=3)
+
+# Include filtered directories (node_modules, .git)
+tree(path="/project", include_filtered=True)
+```
+
+## find
+
+Find files by pattern.
+
+```python
+# Find by extension
+find(pattern="*.py", path="/project")
+
+# Find by name prefix
+find(pattern="test_*", type="file")
+
+# Find by modification time
+find(pattern="*", modified_after="1 day ago")
+
+# Find by size
+find(pattern="*", min_size="1KB", max_size="1MB")
+```
+
+## search
+
+Unified multi-modal search.
+
+```python
+# Text search
+search(pattern="error handling", path="/project")
+
+# With AST analysis
+search(
+    pattern="UserService",
+    enable_ast=True,
+    enable_symbol=True,
+    enable_text=True
+)
+```
+
+## ast
+
+AST-based code structure search.
+
+```python
+# Find class definitions
+ast(pattern="class.*Service", path="/project/src")
+
+# Find test functions with line numbers
+ast(pattern="def test_", path="/project/tests", line_number=True)
+```
+
+## Best Practices
+
+1. **Always read before edit** - Understand the file content first
+2. **Use edit for precision** - More reliable than write for modifications
+3. **Use multi_edit for related changes** - Atomic and efficient
+4. **Use search over find for code** - AST-aware searching is more accurate
+
+## Examples
+
+### Safe File Modification
+
+```python
+# 1. Read current content
+content = read(file_path="/config.py")
+
+# 2. Make precise edit
+edit(
+    file_path="/config.py",
+    old_string='DEBUG = False',
+    new_string='DEBUG = True'
+)
+```
+
+### Find and Replace Across Codebase
+
+```python
+# 1. Find all occurrences
+results = search(pattern="old_api_call", path="/src")
+
+# 2. Edit each file
+for file in results.files:
+    edit(
+        file_path=file,
+        old_string="old_api_call",
+        new_string="new_api_call",
+        replace_all=True
+    )
+```
+
+### Project Structure Analysis
+
+```python
+# Get directory tree
+tree(path="/project", depth=2)
+
+# Find all Python files
+find(pattern="*.py", path="/project", type="file")
+
+# Search for specific patterns
+search(pattern="TODO|FIXME|HACK", path="/project")
+```

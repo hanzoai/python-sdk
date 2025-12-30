@@ -1,0 +1,13 @@
+{
+  "title": "Tools",
+  "pages": [
+    "index",
+    "shell",
+    "filesystem",
+    "browser",
+    "memory",
+    "reasoning",
+    "agent",
+    "consensus"
+  ]
+}

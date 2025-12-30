@@ -1,0 +1,21 @@
+{
+  "title": "Hanzo Python SDK",
+  "description": "The official Python SDK for Hanzo AI",
+  "pages": [
+    "index",
+    "installation",
+    "quickstart",
+    "---SDK---",
+    "client",
+    "chat",
+    "embeddings",
+    "models",
+    "files",
+    "---Agent SDK---",
+    "...agents",
+    "---MCP---",
+    "...mcp",
+    "---Tools---",
+    "...tools"
+  ]
+}

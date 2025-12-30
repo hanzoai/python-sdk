@@ -1,0 +1,151 @@
+---
+title: Shell Tools
+description: Command execution with DAG support and auto-backgrounding
+---
+
+The `hanzo-tools-shell` package provides command execution tools with DAG (Directed Acyclic Graph) support for parallel execution.
+
+## Installation
+
+```bash
+pip install hanzo-tools-shell
+```
+
+## dag
+
+Execute commands in serial, parallel, or DAG patterns.
+
+### Serial Execution
+
+```python
+dag(commands=["ls", "pwd", "git status"])
+```
+
+### Parallel Execution
+
+```python
+dag(commands=["npm install", "cargo build"], parallel=True)
+```
+
+### Mixed DAG
+
+```python
+dag(commands=[
+    "mkdir -p dist",
+    {"parallel": ["cp a.txt dist/", "cp b.txt dist/"]},
+    "zip -r out.zip dist/"
+])
+```
+
+### Named Steps with Dependencies
+
+```python
+dag(commands=[
+    {"id": "build", "run": "make build"},
+    {"id": "test", "run": "make test", "after": ["build"]},
+])
+```
+
+### Tool Invocations
+
+Execute other tools within the DAG:
+
+```python
+dag(commands=[
+    {"tool": "search", "input": {"pattern": "TODO"}},
+    {"tool": "tree", "input": {"path": ".", "depth": 2}},
+], parallel=True)
+```
+
+## ps
+
+Manage background processes.
+
+### List Processes
+
+```python
+ps()  # List all background processes
+```
+
+### Get Process Info
+
+```python
+ps(id="abc123")  # Get specific process info
+```
+
+### View Logs
+
+```python
+ps(logs="abc123", n=50)  # Last 50 lines of output
+```
+
+### Kill Process
+
+```python
+ps(kill="abc123")        # SIGTERM
+ps(kill="abc123", sig=9) # SIGKILL
+```
+
+## zsh / shell
+
+Direct shell execution.
+
+### zsh
+
+```python
+zsh(command="echo $ZSH_VERSION")
+zsh(command="source ~/.zshrc && mycmd")
+```
+
+### shell
+
+Smart shell that prefers zsh:
+
+```python
+shell(command="ls -la")
+shell(command="npm run build", cwd="/project", timeout=300)
+```
+
+## Auto-Backgrounding
+
+Commands automatically background after 60 seconds:
+
+1. Command starts executing
+2. Waits for completion with timeout
+3. If timeout: registers with ProcessManager, continues in background
+4. Monitor with `ps(logs="id")` or kill with `ps(kill="id")`
+
+Configure timeout:
+
+```python
+dag(commands=["long-running-task"], timeout=120)  # 2 minutes
+```
+
+## Best Practices
+
+1. **Use dag for multiple commands** - Better than chaining with `&&`
+2. **Parallel when possible** - Independent tasks should run in parallel
+3. **Named steps for complex flows** - Makes dependencies explicit
+4. **Monitor long tasks** - Use `ps` to check status
+
+## Examples
+
+### Build Pipeline
+
+```python
+dag(commands=[
+    {"id": "deps", "run": "npm install"},
+    {"id": "lint", "run": "npm run lint", "after": ["deps"]},
+    {"id": "test", "run": "npm test", "after": ["deps"]},
+    {"id": "build", "run": "npm run build", "after": ["lint", "test"]},
+])
+```
+
+### Project Analysis
+
+```python
+dag(commands=[
+    {"tool": "tree", "input": {"path": ".", "depth": 3}},
+    {"tool": "search", "input": {"pattern": "TODO|FIXME"}},
+], parallel=True)
+```
