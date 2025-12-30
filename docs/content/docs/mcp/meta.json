@@ -1,0 +1,11 @@
+{
+  "title": "MCP Tools",
+  "description": "Model Context Protocol implementation for AI tools",
+  "pages": [
+    "index",
+    "installation",
+    "tools",
+    "claude-desktop",
+    "configuration"
+  ]
+}

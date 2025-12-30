@@ -1,0 +1,172 @@
+---
+title: Memory Tools
+description: Persistent memory and knowledge management for AI agents
+---
+
+The `hanzo-tools-memory` package provides unified memory management.
+
+## Installation
+
+```bash
+pip install hanzo-tools-memory
+```
+
+## Unified Memory Tool
+
+All memory operations through a single tool with actions:
+
+### Recall Memories
+
+```python
+memory(action="recall", query="user preferences")
+memory(action="recall", query="previous decisions", scope="project")
+```
+
+### Create Memories
+
+```python
+memory(action="create", data={
+    "statements": [
+        "User prefers TypeScript over JavaScript",
+        "Project uses PostgreSQL database"
+    ]
+})
+```
+
+### Update Memories
+
+```python
+memory(action="update", data={
+    "id": "mem_123",
+    "content": "User now prefers Python over TypeScript"
+})
+```
+
+### Delete Memories
+
+```python
+memory(action="delete", data={"id": "mem_123"})
+```
+
+### Manage Memories
+
+```python
+memory(action="manage")  # List all memory operations
+```
+
+## Knowledge Base Operations
+
+### Recall Facts
+
+Query structured knowledge bases:
+
+```python
+memory(action="facts", query="API authentication", kb_name="api_docs")
+```
+
+### Store Facts
+
+```python
+memory(action="store", data={
+    "facts": ["API uses JWT tokens", "Rate limit is 100/hour"],
+    "kb_name": "api_docs"
+})
+```
+
+### Summarize to Memory
+
+Condense content into memory:
+
+```python
+memory(action="summarize", data={
+    "content": "Long document text...",
+    "key_points": True
+})
+```
+
+### Knowledge Base Management
+
+```python
+memory(action="kb", data={
+    "action": "list"  # List all knowledge bases
+})
+
+memory(action="kb", data={
+    "action": "create",
+    "name": "project_docs",
+    "description": "Project documentation"
+})
+```
+
+## Memory Scopes
+
+Memories can be scoped:
+
+- **global** - Available across all sessions
+- **project** - Specific to current project
+- **session** - Current conversation only
+
+```python
+memory(action="recall", query="preferences", scope="global")
+memory(action="recall", query="architecture", scope="project")
+```
+
+## Best Practices
+
+1. **Use semantic queries** - Natural language works better than keywords
+2. **Scope appropriately** - Project-specific info shouldn't be global
+3. **Store structured facts** - Use knowledge bases for reference data
+4. **Summarize long content** - Use summarize for large documents
+
+## Examples
+
+### Project Context
+
+```python
+# Store project decisions
+memory(action="create", data={
+    "statements": [
+        "Using React 18 with TypeScript",
+        "State management with Zustand",
+        "API uses REST with OpenAPI spec"
+    ],
+    "scope": "project"
+})
+
+# Recall later
+memory(action="recall", query="what framework", scope="project")
+```
+
+### API Documentation
+
+```python
+# Build knowledge base
+memory(action="store", data={
+    "kb_name": "api_endpoints",
+    "facts": [
+        "POST /users creates a new user",
+        "GET /users/:id returns user details",
+        "PUT /users/:id updates user",
+        "DELETE /users/:id removes user"
+    ]
+})
+
+# Query later
+memory(action="facts", query="how to create user", kb_name="api_endpoints")
+```
+
+### Conversation Context
+
+```python
+# Remember user preferences
+memory(action="create", data={
+    "statements": [
+        "User prefers concise responses",
+        "User is experienced with Python",
+        "Working on a FastAPI project"
+    ]
+})
+
+# Recall for context
+memory(action="recall", query="user expertise level")
+```

@@ -1,0 +1,345 @@
+---
+title: Tools Reference
+description: Complete reference for all Hanzo MCP tools
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Tools Reference
+
+Hanzo MCP provides 260+ tools organized into categories.
+
+## File Operations
+
+### read
+
+Read files from the filesystem.
+
+```python
+read(file_path="/path/to/file.py")
+read(file_path="/path/to/file.py", offset=100, limit=50)  # Lines 100-150
+```
+
+### write
+
+Write or overwrite files.
+
+```python
+write(file_path="/path/to/file.py", content="# New content")
+```
+
+### edit
+
+Make precise edits to files.
+
+```python
+edit(
+    file_path="/path/to/file.py",
+    old_string="def old_function():",
+    new_string="def new_function():"
+)
+```
+
+### multi_edit
+
+Multiple edits to one file atomically.
+
+```python
+multi_edit(
+    file_path="/path/to/file.py",
+    edits=[
+        {"old_string": "foo", "new_string": "bar"},
+        {"old_string": "baz", "new_string": "qux"}
+    ]
+)
+```
+
+### tree
+
+View directory structure.
+
+```python
+tree(path="/project", depth=3)
+tree(path="/project", include_filtered=True)  # Include node_modules, etc.
+```
+
+### find
+
+Find files by pattern.
+
+```python
+find(pattern="*.py", path="/project")
+find(pattern="test_", type="file", modified_after="1 day ago")
+find(pattern="config", min_size="1KB", max_size="1MB")
+```
+
+## Shell Tools
+
+### shell
+
+Smart shell execution (prefers zsh).
+
+```python
+shell(command="ls -la")
+shell(command="npm run build", cwd="/project")
+```
+
+### bash
+
+Execute with bash explicitly.
+
+```python
+bash(command="echo $BASH_VERSION")
+bash(command="./script.sh", timeout=300)
+```
+
+### zsh
+
+Execute with zsh explicitly.
+
+```python
+zsh(command="echo $ZSH_VERSION")
+zsh(command="source ~/.zshrc && mycmd")
+```
+
+### npx
+
+Run Node packages.
+
+```python
+npx(package="create-react-app", args="my-app")
+npx(package="prettier", args="--write .")
+```
+
+### uvx
+
+Run Python packages.
+
+```python
+uvx(package="ruff", args="check .")
+uvx(package="black", args="--check src/")
+```
+
+### process
+
+Manage background processes.
+
+```python
+process()  # List all
+process(action="logs", id="bash_abc123")
+process(action="kill", id="npx_def456")
+```
+
+## Search Tools
+
+### search
+
+Unified intelligent search.
+
+```python
+search(pattern="error handling", path="/project")
+search(
+    pattern="UserService",
+    enable_ast=True,      # Code structure
+    enable_symbol=True,   # Definitions
+    enable_text=True      # Text matches
+)
+```
+
+### ast
+
+AST-based code search.
+
+```python
+ast(pattern="class.*Service", path="/project/src")
+ast(pattern="def test_", path="/project/tests", line_number=True)
+```
+
+### grep (via search)
+
+Text pattern search.
+
+```python
+search(pattern="TODO|FIXME", path="/project", enable_ast=False)
+```
+
+## Memory Tools
+
+### recall_memories
+
+Recall stored memories.
+
+```python
+recall_memories(queries=["user preferences", "previous decisions"])
+recall_memories(queries=["project config"], scope="project")
+```
+
+### create_memories
+
+Store new memories.
+
+```python
+create_memories(statements=[
+    "User prefers TypeScript over JavaScript",
+    "Project uses PostgreSQL database"
+])
+```
+
+### recall_facts
+
+Query knowledge bases.
+
+```python
+recall_facts(queries=["API authentication"], kb_name="api_docs")
+```
+
+### store_facts
+
+Store structured facts.
+
+```python
+store_facts(
+    facts=["API uses JWT tokens", "Rate limit is 100/hour"],
+    kb_name="api_docs"
+)
+```
+
+## Code Intelligence
+
+### lsp
+
+Language Server Protocol operations.
+
+```python
+lsp(action="definition", file="/path/file.py", line=10, character=5)
+lsp(action="references", file="/path/file.py", line=10, character=5)
+lsp(action="hover", file="/path/file.py", line=10, character=5)
+lsp(action="diagnostics", file="/path/file.py")
+```
+
+Supported languages: Go, Python, TypeScript, JavaScript, Rust, Java, C/C++, Ruby, Lua
+
+### refactor
+
+Code refactoring operations.
+
+```python
+# Rename symbol across codebase
+refactor(
+    action="rename",
+    file="/path/file.py",
+    line=10,
+    column=5,
+    new_name="newFunctionName"
+)
+
+# Find all references
+refactor(
+    action="find_references",
+    file="/path/file.py",
+    line=10,
+    column=5
+)
+```
+
+## Thinking Tools
+
+### think
+
+Structured reasoning.
+
+```python
+think(thought="""
+Analyzing the authentication flow:
+1. User submits credentials
+2. Server validates against database
+3. JWT token is generated
+4. Token returned to client
+5. Client stores in localStorage
+
+Potential issues:
+- No rate limiting on login attempts
+- Token doesn't expire
+""")
+```
+
+### critic
+
+Critical analysis and code review.
+
+```python
+critic(analysis="""
+Code Review:
+- No error handling for network failures
+- Missing input validation
+- SQL injection vulnerability in query construction
+- No unit tests for edge cases
+
+Recommendations:
+1. Add try/catch blocks
+2. Validate user input
+3. Use parameterized queries
+4. Add comprehensive tests
+""")
+```
+
+## Todo Management
+
+### todo
+
+Manage task lists.
+
+```python
+todo()  # List all
+todo(action="add", content="Fix authentication bug")
+todo(action="update", id="abc123", status="completed")
+todo(action="remove", id="abc123")
+```
+
+## Web Tools
+
+### open
+
+Open files or URLs.
+
+```python
+open(path="https://example.com")
+open(path="/path/to/document.pdf")
+```
+
+## Batch Operations
+
+### batch
+
+Execute multiple tools in parallel.
+
+```python
+batch(
+    description="Read multiple files",
+    invocations=[
+        {"tool_name": "read", "input": {"file_path": "/file1.py"}},
+        {"tool_name": "read", "input": {"file_path": "/file2.py"}},
+        {"tool_name": "tree", "input": {"path": "/src", "depth": 2}}
+    ]
+)
+```
+
+## Tool Comparison
+
+| Need | Tool | Why |
+|------|------|-----|
+| Read a file | `read` | Direct file access |
+| Edit specific text | `edit` | Precise replacements |
+| Multiple edits | `multi_edit` | Atomic batch edits |
+| Find files | `find` | Pattern matching, filters |
+| Search code | `search` | Multi-modal search |
+| Code structure | `ast` | AST-aware search |
+| Run command | `shell` | Smart shell selection |
+| Background tasks | `process` | Manage long-running |
+| Store info | `create_memories` | Persistent memory |
+
+## Next Steps
+
+- [Claude Desktop](/docs/mcp/claude-desktop) - Set up with Claude
+- [Configuration](/docs/mcp/configuration) - Customize tools

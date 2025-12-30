@@ -1,0 +1,286 @@
+---
+title: Configuration
+description: Configure Hanzo MCP server options
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Configuration
+
+Hanzo MCP supports extensive configuration through CLI arguments, environment variables, and programmatic options.
+
+## CLI Arguments
+
+### Basic Options
+
+```bash
+hanzo-mcp serve [OPTIONS]
+```
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--name` | Server name | `hanzo` |
+| `--transport` | Transport type (`stdio`, `sse`) | `stdio` |
+| `--host` | Host for SSE server | `127.0.0.1` |
+| `--port` | Port for SSE server | `8888` |
+
+### Path Options
+
+```bash
+# Single project directory
+hanzo-mcp serve --project-dir /path/to/project
+
+# Multiple allowed paths
+hanzo-mcp serve \
+  --allowed-path /path/one \
+  --allowed-path /path/two
+
+# Project paths for prompts
+hanzo-mcp serve --project-paths /path/one,/path/two
+```
+
+### Tool Control
+
+```bash
+# Disable write tools (read-only mode)
+hanzo-mcp serve --disable-write-tools
+
+# Disable search tools
+hanzo-mcp serve --disable-search-tools
+
+# Disable specific tools
+hanzo-mcp serve --disabled-tools shell,bash,zsh
+```
+
+### Agent Options
+
+```bash
+# Enable agent tool for recursive AI calls
+hanzo-mcp serve --enable-agent-tool
+
+# Configure agent model
+hanzo-mcp serve \
+  --enable-agent-tool \
+  --agent-model gpt-4o \
+  --agent-max-tokens 4096 \
+  --agent-max-iterations 10
+```
+
+### Timeout Configuration
+
+```bash
+# Command timeout (seconds)
+hanzo-mcp serve --command-timeout 300
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HANZO_MCP_ALLOWED_PATHS` | Colon-separated allowed paths | None |
+| `HANZO_MCP_PROJECT_DIR` | Default project directory | None |
+| `HANZO_MCP_TRANSPORT` | Transport type | `stdio` |
+| `HANZO_MCP_HOST` | SSE host | `127.0.0.1` |
+| `HANZO_MCP_PORT` | SSE port | `8888` |
+| `HANZO_MCP_TOKEN` | Authentication token | Auto-generated |
+| `HANZO_API_KEY` | Hanzo API key | None |
+| `HANZO_QUIET` | Suppress startup messages | None |
+
+### Example
+
+```bash
+export HANZO_MCP_ALLOWED_PATHS="/home/user/projects:/home/user/docs"
+export HANZO_MCP_PROJECT_DIR="/home/user/projects/my-app"
+export HANZO_API_KEY="your-api-key"
+
+hanzo-mcp serve
+```
+
+## Programmatic Configuration
+
+Use Hanzo MCP as a library:
+
+```python
+from hanzo_mcp import HanzoMCPServer
+
+server = HanzoMCPServer(
+    name="my-server",
+    allowed_paths=["/path/to/project"],
+    project_dir="/path/to/project",
+    project_paths=["/path/to/project"],
+
+    # Tool control
+    disable_write_tools=False,
+    disable_search_tools=False,
+    enabled_tools={"shell": True, "bash": True},
+    disabled_tools=["dangerous_tool"],
+
+    # Agent configuration
+    enable_agent_tool=True,
+    agent_model="gpt-4o",
+    agent_max_tokens=4096,
+    agent_api_key="your-key",
+    agent_base_url="https://api.hanzo.ai",
+    agent_max_iterations=10,
+    agent_max_tool_uses=30,
+
+    # Timeouts
+    command_timeout=120.0,
+
+    # Network
+    host="127.0.0.1",
+    port=8888,
+)
+
+server.run(transport="stdio")
+```
+
+## Tool Configuration
+
+### Enabling/Disabling Tools
+
+```python
+server = HanzoMCPServer(
+    enabled_tools={
+        "read": True,
+        "write": True,
+        "edit": True,
+        "shell": False,  # Disable shell
+    },
+    disabled_tools=["bash", "zsh"],  # Also disable these
+)
+```
+
+### Tool Categories
+
+| Category | Tools |
+|----------|-------|
+| File Tools | `read`, `write`, `edit`, `multi_edit`, `tree`, `find` |
+| Shell Tools | `shell`, `bash`, `zsh`, `npx`, `uvx`, `process` |
+| Search Tools | `search`, `ast` |
+| Memory Tools | `recall_memories`, `create_memories`, `store_facts`, etc. |
+| Code Tools | `lsp`, `refactor` |
+| Thinking Tools | `think`, `critic` |
+
+## Permission System
+
+### Default Allowed Paths
+
+By default, these paths are allowed:
+- `/tmp` (Unix)
+- `/var` (Unix)
+- `C:\Users\...\AppData\Local\Temp` (Windows)
+- `~/work` (if exists)
+
+### Excluded Patterns
+
+These patterns are always excluded:
+- `.ssh`, `.gnupg` (security)
+- `node_modules`, `__pycache__`, `.venv` (dependencies)
+- `.env`, `*.key`, `*.pem` (secrets)
+- `*.sqlite`, `*.db` (databases)
+
+### Custom Exclusions
+
+```python
+from hanzo_mcp.tools.common.permissions import PermissionManager
+
+pm = PermissionManager()
+pm.add_exclusion_pattern("*.secret")
+pm.exclude_path("/path/to/sensitive")
+```
+
+## Transport Configuration
+
+### stdio (Default)
+
+For Claude Desktop and command-line usage:
+
+```bash
+hanzo-mcp serve --transport stdio
+```
+
+### SSE
+
+For web clients and custom integrations:
+
+```bash
+hanzo-mcp serve \
+  --transport sse \
+  --host 0.0.0.0 \
+  --port 8888
+```
+
+## Logging
+
+### Log Levels
+
+```bash
+# Via environment variable
+export HANZO_MCP_LOG_LEVEL=DEBUG
+hanzo-mcp serve
+
+# Or via Python logging
+import logging
+logging.getLogger("hanzo_mcp").setLevel(logging.DEBUG)
+```
+
+### Log Levels
+
+| Level | Description |
+|-------|-------------|
+| `DEBUG` | Verbose debugging info |
+| `INFO` | General information |
+| `WARNING` | Warnings only |
+| `ERROR` | Errors only |
+
+## Security Configuration
+
+### Read-Only Mode
+
+```bash
+hanzo-mcp serve --disable-write-tools
+```
+
+### Restricted Shell Access
+
+```bash
+hanzo-mcp serve --disabled-tools shell,bash,zsh,npx,uvx
+```
+
+### Authentication Token
+
+```bash
+# Set explicit token
+export HANZO_MCP_TOKEN="your-secure-token"
+hanzo-mcp serve
+
+# Or generate automatically (logged on startup)
+hanzo-mcp serve
+# Logs: "Generated token: abc123..."
+```
+
+## Multiple Server Instances
+
+Run different configurations for different projects:
+
+```json
+{
+  "mcpServers": {
+    "hanzo-project-a": {
+      "command": "hanzo-mcp",
+      "args": ["serve", "--project-dir", "/project-a", "--name", "project-a"]
+    },
+    "hanzo-project-b": {
+      "command": "hanzo-mcp",
+      "args": ["serve", "--project-dir", "/project-b", "--name", "project-b"]
+    }
+  }
+}
+```
+
+## Next Steps
+
+- [Tools Reference](/docs/mcp/tools) - All available tools
+- [Claude Desktop](/docs/mcp/claude-desktop) - Claude integration
