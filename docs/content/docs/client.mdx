@@ -1,0 +1,227 @@
+---
+title: Client Configuration
+description: Configure the Hanzo client for your needs
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Client Configuration
+
+The Hanzo client supports extensive configuration options for authentication, timeouts, retries, and more.
+
+## Basic Initialization
+
+<Tabs items={['Sync', 'Async']}>
+  <Tab value="Sync">
+    ```python
+    from hanzoai import Hanzo
+
+    client = Hanzo(
+        api_key="your-api-key",  # or use HANZO_API_KEY env var
+    )
+    ```
+  </Tab>
+  <Tab value="Async">
+    ```python
+    from hanzoai import AsyncHanzo
+
+    client = AsyncHanzo(
+        api_key="your-api-key",
+    )
+    ```
+  </Tab>
+</Tabs>
+
+## Configuration Options
+
+### API Key
+
+```python
+from hanzoai import Hanzo
+
+# From parameter
+client = Hanzo(api_key="your-api-key")
+
+# From environment variable (automatic)
+# export HANZO_API_KEY="your-api-key"
+client = Hanzo()
+```
+
+### Base URL
+
+Override the API endpoint:
+
+```python
+client = Hanzo(
+    base_url="https://custom-api.example.com",
+)
+```
+
+### Timeouts
+
+Configure request timeouts:
+
+```python
+from hanzoai import Hanzo, Timeout
+
+client = Hanzo(
+    timeout=Timeout(
+        connect=5.0,      # Connection timeout
+        read=60.0,        # Read timeout
+        write=30.0,       # Write timeout
+        pool=10.0,        # Pool timeout
+    )
+)
+
+# Or use a simple float for all timeouts
+client = Hanzo(timeout=60.0)
+```
+
+### Retries
+
+Configure automatic retries:
+
+```python
+client = Hanzo(
+    max_retries=3,  # Default is 2
+)
+```
+
+### HTTP Client
+
+Use a custom HTTP client:
+
+```python
+import httpx
+from hanzoai import Hanzo
+
+# Custom httpx client
+http_client = httpx.Client(
+    proxies="http://proxy.example.com:8080",
+    verify=False,  # Disable SSL verification (not recommended)
+)
+
+client = Hanzo(
+    http_client=http_client,
+)
+```
+
+## Request-Level Options
+
+Override options per-request:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}],
+    timeout=120.0,  # Override timeout for this request
+    extra_headers={"X-Custom-Header": "value"},
+)
+```
+
+## Raw Responses
+
+Access raw HTTP response data:
+
+```python
+# Get response with raw HTTP info
+response = client.chat.completions.with_raw_response.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.http_response.status_code)
+print(response.http_response.headers)
+print(response.parsed)  # The parsed response object
+```
+
+## Streaming Raw Responses
+
+```python
+with client.chat.completions.with_streaming_response.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}],
+    stream=True
+) as response:
+    print(response.http_response.status_code)
+    for chunk in response.iter_lines():
+        print(chunk)
+```
+
+## Context Manager
+
+Use the client as a context manager for automatic cleanup:
+
+```python
+from hanzoai import Hanzo
+
+with Hanzo() as client:
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Hello!"}]
+    )
+```
+
+## Async Context Manager
+
+```python
+from hanzoai import AsyncHanzo
+
+async def main():
+    async with AsyncHanzo() as client:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": "Hello!"}]
+        )
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `HANZO_API_KEY` | API authentication key | Required |
+| `HANZO_BASE_URL` | API base URL | `https://api.hanzo.ai` |
+| `HANZO_LOG` | Logging level | `warning` |
+
+## Logging
+
+Enable debug logging:
+
+```bash
+export HANZO_LOG=debug
+```
+
+Or configure programmatically:
+
+```python
+import logging
+
+logging.getLogger("hanzoai").setLevel(logging.DEBUG)
+```
+
+## Thread Safety
+
+The `Hanzo` client is thread-safe. You can share a single instance across threads:
+
+```python
+from concurrent.futures import ThreadPoolExecutor
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+def make_request(prompt):
+    return client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+with ThreadPoolExecutor(max_workers=10) as executor:
+    results = list(executor.map(make_request, prompts))
+```
+
+## Next Steps
+
+- [Chat Completions](/docs/python-sdk/chat) - Make chat requests
+- [Embeddings](/docs/python-sdk/embeddings) - Generate embeddings
+- [Models](/docs/python-sdk/models) - List available models

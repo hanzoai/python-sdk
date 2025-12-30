@@ -1,0 +1,200 @@
+---
+title: Reasoning Tools
+description: Structured thinking and critical analysis for AI agents
+---
+
+The `hanzo-tools-reasoning` package provides tools for structured reasoning.
+
+## Installation
+
+```bash
+pip install hanzo-tools-reasoning
+```
+
+## think
+
+Structured reasoning and analysis. Use this to work through complex problems step by step.
+
+### Basic Usage
+
+```python
+think(thought="""
+Analyzing the authentication flow:
+1. User submits credentials
+2. Server validates against database
+3. JWT token is generated
+4. Token returned to client
+5. Client stores in localStorage
+
+This follows standard OAuth 2.0 patterns.
+""")
+```
+
+### Problem Analysis
+
+```python
+think(thought="""
+Problem: API response times are slow
+
+Potential causes:
+- Database queries not optimized
+- No caching layer
+- Network latency
+- Large payload sizes
+
+Investigation steps:
+1. Add query timing logs
+2. Profile database queries
+3. Check for N+1 queries
+4. Measure network latency
+""")
+```
+
+### Architecture Decisions
+
+```python
+think(thought="""
+Decision: Choosing between REST and GraphQL
+
+REST:
++ Simple, well-understood
++ Excellent caching
++ Mature tooling
+- Over/under fetching
+- Multiple round trips
+
+GraphQL:
++ Flexible queries
++ Single endpoint
++ Strong typing
+- Complexity overhead
+- Caching challenges
+
+Recommendation: REST for this project because:
+- Team has REST experience
+- Simple CRUD operations
+- Caching is important
+""")
+```
+
+## critic
+
+Critical analysis and code review. Use this to evaluate implementations and identify issues.
+
+### Code Review
+
+```python
+critic(analysis="""
+Code Review: user_service.py
+
+Issues Found:
+- No error handling for database failures (line 45)
+- SQL injection vulnerability in query construction (line 67)
+- Missing input validation for email field (line 23)
+- No unit tests for edge cases
+
+Security Concerns:
+- Password stored in plain text (line 89)
+- No rate limiting on authentication endpoint
+
+Recommendations:
+1. Add try/catch for database operations
+2. Use parameterized queries
+3. Add email validation with pydantic
+4. Hash passwords with bcrypt
+5. Implement rate limiting middleware
+""")
+```
+
+### Architecture Review
+
+```python
+critic(analysis="""
+Architecture Review: Microservices Design
+
+Strengths:
+- Clear service boundaries
+- Independent deployability
+- Technology flexibility
+
+Weaknesses:
+- No service discovery mechanism
+- Missing circuit breaker patterns
+- Synchronous inter-service calls create coupling
+- No distributed tracing
+
+Recommendations:
+1. Implement service mesh (Istio/Linkerd)
+2. Add circuit breakers (resilience4j)
+3. Use async messaging for non-critical paths
+4. Deploy distributed tracing (Jaeger)
+""")
+```
+
+### Implementation Critique
+
+```python
+critic(analysis="""
+Implementation Review: Rate Limiter
+
+Current Implementation:
+- Uses in-memory counter
+- Fixed window algorithm
+- No distributed support
+
+Problems:
+1. Lost on restart
+2. Window boundary issues
+3. Single server only
+
+Better Approach:
+- Use Redis for shared state
+- Sliding window algorithm
+- Token bucket for smoother limiting
+
+Code suggestion:
+```python
+from redis import Redis
+from time import time
+
+class SlidingWindowRateLimiter:
+    def __init__(self, redis: Redis, limit: int, window: int):
+        self.redis = redis
+        self.limit = limit
+        self.window = window
+
+    def is_allowed(self, key: str) -> bool:
+        now = time()
+        pipe = self.redis.pipeline()
+        pipe.zremrangebyscore(key, 0, now - self.window)
+        pipe.zadd(key, {str(now): now})
+        pipe.zcard(key)
+        pipe.expire(key, self.window)
+        _, _, count, _ = pipe.execute()
+        return count <= self.limit
+```
+""")
+```
+
+## When to Use
+
+### think
+
+- Working through complex problems
+- Making architectural decisions
+- Planning implementation steps
+- Analyzing requirements
+
+### critic
+
+- Reviewing code quality
+- Security analysis
+- Architecture evaluation
+- Identifying improvements
+
+## Best Practices
+
+1. **Be specific** - Detailed analysis yields better insights
+2. **Structure your thoughts** - Use numbered lists and categories
+3. **Include recommendations** - Always suggest improvements
+4. **Reference specifics** - Line numbers, file names, concrete examples

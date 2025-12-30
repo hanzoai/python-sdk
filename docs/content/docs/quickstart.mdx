@@ -1,0 +1,155 @@
+---
+title: Quickstart
+description: Get up and running with the Hanzo Python SDK in minutes
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Quickstart
+
+This guide will help you make your first API call with the Hanzo Python SDK.
+
+## Prerequisites
+
+- Python 3.9 or higher
+- A Hanzo API key (get one at [hanzo.ai](https://hanzo.ai))
+
+## Installation
+
+```bash
+pip install hanzoai
+```
+
+## Set Your API Key
+
+<Tabs items={['Environment Variable', 'Direct']}>
+  <Tab value="Environment Variable">
+    ```bash
+    export HANZO_API_KEY="your-api-key"
+    ```
+  </Tab>
+  <Tab value="Direct">
+    ```python
+    from hanzoai import Hanzo
+
+    client = Hanzo(api_key="your-api-key")
+    ```
+  </Tab>
+</Tabs>
+
+## Your First API Call
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "user", "content": "Hello, how are you?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+## Using Different Models
+
+Hanzo provides access to 100+ LLM providers through a unified API:
+
+```python
+# OpenAI GPT-4
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+# Anthropic Claude
+response = client.chat.completions.create(
+    model="claude-3-5-sonnet-20241022",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+# Google Gemini
+response = client.chat.completions.create(
+    model="gemini/gemini-1.5-pro",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+# Open source models
+response = client.chat.completions.create(
+    model="together_ai/meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+## Async Usage
+
+For async applications, use the `AsyncHanzo` client:
+
+```python
+import asyncio
+from hanzoai import AsyncHanzo
+
+async def main():
+    client = AsyncHanzo()
+
+    response = await client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Hello!"}]
+    )
+
+    print(response.choices[0].message.content)
+
+asyncio.run(main())
+```
+
+## Streaming Responses
+
+Stream responses for real-time output:
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+stream = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Write a short poem"}],
+    stream=True
+)
+
+for chunk in stream:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="")
+```
+
+## Error Handling
+
+Handle errors gracefully:
+
+```python
+from hanzoai import Hanzo
+from hanzoai._exceptions import APIError, RateLimitError
+
+client = Hanzo()
+
+try:
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Hello!"}]
+    )
+except RateLimitError:
+    print("Rate limited, please wait and retry")
+except APIError as e:
+    print(f"API error: {e.message}")
+```
+
+## Next Steps
+
+- [Client Configuration](/docs/python-sdk/client) - Learn about client options
+- [Chat Completions](/docs/python-sdk/chat) - Deep dive into chat API
+- [Embeddings](/docs/python-sdk/embeddings) - Generate text embeddings
+- [Models](/docs/python-sdk/models) - List and manage models
