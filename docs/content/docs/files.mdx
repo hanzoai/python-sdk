@@ -1,0 +1,242 @@
+---
+title: Files
+description: Upload and manage files with the Hanzo API
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Files
+
+The Files API allows you to upload, manage, and delete files for use with features like fine-tuning and assistants.
+
+## Upload a File
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+# Upload a file
+with open("training_data.jsonl", "rb") as f:
+    file = client.files.create(
+        file=f,
+        purpose="fine-tune"
+    )
+
+print(f"File ID: {file.id}")
+print(f"Filename: {file.filename}")
+print(f"Size: {file.bytes} bytes")
+```
+
+## File Purposes
+
+| Purpose | Description |
+|---------|-------------|
+| `fine-tune` | Training data for fine-tuning |
+| `assistants` | Files for AI assistants |
+| `batch` | Input files for batch processing |
+
+```python
+# Fine-tuning data
+file = client.files.create(
+    file=open("training.jsonl", "rb"),
+    purpose="fine-tune"
+)
+
+# Assistant files
+file = client.files.create(
+    file=open("document.pdf", "rb"),
+    purpose="assistants"
+)
+```
+
+## List Files
+
+```python
+# List all files
+files = client.files.list()
+
+for file in files.data:
+    print(f"{file.id}: {file.filename} ({file.bytes} bytes)")
+
+# Filter by purpose
+files = client.files.list(purpose="fine-tune")
+```
+
+## Retrieve File Info
+
+```python
+file = client.files.retrieve("file-abc123")
+
+print(f"ID: {file.id}")
+print(f"Filename: {file.filename}")
+print(f"Purpose: {file.purpose}")
+print(f"Size: {file.bytes} bytes")
+print(f"Created: {file.created_at}")
+print(f"Status: {file.status}")
+```
+
+## Download File Content
+
+```python
+content = client.files.content("file-abc123")
+
+# Save to disk
+with open("downloaded_file.jsonl", "wb") as f:
+    f.write(content.content)
+```
+
+## Delete a File
+
+```python
+response = client.files.delete("file-abc123")
+
+print(f"Deleted: {response.deleted}")
+```
+
+## Async Usage
+
+```python
+import asyncio
+from hanzoai import AsyncHanzo
+
+async def main():
+    client = AsyncHanzo()
+
+    # Upload file
+    with open("data.jsonl", "rb") as f:
+        file = await client.files.create(
+            file=f,
+            purpose="fine-tune"
+        )
+
+    print(f"Uploaded: {file.id}")
+
+    # List files
+    files = await client.files.list()
+    print(f"Total files: {len(files.data)}")
+
+asyncio.run(main())
+```
+
+## Fine-Tuning Workflow
+
+Complete workflow for fine-tuning:
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+# 1. Upload training data
+with open("training.jsonl", "rb") as f:
+    training_file = client.files.create(
+        file=f,
+        purpose="fine-tune"
+    )
+
+print(f"Training file: {training_file.id}")
+
+# 2. Create fine-tuning job
+job = client.fine_tuning.jobs.create(
+    training_file=training_file.id,
+    model="gpt-4o-mini-2024-07-18"
+)
+
+print(f"Job ID: {job.id}")
+
+# 3. Monitor job status
+job = client.fine_tuning.jobs.retrieve(job.id)
+print(f"Status: {job.status}")
+
+# 4. Use fine-tuned model
+if job.status == "succeeded":
+    response = client.chat.completions.create(
+        model=job.fine_tuned_model,
+        messages=[{"role": "user", "content": "Hello!"}]
+    )
+```
+
+## Training Data Format
+
+For fine-tuning, use JSONL format:
+
+```jsonl
+{"messages": [{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi there!"}]}
+{"messages": [{"role": "user", "content": "What's 2+2?"}, {"role": "assistant", "content": "4"}]}
+```
+
+## File Size Limits
+
+<Callout type="warning">
+File size limits vary by purpose:
+- Fine-tuning: Up to 1 GB
+- Assistants: Up to 512 MB
+- Batch: Up to 200 MB
+</Callout>
+
+## Error Handling
+
+```python
+from hanzoai import Hanzo
+from hanzoai._exceptions import NotFoundError, BadRequestError
+
+client = Hanzo()
+
+try:
+    file = client.files.retrieve("invalid-file-id")
+except NotFoundError:
+    print("File not found")
+except BadRequestError as e:
+    print(f"Bad request: {e.message}")
+```
+
+## Batch File Upload
+
+Upload multiple files efficiently:
+
+```python
+from pathlib import Path
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+def upload_files(directory: str, purpose: str = "assistants"):
+    """Upload all files from a directory."""
+    uploaded = []
+
+    for filepath in Path(directory).glob("*"):
+        if filepath.is_file():
+            with open(filepath, "rb") as f:
+                file = client.files.create(
+                    file=f,
+                    purpose=purpose
+                )
+                uploaded.append(file)
+                print(f"Uploaded: {file.filename}")
+
+    return uploaded
+
+files = upload_files("./documents", purpose="assistants")
+```
+
+## File Object Structure
+
+```python
+file = client.files.retrieve("file-abc123")
+
+print(file.id)           # Unique file ID
+print(file.object)       # "file"
+print(file.bytes)        # File size in bytes
+print(file.created_at)   # Creation timestamp
+print(file.filename)     # Original filename
+print(file.purpose)      # File purpose
+print(file.status)       # Processing status
+```
+
+## Next Steps
+
+- [Chat Completions](/docs/python-sdk/chat) - Use chat API
+- [Models](/docs/python-sdk/models) - List available models
+- [Quickstart](/docs/python-sdk/quickstart) - Get started guide

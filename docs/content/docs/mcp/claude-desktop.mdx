@@ -1,0 +1,277 @@
+---
+title: Claude Desktop Integration
+description: Set up Hanzo MCP with Claude Desktop
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Claude Desktop Integration
+
+This guide covers the complete setup of Hanzo MCP with Claude Desktop.
+
+## Prerequisites
+
+1. **Claude Desktop** installed from [claude.ai/download](https://claude.ai/download)
+2. **Python 3.9+** with pip or uv
+3. **Hanzo MCP** installed:
+   ```bash
+   pip install hanzo-mcp
+   ```
+
+## Automatic Setup
+
+The easiest way to configure Claude Desktop:
+
+```bash
+hanzo-mcp install-desktop
+```
+
+This command:
+- Locates your Claude Desktop config file
+- Adds the Hanzo MCP server configuration
+- Sets up default allowed paths
+
+<Callout type="info">
+Restart Claude Desktop after running this command.
+</Callout>
+
+## Manual Configuration
+
+### Configuration File Location
+
+<Tabs items={['macOS', 'Windows', 'Linux']}>
+  <Tab value="macOS">
+    ```
+    ~/Library/Application Support/Claude/claude_desktop_config.json
+    ```
+  </Tab>
+  <Tab value="Windows">
+    ```
+    %APPDATA%\Claude\claude_desktop_config.json
+    ```
+  </Tab>
+  <Tab value="Linux">
+    ```
+    ~/.config/Claude/claude_desktop_config.json
+    ```
+  </Tab>
+</Tabs>
+
+### Basic Configuration
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+### With Project Directory
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": [
+        "serve",
+        "--project-dir", "/path/to/your/project"
+      ]
+    }
+  }
+}
+```
+
+### With Multiple Allowed Paths
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": [
+        "serve",
+        "--allowed-path", "/path/to/project1",
+        "--allowed-path", "/path/to/project2"
+      ]
+    }
+  }
+}
+```
+
+### With Environment Variables
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": ["serve"],
+      "env": {
+        "HANZO_MCP_ALLOWED_PATHS": "/home/user/projects:/home/user/docs",
+        "HANZO_API_KEY": "your-api-key",
+        "HANZO_MCP_LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
+```
+
+## Using with uv
+
+If you installed with uv:
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "uv",
+      "args": ["run", "hanzo-mcp", "serve"]
+    }
+  }
+}
+```
+
+## Using with pipx
+
+If you installed with pipx:
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "pipx",
+      "args": ["run", "hanzo-mcp", "serve"]
+    }
+  }
+}
+```
+
+## Verification
+
+After configuration and restarting Claude Desktop:
+
+1. Open Claude Desktop
+2. Start a new conversation
+3. Ask Claude: "What MCP tools do you have available?"
+4. Claude should list the Hanzo MCP tools
+
+## Troubleshooting
+
+### Server Not Starting
+
+Check the logs:
+
+<Tabs items={['macOS', 'Windows']}>
+  <Tab value="macOS">
+    ```bash
+    tail -f ~/Library/Logs/Claude/mcp-server-hanzo.log
+    ```
+  </Tab>
+  <Tab value="Windows">
+    ```powershell
+    Get-Content "$env:LOCALAPPDATA\Claude\Logs\mcp-server-hanzo.log" -Wait
+    ```
+  </Tab>
+</Tabs>
+
+### Command Not Found
+
+Ensure hanzo-mcp is in your PATH:
+
+```bash
+which hanzo-mcp
+```
+
+If not found, use the full path:
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "/usr/local/bin/hanzo-mcp",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+Or find it with:
+
+```bash
+python -c "import hanzo_mcp; print(hanzo_mcp.__file__)"
+```
+
+### Permission Denied
+
+Ensure allowed paths are accessible:
+
+```bash
+# Check path exists and is readable
+ls -la /path/to/project
+```
+
+### Tools Not Working
+
+1. Check if the path is in allowed paths
+2. Verify file permissions
+3. Check Claude Desktop logs for errors
+
+## Multiple MCP Servers
+
+You can run Hanzo alongside other MCP servers:
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": ["serve", "--project-dir", "/project"]
+    },
+    "other-server": {
+      "command": "other-mcp-server",
+      "args": ["start"]
+    }
+  }
+}
+```
+
+## Security Considerations
+
+<Callout type="warning">
+Only add paths you trust to allowed paths. The MCP server can read, write, and execute commands in these directories.
+</Callout>
+
+### Recommended Practices
+
+1. **Limit allowed paths** to specific projects
+2. **Avoid home directory** as allowed path
+3. **Don't include system directories** (/etc, /usr, etc.)
+4. **Review tool actions** before confirming in Claude
+
+### Safe Configuration Example
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": [
+        "serve",
+        "--allowed-path", "/Users/me/projects/my-app",
+        "--disable-write-tools"
+      ]
+    }
+  }
+}
+```
+
+## Next Steps
+
+- [Configuration](/docs/mcp/configuration) - Advanced settings
+- [Tools Reference](/docs/mcp/tools) - Available tools

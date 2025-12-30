@@ -1,0 +1,332 @@
+---
+title: Agent Tool
+description: Spawn and manage CLI AI agents with YOLO mode
+---
+
+The `hanzo-tools-agent` package provides tools for running various CLI AI agents.
+
+## Installation
+
+```bash
+pip install hanzo-tools-agent
+
+# With API mode support
+pip install hanzo-tools-agent[api]
+
+# With high-performance async
+pip install hanzo-tools-agent[perf]
+
+# All features
+pip install hanzo-tools-agent[full]
+```
+
+## Agent Tool
+
+The unified `agent` tool runs multiple CLI agents with auto-detection and YOLO mode.
+
+### Basic Usage
+
+```python
+# Run with default agent (claude when in Claude Code)
+agent(action="run", prompt="Explain this code")
+
+# Run specific agent
+agent(action="run", name="gemini", prompt="Review this PR")
+
+# Run with system prompt (claude only)
+agent(action="run", name="claude", prompt="Fix this bug", system_prompt="Be concise")
+
+# List available agents
+agent(action="list")
+
+# Check agent status
+agent(action="status")
+
+# Show configuration
+agent(action="config")
+```
+
+### Available Agents
+
+| Agent | Command | Auth | YOLO Flags |
+|-------|---------|------|------------|
+| `claude` | `claude` | OAuth | `--dangerously-skip-permissions --print` |
+| `codex` | `codex` | OAuth | `--full-auto` |
+| `gemini` | `gemini` | `GOOGLE_API_KEY` | `-y -p <prompt>` |
+| `grok` | `grok` | `XAI_API_KEY` | `-y` |
+| `qwen` | `qwen` | `DASHSCOPE_API_KEY` | `--approval-mode yolo` |
+| `vibe` | `vibe` | - | `--auto-approve -p <prompt>` |
+| `code` | `hanzo-code` | - | - |
+| `dev` | `hanzo-dev` | - | `-y` |
+
+### YOLO Mode
+
+YOLO mode flags are automatically applied for supported agents:
+
+- **Claude**: `--dangerously-skip-permissions -p` (skip all permission prompts, print output)
+- **Codex**: `--full-auto` (fully automatic mode)
+
+This enables agents to run without user interaction.
+
+### OAuth Authentication
+
+Claude and Codex use browser-based OAuth authentication:
+
+- No API keys required
+- Login once via browser
+- Credentials stored securely
+
+### System Prompts
+
+For Claude, you can inject system prompts:
+
+```python
+agent(
+    action="run",
+    name="claude",
+    prompt="Refactor this function",
+    system_prompt="Follow the project's code style. Be concise."
+)
+```
+
+This uses the `--append-system-prompt` flag.
+
+### MCP Config Sharing
+
+When spawning agents, configuration is shared:
+
+```python
+# These environment variables are passed to child agents:
+HANZO_MCP_MODE           # Current mode
+HANZO_MCP_ALLOWED_PATHS  # Allowed paths
+HANZO_MCP_ENABLED_TOOLS  # Enabled tools
+HANZO_MCP_PERSONA        # Active persona
+HANZO_AGENT_PARENT=true  # Indicates spawned agent
+HANZO_AGENT_NAME=<name>  # Agent name
+```
+
+### Working Directory
+
+Specify the working directory for the agent:
+
+```python
+agent(
+    action="run",
+    name="claude",
+    prompt="Run the tests",
+    cwd="/path/to/project"
+)
+```
+
+### Timeout
+
+Set execution timeout (default 300 seconds):
+
+```python
+agent(
+    action="run",
+    prompt="Long running task",
+    timeout=600  # 10 minutes
+)
+```
+
+## Telemetry Capture
+
+For Claude agents, OpenTelemetry data is automatically captured and returned:
+
+```python
+from hanzo_tools.agent import AgentTool, Result, Telemetry
+
+tool = AgentTool()
+result = await tool._exec("claude", "Hello", None, 30)
+
+# Clean output (telemetry filtered out)
+print(result.output)  # "Hello!"
+
+# Captured telemetry data
+if result.telemetry:
+    t = result.telemetry
+    print(f"Input tokens: {t.input_tokens}")
+    print(f"Output tokens: {t.output_tokens}")
+    print(f"Cache read: {t.cache_read_input_tokens}")
+    print(f"Cost: ${t.cost_usd:.4f}")
+    print(f"Latency: {t.duration_ms}ms")
+    print(f"Model: {t.model}")
+
+    # Full raw data for dataset annotation
+    print(t.raw)  # Dict with all OTEL fields
+```
+
+### Telemetry Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `input_tokens` | int | Input tokens used |
+| `output_tokens` | int | Output tokens generated |
+| `cache_read_input_tokens` | int | Tokens read from cache |
+| `cache_creation_input_tokens` | int | Tokens used to create cache |
+| `cost_usd` | float | Total cost in USD |
+| `duration_ms` | int | Request duration |
+| `model` | str | Model used |
+| `service_name` | str | Service name (claude-code) |
+| `service_version` | str | CLI version |
+| `raw` | dict | Full OTEL data for datasets |
+
+The telemetry is valuable for:
+- Cost tracking and optimization
+- Performance monitoring
+- Dataset annotation and training data collection
+- Usage analytics
+
+## I Ching Tool
+
+Get wisdom from the I Ching for decision making:
+
+```python
+iching(challenge="How should I approach this refactoring?")
+```
+
+## Review Tool
+
+Request a code review:
+
+```python
+review(
+    focus="FUNCTIONALITY",
+    work_description="Implemented auto-import feature",
+    file_paths=["/path/to/file.py"]
+)
+```
+
+Focus options:
+- `FUNCTIONALITY` - Functional correctness
+- `SECURITY` - Security issues
+- `PERFORMANCE` - Performance concerns
+- `STYLE` - Code style and conventions
+
+## Direct API Mode
+
+Configure agents for direct API calls without CLI:
+
+```json
+// ~/.hanzo/agents/custom.json
+{
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "api_type": "openai",
+    "model": "gpt-4",
+    "env_key": "OPENAI_API_KEY",
+    "system_prompt": "You are a helpful assistant"
+}
+```
+
+Requires `pip install hanzo-tools-agent[api]`.
+
+## Auto-backgrounding
+
+Long-running agents automatically background after timeout:
+
+```python
+# Start long task
+agent(action="run", prompt="Complex analysis", timeout=60)
+
+# If times out, process runs in background
+# Check status with ps tool
+ps()                    # List all processes
+ps(logs="agent_xxx")    # View output
+ps(kill="agent_xxx")    # Stop process
+```
+
+## Consensus Mode
+
+Multi-agent consensus using the Metastable protocol:
+
+```python
+agent(
+    action="consensus",
+    prompt="What's the best approach for handling auth?",
+    agents=["claude", "gemini", "codex"],
+    rounds=3,
+    k=3,
+    alpha=0.6,
+    beta_1=0.5,
+    beta_2=0.8,
+)
+```
+
+### How Consensus Works
+
+1. **Phase I (Sampling)**: Each agent samples k peers and builds confidence
+2. **Phase II (Finality)**: Threshold aggregation determines winner
+3. **Synthesis**: Winning agent provides final synthesis
+
+### Agent-to-Agent Communication
+
+During consensus, agents can communicate via MCP:
+
+```python
+# Agents automatically get hanzo-mcp configured
+# System prompt enables these tools:
+agent(action="run", name="gemini", prompt="What's your view?")
+think(thought="Analyzing gemini's response...")
+critic(analysis="Claude proposed X, but consider Y...")
+```
+
+Each spawned Claude agent receives:
+- `--mcp-config` pointing to hanzo-mcp
+- System prompt explaining MCP tools
+- List of other consensus participants
+
+### Consensus Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `rounds` | 3 | Number of consensus rounds |
+| `k` | 3 | Peers sampled per round |
+| `alpha` | 0.6 | Confidence increment on agreement |
+| `beta_1` | 0.5 | Phase I to Phase II threshold |
+| `beta_2` | 0.8 | Finality threshold |
+
+Reference: [Metastable Consensus Protocol](https://github.com/luxfi/consensus)
+
+## Swarm Mode
+
+Distribute work across parallel agents:
+
+```python
+agent(
+    action="swarm",
+    items=["file1.py", "file2.py", "file3.py"],
+    template="Review {item} for security issues",
+    max_concurrent=10,
+)
+```
+
+## DAG Mode
+
+Execute agents with dependencies:
+
+```python
+agent(
+    action="dag",
+    tasks=[
+        {"id": "analyze", "prompt": "Analyze the codebase"},
+        {"id": "plan", "prompt": "Create implementation plan", "after": ["analyze"]},
+        {"id": "implement", "prompt": "Implement the plan", "after": ["plan"]},
+    ],
+)
+```
+
+## Dispatch Mode
+
+Different agents for different tasks:
+
+```python
+agent(
+    action="dispatch",
+    tasks=[
+        {"agent": "claude", "prompt": "Review the architecture"},
+        {"agent": "gemini", "prompt": "Check for performance issues"},
+        {"agent": "codex", "prompt": "Suggest optimizations"},
+    ],
+)
+```
