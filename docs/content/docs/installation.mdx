@@ -1,0 +1,93 @@
+---
+title: Installation
+description: How to install the Hanzo Python SDK
+---
+
+## Requirements
+
+- Python 3.12 or higher
+- pip, uv, or poetry for package management
+
+## Install the SDK
+
+### Using pip
+
+```bash
+pip install hanzoai
+```
+
+### Using uv (Recommended)
+
+```bash
+uv pip install hanzoai
+```
+
+### Using poetry
+
+```bash
+poetry add hanzoai
+```
+
+## Optional Packages
+
+Install additional packages for specific features:
+
+### MCP Tools
+
+```bash
+pip install hanzo-mcp
+```
+
+### Agent Framework
+
+```bash
+pip install hanzo-agents
+```
+
+### Memory Management
+
+```bash
+pip install hanzo-memory
+```
+
+### All Features
+
+Install everything:
+
+```bash
+pip install "hanzoai[all]"
+```
+
+## Verify Installation
+
+```python
+import hanzoai
+print(hanzoai.__version__)
+```
+
+## Environment Setup
+
+Set your API key as an environment variable:
+
+```bash
+export HANZO_API_KEY="your-api-key"
+```
+
+Or use a `.env` file:
+
+```bash title=".env"
+HANZO_API_KEY=your-api-key
+HANZO_BASE_URL=https://api.hanzo.ai
+```
+
+## Development Installation
+
+For contributing to the SDK:
+
+```bash
+git clone https://github.com/hanzoai/python-sdk
+cd python-sdk
+make setup
+```
+
+This sets up the development environment with all dependencies.

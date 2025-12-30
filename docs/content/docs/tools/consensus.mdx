@@ -1,0 +1,152 @@
+---
+title: Consensus
+description: Multi-model consensus using Metastable protocol
+---
+
+The `hanzo-consensus` package implements a consensus protocol for multi-model decision making.
+
+## Installation
+
+```bash
+pip install hanzo-consensus
+```
+
+Or with hanzo-tools-llm:
+
+```bash
+pip install hanzo-tools-llm
+```
+
+## Overview
+
+The Metastable consensus protocol enables multiple AI models to reach agreement through iterative sampling and confidence accumulation.
+
+## Basic Usage
+
+```python
+from hanzo_consensus import run, Result
+
+async def execute(participant_id: str, prompt: str) -> Result:
+    # Call your LLM here
+    response = await call_llm(participant_id, prompt)
+    return Result(
+        participant=participant_id,
+        response=response,
+        confidence=0.8
+    )
+
+state = await run(
+    prompt="What's the best approach for handling authentication?",
+    participants=["gpt-4", "claude-3-5-sonnet", "gemini-pro"],
+    execute=execute,
+    rounds=3,
+    k=3,
+    alpha=0.6,
+    beta_1=0.5,
+    beta_2=0.8,
+)
+
+print(f"Winner: {state.winner}")
+print(f"Finalized: {state.finalized}")
+print(f"Synthesis: {state.synthesis}")
+```
+
+## Protocol Phases
+
+### Phase I: Sampling
+
+1. Each participant samples k peers
+2. Responses are compared for agreement
+3. Confidence accumulates based on agreement
+4. β₁ threshold triggers Phase II
+
+### Phase II: Finality
+
+1. Threshold aggregation of responses
+2. β₂ finality threshold checked
+3. Winner determined by highest confidence
+4. Synthesis generated from winning response
+
+## Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `rounds` | 3 | Number of consensus rounds |
+| `k` | 3 | Peers sampled per round |
+| `alpha` | 0.6 | Confidence increment on agreement |
+| `beta_1` | 0.5 | Phase I to Phase II threshold |
+| `beta_2` | 0.8 | Finality threshold |
+
+## State Object
+
+```python
+@dataclass
+class State:
+    winner: str | None      # Winning participant ID
+    finalized: bool         # Whether consensus reached
+    synthesis: str | None   # Synthesized response
+    round: int              # Current round number
+    participants: dict      # Participant states
+```
+
+## MCP Tool Usage
+
+With hanzo-tools-llm:
+
+```python
+consensus(
+    prompt="Should we use microservices or monolith?",
+    models=["gpt-4", "claude-3-5-sonnet"],
+    rounds=3
+)
+```
+
+## Advanced Usage
+
+### Custom Consensus Class
+
+```python
+from hanzo_consensus import Consensus
+
+consensus = Consensus(
+    participants=["model-a", "model-b", "model-c"],
+    k=2,
+    alpha=0.7,
+    beta_1=0.4,
+    beta_2=0.9,
+)
+
+for round in range(5):
+    results = await gather_responses(consensus.participants)
+    consensus.update(results)
+
+    if consensus.state.finalized:
+        break
+
+print(consensus.state.synthesis)
+```
+
+### Weighted Participants
+
+```python
+state = await run(
+    prompt="Technical decision",
+    participants=[
+        {"id": "expert", "weight": 2.0},
+        {"id": "gpt-4", "weight": 1.0},
+        {"id": "claude", "weight": 1.0},
+    ],
+    execute=execute,
+)
+```
+
+## Use Cases
+
+1. **Technical Decisions** - Get consensus on architecture choices
+2. **Code Review** - Multiple models review code
+3. **Content Generation** - Best response from multiple attempts
+4. **Fact Verification** - Cross-check information across models
+
+## Reference
+
+Based on the Metastable consensus protocol: https://github.com/luxfi/consensus

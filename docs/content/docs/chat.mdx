@@ -1,0 +1,317 @@
+---
+title: Chat Completions
+description: Generate chat completions with the Hanzo API
+---
+
+import { Callout } from 'fumadocs-ui/components/callout'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+
+# Chat Completions
+
+The Chat Completions API allows you to generate responses from language models using a conversational message format.
+
+## Basic Usage
+
+```python
+from hanzoai import Hanzo
+
+client = Hanzo()
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is the capital of France?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+## Message Roles
+
+Messages support three roles:
+
+| Role | Description |
+|------|-------------|
+| `system` | Sets the behavior and context for the assistant |
+| `user` | Messages from the user |
+| `assistant` | Previous responses from the assistant |
+
+```python
+messages = [
+    {"role": "system", "content": "You are a Python expert."},
+    {"role": "user", "content": "How do I read a file?"},
+    {"role": "assistant", "content": "You can use open()..."},
+    {"role": "user", "content": "What about async?"}
+]
+```
+
+## Streaming
+
+Stream responses for real-time output:
+
+<Tabs items={['Sync', 'Async']}>
+  <Tab value="Sync">
+    ```python
+    stream = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Write a story"}],
+        stream=True
+    )
+
+    for chunk in stream:
+        if chunk.choices[0].delta.content:
+            print(chunk.choices[0].delta.content, end="", flush=True)
+    ```
+  </Tab>
+  <Tab value="Async">
+    ```python
+    stream = await client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": "Write a story"}],
+        stream=True
+    )
+
+    async for chunk in stream:
+        if chunk.choices[0].delta.content:
+            print(chunk.choices[0].delta.content, end="", flush=True)
+    ```
+  </Tab>
+</Tabs>
+
+## Parameters
+
+### Temperature
+
+Control randomness (0.0 to 2.0):
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Write a haiku"}],
+    temperature=0.7,  # More creative
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "What is 2+2?"}],
+    temperature=0.0,  # Deterministic
+)
+```
+
+### Max Tokens
+
+Limit response length:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Summarize this article"}],
+    max_tokens=100,
+)
+```
+
+### Top P
+
+Nucleus sampling parameter:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Generate ideas"}],
+    top_p=0.9,
+)
+```
+
+### Stop Sequences
+
+Stop generation at specific strings:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "List three items:"}],
+    stop=["4.", "\n\n"],
+)
+```
+
+### Presence and Frequency Penalty
+
+Reduce repetition:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Write a paragraph"}],
+    presence_penalty=0.6,   # Encourage new topics
+    frequency_penalty=0.5,  # Reduce word repetition
+)
+```
+
+## Tool Calling
+
+Enable function/tool calling:
+
+```python
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get current weather for a location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "City name"
+                    }
+                },
+                "required": ["location"]
+            }
+        }
+    }
+]
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "What's the weather in Paris?"}],
+    tools=tools,
+    tool_choice="auto",
+)
+
+# Check for tool calls
+if response.choices[0].message.tool_calls:
+    for tool_call in response.choices[0].message.tool_calls:
+        print(f"Function: {tool_call.function.name}")
+        print(f"Arguments: {tool_call.function.arguments}")
+```
+
+## JSON Mode
+
+Force JSON output:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "Return valid JSON only."},
+        {"role": "user", "content": "List 3 colors with hex codes"}
+    ],
+    response_format={"type": "json_object"},
+)
+
+import json
+data = json.loads(response.choices[0].message.content)
+```
+
+## Vision
+
+Analyze images with vision-capable models:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "What's in this image?"},
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": "https://example.com/image.jpg"
+                    }
+                }
+            ]
+        }
+    ],
+)
+```
+
+Or with base64 encoded images:
+
+```python
+import base64
+
+with open("image.png", "rb") as f:
+    image_data = base64.b64encode(f.read()).decode()
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "Describe this image"},
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/png;base64,{image_data}"
+                    }
+                }
+            ]
+        }
+    ],
+)
+```
+
+## Response Object
+
+The response contains:
+
+```python
+response = client.chat.completions.create(...)
+
+# Access the response
+print(response.id)                              # Unique ID
+print(response.model)                           # Model used
+print(response.choices[0].message.content)      # Response text
+print(response.choices[0].finish_reason)        # "stop", "length", etc.
+print(response.usage.prompt_tokens)             # Input tokens
+print(response.usage.completion_tokens)         # Output tokens
+print(response.usage.total_tokens)              # Total tokens
+```
+
+## Multiple Responses
+
+Generate multiple responses:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Give me a startup idea"}],
+    n=3,  # Generate 3 responses
+)
+
+for i, choice in enumerate(response.choices):
+    print(f"Option {i+1}: {choice.message.content}")
+```
+
+## Using Different Providers
+
+Access models from various providers:
+
+```python
+# OpenAI
+client.chat.completions.create(model="gpt-4o", ...)
+
+# Anthropic Claude
+client.chat.completions.create(model="claude-3-5-sonnet-20241022", ...)
+
+# Google Gemini
+client.chat.completions.create(model="gemini/gemini-1.5-pro", ...)
+
+# Together AI
+client.chat.completions.create(model="together_ai/meta-llama/Llama-3-70b-chat-hf", ...)
+
+# Mistral
+client.chat.completions.create(model="mistral/mistral-large-latest", ...)
+```
+
+## Next Steps
+
+- [Embeddings](/docs/python-sdk/embeddings) - Generate text embeddings
+- [Models](/docs/python-sdk/models) - List available models
+- [Files](/docs/python-sdk/files) - Upload and manage files
