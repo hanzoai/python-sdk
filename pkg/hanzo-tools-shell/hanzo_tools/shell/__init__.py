@@ -1,12 +1,14 @@
 """Shell tools package for Hanzo AI.
 
-Minimal, orthogonal shell execution.
+Minimal, orthogonal shell execution with uvloop for high performance.
 
 Core tools:
-- dag: DAG execution (parallel, serial, graph) - RECOMMENDED for complex workflows
-- zsh: Primary shell with shellflow DSL support
-- shell: Smart shell alias (zsh > bash fallback)
-- bash: Explicit bash for bash-specific scripts
+- cmd: Unified execution graph (DAG) - RECOMMENDED
+- zsh: Zsh shell (thin wrapper over cmd)
+- bash: Bash shell (thin wrapper over cmd)
+- fish: Fish shell (thin wrapper over cmd)
+- dash: Dash shell (fast POSIX, Ubuntu's /bin/sh)
+- shell: Smart shell alias (zsh > bash > fish > dash > sh fallback)
 - ps: Process management (list, kill, logs)
 
 HTTP/Data tools:
@@ -19,15 +21,25 @@ Convenience tools:
 - uvx: Python package execution with auto-backgrounding
 - open: Open files/URLs in system apps
 
-Use 'dag' for:
-- Parallel execution: dag(["npm install", "cargo build"], parallel=True)
-- Mixed DAG: dag(["mkdir dist", {"parallel": ["cp a dist/", "cp b dist/"]}, "zip out"])
-- Tool invocations: dag([{"tool": "search", "input": {"pattern": "TODO"}}])
+Use 'cmd' for:
+- Simple commands: cmd("ls -la")
+- Parallel execution: cmd(["npm install", "cargo build"], parallel=True)
+- Mixed DAG: cmd(["mkdir dist", {"parallel": ["cp a dist/", "cp b dist/"]}, "zip out"])
+- Tool invocations: cmd([{"tool": "search", "input": {"pattern": "TODO"}}])
 
-Use 'zsh/shell' for:
-- Simple commands: zsh("ls -la")
-- Shellflow DSL: zsh("cmd1 ; { cmd2 & cmd3 } ; cmd4")
+Auto-backgrounding: Commands exceeding 45s automatically background.
+Use ps --logs <id> to view, ps --kill <id> to stop.
+
+Performance: Uses uvloop on macOS/Linux for 2-4x faster async I/O.
+Falls back to standard asyncio on Windows.
 """
+
+# Use hanzo-async for unified async I/O and uvloop configuration
+from hanzo_async import configure_loop, using_uvloop
+
+# Auto-configure uvloop on import
+configure_loop()
+_using_uvloop = using_uvloop()
 
 from mcp.server import FastMCP
 
@@ -36,11 +48,11 @@ from hanzo_tools.shell.jq_tool import JqTool
 from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
 # Core tools
-from hanzo_tools.shell.dag_tool import DagTool, create_dag_tool
+from hanzo_tools.shell.cmd_tool import CmdTool, CmdResult, CmdNode, NodeStatus, create_cmd_tool, cmd_tool
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
-from hanzo_tools.shell.zsh_tool import ZshTool, BashTool, ShellTool, zsh_tool, bash_tool, shell_tool
+from hanzo_tools.shell.shell_tools import ZshTool, BashTool, FishTool, DashTool, ShellTool, zsh_tool, bash_tool, fish_tool, dash_tool, shell_tool
 
 # HTTP/Data tools (no shell escaping issues)
 from hanzo_tools.shell.curl_tool import CurlTool
@@ -57,19 +69,26 @@ from hanzo_tools.shell.base_process import (
     ProcessManager,
     BaseProcessTool,
     AutoBackgroundExecutor,
+    ShellExecutor,
+    get_shell_executor,
 )
 
+# Backwards compatibility - DagTool is now CmdTool
+from hanzo_tools.shell.dag_tool import DagTool, DagResult, DagNode, create_dag_tool
+
 # Tools list for entry point discovery
-# - DagTool: Semantic DAG execution (parallel, serial, graph)
-# - ZshTool: Primary shell with shellflow DSL support  
-# - ShellTool: Smart shell alias (zsh > bash fallback)
-# - BashTool: Explicit bash for bash-specific scripts
-TOOLS = [DagTool, ZshTool, BashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# - CmdTool: Primary command execution with DAG support
+# - ZshTool, BashTool, ShellTool: Shell wrappers (thin shims over CmdTool)
+TOOLS = [CmdTool, ZshTool, BashTool, FishTool, DashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
+    # uvloop status
+    "_using_uvloop",
     # Base classes
     "ProcessManager",
     "AutoBackgroundExecutor",
+    "ShellExecutor",
+    "get_shell_executor",
     "BaseProcessTool",
     "BaseBinaryTool",
     "BaseScriptTool",
@@ -78,8 +97,12 @@ __all__ = [
     "truncate_lines",
     "estimate_tokens",
     # Core tools
-    "DagTool",
-    "create_dag_tool",
+    "CmdTool",
+    "CmdResult",
+    "CmdNode",
+    "NodeStatus",
+    "cmd_tool",
+    "create_cmd_tool",
     "PsTool",
     "ps_tool",
     "ZshTool",
@@ -88,6 +111,15 @@ __all__ = [
     "shell_tool",
     "BashTool",
     "bash_tool",
+    "FishTool",
+    "fish_tool",
+    "DashTool",
+    "dash_tool",
+    # Backwards compatibility
+    "DagTool",
+    "DagResult",
+    "DagNode",
+    "create_dag_tool",
     # Convenience tools
     "OpenTool",
     "open_tool",
@@ -114,15 +146,15 @@ def get_shell_tools(
 
     Args:
         permission_manager: Permission manager for access control
-        all_tools: Dict of all registered tools (for DAG tool invocations)
+        all_tools: Dict of all registered tools (for cmd tool invocations)
 
     Returns:
         List of shell tool instances
     """
-    # Create DAG tool with access to other tools (for tool invocations)
-    dag = DagTool(tools=all_tools or {})
-    
-    # Create zsh tool with access to other tools
+    # Create cmd tool with access to other tools (for tool invocations)
+    cmd = CmdTool(tools=all_tools or {})
+
+    # Create shell wrappers with access to other tools
     zsh = ZshTool(tools=all_tools or {})
 
     # Set permission manager for convenience tools
@@ -130,8 +162,8 @@ def get_shell_tools(
     uvx_tool.permission_manager = permission_manager
 
     return [
-        dag,  # DAG execution (parallel, serial, graph)
-        zsh,  # Primary shell with shellflow DSL
+        cmd,  # Primary command execution with DAG support
+        zsh,  # Zsh shell wrapper
         ps_tool,  # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
@@ -149,7 +181,7 @@ def register_shell_tools(
     Args:
         mcp_server: The FastMCP server instance
         permission_manager: Permission manager for access control
-        all_tools: Dict of all registered tools (for dag tool invocations)
+        all_tools: Dict of all registered tools (for cmd tool invocations)
 
     Returns:
         List of registered tools

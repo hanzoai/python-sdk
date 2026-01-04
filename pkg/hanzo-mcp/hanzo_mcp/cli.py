@@ -95,9 +95,25 @@ def main() -> None:
     except Exception:
         _version = "unknown"
 
+    # Get async backend info
+    try:
+        from hanzo_async import using_uvloop
+        if using_uvloop():
+            try:
+                import uvloop
+                _async_backend = f"uvloop {uvloop.__version__}"
+            except ImportError:
+                _async_backend = "uvloop"
+        else:
+            _async_backend = "asyncio"
+    except ImportError:
+        _async_backend = "asyncio"
+
+    _version_info = f"hanzo-mcp {_version} (async: {_async_backend})"
+
     parser = argparse.ArgumentParser(description="MCP server implementing Hanzo AI capabilities")
 
-    parser.add_argument("--version", action="version", version=f"hanzo-mcp {_version}")
+    parser.add_argument("--version", action="version", version=_version_info)
 
     _ = parser.add_argument(
         "--transport",
@@ -179,8 +195,8 @@ def main() -> None:
         "--command-timeout",
         dest="command_timeout",
         type=str,
-        default="120s",
-        help="Default timeout for command execution (default: 120s). Supports: 2min, 5m, 120s, 30sec, 1.5h",
+        default="45s",
+        help="Default timeout for command execution (default: 45s). Supports: 2min, 5m, 120s, 30sec, 1.5h",
     )
 
     _ = parser.add_argument(
