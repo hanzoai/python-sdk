@@ -19,22 +19,20 @@ keywords = ["hanzo", "tools", "agent", "swarm", "mcp", "ai"]
 dependencies = [
     "hanzo-tools>=0.3.0",
     "hanzo-tools-shell>=0.2.0",
+    "hanzo-async>=0.1.0",  # Unified async I/O with uvloop
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",
-    "aiofiles>=24.0.0",
 ]
 
 [project.optional-dependencies]
 consensus = ["hanzo-consensus>=0.1.0"]
 api = ["httpx>=0.28.0"]  # Direct API mode
-perf = ["uvloop>=0.21.0"]  # High-performance async
 full = [
     "openai>=1.0.0",
     "anthropic>=0.40.0",
     "hanzo-consensus>=0.1.0",
     "httpx>=0.28.0",
-    "uvloop>=0.21.0",
 ]
 dev = ["pytest>=7.0.0", "ruff>=0.14.0"]
 
