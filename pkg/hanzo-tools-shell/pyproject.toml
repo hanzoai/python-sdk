@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-shell"
-version = "0.5.0"
+version = "0.5.1"
 description = "Shell/command execution tools - cmd (unified execution graph), zsh, bash, shell, ps, npx, uvx, open, curl, jq, wget"
 readme = "README.md"
 requires-python = ">=3.12"
