@@ -40,6 +40,7 @@ dependencies = [
     "hanzo-tools-llm>=0.1.0",
     "hanzo-tools-agent>=0.2.3",
     "hanzo-persona>=1.0.0",
+    "uvloop>=0.22.1",
 ]
 
 # For local development, install hanzo-tools-* packages from pkg/

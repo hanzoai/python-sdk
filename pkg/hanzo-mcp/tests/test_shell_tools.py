@@ -13,8 +13,7 @@ import pytest
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_tools.shell.zsh_tool import ZshTool, ShellTool
-from hanzo_tools.shell.bash_tool import BashTool
+from hanzo_tools.shell.shell_tools import ZshTool, BashTool, ShellTool
 
 
 class MockContext:
@@ -224,14 +223,14 @@ class TestShellIntegration:
         pm = PermissionManager()
         tools = get_shell_tools(pm)
 
-        # Should have our shell tools
+        # Should have our core tools
         tool_names = [tool.name for tool in tools]
-        assert "bash" in tool_names
+        assert "cmd" in tool_names  # Primary command execution
         assert "zsh" in tool_names
-        assert "shell" in tool_names
+        assert "bash" in tool_names
 
-        # Shell should be first (preferred)
-        assert tools[0].name == "shell"
+        # cmd should be first (primary)
+        assert tools[0].name == "cmd"
 
     def test_shell_tool_ordering(self):
         """Test that shell tools are returned in correct order."""
@@ -241,11 +240,11 @@ class TestShellIntegration:
         pm = PermissionManager()
         tools = get_shell_tools(pm)
 
-        # Find shell tools
-        shell_tools = [t for t in tools if t.name in ["shell", "zsh", "bash"]]
+        # Find shell-related tools
+        shell_tools = [t for t in tools if t.name in ["cmd", "zsh", "bash"]]
 
-        # Order should be: shell (smart), zsh, bash
-        assert shell_tools[0].name == "shell"
+        # Order should be: cmd (primary), zsh, bash
+        assert shell_tools[0].name == "cmd"
         assert shell_tools[1].name == "zsh"
         assert shell_tools[2].name == "bash"
 
