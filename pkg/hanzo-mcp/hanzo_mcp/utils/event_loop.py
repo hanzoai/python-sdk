@@ -2,11 +2,15 @@
 
 This module provides utilities for configuring the asyncio event loop
 with optional uvloop support for improved performance on Linux/macOS.
+
+Uses hanzo_async for unified async I/O configuration.
 """
 
 import sys
 import asyncio
 from typing import Optional
+
+from hanzo_async import configure_loop, using_uvloop
 
 
 def configure_event_loop(*, quiet: bool = False) -> Optional[str]:
@@ -21,27 +25,24 @@ def configure_event_loop(*, quiet: bool = False) -> Optional[str]:
     Returns:
         The name of the event loop policy being used, or None if default
     """
-    # uvloop is not available on Windows
-    if sys.platform == "win32":
-        return None
-
-    try:
-        import uvloop
-
-        # Install uvloop as the default event loop policy
-        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
+    # Use hanzo_async for unified configuration
+    if configure_loop():
         if not quiet:
             import logging
+            try:
+                import uvloop
+                logger = logging.getLogger(__name__)
+                logger.debug(f"Using uvloop {uvloop.__version__} for event loop")
+            except ImportError:
+                pass
 
-            logger = logging.getLogger(__name__)
-            logger.debug(f"Using uvloop {uvloop.__version__} for event loop")
+        try:
+            import uvloop
+            return f"uvloop-{uvloop.__version__}"
+        except ImportError:
+            return None
 
-        return f"uvloop-{uvloop.__version__}"
-
-    except ImportError:
-        # uvloop not installed, use default asyncio event loop
-        return None
+    return None
 
 
 def get_event_loop_info() -> dict:
@@ -59,17 +60,15 @@ def get_event_loop_info() -> dict:
         "loop_class": type(loop).__name__ if loop else None,
         "loop_module": type(loop).__module__ if loop else None,
         "platform": sys.platform,
+        "using_uvloop": using_uvloop(),
     }
 
-    # Check if uvloop is being used
+    # Check if uvloop is available
     try:
         import uvloop
-
         info["uvloop_available"] = True
         info["uvloop_version"] = uvloop.__version__
-        info["using_uvloop"] = isinstance(asyncio.get_event_loop_policy(), uvloop.EventLoopPolicy)
     except ImportError:
         info["uvloop_available"] = False
-        info["using_uvloop"] = False
 
     return info

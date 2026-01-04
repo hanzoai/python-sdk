@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-shell"
-version = "0.4.1"
-description = "Shell/command execution tools - dag, zsh (with shellflow DSL), ps, npx, uvx, open, curl, jq, wget"
+version = "0.5.0"
+description = "Shell/command execution tools - cmd (unified execution graph), zsh, bash, shell, ps, npx, uvx, open, curl, jq, wget"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -13,9 +13,9 @@ authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "shell", "mcp", "ai", "dag", "zsh"]
 dependencies = [
     "hanzo-tools>=0.3.0",
+    "hanzo-async>=0.1.0",  # Unified async I/O with uvloop
     "mcp>=1.25.0",
     "pydantic>=2.12.5",
-    "aiofiles>=24.0.0",
     "tiktoken>=0.8.0",
 ]
 

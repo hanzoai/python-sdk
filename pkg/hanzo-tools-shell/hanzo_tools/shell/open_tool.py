@@ -66,14 +66,19 @@ open /path/to/image.png"""
 
         if is_url:
             try:
-                webbrowser.open(path)
+                # Run webbrowser.open in executor to avoid blocking
+                loop = asyncio.get_event_loop()
+                await loop.run_in_executor(None, webbrowser.open, path)
                 return f"Opened URL in browser: {path}"
             except Exception as e:
                 raise RuntimeError(f"Failed to open URL: {e}")
 
         file_path = Path(path).expanduser().resolve()
 
-        if not file_path.exists():
+        # Check file exists asynchronously
+        loop = asyncio.get_event_loop()
+        exists = await loop.run_in_executor(None, file_path.exists)
+        if not exists:
             raise RuntimeError(f"File not found: {file_path}")
 
         system = platform.system().lower()
@@ -94,8 +99,9 @@ open /path/to/image.png"""
                 raise RuntimeError("No suitable file opener found on Linux")
             elif system == "windows":
                 import os
-
-                os.startfile(str(file_path))
+                # Run os.startfile in executor to avoid blocking
+                loop = asyncio.get_event_loop()
+                await loop.run_in_executor(None, os.startfile, str(file_path))
                 return f"Opened file: {file_path}"
             else:
                 raise RuntimeError(f"Unsupported platform: {system}")

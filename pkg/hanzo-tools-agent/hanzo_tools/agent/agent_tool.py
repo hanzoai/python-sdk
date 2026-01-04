@@ -20,7 +20,6 @@ from pathlib import Path
 from contextlib import suppress
 from dataclasses import field, dataclass
 
-import aiofiles
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -28,13 +27,10 @@ from mcp.server.fastmcp import Context as MCPContext
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 from hanzo_tools.shell import ProcessManager
 
-# Optional uvloop for high-performance async
-try:
-    import uvloop
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    HAS_UVLOOP = True
-except ImportError:
-    HAS_UVLOOP = False
+# Unified async I/O with uvloop support
+from hanzo_async import append_file, configure_loop, using_uvloop
+configure_loop()  # Auto-configure uvloop if available
+HAS_UVLOOP = using_uvloop()
 
 # Optional httpx for API mode
 try:
@@ -665,8 +661,7 @@ Consensus: https://github.com/luxfi/consensus
                     async for line in proc.stdout:
                         line_str = line.decode("utf-8", errors="replace")
                         output_lines.append(line_str)
-                        async with aiofiles.open(log_file, "a") as f:
-                            await f.write(line_str)
+                        await append_file(log_file, line_str)
             
             read_task = asyncio.create_task(read_output())
             wait_task = asyncio.create_task(proc.wait())
@@ -699,10 +694,11 @@ Consensus: https://github.com/luxfi/consensus
             partial = "".join(output_lines)
             
             # Write backgrounding message to log
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n[agent] Backgrounded after {timeout}s timeout\n")
-                await f.write(f"[agent] Process ID: {process_id}\n")
-                await f.write(f"[agent] PID: {proc.pid}\n")
+            await append_file(log_file,
+                f"\n[agent] Backgrounded after {timeout}s timeout\n"
+                f"[agent] Process ID: {process_id}\n"
+                f"[agent] PID: {proc.pid}\n"
+            )
             
             bg_msg = (
                 f"[backgrounded] Agent {agent} running in background.\n"
