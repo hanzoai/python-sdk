@@ -1,6 +1,5 @@
 """Enable tools dynamically."""
 
-import json
 from typing import Unpack, Annotated, TypedDict, final, override
 from pathlib import Path
 
@@ -10,6 +9,9 @@ from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+
+# Import async I/O utilities
+from hanzo_async import read_json, write_json, path_exists, mkdir
 
 ToolName = Annotated[
     str,
@@ -46,33 +48,36 @@ class ToolEnableTool(BaseTool):
 
     def __init__(self):
         """Initialize the tool enable tool."""
-        if not ToolEnableTool._initialized:
-            self._load_states()
-            ToolEnableTool._initialized = True
+        # Async initialization happens on first use
+        pass
 
     @classmethod
-    def _load_states(cls):
-        """Load tool states from config file."""
-        if cls._config_file.exists():
+    async def _ensure_initialized(cls):
+        """Ensure states are loaded (async)."""
+        if not cls._initialized:
+            await cls._load_states_async()
+            cls._initialized = True
+
+    @classmethod
+    async def _load_states_async(cls):
+        """Load tool states from config file (async)."""
+        if await path_exists(cls._config_file):
             try:
-                with open(cls._config_file, "r") as f:
-                    cls._tool_states = json.load(f)
+                cls._tool_states = await read_json(cls._config_file)
             except Exception:
                 cls._tool_states = {}
         else:
-            # Default all tools to enabled
             cls._tool_states = {}
 
     @classmethod
-    def _save_states(cls):
-        """Save tool states to config file."""
-        cls._config_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(cls._config_file, "w") as f:
-            json.dump(cls._tool_states, f, indent=2)
+    async def _save_states_async(cls):
+        """Save tool states to config file (async)."""
+        await mkdir(cls._config_file.parent, parents=True, exist_ok=True)
+        await write_json(cls._config_file, cls._tool_states)
 
     @classmethod
     def is_tool_enabled(cls, tool_name: str) -> bool:
-        """Check if a tool is enabled.
+        """Check if a tool is enabled (sync, uses cached state).
 
         Args:
             tool_name: Name of the tool
@@ -80,20 +85,12 @@ class ToolEnableTool(BaseTool):
         Returns:
             True if enabled (default), False if explicitly disabled
         """
-        # Load states if not initialized
-        if not cls._initialized:
-            cls._load_states()
-            cls._initialized = True
-
-        # Default to enabled if not in states
+        # Uses cached state - call _ensure_initialized first in async contexts
         return cls._tool_states.get(tool_name, True)
 
     @classmethod
     def get_all_states(cls) -> dict:
-        """Get all tool states."""
-        if not cls._initialized:
-            cls._load_states()
-            cls._initialized = True
+        """Get all tool states (sync, uses cached state)."""
         return cls._tool_states.copy()
 
     @property
@@ -135,6 +132,9 @@ Use 'tool_list' to see all available tools and their status.
         Returns:
             Result of enabling the tool
         """
+        # Ensure async initialization
+        await self._ensure_initialized()
+
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
@@ -154,9 +154,9 @@ Use 'tool_list' to see all available tools and their status.
         # Enable the tool
         self._tool_states[tool_name] = True
 
-        # Persist if requested
+        # Persist if requested (async)
         if persist:
-            self._save_states()
+            await self._save_states_async()
             await tool_ctx.info(f"Enabled tool '{tool_name}' (persisted)")
         else:
             await tool_ctx.info(f"Enabled tool '{tool_name}' (temporary)")

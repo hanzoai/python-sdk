@@ -5,7 +5,7 @@ import asyncio
 from typing import Optional, Annotated
 from pathlib import Path
 
-import aiofiles
+from hanzo_async import read_file
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -142,9 +142,8 @@ Returns:
                 continue
 
             try:
-                async with aiofiles.open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    content = await f.read()
-                    lines = content.splitlines()
+                content = await read_file(file_path, encoding="utf-8", errors="ignore")
+                lines = content.splitlines()
 
                 for i, line in enumerate(lines, 1):
                     if regex.search(line):

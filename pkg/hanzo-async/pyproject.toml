@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-async"
+version = "0.1.0"
+description = "Unified async I/O for Hanzo AI - high-performance with uvloop fallback"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "async", "uvloop", "aiofiles", "high-performance"]
+dependencies = [
+    "aiofiles>=23.2.1",
+]
+
+[project.optional-dependencies]
+uvloop = ["uvloop>=0.21.0; sys_platform != 'win32'"]
+full = [
+    "uvloop>=0.21.0; sys_platform != 'win32'",
+]
+dev = ["pytest>=7.0.0", "pytest-asyncio>=0.21.0", "ruff>=0.14.0"]
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_async*"]
+
+[tool.setuptools.package-data]
+hanzo_async = ["py.typed"]

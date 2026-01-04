@@ -1,7 +1,7 @@
 """Base classes for process execution tools.
 
 All process execution uses asyncio.subprocess for consistency.
-All file I/O uses aiofiles for non-blocking operations.
+All file I/O uses hanzo_async for non-blocking operations with uvloop support.
 """
 
 import os
@@ -13,8 +13,7 @@ from abc import abstractmethod
 from typing import Any, Dict, List, Tuple, Optional, override
 from pathlib import Path
 
-import aiofiles
-import aiofiles.os
+from hanzo_async import mkdir, write_file, append_file
 
 from hanzo_tools.core import BaseTool, PermissionManager
 from hanzo_tools.shell.truncate import truncate_response
@@ -40,7 +39,7 @@ class ProcessManager:
     async def _ensure_log_dir(self) -> None:
         """Ensure log directory exists (async-safe)."""
         if not self._initialized:
-            await aiofiles.os.makedirs(self._log_dir, exist_ok=True)
+            await mkdir(self._log_dir, parents=True, exist_ok=True)
             self._initialized = True
 
     def add_process(self, process_id: str, process: asyncio.subprocess.Process, log_file: str) -> None:
@@ -93,8 +92,7 @@ class ProcessManager:
         """Create a log file for a process (async-safe)."""
         await self._ensure_log_dir()
         log_file = self._log_dir / f"{process_id}.log"
-        async with aiofiles.open(log_file, "w") as f:
-            pass
+        await write_file(log_file, "")
         return log_file
 
     def mark_completed(self, process_id: str, return_code: int) -> None:
@@ -103,9 +101,15 @@ class ProcessManager:
 
 
 class AutoBackgroundExecutor:
-    """Executor that automatically backgrounds long-running processes."""
+    """Executor that automatically backgrounds long-running processes.
 
-    DEFAULT_TIMEOUT = 60.0  # 60 seconds - background faster for efficiency
+    IMPORTANT: Always backgrounds after MAX_FOREGROUND_TIMEOUT (45s) to keep
+    the agent loop responsive. Longer timeouts only affect the background
+    process lifetime, not the foreground wait time.
+    """
+
+    DEFAULT_TIMEOUT = 45.0  # Default timeout for backgrounding
+    MAX_FOREGROUND_TIMEOUT = 45.0  # ALWAYS background after 45s, even if longer timeout given
 
     def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
         """Initialize the auto-background executor."""
@@ -124,29 +128,38 @@ class AutoBackgroundExecutor:
 
         Returns:
             Tuple of (output/status, was_backgrounded, process_id)
+
+        Note: Always backgrounds after MAX_FOREGROUND_TIMEOUT (60s) to keep
+        the agent loop responsive. The passed timeout is stored for reference
+        but doesn't extend foreground wait time.
         """
-        # Use passed timeout or default
-        effective_timeout = timeout if timeout is not None else self.default_timeout
+        # ALWAYS cap at MAX_FOREGROUND_TIMEOUT to keep agent loop responsive
+        # Longer timeouts only affect background process, not foreground wait
+        requested_timeout = timeout if timeout is not None else self.default_timeout
+        effective_timeout = min(requested_timeout, self.MAX_FOREGROUND_TIMEOUT)
 
-        # Fast path for tests
+        # Fast path for tests - still async but with shorter timeout
         if os.getenv("HANZO_MCP_FAST_TESTS") == "1":
-            import subprocess
-
             try:
-                proc = subprocess.run(
-                    cmd_args,
+                proc = await asyncio.create_subprocess_exec(
+                    *cmd_args,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
                     cwd=str(cwd) if cwd else None,
                     env=env,
-                    capture_output=True,
-                    text=True,
                 )
+                stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=30)
                 if proc.returncode != 0:
                     return (
-                        f"Command failed with exit code {proc.returncode}:\n{proc.stdout}{proc.stderr}",
+                        f"Command failed with exit code {proc.returncode}:\n"
+                        f"{stdout.decode('utf-8', errors='replace')}"
+                        f"{stderr.decode('utf-8', errors='replace')}",
                         False,
                         None,
                     )
-                return proc.stdout, False, None
+                return stdout.decode("utf-8", errors="replace"), False, None
+            except asyncio.TimeoutError:
+                return "Command timed out in test mode", False, None
             except Exception as e:
                 return f"Error executing command: {e}", False, None
 
@@ -179,8 +192,7 @@ class AutoBackgroundExecutor:
                     async for line in process.stdout:
                         line_str = line.decode("utf-8", errors="replace")
                         output_lines.append(line_str)
-                        async with aiofiles.open(log_file, "a") as f:
-                            await f.write(line_str)
+                        await append_file(log_file, line_str)
 
             async def wait_for_process():
                 return await process.wait()
@@ -248,18 +260,15 @@ class AutoBackgroundExecutor:
         try:
             if process.stdout:
                 async for line in process.stdout:
-                    async with aiofiles.open(log_file, "a") as f:
-                        await f.write(line.decode("utf-8", errors="replace"))
+                    await append_file(log_file, line.decode("utf-8", errors="replace"))
 
             return_code = await process.wait()
             self.process_manager.mark_completed(process_id, return_code)
 
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n\n=== Process completed with exit code {return_code} ===\n")
+            await append_file(log_file, f"\n\n=== Process completed with exit code {return_code} ===\n")
 
         except Exception as e:
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n\n=== Background reader error: {str(e)} ===\n")
+            await append_file(log_file, f"\n\n=== Background reader error: {str(e)} ===\n")
             self.process_manager.mark_completed(process_id, -1)
 
 
@@ -364,22 +373,20 @@ class BaseProcessTool(BaseTool):
     async def _write_output_to_log(self, process: asyncio.subprocess.Process, log_file: Path, process_id: str) -> None:
         """Write process output to log file in background."""
         try:
-            async with aiofiles.open(log_file, "w") as f:
-                if process.stdout:
-                    async for line in process.stdout:
-                        await f.write(line.decode("utf-8", errors="replace"))
-                        await f.flush()
+            # Clear log file
+            await write_file(log_file, "")
+            if process.stdout:
+                async for line in process.stdout:
+                    await append_file(log_file, line.decode("utf-8", errors="replace"))
 
             return_code = await process.wait()
 
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n=== Process completed with exit code {return_code} ===\n")
+            await append_file(log_file, f"\n=== Process completed with exit code {return_code} ===\n")
 
             self.process_manager.mark_completed(process_id, return_code)
 
         except Exception as e:
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n=== Error: {str(e)} ===\n")
+            await append_file(log_file, f"\n=== Error: {str(e)} ===\n")
             self.process_manager.mark_completed(process_id, -1)
 
 
@@ -440,3 +447,161 @@ class BaseScriptTool(BaseProcessTool):
     def get_tool_name(self) -> str:
         """Get the tool name (interpreter name by default)."""
         return self.get_interpreter()
+
+
+# Shared singleton for shell execution
+_shell_executor: Optional["ShellExecutor"] = None
+
+
+class ShellExecutor:
+    """Shared async shell executor for all shell tools.
+
+    Ensures consistent auto-backgrounding behavior across dag, zsh, shell, bash tools.
+    Uses a singleton pattern to share process management state.
+    """
+
+    DEFAULT_TIMEOUT = 45.0  # Auto-background after 45 seconds
+
+    _instance: Optional["ShellExecutor"] = None
+
+    def __new__(cls) -> "ShellExecutor":
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
+
+    def __init__(self) -> None:
+        if self._initialized:
+            return
+        self._initialized = True
+        self._process_manager = ProcessManager()
+
+    @property
+    def process_manager(self) -> ProcessManager:
+        return self._process_manager
+
+    async def run_shell(
+        self,
+        command: str,
+        shell: str,
+        cwd: Optional[str] = None,
+        env: Optional[Dict[str, str]] = None,
+        timeout: float = DEFAULT_TIMEOUT,
+        tool_name: str = "shell",
+    ) -> Tuple[str, str, int, bool, Optional[str]]:
+        """Run a shell command with auto-backgrounding on timeout.
+
+        Args:
+            command: Shell command to execute
+            shell: Shell binary path (e.g., /bin/zsh)
+            cwd: Working directory
+            env: Environment variables
+            timeout: Timeout before auto-backgrounding (default: 45s)
+            tool_name: Tool name for process ID prefix
+
+        Returns:
+            Tuple of (stdout, stderr, exit_code, was_backgrounded, process_id)
+        """
+        # Cap timeout at 45s for foreground wait - keep agent loop responsive
+        effective_timeout = min(timeout, self.DEFAULT_TIMEOUT)
+
+        run_env = os.environ.copy()
+        if env:
+            run_env.update(env)
+
+        shell_name = os.path.basename(shell)
+        process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
+        log_file = await self._process_manager.create_log_file(process_id)
+
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                shell,
+                "-c",
+                command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                cwd=cwd,
+                env=run_env,
+            )
+
+            try:
+                stdout, stderr = await asyncio.wait_for(
+                    proc.communicate(),
+                    timeout=effective_timeout
+                )
+
+                exit_code = proc.returncode or 0
+                return (
+                    stdout.decode("utf-8", errors="replace"),
+                    stderr.decode("utf-8", errors="replace"),
+                    exit_code,
+                    False,  # Not backgrounded
+                    None,   # No process_id (completed)
+                )
+
+            except asyncio.TimeoutError:
+                # Background the process
+                await write_file(log_file,
+                    f"[{shell_name}] Command backgrounded after {effective_timeout}s timeout\n"
+                    f"[{shell_name}] Command: {command}\n"
+                    f"[{shell_name}] PID: {proc.pid}\n"
+                    + "-" * 40 + "\n"
+                )
+
+                self._process_manager.add_process(process_id, proc, str(log_file))
+                asyncio.create_task(self._capture_background_output(proc, log_file, process_id))
+
+                return (
+                    f"[backgrounded] Process {process_id} (PID {proc.pid}) running in background.\n"
+                    f"Use: ps --logs {process_id}  # view output\n"
+                    f"Use: ps --kill {process_id}  # stop process",
+                    "",
+                    0,
+                    True,  # Was backgrounded
+                    process_id,
+                )
+
+        except Exception as e:
+            return (
+                "",
+                str(e),
+                1,
+                False,
+                None,
+            )
+
+    async def _capture_background_output(
+        self,
+        proc: asyncio.subprocess.Process,
+        log_file: Path,
+        process_id: str,
+    ) -> None:
+        """Capture output from backgrounded process to log file."""
+        try:
+            async def read_stream(stream, prefix: str) -> None:
+                if stream:
+                    while True:
+                        line = await stream.readline()
+                        if not line:
+                            break
+                        await append_file(log_file, f"{prefix}{line.decode('utf-8', errors='replace')}")
+
+            await asyncio.gather(
+                read_stream(proc.stdout, ""),
+                read_stream(proc.stderr, "[stderr] "),
+            )
+
+            await proc.wait()
+            await append_file(log_file, f"\n[shell] Process exited with code {proc.returncode}\n")
+
+            self._process_manager.mark_completed(process_id, proc.returncode or 0)
+        except Exception:
+            self._process_manager.mark_completed(process_id, -1)
+
+
+def get_shell_executor() -> ShellExecutor:
+    """Get the shared shell executor singleton."""
+    global _shell_executor
+    if _shell_executor is None:
+        _shell_executor = ShellExecutor()
+    return _shell_executor

@@ -14,7 +14,7 @@ from typing import Any, Tuple, Callable, Optional
 from pathlib import Path
 from collections.abc import Awaitable
 
-import aiofiles
+from hanzo_async import append_file
 from mcp.server.fastmcp import Context as MCPContext
 
 from .timeout_parser import parse_timeout, format_timeout
@@ -94,33 +94,36 @@ class MCPToolTimeoutManager:
         """
         try:
             # Log start (async)
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"=== Background execution started for {tool_name} ===\n")
-                await f.write(f"Parameters: {json.dumps(params, indent=2, default=str)}\n")
-                await f.write(f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            await append_file(log_file,
+                f"=== Background execution started for {tool_name} ===\n"
+                f"Parameters: {json.dumps(params, indent=2, default=str)}\n"
+                f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+            )
 
             # Execute the tool
             result = await tool_func(ctx, **params)
 
             # Log completion (async)
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n\n=== Tool execution completed ===\n")
-                await f.write(f"Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-                await f.write(f"Result length: {len(str(result))} characters\n")
-                await f.write("\n=== RESULT ===\n")
-                await f.write(str(result))
-                await f.write("\n=== END RESULT ===\n")
+            await append_file(log_file,
+                f"\n\n=== Tool execution completed ===\n"
+                f"Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+                f"Result length: {len(str(result))} characters\n"
+                f"\n=== RESULT ===\n"
+                f"{str(result)}\n"
+                f"=== END RESULT ===\n"
+            )
 
             # Mark as completed
             self.process_manager.mark_completed(process_id, 0)
 
         except Exception as e:
             # Log error (async)
-            async with aiofiles.open(log_file, "a") as f:
-                await f.write(f"\n\n=== Tool execution failed ===\n")
-                await f.write(f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-                await f.write(f"Error: {str(e)}\n")
-                await f.write(f"Error type: {type(e).__name__}\n")
+            await append_file(log_file,
+                f"\n\n=== Tool execution failed ===\n"
+                f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+                f"Error: {str(e)}\n"
+                f"Error type: {type(e).__name__}\n"
+            )
 
             self.process_manager.mark_completed(process_id, 1)
 
