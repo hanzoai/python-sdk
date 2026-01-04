@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass
 
-import aiofiles
+from hanzo_async import read_file, path_exists
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -115,14 +115,19 @@ USAGE:
 
     async def _get_logs(self, proc_id: str, n: int = 100) -> str:
         """Get process logs."""
+        import asyncio
+
         log_file = self.process_manager.get_log_file(proc_id)
-        if not log_file or not log_file.exists():
+        if not log_file:
+            return f"No logs for process: {proc_id}"
+
+        # Check file exists asynchronously
+        if not await path_exists(log_file):
             return f"No logs for process: {proc_id}"
 
         try:
-            async with aiofiles.open(log_file, "r") as f:
-                content = await f.read()
-                lines = content.splitlines()
+            content = await read_file(log_file)
+            lines = content.splitlines()
 
             if len(lines) > n:
                 lines = lines[-n:]

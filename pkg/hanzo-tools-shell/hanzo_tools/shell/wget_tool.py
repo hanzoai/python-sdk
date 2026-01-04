@@ -144,11 +144,19 @@ Returns status and download summary.
         cmd.append(url)
 
         try:
+            # Check if output is a directory (non-blocking)
+            cwd = None
+            if output:
+                loop = asyncio.get_event_loop()
+                is_dir = await loop.run_in_executor(None, os.path.isdir, output)
+                if is_dir:
+                    cwd = output
+
             proc = await asyncio.create_subprocess_exec(
                 *cmd,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
-                cwd=output if (output and os.path.isdir(output)) else None,
+                cwd=cwd,
             )
 
             stdout, stderr = await asyncio.wait_for(
