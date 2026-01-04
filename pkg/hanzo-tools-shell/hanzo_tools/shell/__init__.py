@@ -8,7 +8,6 @@ Core tools:
 - bash: Bash shell (thin wrapper over cmd)
 - fish: Fish shell (thin wrapper over cmd)
 - dash: Dash shell (fast POSIX, Ubuntu's /bin/sh)
-- shell: Smart shell alias (zsh > bash > fish > dash > sh fallback)
 - ps: Process management (list, kill, logs)
 
 HTTP/Data tools:
@@ -78,8 +77,9 @@ from hanzo_tools.shell.dag_tool import DagTool, DagResult, DagNode, create_dag_t
 
 # Tools list for entry point discovery
 # - CmdTool: Primary command execution with DAG support
-# - ZshTool, BashTool, ShellTool: Shell wrappers (thin shims over CmdTool)
-TOOLS = [CmdTool, ZshTool, BashTool, FishTool, DashTool, ShellTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# - ZshTool, BashTool, etc: Specific shell wrappers (thin shims over CmdTool)
+# Note: ShellTool removed - too ambiguous, use specific shells (zsh, bash, dash, fish)
+TOOLS = [CmdTool, ZshTool, BashTool, FishTool, DashTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
 __all__ = [
     # uvloop status
@@ -156,6 +156,7 @@ def get_shell_tools(
 
     # Create shell wrappers with access to other tools
     zsh = ZshTool(tools=all_tools or {})
+    bash = BashTool(tools=all_tools or {})
 
     # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
@@ -164,6 +165,7 @@ def get_shell_tools(
     return [
         cmd,  # Primary command execution with DAG support
         zsh,  # Zsh shell wrapper
+        bash,  # Bash shell wrapper
         ps_tool,  # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
