@@ -26,7 +26,8 @@ Use 'cmd' for:
 - Mixed DAG: cmd(["mkdir dist", {"parallel": ["cp a dist/", "cp b dist/"]}, "zip out"])
 - Tool invocations: cmd([{"tool": "search", "input": {"pattern": "TODO"}}])
 
-Auto-backgrounding: Commands exceeding 45s automatically background.
+Auto-backgrounding: Commands exceeding timeout automatically background.
+Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30  (default: 30s)
 Use ps --logs <id> to view, ps --kill <id> to stop.
 
 Performance: Uses uvloop on macOS/Linux for 2-4x faster async I/O.
@@ -43,6 +44,7 @@ _using_uvloop = using_uvloop()
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
+from hanzo_tools.shell.base_process import AUTO_BACKGROUND_TIMEOUT
 from hanzo_tools.shell.jq_tool import JqTool
 from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
