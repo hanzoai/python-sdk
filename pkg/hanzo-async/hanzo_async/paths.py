@@ -2,6 +2,13 @@
 
 Provides non-blocking path operations using run_in_executor.
 All operations are fully async and safe for use in event loops.
+
+Note: Uses ThreadPoolExecutor for filesystem metadata operations (stat, exists,
+glob, etc.) rather than aiofiles, as these are fast syscalls that don't benefit
+significantly from true async I/O. The executor pattern prevents event loop
+blocking while keeping the implementation simple and reliable.
+
+For file content operations (read/write), use hanzo_async.files which wraps aiofiles.
 """
 
 import os
