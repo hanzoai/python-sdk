@@ -5,6 +5,7 @@ All file I/O uses hanzo_async for non-blocking operations with uvloop support.
 
 Auto-backgrounding timeout can be configured via:
     export HANZO_AUTO_BACKGROUND_TIMEOUT=30  # seconds (default: 30)
+    export HANZO_AUTO_BACKGROUND_TIMEOUT=0   # disable auto-backgrounding
 """
 
 import os
@@ -24,7 +25,9 @@ from hanzo_tools.shell.truncate import truncate_response
 
 # Configurable auto-background timeout (seconds)
 # Set via HANZO_AUTO_BACKGROUND_TIMEOUT env var
-AUTO_BACKGROUND_TIMEOUT = float(os.getenv("HANZO_AUTO_BACKGROUND_TIMEOUT", "30"))
+# 0 or negative = disabled (never auto-background, use 24h timeout)
+_raw_timeout = float(os.getenv("HANZO_AUTO_BACKGROUND_TIMEOUT", "30"))
+AUTO_BACKGROUND_TIMEOUT = _raw_timeout if _raw_timeout > 0 else 86400.0  # 24 hours if disabled
 
 
 class ProcessManager:
@@ -120,7 +123,9 @@ class AutoBackgroundExecutor:
     the agent loop responsive. Longer timeouts only affect the background
     process lifetime, not the foreground wait time.
 
-    Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30
+    Configure via:
+        export HANZO_AUTO_BACKGROUND_TIMEOUT=30  # 30s timeout (default)
+        export HANZO_AUTO_BACKGROUND_TIMEOUT=0   # disabled (never auto-background)
     """
 
     DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
@@ -474,7 +479,9 @@ class ShellExecutor:
     Ensures consistent auto-backgrounding behavior across dag, zsh, shell, bash tools.
     Uses a singleton pattern to share process management state.
 
-    Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30
+    Configure via:
+        export HANZO_AUTO_BACKGROUND_TIMEOUT=30  # 30s timeout (default)
+        export HANZO_AUTO_BACKGROUND_TIMEOUT=0   # disabled (never auto-background)
     """
 
     DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT

@@ -28,6 +28,7 @@ Use 'cmd' for:
 
 Auto-backgrounding: Commands exceeding timeout automatically background.
 Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30  (default: 30s)
+              export HANZO_AUTO_BACKGROUND_TIMEOUT=0   (disabled)
 Use ps --logs <id> to view, ps --kill <id> to stop.
 
 Performance: Uses uvloop on macOS/Linux for 2-4x faster async I/O.
