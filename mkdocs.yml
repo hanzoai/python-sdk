@@ -1,0 +1,144 @@
+site_name: Hanzo Python SDK
+site_description: Comprehensive Python SDK for Hanzo AI - Agents, MCP Tools, and AI Infrastructure
+site_url: https://hanzoai.github.io/python-sdk/
+repo_url: https://github.com/hanzoai/python-sdk
+repo_name: hanzoai/python-sdk
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - content.code.select
+    - navigation.path
+    - navigation.sections
+    - navigation.expand
+    - navigation.tabs
+    - navigation.top
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: slate
+      primary: black
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: black
+      accent: deep-purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - Agent SDK:
+      - Overview: agent/index.md
+      - Agents: agent/agents.md
+      - Running Agents: agent/running_agents.md
+      - Results: agent/results.md
+      - Streaming: agent/streaming.md
+      - Tools: agent/tools.md
+      - Handoffs: agent/handoffs.md
+      - Tracing: agent/tracing.md
+      - Context: agent/context.md
+      - Guardrails: agent/guardrails.md
+      - Multi-Agent: agent/multi_agent.md
+      - Models: agent/models.md
+      - Configuration: agent/config.md
+  - MCP Tools:
+      - Overview: mcp/index.md
+      - Quickstart: mcp/quickstart.md
+      - Tools Reference:
+          - File System: mcp/tools/filesystem.md
+          - Shell & Commands: mcp/tools/shell.md
+          - Browser Automation: mcp/tools/browser.md
+          - Memory & Knowledge: mcp/tools/memory.md
+          - Reasoning: mcp/tools/reasoning.md
+          - LSP & Refactor: mcp/tools/lsp.md
+          - Agent Integration: mcp/tools/agent.md
+          - LLM & Consensus: mcp/tools/llm.md
+      - Configuration: mcp/configuration.md
+      - VS Code Extension: mcp/vscode.md
+  - Tool Packages:
+      - hanzo-tools-core: tools/core.md
+      - hanzo-tools-fs: tools/fs.md
+      - hanzo-tools-shell: tools/shell.md
+      - hanzo-tools-browser: tools/browser.md
+      - hanzo-tools-memory: tools/memory.md
+      - hanzo-tools-reasoning: tools/reasoning.md
+      - hanzo-tools-lsp: tools/lsp.md
+      - hanzo-tools-refactor: tools/refactor.md
+      - hanzo-tools-agent: tools/agent.md
+      - hanzo-tools-llm: tools/llm.md
+  - API Reference:
+      - Agent SDK: ref/agent/index.md
+      - MCP Server: ref/mcp/index.md
+      - Tools: ref/tools/index.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - "pkg/hanzo-agent/src/agents"
+            - "pkg/hanzo-mcp/hanzo_mcp"
+            - "pkg/hanzo-tools-core/hanzo_tools"
+          selection:
+            docstring_style: google
+          options:
+            signature_crossrefs: true
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            heading_level: 3
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/hanzoai
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/hanzo
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/hanaboroshi
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+extra_css:
+  - stylesheets/extra.css
+
+watch:
+  - "pkg/hanzo-agent/src/agents"
+  - "pkg/hanzo-mcp/hanzo_mcp"
