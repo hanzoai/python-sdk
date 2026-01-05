@@ -2,6 +2,9 @@
 
 All process execution uses asyncio.subprocess for consistency.
 All file I/O uses hanzo_async for non-blocking operations with uvloop support.
+
+Auto-backgrounding timeout can be configured via:
+    export HANZO_AUTO_BACKGROUND_TIMEOUT=30  # seconds (default: 30)
 """
 
 import os
@@ -17,6 +20,11 @@ from hanzo_async import mkdir, write_file, append_file
 
 from hanzo_tools.core import BaseTool, PermissionManager
 from hanzo_tools.shell.truncate import truncate_response
+
+
+# Configurable auto-background timeout (seconds)
+# Set via HANZO_AUTO_BACKGROUND_TIMEOUT env var
+AUTO_BACKGROUND_TIMEOUT = float(os.getenv("HANZO_AUTO_BACKGROUND_TIMEOUT", "30"))
 
 
 class ProcessManager:
@@ -108,13 +116,15 @@ class ProcessManager:
 class AutoBackgroundExecutor:
     """Executor that automatically backgrounds long-running processes.
 
-    IMPORTANT: Always backgrounds after MAX_FOREGROUND_TIMEOUT (30s) to keep
+    IMPORTANT: Always backgrounds after AUTO_BACKGROUND_TIMEOUT to keep
     the agent loop responsive. Longer timeouts only affect the background
     process lifetime, not the foreground wait time.
+
+    Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30
     """
 
-    DEFAULT_TIMEOUT = 30.0  # Default timeout for backgrounding
-    MAX_FOREGROUND_TIMEOUT = 30.0  # ALWAYS background after 30s, even if longer timeout given
+    DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
+    MAX_FOREGROUND_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
 
     def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
         """Initialize the auto-background executor."""
@@ -463,10 +473,11 @@ class ShellExecutor:
 
     Ensures consistent auto-backgrounding behavior across dag, zsh, shell, bash tools.
     Uses a singleton pattern to share process management state.
-    Auto-backgrounds after 30s to keep agent loop responsive.
+
+    Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30
     """
 
-    DEFAULT_TIMEOUT = 30.0  # Auto-background after 30 seconds
+    DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
 
     _instance: Optional["ShellExecutor"] = None
 
