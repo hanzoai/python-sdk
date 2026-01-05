@@ -4,8 +4,10 @@ on:
   push:
     branches: [main]
     paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
       - 'pkg/hanzo-agent/docs/**'
-      - 'pkg/hanzo-agent/mkdocs.yml'
+      - 'pkg/hanzo-mcp/docs/**'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
@@ -31,20 +33,24 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
       - name: Install dependencies
         run: |
-          pip install mkdocs-material "mkdocstrings[python]<0.27" mkdocs-minify-plugin
-          cd pkg/hanzo-agent && pip install -e .
+          pip install mkdocs-material "mkdocstrings[python]<0.27" mkdocs-minify-plugin pymdown-extensions
+          # Install packages for API reference generation
+          cd pkg/hanzo-agent && pip install -e . && cd ../..
+          cd pkg/hanzo-mcp && pip install -e . && cd ../..
 
       - name: Build docs
         run: |
-          cd pkg/hanzo-agent
           mkdocs build 2>&1 || echo "Build completed with warnings"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: pkg/hanzo-agent/site
+          path: site
 
   deploy:
     environment:
