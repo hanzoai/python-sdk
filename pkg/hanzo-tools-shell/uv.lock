@@ -412,6 +412,18 @@ wheels = [
 ]
 
 [[package]]
+name = "hanzo-async"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiofiles" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c0/50/98dce04e47d666b701fc8ed85037d4144cd802018be987579d512a2b5148/hanzo_async-0.1.0.tar.gz", hash = "sha256:b1223049a90b846cce8f3f763a61061f7a353acb981242d83f8476d516d793ba", size = 8452, upload-time = "2026-01-04T01:40:09.492Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/ae/b94352e57fadead2e6fd48acd60d5e0a1ab9a68b2acaa0a80c3277a31c63/hanzo_async-0.1.0-py3-none-any.whl", hash = "sha256:ecba8b338d2be6d84b339140d6f1802f5cb9ed75acadd997c0f6fd15dac2042c", size = 8452, upload-time = "2026-01-04T01:40:08.245Z" },
+]
+
+[[package]]
 name = "hanzo-tools"
 version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -428,10 +440,10 @@ wheels = [
 
 [[package]]
 name = "hanzo-tools-shell"
-version = "0.4.1"
+version = "0.5.2"
 source = { editable = "." }
 dependencies = [
-    { name = "aiofiles" },
+    { name = "hanzo-async" },
     { name = "hanzo-tools" },
     { name = "mcp" },
     { name = "pydantic" },
@@ -440,7 +452,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiofiles", specifier = ">=24.0.0" },
+    { name = "hanzo-async", specifier = ">=0.1.0" },
     { name = "hanzo-tools", specifier = ">=0.3.0" },
     { name = "mcp", specifier = ">=1.25.0" },
     { name = "pydantic", specifier = ">=2.12.5" },
