@@ -67,7 +67,7 @@ open /path/to/image.png"""
         if is_url:
             try:
                 # Run webbrowser.open in executor to avoid blocking
-                loop = asyncio.get_event_loop()
+                loop = asyncio.get_running_loop()
                 await loop.run_in_executor(None, webbrowser.open, path)
                 return f"Opened URL in browser: {path}"
             except Exception as e:
@@ -76,7 +76,7 @@ open /path/to/image.png"""
         file_path = Path(path).expanduser().resolve()
 
         # Check file exists asynchronously
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         exists = await loop.run_in_executor(None, file_path.exists)
         if not exists:
             raise RuntimeError(f"File not found: {file_path}")
@@ -100,7 +100,7 @@ open /path/to/image.png"""
             elif system == "windows":
                 import os
                 # Run os.startfile in executor to avoid blocking
-                loop = asyncio.get_event_loop()
+                loop = asyncio.get_running_loop()
                 await loop.run_in_executor(None, os.startfile, str(file_path))
                 return f"Opened file: {file_path}"
             else:

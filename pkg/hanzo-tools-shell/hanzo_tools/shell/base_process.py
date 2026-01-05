@@ -57,7 +57,12 @@ class ProcessManager:
         self._logs.pop(process_id, None)
 
     def list_processes(self) -> Dict[str, Dict[str, Any]]:
-        """List all tracked processes."""
+        """List all tracked processes.
+        
+        Note: Uses list(items()) to create snapshot before cleanup,
+        preventing RuntimeError from dict modification during iteration.
+        Completed processes are cleaned up after being reported.
+        """
         result = {}
         for pid, proc in list(self._processes.items()):
             is_running = proc.returncode is None

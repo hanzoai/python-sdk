@@ -403,8 +403,9 @@ class TestIntegration:
         from hanzo_tools.shell import BashTool
 
         bash = BashTool()
+        # Use proper bash syntax (no zsh-style { } backgrounding)
         result = await bash.call(
-            None, command="echo start ; { echo A & echo B } ; echo end"
+            None, command="echo start && echo A && echo B && echo end"
         )
         assert "start" in result
         assert "end" in result
