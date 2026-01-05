@@ -173,7 +173,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         shell: str,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        timeout: int = 45,
+        timeout: int = 30,
     ) -> DagResult:
         """Run a shell command with auto-backgrounding on timeout.
 
@@ -384,7 +384,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         shell: Optional[str] = None,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        timeout: int = 45,
+        timeout: int = 30,
         strict: bool = False,
         quiet: bool = False,
         **kwargs,
@@ -462,7 +462,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
             shell: Annotated[Optional[str], Field(description="Shell to use (default: zsh)", default=None)] = None,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=45)] = 45,
+            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=30)] = 30,
             strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
             quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
             ctx: MCPContext = None,
