@@ -63,7 +63,7 @@ nav:
           - Reasoning: mcp/tools/reasoning.md
           - LSP & Refactor: mcp/tools/lsp.md
           - Agent Integration: mcp/tools/agent.md
-          - LLM & Consensus: mcp/tools/llm.md
+          - LLM & Consensus: mcp/tools/llm-tools.md
       - Configuration: mcp/configuration.md
       - VS Code Extension: mcp/vscode.md
   - Tool Packages:
@@ -76,7 +76,7 @@ nav:
       - hanzo-tools-lsp: tools/lsp.md
       - hanzo-tools-refactor: tools/refactor.md
       - hanzo-tools-agent: tools/agent.md
-      - hanzo-tools-llm: tools/llm.md
+      - hanzo-tools-llm: tools/llm-tools.md
   - API Reference:
       - Agent SDK: ref/agent/index.md
       - MCP Server: ref/mcp/index.md
