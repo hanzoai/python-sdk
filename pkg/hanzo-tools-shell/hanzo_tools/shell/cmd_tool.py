@@ -161,7 +161,7 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
         cmd: str,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        timeout: int = 45,
+        timeout: int = 30,
         shell: Optional[str] = None,
     ) -> CmdResult:
         """Run a shell command with auto-backgrounding on timeout.
@@ -407,7 +407,7 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
         shell: Optional[str] = None,
         cwd: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        timeout: int = 45,
+        timeout: int = 30,
         strict: bool = False,
         quiet: bool = False,
         **kwargs,
@@ -486,7 +486,7 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
             shell: Annotated[Optional[str], Field(description="Shell: zsh, bash, sh", default=None)] = None,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=45)] = 45,
+            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=30)] = 30,
             strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
             quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
             ctx: MCPContext = None,

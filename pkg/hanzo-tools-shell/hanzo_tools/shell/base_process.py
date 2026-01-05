@@ -108,13 +108,13 @@ class ProcessManager:
 class AutoBackgroundExecutor:
     """Executor that automatically backgrounds long-running processes.
 
-    IMPORTANT: Always backgrounds after MAX_FOREGROUND_TIMEOUT (45s) to keep
+    IMPORTANT: Always backgrounds after MAX_FOREGROUND_TIMEOUT (30s) to keep
     the agent loop responsive. Longer timeouts only affect the background
     process lifetime, not the foreground wait time.
     """
 
-    DEFAULT_TIMEOUT = 45.0  # Default timeout for backgrounding
-    MAX_FOREGROUND_TIMEOUT = 45.0  # ALWAYS background after 45s, even if longer timeout given
+    DEFAULT_TIMEOUT = 30.0  # Default timeout for backgrounding
+    MAX_FOREGROUND_TIMEOUT = 30.0  # ALWAYS background after 30s, even if longer timeout given
 
     def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
         """Initialize the auto-background executor."""
@@ -134,7 +134,7 @@ class AutoBackgroundExecutor:
         Returns:
             Tuple of (output/status, was_backgrounded, process_id)
 
-        Note: Always backgrounds after MAX_FOREGROUND_TIMEOUT (60s) to keep
+        Note: Always backgrounds after MAX_FOREGROUND_TIMEOUT (30s) to keep
         the agent loop responsive. The passed timeout is stored for reference
         but doesn't extend foreground wait time.
         """
@@ -463,9 +463,10 @@ class ShellExecutor:
 
     Ensures consistent auto-backgrounding behavior across dag, zsh, shell, bash tools.
     Uses a singleton pattern to share process management state.
+    Auto-backgrounds after 30s to keep agent loop responsive.
     """
 
-    DEFAULT_TIMEOUT = 45.0  # Auto-background after 45 seconds
+    DEFAULT_TIMEOUT = 30.0  # Auto-background after 30 seconds
 
     _instance: Optional["ShellExecutor"] = None
 
@@ -501,13 +502,13 @@ class ShellExecutor:
             shell: Shell binary path (e.g., /bin/zsh)
             cwd: Working directory
             env: Environment variables
-            timeout: Timeout before auto-backgrounding (default: 45s)
+            timeout: Timeout before auto-backgrounding (default: 30s)
             tool_name: Tool name for process ID prefix
 
         Returns:
             Tuple of (stdout, stderr, exit_code, was_backgrounded, process_id)
         """
-        # Cap timeout at 45s for foreground wait - keep agent loop responsive
+        # Cap timeout at 30s for foreground wait - keep agent loop responsive
         effective_timeout = min(timeout, self.DEFAULT_TIMEOUT)
 
         run_env = os.environ.copy()
@@ -527,30 +528,56 @@ class ShellExecutor:
                 stderr=asyncio.subprocess.PIPE,
                 cwd=cwd,
                 env=run_env,
+                # Prevent zombie processes - use start_new_session on Unix
+                start_new_session=True,
             )
 
+            stdout_chunks: list[bytes] = []
+            stderr_chunks: list[bytes] = []
+
+            async def read_stdout():
+                if proc.stdout:
+                    while True:
+                        chunk = await proc.stdout.read(8192)
+                        if not chunk:
+                            break
+                        stdout_chunks.append(chunk)
+
+            async def read_stderr():
+                if proc.stderr:
+                    while True:
+                        chunk = await proc.stderr.read(8192)
+                        if not chunk:
+                            break
+                        stderr_chunks.append(chunk)
+
             try:
-                stdout, stderr = await asyncio.wait_for(
-                    proc.communicate(),
+                # Read streams and wait for process with timeout
+                await asyncio.wait_for(
+                    asyncio.gather(read_stdout(), read_stderr(), proc.wait()),
                     timeout=effective_timeout
                 )
 
                 exit_code = proc.returncode or 0
                 return (
-                    stdout.decode("utf-8", errors="replace"),
-                    stderr.decode("utf-8", errors="replace"),
+                    b"".join(stdout_chunks).decode("utf-8", errors="replace"),
+                    b"".join(stderr_chunks).decode("utf-8", errors="replace"),
                     exit_code,
                     False,  # Not backgrounded
                     None,   # No process_id (completed)
                 )
 
             except asyncio.TimeoutError:
-                # Background the process
+                # Background the process - don't kill it
+                partial_stdout = b"".join(stdout_chunks).decode("utf-8", errors="replace")
+                partial_stderr = b"".join(stderr_chunks).decode("utf-8", errors="replace")
+                
                 await write_file(log_file,
                     f"[{shell_name}] Command backgrounded after {effective_timeout}s timeout\n"
                     f"[{shell_name}] Command: {command}\n"
                     f"[{shell_name}] PID: {proc.pid}\n"
                     + "-" * 40 + "\n"
+                    f"{partial_stdout}{partial_stderr}"
                 )
 
                 self._process_manager.add_process(process_id, proc, str(log_file))
@@ -567,6 +594,13 @@ class ShellExecutor:
                 )
 
         except Exception as e:
+            # Clean up on error - kill process if it exists
+            try:
+                if proc and proc.returncode is None:
+                    proc.kill()
+                    await proc.wait()
+            except Exception:
+                pass
             return (
                 "",
                 str(e),
