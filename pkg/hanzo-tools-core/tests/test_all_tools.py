@@ -40,21 +40,27 @@ class TestToolPackages:
         assert names == expected
 
     def test_shell_tools(self):
-        """Test hanzo-tools-shell has 11 tools."""
+        """Test hanzo-tools-shell has 12 tools."""
         from hanzo_tools.shell import TOOLS
 
-        assert len(TOOLS) == 11
+        assert len(TOOLS) == 12
         names = {t.name for t in TOOLS}
-        expected = {"dag", "ps", "zsh", "bash", "shell", "npx", "uvx", "open", "curl", "jq", "wget"}
+        expected = {"cmd", "ps", "zsh", "bash", "fish", "dash", "npx", "uvx", "open", "curl", "jq", "wget"}
         assert names == expected
 
     def test_memory_tools(self):
-        """Test hanzo-tools-memory has 1 unified tool."""
+        """Test hanzo-tools-memory has 9 tools."""
         from hanzo_tools.memory import TOOLS
 
-        # Memory was consolidated into 1 unified tool with actions
-        assert len(TOOLS) == 1
-        assert TOOLS[0].name == "memory"
+        # Memory has 9 tools for different operations
+        assert len(TOOLS) == 9
+        names = {t.name for t in TOOLS}
+        expected = {
+            "recall_memories", "create_memories", "update_memories",
+            "delete_memories", "manage_memories", "recall_facts",
+            "store_facts", "summarize_to_memory", "manage_knowledge_bases"
+        }
+        assert names == expected
 
     def test_todo_tools(self):
         """Test hanzo-tools-todo has 1 tool."""
@@ -85,6 +91,10 @@ class TestToolPackages:
         assert len(TOOLS) == 1
         assert TOOLS[0].name == "refactor"
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.database"),
+        reason="hanzo-tools-database not installed",
+    )
     def test_database_tools(self):
         """Test hanzo-tools-database has 8 tools."""
         from hanzo_tools.database import TOOLS
@@ -108,6 +118,10 @@ class TestToolPackages:
 
         assert len(TOOLS) == 1
 
+    @pytest.mark.skipif(
+        not _module_installed("hanzo_tools.editor"),
+        reason="hanzo-tools-editor not installed",
+    )
     def test_editor_tools(self):
         """Test hanzo-tools-editor has 3 tools."""
         from hanzo_tools.editor import TOOLS
@@ -179,9 +193,7 @@ REQUIRED_IMPORT_MODULES = [
     ("hanzo_tools.reasoning", 1.0),
     ("hanzo_tools.lsp", 1.0),
     ("hanzo_tools.refactor", 1.0),
-    ("hanzo_tools.database", 1.0),
     ("hanzo_tools.jupyter", 1.0),
-    ("hanzo_tools.editor", 1.0),
     ("hanzo_tools.browser", 1.0),
     ("hanzo_tools.agent", 2.0),  # Agent has litellm, allow more time
 ]
@@ -190,6 +202,8 @@ REQUIRED_IMPORT_MODULES = [
 OPTIONAL_IMPORT_MODULES = [
     ("hanzo_tools.config", 1.0),
     ("hanzo_tools.mcp_tools", 1.0),
+    ("hanzo_tools.database", 1.0),
+    ("hanzo_tools.editor", 1.0),
     ("hanzo_tools.llm", 2.0),  # LLM has litellm, allow more time
     ("hanzo_tools.vector", 2.0),  # Vector has heavy deps
 ]
@@ -230,10 +244,8 @@ REQUIRED_PACKAGES = [
     "hanzo_tools.reasoning",
     "hanzo_tools.lsp",
     "hanzo_tools.refactor",
-    "hanzo_tools.database",
     "hanzo_tools.agent",
     "hanzo_tools.jupyter",
-    "hanzo_tools.editor",
     "hanzo_tools.browser",
 ]
 
@@ -241,6 +253,8 @@ REQUIRED_PACKAGES = [
 OPTIONAL_PACKAGES = [
     "hanzo_tools.config",
     "hanzo_tools.mcp_tools",
+    "hanzo_tools.database",
+    "hanzo_tools.editor",
     "hanzo_tools.llm",
     "hanzo_tools.vector",
 ]
@@ -278,16 +292,14 @@ class TestTotalToolCount:
         # Required packages with exact counts
         required_packages = [
             ("hanzo_tools.fs", 7),
-            ("hanzo_tools.shell", 11),
+            ("hanzo_tools.shell", 12),
             ("hanzo_tools.browser", 1),
-            ("hanzo_tools.memory", 1),  # Unified memory tool with actions
+            ("hanzo_tools.memory", 9),  # 9 separate memory tools
             ("hanzo_tools.todo", 1),
             ("hanzo_tools.reasoning", 2),
             ("hanzo_tools.lsp", 1),
             ("hanzo_tools.refactor", 1),
-            ("hanzo_tools.database", 8),
             ("hanzo_tools.jupyter", 1),
-            ("hanzo_tools.editor", 3),
             ("hanzo_tools.agent", 3),
         ]
 
@@ -304,5 +316,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Required tools: 40 (7+11+1+1+1+2+1+1+8+1+3+3)
-        assert total == 40, f"Expected 40 required tools, got {total}"
+        # Required tools: 38 (7+12+1+9+1+2+1+1+1+3)
+        assert total == 38, f"Expected 38 required tools, got {total}"
