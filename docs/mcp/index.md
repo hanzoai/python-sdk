@@ -90,7 +90,7 @@ The Model Context Protocol (MCP) is a standard for connecting AI assistants to e
 
 ### Auto-Backgrounding
 
-Long-running commands automatically background after 45 seconds:
+Long-running commands automatically background after 30 seconds:
 
 ```python
 cmd("npm install")  # Auto-backgrounds if slow

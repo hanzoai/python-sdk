@@ -63,10 +63,10 @@ cmd([{"tool": "search", "input": {"pattern": "TODO"}}])
 
 ### Auto-Backgrounding
 
-Commands exceeding 45 seconds automatically background:
+Commands exceeding 30 seconds automatically background:
 
 ```python
-# This will auto-background after 45s
+# This will auto-background after 30s
 cmd("npm install")  # Returns immediately with process ID
 
 # Disable auto-backgrounding
