@@ -46,7 +46,7 @@ search(pattern="TODO", path="./src")
 ### Shell Commands
 
 ```python
-# Run commands (auto-backgrounds after 45s)
+# Run commands (auto-backgrounds after 30s)
 cmd("npm install")
 
 # Run in parallel

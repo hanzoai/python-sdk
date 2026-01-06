@@ -28,11 +28,11 @@ pip install hanzo-mcp[tools-all]
 
 ### Auto-Backgrounding
 
-Commands automatically background after 45 seconds (configurable):
+Commands automatically background after 30 seconds (configurable):
 
 ```python
 # Long-running command auto-backgrounds
-cmd("npm run build")  # If takes >45s, continues in background
+cmd("npm run build")  # If takes >30s, continues in background
 
 # Check status later
 ps()  # List all background processes
