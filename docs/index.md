@@ -113,6 +113,29 @@ Use the MCP with any AI assistant:
 - **Antigravity** - Full integration via Open VSX
 - **Any MCP Client** - Standard MCP protocol
 
+## Documentation
+
+### Getting Started
+
+- [Quickstart Guide](getting-started/quickstart.md)
+- [MCP Quickstart](mcp/quickstart.md)
+- [MCP Configuration](mcp/configuration.md)
+
+### Reference
+
+- [Tools Reference](tools/index.md) - All 30+ tool packages
+- [Agent Reference](ref/agent/index.md) - Agent SDK documentation
+- [MCP Reference](ref/mcp/index.md) - MCP server documentation
+- [Core Libraries](lib/index.md) - Supporting packages (async, consensus, network)
+
+### Tool Categories
+
+- [Filesystem Tools](tools/fs.md) - File operations and AST analysis
+- [Shell Tools](tools/shell.md) - Command execution and process management
+- [Browser Tool](tools/browser.md) - Playwright automation
+- [Memory Tools](tools/memory.md) - Persistent memory and knowledge bases
+- [Reasoning Tools](tools/reasoning.md) - Structured thinking and analysis
+
 ## Links
 
 - [GitHub Repository](https://github.com/hanzoai/python-sdk)
