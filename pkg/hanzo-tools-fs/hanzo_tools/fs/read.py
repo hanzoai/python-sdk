@@ -3,6 +3,7 @@
 from typing import Any, Optional, Annotated
 from pathlib import Path
 
+from hanzo_async import read_lines
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -58,8 +59,7 @@ Returns:
             return f"Error: Not a file: {file_path}"
 
         try:
-            with open(path, "r", encoding="utf-8", errors="replace") as f:
-                lines = f.readlines()
+            lines = await read_lines(path, encoding="utf-8", errors="replace")
 
             # Apply offset and limit
             total_lines = len(lines)
