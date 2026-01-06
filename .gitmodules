@@ -1,3 +1,0 @@
-[submodule "pkg/hanzo-agent"]
-	path = pkg/hanzo-agent
-	url = git@github.com:hanzoai/agent.git
