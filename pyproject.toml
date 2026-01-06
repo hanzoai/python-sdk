@@ -65,7 +65,7 @@ dev-dependencies = [
 members = [
   "pkg/hanzo",
   "pkg/hanzo-aci",
-  # pkg/hanzo-agent is a git submodule - not a workspace member
+  "pkg/hanzo-agent",
   "pkg/hanzo-mcp",
   "pkg/hanzo-memory",
   "pkg/hanzo-network",

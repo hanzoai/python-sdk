@@ -1,5 +1,5 @@
 [project]
-name = "hanzoai"
+name = "hanzo-agent"
 version = "0.0.4"
 description = "Hanzo AI SDK"
 readme = "README.md"
@@ -15,6 +15,7 @@ dependencies = [
     "typing-extensions>=4.12.2, <5",
     "requests>=2.0, <3",
     "types-requests>=2.0, <3",
+    "numpy>=1.24.0",
 ]
 classifiers = [
     "Typing :: Typed",
