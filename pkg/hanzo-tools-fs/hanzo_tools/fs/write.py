@@ -3,6 +3,7 @@
 from typing import Optional, Annotated
 from pathlib import Path
 
+from hanzo_async import write_file, mkdir
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -50,11 +51,10 @@ Returns:
 
         try:
             # Create parent directories if needed
-            path.parent.mkdir(parents=True, exist_ok=True)
+            await mkdir(path.parent, parents=True, exist_ok=True)
 
             # Write content
-            with open(path, "w", encoding="utf-8") as f:
-                f.write(content)
+            await write_file(path, content, encoding="utf-8")
 
             return f"Successfully wrote {len(content)} bytes to {file_path}"
 
