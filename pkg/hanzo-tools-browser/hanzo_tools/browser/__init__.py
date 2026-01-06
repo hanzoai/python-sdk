@@ -2,6 +2,13 @@
 
 High-performance async browser automation using Playwright.
 Supports shared browser instance for low latency and cross-MCP sharing via CDP.
+
+Integration with Hanzo Browser Extension:
+    # Start the CDP bridge server
+    python -m hanzo_tools.browser.cdp_bridge_server
+    
+    # The browser extension connects to ws://localhost:9223/cdp
+    # hanzo-mcp can then control browser tabs through the extension
 """
 
 from mcp.server import FastMCP
@@ -16,6 +23,18 @@ from hanzo_tools.browser.browser_tool import (
     launch_browser_server,
 )
 
+# CDP Bridge for browser extension integration
+try:
+    from hanzo_tools.browser.cdp_bridge_server import (
+        CDPBridgeServer,
+        CDPBridgeClient,
+        WEBSOCKETS_AVAILABLE as CDP_BRIDGE_AVAILABLE,
+    )
+except ImportError:
+    CDP_BRIDGE_AVAILABLE = False
+    CDPBridgeServer = None
+    CDPBridgeClient = None
+
 # Tools list for entry point discovery
 TOOLS = [BrowserTool]
 
@@ -27,6 +46,10 @@ __all__ = [
     # Browser pool
     "BrowserPool",
     "launch_browser_server",
+    # CDP Bridge (for browser extension integration)
+    "CDPBridgeServer",
+    "CDPBridgeClient",
+    "CDP_BRIDGE_AVAILABLE",
     # Availability check
     "PLAYWRIGHT_AVAILABLE",
     # Registration
