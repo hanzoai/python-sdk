@@ -6,6 +6,7 @@ repo_name: hanzoai/python-sdk
 
 theme:
   name: material
+  custom_dir: docs/overrides
   features:
     - content.code.copy
     - content.code.select
@@ -18,20 +19,22 @@ theme:
     - search.suggest
     - search.highlight
   palette:
+    # Dark mode first (default)
     - scheme: slate
       primary: black
-      accent: deep-purple
+      accent: zinc
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
     - scheme: default
       primary: black
-      accent: deep-purple
+      accent: zinc
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
   logo: assets/logo.svg
   favicon: assets/favicon.svg
+  font: false
 
 nav:
   - Home: index.md
@@ -91,9 +94,8 @@ plugins:
             - "pkg/hanzo-agent/src/agents"
             - "pkg/hanzo-mcp/hanzo_mcp"
             - "pkg/hanzo-tools-core/hanzo_tools"
-          selection:
-            docstring_style: google
           options:
+            docstring_style: google
             signature_crossrefs: true
             members_order: source
             separate_signature: true
