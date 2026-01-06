@@ -1,0 +1,130 @@
+name: Test Agent Service
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        uv venv
+        uv pip install -e .
+        uv pip install pytest pytest-asyncio pytest-cov pytest-timeout ruff mypy
+    
+    - name: Run linting
+      run: |
+        uv run ruff check src/agents --fix
+        uv run ruff format src/agents --check
+    
+    - name: Run type checking
+      run: uv run mypy src/agents --ignore-missing-imports
+    
+    - name: Run unit tests
+      run: |
+        uv run pytest tests/ -v --cov=agents --cov-report=xml --cov-report=html --timeout=60
+      env:
+        PYTHONPATH: ${{ github.workspace }}/src
+    
+    - name: Test imports
+      run: |
+        uv run python -c "from agents import Agent, Tool, Result"
+        uv run python -c "from agents.models import OpenAIProvider"
+        uv run python -c "from agents.tracing import create_tracer"
+    
+    - name: Run example scripts
+      run: |
+        cd examples/basic
+        uv run python hello_world.py || true
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'dummy-key-for-testing' }}
+    
+    - name: Build package
+      run: |
+        uv pip install build
+        uv run python -m build
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      if: matrix.python-version == '3.11'
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+    
+  test-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    
+    - name: Install dependencies
+      run: |
+        uv venv
+        uv pip install mkdocs mkdocs-material
+    
+    - name: Build documentation
+      run: uv run mkdocs build --strict
+    
+  integration-test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    
+    - name: Install dependencies
+      run: |
+        uv venv
+        uv pip install -e .
+        uv pip install pytest pytest-asyncio
+    
+    - name: Run integration tests
+      run: |
+        uv run pytest tests/ -v -k "integration" || true
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    
+    - name: Security audit
+      run: |
+        uv pip install safety bandit
+        uv run safety check || true
+        uv run bandit -r src/agents -f sarif -o bandit-results.sarif
+    
+    - name: Upload Bandit scan results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'bandit-results.sarif'
