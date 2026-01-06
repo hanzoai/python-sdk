@@ -48,7 +48,7 @@ This document analyzes the parity status between Hanzo's three MCP implementatio
 | **Editor** | neovim integration | ✅ Complete |
 
 **Key Features:**
-- ✅ Auto-backgrounding (45s default, configurable via `HANZO_AUTO_BACKGROUND_TIMEOUT`)
+- ✅ Auto-backgrounding (30s default, configurable via `HANZO_AUTO_BACKGROUND_TIMEOUT`)
 - ✅ DAG execution with parallel support
 - ✅ Process management (ps tool)
 - ✅ Entry-point based tool discovery
@@ -75,7 +75,7 @@ This document analyzes the parity status between Hanzo's three MCP implementatio
 **Features Comparison:**
 | Feature | Python | TypeScript | Gap |
 |---------|--------|------------|-----|
-| Auto-backgrounding | ✅ 45s | ✅ `withAutoTimeout` | Parity |
+| Auto-backgrounding | ✅ 30s | ✅ `withAutoTimeout` | Parity |
 | DAG execution | ✅ `cmd` tool | ❌ | **Missing** |
 | Process management | ✅ Unified `ps` | ⚠️ Separate tools | Different API |
 | Unified memory | ✅ Single tool | ❌ | **Missing** |
