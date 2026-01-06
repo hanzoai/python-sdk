@@ -92,7 +92,7 @@ server.run()
 
 ### Auto-Backgrounding
 
-Long-running commands automatically background after 45 seconds:
+Long-running commands automatically background after 30 seconds:
 
 ```python
 # This will auto-background if it takes too long
