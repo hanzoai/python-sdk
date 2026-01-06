@@ -169,6 +169,83 @@ hanzo-mcp 2>/tmp/hanzo-mcp.log
 3. **Disable unused tools** - Reduces memory usage
 4. **Use project config** - Faster tool discovery
 
+## Browser Extension Integration
+
+The Hanzo Browser Extension enables AI control of browser tabs through the browser tool.
+
+### Installation
+
+1. Install the browser extension from the Chrome/Firefox store (or build from source)
+2. Start the CDP bridge server:
+
+```bash
+python -m hanzo_tools.browser.cdp_bridge_server
+# Runs on ws://localhost:9223 by default
+```
+
+3. The extension automatically connects to the bridge
+
+### How It Works
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
+│   hanzo-mcp     │────▶│  CDP Bridge      │────▶│  Browser Extension  │
+│  browser tool   │◀────│  Server (9223)   │◀────│  (CDP Provider)     │
+└─────────────────┘     └──────────────────┘     └─────────────────────┘
+                              ▲
+                              │ WebSocket
+                              │
+                        ┌─────┴─────┐
+                        │  Chrome   │
+                        │  Tabs     │
+                        └───────────┘
+```
+
+### Configuration
+
+Environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `HANZO_CDP_BRIDGE_HOST` | `localhost` | Bridge server host |
+| `HANZO_CDP_BRIDGE_PORT` | `9223` | Bridge server port |
+
+### Usage with MCP
+
+Once connected, the browser tool can control tabs through the extension:
+
+```python
+# In your AI/MCP context
+browser(action="navigate", url="https://example.com")
+browser(action="click", selector="#login-button")
+browser(action="fill", selector="#email", text="user@example.com")
+browser(action="screenshot")
+```
+
+### Programmatic Usage
+
+```python
+from hanzo_tools.browser import CDPBridgeClient
+
+# Connect to the bridge
+client = CDPBridgeClient(port=9223)
+await client.connect()
+
+# Control browser
+await client.navigate("https://example.com")
+await client.click("#submit")
+screenshot = await client.screenshot(full_page=True)
+```
+
+### Debugging
+
+If the extension isn't connecting:
+
+1. Check extension is installed and enabled
+2. Verify bridge server is running: `curl http://localhost:9223/health`
+3. Check browser console for errors (F12 → Console)
+4. Ensure `debugger` permission is granted in extension settings
+
 ## See Also
 
 - [Quickstart](quickstart.md) - Getting started
