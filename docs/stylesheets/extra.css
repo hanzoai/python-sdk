@@ -153,6 +153,57 @@
     color: #71717a;
 }
 
+/* Search modal (Cmd+K) styling */
+[data-md-color-scheme="slate"] .md-search__output {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+[data-md-color-scheme="slate"] .md-search-result {
+    background-color: transparent;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__meta {
+    background-color: #09090b;
+    color: #71717a;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__item {
+    border-bottom: 1px solid #27272a;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__link {
+    background-color: transparent;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__link:hover,
+[data-md-color-scheme="slate"] .md-search-result__link:focus {
+    background-color: #27272a;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__article {
+    background-color: transparent;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__title {
+    color: #fafafa;
+}
+
+[data-md-color-scheme="slate"] .md-search-result__teaser {
+    color: #a1a1aa;
+}
+
+/* Search shortcut hint (⌘K) */
+.md-search__input::placeholder {
+    opacity: 1;
+}
+
+[data-md-color-scheme="slate"] .md-search__scrollwrap {
+    background-color: #18181b;
+}
+
 /* Sidebar navigation - remove blue links */
 [data-md-color-scheme="slate"] .md-nav__link {
     color: #a1a1aa;
