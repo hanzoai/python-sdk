@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-computer"
-version = "0.2.0"
-description = "Computer control tools for Hanzo AI - pyautogui-based Mac automation"
+version = "0.3.0"
+description = "Computer control tools for Hanzo AI - automation, video capture, media processing (100 images/32MB configurable limits)"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 authors = [
     { name = "Hanzo AI", email = "dev@hanzo.ai" },
 ]
@@ -18,7 +18,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
