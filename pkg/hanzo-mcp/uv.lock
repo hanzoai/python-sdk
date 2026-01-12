@@ -661,7 +661,7 @@ requires-dist = [
     { name = "hanzo-tools-memory", specifier = ">=0.1.0" },
     { name = "hanzo-tools-reasoning", specifier = ">=0.1.0" },
     { name = "hanzo-tools-refactor", specifier = ">=0.1.0" },
-    { name = "hanzo-tools-shell", specifier = ">=0.5.0" },
+    { name = "hanzo-tools-shell", specifier = ">=0.6.0" },
     { name = "hanzo-tools-todo", specifier = ">=0.1.0" },
     { name = "mcp", specifier = ">=1.25.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
@@ -882,7 +882,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-tools-shell"
-version = "0.5.6"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "hanzo-async" },
@@ -891,9 +891,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "tiktoken" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/ea/c99b6908c6ce3b438cb4e77be7c93bc0f7bb3ea552529a41a42fc227f189/hanzo_tools_shell-0.5.6.tar.gz", hash = "sha256:395974c4889e26a90373f8d0669f7572fa9802e2b40b875eb6cfcaf073c063e8", size = 34212, upload-time = "2026-01-05T14:50:35.856Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/af/94/2379f3d71f91bc8d34c282920310057ebb6cb34790405755ba7bb5cc6175/hanzo_tools_shell-0.6.0.tar.gz", hash = "sha256:391d8c021e8b252dc4dce5c6fea1cf319062879f1905bd67b6b54d4c3425d465", size = 38682, upload-time = "2026-01-12T03:10:15.485Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/c6/0f5ef4140478506f05563ce60912475e7e1106a8a39cda20b926b23a8b7e/hanzo_tools_shell-0.5.6-py3-none-any.whl", hash = "sha256:c682d943110e2cdd0dbf431b1dd116f4ca5ea896227b89e266bf818cc45bb2da", size = 40395, upload-time = "2026-01-05T14:50:35.047Z" },
+    { url = "https://files.pythonhosted.org/packages/3a/14/46e1d0a7d47315b9c2a8f0b07edebc2d88caa03365ccf37804fa2a6d4292/hanzo_tools_shell-0.6.0-py3-none-any.whl", hash = "sha256:0b07241f88d2eb1c2783ed47c84c9643cc861d4ed1a0528f2fd53d20c95c5ddb", size = 45475, upload-time = "2026-01-12T03:10:13.938Z" },
 ]
 
 [[package]]
