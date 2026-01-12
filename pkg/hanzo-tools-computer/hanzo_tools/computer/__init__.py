@@ -32,9 +32,10 @@ from .computer_tool import ComputerTool
 from .fast_computer import FastComputerTool
 from .video_tool import VideoTool
 from .media_tool import MediaTool, MediaLimits, MediaResult, ActivitySegment, media_tool
+from .screen_tool import ScreenTool, ScreenConfig, screen_tool
 
 # Export list for tool discovery
-TOOLS = [ComputerTool, FastComputerTool, VideoTool, MediaTool]
+TOOLS = [ComputerTool, FastComputerTool, VideoTool, MediaTool, ScreenTool]
 
 __all__ = [
     "ComputerTool",
@@ -45,6 +46,9 @@ __all__ = [
     "MediaResult",
     "ActivitySegment",
     "media_tool",
+    "ScreenTool",
+    "ScreenConfig",
+    "screen_tool",
     "register_tools",
     "TOOLS",
 ]
