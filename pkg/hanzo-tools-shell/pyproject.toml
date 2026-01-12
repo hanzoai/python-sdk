@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-shell"
-version = "0.5.6"
-description = "Shell/command execution tools - cmd (unified DAG), zsh, bash, fish, dash, ps, npx, uvx, open, curl, jq, wget"
+version = "0.6.0"
+description = "Shell/command execution tools with auto-detection - only exposes your active shell (zsh, bash, fish, dash)"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }

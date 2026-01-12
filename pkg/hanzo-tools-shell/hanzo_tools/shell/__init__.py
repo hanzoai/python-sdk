@@ -2,12 +2,23 @@
 
 Minimal, orthogonal shell execution with uvloop for high performance.
 
+SHELL DETECTION:
+By default, only the user's active shell is exposed to MCP. This avoids
+cluttering the tool list with shells the user doesn't use.
+
+Detection order:
+1. HANZO_MCP_SHELL env var (e.g., "zsh", "bash", "fish")
+2. HANZO_MCP_FORCE_SHELL env var (e.g., "/opt/homebrew/bin/zsh")
+3. --shell CLI flag (e.g., --shell=/path/to/fish)
+4. Invoking shell (the shell that launched this process)
+5. Login shell (from passwd/Directory Services)
+6. $SHELL environment variable
+
+On macOS with Homebrew, this will prefer /opt/homebrew/bin/zsh over /bin/zsh.
+
 Core tools:
 - cmd: Unified execution graph (DAG) - RECOMMENDED
-- zsh: Zsh shell (thin wrapper over cmd)
-- bash: Bash shell (thin wrapper over cmd)
-- fish: Fish shell (thin wrapper over cmd)
-- dash: Dash shell (fast POSIX, Ubuntu's /bin/sh)
+- <detected>: Your active shell (zsh, bash, fish, or dash)
 - ps: Process management (list, kill, logs)
 
 HTTP/Data tools:
@@ -78,11 +89,55 @@ from hanzo_tools.shell.base_process import (
 # Backwards compatibility - DagTool is now CmdTool
 from hanzo_tools.shell.dag_tool import DagTool, DagResult, DagNode, create_dag_tool
 
+# Shell detection
+from hanzo_tools.shell.shell_detect import (
+    ShellInfo,
+    detect_shells,
+    get_active_shell,
+    get_cached_active_shell,
+    clear_shell_cache,
+    get_shell_tool_class,
+    resolve_shell_path,
+    SUPPORTED_SHELLS,
+)
+
+
+def _get_detected_shell_tools() -> list:
+    """
+    Get shell tools list with only the detected active shell.
+
+    This reduces tool clutter by only exposing the user's configured shell.
+    Override with:
+    - HANZO_MCP_SHELL=bash (shell name)
+    - HANZO_MCP_FORCE_SHELL=/path/to/shell (full path)
+    - HANZO_MCP_ALL_SHELLS=1 (expose all shells)
+    """
+    import os
+
+    # Allow exposing all shells via env var (for debugging/testing)
+    if os.environ.get("HANZO_MCP_ALL_SHELLS", "").lower() in ("1", "true", "yes"):
+        return [CmdTool, ZshTool, BashTool, FishTool, DashTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+
+    # Detect active shell
+    shell_name, shell_path = get_cached_active_shell()
+
+    # Get the appropriate shell tool class
+    shell_tool_class = get_shell_tool_class(shell_name)
+
+    # Base tools (always included)
+    tools = [CmdTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+
+    # Add only the detected shell tool
+    if shell_tool_class:
+        tools.insert(1, shell_tool_class)  # Put shell right after cmd
+
+    return tools
+
+
 # Tools list for entry point discovery
-# - CmdTool: Primary command execution with DAG support
-# - ZshTool, BashTool, etc: Specific shell wrappers (thin shims over CmdTool)
-# Note: ShellTool removed - too ambiguous, use specific shells (zsh, bash, dash, fish)
-TOOLS = [CmdTool, ZshTool, BashTool, FishTool, DashTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+# Only the detected shell is included (not all 4 shell variants)
+# Override with HANZO_MCP_ALL_SHELLS=1 to expose all shells
+TOOLS = _get_detected_shell_tools()
 
 __all__ = [
     # uvloop status
@@ -99,6 +154,15 @@ __all__ = [
     "truncate_response",
     "truncate_lines",
     "estimate_tokens",
+    # Shell detection
+    "ShellInfo",
+    "detect_shells",
+    "get_active_shell",
+    "get_cached_active_shell",
+    "clear_shell_cache",
+    "get_shell_tool_class",
+    "resolve_shell_path",
+    "SUPPORTED_SHELLS",
     # Core tools
     "CmdTool",
     "CmdResult",
@@ -144,42 +208,71 @@ __all__ = [
 def get_shell_tools(
     permission_manager: PermissionManager,
     all_tools: dict[str, BaseTool] | None = None,
+    shell_override: str | None = None,
 ) -> list[BaseTool]:
     """Create instances of shell tools.
+
+    Only the user's detected/configured shell is included to reduce tool clutter.
 
     Args:
         permission_manager: Permission manager for access control
         all_tools: Dict of all registered tools (for cmd tool invocations)
+        shell_override: Override shell (name like "zsh" or path like "/path/to/fish")
 
     Returns:
         List of shell tool instances
     """
+    import os
+
     # Create cmd tool with access to other tools (for tool invocations)
     cmd = CmdTool(tools=all_tools or {})
-
-    # Create shell wrappers with access to other tools
-    zsh = ZshTool(tools=all_tools or {})
-    bash = BashTool(tools=all_tools or {})
 
     # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
-    return [
-        cmd,  # Primary command execution with DAG support
-        zsh,  # Zsh shell wrapper
-        bash,  # Bash shell wrapper
-        ps_tool,  # Process management
+    # Base tools list
+    tools = [
+        cmd,       # Primary command execution with DAG support
+        ps_tool,   # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
-        open_tool,  # Open files/URLs
+        open_tool, # Open files/URLs
     ]
+
+    # Check for all-shells mode
+    if os.environ.get("HANZO_MCP_ALL_SHELLS", "").lower() in ("1", "true", "yes"):
+        tools.insert(1, ZshTool(tools=all_tools or {}))
+        tools.insert(2, BashTool(tools=all_tools or {}))
+        tools.insert(3, FishTool(tools=all_tools or {}))
+        tools.insert(4, DashTool(tools=all_tools or {}))
+        return tools
+
+    # Determine which shell to expose
+    if shell_override:
+        # Handle path override (e.g., --shell=/opt/homebrew/bin/fish)
+        if "/" in shell_override:
+            shell_name = os.path.basename(shell_override)
+            os.environ["HANZO_MCP_FORCE_SHELL"] = shell_override
+        else:
+            shell_name = shell_override.lower()
+    else:
+        shell_name, _ = get_cached_active_shell()
+
+    # Create and add only the detected shell tool
+    shell_tool_class = get_shell_tool_class(shell_name)
+    if shell_tool_class:
+        shell_instance = shell_tool_class(tools=all_tools or {})
+        tools.insert(1, shell_instance)  # Put shell right after cmd
+
+    return tools
 
 
 def register_shell_tools(
     mcp_server: FastMCP,
     permission_manager: PermissionManager,
     all_tools: dict[str, BaseTool] | None = None,
+    shell_override: str | None = None,
 ) -> list[BaseTool]:
     """Register shell tools with the MCP server.
 
@@ -187,11 +280,12 @@ def register_shell_tools(
         mcp_server: The FastMCP server instance
         permission_manager: Permission manager for access control
         all_tools: Dict of all registered tools (for cmd tool invocations)
+        shell_override: Override shell (name like "zsh" or path like "/path/to/fish")
 
     Returns:
         List of registered tools
     """
-    tools = get_shell_tools(permission_manager, all_tools)
+    tools = get_shell_tools(permission_manager, all_tools, shell_override)
     ToolRegistry.register_tools(mcp_server, tools)
     return tools
 
@@ -200,9 +294,15 @@ def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """Register all shell tools with the MCP server.
 
     This is the standard entry point called by the tool discovery system.
+
+    Supports:
+        - shell_override: Override detected shell (name or path)
+        - permission_manager: Permission manager instance
+        - all_tools: Dict of all registered tools
     """
     from hanzo_tools.core import PermissionManager
 
     permission_manager = kwargs.get("permission_manager") or PermissionManager()
     all_tools = kwargs.get("all_tools")
-    return register_shell_tools(mcp_server, permission_manager, all_tools)
+    shell_override = kwargs.get("shell_override") or kwargs.get("shell")
+    return register_shell_tools(mcp_server, permission_manager, all_tools, shell_override)
