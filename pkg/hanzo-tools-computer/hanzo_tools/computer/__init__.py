@@ -4,6 +4,7 @@ Tools:
 - computer: Control local computer via pyautogui (mouse, keyboard, screenshots)
 - fast_computer: Ultra-fast native macOS control via Quartz/CoreGraphics
 - video: Screen recording and video capture
+- media: Image/video processing with configurable limits (100 images, 32MB max)
 
 Install:
     pip install hanzo-tools-computer
@@ -15,7 +16,14 @@ Usage:
     register_tools(mcp_server, permission_manager)
 
     # Or access individual tools
-    from hanzo_tools.computer import ComputerTool, FastComputerTool, VideoTool
+    from hanzo_tools.computer import ComputerTool, FastComputerTool, VideoTool, MediaTool
+
+Media Limits (configurable via env vars):
+    HANZO_MEDIA_MAX_IMAGES=100       # Max images per batch
+    HANZO_MEDIA_MAX_PAYLOAD_MB=32    # Max total payload in MB
+    HANZO_MEDIA_MAX_RESOLUTION=1568  # Max image dimension
+    HANZO_MEDIA_OPTIMAL_SIZE=768     # Target size for optimization
+    HANZO_MEDIA_JPEG_QUALITY=85      # JPEG quality (1-100)
 """
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
@@ -23,14 +31,18 @@ from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 from .computer_tool import ComputerTool
 from .fast_computer import FastComputerTool
 from .video_tool import VideoTool
+from .media_tool import MediaTool, MediaLimits, media_tool
 
 # Export list for tool discovery
-TOOLS = [ComputerTool, FastComputerTool, VideoTool]
+TOOLS = [ComputerTool, FastComputerTool, VideoTool, MediaTool]
 
 __all__ = [
     "ComputerTool",
     "FastComputerTool",
     "VideoTool",
+    "MediaTool",
+    "MediaLimits",
+    "media_tool",
     "register_tools",
     "TOOLS",
 ]
