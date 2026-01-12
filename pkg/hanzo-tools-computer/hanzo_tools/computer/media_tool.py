@@ -5,6 +5,8 @@ Handles images and video with configurable limits optimized for Claude's vision 
 - Combined payload under 32 MB (configurable)
 - Per-image resolution constraints (configurable)
 - Automatic optimization for Claude vision
+- INTELLIGENT VIDEO SLICING with activity detection
+- Computer use session compression
 
 Limits based on Claude API constraints:
 - Max 100 images per request
@@ -12,12 +14,19 @@ Limits based on Claude API constraints:
 - Recommended 768-1568px for best quality/speed tradeoff
 - Supports PNG, JPEG, GIF, WebP
 
+Activity Detection:
+- Frame differencing for movement detection
+- Scene change detection via FFmpeg
+- Configurable sensitivity threshold
+- Only extracts frames during activity periods
+
 Environment configuration:
 - HANZO_MEDIA_MAX_IMAGES: Max images per batch (default: 100)
 - HANZO_MEDIA_MAX_PAYLOAD_MB: Max total payload in MB (default: 32)
 - HANZO_MEDIA_MAX_RESOLUTION: Max image dimension (default: 1568)
 - HANZO_MEDIA_JPEG_QUALITY: JPEG quality 1-100 (default: 85)
 - HANZO_MEDIA_OPTIMAL_SIZE: Target size for optimization (default: 768)
+- HANZO_MEDIA_ACTIVITY_THRESHOLD: Activity detection sensitivity (default: 0.02)
 """
 
 import os
@@ -61,6 +70,16 @@ class MediaLimits:
     max_frames: int = 100  # Max video frames per extraction
     max_fps: int = 30  # Max frame rate for extraction
 
+    # Activity detection settings
+    activity_threshold: float = 0.02  # % of pixels changed to count as activity (0.01-0.10)
+    min_activity_gap_ms: int = 200  # Min ms between activity frames
+    scene_change_threshold: float = 0.3  # FFmpeg scene change threshold
+
+    # Session compression settings
+    session_max_duration: int = 60  # Max session duration in seconds
+    session_target_frames: int = 30  # Target frames for session summary
+    session_compression_quality: int = 60  # Aggressive compression for sessions
+
     @classmethod
     def from_env(cls) -> "MediaLimits":
         """Load limits from environment variables."""
@@ -71,6 +90,12 @@ class MediaLimits:
             optimal_size=int(os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE", "768")),
             jpeg_quality=int(os.environ.get("HANZO_MEDIA_JPEG_QUALITY", "85")),
             max_frames=int(os.environ.get("HANZO_MEDIA_MAX_FRAMES", "100")),
+            activity_threshold=float(os.environ.get("HANZO_MEDIA_ACTIVITY_THRESHOLD", "0.02")),
+            min_activity_gap_ms=int(os.environ.get("HANZO_MEDIA_MIN_ACTIVITY_GAP_MS", "200")),
+            scene_change_threshold=float(os.environ.get("HANZO_MEDIA_SCENE_THRESHOLD", "0.3")),
+            session_max_duration=int(os.environ.get("HANZO_MEDIA_SESSION_MAX_DURATION", "60")),
+            session_target_frames=int(os.environ.get("HANZO_MEDIA_SESSION_TARGET_FRAMES", "30")),
+            session_compression_quality=int(os.environ.get("HANZO_MEDIA_SESSION_QUALITY", "60")),
         )
 
     @property
@@ -261,6 +286,341 @@ def _extract_video_frames(
     return frames
 
 
+@dataclass
+class ActivitySegment:
+    """A detected activity segment in video."""
+    start_ms: int
+    end_ms: int
+    activity_score: float  # 0-1, how much activity
+    frame_count: int
+    description: str = ""
+
+
+def _detect_scene_changes(
+    video_path: str,
+    threshold: float = 0.3,
+    max_duration: int = 60,
+) -> list[float]:
+    """Detect scene changes using FFmpeg.
+
+    Returns list of timestamps (in seconds) where scenes change.
+    """
+    import subprocess
+
+    # Use FFmpeg scene detection filter
+    cmd = [
+        "ffprobe", "-v", "quiet",
+        "-show_entries", "frame=pts_time",
+        "-select_streams", "v:0",
+        "-of", "csv=p=0",
+        "-f", "lavfi",
+        f"movie={video_path},select='gt(scene,{threshold})'",
+    ]
+
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        timestamps = []
+        for line in result.stdout.strip().split('\n'):
+            if line:
+                try:
+                    ts = float(line)
+                    if ts <= max_duration:
+                        timestamps.append(ts)
+                except ValueError:
+                    continue
+        return timestamps
+    except Exception:
+        return []
+
+
+def _compute_frame_difference(
+    frame1_data: bytes,
+    frame2_data: bytes,
+    threshold: float = 0.02,
+) -> tuple[float, bool]:
+    """Compute difference between two frames.
+
+    Returns (difference_ratio, has_significant_activity).
+    difference_ratio is 0-1 representing % of pixels that changed.
+    """
+    try:
+        from PIL import Image, ImageChops
+        import numpy as np
+    except ImportError:
+        return 0.0, False
+
+    try:
+        img1 = Image.open(io.BytesIO(frame1_data)).convert('L')  # Grayscale
+        img2 = Image.open(io.BytesIO(frame2_data)).convert('L')
+
+        # Ensure same size
+        if img1.size != img2.size:
+            img2 = img2.resize(img1.size)
+
+        # Compute difference
+        diff = ImageChops.difference(img1, img2)
+
+        # Count pixels above threshold
+        diff_array = np.array(diff)
+        changed_pixels = np.sum(diff_array > 10)  # Pixel value threshold
+        total_pixels = diff_array.size
+
+        ratio = changed_pixels / total_pixels if total_pixels > 0 else 0
+
+        return ratio, ratio > threshold
+
+    except Exception:
+        return 0.0, False
+
+
+def _analyze_video_activity(
+    video_path: str,
+    activity_threshold: float = 0.02,
+    sample_fps: float = 2.0,
+    max_duration: int = 60,
+    scene_threshold: float = 0.3,
+) -> tuple[list[ActivitySegment], list[float]]:
+    """Analyze video for activity segments.
+
+    Returns (activity_segments, keyframe_timestamps).
+
+    Combines:
+    1. Scene change detection (FFmpeg)
+    2. Frame differencing (PIL)
+    3. Activity clustering
+    """
+    import subprocess
+    import tempfile
+
+    segments = []
+    keyframe_times = []
+
+    # Get video duration
+    probe_cmd = [
+        "ffprobe", "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        video_path
+    ]
+    try:
+        result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=10)
+        duration = min(float(result.stdout.strip()), max_duration)
+    except Exception:
+        duration = max_duration
+
+    # Get scene changes
+    scene_changes = _detect_scene_changes(video_path, scene_threshold, max_duration)
+    keyframe_times.extend(scene_changes)
+
+    # Sample frames for activity detection
+    sample_interval = 1.0 / sample_fps
+    num_samples = int(duration * sample_fps)
+
+    prev_frame = None
+    activity_frames = []
+
+    for i in range(num_samples):
+        timestamp = i * sample_interval
+        if timestamp > duration:
+            break
+
+        # Extract frame
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as f:
+            tmp_path = f.name
+
+        try:
+            cmd = [
+                "ffmpeg", "-y",
+                "-ss", str(timestamp),
+                "-i", video_path,
+                "-frames:v", "1",
+                "-vf", "scale=320:-1",  # Small for comparison
+                "-q:v", "5",
+                tmp_path
+            ]
+            subprocess.run(cmd, capture_output=True, timeout=5)
+
+            if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 0:
+                with open(tmp_path, "rb") as f:
+                    frame_data = f.read()
+
+                if prev_frame is not None:
+                    diff_ratio, has_activity = _compute_frame_difference(
+                        prev_frame, frame_data, activity_threshold
+                    )
+                    if has_activity:
+                        activity_frames.append({
+                            "timestamp": timestamp,
+                            "diff_ratio": diff_ratio,
+                        })
+                        if timestamp not in keyframe_times:
+                            keyframe_times.append(timestamp)
+
+                prev_frame = frame_data
+
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+
+    # Cluster activity into segments
+    if activity_frames:
+        current_segment_start = activity_frames[0]["timestamp"]
+        current_segment_score = activity_frames[0]["diff_ratio"]
+        segment_frame_count = 1
+
+        for frame in activity_frames[1:]:
+            # If gap > 1 second, start new segment
+            if frame["timestamp"] - current_segment_start > 1.0 + segment_frame_count * sample_interval:
+                segments.append(ActivitySegment(
+                    start_ms=int(current_segment_start * 1000),
+                    end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+                    activity_score=current_segment_score / segment_frame_count,
+                    frame_count=segment_frame_count,
+                ))
+                current_segment_start = frame["timestamp"]
+                current_segment_score = frame["diff_ratio"]
+                segment_frame_count = 1
+            else:
+                current_segment_score += frame["diff_ratio"]
+                segment_frame_count += 1
+
+        # Last segment
+        segments.append(ActivitySegment(
+            start_ms=int(current_segment_start * 1000),
+            end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+            activity_score=current_segment_score / segment_frame_count,
+            frame_count=segment_frame_count,
+        ))
+
+    # Sort and deduplicate keyframe times
+    keyframe_times = sorted(set(keyframe_times))
+
+    return segments, keyframe_times
+
+
+def _extract_activity_frames(
+    video_path: str,
+    keyframe_times: list[float],
+    max_frames: int = 30,
+    max_size: int = 512,
+    quality: int = 60,
+) -> list[tuple[bytes, dict]]:
+    """Extract frames at specified timestamps with heavy compression.
+
+    Optimized for minimal payload size.
+    """
+    import subprocess
+    import tempfile
+
+    frames = []
+
+    # Limit frames
+    if len(keyframe_times) > max_frames:
+        # Sample evenly
+        step = len(keyframe_times) / max_frames
+        keyframe_times = [keyframe_times[int(i * step)] for i in range(max_frames)]
+
+    for timestamp in keyframe_times:
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as f:
+            tmp_path = f.name
+
+        try:
+            cmd = [
+                "ffmpeg", "-y",
+                "-ss", str(timestamp),
+                "-i", video_path,
+                "-frames:v", "1",
+                "-vf", f"scale='min({max_size},iw)':'min({max_size},ih)':force_original_aspect_ratio=decrease",
+                "-q:v", str(max(1, min(31, (100 - quality) // 3))),  # FFmpeg quality 1-31
+                tmp_path
+            ]
+            subprocess.run(cmd, capture_output=True, timeout=10)
+
+            if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 0:
+                with open(tmp_path, "rb") as f:
+                    data = f.read()
+
+                frames.append((data, {
+                    "timestamp_ms": int(timestamp * 1000),
+                    "timestamp_sec": round(timestamp, 2),
+                    "size": len(data),
+                    "format": "jpeg",
+                }))
+
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+
+    return frames
+
+
+def _compress_session(
+    video_path: str,
+    max_duration: int = 60,
+    target_frames: int = 30,
+    activity_threshold: float = 0.02,
+    scene_threshold: float = 0.3,
+    max_size: int = 512,
+    quality: int = 60,
+) -> tuple[list[tuple[bytes, dict]], list[ActivitySegment], dict]:
+    """Full pipeline: analyze → slice → compress a computer use session.
+
+    Returns (frames, activity_segments, metadata).
+    """
+    # Analyze video
+    segments, keyframe_times = _analyze_video_activity(
+        video_path,
+        activity_threshold=activity_threshold,
+        max_duration=max_duration,
+        scene_threshold=scene_threshold,
+    )
+
+    # If no activity detected, sample evenly
+    if not keyframe_times:
+        import subprocess
+        probe_cmd = [
+            "ffprobe", "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            video_path
+        ]
+        try:
+            result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=10)
+            duration = min(float(result.stdout.strip()), max_duration)
+        except Exception:
+            duration = max_duration
+
+        interval = duration / target_frames
+        keyframe_times = [i * interval for i in range(target_frames)]
+
+    # Extract frames at activity points
+    frames = _extract_activity_frames(
+        video_path,
+        keyframe_times,
+        max_frames=target_frames,
+        max_size=max_size,
+        quality=quality,
+    )
+
+    # Compute metadata
+    total_size = sum(len(f[0]) for f in frames)
+    metadata = {
+        "source": video_path,
+        "activity_segments": len(segments),
+        "keyframes_detected": len(keyframe_times),
+        "frames_extracted": len(frames),
+        "total_size_bytes": total_size,
+        "total_size_kb": round(total_size / 1024, 1),
+        "avg_frame_size_kb": round(total_size / len(frames) / 1024, 1) if frames else 0,
+        "compression_settings": {
+            "max_size": max_size,
+            "quality": quality,
+        },
+    }
+
+    return frames, segments, metadata
+
+
 Action = Literal[
     # Image operations
     "load",           # Load single image
@@ -270,6 +630,10 @@ Action = Literal[
     "info",           # Get image info
     # Video operations
     "extract_frames", # Extract frames from video
+    # Activity detection & slicing (NEW)
+    "analyze",        # Detect activity segments in video
+    "slice",          # Extract frames at activity points only
+    "compress_session",  # Full pipeline for computer use sessions
     # Configuration
     "limits",         # Get/set limits
     "status",         # Get current status
@@ -341,6 +705,27 @@ extract_frames: Extract frames from video
   - interval_ms: Time between frames (default: 1000)
   - optimize: Optimize frames for Claude (default: true)
 
+analyze: Detect activity segments in video (movement, scene changes)
+  - path: Video file path
+  - activity_threshold: Sensitivity 0.01-0.10 (default: {self.limits.activity_threshold})
+  - scene_threshold: Scene change sensitivity (default: {self.limits.scene_change_threshold})
+  - max_duration: Max seconds to analyze (default: {self.limits.session_max_duration})
+  - Returns activity segments with timestamps and scores
+
+slice: Extract frames ONLY at activity points
+  - path: Video file path
+  - target_frames: Max frames to extract (default: {self.limits.session_target_frames})
+  - activity_threshold: Sensitivity (default: {self.limits.activity_threshold})
+  - max_size: Frame dimension (default: 512 for compression)
+  - quality: JPEG quality (default: {self.limits.session_compression_quality})
+
+compress_session: FULL PIPELINE for computer use video
+  - path: Video file path (e.g., 30-second screen recording)
+  - target_frames: Max frames (default: {self.limits.session_target_frames})
+  - max_size: Frame dimension (default: 512)
+  - quality: Compression quality (default: {self.limits.session_compression_quality})
+  - Returns compressed keyframes + activity analysis for Claude interpretation
+
 info: Get image/video info without loading full data
   - path: File path
 
@@ -357,12 +742,17 @@ ENVIRONMENT VARIABLES:
   HANZO_MEDIA_MAX_RESOLUTION={self.limits.max_resolution}
   HANZO_MEDIA_OPTIMAL_SIZE={self.limits.optimal_size}
   HANZO_MEDIA_JPEG_QUALITY={self.limits.jpeg_quality}
+  HANZO_MEDIA_ACTIVITY_THRESHOLD={self.limits.activity_threshold}
+  HANZO_MEDIA_SESSION_TARGET_FRAMES={self.limits.session_target_frames}
+  HANZO_MEDIA_SESSION_QUALITY={self.limits.session_compression_quality}
 
 EXAMPLES:
   media(action="load", path="screenshot.png")
   media(action="load_batch", paths=["img1.png", "img2.jpg", "img3.webp"])
   media(action="extract_frames", path="video.mp4", count=20, interval_ms=500)
-  media(action="optimize", images=[base64_data], max_size=768)
+  media(action="analyze", path="session.mp4")  # Detect activity
+  media(action="slice", path="session.mp4", target_frames=30)  # Activity frames only
+  media(action="compress_session", path="recording.mp4")  # Full pipeline for Claude
   media(action="limits", max_images=50, max_payload_mb=16)
 """
 
@@ -757,6 +1147,173 @@ EXAMPLES:
 
                 return json.dumps(info)
 
+            elif action == "analyze":
+                if not path:
+                    return json.dumps({"error": "path required (video file)"})
+
+                if not os.path.exists(path):
+                    return json.dumps({"error": f"File not found: {path}"})
+
+                # Get optional params from kwargs
+                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
+                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
+                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
+
+                segments, keyframe_times = await loop.run_in_executor(
+                    _EXECUTOR,
+                    _analyze_video_activity,
+                    path,
+                    activity_threshold,
+                    2.0,  # sample_fps
+                    max_duration,
+                    scene_threshold,
+                )
+
+                return json.dumps({
+                    "success": True,
+                    "source": path,
+                    "activity_segments": [
+                        {
+                            "start_ms": s.start_ms,
+                            "end_ms": s.end_ms,
+                            "duration_ms": s.end_ms - s.start_ms,
+                            "activity_score": round(s.activity_score, 4),
+                            "frame_count": s.frame_count,
+                        }
+                        for s in segments
+                    ],
+                    "keyframe_count": len(keyframe_times),
+                    "keyframe_times_sec": [round(t, 2) for t in keyframe_times],
+                    "settings": {
+                        "activity_threshold": activity_threshold,
+                        "scene_threshold": scene_threshold,
+                        "max_duration": max_duration,
+                    },
+                })
+
+            elif action == "slice":
+                if not path:
+                    return json.dumps({"error": "path required (video file)"})
+
+                if not os.path.exists(path):
+                    return json.dumps({"error": f"File not found: {path}"})
+
+                # Get params
+                target_frames = kwargs.get("target_frames", self.limits.session_target_frames)
+                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
+                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
+                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
+                slice_max_size = kwargs.get("max_size", 512)  # Smaller default for compression
+                slice_quality = kwargs.get("quality", self.limits.session_compression_quality)
+
+                # First analyze
+                segments, keyframe_times = await loop.run_in_executor(
+                    _EXECUTOR,
+                    _analyze_video_activity,
+                    path,
+                    activity_threshold,
+                    2.0,
+                    max_duration,
+                    scene_threshold,
+                )
+
+                # Then extract at activity points
+                frames = await loop.run_in_executor(
+                    _EXECUTOR,
+                    _extract_activity_frames,
+                    path,
+                    keyframe_times,
+                    target_frames,
+                    slice_max_size,
+                    slice_quality,
+                )
+
+                result = MediaResult(success=True)
+
+                for data, info in frames:
+                    if result.total_size + len(data) > self.limits.max_payload_bytes:
+                        result.warnings.append("Payload limit reached")
+                        break
+
+                    result.images.append({
+                        "timestamp_sec": info["timestamp_sec"],
+                        "timestamp_ms": info["timestamp_ms"],
+                        "size": len(data),
+                        "format": info["format"],
+                        "base64": base64.b64encode(data).decode(),
+                    })
+                    result.total_size += len(data)
+                    result.total_count += 1
+
+                return json.dumps({
+                    **result.to_dict(),
+                    "source": path,
+                    "activity_segments": len(segments),
+                    "keyframes_detected": len(keyframe_times),
+                    "compression_settings": {
+                        "max_size": slice_max_size,
+                        "quality": slice_quality,
+                    },
+                })
+
+            elif action == "compress_session":
+                if not path:
+                    return json.dumps({"error": "path required (video file)"})
+
+                if not os.path.exists(path):
+                    return json.dumps({"error": f"File not found: {path}"})
+
+                # Get params
+                target_frames = kwargs.get("target_frames", self.limits.session_target_frames)
+                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
+                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
+                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
+                session_max_size = kwargs.get("max_size", 512)
+                session_quality = kwargs.get("quality", self.limits.session_compression_quality)
+
+                # Full pipeline
+                frames, segments, metadata = await loop.run_in_executor(
+                    _EXECUTOR,
+                    _compress_session,
+                    path,
+                    max_duration,
+                    target_frames,
+                    activity_threshold,
+                    scene_threshold,
+                    session_max_size,
+                    session_quality,
+                )
+
+                result = MediaResult(success=True)
+
+                for data, info in frames:
+                    if result.total_size + len(data) > self.limits.max_payload_bytes:
+                        result.warnings.append("Payload limit reached")
+                        break
+
+                    result.images.append({
+                        "timestamp_sec": info["timestamp_sec"],
+                        "timestamp_ms": info["timestamp_ms"],
+                        "size": len(data),
+                        "format": info["format"],
+                        "base64": base64.b64encode(data).decode(),
+                    })
+                    result.total_size += len(data)
+                    result.total_count += 1
+
+                return json.dumps({
+                    **result.to_dict(),
+                    **metadata,
+                    "activity_segments": [
+                        {
+                            "start_ms": s.start_ms,
+                            "end_ms": s.end_ms,
+                            "activity_score": round(s.activity_score, 4),
+                        }
+                        for s in segments
+                    ],
+                })
+
             else:
                 return json.dumps({"error": f"Unknown action: {action}"})
 
@@ -782,6 +1339,12 @@ EXAMPLES:
             quality: Annotated[Optional[int], Field(description="JPEG quality 1-100")] = None,
             count: Annotated[int, Field(description="Frame count")] = 10,
             interval_ms: Annotated[int, Field(description="Frame interval ms")] = 1000,
+            # Activity detection params
+            target_frames: Annotated[Optional[int], Field(description="Target frames for activity slicing")] = None,
+            activity_threshold: Annotated[Optional[float], Field(description="Activity sensitivity 0.01-0.10")] = None,
+            scene_threshold: Annotated[Optional[float], Field(description="Scene change sensitivity")] = None,
+            max_duration: Annotated[Optional[int], Field(description="Max seconds to analyze")] = None,
+            # Limit updates
             max_images: Annotated[Optional[int], Field(description="Update max images limit")] = None,
             max_payload_mb: Annotated[Optional[float], Field(description="Update max payload MB")] = None,
             max_resolution: Annotated[Optional[int], Field(description="Update max resolution")] = None,
@@ -804,6 +1367,11 @@ EXAMPLES:
                 max_images=max_images,
                 max_payload_mb=max_payload_mb,
                 max_resolution=max_resolution,
+                # Pass activity params as kwargs
+                target_frames=target_frames,
+                activity_threshold=activity_threshold,
+                scene_threshold=scene_threshold,
+                max_duration=max_duration,
             )
 
 
