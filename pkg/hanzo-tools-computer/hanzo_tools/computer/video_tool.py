@@ -42,10 +42,13 @@ from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout
 # Thread pool for blocking operations
 _EXECUTOR = ThreadPoolExecutor(max_workers=2, thread_name_prefix="video_")
 
-# Claude vision optimal settings
-CLAUDE_MAX_FRAMES = 10  # Max frames per request
-CLAUDE_OPTIMAL_SIZE = 768  # Optimal long edge size
-CLAUDE_JPEG_QUALITY = 85  # JPEG quality for compression
+# Claude vision optimal settings (matches API limits)
+CLAUDE_MAX_FRAMES = 100  # Max frames per request (API limit)
+CLAUDE_MAX_PAYLOAD_MB = 32  # Max total payload in MB
+CLAUDE_OPTIMAL_SIZE = 768  # Optimal long edge size for speed/quality balance
+CLAUDE_JPEG_QUALITY_KEYFRAME = 85  # Quality for keyframes (every Nth frame)
+CLAUDE_JPEG_QUALITY_DELTA = 60  # Lower quality for in-between frames (Claude interpolates)
+CLAUDE_KEYFRAME_INTERVAL = 5  # Every 5th frame is a keyframe (higher quality)
 
 Action = Literal[
     # Recording
@@ -67,12 +70,32 @@ Action = Literal[
 ]
 
 
-def _resize_for_claude(image_data: bytes, max_size: int = CLAUDE_OPTIMAL_SIZE) -> bytes:
-    """Resize image for Claude vision API - optimal size and JPEG compression."""
+def _resize_for_claude(
+    image_data: bytes,
+    max_size: int = CLAUDE_OPTIMAL_SIZE,
+    quality: int = CLAUDE_JPEG_QUALITY_KEYFRAME,
+    is_keyframe: bool = True,
+) -> bytes:
+    """Resize image for Claude vision API - optimal size and JPEG compression.
+
+    Args:
+        image_data: Raw image bytes
+        max_size: Max dimension (width or height)
+        quality: JPEG quality (1-100)
+        is_keyframe: If True, use higher quality. If False, use delta compression.
+
+    Keyframe strategy:
+        - Every Nth frame is a keyframe (higher quality, ~100-200KB)
+        - In-between frames use lower quality (~50-100KB) since Claude interpolates
+        - This allows 100 frames at ~10MB total vs ~20MB with uniform quality
+    """
     try:
         from PIL import Image
     except ImportError:
         return image_data  # Return original if PIL not available
+
+    # Use lower quality for non-keyframes (Claude can interpolate)
+    actual_quality = quality if is_keyframe else min(quality, CLAUDE_JPEG_QUALITY_DELTA)
 
     img = Image.open(io.BytesIO(image_data))
 
@@ -87,7 +110,7 @@ def _resize_for_claude(image_data: bytes, max_size: int = CLAUDE_OPTIMAL_SIZE) -
     buffer = io.BytesIO()
     if img.mode in ('RGBA', 'P'):
         img = img.convert('RGB')
-    img.save(buffer, format='JPEG', quality=CLAUDE_JPEG_QUALITY, optimize=True)
+    img.save(buffer, format='JPEG', quality=actual_quality, optimize=True)
 
     return buffer.getvalue()
 
@@ -180,11 +203,13 @@ Actions:
   - interval: Time between frames in ms (default 100)
 
 - frames_claude: RECOMMENDED - Claude-optimized frame capture
+  - Max 100 frames (Claude API limit)
+  - Max 32MB total payload
+  - Keyframe compression: every 5th frame at 85%, others at 60%
+  - Claude interpolates between frames, so delta frames can be smaller
   - Automatically resizes to 768px (optimal for Claude vision)
-  - JPEG compression (~100-200KB per frame)
-  - Max 10 frames to fit context limits
   - Skips duplicate frames automatically
-  - count: Number of frames (max 10)
+  - count: Number of frames (max 100)
   - interval: Time between frames in ms (default 100)
 
 - stream: Start frame streaming
@@ -204,15 +229,17 @@ Examples:
     video(action="start", fps=30, quality="high")
     video(action="frame")  # Get single frame for AI analysis
     video(action="frames", count=5, interval=200)  # 5 frames, 200ms apart
-    video(action="frames_claude", count=10, interval=500)  # Claude-optimized: 10 frames over 5s
+    video(action="frames_claude", count=100, interval=100)  # 100 frames over 10s
     video(action="stop")
     video(action="gif", output="demo.gif")
 
 Claude Vision Best Practices:
     - Use frames_claude for video analysis (auto-optimized)
-    - 10 frames max per request (~1-2MB total)
-    - 500-1000ms intervals capture meaningful changes
-    - Frames are 768px JPEG for fast processing
+    - 100 frames max, 32MB max payload
+    - Keyframe strategy: every 5th frame is higher quality
+    - Delta frames use 60% quality (Claude interpolates)
+    - 100-500ms intervals capture meaningful changes
+    - ~10-15MB typical for 100 frames with keyframe compression
 """
 
     def _capture_frame_native(self, region: Optional[list[int]] = None) -> bytes:
@@ -379,18 +406,27 @@ Claude Vision Best Practices:
                 })
 
             elif action == "frames_claude":
-                # Claude-optimized frame capture
-                # - Max 10 frames to fit context limits
-                # - Resized to 768px for optimal vision processing
-                # - JPEG compressed to ~100-200KB per frame
+                # Claude-optimized frame capture with keyframe compression
+                # - Max 100 frames (Claude API limit)
+                # - Max 32MB total payload
+                # - Keyframe strategy: every 5th frame at 85% quality, others at 60%
+                # - Claude can interpolate between frames, so delta frames can be smaller
                 # - Skip duplicate/similar frames
                 actual_count = min(count, CLAUDE_MAX_FRAMES)
+                max_payload_bytes = int(CLAUDE_MAX_PAYLOAD_MB * 1024 * 1024)
                 frames_data = []
                 last_frame_hash = None
                 skipped = 0
+                total_size = 0
+                keyframes = 0
+                delta_frames = 0
 
-                for i in range(actual_count + skipped):
+                for i in range(actual_count * 2):  # Allow for skipping duplicates
                     if len(frames_data) >= actual_count:
+                        break
+
+                    # Check payload limit (leave 1MB buffer)
+                    if total_size >= max_payload_bytes - 1024 * 1024:
                         break
 
                     if self._check_screencapture():
@@ -407,33 +443,58 @@ Claude Vision Best Practices:
 
                     last_frame_hash = frame_hash
 
-                    # Resize and compress for Claude
-                    optimized = await run(_resize_for_claude, raw_data, CLAUDE_OPTIMAL_SIZE)
+                    # Keyframe strategy: every Nth frame is higher quality
+                    frame_index = len(frames_data)
+                    is_keyframe = (frame_index % CLAUDE_KEYFRAME_INTERVAL == 0)
+
+                    # Resize and compress for Claude with keyframe-aware quality
+                    optimized = await run(
+                        _resize_for_claude,
+                        raw_data,
+                        CLAUDE_OPTIMAL_SIZE,
+                        CLAUDE_JPEG_QUALITY_KEYFRAME,
+                        is_keyframe,
+                    )
+
+                    # Check if this frame would exceed payload
+                    if total_size + len(optimized) > max_payload_bytes:
+                        break
+
+                    if is_keyframe:
+                        keyframes += 1
+                    else:
+                        delta_frames += 1
 
                     frames_data.append({
-                        "index": len(frames_data),
+                        "index": frame_index,
                         "timestamp_ms": i * interval,
+                        "is_keyframe": is_keyframe,
                         "original_size": len(raw_data),
                         "optimized_size": len(optimized),
                         "format": "jpeg",
                         "base64": base64.b64encode(optimized).decode(),
                     })
+                    total_size += len(optimized)
 
-                    if i < actual_count + skipped - 1:
+                    if i < actual_count * 2 - 1:
                         await asyncio.sleep(interval / 1000)
-
-                total_size = sum(f["optimized_size"] for f in frames_data)
 
                 return json.dumps({
                     "success": True,
                     "count": len(frames_data),
                     "max_frames": CLAUDE_MAX_FRAMES,
+                    "max_payload_mb": CLAUDE_MAX_PAYLOAD_MB,
                     "optimal_size": CLAUDE_OPTIMAL_SIZE,
+                    "keyframes": keyframes,
+                    "delta_frames": delta_frames,
+                    "keyframe_quality": CLAUDE_JPEG_QUALITY_KEYFRAME,
+                    "delta_quality": CLAUDE_JPEG_QUALITY_DELTA,
                     "skipped_duplicates": skipped,
                     "total_size_kb": round(total_size / 1024, 1),
+                    "total_size_mb": round(total_size / (1024 * 1024), 2),
                     "interval_ms": interval,
                     "frames": frames_data,
-                    "note": f"Frames optimized for Claude vision API ({CLAUDE_OPTIMAL_SIZE}px, JPEG {CLAUDE_JPEG_QUALITY}%)"
+                    "note": f"100 frames max, 32MB limit. Keyframes (1/{CLAUDE_KEYFRAME_INTERVAL}) at {CLAUDE_JPEG_QUALITY_KEYFRAME}%, deltas at {CLAUDE_JPEG_QUALITY_DELTA}%",
                 })
 
             elif action == "start":

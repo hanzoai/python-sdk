@@ -31,7 +31,7 @@ from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 from .computer_tool import ComputerTool
 from .fast_computer import FastComputerTool
 from .video_tool import VideoTool
-from .media_tool import MediaTool, MediaLimits, media_tool
+from .media_tool import MediaTool, MediaLimits, MediaResult, ActivitySegment, media_tool
 
 # Export list for tool discovery
 TOOLS = [ComputerTool, FastComputerTool, VideoTool, MediaTool]
@@ -42,6 +42,8 @@ __all__ = [
     "VideoTool",
     "MediaTool",
     "MediaLimits",
+    "MediaResult",
+    "ActivitySegment",
     "media_tool",
     "register_tools",
     "TOOLS",
