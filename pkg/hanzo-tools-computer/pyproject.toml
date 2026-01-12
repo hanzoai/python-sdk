@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-computer"
-version = "0.3.0"
-description = "Computer control tools for Hanzo AI - automation, video capture, media processing (100 images/32MB configurable limits)"
+version = "0.4.0"
+description = "Computer control tools for Hanzo AI - automation, video capture, media processing with activity detection (100 images/32MB limits)"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.12"
@@ -25,6 +25,7 @@ dependencies = [
     "hanzo-tools>=0.3.0",
     "pyautogui>=0.9.54",
     "pillow>=10.0.0",
+    "numpy>=1.26.0",
     "mcp>=1.25.0",
     "pydantic>=2.0.0",
 ]
