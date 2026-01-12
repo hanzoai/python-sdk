@@ -81,9 +81,7 @@ class MediaLimits:
     session_compression_quality: int = 60  # Aggressive compression for sessions
 
     # Hard limits (Claude API constraints for multi-image requests)
-    # IMPORTANT: Claude has 2000px max for many-image requests
-    # We use 1568px to stay well under the limit
-    HARD_MAX_RESOLUTION: int = 1568  # Never exceed this
+    HARD_MAX_RESOLUTION: int = 2000  # Claude's actual limit
     HARD_MAX_IMAGES: int = 100
     HARD_MAX_PAYLOAD_MB: float = 32.0
 

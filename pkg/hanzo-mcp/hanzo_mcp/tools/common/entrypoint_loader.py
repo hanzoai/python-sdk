@@ -44,7 +44,7 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "vector": ["index", "vector_index", "vector_search"],
     "config": ["config", "mode"],
     "mcp_tools": ["mcp"],  # Consolidated MCP tool
-    "computer": ["computer"],
+    "computer": ["computer", "fast_computer", "video", "media", "screen"],
 }
 
 

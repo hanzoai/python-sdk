@@ -161,6 +161,10 @@ def register_all_tools(
     for tool in PACKAGE_TOOL_PREFIXES.get("jupyter", []):
         resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
 
+    # Computer tools (screen capture, recording, native control)
+    for tool in PACKAGE_TOOL_PREFIXES.get("computer", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
     # Create loader and discover packages
     loader = EntryPointToolLoader(permission_manager=permission_manager)
     discovered = loader.discover_packages()
