@@ -29,7 +29,7 @@ KNOWN_SHELL_NAMES = {
 KNOWN_SHELL_PATH_BASENAMES = KNOWN_SHELL_NAMES | {"busybox"}  # sometimes sh is busybox
 
 # Shells we support with dedicated tools
-SUPPORTED_SHELLS = {"zsh", "bash", "fish", "dash"}
+SUPPORTED_SHELLS = {"zsh", "bash", "fish", "dash", "ksh", "tcsh", "csh"}
 
 
 @dataclass(frozen=True)
@@ -345,13 +345,21 @@ def get_shell_tool_class(shell_name: str):
         Shell tool class or None if not supported
     """
     # Import here to avoid circular imports
-    from hanzo_tools.shell.shell_tools import ZshTool, BashTool, FishTool, DashTool
+    from hanzo_tools.shell.shell_tools import (
+        ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool
+    )
 
     shell_map = {
         "zsh": ZshTool,
         "bash": BashTool,
         "fish": FishTool,
         "dash": DashTool,
+        "ksh": KshTool,
+        "ksh93": KshTool,  # Alias
+        "pdksh": KshTool,  # Alias
+        "mksh": KshTool,   # Alias
+        "tcsh": TcshTool,
+        "csh": CshTool,
     }
 
     return shell_map.get(shell_name.lower())
