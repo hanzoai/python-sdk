@@ -77,7 +77,7 @@ class ScreenConfig:
     scene_threshold: float = 0.3
 
     # Hard limits (Claude API constraints)
-    HARD_MAX_SIZE: int = 1568  # Max dimension for multi-image (well under 2000)
+    HARD_MAX_SIZE: int = 2000  # Claude's actual limit
     HARD_MAX_FRAMES: int = 100  # Max frames per request
     HARD_MAX_PAYLOAD_MB: float = 32.0  # Max total payload
 
