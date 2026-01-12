@@ -229,11 +229,28 @@ def main() -> None:
     )
 
     _ = parser.add_argument(
+        "--shell",
+        dest="shell",
+        type=str,
+        default=None,
+        help="Shell to expose via MCP. Can be a name (zsh, bash, fish, dash) or path (/opt/homebrew/bin/zsh). "
+             "By default, only your active shell is exposed. Use --all-shells to expose all.",
+    )
+
+    _ = parser.add_argument(
         "--force-shell",
         dest="force_shell",
-        choices=["bash", "zsh", "sh"],
+        choices=["bash", "zsh", "sh", "fish", "dash"],
         default=None,
-        help="Force all shell tools (bash, zsh, shell) to use this shell (default: use requested shell)",
+        help="[Deprecated: use --shell] Force all shell tools to use this shell",
+    )
+
+    _ = parser.add_argument(
+        "--all-shells",
+        dest="all_shells",
+        action="store_true",
+        default=False,
+        help="Expose all shell tools (zsh, bash, fish, dash) instead of just your active shell",
     )
 
     _ = parser.add_argument(
@@ -348,9 +365,22 @@ def main() -> None:
         ast_timeout = _parse_timeout_arg(args.ast_timeout)
         os.environ["HANZO_MCP_AST_TIMEOUT"] = str(ast_timeout)
 
-    # Set force shell environment variable
-    if hasattr(args, "force_shell") and args.force_shell:
-        os.environ["HANZO_MCP_FORCE_SHELL"] = args.force_shell
+    # Set shell environment variables
+    # --all-shells takes precedence
+    if hasattr(args, "all_shells") and args.all_shells:
+        os.environ["HANZO_MCP_ALL_SHELLS"] = "1"
+    # --shell sets the shell to expose (name or path)
+    elif hasattr(args, "shell") and args.shell:
+        shell_arg = args.shell
+        if "/" in shell_arg:
+            # It's a path
+            os.environ["HANZO_MCP_FORCE_SHELL"] = shell_arg
+        else:
+            # It's a name
+            os.environ["HANZO_MCP_SHELL"] = shell_arg
+    # --force-shell (deprecated) still works
+    elif hasattr(args, "force_shell") and args.force_shell:
+        os.environ["HANZO_MCP_SHELL"] = args.force_shell
 
     # Cast args attributes to appropriate types to avoid 'Any' warnings
     name: str = cast(str, args.name)
