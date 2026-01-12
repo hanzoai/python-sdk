@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-computer"
-version = "0.5.1"
+version = "0.5.2"
 description = "Computer control tools for Hanzo AI - automation, screen recording, activity detection, session compression for Claude (100 images/32MB/2000px limits)"
 readme = "README.md"
 license = "MIT"
