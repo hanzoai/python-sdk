@@ -1,10 +1,9 @@
 """Video capture and streaming tool for Hanzo AI.
 
-High-performance screen recording with:
-- Native macOS AVFoundation capture (fastest)
-- FFmpeg fallback for cross-platform
-- Real-time frame streaming for AI analysis
-- Multiple output formats (H264, WebM, GIF)
+Cross-platform screen recording with:
+- macOS: Native screencapture + FFmpeg
+- Linux: scrot/gnome-screenshot + FFmpeg
+- Windows: PIL ImageGrab + FFmpeg
 
 Performance characteristics:
 - Native capture: 60fps at 1080p with <10ms latency
@@ -12,11 +11,12 @@ Performance characteristics:
 - Background recording with async control
 
 Claude Vision Optimization:
+- 100 frames max per request (Claude API limit)
+- 32MB max payload
+- Keyframe compression: every 5th frame at 85%, others at 60%
 - Frames resized to 768px (optimal for Claude vision)
-- Max 10 frames per batch to fit context limits
-- JPEG compression (quality 85) for smaller payloads
 - Smart frame selection (detect changes, skip duplicates)
-- Estimated 100-200KB per frame after optimization
+- ~10-15MB typical for 100 frames with keyframe compression
 """
 
 import os
@@ -243,31 +243,84 @@ Claude Vision Best Practices:
 """
 
     def _capture_frame_native(self, region: Optional[list[int]] = None) -> bytes:
-        """Capture frame using native macOS screencapture (fastest)."""
+        """Capture frame using native tools - cross-platform."""
+        import shutil
+
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
             tmp_path = f.name
 
         try:
-            cmd = ["screencapture", "-x", "-t", "png"]
-            if region and len(region) == 4:
-                x, y, w, h = region
-                cmd.extend(["-R", f"{x},{y},{w},{h}"])
-            cmd.append(tmp_path)
+            if sys.platform == "darwin":
+                # macOS: screencapture
+                cmd = ["screencapture", "-x", "-t", "png"]
+                if region and len(region) == 4:
+                    x, y, w, h = region
+                    cmd.extend(["-R", f"{x},{y},{w},{h}"])
+                cmd.append(tmp_path)
+                subprocess.run(cmd, capture_output=True, timeout=2)
 
-            subprocess.run(cmd, capture_output=True, timeout=2)
+            elif sys.platform.startswith("linux"):
+                # Linux: scrot or gnome-screenshot
+                if shutil.which("scrot"):
+                    if region and len(region) == 4:
+                        x, y, w, h = region
+                        cmd = ["scrot", "-a", f"{x},{y},{w},{h}", "-o", tmp_path]
+                    else:
+                        cmd = ["scrot", "-o", tmp_path]
+                    subprocess.run(cmd, capture_output=True, timeout=2)
+                elif shutil.which("gnome-screenshot"):
+                    cmd = ["gnome-screenshot", "-f", tmp_path]
+                    subprocess.run(cmd, capture_output=True, timeout=2)
+                else:
+                    # Fallback to PIL
+                    try:
+                        from PIL import ImageGrab
+                        if region and len(region) == 4:
+                            x, y, w, h = region
+                            img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+                        else:
+                            img = ImageGrab.grab()
+                        img.save(tmp_path, "PNG")
+                    except:
+                        pass
 
-            with open(tmp_path, "rb") as f:
-                return f.read()
+            elif sys.platform == "win32":
+                # Windows: PIL ImageGrab (fastest)
+                try:
+                    from PIL import ImageGrab
+                    if region and len(region) == 4:
+                        x, y, w, h = region
+                        img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+                    else:
+                        img = ImageGrab.grab()
+                    img.save(tmp_path, "PNG")
+                except:
+                    pass
+
+            if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 0:
+                with open(tmp_path, "rb") as f:
+                    return f.read()
+            return b""
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
 
     def _capture_frame_ffmpeg(self, region: Optional[list[int]] = None) -> bytes:
-        """Capture frame using FFmpeg."""
+        """Capture frame using FFmpeg - cross-platform."""
+        # Platform-specific input device
+        if sys.platform == "darwin":
+            input_args = ["-f", "avfoundation", "-i", "1:none"]
+        elif sys.platform.startswith("linux"):
+            # X11 capture
+            input_args = ["-f", "x11grab", "-i", os.environ.get("DISPLAY", ":0")]
+        elif sys.platform == "win32":
+            input_args = ["-f", "gdigrab", "-i", "desktop"]
+        else:
+            return b""
+
         cmd = [
             "ffmpeg",
-            "-f", "avfoundation",
-            "-i", "1:none",  # Screen capture input
+            *input_args,
             "-frames:v", "1",
             "-f", "image2pipe",
             "-vcodec", "png",
@@ -276,8 +329,8 @@ Claude Vision Best Practices:
 
         if region and len(region) == 4:
             x, y, w, h = region
-            cmd.insert(-2, "-vf")
-            cmd.insert(-2, f"crop={w}:{h}:{x}:{y}")
+            cmd.insert(-4, "-vf")
+            cmd.insert(-4, f"crop={w}:{h}:{x}:{y}")
 
         result = subprocess.run(cmd, capture_output=True, timeout=5)
         return result.stdout
@@ -289,7 +342,7 @@ Claude Vision Best Practices:
         quality: str = "medium",
         region: Optional[list[int]] = None,
     ) -> str:
-        """Start recording using FFmpeg."""
+        """Start recording using FFmpeg - cross-platform."""
         quality_map = {
             "low": "28",
             "medium": "23",
@@ -297,12 +350,20 @@ Claude Vision Best Practices:
         }
         crf = quality_map.get(quality, "23")
 
+        # Platform-specific input device
+        if sys.platform == "darwin":
+            input_args = ["-f", "avfoundation", "-framerate", str(fps), "-i", "1:none"]
+        elif sys.platform.startswith("linux"):
+            input_args = ["-f", "x11grab", "-framerate", str(fps), "-i", os.environ.get("DISPLAY", ":0")]
+        elif sys.platform == "win32":
+            input_args = ["-f", "gdigrab", "-framerate", str(fps), "-i", "desktop"]
+        else:
+            raise RuntimeError(f"Unsupported platform: {sys.platform}")
+
         cmd = [
             "ffmpeg",
             "-y",  # Overwrite
-            "-f", "avfoundation",
-            "-framerate", str(fps),
-            "-i", "1:none",
+            *input_args,
             "-c:v", "libx264",
             "-crf", crf,
             "-preset", "ultrafast",
@@ -344,9 +405,7 @@ Claude Vision Best Practices:
         **kwargs,
     ) -> str:
         """Execute video action."""
-        if sys.platform != "darwin":
-            return f"Error: video tool currently only supports macOS"
-
+        # Cross-platform support via native tools + FFmpeg
         loop = asyncio.get_event_loop()
 
         def run(fn, *args):
