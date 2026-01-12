@@ -80,21 +80,46 @@ class MediaLimits:
     session_target_frames: int = 30  # Target frames for session summary
     session_compression_quality: int = 60  # Aggressive compression for sessions
 
+    # Hard limits (Claude API constraints for multi-image requests)
+    # IMPORTANT: Claude has 2000px max for many-image requests
+    # We use 1568px to stay well under the limit
+    HARD_MAX_RESOLUTION: int = 1568  # Never exceed this
+    HARD_MAX_IMAGES: int = 100
+    HARD_MAX_PAYLOAD_MB: float = 32.0
+
     @classmethod
     def from_env(cls) -> "MediaLimits":
-        """Load limits from environment variables."""
+        """Load limits from environment variables with hard cap enforcement."""
         return cls(
-            max_images=int(os.environ.get("HANZO_MEDIA_MAX_IMAGES", "100")),
-            max_payload_mb=float(os.environ.get("HANZO_MEDIA_MAX_PAYLOAD_MB", "32")),
-            max_resolution=int(os.environ.get("HANZO_MEDIA_MAX_RESOLUTION", "1568")),
-            optimal_size=int(os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE", "768")),
+            max_images=min(
+                int(os.environ.get("HANZO_MEDIA_MAX_IMAGES", "100")),
+                cls.HARD_MAX_IMAGES,
+            ),
+            max_payload_mb=min(
+                float(os.environ.get("HANZO_MEDIA_MAX_PAYLOAD_MB", "32")),
+                cls.HARD_MAX_PAYLOAD_MB,
+            ),
+            max_resolution=min(
+                int(os.environ.get("HANZO_MEDIA_MAX_RESOLUTION", "1568")),
+                cls.HARD_MAX_RESOLUTION,  # Claude 2000px limit for multi-image
+            ),
+            optimal_size=min(
+                int(os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE", "768")),
+                cls.HARD_MAX_RESOLUTION,
+            ),
             jpeg_quality=int(os.environ.get("HANZO_MEDIA_JPEG_QUALITY", "85")),
-            max_frames=int(os.environ.get("HANZO_MEDIA_MAX_FRAMES", "100")),
+            max_frames=min(
+                int(os.environ.get("HANZO_MEDIA_MAX_FRAMES", "100")),
+                cls.HARD_MAX_IMAGES,
+            ),
             activity_threshold=float(os.environ.get("HANZO_MEDIA_ACTIVITY_THRESHOLD", "0.02")),
             min_activity_gap_ms=int(os.environ.get("HANZO_MEDIA_MIN_ACTIVITY_GAP_MS", "200")),
             scene_change_threshold=float(os.environ.get("HANZO_MEDIA_SCENE_THRESHOLD", "0.3")),
             session_max_duration=int(os.environ.get("HANZO_MEDIA_SESSION_MAX_DURATION", "60")),
-            session_target_frames=int(os.environ.get("HANZO_MEDIA_SESSION_TARGET_FRAMES", "30")),
+            session_target_frames=min(
+                int(os.environ.get("HANZO_MEDIA_SESSION_TARGET_FRAMES", "30")),
+                cls.HARD_MAX_IMAGES,
+            ),
             session_compression_quality=int(os.environ.get("HANZO_MEDIA_SESSION_QUALITY", "60")),
         )
 
