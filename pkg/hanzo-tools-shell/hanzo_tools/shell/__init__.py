@@ -15,9 +15,9 @@ Detection order:
 6. $SHELL environment variable
 
 On macOS with Homebrew, this will prefer /opt/homebrew/bin/zsh over /bin/zsh.
+If detection fails, falls back to 'shell' tool (smart auto-detect).
 
 Core tools:
-- cmd: Unified execution graph (DAG) - RECOMMENDED
 - <detected>: Your active shell (zsh, bash, fish, or dash)
 - ps: Process management (list, kill, logs)
 
@@ -30,12 +30,6 @@ Convenience tools:
 - npx: Node package execution with auto-backgrounding
 - uvx: Python package execution with auto-backgrounding
 - open: Open files/URLs in system apps
-
-Use 'cmd' for:
-- Simple commands: cmd("ls -la")
-- Parallel execution: cmd(["npm install", "cargo build"], parallel=True)
-- Mixed DAG: cmd(["mkdir dist", {"parallel": ["cp a dist/", "cp b dist/"]}, "zip out"])
-- Tool invocations: cmd([{"tool": "search", "input": {"pattern": "TODO"}}])
 
 Auto-backgrounding: Commands exceeding timeout automatically background.
 Configure via: export HANZO_AUTO_BACKGROUND_TIMEOUT=30  (default: 30s)
@@ -65,7 +59,10 @@ from hanzo_tools.shell.cmd_tool import CmdTool, CmdResult, CmdNode, NodeStatus, 
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
-from hanzo_tools.shell.shell_tools import ZshTool, BashTool, FishTool, DashTool, ShellTool, zsh_tool, bash_tool, fish_tool, dash_tool, shell_tool
+from hanzo_tools.shell.shell_tools import (
+    ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool, ShellTool,
+    zsh_tool, bash_tool, fish_tool, dash_tool, ksh_tool, tcsh_tool, csh_tool, shell_tool
+)
 
 # HTTP/Data tools (no shell escaping issues)
 from hanzo_tools.shell.curl_tool import CurlTool
@@ -116,7 +113,7 @@ def _get_detected_shell_tools() -> list:
 
     # Allow exposing all shells via env var (for debugging/testing)
     if os.environ.get("HANZO_MCP_ALL_SHELLS", "").lower() in ("1", "true", "yes"):
-        return [CmdTool, ZshTool, BashTool, FishTool, DashTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+        return [ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
     # Detect active shell
     shell_name, shell_path = get_cached_active_shell()
@@ -124,12 +121,14 @@ def _get_detected_shell_tools() -> list:
     # Get the appropriate shell tool class
     shell_tool_class = get_shell_tool_class(shell_name)
 
-    # Base tools (always included)
-    tools = [CmdTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+    # Base tools (always included) - no cmd, just the detected shell
+    tools = [PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
-    # Add only the detected shell tool
+    # Add detected shell tool, or fall back to ShellTool (smart auto-detect)
     if shell_tool_class:
-        tools.insert(1, shell_tool_class)  # Put shell right after cmd
+        tools.insert(0, shell_tool_class)  # Put detected shell first
+    else:
+        tools.insert(0, ShellTool)  # Fallback to smart shell
 
     return tools
 
@@ -182,6 +181,12 @@ __all__ = [
     "fish_tool",
     "DashTool",
     "dash_tool",
+    "KshTool",
+    "ksh_tool",
+    "TcshTool",
+    "tcsh_tool",
+    "CshTool",
+    "csh_tool",
     # Backwards compatibility
     "DagTool",
     "DagResult",
@@ -216,7 +221,7 @@ def get_shell_tools(
 
     Args:
         permission_manager: Permission manager for access control
-        all_tools: Dict of all registered tools (for cmd tool invocations)
+        all_tools: Dict of all registered tools (for tool invocations)
         shell_override: Override shell (name like "zsh" or path like "/path/to/fish")
 
     Returns:
@@ -224,16 +229,12 @@ def get_shell_tools(
     """
     import os
 
-    # Create cmd tool with access to other tools (for tool invocations)
-    cmd = CmdTool(tools=all_tools or {})
-
     # Set permission manager for convenience tools
     npx_tool.permission_manager = permission_manager
     uvx_tool.permission_manager = permission_manager
 
-    # Base tools list
+    # Base tools list (no cmd - just the detected shell and utilities)
     tools = [
-        cmd,       # Primary command execution with DAG support
         ps_tool,   # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
@@ -242,10 +243,13 @@ def get_shell_tools(
 
     # Check for all-shells mode
     if os.environ.get("HANZO_MCP_ALL_SHELLS", "").lower() in ("1", "true", "yes"):
-        tools.insert(1, ZshTool(tools=all_tools or {}))
-        tools.insert(2, BashTool(tools=all_tools or {}))
-        tools.insert(3, FishTool(tools=all_tools or {}))
-        tools.insert(4, DashTool(tools=all_tools or {}))
+        tools.insert(0, ZshTool(tools=all_tools or {}))
+        tools.insert(1, BashTool(tools=all_tools or {}))
+        tools.insert(2, FishTool(tools=all_tools or {}))
+        tools.insert(3, DashTool(tools=all_tools or {}))
+        tools.insert(4, KshTool(tools=all_tools or {}))
+        tools.insert(5, TcshTool(tools=all_tools or {}))
+        tools.insert(6, CshTool(tools=all_tools or {}))
         return tools
 
     # Determine which shell to expose
@@ -259,11 +263,13 @@ def get_shell_tools(
     else:
         shell_name, _ = get_cached_active_shell()
 
-    # Create and add only the detected shell tool
+    # Create and add detected shell tool, or fall back to ShellTool
     shell_tool_class = get_shell_tool_class(shell_name)
     if shell_tool_class:
         shell_instance = shell_tool_class(tools=all_tools or {})
-        tools.insert(1, shell_instance)  # Put shell right after cmd
+        tools.insert(0, shell_instance)  # Put detected shell first
+    else:
+        tools.insert(0, ShellTool(tools=all_tools or {}))  # Fallback to smart shell
 
     return tools
 

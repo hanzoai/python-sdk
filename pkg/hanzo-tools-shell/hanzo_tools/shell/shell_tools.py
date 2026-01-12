@@ -1,4 +1,4 @@
-"""Shell tool shims - zsh, bash, fish, dash, shell wrappers over cmd.
+"""Shell tool shims - zsh, bash, fish, dash, ksh, tcsh, csh, shell wrappers over cmd.
 
 These are thin wrappers that set the shell and delegate to CmdTool.
 Use cmd directly for full control.
@@ -8,7 +8,10 @@ Supported shells:
 - bash: Bourne-Again shell (most common, default on most Linux)
 - fish: Friendly Interactive Shell (modern, user-friendly)
 - dash: Debian Almquist Shell (fast POSIX shell, Ubuntu's /bin/sh)
-- shell: Auto-selects best available (zsh > bash > fish > dash > sh)
+- ksh: KornShell (enterprise Unix, efficient scripting)
+- tcsh: TENEX C Shell (enhanced csh with command completion)
+- csh: C Shell (older, C-like syntax)
+- shell: Auto-selects best available (zsh > bash > fish > dash > ksh > sh)
 """
 
 import os
@@ -353,8 +356,263 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
             )
 
 
+class KshTool(CmdTool):
+    """KornShell - enterprise Unix shell with efficient scripting."""
+
+    name = "ksh"
+
+    def __init__(self, tools: Optional[Dict[str, BaseTool]] = None):
+        """Initialize with ksh as default shell."""
+        super().__init__(tools=tools, default_shell="ksh")
+
+    def _resolve_shell(self, preferred: str) -> str:
+        """Resolve ksh shell path."""
+        force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
+        if force_shell:
+            return force_shell
+
+        search_paths = [
+            "/bin/ksh",
+            "/usr/bin/ksh",
+            "/usr/local/bin/ksh",
+            "/opt/homebrew/bin/ksh",
+        ]
+
+        for path in search_paths:
+            if os.path.isfile(path) and os.access(path, os.X_OK):
+                return path
+
+        found = shutil.which("ksh")
+        if found:
+            return found
+
+        # Also try ksh93 and pdksh
+        for variant in ["ksh93", "pdksh", "mksh"]:
+            found = shutil.which(variant)
+            if found:
+                return found
+
+        return "sh"
+
+    @property
+    @override
+    def description(self) -> str:
+        return """KornShell (ksh) - enterprise Unix shell.
+
+KornShell is historically important in enterprise Unix environments.
+Efficient for scripting, still used on some commercial Unix systems.
+
+USAGE:
+  ksh("ls -la")                   # Single command
+  ksh(["a", "b", "c"])            # Sequential
+  ksh(["a", "b"], parallel=True)  # Parallel
+
+AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
+
+    @override
+    def register(self, mcp_server: FastMCP) -> None:
+        """Register ksh tool with MCP server."""
+        tool_self = self
+
+        @mcp_server.tool(name=self.name, description=self.description)
+        async def ksh_handler(
+            command: Annotated[
+                Optional[str], Field(description="Single command to execute", default=None)
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
+            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
+            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
+            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
+            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
+            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            ctx: MCPContext = None,
+        ) -> str:
+            return await tool_self.call(
+                ctx,
+                command=command,
+                commands=commands,
+                parallel=parallel,
+                shell=None,
+                cwd=cwd,
+                env=env,
+                timeout=timeout,
+                strict=strict,
+                quiet=quiet,
+            )
+
+
+class TcshTool(CmdTool):
+    """TENEX C Shell - enhanced csh with command completion."""
+
+    name = "tcsh"
+
+    def __init__(self, tools: Optional[Dict[str, BaseTool]] = None):
+        """Initialize with tcsh as default shell."""
+        super().__init__(tools=tools, default_shell="tcsh")
+
+    def _resolve_shell(self, preferred: str) -> str:
+        """Resolve tcsh shell path."""
+        force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
+        if force_shell:
+            return force_shell
+
+        search_paths = [
+            "/bin/tcsh",
+            "/usr/bin/tcsh",
+            "/usr/local/bin/tcsh",
+            "/opt/homebrew/bin/tcsh",
+        ]
+
+        for path in search_paths:
+            if os.path.isfile(path) and os.access(path, os.X_OK):
+                return path
+
+        found = shutil.which("tcsh")
+        if found:
+            return found
+
+        # Fallback to csh
+        return shutil.which("csh") or "sh"
+
+    @property
+    @override
+    def description(self) -> str:
+        return """TENEX C Shell (tcsh) - enhanced C shell.
+
+Tcsh is an enhanced version of csh with command completion,
+command-line editing, and other improvements. Mostly legacy now
+but still encountered in some environments.
+
+USAGE:
+  tcsh("ls -la")                   # Single command
+  tcsh(["a", "b", "c"])            # Sequential
+  tcsh(["a", "b"], parallel=True)  # Parallel
+
+AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
+
+    @override
+    def register(self, mcp_server: FastMCP) -> None:
+        """Register tcsh tool with MCP server."""
+        tool_self = self
+
+        @mcp_server.tool(name=self.name, description=self.description)
+        async def tcsh_handler(
+            command: Annotated[
+                Optional[str], Field(description="Single command to execute", default=None)
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
+            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
+            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
+            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
+            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
+            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            ctx: MCPContext = None,
+        ) -> str:
+            return await tool_self.call(
+                ctx,
+                command=command,
+                commands=commands,
+                parallel=parallel,
+                shell=None,
+                cwd=cwd,
+                env=env,
+                timeout=timeout,
+                strict=strict,
+                quiet=quiet,
+            )
+
+
+class CshTool(CmdTool):
+    """C Shell - older shell with C-like syntax."""
+
+    name = "csh"
+
+    def __init__(self, tools: Optional[Dict[str, BaseTool]] = None):
+        """Initialize with csh as default shell."""
+        super().__init__(tools=tools, default_shell="csh")
+
+    def _resolve_shell(self, preferred: str) -> str:
+        """Resolve csh shell path."""
+        force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
+        if force_shell:
+            return force_shell
+
+        search_paths = [
+            "/bin/csh",
+            "/usr/bin/csh",
+            "/usr/local/bin/csh",
+        ]
+
+        for path in search_paths:
+            if os.path.isfile(path) and os.access(path, os.X_OK):
+                return path
+
+        found = shutil.which("csh")
+        if found:
+            return found
+
+        # Fallback to tcsh (often linked to csh)
+        return shutil.which("tcsh") or "sh"
+
+    @property
+    @override
+    def description(self) -> str:
+        return """C Shell (csh) - shell with C-like syntax.
+
+The C shell is an older shell with syntax reminiscent of C.
+Mostly legacy now but still encountered in some environments.
+Consider using tcsh (enhanced csh) or bash instead.
+
+USAGE:
+  csh("ls -la")                   # Single command
+  csh(["a", "b", "c"])            # Sequential
+  csh(["a", "b"], parallel=True)  # Parallel
+
+AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
+
+    @override
+    def register(self, mcp_server: FastMCP) -> None:
+        """Register csh tool with MCP server."""
+        tool_self = self
+
+        @mcp_server.tool(name=self.name, description=self.description)
+        async def csh_handler(
+            command: Annotated[
+                Optional[str], Field(description="Single command to execute", default=None)
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
+            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
+            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
+            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
+            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
+            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            ctx: MCPContext = None,
+        ) -> str:
+            return await tool_self.call(
+                ctx,
+                command=command,
+                commands=commands,
+                parallel=parallel,
+                shell=None,
+                cwd=cwd,
+                env=env,
+                timeout=timeout,
+                strict=strict,
+                quiet=quiet,
+            )
+
+
 class ShellTool(CmdTool):
-    """Smart shell - auto-selects best available shell (zsh > bash > fish > dash > sh)."""
+    """Smart shell - auto-selects best available shell (zsh > bash > fish > dash > ksh > sh)."""
 
     name = "shell"
 
@@ -418,4 +676,7 @@ zsh_tool = ZshTool()
 bash_tool = BashTool()
 fish_tool = FishTool()
 dash_tool = DashTool()
+ksh_tool = KshTool()
+tcsh_tool = TcshTool()
+csh_tool = CshTool()
 shell_tool = ShellTool()

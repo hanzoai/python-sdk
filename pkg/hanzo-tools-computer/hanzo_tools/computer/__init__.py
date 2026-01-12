@@ -2,6 +2,8 @@
 
 Tools:
 - computer: Control local computer via pyautogui (mouse, keyboard, screenshots)
+- fast_computer: Ultra-fast native macOS control via Quartz/CoreGraphics
+- video: Screen recording and video capture
 
 Install:
     pip install hanzo-tools-computer
@@ -13,18 +15,22 @@ Usage:
     register_tools(mcp_server, permission_manager)
 
     # Or access individual tools
-    from hanzo_tools.computer import ComputerTool
+    from hanzo_tools.computer import ComputerTool, FastComputerTool, VideoTool
 """
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 
 from .computer_tool import ComputerTool
+from .fast_computer import FastComputerTool
+from .video_tool import VideoTool
 
 # Export list for tool discovery
-TOOLS = [ComputerTool]
+TOOLS = [ComputerTool, FastComputerTool, VideoTool]
 
 __all__ = [
     "ComputerTool",
+    "FastComputerTool",
+    "VideoTool",
     "register_tools",
     "TOOLS",
 ]
