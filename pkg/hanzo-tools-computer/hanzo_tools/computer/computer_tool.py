@@ -922,6 +922,27 @@ Examples:
             # Screen actions
             elif action == "screenshot" or action == "screenshot_region":
                 data = await run(NativeControl.screenshot_native, region)
+                
+                # If name is provided, save to file instead of returning base64
+                if name:
+                    # Expand ~ and make absolute path
+                    file_path = os.path.expanduser(name)
+                    if not os.path.isabs(file_path):
+                        file_path = os.path.join(tempfile.gettempdir(), name)
+                    if not file_path.endswith('.png'):
+                        file_path += '.png'
+                    
+                    with open(file_path, 'wb') as f:
+                        f.write(data)
+                    
+                    return json.dumps({
+                        "success": True,
+                        "format": "png",
+                        "size": len(data),
+                        "path": file_path,
+                    })
+                
+                # Otherwise return base64 (large output warning)
                 b64 = base64.b64encode(data).decode()
                 return json.dumps({
                     "success": True,
