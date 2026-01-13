@@ -489,15 +489,40 @@ class NativeControl:
 
     @staticmethod
     def focus_window(title: str) -> bool:
-        """Focus window by app/window name."""
+        """Focus window by app/window name. Supports partial matching on macOS."""
         if IS_MACOS:
+            # First try direct app activation
             script = f'tell application "{title}" to activate'
-            result = subprocess.run(["osascript", "-e", script], capture_output=True, timeout=5)
-            return result.returncode == 0
+            try:
+                result = subprocess.run(["osascript", "-e", script], capture_output=True, timeout=10)
+                if result.returncode == 0:
+                    return True
+            except subprocess.TimeoutExpired:
+                pass
+            
+            # If that fails, try to find app by partial name match
+            search_script = f'''
+            tell application "System Events"
+                set matchingApps to (application processes whose name contains "{title}")
+                if (count of matchingApps) > 0 then
+                    set frontApp to item 1 of matchingApps
+                    set frontmost of frontApp to true
+                    return name of frontApp
+                end if
+            end tell
+            return ""
+            '''
+            try:
+                result = subprocess.run(["osascript", "-e", search_script], capture_output=True, text=True, timeout=10)
+                if result.returncode == 0 and result.stdout.strip():
+                    return True
+            except subprocess.TimeoutExpired:
+                pass
+            return False
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
                 ["xdotool", "search", "--name", title, "windowactivate"],
-                capture_output=True, timeout=5
+                capture_output=True, timeout=10
             )
             return result.returncode == 0
         elif IS_WINDOWS and WIN32_AVAILABLE:
@@ -558,8 +583,10 @@ class NativeControl:
     def list_windows() -> list[dict]:
         """List all windows."""
         if IS_MACOS:
+            # Use \x1f (unit separator) as delimiter - unlikely to appear in window titles
             script = """
             set windowList to ""
+            set delim to ASCII character 31
             tell application "System Events"
                 set allProcesses to application processes whose visible is true
                 repeat with proc in allProcesses
@@ -570,7 +597,7 @@ class NativeControl:
                             set winName to name of win
                             set winPos to position of win
                             set winSize to size of win
-                            set windowList to windowList & procName & "|" & winName & "|" & (item 1 of winPos) & "|" & (item 2 of winPos) & "|" & (item 1 of winSize) & "|" & (item 2 of winSize) & "\\n"
+                            set windowList to windowList & procName & delim & winName & delim & (item 1 of winPos) & delim & (item 2 of winPos) & delim & (item 1 of winSize) & delim & (item 2 of winSize) & "\\n"
                         end repeat
                     end try
                 end repeat
@@ -581,17 +608,21 @@ class NativeControl:
             if result.returncode == 0:
                 windows = []
                 for line in result.stdout.strip().split("\n"):
-                    if "|" in line:
-                        parts = line.split("|")
+                    if "\x1f" in line:
+                        parts = line.split("\x1f")
                         if len(parts) >= 6:
-                            windows.append({
-                                "app": parts[0],
-                                "title": parts[1],
-                                "x": int(parts[2]),
-                                "y": int(parts[3]),
-                                "width": int(parts[4]),
-                                "height": int(parts[5]),
-                            })
+                            try:
+                                windows.append({
+                                    "app": parts[0],
+                                    "title": parts[1],
+                                    "x": int(parts[2]),
+                                    "y": int(parts[3]),
+                                    "width": int(parts[4]),
+                                    "height": int(parts[5]),
+                                })
+                            except (ValueError, IndexError):
+                                # Skip windows with parsing errors
+                                continue
                 return windows
         return []
 
