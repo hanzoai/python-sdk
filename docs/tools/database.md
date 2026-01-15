@@ -1,10 +1,116 @@
 # Database Tools
 
-The database tools (`hanzo-tools-database`) provide SQL and graph database operations for project-embedded databases.
+The database tools (`hanzo-tools-database`) provide SQL, graph database, and hybrid memory operations for project-embedded databases.
 
 ## Overview
 
-Each project can have an embedded SQLite database with tables for metadata, files, and symbols. The database tools also support graph database operations for tracking code relationships.
+Each project can have embedded SQLite databases with support for:
+- **SQL operations** with tables for metadata, files, and symbols
+- **Graph database** operations for tracking code relationships  
+- **Hybrid memory system** combining markdown files + SQLite + vector search
+
+## Memory Tool - Hybrid Storage
+
+### Unified Memory Management
+
+The `memory` tool provides a hybrid storage system that combines:
+- **Plaintext markdown files** for human-readable rules/context
+- **SQLite with FTS5** for full-text search across all content
+- **sqlite-vec extension** for vector similarity search (optional)
+- **Layered search** across all storage types
+
+### File Structure
+```
+~/.hanzo/                           # Global hanzo config
+├── memory/                         # Global memories
+│   ├── rules.md                   # Global rules/context  
+│   ├── user_preferences.md        # User preferences
+│   └── coding_standards.md        # Coding standards
+└── db/
+    └── global_memory.db           # Global memory database
+
+/path/to/project/                   # Project-specific
+├── LLM.md                         # Project context (existing)
+├── .hanzo/
+│   ├── memory/                    # Project memories
+│   │   ├── architecture.md       # Architecture decisions
+│   │   ├── patterns.md            # Code patterns
+│   │   └── sessions/              # Session memories
+│   │       ├── 2025-01-12.md     # Daily sessions
+│   │       └── 2025-01-13.md
+│   └── db/
+│       ├── project.db            # Existing project DB
+│       ├── graph.db              # Existing graph DB
+│       └── memory.db             # Hybrid memory DB
+```
+
+### Memory Tool Usage
+
+```python
+# Read memory files
+memory(action="read", file_path="rules.md", scope="global")
+memory(action="read", file_path="architecture.md", scope="project")
+
+# Write memory files
+memory(action="write", file_path="patterns.md", content="# Code Patterns...", scope="project")
+
+# Append to session logs
+memory(action="append", file_path="sessions/today.md", content="New insight about the codebase")
+
+# Search across all memories
+memory(action="search", content="database design", scope="both", limit=10)
+
+# Create structured memories
+memory(action="create", content="Important architectural decision", category="architecture", importance=8)
+
+# List memory files  
+memory(action="list", scope="project")
+
+# Get statistics
+memory(action="stats")
+```
+
+#### Memory Actions
+
+| Action | Description | Parameters |
+|--------|-------------|------------|
+| `read` | Read markdown memory file | `file_path`, `scope` |
+| `write` | Write markdown memory file | `file_path`, `content`, `scope`, `category` |
+| `append` | Append to markdown file with timestamp | `file_path`, `content`, `scope` |
+| `search` | Search across all memory types | `content` (query), `scope`, `search_type`, `limit` |
+| `create` | Create structured memory record | `content`, `category`, `importance`, `scope` |  
+| `list` | List all memory files | `scope` |
+| `stats` | Get memory system statistics | `scope` |
+
+#### Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `action` | str | `search` | Memory action to perform |
+| `content` | str | - | Content to store or search query |
+| `file_path` | str | - | Markdown file path (e.g., 'rules.md', 'sessions/today.md') |
+| `category` | str | - | Memory category for organization |
+| `scope` | str | `project` | Memory scope: global, project, or both |
+| `search_type` | str | `fulltext` | Search type: fulltext, vector, or hybrid |
+| `importance` | int | 5 | Memory importance (1-10) |
+| `limit` | int | 10 | Maximum results to return |
+
+### Features
+
+#### Full-Text Search (FTS5)
+- Fast text search across markdown files and structured memories
+- Snippet highlighting with search terms marked
+- Ranking by relevance score
+
+#### Vector Search (sqlite-vec)
+- Semantic similarity search using embeddings
+- Requires sqlite-vec extension (install with `python setup_sqlite_vec.py`)
+- Support for BGE and other embedding models
+
+#### Layered Storage
+- **Markdown files**: Human-readable, git-trackable, editable
+- **SQLite index**: Fast search and metadata storage
+- **Vector embeddings**: Semantic similarity (when available)
 
 ## SQL Tools
 
@@ -198,7 +304,36 @@ Common relationship types in code graphs:
 
 ```bash
 pip install hanzo-tools-database
+
+# For vector search support
+pip install hanzo-tools-database[vector]
+python -m hanzo_tools.database.setup_sqlite_vec
 ```
+
+## sqlite-vec Vector Search Setup
+
+The sqlite-vec extension provides vector similarity search capabilities:
+
+```bash
+# Install sqlite-vec extension
+cd pkg/hanzo-tools-database
+python setup_sqlite_vec.py
+
+# Test installation
+python -c "
+import sqlite3
+conn = sqlite3.connect(':memory:')
+conn.enable_load_extension(True)
+conn.load_extension('vec0')
+print('✓ sqlite-vec is available')
+"
+```
+
+### Vector Search Features
+- **Semantic similarity**: Find conceptually similar content
+- **Embedding models**: Support for BGE, sentence-transformers, etc.
+- **Efficient storage**: Binary vector storage in SQLite
+- **Fast queries**: Optimized vector similarity search
 
 ## Best Practices
 
@@ -222,7 +357,20 @@ graph_query(query="subgraph", node_id="main.py", depth=2)
 graph_query(query="neighbors", node_id="func", relationship="calls")
 ```
 
-### 3. Index Before Querying
+### 3. Organize Memories
+
+```python
+# Use clear categories
+memory(action="create", content="API design decision", category="architecture")
+
+# Use session logs for temporal organization
+memory(action="append", file_path="sessions/2025-01-12.md", content="Today's insights")
+
+# Keep global rules for system-wide context
+memory(action="write", file_path="rules.md", scope="global", content="System guidelines")
+```
+
+### 4. Index Before Querying
 
 Ensure the project is indexed before running database queries:
 
@@ -232,4 +380,17 @@ index(path="/project")
 
 # Then query
 sql_query(query="SELECT * FROM symbols WHERE type='function'")
+```
+
+### 5. Memory Initialization
+
+Initialize memory structure for new projects:
+
+```python
+# Initialize global memory (run once per user)
+python -m hanzo_tools.database.init_memory
+
+# Initialize project memory (run once per project)  
+cd /path/to/project
+python -m hanzo_tools.database.init_memory .
 ```

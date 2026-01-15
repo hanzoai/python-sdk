@@ -34,6 +34,8 @@ from .graph_stats import GraphStatsTool
 from .graph_remove import GraphRemoveTool
 from .graph_search import GraphSearchTool
 from .database_manager import DatabaseManager
+from .memory_tool import MemoryTool
+from .memory_manager import MemoryManager
 
 # Export list for tool discovery
 TOOLS = [
@@ -45,12 +47,14 @@ TOOLS = [
     GraphQueryTool,
     GraphSearchTool,
     GraphStatsTool,
+    MemoryTool,
 ]
 
 __all__ = [
     "register_tools",
     "TOOLS",
     "DatabaseManager",
+    "MemoryManager",
     "SqlQueryTool",
     "SqlSearchTool",
     "SqlStatsTool",
@@ -59,6 +63,7 @@ __all__ = [
     "GraphQueryTool",
     "GraphSearchTool",
     "GraphStatsTool",
+    "MemoryTool",
 ]
 
 
@@ -96,6 +101,7 @@ def register_tools(
         GraphQueryTool(permission_manager, db_manager),
         GraphSearchTool(permission_manager, db_manager),
         GraphStatsTool(permission_manager, db_manager),
+        MemoryTool(permission_manager),
     ]
 
     for tool in tool_instances:
