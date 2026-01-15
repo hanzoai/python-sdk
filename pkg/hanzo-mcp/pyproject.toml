@@ -60,6 +60,13 @@ dependencies = [
 # shell = ["hanzo-tools-shell>=0.1.0"]
 # etc.
 
+# Memory tools with full backend support
+memory = [
+    "hanzo-tools-memory[full]>=0.2.0",
+    "sqlite-vec>=0.1.0",
+    "fastembed>=0.4.0",
+]
+
 # Development
 dev = [
     "pytest>=7.0.0",

@@ -24,30 +24,15 @@ classifiers = [
 ]
 
 dependencies = [
-    "fastapi>=0.115.0",
-    "uvicorn[standard]>=0.32.0",
     "pydantic>=2.9.0",
     "pydantic-settings>=2.6.0",
-    "fastembed>=0.4.0",
-    "litellm>=1.56.0",
     "httpx>=0.28.0",
     "python-multipart>=0.0.12",
-    "python-jose[cryptography]>=3.3.0",
-    "passlib[bcrypt]>=1.7.0",
-    "redis>=5.2.0",
-    "orjson>=3.10.0",
     "mcp>=1.2.0",
     "structlog>=24.4.0",
     "rich>=13.7.1",
-    "tiktoken>=0.8.0",
-    "tenacity>=9.0.0",
-    "aiocache>=0.12.0",
     "numpy>=1.26.0",
-    "scikit-learn>=1.5.0",
-    "polars>=1.15.0",
-    "chromadb>=0.5.0",  # Alternative vector DB that works on macOS
-    "lancedb>=0.8.0",  # Modern embedded vector database with native macOS support
-    "sentence-transformers>=5.0.0",  # For LanceDB embeddings
+    "sqlite-vec>=0.1.0",  # SQLite with vector search capabilities
 ]
 
 [project.optional-dependencies]
