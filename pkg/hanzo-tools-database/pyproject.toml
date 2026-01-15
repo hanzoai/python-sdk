@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hanzo-tools-database"
 version = "0.2.0"
-description = "Database tools for Hanzo AI - SQL, Graph, Vector storage"
+description = "Hybrid memory management for Hanzo AI - Markdown files, SQLite FTS, Vector search"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -15,7 +15,7 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
-keywords = ["hanzo", "tools", "database", "sql", "graph", "mcp", "ai"]
+keywords = ["hanzo", "tools", "database", "sql", "graph", "memory", "markdown", "sqlite", "vector", "mcp", "ai"]
 dependencies = [
     "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
@@ -27,6 +27,10 @@ dependencies = [
 full = [
     "networkx>=3.0",
     "aiosqlite>=0.21.0",
+]
+vector = [
+    # sqlite-vec extension (binary, installed separately)
+    # Run: python setup_sqlite_vec.py to install
 ]
 dev = ["pytest>=7.0.0", "ruff>=0.14.0"]
 
