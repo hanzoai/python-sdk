@@ -1,0 +1,244 @@
+{
+  "name": "hanzo-mcp-vscode",
+  "displayName": "Hanzo MCP - Intelligent Workspace Tools",
+  "description": "AI-powered workspace tools: edit, fmt, test, build, lint, guard",
+  "version": "1.0.0",
+  "publisher": "hanzo-ai",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Formatters", 
+    "Linters",
+    "Testing"
+  ],
+  "keywords": [
+    "mcp",
+    "ai",
+    "refactoring",
+    "workspace",
+    "lsp",
+    "multi-language"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "hanzo.edit.rename",
+        "title": "Hanzo: Rename Symbol",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.edit.organizeImports",
+        "title": "Hanzo: Organize Imports",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.fmt.format",
+        "title": "Hanzo: Format Code",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.test.run",
+        "title": "Hanzo: Run Tests",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.build.run",
+        "title": "Hanzo: Build Project",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.lint.check",
+        "title": "Hanzo: Lint Code",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.guard.check",
+        "title": "Hanzo: Check Guard Rules",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.search.symbols",
+        "title": "Hanzo: Search Symbols",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.workspace.refactor",
+        "title": "Hanzo: Workspace Refactor",
+        "category": "Hanzo MCP"
+      },
+      {
+        "command": "hanzo.session.history",
+        "title": "Hanzo: Session History",
+        "category": "Hanzo MCP"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "hanzo.edit.rename",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "hanzo.edit.organizeImports",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "hanzo.fmt.format",
+          "when": "editorTextFocus"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "hanzo.edit.rename",
+          "when": "editorTextFocus",
+          "group": "1_modification@1"
+        },
+        {
+          "command": "hanzo.fmt.format", 
+          "when": "editorTextFocus",
+          "group": "1_modification@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "hanzo.test.run",
+          "when": "resourceExtname in ['.go', '.ts', '.js', '.py', '.rs']",
+          "group": "hanzo@1"
+        },
+        {
+          "command": "hanzo.build.run",
+          "when": "explorerResourceIsFolder",
+          "group": "hanzo@2"
+        },
+        {
+          "command": "hanzo.lint.check",
+          "when": "explorerResourceIsFolder",
+          "group": "hanzo@3"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "hanzo.fmt.format",
+        "key": "ctrl+shift+h f",
+        "mac": "cmd+shift+h f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "hanzo.test.run",
+        "key": "ctrl+shift+h t", 
+        "mac": "cmd+shift+h t"
+      },
+      {
+        "command": "hanzo.search.symbols",
+        "key": "ctrl+shift+h s",
+        "mac": "cmd+shift+h s"
+      },
+      {
+        "command": "hanzo.workspace.refactor",
+        "key": "ctrl+shift+h r",
+        "mac": "cmd+shift+h r"
+      }
+    ],
+    "configuration": {
+      "title": "Hanzo MCP",
+      "properties": {
+        "hanzo.mcp.backend.url": {
+          "type": "string",
+          "default": "http://localhost:8765",
+          "description": "Hanzo MCP backend URL"
+        },
+        "hanzo.mcp.autoFormat": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-format on save"
+        },
+        "hanzo.mcp.autoOrganizeImports": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Auto-organize imports on save"
+        },
+        "hanzo.mcp.enableGuard": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable guard rule checking"
+        },
+        "hanzo.mcp.guardRules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "type": {"type": "string"},
+              "glob": {"type": "string"},
+              "pattern": {"type": "string"},
+              "forbid_import_prefix": {"type": "string"},
+              "forbid_writes": {"type": "boolean"}
+            }
+          },
+          "default": [],
+          "description": "Custom guard rules"
+        },
+        "hanzo.mcp.sessionLogging": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable session logging"
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "hanzoMcp", 
+          "name": "Hanzo MCP",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "hanzo-mcp",
+          "title": "Hanzo MCP", 
+          "icon": "$(symbol-class)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "deploy": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4",
+    "@vscode/test-electron": "^2.2.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "ws": "^8.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanzoai/hanzo-mcp-vscode.git"
+  },
+  "homepage": "https://hanzo.ai",
+  "license": "MIT"
+}
