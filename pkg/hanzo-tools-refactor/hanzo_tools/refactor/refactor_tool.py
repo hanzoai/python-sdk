@@ -217,9 +217,14 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         markers = [".git", "package.json", "go.mod", "Cargo.toml", "pyproject.toml", "setup.py"]
         path = Path(file_path).resolve()
 
+        if path.suffix.lower() == ".go":
+            for parent in path.parents:
+                if (parent / "go.work").is_file():
+                    return str(parent)
+
         for parent in path.parents:
             for marker in markers:
-                if (parent / marker).exists():
+                if (parent / marker).is_file():
                     return str(parent)
         return str(path.parent)
 
