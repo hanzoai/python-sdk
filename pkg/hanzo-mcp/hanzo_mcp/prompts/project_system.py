@@ -94,6 +94,15 @@ When making changes to files, first understand the file's code conventions. Mimi
 - When you create a new component, first look at existing components to see how they're written; then consider framework choice, naming conventions, typing, and other conventions.
 - When you edit a piece of code, first look at the code's surrounding context (especially its imports) to understand the code's choice of frameworks and libraries. Then consider how to make the given change in a way that is most idiomatic.
 - Always follow security best practices. Never introduce code that exposes or logs secrets and keys. Never commit secrets or keys to the repository.
+
+# Go workspaces
+When working in Go projects:
+- Prefer the go.work root if present above the target file; otherwise use the nearest go.mod. If neither exists, error.
+- Start gopls with cwd/rootUri/workspaceFolders set to that workspace root.
+- Use absolute file URIs for all LSP operations, and apply WorkspaceEdit across the entire workspace.
+- LSP positions are UTF-16 code units; convert columns if non-ASCII appears on the line.
+- After renames or batch edits, run organize_imports on changed files (then gofmt if available).
+- Use filesystem moves (rename/create/delete edits or gomvpkg) for package moves; identifier rename is not a move.
 </preferences>
 
 
