@@ -12,6 +12,9 @@ import atexit
 import shutil
 import asyncio
 import logging
+import tempfile
+import uuid
+from urllib.parse import unquote, urlparse
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 from dataclasses import field, dataclass
@@ -24,10 +27,11 @@ LSP_SERVERS = {
         "name": "gopls",
         "install_cmd": ["go", "install", "golang.org/x/tools/gopls@latest"],
         "check_cmd": ["gopls", "version"],
-        "start_cmd": ["gopls", "serve"],
-        "root_markers": ["go.mod", "go.sum"],
+        "start_cmd": ["gopls", "serve", "-mode=stdio"],
+        "root_markers": ["go.work", "go.mod", "go.sum"],
         "file_extensions": [".go"],
         "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "env": {"GOWORK": "auto"},
     },
     "python": {
         "name": "pyright",
@@ -149,6 +153,8 @@ class LSPTool(BaseTool):
     - diagnostics: Get errors and warnings for file
     - hover: Get hover information at position
     - completion: Get code completions at position
+    - code_action: Run LSP code actions
+    - organize_imports: Organize imports for a file
     - status: Check LSP server status
     
     The tool automatically installs language servers as needed.
@@ -172,11 +178,16 @@ class LSPTool(BaseTool):
 
     def _find_project_root(self, file_path: str, language: str) -> str:
         """Find project root based on language markers."""
-        markers = LSP_SERVERS[language]["root_markers"]
         path = Path(file_path).resolve()
+        if language == "go":
+            try:
+                return str(self._find_go_workspace_root(path))
+            except FileNotFoundError:
+                return str(path.parent)
+        markers = LSP_SERVERS[language]["root_markers"]
         for parent in path.parents:
             for marker in markers:
-                if (parent / marker).exists():
+                if (parent / marker).is_file():
                     return str(parent)
         return str(path.parent)
 
@@ -243,12 +254,15 @@ class LSPTool(BaseTool):
 
             config = LSP_SERVERS[language]
             try:
+                env = os.environ.copy()
+                env.update(config.get("env", {}))
                 process = await asyncio.create_subprocess_exec(
                     *config["start_cmd"],
                     stdin=asyncio.subprocess.PIPE,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                     cwd=root_uri,
+                    env=env,
                 )
                 server = LSPServer(language=language, process=process, config=config, root_uri=root_uri)
                 if not await self._initialize_lsp(server):
@@ -264,9 +278,10 @@ class LSPTool(BaseTool):
 
     async def _initialize_lsp(self, server: LSPServer) -> bool:
         """Send initialize request to LSP server."""
+        root_uri = Path(server.root_uri).resolve().as_uri()
         init_params = {
             "processId": os.getpid(),
-            "rootUri": f"file://{server.root_uri}",
+            "rootUri": root_uri,
             "rootPath": server.root_uri,
             "capabilities": {
                 "workspace": {"workspaceFolders": True, "applyEdit": True},
@@ -279,7 +294,7 @@ class LSPTool(BaseTool):
                     "rename": {"dynamicRegistration": True, "prepareSupport": True},
                 },
             },
-            "workspaceFolders": [{"uri": f"file://{server.root_uri}", "name": Path(server.root_uri).name}],
+            "workspaceFolders": [{"uri": root_uri, "name": Path(server.root_uri).name}],
         }
         request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "initialize", "params": init_params}
         response = await self._send_request(server, request, timeout=60.0)
@@ -371,10 +386,21 @@ class LSPTool(BaseTool):
         line: Optional[int] = None,
         character: Optional[int] = None,
         new_name: Optional[str] = None,
+        apply_edits: bool = False,
         **kwargs,
     ) -> MCPResourceDocument:
         """Execute LSP action."""
-        valid_actions = ["definition", "references", "rename", "diagnostics", "hover", "completion", "status"]
+        valid_actions = [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+            "code_action",
+            "organize_imports",
+            "status",
+        ]
         if action not in valid_actions:
             return MCPResourceDocument(data={"error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"})
 
@@ -385,7 +411,7 @@ class LSPTool(BaseTool):
             )
 
         capabilities = LSP_SERVERS[language]["capabilities"]
-        if action not in capabilities and action != "status":
+        if action not in capabilities and action not in ["status", "organize_imports", "code_action"]:
             return MCPResourceDocument(
                 data={"error": f"Action '{action}' not supported for {language}", "supported_actions": capabilities}
             )
@@ -411,7 +437,17 @@ class LSPTool(BaseTool):
                 }
             )
 
-        result = await self._execute_lsp_action(server, action, file, line, character, new_name)
+        result = await self._execute_lsp_action(
+            server,
+            action,
+            file,
+            line,
+            character,
+            new_name,
+            apply_edits,
+            range_spec=kwargs.get("range"),
+            only=kwargs.get("only"),
+        )
         return MCPResourceDocument(data=result)
 
     async def call(self, **kwargs) -> str:
@@ -429,8 +465,53 @@ class LSPTool(BaseTool):
             line: Optional[int] = None,
             character: Optional[int] = None,
             new_name: Optional[str] = None,
+            apply_edits: bool = False,
+            only: Optional[List[str]] = None,
+            range: Optional[Dict[str, Dict[str, int]]] = None,
         ) -> str:
-            return await self.call(action=action, file=file, line=line, character=character, new_name=new_name)
+            return await self.call(
+                action=action,
+                file=file,
+                line=line,
+                character=character,
+                new_name=new_name,
+                apply_edits=apply_edits,
+                only=only,
+                range=range,
+            )
+
+    def _path_to_uri(self, path: str) -> str:
+        return Path(path).resolve().as_uri()
+
+    def _uri_to_path(self, uri: str) -> str:
+        if uri.startswith("file://"):
+            parsed = urlparse(uri)
+            path = unquote(parsed.path)
+            if path.startswith("/") and len(path) >= 3 and path[2] == ":" and path[1].isalpha():
+                path = path[1:]
+            return path
+        return uri
+
+    def _find_go_workspace_root(self, start: Path) -> Path:
+        p = start.resolve()
+        if p.is_file():
+            p = p.parent
+        for d in (p, *p.parents):
+            work = d / "go.work"
+            if work.is_file():
+                return d
+        for d in (p, *p.parents):
+            mod = d / "go.mod"
+            if mod.is_file():
+                return d
+        raise FileNotFoundError(f"no go.work or go.mod found above {start}")
+
+    def _is_within_root(self, path: str, root_dir: str) -> bool:
+        try:
+            Path(path).resolve().relative_to(Path(root_dir).resolve())
+            return True
+        except Exception:
+            return False
 
     async def _open_document(self, server: LSPServer, file_path: str) -> bool:
         """Notify LSP server that a document is opened."""
@@ -448,15 +529,13 @@ class LSPTool(BaseTool):
                 language_id = "typescriptreact" if "ts" in ext else "javascriptreact"
             elif ext in [".js", ".mjs", ".cjs"]:
                 language_id = "javascript"
-        params = {
-            "textDocument": {"uri": f"file://{abs_path}", "languageId": language_id, "version": 1, "text": content}
-        }
+        params = {"textDocument": {"uri": self._path_to_uri(abs_path), "languageId": language_id, "version": 1, "text": content}}
         return await self._send_notification(server, "textDocument/didOpen", params)
 
     def _parse_location(self, location: Dict[str, Any]) -> Dict[str, Any]:
         """Parse LSP Location into a readable format."""
         uri = location.get("uri", "")
-        file_path = uri.replace("file://", "") if uri.startswith("file://") else uri
+        file_path = self._uri_to_path(uri)
         range_info = location.get("range", {})
         start = range_info.get("start", {})
         end = range_info.get("end", {})
@@ -466,6 +545,251 @@ class LSPTool(BaseTool):
             "end": {"line": end.get("line", 0) + 1, "character": end.get("character", 0)},
         }
 
+    def _utf16_index_to_py_index(self, text: str, utf16_index: int) -> int:
+        if utf16_index <= 0:
+            return 0
+        units = 0
+        for idx, ch in enumerate(text):
+            units += 2 if ord(ch) > 0xFFFF else 1
+            if units >= utf16_index:
+                return idx + 1
+        return len(text)
+
+    def _utf16_len(self, text: str) -> int:
+        units = 0
+        for ch in text:
+            units += 2 if ord(ch) > 0xFFFF else 1
+        return units
+
+    def _lsp_position_to_offset(self, lines: List[str], line: int, character: int) -> int:
+        if line < 0:
+            return 0
+        if line >= len(lines):
+            return sum(len(l) for l in lines)
+        offset = sum(len(l) for l in lines[:line])
+        line_text = lines[line]
+        return offset + self._utf16_index_to_py_index(line_text, character)
+
+    def _file_range_for_code_action(self, file_path: str) -> Dict[str, Dict[str, int]]:
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+        except Exception:
+            return {"start": {"line": 0, "character": 0}, "end": {"line": 0, "character": 0}}
+        if not content:
+            return {"start": {"line": 0, "character": 0}, "end": {"line": 0, "character": 0}}
+        lines = content.splitlines()
+        last_line_index = len(lines) - 1
+        end_char = self._utf16_len(lines[last_line_index])
+        return {"start": {"line": 0, "character": 0}, "end": {"line": last_line_index, "character": end_char}}
+
+    def _apply_text_edits(self, file_path: str, edits: List[Dict[str, Any]]) -> None:
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        content = self._render_text_edits(content, edits)
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(content)
+
+    def _render_text_edits(self, content: str, edits: List[Dict[str, Any]]) -> str:
+        lines = content.splitlines(keepends=True)
+        normalized = []
+        for edit in edits:
+            range_info = edit.get("range", {})
+            start = range_info.get("start", {})
+            end = range_info.get("end", {})
+            start_offset = self._lsp_position_to_offset(
+                lines, start.get("line", 0), start.get("character", 0)
+            )
+            end_offset = self._lsp_position_to_offset(
+                lines, end.get("line", 0), end.get("character", 0)
+            )
+            normalized.append(
+                (
+                    start.get("line", 0),
+                    start.get("character", 0),
+                    start_offset,
+                    end_offset,
+                    edit.get("newText", ""),
+                )
+            )
+        normalized.sort(key=lambda item: (item[0], item[1]), reverse=True)
+        for _, _, start_offset, end_offset, new_text in normalized:
+            content = content[:start_offset] + new_text + content[end_offset:]
+        return content
+
+    def _workspace_edit_files(self, edit: Dict[str, Any]) -> List[str]:
+        files: List[str] = []
+        if "documentChanges" in edit:
+            for change in edit["documentChanges"]:
+                if "kind" in change:
+                    if change.get("kind") == "rename":
+                        files.append(self._uri_to_path(change.get("oldUri", "")))
+                        files.append(self._uri_to_path(change.get("newUri", "")))
+                    elif change.get("kind") in ["create", "delete"]:
+                        files.append(self._uri_to_path(change.get("uri", "")))
+                elif "textDocument" in change:
+                    files.append(self._uri_to_path(change["textDocument"]["uri"]))
+        elif "changes" in edit:
+            for uri in edit["changes"].keys():
+                files.append(self._uri_to_path(uri))
+        return sorted({f for f in files if f})
+
+    def _apply_workspace_edit(self, edit: Dict[str, Any], root_dir: str) -> tuple[list[str], list[str]]:
+        applied: list[str] = []
+        errors: list[str] = []
+        root_dir = str(Path(root_dir).resolve())
+
+        changes = edit.get("documentChanges")
+        if changes is None:
+            changes = [{"textDocument": {"uri": uri}, "edits": edits} for uri, edits in edit.get("changes", {}).items()]
+
+        if not changes:
+            return applied, errors
+
+        backup_dir = Path(tempfile.mkdtemp(prefix="hanzo-lsp-", dir=root_dir))
+        backups: Dict[str, str] = {}
+        mtimes: Dict[str, float] = {}
+        created: set[str] = set()
+
+        def backup_path(path: str) -> str:
+            rel = os.path.relpath(path, root_dir)
+            dst = backup_dir / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            return str(dst)
+
+        try:
+            # Preflight: collect backups
+            for change in changes:
+                if "kind" in change:
+                    kind = change.get("kind")
+                    if kind == "rename":
+                        old_path = self._uri_to_path(change.get("oldUri", ""))
+                        new_path = self._uri_to_path(change.get("newUri", ""))
+                        if not self._is_within_root(old_path, root_dir) or not self._is_within_root(
+                            new_path, root_dir
+                        ):
+                            raise RuntimeError(f"rename outside workspace root: {old_path} -> {new_path}")
+                        if os.path.exists(old_path) and old_path not in backups:
+                            backups[old_path] = backup_path(old_path)
+                            shutil.copy2(old_path, backups[old_path])
+                            mtimes[old_path] = os.path.getmtime(old_path)
+                        if os.path.exists(new_path) and new_path not in backups:
+                            backups[new_path] = backup_path(new_path)
+                            shutil.copy2(new_path, backups[new_path])
+                            mtimes[new_path] = os.path.getmtime(new_path)
+                    elif kind == "create":
+                        file_path = self._uri_to_path(change.get("uri", ""))
+                        if not self._is_within_root(file_path, root_dir):
+                            raise RuntimeError(f"create outside workspace root: {file_path}")
+                        if os.path.exists(file_path) and file_path not in backups:
+                            backups[file_path] = backup_path(file_path)
+                            shutil.copy2(file_path, backups[file_path])
+                            mtimes[file_path] = os.path.getmtime(file_path)
+                    elif kind == "delete":
+                        file_path = self._uri_to_path(change.get("uri", ""))
+                        if not self._is_within_root(file_path, root_dir):
+                            raise RuntimeError(f"delete outside workspace root: {file_path}")
+                        if os.path.exists(file_path) and file_path not in backups:
+                            backups[file_path] = backup_path(file_path)
+                            shutil.copy2(file_path, backups[file_path])
+                            mtimes[file_path] = os.path.getmtime(file_path)
+                elif "textDocument" in change and "edits" in change:
+                    file_path = self._uri_to_path(change["textDocument"]["uri"])
+                    if not self._is_within_root(file_path, root_dir):
+                        raise RuntimeError(f"edit outside workspace root: {file_path}")
+                    if os.path.exists(file_path) and file_path not in backups:
+                        backups[file_path] = backup_path(file_path)
+                        shutil.copy2(file_path, backups[file_path])
+                        mtimes[file_path] = os.path.getmtime(file_path)
+
+            # Apply changes in order
+            for change in changes:
+                if "kind" in change:
+                    kind = change.get("kind")
+                    if kind == "rename":
+                        old_path = self._uri_to_path(change.get("oldUri", ""))
+                        new_path = self._uri_to_path(change.get("newUri", ""))
+                        options = change.get("options", {})
+                        if os.path.exists(new_path):
+                            if options.get("ignoreIfExists"):
+                                continue
+                            if not options.get("overwrite"):
+                                raise RuntimeError(f"rename target exists: {new_path}")
+                        Path(new_path).parent.mkdir(parents=True, exist_ok=True)
+                        shutil.move(old_path, new_path)
+                        applied.append(new_path)
+                        continue
+                    if kind == "create":
+                        file_path = self._uri_to_path(change.get("uri", ""))
+                        options = change.get("options", {})
+                        if os.path.exists(file_path):
+                            if options.get("ignoreIfExists"):
+                                continue
+                            if not options.get("overwrite"):
+                                raise RuntimeError(f"create target exists: {file_path}")
+                        Path(file_path).parent.mkdir(parents=True, exist_ok=True)
+                        with open(file_path, "w", encoding="utf-8") as f:
+                            f.write(change.get("content", ""))
+                        created.add(file_path)
+                        applied.append(file_path)
+                        continue
+                    if kind == "delete":
+                        file_path = self._uri_to_path(change.get("uri", ""))
+                        options = change.get("options", {})
+                        if not os.path.exists(file_path):
+                            if options.get("ignoreIfNotExists"):
+                                continue
+                            raise RuntimeError(f"delete target missing: {file_path}")
+                        if os.path.isdir(file_path):
+                            if not options.get("recursive"):
+                                raise RuntimeError(f"delete target is directory: {file_path}")
+                            shutil.rmtree(file_path)
+                        else:
+                            os.unlink(file_path)
+                        applied.append(file_path)
+                        continue
+                    raise RuntimeError(f"unsupported documentChange: {kind}")
+
+                if "textDocument" in change and "edits" in change:
+                    file_path = self._uri_to_path(change["textDocument"]["uri"])
+                    if file_path in mtimes and os.path.exists(file_path):
+                        if os.path.getmtime(file_path) != mtimes[file_path]:
+                            raise RuntimeError(f"conflict detected for {file_path}")
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                    updated = self._render_text_edits(content, change["edits"])
+                    temp_path = f"{file_path}.hanzo_tmp_{uuid.uuid4().hex}"
+                    with open(temp_path, "w", encoding="utf-8") as f:
+                        f.write(updated)
+                    os.replace(temp_path, file_path)
+                    applied.append(file_path)
+                else:
+                    raise RuntimeError(f"unsupported documentChange: {change.get('kind', 'unknown')}")
+
+        except Exception as exc:
+            errors.append(str(exc))
+            # Rollback
+            for path, backup in backups.items():
+                try:
+                    Path(path).parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(backup, path)
+                except Exception:
+                    pass
+            for path in created:
+                if path not in backups:
+                    try:
+                        if os.path.isdir(path):
+                            shutil.rmtree(path)
+                        else:
+                            os.unlink(path)
+                    except Exception:
+                        pass
+            applied = []
+        finally:
+            shutil.rmtree(backup_dir, ignore_errors=True)
+
+        return applied, errors
+
     async def _execute_lsp_action(
         self,
         server: LSPServer,
@@ -474,10 +798,13 @@ class LSPTool(BaseTool):
         line: Optional[int],
         character: Optional[int],
         new_name: Optional[str],
+        apply_edits: bool,
+        range_spec: Optional[Dict[str, Any]] = None,
+        only: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         """Execute specific LSP action."""
         abs_path = str(Path(file).resolve())
-        uri = f"file://{abs_path}"
+        uri = self._path_to_uri(abs_path)
         await self._open_document(server, file)
         position = {"line": (line - 1) if line else 0, "character": character if character else 0}
 
@@ -534,7 +861,7 @@ class LSPTool(BaseTool):
                 changes = {}
                 if "changes" in result:
                     for file_uri, edits in result["changes"].items():
-                        file_path = file_uri.replace("file://", "")
+                        file_path = self._uri_to_path(file_uri)
                         changes[file_path] = [
                             {
                                 "range": self._parse_location({"uri": file_uri, "range": edit["range"]}),
@@ -542,13 +869,24 @@ class LSPTool(BaseTool):
                             }
                             for edit in edits
                         ]
-                return {
+                applied = []
+                apply_errors: List[str] = []
+                touched_files = self._workspace_edit_files(result)
+                if apply_edits:
+                    applied, apply_errors = self._apply_workspace_edit(result, server.root_uri)
+                payload: Dict[str, Any] = {
                     "action": "rename",
                     "file": file,
                     "new_name": new_name,
                     "changes": changes,
                     "files_affected": len(changes),
+                    "touched_files": touched_files,
                 }
+                if apply_edits:
+                    payload["applied_files"] = applied
+                    if apply_errors:
+                        payload["apply_errors"] = apply_errors
+                return payload
             return {"action": "rename", "file": file, "error": response.get("error") if response else "No response"}
 
         elif action == "hover":
@@ -603,6 +941,104 @@ class LSPTool(BaseTool):
                     "count": len(completions),
                 }
             return {"action": "completion", "file": file, "error": response.get("error") if response else "No response"}
+
+        elif action == "code_action":
+            action_range = range_spec or self._file_range_for_code_action(abs_path)
+            context: Dict[str, Any] = {}
+            if only:
+                context["only"] = only
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/codeAction",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "range": action_range,
+                    "context": context,
+                },
+            }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                actions = response["result"] or []
+                edits_applied: list[str] = []
+                apply_errors: list[str] = []
+                touched_files: list[str] = []
+                commands: list[Dict[str, Any]] = []
+                edits_seen = 0
+                for action_item in actions:
+                    if "edit" in action_item:
+                        edits_seen += 1
+                        touched_files.extend(self._workspace_edit_files(action_item["edit"]))
+                        if apply_edits:
+                            applied, errors = self._apply_workspace_edit(action_item["edit"], server.root_uri)
+                            edits_applied.extend(applied)
+                            apply_errors.extend(errors)
+                    if "command" in action_item:
+                        commands.append(action_item["command"])
+                payload: Dict[str, Any] = {
+                    "action": "code_action",
+                    "file": file,
+                    "edits_found": edits_seen,
+                    "touched_files": sorted(set(touched_files)),
+                    "commands": commands,
+                }
+                if apply_edits:
+                    payload["applied_files"] = edits_applied
+                    if apply_errors:
+                        payload["apply_errors"] = apply_errors
+                return payload
+            return {
+                "action": "code_action",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
+
+        elif action == "organize_imports":
+            file_range = self._file_range_for_code_action(abs_path)
+            request = {
+                "jsonrpc": "2.0",
+                "id": server.next_id(),
+                "method": "textDocument/codeAction",
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "range": file_range,
+                    "context": {"only": ["source.organizeImports"]},
+                },
+            }
+            response = await self._send_request(server, request)
+            if response and "result" in response:
+                actions = response["result"] or []
+                edits_applied: list[str] = []
+                apply_errors: list[str] = []
+                edits_seen = 0
+                touched_files: list[str] = []
+                for action_item in actions:
+                    kind = action_item.get("kind")
+                    if kind and kind != "source.organizeImports":
+                        continue
+                    if "edit" in action_item:
+                        edits_seen += 1
+                        touched_files.extend(self._workspace_edit_files(action_item["edit"]))
+                        if apply_edits:
+                            applied, errors = self._apply_workspace_edit(action_item["edit"], server.root_uri)
+                            edits_applied.extend(applied)
+                            apply_errors.extend(errors)
+                payload: Dict[str, Any] = {
+                    "action": "organize_imports",
+                    "file": file,
+                    "edits_found": edits_seen,
+                    "touched_files": sorted(set(touched_files)),
+                }
+                if apply_edits:
+                    payload["applied_files"] = edits_applied
+                    if apply_errors:
+                        payload["apply_errors"] = apply_errors
+                return payload
+            return {
+                "action": "organize_imports",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "diagnostics":
             return {
