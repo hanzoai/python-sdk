@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Test find tool filters."""
 
+import asyncio
 import os
 import sys
-import asyncio
 import tempfile
 from pathlib import Path
 

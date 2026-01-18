@@ -1,6 +1,6 @@
 """Test helper classes for MCP tools testing."""
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 
 class PaginatedResponseWrapper:

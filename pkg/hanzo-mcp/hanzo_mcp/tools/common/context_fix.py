@@ -9,8 +9,10 @@ DEPRECATED: Use hanzo_mcp.tools.common.decorators directly.
 # Re-export for backward compatibility
 from hanzo_mcp.tools.common.decorators import (
     MockContext,
-    _is_valid_context as is_valid_context,
     with_context_normalization,
+)
+from hanzo_mcp.tools.common.decorators import (
+    _is_valid_context as is_valid_context,
 )
 
 

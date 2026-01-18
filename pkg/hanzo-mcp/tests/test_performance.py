@@ -1,9 +1,9 @@
 """Performance tests for MCP tools."""
 
-import os
-import time
 import asyncio
+import os
 import tempfile
+import time
 from unittest.mock import Mock, patch
 
 import pytest
@@ -23,8 +23,8 @@ except ImportError:
     RecallMemoriesTool = None
     CreateMemoriesTool = None
 
-from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_mcp.tools.common.batch_tool import BatchTool
+from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
 
 
@@ -226,7 +226,7 @@ class TestSwarmPerformance:
 
         # Execute swarm
         start_time = time.time()
-        result = asyncio.run(tool.call(mock_ctx, query="Parallel processing test", agents=agents))
+        asyncio.run(tool.call(mock_ctx, query="Parallel processing test", agents=agents))
         elapsed = time.time() - start_time
 
         # Should execute workers in parallel
@@ -242,8 +242,8 @@ class TestPaginationPerformance:
 
     def test_large_output_pagination(self):
         """Test pagination with very large outputs."""
-        from hanzo_mcp.tools.common.truncate import estimate_tokens
         from hanzo_mcp.tools.common.paginated_response import AutoPaginatedResponse
+        from hanzo_mcp.tools.common.truncate import estimate_tokens
 
         # Create large dataset
         large_data = []
@@ -339,6 +339,7 @@ class TestConcurrentFileOperations:
         """Test multiple tools accessing files concurrently."""
         from hanzo_tools.filesystem.read import ReadTool
         from hanzo_tools.filesystem.write import Write as WriteTool
+
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         with tempfile.TemporaryDirectory() as tmpdir:

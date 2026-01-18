@@ -12,14 +12,14 @@ Where TOOLS is a list of BaseTool subclasses.
 
 from __future__ import annotations
 
-import sys
 import logging
-from typing import TYPE_CHECKING, Any
+import sys
 from importlib.metadata import entry_points
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from mcp.server import FastMCP
     from hanzo_tools.core import BaseTool, PermissionManager
+    from mcp.server import FastMCP
 
 logger = logging.getLogger(__name__)
 

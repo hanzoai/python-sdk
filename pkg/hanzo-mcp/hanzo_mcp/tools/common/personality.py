@@ -5,8 +5,8 @@ Actual personality profiles are loaded from the hanzo-persona package.
 """
 
 import os
-from typing import Set, Dict, List, Optional
-from dataclasses import field, dataclass
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Set
 
 
 @dataclass

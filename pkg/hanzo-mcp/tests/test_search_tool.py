@@ -1,7 +1,7 @@
 """Test search tool functionality."""
 
-import os
 import asyncio
+import os
 import tempfile
 from pathlib import Path
 

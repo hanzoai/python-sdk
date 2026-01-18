@@ -1,26 +1,23 @@
 """Test suite for CLI tools in batch operations."""
 
-import os
-import time
-import shutil
 import asyncio
-from typing import Any, Dict
-from unittest.mock import Mock, AsyncMock, MagicMock, patch
+import time
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import pytest
+from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_tools.agent.cli_tools import (
-    GrokCLITool,
     AiderCLITool,
+    ClaudeCLITool,
+    ClaudeCodeCLITool,
     ClineCLITool,
     CodexCLITool,
-    ClaudeCLITool,
     GeminiCLITool,
+    GrokCLITool,
     HanzoDevCLITool,
     OpenHandsCLITool,
-    ClaudeCodeCLITool,
     OpenHandsShortCLITool,
 )
-from hanzo_mcp.tools.common.batch_tool import BatchTool
 
 
 class TestCLITools:
@@ -319,7 +316,6 @@ class TestBatchWithCLITools:
     @pytest.mark.asyncio
     async def test_batch_cli_tools_parallel_execution(self, batch_tool, mock_context):
         """Test that CLI tools execute in parallel in batch."""
-        import time
 
         # Add delay to mock executions
         for tool in batch_tool.tools.values():

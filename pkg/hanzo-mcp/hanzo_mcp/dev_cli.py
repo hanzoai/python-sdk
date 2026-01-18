@@ -3,8 +3,8 @@
 Main CLI entry point for hanzo-dev command
 """
 
-import sys
 import asyncio
+import sys
 
 from hanzo_mcp.dev_tools import DevToolsCore
 

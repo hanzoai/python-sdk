@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 from hanzo_tools.agent.swarm_tool import SwarmTool
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

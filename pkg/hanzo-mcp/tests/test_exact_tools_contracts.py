@@ -1,8 +1,8 @@
-import asyncio
 from pathlib import Path
 
 import pytest
-from hanzo_mcp.exact_tools import FmtArgs, EditArgs, GuardArgs, GuardRule, HanzoTools, TargetSpec
+
+from hanzo_mcp.exact_tools import EditArgs, GuardArgs, GuardRule, HanzoTools, TargetSpec
 
 
 @pytest.mark.asyncio

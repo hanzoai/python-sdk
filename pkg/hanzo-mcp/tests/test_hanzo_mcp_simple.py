@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Simple test to verify hanzo-mcp works locally."""
 
-import os
-import sys
 import asyncio
-import tempfile
+import os
 import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 # Add the package to path for local testing
@@ -41,8 +41,8 @@ def test_cli_version():
 
 async def test_stdio_server():
     """Test the stdio server with a simple interaction."""
-    import json
     import asyncio
+    import json
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # Start the server process
@@ -116,8 +116,9 @@ async def test_stdio_server():
 def test_import_tools():
     """Test that we can import tools directly."""
     try:
-        from hanzo_mcp.tools import register_all_tools
         from mcp.server.fastmcp import FastMCP
+
+        from hanzo_mcp.tools import register_all_tools
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Create a test server

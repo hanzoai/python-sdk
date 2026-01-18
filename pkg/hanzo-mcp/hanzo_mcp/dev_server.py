@@ -1,10 +1,10 @@
 """Development server with hot reload for Hanzo AI."""
 
-import time
 import asyncio
 import logging
-from typing import Set, Optional
+import time
 from pathlib import Path
+from typing import Optional, Set
 
 import watchdog.events
 import watchdog.observers
@@ -167,7 +167,7 @@ class DevServer:
         self.running = True
 
         logger = logging.getLogger(__name__)
-        logger.info(f"\n🚀 Starting Hanzo AI in development mode...")
+        logger.info("\n🚀 Starting Hanzo AI in development mode...")
 
         # Show compute nodes
         try:
@@ -180,7 +180,7 @@ class DevServer:
             # Silently ignore if compute node detection fails
             pass
 
-        logger.info(f"🔧 Hot reload enabled - watching for file changes")
+        logger.info("🔧 Hot reload enabled - watching for file changes")
         logger.info(f"📁 Project: {self.project_dir or 'current directory'}")
         logger.info(f"🌐 Transport: {transport}\n")
 

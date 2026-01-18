@@ -7,23 +7,21 @@ Following Guido van Rossum's Python philosophy:
 - 'In the face of ambiguity, refuse the temptation to guess'
 """
 
-import os
-import random
-import string
 import asyncio
-import tempfile
 from unittest.mock import Mock, patch
 
 import pytest
-from hanzo_mcp.tools import register_all_tools
 from mcp.server.fastmcp import FastMCP
-from hanzo_mcp.tools.common.truncate import truncate_response
-from hanzo_mcp.tools.common.tool_list import ToolListTool
+
+from hanzo_mcp.tools import register_all_tools
 from hanzo_mcp.tools.common.fastmcp_pagination import FastMCPPaginator
+from hanzo_mcp.tools.common.tool_list import ToolListTool
+from hanzo_mcp.tools.common.truncate import truncate_response
 
 # Property-based testing imports
 try:
-    from hypothesis import given, assume, example, settings, strategies as st
+    from hypothesis import assume, example, given, settings
+    from hypothesis import strategies as st
 
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
@@ -413,7 +411,7 @@ class TestNetworkPackage:
         mock_network_module.NetworkState = MockNetworkState
 
         with patch.dict("sys.modules", {"hanzo_network": mock_network_module}):
-            from hanzo_network import Tool, Agent, Router, Network, NetworkState
+            from hanzo_network import Agent, Network, NetworkState, Router, Tool
 
             # Test that all classes are available and functional
             assert Agent is not None
@@ -476,8 +474,8 @@ class TestAutoBackgrounding:
 
     def test_auto_background_timeout(self):
         """Test that long-running processes auto-background."""
-        from hanzo_tools.shell.base_process import ProcessManager
         from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
 
         process_manager = ProcessManager()
         executor = AutoBackgroundExecutor(process_manager, timeout=0.1)  # Very short timeout
@@ -495,8 +493,8 @@ class TestAutoBackgrounding:
 
         Guido: 'Special cases aren't special enough to break the rules.'
         """
-        from hanzo_tools.shell.base_process import ProcessManager
         from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
 
         process_manager = ProcessManager()
 
@@ -808,17 +806,17 @@ class TestEdgeCasesAndRobustness:
         assert result["items"] == ["item"]
 
         # Test zero page size (should handle gracefully)
-        paginator_zero = FastMCPPaginator(page_size=0)
+        FastMCPPaginator(page_size=0)
         # Should either handle or use default
 
         # Test negative values in auto-backgrounding
-        from hanzo_tools.shell.base_process import ProcessManager
         from hanzo_tools.shell.auto_background import AutoBackgroundExecutor
+        from hanzo_tools.shell.base_process import ProcessManager
 
         pm = ProcessManager()
         # These should not crash
-        executor_neg = AutoBackgroundExecutor(pm, timeout=-999)
-        executor_inf = AutoBackgroundExecutor(pm, timeout=float("inf"))
+        AutoBackgroundExecutor(pm, timeout=-999)
+        AutoBackgroundExecutor(pm, timeout=float("inf"))
         # Note: float('nan') might cause issues, skip for now
 
     def test_concurrent_access(self):

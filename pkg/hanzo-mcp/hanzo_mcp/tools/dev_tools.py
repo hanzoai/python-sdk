@@ -9,14 +9,11 @@ and is go.work aware.
 """
 
 import os
-import json
 import subprocess
-from enum import Enum
-from typing import Any, Dict, List, Union, Literal, Optional
 from pathlib import Path
-from dataclasses import field, dataclass
+from typing import Any, Dict, List, Literal, Optional, Union
 
-from pydantic import Field, BaseModel
+from pydantic import BaseModel, Field
 
 # Common types
 LanguageType = Literal["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"]

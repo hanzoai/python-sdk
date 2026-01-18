@@ -8,17 +8,18 @@ Now includes the new unified development tools (edit, fmt, test, build, lint, gu
 plus the existing tool suite.
 """
 
-import json
 import asyncio
-from typing import Any, Dict, List, Optional, Sequence
+from typing import List
 
-from pydantic import AnyUrl
-from mcp.types import Tool, Resource, TextContent, ImageContent, LoggingLevel, EmbeddedResource
-from mcp.server import Server, NotificationOptions
+from mcp.server import NotificationOptions, Server
 from mcp.server.models import InitializationOptions
+from mcp.types import (
+    TextContent,
+    Tool,
+)
 
-from .unified_backend import TargetSpec, ToolResult, backend
 from .tools.dev_tools_mcp import dev_tools_server
+from .unified_backend import TargetSpec, ToolResult, backend
 
 
 class HanzoMCPServer:
@@ -488,7 +489,7 @@ class HanzoMCPServer:
             output += f"\nErrors:\n{result.stderr}\n"
 
         if result.errors:
-            output += f"\nIssues:\n"
+            output += "\nIssues:\n"
             for error in result.errors:
                 output += f"  - {error}\n"
 

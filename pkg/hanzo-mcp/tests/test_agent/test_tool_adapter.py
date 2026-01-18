@@ -3,11 +3,12 @@
 from unittest.mock import MagicMock
 
 import pytest
-from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_tools.agent.tool_adapter import (
     convert_tool_parameters,
     convert_tools_to_openai_functions,
 )
+
+from hanzo_mcp.tools.common.base import BaseTool
 
 
 class TestToolAdapter:

@@ -190,3 +190,35 @@ exclude_lines = [
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+    "node_modules",
+    "vscode-extension",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = [
+    "E501",   # Line too long
+    "B017",   # Blind exception test
+    "B023",   # Function definition loop variable
+    "B904",   # Raise without from in except
+    "E741",   # Ambiguous variable name
+    "E402",   # Module level import not at top
+    "F401",   # Unused imports (handled by tests themselves)
+    "F821",   # Undefined name (tests may have conditional imports)
+    "F841",   # Local variable assigned but never used
+    "B007",   # Loop control variable not used
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F401", "F821", "F841", "B007"]  # Relax rules for test files
+"*/__init__.py" = ["F401"]  # Allow unused imports in __init__.py

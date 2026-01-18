@@ -4,10 +4,10 @@ This module provides utilities for implementing cursor-based pagination
 according to the MCP pagination protocol.
 """
 
-import json
 import base64
-from typing import Any, Dict, List, Generic, TypeVar, Optional
+import json
 from dataclasses import dataclass
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 T = TypeVar("T")
 

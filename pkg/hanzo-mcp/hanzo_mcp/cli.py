@@ -6,14 +6,14 @@ This prevents any stdout/stderr noise from imports that would corrupt the
 MCP stdio transport used by Claude Desktop and other MCP clients.
 """
 
-import os
-import sys
-import json
-import signal
-import logging
 import argparse
-from typing import Any, cast
+import json
+import logging
+import os
+import signal
+import sys
 from pathlib import Path
+from typing import Any, cast
 
 # Configure uvloop early (before any async imports) for better performance
 # This is a no-op on Windows or if uvloop is not installed

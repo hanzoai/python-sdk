@@ -6,6 +6,7 @@ import pytest
 def test_memory_registration():
     """Test that memory tools can be registered."""
     from mcp.server.fastmcp import FastMCP
+
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
     # Skip if memory not available

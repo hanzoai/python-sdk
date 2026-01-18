@@ -14,19 +14,19 @@ Features:
 - Cross-language tool execution
 """
 
-import os
-import json
-import uuid
 import asyncio
+import json
 import logging
+import os
 import sqlite3
 import subprocess
-from typing import Any, Dict, List, Union, Literal, Optional
-from pathlib import Path
-from datetime import datetime
+import uuid
 from dataclasses import asdict, dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
-from pydantic import Field, BaseModel
+from pydantic import BaseModel, Field
 
 
 # Core Types
@@ -219,7 +219,6 @@ class CodebaseIndexer:
                 (file_path, content_hash, language, file_size, modified_time),
             )
 
-            file_id = conn.lastrowid
 
             # Symbol extraction handled by LSP integration in the tools layer
             # See hanzo_mcp/tools/common/lsp.py for language-specific parsing
@@ -394,7 +393,7 @@ class UnifiedBackend:
                 # LSP code actions
                 file_path = kwargs.get("file")
                 range_spec = kwargs.get("range", {})
-                only = kwargs.get("only", [])
+                kwargs.get("only", [])
 
                 actions = await self.lsp_bridge.code_actions(
                     file_path, range_spec.get("start", {}).get("line", 0), range_spec.get("end", {}).get("line", 0)
@@ -531,8 +530,8 @@ backend = UnifiedBackend()
 
 if __name__ == "__main__":
     # CLI interface for testing
-    import sys
     import asyncio
+    import sys
 
     async def main():
         if len(sys.argv) < 2:

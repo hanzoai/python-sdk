@@ -11,10 +11,10 @@ try:
     sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
     from hanzo_network import (
-        create_tool,
-        create_local_agent,
         check_local_llm_status,
+        create_local_agent,
         create_local_distributed_network,
+        create_tool,
     )
 
     HANZO_NETWORK_AVAILABLE = True

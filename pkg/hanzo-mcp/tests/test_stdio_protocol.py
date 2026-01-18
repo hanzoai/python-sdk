@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """Final comprehensive test for stdio protocol integrity."""
 
-import sys
 import json
-import time
 import select
 import subprocess
+import sys
+import time
 
 
 def test_stdio_protocol():
@@ -110,14 +110,14 @@ def test_stdio_protocol():
                             msg = json.loads(line)
                             responses.append(msg)
                             response_found = True
-                            print(f"  ✓ Valid JSON response received")
+                            print("  ✓ Valid JSON response received")
                             break
                         except json.JSONDecodeError:
                             violations.append({"test": test["name"], "output": line[:200]})
                             print(f"  ❌ PROTOCOL VIOLATION: {line[:100]}")
 
         if not response_found:
-            print(f"  ⏱️  Timeout - no response received")
+            print("  ⏱️  Timeout - no response received")
 
     # Cleanup
     proc.terminate()
@@ -145,7 +145,7 @@ def test_stdio_protocol():
     # Also check stderr was silent
     stderr_output = proc.stderr.read()
     if stderr_output:
-        print(f"\n⚠️  stderr output detected (should be empty for stdio):")
+        print("\n⚠️  stderr output detected (should be empty for stdio):")
         print(stderr_output[:500])
 
     return len(violations) == 0 and not stderr_output

@@ -6,11 +6,11 @@ with optional uvloop support for improved performance on Linux/macOS.
 Uses hanzo_async for unified async I/O configuration.
 """
 
-import sys
 import asyncio
+import sys
 from typing import Optional
 
-from hanzo_async import using_uvloop, configure_loop
+from hanzo_async import configure_loop, using_uvloop
 
 
 def configure_event_loop(*, quiet: bool = False) -> Optional[str]:

@@ -4,13 +4,12 @@ This module provides comprehensive error logging for all MCP tool operations,
 writing errors to ~/.hanzo/mcp/logs/ for debugging and analysis.
 """
 
-import os
 import json
 import logging
 import traceback
-from typing import Any, Optional
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
 
 class MCPErrorLogger:

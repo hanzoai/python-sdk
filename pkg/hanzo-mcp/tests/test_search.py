@@ -5,9 +5,9 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_tools.filesystem.search_tool import SearchTool, SearchType, SearchResult
+from hanzo_tools.filesystem.search_tool import SearchResult, SearchTool, SearchType
 
+from hanzo_mcp.tools.common.permissions import PermissionManager
 from tests.test_utils import create_permission_manager
 
 
@@ -237,7 +237,7 @@ test_module.py:15: result = hello_world()"""
         with patch.object(search_tool, "create_tool_context", return_value=tool_ctx):
             # Mock the AST analyzer
             with patch.object(search_tool.ast_analyzer, "analyze_file") as mock_analyze:
-                from hanzo_mcp.tools.vector.ast_analyzer import Symbol, FileAST
+                from hanzo_mcp.tools.vector.ast_analyzer import FileAST, Symbol
 
                 # Create mock symbols
                 symbol = Symbol(

@@ -6,8 +6,8 @@ Only run in CI with proper secrets configured.
 
 import os
 
-import pytest
 import litellm
+import pytest
 
 
 @pytest.mark.skipif(

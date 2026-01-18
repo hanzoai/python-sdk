@@ -1,12 +1,12 @@
 """Mode system for organizing development tools based on programmer personalities."""
 
 import os
-from typing import Set, Dict, List, Optional
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Set
 
 from hanzo_mcp.tools.common.personality import (
-    ToolPersonality,
     PersonalityRegistry,
+    ToolPersonality,
     ensure_agent_enabled,
     register_default_personalities,
 )

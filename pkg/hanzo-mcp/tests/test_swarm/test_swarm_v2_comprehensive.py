@@ -10,18 +10,19 @@ This test demonstrates multiple Claude agents collaborating to refactor code:
 """
 
 import os
-import sys
 import shutil
+import sys
 import tempfile
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
 # Add the parent directory to the path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from mcp.server.fastmcp import Context as MCPContext
 from hanzo_tools.agent.swarm_tool import SwarmTool
+from mcp.server.fastmcp import Context as MCPContext
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -506,7 +507,7 @@ def run_comprehensive_tests():
 
         # Test 2: Check swarm availability
         print("\n2. Checking hanzo-agents availability...")
-        print(f"hanzo-agents available: True")  # Always available now
+        print("hanzo-agents available: True")  # Always available now
 
         # Test 3: Create swarm instance
         print("\n3. Creating SwarmTool instance...")

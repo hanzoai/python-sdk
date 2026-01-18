@@ -7,14 +7,14 @@ Allows the AI to:
 - Hot-reload without restart
 """
 
-from typing import Any, Unpack, Literal, Annotated, TypedDict, final, override
+from typing import Annotated, Literal, TypedDict, Unpack, final, override
 
-from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
+from pydantic import Field
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Action = Annotated[
     Literal[
@@ -141,7 +141,7 @@ Sources:
                 errors = [
                     f"{r['package']}: {r.get('error')}" for r in result.get("results", []) if not r.get("success")
                 ]
-                return f"✗ Some upgrades failed:\n" + "\n".join(errors)
+                return "✗ Some upgrades failed:\n" + "\n".join(errors)
 
         elif action == "reload":
             if not package:

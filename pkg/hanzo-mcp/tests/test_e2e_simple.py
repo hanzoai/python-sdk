@@ -11,8 +11,9 @@ def test_imports():
     """Test that all imports work correctly."""
     # Test hanzo-network imports
     # Test hanzo-mcp imports
-    from hanzo_mcp import __version__ as mcp_version
     from hanzo_network import __version__ as network_version
+
+    from hanzo_mcp import __version__ as mcp_version
 
     assert network_version is not None
     assert mcp_version is not None
@@ -31,7 +32,7 @@ def test_hanzo_net_provider():
 
 def test_local_agent_creation():
     """Test creating a local agent."""
-    from hanzo_network import create_tool, create_local_agent
+    from hanzo_network import create_local_agent, create_tool
 
     def dummy_tool(text: str) -> str:
         return f"Processed: {text}"

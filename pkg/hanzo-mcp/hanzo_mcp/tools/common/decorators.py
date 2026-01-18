@@ -4,9 +4,9 @@ This module provides decorators that handle common cross-cutting concerns
 for MCP tools, such as context normalization and error handling.
 """
 
-import inspect
 import functools
-from typing import Any, TypeVar, Callable, cast
+import inspect
+from typing import Any, Callable, TypeVar, cast
 
 F = TypeVar("F", bound=Callable[..., Any])
 

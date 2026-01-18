@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
-from hanzo_tools.shell.command_executor import CommandResult, CommandExecutor
+from hanzo_tools.shell.command_executor import CommandExecutor, CommandResult
 
 
 class TestCommandResult:

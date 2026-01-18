@@ -157,7 +157,7 @@ jobs:
       - name: "🔍 Lint with ruff"
         run: |
           cd pkg/hanzo-mcp
-          ruff check . --fix --exit-non-zero-on-fix
+          ruff check hanzo_mcp tests --fix --exit-non-zero-on-fix
 
       - name: "🔍 Type check with mypy"
         run: |

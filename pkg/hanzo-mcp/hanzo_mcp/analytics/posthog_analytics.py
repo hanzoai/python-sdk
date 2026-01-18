@@ -7,16 +7,16 @@ This module provides analytics tracking for:
 - A/B testing and feature flags
 """
 
-import os
-import time
 import asyncio
-import platform
 import functools
+import os
+import platform
+import time
 import traceback
-from typing import Any, Dict, TypeVar, Callable, Optional
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 from importlib.metadata import PackageNotFoundError, version
+from typing import Any, Callable, Dict, Optional, TypeVar
 
 # Try to import PostHog, but make it optional
 try:
@@ -77,8 +77,8 @@ class Analytics:
             return distinct_id
 
         # Use hostname + username as fallback
-        import socket
         import getpass
+        import socket
 
         hostname = socket.gethostname()
         username = getpass.getuser()

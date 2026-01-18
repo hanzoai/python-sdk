@@ -54,7 +54,7 @@ class ComputeNodeDetector:
                 if result.returncode == 0 and "Metal" in result.stdout:
                     # Parse GPU info from system_profiler
                     lines = result.stdout.split("\n")
-                    for i, line in enumerate(lines):
+                    for _i, line in enumerate(lines):
                         if "Chipset Model:" in line:
                             gpu_name = line.split(":")[1].strip()
                             gpus.append(
