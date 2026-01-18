@@ -1,13 +1,12 @@
 """SQLite backend plugin implementation."""
 
-import asyncio
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from hanzo_memory.models.memory import MemoryCreate
 from hanzo_memory.db.sqlite_client import SQLiteMemoryClient
+from hanzo_memory.models.memory import MemoryCreate
 
-from ..plugin_interface import Capability, MemoryBackendPlugin
+from ..plugin_interface import Capability
 
 
 class SQLiteBackendPlugin:
@@ -58,7 +57,7 @@ class SQLiteBackendPlugin:
 
         # For now, we'll store without embeddings to avoid dependency issues
         # In a real implementation, we'd generate embeddings
-        memory_create = MemoryCreate(
+        MemoryCreate(
             content=content,
             memory_type=metadata.get("type", "general"),
             importance=metadata.get("importance", 0.5),
@@ -69,7 +68,6 @@ class SQLiteBackendPlugin:
 
         # Add memory directly to the database
         import uuid
-        from datetime import datetime
 
         memory_id = str(uuid.uuid4())
 

@@ -1,11 +1,11 @@
 """Test edge cases for the batch tool to prevent errors."""
 
 import asyncio
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-from mcp.server.fastmcp import Context as MCPContext
 from hanzo_mcp.tools.common.batch_tool import BatchTool
+from mcp.server.fastmcp import Context as MCPContext
 
 
 class TestBatchToolEdgeCases:
@@ -172,7 +172,7 @@ class TestBatchToolEdgeCases:
         invocations = [{"tool_name": "tool1", "input": {"id": i}} for i in range(20)]
 
         start_time = asyncio.get_event_loop().time()
-        result = await batch_tool.call(ctx=mock_ctx, description="Concurrent test", invocations=invocations)
+        await batch_tool.call(ctx=mock_ctx, description="Concurrent test", invocations=invocations)
         end_time = asyncio.get_event_loop().time()
 
         # Check that execution was concurrent but limited

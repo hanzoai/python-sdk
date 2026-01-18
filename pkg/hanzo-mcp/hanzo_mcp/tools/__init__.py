@@ -16,8 +16,8 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from mcp.server import FastMCP
     from hanzo_tools.core import BaseTool, PermissionManager
+    from mcp.server import FastMCP
 
 logger = logging.getLogger(__name__)
 

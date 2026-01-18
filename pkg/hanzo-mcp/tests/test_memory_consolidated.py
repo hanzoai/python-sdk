@@ -1,6 +1,5 @@
 """Consolidated memory tests using parametrization to reduce redundancy."""
 
-from unittest.mock import Mock, AsyncMock, patch
 
 import pytest
 
@@ -17,7 +16,6 @@ pytestmark = pytest.mark.skipif(not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory
 
 # Only import these if hanzo_memory is available
 if HANZO_MEMORY_AVAILABLE:
-    from test_memory_base import MemoryTestBase
     from hanzo_tools.memory import (
         CreateMemoriesTool,
         DeleteMemoriesTool,
@@ -25,6 +23,7 @@ if HANZO_MEMORY_AVAILABLE:
         UpdateMemoriesTool,
         register_memory_tools,
     )
+    from test_memory_base import MemoryTestBase
 else:
     # Dummy class to prevent NameError when module is skipped
     class MemoryTestBase:
@@ -222,7 +221,7 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
             "importance": importance,
         }
 
-        result = await tool_helper.run_tool(tool, params, mock_ctx)
+        await tool_helper.run_tool(tool, params, mock_ctx)
 
         # Verify service was called with correct parameters
         mock_memory_service.create_memory.assert_called_once()

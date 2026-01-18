@@ -5,9 +5,10 @@ from unittest.mock import Mock, patch
 
 import pytest
 from hanzo_tools.agent.agent_tool import AgentTool
-from hanzo_tools.agent.critic_tool import ReviewType
-from hanzo_mcp.tools.common.permissions import PermissionManager
 from hanzo_tools.agent.clarification_protocol import ClarificationType
+from hanzo_tools.agent.critic_tool import ReviewType
+
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 @pytest.fixture

@@ -1,11 +1,11 @@
 """Test LiteLLM with different providers."""
 
-import os
 
-import pytest
 import litellm
-from hanzo_mcp.tools.common.base import BaseTool
+import pytest
 from hanzo_tools.agent.tool_adapter import convert_tools_to_openai_functions
+
+from hanzo_mcp.tools.common.base import BaseTool
 
 
 class EchoTool(BaseTool):

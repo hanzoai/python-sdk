@@ -12,15 +12,14 @@ Network calls are not performed. LLM calls are mocked via litellm patching.
 
 from __future__ import annotations
 
-import os
 import json
+import os
+import subprocess
 
 # Ensure typing.override exists on Python < 3.12
 import typing as _typing
-import tempfile
-import subprocess
-from typing import Any, Dict
 from pathlib import Path
+from typing import Dict
 
 import pytest
 
@@ -31,14 +30,14 @@ if not hasattr(_typing, "override"):
 
     _typing.override = _override  # type: ignore[attr-defined]
 
-from test_utils import PermissionManager
-from mcp.server.fastmcp import Context as MCPContext
+from hanzo_mcp.tools.llm.llm_tool import LLMTool
 
 # Import MCP tools after making sure typing.override is available
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
-from hanzo_tools.shell.bash_tool import BashTool
-from hanzo_mcp.tools.llm.llm_tool import LLMTool
 from hanzo_mcp.tools.mcp.mcp_stats import McpStatsTool
+from hanzo_tools.shell.bash_tool import BashTool
+from mcp.server.fastmcp import Context as MCPContext
+from test_utils import PermissionManager
 
 
 def _mock_acompletion_factory(responses: Dict[str, str]):
@@ -122,6 +121,7 @@ async def test_register_linear_mcp_and_list_in_stats(tmp_path: Path):
     # Patch tool context to have async set_tool_info
     import hanzo_mcp.tools.mcp.mcp_add as mcp_add_mod
     import hanzo_mcp.tools.mcp.mcp_stats as mcp_stats_mod
+
     from hanzo_mcp.tools.common import context as ctx_mod
 
     class _StubToolCtx:
@@ -219,7 +219,7 @@ async def test_git_worktree_per_task(monkeypatch, tmp_path: Path):
     for t in tasks:
         worktree_dir = tmp_path.parent / f"{tmp_path.name}-{t}"
         cmd = f"git -C {tmp_path} worktree add -b {t} {worktree_dir}"
-        res = await bash.call(ctx, command=cmd)
+        await bash.call(ctx, command=cmd)
         assert worktree_dir.exists()
         assert worktree_dir.exists()
 

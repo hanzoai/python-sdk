@@ -15,20 +15,11 @@ Features:
 - Unified backend with SQLite vector storage
 """
 
-import os
-import json
-import uuid
 import asyncio
 import logging
-import sqlite3
-import subprocess
-from typing import Any, Dict, List, Union, Literal, Optional
-from pathlib import Path
-from datetime import datetime
-from dataclasses import asdict, dataclass
-
-from pydantic import Field, BaseModel
-from hanzo_tools.lsp.lsp_tool import LSPTool
+import uuid
+from dataclasses import asdict
+from typing import Any, Dict, List, Literal, Optional
 
 from .unified_backend import TargetSpec, ToolResult, UnifiedBackend
 
@@ -171,7 +162,7 @@ class DevToolsCore:
 
         # Fix all and organize imports
         edit_result = await self.edit(
-            target=f"pkg:./...", op="code_action", only=["source.fixAll", "source.organizeImports"], language="go"
+            target="pkg:./...", op="code_action", only=["source.fixAll", "source.organizeImports"], language="go"
         )
         results.append(edit_result)
 
@@ -355,7 +346,6 @@ async def mcp_guard(
 def main():
     """CLI entry point"""
     import sys
-    import asyncio
 
     from .dev_cli import main as cli_main
 

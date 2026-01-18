@@ -6,19 +6,19 @@ import pytest
 try:
     from hanzo_agents import (
         WEB3_AVAILABLE,
-        Tool,
         Agent,
-        State,
-        Network,
-        TEEConfig,
         AgentWallet,
-        TEEProvider,
-        WalletConfig,
         ConfidentialAgent,
+        Network,
+        State,
+        TEEConfig,
+        TEEProvider,
+        Tool,
+        WalletConfig,
         generate_shared_mnemonic,
     )
+    from hanzo_agents.core.marketplace import AgentMarketplace, ServiceType
     from hanzo_agents.core.web3_agent import Web3Agent, Web3AgentConfig
-    from hanzo_agents.core.marketplace import ServiceType, AgentMarketplace
     from hanzo_agents.core.web3_network import Web3Network, create_web3_network
 
     HANZO_AGENTS_AVAILABLE = True
@@ -31,11 +31,11 @@ except ImportError:
 try:
     from hanzo_network import (
         LOCAL_COMPUTE_AVAILABLE,
-        ModelConfig,
-        ModelProvider,
         InferenceRequest,
         LocalComputeNode,
         LocalComputeOrchestrator,
+        ModelConfig,
+        ModelProvider,
     )
 
     HANZO_NETWORK_AVAILABLE = True
@@ -155,7 +155,7 @@ result = {"sum": inputs["a"] + inputs["b"]}
         )
 
         # Post request
-        request_id = marketplace.post_request(
+        marketplace.post_request(
             agent=requester,
             service_type=ServiceType.COMPUTE,
             description="Need GPU for training",
@@ -222,7 +222,7 @@ class TestLocalComputeIntegration:
         marketplace = AgentMarketplace()
 
         # Agent posts compute offer
-        offer_id = marketplace.post_offer(
+        marketplace.post_offer(
             agent=compute_agent,
             service_type=ServiceType.COMPUTE,
             description="Local GPU inference - Mistral 7B",
@@ -237,7 +237,7 @@ class TestLocalComputeIntegration:
         # Another agent requests compute
         user_agent = Web3Agent(name="user", description="Needs AI inference")
 
-        request_id = marketplace.post_request(
+        marketplace.post_request(
             agent=user_agent,
             service_type=ServiceType.COMPUTE,
             description="Need to run inference on prompt",
@@ -279,7 +279,7 @@ class TestDeterministicExecution:
         )
 
         # Run network
-        final_state = await network.run()
+        await network.run()
 
         # Get execution hash
         hash1 = network.execution_hash
@@ -292,7 +292,7 @@ class TestDeterministicExecution:
             deterministic=True,
         )
 
-        final_state2 = await network2.run()
+        await network2.run()
         hash2 = network2.execution_hash
 
         # Should produce same hash
@@ -364,7 +364,7 @@ async def test_full_integration():
     )
 
     # 6. Run network
-    final_state = await network.run()
+    await network.run()
 
     # 7. Check results
     stats = network.get_network_stats()

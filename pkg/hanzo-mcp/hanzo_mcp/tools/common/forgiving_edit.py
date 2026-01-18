@@ -1,8 +1,8 @@
 """Forgiving edit helper for AI-friendly text matching."""
 
-import re
 import difflib
-from typing import List, Tuple, Optional
+import re
+from typing import List, Optional, Tuple
 
 
 class ForgivingEditHelper:
@@ -73,7 +73,7 @@ class ForgivingEditHelper:
 
             # Find corresponding position in original
             original_lines = haystack.split("\n")
-            norm_lines = norm_haystack.split("\n")
+            norm_haystack.split("\n")
 
             start_pos = sum(len(line) + 1 for line in original_lines[:lines_before])
 

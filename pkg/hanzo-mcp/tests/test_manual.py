@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Manual test script for Hanzo AI functionality."""
 
-import os
 import asyncio
+import os
 import tempfile
 from pathlib import Path
 
-from hanzo_mcp.server import HanzoMCPServer
 from hanzo_tools.filesystem.diff import create_diff_tool
 from hanzo_tools.filesystem.read import ReadTool
 
 # from hanzo_mcp.tools.common.palette import PaletteRegistry  # Module doesn't exist
 from hanzo_tools.shell.bash_tool import bash_tool
+
+from hanzo_mcp.server import HanzoMCPServer
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -87,14 +88,14 @@ async def test_basic_functionality():
         # Test 5: Server Creation
         print("5️⃣ Testing Server Creation...")
         try:
-            server = HanzoMCPServer(
+            HanzoMCPServer(
                 name="test-server",
                 allowed_paths=[temp_dir],
                 use_palette=True,
                 force_palette="python",
             )
             print("✅ Server created successfully")
-            print(f"✅ Python palette applied")
+            print("✅ Python palette applied")
         except Exception as e:
             print(f"❌ Server creation failed: {e}")
         print()
@@ -141,7 +142,7 @@ def test_dev_mode():
     try:
         from hanzo_mcp.dev_server import DevServer
 
-        dev_server = DevServer(
+        DevServer(
             name="test-dev",
             allowed_paths=["/tmp"],
         )

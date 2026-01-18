@@ -5,17 +5,23 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from hanzo_tools.shell.ps_tool import PsTool
-from hanzo_tools.shell.shell_tools import ZshTool, BashTool, DashTool, FishTool, ShellTool
 from hanzo_tools.shell.base_process import ProcessManager
+from hanzo_tools.shell.ps_tool import PsTool
 from hanzo_tools.shell.shell_detect import (
     SUPPORTED_SHELLS,
+    clear_shell_cache,
     detect_shells,
     get_active_shell,
-    clear_shell_cache,
     get_shell_tool_class,
-    get_cached_active_shell,
 )
+from hanzo_tools.shell.shell_tools import (
+    BashTool,
+    DashTool,
+    FishTool,
+    ShellTool,
+    ZshTool,
+)
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

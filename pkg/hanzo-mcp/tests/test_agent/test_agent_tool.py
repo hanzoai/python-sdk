@@ -1,12 +1,12 @@
 """Tests for the agent tool implementation."""
 
 import os
-import json
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_tools.agent.agent_tool import AgentTool
+
+from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

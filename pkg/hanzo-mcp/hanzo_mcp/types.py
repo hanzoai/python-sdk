@@ -1,7 +1,7 @@
 """Type definitions for Hanzo MCP tools."""
 
-from typing import Any, Dict, Optional
 from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
 
 @dataclass

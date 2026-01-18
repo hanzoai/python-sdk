@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """CLI for managing Hanzo MCP plugins."""
 
-import sys
 import argparse
+import sys
 from pathlib import Path
 
 from hanzo_mcp.tools.common.plugin_loader import (
@@ -42,7 +42,7 @@ Examples:
     )
 
     # List command
-    list_parser = subparsers.add_parser("list", help="List installed plugins")
+    subparsers.add_parser("list", help="List installed plugins")
 
     args = parser.parse_args()
 
@@ -51,10 +51,10 @@ Examples:
         output_dir = args.output / args.name
         try:
             create_plugin_template(output_dir, args.name)
-            print(f"\n✅ Plugin template created successfully!")
-            print(f"\nTo use your plugin:")
+            print("\n✅ Plugin template created successfully!")
+            print("\nTo use your plugin:")
             print(f"1. Edit the tool implementation in {output_dir / f'{args.name}_tool.py'}")
-            print(f"2. Restart Hanzo MCP to load the plugin")
+            print("2. Restart Hanzo MCP to load the plugin")
             print(f"3. Add '{args.name}' to your mode's tool list")
         except Exception as e:
             print(f"❌ Error creating plugin: {e}", file=sys.stderr)

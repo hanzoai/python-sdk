@@ -1,7 +1,7 @@
 """Test search result quality and relevance scoring for search."""
 
-import sys
 import asyncio
+import sys
 import tempfile
 from pathlib import Path
 

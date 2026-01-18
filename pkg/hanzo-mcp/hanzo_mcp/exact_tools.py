@@ -7,22 +7,17 @@ Implements the precise specification for edit, fmt, test, build, lint, guard too
 with proper target resolution, workspace detection, and backend selection.
 """
 
-import os
-import glob
-import json
-import uuid
-import shutil
 import asyncio
-import logging
-import sqlite3
+import json
+import os
 import subprocess
-from typing import Any, Dict, List, Union, Literal, Optional
-from pathlib import Path
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from dataclasses import field, asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Literal, Optional, Union
 
-from pydantic import Field, BaseModel
 from hanzo_tools.lsp.lsp_tool import LSPTool
+from pydantic import BaseModel, Field
 
 try:
     from pydantic import ConfigDict
@@ -316,7 +311,7 @@ class TargetResolver:
 
     def _resolve_go_package(self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec) -> Dict[str, Any]:
         """Resolve Go package specification"""
-        root_path = Path(workspace["root"])
+        Path(workspace["root"])
 
         if pkg_spec == "./...":
             # All packages in workspace
@@ -1469,9 +1464,9 @@ tools = HanzoTools()
 
 # CLI interface for testing
 if __name__ == "__main__":
-    import sys
-    import asyncio
     import argparse
+    import asyncio
+    import sys
 
     async def main():
         parser = argparse.ArgumentParser(description="Hanzo MCP Tools")
