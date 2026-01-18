@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.10.39"
+version = "0.11.0"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -92,6 +92,8 @@ publish = ["twine>=4.0.2", "build>=1.0.3"]
 hanzo-mcp = "hanzo_mcp.cli:main"
 hanzo-mcp-dev = "hanzo_mcp.dev_server:run_dev_server"
 hanzo-plugin = "hanzo_mcp.cli_plugin:main"
+hanzo-dev = "hanzo_mcp.dev_tools:main"
+hanzo-unified = "hanzo_mcp.unified_backend:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

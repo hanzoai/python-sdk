@@ -5,16 +5,16 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-from hanzo_tools.shell.shell_tools import ShellTool, BashTool, ZshTool, FishTool, DashTool
-from hanzo_tools.shell.base_process import ProcessManager
 from hanzo_tools.shell.ps_tool import PsTool
+from hanzo_tools.shell.shell_tools import ZshTool, BashTool, DashTool, FishTool, ShellTool
+from hanzo_tools.shell.base_process import ProcessManager
 from hanzo_tools.shell.shell_detect import (
+    SUPPORTED_SHELLS,
     detect_shells,
     get_active_shell,
-    get_cached_active_shell,
     clear_shell_cache,
     get_shell_tool_class,
-    SUPPORTED_SHELLS,
+    get_cached_active_shell,
 )
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
@@ -71,10 +71,10 @@ class TestShellDetection:
     def test_detect_shells_returns_shell_info(self):
         """Test detect_shells returns proper ShellInfo."""
         info = detect_shells()
-        assert hasattr(info, 'login_shell')
-        assert hasattr(info, 'invoking_shell')
-        assert hasattr(info, 'env_shell')
-        assert hasattr(info, 'evidence')
+        assert hasattr(info, "login_shell")
+        assert hasattr(info, "invoking_shell")
+        assert hasattr(info, "env_shell")
+        assert hasattr(info, "evidence")
 
     def test_get_active_shell_returns_tuple(self):
         """Test get_active_shell returns (name, path) tuple."""
@@ -191,7 +191,7 @@ class TestToolsListWithShellDetection:
         shell_name, _ = get_cached_active_shell()
 
         # Count shell tools
-        shell_tools = [t for t in TOOLS if hasattr(t, 'name') and t.name in SUPPORTED_SHELLS]
+        shell_tools = [t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS]
 
         # Should have exactly one shell tool (the detected one)
         assert len(shell_tools) == 1
@@ -203,12 +203,14 @@ class TestToolsListWithShellDetection:
         with patch.dict(os.environ, {"HANZO_MCP_ALL_SHELLS": "1"}, clear=False):
             # Re-import to get fresh TOOLS list
             import importlib
+
             import hanzo_tools.shell
+
             importlib.reload(hanzo_tools.shell)
             from hanzo_tools.shell import TOOLS
 
             # Count shell tools
-            shell_tools = [t for t in TOOLS if hasattr(t, 'name') and t.name in SUPPORTED_SHELLS]
+            shell_tools = [t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS]
 
             # Should have all 4 shell tools
             assert len(shell_tools) == 4
@@ -220,7 +222,9 @@ class TestToolsListWithShellDetection:
         if "HANZO_MCP_ALL_SHELLS" in os.environ:
             del os.environ["HANZO_MCP_ALL_SHELLS"]
         import importlib
+
         import hanzo_tools.shell
+
         importlib.reload(hanzo_tools.shell)
 
 

@@ -1,13 +1,15 @@
 """Configuration system for the modular plugin architecture."""
 
-from typing import List, Dict, Any, Optional
-from pathlib import Path
 import json
-from pydantic import BaseModel, Field
+from typing import Any, Dict, List, Optional
+from pathlib import Path
+
+from pydantic import Field, BaseModel
 
 
 class BackendConfig(BaseModel):
     """Configuration for a specific backend."""
+
     enabled: bool = True
     path: Optional[str] = None
     url: Optional[str] = None
@@ -16,6 +18,7 @@ class BackendConfig(BaseModel):
 
 class PluginConfig(BaseModel):
     """Configuration for the plugin system."""
+
     enabled_backends: List[str] = ["sqlite"]  # Default to lightweight SQLite
     backend_configs: Dict[str, BackendConfig] = Field(default_factory=dict)
     default_user_id: str = "default"
@@ -39,7 +42,7 @@ def get_project_config_path() -> Optional[Path]:
     possible_paths = [
         Path(".") / ".hanzo-mcp.json",
         Path(".") / ".hanzo" / "mcp-settings.json",
-        Path(".") / "mcp-settings.json"
+        Path(".") / "mcp-settings.json",
     ]
 
     for path in possible_paths:
@@ -49,8 +52,7 @@ def get_project_config_path() -> Optional[Path]:
     return None
 
 
-def load_config(global_config_path: Optional[Path] = None,
-                project_config_path: Optional[Path] = None) -> PluginConfig:
+def load_config(global_config_path: Optional[Path] = None, project_config_path: Optional[Path] = None) -> PluginConfig:
     """Load configuration from global and project files, with project overriding global."""
     global_path = global_config_path or get_global_config_path()
     project_path = project_config_path or get_project_config_path()
@@ -59,20 +61,16 @@ def load_config(global_config_path: Optional[Path] = None,
     config_data = {
         "enabled_backends": ["sqlite"],
         "backend_configs": {
-            "sqlite": {
-                "enabled": True,
-                "path": str(Path.home() / ".hanzo" / "memory.db"),
-                "settings": {}
-            }
+            "sqlite": {"enabled": True, "path": str(Path.home() / ".hanzo" / "memory.db"), "settings": {}}
         },
         "default_user_id": "default",
-        "default_project_id": "default"
+        "default_project_id": "default",
     }
 
     # Load global config if it exists
     if global_path and global_path.exists():
         try:
-            with open(global_path, 'r') as f:
+            with open(global_path, "r") as f:
                 global_data = json.load(f)
                 # Update config with global settings
                 for key, value in global_data.items():
@@ -88,7 +86,7 @@ def load_config(global_config_path: Optional[Path] = None,
     # Load project config if it exists (overrides global)
     if project_path and project_path.exists():
         try:
-            with open(project_path, 'r') as f:
+            with open(project_path, "r") as f:
                 project_data = json.load(f)
                 # Update config with project settings
                 for key, value in project_data.items():
@@ -108,7 +106,7 @@ def load_config(global_config_path: Optional[Path] = None,
 def save_global_config(config: PluginConfig):
     """Save configuration to the global config file."""
     config_path = get_global_config_path()
-    with open(config_path, 'w') as f:
+    with open(config_path, "w") as f:
         json.dump(config.dict(), f, indent=2)
 
 
@@ -117,10 +115,6 @@ def get_default_config() -> PluginConfig:
     return PluginConfig(
         enabled_backends=["sqlite"],
         backend_configs={
-            "sqlite": BackendConfig(
-                enabled=True,
-                path=str(Path.home() / ".hanzo" / "memory.db"),
-                settings={}
-            )
-        }
+            "sqlite": BackendConfig(enabled=True, path=str(Path.home() / ".hanzo" / "memory.db"), settings={})
+        },
     )
