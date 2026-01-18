@@ -55,12 +55,28 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                                 "description": "Language override",
                             },
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Explicit workspace root override"},
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Explicit workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -73,13 +89,24 @@ class ExactHanzoMCPServer:
                             },
                             "op": {
                                 "type": "string",
-                                "enum": ["rename", "code_action", "organize_imports", "apply_workspace_edit"],
+                                "enum": [
+                                    "rename",
+                                    "code_action",
+                                    "organize_imports",
+                                    "apply_workspace_edit",
+                                ],
                                 "description": "Operation to perform",
                             },
-                            "file": {"type": "string", "description": "File path for rename/code_action operations"},
+                            "file": {
+                                "type": "string",
+                                "description": "File path for rename/code_action operations",
+                            },
                             "pos": {
                                 "type": "object",
-                                "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                "properties": {
+                                    "line": {"type": "integer"},
+                                    "character": {"type": "integer"},
+                                },
                                 "description": "Position for rename/code_action",
                             },
                             "range": {
@@ -87,22 +114,35 @@ class ExactHanzoMCPServer:
                                 "properties": {
                                     "start": {
                                         "type": "object",
-                                        "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                        "properties": {
+                                            "line": {"type": "integer"},
+                                            "character": {"type": "integer"},
+                                        },
                                     },
                                     "end": {
                                         "type": "object",
-                                        "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                        "properties": {
+                                            "line": {"type": "integer"},
+                                            "character": {"type": "integer"},
+                                        },
                                     },
                                 },
                                 "description": "Range for code actions",
                             },
-                            "new_name": {"type": "string", "description": "New name for rename operation"},
+                            "new_name": {
+                                "type": "string",
+                                "description": "New name for rename operation",
+                            },
                             "only": {
                                 "type": "array",
                                 "items": {"type": "string"},
                                 "description": "LSP codeAction kinds filter",
                             },
-                            "apply": {"type": "boolean", "default": True, "description": "Apply edits to disk"},
+                            "apply": {
+                                "type": "boolean",
+                                "default": True,
+                                "description": "Apply edits to disk",
+                            },
                             "workspace_edit": {
                                 "type": "object",
                                 "description": "WorkspaceEdit payload for apply_workspace_edit",
@@ -124,7 +164,16 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                             },
                             "backend": {
@@ -132,7 +181,10 @@ class ExactHanzoMCPServer:
                                 "default": "auto",
                                 "description": "Backend override (goimports, prettier, ruff, etc.)",
                             },
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -166,7 +218,16 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                             },
                             "backend": {
@@ -174,20 +235,50 @@ class ExactHanzoMCPServer:
                                 "default": "auto",
                                 "description": "Backend override (go, npm, pytest, cargo, etc.)",
                             },
-                            "root": {"type": "string", "description": "Workspace root override"},
-                            "env": {"type": "object", "additionalProperties": {"type": "string"}},
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
+                            "env": {
+                                "type": "object",
+                                "additionalProperties": {"type": "string"},
+                            },
                             "dry_run": {"type": "boolean", "default": False},
                             "opts": {
                                 "type": "object",
                                 "properties": {
-                                    "run": {"type": "string", "description": "Go test filter"},
-                                    "count": {"type": "integer", "description": "Go test count"},
-                                    "race": {"type": "boolean", "description": "Go race detection"},
-                                    "filter": {"type": "string", "description": "TS test filter"},
-                                    "watch": {"type": "boolean", "description": "TS watch mode"},
-                                    "k": {"type": "string", "description": "Python test filter"},
-                                    "m": {"type": "string", "description": "Python test marker"},
-                                    "p": {"type": "string", "description": "Rust package"},
+                                    "run": {
+                                        "type": "string",
+                                        "description": "Go test filter",
+                                    },
+                                    "count": {
+                                        "type": "integer",
+                                        "description": "Go test count",
+                                    },
+                                    "race": {
+                                        "type": "boolean",
+                                        "description": "Go race detection",
+                                    },
+                                    "filter": {
+                                        "type": "string",
+                                        "description": "TS test filter",
+                                    },
+                                    "watch": {
+                                        "type": "boolean",
+                                        "description": "TS watch mode",
+                                    },
+                                    "k": {
+                                        "type": "string",
+                                        "description": "Python test filter",
+                                    },
+                                    "m": {
+                                        "type": "string",
+                                        "description": "Python test marker",
+                                    },
+                                    "p": {
+                                        "type": "string",
+                                        "description": "Rust package",
+                                    },
                                     "features": {
                                         "type": "array",
                                         "items": {"type": "string"},
@@ -213,18 +304,43 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                             },
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
-                            "env": {"type": "object", "additionalProperties": {"type": "string"}},
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
+                            "env": {
+                                "type": "object",
+                                "additionalProperties": {"type": "string"},
+                            },
                             "dry_run": {"type": "boolean", "default": False},
                             "opts": {
                                 "type": "object",
                                 "properties": {
-                                    "release": {"type": "boolean", "description": "Release build"},
-                                    "features": {"type": "array", "items": {"type": "string"}},
+                                    "release": {
+                                        "type": "boolean",
+                                        "description": "Release build",
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {"type": "string"},
+                                    },
                                 },
                                 "description": "Build-specific options",
                             },
@@ -245,17 +361,39 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                             },
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
-                            "env": {"type": "object", "additionalProperties": {"type": "string"}},
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
+                            "env": {
+                                "type": "object",
+                                "additionalProperties": {"type": "string"},
+                            },
                             "dry_run": {"type": "boolean", "default": False},
                             "opts": {
                                 "type": "object",
                                 "properties": {
-                                    "fix": {"type": "boolean", "description": "Auto-fix issues where possible"}
+                                    "fix": {
+                                        "type": "boolean",
+                                        "description": "Auto-fix issues where possible",
+                                    }
                                 },
                                 "description": "Lint-specific options",
                             },
@@ -276,12 +414,27 @@ class ExactHanzoMCPServer:
                             },
                             "language": {
                                 "type": "string",
-                                "enum": ["auto", "go", "ts", "py", "rs", "cc", "sol", "schema"],
+                                "enum": [
+                                    "auto",
+                                    "go",
+                                    "ts",
+                                    "py",
+                                    "rs",
+                                    "cc",
+                                    "sol",
+                                    "schema",
+                                ],
                                 "default": "auto",
                             },
                             "backend": {"type": "string", "default": "auto"},
-                            "root": {"type": "string", "description": "Workspace root override"},
-                            "env": {"type": "object", "additionalProperties": {"type": "string"}},
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
+                            "env": {
+                                "type": "object",
+                                "additionalProperties": {"type": "string"},
+                            },
                             "dry_run": {"type": "boolean", "default": False},
                             "rules": {
                                 "type": "array",
@@ -289,7 +442,10 @@ class ExactHanzoMCPServer:
                                     "type": "object",
                                     "properties": {
                                         "id": {"type": "string"},
-                                        "type": {"type": "string", "enum": ["regex", "import", "generated"]},
+                                        "type": {
+                                            "type": "string",
+                                            "enum": ["regex", "import", "generated"],
+                                        },
                                         "glob": {"type": "string"},
                                         "pattern": {"type": "string"},
                                         "forbid_import_prefix": {"type": "string"},
@@ -357,10 +513,16 @@ class ExactHanzoMCPServer:
                 else:
                     return [TextContent(type="text", text=f"Unknown tool: {name}")]
 
-                return [TextContent(type="text", text=self._format_exact_result(result, name))]
+                return [
+                    TextContent(
+                        type="text", text=self._format_exact_result(result, name)
+                    )
+                ]
 
             except Exception as e:
-                return [TextContent(type="text", text=f"Error executing {name}: {str(e)}")]
+                return [
+                    TextContent(type="text", text=f"Error executing {name}: {str(e)}")
+                ]
 
     def _format_exact_result(self, result, tool_name: str) -> str:
         """Format tool result according to exact specification"""
@@ -407,7 +569,8 @@ class ExactHanzoMCPServer:
                         server_name="hanzo-mcp-exact",
                         server_version="1.0.0",
                         capabilities=self.server.get_capabilities(
-                            notification_options=NotificationOptions(), experimental_capabilities={}
+                            notification_options=NotificationOptions(),
+                            experimental_capabilities={},
                         ),
                     ),
                 )

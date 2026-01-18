@@ -21,7 +21,9 @@ if TYPE_CHECKING:
 
 
 # Suppress litellm deprecation warnings about event loop
-warnings.filterwarnings("ignore", message="There is no current event loop", category=DeprecationWarning)
+warnings.filterwarnings(
+    "ignore", message="There is no current event loop", category=DeprecationWarning
+)
 
 # Cached imports - lazy loaded on first use
 _FastMCP = None
@@ -162,8 +164,12 @@ class HanzoMCPServer:
             # Generate a secure random token if none provided
             self.auth_token = secrets.token_urlsafe(32)
             logger = logging.getLogger(__name__)
-            logger.warning(f"No auth token provided. Generated token: {self.auth_token}")
-            logger.warning("Set HANZO_MCP_TOKEN environment variable for persistent auth")
+            logger.warning(
+                f"No auth token provided. Generated token: {self.auth_token}"
+            )
+            logger.warning(
+                "Set HANZO_MCP_TOKEN environment variable for persistent auth"
+            )
 
         # Initialize permissions and command executor
         PermissionManager = _get_permission_manager()
@@ -268,7 +274,9 @@ class HanzoMCPServer:
             signal.signal(signal.SIGINT, signal_handler)
 
             # Start background cleanup thread for periodic cleanup
-            self._cleanup_thread = threading.Thread(target=self._background_cleanup, daemon=True)
+            self._cleanup_thread = threading.Thread(
+                target=self._background_cleanup, daemon=True
+            )
             self._cleanup_thread.start()
 
     def _background_cleanup(self) -> None:

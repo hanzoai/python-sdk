@@ -49,7 +49,12 @@ def with_error_logging(tool_name: str) -> Callable:
                     log_call_signature_error(tool_name, expected, actual, e)
 
                 # Log the error
-                log_tool_error(tool_name, e, params=kwargs, context="Call signature mismatch or type error")
+                log_tool_error(
+                    tool_name,
+                    e,
+                    params=kwargs,
+                    context="Call signature mismatch or type error",
+                )
 
                 # Return user-friendly error message
                 return (

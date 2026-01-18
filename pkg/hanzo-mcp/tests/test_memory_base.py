@@ -17,7 +17,9 @@ except ImportError:
     Memory = None  # type: ignore
 
 # Skip entire module if hanzo_memory is not available
-pytestmark = pytest.mark.skipif(not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory package not installed")
+pytestmark = pytest.mark.skipif(
+    not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory package not installed"
+)
 
 # Only import these if hanzo_memory is available
 if HANZO_MEMORY_AVAILABLE:
@@ -60,7 +62,9 @@ class MemoryTestBase:
     @pytest.fixture
     def mock_memory_service(self):
         """Create a mock memory service with standard responses."""
-        with patch("hanzo_memory.services.memory.get_memory_service") as mock_get_service:
+        with patch(
+            "hanzo_memory.services.memory.get_memory_service"
+        ) as mock_get_service:
             mock_service = Mock()
 
             # Set up standard responses
@@ -73,7 +77,9 @@ class MemoryTestBase:
                 importance=1.0,
             )
 
-            mock_service.update_memory.return_value = Mock(memory_id="mem_123", content="Updated memory")
+            mock_service.update_memory.return_value = Mock(
+                memory_id="mem_123", content="Updated memory"
+            )
 
             mock_service.delete_memory.return_value = None
 

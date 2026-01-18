@@ -105,9 +105,13 @@ class TestHanzoNetworkIntegration:
     async def test_agent_communication(self, tool_helper, basic_network):
         """Test agent-to-agent communication."""
         # Create communicating agents
-        agent1 = Agent(name="agent1", role="Coordinator", capabilities=["coordination", "planning"])
+        agent1 = Agent(
+            name="agent1", role="Coordinator", capabilities=["coordination", "planning"]
+        )
 
-        agent2 = Agent(name="agent2", role="Worker", capabilities=["execution", "reporting"])
+        agent2 = Agent(
+            name="agent2", role="Worker", capabilities=["execution", "reporting"]
+        )
 
         # Add message handler to agent2
         messages_received = []
@@ -347,13 +351,17 @@ class TestHanzoNetworkIntegration:
             is_local=True,
         )
 
-        api_agent = Agent(name="api_expert", role="Expert Consultant", model="gpt-4", is_local=False)
+        api_agent = Agent(
+            name="api_expert", role="Expert Consultant", model="gpt-4", is_local=False
+        )
 
         await basic_network.add_agent(local_agent)
         await basic_network.add_agent(api_agent)
 
         # Simple task (should go to local)
-        simple_result = await basic_network.delegate_task(task='Format this JSON: {"name":"test"}', complexity="simple")
+        simple_result = await basic_network.delegate_task(
+            task='Format this JSON: {"name":"test"}', complexity="simple"
+        )
 
         assert simple_result["agent"] == "local_helper"
         assert simple_result["cost"] < 0.01
@@ -366,7 +374,9 @@ class TestHanzoNetworkIntegration:
 
         assert complex_result["agent"] == "api_expert"
 
-    async def test_agent_network_persistence(self, tool_helper, basic_network, temp_dir):
+    async def test_agent_network_persistence(
+        self, tool_helper, basic_network, temp_dir
+    ):
         """Test saving and loading agent network state."""
         # Add some agents and state
         agent1 = Agent(name="persistent_agent", role="Keeper")
@@ -470,7 +480,9 @@ class TestHanzoNetworkMCPIntegration:
         # Create specialized agents
         analyst = Agent(name="analyst", role="Code Analyst", has_mcp_access=True)
 
-        refactorer = Agent(name="refactorer", role="Code Refactorer", has_mcp_access=True)
+        refactorer = Agent(
+            name="refactorer", role="Code Refactorer", has_mcp_access=True
+        )
 
         reviewer = Agent(name="reviewer", role="Code Reviewer", has_mcp_access=True)
 

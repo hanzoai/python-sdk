@@ -126,7 +126,9 @@ class CLIToolFactory:
                 )
 
                 try:
-                    stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=effective_timeout)
+                    stdout, stderr = await asyncio.wait_for(
+                        proc.communicate(), timeout=effective_timeout
+                    )
                 except asyncio.TimeoutError:
                     proc.kill()
                     await proc.wait()
@@ -149,7 +151,8 @@ class CLIToolFactory:
         # Register with MCP server
         try:
             self._mcp_server.tool(
-                name=tool_def.name, description=f"{tool_def.description}\n\nCommand: {tool_def.command}"
+                name=tool_def.name,
+                description=f"{tool_def.description}\n\nCommand: {tool_def.command}",
             )(cli_handler)
             self._registered_handlers[tool_def.name] = cli_handler
             logger.info(f"Registered dynamic CLI tool: {tool_def.name}")
@@ -252,7 +255,11 @@ class CLIToolFactory:
         self._save_config()
 
         # Note: Can't unregister from FastMCP, but tool won't be re-registered on restart
-        return {"success": True, "name": name, "message": "Tool disabled. Restart server to remove."}
+        return {
+            "success": True,
+            "name": name,
+            "message": "Tool disabled. Restart server to remove.",
+        }
 
     async def get_help(self, name: str) -> str:
         """Get help text for a CLI tool by running --help."""
@@ -305,7 +312,10 @@ Examples:
         )
         return json.dumps(result, indent=2)
 
-    @mcp_server.tool(name="cli_list", description="List all dynamic CLI tools that have been created.")
+    @mcp_server.tool(
+        name="cli_list",
+        description="List all dynamic CLI tools that have been created.",
+    )
     async def cli_list() -> str:
         tools = factory.list()
         if not tools:
@@ -323,7 +333,9 @@ Examples:
         result = factory.remove(name)
         return json.dumps(result, indent=2)
 
-    @mcp_server.tool(name="cli_help", description="Get help text for a CLI tool by running --help.")
+    @mcp_server.tool(
+        name="cli_help", description="Get help text for a CLI tool by running --help."
+    )
     async def cli_help(name: str) -> str:
         return await factory.get_help(name)
 

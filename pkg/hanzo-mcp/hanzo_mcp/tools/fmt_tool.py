@@ -103,7 +103,11 @@ class FmtTool(DevToolBase):
     async def _format_typescript(self) -> DevResult:
         """Format TypeScript/JavaScript code"""
         files = self.resolved["files"]
-        ts_files = [f for f in files if any(f.endswith(ext) for ext in [".ts", ".tsx", ".js", ".jsx"])]
+        ts_files = [
+            f
+            for f in files
+            if any(f.endswith(ext) for ext in [".ts", ".tsx", ".js", ".jsx"])
+        ]
 
         if not ts_files:
             return create_dev_result(
@@ -193,7 +197,13 @@ class FmtTool(DevToolBase):
     async def _format_cpp(self) -> DevResult:
         """Format C/C++ code using clang-format"""
         files = self.resolved["files"]
-        cpp_files = [f for f in files if any(f.endswith(ext) for ext in [".c", ".cpp", ".cc", ".cxx", ".h", ".hpp"])]
+        cpp_files = [
+            f
+            for f in files
+            if any(
+                f.endswith(ext) for ext in [".c", ".cpp", ".cc", ".cxx", ".h", ".hpp"]
+            )
+        ]
 
         if not cpp_files:
             return create_dev_result(
@@ -364,7 +374,13 @@ async def fmt_tool_handler(
     """MCP handler for fmt tool"""
 
     tool = FmtTool(
-        target=target, language=language, backend=backend, root=root, env=env, dry_run=dry_run, opts=opts or {}
+        target=target,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env,
+        dry_run=dry_run,
+        opts=opts or {},
     )
 
     result = await tool.execute()

@@ -17,7 +17,9 @@ def test_imports():
 
     assert network_version is not None
     assert mcp_version is not None
-    print(f"✅ All imports successful! hanzo-network: {network_version}, hanzo-mcp: {mcp_version}")
+    print(
+        f"✅ All imports successful! hanzo-network: {network_version}, hanzo-mcp: {mcp_version}"
+    )
 
 
 def test_hanzo_net_provider():
@@ -41,7 +43,11 @@ def test_local_agent_creation():
         name="test_agent",
         description="Test agent",
         system="You are a test agent",
-        tools=[create_tool(name="dummy_tool", description="A dummy tool", handler=dummy_tool)],
+        tools=[
+            create_tool(
+                name="dummy_tool", description="A dummy tool", handler=dummy_tool
+            )
+        ],
         local_model="llama3.2",
     )
 
@@ -56,7 +62,9 @@ def test_network_config():
     """Test distributed network configuration."""
     from hanzo_network import create_local_agent, create_local_distributed_network
 
-    agent = create_local_agent(name="test_agent", description="Test agent", local_model="llama3.2")
+    agent = create_local_agent(
+        name="test_agent", description="Test agent", local_model="llama3.2"
+    )
 
     network = create_local_distributed_network(
         agents=[agent], name="test-network", listen_port=16100, broadcast_port=16100

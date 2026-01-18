@@ -49,7 +49,12 @@ class HanzoMCPServer:
                             },
                             "op": {
                                 "type": "string",
-                                "enum": ["rename", "code_action", "organize_imports", "apply_workspace_edit"],
+                                "enum": [
+                                    "rename",
+                                    "code_action",
+                                    "organize_imports",
+                                    "apply_workspace_edit",
+                                ],
                                 "description": "Operation to perform",
                             },
                             "language": {
@@ -57,17 +62,30 @@ class HanzoMCPServer:
                                 "default": "auto",
                                 "description": "Language override (auto, go, ts, py, rs, cc, sol)",
                             },
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
                                 "description": "Environment variables",
                             },
-                            "file": {"type": "string", "description": "File path for rename/code_action operations"},
+                            "file": {
+                                "type": "string",
+                                "description": "File path for rename/code_action operations",
+                            },
                             "pos": {
                                 "type": "object",
-                                "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                "properties": {
+                                    "line": {"type": "integer"},
+                                    "character": {"type": "integer"},
+                                },
                                 "description": "Position for rename/code_action",
                             },
                             "range": {
@@ -75,16 +93,25 @@ class HanzoMCPServer:
                                 "properties": {
                                     "start": {
                                         "type": "object",
-                                        "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                        "properties": {
+                                            "line": {"type": "integer"},
+                                            "character": {"type": "integer"},
+                                        },
                                     },
                                     "end": {
                                         "type": "object",
-                                        "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                        "properties": {
+                                            "line": {"type": "integer"},
+                                            "character": {"type": "integer"},
+                                        },
                                     },
                                 },
                                 "description": "Range for code actions",
                             },
-                            "new_name": {"type": "string", "description": "New name for rename operation"},
+                            "new_name": {
+                                "type": "string",
+                                "description": "New name for rename operation",
+                            },
                             "only": {
                                 "type": "array",
                                 "items": {"type": "string"},
@@ -119,9 +146,20 @@ class HanzoMCPServer:
                                 "type": "string",
                                 "description": "Target: file:<path>, dir:<path>, pkg:<spec>, ws, or changed",
                             },
-                            "language": {"type": "string", "default": "auto", "description": "Language override"},
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "language": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Language override",
+                            },
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -137,7 +175,11 @@ class HanzoMCPServer:
                                 },
                                 "description": "Tool-specific options",
                             },
-                            "dry_run": {"type": "boolean", "default": False, "description": "Preview mode"},
+                            "dry_run": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Preview mode",
+                            },
                         },
                         "required": ["target"],
                         "additionalProperties": False,
@@ -153,9 +195,20 @@ class HanzoMCPServer:
                                 "type": "string",
                                 "description": "Target: file:<path>, dir:<path>, pkg:<spec>, ws, or changed",
                             },
-                            "language": {"type": "string", "default": "auto", "description": "Language override"},
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "language": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Language override",
+                            },
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -164,14 +217,31 @@ class HanzoMCPServer:
                             "opts": {
                                 "type": "object",
                                 "properties": {
-                                    "run_filter": {"type": "string", "description": "Test filter pattern"},
-                                    "count": {"type": "integer", "description": "Number of times to run each test"},
-                                    "race": {"type": "boolean", "description": "Enable race detection (Go)"},
-                                    "watch": {"type": "boolean", "default": False, "description": "Watch mode"},
+                                    "run_filter": {
+                                        "type": "string",
+                                        "description": "Test filter pattern",
+                                    },
+                                    "count": {
+                                        "type": "integer",
+                                        "description": "Number of times to run each test",
+                                    },
+                                    "race": {
+                                        "type": "boolean",
+                                        "description": "Enable race detection (Go)",
+                                    },
+                                    "watch": {
+                                        "type": "boolean",
+                                        "default": False,
+                                        "description": "Watch mode",
+                                    },
                                 },
                                 "description": "Test-specific options",
                             },
-                            "dry_run": {"type": "boolean", "default": False, "description": "Preview mode"},
+                            "dry_run": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Preview mode",
+                            },
                         },
                         "required": ["target"],
                         "additionalProperties": False,
@@ -187,9 +257,20 @@ class HanzoMCPServer:
                                 "type": "string",
                                 "description": "Target: file:<path>, dir:<path>, pkg:<spec>, ws, or changed",
                             },
-                            "language": {"type": "string", "default": "auto", "description": "Language override"},
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "language": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Language override",
+                            },
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -198,7 +279,11 @@ class HanzoMCPServer:
                             "opts": {
                                 "type": "object",
                                 "properties": {
-                                    "release": {"type": "boolean", "default": False, "description": "Release build"},
+                                    "release": {
+                                        "type": "boolean",
+                                        "default": False,
+                                        "description": "Release build",
+                                    },
                                     "features": {
                                         "type": "array",
                                         "items": {"type": "string"},
@@ -207,7 +292,11 @@ class HanzoMCPServer:
                                 },
                                 "description": "Build-specific options",
                             },
-                            "dry_run": {"type": "boolean", "default": False, "description": "Preview mode"},
+                            "dry_run": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Preview mode",
+                            },
                         },
                         "required": ["target"],
                         "additionalProperties": False,
@@ -223,9 +312,20 @@ class HanzoMCPServer:
                                 "type": "string",
                                 "description": "Target: file:<path>, dir:<path>, pkg:<spec>, ws, or changed",
                             },
-                            "language": {"type": "string", "default": "auto", "description": "Language override"},
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "language": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Language override",
+                            },
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -242,7 +342,11 @@ class HanzoMCPServer:
                                 },
                                 "description": "Lint-specific options",
                             },
-                            "dry_run": {"type": "boolean", "default": False, "description": "Preview mode"},
+                            "dry_run": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Preview mode",
+                            },
                         },
                         "required": ["target"],
                         "additionalProperties": False,
@@ -258,9 +362,20 @@ class HanzoMCPServer:
                                 "type": "string",
                                 "description": "Target: file:<path>, dir:<path>, pkg:<spec>, ws, or changed",
                             },
-                            "language": {"type": "string", "default": "auto", "description": "Language override"},
-                            "backend": {"type": "string", "default": "auto", "description": "Backend override"},
-                            "root": {"type": "string", "description": "Workspace root override"},
+                            "language": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Language override",
+                            },
+                            "backend": {
+                                "type": "string",
+                                "default": "auto",
+                                "description": "Backend override",
+                            },
+                            "root": {
+                                "type": "string",
+                                "description": "Workspace root override",
+                            },
                             "env": {
                                 "type": "object",
                                 "additionalProperties": {"type": "string"},
@@ -272,7 +387,10 @@ class HanzoMCPServer:
                                     "type": "object",
                                     "properties": {
                                         "id": {"type": "string"},
-                                        "type": {"type": "string", "enum": ["regex", "import", "generated"]},
+                                        "type": {
+                                            "type": "string",
+                                            "enum": ["regex", "import", "generated"],
+                                        },
                                         "glob": {"type": "string"},
                                         "pattern": {"type": "string"},
                                         "forbid_import_prefix": {"type": "string"},
@@ -282,7 +400,11 @@ class HanzoMCPServer:
                                 },
                                 "description": "Guard rules to check",
                             },
-                            "dry_run": {"type": "boolean", "default": False, "description": "Preview mode"},
+                            "dry_run": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Preview mode",
+                            },
                         },
                         "required": ["target", "rules"],
                         "additionalProperties": False,
@@ -304,8 +426,15 @@ class HanzoMCPServer:
                                 "default": "symbols",
                                 "description": "Search type",
                             },
-                            "language": {"type": "string", "description": "Filter by language"},
-                            "limit": {"type": "integer", "default": 50, "description": "Maximum results"},
+                            "language": {
+                                "type": "string",
+                                "description": "Filter by language",
+                            },
+                            "limit": {
+                                "type": "integer",
+                                "default": 50,
+                                "description": "Maximum results",
+                            },
                         },
                         "required": ["query"],
                     },
@@ -316,7 +445,11 @@ class HanzoMCPServer:
                     inputSchema={
                         "type": "object",
                         "properties": {
-                            "limit": {"type": "integer", "default": 10, "description": "Number of recent sessions"}
+                            "limit": {
+                                "type": "integer",
+                                "default": 10,
+                                "description": "Number of recent sessions",
+                            }
                         },
                     },
                 ),
@@ -346,9 +479,13 @@ class HanzoMCPServer:
                         only=arguments.get("only", []),
                     )
 
-                    backend.session_manager.log_tool_execution("edit", arguments, result)
+                    backend.session_manager.log_tool_execution(
+                        "edit", arguments, result
+                    )
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "fmt":
                     target_spec = TargetSpec(
@@ -360,11 +497,15 @@ class HanzoMCPServer:
                         dry_run=arguments.get("dry_run", False),
                     )
 
-                    result = await backend.fmt(target_spec, opts=arguments.get("opts", {}))
+                    result = await backend.fmt(
+                        target_spec, opts=arguments.get("opts", {})
+                    )
 
                     backend.session_manager.log_tool_execution("fmt", arguments, result)
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "test":
                     target_spec = TargetSpec(
@@ -376,11 +517,17 @@ class HanzoMCPServer:
                         dry_run=arguments.get("dry_run", False),
                     )
 
-                    result = await backend.test(target_spec, opts=arguments.get("opts", {}))
+                    result = await backend.test(
+                        target_spec, opts=arguments.get("opts", {})
+                    )
 
-                    backend.session_manager.log_tool_execution("test", arguments, result)
+                    backend.session_manager.log_tool_execution(
+                        "test", arguments, result
+                    )
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "build":
                     target_spec = TargetSpec(
@@ -392,11 +539,17 @@ class HanzoMCPServer:
                         dry_run=arguments.get("dry_run", False),
                     )
 
-                    result = await backend.build(target_spec, opts=arguments.get("opts", {}))
+                    result = await backend.build(
+                        target_spec, opts=arguments.get("opts", {})
+                    )
 
-                    backend.session_manager.log_tool_execution("build", arguments, result)
+                    backend.session_manager.log_tool_execution(
+                        "build", arguments, result
+                    )
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "lint":
                     target_spec = TargetSpec(
@@ -408,11 +561,17 @@ class HanzoMCPServer:
                         dry_run=arguments.get("dry_run", False),
                     )
 
-                    result = await backend.lint(target_spec, opts=arguments.get("opts", {}))
+                    result = await backend.lint(
+                        target_spec, opts=arguments.get("opts", {})
+                    )
 
-                    backend.session_manager.log_tool_execution("lint", arguments, result)
+                    backend.session_manager.log_tool_execution(
+                        "lint", arguments, result
+                    )
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "guard":
                     target_spec = TargetSpec(
@@ -426,9 +585,13 @@ class HanzoMCPServer:
 
                     result = await backend.guard(target_spec, rules=arguments["rules"])
 
-                    backend.session_manager.log_tool_execution("guard", arguments, result)
+                    backend.session_manager.log_tool_execution(
+                        "guard", arguments, result
+                    )
 
-                    return [TextContent(type="text", text=self._format_tool_result(result))]
+                    return [
+                        TextContent(type="text", text=self._format_tool_result(result))
+                    ]
 
                 elif name == "search_codebase":
                     query = arguments["query"]
@@ -439,12 +602,22 @@ class HanzoMCPServer:
                     if search_type == "symbols":
                         results = backend.indexer.search_symbols(query, language)
                         results_text = "\n".join(
-                            [f"{r['path']}:{r['line']} - {r['kind']} {r['name']}" for r in results[:limit]]
+                            [
+                                f"{r['path']}:{r['line']} - {r['kind']} {r['name']}"
+                                for r in results[:limit]
+                            ]
                         )
                     else:
-                        results_text = f"Search type '{search_type}' not implemented yet"
+                        results_text = (
+                            f"Search type '{search_type}' not implemented yet"
+                        )
 
-                    return [TextContent(type="text", text=f"Search results for '{query}':\n{results_text}")]
+                    return [
+                        TextContent(
+                            type="text",
+                            text=f"Search results for '{query}':\n{results_text}",
+                        )
+                    ]
 
                 elif name == "get_session_history":
                     limit = arguments.get("limit", 10)
@@ -461,7 +634,9 @@ class HanzoMCPServer:
                     return [TextContent(type="text", text=f"Unknown tool: {name}")]
 
             except Exception as e:
-                return [TextContent(type="text", text=f"Error executing {name}: {str(e)}")]
+                return [
+                    TextContent(type="text", text=f"Error executing {name}: {str(e)}")
+                ]
 
     def _format_tool_result(self, result: ToolResult) -> str:
         """Format tool result for display"""
@@ -508,7 +683,8 @@ class HanzoMCPServer:
                         server_name="hanzo-mcp",
                         server_version="1.0.0",
                         capabilities=self.server.get_capabilities(
-                            notification_options=NotificationOptions(), experimental_capabilities={}
+                            notification_options=NotificationOptions(),
+                            experimental_capabilities={},
                         ),
                     ),
                 )
