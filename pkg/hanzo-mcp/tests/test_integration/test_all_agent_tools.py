@@ -61,7 +61,14 @@ async def test_agent_uses_all_tools(test_project, mock_context):
                                 Mock(
                                     function=Mock(
                                         name="read",
-                                        arguments=json.dumps({"file_path": str(test_project / "complex_algorithm.py")}),
+                                        arguments=json.dumps(
+                                            {
+                                                "file_path": str(
+                                                    test_project
+                                                    / "complex_algorithm.py"
+                                                )
+                                            }
+                                        ),
                                     ),
                                     id="call_1",
                                 )
@@ -138,7 +145,10 @@ async def test_agent_uses_all_tools(test_project, mock_context):
                                         name="multi_edit",
                                         arguments=json.dumps(
                                             {
-                                                "file_path": str(test_project / "complex_algorithm.py"),
+                                                "file_path": str(
+                                                    test_project
+                                                    / "complex_algorithm.py"
+                                                ),
                                                 "edits": [
                                                     {
                                                         "old_string": """def find_optimal_path(graph, start, end):
@@ -181,7 +191,12 @@ async def test_agent_uses_all_tools(test_project, mock_context):
                                                 "code_snippets": [
                                                     'def find_optimal_path(graph, start, end):\n    """Find optimal path"""'
                                                 ],
-                                                "file_paths": [str(test_project / "complex_algorithm.py")],
+                                                "file_paths": [
+                                                    str(
+                                                        test_project
+                                                        / "complex_algorithm.py"
+                                                    )
+                                                ],
                                                 "context": "This needs to handle various graph types efficiently",
                                             }
                                         ),
@@ -207,8 +222,15 @@ async def test_agent_uses_all_tools(test_project, mock_context):
                                             {
                                                 "review_type": "PERFORMANCE",
                                                 "work_description": "Pathfinding algorithm implementation",
-                                                "code_snippets": ["def find_optimal_path(graph, start, end):"],
-                                                "file_paths": [str(test_project / "complex_algorithm.py")],
+                                                "code_snippets": [
+                                                    "def find_optimal_path(graph, start, end):"
+                                                ],
+                                                "file_paths": [
+                                                    str(
+                                                        test_project
+                                                        / "complex_algorithm.py"
+                                                    )
+                                                ],
                                                 "specific_concerns": "Will this scale to large graphs?",
                                             }
                                         ),
@@ -287,11 +309,17 @@ async def test_iching_tool_directly():
 
         # Verify it selected relevant principles
         if "scale" in challenge.lower():
-            assert any(word in result for word in ["Scalable", "Exponentiality", "Growth"])
+            assert any(
+                word in result for word in ["Scalable", "Exponentiality", "Growth"]
+            )
         elif "refactor" in challenge.lower():
-            assert any(word in result for word in ["Simplicity", "Clarity", "Composable"])
+            assert any(
+                word in result for word in ["Simplicity", "Clarity", "Composable"]
+            )
         elif "team" in challenge.lower():
-            assert any(word in result for word in ["Autonomy", "Balance", "Collaboration"])
+            assert any(
+                word in result for word in ["Autonomy", "Balance", "Collaboration"]
+            )
 
 
 @pytest.mark.asyncio
@@ -304,7 +332,9 @@ async def test_review_vs_critic_difference():
     reviewer = ReviewProtocol()
 
     work_description = "Implemented user authentication with JWT tokens"
-    code_snippet = ["func authenticate(token string) (User, error) { return User{}, nil }"]
+    code_snippet = [
+        "func authenticate(token string) (User, error) { return User{}, nil }"
+    ]
 
     # Get critic feedback (harsh)
     critic_feedback = critic.request_review(
@@ -345,7 +375,9 @@ async def test_tool_limits():
 
     # First should work
     try:
-        await clarifier.request_clarification(ClarificationType.MISSING_CONTEXT, "Question 1", {})
+        await clarifier.request_clarification(
+            ClarificationType.MISSING_CONTEXT, "Question 1", {}
+        )
     except AttributeError:
         # Handler doesn't have async request_clarification, that's ok
         pass

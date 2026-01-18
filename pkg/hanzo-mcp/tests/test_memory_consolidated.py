@@ -1,6 +1,5 @@
 """Consolidated memory tests using parametrization to reduce redundancy."""
 
-
 import pytest
 
 # Import guard for optional hanzo_memory dependency
@@ -12,7 +11,9 @@ except ImportError:
     HANZO_MEMORY_AVAILABLE = False
 
 # Skip entire module if hanzo_memory is not available
-pytestmark = pytest.mark.skipif(not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory package not installed")
+pytestmark = pytest.mark.skipif(
+    not HANZO_MEMORY_AVAILABLE, reason="hanzo_memory package not installed"
+)
 
 # Only import these if hanzo_memory is available
 if HANZO_MEMORY_AVAILABLE:

@@ -53,7 +53,9 @@ async def test_agent_clarification_flow(test_project, mock_context):
     permission_manager = PermissionManager(allowed_paths=[str(test_project)])
 
     # Create an agent tool with test model
-    agent = AgentTool(permission_manager=permission_manager, model="test-model", max_iterations=5)
+    agent = AgentTool(
+        permission_manager=permission_manager, model="test-model", max_iterations=5
+    )
 
     # Mock the litellm completion to simulate agent requesting clarification
     with patch("litellm.completion") as mock_completion:
@@ -69,7 +71,9 @@ async def test_agent_clarification_flow(test_project, mock_context):
                                 Mock(
                                     function=Mock(
                                         name="read",
-                                        arguments=json.dumps({"file_path": str(test_project / "main.go")}),
+                                        arguments=json.dumps(
+                                            {"file_path": str(test_project / "main.go")}
+                                        ),
                                     ),
                                     id="call_1",
                                 )
@@ -93,7 +97,9 @@ async def test_agent_clarification_flow(test_project, mock_context):
                                                 "type": "MISSING_CONTEXT",
                                                 "question": "What is the correct import path for the common package?",
                                                 "context": {
-                                                    "file_path": str(test_project / "main.go"),
+                                                    "file_path": str(
+                                                        test_project / "main.go"
+                                                    ),
                                                     "undefined_symbols": ["common"],
                                                 },
                                                 "options": [
@@ -123,7 +129,9 @@ async def test_agent_clarification_flow(test_project, mock_context):
                                         name="multi_edit",
                                         arguments=json.dumps(
                                             {
-                                                "file_path": str(test_project / "main.go"),
+                                                "file_path": str(
+                                                    test_project / "main.go"
+                                                ),
                                                 "edits": [
                                                     {
                                                         "old_string": 'import (\n    "fmt"\n)',
@@ -177,7 +185,9 @@ async def test_agent_critic_flow(test_project, mock_context):
     permission_manager = PermissionManager(allowed_paths=[str(test_project)])
 
     # Create an agent tool
-    agent = AgentTool(permission_manager=permission_manager, model="test-model", max_iterations=5)
+    agent = AgentTool(
+        permission_manager=permission_manager, model="test-model", max_iterations=5
+    )
 
     # Mock the litellm completion to simulate agent requesting critic review
     with patch("litellm.completion") as mock_completion:
@@ -192,7 +202,9 @@ async def test_agent_critic_flow(test_project, mock_context):
                                 Mock(
                                     function=Mock(
                                         name="read",
-                                        arguments=json.dumps({"file_path": str(test_project / "main.go")}),
+                                        arguments=json.dumps(
+                                            {"file_path": str(test_project / "main.go")}
+                                        ),
                                     ),
                                     id="call_1",
                                 )
@@ -213,7 +225,9 @@ async def test_agent_critic_flow(test_project, mock_context):
                                         name="multi_edit",
                                         arguments=json.dumps(
                                             {
-                                                "file_path": str(test_project / "main.go"),
+                                                "file_path": str(
+                                                    test_project / "main.go"
+                                                ),
                                                 "edits": [
                                                     {
                                                         "old_string": 'import (\n    "fmt"\n)',
@@ -247,7 +261,9 @@ async def test_agent_critic_flow(test_project, mock_context):
                                                 "code_snippets": [
                                                     'import (\n    "fmt"\n    "github.com/project/common"\n)'
                                                 ],
-                                                "file_paths": [str(test_project / "main.go")],
+                                                "file_paths": [
+                                                    str(test_project / "main.go")
+                                                ],
                                                 "specific_concerns": "Is the import in the correct format and position?",
                                             }
                                         ),
@@ -288,7 +304,9 @@ async def test_clarification_limits(test_project, mock_context):
     """Test that clarification requests are limited."""
     permission_manager = PermissionManager(allowed_paths=[str(test_project)])
 
-    agent = AgentTool(permission_manager=permission_manager, model="test-model", max_iterations=5)
+    agent = AgentTool(
+        permission_manager=permission_manager, model="test-model", max_iterations=5
+    )
 
     # Test that only one clarification is allowed
     with patch("litellm.completion") as mock_completion:
@@ -367,7 +385,9 @@ async def test_critic_limits(test_project, mock_context):
     """Test that critic reviews are limited."""
     permission_manager = PermissionManager(allowed_paths=[str(test_project)])
 
-    agent = AgentTool(permission_manager=permission_manager, model="test-model", max_iterations=6)
+    agent = AgentTool(
+        permission_manager=permission_manager, model="test-model", max_iterations=6
+    )
 
     # Test that only two critic reviews are allowed
     with patch("litellm.completion") as mock_completion:
@@ -471,7 +491,11 @@ async def test_clarification_protocol_types():
             request_type=clarification_type,
             question=f"Test question for {clarification_type.value}",
             context=context,
-            options=(["option1", "option2"] if clarification_type == ClarificationType.MULTIPLE_OPTIONS else None),
+            options=(
+                ["option1", "option2"]
+                if clarification_type == ClarificationType.MULTIPLE_OPTIONS
+                else None
+            ),
         )
 
         assert request_id.startswith("clarify_")

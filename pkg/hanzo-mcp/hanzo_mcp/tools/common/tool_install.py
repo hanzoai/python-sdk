@@ -135,11 +135,15 @@ Sources:
             result = await registry.upgrade(package)
 
             if result["success"]:
-                upgraded = [r["package"] for r in result.get("results", []) if r.get("success")]
+                upgraded = [
+                    r["package"] for r in result.get("results", []) if r.get("success")
+                ]
                 return f"✓ Upgraded: {', '.join(upgraded) if upgraded else 'none'}"
             else:
                 errors = [
-                    f"{r['package']}: {r.get('error')}" for r in result.get("results", []) if not r.get("success")
+                    f"{r['package']}: {r.get('error')}"
+                    for r in result.get("results", [])
+                    if not r.get("success")
                 ]
                 return "✗ Some upgrades failed:\n" + "\n".join(errors)
 
@@ -165,7 +169,9 @@ Sources:
             lines = ["Installed tool packages:", ""]
             for pkg in packages:
                 status = "✓" if pkg["enabled"] else "○"
-                lines.append(f"{status} {pkg['name']} v{pkg['version']} ({pkg['source']})")
+                lines.append(
+                    f"{status} {pkg['name']} v{pkg['version']} ({pkg['source']})"
+                )
                 if pkg["tools"]:
                     lines.append(f"  Tools: {', '.join(pkg['tools'])}")
 
@@ -193,9 +199,15 @@ Sources:
         @mcp_server.tool()
         async def tool_install(
             action: Action,
-            package: Annotated[str | None, Field(description="Package name or URL")] = None,
-            source: Annotated[str, Field(description="Source: pypi, git, or local")] = "pypi",
-            version: Annotated[str | None, Field(description="Version constraint")] = None,
+            package: Annotated[
+                str | None, Field(description="Package name or URL")
+            ] = None,
+            source: Annotated[
+                str, Field(description="Source: pypi, git, or local")
+            ] = "pypi",
+            version: Annotated[
+                str | None, Field(description="Version constraint")
+            ] = None,
             ctx: MCPContext = None,
         ) -> str:
             """Install, update, and manage tool packages dynamically.

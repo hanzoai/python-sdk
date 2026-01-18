@@ -169,7 +169,9 @@ class TestCLIPerformance:
             )
             assert "hanzo" in result.stdout.lower() or "mcp" in result.stdout.lower()
         except subprocess.TimeoutExpired:
-            pytest.fail("CLI hung for more than 10 seconds! This indicates slow imports causing MCP to hang.")
+            pytest.fail(
+                "CLI hung for more than 10 seconds! This indicates slow imports causing MCP to hang."
+            )
 
 
 class TestLazyImportPattern:

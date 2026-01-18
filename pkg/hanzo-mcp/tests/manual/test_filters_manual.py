@@ -42,7 +42,9 @@ async def test_filters():
             print("No results")
 
         print("\nTest 2: Time filter (modified_after='12 hours ago')")
-        result = await find_tool.run(pattern="*.txt", path=tmpdir, modified_after="12 hours ago")
+        result = await find_tool.run(
+            pattern="*.txt", path=tmpdir, modified_after="12 hours ago"
+        )
 
         if result.data:
             results = result.data.get("results", [])

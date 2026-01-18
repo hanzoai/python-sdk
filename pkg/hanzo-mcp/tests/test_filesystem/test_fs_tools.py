@@ -100,7 +100,9 @@ class TestRefactoredFileTools:
             return_value=tool_ctx,
         ):
             # Call the tool directly
-            result = await write_file_tool.call(ctx=mcp_context, file_path=test_path, content=test_content)
+            result = await write_file_tool.call(
+                ctx=mcp_context, file_path=test_path, content=test_content
+            )
 
             # Verify result
             tool_helper.assert_in_result("Successfully wrote file", result)

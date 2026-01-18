@@ -53,7 +53,9 @@ class TestWeb3Integration:
         assert len(mnemonic.split()) == 12
 
         # Create wallet config
-        config = WalletConfig(mnemonic=mnemonic, account_index=0, network_rpc="mock://localhost")
+        config = WalletConfig(
+            mnemonic=mnemonic, account_index=0, network_rpc="mock://localhost"
+        )
 
         # Create wallet
         wallet = AgentWallet(config)
@@ -63,10 +65,14 @@ class TestWeb3Integration:
     def test_web3_agent_creation(self):
         """Test Web3Agent creation."""
         # Create Web3 config
-        web3_config = Web3AgentConfig(wallet_enabled=True, tee_enabled=True, task_price_eth=0.01)
+        web3_config = Web3AgentConfig(
+            wallet_enabled=True, tee_enabled=True, task_price_eth=0.01
+        )
 
         # Create agent
-        agent = Web3Agent(name="test_agent", description="Test Web3 agent", web3_config=web3_config)
+        agent = Web3Agent(
+            name="test_agent", description="Test Web3 agent", web3_config=web3_config
+        )
 
         assert agent.name == "test_agent"
         assert agent.wallet is not None
@@ -102,7 +108,9 @@ class TestWeb3Integration:
 
         # Make payment (mock)
         if agent1.wallet:
-            tx = await agent1.pay_agent(to_address=agent2.address, amount_eth=1.0, reason="Test payment")
+            tx = await agent1.pay_agent(
+                to_address=agent2.address, amount_eth=1.0, reason="Test payment"
+            )
             assert tx is not None
 
     def test_tee_execution(self):
@@ -118,7 +126,9 @@ class TestWeb3Integration:
 result = {"sum": inputs["a"] + inputs["b"]}
 """
 
-        result = agent.confidential_agent.execute_confidential(task_code, {"a": 5, "b": 3})
+        result = agent.confidential_agent.execute_confidential(
+            task_code, {"a": 5, "b": 3}
+        )
 
         assert result["success"] is True
         assert result["result"]["sum"] == 8

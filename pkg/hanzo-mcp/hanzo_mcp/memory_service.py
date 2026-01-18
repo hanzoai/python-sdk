@@ -60,7 +60,11 @@ class PluginMemoryService:
         self._initialized = False
 
     async def store_memory(
-        self, content: str, metadata: Dict[str, Any], user_id: str = "default", project_id: str = "default"
+        self,
+        content: str,
+        metadata: Dict[str, Any],
+        user_id: str = "default",
+        project_id: str = "default",
     ) -> str:
         """Store a memory using active plugins."""
         if not self._initialized:
@@ -76,7 +80,11 @@ class PluginMemoryService:
         return await plugin.store_memory(content, metadata, user_id, project_id)
 
     async def retrieve_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Retrieve memories using active plugins."""
         if not self._initialized:
@@ -92,7 +100,11 @@ class PluginMemoryService:
         return await plugin.retrieve_memory(query, user_id, project_id, limit)
 
     async def search_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Search memories using active plugins."""
         if not self._initialized:
@@ -107,7 +119,9 @@ class PluginMemoryService:
         plugin = active_plugins[0]
         return await plugin.search_memory(query, user_id, project_id, limit)
 
-    async def delete_memory(self, memory_id: str, user_id: str = "default", project_id: str = "default") -> bool:
+    async def delete_memory(
+        self, memory_id: str, user_id: str = "default", project_id: str = "default"
+    ) -> bool:
         """Delete a memory using active plugins."""
         if not self._initialized:
             await self.initialize()

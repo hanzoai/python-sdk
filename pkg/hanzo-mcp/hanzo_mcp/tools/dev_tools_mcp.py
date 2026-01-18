@@ -75,7 +75,11 @@ BACKEND_PARAM = {
 COMMON_PARAMS = {
     "root": {"type": "string", "description": "Workspace root override"},
     "env": {"type": "object", "description": "Additional environment variables"},
-    "dry_run": {"type": "boolean", "default": False, "description": "Show planned operations without executing"},
+    "dry_run": {
+        "type": "boolean",
+        "default": False,
+        "description": "Show planned operations without executing",
+    },
 }
 
 
@@ -92,13 +96,24 @@ async def list_tools() -> List[Tool]:
                     "target": TARGET_PARAM,
                     "op": {
                         "type": "string",
-                        "enum": ["rename", "code_action", "organize_imports", "apply_workspace_edit"],
+                        "enum": [
+                            "rename",
+                            "code_action",
+                            "organize_imports",
+                            "apply_workspace_edit",
+                        ],
                         "description": "Edit operation to perform",
                     },
-                    "file": {"type": "string", "description": "File path for rename/code_action operations"},
+                    "file": {
+                        "type": "string",
+                        "description": "File path for rename/code_action operations",
+                    },
                     "pos": {
                         "type": "object",
-                        "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                        "properties": {
+                            "line": {"type": "integer"},
+                            "character": {"type": "integer"},
+                        },
                         "description": "Position for rename/code_action (0-based)",
                     },
                     "range": {
@@ -106,18 +121,35 @@ async def list_tools() -> List[Tool]:
                         "properties": {
                             "start": {
                                 "type": "object",
-                                "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                "properties": {
+                                    "line": {"type": "integer"},
+                                    "character": {"type": "integer"},
+                                },
                             },
                             "end": {
                                 "type": "object",
-                                "properties": {"line": {"type": "integer"}, "character": {"type": "integer"}},
+                                "properties": {
+                                    "line": {"type": "integer"},
+                                    "character": {"type": "integer"},
+                                },
                             },
                         },
                         "description": "Range for code actions",
                     },
-                    "new_name": {"type": "string", "description": "New name for rename operation"},
-                    "only": {"type": "array", "items": {"type": "string"}, "description": "Code action kinds to apply"},
-                    "apply": {"type": "boolean", "default": True, "description": "Whether to apply edits to disk"},
+                    "new_name": {
+                        "type": "string",
+                        "description": "New name for rename operation",
+                    },
+                    "only": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Code action kinds to apply",
+                    },
+                    "apply": {
+                        "type": "boolean",
+                        "default": True,
+                        "description": "Whether to apply edits to disk",
+                    },
                     "language": LANGUAGE_PARAM,
                     "backend": BACKEND_PARAM,
                     **COMMON_PARAMS,
@@ -161,14 +193,32 @@ async def list_tools() -> List[Tool]:
                     "opts": {
                         "type": "object",
                         "properties": {
-                            "run": {"type": "string", "description": "Test name pattern (Go -run)"},
-                            "count": {"type": "integer", "description": "Test count (Go -count)"},
-                            "race": {"type": "boolean", "description": "Enable race detection (Go -race)"},
-                            "filter": {"type": "string", "description": "Test filter (JS --filter, Python -k)"},
+                            "run": {
+                                "type": "string",
+                                "description": "Test name pattern (Go -run)",
+                            },
+                            "count": {
+                                "type": "integer",
+                                "description": "Test count (Go -count)",
+                            },
+                            "race": {
+                                "type": "boolean",
+                                "description": "Enable race detection (Go -race)",
+                            },
+                            "filter": {
+                                "type": "string",
+                                "description": "Test filter (JS --filter, Python -k)",
+                            },
                             "k": {"type": "string", "description": "Pytest -k filter"},
                             "m": {"type": "string", "description": "Pytest -m marker"},
-                            "p": {"type": "string", "description": "Rust package filter"},
-                            "features": {"type": "string", "description": "Rust features"},
+                            "p": {
+                                "type": "string",
+                                "description": "Rust package filter",
+                            },
+                            "features": {
+                                "type": "string",
+                                "description": "Rust features",
+                            },
                         },
                         "description": "Test options",
                     },
@@ -189,11 +239,26 @@ async def list_tools() -> List[Tool]:
                     "opts": {
                         "type": "object",
                         "properties": {
-                            "race": {"type": "boolean", "description": "Enable race detection (Go)"},
-                            "release": {"type": "boolean", "description": "Release build (Rust)"},
-                            "tags": {"type": "string", "description": "Build tags (Go)"},
-                            "ldflags": {"type": "string", "description": "Linker flags (Go)"},
-                            "features": {"type": "string", "description": "Features (Rust)"},
+                            "race": {
+                                "type": "boolean",
+                                "description": "Enable race detection (Go)",
+                            },
+                            "release": {
+                                "type": "boolean",
+                                "description": "Release build (Rust)",
+                            },
+                            "tags": {
+                                "type": "string",
+                                "description": "Build tags (Go)",
+                            },
+                            "ldflags": {
+                                "type": "string",
+                                "description": "Linker flags (Go)",
+                            },
+                            "features": {
+                                "type": "string",
+                                "description": "Features (Rust)",
+                            },
                         },
                         "description": "Build options",
                     },
@@ -214,7 +279,11 @@ async def list_tools() -> List[Tool]:
                     "opts": {
                         "type": "object",
                         "properties": {
-                            "fix": {"type": "boolean", "default": False, "description": "Apply fixes where supported"}
+                            "fix": {
+                                "type": "boolean",
+                                "default": False,
+                                "description": "Apply fixes where supported",
+                            }
                         },
                         "description": "Lint options",
                     },
@@ -235,8 +304,14 @@ async def list_tools() -> List[Tool]:
                         "items": {
                             "type": "object",
                             "properties": {
-                                "id": {"type": "string", "description": "Rule identifier"},
-                                "glob": {"type": "string", "description": "File glob pattern"},
+                                "id": {
+                                    "type": "string",
+                                    "description": "Rule identifier",
+                                },
+                                "glob": {
+                                    "type": "string",
+                                    "description": "File glob pattern",
+                                },
                                 "pattern": {
                                     "type": "string",
                                     "description": "Regex pattern to match (for regex rules)",
@@ -249,8 +324,14 @@ async def list_tools() -> List[Tool]:
                                     "type": "boolean",
                                     "description": "Forbid writes to matched files (for generated rules)",
                                 },
-                                "message": {"type": "string", "description": "Custom violation message"},
-                                "description": {"type": "string", "description": "Rule description"},
+                                "message": {
+                                    "type": "string",
+                                    "description": "Custom violation message",
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Rule description",
+                                },
                             },
                             "required": ["id", "glob"],
                         },
@@ -303,7 +384,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
             for file in result["touched_files"][:10]:  # Limit to first 10
                 output_lines.append(f"  • {file}")
             if len(result["touched_files"]) > 10:
-                output_lines.append(f"  ... and {len(result['touched_files']) - 10} more")
+                output_lines.append(
+                    f"  ... and {len(result['touched_files']) - 10} more"
+                )
 
         if result["stdout"]:
             output_lines.append("\n📤 Output:")
@@ -351,7 +434,9 @@ async def _compose_rename_and_test(args: Dict[str, Any]) -> List[TextContent]:
 
     # 1. Rename
     rename_result = await edit_tool_handler(
-        target=args["target"], op="rename", **{k: v for k, v in args.items() if k not in ["target"]}
+        target=args["target"],
+        op="rename",
+        **{k: v for k, v in args.items() if k not in ["target"]},
     )
     results.append(("rename", rename_result))
 
@@ -375,10 +460,14 @@ async def _compose_rename_and_test(args: Dict[str, Any]) -> List[TextContent]:
     output_lines = ["🔄 RENAME AND TEST WORKFLOW"]
     for step, result in results:
         status = "✅" if result["ok"] else "❌"
-        output_lines.append(f"{status} {step.upper()}: {result.get('stdout', '')[:100]}")
+        output_lines.append(
+            f"{status} {step.upper()}: {result.get('stdout', '')[:100]}"
+        )
 
     overall_success = all(result["ok"] for _, result in results)
-    output_lines.append(f"\n{'✅ Workflow completed successfully' if overall_success else '❌ Workflow failed'}")
+    output_lines.append(
+        f"\n{'✅ Workflow completed successfully' if overall_success else '❌ Workflow failed'}"
+    )
 
     return [TextContent(type="text", text="\n".join(output_lines))]
 
@@ -403,10 +492,14 @@ async def _compose_fix_and_verify(args: Dict[str, Any]) -> List[TextContent]:
     output_lines = ["🔧 FIX AND VERIFY WORKFLOW"]
     for step, result in results:
         status = "✅" if result["ok"] else "❌"
-        output_lines.append(f"{status} {step.upper()}: {result.get('stdout', '')[:100]}")
+        output_lines.append(
+            f"{status} {step.upper()}: {result.get('stdout', '')[:100]}"
+        )
 
     overall_success = all(result["ok"] for _, result in results)
-    output_lines.append(f"\n{'✅ All checks passed' if overall_success else '❌ Some checks failed'}")
+    output_lines.append(
+        f"\n{'✅ All checks passed' if overall_success else '❌ Some checks failed'}"
+    )
 
     return [TextContent(type="text", text="\n".join(output_lines))]
 
@@ -439,7 +532,9 @@ async def _compose_full_check(args: Dict[str, Any]) -> List[TextContent]:
         output_lines.append(f"{status} {step.upper()}: {summary}")
 
     overall_success = all(result["ok"] for _, result in results)
-    output_lines.append(f"\n{'🎉 All checks passed!' if overall_success else '⚠️ Some checks failed'}")
+    output_lines.append(
+        f"\n{'🎉 All checks passed!' if overall_success else '⚠️ Some checks failed'}"
+    )
 
     return [TextContent(type="text", text="\n".join(output_lines))]
 

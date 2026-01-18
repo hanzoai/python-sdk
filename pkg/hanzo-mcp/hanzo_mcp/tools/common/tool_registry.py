@@ -54,7 +54,9 @@ class PackageManager:
         self._tools: dict[str, Any] = {}  # name -> tool instance
         self._tool_classes: dict[str, Type] = {}  # name -> tool class
         self._config_path = Path.home() / ".hanzo" / "mcp" / "registry.json"
-        self._tools_path = Path.home() / ".hanzo" / "tools"  # Tool packages install here
+        self._tools_path = (
+            Path.home() / ".hanzo" / "tools"
+        )  # Tool packages install here
         self._reload_callbacks: list[Callable] = []
         self._mcp_server = None
 
@@ -331,7 +333,10 @@ class PackageManager:
             try:
                 # Clear existing module from cache
                 modules_to_remove = [
-                    mod for mod in sys.modules if mod.startswith(package) or mod.startswith(package.replace("-", "_"))
+                    mod
+                    for mod in sys.modules
+                    if mod.startswith(package)
+                    or mod.startswith(package.replace("-", "_"))
                 ]
                 for mod in modules_to_remove:
                     del sys.modules[mod]
@@ -357,11 +362,15 @@ class PackageManager:
                                     tool_instance.register(self._mcp_server)
                                 self._tools[tool_name] = tool_instance
                             except Exception as e:
-                                logger.warning(f"Failed to register tool {tool_name}: {e}")
+                                logger.warning(
+                                    f"Failed to register tool {tool_name}: {e}"
+                                )
 
                 # Check for register_* functions
                 for attr_name in dir(pkg_module):
-                    if attr_name.startswith("register_") and callable(getattr(pkg_module, attr_name)):
+                    if attr_name.startswith("register_") and callable(
+                        getattr(pkg_module, attr_name)
+                    ):
                         register_func = getattr(pkg_module, attr_name)
                         if self._mcp_server:
                             try:
@@ -391,7 +400,11 @@ class PackageManager:
                 }
 
             except ImportError as e:
-                return {"success": False, "error": f"Import failed: {e}", "package": package}
+                return {
+                    "success": False,
+                    "error": f"Import failed: {e}",
+                    "package": package,
+                }
 
         except Exception as e:
             logger.exception(f"Failed to reload package: {package}")
@@ -404,7 +417,15 @@ class PackageManager:
             from hanzo_mcp import __version__ as current_version
 
             # Check for updates
-            cmd = [sys.executable, "-m", "uv", "pip", "install", "--upgrade", "hanzo-mcp"]
+            cmd = [
+                sys.executable,
+                "-m",
+                "uv",
+                "pip",
+                "install",
+                "--upgrade",
+                "hanzo-mcp",
+            ]
 
             result = await asyncio.create_subprocess_exec(
                 *cmd,
