@@ -1,11 +1,10 @@
 """Memory service with plugin support."""
 
-import asyncio
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from .plugin_interface import Capability, PluginRegistry, MemoryBackendPlugin
 from .backends.sqlite_plugin import SQLiteBackendPlugin
+from .plugin_interface import Capability, PluginRegistry
 
 
 class PluginMemoryService:

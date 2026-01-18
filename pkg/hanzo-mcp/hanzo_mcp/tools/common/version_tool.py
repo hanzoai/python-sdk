@@ -1,7 +1,6 @@
 """Version tool for hanzo-mcp."""
 
 import sys
-from typing import Any
 
 from hanzo_async import using_uvloop
 from mcp.server.fastmcp import FastMCP

@@ -11,17 +11,15 @@ Note: This is distinct from:
 - config/tool_config.py::DynamicToolRegistry - For discovering tools from entry points
 """
 
-import os
-import sys
-import json
 import asyncio
-import logging
 import importlib
-import subprocess
-from typing import Any, Type, Callable, Optional
-from pathlib import Path
+import json
+import logging
+import sys
+from dataclasses import dataclass, field
 from datetime import datetime
-from dataclasses import field, dataclass
+from pathlib import Path
+from typing import Any, Callable, Optional, Type
 
 logger = logging.getLogger(__name__)
 

@@ -76,7 +76,7 @@ class AutoRegisterTool(BaseTool, ABC):
         sig = inspect.signature(call_method)
 
         # Get type hints for proper typing
-        hints = get_type_hints(call_method)
+        get_type_hints(call_method)
 
         # Create a dynamic handler function
         tool_self = self
@@ -85,7 +85,7 @@ class AutoRegisterTool(BaseTool, ABC):
         params = list(sig.parameters.items())
 
         # Skip 'self' and 'ctx' parameters
-        tool_params = [(name, param) for name, param in params if name not in ("self", "ctx")]
+        [(name, param) for name, param in params if name not in ("self", "ctx")]
 
         # Create the handler function dynamically
         async def handler(ctx: MCPContext, **kwargs: Any) -> Any:

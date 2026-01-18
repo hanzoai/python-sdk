@@ -4,21 +4,16 @@ This module provides MCP server functionality that allows Claude instances
 to communicate with each other, enabling peer-to-peer agent networks.
 """
 
-import os
-import sys
-import json
+import argparse
 import asyncio
 import logging
-import argparse
+import os
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
-from dataclasses import asdict, dataclass
 
-import mcp.server.fastmcp as mcp
-from mcp import tool
-from mcp.types import INTERNAL_ERROR, Tool, TextContent
-from mcp.server.stdio import stdio_server
-from mcp.server.models import InitializationOptions
 from mcp.server.fastmcp import FastMCP
+from mcp.server.models import InitializationOptions
+from mcp.server.stdio import stdio_server
 
 logger = logging.getLogger(__name__)
 

@@ -16,10 +16,9 @@ Example rules for Hanzo ecosystem:
 """
 
 import re
-import glob
-from typing import Any, Dict, List, Optional
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from .dev_tools import DevResult, DevToolBase, create_dev_result
 
@@ -218,7 +217,7 @@ class GuardTool(DevToolBase):
         for file_path in files:
             # Make path relative to workspace root for matching
             try:
-                rel_path = Path(file_path).relative_to(root_path)
+                Path(file_path).relative_to(root_path)
                 if Path(file_path).match(glob_pattern):
                     matching_files.append(file_path)
             except ValueError:

@@ -6,8 +6,8 @@ from pathlib import Path
 import pytest
 from hanzo_mcp.tools.vector.ast_analyzer import Symbol
 from hanzo_mcp.tools.vector.infinity_store import (
-    SearchResult,
     InfinityVectorStore,
+    SearchResult,
     UnifiedSearchResult,
 )
 
@@ -167,7 +167,7 @@ class Calculator:
         # Add multiple files
         test_files = []
         for i in range(3):
-            with tempfile.NamedTemporaryFile(mode="w", suffix=f".py", delete=False) as f:
+            with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
                 f.write(f"Test file {i} content")
                 f.flush()
                 test_files.append(f.name)

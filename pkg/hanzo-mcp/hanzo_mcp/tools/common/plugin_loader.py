@@ -1,13 +1,13 @@
 """Plugin loader for custom user tools."""
 
+import importlib.util
+import inspect
+import json
 import os
 import sys
-import json
-import inspect
-import importlib.util
-from typing import Any, Dict, List, Type, Optional
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Type
 
 from .base import BaseTool
 
@@ -269,7 +269,7 @@ Modify `{tool_name}_tool.py` to implement your custom functionality.
         f.write(readme_content)
 
     print(f"Created plugin template in {output_dir}")
-    print(f"Files created:")
+    print("Files created:")
     print(f"  - {tool_file}")
     print(f"  - {metadata_file}")
     print(f"  - {readme_file}")

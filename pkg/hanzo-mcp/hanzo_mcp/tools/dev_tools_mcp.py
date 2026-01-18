@@ -17,18 +17,18 @@ Each tool supports:
 - Composable workflows
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
-from mcp.types import Tool, TextContent
 from mcp.server import Server
+from mcp.types import TextContent, Tool
 
 try:
-    from .fmt_tool import fmt_tool_handler
+    from .build_tool import build_tool_handler
     from .edit_tool import edit_tool_handler
+    from .fmt_tool import fmt_tool_handler
+    from .guard_tool import guard_tool_handler
     from .lint_tool import lint_tool_handler
     from .test_tool import test_tool_handler
-    from .build_tool import build_tool_handler
-    from .guard_tool import guard_tool_handler
 except ImportError:
     # Fallback for testing
     print("Warning: Could not import all dev tool handlers")

@@ -4,20 +4,20 @@ This module provides automatic timeout and backgrounding for any MCP tool operat
 that takes longer than the configured threshold (default: 2 minutes).
 """
 
-import os
-import json
-import time
-import uuid
 import asyncio
 import functools
-from typing import Any, Tuple, Callable, Optional
-from pathlib import Path
+import json
+import os
+import time
+import uuid
 from collections.abc import Awaitable
+from pathlib import Path
+from typing import Any, Callable, Optional
 
 from hanzo_async import append_file
 from mcp.server.fastmcp import Context as MCPContext
 
-from .timeout_parser import parse_timeout, format_timeout
+from .timeout_parser import format_timeout, parse_timeout
 
 
 class MCPToolTimeoutManager:
@@ -153,11 +153,13 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 # Method call: self, ctx, **params
                 self_or_ctx = args[0]
                 ctx = args[1]
-                call_func = lambda: func(self_or_ctx, ctx, **params)
+                def call_func():
+                    return func(self_or_ctx, ctx, **params)
             elif len(args) == 1:
                 # Function call: ctx, **params
                 ctx = args[0]
-                call_func = lambda: func(ctx, **params)
+                def call_func():
+                    return func(ctx, **params)
             else:
                 raise TypeError(f"Expected at least 1 argument (ctx), got {len(args)}")
 

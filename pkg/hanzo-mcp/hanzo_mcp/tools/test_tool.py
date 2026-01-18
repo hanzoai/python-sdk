@@ -17,9 +17,8 @@ Backends:
 - rs: cargo test with -p, --features
 """
 
-import re
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, Optional
 
 from .dev_tools import DevResult, DevToolBase, create_dev_result
 

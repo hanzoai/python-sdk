@@ -1,19 +1,18 @@
 """Test suite for shell tools including zsh and smart shell selection."""
 
 import os
-import sys
-import shutil
-import asyncio
 import platform
+import shutil
+import sys
 from pathlib import Path
-from unittest.mock import Mock, AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_tools.shell.shell_tools import ZshTool, BashTool, ShellTool
+from hanzo_tools.shell.shell_tools import BashTool, ShellTool, ZshTool
 
 
 class MockContext:
@@ -218,6 +217,7 @@ class TestShellIntegration:
     async def test_shell_tools_registration(self):
         """Test that shell tools can be registered."""
         from hanzo_tools.shell import get_shell_tools
+
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         pm = PermissionManager()
@@ -235,6 +235,7 @@ class TestShellIntegration:
     def test_shell_tool_ordering(self):
         """Test that shell tools are returned in correct order."""
         from hanzo_tools.shell import get_shell_tools
+
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         pm = PermissionManager()

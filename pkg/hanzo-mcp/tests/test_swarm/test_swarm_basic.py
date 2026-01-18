@@ -1,18 +1,19 @@
 """Basic swarm tool tests with success and failure cases."""
 
 import os
-import sys
 import shutil
+import sys
 import tempfile
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
 # Add the parent directory to the path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from mcp.server.fastmcp import Context as MCPContext
 from hanzo_tools.agent.swarm_tool import SwarmTool
+from mcp.server.fastmcp import Context as MCPContext
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -152,7 +153,7 @@ class TestSwarmBasic:
 
             # Test with max_concurrent=2
             with patch.object(swarm, "_execute_agent", mock_execute):
-                result = await swarm.call(
+                await swarm.call(
                     ctx,
                     config={"agents": agents},
                     query="Analyze all files",

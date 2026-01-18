@@ -1,6 +1,6 @@
 """Test utilities specific to memory tests."""
 
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 from hanzo_mcp.tools.common.context import ToolContext
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 """Simple test to check if stdio mode starts without logging interference."""
 
-import sys
 import json
-import time
 import subprocess
+import sys
+import time
 
 
 def test_stdio_simple():

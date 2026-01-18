@@ -1,21 +1,22 @@
 """Benchmark suite for search and database storage performance."""
 
-import sys
-import json
-import time
 import asyncio
+import json
 import statistics
-from typing import Any, Dict, List
+import sys
+import time
 from pathlib import Path
+from typing import Any, Dict, List
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_tools.filesystem.search_tool import SearchTool
 from hanzo_mcp.tools.vector.ast_analyzer import ASTAnalyzer
-from hanzo_mcp.tools.vector.vector_index import VectorIndexTool
 from hanzo_mcp.tools.vector.project_manager import ProjectVectorManager
+from hanzo_mcp.tools.vector.vector_index import VectorIndexTool
+from hanzo_tools.filesystem.search_tool import SearchTool
+
+from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
 class SearchBenchmark:
@@ -187,7 +188,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
 
     async def benchmark_indexing(self, project_path: Path) -> Dict[str, Any]:
         """Benchmark vector database indexing performance."""
-        print(f"\\n=== Benchmarking Indexing Performance ===")
+        print("\\n=== Benchmarking Indexing Performance ===")
         print(f"Project: {project_path}")
 
         # Initialize project manager
@@ -265,7 +266,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
 
     async def benchmark_search_performance(self, project_path: Path, queries: List[str]) -> Dict[str, Any]:
         """Benchmark search performance across different query types."""
-        print(f"\\n=== Benchmarking Search Performance ===")
+        print("\\n=== Benchmarking Search Performance ===")
 
         # Initialize tools
         project_manager = ProjectVectorManager(
@@ -341,7 +342,7 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
 
     async def benchmark_ast_analysis(self, project_path: Path) -> Dict[str, Any]:
         """Benchmark AST analysis performance."""
-        print(f"\\n=== Benchmarking AST Analysis ===")
+        print("\\n=== Benchmarking AST Analysis ===")
 
         analyzer = ASTAnalyzer()
         python_files = list(project_path.rglob("*.py"))

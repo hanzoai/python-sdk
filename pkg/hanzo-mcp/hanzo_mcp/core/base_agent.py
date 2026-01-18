@@ -6,16 +6,25 @@ following DRY principles and ensuring consistent behavior across all agents.
 
 from __future__ import annotations
 
-import os
 import asyncio
 import logging
+import os
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Generic, TypeVar, Optional, Protocol, runtime_checkable
-from pathlib import Path
+from dataclasses import dataclass, field
 from datetime import datetime
-from dataclasses import field, dataclass
+from pathlib import Path
+from typing import (
+    Any,
+    Dict,
+    Generic,
+    List,
+    Optional,
+    Protocol,
+    TypeVar,
+    runtime_checkable,
+)
 
-from .model_registry import ModelConfig, registry
+from .model_registry import registry
 
 logger = logging.getLogger(__name__)
 
