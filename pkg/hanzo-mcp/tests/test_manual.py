@@ -51,7 +51,9 @@ async def test_basic_functionality():
             print(f"✅ Shell detected: {interpreter} (tool: {tool_name})")
 
             # Test simple command
-            result = await bash_tool.execute_sync("echo 'Hello from Hanzo AI!'", timeout=5)
+            result = await bash_tool.execute_sync(
+                "echo 'Hello from Hanzo AI!'", timeout=5
+            )
             print(f"✅ Command result: {result.strip()}")
         except Exception as e:
             print(f"❌ Shell test failed: {e}")

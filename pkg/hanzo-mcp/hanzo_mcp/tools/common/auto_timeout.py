@@ -78,7 +78,13 @@ class MCPToolTimeoutManager:
         return self.timeout
 
     async def _background_tool_execution(
-        self, tool_func: Callable, tool_name: str, ctx: MCPContext, process_id: str, log_file: Path, **params: Any
+        self,
+        tool_func: Callable,
+        tool_name: str,
+        ctx: MCPContext,
+        process_id: str,
+        log_file: Path,
+        **params: Any,
     ) -> None:
         """Execute tool in background and log results.
 
@@ -131,7 +137,9 @@ class MCPToolTimeoutManager:
             self.process_manager.mark_completed(process_id, 1)
 
 
-def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutManager] = None):
+def with_auto_timeout(
+    tool_name: str, timeout_manager: Optional[MCPToolTimeoutManager] = None
+):
     """Decorator to add automatic timeout and backgrounding to MCP tools.
 
     Args:
@@ -153,11 +161,13 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                 # Method call: self, ctx, **params
                 self_or_ctx = args[0]
                 ctx = args[1]
+
                 def call_func():
                     return func(self_or_ctx, ctx, **params)
             elif len(args) == 1:
                 # Function call: ctx, **params
                 ctx = args[0]
+
                 def call_func():
                     return func(ctx, **params)
             else:
@@ -186,7 +196,9 @@ def with_auto_timeout(tool_name: str, timeout_manager: Optional[MCPToolTimeoutMa
                     return f"Operation timed out after {timeout_formatted}. Backgrounding unavailable."
 
                 process_id = f"{tool_name}_{uuid.uuid4().hex[:8]}"
-                log_file = await timeout_manager.process_manager.create_log_file(process_id)
+                log_file = await timeout_manager.process_manager.create_log_file(
+                    process_id
+                )
 
                 # Start background execution (need to reconstruct the call)
                 async def background_call():

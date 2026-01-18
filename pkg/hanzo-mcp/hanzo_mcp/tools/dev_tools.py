@@ -65,19 +65,44 @@ class WorkspaceDetector:
         while current != current.parent:
             # Check for workspace files in order of preference
             if (current / "go.work").exists():
-                return {"root": str(current), "type": "go", "config": "go.work", "primary_language": "go"}
+                return {
+                    "root": str(current),
+                    "type": "go",
+                    "config": "go.work",
+                    "primary_language": "go",
+                }
 
             if (current / "pnpm-workspace.yaml").exists():
-                return {"root": str(current), "type": "pnpm", "config": "pnpm-workspace.yaml", "primary_language": "ts"}
+                return {
+                    "root": str(current),
+                    "type": "pnpm",
+                    "config": "pnpm-workspace.yaml",
+                    "primary_language": "ts",
+                }
 
             if (current / "package.json").exists():
-                return {"root": str(current), "type": "npm", "config": "package.json", "primary_language": "ts"}
+                return {
+                    "root": str(current),
+                    "type": "npm",
+                    "config": "package.json",
+                    "primary_language": "ts",
+                }
 
             if (current / "pyproject.toml").exists():
-                return {"root": str(current), "type": "python", "config": "pyproject.toml", "primary_language": "py"}
+                return {
+                    "root": str(current),
+                    "type": "python",
+                    "config": "pyproject.toml",
+                    "primary_language": "py",
+                }
 
             if (current / "Cargo.toml").exists():
-                return {"root": str(current), "type": "rust", "config": "Cargo.toml", "primary_language": "rs"}
+                return {
+                    "root": str(current),
+                    "type": "rust",
+                    "config": "Cargo.toml",
+                    "primary_language": "rs",
+                }
 
             current = current.parent
 
@@ -176,7 +201,15 @@ class TargetResolver:
         files = []
 
         # Common source file patterns
-        patterns = ["**/*.go", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.py", "**/*.rs"]
+        patterns = [
+            "**/*.go",
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.py",
+            "**/*.rs",
+        ]
 
         for pattern in patterns:
             files.extend([str(f) for f in path.glob(pattern) if f.is_file()])
@@ -221,7 +254,10 @@ class TargetResolver:
         """Get changed files from git"""
         try:
             result = subprocess.run(
-                ["git", "diff", "--name-only", "HEAD"], cwd=workspace["root"], capture_output=True, text=True
+                ["git", "diff", "--name-only", "HEAD"],
+                cwd=workspace["root"],
+                capture_output=True,
+                text=True,
             )
             if result.returncode == 0:
                 files = [f.strip() for f in result.stdout.split("\n") if f.strip()]
@@ -251,7 +287,9 @@ class DevToolBase:
         self.dry_run = dry_run
 
         # Detect workspace
-        workspace_root = root or TargetResolver.resolve(target, {"root": "."})["package"]
+        workspace_root = (
+            root or TargetResolver.resolve(target, {"root": "."})["package"]
+        )
         self.workspace = WorkspaceDetector.detect(workspace_root)
 
         # Resolve target
@@ -293,7 +331,9 @@ class DevToolBase:
         backend_map = {
             "go": "go",
             "ts": "pnpm" if ws_type == "pnpm" else "npm",
-            "py": "uv" if Path(self.workspace["root"], "uv.lock").exists() else "pytest",
+            "py": "uv"
+            if Path(self.workspace["root"], "uv.lock").exists()
+            else "pytest",
             "rs": "cargo",
             "cc": "cmake",
             "sol": "forge",
@@ -302,7 +342,9 @@ class DevToolBase:
 
         return backend_map.get(lang, "auto")
 
-    def _run_command(self, cmd: List[str], cwd: Optional[str] = None) -> subprocess.CompletedProcess:
+    def _run_command(
+        self, cmd: List[str], cwd: Optional[str] = None
+    ) -> subprocess.CompletedProcess:
         """Run command with proper environment"""
         env = {**os.environ, **self.env}
 
@@ -315,7 +357,9 @@ class DevToolBase:
         if self.dry_run:
             return subprocess.CompletedProcess(cmd, 0, f"DRY RUN: {' '.join(cmd)}", "")
 
-        return subprocess.run(cmd, cwd=work_dir, env=env, capture_output=True, text=True)
+        return subprocess.run(
+            cmd, cwd=work_dir, env=env, capture_output=True, text=True
+        )
 
 
 # Individual tool implementations will be in separate files

@@ -126,7 +126,9 @@ class TestTool(DevToolBase):
                 language_used=self.language,
                 backend_used=self.backend,
                 scope_resolved=self.target,
-                errors=["No test runner detected (jest, vitest, or package.json script)"],
+                errors=[
+                    "No test runner detected (jest, vitest, or package.json script)"
+                ],
             )
 
     async def _test_python(self) -> DevResult:
@@ -345,7 +347,11 @@ class TestTool(DevToolBase):
             return str(path)
 
         # Look for corresponding test files
-        patterns = [f"**/*{path.stem}*.test.*", f"**/*{path.stem}*.spec.*", f"**/test*{path.stem}*"]
+        patterns = [
+            f"**/*{path.stem}*.test.*",
+            f"**/*{path.stem}*.spec.*",
+            f"**/test*{path.stem}*",
+        ]
 
         return patterns[0]  # Return first pattern as fallback
 
@@ -383,7 +389,13 @@ async def test_tool_handler(
     """MCP handler for test tool"""
 
     tool = TestTool(
-        target=target, language=language, backend=backend, root=root, env=env, dry_run=dry_run, opts=opts or {}
+        target=target,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env,
+        dry_run=dry_run,
+        opts=opts or {},
     )
 
     result = await tool.execute()

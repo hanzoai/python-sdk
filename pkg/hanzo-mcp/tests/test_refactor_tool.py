@@ -80,7 +80,13 @@ function caller() {
     @pytest.mark.asyncio
     async def test_file_not_found(self, tool):
         """Test error handling for non-existent file."""
-        result = await tool.run(action="rename", file="/nonexistent/file.py", line=1, column=0, new_name="new")
+        result = await tool.run(
+            action="rename",
+            file="/nonexistent/file.py",
+            line=1,
+            column=0,
+            new_name="new",
+        )
         assert "error" in result.data
         assert "not found" in result.data["error"].lower()
 
@@ -407,7 +413,9 @@ class TestRefactorToolHelpers:
 
     def test_build_function_javascript(self, tool):
         """Test building JavaScript function."""
-        func = tool._build_function("myFunc", ["x", "y"], "return x + y;", "javascript", "")
+        func = tool._build_function(
+            "myFunc", ["x", "y"], "return x + y;", "javascript", ""
+        )
         assert "function myFunc(x, y)" in func
         assert "return x + y;" in func
 

@@ -70,7 +70,8 @@ class TestFindToolFFind:
 
             # Create files with different sizes and content
             files = {
-                "src/main.py": "# Main application\nimport sys\n\ndef main():\n    pass\n" * 100,
+                "src/main.py": "# Main application\nimport sys\n\ndef main():\n    pass\n"
+                * 100,
                 "src/utils.py": "# Utilities\ndef helper():\n    return 'TODO: implement'\n",
                 "src/config.json": '{"debug": true, "port": 8080}\n',
                 "src/modules/auth.py": "# Authentication module\nclass Auth:\n    pass\n",
@@ -138,7 +139,9 @@ class TestFindToolFFind:
     async def test_find_with_size_filter(self, tool_helper, find_tool, test_directory):
         """Test finding files by size."""
         # Find large files (> 500KB)
-        result = await find_tool.run(pattern="*", path=test_directory, type="file", min_size="500KB")
+        result = await find_tool.run(
+            pattern="*", path=test_directory, type="file", min_size="500KB"
+        )
 
         results = result.data["results"]
         # Should only find large_file.dat
@@ -168,9 +171,13 @@ class TestFindToolFFind:
         assert "api" not in dir_names
 
     @pytest.mark.asyncio
-    async def test_find_with_pattern_in_content(self, tool_helper, find_tool, test_directory):
+    async def test_find_with_pattern_in_content(
+        self, tool_helper, find_tool, test_directory
+    ):
         """Test finding files containing specific text."""
-        result = await find_tool.run(pattern="TODO", path=test_directory, in_content=True, type="file")
+        result = await find_tool.run(
+            pattern="TODO", path=test_directory, in_content=True, type="file"
+        )
 
         results = result.data["results"]
         file_names = [r["name"] for r in results]
@@ -233,7 +240,9 @@ class TestFindToolFFind:
         find_tool._available_backends = None
 
         start_time = time.time()
-        result_python = await find_tool.run(pattern="*.py", path=test_directory, type="file")
+        result_python = await find_tool.run(
+            pattern="*.py", path=test_directory, type="file"
+        )
         python_time = time.time() - start_time
 
         # Restore ffind if available
@@ -242,7 +251,9 @@ class TestFindToolFFind:
 
         if FFIND_AVAILABLE:
             start_time = time.time()
-            result_ffind = await find_tool.run(pattern="*.py", path=test_directory, type="file")
+            result_ffind = await find_tool.run(
+                pattern="*.py", path=test_directory, type="file"
+            )
             ffind_time = time.time() - start_time
 
             print("\nPerformance comparison:")
@@ -251,7 +262,9 @@ class TestFindToolFFind:
             print(f"Speedup: {python_time / ffind_time:.1f}x")
 
             # Results should be the same
-            assert len(result_python.data["results"]) == len(result_ffind.data["results"])
+            assert len(result_python.data["results"]) == len(
+                result_ffind.data["results"]
+            )
 
     @pytest.mark.asyncio
     async def test_fuzzy_search(self, tool_helper, find_tool, test_directory):
@@ -270,7 +283,9 @@ class TestFindToolFFind:
         assert any("test" in name for name in file_names)
 
     @pytest.mark.asyncio
-    async def test_case_insensitive_search(self, tool_helper, find_tool, test_directory):
+    async def test_case_insensitive_search(
+        self, tool_helper, find_tool, test_directory
+    ):
         """Test case-insensitive search."""
         result = await find_tool.run(
             pattern="*.MD",  # Uppercase extension
@@ -302,7 +317,9 @@ class TestFindToolFFind:
     @pytest.mark.asyncio
     async def test_gitignore_respect(self, tool_helper, find_tool, test_directory):
         """Test that .gitignore patterns are respected."""
-        result = await find_tool.run(pattern="*", path=test_directory, respect_gitignore=True)
+        result = await find_tool.run(
+            pattern="*", path=test_directory, respect_gitignore=True
+        )
 
         results = result.data["results"]
         file_paths = [r["path"] for r in results]
@@ -313,7 +330,9 @@ class TestFindToolFFind:
         assert not any(".pyc" in path for path in file_paths)
 
         # Test with gitignore disabled
-        result_no_ignore = await find_tool.run(pattern="*", path=test_directory, respect_gitignore=False)
+        result_no_ignore = await find_tool.run(
+            pattern="*", path=test_directory, respect_gitignore=False
+        )
 
         results_no_ignore = result_no_ignore.data["results"]
         file_paths_no_ignore = [r["path"] for r in results_no_ignore]

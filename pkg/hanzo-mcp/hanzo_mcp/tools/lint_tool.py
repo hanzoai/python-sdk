@@ -82,8 +82,12 @@ class LintTool(DevToolBase):
 
         # Combine results
         overall_ok = all(result.returncode == 0 for _, result in results)
-        combined_stdout = "\n".join(f"=== {name} ===\n{result.stdout}" for name, result in results)
-        combined_stderr = "\n".join(f"=== {name} ===\n{result.stderr}" for name, result in results)
+        combined_stdout = "\n".join(
+            f"=== {name} ===\n{result.stdout}" for name, result in results
+        )
+        combined_stderr = "\n".join(
+            f"=== {name} ===\n{result.stderr}" for name, result in results
+        )
 
         return create_dev_result(
             ok=overall_ok,
@@ -111,8 +115,12 @@ class LintTool(DevToolBase):
 
         # Combine results
         overall_ok = all(result.returncode == 0 for _, result in results)
-        combined_stdout = "\n".join(f"=== {name} ===\n{result.stdout}" for name, result in results)
-        combined_stderr = "\n".join(f"=== {name} ===\n{result.stderr}" for name, result in results)
+        combined_stdout = "\n".join(
+            f"=== {name} ===\n{result.stdout}" for name, result in results
+        )
+        combined_stderr = "\n".join(
+            f"=== {name} ===\n{result.stderr}" for name, result in results
+        )
 
         backend = " + ".join(name for name, _ in results)
 
@@ -156,8 +164,12 @@ class LintTool(DevToolBase):
 
         # Combine results
         overall_ok = all(result.returncode == 0 for _, result in results)
-        combined_stdout = "\n".join(f"=== {name} ===\n{result.stdout}" for name, result in results)
-        combined_stderr = "\n".join(f"=== {name} ===\n{result.stderr}" for name, result in results)
+        combined_stdout = "\n".join(
+            f"=== {name} ===\n{result.stdout}" for name, result in results
+        )
+        combined_stderr = "\n".join(
+            f"=== {name} ===\n{result.stderr}" for name, result in results
+        )
 
         backend = " + ".join(name for name, _ in results)
 
@@ -215,7 +227,11 @@ class LintTool(DevToolBase):
                 stdout="clang-tidy not available, skipping C++ linting",
             )
 
-        files = [f for f in self.resolved["files"] if any(f.endswith(ext) for ext in [".c", ".cpp", ".cc", ".cxx"])]
+        files = [
+            f
+            for f in self.resolved["files"]
+            if any(f.endswith(ext) for ext in [".c", ".cpp", ".cc", ".cxx"])
+        ]
 
         if not files:
             return create_dev_result(
@@ -485,7 +501,13 @@ async def lint_tool_handler(
     """MCP handler for lint tool"""
 
     tool = LintTool(
-        target=target, language=language, backend=backend, root=root, env=env, dry_run=dry_run, opts=opts or {}
+        target=target,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env,
+        dry_run=dry_run,
+        opts=opts or {},
     )
 
     result = await tool.execute()

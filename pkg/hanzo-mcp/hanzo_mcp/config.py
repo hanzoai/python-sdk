@@ -52,7 +52,10 @@ def get_project_config_path() -> Optional[Path]:
     return None
 
 
-def load_config(global_config_path: Optional[Path] = None, project_config_path: Optional[Path] = None) -> PluginConfig:
+def load_config(
+    global_config_path: Optional[Path] = None,
+    project_config_path: Optional[Path] = None,
+) -> PluginConfig:
     """Load configuration from global and project files, with project overriding global."""
     global_path = global_config_path or get_global_config_path()
     project_path = project_config_path or get_project_config_path()
@@ -61,7 +64,11 @@ def load_config(global_config_path: Optional[Path] = None, project_config_path: 
     config_data = {
         "enabled_backends": ["sqlite"],
         "backend_configs": {
-            "sqlite": {"enabled": True, "path": str(Path.home() / ".hanzo" / "memory.db"), "settings": {}}
+            "sqlite": {
+                "enabled": True,
+                "path": str(Path.home() / ".hanzo" / "memory.db"),
+                "settings": {},
+            }
         },
         "default_user_id": "default",
         "default_project_id": "default",
@@ -75,7 +82,9 @@ def load_config(global_config_path: Optional[Path] = None, project_config_path: 
                 # Update config with global settings
                 for key, value in global_data.items():
                     if key in config_data:
-                        if isinstance(config_data[key], dict) and isinstance(value, dict):
+                        if isinstance(config_data[key], dict) and isinstance(
+                            value, dict
+                        ):
                             # Deep merge dictionaries
                             config_data[key].update(value)
                         else:
@@ -91,7 +100,9 @@ def load_config(global_config_path: Optional[Path] = None, project_config_path: 
                 # Update config with project settings
                 for key, value in project_data.items():
                     if key in config_data:
-                        if isinstance(config_data[key], dict) and isinstance(value, dict):
+                        if isinstance(config_data[key], dict) and isinstance(
+                            value, dict
+                        ):
                             # Deep merge dictionaries
                             config_data[key].update(value)
                         else:
@@ -115,6 +126,10 @@ def get_default_config() -> PluginConfig:
     return PluginConfig(
         enabled_backends=["sqlite"],
         backend_configs={
-            "sqlite": BackendConfig(enabled=True, path=str(Path.home() / ".hanzo" / "memory.db"), settings={})
+            "sqlite": BackendConfig(
+                enabled=True,
+                path=str(Path.home() / ".hanzo" / "memory.db"),
+                settings={},
+            )
         },
     )

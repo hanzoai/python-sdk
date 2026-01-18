@@ -16,7 +16,9 @@ def test_find_tool_in_filesystem_tools():
     pm = PermissionManager()
 
     # Register filesystem tools
-    tools = register_filesystem_tools(mcp_server=mcp, permission_manager=pm, enabled_tools={"find": True})
+    tools = register_filesystem_tools(
+        mcp_server=mcp, permission_manager=pm, enabled_tools={"find": True}
+    )
 
     # Check that tools were registered
     assert len(tools) > 0
@@ -35,7 +37,9 @@ def test_find_tool_in_filesystem_tools():
 def test_find_tool_in_server():
     """Test that FindTool is registered when creating a server."""
     # Create server with search tools enabled
-    server = HanzoMCPServer(name="test-server", disable_search_tools=False, enabled_tools={"find": True})
+    server = HanzoMCPServer(
+        name="test-server", disable_search_tools=False, enabled_tools={"find": True}
+    )
 
     # The server registers tools during initialization
     # We can't directly access _tool_handlers, but we know tools are registered
@@ -54,7 +58,9 @@ def test_tool_registration_flow():
     pm = PermissionManager()
 
     # Test filesystem tools registration directly
-    filesystem_tools = register_filesystem_tools(mcp_server=mcp, permission_manager=pm, enabled_tools={"find": True})
+    filesystem_tools = register_filesystem_tools(
+        mcp_server=mcp, permission_manager=pm, enabled_tools={"find": True}
+    )
 
     assert len(filesystem_tools) > 0
 
@@ -89,7 +95,9 @@ async def test_find_tool_usage():
     assert "results" in result.data
     assert isinstance(result.data["results"], list)
 
-    print(f"✓ FindTool executed successfully, found {len(result.data['results'])} files")
+    print(
+        f"✓ FindTool executed successfully, found {len(result.data['results'])} files"
+    )
 
 
 if __name__ == "__main__":

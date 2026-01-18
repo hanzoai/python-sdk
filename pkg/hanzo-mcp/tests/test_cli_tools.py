@@ -52,7 +52,12 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Claude response"
 
-            result = await tool.call(mock_context, prompt="Test prompt", model="claude-3-opus-20240229", timeout=300)
+            result = await tool.call(
+                mock_context,
+                prompt="Test prompt",
+                model="claude-3-opus-20240229",
+                timeout=300,
+            )
 
             assert result == "Claude response"
             mock_exec.assert_called_once()
@@ -77,7 +82,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "GPT-4 response"
 
-            result = await tool.call(mock_context, prompt="Generate code", model="gpt-4-turbo")
+            result = await tool.call(
+                mock_context, prompt="Generate code", model="gpt-4-turbo"
+            )
 
             assert result == "GPT-4 response"
 
@@ -92,7 +99,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Gemini response"
 
-            result = await tool.call(mock_context, prompt="Analyze image", model="gemini-1.5-pro")
+            result = await tool.call(
+                mock_context, prompt="Analyze image", model="gemini-1.5-pro"
+            )
 
             assert result == "Gemini response"
 
@@ -107,7 +116,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Grok response"
 
-            result = await tool.call(mock_context, prompt="Real-time analysis", model="grok-2")
+            result = await tool.call(
+                mock_context, prompt="Real-time analysis", model="grok-2"
+            )
 
             assert result == "Grok response"
 
@@ -122,7 +133,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "OpenHands execution complete"
 
-            result = await tool.call(mock_context, prompt="Build feature", working_dir="/project")
+            result = await tool.call(
+                mock_context, prompt="Build feature", working_dir="/project"
+            )
 
             assert result == "OpenHands execution complete"
 
@@ -145,7 +158,11 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Hanzo Dev completed task"
 
-            result = await tool.call(mock_context, prompt="Implement feature", model="claude-3-5-sonnet-20241022")
+            result = await tool.call(
+                mock_context,
+                prompt="Implement feature",
+                model="claude-3-5-sonnet-20241022",
+            )
 
             assert result == "Hanzo Dev completed task"
 
@@ -160,7 +177,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Cline autonomous coding complete"
 
-            result = await tool.call(mock_context, prompt="Fix bugs", working_dir="/src")
+            result = await tool.call(
+                mock_context, prompt="Fix bugs", working_dir="/src"
+            )
 
             assert result == "Cline autonomous coding complete"
 
@@ -175,7 +194,9 @@ class TestCLITools:
         with patch.object(tool, "execute_cli", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = "Aider pair programming complete"
 
-            result = await tool.call(mock_context, prompt="Refactor module", model="gpt-4-turbo")
+            result = await tool.call(
+                mock_context, prompt="Refactor module", model="gpt-4-turbo"
+            )
 
             assert result == "Aider pair programming complete"
 
@@ -223,7 +244,9 @@ class TestCLITools:
         # Mock a subprocess error
         with patch("asyncio.create_subprocess_exec") as mock_subprocess:
             mock_process = MagicMock()
-            mock_process.communicate = AsyncMock(return_value=(b"", b"Error: API key not found"))
+            mock_process.communicate = AsyncMock(
+                return_value=(b"", b"Error: API key not found")
+            )
             mock_process.returncode = 1
             mock_subprocess.return_value = mock_process
 
@@ -287,7 +310,9 @@ class TestBatchWithCLITools:
             {"tool_name": "gemini", "input": {"prompt": "Review code"}},
         ]
 
-        result = await batch_tool.call(mock_context, description="Multi-AI analysis", invocations=invocations)
+        result = await batch_tool.call(
+            mock_context, description="Multi-AI analysis", invocations=invocations
+        )
 
         # Check that all tools were called
         assert "claude response" in result
@@ -308,7 +333,9 @@ class TestBatchWithCLITools:
             },
         ]
 
-        result = await batch_tool.call(mock_context, description="Test aliases", invocations=invocations)
+        result = await batch_tool.call(
+            mock_context, description="Test aliases", invocations=invocations
+        )
 
         assert "cc response" in result
         assert "oh response" in result
@@ -334,7 +361,9 @@ class TestBatchWithCLITools:
         ]
 
         start = time.time()
-        result = await batch_tool.call(mock_context, description="Parallel test", invocations=invocations)
+        result = await batch_tool.call(
+            mock_context, description="Parallel test", invocations=invocations
+        )
         duration = time.time() - start
 
         # If executed in parallel, should take ~100ms, not 400ms

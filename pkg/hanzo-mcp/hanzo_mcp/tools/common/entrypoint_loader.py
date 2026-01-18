@@ -37,7 +37,11 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "lsp": ["lsp"],
     "refactor": ["refactor"],
     "database": ["sql", "graph"],  # Consolidated database tools
-    "agent": ["agent", "iching", "review"],  # Consolidated agent tools (critic is from reasoning)
+    "agent": [
+        "agent",
+        "iching",
+        "review",
+    ],  # Consolidated agent tools (critic is from reasoning)
     "jupyter": ["jupyter"],
     "editor": ["neovim_edit", "neovim_command", "neovim_session"],
     "llm": ["llm", "consensus"],  # Removed llm_manage
@@ -125,7 +129,9 @@ class EntryPointToolLoader:
 
                         discovered[ep.name] = tool_names
                         self._discovered_packages[ep.name] = tools_list
-                        logger.debug(f"Discovered package '{ep.name}' with tools: {tool_names}")
+                        logger.debug(
+                            f"Discovered package '{ep.name}' with tools: {tool_names}"
+                        )
 
                 except Exception as e:
                     logger.warning(f"Failed to load entry point '{ep.name}': {e}")
@@ -230,7 +236,9 @@ class EntryPointToolLoader:
 
             # Build package-specific enabled_tools
             package_tool_names = PACKAGE_TOOL_PREFIXES.get(package_name, [])
-            package_enabled = {name: enabled_tools.get(name, True) for name in package_tool_names}
+            package_enabled = {
+                name: enabled_tools.get(name, True) for name in package_tool_names
+            }
 
             self.load_package(
                 package_name,

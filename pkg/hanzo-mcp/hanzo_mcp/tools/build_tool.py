@@ -123,7 +123,9 @@ class BuildTool(DevToolBase):
                 language_used=self.language,
                 backend_used=self.backend,
                 scope_resolved=self.target,
-                errors=["No build configuration found (tsconfig.json or package.json build script)"],
+                errors=[
+                    "No build configuration found (tsconfig.json or package.json build script)"
+                ],
             )
 
     async def _build_python(self) -> DevResult:
@@ -212,7 +214,9 @@ class BuildTool(DevToolBase):
                     language_used=self.language,
                     backend_used=self.backend,
                     scope_resolved=self.target,
-                    errors=["No build system detected (CMakeLists.txt, build.ninja, or Makefile)"],
+                    errors=[
+                        "No build system detected (CMakeLists.txt, build.ninja, or Makefile)"
+                    ],
                 )
 
     async def _build_solidity(self) -> DevResult:
@@ -328,7 +332,9 @@ class BuildTool(DevToolBase):
 
     async def _build_with_ninja(self) -> DevResult:
         """Build with Ninja"""
-        result = self._run_command(["ninja"], cwd=str(Path(self.workspace["root"]) / "build"))
+        result = self._run_command(
+            ["ninja"], cwd=str(Path(self.workspace["root"]) / "build")
+        )
 
         return create_dev_result(
             ok=result.returncode == 0,
@@ -426,7 +432,13 @@ async def build_tool_handler(
     """MCP handler for build tool"""
 
     tool = BuildTool(
-        target=target, language=language, backend=backend, root=root, env=env, dry_run=dry_run, opts=opts or {}
+        target=target,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env,
+        dry_run=dry_run,
+        opts=opts or {},
     )
 
     result = await tool.execute()

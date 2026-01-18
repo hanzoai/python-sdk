@@ -43,7 +43,9 @@ class StubDetector(ast.NodeVisitor):
 
         # Check for empty functions with just pass (but allow if has docstring)
         if len(node.body) == 1 and isinstance(node.body[0], ast.Pass):
-            self.issues.append((node.lineno, f"Function '{node.name}' contains only 'pass' statement"))
+            self.issues.append(
+                (node.lineno, f"Function '{node.name}' contains only 'pass' statement")
+            )
         elif len(node.body) == 2:
             # Check for docstring + pass (also a stub)
             if (
@@ -59,7 +61,10 @@ class StubDetector(ast.NodeVisitor):
         # But allow if it's an abstract method (has docstring explaining it)
         if len(node.body) == 1 and isinstance(node.body[0], ast.Raise):
             if isinstance(node.body[0].exc, ast.Call):
-                if hasattr(node.body[0].exc.func, "id") and node.body[0].exc.func.id == "NotImplementedError":
+                if (
+                    hasattr(node.body[0].exc.func, "id")
+                    and node.body[0].exc.func.id == "NotImplementedError"
+                ):
                     # This is a legitimate abstract method pattern, skip it
                     pass
         elif len(node.body) == 2:
@@ -77,7 +82,9 @@ class StubDetector(ast.NodeVisitor):
         if len(node.body) == 1 and isinstance(node.body[0], ast.Expr):
             if isinstance(node.body[0].value, ast.Constant):
                 if node.body[0].value.value is Ellipsis:
-                    self.issues.append((node.lineno, f"Function '{node.name}' contains only ellipsis"))
+                    self.issues.append(
+                        (node.lineno, f"Function '{node.name}' contains only ellipsis")
+                    )
 
         self.generic_visit(node)
 
@@ -104,8 +111,16 @@ def find_stub_patterns(filepath: Path) -> List[Tuple[int, str, str]]:
     # Format: (pattern, message, case_insensitive)
     patterns = [
         # Match TODO/FIXME comments (case insensitive for comments)
-        (r"#\s*(TODO|FIXME|STUB|FAKE|UNFINISHED|HACK|XXX)\s*:", "contains {0} comment", True),
-        (r'assert\s+False,?\s*["\']Not implemented', 'has "Not implemented" assertion', True),
+        (
+            r"#\s*(TODO|FIXME|STUB|FAKE|UNFINISHED|HACK|XXX)\s*:",
+            "contains {0} comment",
+            True,
+        ),
+        (
+            r'assert\s+False,?\s*["\']Not implemented',
+            'has "Not implemented" assertion',
+            True,
+        ),
     ]
 
     # Additional patterns for non-test files
@@ -116,7 +131,11 @@ def find_stub_patterns(filepath: Path) -> List[Tuple[int, str, str]]:
                 # Only match uppercase "TODO"/"STUB" strings (case sensitive to avoid "todo" tool name)
                 (r'return\s+["\']TODO["\']', "returns TODO string", False),
                 (r'return\s+["\']STUB["\']', "returns STUB string", False),
-                (r"return\s+None\s*#\s*(STUB|FAKE)", "returns None with stub comment", True),
+                (
+                    r"return\s+None\s*#\s*(STUB|FAKE)",
+                    "returns None with stub comment",
+                    True,
+                ),
             ]
         )
 
@@ -185,11 +204,15 @@ class TestNoStubs:
         for filepath in python_files:
             issues = find_stub_patterns(filepath)
             for line_num, message, _filename in issues:
-                all_issues.append(f"{filepath.relative_to(package_root.parent)}:{line_num} - {message}")
+                all_issues.append(
+                    f"{filepath.relative_to(package_root.parent)}:{line_num} - {message}"
+                )
 
         if all_issues:
             report = "\n".join(all_issues)
-            pytest.fail(f"Found {len(all_issues)} stub/incomplete implementations:\n{report}")
+            pytest.fail(
+                f"Found {len(all_issues)} stub/incomplete implementations:\n{report}"
+            )
 
     def test_critical_functions_implemented(self):
         """Ensure critical functions are actually implemented."""
@@ -227,12 +250,23 @@ class TestNoStubs:
                             if len(node.body) == 1:
                                 body = node.body[0]
                                 if isinstance(body, ast.Pass):
-                                    pytest.fail(f"Function {function_name} in {module_path} contains only 'pass'")
-                                if isinstance(body, ast.Expr) and isinstance(body.value, ast.Constant):
+                                    pytest.fail(
+                                        f"Function {function_name} in {module_path} contains only 'pass'"
+                                    )
+                                if isinstance(body, ast.Expr) and isinstance(
+                                    body.value, ast.Constant
+                                ):
                                     if body.value.value is Ellipsis:
-                                        pytest.fail(f"Function {function_name} in {module_path} contains only '...'")
-                                if isinstance(body, ast.Raise) and isinstance(body.exc, ast.Call):
-                                    if hasattr(body.exc.func, "id") and body.exc.func.id == "NotImplementedError":
+                                        pytest.fail(
+                                            f"Function {function_name} in {module_path} contains only '...'"
+                                        )
+                                if isinstance(body, ast.Raise) and isinstance(
+                                    body.exc, ast.Call
+                                ):
+                                    if (
+                                        hasattr(body.exc.func, "id")
+                                        and body.exc.func.id == "NotImplementedError"
+                                    ):
                                         pytest.fail(
                                             f"Function {function_name} in {module_path} raises NotImplementedError"
                                         )
@@ -279,7 +313,9 @@ class TestNoStubs:
 
             for pattern in mock_patterns:
                 if re.search(pattern, content, re.IGNORECASE):
-                    pytest.fail(f"Found mock/fake pattern '{pattern}' in production file: {filepath}")
+                    pytest.fail(
+                        f"Found mock/fake pattern '{pattern}' in production file: {filepath}"
+                    )
 
     def test_all_tool_classes_have_run_method(self):
         """Ensure all tool classes have a proper run or call method."""
@@ -327,7 +363,10 @@ class TestNoStubs:
                         # Also check for method aliases like "call = execute"
                         if isinstance(item, ast.Assign):
                             for target in item.targets:
-                                if isinstance(target, ast.Name) and target.id in ("run", "call"):
+                                if isinstance(target, ast.Name) and target.id in (
+                                    "run",
+                                    "call",
+                                ):
                                     has_run_or_call = True
                                     break
 
@@ -344,15 +383,23 @@ class TestNoStubs:
                                 elif isinstance(base, ast.Attribute):
                                     base_name = base.attr
                                 # If any base ends with Tool, Base, Mixin it's likely OK
-                                if any(base_name.endswith(suffix) for suffix in ("Tool", "Base", "Mixin")):
+                                if any(
+                                    base_name.endswith(suffix)
+                                    for suffix in ("Tool", "Base", "Mixin")
+                                ):
                                     inherits_from_something_meaningful = True
                                     break
                         else:
                             # No bases - this is a standalone Tool class that needs run/call
-                            issues.append(f"Tool class {class_name} in {filepath.name} missing run() or call() method")
+                            issues.append(
+                                f"Tool class {class_name} in {filepath.name} missing run() or call() method"
+                            )
 
         if issues:
-            pytest.fail(f"Found {len(issues)} tool classes without run()/call() method:\n" + "\n".join(issues[:10]))
+            pytest.fail(
+                f"Found {len(issues)} tool classes without run()/call() method:\n"
+                + "\n".join(issues[:10])
+            )
 
     def test_no_debug_prints_in_production(self):
         """Ensure no debug print statements in production code."""

@@ -73,7 +73,9 @@ class TestHanzoMCPIntegration:
             assert "success" in result_text.lower()
 
         # Test read operation
-        read_result = await mcp_server.mcp.call_tool("read", arguments={"file_path": str(test_file)})
+        read_result = await mcp_server.mcp.call_tool(
+            "read", arguments={"file_path": str(test_file)}
+        )
         # read_result is a tuple (content_list, metadata)
         if isinstance(read_result, tuple) and len(read_result) > 0:
             content_list = read_result[0]
@@ -95,7 +97,9 @@ class TestHanzoMCPIntegration:
         )
 
         # Verify edit
-        read_after_edit = await mcp_server.mcp.call_tool("read", arguments={"file_path": str(test_file)})
+        read_after_edit = await mcp_server.mcp.call_tool(
+            "read", arguments={"file_path": str(test_file)}
+        )
         # read_after_edit is a tuple (content_list, metadata)
         if isinstance(read_after_edit, tuple) and len(read_after_edit) > 0:
             content_list = read_after_edit[0]
@@ -120,7 +124,9 @@ def function_{i}():
             )
 
         # Test search
-        search_result = await mcp_server.mcp.call_tool("search", arguments={"pattern": "TODO", "path": str(temp_dir)})
+        search_result = await mcp_server.mcp.call_tool(
+            "search", arguments={"pattern": "TODO", "path": str(temp_dir)}
+        )
 
         # Handle tuple result from call_tool
         if isinstance(search_result, tuple) and len(search_result) > 0:
@@ -197,7 +203,9 @@ def main():
         )
 
         # 1. Search for TODOs
-        search_result = await mcp_server.mcp.call_tool("search", arguments={"pattern": "TODO", "path": str(temp_dir)})
+        search_result = await mcp_server.mcp.call_tool(
+            "search", arguments={"pattern": "TODO", "path": str(temp_dir)}
+        )
         # Handle tuple result
         if isinstance(search_result, tuple) and len(search_result) > 0:
             content_list = search_result[0]
@@ -210,7 +218,9 @@ def main():
         assert "TODO" in result_text
 
         # 2. Read the file
-        content = await mcp_server.mcp.call_tool("read", arguments={"file_path": str(test_file)})
+        content = await mcp_server.mcp.call_tool(
+            "read", arguments={"file_path": str(test_file)}
+        )
         # Handle tuple result
         if isinstance(content, tuple) and len(content) > 0:
             content_list = content[0]
@@ -235,7 +245,9 @@ def main():
         # 4. Run the critic tool
         critic_result = await mcp_server.mcp.call_tool(
             "critic",
-            arguments={"analysis": f"Review the code in {test_file} for potential issues"},
+            arguments={
+                "analysis": f"Review the code in {test_file} for potential issues"
+            },
         )
 
         # Handle tuple result
@@ -249,7 +261,10 @@ def main():
             critic_text = str(critic_result)
         # The critic tool currently just returns a confirmation message
         # Check that it returns the expected template response
-        assert "Critical analysis complete" in critic_text or "analysis" in critic_text.lower()
+        assert (
+            "Critical analysis complete" in critic_text
+            or "analysis" in critic_text.lower()
+        )
 
     async def test_notebook_operations(self, tool_helper, mcp_server, temp_dir):
         """Test notebook read/write operations."""
@@ -319,7 +334,9 @@ def main():
         assert "cells" in notebook_data
         assert len(notebook_data["cells"]) >= 1  # At least the original code cell
         # Check that we have at least one code cell
-        code_cells = [cell for cell in notebook_data["cells"] if cell.get("cell_type") == "code"]
+        code_cells = [
+            cell for cell in notebook_data["cells"] if cell.get("cell_type") == "code"
+        ]
         assert len(code_cells) >= 1
 
 
@@ -345,7 +362,9 @@ class TestHanzoMCPStdioServer:
             return
 
         # Use the MCP client session to test the server
-        async with stdio_client(["python", "-m", "hanzo_mcp"], env={**os.environ, **server_env}) as (read, write):
+        async with stdio_client(
+            ["python", "-m", "hanzo_mcp"], env={**os.environ, **server_env}
+        ) as (read, write):
             # Create a client session
             async with ClientSession(read, write) as session:
                 # Initialize the session
@@ -381,16 +400,22 @@ class TestHanzoMCPStdioServer:
 async def test_hanzo_mcp_cli_tool():
     """Test the hanzo-mcp CLI tool directly."""
     # Test help command
-    result = subprocess.run(["python", "-m", "hanzo_mcp", "--help"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["python", "-m", "hanzo_mcp", "--help"], capture_output=True, text=True
+    )
 
     assert result.returncode == 0
     assert "usage" in result.stdout.lower() or "mcp server" in result.stdout.lower()
 
     # Test version command
-    result = subprocess.run(["python", "-m", "hanzo_mcp", "--version"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["python", "-m", "hanzo_mcp", "--version"], capture_output=True, text=True
+    )
 
     assert result.returncode == 0
-    assert "0.6" in result.stdout or "0.7" in result.stdout  # Should show version 0.6.x or 0.7.x
+    assert (
+        "0.6" in result.stdout or "0.7" in result.stdout
+    )  # Should show version 0.6.x or 0.7.x
 
 
 if __name__ == "__main__":

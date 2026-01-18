@@ -36,7 +36,9 @@ class DevToolsCore:
     async def edit(
         self,
         target: str,
-        op: Literal["rename", "code_action", "organize_imports", "apply_workspace_edit"],
+        op: Literal[
+            "rename", "code_action", "organize_imports", "apply_workspace_edit"
+        ],
         file: Optional[str] = None,
         pos: Optional[Dict[str, int]] = None,
         range_: Optional[Dict[str, Dict[str, int]]] = None,
@@ -64,7 +66,9 @@ class DevToolsCore:
         await self.backend.log_execution("edit", args, result)
         return result
 
-    async def fmt(self, target: str, local_prefix: Optional[str] = None, **target_opts) -> ToolResult:
+    async def fmt(
+        self, target: str, local_prefix: Optional[str] = None, **target_opts
+    ) -> ToolResult:
         """Format code and organize imports"""
         target_spec = TargetSpec(target=target, **target_opts)
 
@@ -90,7 +94,13 @@ class DevToolsCore:
         args = {
             "opts": {
                 k: v
-                for k, v in {"run": run, "count": count, "race": race, "filter": filter_, "watch": watch}.items()
+                for k, v in {
+                    "run": run,
+                    "count": count,
+                    "race": race,
+                    "filter": filter_,
+                    "watch": watch,
+                }.items()
                 if v is not None
             }
         }
@@ -100,18 +110,30 @@ class DevToolsCore:
         return result
 
     async def build(
-        self, target: str, release: Optional[bool] = None, features: Optional[List[str]] = None, **target_opts
+        self,
+        target: str,
+        release: Optional[bool] = None,
+        features: Optional[List[str]] = None,
+        **target_opts,
     ) -> ToolResult:
         """Compile/build artifacts narrowly by default"""
         target_spec = TargetSpec(target=target, **target_opts)
 
-        args = {"opts": {k: v for k, v in {"release": release, "features": features}.items() if v is not None}}
+        args = {
+            "opts": {
+                k: v
+                for k, v in {"release": release, "features": features}.items()
+                if v is not None
+            }
+        }
 
         result = await self.backend.execute_build(target_spec, args)
         await self.backend.log_execution("build", args, result)
         return result
 
-    async def lint(self, target: str, fix: Optional[bool] = None, **target_opts) -> ToolResult:
+    async def lint(
+        self, target: str, fix: Optional[bool] = None, **target_opts
+    ) -> ToolResult:
         """Lint and typecheck code"""
         target_spec = TargetSpec(target=target, **target_opts)
 
@@ -121,7 +143,9 @@ class DevToolsCore:
         await self.backend.log_execution("lint", args, result)
         return result
 
-    async def guard(self, target: str, rules: Optional[List[Dict[str, Any]]] = None, **target_opts) -> ToolResult:
+    async def guard(
+        self, target: str, rules: Optional[List[Dict[str, Any]]] = None, **target_opts
+    ) -> ToolResult:
         """Check repository invariants and boundaries"""
         target_spec = TargetSpec(target=target, **target_opts)
 
@@ -133,13 +157,19 @@ class DevToolsCore:
 
     # Composition patterns
     async def multi_language_rename(
-        self, symbol_name: str, new_name: str, languages: List[str], workspace: str = "ws"
+        self,
+        symbol_name: str,
+        new_name: str,
+        languages: List[str],
+        workspace: str = "ws",
     ) -> List[ToolResult]:
         """Multi-language rename operation"""
         results = []
 
         for lang in languages:
-            result = await self.edit(target=workspace, op="rename", new_name=new_name, language=lang)
+            result = await self.edit(
+                target=workspace, op="rename", new_name=new_name, language=lang
+            )
             results.append(result)
 
         # Format changed files
@@ -156,13 +186,18 @@ class DevToolsCore:
 
         return results
 
-    async def wide_refactor_go_workspace(self, workspace: str = "ws") -> List[ToolResult]:
+    async def wide_refactor_go_workspace(
+        self, workspace: str = "ws"
+    ) -> List[ToolResult]:
         """Wide refactor in Go workspace"""
         results = []
 
         # Fix all and organize imports
         edit_result = await self.edit(
-            target="pkg:./...", op="code_action", only=["source.fixAll", "source.organizeImports"], language="go"
+            target="pkg:./...",
+            op="code_action",
+            only=["source.fixAll", "source.organizeImports"],
+            language="go",
         )
         results.append(edit_result)
 
@@ -184,7 +219,12 @@ class DevToolsCore:
                     "glob": "sdk/**",
                     "forbid_import_prefix": "github.com/luxfi/node/",
                 },
-                {"id": "no_generated_edits", "type": "generated", "glob": "api/pb/**", "forbid_writes": True},
+                {
+                    "id": "no_generated_edits",
+                    "type": "generated",
+                    "glob": "api/pb/**",
+                    "forbid_writes": True,
+                },
             ],
         )
         results.append(guard_result)
@@ -321,7 +361,13 @@ async def mcp_lint(
     """MCP wrapper for lint tool"""
     tools = DevToolsCore()
     result = await tools.lint(
-        target=target, fix=fix, language=language, backend=backend, root=root, env=env or {}, dry_run=dry_run
+        target=target,
+        fix=fix,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env or {},
+        dry_run=dry_run,
     )
     return asdict(result)
 
@@ -338,7 +384,13 @@ async def mcp_guard(
     """MCP wrapper for guard tool"""
     tools = DevToolsCore()
     result = await tools.guard(
-        target=target, rules=rules, language=language, backend=backend, root=root, env=env or {}, dry_run=dry_run
+        target=target,
+        rules=rules,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env or {},
+        dry_run=dry_run,
     )
     return asdict(result)
 

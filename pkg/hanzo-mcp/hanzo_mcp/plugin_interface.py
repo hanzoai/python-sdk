@@ -40,24 +40,38 @@ class MemoryBackendPlugin(Protocol):
         ...
 
     async def store_memory(
-        self, content: str, metadata: Dict[str, Any], user_id: str = "default", project_id: str = "default"
+        self,
+        content: str,
+        metadata: Dict[str, Any],
+        user_id: str = "default",
+        project_id: str = "default",
     ) -> str:
         """Store a memory and return its ID."""
         ...
 
     async def retrieve_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Retrieve memories based on query."""
         ...
 
     async def search_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Search memories based on query with scoring."""
         ...
 
-    async def delete_memory(self, memory_id: str, user_id: str = "default", project_id: str = "default") -> bool:
+    async def delete_memory(
+        self, memory_id: str, user_id: str = "default", project_id: str = "default"
+    ) -> bool:
         """Delete a memory by ID."""
         ...
 

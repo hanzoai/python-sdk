@@ -51,8 +51,14 @@ class MCPResourceDocument:
                     total = stats.get("total", len(results))
                     time_ms = stats.get("time_ms", {})
                     if time_ms:
-                        total_time = sum(time_ms.values()) if isinstance(time_ms, dict) else time_ms
-                        lines.append(f"# Search: '{query}' ({total} results, {total_time}ms)")
+                        total_time = (
+                            sum(time_ms.values())
+                            if isinstance(time_ms, dict)
+                            else time_ms
+                        )
+                        lines.append(
+                            f"# Search: '{query}' ({total} results, {total_time}ms)"
+                        )
                     else:
                         lines.append(f"# Found {total} results")
                     lines.append("")
@@ -70,7 +76,9 @@ class MCPResourceDocument:
                             lines.append(f"{i}. {loc}")
                             if match:
                                 # Truncate long matches
-                                match_preview = match[:200] + "..." if len(match) > 200 else match
+                                match_preview = (
+                                    match[:200] + "..." if len(match) > 200 else match
+                                )
                                 lines.append(f"   {match_preview}")
                             if rtype:
                                 lines.append(f"   [{rtype}]")
@@ -85,7 +93,9 @@ class MCPResourceDocument:
                     total = pagination.get("total", 0)
                     has_next = pagination.get("has_next", False)
                     if has_next:
-                        lines.append(f"\n... showing page {page} of {(total // 50) + 1}")
+                        lines.append(
+                            f"\n... showing page {page} of {(total // 50) + 1}"
+                        )
             else:
                 # Generic dict - format as key-value pairs
                 for key, value in self.data.items():

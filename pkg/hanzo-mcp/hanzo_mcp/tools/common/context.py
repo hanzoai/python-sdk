@@ -67,7 +67,9 @@ class ToolContext:
         """
         return self._mcp_context.client_id
 
-    async def set_tool_info(self, tool_name: str, execution_id: str | None = None) -> None:
+    async def set_tool_info(
+        self, tool_name: str, execution_id: str | None = None
+    ) -> None:
         """Set information about the currently executing tool.
 
         Args:

@@ -17,7 +17,9 @@ def test_no_api_key():
 
     try:
         # Try to create swarm without API key
-        api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
+        api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get(
+            "CLAUDE_API_KEY"
+        )
 
         if not api_key:
             print("✓ Correctly detected missing API key")

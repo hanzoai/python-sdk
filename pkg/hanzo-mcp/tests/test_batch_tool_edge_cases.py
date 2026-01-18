@@ -137,7 +137,9 @@ class TestBatchToolEdgeCases:
         mock_tool_ctx.info = AsyncMock()
 
         # Make tools return large output
-        batch_tool.tools["tool1"].call = AsyncMock(return_value="X" * 100000)  # 100KB output
+        batch_tool.tools["tool1"].call = AsyncMock(
+            return_value="X" * 100000
+        )  # 100KB output
 
         # Create many invocations
         invocations = [{"tool_name": "tool1", "input": {"id": i}} for i in range(50)]
@@ -146,7 +148,9 @@ class TestBatchToolEdgeCases:
             "hanzo_mcp.tools.common.context.create_tool_context",
             return_value=mock_tool_ctx,
         ):
-            result = await batch_tool.call(ctx=mock_ctx, description="Large batch", invocations=invocations)
+            result = await batch_tool.call(
+                ctx=mock_ctx, description="Large batch", invocations=invocations
+            )
 
             # Should handle pagination
             tool_helper.assert_in_result("results", result)
@@ -172,7 +176,9 @@ class TestBatchToolEdgeCases:
         invocations = [{"tool_name": "tool1", "input": {"id": i}} for i in range(20)]
 
         start_time = asyncio.get_event_loop().time()
-        await batch_tool.call(ctx=mock_ctx, description="Concurrent test", invocations=invocations)
+        await batch_tool.call(
+            ctx=mock_ctx, description="Concurrent test", invocations=invocations
+        )
         end_time = asyncio.get_event_loop().time()
 
         # Check that execution was concurrent but limited
@@ -227,7 +233,9 @@ class TestBatchToolEdgeCases:
             {"tool_name": "Test_Tool", "input": {}},
         ]
 
-        result = await batch_tool.call(ctx=mock_ctx, description="Name normalization", invocations=invocations)
+        result = await batch_tool.call(
+            ctx=mock_ctx, description="Name normalization", invocations=invocations
+        )
 
         # Should handle all variations - but batch tool doesn't normalize names
         assert isinstance(result, str)

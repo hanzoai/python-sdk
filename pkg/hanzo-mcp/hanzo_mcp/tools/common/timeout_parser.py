@@ -89,7 +89,20 @@ def format_timeout(seconds: float) -> str:
 
 # Test the parser
 if __name__ == "__main__":
-    test_cases = ["2min", "5m", "120s", "30sec", "1.5h", "0.5hr", "90", 120, 3600.0, "1hour", "2hours", "30seconds"]
+    test_cases = [
+        "2min",
+        "5m",
+        "120s",
+        "30sec",
+        "1.5h",
+        "0.5hr",
+        "90",
+        120,
+        3600.0,
+        "1hour",
+        "2hours",
+        "30seconds",
+    ]
 
     for case in test_cases:
         try:

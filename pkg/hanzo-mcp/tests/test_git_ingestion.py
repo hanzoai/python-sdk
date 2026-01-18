@@ -26,13 +26,19 @@ class TestGitIngestion:
                 cwd=repo_path,
                 check=True,
             )
-            subprocess.run(["git", "config", "user.name", "Test User"], cwd=repo_path, check=True)
+            subprocess.run(
+                ["git", "config", "user.name", "Test User"], cwd=repo_path, check=True
+            )
 
             # Create initial commit
             readme = repo_path / "README.md"
-            readme.write_text("# Test Project\n\nThis is a test project for git ingestion.")
+            readme.write_text(
+                "# Test Project\n\nThis is a test project for git ingestion."
+            )
             subprocess.run(["git", "add", "README.md"], cwd=repo_path, check=True)
-            subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_path, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "Initial commit"], cwd=repo_path, check=True
+            )
 
             # Add Python file
             main_py = repo_path / "main.py"
@@ -49,7 +55,9 @@ if __name__ == "__main__":
 '''
             )
             subprocess.run(["git", "add", "main.py"], cwd=repo_path, check=True)
-            subprocess.run(["git", "commit", "-m", "Add main.py"], cwd=repo_path, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "Add main.py"], cwd=repo_path, check=True
+            )
 
             # Add more files and commits
             utils_py = repo_path / "utils.py"
@@ -100,7 +108,9 @@ if __name__ == "__main__":
             )
 
             # Create a feature branch
-            subprocess.run(["git", "checkout", "-b", "feature/testing"], cwd=repo_path, check=True)
+            subprocess.run(
+                ["git", "checkout", "-b", "feature/testing"], cwd=repo_path, check=True
+            )
 
             test_py = repo_path / "test_main.py"
             test_py.write_text(
@@ -117,7 +127,9 @@ class TestMain(unittest.TestCase):
 '''
             )
             subprocess.run(["git", "add", "test_main.py"], cwd=repo_path, check=True)
-            subprocess.run(["git", "commit", "-m", "Add tests"], cwd=repo_path, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "Add tests"], cwd=repo_path, check=True
+            )
 
             # Switch back to main branch
             subprocess.run(["git", "checkout", "main"], cwd=repo_path, check=True)
@@ -156,7 +168,9 @@ class TestMain(unittest.TestCase):
                 parts = line.split("\t")
                 if len(parts) >= 2:
                     status, filename = parts[0], parts[1]
-                    current_commit["files"].append({"status": status, "filename": filename})
+                    current_commit["files"].append(
+                        {"status": status, "filename": filename}
+                    )
 
         assert len(commits) >= 4  # Should have at least 4 commits
         assert any(c["message"] == "Initial commit" for c in commits)
@@ -267,7 +281,11 @@ class TestMain(unittest.TestCase):
             "history_count": len(history),
             "first_commit": history[-1]["commit"] if history else None,
             "last_commit": history[0]["commit"] if history else None,
-            "last_modified": (datetime.fromtimestamp(history[0]["timestamp"]).isoformat() if history else None),
+            "last_modified": (
+                datetime.fromtimestamp(history[0]["timestamp"]).isoformat()
+                if history
+                else None
+            ),
         }
 
         assert metadata["history_count"] >= 2
@@ -281,7 +299,9 @@ class TestGitProjectManager:
     def project_manager(self):
         """Create a project manager."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            manager = ProjectVectorManager(global_db_path=str(Path(tmpdir) / "global_db"))
+            manager = ProjectVectorManager(
+                global_db_path=str(Path(tmpdir) / "global_db")
+            )
             yield manager, tmpdir
 
     def test_detect_git_project(self, tool_helper, project_manager):

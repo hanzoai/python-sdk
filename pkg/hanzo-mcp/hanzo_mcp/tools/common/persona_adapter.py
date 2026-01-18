@@ -26,7 +26,10 @@ logger = logging.getLogger(__name__)
 
 # Tool mappings for persona categories
 CATEGORY_TOOL_MAPPINGS = {
-    "programmer": ESSENTIAL_TOOLS + ["symbols", "multi_edit"] + SEARCH_TOOLS + BUILD_TOOLS,
+    "programmer": ESSENTIAL_TOOLS
+    + ["symbols", "multi_edit"]
+    + SEARCH_TOOLS
+    + BUILD_TOOLS,
     "scientist": ESSENTIAL_TOOLS + ["jupyter", "critic"] + AI_TOOLS + VECTOR_TOOLS,
     "philosopher": ESSENTIAL_TOOLS + ["critic", "think", "search"],
     "artist": ESSENTIAL_TOOLS + ["watch", "jupyter"] + AI_TOOLS,
@@ -35,7 +38,10 @@ CATEGORY_TOOL_MAPPINGS = {
     "mathematician": ESSENTIAL_TOOLS + ["jupyter", "symbols", "critic"],
     "musician": ESSENTIAL_TOOLS + ["watch", "todo"],
     "athlete": ESSENTIAL_TOOLS + ["todo", "watch", "process"],
-    "entrepreneur": ESSENTIAL_TOOLS + ["todo", "agent", "consensus"] + BUILD_TOOLS + DATABASE_TOOLS,
+    "entrepreneur": ESSENTIAL_TOOLS
+    + ["todo", "agent", "consensus"]
+    + BUILD_TOOLS
+    + DATABASE_TOOLS,
     "activist": ESSENTIAL_TOOLS + ["search", "todo", "rules"],
     "religious_leader": ESSENTIAL_TOOLS + ["search", "critic", "think"],
     "military_leader": ESSENTIAL_TOOLS + ["todo", "process", "critic"] + UNIX_TOOLS,
@@ -71,7 +77,9 @@ def persona_to_tool_personality(persona: Dict[str, Any]) -> Optional[ToolPersona
 
         # Determine tools based on category and persona's tool preferences
         category = persona.get("category", "default")
-        base_tools = CATEGORY_TOOL_MAPPINGS.get(category, CATEGORY_TOOL_MAPPINGS["default"])
+        base_tools = CATEGORY_TOOL_MAPPINGS.get(
+            category, CATEGORY_TOOL_MAPPINGS["default"]
+        )
 
         # Add tools from persona's tool preferences
         tools_config = persona.get("tools", {})

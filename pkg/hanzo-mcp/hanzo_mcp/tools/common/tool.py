@@ -214,14 +214,20 @@ Examples:
             lines.append(f"[{cat}]")
             for tool_name, config, is_enabled in sorted(tools, key=lambda x: x[0]):
                 status = "✓" if is_enabled else "○"
-                desc = config.description[:50] + "..." if len(config.description) > 50 else config.description
+                desc = (
+                    config.description[:50] + "..."
+                    if len(config.description) > 50
+                    else config.description
+                )
                 lines.append(f"  {status} {tool_name}: {desc}")
             lines.append("")
 
         # Summary
         total = sum(len(t) for t in by_category.values())
         enabled = sum(1 for tools in by_category.values() for _, _, e in tools if e)
-        lines.append(f"Total: {total} | Enabled: {enabled} | Disabled: {total - enabled}")
+        lines.append(
+            f"Total: {total} | Enabled: {enabled} | Disabled: {total - enabled}"
+        )
 
         return "\n".join(lines)
 
@@ -329,7 +335,9 @@ Description: {config.description}"""
         result = await registry.upgrade(name)
 
         if result["success"]:
-            upgraded = [r["package"] for r in result.get("results", []) if r.get("success")]
+            upgraded = [
+                r["package"] for r in result.get("results", []) if r.get("success")
+            ]
             return f"✓ Upgraded: {', '.join(upgraded) if upgraded else 'none'}"
         return "✗ Upgrade failed"
 
@@ -368,11 +376,19 @@ Description: {config.description}"""
         @mcp_server.tool()
         async def tool(
             action: Action = "list",
-            name: Annotated[Optional[str], Field(description="Tool or package name")] = None,
-            source: Annotated[str, Field(description="Source: pypi, git, local")] = "pypi",
-            version: Annotated[Optional[str], Field(description="Version constraint")] = None,
+            name: Annotated[
+                Optional[str], Field(description="Tool or package name")
+            ] = None,
+            source: Annotated[
+                str, Field(description="Source: pypi, git, local")
+            ] = "pypi",
+            version: Annotated[
+                Optional[str], Field(description="Version constraint")
+            ] = None,
             persist: Annotated[bool, Field(description="Persist changes")] = True,
-            category: Annotated[Optional[str], Field(description="Filter by category")] = None,
+            category: Annotated[
+                Optional[str], Field(description="Filter by category")
+            ] = None,
             disabled: Annotated[bool, Field(description="Show only disabled")] = False,
             enabled: Annotated[bool, Field(description="Show only enabled")] = False,
             ctx: MCPContext = None,

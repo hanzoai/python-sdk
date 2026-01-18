@@ -40,7 +40,11 @@ class TestAgentTools:
         tool = IChingTool()
         assert tool.name == "iching"
         desc_lower = tool.description.lower()
-        assert "i ching" in desc_lower or "wisdom" in desc_lower or "hexagram" in desc_lower
+        assert (
+            "i ching" in desc_lower
+            or "wisdom" in desc_lower
+            or "hexagram" in desc_lower
+        )
 
     def test_review_tool_creation(self):
         """Test ReviewTool can be created."""

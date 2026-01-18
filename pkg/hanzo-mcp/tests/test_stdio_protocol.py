@@ -113,7 +113,9 @@ def test_stdio_protocol():
                             print("  ✓ Valid JSON response received")
                             break
                         except json.JSONDecodeError:
-                            violations.append({"test": test["name"], "output": line[:200]})
+                            violations.append(
+                                {"test": test["name"], "output": line[:200]}
+                            )
                             print(f"  ❌ PROTOCOL VIOLATION: {line[:100]}")
 
         if not response_found:

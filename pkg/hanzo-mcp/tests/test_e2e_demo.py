@@ -8,7 +8,9 @@ import pytest
 # Import guard for optional hanzo_network dependency
 try:
     # Add hanzo-network to path
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
+    sys.path.insert(
+        0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src")
+    )
 
     from hanzo_network import (
         check_local_llm_status,
@@ -24,7 +26,8 @@ except ImportError:
 
 # Skip entire module if hanzo_network is not available
 pytestmark = pytest.mark.skipif(
-    not HANZO_NETWORK_AVAILABLE, reason="hanzo_network package not installed or numpy not available"
+    not HANZO_NETWORK_AVAILABLE,
+    reason="hanzo_network package not installed or numpy not available",
 )
 
 
@@ -54,7 +57,11 @@ async def test_e2e_local_inference():
         name="echo_agent",
         description="Echoes messages",
         system="You are an echo agent. Use the echo_message tool when asked to echo.",
-        tools=[create_tool(name="echo_message", description="Echo a message", handler=echo_message)],
+        tools=[
+            create_tool(
+                name="echo_message", description="Echo a message", handler=echo_message
+            )
+        ],
         local_model="llama3.2",
     )
 
@@ -62,7 +69,11 @@ async def test_e2e_local_inference():
         name="math_agent",
         description="Does math",
         system="You are a math agent. Use the add_numbers tool when asked to add.",
-        tools=[create_tool(name="add_numbers", description="Add numbers", handler=add_numbers)],
+        tools=[
+            create_tool(
+                name="add_numbers", description="Add numbers", handler=add_numbers
+            )
+        ],
         local_model="llama3.2",
     )
 
@@ -87,7 +98,9 @@ async def test_e2e_local_inference():
     assert "math_agent" in status["local_agents"]
 
     # Test echo agent
-    result = await network.run(prompt="Echo the message 'Hello from E2E test'", initial_agent=echo_agent)
+    result = await network.run(
+        prompt="Echo the message 'Hello from E2E test'", initial_agent=echo_agent
+    )
     assert result["success"]
     # The dummy model returns generic responses, so just check for success
     assert result["final_output"] is not None
@@ -137,7 +150,9 @@ async def test_e2e_multi_agent_collaboration():
     await network.start(wait_for_peers=0)
 
     # Test collaboration
-    result = await network.run(prompt="Research what distributed inference is and write a brief explanation")
+    result = await network.run(
+        prompt="Research what distributed inference is and write a brief explanation"
+    )
     assert result["success"]
 
     await network.stop()
@@ -162,7 +177,9 @@ async def test_e2e_mcp_tools_with_local_llm():
         description="File system operations",
         system="You handle file system operations using the available tools.",
         tools=[
-            create_tool(name="read_test_file", description="Read a file", handler=read_test_file),
+            create_tool(
+                name="read_test_file", description="Read a file", handler=read_test_file
+            ),
             create_tool(
                 name="list_test_files",
                 description="List files",
@@ -183,7 +200,9 @@ async def test_e2e_mcp_tools_with_local_llm():
     await network.start(wait_for_peers=0)
 
     # Test file operations
-    result = await network.run(prompt="List the files in the test directory", initial_agent=fs_agent)
+    result = await network.run(
+        prompt="List the files in the test directory", initial_agent=fs_agent
+    )
     assert result["success"]
     # The dummy model returns generic responses, so just check for success
     assert result["final_output"] is not None

@@ -96,4 +96,6 @@ class AutoRegisterTool(BaseTool, ABC):
         normalized_handler = with_context_normalization(handler)
 
         # Register with the server
-        mcp_server.tool(name=self.name, description=self.description)(normalized_handler)
+        mcp_server.tool(name=self.name, description=self.description)(
+            normalized_handler
+        )

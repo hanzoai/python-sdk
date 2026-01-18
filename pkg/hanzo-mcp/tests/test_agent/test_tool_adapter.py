@@ -54,10 +54,14 @@ class TestToolAdapter:
         tool.required = ["thought"]
         return tool
 
-    def test_convert_tools_to_openai_functions(self, tool_helper, mock_tool, mock_simple_tool):
+    def test_convert_tools_to_openai_functions(
+        self, tool_helper, mock_tool, mock_simple_tool
+    ):
         """Test convert_tools_to_openai_functions."""
         # Convert tools
-        openai_functions = convert_tools_to_openai_functions([mock_tool, mock_simple_tool])
+        openai_functions = convert_tools_to_openai_functions(
+            [mock_tool, mock_simple_tool]
+        )
 
         # Verify result
         assert len(openai_functions) == 2
@@ -65,7 +69,10 @@ class TestToolAdapter:
         # Check first tool
         assert openai_functions[0]["type"] == "function"
         assert openai_functions[0]["function"]["name"] == "read_files"
-        assert openai_functions[0]["function"]["description"] == "Read files from the file system"
+        assert (
+            openai_functions[0]["function"]["description"]
+            == "Read files from the file system"
+        )
         assert "parameters" in openai_functions[0]["function"]
 
         # Check second tool
