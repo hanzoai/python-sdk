@@ -1,9 +1,9 @@
 """Tests for Git history ingestion into vector store."""
 
-import tempfile
 import subprocess
-from pathlib import Path
+import tempfile
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 from hanzo_mcp.tools.vector.infinity_store import InfinityVectorStore

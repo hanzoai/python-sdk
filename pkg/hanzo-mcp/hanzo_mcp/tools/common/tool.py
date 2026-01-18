@@ -3,18 +3,17 @@
 Combines install, uninstall, upgrade, enable, disable, and list into a single tool.
 """
 
-from typing import Any, Unpack, Literal, Optional, Annotated, TypedDict, final, override
 from pathlib import Path
-
-from pydantic import Field
+from typing import Annotated, Any, Literal, Optional, TypedDict, Unpack, final, override
 
 # Import async I/O utilities
-from hanzo_async import mkdir, read_json, write_json, path_exists
+from hanzo_async import mkdir, path_exists, read_json, write_json
 from mcp.server.fastmcp import Context as MCPContext
+from pydantic import Field
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 Action = Annotated[
     Literal[
@@ -332,7 +331,7 @@ Description: {config.description}"""
         if result["success"]:
             upgraded = [r["package"] for r in result.get("results", []) if r.get("success")]
             return f"✓ Upgraded: {', '.join(upgraded) if upgraded else 'none'}"
-        return f"✗ Upgrade failed"
+        return "✗ Upgrade failed"
 
     async def _handle_reload(self, name: Optional[str], tool_ctx: Any) -> str:
         """Hot-reload a tool package."""

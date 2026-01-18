@@ -1,7 +1,7 @@
 """Test cases for the streaming command tool."""
 
-import json
 import asyncio
+import json
 import tempfile
 from pathlib import Path
 from unittest.mock import patch

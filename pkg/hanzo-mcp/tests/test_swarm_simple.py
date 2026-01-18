@@ -2,8 +2,8 @@
 """Simple standalone test for swarm tool functionality."""
 
 import os
-import sys
 import shutil
+import sys
 import tempfile
 
 
@@ -82,8 +82,8 @@ def test_parallel_execution():
     """Test parallel execution behavior."""
     print("\nTest 3: Parallel execution simulation...")
 
-    import time
     import asyncio
+    import time
 
     async def simulate_agent_task(task_id, duration=0.1):
         """Simulate an agent task."""
@@ -94,7 +94,6 @@ def test_parallel_execution():
 
     async def run_parallel_test():
         # Create 5 tasks
-        tasks = []
         max_concurrent = 3
 
         # Semaphore to limit concurrency
@@ -106,7 +105,7 @@ def test_parallel_execution():
 
         # Run all tasks
         start = time.time()
-        results = await asyncio.gather(*[limited_task(i) for i in range(5)])
+        await asyncio.gather(*[limited_task(i) for i in range(5)])
         total_time = time.time() - start
 
         print(f"✓ Ran 5 tasks with max_concurrent=3 in {total_time:.2f}s")
@@ -201,7 +200,7 @@ def test_file_operations():
 
     finally:
         shutil.rmtree(test_dir)
-        print(f"✓ Cleaned up test directory")
+        print("✓ Cleaned up test directory")
 
 
 # Main test runner

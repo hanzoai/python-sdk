@@ -17,7 +17,6 @@ def test_no_api_key():
 
     try:
         # Try to create swarm without API key
-        model = "anthropic/claude-3-5-sonnet-20241022"
         api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY")
 
         if not api_key:

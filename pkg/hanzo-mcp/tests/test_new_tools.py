@@ -3,26 +3,27 @@
 import os
 import tempfile
 from pathlib import Path
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-from hanzo_tools.shell.npx import NpxTool
-from hanzo_tools.shell.uvx import UvxTool
 from hanzo_mcp.tools.mcp.mcp_add import McpAddTool
-from hanzo_mcp.tools.common.stats import StatsTool
-from hanzo_mcp.tools.mcp.mcp_stats import McpStatsTool
 from hanzo_mcp.tools.mcp.mcp_remove import McpRemoveTool
+from hanzo_mcp.tools.mcp.mcp_stats import McpStatsTool
+from hanzo_tools.database.database_manager import DatabaseManager
 from hanzo_tools.database.graph_add import GraphAddTool
 from hanzo_tools.database.graph_query import GraphQueryTool
-from hanzo_tools.database.graph_stats import GraphStatsTool
-from hanzo_tools.shell.uvx_background import UvxBackgroundTool
 from hanzo_tools.database.graph_remove import GraphRemoveTool
 from hanzo_tools.database.graph_search import GraphSearchTool
+from hanzo_tools.database.graph_stats import GraphStatsTool
 from hanzo_tools.filesystem.find_files import FindFilesTool
+from hanzo_tools.shell.npx import NpxTool
+from hanzo_tools.shell.uvx import UvxTool
+from hanzo_tools.shell.uvx_background import UvxBackgroundTool
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
-from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
+from hanzo_mcp.tools.common.stats import StatsTool
 from hanzo_mcp.tools.common.tool_disable import ToolDisableTool
-from hanzo_tools.database.database_manager import DatabaseManager
+from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
 
 
 @pytest.fixture

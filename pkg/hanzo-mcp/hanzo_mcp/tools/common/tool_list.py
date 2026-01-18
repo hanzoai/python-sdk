@@ -1,14 +1,14 @@
 """List all available tools and their status."""
 
-from typing import Unpack, Optional, Annotated, TypedDict, final, override
+from typing import Annotated, Optional, TypedDict, Unpack, final, override
 
-from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
+from pydantic import Field
 
+from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.context import create_tool_context
 from hanzo_mcp.tools.common.tool_enable import ToolEnableTool
-from hanzo_mcp.tools.common.auto_timeout import auto_timeout
 
 ShowDisabled = Annotated[
     bool,
@@ -183,7 +183,7 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
         category_filter = params.get("category")
 
         # Get all tool states
-        all_states = ToolEnableTool.get_all_states()
+        ToolEnableTool.get_all_states()
 
         output = []
 

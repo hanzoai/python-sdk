@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Simple test script for core Hanzo AI functionality."""
 
-import os
 import asyncio
+import os
 import tempfile
 from pathlib import Path
 
@@ -36,6 +36,7 @@ async def test_file_operations():
     try:
         from hanzo_tools.filesystem.diff import create_diff_tool
         from hanzo_tools.filesystem.read import ReadTool
+
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Create temp files

@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 from hanzo_tools.agent.agent_tool import AgentTool
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -333,9 +334,9 @@ async def test_review_vs_critic_difference():
 @pytest.mark.asyncio
 async def test_tool_limits():
     """Test that tools respect their usage limits."""
+    from hanzo_tools.agent.clarification_protocol import ClarificationHandler
     from hanzo_tools.agent.critic_tool import CriticProtocol
     from hanzo_tools.agent.review_tool import ReviewProtocol
-    from hanzo_tools.agent.clarification_protocol import ClarificationHandler
 
     # Test clarification limit (1)
     clarifier = ClarificationHandler()

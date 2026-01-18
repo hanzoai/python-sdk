@@ -1,15 +1,15 @@
 """Integration tests for hanzo-mcp with Claude CLI and basic operations."""
 
-import os
 import json
-import tempfile
+import os
 import subprocess
+import tempfile
 from pathlib import Path
 
 import pytest
-from hanzo_mcp.server import create_server
-from mcp.client.session import ClientSession
 from mcp.server.fastmcp import FastMCP
+
+from hanzo_mcp.server import create_server
 
 
 class TestHanzoMCPIntegration:
@@ -85,7 +85,7 @@ class TestHanzoMCPIntegration:
             assert test_content in str(read_result)
 
         # Test edit operation
-        edit_result = await mcp_server.mcp.call_tool(
+        await mcp_server.mcp.call_tool(
             "edit",
             arguments={
                 "file_path": str(test_file),
@@ -277,7 +277,7 @@ def main():
         }
 
         # Write the notebook using the write tool
-        write_result = await mcp_server.mcp.call_tool(
+        await mcp_server.mcp.call_tool(
             "write",
             arguments={
                 "file_path": str(notebook_path),
@@ -288,7 +288,7 @@ def main():
         assert notebook_path.exists()
 
         # Now edit to add a markdown cell using the unified jupyter tool
-        edit_result = await mcp_server.mcp.call_tool(
+        await mcp_server.mcp.call_tool(
             "jupyter",
             arguments={
                 "action": "edit",
@@ -363,7 +363,7 @@ class TestHanzoMCPStdioServer:
                 assert "grep" in tool_names
 
                 # Test a simple tool call
-                result = await session.call_tool(
+                await session.call_tool(
                     "write",
                     arguments={
                         "file_path": str(tmp_path / "test.txt"),

@@ -1,10 +1,7 @@
 """Plugin interface and registry for memory backends."""
 
-import asyncio
-from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Dict, List, Optional, Protocol, runtime_checkable
-from dataclasses import dataclass
 
 
 class Capability(str, Enum):

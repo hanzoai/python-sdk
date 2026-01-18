@@ -1,15 +1,15 @@
 """Integration test for FindTool registration and functionality."""
 
-import os
-import time
 import asyncio
+import os
 import tempfile
+import time
 from pathlib import Path
 
 import pytest
-from hanzo_mcp.server import HanzoMCPServer
 from hanzo_mcp.tools.search import create_find_tool
 
+from hanzo_mcp.server import HanzoMCPServer
 from tests.test_utils import ToolTestHelper
 
 
@@ -87,7 +87,7 @@ async def test_find_tool_direct_usage(tool_helper):
         )
 
         fuzzy_results = result.data["results"]
-        fuzzy_names = [f["name"] for f in fuzzy_results]
+        [f["name"] for f in fuzzy_results]
         # TODO: Fix fuzzy search with ffind or use Python implementation
         # assert "utils.py" in fuzzy_names
         # For now, just check that the search completes without error

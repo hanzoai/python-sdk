@@ -3,12 +3,12 @@
 This module provides pagination utilities optimized for FastMCP with minimal latency.
 """
 
-import json
-import time
 import base64
 import hashlib
-from typing import Any, Dict, List, Union, Generic, TypeVar, Optional
-from dataclasses import field, dataclass
+import json
+import time
+from dataclasses import dataclass, field
+from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
 T = TypeVar("T")
 
@@ -269,7 +269,8 @@ class TokenAwarePaginator:
 
         # Default token estimation
         if not estimate_func:
-            estimate_func = lambda x: estimate_tokens(json.dumps(x) if not isinstance(x, str) else x)
+            def estimate_func(x):
+                return estimate_tokens(json.dumps(x) if not isinstance(x, str) else x)
 
         # Parse cursor
         cursor_data = CursorData.from_cursor(cursor) if cursor else CursorData()

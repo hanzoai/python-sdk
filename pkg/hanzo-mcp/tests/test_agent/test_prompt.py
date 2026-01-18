@@ -5,11 +5,12 @@ from unittest.mock import MagicMock
 
 import pytest
 from hanzo_tools.agent.prompt import (
-    get_default_model,
-    get_system_prompt,
-    get_model_parameters,
     get_allowed_agent_tools,
+    get_default_model,
+    get_model_parameters,
+    get_system_prompt,
 )
+
 from hanzo_mcp.tools.common.base import BaseTool
 from hanzo_mcp.tools.common.permissions import PermissionManager
 

@@ -1,8 +1,8 @@
 """Enhanced command-line interface for the Hanzo AI server with full tool configuration."""
 
-import os
-import logging
 import argparse
+import logging
+import os
 from typing import Any, Dict
 
 from hanzo_mcp.config import (
@@ -101,7 +101,7 @@ Examples:
 
     # Add CLI flags for each tool
     for tool_name, tool_config in TOOL_REGISTRY.items():
-        flag_name = tool_config.cli_flag.lstrip("-")
+        tool_config.cli_flag.lstrip("-")
         help_text = f"{tool_config.description}"
 
         if tool_config.enabled:
@@ -269,7 +269,7 @@ def apply_cli_overrides(args: argparse.Namespace) -> Dict[str, Any]:
 
     # Handle individual tool flags
     for tool_name, tool_config in TOOL_REGISTRY.items():
-        flag_name = tool_name.replace("_", "-")
+        tool_name.replace("_", "-")
 
         if tool_config.enabled:
             # Check for disable flag

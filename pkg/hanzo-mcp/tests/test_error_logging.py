@@ -1,14 +1,15 @@
 """Tests for MCP error logging functionality."""
 
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 import pytest
+
 from hanzo_mcp.tools.common.error_logger import (
     MCPErrorLogger,
-    log_tool_error,
     get_error_logger,
     log_call_signature_error,
+    log_tool_error,
 )
 
 
@@ -156,9 +157,9 @@ class TestErrorLoggingIntegration:
     @pytest.mark.asyncio
     async def test_read_tool_with_error_logging(self, tmp_path):
         """Test that ReadTool logs errors correctly."""
-        from mcp.server.fastmcp import Context as MCPContext
-        from hanzo_mcp.tools.common import error_logger as el_module
         from hanzo_tools.filesystem.read import ReadTool
+
+        from hanzo_mcp.tools.common import error_logger as el_module
         from hanzo_mcp.tools.common.permissions import PermissionManager
 
         # Override global logger

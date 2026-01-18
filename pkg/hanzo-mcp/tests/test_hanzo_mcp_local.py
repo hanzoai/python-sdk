@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Test hanzo-mcp locally to ensure it works."""
 
-import sys
-import json
 import asyncio
-import tempfile
+import json
 import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 # Add the package to path for local testing
@@ -67,7 +67,7 @@ async def test_file_operations():
         test_content = "Hello from hanzo-mcp test!"
 
         # Test write operation using call_tool
-        write_result = await server.mcp.call_tool(
+        await server.mcp.call_tool(
             "write", arguments={"file_path": str(test_file), "content": test_content}
         )
 
@@ -89,7 +89,7 @@ async def test_file_operations():
             assert test_content in str(read_result)
 
         # Test edit operation
-        edit_result = await server.mcp.call_tool(
+        await server.mcp.call_tool(
             "edit",
             arguments={
                 "file_path": str(test_file),
@@ -232,7 +232,7 @@ async def test_notebook_operations():
         assert notebook_content["cells"][1]["cell_type"] == "markdown"
 
         # Test editing notebook to add a new cell
-        edit_result = await server.mcp.call_tool(
+        await server.mcp.call_tool(
             "jupyter",
             arguments={
                 "action": "edit",

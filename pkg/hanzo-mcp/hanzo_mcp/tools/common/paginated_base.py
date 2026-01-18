@@ -9,10 +9,10 @@ from typing import Any, Dict, Union
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_mcp.tools.common.base import BaseTool, handle_connection_errors
-from hanzo_mcp.tools.common.pagination import CursorManager
 from hanzo_mcp.tools.common.auto_timeout import auto_timeout
+from hanzo_mcp.tools.common.base import BaseTool, handle_connection_errors
 from hanzo_mcp.tools.common.paginated_response import paginate_if_needed
+from hanzo_mcp.tools.common.pagination import CursorManager
 
 
 class PaginatedBaseTool(BaseTool):
@@ -160,7 +160,7 @@ def migrate_tool_to_paginated(tool_class):
         def description(self):
             # Add pagination info to description
             desc = self._wrapped_tool.description
-            if not "pagination" in desc.lower():
+            if "pagination" not in desc.lower():
                 desc += "\n\nThis tool supports automatic pagination. If the response is too large, it will be split across multiple requests. Use the returned cursor to continue."
             return desc
 
