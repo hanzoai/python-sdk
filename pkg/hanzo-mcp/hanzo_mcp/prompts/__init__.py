@@ -52,7 +52,9 @@ def create_project_system_prompt(project_path: str):
         platform, _, os_version = get_os_info()
 
         # Get directory structure
-        directory_structure = get_directory_structure(working_directory, max_depth=3, include_filtered=False)
+        directory_structure = get_directory_structure(
+            working_directory, max_depth=3, include_filtered=False
+        )
 
         # Get git information
         git_info = get_git_info(working_directory)
@@ -76,7 +78,9 @@ def create_project_system_prompt(project_path: str):
     return project_system_prompt
 
 
-def register_all_prompts(mcp_server: FastMCP, projects: list[str] | None = None) -> None:
+def register_all_prompts(
+    mcp_server: FastMCP, projects: list[str] | None = None
+) -> None:
     @mcp_server.prompt(name="Compact current conversation")
     def compact() -> str:
         """

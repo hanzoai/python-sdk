@@ -49,7 +49,9 @@ def _mock_acompletion_factory(responses: Dict[str, str]):
 
     class _MockResponse:
         def __init__(self, text: str):
-            self.choices = [type("C", (), {"message": type("M", (), {"content": text})()})]
+            self.choices = [
+                type("C", (), {"message": type("M", (), {"content": text})()})
+            ]
 
     async def _acompletion(**kwargs):  # type: ignore
         prompt = "".join(
@@ -72,7 +74,9 @@ def _mock_acompletion_factory(responses: Dict[str, str]):
 
 
 @pytest.mark.asyncio
-async def test_architecture_and_task_gen_with_consensus_mock(monkeypatch, tmp_path: Path):
+async def test_architecture_and_task_gen_with_consensus_mock(
+    monkeypatch, tmp_path: Path
+):
     """Architecture → tasks flow using LLMTool with litellm mocked.
 
     - Generates an architecture.md file

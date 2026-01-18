@@ -57,7 +57,8 @@ class MCPErrorLogger:
 
         # Formatter
         formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
         )
         file_handler.setFormatter(formatter)
         general_handler.setFormatter(formatter)
@@ -92,7 +93,9 @@ class MCPErrorLogger:
         }
 
         # Write to JSON log for structured parsing
-        json_log_file = self.log_dir / f"tool-errors-{datetime.now().strftime('%Y-%m-%d')}.jsonl"
+        json_log_file = (
+            self.log_dir / f"tool-errors-{datetime.now().strftime('%Y-%m-%d')}.jsonl"
+        )
         try:
             with open(json_log_file, "a") as f:
                 json.dump(error_data, f)
@@ -120,7 +123,9 @@ class MCPErrorLogger:
                 if context:
                     f.write(f"Context: {context}\n")
                 if params:
-                    f.write(f"\nParameters:\n{json.dumps(error_data['params'], indent=2)}\n")
+                    f.write(
+                        f"\nParameters:\n{json.dumps(error_data['params'], indent=2)}\n"
+                    )
                 f.write(f"\nTraceback:\n{error_data['traceback']}\n")
         except Exception as e:
             self.logger.error(f"Failed to write tool-specific log: {e}")
@@ -167,7 +172,9 @@ class MCPErrorLogger:
 
         # Also log as regular tool error
         self.log_tool_error(
-            tool_name, error, context=f"Call signature mismatch - Expected: {expected_signature}, Got: {actual_call}"
+            tool_name,
+            error,
+            context=f"Call signature mismatch - Expected: {expected_signature}, Got: {actual_call}",
         )
 
     def _sanitize_params(self, params: dict[str, Any]) -> dict[str, Any]:
@@ -208,7 +215,9 @@ class MCPErrorLogger:
 
         return sanitized
 
-    def get_recent_errors(self, tool_name: Optional[str] = None, limit: int = 10) -> list[dict]:
+    def get_recent_errors(
+        self, tool_name: Optional[str] = None, limit: int = 10
+    ) -> list[dict]:
         """Get recent errors from the JSON log.
 
         Args:

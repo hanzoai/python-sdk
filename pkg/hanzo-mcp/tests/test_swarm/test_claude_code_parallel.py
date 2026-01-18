@@ -146,10 +146,14 @@ class APIClient:
         return pm
 
     @pytest.mark.asyncio
-    async def test_parallel_variable_renaming(self, tool_helper, test_project, permission_manager):
+    async def test_parallel_variable_renaming(
+        self, tool_helper, test_project, permission_manager
+    ):
         """Test parallel editing of multiple files to rename variables."""
         # Skip if no API key
-        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):
+        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get(
+            "CLAUDE_API_KEY"
+        ):
             pytest.skip("No Claude API key found")
 
         # Create swarm tool (will default to Claude Sonnet)
@@ -209,10 +213,14 @@ class APIClient:
             assert "SETTINGS_" in config_content or "CONFIG_" not in config_content
 
     @pytest.mark.asyncio
-    async def test_consensus_code_review(self, tool_helper, test_project, permission_manager):
+    async def test_consensus_code_review(
+        self, tool_helper, test_project, permission_manager
+    ):
         """Test consensus mode with multiple agents reviewing code."""
         # Skip if no API key
-        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):
+        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get(
+            "CLAUDE_API_KEY"
+        ):
             pytest.skip("No Claude API key found")
 
         # Create swarm tool
@@ -270,10 +278,14 @@ class APIClient:
         assert "Agent 3:" in result or "Task 3" in result
 
     @pytest.mark.asyncio
-    async def test_large_response_pagination(self, tool_helper, test_project, permission_manager):
+    async def test_large_response_pagination(
+        self, tool_helper, test_project, permission_manager
+    ):
         """Test that large responses are properly paginated."""
         # Skip if no API key
-        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get("CLAUDE_API_KEY"):
+        if not os.environ.get("ANTHROPIC_API_KEY") and not os.environ.get(
+            "CLAUDE_API_KEY"
+        ):
             pytest.skip("No Claude API key found")
 
         # Create a large file that will produce a big response

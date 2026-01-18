@@ -53,7 +53,9 @@ class TestGraphTools:
     """Test graph database tools."""
 
     @pytest.mark.asyncio
-    async def test_graph_add_node(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_add_node(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test adding a node to the graph."""
         tool = GraphAddTool(permission_manager, db_manager)
 
@@ -68,7 +70,9 @@ class TestGraphTools:
         tool_helper.assert_in_result("Successfully added node 'test_node'", result)
 
     @pytest.mark.asyncio
-    async def test_graph_add_edge(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_add_edge(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test adding an edge to the graph."""
         tool = GraphAddTool(permission_manager, db_manager)
 
@@ -77,14 +81,18 @@ class TestGraphTools:
         await tool.call(mock_ctx, node_id="node2", node_type="file")
 
         # Add edge
-        result = await tool.call(mock_ctx, source="node1", target="node2", relationship="imports")
+        result = await tool.call(
+            mock_ctx, source="node1", target="node2", relationship="imports"
+        )
         if isinstance(result, dict) and "output" in result:
             result = result["output"]
 
         tool_helper.assert_in_result("Successfully added edge", result)
 
     @pytest.mark.asyncio
-    async def test_graph_remove_node(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_remove_node(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test removing a node from the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         remove_tool = GraphRemoveTool(permission_manager, db_manager)
@@ -98,7 +106,9 @@ class TestGraphTools:
         tool_helper.assert_in_result("Successfully removed node 'test_node'", result)
 
     @pytest.mark.asyncio
-    async def test_graph_query_neighbors(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_query_neighbors(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test querying neighbors in the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         query_tool = GraphQueryTool(permission_manager, db_manager)
@@ -118,7 +128,9 @@ class TestGraphTools:
         tool_helper.assert_in_result("C", result)
 
     @pytest.mark.asyncio
-    async def test_graph_search(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_search(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test searching in the graph."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         search_tool = GraphSearchTool(permission_manager, db_manager)
@@ -137,9 +149,13 @@ class TestGraphTools:
         tool_helper.assert_in_result("Found", result)
         tool_helper.assert_in_result("main.py", result)
 
-    @pytest.mark.skip(reason="Graph stats test needs database isolation - stale data causes false failures")
+    @pytest.mark.skip(
+        reason="Graph stats test needs database isolation - stale data causes false failures"
+    )
     @pytest.mark.asyncio
-    async def test_graph_stats(self, tool_helper, mock_ctx, permission_manager, db_manager):
+    async def test_graph_stats(
+        self, tool_helper, mock_ctx, permission_manager, db_manager
+    ):
         """Test graph statistics."""
         add_tool = GraphAddTool(permission_manager, db_manager)
         stats_tool = GraphStatsTool(permission_manager, db_manager)
@@ -184,7 +200,9 @@ class TestFindFilesTool:
             assert "data.txt" not in result
 
     @pytest.mark.asyncio
-    async def test_find_files_recursive(self, tool_helper, mock_ctx, permission_manager):
+    async def test_find_files_recursive(
+        self, tool_helper, mock_ctx, permission_manager
+    ):
         """Test recursive file finding."""
         tool = FindFilesTool(permission_manager)
 
@@ -198,7 +216,9 @@ class TestFindFilesTool:
             permission_manager.add_allowed_path(tmpdir)
 
             # Find all txt files
-            result = await tool.call(mock_ctx, pattern="*.txt", path=tmpdir, recursive=True)
+            result = await tool.call(
+                mock_ctx, pattern="*.txt", path=tmpdir, recursive=True
+            )
             if isinstance(result, dict) and "output" in result:
                 result = result["output"]
 
@@ -216,7 +236,9 @@ class TestPackageRunnerTools:
         tool = UvxTool(permission_manager)
 
         with patch("subprocess.run") as mock_run:
-            mock_run.return_value = MagicMock(stdout="Package output", stderr="", returncode=0)
+            mock_run.return_value = MagicMock(
+                stdout="Package output", stderr="", returncode=0
+            )
 
             with patch("shutil.which", return_value="/usr/bin/uvx"):
                 result = await tool.call(mock_ctx, package="ruff", args="check .")
@@ -232,7 +254,9 @@ class TestPackageRunnerTools:
         tool = NpxTool(permission_manager)
 
         with patch("subprocess.run") as mock_run:
-            mock_run.return_value = MagicMock(stdout="Package output", stderr="", returncode=0)
+            mock_run.return_value = MagicMock(
+                stdout="Package output", stderr="", returncode=0
+            )
 
             with patch("shutil.which", return_value="/usr/bin/npx"):
                 result = await tool.call(mock_ctx, package="eslint", args="--version")
@@ -254,7 +278,9 @@ class TestPackageRunnerTools:
             mock_popen.return_value = mock_process
 
             with patch("shutil.which", return_value="/usr/bin/uvx"):
-                result = await tool.call(mock_ctx, package="streamlit", args="run app.py", name="test-app")
+                result = await tool.call(
+                    mock_ctx, package="streamlit", args="run app.py", name="test-app"
+                )
         if isinstance(result, dict) and "output" in result:
             result = result["output"]
 
@@ -266,17 +292,23 @@ class TestPackageRunnerTools:
 class TestMcpManagementTools:
     """Test MCP management tools."""
 
-    @pytest.mark.skip(reason="McpAddTool test modifies user's MCP config - run manually")
+    @pytest.mark.skip(
+        reason="McpAddTool test modifies user's MCP config - run manually"
+    )
     @pytest.mark.asyncio
     async def test_mcp_add(self, tool_helper, mock_ctx):
         """Test adding an MCP server."""
         tool = McpAddTool()
 
-        result = await tool.call(mock_ctx, command="uvx mcp-server-git", name="git-server")
+        result = await tool.call(
+            mock_ctx, command="uvx mcp-server-git", name="git-server"
+        )
         if isinstance(result, dict) and "output" in result:
             result = result["output"]
 
-        tool_helper.assert_in_result("Successfully added MCP server 'git-server'", result)
+        tool_helper.assert_in_result(
+            "Successfully added MCP server 'git-server'", result
+        )
 
         # Check it was saved
         servers = McpAddTool.get_servers()
@@ -293,7 +325,9 @@ class TestMcpManagementTools:
         remove_tool = McpRemoveTool()
         result = await remove_tool.call(mock_ctx, name="test-server")
 
-        tool_helper.assert_in_result("Successfully removed MCP server 'test-server'", result)
+        tool_helper.assert_in_result(
+            "Successfully removed MCP server 'test-server'", result
+        )
 
         # Check it was removed
         servers = McpAddTool.get_servers()
@@ -340,7 +374,9 @@ class TestSystemTools:
         with patch("psutil.cpu_percent", return_value=50.0):
             with patch("psutil.cpu_count", return_value=4):
                 with patch("psutil.virtual_memory") as mock_mem:
-                    mock_mem.return_value = MagicMock(total=8 * 1024**3, used=4 * 1024**3, percent=50.0)
+                    mock_mem.return_value = MagicMock(
+                        total=8 * 1024**3, used=4 * 1024**3, percent=50.0
+                    )
 
                     with patch("psutil.disk_usage") as mock_disk:
                         mock_disk.return_value = MagicMock(
@@ -367,14 +403,18 @@ class TestSystemTools:
 
         # Disable a tool
         result = await disable_tool.call(mock_ctx, tool="vector_search")
-        tool_helper.assert_in_result("Successfully disabled tool 'vector_search'", result)
+        tool_helper.assert_in_result(
+            "Successfully disabled tool 'vector_search'", result
+        )
 
         # Check it's disabled
         assert not ToolEnableTool.is_tool_enabled("vector_search")
 
         # Re-enable it
         result = await enable_tool.call(mock_ctx, tool="vector_search")
-        tool_helper.assert_in_result("Successfully enabled tool 'vector_search'", result)
+        tool_helper.assert_in_result(
+            "Successfully enabled tool 'vector_search'", result
+        )
 
         # Check it's enabled
         assert ToolEnableTool.is_tool_enabled("vector_search")

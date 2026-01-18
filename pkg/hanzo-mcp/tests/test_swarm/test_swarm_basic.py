@@ -9,7 +9,9 @@ from unittest.mock import AsyncMock, Mock, patch
 import pytest
 
 # Add the parent directory to the path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(
+    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 
 from hanzo_tools.agent.swarm_tool import SwarmTool
 from mcp.server.fastmcp import Context as MCPContext
@@ -100,7 +102,11 @@ class TestSwarmBasic:
             # Valid agent format - v2 interface uses agents with query
             result = await swarm.call(
                 ctx,
-                config={"agents": {"agent1": {"query": "Analyze the code", "role": "Code analyzer"}}},
+                config={
+                    "agents": {
+                        "agent1": {"query": "Analyze the code", "role": "Code analyzer"}
+                    }
+                },
                 query="Analyze this project",
             )
 
@@ -193,7 +199,9 @@ class TestSwarmBasic:
 
         # Mock the execution
         with patch.object(swarm, "_execute_agent", mock_execute):
-            result = await swarm.call(ctx, config={"agents": agents}, query="Execute all tasks")
+            result = await swarm.call(
+                ctx, config={"agents": agents}, query="Execute all tasks"
+            )
 
             # Should complete despite one failure
             assert isinstance(result, str)

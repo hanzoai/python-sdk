@@ -120,7 +120,9 @@ class EditTool(DevToolBase):
             return await self._typescript_organize_imports()
         elif self.language == "py":
             # Use ruff or isort
-            result = self._run_command(["ruff", "check", "--select", "I", "--fix"] + self.resolved["files"])
+            result = self._run_command(
+                ["ruff", "check", "--select", "I", "--fix"] + self.resolved["files"]
+            )
         else:
             return create_dev_result(
                 ok=False,
@@ -128,7 +130,9 @@ class EditTool(DevToolBase):
                 language_used=self.language,
                 backend_used=self.backend,
                 scope_resolved=self.target,
-                errors=[f"Organize imports not supported for language: {self.language}"],
+                errors=[
+                    f"Organize imports not supported for language: {self.language}"
+                ],
             )
 
         return create_dev_result(

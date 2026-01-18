@@ -49,7 +49,11 @@ class SQLiteBackendPlugin:
             self._initialized = False
 
     async def store_memory(
-        self, content: str, metadata: Dict[str, Any], user_id: str = "default", project_id: str = "default"
+        self,
+        content: str,
+        metadata: Dict[str, Any],
+        user_id: str = "default",
+        project_id: str = "default",
     ) -> str:
         """Store a memory and return its ID."""
         if not self._client:
@@ -84,7 +88,11 @@ class SQLiteBackendPlugin:
         return result["memory_id"]
 
     async def retrieve_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Retrieve memories based on query."""
         if not self._client:
@@ -100,7 +108,10 @@ class SQLiteBackendPlugin:
             query_embedding = embedding_service.embed_single(query)
 
             results = self._client.search_memories(
-                user_id=user_id, query_embedding=query_embedding, project_id=project_id, limit=limit
+                user_id=user_id,
+                query_embedding=query_embedding,
+                project_id=project_id,
+                limit=limit,
             )
 
             return [
@@ -132,12 +143,18 @@ class SQLiteBackendPlugin:
             ]
 
     async def search_memory(
-        self, query: str, user_id: str = "default", project_id: str = "default", limit: int = 10
+        self,
+        query: str,
+        user_id: str = "default",
+        project_id: str = "default",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Search memories based on query with scoring."""
         return await self.retrieve_memory(query, user_id, project_id, limit)
 
-    async def delete_memory(self, memory_id: str, user_id: str = "default", project_id: str = "default") -> bool:
+    async def delete_memory(
+        self, memory_id: str, user_id: str = "default", project_id: str = "default"
+    ) -> bool:
         """Delete a memory by ID."""
         if not self._client:
             raise RuntimeError("Plugin not initialized")

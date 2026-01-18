@@ -143,7 +143,9 @@ class FastMCPPaginator(Generic[T]):
         cursor_data = CursorData.from_cursor(cursor) if cursor else CursorData()
 
         # Use provided page size or default
-        actual_page_size = min(page_size or cursor_data.page_size or self.page_size, self.max_page_size)
+        actual_page_size = min(
+            page_size or cursor_data.page_size or self.page_size, self.max_page_size
+        )
 
         # Get starting position
         start_idx = cursor_data.offset
@@ -205,7 +207,9 @@ class FastMCPPaginator(Generic[T]):
         cursor_data = CursorData.from_cursor(cursor) if cursor else CursorData()
 
         # Determine page size
-        limit = min(page_size or cursor_data.page_size or self.page_size, self.max_page_size)
+        limit = min(
+            page_size or cursor_data.page_size or self.page_size, self.max_page_size
+        )
 
         # Execute query with cursor position
         results = query_func(
@@ -254,7 +258,9 @@ class TokenAwarePaginator:
         self.max_tokens = max_tokens
         self.paginator = FastMCPPaginator()
 
-    def paginate_by_tokens(self, items: List[Any], cursor: Optional[str] = None, estimate_func=None) -> Dict[str, Any]:
+    def paginate_by_tokens(
+        self, items: List[Any], cursor: Optional[str] = None, estimate_func=None
+    ) -> Dict[str, Any]:
         """Paginate items based on token count.
 
         Args:
@@ -269,6 +275,7 @@ class TokenAwarePaginator:
 
         # Default token estimation
         if not estimate_func:
+
             def estimate_func(x):
                 return estimate_tokens(json.dumps(x) if not isinstance(x, str) else x)
 

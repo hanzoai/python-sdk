@@ -59,9 +59,17 @@ class TestAgentTool:
         """Test agent tool initialization."""
         assert agent_tool.name == "agent"
         assert "agent" in agent_tool.description.lower()
-        assert hasattr(agent_tool, "model_override") and agent_tool.model_override is None
-        assert hasattr(agent_tool, "api_key_override") and agent_tool.api_key_override is None
-        assert hasattr(agent_tool, "max_tokens_override") and agent_tool.max_tokens_override is None
+        assert (
+            hasattr(agent_tool, "model_override") and agent_tool.model_override is None
+        )
+        assert (
+            hasattr(agent_tool, "api_key_override")
+            and agent_tool.api_key_override is None
+        )
+        assert (
+            hasattr(agent_tool, "max_tokens_override")
+            and agent_tool.max_tokens_override is None
+        )
         assert hasattr(agent_tool, "max_iterations") and agent_tool.max_iterations == 10
         assert hasattr(agent_tool, "max_tool_uses") and agent_tool.max_tool_uses == 30
 
@@ -80,8 +88,14 @@ class TestAgentTool:
             hasattr(agent_tool_with_params, "max_tokens_override")
             and agent_tool_with_params.max_tokens_override == 2000
         )
-        assert hasattr(agent_tool_with_params, "max_iterations") and agent_tool_with_params.max_iterations == 40
-        assert hasattr(agent_tool_with_params, "max_tool_uses") and agent_tool_with_params.max_tool_uses == 150
+        assert (
+            hasattr(agent_tool_with_params, "max_iterations")
+            and agent_tool_with_params.max_iterations == 40
+        )
+        assert (
+            hasattr(agent_tool_with_params, "max_tool_uses")
+            and agent_tool_with_params.max_tool_uses == 150
+        )
 
     # Parameters are not exposed directly in the new interface
     # def test_parameters(self, tool_helper, agent_tool):
@@ -161,7 +175,9 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_valid_prompt_string(self, tool_helper, agent_tool, mcp_context, mock_tools):
+    async def test_call_with_valid_prompt_string(
+        self, tool_helper, agent_tool, mcp_context, mock_tools
+    ):
         """Test agent tool call with valid prompt as string - without hanzo-agents SDK."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -180,14 +196,18 @@ class TestAgentTool:
                 return_value=tool_ctx,
             ):
                 # Update the test to use a list instead of a string
-                result = await agent_tool.call(ctx=mcp_context, prompts=["Test prompt /home/test/path"])
+                result = await agent_tool.call(
+                    ctx=mcp_context, prompts=["Test prompt /home/test/path"]
+                )
 
         tool_helper.assert_in_result("Error", result)
         tool_helper.assert_in_result("hanzo-agents SDK is required", result)
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_multiple_prompts(self, tool_helper, agent_tool, mcp_context, mock_tools):
+    async def test_call_with_multiple_prompts(
+        self, tool_helper, agent_tool, mcp_context, mock_tools
+    ):
         """Test agent tool call with multiple prompts - without hanzo-agents SDK."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -219,7 +239,9 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_call_with_empty_prompt_list(self, tool_helper, agent_tool, mcp_context):
+    async def test_call_with_empty_prompt_list(
+        self, tool_helper, agent_tool, mcp_context
+    ):
         """Test agent tool call with an empty prompt list."""
         # Mock the tool context
         tool_ctx = MagicMock()
@@ -260,7 +282,9 @@ class TestAgentTool:
         tool_ctx.error.assert_called()
 
     @pytest.mark.asyncio
-    async def test_get_agent_class_default_model(self, tool_helper, agent_tool, mcp_context):
+    async def test_get_agent_class_default_model(
+        self, tool_helper, agent_tool, mcp_context
+    ):
         """Test _get_agent_class returns appropriate agent class for default model."""
         agent_class = agent_tool._get_agent_class(None, mcp_context)
 
@@ -269,7 +293,9 @@ class TestAgentTool:
         assert "DynamicMCPAgent" in agent_class.__name__
 
     @pytest.mark.asyncio
-    async def test_get_agent_class_with_custom_model(self, tool_helper, agent_tool, mcp_context):
+    async def test_get_agent_class_with_custom_model(
+        self, tool_helper, agent_tool, mcp_context
+    ):
         """Test _get_agent_class with a custom model string."""
         agent_class = agent_tool._get_agent_class("model://openai/gpt-4", mcp_context)
 

@@ -110,7 +110,9 @@ class TestPermissibleOperation:
     """Test the PermissibleOperation decorator."""
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_allowed_path(self, tool_helper, temp_dir: str):
+    async def test_permissible_operation_with_allowed_path(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with an allowed path."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -126,7 +128,9 @@ class TestPermissibleOperation:
         assert result == f"Read {temp_dir}"
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_custom_path_fn(self, tool_helper, temp_dir: str):
+    async def test_permissible_operation_with_custom_path_fn(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with a custom path function."""
         manager = PermissionManager()
         manager.add_allowed_path(temp_dir)
@@ -146,7 +150,9 @@ class TestPermissibleOperation:
         assert result == f"Read {temp_dir}"
 
     @pytest.mark.asyncio
-    async def test_permissible_operation_with_invalid_path(self, tool_helper, temp_dir: str):
+    async def test_permissible_operation_with_invalid_path(
+        self, tool_helper, temp_dir: str
+    ):
         """Test the decorator with an invalid path type."""
         manager = PermissionManager()
 

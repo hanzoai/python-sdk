@@ -37,7 +37,12 @@ class TestMCPErrorLogger:
         params = {"file_path": "/test/path", "limit": 100}
 
         # Log the error
-        logger.log_tool_error(tool_name="read", error=test_error, params=params, context="Testing error logging")
+        logger.log_tool_error(
+            tool_name="read",
+            error=test_error,
+            params=params,
+            context="Testing error logging",
+        )
 
         # Check that log files were created
         tool_log = tmp_path / "read-errors.log"
@@ -110,7 +115,9 @@ class TestMCPErrorLogger:
         # Log multiple errors
         for i in range(5):
             error = ValueError(f"Error {i}")
-            logger.log_tool_error(tool_name=f"tool_{i}", error=error, params={"index": i})
+            logger.log_tool_error(
+                tool_name=f"tool_{i}", error=error, params={"index": i}
+            )
 
         # Get recent errors
         recent = logger.get_recent_errors(limit=3)
@@ -145,7 +152,9 @@ class TestMCPErrorLogger:
 
         # Test log_call_signature_error
         sig_error = TypeError("signature mismatch")
-        log_call_signature_error("test_tool", "expected signature", "actual call", sig_error)
+        log_call_signature_error(
+            "test_tool", "expected signature", "actual call", sig_error
+        )
 
         sig_log = tmp_path / "signature-errors.log"
         assert sig_log.exists()

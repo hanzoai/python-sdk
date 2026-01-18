@@ -158,13 +158,17 @@ def register_default_personalities() -> None:
         if loaded > 0:
             import logging
 
-            logging.getLogger(__name__).debug(f"Loaded {loaded} personas from hanzo-persona package")
+            logging.getLogger(__name__).debug(
+                f"Loaded {loaded} personas from hanzo-persona package"
+            )
     except ImportError:
         pass
     except Exception as e:
         import logging
 
-        logging.getLogger(__name__).warning(f"Failed to load personas from package: {e}")
+        logging.getLogger(__name__).warning(
+            f"Failed to load personas from package: {e}"
+        )
 
 
 def _register_builtin_personalities() -> None:
@@ -219,7 +223,16 @@ def _register_builtin_personalities() -> None:
                     + BUILD_TOOLS
                     + UNIX_TOOLS
                     + VECTOR_TOOLS
-                    + ["todo", "rules", "browser", "jupyter", "neovim_edit", "mcp", "refactor", "lsp"]
+                    + [
+                        "todo",
+                        "rules",
+                        "browser",
+                        "jupyter",
+                        "neovim_edit",
+                        "mcp",
+                        "refactor",
+                        "lsp",
+                    ]
                 )
             ),
             environment={"ALL_TOOLS": "enabled"},
@@ -229,7 +242,9 @@ def _register_builtin_personalities() -> None:
             programmer="DevOps Engineer",
             description="Automate everything",
             philosophy="You build it, you run it.",
-            tools=list(set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["todo", "browser"])),
+            tools=list(
+                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["todo", "browser"])
+            ),
             environment={"CI_CD": "enabled"},
             cli_tools=[
                 CLIToolDef("docker", "docker", "Docker container management"),

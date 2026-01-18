@@ -149,7 +149,9 @@ class PermissionManager(BasePermissionManager):
             # Security check: Ensure resolved path doesn't escape allowed directories
             # by checking if it's actually under an allowed path after resolution
             original_path = Path(path)
-            if original_path.is_absolute() and str(resolved_path) != str(original_path.resolve(strict=False)):
+            if original_path.is_absolute() and str(resolved_path) != str(
+                original_path.resolve(strict=False)
+            ):
                 # Path resolution changed the path significantly, might be symlink attack
                 # Additional check: is the resolved path still under allowed paths?
                 pass  # Continue to normal checks
@@ -172,7 +174,10 @@ class PermissionManager(BasePermissionManager):
                     link_target = Path(os.readlink(resolved_path))
                     if link_target.is_absolute():
                         # Absolute symlink - check if it points within allowed paths
-                        if not any(self._is_subpath(link_target, ap) for ap in self.allowed_paths):
+                        if not any(
+                            self._is_subpath(link_target, ap)
+                            for ap in self.allowed_paths
+                        ):
                             return False
                 return True
             except ValueError:
@@ -277,9 +282,13 @@ class PermissibleOperation:
         """
         self.permission_manager: PermissionManager = permission_manager
         self.operation: str = operation
-        self.get_path_fn: Callable[[list[Any], dict[str, Any]], str] | None = get_path_fn
+        self.get_path_fn: Callable[[list[Any], dict[str, Any]], str] | None = (
+            get_path_fn
+        )
 
-    def __call__(self, func: Callable[..., Awaitable[T]]) -> Callable[..., Awaitable[T]]:
+    def __call__(
+        self, func: Callable[..., Awaitable[T]]
+    ) -> Callable[..., Awaitable[T]]:
         """Decorate the function.
 
         Args:
@@ -303,7 +312,9 @@ class PermissibleOperation:
 
             # Check permission
             if not self.permission_manager.is_path_allowed(path):
-                raise PermissionError(f"Operation '{self.operation}' not allowed for path: {path}")
+                raise PermissionError(
+                    f"Operation '{self.operation}' not allowed for path: {path}"
+                )
 
             # Call the function
             return await func(*args, **kwargs)

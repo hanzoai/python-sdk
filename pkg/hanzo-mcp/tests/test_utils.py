@@ -93,12 +93,14 @@ class PermissionManager:  # pragma: no cover - lightweight test stub
 
 # Common test markers
 requires_hanzo_agents = pytest.mark.skipif(
-    "HANZO_AGENTS_AVAILABLE" not in globals() or not globals()["HANZO_AGENTS_AVAILABLE"],
+    "HANZO_AGENTS_AVAILABLE" not in globals()
+    or not globals()["HANZO_AGENTS_AVAILABLE"],
     reason="hanzo-agents SDK not available",
 )
 
 requires_memory_tools = pytest.mark.skipif(
-    "MEMORY_TOOLS_AVAILABLE" not in globals() or not globals()["MEMORY_TOOLS_AVAILABLE"],
+    "MEMORY_TOOLS_AVAILABLE" not in globals()
+    or not globals()["MEMORY_TOOLS_AVAILABLE"],
     reason="hanzo-memory package not installed",
 )
 
@@ -162,7 +164,9 @@ class ToolTestHelper:
         if message:
             assert expected in normalized, f"{message}. Got: {normalized}"
         else:
-            assert expected in normalized, f"Expected '{expected}' in result. Got: {normalized}"
+            assert expected in normalized, (
+                f"Expected '{expected}' in result. Got: {normalized}"
+            )
 
     @staticmethod
     def assert_success(result: Any):
@@ -170,7 +174,9 @@ class ToolTestHelper:
         normalized = ToolTestHelper.normalize_result(result)
         error_indicators = ["error", "failed", "exception", "Error:", "Failed:"]
         for indicator in error_indicators:
-            assert indicator.lower() not in normalized.lower(), f"Result indicates error: {normalized}"
+            assert indicator.lower() not in normalized.lower(), (
+                f"Result indicates error: {normalized}"
+            )
 
 
 class FileSystemTestHelper:
