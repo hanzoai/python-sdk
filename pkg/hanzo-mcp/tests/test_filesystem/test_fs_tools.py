@@ -9,7 +9,7 @@ import pytest
 if TYPE_CHECKING:
     from hanzo_mcp.tools.common.permissions import PermissionManager
 
-from hanzo_tools.filesystem import Edit, Write, ReadTool, get_filesystem_tools
+from hanzo_tools.filesystem import Edit, ReadTool, Write, get_filesystem_tools
 
 
 class TestRefactoredFileTools:

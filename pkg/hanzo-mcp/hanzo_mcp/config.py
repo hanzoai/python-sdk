@@ -1,10 +1,10 @@
 """Configuration system for the modular plugin architecture."""
 
 import json
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from pydantic import Field, BaseModel
+from pydantic import BaseModel, Field
 
 
 class BackendConfig(BaseModel):

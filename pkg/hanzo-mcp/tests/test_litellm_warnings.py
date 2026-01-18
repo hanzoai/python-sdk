@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Test that litellm deprecation warnings are properly suppressed."""
 
-import sys
 import subprocess
+import sys
 
 
 def test_no_pydantic_warnings():

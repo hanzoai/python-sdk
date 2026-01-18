@@ -1,10 +1,9 @@
 """Test to ensure no stub/fake/incomplete code exists in production."""
 
-import os
-import re
 import ast
-from typing import List, Tuple
+import re
 from pathlib import Path
+from typing import List, Tuple
 
 import pytest
 
@@ -185,7 +184,7 @@ class TestNoStubs:
 
         for filepath in python_files:
             issues = find_stub_patterns(filepath)
-            for line_num, message, filename in issues:
+            for line_num, message, _filename in issues:
                 all_issues.append(f"{filepath.relative_to(package_root.parent)}:{line_num} - {message}")
 
         if all_issues:

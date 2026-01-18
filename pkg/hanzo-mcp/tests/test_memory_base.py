@@ -1,11 +1,11 @@
 """Base test class for memory-related tests to reduce redundancy."""
 
 from datetime import datetime
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import Mock, patch
 
 import pytest
-from fastmcp import FastMCP
 from conftest import ToolTestHelper, create_mock_ctx
+from fastmcp import FastMCP
 
 # Import guard for optional hanzo_memory dependency
 try:
@@ -26,7 +26,6 @@ if HANZO_MEMORY_AVAILABLE:
         DeleteMemoriesTool,
         RecallMemoriesTool,
         UpdateMemoriesTool,
-        register_memory_tools,
     )
 
 

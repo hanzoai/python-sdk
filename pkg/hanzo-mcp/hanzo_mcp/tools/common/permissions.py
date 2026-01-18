@@ -4,14 +4,14 @@ Extends the base PermissionManager from hanzo-tools-core with additional
 security features and MCP-specific functionality.
 """
 
-import os
-import sys
 import json
 import logging
+import os
+import sys
 import tempfile
-from typing import Any, TypeVar, final
+from collections.abc import Awaitable, Callable
 from pathlib import Path
-from collections.abc import Callable, Awaitable
+from typing import Any, TypeVar, final
 
 # Import base from hanzo-tools-core
 from hanzo_tools.core.permissions import PermissionManager as BasePermissionManager

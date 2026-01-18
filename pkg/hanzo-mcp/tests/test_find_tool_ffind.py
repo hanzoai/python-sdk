@@ -1,7 +1,7 @@
 """Test FindTool with ffind for performance."""
 
-import time
 import tempfile
+import time
 from pathlib import Path
 
 import pytest
@@ -200,7 +200,7 @@ class TestFindToolFFind:
         page1_data = result_page1.data
         assert len(page1_data["results"]) == 5
         assert page1_data["pagination"]["page"] == 1
-        assert page1_data["pagination"]["has_next"] == True
+        assert page1_data["pagination"]["has_next"]
 
         # Get second page
         result_page2 = await find_tool.run(
@@ -245,7 +245,7 @@ class TestFindToolFFind:
             result_ffind = await find_tool.run(pattern="*.py", path=test_directory, type="file")
             ffind_time = time.time() - start_time
 
-            print(f"\nPerformance comparison:")
+            print("\nPerformance comparison:")
             print(f"Python implementation: {python_time:.3f}s")
             print(f"ffind implementation: {ffind_time:.3f}s")
             print(f"Speedup: {python_time / ffind_time:.1f}x")

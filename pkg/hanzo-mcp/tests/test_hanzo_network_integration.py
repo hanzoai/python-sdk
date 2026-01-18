@@ -1,21 +1,21 @@
 """Integration tests for hanzo-network multi-agent orchestration."""
 
 import tempfile
-from typing import Any, Dict
 from pathlib import Path
+from typing import Any, Dict
 
 import pytest
 
 # Try to import hanzo-network components
 try:
     from hanzo_network import (
-        Tool,
         Agent,
-        State,
-        Network,
-        NetworkConfig,
         LocalComputeNode,
         LocalComputeOrchestrator,
+        Network,
+        NetworkConfig,
+        State,
+        Tool,
         create_agent_network,
     )
     from hanzo_network.tools import MemoryTool, create_memory_tool
@@ -28,7 +28,11 @@ except ImportError:
 try:
     from hanzo_agents import (
         Agent as HanzoAgent,
+    )
+    from hanzo_agents import (
         Network as HanzoNetwork,
+    )
+    from hanzo_agents import (
         create_agent,
         create_network,
     )

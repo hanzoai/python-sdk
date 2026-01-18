@@ -6,20 +6,19 @@ with the hanzo-mcp tool personality system.
 
 import json
 import logging
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from hanzo_mcp.tools.common.personality import (
     AI_TOOLS,
-    UNIX_TOOLS,
     BUILD_TOOLS,
-    SEARCH_TOOLS,
-    VECTOR_TOOLS,
     DATABASE_TOOLS,
     ESSENTIAL_TOOLS,
-    CLIToolDef,
-    ToolPersonality,
+    SEARCH_TOOLS,
+    UNIX_TOOLS,
+    VECTOR_TOOLS,
     PersonalityRegistry,
+    ToolPersonality,
 )
 
 logger = logging.getLogger(__name__)

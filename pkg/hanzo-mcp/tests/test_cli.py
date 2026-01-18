@@ -2,12 +2,13 @@
 
 import os
 import sys
-from typing import Callable
 from pathlib import Path
+from typing import Callable
 from unittest.mock import MagicMock, patch
 
 import pytest
-from hanzo_mcp.cli import main, install_claude_desktop_config
+
+from hanzo_mcp.cli import install_claude_desktop_config, main
 
 
 class TestCLI:

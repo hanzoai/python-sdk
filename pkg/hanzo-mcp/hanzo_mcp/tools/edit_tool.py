@@ -13,10 +13,7 @@ Operations:
 Supports gopls, tsserver, pyright, rust-analyzer, clangd
 """
 
-import json
-import asyncio
-from typing import Any, Dict, List, Union, Optional
-from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from .dev_tools import DevResult, DevToolBase, create_dev_result
 

@@ -8,6 +8,7 @@ import json
 
 import pytest
 from hanzo_tools.agent.swarm_tool import SwarmTool
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 
@@ -252,7 +253,7 @@ func (g *gossipMessage) Type() MessageType {
             assert "import (\n" in content or 'import "github.com/luxfi/node/common"' in content
 
         # Print performance metrics
-        print(f"\nPerformance Metrics:")
+        print("\nPerformance Metrics:")
         print(f"Total time: {results['total_time']:.2f}s")
         print(f"Files fixed: {results['completed']}")
         print(f"Parallel speedup: ~{results['completed']}x (all files fixed simultaneously)")

@@ -5,10 +5,10 @@ when they exceed token limits.
 """
 
 import json
-from typing import Any, Dict, List, Union, Optional
+from typing import Any, Dict, List, Optional, Union
 
-from hanzo_mcp.tools.common.truncate import estimate_tokens
 from hanzo_mcp.tools.common.pagination import CursorManager
+from hanzo_mcp.tools.common.truncate import estimate_tokens
 
 
 class AutoPaginatedResponse:

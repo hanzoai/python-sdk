@@ -4,9 +4,10 @@ import os
 from pathlib import Path
 
 import pytest
+
 from hanzo_mcp.tools.common.permissions import (
-    PermissionManager,
     PermissibleOperation,
+    PermissionManager,
 )
 
 

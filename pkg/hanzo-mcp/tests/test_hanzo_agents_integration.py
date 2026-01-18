@@ -43,7 +43,7 @@ except Exception as e:
 
 # Test marketplace
 try:
-    from hanzo_agents.core.marketplace import ServiceType, AgentMarketplace
+    from hanzo_agents.core.marketplace import AgentMarketplace, ServiceType
 
     print("\n✓ Marketplace module imported")
 

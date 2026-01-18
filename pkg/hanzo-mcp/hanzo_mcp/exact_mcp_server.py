@@ -6,16 +6,27 @@ Enhanced MCP Server with Exact 6-Tool Implementation
 Precise implementation of the 6 universal tools according to specification.
 """
 
-import json
 import asyncio
-from typing import Any, Dict, List, Optional, Sequence
+from typing import List
 
-from pydantic import AnyUrl
-from mcp.types import Tool, Resource, TextContent, ImageContent, LoggingLevel, EmbeddedResource
-from mcp.server import Server, NotificationOptions
+from mcp.server import NotificationOptions, Server
 from mcp.server.models import InitializationOptions
+from mcp.types import (
+    TextContent,
+    Tool,
+)
 
-from .exact_tools import FmtArgs, EditArgs, LintArgs, TestArgs, BuildArgs, GuardArgs, GuardRule, TargetSpec, tools
+from .exact_tools import (
+    BuildArgs,
+    EditArgs,
+    FmtArgs,
+    GuardArgs,
+    GuardRule,
+    LintArgs,
+    TargetSpec,
+    TestArgs,
+    tools,
+)
 
 
 class ExactHanzoMCPServer:
@@ -366,7 +377,7 @@ class ExactHanzoMCPServer:
         output += f"Execution time: {result.execution_time:.3f}s\n"
 
         if result.touched_files:
-            output += f"\nModified files:\n"
+            output += "\nModified files:\n"
             for f in result.touched_files:
                 output += f"  - {f}\n"
 
@@ -377,7 +388,7 @@ class ExactHanzoMCPServer:
             output += f"\nSTDERR:\n{result.stderr}\n"
 
         if result.errors:
-            output += f"\nErrors:\n"
+            output += "\nErrors:\n"
             for error in result.errors:
                 output += f"  - {error}\n"
 
