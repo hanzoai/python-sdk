@@ -10,7 +10,7 @@ import sys
 import asyncio
 from typing import Optional
 
-from hanzo_async import configure_loop, using_uvloop
+from hanzo_async import using_uvloop, configure_loop
 
 
 def configure_event_loop(*, quiet: bool = False) -> Optional[str]:
@@ -29,8 +29,10 @@ def configure_event_loop(*, quiet: bool = False) -> Optional[str]:
     if configure_loop():
         if not quiet:
             import logging
+
             try:
                 import uvloop
+
                 logger = logging.getLogger(__name__)
                 logger.debug(f"Using uvloop {uvloop.__version__} for event loop")
             except ImportError:
@@ -38,6 +40,7 @@ def configure_event_loop(*, quiet: bool = False) -> Optional[str]:
 
         try:
             import uvloop
+
             return f"uvloop-{uvloop.__version__}"
         except ImportError:
             return None
@@ -66,6 +69,7 @@ def get_event_loop_info() -> dict:
     # Check if uvloop is available
     try:
         import uvloop
+
         info["uvloop_available"] = True
         info["uvloop_version"] = uvloop.__version__
     except ImportError:

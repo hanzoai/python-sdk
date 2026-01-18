@@ -3,10 +3,10 @@
 import sys
 from typing import Any
 
+from hanzo_async import using_uvloop
 from mcp.server.fastmcp import FastMCP
 
 import hanzo_mcp
-from hanzo_async import using_uvloop
 
 
 def register_version_tool(mcp: FastMCP) -> None:
@@ -29,6 +29,7 @@ def register_version_tool(mcp: FastMCP) -> None:
         if using_uvloop():
             try:
                 import uvloop
+
                 async_backend = f"uvloop {uvloop.__version__}"
             except ImportError:
                 async_backend = "uvloop"
