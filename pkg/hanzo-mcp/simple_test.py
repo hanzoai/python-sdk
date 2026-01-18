@@ -3,11 +3,11 @@
 Simple test of the exact tool specifications
 """
 
+import os
+import sys
 import asyncio
 import tempfile
 from pathlib import Path
-import sys
-import os
 
 # Add the package to path
 sys.path.insert(0, '/Users/z/work/hanzo/python-sdk/pkg/hanzo-mcp')
@@ -52,7 +52,7 @@ func main() {
         
         # Test target resolution
         try:
-            from hanzo_mcp.exact_tools import TargetResolver, TargetSpec
+            from hanzo_mcp.exact_tools import TargetSpec, TargetResolver
             
             resolver = TargetResolver(detector)
             
@@ -96,7 +96,14 @@ async def test_tool_schemas():
     
     try:
         from hanzo_mcp.exact_tools import (
-            TargetSpec, EditArgs, FmtArgs, TestArgs, BuildArgs, LintArgs, GuardArgs, GuardRule
+            FmtArgs,
+            EditArgs,
+            LintArgs,
+            TestArgs,
+            BuildArgs,
+            GuardArgs,
+            GuardRule,
+            TargetSpec,
         )
         
         # Test target spec

@@ -94,23 +94,25 @@ class MCPToolTimeoutManager:
         """
         try:
             # Log start (async)
-            await append_file(log_file,
+            await append_file(
+                log_file,
                 f"=== Background execution started for {tool_name} ===\n"
                 f"Parameters: {json.dumps(params, indent=2, default=str)}\n"
-                f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"Started at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n",
             )
 
             # Execute the tool
             result = await tool_func(ctx, **params)
 
             # Log completion (async)
-            await append_file(log_file,
+            await append_file(
+                log_file,
                 f"\n\n=== Tool execution completed ===\n"
                 f"Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
                 f"Result length: {len(str(result))} characters\n"
                 f"\n=== RESULT ===\n"
                 f"{str(result)}\n"
-                f"=== END RESULT ===\n"
+                f"=== END RESULT ===\n",
             )
 
             # Mark as completed
@@ -118,11 +120,12 @@ class MCPToolTimeoutManager:
 
         except Exception as e:
             # Log error (async)
-            await append_file(log_file,
+            await append_file(
+                log_file,
                 f"\n\n=== Tool execution failed ===\n"
                 f"Failed at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
                 f"Error: {str(e)}\n"
-                f"Error type: {type(e).__name__}\n"
+                f"Error type: {type(e).__name__}\n",
             )
 
             self.process_manager.mark_completed(process_id, 1)

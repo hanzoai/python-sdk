@@ -8,12 +8,12 @@ This script shows how users can:
 3. Use the memory system
 """
 
-import asyncio
 import json
+import asyncio
 from pathlib import Path
 
-from hanzo_mcp.memory_service import PluginMemoryService
 from hanzo_mcp.config import load_config, save_global_config, get_global_config_path
+from hanzo_mcp.memory_service import PluginMemoryService
 
 
 async def demo_memory_system():

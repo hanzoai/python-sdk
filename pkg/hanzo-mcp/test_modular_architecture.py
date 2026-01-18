@@ -4,10 +4,10 @@ import asyncio
 import tempfile
 from pathlib import Path
 
+from hanzo_mcp.config import get_default_config
+from hanzo_mcp.memory_service import PluginMemoryService
 from hanzo_mcp.plugin_interface import Capability
 from hanzo_mcp.backends.sqlite_plugin import SQLiteBackendPlugin
-from hanzo_mcp.memory_service import PluginMemoryService
-from hanzo_mcp.config import get_default_config
 
 
 async def test_modular_architecture():
