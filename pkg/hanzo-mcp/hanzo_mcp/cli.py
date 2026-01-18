@@ -98,9 +98,11 @@ def main() -> None:
     # Get async backend info
     try:
         from hanzo_async import using_uvloop
+
         if using_uvloop():
             try:
                 import uvloop
+
                 _async_backend = f"uvloop {uvloop.__version__}"
             except ImportError:
                 _async_backend = "uvloop"
@@ -234,7 +236,7 @@ def main() -> None:
         type=str,
         default=None,
         help="Shell to expose via MCP. Can be a name (zsh, bash, fish, dash) or path (/opt/homebrew/bin/zsh). "
-             "By default, only your active shell is exposed. Use --all-shells to expose all.",
+        "By default, only your active shell is exposed. Use --all-shells to expose all.",
     )
 
     _ = parser.add_argument(

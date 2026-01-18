@@ -1,11 +1,11 @@
 """Test the memory backend with settings management."""
 
-import asyncio
 import json
+import asyncio
 from pathlib import Path
 
-from hanzo_mcp.memory_service import PluginMemoryService
 from hanzo_mcp.config import load_config, save_global_config, get_global_config_path
+from hanzo_mcp.memory_service import PluginMemoryService
 
 
 async def test_memory_backend_with_settings():

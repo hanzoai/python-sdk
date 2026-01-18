@@ -1,11 +1,11 @@
 """Final test to verify the complete system works as intended."""
 
-import asyncio
 import json
+import asyncio
 from pathlib import Path
 
-from hanzo_mcp.memory_service import PluginMemoryService
 from hanzo_mcp.config import load_config, get_global_config_path
+from hanzo_mcp.memory_service import PluginMemoryService
 
 
 async def test_complete_system():

@@ -2,13 +2,12 @@ import asyncio
 from pathlib import Path
 
 import pytest
-
-from hanzo_mcp.exact_tools import HanzoTools, TargetSpec, EditArgs, FmtArgs, GuardArgs, GuardRule
+from hanzo_mcp.exact_tools import FmtArgs, EditArgs, GuardArgs, GuardRule, HanzoTools, TargetSpec
 
 
 @pytest.mark.asyncio
 async def test_targetspec_rejects_unknown_keys():
-    with pytest.raises(Exception):
+    with pytest.raises(TypeError):
         TargetSpec(target="ws", unexpected=123)  # type: ignore[arg-type]
 
 
@@ -33,7 +32,9 @@ async def test_dry_run_envelope_and_no_fs_changes(tmp_path: Path, monkeypatch: p
     target = TargetSpec(target=f"file:{file_path}", language="go", dry_run=True)
     before = file_path.read_text()
 
-    edit_result = await tools.edit(target, EditArgs(op="rename", file=str(file_path), pos={"line": 1, "character": 1}, new_name="Main"))
+    edit_result = await tools.edit(
+        target, EditArgs(op="rename", file=str(file_path), pos={"line": 1, "character": 1}, new_name="Main")
+    )
     assert hasattr(edit_result, "ok")
     assert hasattr(edit_result, "root")
     assert hasattr(edit_result, "language_used")
@@ -93,11 +94,13 @@ async def test_workspace_detection_root_boundary(tmp_path: Path):
 async def test_guard_transitive_go_import(tmp_path: Path):
     root = tmp_path
     (root / "go.mod").write_text("module example.com/root\n\ngo 1.21\n")
-    (root / "main.go").write_text("package main\n\nimport \"net/http\"\n\nfunc main() {}\n")
+    (root / "main.go").write_text('package main\n\nimport "net/http"\n\nfunc main() {}\n')
 
     tools = HanzoTools()
     target = TargetSpec(target=f"dir:{root}", language="go", dry_run=True)
-    guard = GuardArgs(rules=[GuardRule(id="no-net-http", type="import", glob="**/*.go", forbid_import_prefix="net/http")])
+    guard = GuardArgs(
+        rules=[GuardRule(id="no-net-http", type="import", glob="**/*.go", forbid_import_prefix="net/http")]
+    )
     result = await tools.guard(target, guard)
     assert result.exit_code == 1
     assert len(result.errors) > 0

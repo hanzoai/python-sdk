@@ -6,15 +6,23 @@ Test Runner for Exact 6-Tool Implementation
 Test the exact tool specifications with real workspace scenarios.
 """
 
-import asyncio
 import json
-import tempfile
 import shutil
+import asyncio
+import tempfile
 from pathlib import Path
 from dataclasses import asdict
 
 from hanzo_mcp.exact_tools import (
-    tools, TargetSpec, EditArgs, FmtArgs, TestArgs, BuildArgs, LintArgs, GuardArgs, GuardRule
+    FmtArgs,
+    EditArgs,
+    LintArgs,
+    TestArgs,
+    BuildArgs,
+    GuardArgs,
+    GuardRule,
+    TargetSpec,
+    tools,
 )
 
 
