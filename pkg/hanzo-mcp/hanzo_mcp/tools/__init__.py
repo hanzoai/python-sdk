@@ -97,9 +97,13 @@ def register_all_tools(
     # Filesystem tools
     for tool in PACKAGE_TOOL_PREFIXES.get("filesystem", []):
         if tool in ["write", "edit", "multi_edit"]:
-            resolved_enabled_tools[tool] = is_tool_enabled(tool, not disable_write_tools)
+            resolved_enabled_tools[tool] = is_tool_enabled(
+                tool, not disable_write_tools
+            )
         elif tool in ["ast", "search"]:
-            resolved_enabled_tools[tool] = is_tool_enabled(tool, not disable_search_tools)
+            resolved_enabled_tools[tool] = is_tool_enabled(
+                tool, not disable_search_tools
+            )
         else:
             resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
 
@@ -132,7 +136,9 @@ def register_all_tools(
         resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
 
     # Agent tools
-    resolved_enabled_tools["agent"] = enable_agent_tool or is_tool_enabled("agent", False)
+    resolved_enabled_tools["agent"] = enable_agent_tool or is_tool_enabled(
+        "agent", False
+    )
     resolved_enabled_tools["swarm"] = is_tool_enabled("swarm", False)
     for tool in ["claude", "codex", "gemini", "grok", "code_auth"]:
         resolved_enabled_tools[tool] = is_tool_enabled(tool, enable_agent_tool)
@@ -170,7 +176,9 @@ def register_all_tools(
     discovered = loader.discover_packages()
 
     if discovered:
-        logger.info(f"Discovered {len(discovered)} tool packages: {', '.join(discovered.keys())}")
+        logger.info(
+            f"Discovered {len(discovered)} tool packages: {', '.join(discovered.keys())}"
+        )
 
         # Load all discovered tools
         loaded = loader.load_all(

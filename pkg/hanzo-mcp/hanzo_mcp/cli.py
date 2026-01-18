@@ -113,7 +113,9 @@ def main() -> None:
 
     _version_info = f"hanzo-mcp {_version} (async: {_async_backend})"
 
-    parser = argparse.ArgumentParser(description="MCP server implementing Hanzo AI capabilities")
+    parser = argparse.ArgumentParser(
+        description="MCP server implementing Hanzo AI capabilities"
+    )
 
     parser.add_argument("--version", action="version", version=_version_info)
 
@@ -405,8 +407,12 @@ def main() -> None:
     port: int = cast(int, args.port)
     log_level: str = cast(str, args.log_level)
     project_dir: str | None = cast(str | None, args.project_dir)
-    allowed_paths: list[str] = cast(list[str], args.allowed_paths) if args.allowed_paths else []
-    project_paths: list[str] = cast(list[str], args.project_paths) if args.project_paths else []
+    allowed_paths: list[str] = (
+        cast(list[str], args.allowed_paths) if args.allowed_paths else []
+    )
+    project_paths: list[str] = (
+        cast(list[str], args.project_paths) if args.project_paths else []
+    )
 
     # Handle project_dir parameter (add to both allowed_paths and project_paths)
     if project_dir:
@@ -416,7 +422,9 @@ def main() -> None:
             project_paths.append(project_dir)
 
     if install:
-        install_claude_desktop_config(name, allowed_paths, disable_write_tools, disable_search_tools, host, port)
+        install_claude_desktop_config(
+            name, allowed_paths, disable_write_tools, disable_search_tools, host, port
+        )
         return
 
     # Get logger
@@ -582,7 +590,9 @@ def install_claude_desktop_config(
         args.append("--disable-search-tools")
 
     # Create config object
-    config: dict[str, Any] = {"mcpServers": {name: {"command": script_path.as_posix(), "args": args}}}
+    config: dict[str, Any] = {
+        "mcpServers": {name: {"command": script_path.as_posix(), "args": args}}
+    }
 
     # Check if the file already exists
     if config_file.exists():

@@ -76,7 +76,9 @@ def test_stdio_simple():
     for i, line in enumerate(output_lines):
         try:
             data = json.loads(line)
-            print(f"✓ Valid JSON response: {data.get('method', data.get('result', 'response'))}")
+            print(
+                f"✓ Valid JSON response: {data.get('method', data.get('result', 'response'))}"
+            )
         except json.JSONDecodeError:
             print(f"✗ Line {i + 1} is not valid JSON: {line}")
             violations += 1

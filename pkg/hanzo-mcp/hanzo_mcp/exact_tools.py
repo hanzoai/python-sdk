@@ -55,11 +55,15 @@ class ToolResult:
 
 # Shared Input Schema
 class TargetSpec(StrictModel):
-    target: str = Field(..., description="file:<path>, dir:<path>, pkg:<spec>, ws, or changed")
+    target: str = Field(
+        ..., description="file:<path>, dir:<path>, pkg:<spec>, ws, or changed"
+    )
     language: str = Field(default="auto", description="auto|go|ts|py|rs|cc|sol|schema")
     backend: str = Field(default="auto", description="Backend override")
     root: Optional[str] = Field(default=None, description="Workspace root override")
-    env: Dict[str, str] = Field(default_factory=dict, description="Environment variables")
+    env: Dict[str, str] = Field(
+        default_factory=dict, description="Environment variables"
+    )
     dry_run: bool = Field(default=False, description="Preview mode")
 
 
@@ -68,7 +72,9 @@ class EditArgs(StrictModel):
     op: Literal["rename", "code_action", "organize_imports", "apply_workspace_edit"]
     file: Optional[str] = None
     pos: Optional[Dict[str, int]] = None  # {line, character}
-    range: Optional[Dict[str, Dict[str, int]]] = None  # {start: {line, ch}, end: {line, ch}}
+    range: Optional[Dict[str, Dict[str, int]]] = (
+        None  # {start: {line, ch}, end: {line, ch}}
+    )
     new_name: Optional[str] = None
     only: List[str] = Field(default_factory=list)  # LSP codeAction kinds
     apply: bool = True
@@ -80,7 +86,9 @@ class FmtArgs(StrictModel):
 
 
 class TestArgs(StrictModel):
-    opts: Dict[str, Any] = Field(default_factory=dict)  # go: {run?, count?, race?}, ts: {filter?, watch?}, etc.
+    opts: Dict[str, Any] = Field(
+        default_factory=dict
+    )  # go: {run?, count?, race?}, ts: {filter?, watch?}, etc.
 
 
 class BuildArgs(StrictModel):
@@ -150,7 +158,12 @@ class WorkspaceDetector:
         # Then check other workspace types
         for current in parents:
             if (current / "go.mod").is_file():
-                return {"root": str(current), "type": "go_module", "config": current / "go.mod", "language": "go"}
+                return {
+                    "root": str(current),
+                    "type": "go_module",
+                    "config": current / "go.mod",
+                    "language": "go",
+                }
             elif (current / "package.json").is_file():
                 with open(current / "package.json") as f:
                     pkg_data = json.load(f)
@@ -183,13 +196,32 @@ class WorkspaceDetector:
                     "language": "cc",
                 }
             elif (current / "buf.yaml").is_file() or (current / "buf.yml").is_file():
-                config_file = current / "buf.yaml" if (current / "buf.yaml").is_file() else current / "buf.yml"
-                return {"root": str(current), "type": "buf_workspace", "config": config_file, "language": "schema"}
+                config_file = (
+                    current / "buf.yaml"
+                    if (current / "buf.yaml").is_file()
+                    else current / "buf.yml"
+                )
+                return {
+                    "root": str(current),
+                    "type": "buf_workspace",
+                    "config": config_file,
+                    "language": "schema",
+                }
             elif (current / ".git").exists():
-                return {"root": str(current), "type": "git_repository", "config": current / ".git", "language": "auto"}
+                return {
+                    "root": str(current),
+                    "type": "git_repository",
+                    "config": current / ".git",
+                    "language": "auto",
+                }
 
         # Default to current directory
-        return {"root": str(path), "type": "directory", "config": None, "language": "auto"}
+        return {
+            "root": str(path),
+            "type": "directory",
+            "config": None,
+            "language": "auto",
+        }
 
 
 class TargetResolver:
@@ -218,7 +250,9 @@ class TargetResolver:
     def _resolve_file(self, file_path: str, target_spec: TargetSpec) -> Dict[str, Any]:
         """Resolve single file target"""
         path = Path(file_path).absolute()
-        workspace = self.workspace_detector.detect(str(path), root_hint=target_spec.root)
+        workspace = self.workspace_detector.detect(
+            str(path), root_hint=target_spec.root
+        )
 
         return {
             "type": "file",
@@ -230,7 +264,9 @@ class TargetResolver:
     def _resolve_dir(self, dir_path: str, target_spec: TargetSpec) -> Dict[str, Any]:
         """Resolve directory subtree target"""
         path = Path(dir_path).absolute()
-        workspace = self.workspace_detector.detect(str(path), root_hint=target_spec.root)
+        workspace = self.workspace_detector.detect(
+            str(path), root_hint=target_spec.root
+        )
         language = self._infer_language(path, workspace, target_spec.language)
 
         # Find relevant files based on language
@@ -240,12 +276,25 @@ class TargetResolver:
         for ext in extensions:
             files.extend(path.rglob(f"*{ext}"))
 
-        return {"type": "directory", "paths": [str(f) for f in files], "workspace": workspace, "language": language}
+        return {
+            "type": "directory",
+            "paths": [str(f) for f in files],
+            "workspace": workspace,
+            "language": language,
+        }
 
-    def _resolve_package(self, pkg_spec: str, target_spec: TargetSpec) -> Dict[str, Any]:
+    def _resolve_package(
+        self, pkg_spec: str, target_spec: TargetSpec
+    ) -> Dict[str, Any]:
         """Resolve package specification"""
-        workspace = self.workspace_detector.detect(target_spec.root or ".", root_hint=target_spec.root)
-        language = workspace["language"] if target_spec.language == "auto" else target_spec.language
+        workspace = self.workspace_detector.detect(
+            target_spec.root or ".", root_hint=target_spec.root
+        )
+        language = (
+            workspace["language"]
+            if target_spec.language == "auto"
+            else target_spec.language
+        )
 
         if language == "go":
             return self._resolve_go_package(pkg_spec, workspace, target_spec)
@@ -256,12 +305,20 @@ class TargetResolver:
         elif language == "rs":
             return self._resolve_rust_package(pkg_spec, workspace, target_spec)
         else:
-            raise ValueError(f"Package resolution not supported for language: {language}")
+            raise ValueError(
+                f"Package resolution not supported for language: {language}"
+            )
 
     def _resolve_workspace(self, target_spec: TargetSpec) -> Dict[str, Any]:
         """Resolve workspace root"""
-        workspace = self.workspace_detector.detect(target_spec.root or ".", root_hint=target_spec.root)
-        language = workspace["language"] if target_spec.language == "auto" else target_spec.language
+        workspace = self.workspace_detector.detect(
+            target_spec.root or ".", root_hint=target_spec.root
+        )
+        language = (
+            workspace["language"]
+            if target_spec.language == "auto"
+            else target_spec.language
+        )
 
         root = Path(workspace["root"])
         extensions = self._get_extensions_for_language(language)
@@ -270,11 +327,18 @@ class TargetResolver:
         for ext in extensions:
             files.extend(root.rglob(f"*{ext}"))
 
-        return {"type": "workspace", "paths": [str(f) for f in files], "workspace": workspace, "language": language}
+        return {
+            "type": "workspace",
+            "paths": [str(f) for f in files],
+            "workspace": workspace,
+            "language": language,
+        }
 
     def _resolve_changed(self, target_spec: TargetSpec) -> Dict[str, Any]:
         """Resolve git changed files"""
-        workspace = self.workspace_detector.detect(target_spec.root or ".", root_hint=target_spec.root)
+        workspace = self.workspace_detector.detect(
+            target_spec.root or ".", root_hint=target_spec.root
+        )
 
         try:
             result = subprocess.run(
@@ -284,7 +348,9 @@ class TargetResolver:
                 text=True,
                 check=True,
             )
-            changed_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
+            changed_files = (
+                result.stdout.strip().split("\n") if result.stdout.strip() else []
+            )
 
             # Make paths absolute and filter existing files
             root_path = Path(workspace["root"])
@@ -309,7 +375,9 @@ class TargetResolver:
                 "error": f"Git command failed: {e}",
             }
 
-    def _resolve_go_package(self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec) -> Dict[str, Any]:
+    def _resolve_go_package(
+        self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec
+    ) -> Dict[str, Any]:
         """Resolve Go package specification"""
         Path(workspace["root"])
 
@@ -327,7 +395,14 @@ class TargetResolver:
             env = os.environ.copy()
             env["GOWORK"] = "auto"  # Always use go.work if available
 
-            result = subprocess.run(cmd, cwd=workspace["root"], capture_output=True, text=True, env=env, check=True)
+            result = subprocess.run(
+                cmd,
+                cwd=workspace["root"],
+                capture_output=True,
+                text=True,
+                env=env,
+                check=True,
+            )
 
             packages = result.stdout.strip().split("\n")
 
@@ -369,7 +444,9 @@ class TargetResolver:
                 "error": f"Go list failed: {e}",
             }
 
-    def _resolve_ts_package(self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec) -> Dict[str, Any]:
+    def _resolve_ts_package(
+        self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec
+    ) -> Dict[str, Any]:
         """Resolve TypeScript/Node package specification"""
         # Handle npm/pnpm workspace filters
         if pkg_spec.startswith("--filter "):
@@ -386,12 +463,16 @@ class TargetResolver:
         # Default to directory-based resolution
         return self._resolve_dir(pkg_spec, target_spec)
 
-    def _resolve_py_package(self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec) -> Dict[str, Any]:
+    def _resolve_py_package(
+        self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec
+    ) -> Dict[str, Any]:
         """Resolve Python package specification"""
         # Could use importlib or package discovery here
         return self._resolve_dir(pkg_spec, target_spec)
 
-    def _resolve_rust_package(self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec) -> Dict[str, Any]:
+    def _resolve_rust_package(
+        self, pkg_spec: str, workspace: Dict, target_spec: TargetSpec
+    ) -> Dict[str, Any]:
         """Resolve Rust package specification"""
         if pkg_spec.startswith("-p "):
             package_name = pkg_spec[3:]
@@ -486,7 +567,9 @@ class TargetResolver:
                 ".proto",
             ],
         }
-        return extension_map.get(language, [".go", ".ts", ".js", ".py", ".rs", ".c", ".cpp"])
+        return extension_map.get(
+            language, [".go", ".ts", ".js", ".py", ".rs", ".c", ".cpp"]
+        )
 
 
 class BackendSelector:
@@ -499,7 +582,13 @@ class BackendSelector:
             return backend_hint
 
         backend_map = {
-            "go": {"fmt": "goimports", "test": "go", "build": "go", "lint": "golangci-lint", "edit": "gopls"},
+            "go": {
+                "fmt": "goimports",
+                "test": "go",
+                "build": "go",
+                "lint": "golangci-lint",
+                "edit": "gopls",
+            },
             "ts": {
                 "fmt": "prettier",
                 "test": "npm",  # or pnpm/yarn
@@ -507,9 +596,27 @@ class BackendSelector:
                 "lint": "eslint",
                 "edit": "typescript-language-server",
             },
-            "py": {"fmt": "ruff", "test": "pytest", "build": "build", "lint": "ruff", "edit": "pyright"},
-            "rs": {"fmt": "cargo", "test": "cargo", "build": "cargo", "lint": "cargo", "edit": "rust-analyzer"},
-            "cc": {"fmt": "clang-format", "test": "ctest", "build": "cmake", "lint": "clang-tidy", "edit": "clangd"},
+            "py": {
+                "fmt": "ruff",
+                "test": "pytest",
+                "build": "build",
+                "lint": "ruff",
+                "edit": "pyright",
+            },
+            "rs": {
+                "fmt": "cargo",
+                "test": "cargo",
+                "build": "cargo",
+                "lint": "cargo",
+                "edit": "rust-analyzer",
+            },
+            "cc": {
+                "fmt": "clang-format",
+                "test": "ctest",
+                "build": "cmake",
+                "lint": "clang-tidy",
+                "edit": "clangd",
+            },
             "sol": {
                 "fmt": "prettier",
                 "test": "hardhat",
@@ -517,7 +624,13 @@ class BackendSelector:
                 "lint": "slither",
                 "edit": "solidity-language-server",
             },
-            "schema": {"fmt": "buf", "test": "buf", "build": "buf", "lint": "buf", "edit": "buf"},
+            "schema": {
+                "fmt": "buf",
+                "test": "buf",
+                "build": "buf",
+                "lint": "buf",
+                "edit": "buf",
+            },
         }
 
         return backend_map.get(language, {}).get(tool, "unknown")
@@ -595,7 +708,9 @@ class LSPBridge:
                 errors.append(str(data["error"]))
         return {"touched_files": sorted(set(touched)), "errors": errors}
 
-    async def apply_workspace_edit(self, edit: Dict[str, Any], workspace_root: str) -> Dict[str, Any]:
+    async def apply_workspace_edit(
+        self, edit: Dict[str, Any], workspace_root: str
+    ) -> Dict[str, Any]:
         """Apply a WorkspaceEdit directly."""
         applied, errors = self.tool._apply_workspace_edit(edit, workspace_root)
         return {"touched_files": applied, "errors": errors}
@@ -610,7 +725,9 @@ class HanzoTools:
         self.backend_selector = BackendSelector()
         self.lsp_bridge = LSPBridge()
 
-    def _prepare_environment(self, workspace: Dict, target_spec: TargetSpec) -> Dict[str, str]:
+    def _prepare_environment(
+        self, workspace: Dict, target_spec: TargetSpec
+    ) -> Dict[str, str]:
         """Prepare environment variables for tool execution"""
         env = os.environ.copy()
 
@@ -632,7 +749,9 @@ class HanzoTools:
             workspace = resolved["workspace"]
             language = resolved["language"]
 
-            backend = self.backend_selector.select_backend(language, "edit", target_spec.backend)
+            backend = self.backend_selector.select_backend(
+                language, "edit", target_spec.backend
+            )
 
             touched_files = []
             stdout_parts = []
@@ -654,10 +773,14 @@ class HanzoTools:
                 )
                 if "error" in result:
                     raise RuntimeError(str(result["error"]))
-                touched_files = result.get("applied_files", result.get("touched_files", []))
+                touched_files = result.get(
+                    "applied_files", result.get("touched_files", [])
+                )
                 errors.extend(result.get("apply_errors", []))
                 if apply:
-                    stdout_parts.append(f"Renamed symbol to '{args.new_name}' in {len(touched_files)} files")
+                    stdout_parts.append(
+                        f"Renamed symbol to '{args.new_name}' in {len(touched_files)} files"
+                    )
                 else:
                     stdout_parts.append(
                         f"Would rename symbol to '{args.new_name}' at {args.file}:{args.pos['line']}:{args.pos['character']}"
@@ -676,10 +799,14 @@ class HanzoTools:
                 )
                 if "error" in result:
                     raise RuntimeError(str(result["error"]))
-                touched_files = result.get("applied_files", result.get("touched_files", []))
+                touched_files = result.get(
+                    "applied_files", result.get("touched_files", [])
+                )
                 errors.extend(result.get("apply_errors", []))
                 if apply:
-                    stdout_parts.append(f"Applied code actions to {len(touched_files)} files")
+                    stdout_parts.append(
+                        f"Applied code actions to {len(touched_files)} files"
+                    )
                 else:
                     stdout_parts.append(f"Would apply code actions to {args.file}")
 
@@ -690,20 +817,30 @@ class HanzoTools:
                 touched_files = result.get("touched_files", [])
                 errors.extend(result.get("errors", []))
                 if apply:
-                    stdout_parts.append(f"Organized imports in {len(touched_files)} files")
+                    stdout_parts.append(
+                        f"Organized imports in {len(touched_files)} files"
+                    )
                 else:
-                    stdout_parts.append(f"Would organize imports in {len(resolved['paths'])} files")
+                    stdout_parts.append(
+                        f"Would organize imports in {len(resolved['paths'])} files"
+                    )
 
             elif args.op == "apply_workspace_edit":
                 if not args.workspace_edit:
                     raise ValueError("apply_workspace_edit requires workspace_edit")
-                result = await self.lsp_bridge.apply_workspace_edit(args.workspace_edit, workspace["root"])
+                result = await self.lsp_bridge.apply_workspace_edit(
+                    args.workspace_edit, workspace["root"]
+                )
                 touched_files = result.get("touched_files", [])
                 errors.extend(result.get("errors", []))
                 if apply:
-                    stdout_parts.append(f"Applied WorkspaceEdit to {len(touched_files)} files")
+                    stdout_parts.append(
+                        f"Applied WorkspaceEdit to {len(touched_files)} files"
+                    )
                 else:
-                    stdout_parts.append(f"Would apply WorkspaceEdit to {len(touched_files)} files")
+                    stdout_parts.append(
+                        f"Would apply WorkspaceEdit to {len(touched_files)} files"
+                    )
 
             return ToolResult(
                 ok=len(errors) == 0,
@@ -743,7 +880,9 @@ class HanzoTools:
             workspace = resolved["workspace"]
             language = resolved["language"]
 
-            backend = self.backend_selector.select_backend(language, "fmt", target_spec.backend)
+            backend = self.backend_selector.select_backend(
+                language, "fmt", target_spec.backend
+            )
             env = self._prepare_environment(workspace, target_spec)
 
             touched_files = []
@@ -785,14 +924,21 @@ class HanzoTools:
 
                 try:
                     result = subprocess.run(
-                        cmd, cwd=workspace["root"], env=env, capture_output=True, text=True, timeout=30
+                        cmd,
+                        cwd=workspace["root"],
+                        env=env,
+                        capture_output=True,
+                        text=True,
+                        timeout=30,
                     )
 
                     if result.returncode == 0:
                         touched_files.append(file_path)
                         stdout_parts.append(f"Formatted: {file_path}")
                     else:
-                        stderr_parts.append(f"Failed to format {file_path}: {result.stderr}")
+                        stderr_parts.append(
+                            f"Failed to format {file_path}: {result.stderr}"
+                        )
 
                 except subprocess.TimeoutExpired:
                     stderr_parts.append(f"Timeout formatting {file_path}")
@@ -837,7 +983,9 @@ class HanzoTools:
             workspace = resolved["workspace"]
             language = resolved["language"]
 
-            backend = self.backend_selector.select_backend(language, "test", target_spec.backend)
+            backend = self.backend_selector.select_backend(
+                language, "test", target_spec.backend
+            )
             env = self._prepare_environment(workspace, target_spec)
 
             # Build test command based on language and scope
@@ -950,7 +1098,9 @@ class HanzoTools:
             workspace = resolved["workspace"]
             language = resolved["language"]
 
-            backend = self.backend_selector.select_backend(language, "build", target_spec.backend)
+            backend = self.backend_selector.select_backend(
+                language, "build", target_spec.backend
+            )
             env = self._prepare_environment(workspace, target_spec)
 
             # Build command based on language
@@ -996,7 +1146,14 @@ class HanzoTools:
                     execution_time=(datetime.utcnow() - start_time).total_seconds(),
                 )
 
-            result = subprocess.run(cmd, cwd=workspace["root"], env=env, capture_output=True, text=True, timeout=300)
+            result = subprocess.run(
+                cmd,
+                cwd=workspace["root"],
+                env=env,
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
 
             return ToolResult(
                 ok=result.returncode == 0,
@@ -1036,7 +1193,9 @@ class HanzoTools:
             workspace = resolved["workspace"]
             language = resolved["language"]
 
-            backend = self.backend_selector.select_backend(language, "lint", target_spec.backend)
+            backend = self.backend_selector.select_backend(
+                language, "lint", target_spec.backend
+            )
             env = self._prepare_environment(workspace, target_spec)
 
             # Build lint command based on language
@@ -1094,7 +1253,14 @@ class HanzoTools:
                     execution_time=(datetime.utcnow() - start_time).total_seconds(),
                 )
 
-            result = subprocess.run(cmd, cwd=workspace["root"], env=env, capture_output=True, text=True, timeout=120)
+            result = subprocess.run(
+                cmd,
+                cwd=workspace["root"],
+                env=env,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
 
             # Lint tools often return non-zero for warnings
             success = result.returncode == 0
@@ -1140,7 +1306,9 @@ class HanzoTools:
             violations = []
 
             for rule in args.rules:
-                rule_violations = await self._check_guard_rule(rule, resolved["paths"], workspace["root"], language)
+                rule_violations = await self._check_guard_rule(
+                    rule, resolved["paths"], workspace["root"], language
+                )
                 violations.extend(rule_violations)
 
             stdout_lines = []
@@ -1163,7 +1331,9 @@ class HanzoTools:
                 stdout="\n".join(stdout_lines),
                 stderr="",
                 exit_code=0 if len(violations) == 0 else 1,
-                errors=[f"{v.rule_id}: {v.file}:{v.line}:{v.column}" for v in violations],
+                errors=[
+                    f"{v.rule_id}: {v.file}:{v.line}:{v.column}" for v in violations
+                ],
                 violations=[v.model_dump() for v in violations],
                 execution_time=(datetime.utcnow() - start_time).total_seconds(),
             )
@@ -1200,12 +1370,18 @@ class HanzoTools:
                 matched_files.append(file_path)
 
         if rule.type == "import" and rule.forbid_import_prefix:
-            wants_go = language in ["go", "auto"] and any(p.endswith(".go") for p in matched_files)
+            wants_go = language in ["go", "auto"] and any(
+                p.endswith(".go") for p in matched_files
+            )
             wants_ts = language in ["ts", "js", "auto"] and any(
                 p.endswith((".ts", ".tsx", ".js", ".jsx")) for p in matched_files
             )
-            go_index = await self._go_package_index(workspace_root) if wants_go else None
-            ts_graph = self._build_ts_dependency_graph(workspace_root) if wants_ts else None
+            go_index = (
+                await self._go_package_index(workspace_root) if wants_go else None
+            )
+            ts_graph = (
+                self._build_ts_dependency_graph(workspace_root) if wants_ts else None
+            )
         else:
             go_index = None
             ts_graph = None
@@ -1223,7 +1399,11 @@ class HanzoTools:
                         if pattern.search(line):
                             violations.append(
                                 GuardViolation(
-                                    file=file_path, line=line_num, column=1, text=line.strip(), rule_id=rule.id
+                                    file=file_path,
+                                    line=line_num,
+                                    column=1,
+                                    text=line.strip(),
+                                    rule_id=rule.id,
                                 )
                             )
 
@@ -1333,7 +1513,13 @@ class HanzoTools:
                     import_path = self._extract_go_import_path(line)
                     if import_path:
                         column = raw.find(import_path) + 1
-                        imports.append({"import_path": import_path, "line": idx, "column": max(1, column)})
+                        imports.append(
+                            {
+                                "import_path": import_path,
+                                "line": idx,
+                                "column": max(1, column),
+                            }
+                        )
         return imports
 
     def _extract_go_import_path(self, line: str) -> Optional[str]:
@@ -1360,7 +1546,13 @@ class HanzoTools:
                     if match:
                         module = match.group(1)
                         column = raw.find(module) + 1
-                        imports.append({"import_path": module, "line": idx, "column": max(1, column)})
+                        imports.append(
+                            {
+                                "import_path": module,
+                                "line": idx,
+                                "column": max(1, column),
+                            }
+                        )
         return imports
 
     def _build_ts_dependency_graph(self, workspace_root: str) -> Dict[str, Any]:
@@ -1453,7 +1645,11 @@ class HanzoTools:
             import_path = pkg.get("ImportPath", "")
             deps = set(pkg.get("Deps", []) or [])
             pkg_deps[import_path] = deps
-            for name in pkg.get("GoFiles", []) + pkg.get("CgoFiles", []) + pkg.get("CompiledGoFiles", []):
+            for name in (
+                pkg.get("GoFiles", [])
+                + pkg.get("CgoFiles", [])
+                + pkg.get("CompiledGoFiles", [])
+            ):
                 file_to_pkg[str(Path(pkg.get("Dir", "")) / name)] = import_path
         return {"file_to_pkg": file_to_pkg, "pkg_deps": pkg_deps}
 
@@ -1470,7 +1666,9 @@ if __name__ == "__main__":
 
     async def main():
         parser = argparse.ArgumentParser(description="Hanzo MCP Tools")
-        parser.add_argument("tool", choices=["edit", "fmt", "test", "build", "lint", "guard"])
+        parser.add_argument(
+            "tool", choices=["edit", "fmt", "test", "build", "lint", "guard"]
+        )
         parser.add_argument("target", help="Target specification")
         parser.add_argument("--language", default="auto")
         parser.add_argument("--backend", default="auto")
@@ -1482,7 +1680,12 @@ if __name__ == "__main__":
 
         args = parser.parse_args()
 
-        target_spec = TargetSpec(target=args.target, language=args.language, backend=args.backend, dry_run=args.dry_run)
+        target_spec = TargetSpec(
+            target=args.target,
+            language=args.language,
+            backend=args.backend,
+            dry_run=args.dry_run,
+        )
 
         if args.tool == "edit":
             if not args.op:
@@ -1516,7 +1719,12 @@ if __name__ == "__main__":
         elif args.tool == "guard":
             # Example guard rules
             example_rules = [
-                GuardRule(id="no-node-in-sdk", type="import", glob="sdk/**/*.py", forbid_import_prefix="node")
+                GuardRule(
+                    id="no-node-in-sdk",
+                    type="import",
+                    glob="sdk/**/*.py",
+                    forbid_import_prefix="node",
+                )
             ]
             result = await tools.guard(target_spec, GuardArgs(rules=example_rules))
 

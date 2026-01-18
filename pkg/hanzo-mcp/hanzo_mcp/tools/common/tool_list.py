@@ -207,7 +207,9 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
 
         # Iterate through categories
         categories = (
-            [category_filter] if category_filter and category_filter in self.TOOL_INFO else self.TOOL_INFO.keys()
+            [category_filter]
+            if category_filter and category_filter in self.TOOL_INFO
+            else self.TOOL_INFO.keys()
         )
 
         for category in categories:
@@ -242,7 +244,9 @@ Use 'tool_enable' and 'tool_disable' to change tool status.
                 max_name_len = max(len(name) for name, _, _ in category_shown)
 
                 for tool_name, description, status in category_shown:
-                    output.append(f"{status} {tool_name.ljust(max_name_len)} - {description}")
+                    output.append(
+                        f"{status} {tool_name.ljust(max_name_len)} - {description}"
+                    )
 
                 output.append("")
 

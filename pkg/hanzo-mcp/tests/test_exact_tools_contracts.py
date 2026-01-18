@@ -12,7 +12,9 @@ async def test_targetspec_rejects_unknown_keys():
 
 
 @pytest.mark.asyncio
-async def test_dry_run_envelope_and_no_fs_changes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+async def test_dry_run_envelope_and_no_fs_changes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
     root = tmp_path
     (root / "go.work").write_text("go 1.21\n\nuse (\n  ./mod\n)\n")
     mod_dir = root / "mod"
@@ -33,7 +35,13 @@ async def test_dry_run_envelope_and_no_fs_changes(tmp_path: Path, monkeypatch: p
     before = file_path.read_text()
 
     edit_result = await tools.edit(
-        target, EditArgs(op="rename", file=str(file_path), pos={"line": 1, "character": 1}, new_name="Main")
+        target,
+        EditArgs(
+            op="rename",
+            file=str(file_path),
+            pos={"line": 1, "character": 1},
+            new_name="Main",
+        ),
     )
     assert hasattr(edit_result, "ok")
     assert hasattr(edit_result, "root")
@@ -73,7 +81,9 @@ async def test_workspace_detection_go_work_priority(tmp_path: Path):
     (b / "go.mod").write_text("module example.com/b\n\ngo 1.21\n")
 
     tools = HanzoTools()
-    resolved = tools.target_resolver.resolve(TargetSpec(target="ws", root=str(root), language="go", dry_run=True))
+    resolved = tools.target_resolver.resolve(
+        TargetSpec(target="ws", root=str(root), language="go", dry_run=True)
+    )
     assert resolved["workspace"]["root"] == str(root)
 
 
@@ -86,7 +96,9 @@ async def test_workspace_detection_root_boundary(tmp_path: Path):
     (inner / "go.mod").write_text("module example.com/inner\n\ngo 1.21\n")
 
     tools = HanzoTools()
-    resolved = tools.target_resolver.resolve(TargetSpec(target="ws", root=str(inner), language="go", dry_run=True))
+    resolved = tools.target_resolver.resolve(
+        TargetSpec(target="ws", root=str(inner), language="go", dry_run=True)
+    )
     assert resolved["workspace"]["root"] == str(inner)
 
 
@@ -94,12 +106,21 @@ async def test_workspace_detection_root_boundary(tmp_path: Path):
 async def test_guard_transitive_go_import(tmp_path: Path):
     root = tmp_path
     (root / "go.mod").write_text("module example.com/root\n\ngo 1.21\n")
-    (root / "main.go").write_text('package main\n\nimport "net/http"\n\nfunc main() {}\n')
+    (root / "main.go").write_text(
+        'package main\n\nimport "net/http"\n\nfunc main() {}\n'
+    )
 
     tools = HanzoTools()
     target = TargetSpec(target=f"dir:{root}", language="go", dry_run=True)
     guard = GuardArgs(
-        rules=[GuardRule(id="no-net-http", type="import", glob="**/*.go", forbid_import_prefix="net/http")]
+        rules=[
+            GuardRule(
+                id="no-net-http",
+                type="import",
+                glob="**/*.go",
+                forbid_import_prefix="net/http",
+            )
+        ]
     )
     result = await tools.guard(target, guard)
     assert result.exit_code == 1

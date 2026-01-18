@@ -257,7 +257,9 @@ def hello():
         assert match is not None
 
         # No match with low threshold
-        match = ForgivingEditHelper.find_fuzzy_match(haystack, "completely different text", threshold=0.9)
+        match = ForgivingEditHelper.find_fuzzy_match(
+            haystack, "completely different text", threshold=0.9
+        )
         assert match is None
 
     def test_suggest_matches(self):
@@ -272,7 +274,9 @@ def subtract(a, b):
     return a - b
 """
 
-        suggestions = ForgivingEditHelper.suggest_matches(haystack, "def multiply(a, b):")
+        suggestions = ForgivingEditHelper.suggest_matches(
+            haystack, "def multiply(a, b):"
+        )
 
         assert len(suggestions) > 0
         # Should suggest similar function definitions

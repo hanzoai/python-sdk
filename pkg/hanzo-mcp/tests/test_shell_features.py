@@ -115,7 +115,9 @@ class TestShellDetection:
     def test_force_shell_path_override(self):
         """Test HANZO_MCP_FORCE_SHELL environment variable override."""
         clear_shell_cache()
-        with patch.dict(os.environ, {"HANZO_MCP_FORCE_SHELL": "/bin/bash"}, clear=False):
+        with patch.dict(
+            os.environ, {"HANZO_MCP_FORCE_SHELL": "/bin/bash"}, clear=False
+        ):
             name, path = get_active_shell()
             assert name == "bash"
             assert path == "/bin/bash"
@@ -164,7 +166,9 @@ class TestProcessManagement:
         # Create mock process (asyncio.subprocess.Process uses returncode, not poll())
         mock_process = MagicMock()
         mock_process.pid = 12345
-        mock_process.returncode = None  # Still running (asyncio.subprocess.Process style)
+        mock_process.returncode = (
+            None  # Still running (asyncio.subprocess.Process style)
+        )
 
         # Add process
         process_manager.add_process("test_123", mock_process, "/tmp/test.log")
@@ -197,7 +201,9 @@ class TestToolsListWithShellDetection:
         shell_name, _ = get_cached_active_shell()
 
         # Count shell tools
-        shell_tools = [t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS]
+        shell_tools = [
+            t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS
+        ]
 
         # Should have exactly one shell tool (the detected one)
         assert len(shell_tools) == 1
@@ -216,7 +222,9 @@ class TestToolsListWithShellDetection:
             from hanzo_tools.shell import TOOLS
 
             # Count shell tools
-            shell_tools = [t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS]
+            shell_tools = [
+                t for t in TOOLS if hasattr(t, "name") and t.name in SUPPORTED_SHELLS
+            ]
 
             # Should have all 4 shell tools
             assert len(shell_tools) == 4

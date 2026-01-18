@@ -51,11 +51,15 @@ class ToolResult:
 class TargetSpec(BaseModel):
     """Target specification for tool operations"""
 
-    target: str = Field(..., description="file:<path>, dir:<path>, pkg:<spec>, ws, or changed")
+    target: str = Field(
+        ..., description="file:<path>, dir:<path>, pkg:<spec>, ws, or changed"
+    )
     language: str = Field(default="auto", description="Language override")
     backend: str = Field(default="auto", description="Backend override")
     root: Optional[str] = Field(default=None, description="Workspace root override")
-    env: Dict[str, str] = Field(default_factory=dict, description="Environment variables")
+    env: Dict[str, str] = Field(
+        default_factory=dict, description="Environment variables"
+    )
     dry_run: bool = Field(default=False, description="Preview mode")
 
 
@@ -71,7 +75,12 @@ class WorkspaceDetector:
         for current in [path] + list(path.parents):
             # Check for various workspace indicators
             if (current / "go.work").exists():
-                return {"root": str(current), "type": "go_workspace", "config": current / "go.work", "language": "go"}
+                return {
+                    "root": str(current),
+                    "type": "go_workspace",
+                    "config": current / "go.work",
+                    "language": "go",
+                }
             elif (current / "package.json").exists():
                 return {
                     "root": str(current),
@@ -94,7 +103,12 @@ class WorkspaceDetector:
                     "language": "rs",
                 }
             elif (current / ".git").exists():
-                return {"root": str(current), "type": "git_repository", "config": current / ".git", "language": "auto"}
+                return {
+                    "root": str(current),
+                    "type": "git_repository",
+                    "config": current / ".git",
+                    "language": "auto",
+                }
 
         # Default to current directory
         return {
@@ -133,7 +147,9 @@ class SessionManager:
     def get_recent_sessions(self, limit: int = 10) -> List[Dict]:
         """Get recent session activity"""
         sessions = []
-        for session_file in sorted(self.sessions_dir.glob("*.jsonl"), reverse=True)[:limit]:
+        for session_file in sorted(self.sessions_dir.glob("*.jsonl"), reverse=True)[
+            :limit
+        ]:
             with open(session_file) as f:
                 session_data = [json.loads(line) for line in f]
                 if session_data:
@@ -142,7 +158,9 @@ class SessionManager:
                             "session_id": session_file.stem,
                             "start_time": session_data[0]["timestamp"],
                             "tool_count": len(session_data),
-                            "tools_used": list(set(entry["tool"] for entry in session_data)),
+                            "tools_used": list(
+                                set(entry["tool"] for entry in session_data)
+                            ),
                         }
                     )
         return sessions
@@ -219,7 +237,6 @@ class CodebaseIndexer:
                 (file_path, content_hash, language, file_size, modified_time),
             )
 
-
             # Symbol extraction handled by LSP integration in the tools layer
             # See hanzo_mcp/tools/common/lsp.py for language-specific parsing
 
@@ -240,7 +257,13 @@ class CodebaseIndexer:
 
             cursor = conn.execute(sql, params)
             return [
-                {"path": row[0], "name": row[1], "kind": row[2], "line": row[3], "definition": row[4]}
+                {
+                    "path": row[0],
+                    "name": row[1],
+                    "kind": row[2],
+                    "line": row[3],
+                    "definition": row[4],
+                }
                 for row in cursor.fetchall()
             ]
 
@@ -266,7 +289,9 @@ class LSPBridge:
         # and handle communication via JSON-RPC
         pass
 
-    async def rename_symbol(self, file_path: str, line: int, character: int, new_name: str):
+    async def rename_symbol(
+        self, file_path: str, line: int, character: int, new_name: str
+    ):
         """Perform LSP rename operation"""
         # Implementation would send LSP rename request
         pass
@@ -302,7 +327,11 @@ class UnifiedBackend:
             files = []
             for ext in [".py", ".go", ".ts", ".js", ".rs", ".c", ".cpp", ".sol"]:
                 files.extend(Path(path).rglob(f"*{ext}"))
-            return {"type": "directory", "paths": [str(f) for f in files], "workspace": workspace}
+            return {
+                "type": "directory",
+                "paths": [str(f) for f in files],
+                "workspace": workspace,
+            }
 
         elif target.startswith("pkg:"):
             pkg_spec = target[4:]
@@ -321,17 +350,30 @@ class UnifiedBackend:
             files = []
             for ext in [".py", ".go", ".ts", ".js", ".rs", ".c", ".cpp", ".sol"]:
                 files.extend(root.rglob(f"*{ext}"))
-            return {"type": "workspace", "paths": [str(f) for f in files], "workspace": workspace}
+            return {
+                "type": "workspace",
+                "paths": [str(f) for f in files],
+                "workspace": workspace,
+            }
 
         elif target == "changed":
             # Git diff against HEAD
             try:
                 result = subprocess.run(
-                    ["git", "diff", "--name-only", "HEAD"], capture_output=True, text=True, check=True
+                    ["git", "diff", "--name-only", "HEAD"],
+                    capture_output=True,
+                    text=True,
+                    check=True,
                 )
-                changed_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
+                changed_files = (
+                    result.stdout.strip().split("\n") if result.stdout.strip() else []
+                )
                 workspace = WorkspaceDetector.detect(".")
-                return {"type": "changed", "paths": changed_files, "workspace": workspace}
+                return {
+                    "type": "changed",
+                    "paths": changed_files,
+                    "workspace": workspace,
+                }
             except subprocess.CalledProcessError:
                 return {
                     "type": "changed",
@@ -381,7 +423,9 @@ class UnifiedBackend:
                 new_name = kwargs.get("new_name")
 
                 if target.dry_run:
-                    result.stdout = f"Would rename symbol at {file_path}:{pos} to {new_name}"
+                    result.stdout = (
+                        f"Would rename symbol at {file_path}:{pos} to {new_name}"
+                    )
                 else:
                     # Actual LSP rename
                     await self.lsp_bridge.rename_symbol(
@@ -396,7 +440,9 @@ class UnifiedBackend:
                 kwargs.get("only", [])
 
                 actions = await self.lsp_bridge.code_actions(
-                    file_path, range_spec.get("start", {}).get("line", 0), range_spec.get("end", {}).get("line", 0)
+                    file_path,
+                    range_spec.get("start", {}).get("line", 0),
+                    range_spec.get("end", {}).get("line", 0),
                 )
                 result.stdout = f"Available actions: {actions}"
 
@@ -475,11 +521,15 @@ class UnifiedBackend:
                             cmd.extend(["-local", local_prefix])
                         cmd.append(file_path)
 
-                        proc_result = subprocess.run(cmd, capture_output=True, text=True)
+                        proc_result = subprocess.run(
+                            cmd, capture_output=True, text=True
+                        )
                         if proc_result.returncode == 0:
                             result.touched_files.append(file_path)
                         else:
-                            result.errors.append(f"Failed to format {file_path}: {proc_result.stderr}")
+                            result.errors.append(
+                                f"Failed to format {file_path}: {proc_result.stderr}"
+                            )
 
                     # Add other language formatting logic
 
@@ -518,7 +568,9 @@ class UnifiedBackend:
         # Implementation for linting
         pass
 
-    async def guard(self, target: TargetSpec, rules: List[Dict], **kwargs) -> ToolResult:
+    async def guard(
+        self, target: TargetSpec, rules: List[Dict], **kwargs
+    ) -> ToolResult:
         """Guard tool: repo invariants"""
         # Implementation for guard rules
         pass

@@ -53,7 +53,9 @@ Examples:
             create_plugin_template(output_dir, args.name)
             print("\n✅ Plugin template created successfully!")
             print("\nTo use your plugin:")
-            print(f"1. Edit the tool implementation in {output_dir / f'{args.name}_tool.py'}")
+            print(
+                f"1. Edit the tool implementation in {output_dir / f'{args.name}_tool.py'}"
+            )
             print("2. Restart Hanzo MCP to load the plugin")
             print(f"3. Add '{args.name}' to your mode's tool list")
         except Exception as e:
@@ -79,9 +81,13 @@ Examples:
                     print(f"\n  {name}:")
                     print(f"    Source: {plugin.source_path}")
                     if plugin.metadata:
-                        print(f"    Version: {plugin.metadata.get('version', 'unknown')}")
+                        print(
+                            f"    Version: {plugin.metadata.get('version', 'unknown')}"
+                        )
                         print(f"    Author: {plugin.metadata.get('author', 'unknown')}")
-                        print(f"    Description: {plugin.metadata.get('description', '')}")
+                        print(
+                            f"    Description: {plugin.metadata.get('description', '')}"
+                        )
         except Exception as e:
             print(f"❌ Error listing plugins: {e}", file=sys.stderr)
             sys.exit(1)

@@ -1,6 +1,5 @@
 """Test LiteLLM with different providers."""
 
-
 import litellm
 import pytest
 from hanzo_tools.agent.tool_adapter import convert_tools_to_openai_functions
@@ -64,7 +63,9 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
     assert len(openai_functions) == 1
     assert openai_functions[0]["type"] == "function"
     assert openai_functions[0]["function"]["name"] == "echo"
-    assert openai_functions[0]["function"]["description"] == "Echo back the input message."
+    assert (
+        openai_functions[0]["function"]["description"] == "Echo back the input message."
+    )
     assert "parameters" in openai_functions[0]["function"]
 
 
@@ -84,7 +85,9 @@ def test_litellm_openai_provider_mocked():
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
-    with patch.object(litellm, "completion", return_value=mock_response) as mock_completion:
+    with patch.object(
+        litellm, "completion", return_value=mock_response
+    ) as mock_completion:
         response = litellm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
@@ -113,7 +116,9 @@ def test_litellm_anthropic_provider_mocked():
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
-    with patch.object(litellm, "completion", return_value=mock_response) as mock_completion:
+    with patch.object(
+        litellm, "completion", return_value=mock_response
+    ) as mock_completion:
         response = litellm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,

@@ -42,7 +42,9 @@ def check_api_connection():
 
         elif "insufficient_quota" in str(e).lower():
             print("\nPossible cause: Your OpenAI account may be out of credits.")
-            print("Solution: Check your usage and billing information in the OpenAI dashboard.")
+            print(
+                "Solution: Check your usage and billing information in the OpenAI dashboard."
+            )
 
         elif "connection" in str(e).lower():
             print("\nPossible cause: Network connectivity issue.")

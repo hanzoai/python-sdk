@@ -148,7 +148,9 @@ class GuardTool(DevToolBase):
                         glob=glob_pattern,
                         description=description,
                         forbid_writes=rule_data["forbid_writes"],
-                        message=rule_data.get("message", "Modification of generated files forbidden"),
+                        message=rule_data.get(
+                            "message", "Modification of generated files forbidden"
+                        ),
                     )
                 )
 
@@ -226,7 +228,9 @@ class GuardTool(DevToolBase):
 
         return matching_files
 
-    async def _check_regex_rule(self, rule: RegexRule, files: List[str]) -> List[Violation]:
+    async def _check_regex_rule(
+        self, rule: RegexRule, files: List[str]
+    ) -> List[Violation]:
         """Check regex rule against files"""
         violations = []
         pattern = re.compile(rule.pattern)
@@ -251,7 +255,9 @@ class GuardTool(DevToolBase):
 
         return violations
 
-    async def _check_import_rule(self, rule: ImportRule, files: List[str]) -> List[Violation]:
+    async def _check_import_rule(
+        self, rule: ImportRule, files: List[str]
+    ) -> List[Violation]:
         """Check import rule against files"""
         violations = []
 
@@ -260,7 +266,9 @@ class GuardTool(DevToolBase):
                 with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                     for line_num, line in enumerate(f, 1):
                         # Check for import statements containing forbidden prefix
-                        if self._line_has_forbidden_import(line, rule.forbid_import_prefix):
+                        if self._line_has_forbidden_import(
+                            line, rule.forbid_import_prefix
+                        ):
                             violations.append(
                                 Violation(
                                     file=file_path,
@@ -275,7 +283,9 @@ class GuardTool(DevToolBase):
 
         return violations
 
-    async def _check_generated_rule(self, rule: GeneratedRule, files: List[str]) -> List[Violation]:
+    async def _check_generated_rule(
+        self, rule: GeneratedRule, files: List[str]
+    ) -> List[Violation]:
         """Check generated file rule"""
         violations = []
 
@@ -348,7 +358,9 @@ class GuardTool(DevToolBase):
         for rule_id, rule_violations in by_rule.items():
             output.append(f"Rule: {rule_id}")
             for violation in rule_violations:
-                output.append(f"  {violation.file}:{violation.line} - {violation.message}")
+                output.append(
+                    f"  {violation.file}:{violation.line} - {violation.message}"
+                )
                 output.append(f"    {violation.text}")
             output.append("")
 
@@ -416,7 +428,13 @@ async def guard_tool_handler(
         all_rules.extend(rules)
 
     tool = GuardTool(
-        target=target, language=language, backend=backend, root=root, env=env, dry_run=dry_run, rules=all_rules
+        target=target,
+        language=language,
+        backend=backend,
+        root=root,
+        env=env,
+        dry_run=dry_run,
+        rules=all_rules,
     )
 
     result = await tool.execute()
