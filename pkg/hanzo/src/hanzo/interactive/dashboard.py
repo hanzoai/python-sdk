@@ -19,11 +19,15 @@ def run_dashboard(refresh_rate: float = 1.0):
         Layout(name="footer", size=3),
     )
 
+    # Check if connected to real cluster
+    demo_mode = True  # TODO: Check hanzo cluster status
+    header_text = Text()
+    header_text.append("Hanzo AI Dashboard", style="bold cyan")
+    if demo_mode:
+        header_text.append("  [DEMO]", style="bold yellow")
+
     layout["header"].update(
-        Panel(
-            Text("Hanzo AI Dashboard", style="bold cyan", justify="center"),
-            border_style="cyan",
-        )
+        Panel(header_text, border_style="cyan" if not demo_mode else "yellow")
     )
 
     layout["body"].split_row(Layout(name="left"), Layout(name="right"))
@@ -38,7 +42,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Key", style="cyan")
         table.add_column("Value", style="white")
 
-        # Mock data - would be real in production
+        # Demo data (connect to cluster for live data)
         table.add_row("Status", "[green]Running[/green]")
         table.add_row("Nodes", "3")
         table.add_row("Models", "llama-3.2-3b, gpt-4")
@@ -54,7 +58,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Status", style="yellow")
         table.add_column("Jobs", style="magenta")
 
-        # Mock data
+        # Demo data
         table.add_row("a1b2", "researcher", "idle", "42")
         table.add_row("c3d4", "coder", "busy", "17")
         table.add_row("e5f6", "analyst", "idle", "23")
@@ -68,7 +72,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Type", style="green")
         table.add_column("Status", style="yellow")
 
-        # Mock data
+        # Demo data
         table.add_row("j001", "chat", "complete")
         table.add_row("j002", "analysis", "running")
         table.add_row("j003", "search", "queued")
