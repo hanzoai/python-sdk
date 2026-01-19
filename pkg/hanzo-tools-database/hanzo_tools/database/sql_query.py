@@ -131,13 +131,19 @@ Note: Use sql_search for text search operations."""
         except Exception as e:
             return f"Error accessing project database: {str(e)}"
 
-        # Check if query is read-only
+        # Check if query is read-only using token-based parsing
         if read_only:
-            # Simple check for write operations
-            write_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "CREATE", "ALTER"]
-            query_upper = query.upper()
+            import re
+            # Remove comments and string literals to prevent bypass
+            clean_query = re.sub(r'--.*$', '', query, flags=re.MULTILINE)  # Remove -- comments
+            clean_query = re.sub(r'/\*.*?\*/', '', clean_query, flags=re.DOTALL)  # Remove /* */ comments
+            clean_query = re.sub(r"'[^']*'", "''", clean_query)  # Neutralize string literals
+            clean_query = re.sub(r'"[^"]*"', '""', clean_query)  # Neutralize identifiers
+
+            # Check for write operations using word boundaries
+            write_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "CREATE", "ALTER", "TRUNCATE", "REPLACE"]
             for keyword in write_keywords:
-                if keyword in query_upper:
+                if re.search(rf'\b{keyword}\b', clean_query, re.IGNORECASE):
                     return (
                         f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
                     )

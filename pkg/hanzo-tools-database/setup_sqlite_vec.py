@@ -112,8 +112,8 @@ def install_sqlite_vec():
         conn.close()
         print("✓ sqlite-vec extension is already available")
         return True
-    except:
-        pass
+    except Exception:
+        pass  # Extension not available, will download
     
     # Download and install
     extension_path = download_sqlite_vec()
