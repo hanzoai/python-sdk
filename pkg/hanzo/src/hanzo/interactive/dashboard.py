@@ -1,11 +1,63 @@
 """Dashboard interface for Hanzo CLI."""
 
+import os
+from typing import Any, Dict, List, Optional
+from datetime import datetime
+
 from rich.live import Live
 from rich.text import Text
 from rich.panel import Panel
 from rich.table import Table
 from rich.layout import Layout
 from rich.console import Console
+
+
+def _get_cluster_status() -> Optional[Dict[str, Any]]:
+    """Get cluster status from API. Returns None if not connected."""
+    try:
+        import urllib.request
+        import json
+
+        endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
+        req = urllib.request.urlopen(f"{endpoint}/health", timeout=2)
+        return json.loads(req.read().decode())
+    except Exception:
+        return None
+
+
+def _get_agents() -> List[Dict[str, Any]]:
+    """Get agents from registry. Returns empty list if not available."""
+    try:
+        from hanzoai.agents import list_agents
+        return list_agents() or []
+    except Exception:
+        return []
+
+
+def _get_jobs() -> List[Dict[str, Any]]:
+    """Get recent jobs. Returns empty list if not available."""
+    try:
+        import urllib.request
+        import json
+
+        endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
+        req = urllib.request.urlopen(f"{endpoint}/jobs?limit=5", timeout=2)
+        return json.loads(req.read().decode()).get("jobs", [])
+    except Exception:
+        return []
+
+
+def _get_logs() -> List[str]:
+    """Get recent logs. Returns empty list if not available."""
+    try:
+        import urllib.request
+        import json
+
+        endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
+        req = urllib.request.urlopen(f"{endpoint}/logs?limit=5", timeout=2)
+        return json.loads(req.read().decode()).get("logs", [])
+    except Exception:
+        return []
 
 
 def run_dashboard(refresh_rate: float = 1.0):
@@ -19,22 +71,24 @@ def run_dashboard(refresh_rate: float = 1.0):
         Layout(name="footer", size=3),
     )
 
-    # Check cluster connection status
-    demo_mode = True  # Set False when cluster API available
-    header_text = Text()
-    header_text.append("Hanzo AI Dashboard", style="bold cyan")
-    if demo_mode:
-        header_text.append("  [DEMO]", style="bold yellow")
-
-    layout["header"].update(
-        Panel(header_text, border_style="cyan" if not demo_mode else "yellow")
-    )
-
     layout["body"].split_row(Layout(name="left"), Layout(name="right"))
-
     layout["left"].split_column(Layout(name="cluster", size=10), Layout(name="agents"))
-
     layout["right"].split_column(Layout(name="jobs", size=15), Layout(name="logs"))
+
+    def get_header() -> Panel:
+        """Get header with connection status."""
+        cluster = _get_cluster_status()
+        header_text = Text()
+        header_text.append("Hanzo AI Dashboard", style="bold cyan")
+
+        if cluster:
+            header_text.append("  [CONNECTED]", style="bold green")
+            border = "green"
+        else:
+            header_text.append("  [DISCONNECTED]", style="bold red")
+            border = "red"
+
+        return Panel(header_text, border_style=border)
 
     def get_cluster_panel() -> Panel:
         """Get cluster status panel."""
@@ -42,13 +96,19 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Key", style="cyan")
         table.add_column("Value", style="white")
 
-        # Sample data (live data when cluster connected)
-        table.add_row("Status", "[green]Running[/green]")
-        table.add_row("Nodes", "3")
-        table.add_row("Models", "llama-3.2-3b, gpt-4")
-        table.add_row("Port", "8000")
+        cluster = _get_cluster_status()
+        if cluster:
+            table.add_row("Status", f"[green]{cluster.get('status', 'unknown')}[/green]")
+            table.add_row("Nodes", str(cluster.get("nodes", 0)))
+            table.add_row("Models", ", ".join(cluster.get("models", [])) or "none")
+            table.add_row("Port", str(cluster.get("port", "-")))
+            border = "green"
+        else:
+            table.add_row("Status", "[red]Not connected[/red]")
+            table.add_row("", "[dim]Set HANZO_CLUSTER_URL[/dim]")
+            border = "dim"
 
-        return Panel(table, title="Cluster", border_style="green")
+        return Panel(table, title="Cluster", border_style=border)
 
     def get_agents_panel() -> Panel:
         """Get agents panel."""
@@ -58,11 +118,21 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Status", style="yellow")
         table.add_column("Jobs", style="magenta")
 
-        table.add_row("a1b2", "researcher", "idle", "42")
-        table.add_row("c3d4", "coder", "busy", "17")
-        table.add_row("e5f6", "analyst", "idle", "23")
+        agents = _get_agents()
+        if agents:
+            for agent in agents[:5]:
+                table.add_row(
+                    agent.get("id", "-")[:4],
+                    agent.get("name", "unknown"),
+                    agent.get("status", "unknown"),
+                    str(agent.get("jobs", 0)),
+                )
+            border = "blue"
+        else:
+            table.add_row("-", "[dim]No agents[/dim]", "-", "-")
+            border = "dim"
 
-        return Panel(table, title="Agents", border_style="blue")
+        return Panel(table, title="Agents", border_style=border)
 
     def get_jobs_panel() -> Panel:
         """Get jobs panel."""
@@ -71,21 +141,35 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Type", style="green")
         table.add_column("Status", style="yellow")
 
-        table.add_row("j001", "chat", "complete")
-        table.add_row("j002", "analysis", "running")
-        table.add_row("j003", "search", "queued")
+        jobs = _get_jobs()
+        if jobs:
+            for job in jobs[:5]:
+                table.add_row(
+                    job.get("id", "-")[:6],
+                    job.get("type", "unknown"),
+                    job.get("status", "unknown"),
+                )
+            border = "yellow"
+        else:
+            table.add_row("-", "[dim]No jobs[/dim]", "-")
+            border = "dim"
 
-        return Panel(table, title="Recent Jobs", border_style="yellow")
+        return Panel(table, title="Recent Jobs", border_style=border)
 
     def get_logs_panel() -> Panel:
         """Get logs panel."""
-        logs = """[dim]2024-01-20 10:15:23[/dim] Agent started: researcher
-[dim]2024-01-20 10:15:24[/dim] Job j002 assigned to coder
-[dim]2024-01-20 10:15:25[/dim] Model loaded: llama-3.2-3b
-[dim]2024-01-20 10:15:26[/dim] Network peer connected: node-2
-[dim]2024-01-20 10:15:27[/dim] Job j001 completed (2.3s)"""
+        logs = _get_logs()
+        if logs:
+            log_text = "\n".join(
+                f"[dim]{log.get('time', '')}[/dim] {log.get('message', '')}"
+                for log in logs[:5]
+            )
+            border = "dim"
+        else:
+            log_text = "[dim]No logs available[/dim]"
+            border = "dim"
 
-        return Panel(logs, title="Logs", border_style="dim")
+        return Panel(log_text, title="Logs", border_style=border)
 
     layout["footer"].update(
         Panel(
@@ -94,7 +178,8 @@ def run_dashboard(refresh_rate: float = 1.0):
         )
     )
 
-    # Update panels
+    # Initial update
+    layout["header"].update(get_header())
     layout["cluster"].update(get_cluster_panel())
     layout["agents"].update(get_agents_panel())
     layout["jobs"].update(get_jobs_panel())
@@ -104,10 +189,10 @@ def run_dashboard(refresh_rate: float = 1.0):
         with Live(layout, refresh_per_second=1 / refresh_rate, screen=True):
             while True:
                 import time
-
                 time.sleep(refresh_rate)
 
-                # Update dynamic panels
+                # Update all panels with real data
+                layout["header"].update(get_header())
                 layout["cluster"].update(get_cluster_panel())
                 layout["agents"].update(get_agents_panel())
                 layout["jobs"].update(get_jobs_panel())
