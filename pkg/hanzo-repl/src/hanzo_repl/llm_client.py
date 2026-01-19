@@ -76,10 +76,14 @@ class LLMClient:
 
         for provider, env_vars in self.PROVIDER_ENV_VARS.items():
             if not env_vars:  # No API key needed (e.g., Ollama)
-                # Check if the provider is accessible
-                if provider == "ollama" and os.path.exists(os.path.expanduser("~/.ollama")):
-                    # TODO: Check if Ollama is running
-                    available.add(provider)
+                if provider == "ollama":
+                    # Check if Ollama is installed and responsive
+                    try:
+                        import urllib.request
+                        urllib.request.urlopen("http://localhost:11434/api/tags", timeout=1)
+                        available.add(provider)
+                    except Exception:
+                        pass  # Ollama not running
                 continue
 
             # Check if any of the environment variables are set
