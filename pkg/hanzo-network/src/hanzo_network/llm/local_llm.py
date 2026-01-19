@@ -83,8 +83,8 @@ class HanzoNetProvider(LocalLLMProvider):
             # Convert messages to prompt
             prompt = self._messages_to_prompt(messages, tools)
 
-            # Use dummy engine for now since we don't have models loaded
-            if self.engine_type == "dummy" or True:  # Force dummy for testing
+            # Use dummy engine when explicitly configured
+            if self.engine_type == "dummy":
                 # Generate a contextual response based on the prompt
                 response = self._generate_dummy_response(prompt, tools)
 
@@ -139,17 +139,7 @@ class HanzoNetProvider(LocalLLMProvider):
             }
 
         except Exception as e:
-            # Return mock response on error
-            return {
-                "output": [
-                    {
-                        "type": "text",
-                        "content": f"Mock response from {model} (hanzo/net error: {str(e)})",
-                    }
-                ],
-                "tool_calls": [],
-                "usage": {"input_tokens": 10, "output_tokens": 10},
-            }
+            raise RuntimeError(f"Inference failed for model {model}: {e}") from e
 
     async def is_available(self) -> bool:
         """Check if the inference engine is available."""

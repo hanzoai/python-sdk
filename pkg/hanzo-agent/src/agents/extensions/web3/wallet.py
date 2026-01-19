@@ -313,11 +313,15 @@ class AgentWallet:
     ) -> bool:
         """Verify a signature matches expected address.
 
-        This is a simplified version. Real implementation would
-        recover the address from signature and compare.
+        Recovers the signer address from the signature and compares
+        with the expected address.
         """
-        # TODO: Implement proper signature verification
-        return True  # Placeholder
+        from eth_account.messages import encode_defunct
+        from eth_account import Account
+
+        message_hash = encode_defunct(text=message)
+        recovered = Account.recover_message(message_hash, signature=signature)
+        return recovered.lower() == expected_address.lower()
 
 
 def generate_shared_mnemonic() -> str:
