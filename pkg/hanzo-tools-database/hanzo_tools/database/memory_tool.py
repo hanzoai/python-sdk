@@ -378,7 +378,7 @@ memory --action stats
             conn.load_extension("vec0")
             output.append("  ✓ sqlite-vec vector search")
             conn.close()
-        except:
+        except Exception:
             output.append("  ✗ sqlite-vec vector search (not available)")
         
         return "\n".join(output)
