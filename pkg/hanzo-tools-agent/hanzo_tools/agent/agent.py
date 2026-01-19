@@ -375,10 +375,19 @@ Use 'agent --action call --agent-id {agent_id} --method <method> --args <args>' 
         return bool(re.search(absolute_path_pattern, prompt))
 
     async def _execute_agent(self, prompt: str, model: Optional[str], tool_ctx: ToolContext) -> str:
-        """Execute a single agent (simplified - would use full logic from agent_tool.py)."""
-        # This would integrate the full agent execution logic from agent_tool.py
-        # For now, return a placeholder
-        return f"Executed agent with prompt: {prompt[:100]}..."
+        """Execute a single agent. Uses unified agent tool for actual execution."""
+        try:
+            from .unified_agent_tool import UnifiedAgentTool
+            agent_tool = UnifiedAgentTool()
+            result = await agent_tool.call(
+                tool_ctx,
+                action="run",
+                name=model or "claude",
+                prompt=prompt,
+            )
+            return result
+        except ImportError:
+            return f"Agent execution requires unified_agent_tool: {prompt[:100]}..."
 
     async def _execute_multiple_agents(self, prompts: List[str], model: Optional[str], tool_ctx: ToolContext) -> str:
         """Execute multiple agents in parallel."""

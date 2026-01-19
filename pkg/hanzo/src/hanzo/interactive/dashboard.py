@@ -19,8 +19,8 @@ def run_dashboard(refresh_rate: float = 1.0):
         Layout(name="footer", size=3),
     )
 
-    # Check if connected to real cluster
-    demo_mode = True  # TODO: Check hanzo cluster status
+    # Check cluster connection status
+    demo_mode = True  # Set False when cluster API available
     header_text = Text()
     header_text.append("Hanzo AI Dashboard", style="bold cyan")
     if demo_mode:
@@ -42,7 +42,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Key", style="cyan")
         table.add_column("Value", style="white")
 
-        # Demo data (connect to cluster for live data)
+        # Sample data (live data when cluster connected)
         table.add_row("Status", "[green]Running[/green]")
         table.add_row("Nodes", "3")
         table.add_row("Models", "llama-3.2-3b, gpt-4")
@@ -58,7 +58,6 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Status", style="yellow")
         table.add_column("Jobs", style="magenta")
 
-        # Demo data
         table.add_row("a1b2", "researcher", "idle", "42")
         table.add_row("c3d4", "coder", "busy", "17")
         table.add_row("e5f6", "analyst", "idle", "23")
@@ -72,7 +71,6 @@ def run_dashboard(refresh_rate: float = 1.0):
         table.add_column("Type", style="green")
         table.add_column("Status", style="yellow")
 
-        # Demo data
         table.add_row("j001", "chat", "complete")
         table.add_row("j002", "analysis", "running")
         table.add_row("j003", "search", "queued")
