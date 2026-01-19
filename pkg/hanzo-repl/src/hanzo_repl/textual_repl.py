@@ -344,7 +344,7 @@ class HanzoTextualREPL(App):
 
             messages.write("")
 
-            # Update context usage (mock)
+            # Update context usage indicator (estimated - real tracking pending)
             self.context_usage = max(5, self.context_usage - 2)
             context_indicator = self.query_one("#permissions", ContextIndicator)
             context_indicator.context_percent = self.context_usage

@@ -97,17 +97,11 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
                 from hanzoai.auth import HanzoAuth
 
                 hanzo_auth = HanzoAuth()
-                # SSO not implemented yet
-                console.print("[yellow]SSO authentication not yet implemented[/yellow]")
+                # SSO flow: initiate browser-based auth
+                # TODO: Implement when HanzoAuth.sso_login() is available
+                console.print("[yellow]SSO authentication not yet available[/yellow]")
+                console.print("[dim]Use API key authentication instead: hanzo auth login --api-key[/dim]")
                 return
-
-                auth = {
-                    "email": result.get("email"),
-                    "logged_in": True,
-                    "last_login": datetime.now().isoformat(),
-                }
-                auth_mgr.save_auth(auth)
-                console.print(f"[green]✓[/green] Logged in as {result.get('email')}")
             except ImportError:
                 console.print("[yellow]SSO requires hanzoai package[/yellow]")
                 console.print("Install with: pip install hanzoai")
@@ -126,11 +120,9 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
                 from hanzoai.auth import HanzoAuth
 
                 hanzo_auth = HanzoAuth()
-                # Email auth not implemented yet
-                console.print(
-                    "[yellow]Email authentication not yet implemented[/yellow]"
-                )
-                console.print("[dim]Saving credentials locally for development[/dim]")
+                # Email/password auth: falls back to local storage
+                # TODO: Implement when HanzoAuth.login() is available
+                console.print("[dim]Saving credentials locally (remote auth pending)[/dim]")
 
                 auth = {
                     "email": email,
@@ -167,12 +159,10 @@ def logout(ctx):
         # Try using hanzoai if available
         try:
             from hanzoai.auth import HanzoAuth
-
-            hanzo_auth = HanzoAuth()
-            # Logout not implemented yet
-            pass
+            # TODO: Call hanzo_auth.logout() when available
+            HanzoAuth()  # Validate import works
         except ImportError:
-            pass  # hanzoai not installed, just clear local auth
+            pass  # hanzoai not installed, local-only auth
 
         # Clear local auth
         auth_mgr.save_auth({})
