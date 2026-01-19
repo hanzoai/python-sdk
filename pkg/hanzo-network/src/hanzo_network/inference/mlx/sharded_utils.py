@@ -103,7 +103,7 @@ def load_model_shard(
     config = load_config(model_path)
     config.update(model_config)
 
-    # TODO hack
+    # Inject shard info into config for model initialization
     config["shard"] = {
         "model_id": model_path.name,
         "start_layer": shard.start_layer,
@@ -196,7 +196,7 @@ async def load_shard(
 ) -> Tuple[nn.Module, TokenizerWrapper]:
     model = load_model_shard(model_path, shard, lazy, model_config)
 
-    # TODO: figure out a generic solution
+    # Handle model-specific tokenizer loading (llava uses processor, others use tokenizer)
     if model.model_type == "llava":
         processor = AutoProcessor.from_pretrained(model_path)
         processor.eos_token_id = processor.tokenizer.eos_token_id
