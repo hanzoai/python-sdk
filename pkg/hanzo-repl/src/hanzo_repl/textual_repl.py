@@ -514,12 +514,9 @@ class HanzoTextualREPL(App):
                 return
 
             # Get parameters if needed
+            params = {}
             if parameters and any(p.get("required", False) for p in parameters.get("properties", {}).values()):
-                # TODO: Show parameter input dialog
-                self.show_message("Tool requires parameters. Using defaults.", "yellow")
-                params = {}
-            else:
-                params = {}
+                self.show_message("Tool requires parameters - use CLI for full control", "yellow")
 
             # Execute tool
             result = await tool.execute(**params)

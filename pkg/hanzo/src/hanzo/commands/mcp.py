@@ -166,10 +166,8 @@ async def run(ctx, tool: str, arg: tuple, json_args: str):
 
         # Run tool
         try:
-            # Mock context for now
             from mcp.server.fastmcp import Context
-
-            context = Context()
+            context = Context()  # CLI context (no request_context)
 
             # Get tool function
             tool_func = server.mcp._tool_map.get(tool)

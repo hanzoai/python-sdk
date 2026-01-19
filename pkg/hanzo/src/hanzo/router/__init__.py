@@ -30,7 +30,7 @@ except ImportError as e:
         file=sys.stderr,
     )
 
-    # Define placeholders to avoid complete failure
+    # Fallback: set to None when router not installed
     router = None
     Router = None
     completion = None

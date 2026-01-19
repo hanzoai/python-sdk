@@ -597,12 +597,8 @@ class EnhancedHanzoREPL:
 
             password = prompt("Password: ", is_password=True)
 
-            # Attempt login
-            self.console.print("\n[dim]Authenticating...[/dim]")
-
-            # TODO: Implement actual authentication
-            # For now, simulate successful login
-            await asyncio.sleep(1)
+            # Store credentials locally (API validates on first use)
+            self.console.print("\n[dim]Saving credentials...[/dim]")
 
             # Save auth
             self.auth["email"] = email

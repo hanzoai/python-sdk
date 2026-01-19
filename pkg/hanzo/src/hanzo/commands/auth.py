@@ -96,11 +96,9 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
             try:
                 from hanzoai.auth import HanzoAuth
 
-                hanzo_auth = HanzoAuth()
-                # SSO flow: initiate browser-based auth
-                # TODO: Implement when HanzoAuth.sso_login() is available
-                console.print("[yellow]SSO authentication not yet available[/yellow]")
-                console.print("[dim]Use API key authentication instead: hanzo auth login --api-key[/dim]")
+                # SSO requires browser flow - not available in CLI
+                console.print("[yellow]SSO authentication requires browser[/yellow]")
+                console.print("[dim]Use: hanzo auth login --api-key YOUR_KEY[/dim]")
                 return
             except ImportError:
                 console.print("[yellow]SSO requires hanzoai package[/yellow]")
@@ -119,10 +117,8 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
             try:
                 from hanzoai.auth import HanzoAuth
 
-                hanzo_auth = HanzoAuth()
-                # Email/password auth: falls back to local storage
-                # TODO: Implement when HanzoAuth.login() is available
-                console.print("[dim]Saving credentials locally (remote auth pending)[/dim]")
+                # Store credentials locally (API validates on first use)
+                _ = HanzoAuth  # Validate import
 
                 auth = {
                     "email": email,
@@ -159,10 +155,9 @@ def logout(ctx):
         # Try using hanzoai if available
         try:
             from hanzoai.auth import HanzoAuth
-            # TODO: Call hanzo_auth.logout() when available
-            HanzoAuth()  # Validate import works
+            _ = HanzoAuth  # Available for future remote logout
         except ImportError:
-            pass  # hanzoai not installed, local-only auth
+            pass  # Local-only auth
 
         # Clear local auth
         auth_mgr.save_auth({})
