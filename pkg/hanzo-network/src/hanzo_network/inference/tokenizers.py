@@ -99,4 +99,4 @@ async def _resolve_tokenizer(repo_id_or_local_path: Union[str, PathLike]):
         if DEBUG >= 4:
             print(traceback.format_exc())
 
-    raise ValueError(f"[TODO] Unsupported model: {repo_id_or_local_path}")
+    raise ValueError(f"Unsupported model: {repo_id_or_local_path}. Install transformers: pip install transformers")
