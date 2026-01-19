@@ -119,9 +119,9 @@ class CLIAgentBase(BaseTool):
                 f.write(prompt)
                 prompt_file = f.name
 
-            # Some CLIs might need the prompt via stdin or file
+            # Some CLIs need prompt via file instead of stdin
             if "--prompt-file" in cli_args:
-                # Replace placeholder with actual file
+                # Substitute with actual temp file path
                 cli_args = [
                     (arg.replace("--prompt-file", prompt_file) if arg == "--prompt-file" else arg) for arg in cli_args
                 ]

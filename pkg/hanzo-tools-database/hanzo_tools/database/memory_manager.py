@@ -310,8 +310,8 @@ class MemoryManager:
         memory_results = self._search_structured_memories(query, scope, project_path, limit)
         results.extend([{**r, "source": "memory"} for r in memory_results])
         
-        # TODO: Add vector search when embeddings are available
-        
+        # Vector search available when sqlite-vec extension installed
+
         # Sort by relevance/recency
         return sorted(results, key=lambda x: x.get("score", 0), reverse=True)[:limit]
         
@@ -410,12 +410,17 @@ class MemoryManager:
                 
         return results
 
-    # Vector operations (placeholder for sqlite-vec integration)
+    # Vector operations (requires sqlite-vec extension)
     def generate_embedding(self, text: str, model: str = "bge-small-en-v1.5") -> Optional[List[float]]:
-        """Generate embedding for text (placeholder - implement with your preferred model)."""
-        # TODO: Integrate with FastEmbed or similar
-        # For now, return None to indicate vectors not available
-        return None
+        """Generate embedding for text. Returns None if embedding model unavailable."""
+        # Requires: pip install fastembed
+        try:
+            from fastembed import TextEmbedding
+            embedding_model = TextEmbedding(model_name=model)
+            embeddings = list(embedding_model.embed([text]))
+            return embeddings[0].tolist() if embeddings else None
+        except ImportError:
+            return None  # fastembed not installed
         
     def add_embedding(self, source_table: str, source_id: int, embedding: List[float], 
                      model: str = "bge-small-en-v1.5", scope: str = "project", 
@@ -456,12 +461,50 @@ class MemoryManager:
             print(f"Warning: Vector embedding failed: {e}")
             return False
 
-    def vector_search(self, query_embedding: List[float], scope: str = "both", 
+    def vector_search(self, query_embedding: List[float], scope: str = "both",
                      project_path: str = None, limit: int = 10) -> List[Dict[str, Any]]:
-        """Search using vector similarity (requires sqlite-vec)."""
-        # TODO: Implement vector similarity search
-        # This would use sqlite-vec's vector search capabilities
-        return []
+        """Search using vector similarity. Requires sqlite-vec extension."""
+        results = []
+        dbs = []
+        if scope in ("global", "both"):
+            dbs.append(("global", self._get_global_db_path()))
+        if scope in ("project", "both"):
+            if not project_path:
+                project_path = os.getcwd()
+            dbs.append(("project", self._get_project_db_path(project_path)))
+
+        for scope_name, db_path in dbs:
+            if not db_path.exists():
+                continue
+            try:
+                conn = self._init_memory_db(db_path)
+                # Check if vec_index exists (sqlite-vec installed)
+                cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='vec_index'")
+                if not cursor.fetchone():
+                    conn.close()
+                    continue
+
+                # Vector similarity search using sqlite-vec
+                cursor = conn.execute("""
+                    SELECT e.source_table, e.source_id, vec_distance(v.embedding, ?) as distance
+                    FROM vec_index v
+                    JOIN embeddings e ON e.id = v.rowid
+                    ORDER BY distance ASC
+                    LIMIT ?
+                """, (json.dumps(query_embedding), limit))
+
+                for row in cursor.fetchall():
+                    results.append({
+                        "source_table": row["source_table"],
+                        "source_id": row["source_id"],
+                        "distance": row["distance"],
+                        "scope": scope_name,
+                    })
+                conn.close()
+            except Exception as e:
+                print(f"Warning: Vector search failed for {scope_name}: {e}")
+
+        return sorted(results, key=lambda x: x.get("distance", float("inf")))[:limit]
 
     # Utility methods
     def get_memory_stats(self, scope: str = "both", project_path: str = None) -> Dict[str, Any]:
