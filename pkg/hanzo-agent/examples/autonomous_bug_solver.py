@@ -150,8 +150,8 @@ async def search_codebase(pattern: str, file_types: List[str] = None) -> List[Di
                                     "match": match.group(),
                                     "context": content.split('\n')[line_num-1]
                                 })
-                except:
-                    pass
+                except (OSError, UnicodeDecodeError):
+                    pass  # Skip unreadable files
     
     return results
 
