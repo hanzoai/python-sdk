@@ -28,8 +28,7 @@ Command = Literal[
     "str_replace",
     "insert",
     "undo_edit",
-    # 'jump_to_definition', TODO:
-    # 'find_references' TODO:
+    # Future: 'jump_to_definition', 'find_references' (requires LSP integration)
 ]
 
 

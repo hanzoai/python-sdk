@@ -143,8 +143,7 @@ async def remember(
     else:
         relevant_memories = [m.content for m in memories]
 
-    # Get usage info
-    # TODO: Implement proper usage tracking
+    # Usage info based on returned memories
     usage_info = {
         "current": len(memories),
         "limit": settings.max_memories_per_user,
@@ -214,19 +213,20 @@ async def get_memories(
 
     memory_service = get_memory_service()
 
-    # If specific memory ID requested
-    if request.memoryid:
-        memory = memory_service.get_memory(request.userid, request.memoryid)
-        if not memory:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Memory not found",
-            )
-        memories = [memory]
-    else:
-        # Get paginated list
-        # TODO: Implement proper pagination
-        memories = []
+    # Specific memory ID is required
+    if not request.memoryid:
+        raise HTTPException(
+            status_code=400,
+            detail="Memory ID is required. Use /v1/memories/search for querying memories.",
+        )
+
+    memory = memory_service.get_memory(request.userid, request.memoryid)
+    if not memory:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Memory not found",
+        )
+    memories = [memory]
 
     return MemoryListResponse(
         user_id=request.userid,
@@ -401,14 +401,16 @@ async def list_knowledge_bases(
         # Get or verify user ID
         user_id = await get_or_verify_user_id(userid, credentials, req)
 
+        if not db_client:
+            raise HTTPException(status_code=503, detail="Database not initialized")
+
         # Query knowledge bases from the database
-        # For now, return a simple response
-        # TODO: Implement actual listing from InfinityDB
+        kbs = db_client.get_knowledge_bases(project_id or user_id)
 
         return {
             "userid": user_id,
-            "knowledge_bases": [],
-            "total": 0,
+            "knowledge_bases": kbs,
+            "total": len(kbs),
         }
     except Exception as e:
         logger.error(f"Error listing knowledge bases: {e}")
@@ -517,19 +519,18 @@ async def get_facts(
                 "total": len(facts),
             }
         else:
-            # TODO: Implement listing all facts or specific fact retrieval
-            return {
-                "kb_id": request.kb_id,
-                "facts": [],
-                "total": 0,
-            }
+            # Query is required for searching facts
+            raise HTTPException(
+                status_code=400,
+                detail="Query parameter is required to search facts. Provide a search query.",
+            )
     except Exception as e:
         logger.error(f"Error getting facts: {e}")
         raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/v1/kb/facts/delete")
-async def delete_fact(
+async def delete_fact_endpoint(
     request: DeleteKnowledgeRequest,
     req: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(security),
@@ -539,8 +540,17 @@ async def delete_fact(
         # Get or verify user ID
         await get_or_verify_user_id(request.userid, credentials, req)
 
-        # TODO: Implement fact deletion in InfinityDB
-        # For now, return success
+        if not db_client:
+            raise HTTPException(status_code=503, detail="Database not initialized")
+
+        # Delete fact from database
+        deleted = db_client.delete_fact(request.fact_id, request.kb_id)
+
+        if not deleted:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Fact '{request.fact_id}' not found in knowledge base '{request.kb_id}'",
+            )
 
         return {
             "kb_id": request.kb_id,
@@ -548,6 +558,8 @@ async def delete_fact(
             "deleted": True,
             "cascade": request.cascade,
         }
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error deleting fact: {e}")
         raise HTTPException(status_code=500, detail=str(e)) from e
