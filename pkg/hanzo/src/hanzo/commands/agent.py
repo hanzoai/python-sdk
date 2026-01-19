@@ -45,22 +45,34 @@ async def create(ctx, name: str, model: str, description: Optional[str], local: 
 @click.pass_context
 def list(ctx):
     """List available agents."""
-    # TODO: Connect to agent registry
     table = Table(title="Available Agents")
     table.add_column("Name", style="cyan", no_wrap=True)
     table.add_column("Model", style="green")
     table.add_column("Status", style="yellow")
     table.add_column("Description")
 
-    # Mock data for now
-    agents = [
-        ("helper", "llama-3.2-3b", "active", "General purpose assistant"),
-        ("coder", "codellama-7b", "idle", "Code generation specialist"),
-        ("researcher", "llama-3.2-3b", "idle", "Research and analysis"),
-    ]
+    # Try to get agents from registry
+    agents = []
+    try:
+        from hanzoai.agents import list_agents
+        agents = list_agents()
+    except ImportError:
+        console.print("[dim]Install hanzo-agents for full registry support[/dim]")
+    except Exception as e:
+        console.print(f"[dim]Could not connect to registry: {e}[/dim]")
 
-    for name, model, status, desc in agents:
-        table.add_row(name, model, status, desc)
+    if not agents:
+        console.print("[yellow]No agents registered. Create one with:[/yellow]")
+        console.print("  hanzo agent create --name myagent --model llama-3.2-3b")
+        return
+
+    for agent in agents:
+        table.add_row(
+            agent.get("name", "unknown"),
+            agent.get("model", "unknown"),
+            agent.get("status", "unknown"),
+            agent.get("description", ""),
+        )
 
     console.print(table)
 

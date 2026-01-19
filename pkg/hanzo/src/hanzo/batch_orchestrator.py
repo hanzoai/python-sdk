@@ -511,10 +511,12 @@ class BatchOrchestrator:
                         "success": True,
                     }
                 else:
+                    logger.warning(f"No API client configured - returning empty response for {model}")
                     return {
                         "model": model,
-                        "response": f"Mock response from {model}",
-                        "success": True,
+                        "response": "",
+                        "success": False,
+                        "error": "No API client configured (set HANZO_API_KEY or use MCP)",
                     }
             except Exception as e:
                 return {"model": model, "error": str(e), "success": False}
@@ -603,7 +605,8 @@ Provide your critical analysis:"""
                         )
                         review = response.choices[0].message.content
                     else:
-                        review = f"Mock critic review from {model}"
+                        logger.warning(f"No API client configured for critic {model}")
+                        review = f"[No API client configured for {model}]"
 
                 reviews.append(
                     {
