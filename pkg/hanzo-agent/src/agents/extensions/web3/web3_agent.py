@@ -134,15 +134,39 @@ class Web3Agent(Agent):
         }
 
     async def verify_payment(self, tx_hash: str, expected_amount_eth: float) -> bool:
-        """Verify a payment was received.
+        """Verify a payment was received by checking the blockchain.
 
-        In a real implementation, this would check the blockchain.
-        For now, we'll use a simplified version.
+        Args:
+            tx_hash: Transaction hash to verify
+            expected_amount_eth: Expected payment amount in ETH
+
+        Returns:
+            True if payment verified, False otherwise
         """
-        # TODO: Implement blockchain verification
-        # For now, just track it
-        self.earnings += expected_amount_eth
-        return True
+        if not self.wallet or not self.wallet.w3:
+            return False
+
+        try:
+            tx = self.wallet.w3.eth.get_transaction(tx_hash)
+            receipt = self.wallet.w3.eth.get_transaction_receipt(tx_hash)
+
+            # Check transaction succeeded
+            if receipt.status != 1:
+                return False
+
+            # Check recipient is our address
+            if tx.to.lower() != self.wallet.address.lower():
+                return False
+
+            # Check amount (with small tolerance for gas estimation differences)
+            amount_wei = self.wallet.w3.to_wei(expected_amount_eth, "ether")
+            if tx.value < amount_wei * 0.99:  # Allow 1% tolerance
+                return False
+
+            self.earnings += expected_amount_eth
+            return True
+        except Exception:
+            return False
 
     async def pay_agent(
         self, to_address: str, amount_eth: float, reason: str
