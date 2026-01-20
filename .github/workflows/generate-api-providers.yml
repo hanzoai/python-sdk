@@ -1,0 +1,91 @@
+name: Generate API Providers
+
+on:
+  schedule:
+    # Run weekly on Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+    inputs:
+      create_pr:
+        description: 'Create a PR with the changes'
+        type: boolean
+        default: true
+      preload_specs:
+        description: 'Pre-download popular OpenAPI specs'
+        type: boolean
+        default: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install httpx aiofiles pyyaml
+
+      - name: Generate providers from APIs.guru + oapis.org
+        run: |
+          cd pkg/hanzo-tools-api
+          python scripts/generate_providers.py > hanzo_tools/api/apis_guru_providers.py
+
+      - name: Pre-download popular specs
+        if: github.event.inputs.preload_specs == 'true'
+        run: |
+          cd pkg/hanzo-tools-api
+          pip install -e .
+          python scripts/preload_specs.py
+          echo "Specs cached at ~/.hanzo/api/specs/"
+          ls -la ~/.hanzo/api/specs/ | head -20
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet pkg/hanzo-tools-api/hanzo_tools/api/apis_guru_providers.py; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Provider configs changed"
+            git diff --stat pkg/hanzo-tools-api/hanzo_tools/api/apis_guru_providers.py
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changed == 'true' && (github.event.inputs.create_pr == 'true' || github.event_name == 'schedule')
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(api): regenerate provider configs from APIs.guru + oapis.org'
+          title: 'chore(api): Update API provider configurations'
+          body: |
+            ## Summary
+            Auto-generated provider configurations from:
+            - [APIs.guru](https://apis.guru/) - OpenAPI specification directory (2500+ APIs)
+            - [oapis.org](https://oapis.org/) - LLM-optimized API descriptions
+
+            This PR updates the `apis_guru_providers.py` file with the latest API configurations.
+
+            ## Stats
+            - Total providers: ~1100+
+            - With OpenAPI specs: ~1100+
+            - LLM-optimized descriptions for popular APIs
+
+            ## Changes
+            - Updated provider configurations
+            - Refreshed spec URLs
+            - Updated LLM-friendly descriptions for popular APIs
+          branch: chore/update-api-providers
+          delete-branch: true
+          labels: |
+            automated
+            dependencies
