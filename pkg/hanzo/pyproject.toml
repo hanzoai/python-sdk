@@ -1,6 +1,6 @@
 [project]
 name = "hanzo"
-version = "0.3.31"
+version = "0.3.32"
 description = "Hanzo AI - Complete AI Infrastructure Platform with CLI, Router, MCP, and Agent Runtime"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
@@ -72,6 +72,40 @@ repl = [
     "hanzo-repl>=0.1.0",
     # "hanzo-router>=1.74.3",  # TODO: For AI chat functionality - publish to PyPI
 ]
+
+# Infrastructure service dependencies
+infra = [
+    # Vector database (Qdrant)
+    "qdrant-client>=1.7.0",
+    # Key-value store (Redis/Valkey)
+    "redis>=5.0.0",
+    # Document database (MongoDB)
+    "motor>=3.3.0",
+    "pymongo>=4.6.0",
+    # Object storage (S3/MinIO)
+    "aiobotocore>=2.9.0",
+    "botocore>=1.34.0",
+    # Full-text search (Meilisearch)
+    "meilisearch-python-sdk>=3.0.0",
+    # Messaging (NATS)
+    "nats-py>=2.6.0",
+    # Workflows (Temporal)
+    "temporalio>=1.4.0",
+    # Scheduled jobs (cron parsing)
+    "croniter>=2.0.0",
+    # HTTP client for Nuclio
+    "httpx>=0.23.0",
+]
+infra-vector = ["qdrant-client>=1.7.0"]
+infra-kv = ["redis>=5.0.0"]
+infra-documentdb = ["motor>=3.3.0", "pymongo>=4.6.0"]
+infra-storage = ["aiobotocore>=2.9.0", "botocore>=1.34.0"]
+infra-search = ["meilisearch-python-sdk>=3.0.0"]
+infra-pubsub = ["nats-py>=2.6.0"]
+infra-tasks = ["temporalio>=1.4.0"]
+infra-queues = ["redis>=5.0.0"]
+infra-cron = ["redis>=5.0.0", "croniter>=2.0.0"]
+infra-functions = ["httpx>=0.23.0"]
 
 [project.urls]
 Homepage = "https://hanzo.ai"
