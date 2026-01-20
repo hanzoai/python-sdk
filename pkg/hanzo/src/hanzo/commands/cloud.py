@@ -115,7 +115,7 @@ def get_api_key() -> Optional[str]:
     return None
 
 
-def get_infra_config() -> dict:
+def get_cloud_config() -> dict:
     """Load infrastructure configuration."""
     config_file = Path.home() / ".hanzo" / "infra.json"
     if config_file.exists():
@@ -126,7 +126,7 @@ def get_infra_config() -> dict:
     return {"services": {}}
 
 
-def save_infra_config(config: dict):
+def save_cloud_config(config: dict):
     """Save infrastructure configuration."""
     config_dir = Path.home() / ".hanzo"
     config_dir.mkdir(exist_ok=True)
@@ -134,8 +134,8 @@ def save_infra_config(config: dict):
     config_file.write_text(json.dumps(config, indent=2))
 
 
-@click.group(name="infra")
-def infra_group():
+@click.group(name="cloud")
+def cloud_group():
     """Manage Hanzo infrastructure services.
 
     Provision and connect to managed infrastructure:
@@ -155,19 +155,19 @@ def infra_group():
 
     \b
     Examples:
-      hanzo infra list              # Show available services
-      hanzo infra provision vector  # Provision Qdrant
-      hanzo infra connect           # Get connection URLs
-      hanzo infra env               # Export as env vars
-      hanzo infra status            # Check health
+      hanzo cloud list              # Show available services
+      hanzo cloud provision vector  # Provision Qdrant
+      hanzo cloud connect           # Get connection URLs
+      hanzo cloud env               # Export as env vars
+      hanzo cloud status            # Check health
     """
     pass
 
 
-@infra_group.command()
+@cloud_group.command()
 def list():
     """List available infrastructure services."""
-    config = get_infra_config()
+    config = get_cloud_config()
     provisioned = config.get("services", {})
 
     table = Table(title="Hanzo Infrastructure Services", box=box.ROUNDED)
@@ -183,10 +183,10 @@ def list():
 
     console.print(table)
     console.print()
-    console.print("[dim]Use 'hanzo infra provision <service>' to provision a service[/dim]")
+    console.print("[dim]Use 'hanzo cloud provision <service>' to provision a service[/dim]")
 
 
-@infra_group.command()
+@cloud_group.command()
 @click.argument("service", type=click.Choice(SERVICE_NAMES))
 @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free", help="Service tier")
 @click.option("--region", default="us-west-2", help="Deployment region")
@@ -228,7 +228,7 @@ def provision(service: str, tier: str, region: str):
             data = resp.json()
 
             # Save to config
-            config = get_infra_config()
+            config = get_cloud_config()
             config["services"][service] = {
                 "id": data.get("id"),
                 "url": data.get("url"),
@@ -238,13 +238,13 @@ def provision(service: str, tier: str, region: str):
                 "tier": tier,
                 "region": region,
             }
-            save_infra_config(config)
+            save_cloud_config(config)
 
             console.print(f"[green]✓ {info['name']} provisioned successfully![/green]")
             console.print()
             console.print(f"[cyan]Connection URL:[/cyan] {data.get('url')}")
             console.print()
-            console.print("[dim]Run 'hanzo infra env' to export environment variables[/dim]")
+            console.print("[dim]Run 'hanzo cloud env' to export environment variables[/dim]")
 
     except httpx.ConnectError:
         console.print("[red]Could not connect to Hanzo API.[/red]")
@@ -253,16 +253,16 @@ def provision(service: str, tier: str, region: str):
         console.print(f"[red]Error: {e}[/red]")
 
 
-@infra_group.command()
+@cloud_group.command()
 @click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
 def connect(service: Optional[str]):
     """Show connection details for provisioned services."""
-    config = get_infra_config()
+    config = get_cloud_config()
     services = config.get("services", {})
 
     if not services:
         console.print("[yellow]No services provisioned yet.[/yellow]")
-        console.print("Run 'hanzo infra provision <service>' to get started.")
+        console.print("Run 'hanzo cloud provision <service>' to get started.")
         return
 
     if service:
@@ -285,12 +285,12 @@ def connect(service: Optional[str]):
         console.print(panel)
 
 
-@infra_group.command()
+@cloud_group.command()
 @click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
 @click.option("--export", "do_export", is_flag=True, help="Print export statements")
 def env(shell: str, do_export: bool):
     """Show environment variables for provisioned services."""
-    config = get_infra_config()
+    config = get_cloud_config()
     services = config.get("services", {})
 
     if not services:
@@ -345,14 +345,14 @@ def env(shell: str, do_export: bool):
 
         console.print(table)
         console.print()
-        console.print(f"[dim]Run 'hanzo infra env --export' to get export statements[/dim]")
+        console.print(f"[dim]Run 'hanzo cloud env --export' to get export statements[/dim]")
 
 
-@infra_group.command()
+@cloud_group.command()
 @click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
 def status(service: Optional[str]):
     """Check health status of provisioned services."""
-    config = get_infra_config()
+    config = get_cloud_config()
     services = config.get("services", {})
 
     if not services:
@@ -398,12 +398,12 @@ def status(service: Optional[str]):
     console.print(table)
 
 
-@infra_group.command()
+@cloud_group.command()
 @click.argument("service", type=click.Choice(SERVICE_NAMES))
 @click.option("--force", is_flag=True, help="Skip confirmation")
 def destroy(service: str, force: bool):
     """Destroy a provisioned service."""
-    config = get_infra_config()
+    config = get_cloud_config()
     services = config.get("services", {})
 
     if service not in services:
@@ -436,7 +436,7 @@ def destroy(service: str, force: bool):
 
         # Remove from config
         del config["services"][service]
-        save_infra_config(config)
+        save_cloud_config(config)
 
         console.print(f"[green]✓ {info['name']} destroyed.[/green]")
 
@@ -444,7 +444,7 @@ def destroy(service: str, force: bool):
         console.print(f"[red]Error: {e}[/red]")
 
 
-@infra_group.command()
+@cloud_group.command()
 def init():
     """Initialize infrastructure from hanzo.yaml config file."""
     config_paths = [
