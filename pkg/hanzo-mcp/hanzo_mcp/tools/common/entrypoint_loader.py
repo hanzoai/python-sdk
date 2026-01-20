@@ -49,6 +49,7 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "config": ["config", "mode"],
     "mcp_tools": ["mcp"],  # Consolidated MCP tool
     "computer": ["computer", "screen"],
+    "api": ["api"],  # Generic API tool for OpenAPI specs
 }
 
 
