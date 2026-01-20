@@ -22,6 +22,7 @@ from .commands import (
     config,
     router,
     network,
+    infra,
 )
 from .ui.startup import show_startup
 from .utils.output import console
@@ -29,7 +30,7 @@ from .interactive.repl import HanzoREPL
 from .interactive.enhanced_repl import EnhancedHanzoREPL
 
 # Version
-__version__ = "0.3.31"
+__version__ = "0.3.34"
 
 
 @click.group(invoke_without_command=True)
@@ -90,6 +91,7 @@ cli.add_command(tools.tools_group)
 cli.add_command(network.network_group)
 cli.add_command(config.config_group)
 cli.add_command(router.router_group)
+cli.add_command(infra.infra_group)
 
 
 # Quick aliases
