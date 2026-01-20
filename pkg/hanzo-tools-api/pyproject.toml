@@ -1,0 +1,53 @@
+[project]
+name = "hanzo-tools-api"
+version = "0.3.1"
+description = "Generic API tool for calling any REST API via OpenAPI specs - search, explore, and dynamically use ANY API"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "mcp", "api", "openapi", "tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "httpx>=0.27.0",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "aiofiles>=24.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24.0",
+    "respx>=0.22.0",  # Mock httpx requests
+]
+
+[project.entry-points."hanzo.tools"]
+api = "hanzo_tools.api:TOOLS"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
