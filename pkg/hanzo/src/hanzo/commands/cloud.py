@@ -10,13 +10,6 @@ Lifecycle verbs (resource-dependent):
   - start, stop, restart (stateful services)
   - enable, disable (functions, cron)
   - pause, resume (queues)
-
-Aliases:
-  - ls → list
-  - rm/destroy → delete
-  - get → describe
-  - provision → create
-  - up → create
 """
 
 import os
@@ -175,10 +168,6 @@ def cloud_group():
     \b
     Services: vector, kv, documentdb, storage, search,
               pubsub, tasks, queues, cron, functions
-
-    \b
-    Aliases:
-      ls → list, rm → delete, get → describe, provision → create
     """
     pass
 
@@ -243,7 +232,6 @@ def instances_list(fmt: str):
     table.add_column("Status", style="yellow")
 
     for svc_name, svc_config in instances.items():
-        info = SERVICES.get(svc_name, {})
         table.add_row(
             svc_name,
             svc_config.get("name", "default"),
@@ -400,7 +388,7 @@ def operations_wait(operation_id: str, timeout: int):
                     status = data.get("status", "")
 
                     if status in ("done", "completed", "succeeded"):
-                        console.print(f"[green]✓ Operation completed[/green]")
+                        console.print("[green]✓ Operation completed[/green]")
                         return
                     elif status in ("failed", "error"):
                         console.print(f"[red]✗ Operation failed: {data.get('error', 'Unknown error')}[/red]")
@@ -412,7 +400,7 @@ def operations_wait(operation_id: str, timeout: int):
                 console.print(f"[red]Error: {e}[/red]")
                 return
 
-    console.print(f"[yellow]Timeout waiting for operation[/yellow]")
+    console.print("[yellow]Timeout waiting for operation[/yellow]")
 
 
 # ============================================================================
@@ -437,36 +425,11 @@ def create_service_group(service_key: str, service_info: dict):
         """Create a new instance."""
         _create_instance(service_key, name, tier, region)
 
-    # provision alias
-    @service_group.command(name="provision", hidden=True)
-    @click.option("--name", default="default")
-    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
-    @click.option("--region", default="us-west-2")
-    def provision(name: str, tier: str, region: str):
-        """Alias for create."""
-        _create_instance(service_key, name, tier, region)
-
-    # up alias
-    @service_group.command(name="up", hidden=True)
-    @click.option("--name", default="default")
-    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
-    @click.option("--region", default="us-west-2")
-    def up(name: str, tier: str, region: str):
-        """Alias for create."""
-        _create_instance(service_key, name, tier, region)
-
     # describe command
     @service_group.command(name="describe")
     @click.option("--name", default="default", help="Instance name")
     def describe(name: str):
         """Show instance details."""
-        _describe_instance(service_key, name)
-
-    # get alias
-    @service_group.command(name="get", hidden=True)
-    @click.option("--name", default="default")
-    def get(name: str):
-        """Alias for describe."""
         _describe_instance(service_key, name)
 
     # list command
@@ -475,34 +438,12 @@ def create_service_group(service_key: str, service_info: dict):
         """List instances of this service type."""
         _list_service_instances(service_key)
 
-    # ls alias
-    @service_group.command(name="ls", hidden=True)
-    def ls():
-        """Alias for list."""
-        _list_service_instances(service_key)
-
     # delete command
     @service_group.command(name="delete")
     @click.option("--name", default="default", help="Instance name")
     @click.option("--force", is_flag=True, help="Skip confirmation")
     def delete(name: str, force: bool):
         """Delete an instance."""
-        _delete_instance(service_key, name, force)
-
-    # rm alias
-    @service_group.command(name="rm", hidden=True)
-    @click.option("--name", default="default")
-    @click.option("--force", is_flag=True)
-    def rm(name: str, force: bool):
-        """Alias for delete."""
-        _delete_instance(service_key, name, force)
-
-    # destroy alias
-    @service_group.command(name="destroy", hidden=True)
-    @click.option("--name", default="default")
-    @click.option("--force", is_flag=True)
-    def destroy(name: str, force: bool):
-        """Alias for delete."""
         _delete_instance(service_key, name, force)
 
     # connect command
@@ -701,7 +642,6 @@ def _list_service_instances(service: str):
         console.print(f"Run 'hanzo cloud {service} create' to create one.")
         return
 
-    # For now, we only support one instance per service type
     svc_config = instances[service]
     info = SERVICES[service]
 
@@ -979,88 +919,8 @@ for svc_key, svc_info in SERVICES.items():
 
 
 # ============================================================================
-# Backwards compatibility aliases (top-level)
+# Init command
 # ============================================================================
-
-@cloud_group.command(name="list", hidden=True)
-def compat_list():
-    """[Deprecated] Use 'hanzo cloud instances list'."""
-    console.print("[dim]Hint: Use 'hanzo cloud instances list' for the new syntax[/dim]")
-    console.print()
-    instances_list.callback("table")
-
-
-@cloud_group.command(name="ls", hidden=True)
-def compat_ls():
-    """[Deprecated] Alias for list."""
-    compat_list.callback()
-
-
-@cloud_group.command(name="provision", hidden=True)
-@click.argument("service", type=click.Choice(SERVICE_NAMES))
-@click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
-@click.option("--region", default="us-west-2")
-def compat_provision(service: str, tier: str, region: str):
-    """[Deprecated] Use 'hanzo cloud <service> create'."""
-    console.print(f"[dim]Hint: Use 'hanzo cloud {service} create' for the new syntax[/dim]")
-    console.print()
-    _create_instance(service, "default", tier, region)
-
-
-@cloud_group.command(name="destroy", hidden=True)
-@click.argument("service", type=click.Choice(SERVICE_NAMES))
-@click.option("--force", is_flag=True)
-def compat_destroy(service: str, force: bool):
-    """[Deprecated] Use 'hanzo cloud <service> delete'."""
-    console.print(f"[dim]Hint: Use 'hanzo cloud {service} delete' for the new syntax[/dim]")
-    console.print()
-    _delete_instance(service, "default", force)
-
-
-@cloud_group.command(name="connect", hidden=True)
-@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
-def compat_connect(service: Optional[str]):
-    """[Deprecated] Use 'hanzo cloud <service> connect'."""
-    if service:
-        console.print(f"[dim]Hint: Use 'hanzo cloud {service} connect' for the new syntax[/dim]")
-        console.print()
-        _connect_instance(service, "default")
-    else:
-        console.print("[yellow]Specify a service: hanzo cloud <service> connect[/yellow]")
-
-
-@cloud_group.command(name="env", hidden=True)
-@click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
-@click.option("--export", "do_export", is_flag=True)
-def compat_env(shell: str, do_export: bool):
-    """[Deprecated] Use 'hanzo cloud <service> env'."""
-    console.print("[dim]Hint: Use 'hanzo cloud <service> env' for the new syntax[/dim]")
-    console.print()
-
-    config = get_cloud_config()
-    instances = config.get("instances", {})
-
-    if not instances:
-        console.print("[yellow]No instances provisioned.[/yellow]")
-        return
-
-    for svc in instances:
-        _env_instance(svc, "default", shell, do_export)
-
-
-@cloud_group.command(name="status", hidden=True)
-@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
-def compat_status(service: Optional[str]):
-    """[Deprecated] Use 'hanzo cloud <service> status'."""
-    if service:
-        console.print(f"[dim]Hint: Use 'hanzo cloud {service} status' for the new syntax[/dim]")
-        console.print()
-        _status_instance(service, "default")
-    else:
-        config = get_cloud_config()
-        for svc in config.get("instances", {}):
-            _status_instance(svc, "default")
-
 
 @cloud_group.command(name="init")
 def init():
@@ -1097,7 +957,7 @@ def init():
         console.print(f"[red]Error parsing {config_file}: {e}[/red]")
         return
 
-    cloud_config = config.get("cloud", config.get("infra", {}))
+    cloud_config = config.get("cloud", {})
     if not cloud_config:
         console.print("[yellow]No 'cloud' section in config file.[/yellow]")
         return
