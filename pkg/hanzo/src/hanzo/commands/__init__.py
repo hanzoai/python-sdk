@@ -6,7 +6,7 @@ __all__ = [
     "chat",
     "cluster",
     "config",
-    "infra",
+    "cloud",
     "mcp",
     "miner",
     "network",
