@@ -1,6 +1,6 @@
 [project]
 name = "hanzo"
-version = "0.3.34"
+version = "0.3.35"
 description = "Hanzo AI - Complete AI Infrastructure Platform with CLI, Router, MCP, and Agent Runtime"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
@@ -18,7 +18,7 @@ dependencies = [
     "qrcode>=7.4.2",
 ]
 readme = "README.md"
-requires-python = ">= 3.10"
+requires-python = ">= 3.12"
 keywords = ["ai", "cli", "hanzo", "agents", "llm", "mcp", "local-ai", "private-ai"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -27,9 +27,8 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]

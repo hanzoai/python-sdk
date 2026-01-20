@@ -22,7 +22,7 @@ from .commands import (
     config,
     router,
     network,
-    infra,
+    cloud,
 )
 from .ui.startup import show_startup
 from .utils.output import console
@@ -91,7 +91,7 @@ cli.add_command(tools.tools_group)
 cli.add_command(network.network_group)
 cli.add_command(config.config_group)
 cli.add_command(router.router_group)
-cli.add_command(infra.infra_group)
+cli.add_command(cloud.cloud_group)
 
 
 # Quick aliases
