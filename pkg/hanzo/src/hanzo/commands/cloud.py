@@ -1,16 +1,22 @@
-"""Infrastructure management commands for Hanzo CLI.
+"""Cloud infrastructure management commands for Hanzo CLI.
 
-Provision and manage infrastructure services on Hanzo Cloud:
-- Vector (Qdrant)
-- KV (Redis/Valkey)
-- DocumentDB (MongoDB)
-- Storage (S3/MinIO)
-- Search (Meilisearch)
-- PubSub (NATS)
-- Tasks (Temporal)
-- Queues
-- Cron
-- Functions (Nuclio)
+Follows gcloud idioms: hanzo cloud <service> <verb>
+
+Canonical verbs:
+  - list, describe, create, delete, update
+  - connect, env, status (Hanzo-specific)
+
+Lifecycle verbs (resource-dependent):
+  - start, stop, restart (stateful services)
+  - enable, disable (functions, cron)
+  - pause, resume (queues)
+
+Aliases:
+  - ls → list
+  - rm/destroy → delete
+  - get → describe
+  - provision → create
+  - up → create
 """
 
 import os
@@ -30,74 +36,81 @@ from ..utils.output import console
 
 HANZO_API_URL = os.getenv("HANZO_API_URL", "https://api.hanzo.ai")
 
-# Service names - defined before SERVICES dict for click.Choice
-SERVICE_NAMES = (
-    "vector", "kv", "documentdb", "storage", "search",
-    "pubsub", "tasks", "queues", "cron", "functions"
-)
-
+# Service definitions with lifecycle capabilities
 SERVICES = {
     "vector": {
         "name": "Vector Database",
         "description": "Qdrant vector similarity search",
         "env_prefix": "QDRANT",
         "default_port": 6333,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "kv": {
         "name": "Key-Value Store",
         "description": "Redis/Valkey for caching and state",
         "env_prefix": "REDIS",
         "default_port": 6379,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "documentdb": {
         "name": "Document Database",
         "description": "MongoDB for document storage",
         "env_prefix": "MONGODB",
         "default_port": 27017,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "storage": {
         "name": "Object Storage",
         "description": "S3-compatible storage (MinIO)",
         "env_prefix": "S3",
         "default_port": 9000,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "search": {
         "name": "Full-Text Search",
         "description": "Meilisearch for fast search",
         "env_prefix": "MEILI",
         "default_port": 7700,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "pubsub": {
         "name": "Pub/Sub Messaging",
         "description": "NATS for event streaming",
         "env_prefix": "NATS",
         "default_port": 4222,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "tasks": {
         "name": "Workflow Engine",
         "description": "Temporal for durable workflows",
         "env_prefix": "TEMPORAL",
         "default_port": 7233,
+        "lifecycle": ["start", "stop", "restart"],
     },
     "queues": {
         "name": "Job Queues",
         "description": "Distributed work queues",
         "env_prefix": "QUEUE",
         "default_port": 6379,
+        "lifecycle": ["pause", "resume"],
     },
     "cron": {
         "name": "Scheduled Jobs",
         "description": "Cron-based job scheduling",
         "env_prefix": "CRON",
         "default_port": 6379,
+        "lifecycle": ["enable", "disable"],
     },
     "functions": {
         "name": "Serverless Functions",
         "description": "Nuclio function runtime",
         "env_prefix": "NUCLIO",
         "default_port": 8070,
+        "lifecycle": ["enable", "disable"],
     },
 }
+
+SERVICE_NAMES = tuple(SERVICES.keys())
 
 
 def get_api_key() -> Optional[str]:
@@ -116,97 +129,489 @@ def get_api_key() -> Optional[str]:
 
 
 def get_cloud_config() -> dict:
-    """Load infrastructure configuration."""
-    config_file = Path.home() / ".hanzo" / "infra.json"
+    """Load cloud configuration."""
+    config_file = Path.home() / ".hanzo" / "cloud.json"
     if config_file.exists():
         try:
             return json.loads(config_file.read_text())
         except Exception:
             pass
-    return {"services": {}}
+    return {"instances": {}}
 
 
 def save_cloud_config(config: dict):
-    """Save infrastructure configuration."""
+    """Save cloud configuration."""
     config_dir = Path.home() / ".hanzo"
     config_dir.mkdir(exist_ok=True)
-    config_file = config_dir / "infra.json"
+    config_file = config_dir / "cloud.json"
     config_file.write_text(json.dumps(config, indent=2))
 
 
+# ============================================================================
+# Main cloud group
+# ============================================================================
+
 @click.group(name="cloud")
 def cloud_group():
-    """Manage Hanzo infrastructure services.
-
-    Provision and connect to managed infrastructure:
+    """Manage Hanzo Cloud infrastructure.
 
     \b
-    Services:
-      vector     - Qdrant vector database
-      kv         - Redis/Valkey key-value store
-      documentdb - MongoDB document database
-      storage    - S3/MinIO object storage
-      search     - Meilisearch full-text search
-      pubsub     - NATS messaging
-      tasks      - Temporal workflows
-      queues     - Distributed job queues
-      cron       - Scheduled jobs
-      functions  - Nuclio serverless
+    Structure: hanzo cloud <service> <verb>
 
     \b
-    Examples:
-      hanzo cloud list              # Show available services
-      hanzo cloud provision vector  # Provision Qdrant
-      hanzo cloud connect           # Get connection URLs
-      hanzo cloud env               # Export as env vars
-      hanzo cloud status            # Check health
+    Discovery:
+      hanzo cloud services list       # Available service types
+      hanzo cloud instances list      # Your provisioned instances
+
+    \b
+    Per-service commands:
+      hanzo cloud vector create       # Create a vector DB
+      hanzo cloud vector describe     # Show instance details
+      hanzo cloud vector delete       # Delete instance
+      hanzo cloud vector connect      # Connection details
+      hanzo cloud vector env          # Export env vars
+      hanzo cloud vector status       # Health check
+
+    \b
+    Services: vector, kv, documentdb, storage, search,
+              pubsub, tasks, queues, cron, functions
+
+    \b
+    Aliases:
+      ls → list, rm → delete, get → describe, provision → create
     """
     pass
 
 
-@cloud_group.command()
-def list():
-    """List available infrastructure services."""
-    config = get_cloud_config()
-    provisioned = config.get("services", {})
+# ============================================================================
+# Services subgroup - list available service types
+# ============================================================================
 
-    table = Table(title="Hanzo Infrastructure Services", box=box.ROUNDED)
+@cloud_group.group(name="services")
+def services_group():
+    """Manage available service types."""
+    pass
+
+
+@services_group.command(name="list")
+def services_list():
+    """List available infrastructure service types."""
+    table = Table(title="Available Services", box=box.ROUNDED)
     table.add_column("Service", style="cyan")
     table.add_column("Name", style="white")
-    table.add_column("Status", style="green")
     table.add_column("Description", style="dim")
+    table.add_column("Lifecycle", style="yellow")
 
     for key, info in SERVICES.items():
-        status = "✓ Provisioned" if key in provisioned else "○ Available"
-        style = "green" if key in provisioned else "dim"
-        table.add_row(key, info["name"], f"[{style}]{status}[/{style}]", info["description"])
+        lifecycle = ", ".join(info.get("lifecycle", []))
+        table.add_row(key, info["name"], info["description"], lifecycle or "-")
 
     console.print(table)
-    console.print()
-    console.print("[dim]Use 'hanzo cloud provision <service>' to provision a service[/dim]")
 
 
-@cloud_group.command()
+# ============================================================================
+# Instances subgroup - list/describe provisioned instances
+# ============================================================================
+
+@cloud_group.group(name="instances")
+def instances_group():
+    """Manage provisioned instances."""
+    pass
+
+
+@instances_group.command(name="list")
+@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
+def instances_list(fmt: str):
+    """List all provisioned instances."""
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if fmt == "json":
+        console.print_json(json.dumps(instances))
+        return
+
+    if not instances:
+        console.print("[yellow]No instances provisioned.[/yellow]")
+        console.print("Run 'hanzo cloud <service> create' to get started.")
+        return
+
+    table = Table(title="Provisioned Instances", box=box.ROUNDED)
+    table.add_column("Service", style="cyan")
+    table.add_column("Name", style="white")
+    table.add_column("Region", style="dim")
+    table.add_column("Tier", style="green")
+    table.add_column("Status", style="yellow")
+
+    for svc_name, svc_config in instances.items():
+        info = SERVICES.get(svc_name, {})
+        table.add_row(
+            svc_name,
+            svc_config.get("name", "default"),
+            svc_config.get("region", "us-west-2"),
+            svc_config.get("tier", "free"),
+            svc_config.get("status", "unknown"),
+        )
+
+    console.print(table)
+
+
+@instances_group.command(name="describe")
 @click.argument("service", type=click.Choice(SERVICE_NAMES))
-@click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free", help="Service tier")
-@click.option("--region", default="us-west-2", help="Deployment region")
-def provision(service: str, tier: str, region: str):
-    """Provision an infrastructure service on Hanzo Cloud."""
+@click.option("--name", default="default", help="Instance name")
+def instances_describe(service: str, name: str):
+    """Describe a provisioned instance."""
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+
+    console.print(Panel(
+        f"[cyan]Service:[/cyan] {info['name']}\n"
+        f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
+        f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
+        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
+        f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
+        f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
+        f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
+        title=f"[bold]{service}[/bold]",
+        border_style="cyan",
+    ))
+
+
+# ============================================================================
+# Operations subgroup - async operation tracking
+# ============================================================================
+
+@cloud_group.group(name="operations")
+def operations_group():
+    """Track async operations."""
+    pass
+
+
+@operations_group.command(name="list")
+def operations_list():
+    """List recent operations."""
+    api_key = get_api_key()
+    if not api_key:
+        console.print("[red]Not authenticated. Run 'hanzo auth login' first.[/red]")
+        return
+
+    try:
+        with httpx.Client(timeout=30) as client:
+            resp = client.get(
+                f"{HANZO_API_URL}/v1/cloud/operations",
+                headers={"Authorization": f"Bearer {api_key}"},
+            )
+
+            if resp.status_code >= 400:
+                console.print(f"[red]Error: {resp.text}[/red]")
+                return
+
+            data = resp.json()
+            operations = data.get("operations", [])
+
+            if not operations:
+                console.print("[dim]No recent operations.[/dim]")
+                return
+
+            table = Table(title="Operations", box=box.ROUNDED)
+            table.add_column("ID", style="cyan")
+            table.add_column("Type", style="white")
+            table.add_column("Resource", style="dim")
+            table.add_column("Status", style="yellow")
+
+            for op in operations:
+                table.add_row(
+                    op.get("id", "")[:12],
+                    op.get("type", ""),
+                    op.get("resource", ""),
+                    op.get("status", ""),
+                )
+
+            console.print(table)
+
+    except httpx.ConnectError:
+        console.print("[red]Could not connect to Hanzo API.[/red]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+
+
+@operations_group.command(name="describe")
+@click.argument("operation_id")
+def operations_describe(operation_id: str):
+    """Describe an operation."""
+    api_key = get_api_key()
+    if not api_key:
+        console.print("[red]Not authenticated.[/red]")
+        return
+
+    try:
+        with httpx.Client(timeout=30) as client:
+            resp = client.get(
+                f"{HANZO_API_URL}/v1/cloud/operations/{operation_id}",
+                headers={"Authorization": f"Bearer {api_key}"},
+            )
+
+            if resp.status_code >= 400:
+                console.print(f"[red]Error: {resp.text}[/red]")
+                return
+
+            data = resp.json()
+            console.print_json(json.dumps(data, indent=2))
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+
+
+@operations_group.command(name="wait")
+@click.argument("operation_id")
+@click.option("--timeout", default=300, help="Timeout in seconds")
+def operations_wait(operation_id: str, timeout: int):
+    """Wait for an operation to complete."""
+    api_key = get_api_key()
+    if not api_key:
+        console.print("[red]Not authenticated.[/red]")
+        return
+
+    import time
+    start = time.time()
+
+    with console.status(f"Waiting for operation {operation_id[:12]}..."):
+        while time.time() - start < timeout:
+            try:
+                with httpx.Client(timeout=30) as client:
+                    resp = client.get(
+                        f"{HANZO_API_URL}/v1/cloud/operations/{operation_id}",
+                        headers={"Authorization": f"Bearer {api_key}"},
+                    )
+
+                    if resp.status_code >= 400:
+                        console.print(f"[red]Error: {resp.text}[/red]")
+                        return
+
+                    data = resp.json()
+                    status = data.get("status", "")
+
+                    if status in ("done", "completed", "succeeded"):
+                        console.print(f"[green]✓ Operation completed[/green]")
+                        return
+                    elif status in ("failed", "error"):
+                        console.print(f"[red]✗ Operation failed: {data.get('error', 'Unknown error')}[/red]")
+                        return
+
+                    time.sleep(2)
+
+            except Exception as e:
+                console.print(f"[red]Error: {e}[/red]")
+                return
+
+    console.print(f"[yellow]Timeout waiting for operation[/yellow]")
+
+
+# ============================================================================
+# Per-service command factory
+# ============================================================================
+
+def create_service_group(service_key: str, service_info: dict):
+    """Create a command group for a specific service."""
+
+    @click.group(name=service_key)
+    def service_group():
+        pass
+
+    service_group.__doc__ = f"Manage {service_info['name']} instances."
+
+    # create command
+    @service_group.command(name="create")
+    @click.option("--name", default="default", help="Instance name")
+    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
+    @click.option("--region", default="us-west-2", help="Deployment region")
+    def create(name: str, tier: str, region: str):
+        """Create a new instance."""
+        _create_instance(service_key, name, tier, region)
+
+    # provision alias
+    @service_group.command(name="provision", hidden=True)
+    @click.option("--name", default="default")
+    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
+    @click.option("--region", default="us-west-2")
+    def provision(name: str, tier: str, region: str):
+        """Alias for create."""
+        _create_instance(service_key, name, tier, region)
+
+    # up alias
+    @service_group.command(name="up", hidden=True)
+    @click.option("--name", default="default")
+    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
+    @click.option("--region", default="us-west-2")
+    def up(name: str, tier: str, region: str):
+        """Alias for create."""
+        _create_instance(service_key, name, tier, region)
+
+    # describe command
+    @service_group.command(name="describe")
+    @click.option("--name", default="default", help="Instance name")
+    def describe(name: str):
+        """Show instance details."""
+        _describe_instance(service_key, name)
+
+    # get alias
+    @service_group.command(name="get", hidden=True)
+    @click.option("--name", default="default")
+    def get(name: str):
+        """Alias for describe."""
+        _describe_instance(service_key, name)
+
+    # list command
+    @service_group.command(name="list")
+    def list_cmd():
+        """List instances of this service type."""
+        _list_service_instances(service_key)
+
+    # ls alias
+    @service_group.command(name="ls", hidden=True)
+    def ls():
+        """Alias for list."""
+        _list_service_instances(service_key)
+
+    # delete command
+    @service_group.command(name="delete")
+    @click.option("--name", default="default", help="Instance name")
+    @click.option("--force", is_flag=True, help="Skip confirmation")
+    def delete(name: str, force: bool):
+        """Delete an instance."""
+        _delete_instance(service_key, name, force)
+
+    # rm alias
+    @service_group.command(name="rm", hidden=True)
+    @click.option("--name", default="default")
+    @click.option("--force", is_flag=True)
+    def rm(name: str, force: bool):
+        """Alias for delete."""
+        _delete_instance(service_key, name, force)
+
+    # destroy alias
+    @service_group.command(name="destroy", hidden=True)
+    @click.option("--name", default="default")
+    @click.option("--force", is_flag=True)
+    def destroy(name: str, force: bool):
+        """Alias for delete."""
+        _delete_instance(service_key, name, force)
+
+    # connect command
+    @service_group.command(name="connect")
+    @click.option("--name", default="default", help="Instance name")
+    def connect(name: str):
+        """Show connection details."""
+        _connect_instance(service_key, name)
+
+    # env command
+    @service_group.command(name="env")
+    @click.option("--name", default="default", help="Instance name")
+    @click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
+    @click.option("--export", "do_export", is_flag=True, help="Print export statements")
+    def env(name: str, shell: str, do_export: bool):
+        """Show/export environment variables."""
+        _env_instance(service_key, name, shell, do_export)
+
+    # status command
+    @service_group.command(name="status")
+    @click.option("--name", default="default", help="Instance name")
+    def status(name: str):
+        """Check instance health."""
+        _status_instance(service_key, name)
+
+    # update command
+    @service_group.command(name="update")
+    @click.option("--name", default="default", help="Instance name")
+    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]))
+    def update(name: str, tier: Optional[str]):
+        """Update instance configuration."""
+        _update_instance(service_key, name, tier)
+
+    # Add lifecycle commands based on service capabilities
+    lifecycle = service_info.get("lifecycle", [])
+
+    if "start" in lifecycle:
+        @service_group.command(name="start")
+        @click.option("--name", default="default")
+        def start(name: str):
+            """Start a stopped instance."""
+            _lifecycle_action(service_key, name, "start")
+
+    if "stop" in lifecycle:
+        @service_group.command(name="stop")
+        @click.option("--name", default="default")
+        def stop(name: str):
+            """Stop a running instance."""
+            _lifecycle_action(service_key, name, "stop")
+
+    if "restart" in lifecycle:
+        @service_group.command(name="restart")
+        @click.option("--name", default="default")
+        def restart(name: str):
+            """Restart an instance."""
+            _lifecycle_action(service_key, name, "restart")
+
+    if "enable" in lifecycle:
+        @service_group.command(name="enable")
+        @click.option("--name", default="default")
+        def enable(name: str):
+            """Enable the service."""
+            _lifecycle_action(service_key, name, "enable")
+
+    if "disable" in lifecycle:
+        @service_group.command(name="disable")
+        @click.option("--name", default="default")
+        def disable(name: str):
+            """Disable the service."""
+            _lifecycle_action(service_key, name, "disable")
+
+    if "pause" in lifecycle:
+        @service_group.command(name="pause")
+        @click.option("--name", default="default")
+        def pause(name: str):
+            """Pause the service (retain data)."""
+            _lifecycle_action(service_key, name, "pause")
+
+    if "resume" in lifecycle:
+        @service_group.command(name="resume")
+        @click.option("--name", default="default")
+        def resume(name: str):
+            """Resume a paused service."""
+            _lifecycle_action(service_key, name, "resume")
+
+    return service_group
+
+
+# ============================================================================
+# Implementation functions
+# ============================================================================
+
+def _create_instance(service: str, name: str, tier: str, region: str):
+    """Create a new instance."""
     api_key = get_api_key()
     if not api_key:
         console.print("[red]Not authenticated. Run 'hanzo auth login' first.[/red]")
         return
 
     info = SERVICES[service]
-    console.print(f"[cyan]Provisioning {info['name']}...[/cyan]")
+    console.print(f"[cyan]Creating {info['name']} instance '{name}'...[/cyan]")
 
     try:
         with httpx.Client(timeout=60) as client:
             resp = client.post(
-                f"{HANZO_API_URL}/v1/infra/provision",
+                f"{HANZO_API_URL}/v1/cloud/{service}",
                 headers={"Authorization": f"Bearer {api_key}"},
                 json={
-                    "service": service,
+                    "name": name,
                     "tier": tier,
                     "region": region,
                 },
@@ -221,6 +626,10 @@ def provision(service: str, tier: str, region: str):
                 console.print("Visit https://hanzo.ai/pricing to upgrade.")
                 return
 
+            if resp.status_code == 409:
+                console.print(f"[yellow]Instance '{name}' already exists. Use 'update' to modify.[/yellow]")
+                return
+
             if resp.status_code >= 400:
                 console.print(f"[red]Error: {resp.text}[/red]")
                 return
@@ -229,191 +638,102 @@ def provision(service: str, tier: str, region: str):
 
             # Save to config
             config = get_cloud_config()
-            config["services"][service] = {
+            config["instances"][service] = {
                 "id": data.get("id"),
+                "name": name,
                 "url": data.get("url"),
                 "host": data.get("host"),
                 "port": data.get("port"),
                 "credentials": data.get("credentials", {}),
                 "tier": tier,
                 "region": region,
+                "status": "running",
             }
             save_cloud_config(config)
 
-            console.print(f"[green]✓ {info['name']} provisioned successfully![/green]")
+            console.print(f"[green]✓ {info['name']} created successfully![/green]")
             console.print()
-            console.print(f"[cyan]Connection URL:[/cyan] {data.get('url')}")
+            console.print(f"[cyan]URL:[/cyan] {data.get('url')}")
             console.print()
-            console.print("[dim]Run 'hanzo cloud env' to export environment variables[/dim]")
+            console.print(f"[dim]Run 'hanzo cloud {service} env --export' for environment variables[/dim]")
 
     except httpx.ConnectError:
         console.print("[red]Could not connect to Hanzo API.[/red]")
-        console.print("[dim]Check your network connection or try again later.[/dim]")
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 
 
-@cloud_group.command()
-@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
-def connect(service: Optional[str]):
-    """Show connection details for provisioned services."""
+def _describe_instance(service: str, name: str):
+    """Describe an instance."""
     config = get_cloud_config()
-    services = config.get("services", {})
+    instances = config.get("instances", {})
 
-    if not services:
-        console.print("[yellow]No services provisioned yet.[/yellow]")
-        console.print("Run 'hanzo cloud provision <service>' to get started.")
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        console.print(f"Run 'hanzo cloud {service} create' to create one.")
         return
 
-    if service:
-        if service not in services:
-            console.print(f"[yellow]{service} not provisioned.[/yellow]")
-            return
-        services = {service: services[service]}
+    svc_config = instances[service]
+    info = SERVICES[service]
 
-    for svc_name, svc_config in services.items():
-        info = SERVICES[svc_name]
-        panel = Panel(
-            f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
-            f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
-            f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
-            f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
-            f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}",
-            title=f"[bold]{info['name']}[/bold]",
-            border_style="cyan",
-        )
-        console.print(panel)
+    console.print(Panel(
+        f"[cyan]Service:[/cyan] {info['name']}\n"
+        f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
+        f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
+        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
+        f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
+        f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
+        f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
+        title=f"[bold]{service}[/bold]",
+        border_style="cyan",
+    ))
 
 
-@cloud_group.command()
-@click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
-@click.option("--export", "do_export", is_flag=True, help="Print export statements")
-def env(shell: str, do_export: bool):
-    """Show environment variables for provisioned services."""
+def _list_service_instances(service: str):
+    """List instances of a specific service type."""
     config = get_cloud_config()
-    services = config.get("services", {})
+    instances = config.get("instances", {})
 
-    if not services:
-        console.print("[yellow]No services provisioned.[/yellow]")
+    if service not in instances:
+        console.print(f"[yellow]No {service} instances.[/yellow]")
+        console.print(f"Run 'hanzo cloud {service} create' to create one.")
         return
 
-    env_vars = []
+    # For now, we only support one instance per service type
+    svc_config = instances[service]
+    info = SERVICES[service]
 
-    for svc_name, svc_config in services.items():
-        info = SERVICES[svc_name]
-        prefix = info["env_prefix"]
+    table = Table(title=f"{info['name']} Instances", box=box.ROUNDED)
+    table.add_column("Name", style="cyan")
+    table.add_column("Region", style="dim")
+    table.add_column("Tier", style="green")
+    table.add_column("Status", style="yellow")
 
-        if svc_config.get("url"):
-            env_vars.append((f"{prefix}_URL", svc_config["url"]))
-        if svc_config.get("host"):
-            env_vars.append((f"{prefix}_HOST", svc_config["host"]))
-        if svc_config.get("port"):
-            env_vars.append((f"{prefix}_PORT", str(svc_config["port"])))
-
-        creds = svc_config.get("credentials", {})
-        if creds.get("api_key"):
-            env_vars.append((f"{prefix}_API_KEY", creds["api_key"]))
-        if creds.get("password"):
-            env_vars.append((f"{prefix}_PASSWORD", creds["password"]))
-        if creds.get("username"):
-            env_vars.append((f"{prefix}_USERNAME", creds["username"]))
-
-    if do_export:
-        # Print export statements
-        if shell in ("bash", "zsh"):
-            for key, value in env_vars:
-                console.print(f'export {key}="{value}"')
-        elif shell == "fish":
-            for key, value in env_vars:
-                console.print(f'set -gx {key} "{value}"')
-        elif shell == "powershell":
-            for key, value in env_vars:
-                console.print(f'$env:{key} = "{value}"')
-    else:
-        # Show as table
-        table = Table(title="Environment Variables", box=box.ROUNDED)
-        table.add_column("Variable", style="cyan")
-        table.add_column("Value", style="green")
-
-        for key, value in env_vars:
-            # Mask sensitive values
-            if "KEY" in key or "PASSWORD" in key or "SECRET" in key:
-                display = value[:8] + "..." if len(value) > 8 else "***"
-            else:
-                display = value
-            table.add_row(key, display)
-
-        console.print(table)
-        console.print()
-        console.print(f"[dim]Run 'hanzo cloud env --export' to get export statements[/dim]")
-
-
-@cloud_group.command()
-@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
-def status(service: Optional[str]):
-    """Check health status of provisioned services."""
-    config = get_cloud_config()
-    services = config.get("services", {})
-
-    if not services:
-        console.print("[yellow]No services provisioned.[/yellow]")
-        return
-
-    if service:
-        if service not in services:
-            console.print(f"[yellow]{service} not provisioned.[/yellow]")
-            return
-        services = {service: services[service]}
-
-    api_key = get_api_key()
-
-    table = Table(title="Service Health", box=box.ROUNDED)
-    table.add_column("Service", style="cyan")
-    table.add_column("Status", style="white")
-    table.add_column("Latency", style="dim")
-
-    with httpx.Client(timeout=10) as client:
-        for svc_name, svc_config in services.items():
-            info = SERVICES[svc_name]
-
-            try:
-                resp = client.get(
-                    f"{HANZO_API_URL}/v1/infra/{svc_config.get('id')}/health",
-                    headers={"Authorization": f"Bearer {api_key}"} if api_key else {},
-                )
-
-                if resp.status_code == 200:
-                    data = resp.json()
-                    status_str = "[green]● Healthy[/green]"
-                    latency = f"{data.get('latency_ms', '?')}ms"
-                else:
-                    status_str = "[yellow]○ Unknown[/yellow]"
-                    latency = "-"
-            except Exception:
-                status_str = "[red]✗ Unreachable[/red]"
-                latency = "-"
-
-            table.add_row(info["name"], status_str, latency)
+    table.add_row(
+        svc_config.get("name", "default"),
+        svc_config.get("region", "us-west-2"),
+        svc_config.get("tier", "free"),
+        svc_config.get("status", "unknown"),
+    )
 
     console.print(table)
 
 
-@cloud_group.command()
-@click.argument("service", type=click.Choice(SERVICE_NAMES))
-@click.option("--force", is_flag=True, help="Skip confirmation")
-def destroy(service: str, force: bool):
-    """Destroy a provisioned service."""
+def _delete_instance(service: str, name: str, force: bool):
+    """Delete an instance."""
     config = get_cloud_config()
-    services = config.get("services", {})
+    instances = config.get("instances", {})
 
-    if service not in services:
+    if service not in instances:
         console.print(f"[yellow]{service} not provisioned.[/yellow]")
         return
 
     info = SERVICES[service]
 
     if not force:
-        if not Confirm.ask(f"[red]Destroy {info['name']}? This cannot be undone.[/red]"):
+        if not Confirm.ask(f"[red]Delete {info['name']} '{name}'? This cannot be undone.[/red]"):
             console.print("Cancelled.")
             return
 
@@ -424,9 +744,205 @@ def destroy(service: str, force: bool):
 
     try:
         with httpx.Client(timeout=30) as client:
-            svc_id = services[service].get("id")
+            svc_id = instances[service].get("id")
             resp = client.delete(
-                f"{HANZO_API_URL}/v1/infra/{svc_id}",
+                f"{HANZO_API_URL}/v1/cloud/{service}/{svc_id}",
+                headers={"Authorization": f"Bearer {api_key}"},
+            )
+
+            if resp.status_code >= 400 and resp.status_code != 404:
+                console.print(f"[red]Error: {resp.text}[/red]")
+                return
+
+        # Remove from config
+        del config["instances"][service]
+        save_cloud_config(config)
+
+        console.print(f"[green]✓ {info['name']} deleted.[/green]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+
+
+def _connect_instance(service: str, name: str):
+    """Show connection details."""
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+
+    console.print(Panel(
+        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}",
+        title=f"[bold]{info['name']} Connection[/bold]",
+        border_style="cyan",
+    ))
+
+
+def _env_instance(service: str, name: str, shell: str, do_export: bool):
+    """Show/export environment variables."""
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+    prefix = info["env_prefix"]
+
+    env_vars = []
+    if svc_config.get("url"):
+        env_vars.append((f"{prefix}_URL", svc_config["url"]))
+    if svc_config.get("host"):
+        env_vars.append((f"{prefix}_HOST", svc_config["host"]))
+    if svc_config.get("port"):
+        env_vars.append((f"{prefix}_PORT", str(svc_config["port"])))
+
+    creds = svc_config.get("credentials", {})
+    if creds.get("api_key"):
+        env_vars.append((f"{prefix}_API_KEY", creds["api_key"]))
+    if creds.get("password"):
+        env_vars.append((f"{prefix}_PASSWORD", creds["password"]))
+    if creds.get("username"):
+        env_vars.append((f"{prefix}_USERNAME", creds["username"]))
+
+    if do_export:
+        if shell in ("bash", "zsh"):
+            for key, value in env_vars:
+                console.print(f'export {key}="{value}"')
+        elif shell == "fish":
+            for key, value in env_vars:
+                console.print(f'set -gx {key} "{value}"')
+        elif shell == "powershell":
+            for key, value in env_vars:
+                console.print(f'$env:{key} = "{value}"')
+    else:
+        table = Table(title=f"{info['name']} Environment", box=box.ROUNDED)
+        table.add_column("Variable", style="cyan")
+        table.add_column("Value", style="green")
+
+        for key, value in env_vars:
+            if "KEY" in key or "PASSWORD" in key or "SECRET" in key:
+                display = value[:8] + "..." if len(value) > 8 else "***"
+            else:
+                display = value
+            table.add_row(key, display)
+
+        console.print(table)
+        console.print()
+        console.print(f"[dim]Run 'hanzo cloud {service} env --export' for export statements[/dim]")
+
+
+def _status_instance(service: str, name: str):
+    """Check instance health."""
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+    api_key = get_api_key()
+
+    try:
+        with httpx.Client(timeout=10) as client:
+            resp = client.get(
+                f"{HANZO_API_URL}/v1/cloud/{service}/{svc_config.get('id')}/health",
+                headers={"Authorization": f"Bearer {api_key}"} if api_key else {},
+            )
+
+            if resp.status_code == 200:
+                data = resp.json()
+                status = "[green]● Healthy[/green]"
+                latency = f"{data.get('latency_ms', '?')}ms"
+            else:
+                status = "[yellow]○ Unknown[/yellow]"
+                latency = "-"
+    except Exception:
+        status = "[red]✗ Unreachable[/red]"
+        latency = "-"
+
+    console.print(f"{info['name']}: {status} ({latency})")
+
+
+def _update_instance(service: str, name: str, tier: Optional[str]):
+    """Update instance configuration."""
+    if not tier:
+        console.print("[yellow]No updates specified.[/yellow]")
+        console.print("Use --tier to change the service tier.")
+        return
+
+    api_key = get_api_key()
+    if not api_key:
+        console.print("[red]Not authenticated.[/red]")
+        return
+
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+
+    try:
+        with httpx.Client(timeout=30) as client:
+            resp = client.patch(
+                f"{HANZO_API_URL}/v1/cloud/{service}/{svc_config.get('id')}",
+                headers={"Authorization": f"Bearer {api_key}"},
+                json={"tier": tier} if tier else {},
+            )
+
+            if resp.status_code >= 400:
+                console.print(f"[red]Error: {resp.text}[/red]")
+                return
+
+            # Update local config
+            if tier:
+                config["instances"][service]["tier"] = tier
+            save_cloud_config(config)
+
+            console.print(f"[green]✓ {info['name']} updated.[/green]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+
+
+def _lifecycle_action(service: str, name: str, action: str):
+    """Execute a lifecycle action."""
+    api_key = get_api_key()
+    if not api_key:
+        console.print("[red]Not authenticated.[/red]")
+        return
+
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if service not in instances:
+        console.print(f"[yellow]No {service} instance found.[/yellow]")
+        return
+
+    svc_config = instances[service]
+    info = SERVICES[service]
+
+    console.print(f"[cyan]{action.capitalize()}ing {info['name']}...[/cyan]")
+
+    try:
+        with httpx.Client(timeout=60) as client:
+            resp = client.post(
+                f"{HANZO_API_URL}/v1/cloud/{service}/{svc_config.get('id')}/{action}",
                 headers={"Authorization": f"Bearer {api_key}"},
             )
 
@@ -434,17 +950,119 @@ def destroy(service: str, force: bool):
                 console.print(f"[red]Error: {resp.text}[/red]")
                 return
 
-        # Remove from config
-        del config["services"][service]
-        save_cloud_config(config)
+            # Update local status
+            status_map = {
+                "start": "running",
+                "stop": "stopped",
+                "restart": "running",
+                "enable": "enabled",
+                "disable": "disabled",
+                "pause": "paused",
+                "resume": "running",
+            }
+            config["instances"][service]["status"] = status_map.get(action, "unknown")
+            save_cloud_config(config)
 
-        console.print(f"[green]✓ {info['name']} destroyed.[/green]")
+            console.print(f"[green]✓ {info['name']} {action}ed.[/green]")
 
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 
 
-@cloud_group.command()
+# ============================================================================
+# Register all service groups
+# ============================================================================
+
+for svc_key, svc_info in SERVICES.items():
+    service_cmd = create_service_group(svc_key, svc_info)
+    cloud_group.add_command(service_cmd)
+
+
+# ============================================================================
+# Backwards compatibility aliases (top-level)
+# ============================================================================
+
+@cloud_group.command(name="list", hidden=True)
+def compat_list():
+    """[Deprecated] Use 'hanzo cloud instances list'."""
+    console.print("[dim]Hint: Use 'hanzo cloud instances list' for the new syntax[/dim]")
+    console.print()
+    instances_list.callback("table")
+
+
+@cloud_group.command(name="ls", hidden=True)
+def compat_ls():
+    """[Deprecated] Alias for list."""
+    compat_list.callback()
+
+
+@cloud_group.command(name="provision", hidden=True)
+@click.argument("service", type=click.Choice(SERVICE_NAMES))
+@click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
+@click.option("--region", default="us-west-2")
+def compat_provision(service: str, tier: str, region: str):
+    """[Deprecated] Use 'hanzo cloud <service> create'."""
+    console.print(f"[dim]Hint: Use 'hanzo cloud {service} create' for the new syntax[/dim]")
+    console.print()
+    _create_instance(service, "default", tier, region)
+
+
+@cloud_group.command(name="destroy", hidden=True)
+@click.argument("service", type=click.Choice(SERVICE_NAMES))
+@click.option("--force", is_flag=True)
+def compat_destroy(service: str, force: bool):
+    """[Deprecated] Use 'hanzo cloud <service> delete'."""
+    console.print(f"[dim]Hint: Use 'hanzo cloud {service} delete' for the new syntax[/dim]")
+    console.print()
+    _delete_instance(service, "default", force)
+
+
+@cloud_group.command(name="connect", hidden=True)
+@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
+def compat_connect(service: Optional[str]):
+    """[Deprecated] Use 'hanzo cloud <service> connect'."""
+    if service:
+        console.print(f"[dim]Hint: Use 'hanzo cloud {service} connect' for the new syntax[/dim]")
+        console.print()
+        _connect_instance(service, "default")
+    else:
+        console.print("[yellow]Specify a service: hanzo cloud <service> connect[/yellow]")
+
+
+@cloud_group.command(name="env", hidden=True)
+@click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
+@click.option("--export", "do_export", is_flag=True)
+def compat_env(shell: str, do_export: bool):
+    """[Deprecated] Use 'hanzo cloud <service> env'."""
+    console.print("[dim]Hint: Use 'hanzo cloud <service> env' for the new syntax[/dim]")
+    console.print()
+
+    config = get_cloud_config()
+    instances = config.get("instances", {})
+
+    if not instances:
+        console.print("[yellow]No instances provisioned.[/yellow]")
+        return
+
+    for svc in instances:
+        _env_instance(svc, "default", shell, do_export)
+
+
+@cloud_group.command(name="status", hidden=True)
+@click.argument("service", type=click.Choice(SERVICE_NAMES), required=False)
+def compat_status(service: Optional[str]):
+    """[Deprecated] Use 'hanzo cloud <service> status'."""
+    if service:
+        console.print(f"[dim]Hint: Use 'hanzo cloud {service} status' for the new syntax[/dim]")
+        console.print()
+        _status_instance(service, "default")
+    else:
+        config = get_cloud_config()
+        for svc in config.get("instances", {}):
+            _status_instance(svc, "default")
+
+
+@cloud_group.command(name="init")
 def init():
     """Initialize infrastructure from hanzo.yaml config file."""
     config_paths = [
@@ -465,7 +1083,7 @@ def init():
         console.print("Create one with:")
         console.print()
         console.print("[cyan]# hanzo.yaml[/cyan]")
-        console.print("infra:")
+        console.print("cloud:")
         console.print("  vector: true")
         console.print("  kv: true")
         console.print("  search: true")
@@ -479,16 +1097,16 @@ def init():
         console.print(f"[red]Error parsing {config_file}: {e}[/red]")
         return
 
-    infra_config = config.get("infra", {})
-    if not infra_config:
-        console.print("[yellow]No 'infra' section in config file.[/yellow]")
+    cloud_config = config.get("cloud", config.get("infra", {}))
+    if not cloud_config:
+        console.print("[yellow]No 'cloud' section in config file.[/yellow]")
         return
 
-    console.print(f"[cyan]Initializing infrastructure from {config_file}...[/cyan]")
+    console.print(f"[cyan]Initializing cloud services from {config_file}...[/cyan]")
 
-    for service, enabled in infra_config.items():
+    for service, enabled in cloud_config.items():
         if service in SERVICES and enabled:
-            console.print(f"  Provisioning {service}...")
-            # Would call provision logic here
+            console.print(f"  Creating {service}...")
+            _create_instance(service, "default", "free", "us-west-2")
 
-    console.print("[green]✓ Infrastructure initialized![/green]")
+    console.print("[green]✓ Cloud infrastructure initialized![/green]")
