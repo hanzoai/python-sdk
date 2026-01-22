@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# Hanzo AI SDK
 
 from __future__ import annotations
 
@@ -307,7 +307,7 @@ class Hanzo(SyncAPIClient):
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
-            "X-Stainless-Async": "false",
+            "X-Hanzo-Async": "false",
             **self._custom_headers,
         }
 
@@ -617,7 +617,7 @@ class AsyncHanzo(AsyncAPIClient):
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
-            "X-Stainless-Async": f"async:{get_async_library()}",
+            "X-Hanzo-Async": f"async:{get_async_library()}",
             **self._custom_headers,
         }
 

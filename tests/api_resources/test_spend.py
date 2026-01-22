@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ class TestSpend:
         response = client.spend.with_raw_response.calculate_spend()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = response.parse()
         assert_matches_type(object, spend, path=["response"])
 
@@ -47,7 +47,7 @@ class TestSpend:
     def test_streaming_response_calculate_spend(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.calculate_spend() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = response.parse()
             assert_matches_type(object, spend, path=["response"])
@@ -75,7 +75,7 @@ class TestSpend:
         response = client.spend.with_raw_response.list_logs()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = response.parse()
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
 
@@ -83,7 +83,7 @@ class TestSpend:
     def test_streaming_response_list_logs(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.list_logs() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = response.parse()
             assert_matches_type(SpendListLogsResponse, spend, path=["response"])
@@ -108,7 +108,7 @@ class TestSpend:
         response = client.spend.with_raw_response.list_tags()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = response.parse()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
@@ -116,7 +116,7 @@ class TestSpend:
     def test_streaming_response_list_tags(self, client: Hanzo) -> None:
         with client.spend.with_streaming_response.list_tags() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = response.parse()
             assert_matches_type(SpendListTagsResponse, spend, path=["response"])
@@ -146,7 +146,7 @@ class TestAsyncSpend:
         response = await async_client.spend.with_raw_response.calculate_spend()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = await response.parse()
         assert_matches_type(object, spend, path=["response"])
 
@@ -154,7 +154,7 @@ class TestAsyncSpend:
     async def test_streaming_response_calculate_spend(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.calculate_spend() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = await response.parse()
             assert_matches_type(object, spend, path=["response"])
@@ -182,7 +182,7 @@ class TestAsyncSpend:
         response = await async_client.spend.with_raw_response.list_logs()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = await response.parse()
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
 
@@ -190,7 +190,7 @@ class TestAsyncSpend:
     async def test_streaming_response_list_logs(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.list_logs() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = await response.parse()
             assert_matches_type(SpendListLogsResponse, spend, path=["response"])
@@ -215,7 +215,7 @@ class TestAsyncSpend:
         response = await async_client.spend.with_raw_response.list_tags()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         spend = await response.parse()
         assert_matches_type(SpendListTagsResponse, spend, path=["response"])
 
@@ -223,7 +223,7 @@ class TestAsyncSpend:
     async def test_streaming_response_list_tags(self, async_client: AsyncHanzo) -> None:
         async with async_client.spend.with_streaming_response.list_tags() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             spend = await response.parse()
             assert_matches_type(SpendListTagsResponse, spend, path=["response"])

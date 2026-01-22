@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ class TestLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -40,7 +40,7 @@ class TestLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -71,7 +71,7 @@ class TestLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -81,7 +81,7 @@ class TestLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -112,7 +112,7 @@ class TestLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -122,7 +122,7 @@ class TestLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -153,7 +153,7 @@ class TestLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -163,7 +163,7 @@ class TestLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -194,7 +194,7 @@ class TestLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -204,7 +204,7 @@ class TestLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -239,7 +239,7 @@ class TestAsyncLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -249,7 +249,7 @@ class TestAsyncLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = await response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -280,7 +280,7 @@ class TestAsyncLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -290,7 +290,7 @@ class TestAsyncLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = await response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -321,7 +321,7 @@ class TestAsyncLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -331,7 +331,7 @@ class TestAsyncLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = await response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -362,7 +362,7 @@ class TestAsyncLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -372,7 +372,7 @@ class TestAsyncLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = await response.parse()
             assert_matches_type(object, langfuse, path=["response"])
@@ -403,7 +403,7 @@ class TestAsyncLangfuse:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         langfuse = await response.parse()
         assert_matches_type(object, langfuse, path=["response"])
 
@@ -413,7 +413,7 @@ class TestAsyncLangfuse:
             "endpoint",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             langfuse = await response.parse()
             assert_matches_type(object, langfuse, path=["response"])

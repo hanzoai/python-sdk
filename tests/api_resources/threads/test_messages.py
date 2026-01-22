@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ class TestMessages:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         message = response.parse()
         assert_matches_type(object, message, path=["response"])
 
@@ -40,7 +40,7 @@ class TestMessages:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             message = response.parse()
             assert_matches_type(object, message, path=["response"])
@@ -71,7 +71,7 @@ class TestMessages:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         message = response.parse()
         assert_matches_type(object, message, path=["response"])
 
@@ -81,7 +81,7 @@ class TestMessages:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             message = response.parse()
             assert_matches_type(object, message, path=["response"])
@@ -116,7 +116,7 @@ class TestAsyncMessages:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         message = await response.parse()
         assert_matches_type(object, message, path=["response"])
 
@@ -126,7 +126,7 @@ class TestAsyncMessages:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             message = await response.parse()
             assert_matches_type(object, message, path=["response"])
@@ -157,7 +157,7 @@ class TestAsyncMessages:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         message = await response.parse()
         assert_matches_type(object, message, path=["response"])
 
@@ -167,7 +167,7 @@ class TestAsyncMessages:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             message = await response.parse()
             assert_matches_type(object, message, path=["response"])

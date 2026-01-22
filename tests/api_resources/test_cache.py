@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ class TestCache:
         response = client.cache.with_raw_response.delete()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = response.parse()
         assert_matches_type(object, cache, path=["response"])
 
@@ -35,7 +35,7 @@ class TestCache:
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.cache.with_streaming_response.delete() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = response.parse()
             assert_matches_type(object, cache, path=["response"])
@@ -52,7 +52,7 @@ class TestCache:
         response = client.cache.with_raw_response.flush_all()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = response.parse()
         assert_matches_type(object, cache, path=["response"])
 
@@ -60,7 +60,7 @@ class TestCache:
     def test_streaming_response_flush_all(self, client: Hanzo) -> None:
         with client.cache.with_streaming_response.flush_all() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = response.parse()
             assert_matches_type(object, cache, path=["response"])
@@ -77,7 +77,7 @@ class TestCache:
         response = client.cache.with_raw_response.ping()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = response.parse()
         assert_matches_type(CachePingResponse, cache, path=["response"])
 
@@ -85,7 +85,7 @@ class TestCache:
     def test_streaming_response_ping(self, client: Hanzo) -> None:
         with client.cache.with_streaming_response.ping() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = response.parse()
             assert_matches_type(CachePingResponse, cache, path=["response"])
@@ -106,7 +106,7 @@ class TestAsyncCache:
         response = await async_client.cache.with_raw_response.delete()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = await response.parse()
         assert_matches_type(object, cache, path=["response"])
 
@@ -114,7 +114,7 @@ class TestAsyncCache:
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.cache.with_streaming_response.delete() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = await response.parse()
             assert_matches_type(object, cache, path=["response"])
@@ -131,7 +131,7 @@ class TestAsyncCache:
         response = await async_client.cache.with_raw_response.flush_all()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = await response.parse()
         assert_matches_type(object, cache, path=["response"])
 
@@ -139,7 +139,7 @@ class TestAsyncCache:
     async def test_streaming_response_flush_all(self, async_client: AsyncHanzo) -> None:
         async with async_client.cache.with_streaming_response.flush_all() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = await response.parse()
             assert_matches_type(object, cache, path=["response"])
@@ -156,7 +156,7 @@ class TestAsyncCache:
         response = await async_client.cache.with_raw_response.ping()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cache = await response.parse()
         assert_matches_type(CachePingResponse, cache, path=["response"])
 
@@ -164,7 +164,7 @@ class TestAsyncCache:
     async def test_streaming_response_ping(self, async_client: AsyncHanzo) -> None:
         async with async_client.cache.with_streaming_response.ping() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cache = await response.parse()
             assert_matches_type(CachePingResponse, cache, path=["response"])

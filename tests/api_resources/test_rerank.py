@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestRerank:
         response = client.rerank.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -34,7 +34,7 @@ class TestRerank:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.rerank.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = response.parse()
             assert_matches_type(object, rerank, path=["response"])
@@ -51,7 +51,7 @@ class TestRerank:
         response = client.rerank.with_raw_response.create_v1()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -59,7 +59,7 @@ class TestRerank:
     def test_streaming_response_create_v1(self, client: Hanzo) -> None:
         with client.rerank.with_streaming_response.create_v1() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = response.parse()
             assert_matches_type(object, rerank, path=["response"])
@@ -76,7 +76,7 @@ class TestRerank:
         response = client.rerank.with_raw_response.create_v2()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -84,7 +84,7 @@ class TestRerank:
     def test_streaming_response_create_v2(self, client: Hanzo) -> None:
         with client.rerank.with_streaming_response.create_v2() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = response.parse()
             assert_matches_type(object, rerank, path=["response"])
@@ -105,7 +105,7 @@ class TestAsyncRerank:
         response = await async_client.rerank.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = await response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -113,7 +113,7 @@ class TestAsyncRerank:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.rerank.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = await response.parse()
             assert_matches_type(object, rerank, path=["response"])
@@ -130,7 +130,7 @@ class TestAsyncRerank:
         response = await async_client.rerank.with_raw_response.create_v1()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = await response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -138,7 +138,7 @@ class TestAsyncRerank:
     async def test_streaming_response_create_v1(self, async_client: AsyncHanzo) -> None:
         async with async_client.rerank.with_streaming_response.create_v1() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = await response.parse()
             assert_matches_type(object, rerank, path=["response"])
@@ -155,7 +155,7 @@ class TestAsyncRerank:
         response = await async_client.rerank.with_raw_response.create_v2()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         rerank = await response.parse()
         assert_matches_type(object, rerank, path=["response"])
 
@@ -163,7 +163,7 @@ class TestAsyncRerank:
     async def test_streaming_response_create_v2(self, async_client: AsyncHanzo) -> None:
         async with async_client.rerank.with_streaming_response.create_v2() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             rerank = await response.parse()
             assert_matches_type(object, rerank, path=["response"])

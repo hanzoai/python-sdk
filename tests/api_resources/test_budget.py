@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -47,7 +47,7 @@ class TestBudget:
         response = client.budget.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -55,7 +55,7 @@ class TestBudget:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -93,7 +93,7 @@ class TestBudget:
         response = client.budget.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -101,7 +101,7 @@ class TestBudget:
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -118,7 +118,7 @@ class TestBudget:
         response = client.budget.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -126,7 +126,7 @@ class TestBudget:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -147,7 +147,7 @@ class TestBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -157,7 +157,7 @@ class TestBudget:
             id="id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -178,7 +178,7 @@ class TestBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -188,7 +188,7 @@ class TestBudget:
             budgets=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -209,7 +209,7 @@ class TestBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -219,7 +219,7 @@ class TestBudget:
             budget_id="budget_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -261,7 +261,7 @@ class TestAsyncBudget:
         response = await async_client.budget.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -269,7 +269,7 @@ class TestAsyncBudget:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -307,7 +307,7 @@ class TestAsyncBudget:
         response = await async_client.budget.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -315,7 +315,7 @@ class TestAsyncBudget:
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -332,7 +332,7 @@ class TestAsyncBudget:
         response = await async_client.budget.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -340,7 +340,7 @@ class TestAsyncBudget:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -361,7 +361,7 @@ class TestAsyncBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -371,7 +371,7 @@ class TestAsyncBudget:
             id="id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -392,7 +392,7 @@ class TestAsyncBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -402,7 +402,7 @@ class TestAsyncBudget:
             budgets=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])
@@ -423,7 +423,7 @@ class TestAsyncBudget:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
@@ -433,7 +433,7 @@ class TestAsyncBudget:
             budget_id="budget_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             budget = await response.parse()
             assert_matches_type(object, budget, path=["response"])

@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ class TestInfo:
         response = client.model.info.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = response.parse()
         assert_matches_type(object, info, path=["response"])
 
@@ -41,7 +41,7 @@ class TestInfo:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.model.info.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = response.parse()
             assert_matches_type(object, info, path=["response"])
@@ -69,7 +69,7 @@ class TestAsyncInfo:
         response = await async_client.model.info.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = await response.parse()
         assert_matches_type(object, info, path=["response"])
 
@@ -77,7 +77,7 @@ class TestAsyncInfo:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.model.info.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = await response.parse()
             assert_matches_type(object, info, path=["response"])

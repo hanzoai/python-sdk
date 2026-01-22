@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ class TestCancel:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cancel = response.parse()
         assert_matches_type(object, cancel, path=["response"])
 
@@ -48,7 +48,7 @@ class TestCancel:
             batch_id="batch_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cancel = response.parse()
             assert_matches_type(object, cancel, path=["response"])
@@ -91,7 +91,7 @@ class TestAsyncCancel:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         cancel = await response.parse()
         assert_matches_type(object, cancel, path=["response"])
 
@@ -101,7 +101,7 @@ class TestAsyncCancel:
             batch_id="batch_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             cancel = await response.parse()
             assert_matches_type(object, cancel, path=["response"])
