@@ -1445,7 +1445,7 @@ wheels = [
 
 [[package]]
 name = "hanzo"
-version = "0.3.36"
+version = "0.3.46"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
