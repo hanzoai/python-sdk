@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestRedis:
         response = client.cache.redis.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         redi = response.parse()
         assert_matches_type(object, redi, path=["response"])
 
@@ -34,7 +34,7 @@ class TestRedis:
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.cache.redis.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             redi = response.parse()
             assert_matches_type(object, redi, path=["response"])
@@ -55,7 +55,7 @@ class TestAsyncRedis:
         response = await async_client.cache.redis.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         redi = await response.parse()
         assert_matches_type(object, redi, path=["response"])
 
@@ -63,7 +63,7 @@ class TestAsyncRedis:
     async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.cache.redis.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             redi = await response.parse()
             assert_matches_type(object, redi, path=["response"])

@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# Hanzo AI SDK
 
 # Import new modules
 from . import mcp, auth, grpo, types, agents, cluster

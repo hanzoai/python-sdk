@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -42,7 +42,7 @@ class TestCredentials:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -53,7 +53,7 @@ class TestCredentials:
             credential_name="credential_name",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = response.parse()
             assert_matches_type(object, credential, path=["response"])
@@ -70,7 +70,7 @@ class TestCredentials:
         response = client.credentials.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -78,7 +78,7 @@ class TestCredentials:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = response.parse()
             assert_matches_type(object, credential, path=["response"])
@@ -99,7 +99,7 @@ class TestCredentials:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -109,7 +109,7 @@ class TestCredentials:
             "credential_name",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = response.parse()
             assert_matches_type(object, credential, path=["response"])
@@ -156,7 +156,7 @@ class TestAsyncCredentials:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = await response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -167,7 +167,7 @@ class TestAsyncCredentials:
             credential_name="credential_name",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = await response.parse()
             assert_matches_type(object, credential, path=["response"])
@@ -184,7 +184,7 @@ class TestAsyncCredentials:
         response = await async_client.credentials.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = await response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -192,7 +192,7 @@ class TestAsyncCredentials:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = await response.parse()
             assert_matches_type(object, credential, path=["response"])
@@ -213,7 +213,7 @@ class TestAsyncCredentials:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         credential = await response.parse()
         assert_matches_type(object, credential, path=["response"])
 
@@ -223,7 +223,7 @@ class TestAsyncCredentials:
             "credential_name",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             credential = await response.parse()
             assert_matches_type(object, credential, path=["response"])

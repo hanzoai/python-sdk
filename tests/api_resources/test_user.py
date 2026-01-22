@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ class TestUser:
         response = client.user.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = response.parse()
         assert_matches_type(UserCreateResponse, user, path=["response"])
 
@@ -70,7 +70,7 @@ class TestUser:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = response.parse()
             assert_matches_type(UserCreateResponse, user, path=["response"])
@@ -117,7 +117,7 @@ class TestUser:
         response = client.user.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -125,7 +125,7 @@ class TestUser:
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -152,7 +152,7 @@ class TestUser:
         response = client.user.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -160,7 +160,7 @@ class TestUser:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -189,7 +189,7 @@ class TestUser:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -199,7 +199,7 @@ class TestUser:
             user_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -223,7 +223,7 @@ class TestUser:
         response = client.user.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -231,7 +231,7 @@ class TestUser:
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.user.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -285,7 +285,7 @@ class TestAsyncUser:
         response = await async_client.user.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = await response.parse()
         assert_matches_type(UserCreateResponse, user, path=["response"])
 
@@ -293,7 +293,7 @@ class TestAsyncUser:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = await response.parse()
             assert_matches_type(UserCreateResponse, user, path=["response"])
@@ -340,7 +340,7 @@ class TestAsyncUser:
         response = await async_client.user.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = await response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -348,7 +348,7 @@ class TestAsyncUser:
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = await response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -375,7 +375,7 @@ class TestAsyncUser:
         response = await async_client.user.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = await response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -383,7 +383,7 @@ class TestAsyncUser:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = await response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -412,7 +412,7 @@ class TestAsyncUser:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = await response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -422,7 +422,7 @@ class TestAsyncUser:
             user_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = await response.parse()
             assert_matches_type(object, user, path=["response"])
@@ -446,7 +446,7 @@ class TestAsyncUser:
         response = await async_client.user.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         user = await response.parse()
         assert_matches_type(object, user, path=["response"])
 
@@ -454,7 +454,7 @@ class TestAsyncUser:
     async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.user.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             user = await response.parse()
             assert_matches_type(object, user, path=["response"])
