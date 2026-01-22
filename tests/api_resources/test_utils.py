@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ class TestUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = response.parse()
         assert_matches_type(object, util, path=["response"])
 
@@ -44,7 +44,7 @@ class TestUtils:
             model="model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = response.parse()
             assert_matches_type(object, util, path=["response"])
@@ -74,7 +74,7 @@ class TestUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = response.parse()
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
@@ -84,7 +84,7 @@ class TestUtils:
             model="model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = response.parse()
             assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
@@ -107,7 +107,7 @@ class TestUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = response.parse()
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
@@ -118,7 +118,7 @@ class TestUtils:
             request_body={},
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = response.parse()
             assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
@@ -143,7 +143,7 @@ class TestAsyncUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = await response.parse()
         assert_matches_type(object, util, path=["response"])
 
@@ -153,7 +153,7 @@ class TestAsyncUtils:
             model="model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = await response.parse()
             assert_matches_type(object, util, path=["response"])
@@ -183,7 +183,7 @@ class TestAsyncUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = await response.parse()
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
@@ -193,7 +193,7 @@ class TestAsyncUtils:
             model="model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = await response.parse()
             assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
@@ -216,7 +216,7 @@ class TestAsyncUtils:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         util = await response.parse()
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
@@ -227,7 +227,7 @@ class TestAsyncUtils:
             request_body={},
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             util = await response.parse()
             assert_matches_type(UtilTransformRequestResponse, util, path=["response"])

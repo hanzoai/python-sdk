@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ class TestCompletions:
         response = client.chat.completions.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         completion = response.parse()
         assert_matches_type(object, completion, path=["response"])
 
@@ -41,7 +41,7 @@ class TestCompletions:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.chat.completions.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             completion = response.parse()
             assert_matches_type(object, completion, path=["response"])
@@ -69,7 +69,7 @@ class TestAsyncCompletions:
         response = await async_client.chat.completions.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         completion = await response.parse()
         assert_matches_type(object, completion, path=["response"])
 
@@ -77,7 +77,7 @@ class TestAsyncCompletions:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.chat.completions.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             completion = await response.parse()
             assert_matches_type(object, completion, path=["response"])

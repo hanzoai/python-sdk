@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ class TestModelGroup:
         response = client.model_group.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         model_group = response.parse()
         assert_matches_type(object, model_group, path=["response"])
 
@@ -41,7 +41,7 @@ class TestModelGroup:
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.model_group.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             model_group = response.parse()
             assert_matches_type(object, model_group, path=["response"])
@@ -69,7 +69,7 @@ class TestAsyncModelGroup:
         response = await async_client.model_group.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         model_group = await response.parse()
         assert_matches_type(object, model_group, path=["response"])
 
@@ -77,7 +77,7 @@ class TestAsyncModelGroup:
     async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.model_group.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             model_group = await response.parse()
             assert_matches_type(object, model_group, path=["response"])

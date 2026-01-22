@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ class TestHealth:
         response = client.health.with_raw_response.check_all()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -41,7 +41,7 @@ class TestHealth:
     def test_streaming_response_check_all(self, client: Hanzo) -> None:
         with client.health.with_streaming_response.check_all() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -58,7 +58,7 @@ class TestHealth:
         response = client.health.with_raw_response.check_liveliness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -66,7 +66,7 @@ class TestHealth:
     def test_streaming_response_check_liveliness(self, client: Hanzo) -> None:
         with client.health.with_streaming_response.check_liveliness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -83,7 +83,7 @@ class TestHealth:
         response = client.health.with_raw_response.check_liveness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -91,7 +91,7 @@ class TestHealth:
     def test_streaming_response_check_liveness(self, client: Hanzo) -> None:
         with client.health.with_streaming_response.check_liveness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -108,7 +108,7 @@ class TestHealth:
         response = client.health.with_raw_response.check_readiness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -116,7 +116,7 @@ class TestHealth:
     def test_streaming_response_check_readiness(self, client: Hanzo) -> None:
         with client.health.with_streaming_response.check_readiness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -137,7 +137,7 @@ class TestHealth:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -147,7 +147,7 @@ class TestHealth:
             service="slack_budget_alerts",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -175,7 +175,7 @@ class TestAsyncHealth:
         response = await async_client.health.with_raw_response.check_all()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = await response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -183,7 +183,7 @@ class TestAsyncHealth:
     async def test_streaming_response_check_all(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_all() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = await response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -200,7 +200,7 @@ class TestAsyncHealth:
         response = await async_client.health.with_raw_response.check_liveliness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = await response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -208,7 +208,7 @@ class TestAsyncHealth:
     async def test_streaming_response_check_liveliness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_liveliness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = await response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -225,7 +225,7 @@ class TestAsyncHealth:
         response = await async_client.health.with_raw_response.check_liveness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = await response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -233,7 +233,7 @@ class TestAsyncHealth:
     async def test_streaming_response_check_liveness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_liveness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = await response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -250,7 +250,7 @@ class TestAsyncHealth:
         response = await async_client.health.with_raw_response.check_readiness()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = await response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -258,7 +258,7 @@ class TestAsyncHealth:
     async def test_streaming_response_check_readiness(self, async_client: AsyncHanzo) -> None:
         async with async_client.health.with_streaming_response.check_readiness() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = await response.parse()
             assert_matches_type(object, health, path=["response"])
@@ -279,7 +279,7 @@ class TestAsyncHealth:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         health = await response.parse()
         assert_matches_type(object, health, path=["response"])
 
@@ -289,7 +289,7 @@ class TestAsyncHealth:
             service="slack_budget_alerts",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             health = await response.parse()
             assert_matches_type(object, health, path=["response"])

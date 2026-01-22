@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -71,7 +71,7 @@ class TestKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -81,7 +81,7 @@ class TestKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -112,7 +112,7 @@ class TestKey:
         response = client.key.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(KeyListResponse, key, path=["response"])
 
@@ -120,7 +120,7 @@ class TestKey:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(KeyListResponse, key, path=["response"])
@@ -146,7 +146,7 @@ class TestKey:
         response = client.key.with_raw_response.delete()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -154,7 +154,7 @@ class TestKey:
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.delete() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -183,7 +183,7 @@ class TestKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
 
@@ -193,7 +193,7 @@ class TestKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
@@ -210,7 +210,7 @@ class TestKey:
         response = client.key.with_raw_response.check_health()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
 
@@ -218,7 +218,7 @@ class TestKey:
     def test_streaming_response_check_health(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.check_health() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
@@ -269,7 +269,7 @@ class TestKey:
         response = client.key.with_raw_response.generate()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
@@ -277,7 +277,7 @@ class TestKey:
     def test_streaming_response_generate(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.generate() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(GenerateKeyResponse, key, path=["response"])
@@ -334,7 +334,7 @@ class TestKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
@@ -344,7 +344,7 @@ class TestKey:
             path_key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
@@ -379,7 +379,7 @@ class TestKey:
         response = client.key.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -387,7 +387,7 @@ class TestKey:
     def test_streaming_response_retrieve_info(self, client: Hanzo) -> None:
         with client.key.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -416,7 +416,7 @@ class TestKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -426,7 +426,7 @@ class TestKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -485,7 +485,7 @@ class TestAsyncKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -495,7 +495,7 @@ class TestAsyncKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -526,7 +526,7 @@ class TestAsyncKey:
         response = await async_client.key.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(KeyListResponse, key, path=["response"])
 
@@ -534,7 +534,7 @@ class TestAsyncKey:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(KeyListResponse, key, path=["response"])
@@ -560,7 +560,7 @@ class TestAsyncKey:
         response = await async_client.key.with_raw_response.delete()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -568,7 +568,7 @@ class TestAsyncKey:
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.delete() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -597,7 +597,7 @@ class TestAsyncKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
 
@@ -607,7 +607,7 @@ class TestAsyncKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(Optional[KeyBlockResponse], key, path=["response"])
@@ -624,7 +624,7 @@ class TestAsyncKey:
         response = await async_client.key.with_raw_response.check_health()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
 
@@ -632,7 +632,7 @@ class TestAsyncKey:
     async def test_streaming_response_check_health(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.check_health() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(KeyCheckHealthResponse, key, path=["response"])
@@ -683,7 +683,7 @@ class TestAsyncKey:
         response = await async_client.key.with_raw_response.generate()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(GenerateKeyResponse, key, path=["response"])
 
@@ -691,7 +691,7 @@ class TestAsyncKey:
     async def test_streaming_response_generate(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.generate() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(GenerateKeyResponse, key, path=["response"])
@@ -748,7 +748,7 @@ class TestAsyncKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
 
@@ -758,7 +758,7 @@ class TestAsyncKey:
             path_key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(Optional[GenerateKeyResponse], key, path=["response"])
@@ -793,7 +793,7 @@ class TestAsyncKey:
         response = await async_client.key.with_raw_response.retrieve_info()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -801,7 +801,7 @@ class TestAsyncKey:
     async def test_streaming_response_retrieve_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.key.with_streaming_response.retrieve_info() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(object, key, path=["response"])
@@ -830,7 +830,7 @@ class TestAsyncKey:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         key = await response.parse()
         assert_matches_type(object, key, path=["response"])
 
@@ -840,7 +840,7 @@ class TestAsyncKey:
             key="key",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             key = await response.parse()
             assert_matches_type(object, key, path=["response"])
