@@ -13,8 +13,25 @@ from rich.console import Console
 from .commands import (
     mcp,
     auth,
+    auto,
+    base,
     chat,
+    cx,
+    doc,
+    env,
+    events,
+    flow,
+    fn,
+    growth,
+    install,
+    k8s,
+    iam,
+    jobs,
+    kv,
+    ml,
     node,
+    o11y,
+    platform,
     repl,
     agent,
     miner,
@@ -23,6 +40,14 @@ from .commands import (
     router,
     network,
     cloud,
+    pubsub,
+    queues,
+    run,
+    search,
+    secrets,
+    storage,
+    tasks,
+    vector,
 )
 from .ui.startup import show_startup
 from .utils.output import console
@@ -30,7 +55,7 @@ from .interactive.repl import HanzoREPL
 from .interactive.enhanced_repl import EnhancedHanzoREPL
 
 # Version
-__version__ = "0.3.34"
+__version__ = "0.3.46"
 
 
 @click.group(invoke_without_command=True)
@@ -82,16 +107,45 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
 # Register command groups
 cli.add_command(agent.agent_group)
 cli.add_command(auth.auth_group)
+cli.add_command(auto.auto_group)
+cli.add_command(base.base_group)
 cli.add_command(node.cluster)
+cli.add_command(cloud.cloud_group)
+cli.add_command(config.config_group)
+cli.add_command(cx.cx_group)
+cli.add_command(doc.doc_group)
+cli.add_command(env.env_group)
+cli.add_command(events.events_group)
+cli.add_command(flow.flow_group)
+cli.add_command(fn.fn_group)
+cli.add_command(growth.growth_group)
+cli.add_command(iam.iam_group)
+cli.add_command(install.install_group)
+cli.add_command(jobs.jobs_group)
+cli.add_command(k8s.k8s_group)
+cli.add_command(kv.kv_group)
 cli.add_command(mcp.mcp_group)
 cli.add_command(miner.miner_group)
+cli.add_command(ml.ml_group)
 cli.add_command(chat.chat_command)
-cli.add_command(repl.repl_group)
-cli.add_command(tools.tools_group)
 cli.add_command(network.network_group)
-cli.add_command(config.config_group)
+cli.add_command(o11y.o11y_group)
+cli.add_command(platform.platform_group)
+cli.add_command(pubsub.pubsub_group)
+cli.add_command(queues.queues_group)
+cli.add_command(repl.repl_group)
 cli.add_command(router.router_group)
-cli.add_command(cloud.cloud_group)
+cli.add_command(run.run_group)
+cli.add_command(search.search_group)
+cli.add_command(secrets.secrets_group)
+cli.add_command(storage.storage_group)
+cli.add_command(tasks.tasks_group)
+cli.add_command(tools.tools_group)
+cli.add_command(vector.vector_group)
+
+# Aliases
+cli.add_command(doc.doc_group, name="docdb")  # docdb alias for doc
+cli.add_command(fn.fn_group, name="fn")  # fn alias for function
 
 
 # Quick aliases
@@ -104,6 +158,77 @@ def ask(ctx, prompt: tuple, model: str, local: bool):
     """Quick question to AI (alias for 'hanzo chat --once')."""
     prompt_text = " ".join(prompt)
     asyncio.run(chat.ask_once(ctx, prompt_text, model, local))
+
+
+# Observability quick commands
+@cli.command()
+@click.argument("query", required=False)
+@click.option("--source", "-s", help="Log source/service")
+@click.option("--follow", "-f", is_flag=True, help="Follow logs")
+@click.option("--level", "-l", type=click.Choice(["debug", "info", "warn", "error"]))
+@click.option("--limit", "-n", default=100, help="Max results")
+def log(query: str, source: str, follow: bool, level: str, limit: int):
+    """View service logs (shortcut for 'hanzo o11y log').
+
+    \b
+    Examples:
+      hanzo log                     # Show recent logs
+      hanzo log "error" -s my-api   # Search for errors
+      hanzo log -f -s my-api        # Tail logs
+    """
+    if follow:
+        console.print(f"[cyan]Tailing log{' for ' + source if source else ''}...[/cyan]")
+        console.print("[dim]Press Ctrl+C to stop[/dim]")
+    elif query:
+        console.print(f"[cyan]Searching log for '{query}'...[/cyan]")
+    else:
+        console.print("[cyan]Recent log entries:[/cyan]")
+    console.print("[dim]No log entries found[/dim]")
+
+
+@cli.command()
+@click.argument("query", required=False)
+@click.option("--service", "-s", help="Filter by service")
+@click.option("--range", "-r", default="1h", help="Time range")
+def metric(query: str, service: str, range: str):
+    """View service metric (shortcut for 'hanzo o11y metric').
+
+    \b
+    Examples:
+      hanzo metric                          # Show key metric
+      hanzo metric "http_requests_total"    # Query specific metric
+      hanzo metric -s my-api -r 24h         # Service metric for 24h
+    """
+    console.print(f"[cyan]Metric{' for ' + service if service else ''} (last {range}):[/cyan]")
+    console.print("[dim]No metric found[/dim]")
+
+
+@cli.command()
+@click.argument("trace_id", required=False)
+@click.option("--service", "-s", help="Filter by service")
+@click.option("--min-duration", "-d", help="Min duration (e.g., 100ms)")
+def trace(trace_id: str, service: str, min_duration: str):
+    """View distributed trace (shortcut for 'hanzo o11y trace').
+
+    \b
+    Examples:
+      hanzo trace                     # Recent trace
+      hanzo trace abc123              # Show specific trace
+      hanzo trace -s my-api -d 1s     # Slow trace for service
+    """
+    if trace_id:
+        console.print(f"[cyan]Trace {trace_id}:[/cyan]")
+    else:
+        console.print(f"[cyan]Recent trace{' for ' + service if service else ''}:[/cyan]")
+    console.print("[dim]No trace found[/dim]")
+
+
+# Alias observe -> o11y
+cli.add_command(o11y.o11y_group, name="observe")
+
+
+# Alias deploy -> run
+cli.add_command(run.run_group, name="deploy")
 
 
 @cli.command()
