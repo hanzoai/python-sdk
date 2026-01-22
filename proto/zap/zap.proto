@@ -1,0 +1,652 @@
+// ZAP Protocol: MCP Superset for Agentic Operations
+// Version: 1.0.0
+//
+// ZAP extends MCP (Model Context Protocol) with:
+// - Streaming capabilities for real-time output
+// - Interactive REPL sessions across languages
+// - IDE/Editor integration primitives
+// - Browser DevTools integration
+// - Extension messaging protocol
+//
+// Wire format: Cap'n Proto (primary), JSON-RPC (fallback)
+
+syntax = "proto3";
+
+package zap.v1;
+
+option go_package = "github.com/hanzoai/zap/proto/zap/v1";
+
+// ============================================================================
+// Core Message Types
+// ============================================================================
+
+// Base request envelope
+message ZapRequest {
+  string id = 1;
+  string method = 2;
+  oneof params {
+    ToolCallParams tool_call = 10;
+    ReplParams repl = 11;
+    BrowserParams browser = 12;
+    IdeParams ide = 13;
+    ExtensionParams extension = 14;
+    StreamParams stream = 15;
+  }
+  map<string, string> metadata = 100;
+}
+
+// Base response envelope
+message ZapResponse {
+  string id = 1;
+  oneof result {
+    ToolResult tool_result = 10;
+    ReplResult repl_result = 11;
+    BrowserResult browser_result = 12;
+    IdeResult ide_result = 13;
+    ExtensionResult extension_result = 14;
+    StreamChunk stream_chunk = 15;
+    ErrorResult error = 99;
+  }
+  map<string, string> metadata = 100;
+}
+
+message ErrorResult {
+  int32 code = 1;
+  string message = 2;
+  string data = 3;
+}
+
+// ============================================================================
+// Tool Execution (MCP Compatible)
+// ============================================================================
+
+message ToolCallParams {
+  string name = 1;
+  map<string, Value> arguments = 2;
+}
+
+message ToolResult {
+  bool success = 1;
+  repeated ContentBlock content = 2;
+  bool is_error = 3;
+}
+
+message ContentBlock {
+  oneof content {
+    TextContent text = 1;
+    ImageContent image = 2;
+    ResourceContent resource = 3;
+    BinaryContent binary = 4;
+  }
+}
+
+message TextContent {
+  string text = 1;
+  string mime_type = 2;  // text/plain, text/markdown, application/json
+}
+
+message ImageContent {
+  bytes data = 1;
+  string mime_type = 2;  // image/png, image/jpeg
+  string alt_text = 3;
+}
+
+message ResourceContent {
+  string uri = 1;
+  string mime_type = 2;
+  bytes data = 3;
+}
+
+message BinaryContent {
+  bytes data = 1;
+  string mime_type = 2;
+}
+
+// Generic value for arguments
+message Value {
+  oneof value {
+    string string_value = 1;
+    int64 int_value = 2;
+    double double_value = 3;
+    bool bool_value = 4;
+    ListValue list_value = 5;
+    MapValue map_value = 6;
+    bytes bytes_value = 7;
+  }
+}
+
+message ListValue {
+  repeated Value values = 1;
+}
+
+message MapValue {
+  map<string, Value> fields = 1;
+}
+
+// ============================================================================
+// REPL / Interactive Sessions
+// ============================================================================
+
+message ReplParams {
+  ReplAction action = 1;
+  string session_id = 2;
+  string language = 3;
+  string code = 4;
+  int32 timeout_ms = 5;
+  bool stream_output = 6;
+}
+
+enum ReplAction {
+  REPL_ACTION_UNSPECIFIED = 0;
+  REPL_ACTION_START = 1;       // Start new kernel session
+  REPL_ACTION_EVAL = 2;        // Execute code
+  REPL_ACTION_STOP = 3;        // Stop session
+  REPL_ACTION_INTERRUPT = 4;   // Interrupt execution
+  REPL_ACTION_COMPLETE = 5;    // Tab completion
+  REPL_ACTION_INSPECT = 6;     // Inspect object
+  REPL_ACTION_HISTORY = 7;     // Get history
+  REPL_ACTION_LIST = 8;        // List sessions
+}
+
+message ReplResult {
+  string session_id = 1;
+  bool success = 2;
+  int32 execution_count = 3;
+  string output = 4;
+  string error = 5;
+  repeated ReplOutput outputs = 6;
+  repeated CompletionItem completions = 7;
+  InspectResult inspect = 8;
+}
+
+message ReplOutput {
+  ReplOutputType type = 1;
+  string text = 2;
+  bytes data = 3;
+  string mime_type = 4;
+}
+
+enum ReplOutputType {
+  REPL_OUTPUT_UNSPECIFIED = 0;
+  REPL_OUTPUT_STDOUT = 1;
+  REPL_OUTPUT_STDERR = 2;
+  REPL_OUTPUT_RESULT = 3;
+  REPL_OUTPUT_DISPLAY = 4;
+  REPL_OUTPUT_ERROR = 5;
+}
+
+message CompletionItem {
+  string text = 1;
+  string type = 2;   // function, variable, module, etc.
+  string signature = 3;
+  string docstring = 4;
+}
+
+message InspectResult {
+  string name = 1;
+  string type = 2;
+  string signature = 3;
+  string docstring = 4;
+  string source = 5;
+}
+
+// ============================================================================
+// Browser / DevTools Integration
+// ============================================================================
+
+message BrowserParams {
+  BrowserAction action = 1;
+  string context_id = 2;
+  string page_id = 3;
+
+  // Action-specific params
+  string url = 10;
+  string selector = 11;
+  string code = 12;            // JavaScript to evaluate
+  string expression = 13;      // Console expression
+
+  // DevTools specific
+  bool enable_console = 20;
+  bool enable_network = 21;
+  bool enable_dom = 22;
+  bool enable_debugger = 23;
+}
+
+enum BrowserAction {
+  BROWSER_ACTION_UNSPECIFIED = 0;
+
+  // Navigation
+  BROWSER_ACTION_NAVIGATE = 1;
+  BROWSER_ACTION_RELOAD = 2;
+  BROWSER_ACTION_BACK = 3;
+  BROWSER_ACTION_FORWARD = 4;
+
+  // DOM interaction
+  BROWSER_ACTION_CLICK = 10;
+  BROWSER_ACTION_TYPE = 11;
+  BROWSER_ACTION_SELECT = 12;
+  BROWSER_ACTION_SCROLL = 13;
+
+  // JavaScript execution
+  BROWSER_ACTION_EVALUATE = 20;
+  BROWSER_ACTION_CONSOLE_EVAL = 21;
+
+  // DevTools
+  BROWSER_ACTION_CONSOLE_SUBSCRIBE = 30;
+  BROWSER_ACTION_NETWORK_SUBSCRIBE = 31;
+  BROWSER_ACTION_DOM_SNAPSHOT = 32;
+  BROWSER_ACTION_SET_BREAKPOINT = 33;
+  BROWSER_ACTION_REMOVE_BREAKPOINT = 34;
+  BROWSER_ACTION_PAUSE = 35;
+  BROWSER_ACTION_RESUME = 36;
+  BROWSER_ACTION_STEP = 37;
+
+  // Context management
+  BROWSER_ACTION_NEW_CONTEXT = 40;
+  BROWSER_ACTION_CLOSE_CONTEXT = 41;
+  BROWSER_ACTION_NEW_PAGE = 42;
+  BROWSER_ACTION_CLOSE_PAGE = 43;
+  BROWSER_ACTION_LIST_PAGES = 44;
+
+  // Screenshots/capture
+  BROWSER_ACTION_SCREENSHOT = 50;
+  BROWSER_ACTION_PDF = 51;
+  BROWSER_ACTION_ACCESSIBILITY_SNAPSHOT = 52;
+}
+
+message BrowserResult {
+  bool success = 1;
+  string page_id = 2;
+  string context_id = 3;
+
+  oneof result {
+    EvaluateResult evaluate = 10;
+    ConsoleMessage console_message = 11;
+    NetworkEvent network_event = 12;
+    DomSnapshot dom_snapshot = 13;
+    DebuggerEvent debugger_event = 14;
+    bytes screenshot = 15;
+    PageInfo page_info = 16;
+    repeated PageInfo pages = 17;
+  }
+}
+
+message EvaluateResult {
+  string type = 1;      // undefined, string, number, object, etc.
+  string value = 2;     // Serialized value
+  string preview = 3;   // Short preview for objects
+  string class_name = 4;
+  string description = 5;
+}
+
+message ConsoleMessage {
+  ConsoleLevel level = 1;
+  string text = 2;
+  string url = 3;
+  int32 line = 4;
+  int32 column = 5;
+  int64 timestamp = 6;
+  repeated string args = 7;
+}
+
+enum ConsoleLevel {
+  CONSOLE_LEVEL_UNSPECIFIED = 0;
+  CONSOLE_LEVEL_LOG = 1;
+  CONSOLE_LEVEL_DEBUG = 2;
+  CONSOLE_LEVEL_INFO = 3;
+  CONSOLE_LEVEL_WARNING = 4;
+  CONSOLE_LEVEL_ERROR = 5;
+}
+
+message NetworkEvent {
+  NetworkEventType type = 1;
+  string request_id = 2;
+  string url = 3;
+  string method = 4;
+  int32 status = 5;
+  map<string, string> headers = 6;
+  bytes body = 7;
+  int64 timestamp = 8;
+}
+
+enum NetworkEventType {
+  NETWORK_EVENT_UNSPECIFIED = 0;
+  NETWORK_EVENT_REQUEST = 1;
+  NETWORK_EVENT_RESPONSE = 2;
+  NETWORK_EVENT_FAILED = 3;
+}
+
+message DomSnapshot {
+  string html = 1;
+  string accessibility_tree = 2;
+  repeated DomNode nodes = 3;
+}
+
+message DomNode {
+  int32 node_id = 1;
+  string tag = 2;
+  map<string, string> attributes = 3;
+  string text = 4;
+  repeated int32 children = 5;
+  BoundingBox bounds = 6;
+}
+
+message BoundingBox {
+  float x = 1;
+  float y = 2;
+  float width = 3;
+  float height = 4;
+}
+
+message DebuggerEvent {
+  DebuggerEventType type = 1;
+  string script_id = 2;
+  string url = 3;
+  int32 line = 4;
+  int32 column = 5;
+  repeated StackFrame call_frames = 6;
+  string reason = 7;
+}
+
+enum DebuggerEventType {
+  DEBUGGER_EVENT_UNSPECIFIED = 0;
+  DEBUGGER_EVENT_PAUSED = 1;
+  DEBUGGER_EVENT_RESUMED = 2;
+  DEBUGGER_EVENT_SCRIPT_PARSED = 3;
+  DEBUGGER_EVENT_BREAKPOINT_HIT = 4;
+}
+
+message StackFrame {
+  string function_name = 1;
+  string script_id = 2;
+  string url = 3;
+  int32 line = 4;
+  int32 column = 5;
+  repeated Scope scopes = 6;
+}
+
+message Scope {
+  string type = 1;  // global, local, closure, etc.
+  map<string, string> variables = 2;
+}
+
+message PageInfo {
+  string page_id = 1;
+  string context_id = 2;
+  string url = 3;
+  string title = 4;
+}
+
+// ============================================================================
+// IDE / Editor Integration
+// ============================================================================
+
+message IdeParams {
+  IdeAction action = 1;
+  string workspace_path = 2;
+  string file_path = 3;
+
+  // Position
+  int32 line = 10;
+  int32 column = 11;
+  int32 end_line = 12;
+  int32 end_column = 13;
+
+  // Content
+  string text = 20;
+  string new_name = 21;
+
+  // Diagnostics
+  DiagnosticSeverity min_severity = 30;
+}
+
+enum IdeAction {
+  IDE_ACTION_UNSPECIFIED = 0;
+
+  // File operations
+  IDE_ACTION_OPEN_FILE = 1;
+  IDE_ACTION_CLOSE_FILE = 2;
+  IDE_ACTION_SAVE_FILE = 3;
+  IDE_ACTION_GET_ACTIVE_FILE = 4;
+  IDE_ACTION_LIST_OPEN_FILES = 5;
+
+  // Editor operations
+  IDE_ACTION_GET_SELECTION = 10;
+  IDE_ACTION_SET_SELECTION = 11;
+  IDE_ACTION_INSERT_TEXT = 12;
+  IDE_ACTION_REPLACE_TEXT = 13;
+  IDE_ACTION_GET_LINE = 14;
+  IDE_ACTION_GET_RANGE = 15;
+
+  // Navigation
+  IDE_ACTION_GO_TO_DEFINITION = 20;
+  IDE_ACTION_FIND_REFERENCES = 21;
+  IDE_ACTION_GO_TO_LINE = 22;
+  IDE_ACTION_REVEAL_RANGE = 23;
+
+  // Refactoring
+  IDE_ACTION_RENAME = 30;
+  IDE_ACTION_FORMAT_DOCUMENT = 31;
+  IDE_ACTION_ORGANIZE_IMPORTS = 32;
+  IDE_ACTION_EXTRACT_FUNCTION = 33;
+  IDE_ACTION_EXTRACT_VARIABLE = 34;
+
+  // Diagnostics
+  IDE_ACTION_GET_DIAGNOSTICS = 40;
+  IDE_ACTION_QUICK_FIX = 41;
+
+  // Commands
+  IDE_ACTION_EXECUTE_COMMAND = 50;
+  IDE_ACTION_LIST_COMMANDS = 51;
+
+  // Workspace
+  IDE_ACTION_GET_WORKSPACE_FOLDERS = 60;
+  IDE_ACTION_FIND_FILES = 61;
+  IDE_ACTION_SEARCH_TEXT = 62;
+
+  // Terminal
+  IDE_ACTION_CREATE_TERMINAL = 70;
+  IDE_ACTION_SEND_TO_TERMINAL = 71;
+  IDE_ACTION_GET_TERMINAL_OUTPUT = 72;
+}
+
+message IdeResult {
+  bool success = 1;
+
+  oneof result {
+    FileInfo file_info = 10;
+    repeated FileInfo files = 11;
+    TextRange selection = 12;
+    string text = 13;
+    repeated Location locations = 14;
+    repeated Diagnostic diagnostics = 15;
+    repeated CodeAction code_actions = 16;
+    repeated string commands = 17;
+    WorkspaceInfo workspace = 18;
+    TerminalInfo terminal = 19;
+  }
+}
+
+message FileInfo {
+  string path = 1;
+  string uri = 2;
+  string language_id = 3;
+  bool is_dirty = 4;
+  int32 line_count = 5;
+}
+
+message TextRange {
+  int32 start_line = 1;
+  int32 start_column = 2;
+  int32 end_line = 3;
+  int32 end_column = 4;
+  string text = 5;
+}
+
+message Location {
+  string uri = 1;
+  TextRange range = 2;
+}
+
+message Diagnostic {
+  DiagnosticSeverity severity = 1;
+  TextRange range = 2;
+  string message = 3;
+  string source = 4;
+  string code = 5;
+}
+
+enum DiagnosticSeverity {
+  DIAGNOSTIC_SEVERITY_UNSPECIFIED = 0;
+  DIAGNOSTIC_SEVERITY_ERROR = 1;
+  DIAGNOSTIC_SEVERITY_WARNING = 2;
+  DIAGNOSTIC_SEVERITY_INFO = 3;
+  DIAGNOSTIC_SEVERITY_HINT = 4;
+}
+
+message CodeAction {
+  string title = 1;
+  string kind = 2;  // quickfix, refactor, source, etc.
+  bool is_preferred = 3;
+  repeated TextEdit edits = 4;
+  string command = 5;
+}
+
+message TextEdit {
+  TextRange range = 1;
+  string new_text = 2;
+}
+
+message WorkspaceInfo {
+  repeated WorkspaceFolder folders = 1;
+}
+
+message WorkspaceFolder {
+  string uri = 1;
+  string name = 2;
+}
+
+message TerminalInfo {
+  string id = 1;
+  string name = 2;
+  int32 pid = 3;
+}
+
+// ============================================================================
+// Extension / Plugin Messaging
+// ============================================================================
+
+message ExtensionParams {
+  string extension_id = 1;
+  ExtensionAction action = 2;
+  string channel = 3;
+  bytes payload = 4;
+  map<string, string> headers = 5;
+}
+
+enum ExtensionAction {
+  EXTENSION_ACTION_UNSPECIFIED = 0;
+  EXTENSION_ACTION_SEND = 1;      // Send message to extension
+  EXTENSION_ACTION_BROADCAST = 2; // Broadcast to all extensions
+  EXTENSION_ACTION_SUBSCRIBE = 3; // Subscribe to channel
+  EXTENSION_ACTION_UNSUBSCRIBE = 4;
+  EXTENSION_ACTION_LIST = 5;      // List connected extensions
+  EXTENSION_ACTION_PING = 6;      // Health check
+}
+
+message ExtensionResult {
+  bool success = 1;
+  string extension_id = 2;
+  bytes payload = 3;
+  repeated ExtensionInfo extensions = 4;
+}
+
+message ExtensionInfo {
+  string id = 1;
+  string name = 2;
+  string version = 3;
+  ExtensionType type = 4;
+  repeated string capabilities = 5;
+  bool connected = 6;
+}
+
+enum ExtensionType {
+  EXTENSION_TYPE_UNSPECIFIED = 0;
+  EXTENSION_TYPE_BROWSER = 1;     // Browser extension
+  EXTENSION_TYPE_IDE = 2;         // IDE plugin (VS Code, JetBrains)
+  EXTENSION_TYPE_TERMINAL = 3;    // Terminal integration
+  EXTENSION_TYPE_MOBILE = 4;      // Mobile app
+  EXTENSION_TYPE_DESKTOP = 5;     // Desktop app
+}
+
+// ============================================================================
+// Streaming
+// ============================================================================
+
+message StreamParams {
+  StreamAction action = 1;
+  string stream_id = 2;
+  StreamType type = 3;
+  map<string, string> filters = 4;
+}
+
+enum StreamAction {
+  STREAM_ACTION_UNSPECIFIED = 0;
+  STREAM_ACTION_START = 1;
+  STREAM_ACTION_STOP = 2;
+  STREAM_ACTION_PAUSE = 3;
+  STREAM_ACTION_RESUME = 4;
+}
+
+enum StreamType {
+  STREAM_TYPE_UNSPECIFIED = 0;
+  STREAM_TYPE_REPL_OUTPUT = 1;
+  STREAM_TYPE_CONSOLE_MESSAGES = 2;
+  STREAM_TYPE_NETWORK_EVENTS = 3;
+  STREAM_TYPE_DIAGNOSTICS = 4;
+  STREAM_TYPE_FILE_CHANGES = 5;
+  STREAM_TYPE_DEBUGGER = 6;
+}
+
+message StreamChunk {
+  string stream_id = 1;
+  int64 sequence = 2;
+  int64 timestamp = 3;
+
+  oneof data {
+    ReplOutput repl_output = 10;
+    ConsoleMessage console_message = 11;
+    NetworkEvent network_event = 12;
+    Diagnostic diagnostic = 13;
+    FileChangeEvent file_change = 14;
+    DebuggerEvent debugger_event = 15;
+    bytes raw = 99;
+  }
+}
+
+message FileChangeEvent {
+  FileChangeType type = 1;
+  string uri = 2;
+}
+
+enum FileChangeType {
+  FILE_CHANGE_UNSPECIFIED = 0;
+  FILE_CHANGE_CREATED = 1;
+  FILE_CHANGE_CHANGED = 2;
+  FILE_CHANGE_DELETED = 3;
+}
+
+// ============================================================================
+// Service Definition
+// ============================================================================
+
+service ZapService {
+  // Unary RPCs (MCP compatible)
+  rpc Call(ZapRequest) returns (ZapResponse);
+
+  // Server streaming (real-time output)
+  rpc Stream(StreamParams) returns (stream StreamChunk);
+
+  // Bidirectional streaming (interactive sessions)
+  rpc Interactive(stream ZapRequest) returns (stream ZapResponse);
+}
