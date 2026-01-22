@@ -53,7 +53,22 @@ class AuthManager:
 
 @click.group(name="auth")
 def auth_group():
-    """Manage Hanzo authentication."""
+    """Manage Hanzo authentication.
+
+    \b
+    Login & Identity:
+      hanzo auth login       # Login to Hanzo
+      hanzo auth logout      # Logout
+      hanzo auth status      # Show auth status
+      hanzo auth whoami      # Show current user
+
+    \b
+    For managing users, orgs, teams, and API keys:
+      hanzo iam users list   # List users
+      hanzo iam orgs list    # List organizations
+      hanzo iam teams list   # List teams
+      hanzo iam keys list    # List API keys
+    """
     pass
 
 
@@ -61,10 +76,22 @@ def auth_group():
 @click.option("--email", "-e", help="Email address")
 @click.option("--password", "-p", help="Password (not recommended, use prompt)")
 @click.option("--api-key", "-k", help="API key for direct authentication")
-@click.option("--sso", is_flag=True, help="Use SSO authentication")
+@click.option("--web", "-w", is_flag=True, help="Login via browser (device code flow)")
+@click.option("--headless", is_flag=True, help="Headless mode - don't open browser")
 @click.pass_context
-def login(ctx, email: str, password: str, api_key: str, sso: bool):
-    """Login to Hanzo AI."""
+def login(ctx, email: str, password: str, api_key: str, web: bool, headless: bool):
+    """Login to Hanzo AI.
+
+    \b
+    Examples:
+      hanzo auth login              # Interactive device code flow
+      hanzo auth login --web        # Open browser for authentication
+      hanzo auth login --headless   # Device code without opening browser
+      hanzo auth login -k sk-xxx    # Direct API key authentication
+      hanzo auth login -e user@example.com  # Email/password login
+    """
+    import asyncio
+
     auth_mgr = AuthManager()
 
     # Check if already authenticated
@@ -87,22 +114,37 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
             auth_mgr.save_auth(auth)
             console.print("[green]✓[/green] Successfully authenticated with API key")
 
-        elif sso:
-            # SSO authentication via browser
-            console.print("Opening browser for SSO login...")
-            console.print("If browser doesn't open, visit: https://iam.hanzo.ai/login")
+        elif web or (not email and not password and not api_key):
+            # Device code flow - works on remote/headless systems
+            console.print("[cyan]Starting device code authentication...[/cyan]")
 
-            # Try using hanzoai if available
             try:
                 from hanzoai.auth import HanzoAuth
 
-                # SSO requires browser flow - not available in CLI
-                console.print("[yellow]SSO authentication requires browser[/yellow]")
-                console.print("[dim]Use: hanzo auth login --api-key YOUR_KEY[/dim]")
-                return
+                async def do_device_auth():
+                    hanzo_auth = HanzoAuth()
+                    return await hanzo_auth.login_with_device_code(
+                        open_browser=not headless
+                    )
+
+                result = asyncio.run(do_device_auth())
+
+                auth = {
+                    "token": result.get("token"),
+                    "email": result.get("email"),
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
+                auth_mgr.save_auth(auth)
+
+                email = result.get("email", "user")
+                console.print(f"[green]✓[/green] Logged in as {email}")
+
             except ImportError:
-                console.print("[yellow]SSO requires hanzoai package[/yellow]")
+                console.print("[yellow]Device auth requires hanzoai package[/yellow]")
                 console.print("Install with: pip install hanzoai")
+                console.print()
+                console.print("[dim]Or use API key: hanzo auth login -k YOUR_KEY[/dim]")
 
         else:
             # Email/password authentication
@@ -113,20 +155,24 @@ def login(ctx, email: str, password: str, api_key: str, sso: bool):
 
             console.print("Authenticating...")
 
-            # Try using hanzoai if available
             try:
                 from hanzoai.auth import HanzoAuth
 
-                # Store credentials locally (API validates on first use)
-                _ = HanzoAuth  # Validate import
+                async def do_email_auth():
+                    hanzo_auth = HanzoAuth()
+                    return await hanzo_auth.login(email, password)
+
+                result = asyncio.run(do_email_auth())
 
                 auth = {
                     "email": email,
+                    "token": result.get("token"),
                     "logged_in": True,
                     "last_login": datetime.now().isoformat(),
                 }
                 auth_mgr.save_auth(auth)
                 console.print(f"[green]✓[/green] Logged in as {email}")
+
             except ImportError:
                 # Fallback to saving credentials locally
                 auth = {
@@ -199,6 +245,10 @@ def status(ctx):
         if auth.get("last_login"):
             table.add_row("Last Login", auth["last_login"])
 
+        # Show current org if set
+        if auth.get("current_org"):
+            table.add_row("Organization", auth["current_org"])
+
     else:
         table.add_row("Status", "❌ Not authenticated")
         table.add_row("Action", "Run 'hanzo auth login' to authenticate")
@@ -228,6 +278,9 @@ def whoami():
         lines.append("[cyan]API Key:[/cyan] Set via environment")
     elif auth.get("api_key"):
         lines.append(f"[cyan]API Key:[/cyan] {auth['api_key'][:8]}...")
+
+    if auth.get("current_org"):
+        lines.append(f"[cyan]Organization:[/cyan] {auth['current_org']}")
 
     if auth.get("last_login"):
         lines.append(f"[cyan]Last Login:[/cyan] {auth['last_login']}")
