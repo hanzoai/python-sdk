@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tools-repl"
+version = "0.1.0"
+description = "Multi-language REPL tool with Jupyter kernel backend for interactive code evaluation"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["mcp", "repl", "jupyter", "interactive", "code", "evaluation"]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "jupyter-client>=8.6.0",
+    "jupyter-core>=5.7.0",
+]
+
+[project.optional-dependencies]
+kernels = [
+    "ipykernel>=6.29.0",           # Python kernel
+    "bash_kernel>=0.9.0",          # Bash kernel
+    "typescript-kernel>=0.1.0",    # TypeScript (via ts-node)
+]
+node = ["tslab>=1.0.0"]            # Node.js/TypeScript Jupyter kernel
+full = [
+    "hanzo-tools-repl[kernels,node]",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.23.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+
+[project.entry-points."hanzo.tools"]
+repl = "hanzo_tools.repl:TOOLS"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tools*"]
+
+[tool.setuptools.package-data]
+hanzo_tools = ["py.typed"]
