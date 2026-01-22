@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestSettings:
         response = client.settings.with_raw_response.retrieve()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         setting = response.parse()
         assert_matches_type(object, setting, path=["response"])
 
@@ -34,7 +34,7 @@ class TestSettings:
     def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.settings.with_streaming_response.retrieve() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             setting = response.parse()
             assert_matches_type(object, setting, path=["response"])
@@ -55,7 +55,7 @@ class TestAsyncSettings:
         response = await async_client.settings.with_raw_response.retrieve()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         setting = await response.parse()
         assert_matches_type(object, setting, path=["response"])
 
@@ -63,7 +63,7 @@ class TestAsyncSettings:
     async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.settings.with_streaming_response.retrieve() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             setting = await response.parse()
             assert_matches_type(object, setting, path=["response"])

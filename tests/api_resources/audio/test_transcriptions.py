@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ class TestTranscriptions:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         transcription = response.parse()
         assert_matches_type(object, transcription, path=["response"])
 
@@ -40,7 +40,7 @@ class TestTranscriptions:
             file=b"raw file contents",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             transcription = response.parse()
             assert_matches_type(object, transcription, path=["response"])
@@ -65,7 +65,7 @@ class TestAsyncTranscriptions:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         transcription = await response.parse()
         assert_matches_type(object, transcription, path=["response"])
 
@@ -75,7 +75,7 @@ class TestAsyncTranscriptions:
             file=b"raw file contents",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             transcription = await response.parse()
             assert_matches_type(object, transcription, path=["response"])

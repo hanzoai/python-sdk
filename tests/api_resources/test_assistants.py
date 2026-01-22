@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestAssistants:
         response = client.assistants.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -34,7 +34,7 @@ class TestAssistants:
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.assistants.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = response.parse()
             assert_matches_type(object, assistant, path=["response"])
@@ -51,7 +51,7 @@ class TestAssistants:
         response = client.assistants.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -59,7 +59,7 @@ class TestAssistants:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.assistants.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = response.parse()
             assert_matches_type(object, assistant, path=["response"])
@@ -80,7 +80,7 @@ class TestAssistants:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -90,7 +90,7 @@ class TestAssistants:
             "assistant_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = response.parse()
             assert_matches_type(object, assistant, path=["response"])
@@ -121,7 +121,7 @@ class TestAsyncAssistants:
         response = await async_client.assistants.with_raw_response.create()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = await response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -129,7 +129,7 @@ class TestAsyncAssistants:
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.assistants.with_streaming_response.create() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = await response.parse()
             assert_matches_type(object, assistant, path=["response"])
@@ -146,7 +146,7 @@ class TestAsyncAssistants:
         response = await async_client.assistants.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = await response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -154,7 +154,7 @@ class TestAsyncAssistants:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.assistants.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = await response.parse()
             assert_matches_type(object, assistant, path=["response"])
@@ -175,7 +175,7 @@ class TestAsyncAssistants:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         assistant = await response.parse()
         assert_matches_type(object, assistant, path=["response"])
 
@@ -185,7 +185,7 @@ class TestAsyncAssistants:
             "assistant_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             assistant = await response.parse()
             assert_matches_type(object, assistant, path=["response"])

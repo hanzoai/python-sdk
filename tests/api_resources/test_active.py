@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestActive:
         response = client.active.with_raw_response.list_callbacks()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         active = response.parse()
         assert_matches_type(object, active, path=["response"])
 
@@ -34,7 +34,7 @@ class TestActive:
     def test_streaming_response_list_callbacks(self, client: Hanzo) -> None:
         with client.active.with_streaming_response.list_callbacks() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             active = response.parse()
             assert_matches_type(object, active, path=["response"])
@@ -55,7 +55,7 @@ class TestAsyncActive:
         response = await async_client.active.with_raw_response.list_callbacks()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         active = await response.parse()
         assert_matches_type(object, active, path=["response"])
 
@@ -63,7 +63,7 @@ class TestAsyncActive:
     async def test_streaming_response_list_callbacks(self, async_client: AsyncHanzo) -> None:
         async with async_client.active.with_streaming_response.list_callbacks() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             active = await response.parse()
             assert_matches_type(object, active, path=["response"])

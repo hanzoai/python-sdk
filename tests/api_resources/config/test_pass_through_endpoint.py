@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ class TestPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = response.parse()
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -49,7 +49,7 @@ class TestPassThroughEndpoint:
             target="target",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = response.parse()
             assert_matches_type(object, pass_through_endpoint, path=["response"])
@@ -70,7 +70,7 @@ class TestPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = response.parse()
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -80,7 +80,7 @@ class TestPassThroughEndpoint:
             "endpoint_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = response.parse()
             assert_matches_type(object, pass_through_endpoint, path=["response"])
@@ -114,7 +114,7 @@ class TestPassThroughEndpoint:
         response = client.config.pass_through_endpoint.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = response.parse()
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 
@@ -122,7 +122,7 @@ class TestPassThroughEndpoint:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.config.pass_through_endpoint.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = response.parse()
             assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
@@ -143,7 +143,7 @@ class TestPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = response.parse()
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 
@@ -153,7 +153,7 @@ class TestPassThroughEndpoint:
             endpoint_id="endpoint_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = response.parse()
             assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
@@ -182,7 +182,7 @@ class TestAsyncPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = await response.parse()
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -194,7 +194,7 @@ class TestAsyncPassThroughEndpoint:
             target="target",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = await response.parse()
             assert_matches_type(object, pass_through_endpoint, path=["response"])
@@ -215,7 +215,7 @@ class TestAsyncPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = await response.parse()
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -225,7 +225,7 @@ class TestAsyncPassThroughEndpoint:
             "endpoint_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = await response.parse()
             assert_matches_type(object, pass_through_endpoint, path=["response"])
@@ -259,7 +259,7 @@ class TestAsyncPassThroughEndpoint:
         response = await async_client.config.pass_through_endpoint.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = await response.parse()
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 
@@ -267,7 +267,7 @@ class TestAsyncPassThroughEndpoint:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.config.pass_through_endpoint.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = await response.parse()
             assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
@@ -288,7 +288,7 @@ class TestAsyncPassThroughEndpoint:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         pass_through_endpoint = await response.parse()
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 
@@ -298,7 +298,7 @@ class TestAsyncPassThroughEndpoint:
             endpoint_id="endpoint_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             pass_through_endpoint = await response.parse()
             assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
