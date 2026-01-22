@@ -42,9 +42,18 @@ def _parse_timeout_arg(timeout_str: str) -> float:
 
 def main() -> None:
     """Run the CLI for the Hanzo AI server."""
+    # Handle 'serve' subcommand for Claude Code compatibility
+    # Claude Code calls: hanzo-mcp serve --enable-agent
+    # We support both: hanzo-mcp [serve] [options]
+    if len(sys.argv) > 1 and sys.argv[1] == "serve":
+        # Remove 'serve' from argv so argparse treats it as direct invocation
+        sys.argv = [sys.argv[0]] + sys.argv[2:]
+
     # Pre-parse arguments to check transport type early, BEFORE importing server
     early_parser = argparse.ArgumentParser(add_help=False)
     early_parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio")
+    # Support --enable-agent as alias for --enable-agent-tool (Claude Code compatibility)
+    early_parser.add_argument("--enable-agent", dest="enable_agent", action="store_true")
     early_args, _ = early_parser.parse_known_args()
 
     # Configure logging VERY early based on transport
@@ -193,6 +202,15 @@ def main() -> None:
         action="store_true",
         default=False,
         help="Enable the agent tool (disabled by default)",
+    )
+
+    # Alias for Claude Code compatibility (uses --enable-agent)
+    _ = parser.add_argument(
+        "--enable-agent",
+        dest="enable_agent_tool",
+        action="store_true",
+        default=False,
+        help=argparse.SUPPRESS,  # Hidden alias for --enable-agent-tool
     )
 
     _ = parser.add_argument(
