@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.11.4"
+version = "0.11.6"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -19,7 +19,7 @@ keywords = ["mcp", "claude", "hanzo", "code", "agent"]
 dependencies = [
     # Core MCP dependencies
     "mcp>=1.25.0",
-    "fastmcp>=2.14.1",
+    "fastmcp>=2.14.4",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "typing-extensions>=4.13.0",
@@ -29,7 +29,7 @@ dependencies = [
     "hanzo-tools>=0.3.0",
     "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.6.1",
-    "hanzo-tools-browser>=0.1.0",
+    "hanzo-tools-browser>=0.2.1",  # Extension-first routing
     "hanzo-tools-memory>=0.1.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
