@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -56,7 +56,7 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
@@ -66,7 +66,7 @@ class TestOrganization:
             organization_alias="organization_alias",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
@@ -96,7 +96,7 @@ class TestOrganization:
         response = client.organization.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
@@ -104,7 +104,7 @@ class TestOrganization:
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
@@ -121,7 +121,7 @@ class TestOrganization:
         response = client.organization.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
@@ -129,7 +129,7 @@ class TestOrganization:
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationListResponse, organization, path=["response"])
@@ -150,7 +150,7 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
@@ -160,7 +160,7 @@ class TestOrganization:
             organization_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
@@ -198,7 +198,7 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
@@ -209,7 +209,7 @@ class TestOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
@@ -239,7 +239,7 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(object, organization, path=["response"])
 
@@ -249,7 +249,7 @@ class TestOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(object, organization, path=["response"])
@@ -281,7 +281,7 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
@@ -291,7 +291,7 @@ class TestOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
@@ -334,7 +334,7 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
@@ -344,7 +344,7 @@ class TestAsyncOrganization:
             organization_alias="organization_alias",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
@@ -374,7 +374,7 @@ class TestAsyncOrganization:
         response = await async_client.organization.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
@@ -382,7 +382,7 @@ class TestAsyncOrganization:
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
@@ -399,7 +399,7 @@ class TestAsyncOrganization:
         response = await async_client.organization.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
@@ -407,7 +407,7 @@ class TestAsyncOrganization:
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationListResponse, organization, path=["response"])
@@ -428,7 +428,7 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
@@ -438,7 +438,7 @@ class TestAsyncOrganization:
             organization_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
@@ -476,7 +476,7 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
@@ -487,7 +487,7 @@ class TestAsyncOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
@@ -517,7 +517,7 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(object, organization, path=["response"])
 
@@ -527,7 +527,7 @@ class TestAsyncOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(object, organization, path=["response"])
@@ -559,7 +559,7 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
@@ -569,7 +569,7 @@ class TestAsyncOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])

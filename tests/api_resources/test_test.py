@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class TestTest:
         response = client.test.with_raw_response.ping()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         test = response.parse()
         assert_matches_type(object, test, path=["response"])
 
@@ -34,7 +34,7 @@ class TestTest:
     def test_streaming_response_ping(self, client: Hanzo) -> None:
         with client.test.with_streaming_response.ping() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             test = response.parse()
             assert_matches_type(object, test, path=["response"])
@@ -55,7 +55,7 @@ class TestAsyncTest:
         response = await async_client.test.with_raw_response.ping()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         test = await response.parse()
         assert_matches_type(object, test, path=["response"])
 
@@ -63,7 +63,7 @@ class TestAsyncTest:
     async def test_streaming_response_ping(self, async_client: AsyncHanzo) -> None:
         async with async_client.test.with_streaming_response.ping() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             test = await response.parse()
             assert_matches_type(object, test, path=["response"])

@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ class TestFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -56,7 +56,7 @@ class TestFiles:
             purpose="purpose",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -91,7 +91,7 @@ class TestFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -102,7 +102,7 @@ class TestFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -151,7 +151,7 @@ class TestFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -161,7 +161,7 @@ class TestFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -194,7 +194,7 @@ class TestFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -205,7 +205,7 @@ class TestFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -264,7 +264,7 @@ class TestAsyncFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = await response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -276,7 +276,7 @@ class TestAsyncFiles:
             purpose="purpose",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = await response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -311,7 +311,7 @@ class TestAsyncFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = await response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -322,7 +322,7 @@ class TestAsyncFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = await response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -371,7 +371,7 @@ class TestAsyncFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = await response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -381,7 +381,7 @@ class TestAsyncFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = await response.parse()
             assert_matches_type(object, file, path=["response"])
@@ -414,7 +414,7 @@ class TestAsyncFiles:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         file = await response.parse()
         assert_matches_type(object, file, path=["response"])
 
@@ -425,7 +425,7 @@ class TestAsyncFiles:
             provider="provider",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             file = await response.parse()
             assert_matches_type(object, file, path=["response"])

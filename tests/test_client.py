@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -352,7 +352,7 @@ class TestHanzo:
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
-        assert request.headers.get("x-stainless-lang") == "python"
+        assert request.headers.get("x-hanzo-lang") == "python"
 
         client2 = Hanzo(
             base_url=base_url,
@@ -360,12 +360,12 @@ class TestHanzo:
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
-                "X-Stainless-Lang": "my-overriding-header",
+                "X-Hanzo-Lang": "my-overriding-header",
             },
         )
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
-        assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+        assert request.headers.get("x-hanzo-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
         client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
@@ -840,7 +840,7 @@ class TestHanzo:
         response = client.with_raw_response.get_home()
 
         assert response.retries_taken == failures_before_success
-        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+        assert int(response.http_request.headers.get("x-hanzo-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
@@ -859,9 +859,9 @@ class TestHanzo:
 
         respx_mock.get("/").mock(side_effect=retry_handler)
 
-        response = client.with_raw_response.get_home(extra_headers={"x-stainless-retry-count": Omit()})
+        response = client.with_raw_response.get_home(extra_headers={"x-hanzo-retry-count": Omit()})
 
-        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+        assert len(response.http_request.headers.get_list("x-hanzo-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
@@ -882,9 +882,9 @@ class TestHanzo:
 
         respx_mock.get("/").mock(side_effect=retry_handler)
 
-        response = client.with_raw_response.get_home(extra_headers={"x-stainless-retry-count": "42"})
+        response = client.with_raw_response.get_home(extra_headers={"x-hanzo-retry-count": "42"})
 
-        assert response.http_request.headers.get("x-stainless-retry-count") == "42"
+        assert response.http_request.headers.get("x-hanzo-retry-count") == "42"
 
 
 class TestAsyncHanzo:
@@ -1179,7 +1179,7 @@ class TestAsyncHanzo:
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
-        assert request.headers.get("x-stainless-lang") == "python"
+        assert request.headers.get("x-hanzo-lang") == "python"
 
         client2 = AsyncHanzo(
             base_url=base_url,
@@ -1187,12 +1187,12 @@ class TestAsyncHanzo:
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
-                "X-Stainless-Lang": "my-overriding-header",
+                "X-Hanzo-Lang": "my-overriding-header",
             },
         )
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
-        assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+        assert request.headers.get("x-hanzo-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
         client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
@@ -1672,7 +1672,7 @@ class TestAsyncHanzo:
         response = await client.with_raw_response.get_home()
 
         assert response.retries_taken == failures_before_success
-        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+        assert int(response.http_request.headers.get("x-hanzo-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
@@ -1697,9 +1697,9 @@ class TestAsyncHanzo:
 
         respx_mock.get("/").mock(side_effect=retry_handler)
 
-        response = await client.with_raw_response.get_home(extra_headers={"x-stainless-retry-count": Omit()})
+        response = await client.with_raw_response.get_home(extra_headers={"x-hanzo-retry-count": Omit()})
 
-        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+        assert len(response.http_request.headers.get_list("x-hanzo-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("hanzoai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
@@ -1724,9 +1724,9 @@ class TestAsyncHanzo:
 
         respx_mock.get("/").mock(side_effect=retry_handler)
 
-        response = await client.with_raw_response.get_home(extra_headers={"x-stainless-retry-count": "42"})
+        response = await client.with_raw_response.get_home(extra_headers={"x-hanzo-retry-count": "42"})
 
-        assert response.http_request.headers.get("x-stainless-retry-count") == "42"
+        assert response.http_request.headers.get("x-hanzo-retry-count") == "42"
 
     def test_get_platform(self) -> None:
         # A previous implementation of asyncify could leave threads unterminated when

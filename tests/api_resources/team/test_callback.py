@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ class TestCallback:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         callback = response.parse()
         assert_matches_type(object, callback, path=["response"])
 
@@ -40,7 +40,7 @@ class TestCallback:
             "team_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             callback = response.parse()
             assert_matches_type(object, callback, path=["response"])
@@ -86,7 +86,7 @@ class TestCallback:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         callback = response.parse()
         assert_matches_type(object, callback, path=["response"])
 
@@ -98,7 +98,7 @@ class TestCallback:
             callback_vars={"foo": "string"},
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             callback = response.parse()
             assert_matches_type(object, callback, path=["response"])
@@ -135,7 +135,7 @@ class TestAsyncCallback:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         callback = await response.parse()
         assert_matches_type(object, callback, path=["response"])
 
@@ -145,7 +145,7 @@ class TestAsyncCallback:
             "team_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             callback = await response.parse()
             assert_matches_type(object, callback, path=["response"])
@@ -191,7 +191,7 @@ class TestAsyncCallback:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         callback = await response.parse()
         assert_matches_type(object, callback, path=["response"])
 
@@ -203,7 +203,7 @@ class TestAsyncCallback:
             callback_vars={"foo": "string"},
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             callback = await response.parse()
             assert_matches_type(object, callback, path=["response"])

@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# # Hanzo AI SDK Tests
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ class TestInfo:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = response.parse()
         assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
@@ -41,7 +41,7 @@ class TestInfo:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = response.parse()
             assert_matches_type(InfoRetrieveResponse, info, path=["response"])
@@ -62,7 +62,7 @@ class TestInfo:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = response.parse()
         assert_matches_type(object, info, path=["response"])
 
@@ -72,7 +72,7 @@ class TestInfo:
             organizations=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = response.parse()
             assert_matches_type(object, info, path=["response"])
@@ -97,7 +97,7 @@ class TestAsyncInfo:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = await response.parse()
         assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
@@ -107,7 +107,7 @@ class TestAsyncInfo:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = await response.parse()
             assert_matches_type(InfoRetrieveResponse, info, path=["response"])
@@ -128,7 +128,7 @@ class TestAsyncInfo:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
         info = await response.parse()
         assert_matches_type(object, info, path=["response"])
 
@@ -138,7 +138,7 @@ class TestAsyncInfo:
             organizations=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
 
             info = await response.parse()
             assert_matches_type(object, info, path=["response"])
