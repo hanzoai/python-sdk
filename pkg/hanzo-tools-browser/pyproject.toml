@@ -4,17 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.2.0"
-description = "Browser automation tools using Playwright - async-first, shared browser pool"
+version = "0.2.2"
+description = "Browser automation tools with extension-first routing - uses Hanzo browser extension when available, Playwright as fallback"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
-keywords = ["hanzo", "tools", "browser", "playwright", "mcp", "ai", "automation"]
+keywords = ["hanzo", "tools", "browser", "playwright", "mcp", "ai", "automation", "extension"]
 dependencies = [
     "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "pydantic>=2.12.5",
+    "aiohttp>=3.9.0",
 ]
 
 [project.optional-dependencies]

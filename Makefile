@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 SHELL := /bin/bash
-.PHONY: help all setup install-python venv deps test lint format build clean publish-all check check-forbidden check-functions test-no-stubs test-all security install-hooks
+.PHONY: help all setup install install-local uninstall install-python venv deps test lint format build clean publish-all check check-forbidden check-functions test-no-stubs test-all security install-hooks
 
 # Colors for output
 CYAN := \033[0;36m
@@ -19,6 +19,58 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
 
 all: format lint test ## Run all checks
+
+# ==================== INSTALLATION ====================
+# Install CLI tools to ~/.local/bin/ (like Claude Code)
+
+INSTALL_DIR := $(HOME)/.local/bin
+
+install: ## Install CLI tools to ~/.local/bin via uv tool
+	@echo -e "$(CYAN)Installing Hanzo CLI tools to $(INSTALL_DIR)...$(NC)"
+	@if ! command -v uv &> /dev/null; then \
+		echo -e "$(RED)Error: uv is not installed. Run: curl -LsSf https://astral.sh/uv/install.sh | sh$(NC)"; \
+		exit 1; \
+	fi
+	@uv tool install hanzo --upgrade 2>/dev/null || uv tool install hanzo
+	@uv tool install hanzo-mcp --upgrade 2>/dev/null || uv tool install hanzo-mcp
+	@uv tool install hanzo-agents --upgrade 2>/dev/null || uv tool install hanzo-agents
+	@echo ""
+	@echo -e "$(GREEN)✓ Hanzo CLI tools installed!$(NC)"
+	@echo -e "  Location: $(INSTALL_DIR)"
+	@echo ""
+	@echo -e "  $(CYAN)hanzo --help$(NC)        # CLI commands"
+	@echo -e "  $(CYAN)hanzo-mcp$(NC)           # MCP server"
+	@echo -e "  $(CYAN)hanzo-agents$(NC)        # Agents framework"
+	@echo ""
+	@if [[ ":$$PATH:" != *":$(INSTALL_DIR):"* ]]; then \
+		echo -e "$(YELLOW)Add to PATH:$(NC) export PATH=\"$(INSTALL_DIR):\$$PATH\""; \
+	fi
+
+install-local: build ## Install from local source (development)
+	@echo -e "$(CYAN)Installing Hanzo from local source...$(NC)"
+	@uv tool install --force ./pkg/hanzo
+	@uv tool install --force ./pkg/hanzo-mcp
+	@uv tool install --force ./pkg/hanzo-agents
+	@echo -e "$(GREEN)✓ Installed from local source$(NC)"
+
+uninstall: ## Remove all Hanzo CLI tools
+	@echo -e "$(CYAN)Uninstalling Hanzo CLI tools...$(NC)"
+	@uv tool uninstall hanzo 2>/dev/null || true
+	@uv tool uninstall hanzo-mcp 2>/dev/null || true
+	@uv tool uninstall hanzo-agents 2>/dev/null || true
+	@echo -e "$(GREEN)✓ Hanzo CLI tools uninstalled$(NC)"
+
+doctor: ## Show installed Hanzo tools
+	@echo -e "$(CYAN)Hanzo CLI Tools Status$(NC)"
+	@echo ""
+	@echo -e "  $(CYAN)uv tools:$(NC)"
+	@uv tool list 2>/dev/null | grep -E "^hanzo" | while read line; do \
+		name=$$(echo "$$line" | awk '{print $$1}'); \
+		ver=$$(echo "$$line" | awk '{print $$2}'); \
+		path=$$(command -v "$$name" 2>/dev/null || echo "~/.local/bin/$$name"); \
+		printf "    $(GREEN)✓$(NC) %-16s %-10s %s\n" "$$name" "$$ver" "$$path"; \
+	done || echo -e "    $(RED)(none installed)$(NC)"
+	@echo ""
 
 setup: install-python venv deps ## Complete setup: install Python, create venv, install deps
 
