@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Optional
 
 import httpx
 
@@ -21,6 +21,7 @@ from ...types.config import (
     pass_through_endpoint_list_params,
     pass_through_endpoint_create_params,
     pass_through_endpoint_delete_params,
+    pass_through_endpoint_update_params,
 )
 from ...types.config.pass_through_endpoint_response import PassThroughEndpointResponse
 
@@ -50,9 +51,14 @@ class PassThroughEndpointResource(SyncAPIResource):
     def create(
         self,
         *,
-        headers: object,
         path: str,
         target: str,
+        id: Optional[str] | Omit = omit,
+        auth: bool | Omit = omit,
+        cost_per_request: float | Omit = omit,
+        guardrails: Optional[Dict[str, Optional[pass_through_endpoint_create_params.Guardrails]]] | Omit = omit,
+        headers: Dict[str, object] | Omit = omit,
+        include_subpath: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -64,12 +70,31 @@ class PassThroughEndpointResource(SyncAPIResource):
         Create new pass-through endpoint
 
         Args:
+          path: The route to be added to the LiteLLM Proxy Server.
+
+          target: The URL to which requests for this path should be forwarded.
+
+          id: Optional unique identifier for the pass-through endpoint. If not provided,
+              endpoints will be identified by path for backwards compatibility.
+
+          auth: Whether authentication is required for the pass-through endpoint. If True,
+              requests to the endpoint will require a valid LiteLLM API key.
+
+          cost_per_request: The USD cost per request to the target endpoint. This is used to calculate the
+              cost of the request to the target endpoint.
+
+          guardrails: Guardrails configuration for this passthrough endpoint. Dict keys are guardrail
+              names, values are optional settings for field targeting. When set, all
+              org/team/key level guardrails will also execute. Defaults to None (no guardrails
+              execute).
+
           headers: Key-value pairs of headers to be forwarded with the request. You can set any key
               value pair here and it will be forwarded to your target endpoint
 
-          path: The route to be added to the LLM Proxy Server.
-
-          target: The URL to which requests for this path should be forwarded.
+          include_subpath: If True, requests to subpaths of the path will be forwarded to the target
+              endpoint. For example, if the path is /bria and include_subpath is True,
+              requests to /bria/v1/text-to-image/base/2.3 will be forwarded to the target
+              endpoint.
 
           extra_headers: Send extra headers
 
@@ -83,9 +108,14 @@ class PassThroughEndpointResource(SyncAPIResource):
             "/config/pass_through_endpoint",
             body=maybe_transform(
                 {
-                    "headers": headers,
                     "path": path,
                     "target": target,
+                    "id": id,
+                    "auth": auth,
+                    "cost_per_request": cost_per_request,
+                    "guardrails": guardrails,
+                    "headers": headers,
+                    "include_subpath": include_subpath,
                 },
                 pass_through_endpoint_create_params.PassThroughEndpointCreateParams,
             ),
@@ -99,6 +129,14 @@ class PassThroughEndpointResource(SyncAPIResource):
         self,
         endpoint_id: str,
         *,
+        path: str,
+        target: str,
+        id: Optional[str] | Omit = omit,
+        auth: bool | Omit = omit,
+        cost_per_request: float | Omit = omit,
+        guardrails: Optional[Dict[str, Optional[pass_through_endpoint_update_params.Guardrails]]] | Omit = omit,
+        headers: Dict[str, object] | Omit = omit,
+        include_subpath: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -107,9 +145,35 @@ class PassThroughEndpointResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Update a pass-through endpoint
+        Update a pass-through endpoint by ID.
 
         Args:
+          path: The route to be added to the LiteLLM Proxy Server.
+
+          target: The URL to which requests for this path should be forwarded.
+
+          id: Optional unique identifier for the pass-through endpoint. If not provided,
+              endpoints will be identified by path for backwards compatibility.
+
+          auth: Whether authentication is required for the pass-through endpoint. If True,
+              requests to the endpoint will require a valid LiteLLM API key.
+
+          cost_per_request: The USD cost per request to the target endpoint. This is used to calculate the
+              cost of the request to the target endpoint.
+
+          guardrails: Guardrails configuration for this passthrough endpoint. Dict keys are guardrail
+              names, values are optional settings for field targeting. When set, all
+              org/team/key level guardrails will also execute. Defaults to None (no guardrails
+              execute).
+
+          headers: Key-value pairs of headers to be forwarded with the request. You can set any key
+              value pair here and it will be forwarded to your target endpoint
+
+          include_subpath: If True, requests to subpaths of the path will be forwarded to the target
+              endpoint. For example, if the path is /bria and include_subpath is True,
+              requests to /bria/v1/text-to-image/base/2.3 will be forwarded to the target
+              endpoint.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -122,6 +186,19 @@ class PassThroughEndpointResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
         return self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
+            body=maybe_transform(
+                {
+                    "path": path,
+                    "target": target,
+                    "id": id,
+                    "auth": auth,
+                    "cost_per_request": cost_per_request,
+                    "guardrails": guardrails,
+                    "headers": headers,
+                    "include_subpath": include_subpath,
+                },
+                pass_through_endpoint_update_params.PassThroughEndpointUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -132,6 +209,7 @@ class PassThroughEndpointResource(SyncAPIResource):
         self,
         *,
         endpoint_id: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -161,7 +239,11 @@ class PassThroughEndpointResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_list_params.PassThroughEndpointListParams
+                    {
+                        "endpoint_id": endpoint_id,
+                        "team_id": team_id,
+                    },
+                    pass_through_endpoint_list_params.PassThroughEndpointListParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,
@@ -179,7 +261,7 @@ class PassThroughEndpointResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PassThroughEndpointResponse:
         """
-        Delete a pass-through endpoint
+        Delete a pass-through endpoint by ID.
 
         Returns - the deleted endpoint
 
@@ -230,9 +312,14 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        headers: object,
         path: str,
         target: str,
+        id: Optional[str] | Omit = omit,
+        auth: bool | Omit = omit,
+        cost_per_request: float | Omit = omit,
+        guardrails: Optional[Dict[str, Optional[pass_through_endpoint_create_params.Guardrails]]] | Omit = omit,
+        headers: Dict[str, object] | Omit = omit,
+        include_subpath: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -244,12 +331,31 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         Create new pass-through endpoint
 
         Args:
+          path: The route to be added to the LiteLLM Proxy Server.
+
+          target: The URL to which requests for this path should be forwarded.
+
+          id: Optional unique identifier for the pass-through endpoint. If not provided,
+              endpoints will be identified by path for backwards compatibility.
+
+          auth: Whether authentication is required for the pass-through endpoint. If True,
+              requests to the endpoint will require a valid LiteLLM API key.
+
+          cost_per_request: The USD cost per request to the target endpoint. This is used to calculate the
+              cost of the request to the target endpoint.
+
+          guardrails: Guardrails configuration for this passthrough endpoint. Dict keys are guardrail
+              names, values are optional settings for field targeting. When set, all
+              org/team/key level guardrails will also execute. Defaults to None (no guardrails
+              execute).
+
           headers: Key-value pairs of headers to be forwarded with the request. You can set any key
               value pair here and it will be forwarded to your target endpoint
 
-          path: The route to be added to the LLM Proxy Server.
-
-          target: The URL to which requests for this path should be forwarded.
+          include_subpath: If True, requests to subpaths of the path will be forwarded to the target
+              endpoint. For example, if the path is /bria and include_subpath is True,
+              requests to /bria/v1/text-to-image/base/2.3 will be forwarded to the target
+              endpoint.
 
           extra_headers: Send extra headers
 
@@ -263,9 +369,14 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
             "/config/pass_through_endpoint",
             body=await async_maybe_transform(
                 {
-                    "headers": headers,
                     "path": path,
                     "target": target,
+                    "id": id,
+                    "auth": auth,
+                    "cost_per_request": cost_per_request,
+                    "guardrails": guardrails,
+                    "headers": headers,
+                    "include_subpath": include_subpath,
                 },
                 pass_through_endpoint_create_params.PassThroughEndpointCreateParams,
             ),
@@ -279,6 +390,14 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         self,
         endpoint_id: str,
         *,
+        path: str,
+        target: str,
+        id: Optional[str] | Omit = omit,
+        auth: bool | Omit = omit,
+        cost_per_request: float | Omit = omit,
+        guardrails: Optional[Dict[str, Optional[pass_through_endpoint_update_params.Guardrails]]] | Omit = omit,
+        headers: Dict[str, object] | Omit = omit,
+        include_subpath: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -287,9 +406,35 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Update a pass-through endpoint
+        Update a pass-through endpoint by ID.
 
         Args:
+          path: The route to be added to the LiteLLM Proxy Server.
+
+          target: The URL to which requests for this path should be forwarded.
+
+          id: Optional unique identifier for the pass-through endpoint. If not provided,
+              endpoints will be identified by path for backwards compatibility.
+
+          auth: Whether authentication is required for the pass-through endpoint. If True,
+              requests to the endpoint will require a valid LiteLLM API key.
+
+          cost_per_request: The USD cost per request to the target endpoint. This is used to calculate the
+              cost of the request to the target endpoint.
+
+          guardrails: Guardrails configuration for this passthrough endpoint. Dict keys are guardrail
+              names, values are optional settings for field targeting. When set, all
+              org/team/key level guardrails will also execute. Defaults to None (no guardrails
+              execute).
+
+          headers: Key-value pairs of headers to be forwarded with the request. You can set any key
+              value pair here and it will be forwarded to your target endpoint
+
+          include_subpath: If True, requests to subpaths of the path will be forwarded to the target
+              endpoint. For example, if the path is /bria and include_subpath is True,
+              requests to /bria/v1/text-to-image/base/2.3 will be forwarded to the target
+              endpoint.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -302,6 +447,19 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `endpoint_id` but received {endpoint_id!r}")
         return await self._post(
             f"/config/pass_through_endpoint/{endpoint_id}",
+            body=await async_maybe_transform(
+                {
+                    "path": path,
+                    "target": target,
+                    "id": id,
+                    "auth": auth,
+                    "cost_per_request": cost_per_request,
+                    "guardrails": guardrails,
+                    "headers": headers,
+                    "include_subpath": include_subpath,
+                },
+                pass_through_endpoint_update_params.PassThroughEndpointUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -312,6 +470,7 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         self,
         *,
         endpoint_id: Optional[str] | Omit = omit,
+        team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -341,7 +500,11 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"endpoint_id": endpoint_id}, pass_through_endpoint_list_params.PassThroughEndpointListParams
+                    {
+                        "endpoint_id": endpoint_id,
+                        "team_id": team_id,
+                    },
+                    pass_through_endpoint_list_params.PassThroughEndpointListParams,
                 ),
             ),
             cast_to=PassThroughEndpointResponse,
@@ -359,7 +522,7 @@ class AsyncPassThroughEndpointResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PassThroughEndpointResponse:
         """
-        Delete a pass-through endpoint
+        Delete a pass-through endpoint by ID.
 
         Returns - the deleted endpoint
 

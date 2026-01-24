@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
-from typing_extensions import TypedDict
+from typing import Dict, Union, Optional
+from datetime import datetime
+from typing_extensions import Annotated, TypedDict
+
+from .._utils import PropertyInfo
 
 __all__ = ["BudgetUpdateParams", "ModelMaxBudget"]
 
@@ -14,6 +17,9 @@ class BudgetUpdateParams(TypedDict, total=False):
 
     budget_id: Optional[str]
     """The unique budget id."""
+
+    budget_reset_at: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]
+    """Datetime when the budget is reset"""
 
     max_budget: Optional[float]
     """Requests will fail if this budget (in USD) is exceeded."""

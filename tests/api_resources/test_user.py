@@ -29,28 +29,39 @@ class TestUser:
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         user = client.user.create(
-            aliases={},
+            aliases={"foo": "bar"},
             allowed_cache_controls=[{}],
             auto_create_key=True,
             blocked=True,
             budget_duration="budget_duration",
-            config={},
+            config={"foo": "bar"},
             duration="duration",
             guardrails=["string"],
             key_alias="key_alias",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={},
-            model_max_budget={},
-            model_rpm_limit={},
-            model_tpm_limit={},
+            metadata={"foo": "bar"},
+            model_max_budget={"foo": "bar"},
+            model_rpm_limit={"foo": "bar"},
+            model_tpm_limit={"foo": "bar"},
             models=[{}],
-            permissions={},
+            object_permission={
+                "agent_access_groups": ["string"],
+                "agents": ["string"],
+                "mcp_access_groups": ["string"],
+                "mcp_servers": ["string"],
+                "mcp_tool_permissions": {"foo": ["string"]},
+                "vector_stores": ["string"],
+            },
+            organizations=["string"],
+            permissions={"foo": "bar"},
+            prompts=["string"],
             rpm_limit=0,
             send_invite_email=True,
             spend=0,
+            sso_user_id="sso_user_id",
             team_id="team_id",
-            teams=[{}],
+            teams=["string"],
             tpm_limit=0,
             user_alias="user_alias",
             user_email="user_email",
@@ -91,27 +102,37 @@ class TestUser:
     @parametrize
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         user = client.user.update(
-            aliases={},
+            aliases={"foo": "bar"},
             allowed_cache_controls=[{}],
             blocked=True,
             budget_duration="budget_duration",
-            config={},
+            config={"foo": "bar"},
             duration="duration",
             guardrails=["string"],
             key_alias="key_alias",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={},
-            model_max_budget={},
-            model_rpm_limit={},
-            model_tpm_limit={},
+            metadata={"foo": "bar"},
+            model_max_budget={"foo": "bar"},
+            model_rpm_limit={"foo": "bar"},
+            model_tpm_limit={"foo": "bar"},
             models=[{}],
+            object_permission={
+                "agent_access_groups": ["string"],
+                "agents": ["string"],
+                "mcp_access_groups": ["string"],
+                "mcp_servers": ["string"],
+                "mcp_tool_permissions": {"foo": ["string"]},
+                "vector_stores": ["string"],
+            },
             password="password",
-            permissions={},
+            permissions={"foo": "bar"},
+            prompts=["string"],
             rpm_limit=0,
             spend=0,
             team_id="team_id",
             tpm_limit=0,
+            user_alias="user_alias",
             user_email="user_email",
             user_id="user_id",
             user_role="proxy_admin",
@@ -142,45 +163,6 @@ class TestUser:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: Hanzo) -> None:
-        user = client.user.list()
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list_with_all_params(self, client: Hanzo) -> None:
-        user = client.user.list(
-            page=1,
-            page_size=1,
-            role="role",
-            user_ids="user_ids",
-        )
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_list(self, client: Hanzo) -> None:
-        response = client.user.with_raw_response.list()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        user = response.parse()
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_list(self, client: Hanzo) -> None:
-        with client.user.with_streaming_response.list() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            user = response.parse()
-            assert_matches_type(object, user, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         user = client.user.delete(
             user_ids=["string"],
@@ -192,7 +174,7 @@ class TestUser:
     def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         user = client.user.delete(
             user_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            litellm_changed_by="litellm-changed-by",
         )
         assert_matches_type(object, user, path=["response"])
 
@@ -274,28 +256,39 @@ class TestAsyncUser:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.create(
-            aliases={},
+            aliases={"foo": "bar"},
             allowed_cache_controls=[{}],
             auto_create_key=True,
             blocked=True,
             budget_duration="budget_duration",
-            config={},
+            config={"foo": "bar"},
             duration="duration",
             guardrails=["string"],
             key_alias="key_alias",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={},
-            model_max_budget={},
-            model_rpm_limit={},
-            model_tpm_limit={},
+            metadata={"foo": "bar"},
+            model_max_budget={"foo": "bar"},
+            model_rpm_limit={"foo": "bar"},
+            model_tpm_limit={"foo": "bar"},
             models=[{}],
-            permissions={},
+            object_permission={
+                "agent_access_groups": ["string"],
+                "agents": ["string"],
+                "mcp_access_groups": ["string"],
+                "mcp_servers": ["string"],
+                "mcp_tool_permissions": {"foo": ["string"]},
+                "vector_stores": ["string"],
+            },
+            organizations=["string"],
+            permissions={"foo": "bar"},
+            prompts=["string"],
             rpm_limit=0,
             send_invite_email=True,
             spend=0,
+            sso_user_id="sso_user_id",
             team_id="team_id",
-            teams=[{}],
+            teams=["string"],
             tpm_limit=0,
             user_alias="user_alias",
             user_email="user_email",
@@ -336,27 +329,37 @@ class TestAsyncUser:
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.update(
-            aliases={},
+            aliases={"foo": "bar"},
             allowed_cache_controls=[{}],
             blocked=True,
             budget_duration="budget_duration",
-            config={},
+            config={"foo": "bar"},
             duration="duration",
             guardrails=["string"],
             key_alias="key_alias",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={},
-            model_max_budget={},
-            model_rpm_limit={},
-            model_tpm_limit={},
+            metadata={"foo": "bar"},
+            model_max_budget={"foo": "bar"},
+            model_rpm_limit={"foo": "bar"},
+            model_tpm_limit={"foo": "bar"},
             models=[{}],
+            object_permission={
+                "agent_access_groups": ["string"],
+                "agents": ["string"],
+                "mcp_access_groups": ["string"],
+                "mcp_servers": ["string"],
+                "mcp_tool_permissions": {"foo": ["string"]},
+                "vector_stores": ["string"],
+            },
             password="password",
-            permissions={},
+            permissions={"foo": "bar"},
+            prompts=["string"],
             rpm_limit=0,
             spend=0,
             team_id="team_id",
             tpm_limit=0,
+            user_alias="user_alias",
             user_email="user_email",
             user_id="user_id",
             user_role="proxy_admin",
@@ -387,45 +390,6 @@ class TestAsyncUser:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncHanzo) -> None:
-        user = await async_client.user.list()
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
-        user = await async_client.user.list(
-            page=1,
-            page_size=1,
-            role="role",
-            user_ids="user_ids",
-        )
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
-        response = await async_client.user.with_raw_response.list()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        user = await response.parse()
-        assert_matches_type(object, user, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
-        async with async_client.user.with_streaming_response.list() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            user = await response.parse()
-            assert_matches_type(object, user, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
@@ -437,7 +401,7 @@ class TestAsyncUser:
     async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         user = await async_client.user.delete(
             user_ids=["string"],
-            llm_changed_by="llm-changed-by",
+            litellm_changed_by="litellm-changed-by",
         )
         assert_matches_type(object, user, path=["response"])
 

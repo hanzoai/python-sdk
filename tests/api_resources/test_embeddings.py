@@ -19,12 +19,6 @@ class TestEmbeddings:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
-        embedding = client.embeddings.create()
-        assert_matches_type(object, embedding, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_create_with_all_params(self, client: Hanzo) -> None:
         embedding = client.embeddings.create(
             model="model",
         )
@@ -32,8 +26,30 @@ class TestEmbeddings:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
+        embedding = client.embeddings.create(
+            model="model",
+            api_base="api_base",
+            api_key="api_key",
+            api_type="api_type",
+            api_version="api_version",
+            caching=True,
+            custom_llm_provider="string",
+            input=["string"],
+            litellm_call_id="litellm_call_id",
+            litellm_logging_obj={"foo": "bar"},
+            logger_fn="logger_fn",
+            api_timeout=0,
+            user="user",
+        )
+        assert_matches_type(object, embedding, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
-        response = client.embeddings.with_raw_response.create()
+        response = client.embeddings.with_raw_response.create(
+            model="model",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -43,7 +59,9 @@ class TestEmbeddings:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
-        with client.embeddings.with_streaming_response.create() as response:
+        with client.embeddings.with_streaming_response.create(
+            model="model",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -61,12 +79,6 @@ class TestAsyncEmbeddings:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
-        embedding = await async_client.embeddings.create()
-        assert_matches_type(object, embedding, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         embedding = await async_client.embeddings.create(
             model="model",
         )
@@ -74,8 +86,30 @@ class TestAsyncEmbeddings:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
+        embedding = await async_client.embeddings.create(
+            model="model",
+            api_base="api_base",
+            api_key="api_key",
+            api_type="api_type",
+            api_version="api_version",
+            caching=True,
+            custom_llm_provider="string",
+            input=["string"],
+            litellm_call_id="litellm_call_id",
+            litellm_logging_obj={"foo": "bar"},
+            logger_fn="logger_fn",
+            api_timeout=0,
+            user="user",
+        )
+        assert_matches_type(object, embedding, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
-        response = await async_client.embeddings.with_raw_response.create()
+        response = await async_client.embeddings.with_raw_response.create(
+            model="model",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -85,7 +119,9 @@ class TestAsyncEmbeddings:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
-        async with async_client.embeddings.with_streaming_response.create() as response:
+        async with async_client.embeddings.with_streaming_response.create(
+            model="model",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 

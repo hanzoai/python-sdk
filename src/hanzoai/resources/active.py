@@ -49,7 +49,7 @@ class ActiveResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Returns a list of llm level settings
+        Returns a list of litellm level settings
 
         This is useful for debugging and ensuring the proxy server is configured
         correctly.
@@ -59,17 +59,17 @@ class ActiveResource(SyncAPIResource):
         ```
         {
             "alerting": _alerting,
-            "llm.callbacks": llm_callbacks,
-            "llm.input_callback": llm_input_callbacks,
-            "llm.failure_callback": llm_failure_callbacks,
-            "llm.success_callback": llm_success_callbacks,
-            "llm._async_success_callback": llm_async_success_callbacks,
-            "llm._async_failure_callback": llm_async_failure_callbacks,
-            "llm._async_input_callback": llm_async_input_callbacks,
-            "all_llm_callbacks": all_llm_callbacks,
-            "num_callbacks": len(all_llm_callbacks),
+            "litellm.callbacks": litellm_callbacks,
+            "litellm.input_callback": litellm_input_callbacks,
+            "litellm.failure_callback": litellm_failure_callbacks,
+            "litellm.success_callback": litellm_success_callbacks,
+            "litellm._async_success_callback": litellm_async_success_callbacks,
+            "litellm._async_failure_callback": litellm_async_failure_callbacks,
+            "litellm._async_input_callback": litellm_async_input_callbacks,
+            "all_litellm_callbacks": all_litellm_callbacks,
+            "num_callbacks": len(all_litellm_callbacks),
             "num_alerting": _num_alerting,
-            "llm.request_timeout": llm.request_timeout,
+            "litellm.request_timeout": litellm.request_timeout,
         }
         ```
         """
@@ -113,7 +113,7 @@ class AsyncActiveResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Returns a list of llm level settings
+        Returns a list of litellm level settings
 
         This is useful for debugging and ensuring the proxy server is configured
         correctly.
@@ -123,17 +123,17 @@ class AsyncActiveResource(AsyncAPIResource):
         ```
         {
             "alerting": _alerting,
-            "llm.callbacks": llm_callbacks,
-            "llm.input_callback": llm_input_callbacks,
-            "llm.failure_callback": llm_failure_callbacks,
-            "llm.success_callback": llm_success_callbacks,
-            "llm._async_success_callback": llm_async_success_callbacks,
-            "llm._async_failure_callback": llm_async_failure_callbacks,
-            "llm._async_input_callback": llm_async_input_callbacks,
-            "all_llm_callbacks": all_llm_callbacks,
-            "num_callbacks": len(all_llm_callbacks),
+            "litellm.callbacks": litellm_callbacks,
+            "litellm.input_callback": litellm_input_callbacks,
+            "litellm.failure_callback": litellm_failure_callbacks,
+            "litellm.success_callback": litellm_success_callbacks,
+            "litellm._async_success_callback": litellm_async_success_callbacks,
+            "litellm._async_failure_callback": litellm_async_failure_callbacks,
+            "litellm._async_input_callback": litellm_async_input_callbacks,
+            "all_litellm_callbacks": all_litellm_callbacks,
+            "num_callbacks": len(all_litellm_callbacks),
             "num_alerting": _num_alerting,
-            "llm.request_timeout": llm.request_timeout,
+            "litellm.request_timeout": litellm.request_timeout,
         }
         ```
         """

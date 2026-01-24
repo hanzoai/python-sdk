@@ -157,6 +157,7 @@ class BatchesResource(SyncAPIResource):
         after: Optional[str] | Omit = omit,
         limit: Optional[int] | Omit = omit,
         provider: Optional[str] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -195,6 +196,7 @@ class BatchesResource(SyncAPIResource):
                         "after": after,
                         "limit": limit,
                         "provider": provider,
+                        "target_model_names": target_model_names,
                     },
                     batch_list_params.BatchListParams,
                 ),
@@ -302,6 +304,7 @@ class BatchesResource(SyncAPIResource):
         *,
         after: Optional[str] | Omit = omit,
         limit: Optional[int] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -341,6 +344,7 @@ class BatchesResource(SyncAPIResource):
                     {
                         "after": after,
                         "limit": limit,
+                        "target_model_names": target_model_names,
                     },
                     batch_list_with_provider_params.BatchListWithProviderParams,
                 ),
@@ -523,6 +527,7 @@ class AsyncBatchesResource(AsyncAPIResource):
         after: Optional[str] | Omit = omit,
         limit: Optional[int] | Omit = omit,
         provider: Optional[str] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -561,6 +566,7 @@ class AsyncBatchesResource(AsyncAPIResource):
                         "after": after,
                         "limit": limit,
                         "provider": provider,
+                        "target_model_names": target_model_names,
                     },
                     batch_list_params.BatchListParams,
                 ),
@@ -668,6 +674,7 @@ class AsyncBatchesResource(AsyncAPIResource):
         *,
         after: Optional[str] | Omit = omit,
         limit: Optional[int] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -707,6 +714,7 @@ class AsyncBatchesResource(AsyncAPIResource):
                     {
                         "after": after,
                         "limit": limit,
+                        "target_model_names": target_model_names,
                     },
                     batch_list_with_provider_params.BatchListWithProviderParams,
                 ),

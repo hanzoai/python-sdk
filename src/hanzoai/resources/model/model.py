@@ -68,7 +68,7 @@ class ModelResource(SyncAPIResource):
     def create(
         self,
         *,
-        llm_params: model_create_params.LlmParams,
+        litellm_params: model_create_params.LitellmParams,
         model_info: ModelInfoParam,
         model_name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -82,7 +82,7 @@ class ModelResource(SyncAPIResource):
         Allows adding new models to the model list in the config.yaml
 
         Args:
-          llm_params: LLM Params with 'model' requirement - used for completions
+          litellm_params: LiteLLM Params with 'model' requirement - used for completions
 
           extra_headers: Send extra headers
 
@@ -96,7 +96,7 @@ class ModelResource(SyncAPIResource):
             "/model/new",
             body=maybe_transform(
                 {
-                    "llm_params": llm_params,
+                    "litellm_params": litellm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },
@@ -172,7 +172,7 @@ class AsyncModelResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        llm_params: model_create_params.LlmParams,
+        litellm_params: model_create_params.LitellmParams,
         model_info: ModelInfoParam,
         model_name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -186,7 +186,7 @@ class AsyncModelResource(AsyncAPIResource):
         Allows adding new models to the model list in the config.yaml
 
         Args:
-          llm_params: LLM Params with 'model' requirement - used for completions
+          litellm_params: LiteLLM Params with 'model' requirement - used for completions
 
           extra_headers: Send extra headers
 
@@ -200,7 +200,7 @@ class AsyncModelResource(AsyncAPIResource):
             "/model/new",
             body=await async_maybe_transform(
                 {
-                    "llm_params": llm_params,
+                    "litellm_params": litellm_params,
                     "model_info": model_info,
                     "model_name": model_name,
                 },

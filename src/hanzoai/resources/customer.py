@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, Union, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
@@ -27,7 +28,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.customer_list_response import CustomerListResponse
-from ..types.customer_retrieve_info_response import CustomerRetrieveInfoResponse
+from ..types.lite_llm_end_user_table import LiteLlmEndUserTable
 
 __all__ = ["CustomerResource", "AsyncCustomerResource"]
 
@@ -61,12 +62,14 @@ class CustomerResource(SyncAPIResource):
         blocked: bool | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
+        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         default_model: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         soft_budget: Optional[float] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -108,6 +111,9 @@ class CustomerResource(SyncAPIResource):
           parallel requests for a given customer.
         - soft_budget: Optional[float] - [Not Implemented Yet] Get alerts when customer
           crosses given budget, doesn't block requests.
+        - spend: Optional[float] - Specify initial spend for a given customer.
+        - budget_reset_at: Optional[str] - Specify the date and time when the budget
+          should be reset.
 
         - Allow specifying allowed regions
         - Allow specifying default model
@@ -116,7 +122,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/new'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_id" : "z-jaff-3",
+                "user_id" : "ishaan-jaff-3",
                 "allowed_region": "eu",
                 "budget_id": "free_tier",
                 "default_model": "azure/gpt-3.5-turbo-eu" <- all calls from this user, use this model?
@@ -130,6 +136,8 @@ class CustomerResource(SyncAPIResource):
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
+
+          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -162,12 +170,14 @@ class CustomerResource(SyncAPIResource):
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
+                    "budget_reset_at": budget_reset_at,
                     "default_model": default_model,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,
                     "rpm_limit": rpm_limit,
                     "soft_budget": soft_budget,
+                    "spend": spend,
                     "tpm_limit": tpm_limit,
                 },
                 customer_create_params.CustomerCreateParams,
@@ -214,7 +224,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-llm-user-4",
+            "user_id": "test-litellm-user-4",
             "budget_id": "paid_tier"
         }'
 
@@ -299,7 +309,7 @@ class CustomerResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/delete'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_ids" :["z-jaff-5"]
+                "user_ids" :["ishaan-jaff-5"]
         }'
 
         See below for all params
@@ -380,7 +390,7 @@ class CustomerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerRetrieveInfoResponse:
+    ) -> LiteLlmEndUserTable:
         """Get information about an end-user.
 
         An `end_user` is a customer (external user)
@@ -393,7 +403,7 @@ class CustomerResource(SyncAPIResource):
         Example curl:
 
         ```
-        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-llm-user-4'         -H 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-litellm-user-4'         -H 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -418,7 +428,7 @@ class CustomerResource(SyncAPIResource):
                     {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
                 ),
             ),
-            cast_to=CustomerRetrieveInfoResponse,
+            cast_to=LiteLlmEndUserTable,
         )
 
     def unblock(
@@ -493,12 +503,14 @@ class AsyncCustomerResource(AsyncAPIResource):
         blocked: bool | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
+        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         default_model: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, customer_create_params.ModelMaxBudget]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         soft_budget: Optional[float] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -540,6 +552,9 @@ class AsyncCustomerResource(AsyncAPIResource):
           parallel requests for a given customer.
         - soft_budget: Optional[float] - [Not Implemented Yet] Get alerts when customer
           crosses given budget, doesn't block requests.
+        - spend: Optional[float] - Specify initial spend for a given customer.
+        - budget_reset_at: Optional[str] - Specify the date and time when the budget
+          should be reset.
 
         - Allow specifying allowed regions
         - Allow specifying default model
@@ -548,7 +563,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/new'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_id" : "z-jaff-3",
+                "user_id" : "ishaan-jaff-3",
                 "allowed_region": "eu",
                 "budget_id": "free_tier",
                 "default_model": "azure/gpt-3.5-turbo-eu" <- all calls from this user, use this model?
@@ -562,6 +577,8 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
+
+          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -594,12 +611,14 @@ class AsyncCustomerResource(AsyncAPIResource):
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
+                    "budget_reset_at": budget_reset_at,
                     "default_model": default_model,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,
                     "rpm_limit": rpm_limit,
                     "soft_budget": soft_budget,
+                    "spend": spend,
                     "tpm_limit": tpm_limit,
                 },
                 customer_create_params.CustomerCreateParams,
@@ -646,7 +665,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-llm-user-4",
+            "user_id": "test-litellm-user-4",
             "budget_id": "paid_tier"
         }'
 
@@ -731,7 +750,7 @@ class AsyncCustomerResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/customer/delete'         --header 'Authorization: Bearer sk-1234'         --header 'Content-Type: application/json'         --data '{
-                "user_ids" :["z-jaff-5"]
+                "user_ids" :["ishaan-jaff-5"]
         }'
 
         See below for all params
@@ -812,7 +831,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CustomerRetrieveInfoResponse:
+    ) -> LiteLlmEndUserTable:
         """Get information about an end-user.
 
         An `end_user` is a customer (external user)
@@ -825,7 +844,7 @@ class AsyncCustomerResource(AsyncAPIResource):
         Example curl:
 
         ```
-        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-llm-user-4'         -H 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/customer/info?end_user_id=test-litellm-user-4'         -H 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -850,7 +869,7 @@ class AsyncCustomerResource(AsyncAPIResource):
                     {"end_user_id": end_user_id}, customer_retrieve_info_params.CustomerRetrieveInfoParams
                 ),
             ),
-            cast_to=CustomerRetrieveInfoResponse,
+            cast_to=LiteLlmEndUserTable,
         )
 
     async def unblock(

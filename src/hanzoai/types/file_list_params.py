@@ -10,3 +10,5 @@ __all__ = ["FileListParams"]
 
 class FileListParams(TypedDict, total=False):
     purpose: Optional[str]
+
+    target_model_names: Optional[str]

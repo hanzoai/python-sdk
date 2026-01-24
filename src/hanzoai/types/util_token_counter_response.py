@@ -1,5 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Dict, Optional
+
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
@@ -15,3 +17,11 @@ class UtilTokenCounterResponse(BaseModel):
     tokenizer_type: str
 
     total_tokens: int
+
+    error: Optional[bool] = None
+
+    error_message: Optional[str] = None
+
+    original_response: Optional[Dict[str, object]] = None
+
+    status_code: Optional[int] = None

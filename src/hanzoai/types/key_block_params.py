@@ -12,8 +12,9 @@ __all__ = ["KeyBlockParams"]
 class KeyBlockParams(TypedDict, total=False):
     key: Required[str]
 
-    llm_changed_by: Annotated[str, PropertyInfo(alias="llm-changed-by")]
+    litellm_changed_by: Annotated[str, PropertyInfo(alias="litellm-changed-by")]
     """
-    The llm-changed-by header enables tracking of actions performed by authorized
-    users on behalf of other users, providing an audit trail for accountability
+    The litellm-changed-by header enables tracking of actions performed by
+    authorized users on behalf of other users, providing an audit trail for
+    accountability
     """

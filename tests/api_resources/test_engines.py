@@ -62,7 +62,29 @@ class TestEngines:
     @parametrize
     def test_method_embed(self, client: Hanzo) -> None:
         engine = client.engines.embed(
-            "model",
+            path_model="model",
+            body_model="model",
+        )
+        assert_matches_type(object, engine, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_embed_with_all_params(self, client: Hanzo) -> None:
+        engine = client.engines.embed(
+            path_model="model",
+            body_model="model",
+            api_base="api_base",
+            api_key="api_key",
+            api_type="api_type",
+            api_version="api_version",
+            caching=True,
+            custom_llm_provider="string",
+            input=["string"],
+            litellm_call_id="litellm_call_id",
+            litellm_logging_obj={"foo": "bar"},
+            logger_fn="logger_fn",
+            api_timeout=0,
+            user="user",
         )
         assert_matches_type(object, engine, path=["response"])
 
@@ -70,7 +92,8 @@ class TestEngines:
     @parametrize
     def test_raw_response_embed(self, client: Hanzo) -> None:
         response = client.engines.with_raw_response.embed(
-            "model",
+            path_model="model",
+            body_model="model",
         )
 
         assert response.is_closed is True
@@ -82,7 +105,8 @@ class TestEngines:
     @parametrize
     def test_streaming_response_embed(self, client: Hanzo) -> None:
         with client.engines.with_streaming_response.embed(
-            "model",
+            path_model="model",
+            body_model="model",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -95,9 +119,10 @@ class TestEngines:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_embed(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_model` but received ''"):
             client.engines.with_raw_response.embed(
-                "",
+                path_model="",
+                body_model="model",
             )
 
 
@@ -152,7 +177,29 @@ class TestAsyncEngines:
     @parametrize
     async def test_method_embed(self, async_client: AsyncHanzo) -> None:
         engine = await async_client.engines.embed(
-            "model",
+            path_model="model",
+            body_model="model",
+        )
+        assert_matches_type(object, engine, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_embed_with_all_params(self, async_client: AsyncHanzo) -> None:
+        engine = await async_client.engines.embed(
+            path_model="model",
+            body_model="model",
+            api_base="api_base",
+            api_key="api_key",
+            api_type="api_type",
+            api_version="api_version",
+            caching=True,
+            custom_llm_provider="string",
+            input=["string"],
+            litellm_call_id="litellm_call_id",
+            litellm_logging_obj={"foo": "bar"},
+            logger_fn="logger_fn",
+            api_timeout=0,
+            user="user",
         )
         assert_matches_type(object, engine, path=["response"])
 
@@ -160,7 +207,8 @@ class TestAsyncEngines:
     @parametrize
     async def test_raw_response_embed(self, async_client: AsyncHanzo) -> None:
         response = await async_client.engines.with_raw_response.embed(
-            "model",
+            path_model="model",
+            body_model="model",
         )
 
         assert response.is_closed is True
@@ -172,7 +220,8 @@ class TestAsyncEngines:
     @parametrize
     async def test_streaming_response_embed(self, async_client: AsyncHanzo) -> None:
         async with async_client.engines.with_streaming_response.embed(
-            "model",
+            path_model="model",
+            body_model="model",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -185,7 +234,8 @@ class TestAsyncEngines:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_embed(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_model` but received ''"):
             await async_client.engines.with_raw_response.embed(
-                "",
+                path_model="",
+                body_model="model",
             )

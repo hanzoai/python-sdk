@@ -116,6 +116,7 @@ class TestBatches:
             after="after",
             limit=0,
             provider="provider",
+            target_model_names="target_model_names",
         )
         assert_matches_type(object, batch, path=["response"])
 
@@ -250,6 +251,7 @@ class TestBatches:
             provider="provider",
             after="after",
             limit=0,
+            target_model_names="target_model_names",
         )
         assert_matches_type(object, batch, path=["response"])
 
@@ -445,6 +447,7 @@ class TestAsyncBatches:
             after="after",
             limit=0,
             provider="provider",
+            target_model_names="target_model_names",
         )
         assert_matches_type(object, batch, path=["response"])
 
@@ -579,6 +582,7 @@ class TestAsyncBatches:
             provider="provider",
             after="after",
             limit=0,
+            target_model_names="target_model_names",
         )
         assert_matches_type(object, batch, path=["response"])
 

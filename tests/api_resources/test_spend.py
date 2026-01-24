@@ -30,7 +30,7 @@ class TestSpend:
     @parametrize
     def test_method_calculate_spend_with_all_params(self, client: Hanzo) -> None:
         spend = client.spend.calculate_spend(
-            completion_response={},
+            completion_response={"foo": "bar"},
             messages=[{}],
             model="model",
         )
@@ -72,6 +72,7 @@ class TestSpend:
             end_date="end_date",
             request_id="request_id",
             start_date="start_date",
+            summarize=True,
             user_id="user_id",
         )
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
@@ -151,7 +152,7 @@ class TestAsyncSpend:
     @parametrize
     async def test_method_calculate_spend_with_all_params(self, async_client: AsyncHanzo) -> None:
         spend = await async_client.spend.calculate_spend(
-            completion_response={},
+            completion_response={"foo": "bar"},
             messages=[{}],
             model="model",
         )
@@ -193,6 +194,7 @@ class TestAsyncSpend:
             end_date="end_date",
             request_id="request_id",
             start_date="start_date",
+            summarize=True,
             user_id="user_id",
         )
         assert_matches_type(SpendListLogsResponse, spend, path=["response"])
