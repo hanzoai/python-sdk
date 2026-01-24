@@ -1,15 +1,18 @@
-"""Filesystem tools for Hanzo AI.
+"""Filesystem tools for Hanzo AI (HIP-0300).
 
 Tools:
-- read: Read file contents
-- write: Write/create files
-- edit: Edit files with find/replace
-- multi_edit: Multiple edits in one operation
-- tree: Directory tree view
-- find: Find files by pattern
-- search: Search file contents
-- ast: AST-based code search
-- rules: Read project rules/config
+- fs: Unified filesystem tool (HIP-0300)
+  - read: Read file contents (returns hash)
+  - write: Create new files
+  - stat: File metadata
+  - list: Directory listing
+  - apply_patch: Edit with base_hash precondition
+  - search_text: Text search
+  - mkdir: Create directory
+  - rm: Remove (requires confirm=true)
+
+IMPORTANT: apply_patch is the ONLY way to edit existing files.
+It requires base_hash from a previous read to prevent stale edits.
 
 Install:
     pip install hanzo-tools-fs
@@ -20,10 +23,14 @@ Usage:
     # Register with MCP server
     register_tools(mcp_server, permission_manager)
 
-    # Or access individual tools
-    from hanzo_tools.fs import ReadTool, WriteTool
+    # Or access the unified tool
+    from hanzo_tools.fs import FsTool
 """
 
+# HIP-0300: Unified fs tool
+from hanzo_tools.fs.fs_tool import FsTool, fs_tool
+
+# Legacy tools (backward compatibility)
 from hanzo_tools.fs.ast import ASTTool
 from hanzo_tools.fs.edit import EditTool
 from hanzo_tools.fs.find import FindTool
@@ -46,8 +53,11 @@ READ_ONLY_TOOLS = [
     ASTTool,
 ]
 
-# Export list for tool discovery
-TOOLS = [
+# Export list for tool discovery - HIP-0300 unified tool
+TOOLS = [FsTool]
+
+# Legacy tools list (for backward compatibility)
+LEGACY_TOOLS = [
     ReadTool,
     WriteTool,
     EditTool,
@@ -58,7 +68,10 @@ TOOLS = [
 ]
 
 __all__ = [
-    # Tool classes
+    # HIP-0300 unified tool
+    "FsTool",
+    "fs_tool",
+    # Legacy tool classes
     "ReadTool",
     "WriteTool",
     "EditTool",
@@ -74,6 +87,7 @@ __all__ = [
     "register_tools",
     "get_read_only_filesystem_tools",
     "TOOLS",
+    "LEGACY_TOOLS",
     "READ_ONLY_TOOLS",
 ]
 

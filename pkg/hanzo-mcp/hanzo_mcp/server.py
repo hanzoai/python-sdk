@@ -75,13 +75,19 @@ def _get_permission_manager():
 
 
 def _get_session_storage():
-    """Get SessionStorage class lazily."""
+    """Get SessionStorage class lazily.
+
+    Returns None if session_storage module is not available.
+    """
     global _SessionStorage
     if _SessionStorage is None:
-        from hanzo_tools.shell.session_storage import SessionStorage
-
-        _SessionStorage = SessionStorage
-    return _SessionStorage
+        try:
+            from hanzo_tools.shell.session_storage import SessionStorage
+            _SessionStorage = SessionStorage
+        except ImportError:
+            # session_storage module not available - return sentinel value
+            _SessionStorage = False
+    return _SessionStorage if _SessionStorage else None
 
 
 def _get_register_all_tools():
@@ -282,6 +288,11 @@ class HanzoMCPServer:
     def _background_cleanup(self) -> None:
         """Background thread for periodic session cleanup."""
         SessionStorage = _get_session_storage()
+        if SessionStorage is None:
+            # No session storage available, just wait for shutdown
+            self._shutdown_event.wait()
+            return
+
         while not self._shutdown_event.is_set():
             try:
                 # Clean up expired sessions every 2 minutes
@@ -298,6 +309,9 @@ class HanzoMCPServer:
         """Clean up all active sessions."""
         try:
             SessionStorage = _get_session_storage()
+            if SessionStorage is None:
+                return
+
             cleared_count = SessionStorage.clear_all_sessions()
             if cleared_count > 0:
                 # Only log if not stdio transport
