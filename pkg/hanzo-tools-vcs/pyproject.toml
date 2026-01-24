@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hanzo-tools-vcs"
+version = "0.1.0"
+description = "Unified version control tool for Hanzo AI (HIP-0300)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Hanzo AI Team", email = "ai@hanzo.ai" },
+]
+keywords = [
+    "hanzo",
+    "mcp",
+    "tools",
+    "vcs",
+    "git",
+    "version-control",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "mcp>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.1.0",
+]
+
+[project.entry-points."hanzo.tools"]
+vcs = "hanzo_tools.vcs:TOOLS"
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/python-sdk"
+Documentation = "https://docs.hanzo.ai"
+Repository = "https://github.com/hanzoai/python-sdk"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
