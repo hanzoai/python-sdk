@@ -27,29 +27,35 @@ logger = logging.getLogger(__name__)
 TOOLS_ENTRY_POINT_GROUP = "hanzo.tools"
 
 # Package to tool prefix mapping (for enable/disable)
+# HIP-0300 Operator Lattice: 16 tools organized by axis
 PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
-    "filesystem": ["read", "write", "edit", "tree", "ast", "search", "find"],
-    "shell": ["dag", "ps", "zsh", "shell", "npx", "uvx", "open", "curl", "jq", "wget"],
-    "browser": ["browser"],
-    "memory": ["memory"],  # Unified memory tool
-    "todo": ["todo"],
+    # Core operators (HIP-0300)
+    "filesystem": ["fs"],      # Bytes + Paths axis
+    "core": ["id"],            # Identity axis (hash, uri, ref, verify)
+    "code": ["code"],          # Symbols + Structure axis (parse, transform, summarize)
+    "shell": ["proc"],         # Execution axis
+    "vcs": ["vcs"],            # History + Diffs axis
+    "test": ["test"],          # Validation axis (check, build, test)
+    "net": ["net"],            # Network axis (search, fetch, download, crawl)
+    "plan": ["plan"],          # Orchestration axis (intent, route, compose)
+    # Control surfaces
+    "browser": ["browser"],    # Web content control (Playwright/extension)
+    "computer": ["computer"],  # OS/desktop control (computer use)
+    # Extended operators
+    "lsp": ["lsp"],            # Semantic stream (diagnostics, code_actions)
+    "memory": ["memory"],      # Knowledge persistence
+    "todo": ["todo"],          # Task tracking
     "reasoning": ["think", "critic"],
-    "lsp": ["lsp"],
     "refactor": ["refactor"],
-    "database": ["sql", "graph"],  # Consolidated database tools
-    "agent": [
-        "agent",
-        "iching",
-        "review",
-    ],  # Consolidated agent tools (critic is from reasoning)
+    "database": ["sql", "graph"],
+    "agent": ["agent", "iching", "review"],
     "jupyter": ["jupyter"],
     "editor": ["neovim_edit", "neovim_command", "neovim_session"],
-    "llm": ["llm", "consensus"],  # Removed llm_manage
+    "llm": ["llm", "consensus"],
     "vector": ["index", "vector_index", "vector_search"],
     "config": ["config", "mode"],
-    "mcp_tools": ["mcp"],  # Consolidated MCP tool
-    "computer": ["computer", "screen"],
-    "api": ["api"],  # Generic API tool for OpenAPI specs
+    "mcp_tools": ["mcp"],
+    "api": ["api"],
 }
 
 

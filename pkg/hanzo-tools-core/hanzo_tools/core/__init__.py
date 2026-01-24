@@ -13,7 +13,7 @@ warnings.warn(
 
 # Re-export everything from hanzo-tools
 from hanzo_tools.core.base import (
-    BaseTool,
+    BaseTool as BaseToolABC,  # Low-level ABC
     ToolRegistry,
     FileSystemTool,
 )
@@ -21,12 +21,45 @@ from hanzo_tools.core.types import MCPResourceDocument
 from hanzo_tools.core.context import ToolContext, create_tool_context
 from hanzo_tools.core.decorators import auto_timeout
 from hanzo_tools.core.permissions import PermissionManager
+from hanzo_tools.core.unified import (
+    BaseTool,  # HIP-0300 unified tool - use this
+    ActionHandler,
+    ToolError,
+    ConflictError,
+    NotFoundError,
+    InvalidParamsError,
+    Paging,
+    Range,
+    content_hash,
+    file_uri,
+    ErrorCode,
+)
+from hanzo_tools.core.id_tool import IdTool, id_tool
 
 __all__ = [
+    # HIP-0300 Base class - use this for new tools
     "BaseTool",
+    # Low-level ABC (for FileSystemTool etc)
+    "BaseToolABC",
     "FileSystemTool",
     "ToolRegistry",
+    # HIP-0300 helpers
+    "ActionHandler",
+    "ToolError",
+    "ConflictError",
+    "NotFoundError",
+    "InvalidParamsError",
+    "Paging",
+    "Range",
+    "ErrorCode",
+    "content_hash",
+    "file_uri",
+    # Identity tool
+    "IdTool",
+    "id_tool",
+    # Types
     "MCPResourceDocument",
+    # Context
     "PermissionManager",
     "ToolContext",
     "create_tool_context",

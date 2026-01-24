@@ -811,3 +811,802 @@ def install_doctor():
     else:
         console.print(f"[yellow]![/yellow] {install_dir} is NOT in PATH")
         console.print(f"  Add to your shell config: export PATH=\"{install_dir}:$PATH\"")
+
+
+# ============================================================================
+# IDE / Browser / AI App Integration
+# ============================================================================
+
+# MCP config paths for various apps
+MCP_CONFIG_PATHS = {
+    "claude": {
+        "macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+        "linux": "~/.config/claude/claude_desktop_config.json",
+        "windows": "%APPDATA%/Claude/claude_desktop_config.json",
+    },
+    "vscode": {
+        "macos": "~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+        "linux": "~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+        "windows": "%APPDATA%/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+    },
+    "cursor": {
+        "macos": "~/Library/Application Support/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+        "linux": "~/.config/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+        "windows": "%APPDATA%/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json",
+    },
+    "antigravity": {
+        "macos": "~/.gemini/antigravity/mcp_config.json",
+        "linux": "~/.gemini/antigravity/mcp_config.json",
+        "windows": "%USERPROFILE%/.gemini/antigravity/mcp_config.json",
+    },
+    "copilot": {
+        "macos": "~/.copilot/mcp-config.json",
+        "linux": "~/.copilot/mcp-config.json",
+        "windows": "%USERPROFILE%/.copilot/mcp-config.json",
+    },
+    "jan": {
+        "macos": "~/Library/Application Support/Jan/data/mcp_config.json",
+        "linux": "~/.config/jan/data/mcp_config.json",
+        "windows": "%APPDATA%/Jan/data/mcp_config.json",
+    },
+    "trae": {
+        "macos": "~/Library/Application Support/Trae/User/mcp.json",
+        "linux": "~/.config/Trae/User/mcp.json",
+        "windows": "%APPDATA%/Trae/User/mcp.json",
+    },
+    "5ire": {
+        "macos": "~/Library/Application Support/5ire/mcp.json",
+        "linux": "~/.config/5ire/mcp.json",
+        "windows": "%APPDATA%/5ire/mcp.json",
+    },
+}
+
+
+def get_mcp_config_path(app: str) -> Optional[Path]:
+    """Get MCP config path for an app."""
+    if app not in MCP_CONFIG_PATHS:
+        return None
+
+    system = platform.system().lower()
+    os_key = {"darwin": "macos", "linux": "linux", "windows": "windows"}.get(system)
+    if not os_key:
+        return None
+
+    path_str = MCP_CONFIG_PATHS[app].get(os_key)
+    if not path_str:
+        return None
+
+    return Path(os.path.expandvars(os.path.expanduser(path_str)))
+
+
+def get_mcp_server_config() -> dict:
+    """Get hanzo-mcp server configuration for MCP config files."""
+    return {
+        "command": "uvx",
+        "args": ["--upgrade", "hanzo-mcp@latest"],
+        "env": {}
+    }
+
+
+@install_group.command(name="ide")
+@click.argument("target", required=False)
+@click.option("--all", "install_all", is_flag=True, help="Install to all detected IDEs")
+@click.option("--list", "list_only", is_flag=True, help="List available IDEs")
+def install_ide(target: str, install_all: bool, list_only: bool):
+    """Install Hanzo MCP to IDEs (VS Code, Cursor, Antigravity, etc.).
+
+    \b
+    Examples:
+      hanzo install ide              # List detected IDEs
+      hanzo install ide claude       # Install to Claude Desktop
+      hanzo install ide vscode       # Install to VS Code
+      hanzo install ide --all        # Install to all detected IDEs
+
+    \b
+    Supported IDEs:
+      claude       - Claude Desktop
+      vscode       - Visual Studio Code (via Cline extension)
+      cursor       - Cursor IDE (via Cline extension)
+      antigravity  - Antigravity IDE (VS Code based)
+      copilot      - GitHub Copilot
+      jan          - Jan AI
+      trae         - Trae IDE
+      5ire         - 5ire AI
+    """
+    import json
+
+    if list_only or (not target and not install_all):
+        # List detected IDEs
+        console.print("[bold]Detected IDEs with MCP support:[/bold]")
+        console.print()
+
+        for app_name in MCP_CONFIG_PATHS:
+            config_path = get_mcp_config_path(app_name)
+            if config_path:
+                exists = config_path.exists()
+                parent_exists = config_path.parent.exists()
+
+                if exists:
+                    # Check if hanzo-mcp already configured
+                    try:
+                        with open(config_path) as f:
+                            config = json.load(f)
+                        has_hanzo = "hanzo" in config.get("mcpServers", {}) or "hanzo-mcp" in config.get("mcpServers", {})
+                        status = "[green]✓ hanzo-mcp configured[/green]" if has_hanzo else "[yellow]○ no hanzo-mcp[/yellow]"
+                    except:
+                        status = "[dim]○ config exists[/dim]"
+                    console.print(f"  [green]✓[/green] {app_name}: {status}")
+                elif parent_exists:
+                    console.print(f"  [yellow]○[/yellow] {app_name}: [dim]app installed, no MCP config[/dim]")
+                else:
+                    console.print(f"  [dim]○[/dim] {app_name}: [dim]not installed[/dim]")
+
+        console.print()
+        console.print("[dim]Run: hanzo install ide <name> to configure[/dim]")
+        return
+
+    targets = list(MCP_CONFIG_PATHS.keys()) if install_all else [target]
+
+    for app in targets:
+        if app not in MCP_CONFIG_PATHS:
+            console.print(f"[red]Unknown IDE: {app}[/red]")
+            console.print(f"Available: {', '.join(MCP_CONFIG_PATHS.keys())}")
+            continue
+
+        config_path = get_mcp_config_path(app)
+        if not config_path:
+            console.print(f"[yellow]![/yellow] {app}: not supported on this platform")
+            continue
+
+        console.print(f"[cyan]Configuring {app}...[/cyan]")
+
+        # Create parent directory if needed
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Load or create config
+        if config_path.exists():
+            try:
+                with open(config_path) as f:
+                    config = json.load(f)
+            except json.JSONDecodeError:
+                config = {}
+        else:
+            config = {}
+
+        # Ensure mcpServers key exists
+        if "mcpServers" not in config:
+            config["mcpServers"] = {}
+
+        # Add hanzo-mcp server
+        config["mcpServers"]["hanzo"] = get_mcp_server_config()
+
+        # Write config
+        with open(config_path, "w") as f:
+            json.dump(config, f, indent=2)
+
+        console.print(f"  [green]✓[/green] {app} configured: {config_path}")
+
+    console.print()
+    console.print("[bold green]✓[/bold green] MCP configuration complete")
+    console.print("[dim]Restart your IDE to load hanzo-mcp[/dim]")
+
+
+@install_group.command(name="browser")
+@click.argument("browser", required=False)
+@click.option("--list", "list_only", is_flag=True, help="List browser extension install URLs")
+def install_browser(browser: str, list_only: bool):
+    """Install Hanzo browser extension.
+
+    \b
+    Examples:
+      hanzo install browser          # List browser extension links
+      hanzo install browser chrome   # Open Chrome Web Store
+      hanzo install browser firefox  # Open Firefox Add-ons
+
+    \b
+    Supported browsers:
+      chrome   - Google Chrome / Chromium
+      firefox  - Mozilla Firefox
+      safari   - Apple Safari
+      edge     - Microsoft Edge
+    """
+    import webbrowser
+
+    extension_urls = {
+        "chrome": "https://chrome.google.com/webstore/detail/hanzo-ai/placeholder",
+        "firefox": "https://addons.mozilla.org/en-US/firefox/addon/hanzo-ai/",
+        "safari": "https://apps.apple.com/app/hanzo-ai/placeholder",
+        "edge": "https://microsoftedge.microsoft.com/addons/detail/hanzo-ai/placeholder",
+    }
+
+    # Dev install instructions
+    dev_instructions = {
+        "chrome": "chrome://extensions → Enable Developer Mode → Load unpacked → Select extension folder",
+        "firefox": "about:debugging → This Firefox → Load Temporary Add-on → Select manifest.json",
+        "safari": "Safari → Preferences → Advanced → Enable Develop menu → Develop → Allow Unsigned Extensions",
+        "edge": "edge://extensions → Enable Developer Mode → Load unpacked → Select extension folder",
+    }
+
+    if list_only or not browser:
+        console.print("[bold]Hanzo Browser Extension[/bold]")
+        console.print()
+
+        # Check which browsers are available
+        browsers_found = []
+
+        # macOS browser detection
+        if platform.system() == "Darwin":
+            browser_paths = {
+                "chrome": "/Applications/Google Chrome.app",
+                "firefox": "/Applications/Firefox.app",
+                "safari": "/Applications/Safari.app",
+                "edge": "/Applications/Microsoft Edge.app",
+            }
+            for name, path in browser_paths.items():
+                if Path(path).exists():
+                    browsers_found.append(name)
+
+        console.print("[cyan]Install from store (recommended):[/cyan]")
+        for name, url in extension_urls.items():
+            detected = " [green](detected)[/green]" if name in browsers_found else ""
+            console.print(f"  {name}: {url}{detected}")
+
+        console.print()
+        console.print("[cyan]Developer install (for testing):[/cyan]")
+        for name, instruction in dev_instructions.items():
+            console.print(f"  {name}:")
+            console.print(f"    {instruction}")
+
+        console.print()
+        console.print("[dim]Extension source: ~/work/hanzo/extension[/dim]")
+        return
+
+    if browser.lower() not in extension_urls:
+        console.print(f"[red]Unknown browser: {browser}[/red]")
+        console.print(f"Available: {', '.join(extension_urls.keys())}")
+        return
+
+    url = extension_urls[browser.lower()]
+    console.print(f"[cyan]Opening {browser} extension page...[/cyan]")
+    webbrowser.open(url)
+    console.print(f"[green]✓[/green] Opened: {url}")
+
+
+@install_group.command(name="ai")
+@click.argument("app", required=False)
+@click.option("--list", "list_only", is_flag=True, help="List AI apps")
+def install_ai(app: str, list_only: bool):
+    """Configure Hanzo MCP for AI apps (Claude Desktop, Jan, etc.).
+
+    This is an alias for 'hanzo install ide' focused on AI applications.
+
+    \b
+    Examples:
+      hanzo install ai               # List AI apps
+      hanzo install ai claude        # Configure Claude Desktop
+      hanzo install ai jan           # Configure Jan AI
+    """
+    # Delegate to install_ide
+    from click import Context
+    ctx = Context(install_ide)
+    ctx.invoke(install_ide, target=app, install_all=False, list_only=list_only or not app)
+
+
+@install_group.command(name="all")
+@click.option("--force", "-f", is_flag=True, help="Force reinstall")
+def install_all_cmd(force: bool):
+    """Install everything: tools + IDE integrations + browser extension info.
+
+    \b
+    This command:
+      1. Installs all Python tools (cli, mcp, agents)
+      2. Configures all detected IDEs with hanzo-mcp
+      3. Shows browser extension installation instructions
+    """
+    console.print(Panel.fit(
+        "[bold cyan]Hanzo Full Installation[/bold cyan]\n"
+        "[dim]Installing tools, IDE integrations, and browser extension[/dim]",
+        border_style="cyan"
+    ))
+    console.print()
+
+    # 1. Install Python tools
+    console.print("[bold]1. Installing CLI Tools[/bold]")
+    from click import Context
+
+    for tool_id in ["cli", "mcp", "agents"]:
+        _install_single_tool(tool_id, None, False, force)
+
+    console.print()
+
+    # 2. Configure all detected IDEs
+    console.print("[bold]2. Configuring IDE Integrations[/bold]")
+    import json
+
+    configured = []
+    for app_name in MCP_CONFIG_PATHS:
+        config_path = get_mcp_config_path(app_name)
+        if config_path and config_path.parent.exists():
+            # Create or update config
+            config_path.parent.mkdir(parents=True, exist_ok=True)
+
+            if config_path.exists():
+                try:
+                    with open(config_path) as f:
+                        config = json.load(f)
+                except:
+                    config = {}
+            else:
+                config = {}
+
+            if "mcpServers" not in config:
+                config["mcpServers"] = {}
+
+            config["mcpServers"]["hanzo"] = get_mcp_server_config()
+
+            with open(config_path, "w") as f:
+                json.dump(config, f, indent=2)
+
+            configured.append(app_name)
+            console.print(f"  [green]✓[/green] {app_name}")
+
+    if not configured:
+        console.print("  [dim](no IDEs detected)[/dim]")
+
+    console.print()
+
+    # 3. Browser extension info
+    console.print("[bold]3. Browser Extension[/bold]")
+    console.print("  Install from: https://chrome.google.com/webstore/detail/hanzo-ai/")
+    console.print("  Or load unpacked from: ~/work/hanzo/extension")
+
+    console.print()
+    console.print("[bold green]✓[/bold green] Full installation complete!")
+    console.print()
+    console.print("[dim]Next steps:[/dim]")
+    console.print("  1. Restart your IDEs to load hanzo-mcp")
+    console.print("  2. Install browser extension (optional)")
+    console.print("  3. Run: hanzo doctor  # to verify installation")
+
+
+# ============================================================================
+# Nanobrowser - Lightweight Agent Browser
+# ============================================================================
+
+NANOBROWSER_PATH = Path.home() / "work" / "nanobrowser" / "nanobrowser"
+
+
+@install_group.command(name="nanobrowser")
+@click.option("--build", "-b", is_flag=True, help="Build from source")
+@click.option("--dev", is_flag=True, help="Run in development mode")
+@click.option("--open", "open_browser", is_flag=True, help="Open Chrome with extension loaded")
+def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
+    """Install/build Nanobrowser - lightweight AI browser for agents.
+
+    \b
+    Nanobrowser is a Chrome extension for AI web automation.
+    It provides a multi-agent system (Planner + Navigator) that
+    can browse the web autonomously using LLMs.
+
+    \b
+    Examples:
+      hanzo install nanobrowser           # Check status
+      hanzo install nanobrowser --build   # Build from source
+      hanzo install nanobrowser --dev     # Run dev server
+      hanzo install nanobrowser --open    # Load in Chrome
+
+    \b
+    LLM Support:
+      - OpenAI (GPT-4, GPT-4o)
+      - Anthropic (Claude Sonnet, Haiku)
+      - Google (Gemini)
+      - Ollama (local models)
+      - Groq, Cerebras, Llama
+    """
+    nanobrowser_dir = NANOBROWSER_PATH
+
+    if not nanobrowser_dir.exists():
+        console.print("[red]Nanobrowser not found[/red]")
+        console.print(f"Expected at: {nanobrowser_dir}")
+        console.print()
+        console.print("Clone it with:")
+        console.print(f"  git clone https://github.com/nanobrowser/nanobrowser {nanobrowser_dir}")
+        return
+
+    dist_dir = nanobrowser_dir / "dist"
+
+    if build or dev:
+        console.print("[cyan]Building Nanobrowser...[/cyan]")
+
+        # Install dependencies
+        console.print("  Installing dependencies...")
+        result = subprocess.run(
+            ["pnpm", "install"],
+            cwd=str(nanobrowser_dir),
+            capture_output=True,
+            text=True
+        )
+        if result.returncode != 0:
+            console.print(f"[red]Failed to install dependencies: {result.stderr}[/red]")
+            return
+
+        if dev:
+            console.print("  Starting dev server...")
+            console.print("[dim]Press Ctrl+C to stop[/dim]")
+            subprocess.run(["pnpm", "dev"], cwd=str(nanobrowser_dir))
+        else:
+            console.print("  Building extension...")
+            result = subprocess.run(
+                ["pnpm", "build"],
+                cwd=str(nanobrowser_dir),
+                capture_output=True,
+                text=True
+            )
+            if result.returncode != 0:
+                console.print(f"[red]Build failed: {result.stderr}[/red]")
+                return
+            console.print(f"[green]✓[/green] Built to: {dist_dir}")
+
+    elif open_browser:
+        if not dist_dir.exists():
+            console.print("[yellow]Extension not built yet. Run with --build first.[/yellow]")
+            return
+
+        # Open Chrome with extension loaded (macOS)
+        if platform.system() == "Darwin":
+            chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            if not Path(chrome_path).exists():
+                console.print("[red]Chrome not found at default location[/red]")
+                return
+
+            console.print("[cyan]Opening Chrome with Nanobrowser extension...[/cyan]")
+            subprocess.Popen([
+                chrome_path,
+                f"--load-extension={dist_dir}",
+                "--new-window",
+            ])
+            console.print("[green]✓[/green] Chrome launched with Nanobrowser")
+        else:
+            console.print("[yellow]Auto-open not supported on this platform[/yellow]")
+            console.print(f"Manually load the extension from: {dist_dir}")
+
+    else:
+        # Status check
+        console.print("[bold]Nanobrowser Status[/bold]")
+        console.print(f"  Location: {nanobrowser_dir}")
+        console.print(f"  Built: {'[green]✓[/green]' if dist_dir.exists() else '[yellow]○[/yellow] (run --build)'}")
+
+        # Get version from package.json
+        package_json = nanobrowser_dir / "package.json"
+        if package_json.exists():
+            import json
+            with open(package_json) as f:
+                pkg = json.load(f)
+            console.print(f"  Version: {pkg.get('version', 'unknown')}")
+
+        console.print()
+        console.print("[cyan]Installation Steps:[/cyan]")
+        console.print("  1. Build: hanzo install nanobrowser --build")
+        console.print("  2. Open Chrome: chrome://extensions")
+        console.print("  3. Enable 'Developer mode'")
+        console.print("  4. Click 'Load unpacked'")
+        console.print(f"  5. Select: {dist_dir}")
+        console.print()
+        console.print("[cyan]Or auto-load:[/cyan]")
+        console.print("  hanzo install nanobrowser --open")
+
+
+# ============================================================================
+# Runtime - Sandboxed Agent Execution Environment
+# ============================================================================
+
+RUNTIME_PATH = Path.home() / "work" / "hanzo" / "runtime"
+
+
+@install_group.command(name="runtime")
+@click.option("--setup", "-s", is_flag=True, help="Set up the runtime environment")
+@click.option("--sdk", type=click.Choice(["python", "typescript", "both"]), help="Install SDK")
+@click.option("--computer-use", is_flag=True, help="Set up VNC desktop for computer use")
+def install_runtime(setup: bool, sdk: str, computer_use: bool):
+    """Configure Hanzo Runtime - sandboxed agent execution.
+
+    \b
+    The Hanzo Runtime provides:
+    - Sub-90ms sandbox creation
+    - Isolated code execution for AI-generated code
+    - Computer Use (VNC desktop control)
+    - File, Git, LSP, and Execute APIs
+    - OCI/Docker compatibility
+
+    \b
+    Examples:
+      hanzo install runtime              # Check status
+      hanzo install runtime --setup      # Initialize runtime
+      hanzo install runtime --sdk python # Install Python SDK
+      hanzo install runtime --computer-use # Set up desktop control
+
+    \b
+    SDKs:
+      pip install hanzo-runtime      # Python
+      npm install @hanzo/runtime     # TypeScript
+    """
+    runtime_dir = RUNTIME_PATH
+
+    if sdk:
+        console.print(f"[cyan]Installing Runtime SDK ({sdk})...[/cyan]")
+
+        if sdk in ("python", "both"):
+            if shutil.which("uv"):
+                subprocess.run(["uv", "pip", "install", "hanzo-runtime"], check=True)
+            else:
+                subprocess.run([sys.executable, "-m", "pip", "install", "hanzo-runtime"], check=True)
+            console.print("[green]✓[/green] Python SDK installed")
+
+        if sdk in ("typescript", "both"):
+            subprocess.run(["npm", "install", "-g", "@hanzo/runtime"], check=True)
+            console.print("[green]✓[/green] TypeScript SDK installed")
+
+        return
+
+    if computer_use:
+        console.print("[cyan]Setting up Computer Use environment...[/cyan]")
+        console.print()
+
+        # Check Docker
+        if not shutil.which("docker"):
+            console.print("[red]Docker is required for Computer Use[/red]")
+            console.print("Install: https://docs.docker.com/get-docker/")
+            return
+
+        # Show Dockerfile info
+        dockerfile_path = runtime_dir / "hack" / "computer-use" / "Dockerfile"
+        if dockerfile_path.exists():
+            console.print("[green]✓[/green] Computer Use Dockerfile found")
+            console.print(f"  Path: {dockerfile_path}")
+        else:
+            console.print("[yellow]![/yellow] Dockerfile not found")
+
+        console.print()
+        console.print("[cyan]Computer Use provides:[/cyan]")
+        console.print("  - Xvfb (virtual display)")
+        console.print("  - XFCE4 desktop environment")
+        console.print("  - x11vnc (VNC server on port 5901)")
+        console.print("  - noVNC (web access on port 6901)")
+        console.print("  - xdotool, xautomation (mouse/keyboard)")
+        console.print("  - Chromium browser")
+        console.print()
+        console.print("[cyan]Build and run:[/cyan]")
+        console.print(f"  cd {runtime_dir / 'hack' / 'computer-use'}")
+        console.print("  docker build -t hanzo-computer-use .")
+        console.print("  docker run -p 5901:5901 -p 6901:6901 hanzo-computer-use")
+        console.print()
+        console.print("Then access: http://localhost:6901 (noVNC web client)")
+        return
+
+    if setup:
+        console.print("[cyan]Setting up Hanzo Runtime...[/cyan]")
+
+        if not runtime_dir.exists():
+            console.print(f"[red]Runtime not found at: {runtime_dir}[/red]")
+            return
+
+        # Build Go binaries
+        console.print("  Building CLI...")
+        cli_dir = runtime_dir / "apps" / "cli"
+        if cli_dir.exists():
+            result = subprocess.run(
+                ["go", "build", "-o", str(Path.home() / ".hanzo" / "bin" / "hanzo-runtime"), "."],
+                cwd=str(cli_dir),
+                capture_output=True,
+                text=True
+            )
+            if result.returncode == 0:
+                console.print("[green]✓[/green] CLI built")
+            else:
+                console.print(f"[yellow]![/yellow] CLI build failed: {result.stderr}")
+
+        return
+
+    # Status check
+    console.print("[bold]Hanzo Runtime Status[/bold]")
+
+    if runtime_dir.exists():
+        console.print(f"  [green]✓[/green] Source: {runtime_dir}")
+
+        # Check components
+        components = {
+            "CLI": runtime_dir / "apps" / "cli",
+            "Daemon": runtime_dir / "apps" / "daemon",
+            "Runner": runtime_dir / "apps" / "runner",
+            "Python SDK": runtime_dir / "libs" / "sdk-python",
+            "TypeScript SDK": runtime_dir / "libs" / "sdk-typescript",
+            "Computer Use": runtime_dir / "libs" / "computer-use",
+        }
+
+        console.print()
+        console.print("[cyan]Components:[/cyan]")
+        for name, path in components.items():
+            status = "[green]✓[/green]" if path.exists() else "[dim]○[/dim]"
+            console.print(f"  {status} {name}")
+
+        # Check SDKs installed
+        console.print()
+        console.print("[cyan]Installed SDKs:[/cyan]")
+
+        # Python SDK
+        try:
+            result = subprocess.run(
+                [sys.executable, "-c", "import hanzo_runtime; print(hanzo_runtime.__version__)"],
+                capture_output=True,
+                text=True
+            )
+            if result.returncode == 0:
+                console.print(f"  [green]✓[/green] Python: {result.stdout.strip()}")
+            else:
+                console.print("  [dim]○[/dim] Python: not installed")
+        except:
+            console.print("  [dim]○[/dim] Python: not installed")
+
+        # TypeScript SDK
+        result = subprocess.run(
+            ["npm", "list", "-g", "@hanzo/runtime"],
+            capture_output=True,
+            text=True
+        )
+        if "@hanzo/runtime" in result.stdout:
+            console.print(f"  [green]✓[/green] TypeScript: installed")
+        else:
+            console.print("  [dim]○[/dim] TypeScript: not installed")
+
+    else:
+        console.print(f"  [red]○[/red] Not found: {runtime_dir}")
+
+    console.print()
+    console.print("[dim]Install SDKs:[/dim]")
+    console.print("  pip install hanzo-runtime")
+    console.print("  npm install @hanzo/runtime")
+
+
+# ============================================================================
+# Cas Infrastructure (Casdoor, Casibase, Casvisor)
+# ============================================================================
+
+CAS_PATH = Path.home() / "work" / "cas"
+
+
+@install_group.command(name="cas")
+@click.argument("component", required=False)
+@click.option("--setup", "-s", is_flag=True, help="Set up the component")
+@click.option("--start", is_flag=True, help="Start the service")
+def install_cas(component: str, setup: bool, start: bool):
+    """Configure Cas infrastructure (auth, AI platform, VM management).
+
+    \b
+    Components:
+      casdoor   - Authentication/IAM system (Single Sign-On)
+      casibase  - AI Cloud OS with MCP/A2A support
+      casvisor  - Cloud operating system (VM/machine management)
+
+    \b
+    Examples:
+      hanzo install cas                   # Check status
+      hanzo install cas casdoor --setup   # Set up Casdoor
+      hanzo install cas casibase --start  # Start Casibase
+
+    \b
+    Casibase Features:
+      - AI knowledge base management
+      - MCP (Model Context Protocol) server
+      - A2A (Agent-to-Agent) management
+      - Supports ChatGPT, Claude, Llama, Ollama, etc.
+    """
+    cas_dir = CAS_PATH
+
+    components_info = {
+        "casdoor": {
+            "name": "Casdoor",
+            "description": "Authentication/IAM - Single Sign-On",
+            "path": cas_dir / "casdoor",
+            "port": 8000,
+            "docs": "https://casdoor.org",
+        },
+        "casibase": {
+            "name": "Casibase",
+            "description": "AI Cloud OS - Knowledge base + MCP/A2A",
+            "path": cas_dir / "casibase",
+            "port": 14000,
+            "docs": "https://casibase.org",
+        },
+        "casvisor": {
+            "name": "Casvisor",
+            "description": "Cloud OS - VM/Machine management",
+            "path": cas_dir / "casvisor",
+            "port": 16001,
+            "docs": "https://casvisor.org",
+        },
+    }
+
+    if component:
+        if component not in components_info:
+            console.print(f"[red]Unknown component: {component}[/red]")
+            console.print(f"Available: {', '.join(components_info.keys())}")
+            return
+
+        info = components_info[component]
+        comp_path = info["path"]
+
+        if not comp_path.exists():
+            console.print(f"[red]{info['name']} not found at: {comp_path}[/red]")
+            console.print(f"Clone: git clone https://github.com/{component}/{component} {comp_path}")
+            return
+
+        if setup:
+            console.print(f"[cyan]Setting up {info['name']}...[/cyan]")
+            console.print()
+
+            # Check for Go
+            if not shutil.which("go"):
+                console.print("[red]Go is required[/red]")
+                console.print("Install: https://go.dev/dl/")
+                return
+
+            # Build
+            console.print("  Building...")
+            result = subprocess.run(
+                ["go", "build", "."],
+                cwd=str(comp_path),
+                capture_output=True,
+                text=True
+            )
+            if result.returncode == 0:
+                console.print(f"[green]✓[/green] {info['name']} built")
+            else:
+                console.print(f"[red]Build failed: {result.stderr}[/red]")
+                return
+
+            # Frontend
+            web_dir = comp_path / "web"
+            if web_dir.exists():
+                console.print("  Building frontend...")
+                subprocess.run(["yarn", "install"], cwd=str(web_dir), check=False)
+                subprocess.run(["yarn", "build"], cwd=str(web_dir), check=False)
+
+            console.print()
+            console.print(f"[green]✓[/green] {info['name']} setup complete")
+            console.print(f"Run: cd {comp_path} && ./{component}")
+
+        elif start:
+            console.print(f"[cyan]Starting {info['name']}...[/cyan]")
+            binary = comp_path / component
+            if not binary.exists():
+                console.print(f"[yellow]Not built. Run with --setup first.[/yellow]")
+                return
+            subprocess.Popen([str(binary)], cwd=str(comp_path))
+            console.print(f"[green]✓[/green] Started on port {info['port']}")
+            console.print(f"  Open: http://localhost:{info['port']}")
+
+        else:
+            console.print(f"[bold]{info['name']}[/bold]")
+            console.print(f"  Description: {info['description']}")
+            console.print(f"  Path: {comp_path}")
+            console.print(f"  Port: {info['port']}")
+            console.print(f"  Docs: {info['docs']}")
+
+    else:
+        # Status check
+        console.print("[bold]Cas Infrastructure[/bold]")
+        console.print()
+
+        for comp_id, info in components_info.items():
+            path = info["path"]
+            exists = path.exists()
+            binary = path / comp_id if exists else None
+            built = binary and binary.exists() if binary else False
+
+            status = "[green]✓[/green]" if exists else "[dim]○[/dim]"
+            build_status = " [green](built)[/green]" if built else " [yellow](not built)[/yellow]" if exists else ""
+
+            console.print(f"  {status} {info['name']}: {info['description']}{build_status}")
+
+        console.print()
+        console.print("[dim]Set up a component: hanzo install cas <component> --setup[/dim]")
