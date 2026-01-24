@@ -1,94 +1,32 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
+from .organization_membership_table import OrganizationMembershipTable
 
-__all__ = [
-    "OrganizationAddMemberResponse",
-    "UpdatedOrganizationMembership",
-    "UpdatedOrganizationMembershipLlmBudgetTable",
-    "UpdatedUser",
-    "UpdatedUserOrganizationMembership",
-    "UpdatedUserOrganizationMembershipLlmBudgetTable",
-]
+__all__ = ["OrganizationAddMemberResponse", "UpdatedUser", "UpdatedUserObjectPermission"]
 
 
-class UpdatedOrganizationMembershipLlmBudgetTable(BaseModel):
-    budget_duration: Optional[str] = None
+class UpdatedUserObjectPermission(BaseModel):
+    """Represents a LiteLLM_ObjectPermissionTable record"""
 
-    max_budget: Optional[float] = None
+    object_permission_id: str
 
-    max_parallel_requests: Optional[int] = None
+    agent_access_groups: Optional[List[str]] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
+    agents: Optional[List[str]] = None
 
-    rpm_limit: Optional[int] = None
+    mcp_access_groups: Optional[List[str]] = None
 
-    soft_budget: Optional[float] = None
+    mcp_servers: Optional[List[str]] = None
 
-    tpm_limit: Optional[int] = None
+    mcp_tool_permissions: Optional[Dict[str, List[str]]] = None
 
-
-class UpdatedOrganizationMembership(BaseModel):
-    created_at: datetime
-
-    organization_id: str
-
-    updated_at: datetime
-
-    user_id: str
-
-    budget_id: Optional[str] = None
-
-    llm_budget_table: Optional[UpdatedOrganizationMembershipLlmBudgetTable] = None
-    """Represents user-controllable params for a LLM_BudgetTable record"""
-
-    spend: Optional[float] = None
-
-    user: Optional[object] = None
-
-    user_role: Optional[str] = None
-
-
-class UpdatedUserOrganizationMembershipLlmBudgetTable(BaseModel):
-    budget_duration: Optional[str] = None
-
-    max_budget: Optional[float] = None
-
-    max_parallel_requests: Optional[int] = None
-
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
-
-    rpm_limit: Optional[int] = None
-
-    soft_budget: Optional[float] = None
-
-    tpm_limit: Optional[int] = None
-
-
-class UpdatedUserOrganizationMembership(BaseModel):
-    created_at: datetime
-
-    organization_id: str
-
-    updated_at: datetime
-
-    user_id: str
-
-    budget_id: Optional[str] = None
-
-    llm_budget_table: Optional[UpdatedUserOrganizationMembershipLlmBudgetTable] = None
-    """Represents user-controllable params for a LLM_BudgetTable record"""
-
-    spend: Optional[float] = None
-
-    user: Optional[object] = None
-
-    user_role: Optional[str] = None
+    vector_stores: Optional[List[str]] = None
 
 
 class UpdatedUser(BaseModel):
@@ -98,17 +36,22 @@ class UpdatedUser(BaseModel):
 
     budget_reset_at: Optional[datetime] = None
 
+    created_at: Optional[datetime] = None
+
     max_budget: Optional[float] = None
 
-    metadata: Optional[object] = None
+    metadata: Optional[Dict[str, object]] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[Dict[str, object]] = FieldInfo(alias="model_max_budget", default=None)
 
-    api_model_spend: Optional[object] = FieldInfo(alias="model_spend", default=None)
+    api_model_spend: Optional[Dict[str, object]] = FieldInfo(alias="model_spend", default=None)
 
     models: Optional[List[object]] = None
 
-    organization_memberships: Optional[List[UpdatedUserOrganizationMembership]] = None
+    object_permission: Optional[UpdatedUserObjectPermission] = None
+    """Represents a LiteLLM_ObjectPermissionTable record"""
+
+    organization_memberships: Optional[List[OrganizationMembershipTable]] = None
 
     rpm_limit: Optional[int] = None
 
@@ -120,6 +63,10 @@ class UpdatedUser(BaseModel):
 
     tpm_limit: Optional[int] = None
 
+    updated_at: Optional[datetime] = None
+
+    user_alias: Optional[str] = None
+
     user_email: Optional[str] = None
 
     user_role: Optional[str] = None
@@ -128,6 +75,6 @@ class UpdatedUser(BaseModel):
 class OrganizationAddMemberResponse(BaseModel):
     organization_id: str
 
-    updated_organization_memberships: List[UpdatedOrganizationMembership]
+    updated_organization_memberships: List[OrganizationMembershipTable]
 
     updated_users: List[UpdatedUser]

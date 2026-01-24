@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from datetime import datetime
 from typing_extensions import TypeAlias
 
@@ -18,11 +18,11 @@ class SpendListTagsResponseItem(BaseModel):
 
     end_time: Union[str, datetime, None] = FieldInfo(alias="endTime", default=None)
 
-    messages: Union[str, List[object], object, None] = None
+    messages: Union[str, List[object], Dict[str, object], None] = None
 
     request_id: str
 
-    response: Union[str, List[object], object, None] = None
+    response: Union[str, List[object], Dict[str, object], None] = None
 
     start_time: Union[str, datetime, None] = FieldInfo(alias="startTime", default=None)
 

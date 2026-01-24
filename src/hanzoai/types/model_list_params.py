@@ -9,6 +9,14 @@ __all__ = ["ModelListParams"]
 
 
 class ModelListParams(TypedDict, total=False):
+    fallback_type: Optional[str]
+
+    include_metadata: Optional[bool]
+
+    include_model_access_groups: Optional[bool]
+
+    only_model_access_groups: Optional[bool]
+
     return_wildcard_routes: Optional[bool]
 
     team_id: Optional[str]

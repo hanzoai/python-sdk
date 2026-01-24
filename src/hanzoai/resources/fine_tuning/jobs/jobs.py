@@ -58,9 +58,9 @@ class JobsResource(SyncAPIResource):
     def create(
         self,
         *,
-        custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
+        custom_llm_provider: Optional[Literal["openai", "azure", "vertex_ai"]] | Omit = omit,
         hyperparameters: Optional[job_create_params.Hyperparameters] | Omit = omit,
         integrations: Optional[SequenceNotStr[str]] | Omit = omit,
         seed: Optional[int] | Omit = omit,
@@ -106,9 +106,9 @@ class JobsResource(SyncAPIResource):
             "/v1/fine_tuning/jobs",
             body=maybe_transform(
                 {
-                    "custom_llm_provider": custom_llm_provider,
                     "model": model,
                     "training_file": training_file,
+                    "custom_llm_provider": custom_llm_provider,
                     "hyperparameters": hyperparameters,
                     "integrations": integrations,
                     "seed": seed,
@@ -127,7 +127,7 @@ class JobsResource(SyncAPIResource):
         self,
         fine_tuning_job_id: str,
         *,
-        custom_llm_provider: Literal["openai", "azure"],
+        custom_llm_provider: Optional[Literal["openai", "azure"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -142,7 +142,7 @@ class JobsResource(SyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to retrieve.
 
         Args:
@@ -173,9 +173,10 @@ class JobsResource(SyncAPIResource):
     def list(
         self,
         *,
-        custom_llm_provider: Literal["openai", "azure"],
         after: Optional[str] | Omit = omit,
+        custom_llm_provider: Optional[Literal["openai", "azure"]] | Omit = omit,
         limit: Optional[int] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -190,11 +191,13 @@ class JobsResource(SyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `after`: Identifier for the last job from the previous pagination request.
         - `limit`: Number of fine-tuning jobs to retrieve (default is 20).
 
         Args:
+          target_model_names: Comma separated list of model names to filter by. Example: 'gpt-4o,gpt-4o-mini'
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -212,9 +215,10 @@ class JobsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "custom_llm_provider": custom_llm_provider,
                         "after": after,
+                        "custom_llm_provider": custom_llm_provider,
                         "limit": limit,
+                        "target_model_names": target_model_names,
                     },
                     job_list_params.JobListParams,
                 ),
@@ -250,9 +254,9 @@ class AsyncJobsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        custom_llm_provider: Literal["openai", "azure", "vertex_ai"],
         model: str,
         training_file: str,
+        custom_llm_provider: Optional[Literal["openai", "azure", "vertex_ai"]] | Omit = omit,
         hyperparameters: Optional[job_create_params.Hyperparameters] | Omit = omit,
         integrations: Optional[SequenceNotStr[str]] | Omit = omit,
         seed: Optional[int] | Omit = omit,
@@ -298,9 +302,9 @@ class AsyncJobsResource(AsyncAPIResource):
             "/v1/fine_tuning/jobs",
             body=await async_maybe_transform(
                 {
-                    "custom_llm_provider": custom_llm_provider,
                     "model": model,
                     "training_file": training_file,
+                    "custom_llm_provider": custom_llm_provider,
                     "hyperparameters": hyperparameters,
                     "integrations": integrations,
                     "seed": seed,
@@ -319,7 +323,7 @@ class AsyncJobsResource(AsyncAPIResource):
         self,
         fine_tuning_job_id: str,
         *,
-        custom_llm_provider: Literal["openai", "azure"],
+        custom_llm_provider: Optional[Literal["openai", "azure"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -334,7 +338,7 @@ class AsyncJobsResource(AsyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to retrieve.
 
         Args:
@@ -365,9 +369,10 @@ class AsyncJobsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        custom_llm_provider: Literal["openai", "azure"],
         after: Optional[str] | Omit = omit,
+        custom_llm_provider: Optional[Literal["openai", "azure"]] | Omit = omit,
         limit: Optional[int] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -382,11 +387,13 @@ class AsyncJobsResource(AsyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `after`: Identifier for the last job from the previous pagination request.
         - `limit`: Number of fine-tuning jobs to retrieve (default is 20).
 
         Args:
+          target_model_names: Comma separated list of model names to filter by. Example: 'gpt-4o,gpt-4o-mini'
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -404,9 +411,10 @@ class AsyncJobsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "custom_llm_provider": custom_llm_provider,
                         "after": after,
+                        "custom_llm_provider": custom_llm_provider,
                         "limit": limit,
+                        "target_model_names": target_model_names,
                     },
                     job_list_params.JobListParams,
                 ),

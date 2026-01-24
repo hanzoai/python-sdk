@@ -2,21 +2,80 @@
 
 from __future__ import annotations
 
+from typing import Dict, Optional
 from typing_extensions import Required, TypedDict
 
-__all__ = ["PassThroughEndpointCreateParams"]
+from ..._types import SequenceNotStr
+
+__all__ = ["PassThroughEndpointCreateParams", "Guardrails"]
 
 
 class PassThroughEndpointCreateParams(TypedDict, total=False):
-    headers: Required[object]
+    path: Required[str]
+    """The route to be added to the LiteLLM Proxy Server."""
+
+    target: Required[str]
+    """The URL to which requests for this path should be forwarded."""
+
+    id: Optional[str]
+    """Optional unique identifier for the pass-through endpoint.
+
+    If not provided, endpoints will be identified by path for backwards
+    compatibility.
+    """
+
+    auth: bool
+    """Whether authentication is required for the pass-through endpoint.
+
+    If True, requests to the endpoint will require a valid LiteLLM API key.
+    """
+
+    cost_per_request: float
+    """The USD cost per request to the target endpoint.
+
+    This is used to calculate the cost of the request to the target endpoint.
+    """
+
+    guardrails: Optional[Dict[str, Optional[Guardrails]]]
+    """Guardrails configuration for this passthrough endpoint.
+
+    Dict keys are guardrail names, values are optional settings for field targeting.
+    When set, all org/team/key level guardrails will also execute. Defaults to None
+    (no guardrails execute).
+    """
+
+    headers: Dict[str, object]
     """Key-value pairs of headers to be forwarded with the request.
 
     You can set any key value pair here and it will be forwarded to your target
     endpoint
     """
 
-    path: Required[str]
-    """The route to be added to the LLM Proxy Server."""
+    include_subpath: bool
+    """
+    If True, requests to subpaths of the path will be forwarded to the target
+    endpoint. For example, if the path is /bria and include_subpath is True,
+    requests to /bria/v1/text-to-image/base/2.3 will be forwarded to the target
+    endpoint.
+    """
 
-    target: Required[str]
-    """The URL to which requests for this path should be forwarded."""
+
+class Guardrails(TypedDict, total=False):
+    """Settings for a specific guardrail on a passthrough endpoint.
+
+    Allows field-level targeting for guardrail execution.
+    """
+
+    request_fields: Optional[SequenceNotStr[str]]
+    """JSONPath expressions for input field targeting (pre_call).
+
+    Examples: 'query', 'documents[*].text', 'messages[*].content'. If not specified,
+    guardrail runs on entire request payload.
+    """
+
+    response_fields: Optional[SequenceNotStr[str]]
+    """JSONPath expressions for output field targeting (post_call).
+
+    Examples: 'results[*].text', 'output'. If not specified, guardrail runs on
+    entire response payload.
+    """

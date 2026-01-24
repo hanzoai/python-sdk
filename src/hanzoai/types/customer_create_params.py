@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
-from typing_extensions import Literal, Required, TypedDict
+from typing import Dict, Union, Optional
+from datetime import datetime
+from typing_extensions import Literal, Required, Annotated, TypedDict
+
+from .._utils import PropertyInfo
 
 __all__ = ["CustomerCreateParams", "ModelMaxBudget"]
 
@@ -21,6 +24,9 @@ class CustomerCreateParams(TypedDict, total=False):
     """Max duration budget should be set for (e.g. '1hr', '1d', '28d')"""
 
     budget_id: Optional[str]
+
+    budget_reset_at: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]
+    """Datetime when the budget is reset"""
 
     default_model: Optional[str]
 
@@ -42,6 +48,8 @@ class CustomerCreateParams(TypedDict, total=False):
 
     soft_budget: Optional[float]
     """Requests will NOT fail if this is exceeded. Will fire alerting though."""
+
+    spend: Optional[float]
 
     tpm_limit: Optional[int]
     """Max tokens per minute, allowed for this budget id."""

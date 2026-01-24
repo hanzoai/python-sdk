@@ -10,3 +10,5 @@ __all__ = ["PassThroughEndpointListParams"]
 
 class PassThroughEndpointListParams(TypedDict, total=False):
     endpoint_id: Optional[str]
+
+    team_id: Optional[str]

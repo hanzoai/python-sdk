@@ -58,9 +58,9 @@ class SpendResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
-        """LLM Enterprise - View Spend Per Request Tag.
+        """LiteLLM Enterprise - View Spend Per Request Tag.
 
-        Used by LLM UI
+        Used by LiteLLM UI
 
         Example Request:
 
@@ -121,12 +121,12 @@ class SpendResource(SyncAPIResource):
         """
         ADMIN ONLY / MASTER KEY Only Endpoint
 
-        Globally reset spend for All API Keys and Teams, maintain LLM_SpendLogs
+        Globally reset spend for All API Keys and Teams, maintain LiteLLM_SpendLogs
 
-        1. LLM_SpendLogs will maintain the logs on spend, no data gets deleted from
+        1. LiteLLM_SpendLogs will maintain the logs on spend, no data gets deleted from
            there
-        2. LLM_VerificationTokens spend will be set = 0
-        3. LLM_TeamTable spend will be set = 0
+        2. LiteLLM_VerificationTokens spend will be set = 0
+        3. LiteLLM_TeamTable spend will be set = 0
         """
         return self._post(
             "/global/spend/reset",
@@ -243,9 +243,9 @@ class AsyncSpendResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
-        """LLM Enterprise - View Spend Per Request Tag.
+        """LiteLLM Enterprise - View Spend Per Request Tag.
 
-        Used by LLM UI
+        Used by LiteLLM UI
 
         Example Request:
 
@@ -306,12 +306,12 @@ class AsyncSpendResource(AsyncAPIResource):
         """
         ADMIN ONLY / MASTER KEY Only Endpoint
 
-        Globally reset spend for All API Keys and Teams, maintain LLM_SpendLogs
+        Globally reset spend for All API Keys and Teams, maintain LiteLLM_SpendLogs
 
-        1. LLM_SpendLogs will maintain the logs on spend, no data gets deleted from
+        1. LiteLLM_SpendLogs will maintain the logs on spend, no data gets deleted from
            there
-        2. LLM_VerificationTokens spend will be set = 0
-        3. LLM_TeamTable spend will be set = 0
+        2. LiteLLM_VerificationTokens spend will be set = 0
+        3. LiteLLM_TeamTable spend will be set = 0
         """
         return await self._post(
             "/global/spend/reset",

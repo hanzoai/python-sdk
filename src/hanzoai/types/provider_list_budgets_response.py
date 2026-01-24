@@ -8,6 +8,8 @@ __all__ = ["ProviderListBudgetsResponse", "Providers"]
 
 
 class Providers(BaseModel):
+    """Configuration for a single provider's budget settings"""
+
     budget_limit: Optional[float] = None
 
     time_period: Optional[str] = None
@@ -18,4 +20,9 @@ class Providers(BaseModel):
 
 
 class ProviderListBudgetsResponse(BaseModel):
+    """
+    Complete provider budget configuration and status.
+    Maps provider names to their budget configs.
+    """
+
     providers: Optional[Dict[str, Providers]] = None

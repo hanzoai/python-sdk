@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Dict, Union, Optional
 
 import httpx
 
 from ..types import embedding_create_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -45,7 +45,19 @@ class EmbeddingsResource(SyncAPIResource):
     def create(
         self,
         *,
-        model: Optional[str] | Omit = omit,
+        model: str,
+        api_base: Optional[str] | Omit = omit,
+        api_key: Optional[str] | Omit = omit,
+        api_type: Optional[str] | Omit = omit,
+        api_version: Optional[str] | Omit = omit,
+        caching: bool | Omit = omit,
+        custom_llm_provider: Union[str, Dict[str, object], None] | Omit = omit,
+        input: SequenceNotStr[str] | Omit = omit,
+        litellm_call_id: Optional[str] | Omit = omit,
+        litellm_logging_obj: Optional[Dict[str, object]] | Omit = omit,
+        logger_fn: Optional[str] | Omit = omit,
+        api_timeout: int | Omit = omit,
+        user: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -78,12 +90,26 @@ class EmbeddingsResource(SyncAPIResource):
         """
         return self._post(
             "/embeddings",
+            body=maybe_transform(
+                {
+                    "model": model,
+                    "api_base": api_base,
+                    "api_key": api_key,
+                    "api_type": api_type,
+                    "api_version": api_version,
+                    "caching": caching,
+                    "custom_llm_provider": custom_llm_provider,
+                    "input": input,
+                    "litellm_call_id": litellm_call_id,
+                    "litellm_logging_obj": litellm_logging_obj,
+                    "logger_fn": logger_fn,
+                    "api_timeout": api_timeout,
+                    "user": user,
+                },
+                embedding_create_params.EmbeddingCreateParams,
+            ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"model": model}, embedding_create_params.EmbeddingCreateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
         )
@@ -112,7 +138,19 @@ class AsyncEmbeddingsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        model: Optional[str] | Omit = omit,
+        model: str,
+        api_base: Optional[str] | Omit = omit,
+        api_key: Optional[str] | Omit = omit,
+        api_type: Optional[str] | Omit = omit,
+        api_version: Optional[str] | Omit = omit,
+        caching: bool | Omit = omit,
+        custom_llm_provider: Union[str, Dict[str, object], None] | Omit = omit,
+        input: SequenceNotStr[str] | Omit = omit,
+        litellm_call_id: Optional[str] | Omit = omit,
+        litellm_logging_obj: Optional[Dict[str, object]] | Omit = omit,
+        logger_fn: Optional[str] | Omit = omit,
+        api_timeout: int | Omit = omit,
+        user: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -145,12 +183,26 @@ class AsyncEmbeddingsResource(AsyncAPIResource):
         """
         return await self._post(
             "/embeddings",
+            body=await async_maybe_transform(
+                {
+                    "model": model,
+                    "api_base": api_base,
+                    "api_key": api_key,
+                    "api_type": api_type,
+                    "api_version": api_version,
+                    "caching": caching,
+                    "custom_llm_provider": custom_llm_provider,
+                    "input": input,
+                    "litellm_call_id": litellm_call_id,
+                    "litellm_logging_obj": litellm_logging_obj,
+                    "logger_fn": logger_fn,
+                    "api_timeout": api_timeout,
+                    "user": user,
+                },
+                embedding_create_params.EmbeddingCreateParams,
+            ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"model": model}, embedding_create_params.EmbeddingCreateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
         )

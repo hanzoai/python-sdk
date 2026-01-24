@@ -23,7 +23,6 @@ class TestPassThroughEndpoint:
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         pass_through_endpoint = client.config.pass_through_endpoint.create(
-            headers={},
             path="path",
             target="target",
         )
@@ -31,9 +30,28 @@ class TestPassThroughEndpoint:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_create_with_all_params(self, client: Hanzo) -> None:
+        pass_through_endpoint = client.config.pass_through_endpoint.create(
+            path="path",
+            target="target",
+            id="id",
+            auth=True,
+            cost_per_request=0,
+            guardrails={
+                "foo": {
+                    "request_fields": ["string"],
+                    "response_fields": ["string"],
+                }
+            },
+            headers={"foo": "bar"},
+            include_subpath=True,
+        )
+        assert_matches_type(object, pass_through_endpoint, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.config.pass_through_endpoint.with_raw_response.create(
-            headers={},
             path="path",
             target="target",
         )
@@ -47,7 +65,6 @@ class TestPassThroughEndpoint:
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.config.pass_through_endpoint.with_streaming_response.create(
-            headers={},
             path="path",
             target="target",
         ) as response:
@@ -63,7 +80,30 @@ class TestPassThroughEndpoint:
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         pass_through_endpoint = client.config.pass_through_endpoint.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
+        )
+        assert_matches_type(object, pass_through_endpoint, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Hanzo) -> None:
+        pass_through_endpoint = client.config.pass_through_endpoint.update(
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
+            id="id",
+            auth=True,
+            cost_per_request=0,
+            guardrails={
+                "foo": {
+                    "request_fields": ["string"],
+                    "response_fields": ["string"],
+                }
+            },
+            headers={"foo": "bar"},
+            include_subpath=True,
         )
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -71,7 +111,9 @@ class TestPassThroughEndpoint:
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.config.pass_through_endpoint.with_raw_response.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
         )
 
         assert response.is_closed is True
@@ -83,7 +125,9 @@ class TestPassThroughEndpoint:
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.config.pass_through_endpoint.with_streaming_response.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -98,7 +142,9 @@ class TestPassThroughEndpoint:
     def test_path_params_update(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint_id` but received ''"):
             client.config.pass_through_endpoint.with_raw_response.update(
-                "",
+                endpoint_id="",
+                path="path",
+                target="target",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -112,6 +158,7 @@ class TestPassThroughEndpoint:
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         pass_through_endpoint = client.config.pass_through_endpoint.list(
             endpoint_id="endpoint_id",
+            team_id="team_id",
         )
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 
@@ -181,7 +228,6 @@ class TestAsyncPassThroughEndpoint:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         pass_through_endpoint = await async_client.config.pass_through_endpoint.create(
-            headers={},
             path="path",
             target="target",
         )
@@ -189,9 +235,28 @@ class TestAsyncPassThroughEndpoint:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
+        pass_through_endpoint = await async_client.config.pass_through_endpoint.create(
+            path="path",
+            target="target",
+            id="id",
+            auth=True,
+            cost_per_request=0,
+            guardrails={
+                "foo": {
+                    "request_fields": ["string"],
+                    "response_fields": ["string"],
+                }
+            },
+            headers={"foo": "bar"},
+            include_subpath=True,
+        )
+        assert_matches_type(object, pass_through_endpoint, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.config.pass_through_endpoint.with_raw_response.create(
-            headers={},
             path="path",
             target="target",
         )
@@ -205,7 +270,6 @@ class TestAsyncPassThroughEndpoint:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.config.pass_through_endpoint.with_streaming_response.create(
-            headers={},
             path="path",
             target="target",
         ) as response:
@@ -221,7 +285,30 @@ class TestAsyncPassThroughEndpoint:
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         pass_through_endpoint = await async_client.config.pass_through_endpoint.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
+        )
+        assert_matches_type(object, pass_through_endpoint, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
+        pass_through_endpoint = await async_client.config.pass_through_endpoint.update(
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
+            id="id",
+            auth=True,
+            cost_per_request=0,
+            guardrails={
+                "foo": {
+                    "request_fields": ["string"],
+                    "response_fields": ["string"],
+                }
+            },
+            headers={"foo": "bar"},
+            include_subpath=True,
         )
         assert_matches_type(object, pass_through_endpoint, path=["response"])
 
@@ -229,7 +316,9 @@ class TestAsyncPassThroughEndpoint:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.config.pass_through_endpoint.with_raw_response.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
         )
 
         assert response.is_closed is True
@@ -241,7 +330,9 @@ class TestAsyncPassThroughEndpoint:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.config.pass_through_endpoint.with_streaming_response.update(
-            "endpoint_id",
+            endpoint_id="endpoint_id",
+            path="path",
+            target="target",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -256,7 +347,9 @@ class TestAsyncPassThroughEndpoint:
     async def test_path_params_update(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `endpoint_id` but received ''"):
             await async_client.config.pass_through_endpoint.with_raw_response.update(
-                "",
+                endpoint_id="",
+                path="path",
+                target="target",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -270,6 +363,7 @@ class TestAsyncPassThroughEndpoint:
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         pass_through_endpoint = await async_client.config.pass_through_endpoint.list(
             endpoint_id="endpoint_id",
+            team_id="team_id",
         )
         assert_matches_type(PassThroughEndpointResponse, pass_through_endpoint, path=["response"])
 

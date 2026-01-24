@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, TypedDict
 
 from .._types import SequenceNotStr
 
-__all__ = ["UserUpdateParams"]
+__all__ = ["UserUpdateParams", "ObjectPermission"]
 
 
 class UserUpdateParams(TypedDict, total=False):
-    aliases: Optional[object]
+    aliases: Optional[Dict[str, object]]
 
     allowed_cache_controls: Optional[Iterable[object]]
 
@@ -19,7 +19,7 @@ class UserUpdateParams(TypedDict, total=False):
 
     budget_duration: Optional[str]
 
-    config: Optional[object]
+    config: Optional[Dict[str, object]]
 
     duration: Optional[str]
 
@@ -31,19 +31,23 @@ class UserUpdateParams(TypedDict, total=False):
 
     max_parallel_requests: Optional[int]
 
-    metadata: Optional[object]
+    metadata: Optional[Dict[str, object]]
 
-    model_max_budget: Optional[object]
+    model_max_budget: Optional[Dict[str, object]]
 
-    model_rpm_limit: Optional[object]
+    model_rpm_limit: Optional[Dict[str, object]]
 
-    model_tpm_limit: Optional[object]
+    model_tpm_limit: Optional[Dict[str, object]]
 
     models: Optional[Iterable[object]]
 
+    object_permission: Optional[ObjectPermission]
+
     password: Optional[str]
 
-    permissions: Optional[object]
+    permissions: Optional[Dict[str, object]]
+
+    prompts: Optional[SequenceNotStr[str]]
 
     rpm_limit: Optional[int]
 
@@ -53,8 +57,24 @@ class UserUpdateParams(TypedDict, total=False):
 
     tpm_limit: Optional[int]
 
+    user_alias: Optional[str]
+
     user_email: Optional[str]
 
     user_id: Optional[str]
 
     user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
+
+
+class ObjectPermission(TypedDict, total=False):
+    agent_access_groups: Optional[SequenceNotStr[str]]
+
+    agents: Optional[SequenceNotStr[str]]
+
+    mcp_access_groups: Optional[SequenceNotStr[str]]
+
+    mcp_servers: Optional[SequenceNotStr[str]]
+
+    mcp_tool_permissions: Optional[Dict[str, SequenceNotStr[str]]]
+
+    vector_stores: Optional[SequenceNotStr[str]]

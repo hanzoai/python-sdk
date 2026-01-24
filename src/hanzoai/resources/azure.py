@@ -54,6 +54,9 @@ class AzureResource(SyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -88,6 +91,9 @@ class AzureResource(SyncAPIResource):
         Call any azure endpoint using the proxy.
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
+
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
 
         Args:
           extra_headers: Send extra headers
@@ -124,6 +130,9 @@ class AzureResource(SyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -159,6 +168,9 @@ class AzureResource(SyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -193,6 +205,9 @@ class AzureResource(SyncAPIResource):
         Call any azure endpoint using the proxy.
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
+
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
 
         Args:
           extra_headers: Send extra headers
@@ -250,6 +265,9 @@ class AsyncAzureResource(AsyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -284,6 +302,9 @@ class AsyncAzureResource(AsyncAPIResource):
         Call any azure endpoint using the proxy.
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
+
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
 
         Args:
           extra_headers: Send extra headers
@@ -320,6 +341,9 @@ class AsyncAzureResource(AsyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -355,6 +379,9 @@ class AsyncAzureResource(AsyncAPIResource):
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
 
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
+
         Args:
           extra_headers: Send extra headers
 
@@ -389,6 +416,9 @@ class AsyncAzureResource(AsyncAPIResource):
         Call any azure endpoint using the proxy.
 
         Just use `{PROXY_BASE_URL}/azure/{endpoint:path}`
+
+        Checks if the deployment id in the url is a litellm model name. If so, it will
+        route using the llm_router.allm_passthrough_route.
 
         Args:
           extra_headers: Send extra headers

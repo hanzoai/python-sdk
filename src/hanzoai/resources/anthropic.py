@@ -50,7 +50,7 @@ class AnthropicResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -83,7 +83,7 @@ class AnthropicResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -116,7 +116,7 @@ class AnthropicResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -149,7 +149,7 @@ class AnthropicResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -182,7 +182,7 @@ class AnthropicResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -236,7 +236,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -269,7 +269,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -302,7 +302,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -335,7 +335,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers
@@ -368,7 +368,7 @@ class AsyncAnthropicResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        [Docs](https://docs.hanzo.ai/docs/anthropic_completion)
+        [Docs](https://docs.litellm.ai/docs/pass_through/anthropic_completion)
 
         Args:
           extra_headers: Send extra headers

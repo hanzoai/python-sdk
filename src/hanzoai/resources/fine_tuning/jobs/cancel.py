@@ -57,7 +57,7 @@ class CancelResource(SyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to cancel.
 
         Args:
@@ -119,7 +119,7 @@ class AsyncCancelResource(AsyncAPIResource):
 
         Supported Query Params:
 
-        - `custom_llm_provider`: Name of the LLM provider
+        - `custom_llm_provider`: Name of the LiteLLM provider
         - `fine_tuning_job_id`: The ID of the fine-tuning job to cancel.
 
         Args:

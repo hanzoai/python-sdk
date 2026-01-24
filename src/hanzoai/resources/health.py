@@ -47,6 +47,7 @@ class HealthResource(SyncAPIResource):
         self,
         *,
         model: Optional[str] | Omit = omit,
+        model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -57,7 +58,7 @@ class HealthResource(SyncAPIResource):
         """
         🚨 USE `/health/liveliness` to health check the proxy 🚨
 
-        See more 👉 https://docs.hanzo.ai/docs/proxy/health
+        See more 👉 https://docs.litellm.ai/docs/proxy/health
 
         Check the health of all the endpoints in config.yaml
 
@@ -74,6 +75,8 @@ class HealthResource(SyncAPIResource):
         Args:
           model: Specify the model name (optional)
 
+          model_id: Specify the model ID (optional)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -89,7 +92,13 @@ class HealthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
+                query=maybe_transform(
+                    {
+                        "model": model,
+                        "model_id": model_id,
+                    },
+                    health_check_all_params.HealthCheckAllParams,
+                ),
             ),
             cast_to=object,
         )
@@ -156,7 +165,18 @@ class HealthResource(SyncAPIResource):
         *,
         service: Union[
             Literal[
-                "slack_budget_alerts", "langfuse", "slack", "openmeter", "webhook", "email", "braintrust", "datadog"
+                "slack_budget_alerts",
+                "langfuse",
+                "langfuse_otel",
+                "slack",
+                "openmeter",
+                "webhook",
+                "email",
+                "braintrust",
+                "datadog",
+                "generic_api",
+                "arize",
+                "sqs",
             ],
             str,
         ],
@@ -224,6 +244,7 @@ class AsyncHealthResource(AsyncAPIResource):
         self,
         *,
         model: Optional[str] | Omit = omit,
+        model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -234,7 +255,7 @@ class AsyncHealthResource(AsyncAPIResource):
         """
         🚨 USE `/health/liveliness` to health check the proxy 🚨
 
-        See more 👉 https://docs.hanzo.ai/docs/proxy/health
+        See more 👉 https://docs.litellm.ai/docs/proxy/health
 
         Check the health of all the endpoints in config.yaml
 
@@ -251,6 +272,8 @@ class AsyncHealthResource(AsyncAPIResource):
         Args:
           model: Specify the model name (optional)
 
+          model_id: Specify the model ID (optional)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -266,7 +289,13 @@ class AsyncHealthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"model": model}, health_check_all_params.HealthCheckAllParams),
+                query=await async_maybe_transform(
+                    {
+                        "model": model,
+                        "model_id": model_id,
+                    },
+                    health_check_all_params.HealthCheckAllParams,
+                ),
             ),
             cast_to=object,
         )
@@ -333,7 +362,18 @@ class AsyncHealthResource(AsyncAPIResource):
         *,
         service: Union[
             Literal[
-                "slack_budget_alerts", "langfuse", "slack", "openmeter", "webhook", "email", "braintrust", "datadog"
+                "slack_budget_alerts",
+                "langfuse",
+                "langfuse_otel",
+                "slack",
+                "openmeter",
+                "webhook",
+                "email",
+                "braintrust",
+                "datadog",
+                "generic_api",
+                "arize",
+                "sqs",
             ],
             str,
         ],

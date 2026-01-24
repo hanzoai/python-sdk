@@ -61,6 +61,9 @@ class FilesResource(SyncAPIResource):
         file: FileTypes,
         purpose: str,
         custom_llm_provider: str | Omit = omit,
+        litellm_metadata: Optional[str] | Omit = omit,
+        target_model_names: str | Omit = omit,
+        target_storage: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -79,7 +82,7 @@ class FilesResource(SyncAPIResource):
 
         ```
         curl http://localhost:4000/v1/files         -H "Authorization: Bearer sk-1234"         -F purpose="batch"         -F file="@mydata.jsonl"
-
+            -F expires_after[anchor]="created_at"         -F expires_after[seconds]=2592000
         ```
 
         Args:
@@ -98,6 +101,9 @@ class FilesResource(SyncAPIResource):
                 "file": file,
                 "purpose": purpose,
                 "custom_llm_provider": custom_llm_provider,
+                "litellm_metadata": litellm_metadata,
+                "target_model_names": target_model_names,
+                "target_storage": target_storage,
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
@@ -169,6 +175,7 @@ class FilesResource(SyncAPIResource):
         provider: str,
         *,
         purpose: Optional[str] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -209,7 +216,13 @@ class FilesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"purpose": purpose}, file_list_params.FileListParams),
+                query=maybe_transform(
+                    {
+                        "purpose": purpose,
+                        "target_model_names": target_model_names,
+                    },
+                    file_list_params.FileListParams,
+                ),
             ),
             cast_to=object,
         )
@@ -294,6 +307,9 @@ class AsyncFilesResource(AsyncAPIResource):
         file: FileTypes,
         purpose: str,
         custom_llm_provider: str | Omit = omit,
+        litellm_metadata: Optional[str] | Omit = omit,
+        target_model_names: str | Omit = omit,
+        target_storage: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -312,7 +328,7 @@ class AsyncFilesResource(AsyncAPIResource):
 
         ```
         curl http://localhost:4000/v1/files         -H "Authorization: Bearer sk-1234"         -F purpose="batch"         -F file="@mydata.jsonl"
-
+            -F expires_after[anchor]="created_at"         -F expires_after[seconds]=2592000
         ```
 
         Args:
@@ -331,6 +347,9 @@ class AsyncFilesResource(AsyncAPIResource):
                 "file": file,
                 "purpose": purpose,
                 "custom_llm_provider": custom_llm_provider,
+                "litellm_metadata": litellm_metadata,
+                "target_model_names": target_model_names,
+                "target_storage": target_storage,
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
@@ -402,6 +421,7 @@ class AsyncFilesResource(AsyncAPIResource):
         provider: str,
         *,
         purpose: Optional[str] | Omit = omit,
+        target_model_names: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -442,7 +462,13 @@ class AsyncFilesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"purpose": purpose}, file_list_params.FileListParams),
+                query=await async_maybe_transform(
+                    {
+                        "purpose": purpose,
+                        "target_model_names": target_model_names,
+                    },
+                    file_list_params.FileListParams,
+                ),
             ),
             cast_to=object,
         )

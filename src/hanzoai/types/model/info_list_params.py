@@ -9,4 +9,4 @@ __all__ = ["InfoListParams"]
 
 
 class InfoListParams(TypedDict, total=False):
-    llm_model_id: Optional[str]
+    litellm_model_id: Optional[str]

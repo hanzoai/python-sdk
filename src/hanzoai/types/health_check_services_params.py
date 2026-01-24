@@ -12,7 +12,18 @@ class HealthCheckServicesParams(TypedDict, total=False):
     service: Required[
         Union[
             Literal[
-                "slack_budget_alerts", "langfuse", "slack", "openmeter", "webhook", "email", "braintrust", "datadog"
+                "slack_budget_alerts",
+                "langfuse",
+                "langfuse_otel",
+                "slack",
+                "openmeter",
+                "webhook",
+                "email",
+                "braintrust",
+                "datadog",
+                "generic_api",
+                "arize",
+                "sqs",
             ],
             str,
         ]

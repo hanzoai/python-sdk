@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Dict, Iterable, Optional
 from typing_extensions import Required, TypedDict
 
 __all__ = ["UtilTokenCounterParams"]
@@ -11,6 +11,10 @@ __all__ = ["UtilTokenCounterParams"]
 class UtilTokenCounterParams(TypedDict, total=False):
     model: Required[str]
 
-    messages: Optional[Iterable[object]]
+    call_endpoint: bool
+
+    contents: Optional[Iterable[Dict[str, object]]]
+
+    messages: Optional[Iterable[Dict[str, object]]]
 
     prompt: Optional[str]
