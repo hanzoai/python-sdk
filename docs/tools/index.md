@@ -2,6 +2,8 @@
 
 Complete documentation for all `hanzo-tools-*` packages.
 
+> **Architecture**: Tools follow [HIP-0300](../hip/HIP-0300.md) - the Unified MCP Tools Architecture with orthogonal operators and effect tracking.
+
 ## Installation
 
 ```bash
@@ -17,52 +19,50 @@ pip install hanzo-tools-shell hanzo-tools-browser
 
 ## Tool Categories
 
-### Core Infrastructure
+### HIP-0300 Core Operators
+
+Primary operators organized by orthogonal axes:
+
+| Tool | Axis | Actions | Description |
+|------|------|---------|-------------|
+| [fs](fs.md) | Bytes + Paths | read, write, edit, search, patch, tree | Filesystem operations |
+| [id](core.md) | Identity | hash, uri, ref, verify | Content-addressable identity |
+| [code](code.md) | Symbols + Structure | parse, transform, summarize | Code analysis and transformation |
+| [proc](shell.md) | Execution | run, bg, signal, wait | Process execution |
+| [vcs](vcs.md) | History + Diffs | status, diff, commit, log | Version control |
+| [test](test.md) | Validation | check, build, test | Validation loops |
+| [net](net.md) | Network | search, fetch, download, crawl | Network operations |
+| [plan](plan.md) | Orchestration | intent, route, compose | Intent routing |
+
+### Control Surfaces
+
+| Tool | Surface | Description |
+|------|---------|-------------|
+| [browser](browser.md) | Web DOM | Playwright automation (70+ actions) |
+| [computer](computer.md) | OS Desktop | Mac automation via pyautogui |
+
+### Extended Operators
+
+| Tool | Domain | Description |
+|------|--------|-------------|
+| [lsp](lsp.md) | Semantic Stream | Language server protocol (diagnostics, code_actions) |
+| [memory](memory.md) | Knowledge | Persistent memory and knowledge bases |
+| [todo](todo.md) | Task Tracking | Task management |
+| [reasoning](reasoning.md) | Cognition | Structured thinking (think, critic) |
+| [agent](agent.md) | Multi-Agent | Agent orchestration (run, list, status) |
+| [llm](llm-tools.md) | LLM Interface | Unified LLM interface (llm, consensus) |
+
+### Infrastructure
 
 | Package | Tools | Description |
 |---------|-------|-------------|
-| [Core](core.md) | Base classes | Foundation for tool development |
+| [Core](core.md) | Base classes | BaseTool, IdTool, ToolRegistry |
 | [Config](config.md) | 2 | Configuration and mode management |
-
-### File & Code Operations
-
-| Package | Tools | Description |
-|---------|-------|-------------|
-| [Filesystem](fs.md) | 7 | read, write, edit, tree, find, search, ast |
-| [LSP](lsp.md) | 1 | Language server protocol (definition, references, hover) |
-| [Refactor](refactor.md) | 1 | Code refactoring (rename, extract, inline) |
-
-### Shell & Execution
-
-| Package | Tools | Description |
-|---------|-------|-------------|
-| [Shell](shell.md) | 12 | cmd, ps, zsh, bash, fish, dash, npx, uvx, open, curl, jq, wget |
-| [Computer](computer.md) | 1 | Mac automation via pyautogui |
-
-### AI & Agents
-
-| Package | Tools | Description |
-|---------|-------|-------------|
-| [Agent](agent.md) | 3 | Multi-agent orchestration (agent, iching, review) |
-| [LLM](llm-tools.md) | 2 | Unified LLM interface (llm, consensus) |
-| [Reasoning](reasoning.md) | 2 | Structured thinking (think, critic) |
-
-### Data & Memory
-
-| Package | Tools | Description |
-|---------|-------|-------------|
-| [Memory](memory.md) | 9 | Persistent memory and knowledge bases |
 | [Database](database.md) | 8 | SQL and graph database operations |
 | [Vector](vector.md) | 3 | Semantic search with embeddings |
-
-### Specialized
-
-| Package | Tools | Description |
-|---------|-------|-------------|
-| [Browser](browser.md) | 1 | Playwright automation (70+ actions) |
+| [Refactor](refactor.md) | 1 | Code refactoring (rename, extract, inline) |
 | [Jupyter](jupyter.md) | 1 | Notebook read/edit/execute |
 | [Editor](editor.md) | 3 | Neovim integration |
-| [Todo](todo.md) | 1 | Task management |
 | [MCP](mcp-tools.md) | 4 | MCP server management |
 
 ## Quick Reference

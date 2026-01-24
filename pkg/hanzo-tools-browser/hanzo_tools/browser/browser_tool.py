@@ -59,6 +59,44 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
+async def _check_extension() -> bool:
+    """Check if Hanzo browser extension is connected."""
+    try:
+        import aiohttp
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                "http://localhost:9224/status",
+                timeout=aiohttp.ClientTimeout(total=1)
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return data.get("connected", False)
+    except Exception:
+        pass
+    return False
+
+
+async def _extension_command(action: str, **kwargs) -> Optional[dict]:
+    """Send command to Hanzo browser extension."""
+    try:
+        import aiohttp
+        # Filter out None values
+        payload = {"action": action}
+        payload.update({k: v for k, v in kwargs.items() if v is not None})
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                "http://localhost:9224",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=30)
+            ) as resp:
+                if resp.status == 200:
+                    return await resp.json()
+    except Exception as e:
+        logger.debug(f"Extension command failed: {e}")
+    return None
+
+
 # Device presets - user-friendly aliases + specific devices
 DEVICES = {
     # User-friendly aliases
@@ -682,10 +720,37 @@ CATEGORIES:
         # Filter
         level: Optional[str] = None,
     ) -> dict[str, Any]:
-        """Execute browser action with full Playwright API support."""
-        pool = await BrowserPool.get_instance()
+        """Execute browser action with full Playwright API support.
+
+        Automatically uses Hanzo browser extension if connected,
+        falling back to Playwright for headless automation.
+        """
         timeout = timeout or self.timeout
         sel = selector or ref
+
+        # === TRY EXTENSION FIRST ===
+        extension_actions = {"navigate", "screenshot", "click", "fill", "evaluate", "tabs", "status"}
+        if action in extension_actions:
+            ext_result = await _extension_command(
+                action, url=url, selector=sel, text=text, value=value,
+                code=code, expression=code, full_page=full_page
+            )
+            if ext_result is not None and "error" not in ext_result:
+                # Normalize response
+                if "result" in ext_result:
+                    ext_result = ext_result["result"]
+                return {"success": True, "source": "extension", **ext_result}
+
+        # === FALL BACK TO PLAYWRIGHT ===
+        if not PLAYWRIGHT_AVAILABLE:
+            return {
+                "error": "Browser extension not connected and Playwright not installed. "
+                         "Either connect the Hanzo browser extension or install Playwright: "
+                         "pip install playwright && playwright install chromium",
+                "action": action
+            }
+
+        pool = await BrowserPool.get_instance()
 
         try:
             # === Connection ===

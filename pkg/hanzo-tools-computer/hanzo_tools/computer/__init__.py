@@ -1,17 +1,20 @@
-"""Computer control tools for Hanzo AI.
+"""UI control tools for Hanzo AI (HIP-0300).
 
 Tools:
-- computer: Unified computer control with native API acceleration
+- ui: Unified interface control (HIP-0300 compliant)
+  - Mouse: click, double_click, right_click, move, drag, scroll
+  - Touch: tap, swipe, pinch (mobile emulation)
+  - Keyboard: type, write, press, key_down, key_up, hotkey
+  - Screen capture: screenshot, screenshot_region, capture
+  - Screen recording: session, record, stop, analyze
+  - Window: focus_window, list_windows, get_active_window
+  - Screen info: get_screens, screen_size
+
+Cross-platform support:
   - macOS: Quartz/CoreGraphics (10-50x faster than pyautogui)
   - Linux: xdotool/scrot for X11
   - Windows: win32api via ctypes
   - Fallback: pyautogui when native unavailable
-
-- screen: Screen recording, capture, and Claude-optimized processing
-  - capture: Single screenshot
-  - record: Background recording
-  - session: ONE-SHOT record → analyze → compress → return for Claude
-  - Claude limits: 100 frames max, 32MB payload, 2000px max dimension
 
 Install:
     pip install hanzo-tools-computer
@@ -22,8 +25,8 @@ Usage:
     # Register with MCP server
     register_tools(mcp_server, permission_manager)
 
-    # Or access individual tools
-    from hanzo_tools.computer import ComputerTool, ScreenTool
+    # Or access individual tool
+    from hanzo_tools.computer import UiTool
 
 Screen Limits (configurable via env vars):
     HANZO_SCREEN_DURATION=30         # Default session duration (seconds)
@@ -34,20 +37,29 @@ Screen Limits (configurable via env vars):
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 
+# HIP-0300: Single unified 'ui' tool
+from .ui_tool import UiTool, ui_tool
+
+# Backward compatibility (deprecated)
 from .computer_tool import ComputerTool
 from .screen_tool import ScreenTool, ScreenConfig, screen_tool
 
 # Internal utilities (used by screen_tool)
 from .media_tool import MediaLimits, MediaResult, ActivitySegment, media_tool
 
-# Export list for tool discovery - only 2 tools now
-TOOLS = [ComputerTool, ScreenTool]
+# Export list for tool discovery - single ui tool (HIP-0300)
+TOOLS = [UiTool]
 
 __all__ = [
+    # HIP-0300 unified tool
+    "UiTool",
+    "ui_tool",
+    # Backward compatibility (deprecated)
     "ComputerTool",
     "ScreenTool",
     "ScreenConfig",
     "screen_tool",
+    # Internal utilities
     "MediaLimits",
     "MediaResult",
     "ActivitySegment",

@@ -55,7 +55,7 @@ from .interactive.repl import HanzoREPL
 from .interactive.enhanced_repl import EnhancedHanzoREPL
 
 # Version
-__version__ = "0.3.46"
+__version__ = "0.3.48"
 
 
 @click.group(invoke_without_command=True)
@@ -622,6 +622,238 @@ def dashboard(ctx):
     from .interactive.dashboard import run_dashboard
 
     run_dashboard()
+
+
+@cli.command()
+@click.option("--json", "json_output", is_flag=True, help="JSON output format")
+@click.pass_context
+def doctor(ctx, json_output: bool):
+    """Show installed Hanzo tools, versions, and system info.
+
+    Checks all Hanzo CLI tools installed via uv, cargo, npm, or homebrew.
+    """
+    import shutil
+    import platform
+    from rich.table import Table
+    from rich.panel import Panel
+
+    console = ctx.obj.get("console", Console())
+
+    if json_output:
+        import json as json_module
+        result = {"tools": [], "system": {}}
+
+    # System info
+    console.print(Panel.fit(
+        f"[bold cyan]Hanzo Doctor[/bold cyan]\n"
+        f"[dim]System: {platform.system()} {platform.machine()}[/dim]",
+        border_style="cyan"
+    ))
+    console.print()
+
+    # Check uv tools
+    tools_found = []
+
+    console.print("[bold]Python Tools (uv):[/bold]")
+    try:
+        result_uv = subprocess.run(
+            ["uv", "tool", "list"],
+            capture_output=True, text=True, timeout=10
+        )
+        if result_uv.returncode == 0:
+            table = Table(show_header=True, header_style="bold")
+            table.add_column("Package", style="cyan")
+            table.add_column("Version", style="green")
+            table.add_column("Path", style="dim")
+
+            for line in result_uv.stdout.strip().split('\n'):
+                if line.startswith('hanzo'):
+                    parts = line.split()
+                    if len(parts) >= 2:
+                        name, version = parts[0], parts[1]
+                        path = shutil.which(name) or f"~/.local/bin/{name}"
+                        table.add_row(name, version, path)
+                        tools_found.append({"name": name, "version": version, "path": path, "source": "uv"})
+
+            if tools_found:
+                console.print(table)
+            else:
+                console.print("  [dim](none installed)[/dim]")
+        else:
+            console.print("  [dim](uv not available)[/dim]")
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        console.print("  [dim](uv not installed)[/dim]")
+
+    console.print()
+
+    # Check for other AI CLI tools
+    console.print("[bold]AI CLI Tools:[/bold]")
+    ai_tools = [
+        ("claude", "Claude Code"),
+        ("gemini", "Gemini CLI"),
+        ("codex", "OpenAI Codex"),
+        ("cursor", "Cursor"),
+        ("aider", "Aider"),
+    ]
+
+    ai_table = Table(show_header=True, header_style="bold")
+    ai_table.add_column("Tool", style="cyan")
+    ai_table.add_column("Version", style="green")
+    ai_table.add_column("Path", style="dim")
+
+    ai_found = False
+    for cmd, name in ai_tools:
+        path = shutil.which(cmd)
+        if path:
+            ai_found = True
+            try:
+                ver_result = subprocess.run(
+                    [cmd, "--version"],
+                    capture_output=True, text=True, timeout=5
+                )
+                version = ver_result.stdout.strip().split('\n')[0] if ver_result.returncode == 0 else "?"
+            except:
+                version = "?"
+            ai_table.add_row(name, version, path)
+
+    if ai_found:
+        console.print(ai_table)
+    else:
+        console.print("  [dim](none detected)[/dim]")
+
+    console.print()
+
+    # Check API keys
+    console.print("[bold]API Keys:[/bold]")
+    api_keys = [
+        "ANTHROPIC_API_KEY",
+        "OPENAI_API_KEY",
+        "GOOGLE_API_KEY",
+        "GEMINI_API_KEY",
+        "XAI_API_KEY",
+        "GROQ_API_KEY",
+        "GITHUB_TOKEN",
+        "HF_TOKEN",
+    ]
+
+    keys_found = []
+    for key in api_keys:
+        if os.environ.get(key):
+            keys_found.append(key)
+            console.print(f"  [green]✓[/green] {key}")
+
+    if not keys_found:
+        console.print("  [dim](none set)[/dim]")
+
+    console.print()
+    console.print("[bold green]✓[/bold green] Doctor check complete")
+
+    if json_output:
+        result["tools"] = tools_found
+        result["system"] = {
+            "platform": platform.system(),
+            "arch": platform.machine(),
+            "python": platform.python_version(),
+        }
+        print(json_module.dumps(result, indent=2))
+
+
+@cli.command()
+@click.option("--all", "upgrade_all", is_flag=True, help="Upgrade all Hanzo tools")
+@click.option("--force", "-f", is_flag=True, help="Force reinstall")
+@click.argument("packages", nargs=-1)
+@click.pass_context
+def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
+    """Update Hanzo CLI tools to latest versions.
+
+    \b
+    Examples:
+      hanzo update              # Update hanzo and hanzo-mcp
+      hanzo update --all        # Update all Hanzo tools
+      hanzo update hanzo-mcp    # Update specific package
+      hanzo update --force      # Force reinstall
+    """
+    console = ctx.obj.get("console", Console())
+
+    # Default packages to update
+    default_packages = ["hanzo", "hanzo-mcp"]
+    all_packages = ["hanzo", "hanzo-mcp", "hanzo-agents", "hanzo-memory", "hanzo-network"]
+
+    if packages:
+        to_update = list(packages)
+    elif upgrade_all:
+        to_update = all_packages
+    else:
+        to_update = default_packages
+
+    console.print("[bold cyan]Updating Hanzo CLI tools...[/bold cyan]")
+    console.print()
+
+    # Check if uv is available
+    import shutil
+    if not shutil.which("uv"):
+        console.print("[red]Error:[/red] uv is not installed")
+        console.print("Install with: curl -LsSf https://astral.sh/uv/install.sh | sh")
+        return
+
+    success = []
+    failed = []
+
+    for pkg in to_update:
+        console.print(f"  Updating [cyan]{pkg}[/cyan]...", end=" ")
+        try:
+            cmd = ["uv", "tool", "upgrade" if not force else "install", pkg]
+            if force:
+                cmd.append("--force")
+
+            result = subprocess.run(
+                cmd,
+                capture_output=True, text=True, timeout=120
+            )
+
+            if result.returncode == 0:
+                # Get new version
+                ver_result = subprocess.run(
+                    ["uv", "tool", "list"],
+                    capture_output=True, text=True, timeout=10
+                )
+                version = "?"
+                for line in ver_result.stdout.split('\n'):
+                    if line.startswith(pkg + ' '):
+                        version = line.split()[1] if len(line.split()) > 1 else "?"
+                        break
+
+                console.print(f"[green]✓[/green] {version}")
+                success.append(pkg)
+            else:
+                # Try install if upgrade failed (package not installed)
+                if "not installed" in result.stderr.lower():
+                    install_result = subprocess.run(
+                        ["uv", "tool", "install", pkg],
+                        capture_output=True, text=True, timeout=120
+                    )
+                    if install_result.returncode == 0:
+                        console.print("[green]✓[/green] installed")
+                        success.append(pkg)
+                    else:
+                        console.print(f"[red]✗[/red] {install_result.stderr.strip()}")
+                        failed.append(pkg)
+                else:
+                    console.print(f"[red]✗[/red] {result.stderr.strip()}")
+                    failed.append(pkg)
+
+        except subprocess.TimeoutExpired:
+            console.print("[red]✗[/red] timeout")
+            failed.append(pkg)
+        except Exception as e:
+            console.print(f"[red]✗[/red] {e}")
+            failed.append(pkg)
+
+    console.print()
+    if success:
+        console.print(f"[bold green]✓[/bold green] Updated: {', '.join(success)}")
+    if failed:
+        console.print(f"[bold red]✗[/bold red] Failed: {', '.join(failed)}")
 
 
 def main():

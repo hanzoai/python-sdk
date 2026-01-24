@@ -23,6 +23,7 @@ dependencies = [
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",
     "typing-extensions>=4.13.0",
+    "aiofiles>=24.1.0",
 ]
 
 [project.optional-dependencies]

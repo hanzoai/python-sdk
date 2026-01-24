@@ -631,10 +631,17 @@ Action = Literal[
     # Mouse
     "click", "double_click", "right_click", "middle_click",
     "move", "move_relative", "drag", "drag_relative", "scroll",
+    # Touch (mobile emulation)
+    "tap", "swipe", "pinch",
     # Keyboard
     "type", "write", "press", "key_down", "key_up", "hotkey",
-    # Screen
-    "screenshot", "screenshot_region",
+    # Screen capture
+    "screenshot", "screenshot_region", "capture",
+    # Screen recording (consolidated from ScreenTool)
+    "session",   # ONE-SHOT: record → analyze → compress → return for Claude
+    "record",    # Start background recording
+    "stop",      # Stop recording and get compressed frames
+    "analyze",   # Analyze existing video file
     # Image location
     "locate", "locate_all", "locate_center",
     "wait_for_image", "wait_while_image",
@@ -651,7 +658,7 @@ Action = Literal[
     # Batch
     "batch",
     # Info
-    "info", "position",
+    "info", "position", "status",
 ]
 
 
