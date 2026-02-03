@@ -443,6 +443,133 @@ class InfinityClient(BaseVectorDB):
             # InfinityDB embedded doesn't have explicit close method
             pass
 
+    # Abstract method implementations required by BaseVectorDB
+    def get_user_projects(self, user_id: str) -> list[dict[str, Any]]:
+        """Get all projects for a user."""
+        db = self._get_db("projects")
+        try:
+            table = db.get_table("projects")
+            result = table.output(["*"]).filter(f"user_id = '{user_id}'").to_pl()
+            return result.to_dicts() if len(result) > 0 else []
+        except Exception as e:
+            logger.error(f"Error getting user projects: {e}")
+            return []
+
+    def get_knowledge_bases(self, project_id: str) -> list[dict[str, Any]]:
+        """Get all knowledge bases for a project."""
+        db = self._get_db("knowledge")
+        try:
+            table = db.get_table("knowledge_bases")
+            result = table.output(["*"]).filter(f"project_id = '{project_id}'").to_pl()
+            return result.to_dicts() if len(result) > 0 else []
+        except Exception as e:
+            logger.error(f"Error getting knowledge bases: {e}")
+            return []
+
+    def delete_fact(self, fact_id: str, knowledge_base_id: str) -> bool:
+        """Delete a fact from a knowledge base."""
+        db = self._get_db("knowledge")
+        table_name = f"facts_{knowledge_base_id}"
+        try:
+            table = db.get_table(table_name)
+            table.delete(f"fact_id = '{fact_id}'")
+            return True
+        except Exception as e:
+            logger.error(f"Error deleting fact: {e}")
+            return False
+
+    def update_memory(
+        self,
+        memory_id: str,
+        user_id: str,
+        project_id: str,
+        content: str | None = None,
+        metadata: dict | None = None,
+        importance: float | None = None,
+    ) -> dict[str, Any] | None:
+        """Update a memory in the database."""
+        db = self._get_db("memories")
+        table_name = f"memories_{user_id}"
+        try:
+            table = db.get_table(table_name)
+            updates = {"updated_at": datetime.now(timezone.utc).isoformat()}
+            if content is not None:
+                updates["content"] = content
+            if metadata is not None:
+                updates["metadata"] = json.dumps(metadata)
+            if importance is not None:
+                updates["importance"] = importance
+            table.update(f"memory_id = '{memory_id}'", updates)
+            return updates
+        except Exception as e:
+            logger.error(f"Error updating memory: {e}")
+            return None
+
+    def create_chat_session(
+        self,
+        session_id: str,
+        user_id: str,
+        project_id: str,
+        metadata: dict | None = None,
+    ) -> dict[str, Any]:
+        """Create a new chat session."""
+        self.create_chats_table(user_id)
+        return {
+            "session_id": session_id,
+            "user_id": user_id,
+            "project_id": project_id,
+            "metadata": metadata or {},
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+
+    def get_chat_messages(
+        self,
+        session_id: str,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        """Get messages from a chat session."""
+        # Note: This implementation searches all user tables - not ideal
+        db = self._get_db("chats")
+        try:
+            # Get all tables and search for the session
+            for table_name in db.list_tables():
+                if table_name.startswith("chats_"):
+                    table = db.get_table(table_name)
+                    query = table.output(["*"]).filter(f"session_id = '{session_id}'")
+                    result = query.to_pl()
+                    if len(result) > 0:
+                        messages = result.to_dicts()
+                        if limit:
+                            return messages[:limit]
+                        return messages
+            return []
+        except Exception as e:
+            logger.error(f"Error getting chat messages: {e}")
+            return []
+
+    def search_chat_messages(
+        self,
+        session_id: str,
+        query_embedding: list[float],
+        limit: int = 10,
+    ) -> list[dict[str, Any]]:
+        """Search messages in a chat session by similarity."""
+        db = self._get_db("chats")
+        try:
+            for table_name in db.list_tables():
+                if table_name.startswith("chats_"):
+                    table = db.get_table(table_name)
+                    query = table.output(["*"]).match_dense(
+                        "embedding", query_embedding, "float", "cosine", limit
+                    ).filter(f"session_id = '{session_id}'")
+                    result = query.to_pl()
+                    if len(result) > 0:
+                        return result.to_dicts()
+            return []
+        except Exception as e:
+            logger.error(f"Error searching chat messages: {e}")
+            return []
+
 
 # Global client instance
 _client: InfinityClient | None = None

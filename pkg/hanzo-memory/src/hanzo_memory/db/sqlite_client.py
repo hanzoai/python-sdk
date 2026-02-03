@@ -3,7 +3,7 @@
 import json
 import sqlite3
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -213,8 +213,8 @@ class SQLiteMemoryClient(BaseVectorDB):
             "name": name,
             "description": description,
             "metadata": metadata or {},
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_user_projects(self, user_id: str) -> list[dict[str, Any]]:
@@ -291,9 +291,9 @@ class SQLiteMemoryClient(BaseVectorDB):
             "context": {},
             "metadata": metadata or {},
             "source": "",
-            "timestamp": datetime.utcnow().isoformat(),
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def search_memories(
@@ -412,8 +412,8 @@ class SQLiteMemoryClient(BaseVectorDB):
             "name": name,
             "description": description,
             "metadata": metadata or {},
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_knowledge_bases(self, project_id: str) -> list[dict[str, Any]]:
@@ -469,8 +469,8 @@ class SQLiteMemoryClient(BaseVectorDB):
             "content": content,
             "confidence": confidence,
             "metadata": metadata or {},
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def search_facts(
@@ -617,6 +617,20 @@ class SQLiteMemoryClient(BaseVectorDB):
         
         return None
 
+    def delete_memory(
+        self,
+        memory_id: str,
+        user_id: str,
+        project_id: str,
+    ) -> bool:
+        """Delete a memory from the database."""
+        cursor = self.conn.execute(
+            "DELETE FROM memories WHERE memory_id = ? AND user_id = ? AND project_id = ?",
+            (memory_id, user_id, project_id)
+        )
+        self.conn.commit()
+        return cursor.rowcount > 0
+
     def create_chat_session(
         self,
         session_id: str,
@@ -643,8 +657,8 @@ class SQLiteMemoryClient(BaseVectorDB):
             "user_id": user_id,
             "project_id": project_id,
             "metadata": metadata or {},
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def add_chat_message(
@@ -678,7 +692,7 @@ class SQLiteMemoryClient(BaseVectorDB):
             "role": role,
             "content": content,
             "metadata": metadata or {},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_chat_messages(
@@ -776,3 +790,15 @@ class SQLiteMemoryClient(BaseVectorDB):
         """Close the database connection."""
         if self.conn:
             self.conn.close()
+
+
+# Singleton instance
+_sqlite_client: Optional[SQLiteMemoryClient] = None
+
+
+def get_sqlite_client() -> SQLiteMemoryClient:
+    """Get or create the singleton SQLite client."""
+    global _sqlite_client
+    if _sqlite_client is None:
+        _sqlite_client = SQLiteMemoryClient()
+    return _sqlite_client
