@@ -1737,11 +1737,18 @@ class TestAsyncHanzo:
         test_code = dedent(
             """
         import asyncio
-        import nest_asyncio
         import threading
 
+        # Set default event loop policy BEFORE importing hanzoai
+        # (hanzo-async auto-configures uvloop on import, which conflicts with nest_asyncio)
+        asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
+
+        import nest_asyncio
         from hanzoai._utils import asyncify
         from hanzoai._base_client import get_platform
+
+        # Reset policy again after imports (in case it changed)
+        asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()

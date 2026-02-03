@@ -26,14 +26,13 @@
     # via hanzo
 aiobotocore==3.1.1
     # via hanzo
-aiofiles==24.1.0
-    # via hanzo-agents
+aiofiles==25.1.0
     # via hanzo-async
     # via hanzo-tools-api
     # via meilisearch-python-sdk
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.12.15
+aiohttp==3.13.3
     # via aiobotocore
     # via hanzo-aci
     # via hanzo-tools-browser
@@ -47,9 +46,9 @@ alabaster==1.0.0
     # via sphinx
 annotated-types==0.7.0
     # via pydantic
-anthropic==0.75.0
+anthropic==0.77.0
     # via hanzo
-anyio==4.10.0
+anyio==4.12.1
     # via anthropic
     # via hanzoai
     # via httpx
@@ -59,18 +58,16 @@ anyio==4.10.0
     # via starlette
 appnope==0.1.4
     # via ipykernel
-asttokens==3.0.0
+asttokens==3.0.1
     # via stack-data
-asyncio==4.0.0
-    # via hanzo-agents
-attrs==25.3.0
+attrs==25.4.0
     # via aiohttp
     # via cyclopts
     # via jsonschema
     # via referencing
 authlib==1.6.6
     # via fastmcp
-babel==2.17.0
+babel==2.18.0
     # via mkdocs-material
     # via sphinx
 backrefs==6.1
@@ -80,7 +77,7 @@ beartype==0.22.9
     # via py-key-value-shared
 binaryornot==0.4.4
     # via hanzo-aci
-black==25.12.0
+black==26.1.0
     # via hanzo-mcp
     # via hanzo-memory
     # via hanzo-network
@@ -88,28 +85,28 @@ black==25.12.0
 botocore==1.42.30
     # via aiobotocore
     # via hanzo
-build==1.3.0
+build==1.4.0
     # via hanzo-mcp
-cachetools==6.1.0
+cachetools==7.0.0
     # via hanzo-aci
     # via py-key-value-aio
 camel-converter==5.0.0
     # via meilisearch-python-sdk
-certifi==2025.8.3
+certifi==2026.1.4
     # via httpcore
     # via httpx
     # via requests
-cffi==1.17.1
+cffi==2.0.0
     # via cryptography
     # via sounddevice
 cfgv==3.5.0
     # via pre-commit
 chardet==5.2.0
     # via binaryornot
-charset-normalizer==3.4.2
+charset-normalizer==3.4.4
     # via hanzo-aci
     # via requests
-click==8.2.1
+click==8.3.1
     # via black
     # via hanzo
     # via hanzo-agents
@@ -117,6 +114,7 @@ click==8.2.1
     # via litellm
     # via mkdocs
     # via typer
+    # via typer-slim
     # via uvicorn
 cloudpickle==3.1.2
     # via pydocket
@@ -128,11 +126,11 @@ coloredlogs==15.0.1
     # via onnxruntime
 comm==0.2.3
     # via ipykernel
-coverage==7.13.0
+coverage==7.13.2
     # via pytest-cov
 croniter==6.0.0
     # via hanzo
-cryptography==45.0.6
+cryptography==46.0.4
     # via authlib
     # via pyjwt
 cyclopts==4.5.1
@@ -150,32 +148,32 @@ distro==1.9.0
     # via anthropic
     # via hanzoai
     # via openai
-dnspython==2.7.0
+dnspython==2.8.0
     # via email-validator
     # via pymongo
 docstring-parser==0.17.0
     # via anthropic
     # via cyclopts
-docutils==0.21.2
+docutils==0.22.4
     # via myst-parser
     # via readme-renderer
     # via rich-rst
     # via sphinx
     # via sphinx-rtd-theme
-email-validator==2.2.0
+email-validator==2.3.0
     # via pydantic
-exceptiongroup==1.3.0
+exceptiongroup==1.3.1
     # via fastmcp
-executing==2.2.0
+executing==2.2.1
     # via stack-data
 factory-boy==3.3.3
     # via hanzo-memory
-faker==38.2.0
+faker==40.1.2
     # via factory-boy
     # via hanzo-memory
 fakeredis==2.33.0
     # via pydocket
-fastembed==0.7.1
+fastembed==0.7.4
     # via hanzo-mcp
 fastmcp==2.14.4
     # via hanzo-mcp
@@ -186,6 +184,8 @@ fastmcp==2.14.4
     # via hanzo-tools-fs
     # via hanzo-tools-llm
     # via hanzo-tools-refactor
+fastuuid==0.14.0
+    # via litellm
 ffind==1.6.1
     # via hanzo-tools-fs
 filelock==3.20.3
@@ -194,29 +194,29 @@ filelock==3.20.3
     # via virtualenv
 flake8==7.3.0
     # via hanzo-aci
-flatbuffers==25.2.10
+flatbuffers==25.12.19
     # via onnxruntime
-frozenlist==1.7.0
+frozenlist==1.8.0
     # via aiohttp
     # via aiosignal
-fsspec==2025.7.0
+fsspec==2026.1.0
     # via huggingface-hub
 ghp-import==2.1.0
     # via mkdocs
 gitdb==4.0.12
     # via gitpython
-gitpython==3.1.45
+gitpython==3.1.46
     # via hanzo-aci
 grep-ast==0.9.0
     # via hanzo-aci
     # via hanzo-tools-fs
 griffe==1.15.0
     # via mkdocstrings-python
-grpcio==1.74.0
+grpcio==1.76.0
     # via grpcio-tools
     # via hanzo-network
     # via qdrant-client
-grpcio-tools==1.74.0
+grpcio-tools==1.76.0
     # via hanzo-network
 h11==0.16.0
     # via hanzo-aci
@@ -225,7 +225,7 @@ h11==0.16.0
     # via uvicorn
 h2==4.3.0
     # via httpx
-hanzo-agents==0.1.1
+hanzo-agents==0.1.2
     # via hanzo
     # via hanzo-network
 hanzo-async==0.1.1
@@ -242,6 +242,7 @@ hanzo-tools==0.3.0
     # via hanzo-tools-computer
     # via hanzo-tools-shell
 hanzo-tools-agent==0.3.1
+    # via hanzo-agents
     # via hanzo-mcp
 hanzo-tools-api==0.3.1
     # via hanzo-mcp
@@ -283,7 +284,7 @@ hanzo-tools-shell==0.6.1
     # via hanzo-tools-agent
 hanzo-tools-todo==0.2.0
     # via hanzo-mcp
-hf-xet==1.1.7
+hf-xet==1.2.0
     # via huggingface-hub
 hpack==4.1.0
     # via h2
@@ -297,15 +298,16 @@ httpx==0.28.1
     # via hanzo-network
     # via hanzo-tools-api
     # via hanzoai
+    # via huggingface-hub
     # via litellm
     # via mcp
     # via meilisearch-python-sdk
     # via openai
     # via qdrant-client
     # via respx
-httpx-sse==0.4.1
+httpx-sse==0.4.3
     # via mcp
-huggingface-hub==0.34.3
+huggingface-hub==1.3.7
     # via fastembed
     # via tokenizers
 humanfriendly==10.0
@@ -314,9 +316,9 @@ hyperframe==6.1.0
     # via h2
 id==1.5.0
     # via twine
-identify==2.6.15
+identify==2.6.16
     # via pre-commit
-idna==3.10
+idna==3.11
     # via anyio
     # via email-validator
     # via httpx
@@ -324,7 +326,7 @@ idna==3.10
     # via yarl
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==8.7.0
+importlib-metadata==8.7.1
     # via litellm
     # via opentelemetry-api
 iniconfig==2.3.0
@@ -333,7 +335,7 @@ ipdb==0.13.13
     # via hanzo-memory
 ipykernel==7.1.0
     # via hanzo-mcp
-ipython==9.4.0
+ipython==9.10.0
     # via hanzo-memory
     # via hanzo-repl
     # via ipdb
@@ -342,9 +344,9 @@ ipython-pygments-lexers==1.1.1
     # via ipython
 jaraco-classes==3.4.0
     # via keyring
-jaraco-context==6.0.1
+jaraco-context==6.1.0
     # via keyring
-jaraco-functools==4.2.1
+jaraco-functools==4.4.0
     # via keyring
 jedi==0.19.2
     # via ipython
@@ -355,7 +357,7 @@ jinja2==3.1.6
     # via mkdocstrings
     # via myst-parser
     # via sphinx
-jiter==0.10.0
+jiter==0.13.0
     # via anthropic
     # via openai
 jmespath==1.1.0
@@ -363,29 +365,29 @@ jmespath==1.1.0
     # via botocore
 jsonref==1.1.0
     # via fastmcp
-jsonschema==4.25.0
+jsonschema==4.26.0
     # via litellm
     # via mcp
 jsonschema-path==0.3.4
     # via fastmcp
-jsonschema-specifications==2025.4.1
+jsonschema-specifications==2025.9.1
     # via jsonschema
 jupyter-client==8.8.0
     # via hanzo-mcp
     # via hanzo-tools-repl
     # via ipykernel
-jupyter-core==5.8.1
+jupyter-core==5.9.1
     # via hanzo-tools-repl
     # via ipykernel
     # via jupyter-client
-keyring==25.6.0
+keyring==25.7.0
     # via py-key-value-aio
     # via twine
-librt==0.7.3
+librt==0.7.8
     # via mypy
 linkify-it-py==2.0.3
     # via markdown-it-py
-litellm==1.75.0
+litellm==1.81.6
     # via hanzo-aci
     # via hanzo-repl
     # via hanzoai
@@ -393,23 +395,23 @@ loguru==0.7.3
     # via fastembed
 lupa==2.6
     # via fakeredis
-markdown==3.10
+markdown==3.10.1
     # via mkdocs
     # via mkdocs-autorefs
     # via mkdocs-material
     # via mkdocstrings
     # via pymdown-extensions
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via mdit-py-plugins
     # via myst-parser
     # via rich
     # via textual
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via jinja2
     # via mkdocs
     # via mkdocs-autorefs
     # via mkdocstrings
-matplotlib-inline==0.1.7
+matplotlib-inline==0.2.1
     # via ipykernel
     # via ipython
 mccabe==0.7.0
@@ -432,9 +434,9 @@ mcp==1.26.0
     # via hanzo-tools-refactor
     # via hanzo-tools-shell
     # via hanzo-tools-todo
-mdit-py-plugins==0.4.2
-    # via markdown-it-py
+mdit-py-plugins==0.5.0
     # via myst-parser
+    # via textual
 mdurl==0.1.2
     # via markdown-it-py
 meilisearch-python-sdk==6.1.0
@@ -452,18 +454,18 @@ mkdocs-autorefs==1.4.3
     # via mkdocstrings-python
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-material==9.7.0
+mkdocs-material==9.7.1
     # via hanzo-memory
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
-mkdocstrings==1.0.0
+mkdocstrings==1.0.2
     # via hanzo-memory
     # via mkdocstrings-python
 mkdocstrings-python==2.0.1
     # via mkdocstrings
 mmh3==5.2.0
     # via fastembed
-more-itertools==10.7.0
+more-itertools==10.8.0
     # via jaraco-classes
     # via jaraco-functools
 motor==3.7.1
@@ -472,11 +474,11 @@ mouseinfo==0.1.3
     # via pyautogui
 mpmath==1.3.0
     # via sympy
-multidict==6.6.3
+multidict==6.7.1
     # via aiobotocore
     # via aiohttp
     # via yarl
-mypy==1.19.0
+mypy==1.19.1
     # via hanzo-mcp
     # via hanzo-memory
     # via hanzo-network
@@ -484,21 +486,21 @@ mypy==1.19.0
 mypy-extensions==1.1.0
     # via black
     # via mypy
-myst-parser==4.0.1
+myst-parser==5.0.0
     # via hanzo-mcp
 nats-py==2.12.0
     # via hanzo
 nest-asyncio==1.6.0
     # via ipykernel
-networkx==3.5
+networkx==3.6.1
     # via hanzo-aci
 nexus-rpc==1.3.0
     # via temporalio
 nh3==0.3.2
     # via readme-renderer
-nodeenv==1.9.1
+nodeenv==1.10.0
     # via pre-commit
-numpy==2.3.2
+numpy==2.4.2
     # via fastembed
     # via hanzo-aci
     # via hanzo-memory
@@ -508,9 +510,9 @@ numpy==2.3.2
     # via pandas
     # via qdrant-client
     # via scipy
-onnxruntime==1.22.1
+onnxruntime==1.23.2
     # via fastembed
-openai==1.99.1
+openai==2.16.0
     # via hanzo
     # via litellm
 openapi-pydantic==0.5.1
@@ -530,9 +532,9 @@ opentelemetry-sdk==1.39.1
 opentelemetry-semantic-conventions==0.60b1
     # via opentelemetry-instrumentation
     # via opentelemetry-sdk
-orjson==3.11.1
+orjson==3.11.7
     # via hanzo-mcp
-packaging==25.0
+packaging==26.0
     # via black
     # via build
     # via fastmcp
@@ -546,13 +548,13 @@ packaging==25.0
     # via twine
 paginate==0.5.7
     # via mkdocs-material
-pandas==2.3.1
+pandas==3.0.0
     # via hanzo-aci
-parso==0.8.4
+parso==0.8.5
     # via jedi
 pathable==0.4.4
     # via jsonschema-path
-pathspec==0.12.1
+pathspec==1.0.4
     # via black
     # via grep-ast
     # via mkdocs
@@ -564,7 +566,7 @@ pexpect==4.9.0
 pillow==11.3.0
     # via fastembed
     # via hanzo-tools-computer
-platformdirs==4.3.8
+platformdirs==4.5.1
     # via black
     # via fastmcp
     # via jupyter-core
@@ -580,27 +582,26 @@ polars-runtime-32==1.37.1
     # via polars
 portalocker==3.2.0
     # via qdrant-client
-pre-commit==4.5.0
+pre-commit==4.5.1
     # via hanzo-aci
     # via hanzo-memory
-prometheus-client==0.22.1
-    # via hanzo-agents
+prometheus-client==0.24.1
     # via opentelemetry-exporter-prometheus
     # via pydocket
-prompt-toolkit==3.0.51
+prompt-toolkit==3.0.52
     # via hanzo
     # via hanzo-repl
     # via ipython
-propcache==0.3.2
+propcache==0.4.1
     # via aiohttp
     # via yarl
-protobuf==6.31.1
+protobuf==6.33.5
     # via grpcio-tools
     # via hanzo-network
     # via onnxruntime
     # via qdrant-client
     # via temporalio
-psutil==7.0.0
+psutil==7.2.2
     # via hanzo-aci
     # via hanzo-network
     # via ipykernel
@@ -619,14 +620,13 @@ pyautogui==0.9.54
     # via hanzo-tools-computer
 pycodestyle==2.14.0
     # via flake8
-pycparser==2.22
+pycparser==3.0
     # via cffi
 pydantic==2.12.5
     # via anthropic
     # via camel-converter
     # via fastmcp
     # via hanzo
-    # via hanzo-agents
     # via hanzo-mcp
     # via hanzo-memory
     # via hanzo-network
@@ -678,7 +678,7 @@ pygments==2.19.2
 pyjwt==2.11.0
     # via mcp
     # via meilisearch-python-sdk
-pymdown-extensions==10.18
+pymdown-extensions==10.20.1
     # via mkdocs-material
     # via mkdocstrings
 pymongo==4.16.0
@@ -1357,7 +1357,7 @@ pyobjc-framework-vision==12.1
     # via pyobjc
 pyobjc-framework-webkit==12.1
     # via pyobjc
-pyperclip==1.9.0
+pyperclip==1.11.0
     # via fastmcp
     # via mouseinfo
 pyproject-hooks==1.2.0
@@ -1395,17 +1395,17 @@ python-dateutil==2.9.0.post0
     # via ghp-import
     # via jupyter-client
     # via pandas
-python-dotenv==1.1.1
+python-dotenv==1.2.1
     # via fastmcp
     # via hanzo-repl
     # via litellm
     # via pydantic-settings
 python-json-logger==4.0.0
     # via pydocket
-python-multipart==0.0.20
+python-multipart==0.0.22
     # via hanzo-memory
     # via mcp
-pytokens==0.3.0
+pytokens==0.4.1
     # via black
 pyttsx3==2.99
     # via hanzo-repl
@@ -1413,10 +1413,8 @@ pytweening==1.2.0
     # via pyautogui
 pytz==2025.2
     # via croniter
-    # via pandas
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via hanzo
-    # via hanzo-agents
     # via hanzo-tools-api
     # via huggingface-hub
     # via jsonschema-path
@@ -1437,7 +1435,7 @@ qrcode==8.2
     # via hanzo
 readme-renderer==44.0
     # via twine
-redis==6.3.0
+redis==7.1.0
     # via fakeredis
     # via hanzo
     # via py-key-value-aio
@@ -1446,12 +1444,11 @@ referencing==0.36.2
     # via jsonschema
     # via jsonschema-path
     # via jsonschema-specifications
-regex==2025.7.34
+regex==2026.1.15
     # via tiktoken
-requests==2.32.4
+requests==2.32.5
     # via fastembed
     # via hanzo-aci
-    # via huggingface-hub
     # via id
     # via jsonschema-path
     # via mkdocs-material
@@ -1465,7 +1462,7 @@ respx==0.22.0
     # via hanzo-memory
 rfc3986==2.0.0
     # via twine
-rich==14.1.0
+rich==14.3.2
     # via cyclopts
     # via fastmcp
     # via hanzo
@@ -1478,26 +1475,27 @@ rich==14.1.0
     # via textual
     # via twine
     # via typer
-rich-rst==1.3.1
+rich-rst==1.3.2
     # via cyclopts
-roman-numerals-py==3.1.0
+roman-numerals==4.1.0
     # via sphinx
-rpds-py==0.26.0
+rpds-py==0.30.0
     # via jsonschema
     # via referencing
 rubicon-objc==0.5.3
     # via mouseinfo
-ruff==0.14.8
+ruff==0.14.14
     # via hanzo-aci
     # via hanzo-mcp
     # via hanzo-memory
     # via hanzo-network
     # via hanzo-repl
-scipy==1.16.1
+scipy==1.17.0
     # via hanzo-aci
-setuptools==80.9.0
+setuptools==80.10.2
     # via grpcio-tools
 shellingham==1.5.4
+    # via huggingface-hub
     # via typer
 six==1.17.0
     # via python-dateutil
@@ -1505,18 +1503,17 @@ smmap==5.0.2
     # via gitdb
 sniffio==1.3.1
     # via anthropic
-    # via anyio
     # via hanzoai
     # via openai
 snowballstemmer==3.0.1
     # via sphinx
 sortedcontainers==2.4.0
     # via fakeredis
-sounddevice==0.5.3
+sounddevice==0.5.5
     # via hanzo-repl
-speechrecognition==3.14.4
+speechrecognition==3.14.5
     # via hanzo-repl
-sphinx==8.2.3
+sphinx==9.1.0
     # via hanzo-mcp
     # via myst-parser
     # via sphinx-copybutton
@@ -1524,7 +1521,7 @@ sphinx==8.2.3
     # via sphinxcontrib-jquery
 sphinx-copybutton==0.5.2
     # via hanzo-mcp
-sphinx-rtd-theme==3.0.2
+sphinx-rtd-theme==3.1.0
     # via hanzo-mcp
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
@@ -1543,31 +1540,31 @@ sphinxcontrib-serializinghtml==2.0.0
 sqlite-vec==0.1.6
     # via hanzo-mcp
     # via hanzo-memory
-sse-starlette==3.0.2
+sse-starlette==3.2.0
     # via mcp
 stack-data==0.6.3
     # via ipython
-starlette==0.47.2
+starlette==0.52.1
     # via mcp
-structlog==25.4.0
-    # via hanzo-agents
+    # via sse-starlette
+structlog==25.5.0
     # via hanzo-memory
 sympy==1.14.0
     # via onnxruntime
 temporalio==1.21.1
     # via hanzo
-textual==5.2.0
+textual==7.5.0
     # via hanzo-repl
-tiktoken==0.10.0
+tiktoken==0.12.0
     # via hanzo-tools-shell
     # via litellm
-tokenizers==0.21.4
+tokenizers==0.22.2
     # via fastembed
     # via litellm
 tornado==6.5.4
     # via ipykernel
     # via jupyter-client
-tqdm==4.67.1
+tqdm==4.67.2
     # via fastembed
     # via huggingface-hub
     # via openai
@@ -1577,45 +1574,47 @@ traitlets==5.14.3
     # via jupyter-client
     # via jupyter-core
     # via matplotlib-inline
-tree-sitter==0.25.1
+tree-sitter==0.25.2
     # via hanzo-aci
     # via tree-sitter-language-pack
 tree-sitter-c-sharp==0.23.1
     # via tree-sitter-language-pack
-tree-sitter-embedded-template==0.23.2
+tree-sitter-embedded-template==0.25.0
     # via tree-sitter-language-pack
-tree-sitter-javascript==0.23.1
+tree-sitter-javascript==0.25.0
     # via hanzo-aci
-tree-sitter-language-pack==0.9.0
+tree-sitter-language-pack==0.13.0
     # via grep-ast
-tree-sitter-python==0.23.6
+tree-sitter-python==0.25.0
     # via hanzo-aci
 tree-sitter-ruby==0.23.1
     # via hanzo-aci
 tree-sitter-typescript==0.23.2
     # via hanzo-aci
-tree-sitter-yaml==0.7.1
+tree-sitter-yaml==0.7.2
     # via tree-sitter-language-pack
 twine==6.2.0
     # via hanzo-mcp
     # via hanzo-memory
-typer==0.16.0
+typer==0.21.1
     # via hanzo
     # via pydocket
+typer-slim==0.21.1
+    # via huggingface-hub
 types-aiofiles==25.1.0.20251011
     # via hanzo-mcp
 types-protobuf==6.32.1.20251210
     # via temporalio
-types-psutil==7.1.3.20251202
+types-psutil==7.2.2.20260130
     # via hanzo-mcp
-types-setuptools==80.9.0.20250822
+types-setuptools==80.10.0.20260124
     # via hanzo-mcp
 typing-extensions==4.15.0
     # via aiosignal
     # via anthropic
     # via anyio
     # via exceptiongroup
-    # via hanzo-agents
+    # via grpcio
     # via hanzo-mcp
     # via hanzo-tools
     # via hanzo-tools-core
@@ -1639,38 +1638,36 @@ typing-extensions==4.15.0
     # via temporalio
     # via textual
     # via typer
+    # via typer-slim
     # via typing-inspection
 typing-inspection==0.4.2
     # via mcp
     # via pydantic
     # via pydantic-settings
-tzdata==2025.2
-    # via faker
-    # via pandas
 uc-micro-py==1.0.3
     # via linkify-it-py
 ujson==5.11.0
     # via hanzo-mcp
-urllib3==2.6.1
+urllib3==2.6.3
     # via botocore
     # via hanzo-aci
     # via hanzoai
     # via qdrant-client
     # via requests
     # via twine
-uvicorn==0.35.0
+uvicorn==0.40.0
     # via fastmcp
     # via mcp
 uvloop==0.22.1
     # via hanzo-mcp
-virtualenv==20.35.4
+virtualenv==20.36.1
     # via pre-commit
 watchdog==6.0.0
     # via hanzo-tools-fs
     # via mkdocs
-wcwidth==0.2.13
+wcwidth==0.5.3
     # via prompt-toolkit
-websockets==15.0.1
+websockets==16.0
     # via fastmcp
     # via hanzo-mcp
     # via hanzo-tools-ide
@@ -1679,7 +1676,7 @@ whatthepatch==1.0.7
 wrapt==1.17.3
     # via aiobotocore
     # via opentelemetry-instrumentation
-yarl==1.20.1
+yarl==1.22.0
     # via aiohttp
 zipp==3.23.0
     # via importlib-metadata
