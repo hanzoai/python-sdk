@@ -162,6 +162,7 @@ class TestKnowledgeAPI:
 
     def test_get_facts_without_query(self):
         """Test getting facts without a search query."""
+        # API requires query parameter
         response = self.client.post(
             "/v1/kb/facts/get",
             json={
@@ -170,7 +171,18 @@ class TestKnowledgeAPI:
             },
             headers=self.headers,
         )
+        assert response.status_code == 400
 
+        # With query, should return empty results
+        response = self.client.post(
+            "/v1/kb/facts/get",
+            json={
+                "userid": "user123",
+                "kb_id": "kb123",
+                "query": "test",
+            },
+            headers=self.headers,
+        )
         assert response.status_code == 200
         data = response.json()
         assert data["kb_id"] == "kb123"

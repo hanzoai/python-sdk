@@ -13,11 +13,17 @@ from structlog import get_logger
 
 from ..base import BaseVectorDB
 from ..local_client import LocalMemoryClient
-from ..lancedb_client import LanceDBClient
 
 logger = get_logger()
 
 # Try to import optional backends
+try:
+    from ..lancedb_client import LanceDBClient
+    LANCEDB_AVAILABLE = True
+except ImportError:
+    LANCEDB_AVAILABLE = False
+    logger.debug("LanceDB client not available")
+
 try:
     from ..kuzudb_client import KuzuDBClient
     KUZU_AVAILABLE = True
@@ -58,27 +64,13 @@ class BackendRegistry:
 
     # Registered backends and their capabilities
     BACKENDS: Dict[str, Dict] = {
-        "lancedb": {
-            "class": LanceDBClient,
-            "description": "LanceDB - Embedded vector database with SQL-like queries",
-            "capabilities": [
-                BackendCapability.VECTOR_SEARCH,
-                BackendCapability.STRUCTURED_QUERY,
-                BackendCapability.PERSISTENCE,
-                BackendCapability.EMBEDDINGS,
-                BackendCapability.MARKDOWN_IMPORT,
-            ],
-            "config": {
-                "enable_markdown": True,
-            },
-        },
         "local": {
             "class": LocalMemoryClient,
             "description": "Local file storage using JSON files",
             "capabilities": [
                 BackendCapability.PERSISTENCE,
                 BackendCapability.MARKDOWN_IMPORT,
-                BackendCapability.FULL_TEXT_SEARCH,  # Simple text search
+                BackendCapability.FULL_TEXT_SEARCH,
             ],
             "config": {
                 "enable_markdown": True,
@@ -90,6 +82,22 @@ class BackendRegistry:
     @classmethod
     def _init_optional_backends(cls):
         """Initialize optional backends if they're available."""
+        if LANCEDB_AVAILABLE and "lancedb" not in cls.BACKENDS:
+            cls.BACKENDS["lancedb"] = {
+                "class": LanceDBClient,
+                "description": "LanceDB - Embedded vector database with SQL-like queries",
+                "capabilities": [
+                    BackendCapability.VECTOR_SEARCH,
+                    BackendCapability.STRUCTURED_QUERY,
+                    BackendCapability.PERSISTENCE,
+                    BackendCapability.EMBEDDINGS,
+                    BackendCapability.MARKDOWN_IMPORT,
+                ],
+                "config": {
+                    "enable_markdown": True,
+                },
+            }
+
         if KUZU_AVAILABLE and "kuzudb" not in cls.BACKENDS:
             cls.BACKENDS["kuzudb"] = {
                 "class": KuzuDBClient,

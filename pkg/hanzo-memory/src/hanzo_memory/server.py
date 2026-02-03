@@ -524,6 +524,8 @@ async def get_facts(
                 status_code=400,
                 detail="Query parameter is required to search facts. Provide a search query.",
             )
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error getting facts: {e}")
         raise HTTPException(status_code=500, detail=str(e)) from e
