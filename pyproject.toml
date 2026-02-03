@@ -59,13 +59,17 @@ dev-dependencies = [
     "importlib-metadata>=6.7.0",
     "rich>=13.7.1",
     "nest_asyncio==1.6.0",
+    # hanzo-memory test dependencies
+    "polars>=1.0.0",
+    "httpx>=0.27.0",
+    "fastapi>=0.115.0",
+    "fastembed>=0.4.0",
 ]
 
 [tool.rye.workspace]
 members = [
   "pkg/hanzo",
   "pkg/hanzo-aci",
-  "pkg/hanzo-agent",
   "pkg/hanzo-mcp",
   "pkg/hanzo-memory",
   "pkg/hanzo-network",
@@ -109,6 +113,13 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "build>=1.2.2.post1",
+    "fastapi>=0.128.0",
+    "fastembed>=0.7.4",
+    "hanzo-memory",
+    "httpx>=0.28.1",
+    "polars>=1.36.1",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
 ]
 
 [tool.hatch.build]
@@ -420,6 +431,14 @@ exclude = [
     "scripts/",
     "tests/",
 ]
+
+[tool.uv.workspace]
+members = [
+    "pkg/hanzo-memory",
+]
+
+[tool.uv.sources]
+hanzo-memory = { workspace = true }
 
 [tool.ruff.lint.extend-per-file-ignores]
 # Allow print statements in scripts and examples

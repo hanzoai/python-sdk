@@ -108,12 +108,21 @@ class MemoryService:
             limit=limit * 2 if filter_with_llm else limit,  # Get more if filtering
         )
 
-        if results_df.empty:
+        # Handle both list and DataFrame results
+        if isinstance(results_df, list):
+            results = results_df
+        else:
+            # DataFrame case
+            if results_df.empty:
+                return []
+            results = results_df.to_dicts() if hasattr(results_df, 'to_dicts') else results_df.to_dict('records')
+
+        if not results:
             return []
 
         # Convert to memories with scores
         memories = []
-        for _, row in results_df.iterrows():
+        for row in results:
             # Get similarity score if available, otherwise calculate it
             if "similarity_score" in row:
                 score = row["similarity_score"]
@@ -282,3 +291,9 @@ def get_memory_service() -> MemoryService:
     if _memory_service is None:
         _memory_service = MemoryService()
     return _memory_service
+
+
+def reset_memory_service() -> None:
+    """Reset the global memory service (useful for testing)."""
+    global _memory_service
+    _memory_service = None

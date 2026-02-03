@@ -11,18 +11,28 @@ from fastapi.testclient import TestClient
 
 from hanzo_memory.config import settings
 from hanzo_memory.db.client import InfinityClient
+from hanzo_memory.db import reset_db_client
+from hanzo_memory.services import reset_memory_service
 from hanzo_memory.server import app
 
 
 @pytest.fixture(autouse=True)
 def test_settings(monkeypatch):
     """Configure test settings."""
+    # Reset any cached clients/services before each test
+    reset_db_client()
+    reset_memory_service()
+
     # Use temporary directory for testing
     with tempfile.TemporaryDirectory() as tmpdir:
         monkeypatch.setattr(settings, "infinity_db_path", Path(tmpdir) / "test_db")
         monkeypatch.setattr(settings, "disable_auth", True)
         monkeypatch.setattr(settings, "llm_model", "gpt-3.5-turbo")
         yield
+
+    # Reset again after test
+    reset_db_client()
+    reset_memory_service()
 
 
 @pytest.fixture(autouse=True)

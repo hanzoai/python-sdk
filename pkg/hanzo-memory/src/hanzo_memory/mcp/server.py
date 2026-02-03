@@ -1,7 +1,8 @@
 """MCP server for Hanzo Memory service."""
 
 import json
-from typing import Any
+import asyncio
+from typing import Any, Literal
 from uuid import uuid4
 
 from mcp.server import Server
@@ -13,11 +14,20 @@ from mcp.types import (
 from structlog import get_logger
 
 from ..config import settings
-from ..db import get_db_client
-from ..services.embeddings import EmbeddingService
-from ..services.llm import LLMService
+from ..db.sqlite_client import SQLiteMemoryClient, get_sqlite_client
+from ..models.knowledge import Fact, FactCreate, KnowledgeBase
+from ..models.memory import Memory, MemoryCreate
+from ..services.embeddings import EmbeddingService, get_embedding_service
+from ..services.llm import LLMService, get_llm_service
+# Constants
+ServiceName = "hanzo-memory"
 
 logger = get_logger()
+
+
+def get_db_client() -> SQLiteMemoryClient:
+    """Get the database client."""
+    return get_sqlite_client()
 
 
 class MCPMemoryServer:
@@ -39,170 +49,51 @@ class MCPMemoryServer:
             """Return available tools."""
             return [
                 Tool(
-                    name="remember",
-                    description="Store a memory for a user in a project",
+                    name="memory",
+                    description="""Unified memory tool for storing, retrieving, and managing information.
+Supports the following actions:
+- remember: Store a new memory
+- recall: Search for memories
+- delete: Delete a memory
+- create_project: Create a new project container
+- create_kb: Create a structured knowledge base
+- add_fact: Add a fact to a knowledge base
+- search_facts: Search within a knowledge base
+- delete_fact: Remove a fact from a knowledge base
+- summarize: Analyze content and generate knowledge entries""",
                     inputSchema={
                         "type": "object",
                         "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {
+                            "action": {
                                 "type": "string",
-                                "description": "Project ID",
+                                "enum": [
+                                    "remember",
+                                    "recall",
+                                    "delete",
+                                    "create_project",
+                                    "create_kb",
+                                    "add_fact",
+                                    "search_facts",
+                                    "delete_fact",
+                                    "summarize"
+                                ],
+                                "description": "The action to perform"
                             },
-                            "content": {
-                                "type": "string",
-                                "description": "Memory content",
-                            },
-                            "metadata": {
-                                "type": "object",
-                                "description": "Additional metadata",
-                            },
-                            "importance": {
-                                "type": "number",
-                                "description": "Importance score (0-10)",
-                                "default": 1.0,
-                            },
+                            "user_id": {"type": "string", "description": "User ID (required for all actions)"},
+                            "project_id": {"type": "string", "description": "Project ID (optional for some actions)"},
+                            "content": {"type": "string", "description": "Content for storage or analysis"},
+                            "query": {"type": "string", "description": "Search query for recall/search purposes"},
+                            "id": {"type": "string", "description": "ID of item to delete (memory_id or fact_id)"},
+                            "kb_id": {"type": "string", "description": "Knowledge base ID for fact operations"},
+                            "name": {"type": "string", "description": "Name for new project or knowledge base"},
+                            "description": {"type": "string", "description": "Description for new project or KB"},
+                            "metadata": {"type": "object", "description": "Additional metadata"},
+                            "limit": {"type": "integer", "description": "Limit results", "default": 10},
+                            "importance": {"type": "number", "description": "Importance score (0-10)", "default": 1.0},
+                            "parent_id": {"type": "string", "description": "Parent fact ID"},
+                            "context": {"type": "string", "description": "Context for summarization"},
                         },
-                        "required": ["user_id", "project_id", "content"],
-                    },
-                ),
-                Tool(
-                    name="recall",
-                    description="Search for relevant memories",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {
-                                "type": "string",
-                                "description": "Project ID (optional)",
-                            },
-                            "query": {"type": "string", "description": "Search query"},
-                            "limit": {
-                                "type": "integer",
-                                "description": "Number of results",
-                                "default": 10,
-                            },
-                        },
-                        "required": ["user_id", "query"],
-                    },
-                ),
-                Tool(
-                    name="create_project",
-                    description="Create a new project",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "name": {"type": "string", "description": "Project name"},
-                            "description": {
-                                "type": "string",
-                                "description": "Project description",
-                            },
-                            "metadata": {
-                                "type": "object",
-                                "description": "Additional metadata",
-                            },
-                        },
-                        "required": ["user_id", "name"],
-                    },
-                ),
-                Tool(
-                    name="create_knowledge_base",
-                    description="Create a knowledge base in a project",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "project_id": {
-                                "type": "string",
-                                "description": "Project ID",
-                            },
-                            "name": {
-                                "type": "string",
-                                "description": "Knowledge base name",
-                            },
-                            "description": {
-                                "type": "string",
-                                "description": "Knowledge base description",
-                            },
-                        },
-                        "required": ["user_id", "project_id", "name"],
-                    },
-                ),
-                Tool(
-                    name="add_fact",
-                    description="Add a fact to a knowledge base",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "kb_id": {
-                                "type": "string",
-                                "description": "Knowledge base ID",
-                            },
-                            "content": {
-                                "type": "string",
-                                "description": "Fact content",
-                            },
-                            "parent_id": {
-                                "type": "string",
-                                "description": "Parent fact ID (optional)",
-                            },
-                            "metadata": {
-                                "type": "object",
-                                "description": "Additional metadata",
-                            },
-                        },
-                        "required": ["user_id", "kb_id", "content"],
-                    },
-                ),
-                Tool(
-                    name="search_facts",
-                    description="Search facts in a knowledge base",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "user_id": {"type": "string", "description": "User ID"},
-                            "kb_id": {
-                                "type": "string",
-                                "description": "Knowledge base ID",
-                            },
-                            "query": {"type": "string", "description": "Search query"},
-                            "limit": {
-                                "type": "integer",
-                                "description": "Number of results",
-                                "default": 10,
-                            },
-                        },
-                        "required": ["user_id", "kb_id", "query"],
-                    },
-                ),
-                Tool(
-                    name="summarize_for_knowledge",
-                    description="Analyze content and generate knowledge update instructions",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "content": {
-                                "type": "string",
-                                "description": "Content to analyze",
-                            },
-                            "context": {
-                                "type": "string",
-                                "description": "Additional context",
-                            },
-                            "skip_summarization": {
-                                "type": "boolean",
-                                "description": "Skip summarization",
-                                "default": False,
-                            },
-                            "provided_summary": {
-                                "type": "string",
-                                "description": "Pre-made summary",
-                            },
-                        },
-                        "required": ["content"],
+                        "required": ["action", "user_id"],
                     },
                 ),
             ]
@@ -213,53 +104,67 @@ class MCPMemoryServer:
         ) -> list[TextContent]:
             """Handle tool calls."""
             try:
-                if name == "remember":
-                    result = await self._handle_remember(arguments or {})
-                elif name == "recall":
-                    result = await self._handle_recall(arguments or {})
-                elif name == "create_project":
-                    result = await self._handle_create_project(arguments or {})
-                elif name == "create_knowledge_base":
-                    result = await self._handle_create_knowledge_base(arguments or {})
-                elif name == "add_fact":
-                    result = await self._handle_add_fact(arguments or {})
-                elif name == "search_facts":
-                    result = await self._handle_search_facts(arguments or {})
-                elif name == "summarize_for_knowledge":
-                    result = await self._handle_summarize_for_knowledge(arguments or {})
+                if name != "memory":
+                    return [TextContent(type="text", text=json.dumps({"error": f"Unknown tool: {name}"}))]
+
+                args = arguments or {}
+                action = args.get("action")
+
+                if action == "remember":
+                    result = await self._handle_remember(args)
+                elif action == "recall":
+                    result = await self._handle_recall(args)
+                elif action == "delete":
+                    result = await self._handle_delete_memory(args)
+                elif action == "create_project":
+                    result = await self._handle_create_project(args)
+                elif action == "create_kb":
+                    result = await self._handle_create_knowledge_base(args)
+                elif action == "add_fact":
+                    result = await self._handle_add_fact(args)
+                elif action == "search_facts":
+                    result = await self._handle_search_facts(args)
+                elif action == "delete_fact":
+                    result = await self._handle_delete_fact(args)
+                elif action == "summarize":
+                    result = await self._handle_summarize_for_knowledge(args)
                 else:
-                    result = {"error": f"Unknown tool: {name}"}
+                    return [TextContent(type="text", text=json.dumps({"error": f"Unknown action: {action}"}))]
 
                 return [TextContent(type="text", text=json.dumps(result, indent=2))]
             except Exception as e:
-                logger.error(f"Error handling tool {name}: {e}")
+                logger.error(f"Error handling memory action {arguments.get('action')}: {e}")
                 return [TextContent(type="text", text=json.dumps({"error": str(e)}))]
 
     async def _handle_remember(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Handle remember tool."""
+        """Handle remember action."""
         user_id = args["user_id"]
-        project_id = args["project_id"]
-        content = args["content"]
+        project_id = args.get("project_id", "default")
+        content = args.get("content")
+        if not content:
+            raise ValueError("content is required for remember action")
+            
         metadata = args.get("metadata", {})
         importance = args.get("importance", 1.0)
 
-        # Ensure user's memory table exists
-        self.db_client.create_memories_table(user_id)
-
-        # Generate embedding
-        embedding = self.embedding_service.embed_text(content)[0]
-
-        # Store memory
+        # Run embedding generation in thread pool
+        embedding = (await asyncio.to_thread(self.embedding_service.embed_text, content))[0]
         memory_id = str(uuid4())
-        self.db_client.add_memory(
-            memory_id=memory_id,
-            user_id=user_id,
-            project_id=project_id,
-            content=content,
-            embedding=embedding,
-            metadata=metadata,
-            importance=importance,
-        )
+
+        # Run DB operations in thread pool
+        def _store():
+            self.db_client.create_memories_table(user_id)
+            self.db_client.add_memory(
+                memory_id=memory_id,
+                user_id=user_id,
+                project_id=project_id,
+                content=content,
+                embedding=embedding,
+                metadata=metadata,
+                importance=importance,
+            )
+
+        await asyncio.to_thread(_store)
 
         return {
             "success": True,
@@ -268,17 +173,21 @@ class MCPMemoryServer:
         }
 
     async def _handle_recall(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Handle recall tool."""
+        """Handle recall action."""
         user_id = args["user_id"]
         project_id = args.get("project_id")
-        query = args["query"]
+        query = args.get("query")
+        if not query:
+            raise ValueError("query is required for recall action")
+            
         limit = args.get("limit", 10)
 
         # Generate query embedding
-        query_embedding = self.embedding_service.embed_text(query)[0]
+        query_embedding = (await asyncio.to_thread(self.embedding_service.embed_text, query))[0]
 
         # Search memories
-        results_df = self.db_client.search_memories(
+        results_df = await asyncio.to_thread(
+            self.db_client.search_memories,
             user_id=user_id,
             query_embedding=query_embedding,
             project_id=project_id,
@@ -287,15 +196,17 @@ class MCPMemoryServer:
 
         # Convert results
         memories = []
-        if not results_df.is_empty():
+        if isinstance(results_df, list):
+             memories = results_df # It's a list of dicts from sqlite client fallback or non-polars return
+        elif not results_df.is_empty():
             for row in results_df.to_dicts():
                 memories.append(
                     {
-                        "memory_id": row["memory_id"],
-                        "content": row["content"],
-                        "metadata": json.loads(row.get("metadata", "{}")),
+                        "memory_id": row.get("memory_id"),
+                        "content": row.get("content"),
+                        "metadata": json.loads(row.get("metadata", "{}")) if isinstance(row.get("metadata"), str) else row.get("metadata", {}),
                         "importance": row.get("importance", 1.0),
-                        "similarity_score": row.get("_similarity", 0.0),
+                        "similarity_score": row.get("_similarity", row.get("similarity_score", 0.0)),
                     }
                 )
 
@@ -305,16 +216,41 @@ class MCPMemoryServer:
             "count": len(memories),
         }
 
-    async def _handle_create_project(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Handle create project tool."""
+    async def _handle_delete_memory(self, args: dict[str, Any]) -> dict[str, Any]:
+        """Handle delete memory action."""
         user_id = args["user_id"]
-        name = args["name"]
+        project_id = args.get("project_id", "default")
+        memory_id = args.get("id")
+        
+        if not memory_id:
+            raise ValueError("id is required for delete action")
+
+        success = await asyncio.to_thread(
+            self.db_client.delete_memory,
+            memory_id=memory_id,
+            user_id=user_id,
+            project_id=project_id
+        )
+
+        return {
+            "success": success,
+            "message": "Memory deleted" if success else "Memory not found"
+        }
+
+    async def _handle_create_project(self, args: dict[str, Any]) -> dict[str, Any]:
+        """Handle create project action."""
+        user_id = args["user_id"]
+        name = args.get("name")
+        if not name:
+             raise ValueError("name is required for create_project action")
+             
         description = args.get("description", "")
         metadata = args.get("metadata", {})
 
-        # Create project
         project_id = str(uuid4())
-        self.db_client.create_project(
+        
+        await asyncio.to_thread(
+            self.db_client.create_project,
             project_id=project_id,
             user_id=user_id,
             name=name,
@@ -331,15 +267,19 @@ class MCPMemoryServer:
     async def _handle_create_knowledge_base(
         self, args: dict[str, Any]
     ) -> dict[str, Any]:
-        """Handle create knowledge base tool."""
+        """Handle create knowledge base action."""
         user_id = args["user_id"]
-        project_id = args["project_id"]
-        name = args["name"]
+        project_id = args.get("project_id", "default")
+        name = args.get("name")
+        if not name:
+             raise ValueError("name is required for create_kb action")
+             
         description = args.get("description", "")
 
-        # Create knowledge base
         kb_id = str(uuid4())
-        self.db_client.create_knowledge_base(
+        
+        await asyncio.to_thread(
+            self.db_client.create_knowledge_base,
             kb_id=kb_id,
             user_id=user_id,
             project_id=project_id,
@@ -354,18 +294,23 @@ class MCPMemoryServer:
         }
 
     async def _handle_add_fact(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Handle add fact tool."""
-        kb_id = args["kb_id"]
-        content = args["content"]
+        """Handle add fact action."""
+        kb_id = args.get("kb_id")
+        if not kb_id:
+             raise ValueError("kb_id is required for add_fact action")
+             
+        content = args.get("content")
+        if not content:
+             raise ValueError("content is required for add_fact action")
+             
         parent_id = args.get("parent_id")
         metadata = args.get("metadata", {})
 
-        # Generate embedding
-        embedding = self.embedding_service.embed_text(content)[0]
-
-        # Add fact
+        embedding = (await asyncio.to_thread(self.embedding_service.embed_text, content))[0]
         fact_id = str(uuid4())
-        self.db_client.add_fact(
+        
+        await asyncio.to_thread(
+            self.db_client.add_fact,
             fact_id=fact_id,
             kb_id=kb_id,
             content=content,
@@ -381,32 +326,38 @@ class MCPMemoryServer:
         }
 
     async def _handle_search_facts(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Handle search facts tool."""
-        kb_id = args["kb_id"]
-        query = args["query"]
+        """Handle search facts action."""
+        kb_id = args.get("kb_id")
+        if not kb_id:
+             raise ValueError("kb_id is required for search_facts action")
+             
+        query = args.get("query")
+        if not query:
+             raise ValueError("query is required for search_facts action")
+             
         limit = args.get("limit", 10)
 
-        # Generate query embedding
-        query_embedding = self.embedding_service.embed_text(query)[0]
+        query_embedding = (await asyncio.to_thread(self.embedding_service.embed_text, query))[0]
 
-        # Search facts
-        results_df = self.db_client.search_facts(
+        results_df = await asyncio.to_thread(
+            self.db_client.search_facts,
             kb_id=kb_id,
             query_embedding=query_embedding,
             limit=limit,
         )
 
-        # Convert results
         facts = []
-        if not results_df.is_empty():
+        if isinstance(results_df, list):
+            facts = results_df
+        elif not results_df.is_empty():
             for row in results_df.to_dicts():
                 facts.append(
                     {
-                        "fact_id": row["fact_id"],
-                        "content": row["content"],
+                        "fact_id": row.get("fact_id"),
+                        "content": row.get("content"),
                         "parent_id": row.get("parent_id"),
-                        "metadata": json.loads(row.get("metadata", "{}")),
-                        "similarity_score": row.get("_similarity", 0.0),
+                        "metadata": json.loads(row.get("metadata", "{}")) if isinstance(row.get("metadata"), str) else row.get("metadata", {}),
+                        "similarity_score": row.get("_similarity", row.get("similarity_score", 0.0)),
                     }
                 )
 
@@ -416,17 +367,40 @@ class MCPMemoryServer:
             "count": len(facts),
         }
 
+    async def _handle_delete_fact(self, args: dict[str, Any]) -> dict[str, Any]:
+        """Handle delete fact action."""
+        kb_id = args.get("kb_id")
+        fact_id = args.get("id")
+        if not kb_id or not fact_id:
+             raise ValueError("kb_id and id are required for delete_fact action")
+
+        success = await asyncio.to_thread(
+            self.db_client.delete_fact,
+            fact_id=fact_id,
+            knowledge_base_id=kb_id
+        )
+
+        return {
+            "success": success,
+            "message": "Fact deleted" if success else "Fact not found"
+        }
+
     async def _handle_summarize_for_knowledge(
         self, args: dict[str, Any]
     ) -> dict[str, Any]:
-        """Handle summarize for knowledge tool."""
-        content = args["content"]
+        """Handle summarize for knowledge action."""
+        content = args.get("content")
+        if not content:
+             raise ValueError("content is required for summarize action")
+             
         context = args.get("context")
         skip_summarization = args.get("skip_summarization", False)
         provided_summary = args.get("provided_summary")
 
-        # Use LLM service to generate knowledge instructions
-        result = self.llm_service.summarize_for_knowledge(
+        # LLM service might be IO bound depending on implementation, assume safe to verify async later or wrap now
+        # Wrapping just in case
+        result = await asyncio.to_thread(
+            self.llm_service.summarize_for_knowledge,
             content=content,
             context=context,
             skip_summarization=skip_summarization,
@@ -452,8 +426,10 @@ class MCPMemoryServer:
 
 
 def main() -> None:
-    """Main entry point for MCP server."""
-    import asyncio
-
+    """Run the MCP memory server."""
     server = MCPMemoryServer()
     asyncio.run(server.run())
+
+
+if __name__ == "__main__":
+    main()

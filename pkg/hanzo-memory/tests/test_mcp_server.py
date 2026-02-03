@@ -11,7 +11,7 @@ from hanzo_memory.mcp.server import MCPMemoryServer
 def mcp_server():
     """Create MCP server instance."""
     with (
-        patch("hanzo_memory.mcp.server.get_client"),
+        patch("hanzo_memory.mcp.server.get_db_client"),
         patch("hanzo_memory.mcp.server.EmbeddingService"),
         patch("hanzo_memory.mcp.server.LLMService"),
     ):
