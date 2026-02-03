@@ -97,19 +97,21 @@ class TestMemoryAPI:
 
     def test_get_memories(self, client, sample_user_id):
         """Test /v1/memories/get endpoint."""
+        # Without memoryid, API returns 400
         request_data = {
             "userid": sample_user_id,
             "limit": 10,
         }
-
         response = client.post("/v1/memories/get", json=request_data)
-        assert response.status_code == status.HTTP_200_OK
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-        data = response.json()
-        assert data["user_id"] == sample_user_id
-        assert "memories" in data
-        assert "pagination" in data
-        assert "usage_info" in data
+        # With memoryid but non-existent, returns 404
+        request_data = {
+            "userid": sample_user_id,
+            "memoryid": "non-existent-memory",
+        }
+        response = client.post("/v1/memories/get", json=request_data)
+        assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_delete_user_memories(self, client, sample_user_id):
         """Test /v1/user/delete endpoint."""

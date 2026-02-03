@@ -61,7 +61,7 @@ class MemoryWithScore(Memory):
 class MemoryResponse(BaseModel):
     """Memory response model with search results."""
 
-    memory: Memory = Field(..., description="Memory object")
+    memory: Memory | None = Field(None, description="Memory object")
     similarity: float | None = Field(None, description="Similarity score")
     relevance_score: float | None = Field(None, description="Relevance score")
 
