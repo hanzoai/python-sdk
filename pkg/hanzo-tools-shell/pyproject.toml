@@ -17,6 +17,7 @@ dependencies = [
     "mcp>=1.25.0",
     "pydantic>=2.12.5",
     "tiktoken>=0.8.0",
+    "psutil>=6.1.1",
 ]
 
 [project.entry-points."hanzo.tools"]

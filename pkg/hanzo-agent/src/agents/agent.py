@@ -14,6 +14,7 @@ from .items import ItemHelpers
 from .logger import logger
 from .model_settings import ModelSettings
 from .models.interface import Model
+from .reflexion import ReflexionEngine
 from .run_context import RunContextWrapper, TContext
 from .tool import Tool, function_tool
 
@@ -75,7 +76,15 @@ class Agent(Generic[TContext]):
     """Configures model-specific tuning parameters (e.g. temperature, top_p).
     """
 
-    tools: list[Tool] = field(default_factory=list)
+    handoffs: list[str | Agent[TContext] | Handoff] = field(default_factory=list)
+    """A list of agents that this agent can handoff to."""
+
+    reflexion: ReflexionEngine | None = None
+    """The reflexion engine for self-correction."""
+
+    tools: list[Tool | Callable[..., Any] | Callable[..., Awaitable[Any]]] = field(
+        default_factory=list
+    )
     """A list of tools that the agent can use."""
 
     input_guardrails: list[InputGuardrail[TContext]] = field(default_factory=list)
