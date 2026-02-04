@@ -1,153 +1,170 @@
 """Process management tool (ps).
 
-List, monitor, and control background processes.
-Clean UNIX-style API.
+List, monitor, and control background processes system-wide.
 """
 
 import signal
-import asyncio
-from typing import Any, Dict, List, Optional, Annotated, override
+import sys
+import psutil
+from typing import Any, Dict, List, Optional, Annotated, override, Literal
 from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass
 
-from hanzo_async import read_file, path_exists
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout
-from hanzo_tools.shell.base_process import ProcessManager
 
 
 @dataclass
 class ProcessInfo:
     """Process information."""
 
-    id: str
     pid: int
-    cmd: str
-    running: bool
-    exit_code: Optional[int] = None
-    started: Optional[datetime] = None
-    log_file: Optional[Path] = None
+    name: str
+    username: str
+    status: str
+    cpu_percent: float
+    memory_mb: float
+    cmdline: str
+    create_time: datetime
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary."""
+        return {
+            "pid": self.pid,
+            "name": self.name,
+            "username": self.username,
+            "status": self.status,
+            "cpu_percent": self.cpu_percent,
+            "memory_mb": self.memory_mb,
+            "cmdline": self.cmdline,
+            "create_time": self.create_time.isoformat(),
+        }
 
 
 class PsTool(BaseTool):
-    """Process management - list, kill, logs.
+    """Process management - list, kill, and monitor system processes.
 
     USAGE:
 
-    ps()                  # List all processes
-    ps(id="abc123")       # Get specific process info
-    ps(kill="abc123")     # Kill process (SIGTERM)
-    ps(kill="abc123", signal="KILL")  # Kill with SIGKILL
-    ps(logs="abc123")     # Get process logs
-    ps(logs="abc123", n=50)  # Last 50 lines
+    ps(action="list")                     # List all processes (top by CPU)
+    ps(action="list", sort_by="memory")   # List all processes (top by RAM)
+    ps(action="list", user="root")        # List processes for user
+    ps(action="kill", pid=1234)           # Kill process 1234 (SIGTERM)
+    ps(action="kill", pid=1234, sig=9)    # Kill with SIGKILL
+    ps(action="get", pid=1234)            # Get info for specific PID
     """
 
     name = "ps"
 
-    _instance: Optional["PsTool"] = None
-    _process_manager: Optional[ProcessManager] = None
-
-    def __new__(cls):
-        """Singleton - share process manager across instances."""
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._process_manager = ProcessManager()
-        return cls._instance
-
-    def __init__(self):
-        super().__init__()
-        self.process_manager = self._process_manager
-
     @property
     @override
     def description(self) -> str:
-        return """Process management - list, kill, and read logs.
+        return """Process management - list, kill, and monitor system processes.
 
 USAGE:
-  ps                    List all background processes
-  ps --id ID            Get specific process info
-  ps --kill ID          Kill process (SIGTERM)
-  ps --kill ID --sig 9  Kill with specific signal
-  ps --logs ID          Get process stdout/stderr
-  ps --logs ID --n 50   Last N lines of logs"""
+  ps(action="list")                     # List top processes by CPU
+  ps(action="list", sort_by="memory")   # List top processes by Memory
+  ps(action="list", limit=20)           # List top 20 processes
+  ps(action="get", pid=1234)            # Get info for process 1234
+  ps(action="kill", pid=1234)           # Kill process 1234 (SIGTERM)
+"""
 
-    def _list_processes(self) -> List[ProcessInfo]:
-        """Get all tracked processes."""
-        processes = []
-        for proc_id, info in self.process_manager.list_processes().items():
-            processes.append(
-                ProcessInfo(
-                    id=proc_id,
-                    pid=info.get("pid", 0),
-                    cmd=info.get("cmd", ""),
-                    running=info.get("running", False),
-                    exit_code=info.get("return_code"),
-                    log_file=Path(info["log_file"]) if info.get("log_file") else None,
+    def _get_process_info(self, proc: psutil.Process) -> Optional[ProcessInfo]:
+        """Get process info safely."""
+        try:
+            with proc.oneshot():
+                return ProcessInfo(
+                    pid=proc.pid,
+                    name=proc.name(),
+                    username=proc.username(),
+                    status=proc.status(),
+                    cpu_percent=proc.cpu_percent(),
+                    memory_mb=proc.memory_info().rss / 1024 / 1024,
+                    cmdline=" ".join(proc.cmdline()),
+                    create_time=datetime.fromtimestamp(proc.create_time()),
                 )
-            )
-        return processes
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            return None
 
-    def _get_process(self, proc_id: str) -> Optional[ProcessInfo]:
-        """Get specific process info."""
-        for p in self._list_processes():
-            if p.id == proc_id or str(p.pid) == proc_id:
-                return p
-        return None
+    def _list_processes(
+        self,
+        sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu",
+        limit: int = 50,
+        user: Optional[str] = None
+    ) -> List[ProcessInfo]:
+        """List system processes."""
+        processes = []
+        for proc in psutil.process_iter(['pid', 'name', 'username', 'status', 'cpu_percent', 'memory_info', 'cmdline', 'create_time']):
+            try:
+                # Filter by user if requested
+                if user and proc.info['username'] != user:
+                    continue
 
-    async def _kill_process(self, proc_id: str, sig: int = signal.SIGTERM) -> str:
+                info = ProcessInfo(
+                    pid=proc.info['pid'],
+                    name=proc.info['name'] or "",
+                    username=proc.info['username'] or "",
+                    status=proc.info['status'] or "",
+                    cpu_percent=proc.info['cpu_percent'] or 0.0,
+                    memory_mb=(proc.info['memory_info'].rss / 1024 / 1024) if proc.info['memory_info'] else 0.0,
+                    cmdline=" ".join(proc.info['cmdline'] or []),
+                    create_time=datetime.fromtimestamp(proc.info['create_time']),
+                )
+                processes.append(info)
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+
+        # Sort
+        if sort_by == "cpu":
+            processes.sort(key=lambda x: x.cpu_percent, reverse=True)
+        elif sort_by == "memory":
+            processes.sort(key=lambda x: x.memory_mb, reverse=True)
+        elif sort_by == "pid":
+            processes.sort(key=lambda x: x.pid)
+        elif sort_by == "name":
+            processes.sort(key=lambda x: x.name.lower())
+
+        return processes[:limit]
+
+    def _kill_process(self, pid: int, sig: int = signal.SIGTERM) -> str:
         """Kill a process."""
-        process = self.process_manager.get_process(proc_id)
-        if not process:
-            return f"Process not found: {proc_id}"
-
         try:
+            process = psutil.Process(pid)
             process.send_signal(sig)
-            sig_name = signal.Signals(sig).name
-            return f"Sent {sig_name} to {proc_id} (PID {process.pid})"
-        except ProcessLookupError:
-            return f"Process {proc_id} already terminated"
+            
+            try:
+                sig_name = signal.Signals(sig).name
+            except Exception:
+                sig_name = str(sig)
+                
+            return f"Sent signal {sig_name} to PID {pid} ({process.name()})"
+        except psutil.NoSuchProcess:
+            return f"Process with PID {pid} not found"
+        except psutil.AccessDenied:
+            return f"Access denied to kill PID {pid}"
         except Exception as e:
-            return f"Failed to kill {proc_id}: {e}"
-
-    async def _get_logs(self, proc_id: str, n: int = 100) -> str:
-        """Get process logs."""
-        import asyncio
-
-        log_file = self.process_manager.get_log_file(proc_id)
-        if not log_file:
-            return f"No logs for process: {proc_id}"
-
-        # Check file exists asynchronously
-        if not await path_exists(log_file):
-            return f"No logs for process: {proc_id}"
-
-        try:
-            content = await read_file(log_file)
-            lines = content.splitlines()
-
-            if len(lines) > n:
-                lines = lines[-n:]
-
-            return "\n".join(lines)
-        except Exception as e:
-            return f"Error reading logs: {e}"
+            return f"Error killing PID {pid}: {e}"
 
     def _format_list(self, processes: List[ProcessInfo]) -> str:
         """Format process list for display."""
         if not processes:
-            return "No background processes"
+            return "No processes found"
 
-        lines = ["PID     ID              STATUS    CMD"]
-        lines.append("-" * 60)
+        # Headers
+        header = f"{'PID':<8} {'USER':<15} {'%CPU':<6} {'MEM(MB)':<10} {'STATUS':<10} {'COMMAND'}"
+        lines = [header, "-" * len(header)]
 
         for p in processes:
-            status = "running" if p.running else f"exit({p.exit_code})"
-            cmd = p.cmd[:30] + "..." if len(p.cmd) > 30 else p.cmd
-            lines.append(f"{p.pid:<7} {p.id:<15} {status:<9} {cmd}")
+            cmd = p.cmdline
+            if len(cmd) > 50:
+                cmd = cmd[:47] + "..."
+            
+            line = f"{p.pid:<8} {p.username[:14]:<15} {p.cpu_percent:<6.1f} {p.memory_mb:<10.1f} {p.status[:9]:<10} {cmd}"
+            lines.append(line)
 
         return "\n".join(lines)
 
@@ -156,40 +173,55 @@ USAGE:
     async def call(
         self,
         ctx: MCPContext,
-        id: Optional[str] = None,
-        kill: Optional[str] = None,
-        logs: Optional[str] = None,
-        sig: int = 15,  # SIGTERM
-        n: int = 100,
+        action: Literal["list", "kill", "get"] = "list",
+        pid: Optional[int] = None,
+        sig: int = 15,
+        sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu",
+        limit: int = 50,
+        user: Optional[str] = None,
         **kwargs,
     ) -> str:
         """Process management.
 
         Args:
             ctx: MCP context
-            id: Get specific process info
-            kill: Kill process by ID
-            logs: Get logs for process
+            action: Action to perform (list, kill, get)
+            pid: Process ID for kill/get
             sig: Signal number for kill (default: 15/SIGTERM)
-            n: Number of log lines to show
-
-        Returns:
-            Process information or action result
+            sort_by: Sort field for list (cpu, memory, pid, name)
+            limit: Limit number of results for list (default: 50)
+            user: Filter by username
         """
-        if kill:
-            return await self._kill_process(kill, sig)
+        if action == "kill":
+            if pid is None:
+                return "Error: pid is required for kill action"
+            return self._kill_process(pid, sig)
 
-        if logs:
-            return await self._get_logs(logs, n)
+        elif action == "get":
+            if pid is None:
+                return "Error: pid is required for get action"
+            try:
+                proc = psutil.Process(pid)
+                info = self._get_process_info(proc)
+                if not info:
+                    return f"Process {pid} not found or access denied"
+                
+                return (
+                    f"PID: {info.pid}\n"
+                    f"Name: {info.name}\n"
+                    f"User: {info.username}\n"
+                    f"Status: {info.status}\n"
+                    f"CPU: {info.cpu_percent}%\n"
+                    f"Memory: {info.memory_mb:.1f} MB\n"
+                    f"Created: {info.create_time}\n"
+                    f"Command: {info.cmdline}"
+                )
+            except psutil.NoSuchProcess:
+                return f"Process {pid} not found"
 
-        if id:
-            proc = self._get_process(id)
-            if not proc:
-                return f"Process not found: {id}"
-            status = "running" if proc.running else f"exited ({proc.exit_code})"
-            return f"ID: {proc.id}\nPID: {proc.pid}\nStatus: {status}\nCommand: {proc.cmd}"
-
-        return self._format_list(self._list_processes())
+        else:  # list
+            processes = self._list_processes(sort_by, limit, user)
+            return self._format_list(processes)
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
@@ -197,15 +229,16 @@ USAGE:
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def ps_handler(
-            id: Annotated[Optional[str], Field(description="Get specific process by ID", default=None)] = None,
-            kill: Annotated[Optional[str], Field(description="Kill process by ID", default=None)] = None,
-            logs: Annotated[Optional[str], Field(description="Get logs for process ID", default=None)] = None,
+        async def ps(
+            action: Annotated[Literal["list", "kill", "get"], Field(description="Action to perform", default="list")] = "list",
+            pid: Annotated[Optional[int], Field(description="Process ID for kill/get", default=None)] = None,
             sig: Annotated[int, Field(description="Signal for kill (default: 15/SIGTERM)", default=15)] = 15,
-            n: Annotated[int, Field(description="Number of log lines", default=100)] = 100,
+            sort_by: Annotated[Literal["cpu", "memory", "pid", "name"], Field(description="Sort field for list", default="cpu")] = "cpu",
+            limit: Annotated[int, Field(description="Number of processes to list", default=50)] = 50,
+            user: Annotated[Optional[str], Field(description="Filter by username", default=None)] = None,
             ctx: MCPContext = None,
         ) -> str:
-            return await tool_self.call(ctx, id=id, kill=kill, logs=logs, sig=sig, n=n)
+            return await tool_self.call(ctx, action=action, pid=pid, sig=sig, sort_by=sort_by, limit=limit, user=user)
 
 
 # Singleton instance

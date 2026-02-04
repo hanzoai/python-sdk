@@ -3,12 +3,14 @@ name = "hanzo-agent"
 version = "0.0.4"
 description = "Hanzo AI SDK"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [
     { name = "Hanzo AI", email = "support@hanzo.ai" },
 ]
 dependencies = [
+    "hanzo-memory>=1.0.0",
+    "hanzo-async>=0.1.0",
     "openai>=1.66.2",
     "pydantic>=2.10, <3",
     "griffe>=1.5.6, <2",
@@ -21,9 +23,6 @@ classifiers = [
     "Typing :: Typed",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",

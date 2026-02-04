@@ -643,6 +643,12 @@ class OpenAPIClient:
         Returns:
             OperationListResult with matching operations
         """
+        # Ensure spec is parsed if we have it
+        if self._spec and not self._operations:
+            logger.debug(f"Spec loaded but operations empty, re-parsing for {self.provider}")
+            self._parsed = False
+            self._parse_spec()
+
         ops = list(self._operations.values())
 
         # Apply filters

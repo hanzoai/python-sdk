@@ -3,6 +3,10 @@ import sys
 from typing import Literal
 
 from openai import AsyncOpenAI
+import hanzo_async
+
+# Configure unified event loop (uvloop)
+hanzo_async.configure_loop()
 
 from . import _config
 from .agent import Agent
@@ -140,6 +144,7 @@ from .orchestration import (
     StreamUpdate,
     UpdateType,
 )
+from .reflexion import ReflexionEngine, Rule
 
 
 def set_default_openai_key(key: str, use_for_tracing: bool = True) -> None:
@@ -320,4 +325,6 @@ __all__ = [
     "UIStreamer",
     "StreamUpdate",
     "UpdateType",
+    "ReflexionEngine",
+    "Rule",
 ]

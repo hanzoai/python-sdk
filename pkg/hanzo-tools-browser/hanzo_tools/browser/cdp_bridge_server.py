@@ -2,8 +2,8 @@
 CDP Bridge Server for Hanzo Browser Extension Integration.
 
 This server acts as a bridge between:
-1. hanzo-mcp's browser tool (Playwright)
-2. The Hanzo browser extension (Chrome/Firefox)
+1. hanzo-mcp's browser tool (via HTTP API on port 9224)
+2. The Hanzo browser extension (via WebSocket on port 9223)
 
 MULTI-CLIENT SUPPORT:
 - Multiple browser extensions can connect simultaneously
@@ -12,18 +12,17 @@ MULTI-CLIENT SUPPORT:
 - Commands can specify client_id or target_id for routing
 - Default client = most recently active
 
-Usage:
-    # Start the bridge server (typically on port 9223)
-    python -m hanzo_tools.browser.cdp_bridge_server
+ARCHITECTURE:
+- WebSocket server (port 9223): Browser extensions connect here
+- HTTP API server (port 9224): hanzo-mcp sends commands here
 
-    # Or programmatically
-    from hanzo_tools.browser.cdp_bridge_server import CDPBridgeServer
-    server = CDPBridgeServer(port=9223)
-    await server.start()
+The bridge auto-starts when hanzo-mcp loads browser tools.
+No manual setup required.
 
 Environment Variables:
     HANZO_CDP_BRIDGE_PORT: Port for the WebSocket server (default: 9223)
     HANZO_CDP_BRIDGE_HOST: Host to bind to (default: localhost)
+    HANZO_CDP_HTTP_PORT: Port for the HTTP API (default: 9224)
 """
 
 import asyncio
@@ -43,6 +42,14 @@ try:
 except ImportError:
     WEBSOCKETS_AVAILABLE = False
     WebSocketServerProtocol = Any
+
+# Try to import aiohttp for HTTP API server
+try:
+    from aiohttp import web
+    AIOHTTP_AVAILABLE = True
+except ImportError:
+    AIOHTTP_AVAILABLE = False
+    web = None
 
 logger = logging.getLogger(__name__)
 
@@ -71,18 +78,24 @@ class ExtensionClient:
 
 
 class CDPBridgeServer:
-    """WebSocket server that bridges hanzo-mcp and browser extensions.
+    """WebSocket + HTTP server that bridges hanzo-mcp and browser extensions.
 
     Supports multiple browser extension clients simultaneously.
+
+    Architecture:
+    - WebSocket (port 9223): Browser extensions connect here as CDP providers
+    - HTTP API (port 9224): hanzo-mcp sends commands here
     """
 
     def __init__(
         self,
         host: str = "localhost",
         port: int = 9223,
+        http_port: int = 9224,
     ):
         self.host = host
         self.port = port
+        self.http_port = http_port
 
         # Multi-client registry: client_id -> ExtensionClient
         self.extension_clients: dict[str, ExtensionClient] = {}
@@ -93,6 +106,8 @@ class CDPBridgeServer:
         self.pending_requests: dict[int, asyncio.Future] = {}
         self.request_id = 0
         self._server = None
+        self._http_server = None
+        self._http_runner = None
 
     @property
     def default_client_id(self) -> Optional[str]:
@@ -112,26 +127,177 @@ class CDPBridgeServer:
         return self.extension_clients.get(cid) if cid else None
 
     async def start(self) -> None:
-        """Start the WebSocket server."""
+        """Start the WebSocket and HTTP servers."""
         if not WEBSOCKETS_AVAILABLE:
             raise ImportError(
                 "websockets package required for CDP bridge. "
                 "Install with: pip install websockets"
             )
 
+        # Start WebSocket server for browser extensions
         self._server = await ws_serve(
             self._handle_connection,
             self.host,
             self.port,
         )
-        logger.info(f"CDP Bridge Server started on ws://{self.host}:{self.port}")
+        logger.info(f"CDP Bridge WebSocket started on ws://{self.host}:{self.port}")
+
+        # Start HTTP API server for hanzo-mcp
+        if AIOHTTP_AVAILABLE:
+            await self._start_http_server()
+        else:
+            logger.warning("aiohttp not installed, HTTP API disabled. Install with: pip install aiohttp")
+
+    async def _start_http_server(self) -> None:
+        """Start the HTTP API server."""
+        app = web.Application()
+        app.router.add_get("/status", self._http_status)
+        app.router.add_post("/", self._http_command)
+        app.router.add_options("/", self._http_cors)  # CORS preflight
+
+        self._http_runner = web.AppRunner(app)
+        await self._http_runner.setup()
+        self._http_server = web.TCPSite(
+            self._http_runner,
+            self.host,
+            self.http_port
+        )
+        await self._http_server.start()
+        logger.info(f"CDP Bridge HTTP API started on http://{self.host}:{self.http_port}")
+
+    async def _http_cors(self, request: "web.Request") -> "web.Response":
+        """Handle CORS preflight requests."""
+        return web.Response(
+            status=200,
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+            }
+        )
+
+    async def _http_status(self, request: "web.Request") -> "web.Response":
+        """HTTP endpoint for status check."""
+        connected = len(self.extension_clients) > 0
+        return web.json_response({
+            "connected": connected,
+            "clients": len(self.extension_clients),
+            "default_client_id": self.default_client_id,
+        }, headers={"Access-Control-Allow-Origin": "*"})
+
+    async def _http_command(self, request: "web.Request") -> "web.Response":
+        """HTTP endpoint for sending commands to browser extension."""
+        try:
+            data = await request.json()
+        except Exception as e:
+            return web.json_response(
+                {"error": f"Invalid JSON: {e}"},
+                status=400,
+                headers={"Access-Control-Allow-Origin": "*"}
+            )
+
+        # Resolve target client
+        target_client = self._resolve_client(
+            client_id=data.get("client_id"),
+            target_id=data.get("target_id"),
+        )
+
+        if not target_client:
+            return web.json_response({
+                "error": "No browser extension connected"
+                    if not self.extension_clients
+                    else f"Client not found: {data.get('client_id') or data.get('target_id')}"
+            }, status=503, headers={"Access-Control-Allow-Origin": "*"})
+
+        # Update target client's last_active
+        target_client.last_active = time.time()
+
+        # Map HTTP action to CDP method
+        action = data.get("action", "")
+        method = self._action_to_method(action)
+        params = self._build_params(data)
+
+        # Forward to extension and wait for response
+        request_id = self._next_request_id()
+
+        future: asyncio.Future = asyncio.get_event_loop().create_future()
+        self.pending_requests[request_id] = future
+
+        try:
+            await target_client.websocket.send(json.dumps({
+                "id": request_id,
+                "method": method,
+                "params": params,
+            }))
+
+            # Wait for response with timeout
+            response = await asyncio.wait_for(future, timeout=30.0)
+
+            # Return result
+            return web.json_response({
+                "success": True,
+                "client_id": target_client.client_id,
+                "result": response.get("result", {}),
+            }, headers={"Access-Control-Allow-Origin": "*"})
+
+        except asyncio.TimeoutError:
+            self.pending_requests.pop(request_id, None)
+            return web.json_response({
+                "error": "Request timeout",
+                "client_id": target_client.client_id,
+            }, status=504, headers={"Access-Control-Allow-Origin": "*"})
+
+        except Exception as e:
+            self.pending_requests.pop(request_id, None)
+            return web.json_response({
+                "error": str(e),
+            }, status=500, headers={"Access-Control-Allow-Origin": "*"})
+
+    def _action_to_method(self, action: str) -> str:
+        """Map HTTP action to CDP method."""
+        action_map = {
+            "navigate": "Page.navigate",
+            "screenshot": "hanzo.screenshot",
+            "click": "hanzo.click",
+            "fill": "hanzo.fill",
+            "evaluate": "Runtime.evaluate",
+            "tabs": "Target.getTargets",
+            "status": "Browser.getVersion",
+        }
+        return action_map.get(action, action)
+
+    def _build_params(self, data: dict) -> dict:
+        """Build CDP params from HTTP request data."""
+        params = {}
+
+        # Common params
+        if "url" in data:
+            params["url"] = data["url"]
+        if "selector" in data:
+            params["selector"] = data["selector"]
+        if "value" in data:
+            params["value"] = data["value"]
+        if "text" in data:
+            params["text"] = data["text"]
+        if "code" in data or "expression" in data:
+            params["expression"] = data.get("code") or data.get("expression")
+        if "full_page" in data or "fullPage" in data:
+            params["fullPage"] = data.get("full_page") or data.get("fullPage")
+        if "tabId" in data or "tab_id" in data:
+            params["tabId"] = data.get("tabId") or data.get("tab_id")
+
+        return params
 
     async def stop(self) -> None:
-        """Stop the WebSocket server."""
+        """Stop the WebSocket and HTTP servers."""
+        if self._http_runner:
+            await self._http_runner.cleanup()
+            logger.info("CDP Bridge HTTP API stopped")
+
         if self._server:
             self._server.close()
             await self._server.wait_closed()
-            logger.info("CDP Bridge Server stopped")
+            logger.info("CDP Bridge WebSocket stopped")
 
     async def _handle_connection(
         self,
@@ -590,11 +756,15 @@ async def main():
     """Run the CDP bridge server."""
     host = os.environ.get("HANZO_CDP_BRIDGE_HOST", "localhost")
     port = int(os.environ.get("HANZO_CDP_BRIDGE_PORT", "9223"))
+    http_port = int(os.environ.get("HANZO_CDP_HTTP_PORT", "9224"))
 
-    server = CDPBridgeServer(host=host, port=port)
+    server = CDPBridgeServer(host=host, port=port, http_port=http_port)
     await server.start()
 
-    print(f"CDP Bridge Server running on ws://{host}:{port}")
+    print(f"CDP Bridge Server running:")
+    print(f"  WebSocket: ws://{host}:{port} (browser extensions connect here)")
+    print(f"  HTTP API:  http://{host}:{http_port} (hanzo-mcp sends commands here)")
+    print()
     print("Waiting for browser extension(s) to connect...")
     print("Supports multiple browsers simultaneously")
     print("Press Ctrl+C to stop")
