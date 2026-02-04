@@ -4,18 +4,25 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-mcp"
-version = "0.2.0"
-description = "MCP management tools for Hanzo AI - server add/remove/stats"
+version = "0.3.0"
+description = "MCP management tools for Hanzo AI - server management, dynamic proxy for external MCPs"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
-keywords = ["hanzo", "tools", "mcp", "ai"]
+keywords = ["hanzo", "tools", "mcp", "ai", "proxy", "platform"]
 dependencies = [
     "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",
+    "httpx>=0.27.0",
 ]
+
+[project.optional-dependencies]
+platform = ["httpx>=0.27.0"]
+
+[project.scripts]
+hanzo-platform = "hanzo_tools.mcp_tools.platform_auth:cli"
 
 [project.entry-points."hanzo.tools"]
 mcp_tools = "hanzo_tools.mcp_tools:TOOLS"

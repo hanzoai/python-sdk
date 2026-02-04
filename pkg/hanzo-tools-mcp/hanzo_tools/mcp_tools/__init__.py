@@ -5,6 +5,7 @@ Tools:
 - mcp_add: Add MCP servers
 - mcp_remove: Remove MCP servers
 - mcp_stats: MCP statistics
+- proxy: Dynamic MCP proxy for external servers (platform, github, cloudflare, etc.)
 
 Install:
     pip install hanzo-tools-mcp
@@ -48,6 +49,35 @@ except ImportError as e:
     logger.debug(f"McpStatsTool not available: {e}")
     McpStatsTool = None
 
+try:
+    from .proxy_tool import ProxyTool
+
+    _tools.append(ProxyTool)
+except ImportError as e:
+    logger.debug(f"ProxyTool not available: {e}")
+    ProxyTool = None
+
+# Proxy utilities for programmatic use
+try:
+    from .mcp_proxy import (
+        MCPProxyRegistry,
+        MCPServerConfig,
+        MCPServerConnection,
+        ProxiedTool,
+        enable_mcp_server,
+        call_mcp_tool,
+        BUILTIN_SERVERS,
+    )
+except ImportError as e:
+    logger.debug(f"MCP proxy utilities not available: {e}")
+    MCPProxyRegistry = None
+    MCPServerConfig = None
+    MCPServerConnection = None
+    ProxiedTool = None
+    enable_mcp_server = None
+    call_mcp_tool = None
+    BUILTIN_SERVERS = {}
+
 TOOLS = _tools
 
 __all__ = [
@@ -56,6 +86,15 @@ __all__ = [
     "McpAddTool",
     "McpRemoveTool",
     "McpStatsTool",
+    "ProxyTool",
+    # Proxy utilities
+    "MCPProxyRegistry",
+    "MCPServerConfig",
+    "MCPServerConnection",
+    "ProxiedTool",
+    "enable_mcp_server",
+    "call_mcp_tool",
+    "BUILTIN_SERVERS",
     "register_tools",
 ]
 
