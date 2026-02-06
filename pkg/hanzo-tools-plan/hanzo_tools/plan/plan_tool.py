@@ -18,6 +18,7 @@ import os
 import json
 import hashlib
 import re
+from datetime import datetime, timezone
 from typing import Any, ClassVar, Literal
 from dataclasses import dataclass, field
 from enum import Enum
@@ -38,6 +39,29 @@ class EffectClass(str, Enum):
     PURE = "pure"
     DETERMINISTIC = "deterministic"
     NONDETERMINISTIC = "nondeterministic"
+
+
+class StepStatus(str, Enum):
+    """Status for plan steps (Rust parity)."""
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+
+
+@dataclass
+class TrackedStep:
+    """A tracked plan step with status (Rust parity)."""
+    step: str
+    status: StepStatus = StepStatus.PENDING
+
+
+@dataclass
+class TrackedPlan:
+    """A tracked plan with name and steps (Rust parity)."""
+    name: str | None = None
+    steps: list[TrackedStep] = field(default_factory=list)
+    created_at: str | None = None
+    updated_at: str | None = None
 
 
 class Scope(str, Enum):
@@ -184,16 +208,21 @@ class PlanTool(BaseTool):
     - intent: Parse NL → IntentIR
     - route: IntentIR → Plan
     - compose: Plan → ExecGraph
+    - update: Track plan with step status (Rust parity)
     - execute: Run with audit (optional)
 
     This is the "permissive input → strict output" layer.
     """
 
     name: ClassVar[str] = "plan"
-    VERSION: ClassVar[str] = "0.1.0"
+    VERSION: ClassVar[str] = "0.2.0"
+
+    # In-memory tracked plan (matches Rust update_plan behavior)
+    _tracked_plan: TrackedPlan | None = None
 
     def __init__(self):
         super().__init__()
+        self._tracked_plan = None
         self._register_plan_actions()
 
     @property
@@ -201,6 +230,8 @@ class PlanTool(BaseTool):
         return """Unified plan orchestration tool (HIP-0300).
 
 Actions:
+- update: Track plan with step status (Rust parity - name, steps with status)
+- get: Get current tracked plan
 - intent: Parse natural language → IntentIR
 - route: Map IntentIR → Plan (canonical operator chain)
 - compose: Plan → ExecGraph (execution-ready DAG)
@@ -323,6 +354,122 @@ Turns permissive natural language input into strict canonical operator chains.
 
     def _register_plan_actions(self):
         """Register all plan actions."""
+
+        @self.action("update", "Update tracked plan with steps and status (Rust parity)")
+        async def update(
+            ctx: MCPContext,
+            name: str | None = None,
+            plan: list[dict] | None = None,
+        ) -> dict:
+            """Update the tracked plan with steps and their status.
+
+            This matches the Rust update_plan tool schema exactly.
+
+            Args:
+                name: Optional plan title (2-5 words)
+                plan: List of steps, each with:
+                    - step: Step description (required)
+                    - status: "pending" | "in_progress" | "completed"
+
+            Returns:
+                {"message": "Plan updated", "plan": {...}}
+
+            Example:
+                plan(action="update", name="Fix auth bug", plan=[
+                    {"step": "Identify the root cause", "status": "completed"},
+                    {"step": "Write failing test", "status": "in_progress"},
+                    {"step": "Implement fix", "status": "pending"},
+                    {"step": "Verify all tests pass", "status": "pending"}
+                ])
+            """
+            now = datetime.now(timezone.utc).isoformat()
+
+            # Parse steps
+            steps = []
+            if plan:
+                for item in plan:
+                    step_text = item.get("step", "")
+                    status_str = item.get("status", "pending")
+                    try:
+                        status = StepStatus(status_str)
+                    except ValueError:
+                        status = StepStatus.PENDING
+                    steps.append(TrackedStep(step=step_text, status=status))
+
+            # Update or create tracked plan
+            if self._tracked_plan is None:
+                self._tracked_plan = TrackedPlan(
+                    name=name,
+                    steps=steps,
+                    created_at=now,
+                    updated_at=now,
+                )
+            else:
+                if name is not None:
+                    self._tracked_plan.name = name
+                if steps:
+                    self._tracked_plan.steps = steps
+                self._tracked_plan.updated_at = now
+
+            return {
+                "message": "Plan updated",
+                "plan": {
+                    "name": self._tracked_plan.name,
+                    "steps": [
+                        {"step": s.step, "status": s.status.value}
+                        for s in self._tracked_plan.steps
+                    ],
+                    "created_at": self._tracked_plan.created_at,
+                    "updated_at": self._tracked_plan.updated_at,
+                },
+            }
+
+        @self.action("get", "Get current tracked plan")
+        async def get(
+            ctx: MCPContext,
+        ) -> dict:
+            """Get the current tracked plan.
+
+            Returns:
+                Current plan with name, steps, and timestamps
+            """
+            if self._tracked_plan is None:
+                return {"plan": None, "message": "No plan currently tracked"}
+
+            return {
+                "plan": {
+                    "name": self._tracked_plan.name,
+                    "steps": [
+                        {"step": s.step, "status": s.status.value}
+                        for s in self._tracked_plan.steps
+                    ],
+                    "created_at": self._tracked_plan.created_at,
+                    "updated_at": self._tracked_plan.updated_at,
+                },
+                "progress": {
+                    "total": len(self._tracked_plan.steps),
+                    "completed": sum(
+                        1 for s in self._tracked_plan.steps
+                        if s.status == StepStatus.COMPLETED
+                    ),
+                    "in_progress": sum(
+                        1 for s in self._tracked_plan.steps
+                        if s.status == StepStatus.IN_PROGRESS
+                    ),
+                    "pending": sum(
+                        1 for s in self._tracked_plan.steps
+                        if s.status == StepStatus.PENDING
+                    ),
+                },
+            }
+
+        @self.action("clear", "Clear tracked plan")
+        async def clear(
+            ctx: MCPContext,
+        ) -> dict:
+            """Clear the current tracked plan."""
+            self._tracked_plan = None
+            return {"message": "Plan cleared"}
 
         @self.action("intent", "Parse natural language to IntentIR")
         async def intent(
