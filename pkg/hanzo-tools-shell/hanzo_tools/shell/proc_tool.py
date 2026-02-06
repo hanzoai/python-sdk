@@ -84,6 +84,7 @@ class ProcTool(BaseTool):
 
 Actions:
 - exec: Execute command (shell: {shell_name})
+- wait: Wait for background process to complete (Rust parity)
 - ps: List processes
 - kill: Kill process
 - logs: Get process logs
@@ -98,8 +99,9 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
         @self.action("exec", "Execute command")
         async def exec_cmd(
             ctx: MCPContext,
-            command: str,
+            command: str | list[str],
             cwd: str | None = None,
+            workdir: str | None = None,  # Rust parity alias
             env: dict | None = None,
             timeout: int | None = None,
             shell: str | None = None,
@@ -109,8 +111,9 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             This is the ONE execution primitive per HIP-0300.
 
             Args:
-                command: Command to execute
+                command: Command to execute (string or array of strings for Rust parity)
                 cwd: Working directory
+                workdir: Alias for cwd (Rust parity)
                 env: Environment variables
                 timeout: Timeout in seconds (default: auto-background at 45s)
                 shell: Shell to use (default: detected shell)
@@ -120,6 +123,16 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             """
             if not command:
                 raise InvalidParamsError("Command is required", param="command")
+
+            # Support array format for Rust parity
+            if isinstance(command, list):
+                # Join array into shell command
+                import shlex
+                command = " ".join(shlex.quote(arg) for arg in command)
+
+            # Support workdir alias for Rust parity
+            if workdir and not cwd:
+                cwd = workdir
 
             # Resolve shell
             shell_path = shell or self._shell
@@ -178,6 +191,100 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                     code="INTERNAL_ERROR",
                     message=f"Execution failed: {e}",
                 )
+
+        @self.action("wait", "Wait for background process to complete (Rust parity)")
+        async def wait(
+            ctx: MCPContext,
+            proc_id: str,
+            timeout_ms: int | None = None,
+        ) -> dict:
+            """Wait for a background process to complete.
+
+            This matches the Rust wait tool schema.
+
+            Args:
+                proc_id: Process ID to wait for (call_id in Rust)
+                timeout_ms: Maximum wait time in milliseconds (default: 600000, max: 3600000)
+
+            Returns:
+                Process result when complete or timeout
+            """
+            if not proc_id:
+                raise InvalidParamsError("proc_id is required", param="proc_id")
+
+            # Default and max timeout
+            max_timeout_ms = 3600000  # 1 hour max (matches Rust)
+            default_timeout_ms = 600000  # 10 minutes default
+            timeout = timeout_ms or default_timeout_ms
+            timeout = min(timeout, max_timeout_ms)
+            timeout_sec = timeout / 1000
+
+            # Get process info
+            procs = self.process_manager.list_processes()
+            if proc_id not in procs:
+                raise NotFoundError(f"Process not found: {proc_id}")
+
+            info = procs[proc_id]
+
+            # If already completed, return immediately
+            if not info.get("running", False):
+                log_file = info.get("log_file")
+                output = ""
+                if log_file and Path(log_file).exists():
+                    try:
+                        from hanzo_async import read_file
+                        output = await read_file(log_file, encoding="utf-8", errors="replace")
+                    except Exception:
+                        pass
+
+                return {
+                    "proc_id": proc_id,
+                    "exit_code": info.get("return_code", 0),
+                    "output": output,
+                    "status": "completed",
+                }
+
+            # Poll until complete or timeout
+            start_time = datetime.now()
+            poll_interval = 0.5  # 500ms
+
+            while True:
+                elapsed = (datetime.now() - start_time).total_seconds()
+                if elapsed >= timeout_sec:
+                    return {
+                        "proc_id": proc_id,
+                        "exit_code": None,
+                        "output": "",
+                        "status": "timeout",
+                        "message": f"Timed out after {timeout_ms}ms",
+                    }
+
+                # Check if process completed
+                procs = self.process_manager.list_processes()
+                if proc_id not in procs:
+                    raise NotFoundError(f"Process disappeared: {proc_id}")
+
+                info = procs[proc_id]
+                if not info.get("running", False):
+                    # Process completed
+                    log_file = info.get("log_file")
+                    output = ""
+                    if log_file and Path(log_file).exists():
+                        try:
+                            from hanzo_async import read_file
+                            output = await read_file(log_file, encoding="utf-8", errors="replace")
+                        except Exception:
+                            pass
+
+                    return {
+                        "proc_id": proc_id,
+                        "exit_code": info.get("return_code", 0),
+                        "output": output,
+                        "status": "completed",
+                        "duration_ms": int(elapsed * 1000),
+                    }
+
+                await asyncio.sleep(poll_interval)
 
         @self.action("ps", "List processes")
         async def ps(
