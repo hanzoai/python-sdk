@@ -13,6 +13,7 @@ Following Unix philosophy: one tool for the Bytes + Paths axis.
 """
 
 import os
+import re
 import json
 import fnmatch
 import hashlib
@@ -20,6 +21,8 @@ import aiofiles
 from typing import Any, Optional, ClassVar
 from pathlib import Path
 from datetime import datetime
+from dataclasses import dataclass, field
+from enum import Enum
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -34,6 +37,119 @@ from hanzo_tools.core import (
     content_hash,
     file_uri,
 )
+
+
+class PatchOp(str, Enum):
+    """Patch operation type (Rust parity)."""
+    ADD = "add"
+    UPDATE = "update"
+    DELETE = "delete"
+
+
+@dataclass
+class PatchHunk:
+    """A single hunk in a patch (Rust parity)."""
+    context: str = ""  # @@ header context
+    old_lines: list[str] = field(default_factory=list)
+    new_lines: list[str] = field(default_factory=list)
+
+
+@dataclass
+class PatchFile:
+    """A single file operation in a patch (Rust parity)."""
+    op: PatchOp
+    path: str
+    hunks: list[PatchHunk] = field(default_factory=list)
+    content: str = ""  # For ADD operations
+
+
+def parse_patch_format(patch_text: str) -> list[PatchFile]:
+    """Parse Rust-style patch format.
+
+    Format:
+        *** Begin Patch
+        *** Add File: path
+        +content lines
+        *** Update File: path
+        @@ context header
+        -old line
+        +new line
+        *** Delete File: path
+        *** End Patch
+    """
+    files = []
+    current_file: PatchFile | None = None
+    current_hunk: PatchHunk | None = None
+
+    lines = patch_text.strip().splitlines()
+
+    for line in lines:
+        # Skip begin/end markers
+        if line.strip() in ("*** Begin Patch", "*** End Patch"):
+            continue
+
+        # File operations
+        if line.startswith("*** Add File:"):
+            if current_file:
+                if current_hunk:
+                    current_file.hunks.append(current_hunk)
+                files.append(current_file)
+            path = line.replace("*** Add File:", "").strip()
+            current_file = PatchFile(op=PatchOp.ADD, path=path)
+            current_hunk = None
+
+        elif line.startswith("*** Update File:"):
+            if current_file:
+                if current_hunk:
+                    current_file.hunks.append(current_hunk)
+                files.append(current_file)
+            path = line.replace("*** Update File:", "").strip()
+            current_file = PatchFile(op=PatchOp.UPDATE, path=path)
+            current_hunk = None
+
+        elif line.startswith("*** Delete File:"):
+            if current_file:
+                if current_hunk:
+                    current_file.hunks.append(current_hunk)
+                files.append(current_file)
+            path = line.replace("*** Delete File:", "").strip()
+            current_file = PatchFile(op=PatchOp.DELETE, path=path)
+            current_hunk = None
+            files.append(current_file)
+            current_file = None
+
+        # Hunk header
+        elif line.startswith("@@"):
+            if current_file and current_hunk:
+                current_file.hunks.append(current_hunk)
+            context = line.strip()
+            current_hunk = PatchHunk(context=context)
+
+        # Content lines
+        elif current_file:
+            if current_file.op == PatchOp.ADD:
+                # For ADD, lines starting with + are content
+                if line.startswith("+"):
+                    current_file.content += line[1:] + "\n"
+                else:
+                    current_file.content += line + "\n"
+            elif current_hunk:
+                if line.startswith("-"):
+                    current_hunk.old_lines.append(line[1:])
+                elif line.startswith("+"):
+                    current_hunk.new_lines.append(line[1:])
+                elif line.startswith(" "):
+                    # Context line - appears in both old and new
+                    current_hunk.old_lines.append(line[1:])
+                    current_hunk.new_lines.append(line[1:])
+
+    # Don't forget the last file
+    if current_file:
+        if current_hunk:
+            current_file.hunks.append(current_hunk)
+        files.append(current_file)
+
+    return files
 
 
 class FsTool(BaseTool):
@@ -73,11 +189,13 @@ Actions:
 - stat: File metadata including hash
 - list: Directory listing
 - apply_patch: Edit with base_hash precondition
+- patch: Apply Rust-style patch format (Rust parity)
 - search_text: Text search
 - mkdir: Create directory
 - rm: Remove (requires confirm=true)
 
 IMPORTANT: apply_patch is the ONLY way to edit existing files.
+patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -old +new
 """
 
     def _validate_path(self, path: str) -> Path:
@@ -381,6 +499,136 @@ IMPORTANT: apply_patch is the ONLY way to edit existing files.
                 "uri": file_uri(str(path)),
                 "hash": new_hash,
                 "previous_hash": current_hash,
+            }
+
+        @self.action("patch", "Apply Rust-style patch format (Rust parity)")
+        async def patch(
+            ctx: MCPContext,
+            input: str,
+        ) -> dict:
+            """Apply a patch in Rust grammar format.
+
+            This provides parity with the Rust apply_patch tool.
+
+            Format:
+                *** Begin Patch
+                *** Add File: path/to/new/file.py
+                +new file content
+                +line 2
+                *** Update File: path/to/existing/file.py
+                @@ context header
+                -old line to remove
+                +new line to add
+                *** Delete File: path/to/delete.py
+                *** End Patch
+
+            Args:
+                input: The patch text in Rust grammar format
+
+            Returns:
+                Results for each file operation
+            """
+            if not input or not input.strip():
+                raise InvalidParamsError("Patch input is required", param="input")
+
+            # Parse the patch
+            try:
+                patch_files = parse_patch_format(input)
+            except Exception as e:
+                raise InvalidParamsError(f"Invalid patch format: {e}", param="input")
+
+            if not patch_files:
+                raise InvalidParamsError("No file operations found in patch", param="input")
+
+            results = []
+
+            for pf in patch_files:
+                path = Path(pf.path)
+
+                # Make path absolute if relative
+                if not path.is_absolute():
+                    # Use current working directory
+                    path = Path.cwd() / path
+
+                self._check_permission(str(path))
+
+                try:
+                    if pf.op == PatchOp.ADD:
+                        # Create new file
+                        if path.exists():
+                            raise ConflictError(f"File already exists: {path}")
+
+                        path.parent.mkdir(parents=True, exist_ok=True)
+
+                        async with aiofiles.open(path, "w", encoding="utf-8") as f:
+                            await f.write(pf.content)
+
+                        results.append({
+                            "op": "add",
+                            "path": str(path),
+                            "hash": self._compute_hash(pf.content),
+                            "success": True,
+                        })
+
+                    elif pf.op == PatchOp.UPDATE:
+                        # Update existing file
+                        if not path.exists():
+                            raise NotFoundError(f"File not found: {path}")
+
+                        async with aiofiles.open(path, "r", encoding="utf-8") as f:
+                            content = await f.read()
+
+                        # Apply each hunk
+                        for hunk in pf.hunks:
+                            old_text = "\n".join(hunk.old_lines)
+                            new_text = "\n".join(hunk.new_lines)
+
+                            if old_text and old_text in content:
+                                content = content.replace(old_text, new_text, 1)
+                            elif not old_text and new_text:
+                                # Pure addition - append to end
+                                content += "\n" + new_text
+
+                        async with aiofiles.open(path, "w", encoding="utf-8") as f:
+                            await f.write(content)
+
+                        results.append({
+                            "op": "update",
+                            "path": str(path),
+                            "hash": self._compute_hash(content),
+                            "hunks_applied": len(pf.hunks),
+                            "success": True,
+                        })
+
+                    elif pf.op == PatchOp.DELETE:
+                        # Delete file
+                        if not path.exists():
+                            results.append({
+                                "op": "delete",
+                                "path": str(path),
+                                "success": True,
+                                "message": "File already deleted",
+                            })
+                        else:
+                            path.unlink()
+                            results.append({
+                                "op": "delete",
+                                "path": str(path),
+                                "success": True,
+                            })
+
+                except Exception as e:
+                    results.append({
+                        "op": pf.op.value,
+                        "path": str(path),
+                        "success": False,
+                        "error": str(e),
+                    })
+
+            return {
+                "results": results,
+                "total": len(results),
+                "success": all(r.get("success") for r in results),
             }
 
         @self.action("search_text", "Search file contents")
