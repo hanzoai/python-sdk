@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
-
 import httpx
 
 from .chat import (
@@ -14,8 +12,7 @@ from .chat import (
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
-from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._types import Body, Query, Headers, NotGiven, not_given
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -25,7 +22,6 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.openai import deployment_embed_params
 
 __all__ = ["DeploymentsResource", "AsyncDeploymentsResource"]
 
@@ -102,21 +98,8 @@ class DeploymentsResource(SyncAPIResource):
 
     def embed(
         self,
-        path_model: str,
+        model: str,
         *,
-        body_model: str,
-        api_base: Optional[str] | Omit = omit,
-        api_key: Optional[str] | Omit = omit,
-        api_type: Optional[str] | Omit = omit,
-        api_version: Optional[str] | Omit = omit,
-        caching: bool | Omit = omit,
-        custom_llm_provider: Union[str, Dict[str, object], None] | Omit = omit,
-        input: SequenceNotStr[str] | Omit = omit,
-        litellm_call_id: Optional[str] | Omit = omit,
-        litellm_logging_obj: Optional[Dict[str, object]] | Omit = omit,
-        logger_fn: Optional[str] | Omit = omit,
-        api_timeout: int | Omit = omit,
-        user: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -147,28 +130,10 @@ class DeploymentsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_model:
-            raise ValueError(f"Expected a non-empty value for `path_model` but received {path_model!r}")
+        if not model:
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
-            f"/openai/deployments/{path_model}/embeddings",
-            body=maybe_transform(
-                {
-                    "body_model": body_model,
-                    "api_base": api_base,
-                    "api_key": api_key,
-                    "api_type": api_type,
-                    "api_version": api_version,
-                    "caching": caching,
-                    "custom_llm_provider": custom_llm_provider,
-                    "input": input,
-                    "litellm_call_id": litellm_call_id,
-                    "litellm_logging_obj": litellm_logging_obj,
-                    "logger_fn": logger_fn,
-                    "api_timeout": api_timeout,
-                    "user": user,
-                },
-                deployment_embed_params.DeploymentEmbedParams,
-            ),
+            f"/openai/deployments/{model}/embeddings",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -248,21 +213,8 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
     async def embed(
         self,
-        path_model: str,
+        model: str,
         *,
-        body_model: str,
-        api_base: Optional[str] | Omit = omit,
-        api_key: Optional[str] | Omit = omit,
-        api_type: Optional[str] | Omit = omit,
-        api_version: Optional[str] | Omit = omit,
-        caching: bool | Omit = omit,
-        custom_llm_provider: Union[str, Dict[str, object], None] | Omit = omit,
-        input: SequenceNotStr[str] | Omit = omit,
-        litellm_call_id: Optional[str] | Omit = omit,
-        litellm_logging_obj: Optional[Dict[str, object]] | Omit = omit,
-        logger_fn: Optional[str] | Omit = omit,
-        api_timeout: int | Omit = omit,
-        user: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -293,28 +245,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_model:
-            raise ValueError(f"Expected a non-empty value for `path_model` but received {path_model!r}")
+        if not model:
+            raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
-            f"/openai/deployments/{path_model}/embeddings",
-            body=await async_maybe_transform(
-                {
-                    "body_model": body_model,
-                    "api_base": api_base,
-                    "api_key": api_key,
-                    "api_type": api_type,
-                    "api_version": api_version,
-                    "caching": caching,
-                    "custom_llm_provider": custom_llm_provider,
-                    "input": input,
-                    "litellm_call_id": litellm_call_id,
-                    "litellm_logging_obj": litellm_logging_obj,
-                    "logger_fn": logger_fn,
-                    "api_timeout": api_timeout,
-                    "user": user,
-                },
-                deployment_embed_params.DeploymentEmbedParams,
-            ),
+            f"/openai/deployments/{model}/embeddings",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

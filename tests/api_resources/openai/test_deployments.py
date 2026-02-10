@@ -62,29 +62,7 @@ class TestDeployments:
     @parametrize
     def test_method_embed(self, client: Hanzo) -> None:
         deployment = client.openai.deployments.embed(
-            path_model="model",
-            body_model="model",
-        )
-        assert_matches_type(object, deployment, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_embed_with_all_params(self, client: Hanzo) -> None:
-        deployment = client.openai.deployments.embed(
-            path_model="model",
-            body_model="model",
-            api_base="api_base",
-            api_key="api_key",
-            api_type="api_type",
-            api_version="api_version",
-            caching=True,
-            custom_llm_provider="string",
-            input=["string"],
-            litellm_call_id="litellm_call_id",
-            litellm_logging_obj={"foo": "bar"},
-            logger_fn="logger_fn",
-            api_timeout=0,
-            user="user",
+            "model",
         )
         assert_matches_type(object, deployment, path=["response"])
 
@@ -92,8 +70,7 @@ class TestDeployments:
     @parametrize
     def test_raw_response_embed(self, client: Hanzo) -> None:
         response = client.openai.deployments.with_raw_response.embed(
-            path_model="model",
-            body_model="model",
+            "model",
         )
 
         assert response.is_closed is True
@@ -105,8 +82,7 @@ class TestDeployments:
     @parametrize
     def test_streaming_response_embed(self, client: Hanzo) -> None:
         with client.openai.deployments.with_streaming_response.embed(
-            path_model="model",
-            body_model="model",
+            "model",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -119,10 +95,9 @@ class TestDeployments:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_embed(self, client: Hanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_model` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             client.openai.deployments.with_raw_response.embed(
-                path_model="",
-                body_model="model",
+                "",
             )
 
 
@@ -177,29 +152,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_method_embed(self, async_client: AsyncHanzo) -> None:
         deployment = await async_client.openai.deployments.embed(
-            path_model="model",
-            body_model="model",
-        )
-        assert_matches_type(object, deployment, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_embed_with_all_params(self, async_client: AsyncHanzo) -> None:
-        deployment = await async_client.openai.deployments.embed(
-            path_model="model",
-            body_model="model",
-            api_base="api_base",
-            api_key="api_key",
-            api_type="api_type",
-            api_version="api_version",
-            caching=True,
-            custom_llm_provider="string",
-            input=["string"],
-            litellm_call_id="litellm_call_id",
-            litellm_logging_obj={"foo": "bar"},
-            logger_fn="logger_fn",
-            api_timeout=0,
-            user="user",
+            "model",
         )
         assert_matches_type(object, deployment, path=["response"])
 
@@ -207,8 +160,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_raw_response_embed(self, async_client: AsyncHanzo) -> None:
         response = await async_client.openai.deployments.with_raw_response.embed(
-            path_model="model",
-            body_model="model",
+            "model",
         )
 
         assert response.is_closed is True
@@ -220,8 +172,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_streaming_response_embed(self, async_client: AsyncHanzo) -> None:
         async with async_client.openai.deployments.with_streaming_response.embed(
-            path_model="model",
-            body_model="model",
+            "model",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -234,8 +185,7 @@ class TestAsyncDeployments:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_embed(self, async_client: AsyncHanzo) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_model` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `model` but received ''"):
             await async_client.openai.deployments.with_raw_response.embed(
-                path_model="",
-                body_model="model",
+                "",
             )

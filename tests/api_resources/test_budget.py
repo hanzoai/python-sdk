@@ -9,7 +9,6 @@ import pytest
 
 from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from hanzoai._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -29,7 +28,6 @@ class TestBudget:
         budget = client.budget.create(
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             max_budget=0,
             max_parallel_requests=0,
             model_max_budget={
@@ -80,7 +78,6 @@ class TestBudget:
         budget = client.budget.update(
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             max_budget=0,
             max_parallel_requests=0,
             model_max_budget={
@@ -267,7 +264,6 @@ class TestAsyncBudget:
         budget = await async_client.budget.create(
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             max_budget=0,
             max_parallel_requests=0,
             model_max_budget={
@@ -318,7 +314,6 @@ class TestAsyncBudget:
         budget = await async_client.budget.update(
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             max_budget=0,
             max_parallel_requests=0,
             model_max_budget={

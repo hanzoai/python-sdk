@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
-from datetime import datetime
+from typing import Dict, Optional
 
 import httpx
 
@@ -54,7 +53,6 @@ class BudgetResource(SyncAPIResource):
         *,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
-        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | Omit = omit,
@@ -86,15 +84,11 @@ class BudgetResource(SyncAPIResource):
         - model_max_budget: Optional[dict] - Specify max budget for a given model.
           Example: {"openai/gpt-4o-mini": {"max_budget": 100.0, "budget_duration": "1d",
           "tpm_limit": 100000, "rpm_limit": 100000}}
-        - budget_reset_at: Optional[datetime] - Datetime when the initial budget is
-          reset. Default is now.
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
 
           budget_id: The unique budget id.
-
-          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -123,7 +117,6 @@ class BudgetResource(SyncAPIResource):
                 {
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
-                    "budget_reset_at": budget_reset_at,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,
@@ -144,7 +137,6 @@ class BudgetResource(SyncAPIResource):
         *,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
-        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | Omit = omit,
@@ -175,15 +167,11 @@ class BudgetResource(SyncAPIResource):
         - model_max_budget: Optional[dict] - Specify max budget for a given model.
           Example: {"openai/gpt-4o-mini": {"max_budget": 100.0, "budget_duration": "1d",
           "tpm_limit": 100000, "rpm_limit": 100000}}
-        - budget_reset_at: Optional[datetime] - Update the Datetime when the budget was
-          last reset.
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
 
           budget_id: The unique budget id.
-
-          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -212,7 +200,6 @@ class BudgetResource(SyncAPIResource):
                 {
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
-                    "budget_reset_at": budget_reset_at,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,
@@ -387,7 +374,6 @@ class AsyncBudgetResource(AsyncAPIResource):
         *,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
-        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, budget_create_params.ModelMaxBudget]] | Omit = omit,
@@ -419,15 +405,11 @@ class AsyncBudgetResource(AsyncAPIResource):
         - model_max_budget: Optional[dict] - Specify max budget for a given model.
           Example: {"openai/gpt-4o-mini": {"max_budget": 100.0, "budget_duration": "1d",
           "tpm_limit": 100000, "rpm_limit": 100000}}
-        - budget_reset_at: Optional[datetime] - Datetime when the initial budget is
-          reset. Default is now.
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
 
           budget_id: The unique budget id.
-
-          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -456,7 +438,6 @@ class AsyncBudgetResource(AsyncAPIResource):
                 {
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
-                    "budget_reset_at": budget_reset_at,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,
@@ -477,7 +458,6 @@ class AsyncBudgetResource(AsyncAPIResource):
         *,
         budget_duration: Optional[str] | Omit = omit,
         budget_id: Optional[str] | Omit = omit,
-        budget_reset_at: Union[str, datetime, None] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
         model_max_budget: Optional[Dict[str, budget_update_params.ModelMaxBudget]] | Omit = omit,
@@ -508,15 +488,11 @@ class AsyncBudgetResource(AsyncAPIResource):
         - model_max_budget: Optional[dict] - Specify max budget for a given model.
           Example: {"openai/gpt-4o-mini": {"max_budget": 100.0, "budget_duration": "1d",
           "tpm_limit": 100000, "rpm_limit": 100000}}
-        - budget_reset_at: Optional[datetime] - Update the Datetime when the budget was
-          last reset.
 
         Args:
           budget_duration: Max duration budget should be set for (e.g. '1hr', '1d', '28d')
 
           budget_id: The unique budget id.
-
-          budget_reset_at: Datetime when the budget is reset
 
           max_budget: Requests will fail if this budget (in USD) is exceeded.
 
@@ -545,7 +521,6 @@ class AsyncBudgetResource(AsyncAPIResource):
                 {
                     "budget_duration": budget_duration,
                     "budget_id": budget_id,
-                    "budget_reset_at": budget_reset_at,
                     "max_budget": max_budget,
                     "max_parallel_requests": max_parallel_requests,
                     "model_max_budget": model_max_budget,

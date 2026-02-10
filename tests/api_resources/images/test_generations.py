@@ -24,14 +24,6 @@ class TestGenerations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: Hanzo) -> None:
-        generation = client.images.generations.create(
-            model="model",
-        )
-        assert_matches_type(object, generation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.images.generations.with_raw_response.create()
 
@@ -62,14 +54,6 @@ class TestAsyncGenerations:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         generation = await async_client.images.generations.create()
-        assert_matches_type(object, generation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
-        generation = await async_client.images.generations.create(
-            model="model",
-        )
         assert_matches_type(object, generation, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")

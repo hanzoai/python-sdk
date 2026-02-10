@@ -16,7 +16,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.organization import info_retrieve_params, info_deprecated_params
-from ...types.organization_table_with_members import OrganizationTableWithMembers
+from ...types.organization.info_retrieve_response import InfoRetrieveResponse
 
 __all__ = ["InfoResource", "AsyncInfoResource"]
 
@@ -51,7 +51,7 @@ class InfoResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationTableWithMembers:
+    ) -> InfoRetrieveResponse:
         """
         Get the org specific information
 
@@ -73,7 +73,7 @@ class InfoResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"organization_id": organization_id}, info_retrieve_params.InfoRetrieveParams),
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=InfoRetrieveResponse,
         )
 
     def deprecated(
@@ -139,7 +139,7 @@ class AsyncInfoResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationTableWithMembers:
+    ) -> InfoRetrieveResponse:
         """
         Get the org specific information
 
@@ -163,7 +163,7 @@ class AsyncInfoResource(AsyncAPIResource):
                     {"organization_id": organization_id}, info_retrieve_params.InfoRetrieveParams
                 ),
             ),
-            cast_to=OrganizationTableWithMembers,
+            cast_to=InfoRetrieveResponse,
         )
 
     async def deprecated(

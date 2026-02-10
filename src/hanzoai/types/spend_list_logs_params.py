@@ -24,11 +24,5 @@ class SpendListLogsParams(TypedDict, total=False):
     start_date: Optional[str]
     """Time from which to start viewing key spend"""
 
-    summarize: bool
-    """
-    When start_date and end_date are provided, summarize=true returns aggregated
-    data by date (legacy behavior), summarize=false returns filtered individual logs
-    """
-
     user_id: Optional[str]
     """Get spend logs based on user_id"""

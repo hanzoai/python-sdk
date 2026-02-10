@@ -45,10 +45,6 @@ class ModelsResource(SyncAPIResource):
     def list(
         self,
         *,
-        fallback_type: Optional[str] | Omit = omit,
-        include_metadata: Optional[bool] | Omit = omit,
-        include_model_access_groups: Optional[bool] | Omit = omit,
-        only_model_access_groups: Optional[bool] | Omit = omit,
         return_wildcard_routes: Optional[bool] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -63,13 +59,6 @@ class ModelsResource(SyncAPIResource):
         etc.
 
         This is just for compatibility with openai projects like aider.
-
-        Query Parameters:
-
-        - include_metadata: Include additional metadata in the response with fallback
-          information
-        - fallback_type: Type of fallbacks to include ("general", "context_window",
-          "content_policy") Defaults to "general" when include_metadata=true
 
         Args:
           extra_headers: Send extra headers
@@ -89,10 +78,6 @@ class ModelsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "fallback_type": fallback_type,
-                        "include_metadata": include_metadata,
-                        "include_model_access_groups": include_model_access_groups,
-                        "only_model_access_groups": only_model_access_groups,
                         "return_wildcard_routes": return_wildcard_routes,
                         "team_id": team_id,
                     },
@@ -126,10 +111,6 @@ class AsyncModelsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        fallback_type: Optional[str] | Omit = omit,
-        include_metadata: Optional[bool] | Omit = omit,
-        include_model_access_groups: Optional[bool] | Omit = omit,
-        only_model_access_groups: Optional[bool] | Omit = omit,
         return_wildcard_routes: Optional[bool] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -144,13 +125,6 @@ class AsyncModelsResource(AsyncAPIResource):
         etc.
 
         This is just for compatibility with openai projects like aider.
-
-        Query Parameters:
-
-        - include_metadata: Include additional metadata in the response with fallback
-          information
-        - fallback_type: Type of fallbacks to include ("general", "context_window",
-          "content_policy") Defaults to "general" when include_metadata=true
 
         Args:
           extra_headers: Send extra headers
@@ -170,10 +144,6 @@ class AsyncModelsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "fallback_type": fallback_type,
-                        "include_metadata": include_metadata,
-                        "include_model_access_groups": include_model_access_groups,
-                        "only_model_access_groups": only_model_access_groups,
                         "return_wildcard_routes": return_wildcard_routes,
                         "team_id": team_id,
                     },

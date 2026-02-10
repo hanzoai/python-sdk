@@ -8,34 +8,8 @@ from pydantic import Field as FieldInfo
 
 from .member import Member
 from .._models import BaseModel
-from .user_roles import UserRoles
 
-__all__ = [
-    "KeyListResponse",
-    "Key",
-    "KeyUserAPIKeyAuth",
-    "KeyUserAPIKeyAuthObjectPermission",
-    "KeyLiteLlmDeletedVerificationToken",
-    "KeyLiteLlmDeletedVerificationTokenObjectPermission",
-]
-
-
-class KeyUserAPIKeyAuthObjectPermission(BaseModel):
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: str
-
-    agent_access_groups: Optional[List[str]] = None
-
-    agents: Optional[List[str]] = None
-
-    mcp_access_groups: Optional[List[str]] = None
-
-    mcp_servers: Optional[List[str]] = None
-
-    mcp_tool_permissions: Optional[Dict[str, List[str]]] = None
-
-    vector_stores: Optional[List[str]] = None
+__all__ = ["KeyListResponse", "Key", "KeyUserAPIKeyAuth"]
 
 
 class KeyUserAPIKeyAuth(BaseModel):
@@ -43,17 +17,13 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     token: Optional[str] = None
 
-    aliases: Optional[Dict[str, object]] = None
+    aliases: Optional[object] = None
 
     allowed_cache_controls: Optional[List[object]] = None
 
     allowed_model_region: Optional[Literal["eu", "us"]] = None
 
-    allowed_routes: Optional[List[object]] = None
-
     api_key: Optional[str] = None
-
-    auto_rotate: Optional[bool] = None
 
     blocked: Optional[bool] = None
 
@@ -61,7 +31,7 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     budget_reset_at: Optional[datetime] = None
 
-    config: Optional[Dict[str, object]] = None
+    config: Optional[object] = None
 
     created_at: Optional[datetime] = None
 
@@ -81,52 +51,27 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     key_name: Optional[str] = None
 
-    key_rotation_at: Optional[datetime] = None
-
     last_refreshed_at: Optional[float] = None
 
-    last_rotation_at: Optional[datetime] = None
-
-    litellm_budget_table: Optional[Dict[str, object]] = None
+    llm_budget_table: Optional[object] = None
 
     max_budget: Optional[float] = None
 
     max_parallel_requests: Optional[int] = None
 
-    metadata: Optional[Dict[str, object]] = None
+    metadata: Optional[object] = None
 
-    api_model_max_budget: Optional[Dict[str, object]] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
-    api_model_spend: Optional[Dict[str, object]] = FieldInfo(alias="model_spend", default=None)
+    api_model_spend: Optional[object] = FieldInfo(alias="model_spend", default=None)
 
     models: Optional[List[object]] = None
 
-    object_permission: Optional[KeyUserAPIKeyAuthObjectPermission] = None
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: Optional[str] = None
-
     org_id: Optional[str] = None
-
-    organization_max_budget: Optional[float] = None
-
-    organization_metadata: Optional[Dict[str, object]] = None
-
-    organization_rpm_limit: Optional[int] = None
-
-    organization_tpm_limit: Optional[int] = None
 
     parent_otel_span: Optional[object] = None
 
-    permissions: Optional[Dict[str, object]] = None
-
-    request_route: Optional[str] = None
-
-    rotation_count: Optional[int] = None
-
-    rotation_interval: Optional[str] = None
-
-    router_settings: Optional[Dict[str, object]] = None
+    permissions: Optional[object] = None
 
     rpm_limit: Optional[int] = None
 
@@ -148,19 +93,13 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     team_member: Optional[Member] = None
 
-    team_member_rpm_limit: Optional[int] = None
-
     team_member_spend: Optional[float] = None
 
-    team_member_tpm_limit: Optional[int] = None
+    team_metadata: Optional[object] = None
 
-    team_metadata: Optional[Dict[str, object]] = None
-
-    team_model_aliases: Optional[Dict[str, object]] = None
+    team_model_aliases: Optional[object] = None
 
     team_models: Optional[List[object]] = None
-
-    team_object_permission_id: Optional[str] = None
 
     team_rpm_limit: Optional[int] = None
 
@@ -176,15 +115,21 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     updated_by: Optional[str] = None
 
-    user: Optional[object] = None
-
     user_email: Optional[str] = None
 
     user_id: Optional[str] = None
 
-    user_max_budget: Optional[float] = None
-
-    user_role: Optional[UserRoles] = None
+    user_role: Optional[
+        Literal[
+            "proxy_admin",
+            "proxy_admin_viewer",
+            "org_admin",
+            "internal_user",
+            "internal_user_viewer",
+            "team",
+            "customer",
+        ]
+    ] = None
     """
     Admin Roles: PROXY_ADMIN: admin over the platform PROXY_ADMIN_VIEW_ONLY: can
     login, view all own keys, view all spend ORG_ADMIN: admin over a specific
@@ -201,125 +146,10 @@ class KeyUserAPIKeyAuth(BaseModel):
 
     user_rpm_limit: Optional[int] = None
 
-    user_spend: Optional[float] = None
-
     user_tpm_limit: Optional[int] = None
 
 
-class KeyLiteLlmDeletedVerificationTokenObjectPermission(BaseModel):
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: str
-
-    agent_access_groups: Optional[List[str]] = None
-
-    agents: Optional[List[str]] = None
-
-    mcp_access_groups: Optional[List[str]] = None
-
-    mcp_servers: Optional[List[str]] = None
-
-    mcp_tool_permissions: Optional[Dict[str, List[str]]] = None
-
-    vector_stores: Optional[List[str]] = None
-
-
-class KeyLiteLlmDeletedVerificationToken(BaseModel):
-    """Recording of deleted keys for audit purposes.
-
-    Mirrors LiteLLM_VerificationToken
-    plus metadata captured at deletion time.
-    """
-
-    id: Optional[str] = None
-
-    token: Optional[str] = None
-
-    aliases: Optional[Dict[str, object]] = None
-
-    allowed_cache_controls: Optional[List[object]] = None
-
-    allowed_routes: Optional[List[object]] = None
-
-    auto_rotate: Optional[bool] = None
-
-    blocked: Optional[bool] = None
-
-    budget_duration: Optional[str] = None
-
-    budget_reset_at: Optional[datetime] = None
-
-    config: Optional[Dict[str, object]] = None
-
-    created_at: Optional[datetime] = None
-
-    created_by: Optional[str] = None
-
-    deleted_at: Optional[datetime] = None
-
-    deleted_by: Optional[str] = None
-
-    deleted_by_api_key: Optional[str] = None
-
-    expires: Union[str, datetime, None] = None
-
-    key_alias: Optional[str] = None
-
-    key_name: Optional[str] = None
-
-    key_rotation_at: Optional[datetime] = None
-
-    last_rotation_at: Optional[datetime] = None
-
-    litellm_budget_table: Optional[Dict[str, object]] = None
-
-    litellm_changed_by: Optional[str] = None
-
-    max_budget: Optional[float] = None
-
-    max_parallel_requests: Optional[int] = None
-
-    metadata: Optional[Dict[str, object]] = None
-
-    api_model_max_budget: Optional[Dict[str, object]] = FieldInfo(alias="model_max_budget", default=None)
-
-    api_model_spend: Optional[Dict[str, object]] = FieldInfo(alias="model_spend", default=None)
-
-    models: Optional[List[object]] = None
-
-    object_permission: Optional[KeyLiteLlmDeletedVerificationTokenObjectPermission] = None
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: Optional[str] = None
-
-    org_id: Optional[str] = None
-
-    permissions: Optional[Dict[str, object]] = None
-
-    rotation_count: Optional[int] = None
-
-    rotation_interval: Optional[str] = None
-
-    router_settings: Optional[Dict[str, object]] = None
-
-    rpm_limit: Optional[int] = None
-
-    soft_budget_cooldown: Optional[bool] = None
-
-    spend: Optional[float] = None
-
-    team_id: Optional[str] = None
-
-    tpm_limit: Optional[int] = None
-
-    updated_at: Optional[datetime] = None
-
-    updated_by: Optional[str] = None
-
-    user_id: Optional[str] = None
-
-
-Key: TypeAlias = Union[str, KeyUserAPIKeyAuth, KeyLiteLlmDeletedVerificationToken]
+Key: TypeAlias = Union[str, KeyUserAPIKeyAuth]
 
 
 class KeyListResponse(BaseModel):

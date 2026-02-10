@@ -27,7 +27,6 @@ class TestHealth:
     def test_method_check_all_with_all_params(self, client: Hanzo) -> None:
         health = client.health.check_all(
             model="model",
-            model_id="model_id",
         )
         assert_matches_type(object, health, path=["response"])
 
@@ -188,7 +187,6 @@ class TestAsyncHealth:
     async def test_method_check_all_with_all_params(self, async_client: AsyncHanzo) -> None:
         health = await async_client.health.check_all(
             model="model",
-            model_id="model_id",
         )
         assert_matches_type(object, health, path=["response"])
 

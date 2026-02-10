@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -56,7 +56,7 @@ class UtilsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Returns supported openai params for a given litellm model name
+        """Returns supported openai params for a given llm model name
 
         e.g.
 
@@ -95,9 +95,7 @@ class UtilsResource(SyncAPIResource):
         self,
         *,
         model: str,
-        call_endpoint: bool | Omit = omit,
-        contents: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        messages: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        messages: Optional[Iterable[object]] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -107,11 +105,7 @@ class UtilsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UtilTokenCounterResponse:
         """
-        Args: request: TokenCountRequest call_endpoint: bool - When set to "True" it
-        will call the token counting endpoint - e.g Anthropic or Google AI Studio Token
-        Counting APIs.
-
-        Returns: TokenCountResponse
+        Token Counter
 
         Args:
           extra_headers: Send extra headers
@@ -127,20 +121,13 @@ class UtilsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "model": model,
-                    "contents": contents,
                     "messages": messages,
                     "prompt": prompt,
                 },
                 util_token_counter_params.UtilTokenCounterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {"call_endpoint": call_endpoint}, util_token_counter_params.UtilTokenCounterParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=UtilTokenCounterResponse,
         )
@@ -157,8 +144,6 @@ class UtilsResource(SyncAPIResource):
             "text_completion",
             "image_generation",
             "aimage_generation",
-            "image_edit",
-            "aimage_edit",
             "moderation",
             "amoderation",
             "atranscription",
@@ -167,8 +152,6 @@ class UtilsResource(SyncAPIResource):
             "speech",
             "rerank",
             "arerank",
-            "search",
-            "asearch",
             "_arealtime",
             "create_batch",
             "acreate_batch",
@@ -206,48 +189,6 @@ class UtilsResource(SyncAPIResource):
             "file_content",
             "create_fine_tuning_job",
             "acreate_fine_tuning_job",
-            "create_video",
-            "acreate_video",
-            "avideo_retrieve",
-            "video_retrieve",
-            "avideo_content",
-            "video_content",
-            "video_remix",
-            "avideo_remix",
-            "video_list",
-            "avideo_list",
-            "video_retrieve_job",
-            "avideo_retrieve_job",
-            "video_delete",
-            "avideo_delete",
-            "vector_store_file_create",
-            "avector_store_file_create",
-            "vector_store_file_list",
-            "avector_store_file_list",
-            "vector_store_file_retrieve",
-            "avector_store_file_retrieve",
-            "vector_store_file_content",
-            "avector_store_file_content",
-            "vector_store_file_update",
-            "avector_store_file_update",
-            "vector_store_file_delete",
-            "avector_store_file_delete",
-            "vector_store_create",
-            "avector_store_create",
-            "vector_store_search",
-            "avector_store_search",
-            "create_container",
-            "acreate_container",
-            "list_containers",
-            "alist_containers",
-            "retrieve_container",
-            "aretrieve_container",
-            "delete_container",
-            "adelete_container",
-            "list_container_files",
-            "alist_container_files",
-            "upload_container_file",
-            "aupload_container_file",
             "acancel_fine_tuning_job",
             "cancel_fine_tuning_job",
             "alist_fine_tuning_jobs",
@@ -256,21 +197,8 @@ class UtilsResource(SyncAPIResource):
             "retrieve_fine_tuning_job",
             "responses",
             "aresponses",
-            "alist_input_items",
-            "llm_passthrough_route",
-            "allm_passthrough_route",
-            "generate_content",
-            "agenerate_content",
-            "generate_content_stream",
-            "agenerate_content_stream",
-            "ocr",
-            "aocr",
-            "call_mcp_tool",
-            "asend_message",
-            "send_message",
-            "acreate_skill",
         ],
-        request_body: Dict[str, object],
+        request_body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -337,7 +265,7 @@ class AsyncUtilsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Returns supported openai params for a given litellm model name
+        """Returns supported openai params for a given llm model name
 
         e.g.
 
@@ -376,9 +304,7 @@ class AsyncUtilsResource(AsyncAPIResource):
         self,
         *,
         model: str,
-        call_endpoint: bool | Omit = omit,
-        contents: Optional[Iterable[Dict[str, object]]] | Omit = omit,
-        messages: Optional[Iterable[Dict[str, object]]] | Omit = omit,
+        messages: Optional[Iterable[object]] | Omit = omit,
         prompt: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -388,11 +314,7 @@ class AsyncUtilsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UtilTokenCounterResponse:
         """
-        Args: request: TokenCountRequest call_endpoint: bool - When set to "True" it
-        will call the token counting endpoint - e.g Anthropic or Google AI Studio Token
-        Counting APIs.
-
-        Returns: TokenCountResponse
+        Token Counter
 
         Args:
           extra_headers: Send extra headers
@@ -408,20 +330,13 @@ class AsyncUtilsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "model": model,
-                    "contents": contents,
                     "messages": messages,
                     "prompt": prompt,
                 },
                 util_token_counter_params.UtilTokenCounterParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"call_endpoint": call_endpoint}, util_token_counter_params.UtilTokenCounterParams
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=UtilTokenCounterResponse,
         )
@@ -438,8 +353,6 @@ class AsyncUtilsResource(AsyncAPIResource):
             "text_completion",
             "image_generation",
             "aimage_generation",
-            "image_edit",
-            "aimage_edit",
             "moderation",
             "amoderation",
             "atranscription",
@@ -448,8 +361,6 @@ class AsyncUtilsResource(AsyncAPIResource):
             "speech",
             "rerank",
             "arerank",
-            "search",
-            "asearch",
             "_arealtime",
             "create_batch",
             "acreate_batch",
@@ -487,48 +398,6 @@ class AsyncUtilsResource(AsyncAPIResource):
             "file_content",
             "create_fine_tuning_job",
             "acreate_fine_tuning_job",
-            "create_video",
-            "acreate_video",
-            "avideo_retrieve",
-            "video_retrieve",
-            "avideo_content",
-            "video_content",
-            "video_remix",
-            "avideo_remix",
-            "video_list",
-            "avideo_list",
-            "video_retrieve_job",
-            "avideo_retrieve_job",
-            "video_delete",
-            "avideo_delete",
-            "vector_store_file_create",
-            "avector_store_file_create",
-            "vector_store_file_list",
-            "avector_store_file_list",
-            "vector_store_file_retrieve",
-            "avector_store_file_retrieve",
-            "vector_store_file_content",
-            "avector_store_file_content",
-            "vector_store_file_update",
-            "avector_store_file_update",
-            "vector_store_file_delete",
-            "avector_store_file_delete",
-            "vector_store_create",
-            "avector_store_create",
-            "vector_store_search",
-            "avector_store_search",
-            "create_container",
-            "acreate_container",
-            "list_containers",
-            "alist_containers",
-            "retrieve_container",
-            "aretrieve_container",
-            "delete_container",
-            "adelete_container",
-            "list_container_files",
-            "alist_container_files",
-            "upload_container_file",
-            "aupload_container_file",
             "acancel_fine_tuning_job",
             "cancel_fine_tuning_job",
             "alist_fine_tuning_jobs",
@@ -537,21 +406,8 @@ class AsyncUtilsResource(AsyncAPIResource):
             "retrieve_fine_tuning_job",
             "responses",
             "aresponses",
-            "alist_input_items",
-            "llm_passthrough_route",
-            "allm_passthrough_route",
-            "generate_content",
-            "agenerate_content",
-            "generate_content_stream",
-            "agenerate_content_stream",
-            "ocr",
-            "aocr",
-            "call_mcp_tool",
-            "asend_message",
-            "send_message",
-            "acreate_skill",
         ],
-        request_body: Dict[str, object],
+        request_body: object,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

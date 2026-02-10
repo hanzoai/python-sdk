@@ -9,7 +9,7 @@ import pytest
 
 from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
-from hanzoai.types import OrganizationTableWithMembers
+from hanzoai.types.organization import InfoRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestInfo:
         info = client.organization.info.retrieve(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+        assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestInfo:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         info = response.parse()
-        assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+        assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestInfo:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             info = response.parse()
-            assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+            assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -97,7 +97,7 @@ class TestAsyncInfo:
         info = await async_client.organization.info.retrieve(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+        assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -109,7 +109,7 @@ class TestAsyncInfo:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         info = await response.parse()
-        assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+        assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -121,7 +121,7 @@ class TestAsyncInfo:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             info = await response.parse()
-            assert_matches_type(OrganizationTableWithMembers, info, path=["response"])
+            assert_matches_type(InfoRetrieveResponse, info, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

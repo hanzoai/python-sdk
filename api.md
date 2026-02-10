@@ -25,26 +25,26 @@ Methods:
 Methods:
 
 - <code title="post /openai/deployments/{model}/completions">client.openai.deployments.<a href="./src/hanzoai/resources/openai/deployments/deployments.py">complete</a>(model) -> object</code>
-- <code title="post /openai/deployments/{model}/embeddings">client.openai.deployments.<a href="./src/hanzoai/resources/openai/deployments/deployments.py">embed</a>(path_model, \*\*<a href="src/hanzoai/types/openai/deployment_embed_params.py">params</a>) -> object</code>
+- <code title="post /openai/deployments/{model}/embeddings">client.openai.deployments.<a href="./src/hanzoai/resources/openai/deployments/deployments.py">embed</a>(model) -> object</code>
 
 ### Chat
 
 Methods:
 
-- <code title="post /openai/deployments/{model}/chat/completions">client.openai.deployments.chat.<a href="./src/hanzoai/resources/openai/deployments/chat.py">complete</a>(path_model, \*\*<a href="src/hanzoai/types/openai/deployments/chat_complete_params.py">params</a>) -> object</code>
+- <code title="post /openai/deployments/{model}/chat/completions">client.openai.deployments.chat.<a href="./src/hanzoai/resources/openai/deployments/chat.py">complete</a>(model) -> object</code>
 
 # Engines
 
 Methods:
 
 - <code title="post /engines/{model}/completions">client.engines.<a href="./src/hanzoai/resources/engines/engines.py">complete</a>(model) -> object</code>
-- <code title="post /engines/{model}/embeddings">client.engines.<a href="./src/hanzoai/resources/engines/engines.py">embed</a>(path_model, \*\*<a href="src/hanzoai/types/engine_embed_params.py">params</a>) -> object</code>
+- <code title="post /engines/{model}/embeddings">client.engines.<a href="./src/hanzoai/resources/engines/engines.py">embed</a>(model) -> object</code>
 
 ## Chat
 
 Methods:
 
-- <code title="post /engines/{model}/chat/completions">client.engines.chat.<a href="./src/hanzoai/resources/engines/chat.py">complete</a>(path_model, \*\*<a href="src/hanzoai/types/engines/chat_complete_params.py">params</a>) -> object</code>
+- <code title="post /engines/{model}/chat/completions">client.engines.chat.<a href="./src/hanzoai/resources/engines/chat.py">complete</a>(model) -> object</code>
 
 # Chat
 
@@ -72,7 +72,7 @@ Methods:
 
 Methods:
 
-- <code title="post /v1/images/generations">client.images.generations.<a href="./src/hanzoai/resources/images/generations.py">create</a>(\*\*<a href="src/hanzoai/types/images/generation_create_params.py">params</a>) -> object</code>
+- <code title="post /v1/images/generations">client.images.generations.<a href="./src/hanzoai/resources/images/generations.py">create</a>() -> object</code>
 
 # Audio
 
@@ -141,7 +141,7 @@ Methods:
 Types:
 
 ```python
-from hanzoai.types import ModelInfo
+from hanzoai.types import ConfigurableClientsideParamsCustomAuth, ModelInfo
 ```
 
 Methods:
@@ -223,12 +223,6 @@ Methods:
 # FineTuning
 
 ## Jobs
-
-Types:
-
-```python
-from hanzoai.types.fine_tuning import LiteLlmFineTuningJobCreate
-```
 
 Methods:
 
@@ -359,7 +353,7 @@ from hanzoai.types.config import PassThroughEndpointResponse, PassThroughGeneric
 Methods:
 
 - <code title="post /config/pass_through_endpoint">client.config.pass_through_endpoint.<a href="./src/hanzoai/resources/config/pass_through_endpoint.py">create</a>(\*\*<a href="src/hanzoai/types/config/pass_through_endpoint_create_params.py">params</a>) -> object</code>
-- <code title="post /config/pass_through_endpoint/{endpoint_id}">client.config.pass_through_endpoint.<a href="./src/hanzoai/resources/config/pass_through_endpoint.py">update</a>(endpoint_id, \*\*<a href="src/hanzoai/types/config/pass_through_endpoint_update_params.py">params</a>) -> object</code>
+- <code title="post /config/pass_through_endpoint/{endpoint_id}">client.config.pass_through_endpoint.<a href="./src/hanzoai/resources/config/pass_through_endpoint.py">update</a>(endpoint_id) -> object</code>
 - <code title="get /config/pass_through_endpoint">client.config.pass_through_endpoint.<a href="./src/hanzoai/resources/config/pass_through_endpoint.py">list</a>(\*\*<a href="src/hanzoai/types/config/pass_through_endpoint_list_params.py">params</a>) -> <a href="./src/hanzoai/types/config/pass_through_endpoint_response.py">PassThroughEndpointResponse</a></code>
 - <code title="delete /config/pass_through_endpoint">client.config.pass_through_endpoint.<a href="./src/hanzoai/resources/config/pass_through_endpoint.py">delete</a>(\*\*<a href="src/hanzoai/types/config/pass_through_endpoint_delete_params.py">params</a>) -> <a href="./src/hanzoai/types/config/pass_through_endpoint_response.py">PassThroughEndpointResponse</a></code>
 
@@ -437,6 +431,7 @@ Methods:
 
 - <code title="post /user/new">client.user.<a href="./src/hanzoai/resources/user.py">create</a>(\*\*<a href="src/hanzoai/types/user_create_params.py">params</a>) -> <a href="./src/hanzoai/types/user_create_response.py">UserCreateResponse</a></code>
 - <code title="post /user/update">client.user.<a href="./src/hanzoai/resources/user.py">update</a>(\*\*<a href="src/hanzoai/types/user_update_params.py">params</a>) -> object</code>
+- <code title="get /user/get_users">client.user.<a href="./src/hanzoai/resources/user.py">list</a>(\*\*<a href="src/hanzoai/types/user_list_params.py">params</a>) -> object</code>
 - <code title="post /user/delete">client.user.<a href="./src/hanzoai/resources/user.py">delete</a>(\*\*<a href="src/hanzoai/types/user_delete_params.py">params</a>) -> object</code>
 - <code title="get /user/info">client.user.<a href="./src/hanzoai/resources/user.py">retrieve_info</a>(\*\*<a href="src/hanzoai/types/user_retrieve_info_params.py">params</a>) -> object</code>
 
@@ -489,33 +484,37 @@ Types:
 
 ```python
 from hanzoai.types import (
-    BudgetTable,
     OrgMember,
-    OrganizationMembershipTable,
-    OrganizationTableWithMembers,
-    UserRoles,
     OrganizationCreateResponse,
+    OrganizationUpdateResponse,
     OrganizationListResponse,
     OrganizationDeleteResponse,
     OrganizationAddMemberResponse,
+    OrganizationUpdateMemberResponse,
 )
 ```
 
 Methods:
 
 - <code title="post /organization/new">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">create</a>(\*\*<a href="src/hanzoai/types/organization_create_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_create_response.py">OrganizationCreateResponse</a></code>
-- <code title="patch /organization/update">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">update</a>() -> <a href="./src/hanzoai/types/organization_table_with_members.py">OrganizationTableWithMembers</a></code>
-- <code title="get /organization/list">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">list</a>(\*\*<a href="src/hanzoai/types/organization_list_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_list_response.py">OrganizationListResponse</a></code>
+- <code title="patch /organization/update">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">update</a>(\*\*<a href="src/hanzoai/types/organization_update_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_update_response.py">OrganizationUpdateResponse</a></code>
+- <code title="get /organization/list">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">list</a>() -> <a href="./src/hanzoai/types/organization_list_response.py">OrganizationListResponse</a></code>
 - <code title="delete /organization/delete">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">delete</a>(\*\*<a href="src/hanzoai/types/organization_delete_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_delete_response.py">OrganizationDeleteResponse</a></code>
 - <code title="post /organization/member_add">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">add_member</a>(\*\*<a href="src/hanzoai/types/organization_add_member_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_add_member_response.py">OrganizationAddMemberResponse</a></code>
 - <code title="delete /organization/member_delete">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">delete_member</a>(\*\*<a href="src/hanzoai/types/organization_delete_member_params.py">params</a>) -> object</code>
-- <code title="patch /organization/member_update">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">update_member</a>(\*\*<a href="src/hanzoai/types/organization_update_member_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_membership_table.py">OrganizationMembershipTable</a></code>
+- <code title="patch /organization/member_update">client.organization.<a href="./src/hanzoai/resources/organization/organization.py">update_member</a>(\*\*<a href="src/hanzoai/types/organization_update_member_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_update_member_response.py">OrganizationUpdateMemberResponse</a></code>
 
 ## Info
 
+Types:
+
+```python
+from hanzoai.types.organization import InfoRetrieveResponse
+```
+
 Methods:
 
-- <code title="get /organization/info">client.organization.info.<a href="./src/hanzoai/resources/organization/info.py">retrieve</a>(\*\*<a href="src/hanzoai/types/organization/info_retrieve_params.py">params</a>) -> <a href="./src/hanzoai/types/organization_table_with_members.py">OrganizationTableWithMembers</a></code>
+- <code title="get /organization/info">client.organization.info.<a href="./src/hanzoai/resources/organization/info.py">retrieve</a>(\*\*<a href="src/hanzoai/types/organization/info_retrieve_params.py">params</a>) -> <a href="./src/hanzoai/types/organization/info_retrieve_response.py">InfoRetrieveResponse</a></code>
 - <code title="post /organization/info">client.organization.info.<a href="./src/hanzoai/resources/organization/info.py">deprecated</a>(\*\*<a href="src/hanzoai/types/organization/info_deprecated_params.py">params</a>) -> object</code>
 
 # Customer
@@ -523,7 +522,7 @@ Methods:
 Types:
 
 ```python
-from hanzoai.types import BlockUsers, LiteLlmEndUserTable, CustomerListResponse
+from hanzoai.types import BlockUsers, CustomerListResponse, CustomerRetrieveInfoResponse
 ```
 
 Methods:
@@ -533,7 +532,7 @@ Methods:
 - <code title="get /customer/list">client.customer.<a href="./src/hanzoai/resources/customer.py">list</a>() -> <a href="./src/hanzoai/types/customer_list_response.py">CustomerListResponse</a></code>
 - <code title="post /customer/delete">client.customer.<a href="./src/hanzoai/resources/customer.py">delete</a>(\*\*<a href="src/hanzoai/types/customer_delete_params.py">params</a>) -> object</code>
 - <code title="post /customer/block">client.customer.<a href="./src/hanzoai/resources/customer.py">block</a>(\*\*<a href="src/hanzoai/types/customer_block_params.py">params</a>) -> object</code>
-- <code title="get /customer/info">client.customer.<a href="./src/hanzoai/resources/customer.py">retrieve_info</a>(\*\*<a href="src/hanzoai/types/customer_retrieve_info_params.py">params</a>) -> <a href="./src/hanzoai/types/lite_llm_end_user_table.py">LiteLlmEndUserTable</a></code>
+- <code title="get /customer/info">client.customer.<a href="./src/hanzoai/resources/customer.py">retrieve_info</a>(\*\*<a href="src/hanzoai/types/customer_retrieve_info_params.py">params</a>) -> <a href="./src/hanzoai/types/customer_retrieve_info_response.py">CustomerRetrieveInfoResponse</a></code>
 - <code title="post /customer/unblock">client.customer.<a href="./src/hanzoai/resources/customer.py">unblock</a>(\*\*<a href="src/hanzoai/types/customer_unblock_params.py">params</a>) -> object</code>
 
 # Spend

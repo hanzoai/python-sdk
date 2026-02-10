@@ -1,43 +1,21 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
+from typing import List, Union, Optional
 from datetime import datetime
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["KeyBlockResponse", "ObjectPermission"]
-
-
-class ObjectPermission(BaseModel):
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: str
-
-    agent_access_groups: Optional[List[str]] = None
-
-    agents: Optional[List[str]] = None
-
-    mcp_access_groups: Optional[List[str]] = None
-
-    mcp_servers: Optional[List[str]] = None
-
-    mcp_tool_permissions: Optional[Dict[str, List[str]]] = None
-
-    vector_stores: Optional[List[str]] = None
+__all__ = ["KeyBlockResponse"]
 
 
 class KeyBlockResponse(BaseModel):
     token: Optional[str] = None
 
-    aliases: Optional[Dict[str, object]] = None
+    aliases: Optional[object] = None
 
     allowed_cache_controls: Optional[List[object]] = None
-
-    allowed_routes: Optional[List[object]] = None
-
-    auto_rotate: Optional[bool] = None
 
     blocked: Optional[bool] = None
 
@@ -45,7 +23,7 @@ class KeyBlockResponse(BaseModel):
 
     budget_reset_at: Optional[datetime] = None
 
-    config: Optional[Dict[str, object]] = None
+    config: Optional[object] = None
 
     created_at: Optional[datetime] = None
 
@@ -57,38 +35,23 @@ class KeyBlockResponse(BaseModel):
 
     key_name: Optional[str] = None
 
-    key_rotation_at: Optional[datetime] = None
-
-    last_rotation_at: Optional[datetime] = None
-
-    litellm_budget_table: Optional[Dict[str, object]] = None
+    llm_budget_table: Optional[object] = None
 
     max_budget: Optional[float] = None
 
     max_parallel_requests: Optional[int] = None
 
-    metadata: Optional[Dict[str, object]] = None
+    metadata: Optional[object] = None
 
-    api_model_max_budget: Optional[Dict[str, object]] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
 
-    api_model_spend: Optional[Dict[str, object]] = FieldInfo(alias="model_spend", default=None)
+    api_model_spend: Optional[object] = FieldInfo(alias="model_spend", default=None)
 
     models: Optional[List[object]] = None
 
-    object_permission: Optional[ObjectPermission] = None
-    """Represents a LiteLLM_ObjectPermissionTable record"""
-
-    object_permission_id: Optional[str] = None
-
     org_id: Optional[str] = None
 
-    permissions: Optional[Dict[str, object]] = None
-
-    rotation_count: Optional[int] = None
-
-    rotation_interval: Optional[str] = None
-
-    router_settings: Optional[Dict[str, object]] = None
+    permissions: Optional[object] = None
 
     rpm_limit: Optional[int] = None
 

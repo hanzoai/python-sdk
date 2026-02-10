@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -87,37 +87,22 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         admins: Iterable[object] | Omit = omit,
-        allowed_passthrough_routes: Optional[Iterable[object]] | Omit = omit,
-        allowed_vector_store_indexes: Optional[Iterable[team_create_params.AllowedVectorStoreIndex]] | Omit = omit,
         blocked: bool | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         members: Iterable[object] | Omit = omit,
         members_with_roles: Iterable[MemberParam] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_aliases: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
         models: Iterable[object] | Omit = omit,
-        object_permission: Optional[team_create_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
-        router_settings: Optional[Dict[str, object]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
-        rpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput"]] | Omit = omit,
-        secret_manager_settings: Optional[Dict[str, object]] | Omit = omit,
         tags: Optional[Iterable[object]] | Omit = omit,
         team_alias: Optional[str] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
-        team_member_budget: Optional[float] | Omit = omit,
-        team_member_key_duration: Optional[str] | Omit = omit,
-        team_member_permissions: Optional[SequenceNotStr[str]] | Omit = omit,
-        team_member_rpm_limit: Optional[int] | Omit = omit,
-        team_member_tpm_limit: Optional[int] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        tpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput"]] | Omit = omit,
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -130,7 +115,7 @@ class TeamResource(SyncAPIResource):
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.litellm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.hanzo.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -140,31 +125,16 @@ class TeamResource(SyncAPIResource):
         - members_with_roles: List[{"role": "admin" or "user", "user_id":
           "<user-id>"}] - A list of users and their roles in the team. Get user_id when
           making a new user via `/user/new`.
-        - team_member_permissions: Optional[List[str]] - A list of routes that non-admin
-          team members can access. example: ["/key/generate", "/key/update",
-          "/key/delete"]
         - metadata: Optional[dict] - Metadata for team, store information for team.
           Example metadata = {"extra_info": "some info"}
-        - model_rpm_limit: Optional[Dict[str, int]] - The RPM (Requests Per Minute)
-          limit for this team - applied across all keys for this team.
-        - model_tpm_limit: Optional[Dict[str, int]] - The TPM (Tokens Per Minute) limit
-          for this team - applied across all keys for this team.
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
           all keys associated with this team_id will have at max this RPM limit
-        - rpm_limit_type: Optional[Literal["guaranteed_throughput",
-          "best_effort_throughput"]] - The type of RPM limit enforcement. Use
-          "guaranteed_throughput" to raise an error if overallocating RPM, or
-          "best_effort_throughput" for best effort enforcement.
-        - tpm_limit_type: Optional[Literal["guaranteed_throughput",
-          "best_effort_throughput"]] - The type of TPM limit enforcement. Use
-          "guaranteed_throughput" to raise an error if overallocating TPM, or
-          "best_effort_throughput" for best effort enforcement.
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -173,46 +143,15 @@ class TeamResource(SyncAPIResource):
         - members: Optional[List] - Control team members via `/team/member/add` and
           `/team/member/delete`.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
-        - prompts: Optional[List[str]] - List of prompts that the team is allowed to
-          use.
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails)
-        - disable_global_guardrails: Optional[bool] - Whether to disable global
-          guardrails for the key.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - team-specific
-          object permission. Example - {"vector_stores": ["vector_store_1",
-          "vector_store_2"], "agents": ["agent_1", "agent_2"], "agent_access_groups":
-          ["dev_group"]}. IF null or {} then no object permission.
-        - team_member_budget: Optional[float] - The maximum budget allocated to an
-          individual team member.
-        - team_member_rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for
-          individual team members.
-        - team_member_tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for
-          individual team members.
-        - team_member_key_duration: Optional[str] - The duration for a team member's
-          key. e.g. "1d", "1w", "1mo"
-        - allowed_passthrough_routes: Optional[List[str]] - List of allowed pass through
-          routes for the team.
-        - allowed_vector_store_indexes: Optional[List[dict]] - List of allowed vector
-          store indexes for the key. Example - [{"index_name": "my-index",
-          "index_permissions": ["write", "read"]}]. If specified, the key will only be
-          able to use these specific vector store indexes. Create index, using
-          `/v1/indexes` endpoint.
-        - secret_manager_settings: Optional[dict] - Secret manager settings for the
-          team. [Docs](https://docs.litellm.ai/docs/secret_managers/overview)
-        - router_settings: Optional[UpdateRouterConfig] - team-specific router settings.
-          Example - {"model_group_retry_policy": {"max_retries": 5}}. IF null or {} then
-          no router settings.
-
-        Returns:
-
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -241,9 +180,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -253,14 +191,12 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/new",
             body=maybe_transform(
                 {
                     "admins": admins,
-                    "allowed_passthrough_routes": allowed_passthrough_routes,
-                    "allowed_vector_store_indexes": allowed_vector_store_indexes,
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "guardrails": guardrails,
@@ -269,26 +205,13 @@ class TeamResource(SyncAPIResource):
                     "members_with_roles": members_with_roles,
                     "metadata": metadata,
                     "model_aliases": model_aliases,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
-                    "prompts": prompts,
-                    "router_settings": router_settings,
                     "rpm_limit": rpm_limit,
-                    "rpm_limit_type": rpm_limit_type,
-                    "secret_manager_settings": secret_manager_settings,
                     "tags": tags,
                     "team_alias": team_alias,
                     "team_id": team_id,
-                    "team_member_budget": team_member_budget,
-                    "team_member_key_duration": team_member_key_duration,
-                    "team_member_permissions": team_member_permissions,
-                    "team_member_rpm_limit": team_member_rpm_limit,
-                    "team_member_tpm_limit": team_member_tpm_limit,
                     "tpm_limit": tpm_limit,
-                    "tpm_limit_type": tpm_limit_type,
                 },
                 team_create_params.TeamCreateParams,
             ),
@@ -302,32 +225,19 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_id: str,
-        allowed_passthrough_routes: Optional[Iterable[object]] | Omit = omit,
-        allowed_vector_store_indexes: Optional[Iterable[team_update_params.AllowedVectorStoreIndex]] | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_aliases: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[team_update_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
-        router_settings: Optional[Dict[str, object]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
-        secret_manager_settings: Optional[Dict[str, object]] | Omit = omit,
         tags: Optional[Iterable[object]] | Omit = omit,
         team_alias: Optional[str] | Omit = omit,
-        team_member_budget: Optional[float] | Omit = omit,
-        team_member_budget_duration: Optional[str] | Omit = omit,
-        team_member_key_duration: Optional[str] | Omit = omit,
-        team_member_rpm_limit: Optional[int] | Omit = omit,
-        team_member_tpm_limit: Optional[int] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -344,12 +254,9 @@ class TeamResource(SyncAPIResource):
 
         - team_id: str - The team id of the user. Required param.
         - team_alias: Optional[str] - User defined team alias
-        - team_member_permissions: Optional[List[str]] - A list of routes that non-admin
-          team members can access. example: ["/key/generate", "/key/update",
-          "/key/delete"]
         - metadata: Optional[dict] - Metadata for team, store information for team.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
@@ -357,57 +264,23 @@ class TeamResource(SyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
-        - prompts: Optional[List[str]] - List of prompts that the team is allowed to
-          use.
         - blocked: bool - Flag indicating if the team is blocked or not - will stop all
           calls from keys with this team_id.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails)
-        - disable_global_guardrails: Optional[bool] - Whether to disable global
-          guardrails for the key.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - team-specific
-          object permission. Example - {"vector_stores": ["vector_store_1",
-          "vector_store_2"], "agents": ["agent_1", "agent_2"], "agent_access_groups":
-          ["dev_group"]}. IF null or {} then no object permission.
-        - team_member_budget: Optional[float] - The maximum budget allocated to an
-          individual team member.
-        - team_member_budget_duration: Optional[str] - The duration of the budget for
-          the team member. Doc [here](https://docs.litellm.ai/docs/proxy/team_budgets)
-        - team_member_rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for
-          individual team members.
-        - team_member_tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for
-          individual team members.
-        - team_member_key_duration: Optional[str] - The duration for a team member's
-          key. e.g. "1d", "1w", "1mo"
-        - allowed_passthrough_routes: Optional[List[str]] - List of allowed pass through
-          routes for the team.
-        - model_rpm_limit: Optional[Dict[str, int]] - The RPM (Requests Per Minute)
-          limit per model for this team. Example: {"gpt-4": 100, "gpt-3.5-turbo": 200}
-        - model_tpm_limit: Optional[Dict[str, int]] - The TPM (Tokens Per Minute) limit
-          per model for this team. Example: {"gpt-4": 10000, "gpt-3.5-turbo": 20000}
-          Example - update team TPM Limit
-        - allowed_vector_store_indexes: Optional[List[dict]] - List of allowed vector
-          store indexes for the key. Example - [{"index_name": "my-index",
-          "index_permissions": ["write", "read"]}]. If specified, the key will only be
-          able to use these specific vector store indexes. Create index, using
-          `/v1/indexes` endpoint.
-        - secret_manager_settings: Optional[dict] - Secret manager settings for the
-          team. [Docs](https://docs.litellm.ai/docs/secret_managers/overview)
-        - router_settings: Optional[UpdateRouterConfig] - team-specific router settings.
-          Example - {"model_group_retry_policy": {"max_retries": 5}}. IF null or {} then
-          no router settings.
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Example - update team TPM
+          Limit
 
         ```
         curl --location 'http://0.0.0.0:4000/team/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data-raw '{
@@ -426,9 +299,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -438,36 +310,23 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/update",
             body=maybe_transform(
                 {
                     "team_id": team_id,
-                    "allowed_passthrough_routes": allowed_passthrough_routes,
-                    "allowed_vector_store_indexes": allowed_vector_store_indexes,
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "guardrails": guardrails,
                     "max_budget": max_budget,
                     "metadata": metadata,
                     "model_aliases": model_aliases,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
-                    "prompts": prompts,
-                    "router_settings": router_settings,
                     "rpm_limit": rpm_limit,
-                    "secret_manager_settings": secret_manager_settings,
                     "tags": tags,
                     "team_alias": team_alias,
-                    "team_member_budget": team_member_budget,
-                    "team_member_budget_duration": team_member_budget_duration,
-                    "team_member_key_duration": team_member_key_duration,
-                    "team_member_rpm_limit": team_member_rpm_limit,
-                    "team_member_tpm_limit": team_member_tpm_limit,
                     "tpm_limit": tpm_limit,
                 },
                 team_update_params.TeamUpdateParams,
@@ -536,7 +395,7 @@ class TeamResource(SyncAPIResource):
         self,
         *,
         team_ids: SequenceNotStr[str],
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -559,9 +418,8 @@ class TeamResource(SyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -571,7 +429,7 @@ class TeamResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/team/delete",
             body=maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
@@ -595,6 +453,8 @@ class TeamResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamAddMemberResponse:
         """
+        [BETA]
+
         Add new members (either via user_email or user_id) to a team
 
         If user doesn't exist, new user row will also be added to User Table
@@ -603,19 +463,11 @@ class TeamResource(SyncAPIResource):
 
         ```
 
-        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "krrish247652@berri.ai"}}'
+        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "dev247652@hanzo.ai"}}'
 
         ```
 
         Args:
-          member: Member object or list of member objects to add. Each member must include either
-              user_id or user_email, and a role
-
-          team_id: The ID of the team to add the member to
-
-          max_budget_in_team: Maximum budget allocated to this user within the team. If not set, user has
-              unlimited budget within team limits
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -794,7 +646,7 @@ class TeamResource(SyncAPIResource):
         -H 'Content-Type: application/json'
         -d '{
             "team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
-            "user_id": "krrish247652@berri.ai"
+            "user_id": "dev247652@hanzo.ai"
         }'
         ```
 
@@ -919,8 +771,6 @@ class TeamResource(SyncAPIResource):
         team_id: str,
         max_budget_in_team: Optional[float] | Omit = omit,
         role: Optional[Literal["admin", "user"]] | Omit = omit,
-        rpm_limit: Optional[int] | Omit = omit,
-        tpm_limit: Optional[int] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -936,10 +786,6 @@ class TeamResource(SyncAPIResource):
         Update team member budgets and team member role
 
         Args:
-          rpm_limit: Requests per minute limit for this team member
-
-          tpm_limit: Tokens per minute limit for this team member
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -955,8 +801,6 @@ class TeamResource(SyncAPIResource):
                     "team_id": team_id,
                     "max_budget_in_team": max_budget_in_team,
                     "role": role,
-                    "rpm_limit": rpm_limit,
-                    "tpm_limit": tpm_limit,
                     "user_email": user_email,
                     "user_id": user_id,
                 },
@@ -1001,37 +845,22 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         admins: Iterable[object] | Omit = omit,
-        allowed_passthrough_routes: Optional[Iterable[object]] | Omit = omit,
-        allowed_vector_store_indexes: Optional[Iterable[team_create_params.AllowedVectorStoreIndex]] | Omit = omit,
         blocked: bool | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         members: Iterable[object] | Omit = omit,
         members_with_roles: Iterable[MemberParam] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_aliases: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
         models: Iterable[object] | Omit = omit,
-        object_permission: Optional[team_create_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
-        router_settings: Optional[Dict[str, object]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
-        rpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput"]] | Omit = omit,
-        secret_manager_settings: Optional[Dict[str, object]] | Omit = omit,
         tags: Optional[Iterable[object]] | Omit = omit,
         team_alias: Optional[str] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
-        team_member_budget: Optional[float] | Omit = omit,
-        team_member_key_duration: Optional[str] | Omit = omit,
-        team_member_permissions: Optional[SequenceNotStr[str]] | Omit = omit,
-        team_member_rpm_limit: Optional[int] | Omit = omit,
-        team_member_tpm_limit: Optional[int] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        tpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput"]] | Omit = omit,
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1044,7 +873,7 @@ class AsyncTeamResource(AsyncAPIResource):
         Apply user permissions to their team.
 
         👉
-        [Detailed Doc on setting team budgets](https://docs.litellm.ai/docs/proxy/team_budgets)
+        [Detailed Doc on setting team budgets](https://docs.hanzo.ai/docs/proxy/team_budgets)
 
         Parameters:
 
@@ -1054,31 +883,16 @@ class AsyncTeamResource(AsyncAPIResource):
         - members_with_roles: List[{"role": "admin" or "user", "user_id":
           "<user-id>"}] - A list of users and their roles in the team. Get user_id when
           making a new user via `/user/new`.
-        - team_member_permissions: Optional[List[str]] - A list of routes that non-admin
-          team members can access. example: ["/key/generate", "/key/update",
-          "/key/delete"]
         - metadata: Optional[dict] - Metadata for team, store information for team.
           Example metadata = {"extra_info": "some info"}
-        - model_rpm_limit: Optional[Dict[str, int]] - The RPM (Requests Per Minute)
-          limit for this team - applied across all keys for this team.
-        - model_tpm_limit: Optional[Dict[str, int]] - The TPM (Tokens Per Minute) limit
-          for this team - applied across all keys for this team.
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
           all keys associated with this team_id will have at max this RPM limit
-        - rpm_limit_type: Optional[Literal["guaranteed_throughput",
-          "best_effort_throughput"]] - The type of RPM limit enforcement. Use
-          "guaranteed_throughput" to raise an error if overallocating RPM, or
-          "best_effort_throughput" for best effort enforcement.
-        - tpm_limit_type: Optional[Literal["guaranteed_throughput",
-          "best_effort_throughput"]] - The type of TPM limit enforcement. Use
-          "guaranteed_throughput" to raise an error if overallocating TPM, or
-          "best_effort_throughput" for best effort enforcement.
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
@@ -1087,46 +901,15 @@ class AsyncTeamResource(AsyncAPIResource):
         - members: Optional[List] - Control team members via `/team/member/add` and
           `/team/member/delete`.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
-        - prompts: Optional[List[str]] - List of prompts that the team is allowed to
-          use.
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails)
-        - disable_global_guardrails: Optional[bool] - Whether to disable global
-          guardrails for the key.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - team-specific
-          object permission. Example - {"vector_stores": ["vector_store_1",
-          "vector_store_2"], "agents": ["agent_1", "agent_2"], "agent_access_groups":
-          ["dev_group"]}. IF null or {} then no object permission.
-        - team_member_budget: Optional[float] - The maximum budget allocated to an
-          individual team member.
-        - team_member_rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for
-          individual team members.
-        - team_member_tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for
-          individual team members.
-        - team_member_key_duration: Optional[str] - The duration for a team member's
-          key. e.g. "1d", "1w", "1mo"
-        - allowed_passthrough_routes: Optional[List[str]] - List of allowed pass through
-          routes for the team.
-        - allowed_vector_store_indexes: Optional[List[dict]] - List of allowed vector
-          store indexes for the key. Example - [{"index_name": "my-index",
-          "index_permissions": ["write", "read"]}]. If specified, the key will only be
-          able to use these specific vector store indexes. Create index, using
-          `/v1/indexes` endpoint.
-        - secret_manager_settings: Optional[dict] - Secret manager settings for the
-          team. [Docs](https://docs.litellm.ai/docs/secret_managers/overview)
-        - router_settings: Optional[UpdateRouterConfig] - team-specific router settings.
-          Example - {"model_group_retry_policy": {"max_retries": 5}}. IF null or {} then
-          no router settings.
-
-        Returns:
-
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Returns:
         - team_id: (str) Unique team id - used for tracking spend across multiple keys
           for same team id.
 
@@ -1155,9 +938,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1167,14 +949,12 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/new",
             body=await async_maybe_transform(
                 {
                     "admins": admins,
-                    "allowed_passthrough_routes": allowed_passthrough_routes,
-                    "allowed_vector_store_indexes": allowed_vector_store_indexes,
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "guardrails": guardrails,
@@ -1183,26 +963,13 @@ class AsyncTeamResource(AsyncAPIResource):
                     "members_with_roles": members_with_roles,
                     "metadata": metadata,
                     "model_aliases": model_aliases,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
-                    "prompts": prompts,
-                    "router_settings": router_settings,
                     "rpm_limit": rpm_limit,
-                    "rpm_limit_type": rpm_limit_type,
-                    "secret_manager_settings": secret_manager_settings,
                     "tags": tags,
                     "team_alias": team_alias,
                     "team_id": team_id,
-                    "team_member_budget": team_member_budget,
-                    "team_member_key_duration": team_member_key_duration,
-                    "team_member_permissions": team_member_permissions,
-                    "team_member_rpm_limit": team_member_rpm_limit,
-                    "team_member_tpm_limit": team_member_tpm_limit,
                     "tpm_limit": tpm_limit,
-                    "tpm_limit_type": tpm_limit_type,
                 },
                 team_create_params.TeamCreateParams,
             ),
@@ -1216,32 +983,19 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_id: str,
-        allowed_passthrough_routes: Optional[Iterable[object]] | Omit = omit,
-        allowed_vector_store_indexes: Optional[Iterable[team_update_params.AllowedVectorStoreIndex]] | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_aliases: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_aliases: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[team_update_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
-        router_settings: Optional[Dict[str, object]] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
-        secret_manager_settings: Optional[Dict[str, object]] | Omit = omit,
         tags: Optional[Iterable[object]] | Omit = omit,
         team_alias: Optional[str] | Omit = omit,
-        team_member_budget: Optional[float] | Omit = omit,
-        team_member_budget_duration: Optional[str] | Omit = omit,
-        team_member_key_duration: Optional[str] | Omit = omit,
-        team_member_rpm_limit: Optional[int] | Omit = omit,
-        team_member_tpm_limit: Optional[int] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1258,12 +1012,9 @@ class AsyncTeamResource(AsyncAPIResource):
 
         - team_id: str - The team id of the user. Required param.
         - team_alias: Optional[str] - User defined team alias
-        - team_member_permissions: Optional[List[str]] - A list of routes that non-admin
-          team members can access. example: ["/key/generate", "/key/update",
-          "/key/delete"]
         - metadata: Optional[dict] - Metadata for team, store information for team.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for this team -
           all keys with this team_id will have at max this TPM limit
         - rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for this team -
@@ -1271,57 +1022,23 @@ class AsyncTeamResource(AsyncAPIResource):
         - max_budget: Optional[float] - The maximum budget allocated to the team - all
           keys for this team_id will have at max this max_budget
         - budget_duration: Optional[str] - The duration of the budget for the team. Doc
-          [here](https://docs.litellm.ai/docs/proxy/team_budgets)
+          [here](https://docs.hanzo.ai/docs/proxy/team_budgets)
         - models: Optional[list] - A list of models associated with the team - all keys
           for this team_id will have at most, these models. If empty, assumes all models
           are allowed.
-        - prompts: Optional[List[str]] - List of prompts that the team is allowed to
-          use.
         - blocked: bool - Flag indicating if the team is blocked or not - will stop all
           calls from keys with this team_id.
         - tags: Optional[List[str]] - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: Optional[str] - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
         - guardrails: Optional[List[str]] - Guardrails for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/guardrails)
-        - disable_global_guardrails: Optional[bool] - Whether to disable global
-          guardrails for the key.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - team-specific
-          object permission. Example - {"vector_stores": ["vector_store_1",
-          "vector_store_2"], "agents": ["agent_1", "agent_2"], "agent_access_groups":
-          ["dev_group"]}. IF null or {} then no object permission.
-        - team_member_budget: Optional[float] - The maximum budget allocated to an
-          individual team member.
-        - team_member_budget_duration: Optional[str] - The duration of the budget for
-          the team member. Doc [here](https://docs.litellm.ai/docs/proxy/team_budgets)
-        - team_member_rpm_limit: Optional[int] - The RPM (Requests Per Minute) limit for
-          individual team members.
-        - team_member_tpm_limit: Optional[int] - The TPM (Tokens Per Minute) limit for
-          individual team members.
-        - team_member_key_duration: Optional[str] - The duration for a team member's
-          key. e.g. "1d", "1w", "1mo"
-        - allowed_passthrough_routes: Optional[List[str]] - List of allowed pass through
-          routes for the team.
-        - model_rpm_limit: Optional[Dict[str, int]] - The RPM (Requests Per Minute)
-          limit per model for this team. Example: {"gpt-4": 100, "gpt-3.5-turbo": 200}
-        - model_tpm_limit: Optional[Dict[str, int]] - The TPM (Tokens Per Minute) limit
-          per model for this team. Example: {"gpt-4": 10000, "gpt-3.5-turbo": 20000}
-          Example - update team TPM Limit
-        - allowed_vector_store_indexes: Optional[List[dict]] - List of allowed vector
-          store indexes for the key. Example - [{"index_name": "my-index",
-          "index_permissions": ["write", "read"]}]. If specified, the key will only be
-          able to use these specific vector store indexes. Create index, using
-          `/v1/indexes` endpoint.
-        - secret_manager_settings: Optional[dict] - Secret manager settings for the
-          team. [Docs](https://docs.litellm.ai/docs/secret_managers/overview)
-        - router_settings: Optional[UpdateRouterConfig] - team-specific router settings.
-          Example - {"model_group_retry_policy": {"max_retries": 5}}. IF null or {} then
-          no router settings.
+          [Docs](https://docs.hanzo.ai/docs/proxy/guardrails) Example - update team TPM
+          Limit
 
         ```
         curl --location 'http://0.0.0.0:4000/team/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data-raw '{
@@ -1340,9 +1057,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1352,36 +1068,23 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/update",
             body=await async_maybe_transform(
                 {
                     "team_id": team_id,
-                    "allowed_passthrough_routes": allowed_passthrough_routes,
-                    "allowed_vector_store_indexes": allowed_vector_store_indexes,
                     "blocked": blocked,
                     "budget_duration": budget_duration,
                     "guardrails": guardrails,
                     "max_budget": max_budget,
                     "metadata": metadata,
                     "model_aliases": model_aliases,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
-                    "prompts": prompts,
-                    "router_settings": router_settings,
                     "rpm_limit": rpm_limit,
-                    "secret_manager_settings": secret_manager_settings,
                     "tags": tags,
                     "team_alias": team_alias,
-                    "team_member_budget": team_member_budget,
-                    "team_member_budget_duration": team_member_budget_duration,
-                    "team_member_key_duration": team_member_key_duration,
-                    "team_member_rpm_limit": team_member_rpm_limit,
-                    "team_member_tpm_limit": team_member_tpm_limit,
                     "tpm_limit": tpm_limit,
                 },
                 team_update_params.TeamUpdateParams,
@@ -1450,7 +1153,7 @@ class AsyncTeamResource(AsyncAPIResource):
         self,
         *,
         team_ids: SequenceNotStr[str],
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1473,9 +1176,8 @@ class AsyncTeamResource(AsyncAPIResource):
         ```
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -1485,7 +1187,7 @@ class AsyncTeamResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/team/delete",
             body=await async_maybe_transform({"team_ids": team_ids}, team_delete_params.TeamDeleteParams),
@@ -1509,6 +1211,8 @@ class AsyncTeamResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TeamAddMemberResponse:
         """
+        [BETA]
+
         Add new members (either via user_email or user_id) to a team
 
         If user doesn't exist, new user row will also be added to User Table
@@ -1517,19 +1221,11 @@ class AsyncTeamResource(AsyncAPIResource):
 
         ```
 
-        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "krrish247652@berri.ai"}}'
+        curl -X POST 'http://0.0.0.0:4000/team/member_add'     -H 'Authorization: Bearer sk-1234'     -H 'Content-Type: application/json'     -d '{"team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849", "member": {"role": "user", "user_id": "dev247652@hanzo.ai"}}'
 
         ```
 
         Args:
-          member: Member object or list of member objects to add. Each member must include either
-              user_id or user_email, and a role
-
-          team_id: The ID of the team to add the member to
-
-          max_budget_in_team: Maximum budget allocated to this user within the team. If not set, user has
-              unlimited budget within team limits
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1708,7 +1404,7 @@ class AsyncTeamResource(AsyncAPIResource):
         -H 'Content-Type: application/json'
         -d '{
             "team_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
-            "user_id": "krrish247652@berri.ai"
+            "user_id": "dev247652@hanzo.ai"
         }'
         ```
 
@@ -1835,8 +1531,6 @@ class AsyncTeamResource(AsyncAPIResource):
         team_id: str,
         max_budget_in_team: Optional[float] | Omit = omit,
         role: Optional[Literal["admin", "user"]] | Omit = omit,
-        rpm_limit: Optional[int] | Omit = omit,
-        tpm_limit: Optional[int] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1852,10 +1546,6 @@ class AsyncTeamResource(AsyncAPIResource):
         Update team member budgets and team member role
 
         Args:
-          rpm_limit: Requests per minute limit for this team member
-
-          tpm_limit: Tokens per minute limit for this team member
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1871,8 +1561,6 @@ class AsyncTeamResource(AsyncAPIResource):
                     "team_id": team_id,
                     "max_budget_in_team": max_budget_in_team,
                     "role": role,
-                    "rpm_limit": rpm_limit,
-                    "tpm_limit": tpm_limit,
                     "user_email": user_email,
                     "user_id": user_id,
                 },

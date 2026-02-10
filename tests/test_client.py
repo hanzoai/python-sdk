@@ -400,7 +400,7 @@ class TestHanzo:
     def test_validate_headers(self) -> None:
         client = Hanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("x-litellm-api-key") == api_key
+        assert request.headers.get("Ocp-Apim-Subscription-Key") == api_key
 
         with pytest.raises(HanzoError):
             with update_env(**{"HANZO_API_KEY": Omit()}):
@@ -1291,7 +1291,7 @@ class TestAsyncHanzo:
     def test_validate_headers(self) -> None:
         client = AsyncHanzo(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("x-litellm-api-key") == api_key
+        assert request.headers.get("Ocp-Apim-Subscription-Key") == api_key
 
         with pytest.raises(HanzoError):
             with update_env(**{"HANZO_API_KEY": Omit()}):

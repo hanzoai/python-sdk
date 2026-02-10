@@ -2,38 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
-from typing_extensions import Required, Annotated, TypedDict
-
-from .._types import SequenceNotStr
-from .._utils import PropertyInfo
+from typing import Optional
+from typing_extensions import TypedDict
 
 __all__ = ["EmbeddingCreateParams"]
 
 
 class EmbeddingCreateParams(TypedDict, total=False):
-    model: Required[str]
-
-    api_base: Optional[str]
-
-    api_key: Optional[str]
-
-    api_type: Optional[str]
-
-    api_version: Optional[str]
-
-    caching: bool
-
-    custom_llm_provider: Union[str, Dict[str, object], None]
-
-    input: SequenceNotStr[str]
-
-    litellm_call_id: Optional[str]
-
-    litellm_logging_obj: Optional[Dict[str, object]]
-
-    logger_fn: Optional[str]
-
-    api_timeout: Annotated[int, PropertyInfo(alias="timeout")]
-
-    user: Optional[str]
+    model: Optional[str]

@@ -20,7 +20,7 @@ class TestCredentials:
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         credential = client.credentials.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         )
         assert_matches_type(object, credential, path=["response"])
@@ -29,9 +29,9 @@ class TestCredentials:
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         credential = client.credentials.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
-            credential_values={"foo": "bar"},
+            credential_values={},
             model_id="model_id",
         )
         assert_matches_type(object, credential, path=["response"])
@@ -40,7 +40,7 @@ class TestCredentials:
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.credentials.with_raw_response.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         )
 
@@ -53,7 +53,7 @@ class TestCredentials:
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.credentials.with_streaming_response.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         ) as response:
             assert not response.is_closed
@@ -144,7 +144,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         )
         assert_matches_type(object, credential, path=["response"])
@@ -153,9 +153,9 @@ class TestAsyncCredentials:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         credential = await async_client.credentials.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
-            credential_values={"foo": "bar"},
+            credential_values={},
             model_id="model_id",
         )
         assert_matches_type(object, credential, path=["response"])
@@ -164,7 +164,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.credentials.with_raw_response.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         )
 
@@ -177,7 +177,7 @@ class TestAsyncCredentials:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.credentials.with_streaming_response.create(
-            credential_info={"foo": "bar"},
+            credential_info={},
             credential_name="credential_name",
         ) as response:
             assert not response.is_closed

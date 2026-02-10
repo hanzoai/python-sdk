@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, Optional
+from typing import Optional
 
 from .._models import BaseModel
 
@@ -12,9 +12,9 @@ class CachePingResponse(BaseModel):
 
     status: str
 
-    health_check_cache_params: Optional[Dict[str, object]] = None
+    health_check_cache_params: Optional[object] = None
 
-    litellm_cache_params: Optional[str] = None
+    llm_cache_params: Optional[str] = None
 
     ping_response: Optional[bool] = None
 

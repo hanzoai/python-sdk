@@ -11,6 +11,3 @@ __all__ = ["HealthCheckAllParams"]
 class HealthCheckAllParams(TypedDict, total=False):
     model: Optional[str]
     """Specify the model name (optional)"""
-
-    model_id: Optional[str]
-    """Specify the model ID (optional)"""
