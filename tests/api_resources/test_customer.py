@@ -10,10 +10,9 @@ import pytest
 from hanzoai import Hanzo, AsyncHanzo
 from tests.utils import assert_matches_type
 from hanzoai.types import (
-    LiteLlmEndUserTable,
     CustomerListResponse,
+    CustomerRetrieveInfoResponse,
 )
-from hanzoai._utils import parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -39,7 +38,6 @@ class TestCustomer:
             blocked=True,
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             default_model="default_model",
             max_budget=0,
             max_parallel_requests=0,
@@ -53,7 +51,6 @@ class TestCustomer:
             },
             rpm_limit=0,
             soft_budget=0,
-            spend=0,
             tpm_limit=0,
         )
         assert_matches_type(object, customer, path=["response"])
@@ -234,7 +231,7 @@ class TestCustomer:
         customer = client.customer.retrieve_info(
             end_user_id="end_user_id",
         )
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -246,7 +243,7 @@ class TestCustomer:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         customer = response.parse()
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -258,7 +255,7 @@ class TestCustomer:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             customer = response.parse()
-            assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+            assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -320,7 +317,6 @@ class TestAsyncCustomer:
             blocked=True,
             budget_duration="budget_duration",
             budget_id="budget_id",
-            budget_reset_at=parse_datetime("2019-12-27T18:11:19.117Z"),
             default_model="default_model",
             max_budget=0,
             max_parallel_requests=0,
@@ -334,7 +330,6 @@ class TestAsyncCustomer:
             },
             rpm_limit=0,
             soft_budget=0,
-            spend=0,
             tpm_limit=0,
         )
         assert_matches_type(object, customer, path=["response"])
@@ -515,7 +510,7 @@ class TestAsyncCustomer:
         customer = await async_client.customer.retrieve_info(
             end_user_id="end_user_id",
         )
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -527,7 +522,7 @@ class TestAsyncCustomer:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         customer = await response.parse()
-        assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+        assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -539,7 +534,7 @@ class TestAsyncCustomer:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             customer = await response.parse()
-            assert_matches_type(LiteLlmEndUserTable, customer, path=["response"])
+            assert_matches_type(CustomerRetrieveInfoResponse, customer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

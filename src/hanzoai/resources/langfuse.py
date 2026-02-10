@@ -49,11 +49,11 @@ class LangfuseResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -85,11 +85,11 @@ class LangfuseResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -121,11 +121,11 @@ class LangfuseResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -157,11 +157,11 @@ class LangfuseResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -193,11 +193,11 @@ class LangfuseResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -250,11 +250,11 @@ class AsyncLangfuseResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -286,11 +286,11 @@ class AsyncLangfuseResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -322,11 +322,11 @@ class AsyncLangfuseResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -358,11 +358,11 @@ class AsyncLangfuseResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers
@@ -394,11 +394,11 @@ class AsyncLangfuseResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """Call Langfuse via LiteLLM proxy.
+        """Call Langfuse via LLM proxy.
 
         Works with Langfuse SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/langfuse)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/langfuse)
 
         Args:
           extra_headers: Send extra headers

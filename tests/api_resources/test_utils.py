@@ -67,9 +67,7 @@ class TestUtils:
     def test_method_token_counter_with_all_params(self, client: Hanzo) -> None:
         util = client.utils.token_counter(
             model="model",
-            call_endpoint=True,
-            contents=[{"foo": "bar"}],
-            messages=[{"foo": "bar"}],
+            messages=[{}],
             prompt="prompt",
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
@@ -105,7 +103,7 @@ class TestUtils:
     def test_method_transform_request(self, client: Hanzo) -> None:
         util = client.utils.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         )
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
@@ -114,7 +112,7 @@ class TestUtils:
     def test_raw_response_transform_request(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         )
 
         assert response.is_closed is True
@@ -127,7 +125,7 @@ class TestUtils:
     def test_streaming_response_transform_request(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -190,9 +188,7 @@ class TestAsyncUtils:
     async def test_method_token_counter_with_all_params(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.token_counter(
             model="model",
-            call_endpoint=True,
-            contents=[{"foo": "bar"}],
-            messages=[{"foo": "bar"}],
+            messages=[{}],
             prompt="prompt",
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
@@ -228,7 +224,7 @@ class TestAsyncUtils:
     async def test_method_transform_request(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         )
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
@@ -237,7 +233,7 @@ class TestAsyncUtils:
     async def test_raw_response_transform_request(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         )
 
         assert response.is_closed is True
@@ -250,7 +246,7 @@ class TestAsyncUtils:
     async def test_streaming_response_transform_request(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.transform_request(
             call_type="embedding",
-            request_body={"foo": "bar"},
+            request_body={},
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

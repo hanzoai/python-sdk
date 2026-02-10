@@ -15,12 +15,6 @@ class TeamUpdateMemberParams(TypedDict, total=False):
 
     role: Optional[Literal["admin", "user"]]
 
-    rpm_limit: Optional[int]
-    """Requests per minute limit for this team member"""
-
-    tpm_limit: Optional[int]
-    """Tokens per minute limit for this team member"""
-
     user_email: Optional[str]
 
     user_id: Optional[str]

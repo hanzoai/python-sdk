@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -15,10 +16,9 @@ from .info import (
     AsyncInfoResourceWithStreamingResponse,
 )
 from ...types import (
-    UserRoles,
-    organization_list_params,
     organization_create_params,
     organization_delete_params,
+    organization_update_params,
     organization_add_member_params,
     organization_delete_member_params,
     organization_update_member_params,
@@ -34,13 +34,12 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.user_roles import UserRoles
 from ...types.organization_list_response import OrganizationListResponse
 from ...types.organization_create_response import OrganizationCreateResponse
 from ...types.organization_delete_response import OrganizationDeleteResponse
-from ...types.organization_membership_table import OrganizationMembershipTable
-from ...types.organization_table_with_members import OrganizationTableWithMembers
+from ...types.organization_update_response import OrganizationUpdateResponse
 from ...types.organization_add_member_response import OrganizationAddMemberResponse
+from ...types.organization_update_member_response import OrganizationUpdateMemberResponse
 
 __all__ = ["OrganizationResource", "AsyncOrganizationResource"]
 
@@ -77,12 +76,9 @@ class OrganizationResource(SyncAPIResource):
         budget_id: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
         models: Iterable[object] | Omit = omit,
-        object_permission: Optional[organization_create_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         soft_budget: Optional[float] | Omit = omit,
@@ -113,10 +109,6 @@ class OrganizationResource(SyncAPIResource):
         - max_budget: _Optional[float]_ - Max budget for org
         - tpm_limit: _Optional[int]_ - Max tpm limit for org
         - rpm_limit: _Optional[int]_ - Max rpm limit for org
-        - model_rpm_limit: _Optional[Dict[str, int]]_ - The RPM (Requests Per Minute)
-          limit per model for this organization.
-        - model_tpm_limit: _Optional[Dict[str, int]]_ - The TPM (Tokens Per Minute)
-          limit per model for this organization.
         - max_parallel_requests: _Optional[int]_ - [Not Implemented Yet] Max parallel
           requests for org
         - soft_budget: _Optional[float]_ - [Not Implemented Yet] Get a slack alert when
@@ -128,17 +120,15 @@ class OrganizationResource(SyncAPIResource):
         - blocked: _bool_ - Flag indicating if the org is blocked or not - will stop all
           calls from keys with this org_id.
         - tags: _Optional[List[str]]_ - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: _Optional[str]_ - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] -
-          organization-specific object permission. Example - {"vector_stores":
-          ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-          permission. Case 1: Create new org **without** a budget_id
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+
+        Case 1: Create new org **without** a budget_id
 
         ```bash
         curl --location 'http://0.0.0.0:4000/organization/new'
@@ -186,10 +176,7 @@ class OrganizationResource(SyncAPIResource):
                     "max_parallel_requests": max_parallel_requests,
                     "metadata": metadata,
                     "model_max_budget": model_max_budget,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
                     "rpm_limit": rpm_limit,
                     "soft_budget": soft_budget,
@@ -206,59 +193,24 @@ class OrganizationResource(SyncAPIResource):
     def update(
         self,
         *,
+        budget_id: Optional[str] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        models: Optional[SequenceNotStr[str]] | Omit = omit,
+        organization_alias: Optional[str] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        updated_by: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationTableWithMembers:
-        """Update an organization"""
-        return self._patch(
-            "/organization/update",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=OrganizationTableWithMembers,
-        )
-
-    def list(
-        self,
-        *,
-        org_alias: Optional[str] | Omit = omit,
-        org_id: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationListResponse:
+    ) -> OrganizationUpdateResponse:
         """
-        Get a list of organizations with optional filtering.
-
-        Parameters: org_id: Optional[str] Filter organizations by exact organization_id
-        match org_alias: Optional[str] Filter organizations by partial
-        organization_alias match (case-insensitive)
-
-        Example:
-
-        ```
-        curl --location --request GET 'http://0.0.0.0:4000/organization/list?org_alias=my-org'         --header 'Authorization: Bearer sk-1234'
-        ```
-
-        Example with org_id:
-
-        ```
-        curl --location --request GET 'http://0.0.0.0:4000/organization/list?org_id=123e4567-e89b-12d3-a456-426614174000'         --header 'Authorization: Bearer sk-1234'
-        ```
+        Update an organization
 
         Args:
-          org_alias: Filter organizations by partial organization_alias match. Supports
-              case-insensitive search.
-
-          org_id: Filter organizations by exact organization_id match
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -267,20 +219,45 @@ class OrganizationResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        return self._patch(
+            "/organization/update",
+            body=maybe_transform(
+                {
+                    "budget_id": budget_id,
+                    "metadata": metadata,
+                    "models": models,
+                    "organization_alias": organization_alias,
+                    "organization_id": organization_id,
+                    "spend": spend,
+                    "updated_by": updated_by,
+                },
+                organization_update_params.OrganizationUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=OrganizationUpdateResponse,
+        )
+
+    def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> OrganizationListResponse:
+        """
+        ```
+        curl --location --request GET 'http://0.0.0.0:4000/organization/list'         --header 'Authorization: Bearer sk-1234'
+        ```
+        """
         return self._get(
             "/organization/list",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "org_alias": org_alias,
-                        "org_id": org_id,
-                    },
-                    organization_list_params.OrganizationListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=OrganizationListResponse,
         )
@@ -349,7 +326,7 @@ class OrganizationResource(SyncAPIResource):
 
         - organization_id: str (required)
         - member: Union[List[Member], Member] (required)
-          - role: Literal[LitellmUserRoles] (required)
+          - role: Literal[LLMUserRoles] (required)
           - user_id: Optional[str]
           - user_email: Optional[str]
 
@@ -362,7 +339,7 @@ class OrganizationResource(SyncAPIResource):
             "organization_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
             "member": {
                 "role": "internal_user",
-                "user_id": "krrish247652@berri.ai"
+                "user_id": "dev247652@hanzo.ai"
             },
             "max_budget_in_organization": 100.0
         }'
@@ -372,8 +349,8 @@ class OrganizationResource(SyncAPIResource):
 
         1. Check if organization exists
         2. Creates a new Internal User if the user_id or user_email is not found in
-           LiteLLM_UserTable
-        3. Add Internal User to the `LiteLLM_OrganizationMembership` table
+           LLM_UserTable
+        3. Add Internal User to the `LLM_OrganizationMembership` table
 
         Args:
           extra_headers: Send extra headers
@@ -446,7 +423,18 @@ class OrganizationResource(SyncAPIResource):
         *,
         organization_id: str,
         max_budget_in_organization: Optional[float] | Omit = omit,
-        role: Optional[UserRoles] | Omit = omit,
+        role: Optional[
+            Literal[
+                "proxy_admin",
+                "proxy_admin_viewer",
+                "org_admin",
+                "internal_user",
+                "internal_user_viewer",
+                "team",
+                "customer",
+            ]
+        ]
+        | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -455,7 +443,7 @@ class OrganizationResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -495,7 +483,7 @@ class OrganizationResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 
@@ -531,12 +519,9 @@ class AsyncOrganizationResource(AsyncAPIResource):
         budget_id: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, int]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, int]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
         models: Iterable[object] | Omit = omit,
-        object_permission: Optional[organization_create_params.ObjectPermission] | Omit = omit,
         organization_id: Optional[str] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         soft_budget: Optional[float] | Omit = omit,
@@ -567,10 +552,6 @@ class AsyncOrganizationResource(AsyncAPIResource):
         - max_budget: _Optional[float]_ - Max budget for org
         - tpm_limit: _Optional[int]_ - Max tpm limit for org
         - rpm_limit: _Optional[int]_ - Max rpm limit for org
-        - model_rpm_limit: _Optional[Dict[str, int]]_ - The RPM (Requests Per Minute)
-          limit per model for this organization.
-        - model_tpm_limit: _Optional[Dict[str, int]]_ - The TPM (Tokens Per Minute)
-          limit per model for this organization.
         - max_parallel_requests: _Optional[int]_ - [Not Implemented Yet] Max parallel
           requests for org
         - soft_budget: _Optional[float]_ - [Not Implemented Yet] Get a slack alert when
@@ -582,17 +563,15 @@ class AsyncOrganizationResource(AsyncAPIResource):
         - blocked: _bool_ - Flag indicating if the org is blocked or not - will stop all
           calls from keys with this org_id.
         - tags: _Optional[List[str]]_ - Tags for
-          [tracking spend](https://litellm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
+          [tracking spend](https://llm.vercel.app/docs/proxy/enterprise#tracking-spend-for-custom-tags)
           and/or doing
-          [tag-based routing](https://litellm.vercel.app/docs/proxy/tag_routing).
+          [tag-based routing](https://llm.vercel.app/docs/proxy/tag_routing).
         - organization_id: _Optional[str]_ - The organization id of the team. Default is
           None. Create via `/organization/new`.
         - model_aliases: Optional[dict] - Model aliases for the team.
-          [Docs](https://docs.litellm.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] -
-          organization-specific object permission. Example - {"vector_stores":
-          ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-          permission. Case 1: Create new org **without** a budget_id
+          [Docs](https://docs.hanzo.ai/docs/proxy/team_based_routing#create-team-with-model-alias)
+
+        Case 1: Create new org **without** a budget_id
 
         ```bash
         curl --location 'http://0.0.0.0:4000/organization/new'
@@ -640,10 +619,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
                     "max_parallel_requests": max_parallel_requests,
                     "metadata": metadata,
                     "model_max_budget": model_max_budget,
-                    "model_rpm_limit": model_rpm_limit,
-                    "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "organization_id": organization_id,
                     "rpm_limit": rpm_limit,
                     "soft_budget": soft_budget,
@@ -660,59 +636,24 @@ class AsyncOrganizationResource(AsyncAPIResource):
     async def update(
         self,
         *,
+        budget_id: Optional[str] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        models: Optional[SequenceNotStr[str]] | Omit = omit,
+        organization_alias: Optional[str] | Omit = omit,
+        organization_id: Optional[str] | Omit = omit,
+        spend: Optional[float] | Omit = omit,
+        updated_by: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationTableWithMembers:
-        """Update an organization"""
-        return await self._patch(
-            "/organization/update",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=OrganizationTableWithMembers,
-        )
-
-    async def list(
-        self,
-        *,
-        org_alias: Optional[str] | Omit = omit,
-        org_id: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationListResponse:
+    ) -> OrganizationUpdateResponse:
         """
-        Get a list of organizations with optional filtering.
-
-        Parameters: org_id: Optional[str] Filter organizations by exact organization_id
-        match org_alias: Optional[str] Filter organizations by partial
-        organization_alias match (case-insensitive)
-
-        Example:
-
-        ```
-        curl --location --request GET 'http://0.0.0.0:4000/organization/list?org_alias=my-org'         --header 'Authorization: Bearer sk-1234'
-        ```
-
-        Example with org_id:
-
-        ```
-        curl --location --request GET 'http://0.0.0.0:4000/organization/list?org_id=123e4567-e89b-12d3-a456-426614174000'         --header 'Authorization: Bearer sk-1234'
-        ```
+        Update an organization
 
         Args:
-          org_alias: Filter organizations by partial organization_alias match. Supports
-              case-insensitive search.
-
-          org_id: Filter organizations by exact organization_id match
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -721,20 +662,45 @@ class AsyncOrganizationResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        return await self._patch(
+            "/organization/update",
+            body=await async_maybe_transform(
+                {
+                    "budget_id": budget_id,
+                    "metadata": metadata,
+                    "models": models,
+                    "organization_alias": organization_alias,
+                    "organization_id": organization_id,
+                    "spend": spend,
+                    "updated_by": updated_by,
+                },
+                organization_update_params.OrganizationUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=OrganizationUpdateResponse,
+        )
+
+    async def list(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> OrganizationListResponse:
+        """
+        ```
+        curl --location --request GET 'http://0.0.0.0:4000/organization/list'         --header 'Authorization: Bearer sk-1234'
+        ```
+        """
         return await self._get(
             "/organization/list",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "org_alias": org_alias,
-                        "org_id": org_id,
-                    },
-                    organization_list_params.OrganizationListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=OrganizationListResponse,
         )
@@ -803,7 +769,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
 
         - organization_id: str (required)
         - member: Union[List[Member], Member] (required)
-          - role: Literal[LitellmUserRoles] (required)
+          - role: Literal[LLMUserRoles] (required)
           - user_id: Optional[str]
           - user_email: Optional[str]
 
@@ -816,7 +782,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
             "organization_id": "45e3e396-ee08-4a61-a88e-16b3ce7e0849",
             "member": {
                 "role": "internal_user",
-                "user_id": "krrish247652@berri.ai"
+                "user_id": "dev247652@hanzo.ai"
             },
             "max_budget_in_organization": 100.0
         }'
@@ -826,8 +792,8 @@ class AsyncOrganizationResource(AsyncAPIResource):
 
         1. Check if organization exists
         2. Creates a new Internal User if the user_id or user_email is not found in
-           LiteLLM_UserTable
-        3. Add Internal User to the `LiteLLM_OrganizationMembership` table
+           LLM_UserTable
+        3. Add Internal User to the `LLM_OrganizationMembership` table
 
         Args:
           extra_headers: Send extra headers
@@ -900,7 +866,18 @@ class AsyncOrganizationResource(AsyncAPIResource):
         *,
         organization_id: str,
         max_budget_in_organization: Optional[float] | Omit = omit,
-        role: Optional[UserRoles] | Omit = omit,
+        role: Optional[
+            Literal[
+                "proxy_admin",
+                "proxy_admin_viewer",
+                "org_admin",
+                "internal_user",
+                "internal_user_viewer",
+                "team",
+                "customer",
+            ]
+        ]
+        | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -909,7 +886,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> OrganizationMembershipTable:
+    ) -> OrganizationUpdateMemberResponse:
         """
         Update a member's role in an organization
 
@@ -949,7 +926,7 @@ class AsyncOrganizationResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=OrganizationMembershipTable,
+            cast_to=OrganizationUpdateMemberResponse,
         )
 
 

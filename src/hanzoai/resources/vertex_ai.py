@@ -50,9 +50,9 @@ class VertexAIResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -85,9 +85,9 @@ class VertexAIResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -120,9 +120,9 @@ class VertexAIResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -155,9 +155,9 @@ class VertexAIResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -190,9 +190,9 @@ class VertexAIResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -246,9 +246,9 @@ class AsyncVertexAIResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -281,9 +281,9 @@ class AsyncVertexAIResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -316,9 +316,9 @@ class AsyncVertexAIResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -351,9 +351,9 @@ class AsyncVertexAIResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers
@@ -386,9 +386,9 @@ class AsyncVertexAIResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
         """
-        Call LiteLLM proxy via Vertex AI SDK.
+        Call LLM proxy via Vertex AI SDK.
 
-        [Docs](https://docs.litellm.ai/docs/pass_through/vertex_ai)
+        [Docs](https://docs.hanzo.ai/docs/pass_through/vertex_ai)
 
         Args:
           extra_headers: Send extra headers

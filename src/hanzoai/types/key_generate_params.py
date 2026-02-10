@@ -2,28 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing import Iterable, Optional
+from typing_extensions import Annotated, TypedDict
 
 from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["KeyGenerateParams", "AllowedVectorStoreIndex", "ObjectPermission", "RouterSettings"]
+__all__ = ["KeyGenerateParams"]
 
 
 class KeyGenerateParams(TypedDict, total=False):
-    aliases: Optional[Dict[str, object]]
+    aliases: Optional[object]
 
     allowed_cache_controls: Optional[Iterable[object]]
-
-    allowed_passthrough_routes: Optional[Iterable[object]]
-
-    allowed_routes: Optional[Iterable[object]]
-
-    allowed_vector_store_indexes: Optional[Iterable[AllowedVectorStoreIndex]]
-
-    auto_rotate: Optional[bool]
-    """Whether this key should be automatically rotated"""
 
     blocked: Optional[bool]
 
@@ -31,7 +22,7 @@ class KeyGenerateParams(TypedDict, total=False):
 
     budget_id: Optional[str]
 
-    config: Optional[Dict[str, object]]
+    config: Optional[object]
 
     duration: Optional[str]
 
@@ -43,40 +34,23 @@ class KeyGenerateParams(TypedDict, total=False):
 
     key_alias: Optional[str]
 
-    key_type: Optional[Literal["llm_api", "management", "read_only", "default"]]
-    """Enum for key types that determine what routes a key can access"""
-
     max_budget: Optional[float]
 
     max_parallel_requests: Optional[int]
 
-    metadata: Optional[Dict[str, object]]
+    metadata: Optional[object]
 
-    model_max_budget: Optional[Dict[str, object]]
+    model_max_budget: Optional[object]
 
-    model_rpm_limit: Optional[Dict[str, object]]
+    model_rpm_limit: Optional[object]
 
-    model_tpm_limit: Optional[Dict[str, object]]
+    model_tpm_limit: Optional[object]
 
     models: Optional[Iterable[object]]
 
-    object_permission: Optional[ObjectPermission]
-
-    organization_id: Optional[str]
-
-    permissions: Optional[Dict[str, object]]
-
-    prompts: Optional[SequenceNotStr[str]]
-
-    rotation_interval: Optional[str]
-    """How often to rotate this key (e.g., '30d', '90d'). Required if auto_rotate=True"""
-
-    router_settings: Optional[RouterSettings]
-    """Set of params that you can modify via `router.update_settings()`."""
+    permissions: Optional[object]
 
     rpm_limit: Optional[int]
-
-    rpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput", "dynamic"]]
 
     send_invite_email: Optional[bool]
 
@@ -90,61 +64,10 @@ class KeyGenerateParams(TypedDict, total=False):
 
     tpm_limit: Optional[int]
 
-    tpm_limit_type: Optional[Literal["guaranteed_throughput", "best_effort_throughput", "dynamic"]]
-
     user_id: Optional[str]
 
-    litellm_changed_by: Annotated[str, PropertyInfo(alias="litellm-changed-by")]
+    llm_changed_by: Annotated[str, PropertyInfo(alias="llm-changed-by")]
     """
-    The litellm-changed-by header enables tracking of actions performed by
-    authorized users on behalf of other users, providing an audit trail for
-    accountability
+    The llm-changed-by header enables tracking of actions performed by authorized
+    users on behalf of other users, providing an audit trail for accountability
     """
-
-
-class AllowedVectorStoreIndex(TypedDict, total=False):
-    index_name: Required[str]
-
-    index_permissions: Required[List[Literal["read", "write"]]]
-
-
-class ObjectPermission(TypedDict, total=False):
-    agent_access_groups: Optional[SequenceNotStr[str]]
-
-    agents: Optional[SequenceNotStr[str]]
-
-    mcp_access_groups: Optional[SequenceNotStr[str]]
-
-    mcp_servers: Optional[SequenceNotStr[str]]
-
-    mcp_tool_permissions: Optional[Dict[str, SequenceNotStr[str]]]
-
-    vector_stores: Optional[SequenceNotStr[str]]
-
-
-class RouterSettings(TypedDict, total=False):
-    """Set of params that you can modify via `router.update_settings()`."""
-
-    allowed_fails: Optional[int]
-
-    context_window_fallbacks: Optional[Iterable[Dict[str, object]]]
-
-    cooldown_time: Optional[float]
-
-    fallbacks: Optional[Iterable[Dict[str, object]]]
-
-    max_retries: Optional[int]
-
-    model_group_alias: Optional[Dict[str, Union[str, Dict[str, object]]]]
-
-    model_group_retry_policy: Optional[Dict[str, object]]
-
-    num_retries: Optional[int]
-
-    retry_after: Optional[float]
-
-    routing_strategy: Optional[str]
-
-    routing_strategy_args: Optional[Dict[str, object]]
-
-    timeout: Optional[float]

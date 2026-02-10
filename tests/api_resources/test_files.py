@@ -34,9 +34,6 @@ class TestFiles:
             file=b"raw file contents",
             purpose="purpose",
             custom_llm_provider="custom_llm_provider",
-            litellm_metadata="litellm_metadata",
-            target_model_names="target_model_names",
-            target_storage="target_storage",
         )
         assert_matches_type(object, file, path=["response"])
 
@@ -146,7 +143,6 @@ class TestFiles:
         file = client.files.list(
             provider="provider",
             purpose="purpose",
-            target_model_names="target_model_names",
         )
         assert_matches_type(object, file, path=["response"])
 
@@ -260,9 +256,6 @@ class TestAsyncFiles:
             file=b"raw file contents",
             purpose="purpose",
             custom_llm_provider="custom_llm_provider",
-            litellm_metadata="litellm_metadata",
-            target_model_names="target_model_names",
-            target_storage="target_storage",
         )
         assert_matches_type(object, file, path=["response"])
 
@@ -372,7 +365,6 @@ class TestAsyncFiles:
         file = await async_client.files.list(
             provider="provider",
             purpose="purpose",
-            target_model_names="target_model_names",
         )
         assert_matches_type(object, file, path=["response"])
 

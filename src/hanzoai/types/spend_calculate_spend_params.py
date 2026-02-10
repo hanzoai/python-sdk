@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import TypedDict
 
 __all__ = ["SpendCalculateSpendParams"]
 
 
 class SpendCalculateSpendParams(TypedDict, total=False):
-    completion_response: Optional[Dict[str, object]]
+    completion_response: Optional[object]
 
     messages: Optional[Iterable[object]]
 

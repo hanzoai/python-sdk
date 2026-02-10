@@ -13,9 +13,9 @@ from hanzoai.types import (
     OrganizationListResponse,
     OrganizationCreateResponse,
     OrganizationDeleteResponse,
-    OrganizationMembershipTable,
-    OrganizationTableWithMembers,
+    OrganizationUpdateResponse,
     OrganizationAddMemberResponse,
+    OrganizationUpdateMemberResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -41,19 +41,9 @@ class TestOrganization:
             budget_id="budget_id",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={"foo": "bar"},
-            model_max_budget={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_max_budget={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
             rpm_limit=0,
             soft_budget=0,
@@ -91,7 +81,21 @@ class TestOrganization:
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         organization = client.organization.update()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Hanzo) -> None:
+        organization = client.organization.update(
+            budget_id="budget_id",
+            metadata={},
+            models=["string"],
+            organization_alias="organization_alias",
+            organization_id="organization_id",
+            spend=0,
+            updated_by="updated_by",
+        )
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -101,7 +105,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -111,7 +115,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -119,15 +123,6 @@ class TestOrganization:
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         organization = client.organization.list()
-        assert_matches_type(OrganizationListResponse, organization, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list_with_all_params(self, client: Hanzo) -> None:
-        organization = client.organization.list(
-            org_alias="org_alias",
-            org_id="org_id",
-        )
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -289,7 +284,7 @@ class TestOrganization:
         organization = client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -301,7 +296,7 @@ class TestOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -313,7 +308,7 @@ class TestOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -325,7 +320,7 @@ class TestOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
-            assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -352,19 +347,9 @@ class TestAsyncOrganization:
             budget_id="budget_id",
             max_budget=0,
             max_parallel_requests=0,
-            metadata={"foo": "bar"},
-            model_max_budget={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_max_budget={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
             rpm_limit=0,
             soft_budget=0,
@@ -402,7 +387,21 @@ class TestAsyncOrganization:
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
+        organization = await async_client.organization.update(
+            budget_id="budget_id",
+            metadata={},
+            models=["string"],
+            organization_alias="organization_alias",
+            organization_id="organization_id",
+            spend=0,
+            updated_by="updated_by",
+        )
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -412,7 +411,7 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -422,7 +421,7 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(OrganizationTableWithMembers, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -430,15 +429,6 @@ class TestAsyncOrganization:
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.list()
-        assert_matches_type(OrganizationListResponse, organization, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
-        organization = await async_client.organization.list(
-            org_alias="org_alias",
-            org_id="org_id",
-        )
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -600,7 +590,7 @@ class TestAsyncOrganization:
         organization = await async_client.organization.update_member(
             organization_id="organization_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -612,7 +602,7 @@ class TestAsyncOrganization:
             user_email="user_email",
             user_id="user_id",
         )
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -624,7 +614,7 @@ class TestAsyncOrganization:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
-        assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+        assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -636,6 +626,6 @@ class TestAsyncOrganization:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
-            assert_matches_type(OrganizationMembershipTable, organization, path=["response"])
+            assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True

@@ -32,13 +32,6 @@ class TestTeam:
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         team = client.team.create(
             admins=[{}],
-            allowed_passthrough_routes=[{}],
-            allowed_vector_store_indexes=[
-                {
-                    "index_name": "index_name",
-                    "index_permissions": ["read"],
-                }
-            ],
             blocked=True,
             budget_duration="budget_duration",
             guardrails=["string"],
@@ -51,36 +44,16 @@ class TestTeam:
                     "user_id": "user_id",
                 }
             ],
-            metadata={"foo": "bar"},
-            model_aliases={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_aliases={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
-            prompts=["string"],
-            router_settings={"foo": "bar"},
             rpm_limit=0,
-            rpm_limit_type="guaranteed_throughput",
-            secret_manager_settings={"foo": "bar"},
             tags=[{}],
             team_alias="team_alias",
             team_id="team_id",
-            team_member_budget=0,
-            team_member_key_duration="team_member_key_duration",
-            team_member_permissions=["string"],
-            team_member_rpm_limit=0,
-            team_member_tpm_limit=0,
             tpm_limit=0,
-            tpm_limit_type="guaranteed_throughput",
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
@@ -119,44 +92,19 @@ class TestTeam:
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         team = client.team.update(
             team_id="team_id",
-            allowed_passthrough_routes=[{}],
-            allowed_vector_store_indexes=[
-                {
-                    "index_name": "index_name",
-                    "index_permissions": ["read"],
-                }
-            ],
             blocked=True,
             budget_duration="budget_duration",
             guardrails=["string"],
             max_budget=0,
-            metadata={"foo": "bar"},
-            model_aliases={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_aliases={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
-            prompts=["string"],
-            router_settings={"foo": "bar"},
             rpm_limit=0,
-            secret_manager_settings={"foo": "bar"},
             tags=[{}],
             team_alias="team_alias",
-            team_member_budget=0,
-            team_member_budget_duration="team_member_budget_duration",
-            team_member_key_duration="team_member_key_duration",
-            team_member_rpm_limit=0,
-            team_member_tpm_limit=0,
             tpm_limit=0,
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -236,7 +184,7 @@ class TestTeam:
     def test_method_delete_with_all_params(self, client: Hanzo) -> None:
         team = client.team.delete(
             team_ids=["string"],
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -560,8 +508,6 @@ class TestTeam:
             team_id="team_id",
             max_budget_in_team=0,
             role="admin",
-            rpm_limit=0,
-            tpm_limit=0,
             user_email="user_email",
             user_id="user_id",
         )
@@ -610,13 +556,6 @@ class TestAsyncTeam:
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.create(
             admins=[{}],
-            allowed_passthrough_routes=[{}],
-            allowed_vector_store_indexes=[
-                {
-                    "index_name": "index_name",
-                    "index_permissions": ["read"],
-                }
-            ],
             blocked=True,
             budget_duration="budget_duration",
             guardrails=["string"],
@@ -629,36 +568,16 @@ class TestAsyncTeam:
                     "user_id": "user_id",
                 }
             ],
-            metadata={"foo": "bar"},
-            model_aliases={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_aliases={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
-            prompts=["string"],
-            router_settings={"foo": "bar"},
             rpm_limit=0,
-            rpm_limit_type="guaranteed_throughput",
-            secret_manager_settings={"foo": "bar"},
             tags=[{}],
             team_alias="team_alias",
             team_id="team_id",
-            team_member_budget=0,
-            team_member_key_duration="team_member_key_duration",
-            team_member_permissions=["string"],
-            team_member_rpm_limit=0,
-            team_member_tpm_limit=0,
             tpm_limit=0,
-            tpm_limit_type="guaranteed_throughput",
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(TeamCreateResponse, team, path=["response"])
 
@@ -697,44 +616,19 @@ class TestAsyncTeam:
     async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.update(
             team_id="team_id",
-            allowed_passthrough_routes=[{}],
-            allowed_vector_store_indexes=[
-                {
-                    "index_name": "index_name",
-                    "index_permissions": ["read"],
-                }
-            ],
             blocked=True,
             budget_duration="budget_duration",
             guardrails=["string"],
             max_budget=0,
-            metadata={"foo": "bar"},
-            model_aliases={"foo": "bar"},
-            model_rpm_limit={"foo": 0},
-            model_tpm_limit={"foo": 0},
+            metadata={},
+            model_aliases={},
             models=[{}],
-            object_permission={
-                "agent_access_groups": ["string"],
-                "agents": ["string"],
-                "mcp_access_groups": ["string"],
-                "mcp_servers": ["string"],
-                "mcp_tool_permissions": {"foo": ["string"]},
-                "vector_stores": ["string"],
-            },
             organization_id="organization_id",
-            prompts=["string"],
-            router_settings={"foo": "bar"},
             rpm_limit=0,
-            secret_manager_settings={"foo": "bar"},
             tags=[{}],
             team_alias="team_alias",
-            team_member_budget=0,
-            team_member_budget_duration="team_member_budget_duration",
-            team_member_key_duration="team_member_key_duration",
-            team_member_rpm_limit=0,
-            team_member_tpm_limit=0,
             tpm_limit=0,
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -814,7 +708,7 @@ class TestAsyncTeam:
     async def test_method_delete_with_all_params(self, async_client: AsyncHanzo) -> None:
         team = await async_client.team.delete(
             team_ids=["string"],
-            litellm_changed_by="litellm-changed-by",
+            llm_changed_by="llm-changed-by",
         )
         assert_matches_type(object, team, path=["response"])
 
@@ -1138,8 +1032,6 @@ class TestAsyncTeam:
             team_id="team_id",
             max_budget_in_team=0,
             role="admin",
-            rpm_limit=0,
-            tpm_limit=0,
             user_email="user_email",
             user_id="user_id",
         )

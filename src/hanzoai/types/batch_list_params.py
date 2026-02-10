@@ -14,5 +14,3 @@ class BatchListParams(TypedDict, total=False):
     limit: Optional[int]
 
     provider: Optional[str]
-
-    target_model_names: Optional[str]

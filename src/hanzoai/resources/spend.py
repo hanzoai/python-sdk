@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Iterable, Optional
 
 import httpx
 
@@ -47,7 +47,7 @@ class SpendResource(SyncAPIResource):
     def calculate_spend(
         self,
         *,
-        completion_response: Optional[Dict[str, object]] | Omit = omit,
+        completion_response: Optional[object] | Omit = omit,
         messages: Optional[Iterable[object]] | Omit = omit,
         model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -63,7 +63,7 @@ class SpendResource(SyncAPIResource):
         Calculate spend **before** making call:
 
         Note: If you see a spend of $0.0 you need to set custom_pricing for your model:
-        https://docs.litellm.ai/docs/proxy/custom_pricing
+        https://docs.hanzo.ai/docs/proxy/custom_pricing
 
         ```
         curl --location 'http://localhost:4000/spend/calculate'
@@ -138,7 +138,6 @@ class SpendResource(SyncAPIResource):
         end_date: Optional[str] | Omit = omit,
         request_id: Optional[str] | Omit = omit,
         start_date: Optional[str] | Omit = omit,
-        summarize: bool | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -148,17 +147,8 @@ class SpendResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListLogsResponse:
         """
-        [DEPRECATED] This endpoint is not paginated and can cause performance issues.
-        Please use `/spend/logs/v2` instead for paginated access to spend logs.
-
         View all spend logs, if request_id is provided, only logs for that request_id
         will be returned
-
-        When start_date and end_date are provided:
-
-        - summarize=true (default): Returns aggregated spend data grouped by date
-          (maintains backward compatibility)
-        - summarize=false: Returns filtered individual log entries within the date range
 
         Example Request for all logs
 
@@ -175,19 +165,13 @@ class SpendResource(SyncAPIResource):
         Example Request for specific api_key
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?api_key=sk-test-example-key-123" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?api_key=sk-Fn8Ej39NkBQmUagFEoUWPQ" -H "Authorization: Bearer sk-1234"
         ```
 
         Example Request for specific user_id
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=ishaan@berri.ai" -H "Authorization: Bearer sk-1234"
-        ```
-
-        Example Request for date range with individual logs (unsummarized)
-
-        ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?start_date=2024-01-01&end_date=2024-01-02&summarize=false" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=z@hanzo.ai" -H "Authorization: Bearer sk-1234"
         ```
 
         Args:
@@ -199,9 +183,6 @@ class SpendResource(SyncAPIResource):
               spend logs for all requests
 
           start_date: Time from which to start viewing key spend
-
-          summarize: When start_date and end_date are provided, summarize=true returns aggregated
-              data by date (legacy behavior), summarize=false returns filtered individual logs
 
           user_id: Get spend logs based on user_id
 
@@ -226,7 +207,6 @@ class SpendResource(SyncAPIResource):
                         "end_date": end_date,
                         "request_id": request_id,
                         "start_date": start_date,
-                        "summarize": summarize,
                         "user_id": user_id,
                     },
                     spend_list_logs_params.SpendListLogsParams,
@@ -248,7 +228,7 @@ class SpendResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """
-        LiteLLM Enterprise - View Spend Per Request Tag
+        LLM Enterprise - View Spend Per Request Tag
 
         Example Request:
 
@@ -317,7 +297,7 @@ class AsyncSpendResource(AsyncAPIResource):
     async def calculate_spend(
         self,
         *,
-        completion_response: Optional[Dict[str, object]] | Omit = omit,
+        completion_response: Optional[object] | Omit = omit,
         messages: Optional[Iterable[object]] | Omit = omit,
         model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -333,7 +313,7 @@ class AsyncSpendResource(AsyncAPIResource):
         Calculate spend **before** making call:
 
         Note: If you see a spend of $0.0 you need to set custom_pricing for your model:
-        https://docs.litellm.ai/docs/proxy/custom_pricing
+        https://docs.hanzo.ai/docs/proxy/custom_pricing
 
         ```
         curl --location 'http://localhost:4000/spend/calculate'
@@ -408,7 +388,6 @@ class AsyncSpendResource(AsyncAPIResource):
         end_date: Optional[str] | Omit = omit,
         request_id: Optional[str] | Omit = omit,
         start_date: Optional[str] | Omit = omit,
-        summarize: bool | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -418,17 +397,8 @@ class AsyncSpendResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListLogsResponse:
         """
-        [DEPRECATED] This endpoint is not paginated and can cause performance issues.
-        Please use `/spend/logs/v2` instead for paginated access to spend logs.
-
         View all spend logs, if request_id is provided, only logs for that request_id
         will be returned
-
-        When start_date and end_date are provided:
-
-        - summarize=true (default): Returns aggregated spend data grouped by date
-          (maintains backward compatibility)
-        - summarize=false: Returns filtered individual log entries within the date range
 
         Example Request for all logs
 
@@ -445,19 +415,13 @@ class AsyncSpendResource(AsyncAPIResource):
         Example Request for specific api_key
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?api_key=sk-test-example-key-123" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?api_key=sk-Fn8Ej39NkBQmUagFEoUWPQ" -H "Authorization: Bearer sk-1234"
         ```
 
         Example Request for specific user_id
 
         ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=ishaan@berri.ai" -H "Authorization: Bearer sk-1234"
-        ```
-
-        Example Request for date range with individual logs (unsummarized)
-
-        ```
-        curl -X GET "http://0.0.0.0:8000/spend/logs?start_date=2024-01-01&end_date=2024-01-02&summarize=false" -H "Authorization: Bearer sk-1234"
+        curl -X GET "http://0.0.0.0:8000/spend/logs?user_id=z@hanzo.ai" -H "Authorization: Bearer sk-1234"
         ```
 
         Args:
@@ -469,9 +433,6 @@ class AsyncSpendResource(AsyncAPIResource):
               spend logs for all requests
 
           start_date: Time from which to start viewing key spend
-
-          summarize: When start_date and end_date are provided, summarize=true returns aggregated
-              data by date (legacy behavior), summarize=false returns filtered individual logs
 
           user_id: Get spend logs based on user_id
 
@@ -496,7 +457,6 @@ class AsyncSpendResource(AsyncAPIResource):
                         "end_date": end_date,
                         "request_id": request_id,
                         "start_date": start_date,
-                        "summarize": summarize,
                         "user_id": user_id,
                     },
                     spend_list_logs_params.SpendListLogsParams,
@@ -518,7 +478,7 @@ class AsyncSpendResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpendListTagsResponse:
         """
-        LiteLLM Enterprise - View Spend Per Request Tag
+        LLM Enterprise - View Spend Per Request Tag
 
         Example Request:
 

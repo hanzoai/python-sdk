@@ -49,10 +49,8 @@ class BedrockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -84,10 +82,8 @@ class BedrockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -119,10 +115,8 @@ class BedrockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -154,10 +148,8 @@ class BedrockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -189,10 +181,8 @@ class BedrockResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -245,10 +235,8 @@ class AsyncBedrockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -280,10 +268,8 @@ class AsyncBedrockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -315,10 +301,8 @@ class AsyncBedrockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -350,10 +334,8 @@ class AsyncBedrockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers
@@ -385,10 +367,8 @@ class AsyncBedrockResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """This is the v1 passthrough for Bedrock.
-
-        V2 is handled by the `/bedrock/v2`
-        endpoint. [Docs](https://docs.litellm.ai/docs/pass_through/bedrock)
+        """
+        [Docs](https://docs.hanzo.ai/docs/pass_through/bedrock)
 
         Args:
           extra_headers: Send extra headers

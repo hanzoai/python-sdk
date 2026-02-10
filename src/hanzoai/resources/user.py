@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import user_create_params, user_delete_params, user_update_params, user_retrieve_info_params
+from ..types import (
+    user_list_params,
+    user_create_params,
+    user_delete_params,
+    user_update_params,
+    user_retrieve_info_params,
+)
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, strip_not_given, async_maybe_transform
 from .._compat import cached_property
@@ -47,32 +53,28 @@ class UserResource(SyncAPIResource):
     def create(
         self,
         *,
-        aliases: Optional[Dict[str, object]] | Omit = omit,
+        aliases: Optional[object] | Omit = omit,
         allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
         auto_create_key: bool | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
-        config: Optional[Dict[str, object]] | Omit = omit,
+        config: Optional[object] | Omit = omit,
         duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         key_alias: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, object]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[user_create_params.ObjectPermission] | Omit = omit,
-        organizations: Optional[SequenceNotStr[str]] | Omit = omit,
-        permissions: Optional[Dict[str, object]] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         send_invite_email: Optional[bool] | Omit = omit,
         spend: Optional[float] | Omit = omit,
-        sso_user_id: Optional[str] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
-        teams: Union[SequenceNotStr[str], Iterable[user_create_params.TeamsUnionMember1], None] | Omit = omit,
+        teams: Optional[Iterable[object]] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
         user_alias: Optional[str] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
@@ -89,8 +91,8 @@ class UserResource(SyncAPIResource):
         """Use this to create a new INTERNAL user with a budget.
 
         Internal Users can access
-        LiteLLM Admin UI to make keys, request access to models. This creates a new user
-        and generates a new api key for the new user. The new api key is returned.
+        LLM Admin UI to make keys, request access to models. This creates a new user and
+        generates a new api key for the new user. The new api key is returned.
 
         Returns user id, budget + new key.
 
@@ -106,7 +108,7 @@ class UserResource(SyncAPIResource):
         - user_role: Optional[str] - Specify a user role - "proxy_admin",
           "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
           "customer". Info about each role here:
-          `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20`
+          `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20`
         - max_budget: Optional[float] - Specify max budget for a given user.
         - budget_duration: Optional[str] - Budget is reset at the end of specified
           duration. If not set, budget is never reset. You can set duration as seconds
@@ -121,29 +123,29 @@ class UserResource(SyncAPIResource):
         - auto_create_key: bool - Default=True. Flag used for returning a key as part of
           the /user/new response
         - aliases: Optional[dict] - Model aliases for the user -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
         - permissions: Optional[dict] - [Not Implemented Yet] User-specific permissions,
           eg. turning off pii masking.
         - metadata: Optional[dict] - Metadata for user, store information for user.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -153,15 +155,9 @@ class UserResource(SyncAPIResource):
           Default is None.
         - key_alias: Optional[str] - Alias for the key auto-created on `/user/new`.
           Default is None.
-        - sso_user_id: Optional[str] - The id of the user in the SSO provider.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - internal
-          user-specific object permission. Example - {"vector_stores":
-          ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-          permission.
-        - prompts: Optional[List[str]] - List of allowed prompts for the user. If
-          specified, the user will only be able to use these specific prompts.
-        - organizations: List[str] - List of organization id's the user is a member of
-          Returns:
+
+        Returns:
+
         - key: (str) The generated api key for the user
         - expires: (datetime) Datetime object for when key expires.
         - user_id: (str) Unique user id - used for tracking spend across multiple keys
@@ -206,14 +202,10 @@ class UserResource(SyncAPIResource):
                     "model_rpm_limit": model_rpm_limit,
                     "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
-                    "organizations": organizations,
                     "permissions": permissions,
-                    "prompts": prompts,
                     "rpm_limit": rpm_limit,
                     "send_invite_email": send_invite_email,
                     "spend": spend,
-                    "sso_user_id": sso_user_id,
                     "team_id": team_id,
                     "teams": teams,
                     "tpm_limit": tpm_limit,
@@ -233,30 +225,27 @@ class UserResource(SyncAPIResource):
     def update(
         self,
         *,
-        aliases: Optional[Dict[str, object]] | Omit = omit,
+        aliases: Optional[object] | Omit = omit,
         allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
-        config: Optional[Dict[str, object]] | Omit = omit,
+        config: Optional[object] | Omit = omit,
         duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         key_alias: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, object]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[user_update_params.ObjectPermission] | Omit = omit,
         password: Optional[str] | Omit = omit,
-        permissions: Optional[Dict[str, object]] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         spend: Optional[float] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        user_alias: Optional[str] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
@@ -273,7 +262,7 @@ class UserResource(SyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/user/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "user_role": "proxy_admin_viewer"
         }'
         ```
@@ -287,7 +276,7 @@ class UserResource(SyncAPIResource):
         user_role: Optional[str] - Specify a user role - "proxy_admin",
         "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
         "customer". Info about each role here:
-        `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20` - max_budget:
+        `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20` - max_budget:
         Optional[float] - Specify max budget for a given user. - budget_duration:
         Optional[str] - Budget is reset at the end of specified duration. If not set,
         budget is never reset. You can set duration as seconds ("30s"), minutes ("30m"),
@@ -298,37 +287,33 @@ class UserResource(SyncAPIResource):
         (Requests per minute) - auto_create_key: bool - Default=True. Flag used for
         returning a key as part of the /user/new response - aliases: Optional[dict] -
         Model aliases for the user -
-        [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases) -
-        config: Optional[dict] - [DEPRECATED PARAM] User-specific config. -
+        [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases) - config:
+        Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
         User-specific permissions, eg. turning off pii masking. - metadata:
         Optional[dict] - Metadata for user, store information for user. Example metadata
-        = {"team": "core-infra", "app": "app2", "email": "ishaan@berri.ai" } -
+        = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai" } -
         max_parallel_requests: Optional[int] - Rate limit a user based on the number of
         parallel requests. Raises 429 error, if user's parallel requests > x. -
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
         [DEPRECATED PARAM] The team id of the user. Default is None. - duration:
         Optional[str] - [NOT IMPLEMENTED]. - key_alias: Optional[str] - [NOT
-        IMPLEMENTED]. - object_permission: Optional[LiteLLM_ObjectPermissionBase] -
-        internal user-specific object permission. Example - {"vector_stores":
-        ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-        permission. - prompts: Optional[List[str]] - List of allowed prompts for the
-        user. If specified, the user will only be able to use these specific prompts.
+        IMPLEMENTED].
 
         Args:
           extra_headers: Send extra headers
@@ -358,15 +343,12 @@ class UserResource(SyncAPIResource):
                     "model_rpm_limit": model_rpm_limit,
                     "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "password": password,
                     "permissions": permissions,
-                    "prompts": prompts,
                     "rpm_limit": rpm_limit,
                     "spend": spend,
                     "team_id": team_id,
                     "tpm_limit": tpm_limit,
-                    "user_alias": user_alias,
                     "user_email": user_email,
                     "user_id": user_id,
                     "user_role": user_role,
@@ -379,11 +361,81 @@ class UserResource(SyncAPIResource):
             cast_to=object,
         )
 
+    def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        role: Optional[str] | Omit = omit,
+        user_ids: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Get a paginated list of users, optionally filtered by role.
+
+        Used by the UI to populate the user lists.
+
+        Parameters: role: Optional[str] Filter users by role. Can be one of: -
+        proxy_admin - proxy_admin_viewer - internal_user - internal_user_viewer
+        user_ids: Optional[str] Get list of users by user_ids. Comma separated list of
+        user_ids. page: int The page number to return page_size: int The number of items
+        per page
+
+        Currently - admin-only endpoint.
+
+        Example curl:
+
+        ```
+        http://0.0.0.0:4000/user/list?user_ids=default_user_id,693c1a4a-1cc0-4c7c-afe8-b5d2c8d52e17
+        ```
+
+        Args:
+          page: Page number
+
+          page_size: Number of items per page
+
+          role: Filter users by role
+
+          user_ids: Get list of users by user_ids
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/user/get_users",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                        "role": role,
+                        "user_ids": user_ids,
+                    },
+                    user_list_params.UserListParams,
+                ),
+            ),
+            cast_to=object,
+        )
+
     def delete(
         self,
         *,
         user_ids: SequenceNotStr[str],
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -408,9 +460,8 @@ class UserResource(SyncAPIResource):
         - user_ids: List[str] - The list of user id's to be deleted.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -420,7 +471,7 @@ class UserResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
             "/user/delete",
             body=maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
@@ -449,7 +500,7 @@ class UserResource(SyncAPIResource):
         Example request
 
         ```
-        curl -X GET 'http://localhost:4000/user/info?user_id=krrish7%40berri.ai'     --header 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/user/info?user_id=dev7%40hanzo.ai'     --header 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -499,32 +550,28 @@ class AsyncUserResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        aliases: Optional[Dict[str, object]] | Omit = omit,
+        aliases: Optional[object] | Omit = omit,
         allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
         auto_create_key: bool | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
-        config: Optional[Dict[str, object]] | Omit = omit,
+        config: Optional[object] | Omit = omit,
         duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         key_alias: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, object]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[user_create_params.ObjectPermission] | Omit = omit,
-        organizations: Optional[SequenceNotStr[str]] | Omit = omit,
-        permissions: Optional[Dict[str, object]] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         send_invite_email: Optional[bool] | Omit = omit,
         spend: Optional[float] | Omit = omit,
-        sso_user_id: Optional[str] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
-        teams: Union[SequenceNotStr[str], Iterable[user_create_params.TeamsUnionMember1], None] | Omit = omit,
+        teams: Optional[Iterable[object]] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
         user_alias: Optional[str] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
@@ -541,8 +588,8 @@ class AsyncUserResource(AsyncAPIResource):
         """Use this to create a new INTERNAL user with a budget.
 
         Internal Users can access
-        LiteLLM Admin UI to make keys, request access to models. This creates a new user
-        and generates a new api key for the new user. The new api key is returned.
+        LLM Admin UI to make keys, request access to models. This creates a new user and
+        generates a new api key for the new user. The new api key is returned.
 
         Returns user id, budget + new key.
 
@@ -558,7 +605,7 @@ class AsyncUserResource(AsyncAPIResource):
         - user_role: Optional[str] - Specify a user role - "proxy_admin",
           "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
           "customer". Info about each role here:
-          `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20`
+          `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20`
         - max_budget: Optional[float] - Specify max budget for a given user.
         - budget_duration: Optional[str] - Budget is reset at the end of specified
           duration. If not set, budget is never reset. You can set duration as seconds
@@ -573,29 +620,29 @@ class AsyncUserResource(AsyncAPIResource):
         - auto_create_key: bool - Default=True. Flag used for returning a key as part of
           the /user/new response
         - aliases: Optional[dict] - Model aliases for the user -
-          [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases)
+          [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases)
         - config: Optional[dict] - [DEPRECATED PARAM] User-specific config.
         - allowed_cache_controls: Optional[list] - List of allowed cache control values.
           Example - ["no-cache", "no-store"]. See all values -
-          https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request-
+          https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request-
         - blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked.
         - guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
           guardrails for the user
         - permissions: Optional[dict] - [Not Implemented Yet] User-specific permissions,
           eg. turning off pii masking.
         - metadata: Optional[dict] - Metadata for user, store information for user.
-          Example metadata = {"team": "core-infra", "app": "app2", "email":
-          "ishaan@berri.ai" }
+          Example metadata = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai"
+          }
         - max_parallel_requests: Optional[int] - Rate limit a user based on the number
           of parallel requests. Raises 429 error, if user's parallel requests > x.
         - soft_budget: Optional[float] - Get alerts when user crosses given budget,
           doesn't block requests.
         - model_max_budget: Optional[dict] - Model-specific max budget for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys)
         - model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-          [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys)
+          [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys)
         - spend: Optional[float] - Amount spent by user. Default is 0. Will be updated
           by proxy whenever user is used. You can set duration as seconds ("30s"),
           minutes ("30m"), hours ("30h"), days ("30d"), months ("1mo").
@@ -605,15 +652,9 @@ class AsyncUserResource(AsyncAPIResource):
           Default is None.
         - key_alias: Optional[str] - Alias for the key auto-created on `/user/new`.
           Default is None.
-        - sso_user_id: Optional[str] - The id of the user in the SSO provider.
-        - object_permission: Optional[LiteLLM_ObjectPermissionBase] - internal
-          user-specific object permission. Example - {"vector_stores":
-          ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-          permission.
-        - prompts: Optional[List[str]] - List of allowed prompts for the user. If
-          specified, the user will only be able to use these specific prompts.
-        - organizations: List[str] - List of organization id's the user is a member of
-          Returns:
+
+        Returns:
+
         - key: (str) The generated api key for the user
         - expires: (datetime) Datetime object for when key expires.
         - user_id: (str) Unique user id - used for tracking spend across multiple keys
@@ -658,14 +699,10 @@ class AsyncUserResource(AsyncAPIResource):
                     "model_rpm_limit": model_rpm_limit,
                     "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
-                    "organizations": organizations,
                     "permissions": permissions,
-                    "prompts": prompts,
                     "rpm_limit": rpm_limit,
                     "send_invite_email": send_invite_email,
                     "spend": spend,
-                    "sso_user_id": sso_user_id,
                     "team_id": team_id,
                     "teams": teams,
                     "tpm_limit": tpm_limit,
@@ -685,30 +722,27 @@ class AsyncUserResource(AsyncAPIResource):
     async def update(
         self,
         *,
-        aliases: Optional[Dict[str, object]] | Omit = omit,
+        aliases: Optional[object] | Omit = omit,
         allowed_cache_controls: Optional[Iterable[object]] | Omit = omit,
         blocked: Optional[bool] | Omit = omit,
         budget_duration: Optional[str] | Omit = omit,
-        config: Optional[Dict[str, object]] | Omit = omit,
+        config: Optional[object] | Omit = omit,
         duration: Optional[str] | Omit = omit,
         guardrails: Optional[SequenceNotStr[str]] | Omit = omit,
         key_alias: Optional[str] | Omit = omit,
         max_budget: Optional[float] | Omit = omit,
         max_parallel_requests: Optional[int] | Omit = omit,
-        metadata: Optional[Dict[str, object]] | Omit = omit,
-        model_max_budget: Optional[Dict[str, object]] | Omit = omit,
-        model_rpm_limit: Optional[Dict[str, object]] | Omit = omit,
-        model_tpm_limit: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[object] | Omit = omit,
+        model_max_budget: Optional[object] | Omit = omit,
+        model_rpm_limit: Optional[object] | Omit = omit,
+        model_tpm_limit: Optional[object] | Omit = omit,
         models: Optional[Iterable[object]] | Omit = omit,
-        object_permission: Optional[user_update_params.ObjectPermission] | Omit = omit,
         password: Optional[str] | Omit = omit,
-        permissions: Optional[Dict[str, object]] | Omit = omit,
-        prompts: Optional[SequenceNotStr[str]] | Omit = omit,
+        permissions: Optional[object] | Omit = omit,
         rpm_limit: Optional[int] | Omit = omit,
         spend: Optional[float] | Omit = omit,
         team_id: Optional[str] | Omit = omit,
         tpm_limit: Optional[int] | Omit = omit,
-        user_alias: Optional[str] | Omit = omit,
         user_email: Optional[str] | Omit = omit,
         user_id: Optional[str] | Omit = omit,
         user_role: Optional[Literal["proxy_admin", "proxy_admin_viewer", "internal_user", "internal_user_viewer"]]
@@ -725,7 +759,7 @@ class AsyncUserResource(AsyncAPIResource):
 
         ```
         curl --location 'http://0.0.0.0:4000/user/update'     --header 'Authorization: Bearer sk-1234'     --header 'Content-Type: application/json'     --data '{
-            "user_id": "test-litellm-user-4",
+            "user_id": "test-llm-user-4",
             "user_role": "proxy_admin_viewer"
         }'
         ```
@@ -739,7 +773,7 @@ class AsyncUserResource(AsyncAPIResource):
         user_role: Optional[str] - Specify a user role - "proxy_admin",
         "proxy_admin_viewer", "internal_user", "internal_user_viewer", "team",
         "customer". Info about each role here:
-        `https://github.com/BerriAI/litellm/litellm/proxy/_types.py#L20` - max_budget:
+        `https://github.com/hanzoai/llm/llm/proxy/_types.py#L20` - max_budget:
         Optional[float] - Specify max budget for a given user. - budget_duration:
         Optional[str] - Budget is reset at the end of specified duration. If not set,
         budget is never reset. You can set duration as seconds ("30s"), minutes ("30m"),
@@ -750,37 +784,33 @@ class AsyncUserResource(AsyncAPIResource):
         (Requests per minute) - auto_create_key: bool - Default=True. Flag used for
         returning a key as part of the /user/new response - aliases: Optional[dict] -
         Model aliases for the user -
-        [Docs](https://litellm.vercel.app/docs/proxy/virtual_keys#model-aliases) -
-        config: Optional[dict] - [DEPRECATED PARAM] User-specific config. -
+        [Docs](https://llm.vercel.app/docs/proxy/virtual_keys#model-aliases) - config:
+        Optional[dict] - [DEPRECATED PARAM] User-specific config. -
         allowed_cache_controls: Optional[list] - List of allowed cache control values.
         Example - ["no-cache", "no-store"]. See all values -
-        https://docs.litellm.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
+        https://docs.hanzo.ai/docs/proxy/caching#turn-on--off-caching-per-request- -
         blocked: Optional[bool] - [Not Implemented Yet] Whether the user is blocked. -
         guardrails: Optional[List[str]] - [Not Implemented Yet] List of active
         guardrails for the user - permissions: Optional[dict] - [Not Implemented Yet]
         User-specific permissions, eg. turning off pii masking. - metadata:
         Optional[dict] - Metadata for user, store information for user. Example metadata
-        = {"team": "core-infra", "app": "app2", "email": "ishaan@berri.ai" } -
+        = {"team": "core-infra", "app": "app2", "email": "z@hanzo.ai" } -
         max_parallel_requests: Optional[int] - Rate limit a user based on the number of
         parallel requests. Raises 429 error, if user's parallel requests > x. -
         soft_budget: Optional[float] - Get alerts when user crosses given budget,
         doesn't block requests. - model_max_budget: Optional[dict] - Model-specific max
         budget for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-budgets-to-keys) -
         model_rpm_limit: Optional[float] - Model-specific rpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         model_tpm_limit: Optional[float] - Model-specific tpm limit for user.
-        [Docs](https://docs.litellm.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
+        [Docs](https://docs.hanzo.ai/docs/proxy/users#add-model-specific-limits-to-keys) -
         spend: Optional[float] - Amount spent by user. Default is 0. Will be updated by
         proxy whenever user is used. You can set duration as seconds ("30s"), minutes
         ("30m"), hours ("30h"), days ("30d"), months ("1mo"). - team_id: Optional[str] -
         [DEPRECATED PARAM] The team id of the user. Default is None. - duration:
         Optional[str] - [NOT IMPLEMENTED]. - key_alias: Optional[str] - [NOT
-        IMPLEMENTED]. - object_permission: Optional[LiteLLM_ObjectPermissionBase] -
-        internal user-specific object permission. Example - {"vector_stores":
-        ["vector_store_1", "vector_store_2"]}. IF null or {} then no object
-        permission. - prompts: Optional[List[str]] - List of allowed prompts for the
-        user. If specified, the user will only be able to use these specific prompts.
+        IMPLEMENTED].
 
         Args:
           extra_headers: Send extra headers
@@ -810,15 +840,12 @@ class AsyncUserResource(AsyncAPIResource):
                     "model_rpm_limit": model_rpm_limit,
                     "model_tpm_limit": model_tpm_limit,
                     "models": models,
-                    "object_permission": object_permission,
                     "password": password,
                     "permissions": permissions,
-                    "prompts": prompts,
                     "rpm_limit": rpm_limit,
                     "spend": spend,
                     "team_id": team_id,
                     "tpm_limit": tpm_limit,
-                    "user_alias": user_alias,
                     "user_email": user_email,
                     "user_id": user_id,
                     "user_role": user_role,
@@ -831,11 +858,81 @@ class AsyncUserResource(AsyncAPIResource):
             cast_to=object,
         )
 
+    async def list(
+        self,
+        *,
+        page: int | Omit = omit,
+        page_size: int | Omit = omit,
+        role: Optional[str] | Omit = omit,
+        user_ids: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> object:
+        """
+        Get a paginated list of users, optionally filtered by role.
+
+        Used by the UI to populate the user lists.
+
+        Parameters: role: Optional[str] Filter users by role. Can be one of: -
+        proxy_admin - proxy_admin_viewer - internal_user - internal_user_viewer
+        user_ids: Optional[str] Get list of users by user_ids. Comma separated list of
+        user_ids. page: int The page number to return page_size: int The number of items
+        per page
+
+        Currently - admin-only endpoint.
+
+        Example curl:
+
+        ```
+        http://0.0.0.0:4000/user/list?user_ids=default_user_id,693c1a4a-1cc0-4c7c-afe8-b5d2c8d52e17
+        ```
+
+        Args:
+          page: Page number
+
+          page_size: Number of items per page
+
+          role: Filter users by role
+
+          user_ids: Get list of users by user_ids
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/user/get_users",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                        "role": role,
+                        "user_ids": user_ids,
+                    },
+                    user_list_params.UserListParams,
+                ),
+            ),
+            cast_to=object,
+        )
+
     async def delete(
         self,
         *,
         user_ids: SequenceNotStr[str],
-        litellm_changed_by: str | Omit = omit,
+        llm_changed_by: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -860,9 +957,8 @@ class AsyncUserResource(AsyncAPIResource):
         - user_ids: List[str] - The list of user id's to be deleted.
 
         Args:
-          litellm_changed_by: The litellm-changed-by header enables tracking of actions performed by
-              authorized users on behalf of other users, providing an audit trail for
-              accountability
+          llm_changed_by: The llm-changed-by header enables tracking of actions performed by authorized
+              users on behalf of other users, providing an audit trail for accountability
 
           extra_headers: Send extra headers
 
@@ -872,7 +968,7 @@ class AsyncUserResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"litellm-changed-by": litellm_changed_by}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
             "/user/delete",
             body=await async_maybe_transform({"user_ids": user_ids}, user_delete_params.UserDeleteParams),
@@ -901,7 +997,7 @@ class AsyncUserResource(AsyncAPIResource):
         Example request
 
         ```
-        curl -X GET 'http://localhost:4000/user/info?user_id=krrish7%40berri.ai'     --header 'Authorization: Bearer sk-1234'
+        curl -X GET 'http://localhost:4000/user/info?user_id=dev7%40hanzo.ai'     --header 'Authorization: Bearer sk-1234'
         ```
 
         Args:
@@ -940,6 +1036,9 @@ class UserResourceWithRawResponse:
         self.update = to_raw_response_wrapper(
             user.update,
         )
+        self.list = to_raw_response_wrapper(
+            user.list,
+        )
         self.delete = to_raw_response_wrapper(
             user.delete,
         )
@@ -957,6 +1056,9 @@ class AsyncUserResourceWithRawResponse:
         )
         self.update = async_to_raw_response_wrapper(
             user.update,
+        )
+        self.list = async_to_raw_response_wrapper(
+            user.list,
         )
         self.delete = async_to_raw_response_wrapper(
             user.delete,
@@ -976,6 +1078,9 @@ class UserResourceWithStreamingResponse:
         self.update = to_streamed_response_wrapper(
             user.update,
         )
+        self.list = to_streamed_response_wrapper(
+            user.list,
+        )
         self.delete = to_streamed_response_wrapper(
             user.delete,
         )
@@ -993,6 +1098,9 @@ class AsyncUserResourceWithStreamingResponse:
         )
         self.update = async_to_streamed_response_wrapper(
             user.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            user.list,
         )
         self.delete = async_to_streamed_response_wrapper(
             user.delete,

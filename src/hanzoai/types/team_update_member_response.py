@@ -14,8 +14,4 @@ class TeamUpdateMemberResponse(BaseModel):
 
     max_budget_in_team: Optional[float] = None
 
-    rpm_limit: Optional[int] = None
-
-    tpm_limit: Optional[int] = None
-
     user_email: Optional[str] = None

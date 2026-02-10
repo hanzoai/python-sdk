@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._types import Body, Query, Headers, NotGiven, not_given
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -17,7 +14,6 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.images import generation_create_params
 
 __all__ = ["GenerationsResource", "AsyncGenerationsResource"]
 
@@ -45,7 +41,6 @@ class GenerationsResource(SyncAPIResource):
     def create(
         self,
         *,
-        model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -53,26 +48,11 @@ class GenerationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """
-        Image Generation
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """Image Generation"""
         return self._post(
             "/v1/images/generations",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"model": model}, generation_create_params.GenerationCreateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
         )
@@ -101,7 +81,6 @@ class AsyncGenerationsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        model: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -109,26 +88,11 @@ class AsyncGenerationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> object:
-        """
-        Image Generation
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """Image Generation"""
         return await self._post(
             "/v1/images/generations",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"model": model}, generation_create_params.GenerationCreateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
         )

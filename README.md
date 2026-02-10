@@ -126,11 +126,11 @@ from hanzoai import Hanzo
 client = Hanzo()
 
 model = client.model.create(
-    litellm_params={"model": "model"},
+    llm_params={"model": "model"},
     model_info={"id": "id"},
     model_name="model_name",
 )
-print(model.litellm_params)
+print(model.llm_params)
 ```
 
 ## File uploads

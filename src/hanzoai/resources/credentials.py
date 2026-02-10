@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Optional
 
 import httpx
 
@@ -45,9 +45,9 @@ class CredentialsResource(SyncAPIResource):
     def create(
         self,
         *,
-        credential_info: Dict[str, object],
+        credential_info: object,
         credential_name: str,
-        credential_values: Optional[Dict[str, object]] | Omit = omit,
+        credential_values: Optional[object] | Omit = omit,
         model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -122,8 +122,6 @@ class CredentialsResource(SyncAPIResource):
         This might change unexpectedly.
 
         Args:
-          credential_name: The credential name, percent-decoded; may contain slashes
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -166,9 +164,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        credential_info: Dict[str, object],
+        credential_info: object,
         credential_name: str,
-        credential_values: Optional[Dict[str, object]] | Omit = omit,
+        credential_values: Optional[object] | Omit = omit,
         model_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -243,8 +241,6 @@ class AsyncCredentialsResource(AsyncAPIResource):
         This might change unexpectedly.
 
         Args:
-          credential_name: The credential name, percent-decoded; may contain slashes
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

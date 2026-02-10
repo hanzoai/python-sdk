@@ -26,10 +26,6 @@ class TestModels:
     @parametrize
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         model = client.models.list(
-            fallback_type="fallback_type",
-            include_metadata=True,
-            include_model_access_groups=True,
-            only_model_access_groups=True,
             return_wildcard_routes=True,
             team_id="team_id",
         )
@@ -73,10 +69,6 @@ class TestAsyncModels:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         model = await async_client.models.list(
-            fallback_type="fallback_type",
-            include_metadata=True,
-            include_model_access_groups=True,
-            only_model_access_groups=True,
             return_wildcard_routes=True,
             team_id="team_id",
         )

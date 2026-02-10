@@ -11,11 +11,11 @@ __all__ = ["JobCreateParams", "Hyperparameters"]
 
 
 class JobCreateParams(TypedDict, total=False):
+    custom_llm_provider: Required[Literal["openai", "azure", "vertex_ai"]]
+
     model: Required[str]
 
     training_file: Required[str]
-
-    custom_llm_provider: Optional[Literal["openai", "azure", "vertex_ai"]]
 
     hyperparameters: Optional[Hyperparameters]
 

@@ -19,71 +19,21 @@ class TestCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
-        completion = client.chat.completions.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        )
+        completion = client.chat.completions.create()
         assert_matches_type(object, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         completion = client.chat.completions.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                    "cache_control": {"type": "ephemeral"},
-                }
-            ],
             model="model",
-            caching=True,
-            context_window_fallback_dict={"foo": "string"},
-            fallbacks=["string"],
-            frequency_penalty=0,
-            function_call="string",
-            functions=[{"foo": "bar"}],
-            guardrails=["string"],
-            logit_bias={"foo": 0},
-            logprobs=True,
-            max_tokens=0,
-            metadata={"foo": "bar"},
-            n=0,
-            num_retries=0,
-            parallel_tool_calls=True,
-            presence_penalty=0,
-            response_format={"foo": "bar"},
-            seed=0,
-            service_tier="service_tier",
-            stop="string",
-            stream=True,
-            stream_options={"foo": "bar"},
-            temperature=0,
-            tool_choice="string",
-            tools=[{"foo": "bar"}],
-            top_logprobs=0,
-            top_p=0,
-            user="user",
         )
         assert_matches_type(object, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
-        response = client.chat.completions.with_raw_response.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        )
+        response = client.chat.completions.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -93,15 +43,7 @@ class TestCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
-        with client.chat.completions.with_streaming_response.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        ) as response:
+        with client.chat.completions.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -119,71 +61,21 @@ class TestAsyncCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
-        completion = await async_client.chat.completions.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        )
+        completion = await async_client.chat.completions.create()
         assert_matches_type(object, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         completion = await async_client.chat.completions.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                    "cache_control": {"type": "ephemeral"},
-                }
-            ],
             model="model",
-            caching=True,
-            context_window_fallback_dict={"foo": "string"},
-            fallbacks=["string"],
-            frequency_penalty=0,
-            function_call="string",
-            functions=[{"foo": "bar"}],
-            guardrails=["string"],
-            logit_bias={"foo": 0},
-            logprobs=True,
-            max_tokens=0,
-            metadata={"foo": "bar"},
-            n=0,
-            num_retries=0,
-            parallel_tool_calls=True,
-            presence_penalty=0,
-            response_format={"foo": "bar"},
-            seed=0,
-            service_tier="service_tier",
-            stop="string",
-            stream=True,
-            stream_options={"foo": "bar"},
-            temperature=0,
-            tool_choice="string",
-            tools=[{"foo": "bar"}],
-            top_logprobs=0,
-            top_p=0,
-            user="user",
         )
         assert_matches_type(object, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
-        response = await async_client.chat.completions.with_raw_response.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        )
+        response = await async_client.chat.completions.with_raw_response.create()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -193,15 +85,7 @@ class TestAsyncCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
-        async with async_client.chat.completions.with_streaming_response.create(
-            messages=[
-                {
-                    "content": "Hello, how are you?",
-                    "role": "user",
-                }
-            ],
-            model="model",
-        ) as response:
+        async with async_client.chat.completions.with_streaming_response.create() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 

@@ -542,7 +542,7 @@ class Hanzo(SyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
-        return {"x-litellm-api-key": api_key}
+        return {"Ocp-Apim-Subscription-Key": api_key}
 
     @property
     @override
@@ -1043,7 +1043,7 @@ class AsyncHanzo(AsyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
-        return {"x-litellm-api-key": api_key}
+        return {"Ocp-Apim-Subscription-Key": api_key}
 
     @property
     @override
