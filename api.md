@@ -401,15 +401,15 @@ from hanzoai.types import (
 
 Methods:
 
-- <code title="post /key/update">client.key.<a href="./src/hanzoai/resources/key/key.py">update</a>(\*\*<a href="src/hanzoai/types/key_update_params.py">params</a>) -> object</code>
-- <code title="get /key/list">client.key.<a href="./src/hanzoai/resources/key/key.py">list</a>(\*\*<a href="src/hanzoai/types/key_list_params.py">params</a>) -> <a href="./src/hanzoai/types/key_list_response.py">KeyListResponse</a></code>
-- <code title="post /key/delete">client.key.<a href="./src/hanzoai/resources/key/key.py">delete</a>(\*\*<a href="src/hanzoai/types/key_delete_params.py">params</a>) -> object</code>
-- <code title="post /key/block">client.key.<a href="./src/hanzoai/resources/key/key.py">block</a>(\*\*<a href="src/hanzoai/types/key_block_params.py">params</a>) -> <a href="./src/hanzoai/types/key_block_response.py">Optional[KeyBlockResponse]</a></code>
-- <code title="post /key/health">client.key.<a href="./src/hanzoai/resources/key/key.py">check_health</a>() -> <a href="./src/hanzoai/types/key_check_health_response.py">KeyCheckHealthResponse</a></code>
-- <code title="post /key/generate">client.key.<a href="./src/hanzoai/resources/key/key.py">generate</a>(\*\*<a href="src/hanzoai/types/key_generate_params.py">params</a>) -> <a href="./src/hanzoai/types/generate_key_response.py">GenerateKeyResponse</a></code>
-- <code title="post /key/{key}/regenerate">client.key.<a href="./src/hanzoai/resources/key/key.py">regenerate_by_key</a>(path_key, \*\*<a href="src/hanzoai/types/key_regenerate_by_key_params.py">params</a>) -> <a href="./src/hanzoai/types/generate_key_response.py">Optional[GenerateKeyResponse]</a></code>
-- <code title="get /key/info">client.key.<a href="./src/hanzoai/resources/key/key.py">retrieve_info</a>(\*\*<a href="src/hanzoai/types/key_retrieve_info_params.py">params</a>) -> object</code>
-- <code title="post /key/unblock">client.key.<a href="./src/hanzoai/resources/key/key.py">unblock</a>(\*\*<a href="src/hanzoai/types/key_unblock_params.py">params</a>) -> object</code>
+- <code title="post /key/update">client.key.<a href="./src/hanzoai/resources/key.py">update</a>(\*\*<a href="src/hanzoai/types/key_update_params.py">params</a>) -> object</code>
+- <code title="get /key/list">client.key.<a href="./src/hanzoai/resources/key.py">list</a>(\*\*<a href="src/hanzoai/types/key_list_params.py">params</a>) -> <a href="./src/hanzoai/types/key_list_response.py">KeyListResponse</a></code>
+- <code title="post /key/delete">client.key.<a href="./src/hanzoai/resources/key.py">delete</a>(\*\*<a href="src/hanzoai/types/key_delete_params.py">params</a>) -> object</code>
+- <code title="post /key/block">client.key.<a href="./src/hanzoai/resources/key.py">block</a>(\*\*<a href="src/hanzoai/types/key_block_params.py">params</a>) -> <a href="./src/hanzoai/types/key_block_response.py">Optional[KeyBlockResponse]</a></code>
+- <code title="post /key/health">client.key.<a href="./src/hanzoai/resources/key.py">check_health</a>() -> <a href="./src/hanzoai/types/key_check_health_response.py">KeyCheckHealthResponse</a></code>
+- <code title="post /key/generate">client.key.<a href="./src/hanzoai/resources/key.py">generate</a>(\*\*<a href="src/hanzoai/types/key_generate_params.py">params</a>) -> <a href="./src/hanzoai/types/generate_key_response.py">GenerateKeyResponse</a></code>
+- <code title="post /key/{key}/regenerate">client.key.<a href="./src/hanzoai/resources/key.py">regenerate_by_key</a>(path_key, \*\*<a href="src/hanzoai/types/key_regenerate_by_key_params.py">params</a>) -> <a href="./src/hanzoai/types/generate_key_response.py">Optional[GenerateKeyResponse]</a></code>
+- <code title="get /key/info">client.key.<a href="./src/hanzoai/resources/key.py">retrieve_info</a>(\*\*<a href="src/hanzoai/types/key_retrieve_info_params.py">params</a>) -> object</code>
+- <code title="post /key/unblock">client.key.<a href="./src/hanzoai/resources/key.py">unblock</a>(\*\*<a href="src/hanzoai/types/key_unblock_params.py">params</a>) -> object</code>
 
 ## Regenerate
 
