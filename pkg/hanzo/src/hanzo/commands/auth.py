@@ -2,17 +2,28 @@
 
 import os
 import json
+import secrets
+import threading
+import webbrowser
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Optional
 from pathlib import Path
 from datetime import datetime
+from urllib.parse import urlencode, parse_qs, urlparse
 
 import click
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
-from rich.prompt import Prompt
 
 from ..utils.output import console
+
+# OAuth constants
+HANZO_IAM_URL = "https://hanzo.id"
+HANZO_CLIENT_ID = "app-hanzo"
+CALLBACK_PORT = 1456
+CALLBACK_PATH = "/callback"
+CALLBACK_URI = f"http://localhost:{CALLBACK_PORT}{CALLBACK_PATH}"
 
 
 class AuthManager:
@@ -73,118 +84,322 @@ def auth_group():
 
 
 @auth_group.command()
-@click.option("--email", "-e", help="Email address")
-@click.option("--password", "-p", help="Password (not recommended, use prompt)")
 @click.option("--api-key", "-k", help="API key for direct authentication")
-@click.option("--web", "-w", is_flag=True, help="Login via browser (device code flow)")
-@click.option("--headless", is_flag=True, help="Headless mode - don't open browser")
+@click.option("--device-code", is_flag=True, help="Device code flow (for SSH/headless)")
+@click.option("--headless", is_flag=True, help="Don't open browser automatically")
 @click.pass_context
-def login(ctx, email: str, password: str, api_key: str, web: bool, headless: bool):
+def login(ctx, api_key: str, device_code: bool, headless: bool):
     """Login to Hanzo AI.
+
+    Opens your browser to hanzo.id where you can sign in with
+    email/password, GitHub, Google, or any configured provider.
 
     \b
     Examples:
-      hanzo auth login              # Interactive device code flow
-      hanzo auth login --web        # Open browser for authentication
-      hanzo auth login --headless   # Device code without opening browser
-      hanzo auth login -k sk-xxx    # Direct API key authentication
-      hanzo auth login -e user@example.com  # Email/password login
+      hanzo auth login                # Browser login (default)
+      hanzo auth login --device-code  # Device code for SSH/headless
+      hanzo auth login -k sk-xxx      # Direct API key
     """
-    import asyncio
-
     auth_mgr = AuthManager()
-
-    # Check if already authenticated
-    if auth_mgr.is_authenticated():
-        console.print("[yellow]Already authenticated[/yellow]")
-        auth = auth_mgr.load_auth()
-        if auth.get("email"):
-            console.print(f"Logged in as: {auth['email']}")
-        return
 
     try:
         if api_key:
-            # Direct API key authentication
-            console.print("Authenticating with API key...")
-            auth = {
+            auth = auth_mgr.load_auth()
+            auth.update({
                 "api_key": api_key,
                 "logged_in": True,
                 "last_login": datetime.now().isoformat(),
-            }
+            })
             auth_mgr.save_auth(auth)
-            console.print("[green]✓[/green] Successfully authenticated with API key")
+            console.print(f"You are now logged in with API key {api_key[:8]}***.")
 
-        elif web or (not email and not password and not api_key):
-            # Device code flow - works on remote/headless systems
-            console.print("[cyan]Starting device code authentication...[/cyan]")
-
-            try:
-                from hanzoai.auth import HanzoAuth
-
-                async def do_device_auth():
-                    hanzo_auth = HanzoAuth()
-                    return await hanzo_auth.login_with_device_code(
-                        open_browser=not headless
-                    )
-
-                result = asyncio.run(do_device_auth())
-
-                auth = {
-                    "token": result.get("token"),
-                    "email": result.get("email"),
-                    "logged_in": True,
-                    "last_login": datetime.now().isoformat(),
-                }
-                auth_mgr.save_auth(auth)
-
-                email = result.get("email", "user")
-                console.print(f"[green]✓[/green] Logged in as {email}")
-
-            except ImportError:
-                console.print("[yellow]Device auth requires hanzoai package[/yellow]")
-                console.print("Install with: pip install hanzoai")
-                console.print()
-                console.print("[dim]Or use API key: hanzo auth login -k YOUR_KEY[/dim]")
+        elif device_code:
+            _login_device_code(auth_mgr, headless)
 
         else:
-            # Email/password authentication
-            if not email:
-                email = Prompt.ask("Email")
-            if not password:
-                password = Prompt.ask("Password", password=True)
-
-            console.print("Authenticating...")
-
-            try:
-                from hanzoai.auth import HanzoAuth
-
-                async def do_email_auth():
-                    hanzo_auth = HanzoAuth()
-                    return await hanzo_auth.login(email, password)
-
-                result = asyncio.run(do_email_auth())
-
-                auth = {
-                    "email": email,
-                    "token": result.get("token"),
-                    "logged_in": True,
-                    "last_login": datetime.now().isoformat(),
-                }
-                auth_mgr.save_auth(auth)
-                console.print(f"[green]✓[/green] Logged in as {email}")
-
-            except ImportError:
-                # Fallback to saving credentials locally
-                auth = {
-                    "email": email,
-                    "logged_in": True,
-                    "last_login": datetime.now().isoformat(),
-                }
-                auth_mgr.save_auth(auth)
-                console.print(f"[green]✓[/green] Credentials saved for {email}")
+            _login_browser_oauth(auth_mgr)
 
     except Exception as e:
         console.print(f"[red]Login failed: {e}[/red]")
+
+
+def _get_iam_url(auth_mgr: AuthManager) -> str:
+    """Get the IAM URL from env or stored config."""
+    existing = auth_mgr.load_auth()
+    return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL",
+        existing.get("iam_url", HANZO_IAM_URL)))
+
+
+def _decode_jwt_claims(token: str) -> dict:
+    """Decode JWT payload without verification (for extracting email/name)."""
+    import base64
+    try:
+        parts = token.split(".")
+        if len(parts) < 2:
+            return {}
+        payload = parts[1]
+        # Add padding
+        payload += "=" * (4 - len(payload) % 4)
+        decoded = base64.urlsafe_b64decode(payload)
+        return json.loads(decoded)
+    except Exception:
+        return {}
+
+
+def _login_browser_oauth(auth_mgr: AuthManager):
+    """Browser-based OAuth login using only stdlib (like gcloud auth login)."""
+    import urllib.request
+
+    iam_url = _get_iam_url(auth_mgr)
+    state = secrets.token_urlsafe(32)
+
+    # Result container for the callback handler
+    auth_result = {"code": None, "error": None}
+    server_ready = threading.Event()
+
+    class CallbackHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            parsed = urlparse(self.path)
+            if parsed.path != CALLBACK_PATH:
+                self.send_response(404)
+                self.end_headers()
+                return
+
+            params = parse_qs(parsed.query)
+
+            # Verify state
+            if params.get("state", [None])[0] != state:
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b"Invalid state parameter.")
+                auth_result["error"] = "Invalid state"
+                return
+
+            if "error" in params:
+                self.send_response(400)
+                self.end_headers()
+                msg = params.get("error_description", params["error"])[0]
+                self.wfile.write(msg.encode())
+                auth_result["error"] = msg
+                return
+
+            auth_result["code"] = params.get("code", [None])[0]
+
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            self.wfile.write(
+                b"<html><body><h2>Authentication successful!</h2>"
+                b"<p>You can close this window and return to the terminal.</p>"
+                b"</body></html>"
+            )
+
+        def log_message(self, format, *args):
+            pass  # Suppress server logs
+
+    # Start local callback server
+    server = HTTPServer(("localhost", CALLBACK_PORT), CallbackHandler)
+    server.timeout = 120  # 2 minute timeout
+
+    def serve():
+        server_ready.set()
+        server.handle_request()  # Handle exactly one request
+
+    server_thread = threading.Thread(target=serve, daemon=True)
+    server_thread.start()
+    server_ready.wait()
+
+    # Build OAuth authorize URL
+    params = {
+        "client_id": HANZO_CLIENT_ID,
+        "redirect_uri": CALLBACK_URI,
+        "response_type": "code",
+        "scope": "openid profile email",
+        "state": state,
+    }
+    authorize_url = f"{iam_url}/login/oauth/authorize?{urlencode(params)}"
+
+    console.print("Your browser has been opened to visit:\n")
+    console.print(f"    {authorize_url}\n")
+
+    webbrowser.open(authorize_url)
+
+    # Wait for callback
+    server_thread.join(timeout=120)
+    server.server_close()
+
+    if auth_result["error"]:
+        console.print(f"[red]Login failed: {auth_result['error']}[/red]")
+        return
+
+    if not auth_result["code"]:
+        console.print("[red]Login timed out. Please try again.[/red]")
+        return
+
+    # Exchange authorization code for tokens
+    token_url = f"{iam_url}/api/login/oauth/access_token"
+    token_data = urlencode({
+        "client_id": HANZO_CLIENT_ID,
+        "code": auth_result["code"],
+        "grant_type": "authorization_code",
+        "redirect_uri": CALLBACK_URI,
+    }).encode()
+
+    req = urllib.request.Request(
+        token_url,
+        data=token_data,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode())
+    except Exception as e:
+        console.print(f"[red]Token exchange failed: {e}[/red]")
+        return
+
+    access_token = data.get("access_token", "")
+    id_token = data.get("id_token", "")
+
+    # Decode JWT to get user info
+    claims = _decode_jwt_claims(id_token or access_token)
+    user_email = claims.get("email", claims.get("name", ""))
+
+    # Save auth
+    auth = auth_mgr.load_auth()
+    auth.update({
+        "token": access_token,
+        "id_token": id_token,
+        "email": user_email,
+        "logged_in": True,
+        "last_login": datetime.now().isoformat(),
+    })
+    auth_mgr.save_auth(auth)
+
+    if user_email:
+        console.print(f"You are now logged in as [{user_email}].")
+    else:
+        console.print("You are now logged in.")
+    console.print("Your credentials have been saved to: ~/.hanzo/auth.json")
+
+
+def _login_device_code(auth_mgr: AuthManager, headless: bool):
+    """Device code login flow (for SSH/headless)."""
+    import urllib.request
+    import time
+
+    iam_url = _get_iam_url(auth_mgr)
+
+    # Step 1: Request device code
+    device_req_data = json.dumps({
+        "client_id": HANZO_CLIENT_ID,
+        "scope": "openid profile email",
+    }).encode()
+
+    req = urllib.request.Request(
+        f"{iam_url}/api/device/code",
+        data=device_req_data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read().decode())
+    except Exception as e:
+        console.print(f"[red]Failed to request device code: {e}[/red]")
+        return
+
+    device_code = data["device_code"]
+    user_code = data["user_code"]
+    verification_url = data.get("verification_uri", f"{iam_url}/device")
+    verification_url_complete = data.get(
+        "verification_uri_complete",
+        f"{verification_url}?user_code={user_code}"
+    )
+    expires_in = data.get("expires_in", 300)
+    interval = data.get("interval", 5)
+
+    # Step 2: Show instructions
+    console.print(f"\nTo sign in, visit: [cyan]{verification_url}[/cyan]")
+    console.print(f"Enter code: [bold yellow]{user_code}[/bold yellow]\n")
+
+    if not headless:
+        try:
+            webbrowser.open(verification_url_complete)
+            console.print("[dim](Browser opened automatically)[/dim]\n")
+        except Exception:
+            pass
+
+    # Step 3: Poll for completion
+    start_time = time.time()
+    while time.time() - start_time < expires_in:
+        time.sleep(interval)
+
+        poll_data = json.dumps({
+            "client_id": HANZO_CLIENT_ID,
+            "device_code": device_code,
+            "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
+        }).encode()
+
+        poll_req = urllib.request.Request(
+            f"{iam_url}/api/login/oauth/access_token",
+            data=poll_data,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+
+        try:
+            with urllib.request.urlopen(poll_req, timeout=30) as resp:
+                token_data = json.loads(resp.read().decode())
+
+            access_token = token_data.get("access_token", "")
+            id_token = token_data.get("id_token", "")
+
+            claims = _decode_jwt_claims(id_token or access_token)
+            user_email = claims.get("email", claims.get("name", ""))
+
+            auth = auth_mgr.load_auth()
+            auth.update({
+                "token": access_token,
+                "id_token": id_token,
+                "email": user_email,
+                "logged_in": True,
+                "last_login": datetime.now().isoformat(),
+            })
+            auth_mgr.save_auth(auth)
+
+            if user_email:
+                console.print(f"You are now logged in as [{user_email}].")
+            else:
+                console.print("You are now logged in.")
+            return
+
+        except urllib.error.HTTPError as e:
+            if e.code == 400:
+                try:
+                    error_data = json.loads(e.read().decode())
+                    error = error_data.get("error", "")
+                    if error == "authorization_pending":
+                        continue
+                    elif error == "slow_down":
+                        interval += 5
+                        continue
+                    elif error == "expired_token":
+                        console.print("[red]Device code expired. Please try again.[/red]")
+                        return
+                    elif error == "access_denied":
+                        console.print("[red]Authentication denied.[/red]")
+                        return
+                except Exception:
+                    continue
+            else:
+                continue
+        except Exception:
+            continue
+
+    console.print("[red]Authentication timed out. Please try again.[/red]")
 
 
 @auth_group.command()
@@ -198,15 +413,13 @@ def logout(ctx):
         return
 
     try:
-        # Try using hanzoai if available
-        try:
-            from hanzoai.auth import HanzoAuth
-            _ = HanzoAuth  # Available for future remote logout
-        except ImportError:
-            pass  # Local-only auth
-
-        # Clear local auth
-        auth_mgr.save_auth({})
+        # Clear login state but preserve IAM config
+        auth = auth_mgr.load_auth()
+        preserved = {}
+        for key in ("iam_url", "iam_client_id", "iam_client_secret", "iam_org", "iam_app"):
+            if key in auth:
+                preserved[key] = auth[key]
+        auth_mgr.save_auth(preserved)
 
         console.print("[green]✓[/green] Logged out successfully")
 

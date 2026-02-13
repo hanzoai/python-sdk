@@ -80,8 +80,14 @@ ENV_VAR_MAPPINGS: dict[str, list[str]] = {
     "imgix": ["IMGIX_API_KEY"],
     "bunny": ["BUNNY_API_KEY", "BUNNY_ACCESS_KEY"],
     "backblaze": ["B2_APPLICATION_KEY_ID", "B2_APPLICATION_KEY"],
-    # Hanzo
+    # Hanzo Services
     "hanzo": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-iam": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-gateway": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-commerce": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-vector": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-cloud": ["HANZO_API_KEY", "HANZO_TOKEN"],
+    "hanzo-nexus": ["HANZO_API_KEY", "HANZO_TOKEN"],
 }
 
 
@@ -290,12 +296,61 @@ PROVIDER_CONFIGS: dict[str, ProviderConfig] = {
         auth_prefix="",
         env_vars=["ALGOLIA_API_KEY"],
     ),
-    # Hanzo
+    # Hanzo Services
     "hanzo": ProviderConfig(
         name="hanzo",
         display_name="Hanzo AI",
         base_url="https://api.hanzo.ai/v1",
         auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/hanzo.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-iam": ProviderConfig(
+        name="hanzo-iam",
+        display_name="Hanzo IAM",
+        base_url="https://iam.hanzo.ai",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/iam/openapi.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-gateway": ProviderConfig(
+        name="hanzo-gateway",
+        display_name="Hanzo Gateway",
+        base_url="https://gateway.hanzo.ai",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/gateway/openapi.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-commerce": ProviderConfig(
+        name="hanzo-commerce",
+        display_name="Hanzo Commerce",
+        base_url="https://api.hanzo.ai/v1",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/commerce/openapi.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-vector": ProviderConfig(
+        name="hanzo-vector",
+        display_name="Hanzo Vector",
+        base_url="https://vector.hanzo.ai",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/vector/openapi.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-cloud": ProviderConfig(
+        name="hanzo-cloud",
+        display_name="Hanzo Cloud",
+        base_url="https://cloud.hanzo.ai",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/cloud/openapi.yaml",
+        env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
+    ),
+    "hanzo-nexus": ProviderConfig(
+        name="hanzo-nexus",
+        display_name="Hanzo Nexus",
+        base_url="https://nexus.hanzo.ai",
+        auth_type=AuthType.BEARER,
+        spec_url="file:///Users/z/work/hanzo/openapi/nexus/openapi.yaml",
         env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],
     ),
     # Popular APIs from handmade-openapis
