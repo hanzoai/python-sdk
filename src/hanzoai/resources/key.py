@@ -7,7 +7,7 @@ from datetime import datetime
 
 import httpx
 
-from ...types import (
+from ..types import (
     key_list_params,
     key_block_params,
     key_delete_params,
@@ -17,21 +17,21 @@ from ...types import (
     key_retrieve_info_params,
     key_regenerate_by_key_params,
 )
-from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from .._utils import maybe_transform, strip_not_given, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.key_list_response import KeyListResponse
-from ...types.key_block_response import KeyBlockResponse
-from ...types.generate_key_response import GenerateKeyResponse
-from ...types.key_check_health_response import KeyCheckHealthResponse
+from .._base_client import make_request_options
+from ..types.key_list_response import KeyListResponse
+from ..types.key_block_response import KeyBlockResponse
+from ..types.generate_key_response import GenerateKeyResponse
+from ..types.key_check_health_response import KeyCheckHealthResponse
 
 __all__ = ["KeyResource", "AsyncKeyResource"]
 

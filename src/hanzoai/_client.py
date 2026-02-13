@@ -92,6 +92,7 @@ if TYPE_CHECKING:
         eu_assemblyai,
     )
     from .resources.add import AddResource, AsyncAddResource
+    from .resources.key import KeyResource, AsyncKeyResource
     from .resources.test import TestResource, AsyncTestResource
     from .resources.user import UserResource, AsyncUserResource
     from .resources.azure import AzureResource, AsyncAzureResource
@@ -107,7 +108,6 @@ if TYPE_CHECKING:
     from .resources.rerank import RerankResource, AsyncRerankResource
     from .resources.routes import RoutesResource, AsyncRoutesResource
     from .resources.bedrock import BedrockResource, AsyncBedrockResource
-    from .resources.key.key import KeyResource, AsyncKeyResource
     from .resources.customer import CustomerResource, AsyncCustomerResource
     from .resources.langfuse import LangfuseResource, AsyncLangfuseResource
     from .resources.provider import ProviderResource, AsyncProviderResource
