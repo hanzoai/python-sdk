@@ -223,6 +223,41 @@ def trace(trace_id: str, service: str, min_duration: str):
     console.print("[dim]No trace found[/dim]")
 
 
+# Top-level login/logout shortcuts
+@cli.command()
+@click.option("--email", "-e", help="Email address")
+@click.option("--password", "-p", help="Password (not recommended, use prompt)")
+@click.option("--api-key", "-k", help="API key for direct authentication")
+@click.option("--web", "-w", is_flag=True, help="Login via browser (device code flow)")
+@click.option("--headless", is_flag=True, help="Headless mode - don't open browser")
+@click.pass_context
+def login(ctx, email, password, api_key, web, headless):
+    """Login to Hanzo AI (shortcut for 'hanzo auth login').
+
+    \b
+    Examples:
+      hanzo login              # Interactive device code flow
+      hanzo login --web        # Open browser for authentication
+      hanzo login -k sk-xxx   # Direct API key authentication
+      hanzo login -e user@example.com  # Email/password login
+    """
+    ctx.invoke(auth.login, email=email, password=password, api_key=api_key, web=web, headless=headless)
+
+
+@cli.command()
+@click.pass_context
+def logout(ctx):
+    """Logout from Hanzo AI (shortcut for 'hanzo auth logout')."""
+    ctx.invoke(auth.logout)
+
+
+@cli.command()
+@click.pass_context
+def whoami(ctx):
+    """Show current user (shortcut for 'hanzo auth whoami')."""
+    ctx.invoke(auth.whoami)
+
+
 # Alias observe -> o11y
 cli.add_command(o11y.o11y_group, name="observe")
 
