@@ -1,0 +1,63 @@
+[project]
+name = "hanzo-iam"
+version = "1.0.0"
+description = "Hanzo IAM SDK - Identity and Access Management for Python"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["oauth2", "oidc", "iam", "hanzo", "authentication", "identity", "access-management"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "pyjwt>=2.8.0",
+]
+
+[project.optional-dependencies]
+fastapi = ["fastapi>=0.100.0"]
+kms = ["hanzo-kms>=1.0.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.5.0",
+    "mypy>=1.10.0",
+]
+
+[project.urls]
+Homepage = "https://hanzo.id"
+Documentation = "https://docs.hanzo.ai/iam"
+Repository = "https://github.com/hanzoai/python-sdk"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_iam"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+ignore = ["E501", "B008"]  # B008: Depends() in defaults is standard FastAPI pattern
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
