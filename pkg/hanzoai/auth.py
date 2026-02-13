@@ -24,18 +24,18 @@ class HanzoAuth:
     def __init__(
         self,
         api_key: Optional[str] = None,
-        base_url: str = "https://iam.hanzo.ai",
+        base_url: str = "https://hanzo.id",
         api_base_url: str = "https://api.hanzo.ai",
     ):
         """Initialize authentication client.
 
         Args:
             api_key: API key (defaults to HANZO_API_KEY env var)
-            base_url: IAM service URL
+            base_url: IAM service URL (default: https://hanzo.id)
             api_base_url: API service URL
         """
         self.api_key = api_key or os.environ.get("HANZO_API_KEY")
-        self.base_url = base_url
+        self.base_url = os.environ.get("HANZO_IAM_URL", os.environ.get("IAM_URL", base_url))
         self.api_base_url = api_base_url
         self._token = None
         self._user_info = None
@@ -70,7 +70,7 @@ class HanzoAuth:
                 json={
                     "username": email,
                     "password": password,
-                    "application": "hanzo-cli",
+                    "application": "app-hanzo",
                 },
             )
             response.raise_for_status()
@@ -125,7 +125,7 @@ class HanzoAuth:
             response = await client.post(
                 f"{self.base_url}/api/device/code",
                 json={
-                    "client_id": "hanzo-cli",
+                    "client_id": "app-hanzo",
                     "scope": "openid profile email",
                 },
             )
@@ -163,7 +163,7 @@ class HanzoAuth:
                     token_response = await client.post(
                         f"{self.base_url}/api/device/token",
                         json={
-                            "client_id": "hanzo-cli",
+                            "client_id": "app-hanzo",
                             "device_code": device_code,
                             "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
                         },
@@ -216,7 +216,7 @@ class HanzoAuth:
 
         # Build SSO URL
         params = {
-            "client_id": "hanzo-cli",
+            "client_id": "app-hanzo",
             "redirect_uri": "http://localhost:8899/callback",
             "response_type": "code",
             "scope": "openid profile email",
@@ -266,7 +266,7 @@ class HanzoAuth:
             response = await client.post(
                 f"{self.base_url}/api/login/oauth/access_token",
                 json={
-                    "client_id": "hanzo-cli",
+                    "client_id": "app-hanzo",
                     "client_secret": "hanzo-cli-secret",  # Public client
                     "code": auth_code,
                     "grant_type": "authorization_code",
