@@ -22,6 +22,7 @@ from .commands import (
     events,
     flow,
     fn,
+    git_provider,
     growth,
     install,
     k8s,
@@ -118,6 +119,7 @@ cli.add_command(env.env_group)
 cli.add_command(events.events_group)
 cli.add_command(flow.flow_group)
 cli.add_command(fn.fn_group)
+cli.add_command(git_provider.git_group)
 cli.add_command(growth.growth_group)
 cli.add_command(iam.iam_group)
 cli.add_command(install.install_group)
