@@ -52,14 +52,23 @@ class AuthManager:
         if os.getenv("HANZO_API_KEY"):
             return True
         auth = self.load_auth()
-        return bool(auth.get("api_key") or auth.get("logged_in"))
+        return bool(
+            auth.get("api_key")
+            or auth.get("logged_in")
+            or auth.get("token")
+            or auth.get("tokens", {}).get("access_token")
+        )
 
     def get_api_key(self) -> Optional[str]:
-        """Get API key."""
+        """Get API key or access token."""
         if os.getenv("HANZO_API_KEY"):
             return os.getenv("HANZO_API_KEY")
         auth = self.load_auth()
-        return auth.get("api_key")
+        return (
+            auth.get("api_key")
+            or auth.get("token")
+            or auth.get("tokens", {}).get("access_token")
+        )
 
 
 @click.group(name="auth")
@@ -451,6 +460,14 @@ def status(ctx):
         elif auth.get("api_key"):
             table.add_row("Method", "API Key")
             table.add_row("API Key", f"{auth['api_key'][:8]}...")
+        elif auth.get("token") or auth.get("tokens", {}).get("access_token"):
+            table.add_row("Method", "IAM OAuth")
+            token = auth.get("token") or auth.get("tokens", {}).get("access_token", "")
+            if token:
+                claims = _decode_jwt_claims(token)
+                email = claims.get("email", "")
+                if email:
+                    table.add_row("User", email)
         elif auth.get("email"):
             table.add_row("Method", "Email/Password")
             table.add_row("Email", auth["email"])
@@ -480,26 +497,33 @@ def whoami():
         return
 
     auth = auth_mgr.load_auth()
-
-    # Create user info panel
     lines = []
 
-    if auth.get("email"):
-        lines.append(f"[cyan]Email:[/cyan] {auth['email']}")
+    # Try to get email from stored data or JWT claims
+    email = auth.get("email", "")
+    if not email:
+        token = auth.get("token") or auth.get("tokens", {}).get("access_token", "")
+        if token:
+            claims = _decode_jwt_claims(token)
+            email = claims.get("email", "")
+            name = claims.get("displayName") or claims.get("name", "")
+            if name:
+                lines.append(f"[cyan]Name:[/cyan] {name}")
+
+    if email:
+        lines.append(f"[cyan]Email:[/cyan] {email}")
 
     if os.getenv("HANZO_API_KEY"):
-        lines.append("[cyan]API Key:[/cyan] Set via environment")
+        lines.append("[cyan]Auth:[/cyan] API key (env)")
     elif auth.get("api_key"):
-        lines.append(f"[cyan]API Key:[/cyan] {auth['api_key'][:8]}...")
-
-    if auth.get("current_org"):
-        lines.append(f"[cyan]Organization:[/cyan] {auth['current_org']}")
+        lines.append(f"[cyan]Auth:[/cyan] API key ({auth['api_key'][:8]}...)")
+    elif auth.get("token") or auth.get("tokens", {}).get("access_token"):
+        lines.append("[cyan]Auth:[/cyan] IAM OAuth")
 
     if auth.get("last_login"):
         lines.append(f"[cyan]Last Login:[/cyan] {auth['last_login']}")
 
     content = "\n".join(lines) if lines else "[dim]No user information available[/dim]"
-
     console.print(
         Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED)
     )
@@ -520,3 +544,225 @@ def set_key(api_key: str):
 
     console.print("[green]✓[/green] API key saved successfully")
     console.print("[dim]You can now use Hanzo Cloud services[/dim]")
+
+
+# ============================================================================
+# Context management  (org / project / env selection)
+# ============================================================================
+
+@auth_group.group(name="context", invoke_without_command=True)
+@click.pass_context
+def context_group(ctx):
+    """Manage active org/project/env context.
+
+    \b
+    Examples:
+      hanzo auth context                    # Show current context
+      hanzo auth context set --org hanzo    # Set active org/project/env
+      hanzo auth context list               # List available orgs & projects
+    """
+    if ctx.invoked_subcommand is None:
+        _print_context()
+
+
+@context_group.command(name="show")
+def context_show():
+    """Show current context."""
+    _print_context()
+
+
+def _print_context():
+    from ..utils.api_client import load_context
+
+    ctx = load_context()
+    if not ctx:
+        console.print("[yellow]No context set.[/yellow]")
+        console.print("[dim]Run 'hanzo auth context set --org ORG --project PROJECT --env ENV'[/dim]")
+        return
+
+    table = Table(title="Active Context", box=box.ROUNDED)
+    table.add_column("Property", style="cyan")
+    table.add_column("Value", style="white")
+
+    for key in ("org_id", "org_name", "project_id", "project_name", "env_id", "env_name"):
+        if ctx.get(key):
+            label = key.replace("_", " ").title()
+            table.add_row(label, ctx[key])
+
+    console.print(table)
+
+
+@context_group.command(name="set")
+@click.option("--org", "-o", required=True, help="Organization ID or name")
+@click.option("--project", "-p", help="Project ID or name")
+@click.option("--env", "-e", help="Environment ID or name")
+def context_set(org: str, project: str, env: str):
+    """Set active org/project/env context.
+
+    \b
+    Examples:
+      hanzo auth context set --org hanzo
+      hanzo auth context set --org hanzo --project myapp --env development
+    """
+    from ..utils.api_client import PaaSClient, save_context, org_url, project_url, env_url
+
+    try:
+        client = PaaSClient()
+    except SystemExit:
+        return
+
+    ctx = {}
+
+    # Resolve org
+    with console.status("Resolving organization..."):
+        data = client.get(org_url())
+        if data is None:
+            return
+
+    orgs = data if isinstance(data, list) else data.get("orgs", data.get("data", []))
+    matched_org = None
+    for o in orgs:
+        oid = o.get("_id") or o.get("iid") or o.get("id", "")
+        oname = o.get("name", "")
+        if org in (oid, oname):
+            matched_org = o
+            break
+
+    if not matched_org:
+        console.print(f"[red]Organization '{org}' not found.[/red]")
+        return
+
+    ctx["org_id"] = matched_org.get("_id") or matched_org.get("iid") or matched_org.get("id")
+    ctx["org_name"] = matched_org.get("name", org)
+    console.print(f"[green]✓[/green] Organization: {ctx['org_name']}")
+
+    # Resolve project (if given)
+    if project:
+        with console.status("Resolving project..."):
+            data = client.get(project_url(ctx["org_id"]))
+            if data is None:
+                save_context(ctx)
+                return
+
+        projects = data if isinstance(data, list) else data.get("projects", data.get("data", []))
+        matched_proj = None
+        for p in projects:
+            pid = p.get("_id") or p.get("iid") or p.get("id", "")
+            pname = p.get("name", "")
+            if project in (pid, pname):
+                matched_proj = p
+                break
+
+        if not matched_proj:
+            console.print(f"[yellow]Project '{project}' not found. Saving org-only context.[/yellow]")
+            save_context(ctx)
+            return
+
+        ctx["project_id"] = matched_proj.get("_id") or matched_proj.get("iid") or matched_proj.get("id")
+        ctx["project_name"] = matched_proj.get("name", project)
+        console.print(f"[green]✓[/green] Project: {ctx['project_name']}")
+
+    # Resolve env (if given and project was resolved)
+    if env and ctx.get("project_id"):
+        with console.status("Resolving environment..."):
+            data = client.get(env_url(ctx["org_id"], ctx["project_id"]))
+            if data is None:
+                save_context(ctx)
+                return
+
+        envs = data if isinstance(data, list) else data.get("environments", data.get("data", []))
+        matched_env = None
+        for e in envs:
+            eid = e.get("_id") or e.get("iid") or e.get("id", "")
+            ename = e.get("name", "")
+            if env in (eid, ename):
+                matched_env = e
+                break
+
+        if not matched_env:
+            console.print(f"[yellow]Environment '{env}' not found. Saving org+project context.[/yellow]")
+            save_context(ctx)
+            return
+
+        ctx["env_id"] = matched_env.get("_id") or matched_env.get("iid") or matched_env.get("id")
+        ctx["env_name"] = matched_env.get("name", env)
+        console.print(f"[green]✓[/green] Environment: {ctx['env_name']}")
+
+    save_context(ctx)
+    console.print("[green]✓[/green] Context saved to ~/.hanzo/context.json")
+
+
+@context_group.command(name="list")
+def context_list():
+    """List available orgs, projects, and environments."""
+    from ..utils.api_client import PaaSClient, load_context, org_url, project_url, env_url
+
+    try:
+        client = PaaSClient()
+    except SystemExit:
+        return
+
+    current = load_context()
+
+    # List orgs
+    with console.status("Fetching organizations..."):
+        data = client.get(org_url())
+        if data is None:
+            return
+
+    orgs = data if isinstance(data, list) else data.get("orgs", data.get("data", []))
+
+    table = Table(title="Organizations", box=box.ROUNDED)
+    table.add_column("", style="green", width=2)
+    table.add_column("ID", style="cyan")
+    table.add_column("Name", style="white")
+
+    for o in orgs:
+        oid = o.get("_id") or o.get("iid") or o.get("id", "")
+        oname = o.get("name", "")
+        active = "●" if oid == current.get("org_id") else ""
+        table.add_row(active, oid, oname)
+
+    console.print(table)
+
+    # List projects for active org
+    if current.get("org_id"):
+        with console.status("Fetching projects..."):
+            data = client.get(project_url(current["org_id"]))
+
+        if data:
+            projects = data if isinstance(data, list) else data.get("projects", data.get("data", []))
+            if projects:
+                ptable = Table(title=f"Projects in {current.get('org_name', current['org_id'])}", box=box.ROUNDED)
+                ptable.add_column("", style="green", width=2)
+                ptable.add_column("ID", style="cyan")
+                ptable.add_column("Name", style="white")
+
+                for p in projects:
+                    pid = p.get("_id") or p.get("iid") or p.get("id", "")
+                    pname = p.get("name", "")
+                    active = "●" if pid == current.get("project_id") else ""
+                    ptable.add_row(active, pid, pname)
+
+                console.print(ptable)
+
+    # List envs for active project
+    if current.get("org_id") and current.get("project_id"):
+        with console.status("Fetching environments..."):
+            data = client.get(env_url(current["org_id"], current["project_id"]))
+
+        if data:
+            envs = data if isinstance(data, list) else data.get("environments", data.get("data", []))
+            if envs:
+                etable = Table(title=f"Environments in {current.get('project_name', current['project_id'])}", box=box.ROUNDED)
+                etable.add_column("", style="green", width=2)
+                etable.add_column("ID", style="cyan")
+                etable.add_column("Name", style="white")
+
+                for e in envs:
+                    eid = e.get("_id") or e.get("iid") or e.get("id", "")
+                    ename = e.get("name", "")
+                    active = "●" if eid == current.get("env_id") else ""
+                    etable.add_row(active, eid, ename)
+
+                console.print(etable)
