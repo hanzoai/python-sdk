@@ -55,6 +55,7 @@ class AsyncIAMClient:
         client_secret: str | None = None,
         org: Organization = Organization.HANZO,
         config: IAMConfig | None = None,
+        bearer_token: str | None = None,
     ):
         """Initialize async IAM client.
 
@@ -63,6 +64,7 @@ class AsyncIAMClient:
             client_secret: OAuth2 client secret (or from env)
             org: Organization enum (determines IAM URL)
             config: Full configuration (overrides other args)
+            bearer_token: Bearer token for admin API auth (alternative to client_id/secret)
         """
         # Avoid circular import
         from hanzo_iam.client import IAMClient
@@ -81,6 +83,7 @@ class AsyncIAMClient:
                 certificate=env_config.certificate,
             )
 
+        self._bearer_token = bearer_token
         self._http: httpx.AsyncClient | None = None
         self._jwks_client: PyJWKClient | None = None
         self._openid_config: dict[str, Any] | None = None
@@ -102,6 +105,25 @@ class AsyncIAMClient:
                 },
             )
         return self._http
+
+    # =========================================================================
+    # Admin Auth Helpers
+    # =========================================================================
+
+    def _admin_params(self) -> dict[str, str]:
+        """Return query params for admin API auth (empty if using bearer token)."""
+        if self._bearer_token:
+            return {}
+        return {
+            "clientId": self._config.client_id,
+            "clientSecret": self._config.client_secret,
+        }
+
+    def _admin_headers(self) -> dict[str, str]:
+        """Return extra headers for admin API auth (Authorization if bearer token)."""
+        if self._bearer_token:
+            return {"Authorization": f"Bearer {self._bearer_token}"}
+        return {}
 
     # =========================================================================
     # OIDC Discovery
@@ -414,12 +436,13 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{user_id}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-user", params=params)
+        response = await http.get(
+            "/api/get-user", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -436,12 +459,13 @@ class AsyncIAMClient:
         """
         params = {
             "owner": self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-users", params=params)
+        response = await http.get(
+            "/api/get-users", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -468,14 +492,15 @@ class AsyncIAMClient:
         """
         params: dict[str, Any] = {
             "owner": owner or self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
         if is_online is not None:
             params["isOnline"] = str(is_online).lower()
 
         http = await self._get_http()
-        response = await http.get("/api/get-user-count", params=params)
+        response = await http.get(
+            "/api/get-user-count", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -519,15 +544,11 @@ class AsyncIAMClient:
 
     async def _modify_user(self, action: str, user: User) -> User:
         """Modify user via API."""
-        params = {
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
         http = await self._get_http()
         response = await http.post(
             f"/api/{action}",
-            params=params,
+            params=self._admin_params(),
+            headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
@@ -546,12 +567,13 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{self._config.application}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-application", params=params)
+        response = await http.get(
+            "/api/get-application", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -572,12 +594,13 @@ class AsyncIAMClient:
         """
         params = {
             "owner": "admin",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-organizations", params=params)
+        response = await http.get(
+            "/api/get-organizations", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -597,12 +620,13 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"admin/{name}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-organization", params=params)
+        response = await http.get(
+            "/api/get-organization", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -644,14 +668,15 @@ class AsyncIAMClient:
             "resourceId": resource_id,
             "enforceId": enforce_id,
             "owner": owner or self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
         if request:
             payload["casbinRequest"] = request
 
         http = await self._get_http()
-        response = await http.post("/api/enforce", json=payload)
+        response = await http.post(
+            "/api/enforce", json=payload, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -686,14 +711,15 @@ class AsyncIAMClient:
             "modelId": model_id,
             "enforceId": enforce_id,
             "owner": owner or self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
         if requests:
             payload["casbinRequest"] = requests
 
         http = await self._get_http()
-        response = await http.post("/api/batch-enforce", json=payload)
+        response = await http.post(
+            "/api/batch-enforce", json=payload, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -718,12 +744,13 @@ class AsyncIAMClient:
         """
         params = {
             "owner": owner or self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-roles", params=params)
+        response = await http.get(
+            "/api/get-roles", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -750,12 +777,13 @@ class AsyncIAMClient:
         org = owner or self._config.organization
         params = {
             "id": f"{org}/{role_name}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-role", params=params)
+        response = await http.get(
+            "/api/get-role", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -782,12 +810,13 @@ class AsyncIAMClient:
         org = owner or self._config.organization
         params = {
             "id": f"{org}/{username}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-user-roles", params=params)
+        response = await http.get(
+            "/api/get-user-roles", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -817,12 +846,13 @@ class AsyncIAMClient:
         payload = {
             "user": f"{org}/{username}",
             "role": f"{org}/{role_name}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.post("/api/add-user-role", json=payload)
+        response = await http.post(
+            "/api/add-user-role", json=payload, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -852,12 +882,13 @@ class AsyncIAMClient:
         payload = {
             "user": f"{org}/{username}",
             "role": f"{org}/{role_name}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
         http = await self._get_http()
-        response = await http.post("/api/delete-user-role", json=payload)
+        response = await http.post(
+            "/api/delete-user-role", json=payload, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -865,6 +896,105 @@ class AsyncIAMClient:
             raise ValueError(data.get("msg", "Failed to remove role from user"))
 
         return True
+
+    # =========================================================================
+    # Password Management
+    # =========================================================================
+
+    async def set_password(
+        self,
+        user_owner: str,
+        user_name: str,
+        new_password: str,
+        old_password: str = "",
+    ) -> dict[str, Any]:
+        """Set or reset a user's password.
+
+        Args:
+            user_owner: Organization that owns the user.
+            user_name: Username.
+            new_password: New password to set.
+            old_password: Current password (empty for admin reset).
+
+        Returns:
+            API response data.
+        """
+        payload = {
+            "userOwner": user_owner,
+            "userName": user_name,
+            "oldPassword": old_password,
+            "newPassword": new_password,
+        }
+
+        http = await self._get_http()
+        response = await http.post(
+            "/api/set-password",
+            params=self._admin_params(),
+            headers=self._admin_headers(),
+            json=payload,
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to set password"))
+
+        return data
+
+    # =========================================================================
+    # Application Management
+    # =========================================================================
+
+    async def get_applications(self, owner: str = "admin") -> list[Application]:
+        """Get all applications.
+
+        Args:
+            owner: Owner of applications (default: admin).
+
+        Returns:
+            List of Application objects.
+        """
+        params = {
+            "owner": owner,
+            **self._admin_params(),
+        }
+
+        http = await self._get_http()
+        response = await http.get(
+            "/api/get-applications", params=params, headers=self._admin_headers(),
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to get applications"))
+
+        apps_data = data.get("data", data) or []
+        return [Application.model_validate(a) for a in apps_data]
+
+    async def update_application(self, application: Application) -> dict[str, Any]:
+        """Update an application.
+
+        Args:
+            application: Application object with updated fields.
+
+        Returns:
+            API response data.
+        """
+        http = await self._get_http()
+        response = await http.post(
+            "/api/update-application",
+            params=self._admin_params(),
+            headers=self._admin_headers(),
+            json=application.model_dump(by_alias=True, exclude_none=True),
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to update application"))
+
+        return data
 
     # =========================================================================
     # Lifecycle
