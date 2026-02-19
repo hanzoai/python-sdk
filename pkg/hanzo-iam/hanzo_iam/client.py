@@ -65,6 +65,7 @@ class IAMClient:
         client_secret: str | None = None,
         org: Organization = Organization.HANZO,
         config: IAMConfig | None = None,
+        bearer_token: str | None = None,
     ):
         """Initialize IAM client.
 
@@ -73,6 +74,7 @@ class IAMClient:
             client_secret: OAuth2 client secret (or from env)
             org: Organization enum (determines IAM URL)
             config: Full configuration (overrides other args)
+            bearer_token: Bearer token for admin API auth (alternative to client_id/secret)
         """
         if config:
             self._config = config
@@ -87,6 +89,7 @@ class IAMClient:
                 certificate=env_config.certificate,
             )
 
+        self._bearer_token = bearer_token
         self._http: httpx.Client | None = None
         self._jwks_client: PyJWKClient | None = None
         self._openid_config: dict | None = None
@@ -428,6 +431,25 @@ class IAMClient:
         return UserInfo.model_validate(response.json())
 
     # =========================================================================
+    # Admin Auth Helpers
+    # =========================================================================
+
+    def _admin_params(self) -> dict:
+        """Return query params for admin API auth (empty if using bearer token)."""
+        if self._bearer_token:
+            return {}
+        return {
+            "clientId": self._config.client_id,
+            "clientSecret": self._config.client_secret,
+        }
+
+    def _admin_headers(self) -> dict:
+        """Return extra headers for admin API auth (Authorization if bearer token)."""
+        if self._bearer_token:
+            return {"Authorization": f"Bearer {self._bearer_token}"}
+        return {}
+
+    # =========================================================================
     # User Management (Casdoor Admin API)
     # =========================================================================
 
@@ -442,11 +464,12 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{user_id}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-user", params=params)
+        response = self.http.get(
+            "/api/get-user", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -463,11 +486,12 @@ class IAMClient:
         """
         params = {
             "owner": self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-users", params=params)
+        response = self.http.get(
+            "/api/get-users", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -485,11 +509,12 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{self._config.application}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-application", params=params)
+        response = self.http.get(
+            "/api/get-application", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -537,14 +562,10 @@ class IAMClient:
 
     def _modify_user(self, action: str, user: User) -> dict:
         """Modify user via Casdoor admin API."""
-        params = {
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
         response = self.http.post(
             f"/api/{action}",
-            params=params,
+            params=self._admin_params(),
+            headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
@@ -567,11 +588,12 @@ class IAMClient:
         """
         params = {
             "owner": "admin",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-organizations", params=params)
+        response = self.http.get(
+            "/api/get-organizations", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -591,11 +613,12 @@ class IAMClient:
         """
         params = {
             "id": f"admin/{name}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-organization", params=params)
+        response = self.http.get(
+            "/api/get-organization", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -619,11 +642,12 @@ class IAMClient:
         """
         params = {
             "owner": owner,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-providers", params=params)
+        response = self.http.get(
+            "/api/get-providers", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -647,11 +671,12 @@ class IAMClient:
         """
         params = {
             "owner": owner or self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
+            **self._admin_params(),
         }
 
-        response = self.http.get("/api/get-roles", params=params)
+        response = self.http.get(
+            "/api/get-roles", params=params, headers=self._admin_headers(),
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -659,6 +684,102 @@ class IAMClient:
             raise ValueError(data.get("msg", "Failed to get roles"))
 
         return data.get("data", data) or []
+
+    # =========================================================================
+    # Password Management
+    # =========================================================================
+
+    def set_password(
+        self,
+        user_owner: str,
+        user_name: str,
+        new_password: str,
+        old_password: str = "",
+    ) -> dict:
+        """Set or reset a user's password.
+
+        Args:
+            user_owner: Organization that owns the user.
+            user_name: Username.
+            new_password: New password to set.
+            old_password: Current password (empty for admin reset).
+
+        Returns:
+            API response data.
+        """
+        payload = {
+            "userOwner": user_owner,
+            "userName": user_name,
+            "oldPassword": old_password,
+            "newPassword": new_password,
+        }
+
+        response = self.http.post(
+            "/api/set-password",
+            params=self._admin_params(),
+            headers=self._admin_headers(),
+            json=payload,
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to set password"))
+
+        return data
+
+    # =========================================================================
+    # Application Management
+    # =========================================================================
+
+    def get_applications(self, owner: str = "admin") -> list[Application]:
+        """Get all applications.
+
+        Args:
+            owner: Owner of applications (default: admin).
+
+        Returns:
+            List of Application objects.
+        """
+        params = {
+            "owner": owner,
+            **self._admin_params(),
+        }
+
+        response = self.http.get(
+            "/api/get-applications", params=params, headers=self._admin_headers(),
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to get applications"))
+
+        apps_data = data.get("data", data) or []
+        return [Application.model_validate(a) for a in apps_data]
+
+    def update_application(self, application: Application) -> dict:
+        """Update an application.
+
+        Args:
+            application: Application object with updated fields.
+
+        Returns:
+            API response data.
+        """
+        response = self.http.post(
+            "/api/update-application",
+            params=self._admin_params(),
+            headers=self._admin_headers(),
+            json=application.model_dump(by_alias=True, exclude_none=True),
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("status") == "error":
+            raise ValueError(data.get("msg", "Failed to update application"))
+
+        return data
 
     # =========================================================================
     # Login (Masquerade)
