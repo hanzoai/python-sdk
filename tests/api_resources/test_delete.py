@@ -16,7 +16,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDelete:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_allowed_ip(self, client: Hanzo) -> None:
         delete = client.delete.create_allowed_ip(
@@ -24,7 +24,7 @@ class TestDelete:
         )
         assert_matches_type(object, delete, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_allowed_ip(self, client: Hanzo) -> None:
         response = client.delete.with_raw_response.create_allowed_ip(
@@ -36,7 +36,7 @@ class TestDelete:
         delete = response.parse()
         assert_matches_type(object, delete, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_allowed_ip(self, client: Hanzo) -> None:
         with client.delete.with_streaming_response.create_allowed_ip(
@@ -56,7 +56,7 @@ class TestAsyncDelete:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_allowed_ip(self, async_client: AsyncHanzo) -> None:
         delete = await async_client.delete.create_allowed_ip(
@@ -64,7 +64,7 @@ class TestAsyncDelete:
         )
         assert_matches_type(object, delete, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_allowed_ip(self, async_client: AsyncHanzo) -> None:
         response = await async_client.delete.with_raw_response.create_allowed_ip(
@@ -76,7 +76,7 @@ class TestAsyncDelete:
         delete = await response.parse()
         assert_matches_type(object, delete, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_allowed_ip(self, async_client: AsyncHanzo) -> None:
         async with async_client.delete.with_streaming_response.create_allowed_ip(

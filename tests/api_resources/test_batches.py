@@ -16,13 +16,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestBatches:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         batch = client.batches.create()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         batch = client.batches.create(
@@ -30,7 +30,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.create()
@@ -40,7 +40,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.create() as response:
@@ -52,7 +52,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Hanzo) -> None:
         batch = client.batches.retrieve(
@@ -60,7 +60,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Hanzo) -> None:
         batch = client.batches.retrieve(
@@ -69,7 +69,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.retrieve(
@@ -81,7 +81,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.retrieve(
@@ -95,7 +95,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
@@ -103,13 +103,13 @@ class TestBatches:
                 batch_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         batch = client.batches.list()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Hanzo) -> None:
         batch = client.batches.list(
@@ -119,7 +119,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.list()
@@ -129,7 +129,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.list() as response:
@@ -141,7 +141,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_cancel_with_provider(self, client: Hanzo) -> None:
         batch = client.batches.cancel_with_provider(
@@ -150,7 +150,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_cancel_with_provider(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.cancel_with_provider(
@@ -163,7 +163,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_cancel_with_provider(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.cancel_with_provider(
@@ -178,7 +178,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_cancel_with_provider(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -193,7 +193,7 @@ class TestBatches:
                 provider="provider",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_provider(self, client: Hanzo) -> None:
         batch = client.batches.create_with_provider(
@@ -201,7 +201,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_with_provider(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.create_with_provider(
@@ -213,7 +213,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_with_provider(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.create_with_provider(
@@ -227,7 +227,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create_with_provider(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -235,7 +235,7 @@ class TestBatches:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_provider(self, client: Hanzo) -> None:
         batch = client.batches.list_with_provider(
@@ -243,7 +243,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_provider_with_all_params(self, client: Hanzo) -> None:
         batch = client.batches.list_with_provider(
@@ -253,7 +253,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list_with_provider(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.list_with_provider(
@@ -265,7 +265,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list_with_provider(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.list_with_provider(
@@ -279,7 +279,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list_with_provider(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -287,7 +287,7 @@ class TestBatches:
                 provider="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_with_provider(self, client: Hanzo) -> None:
         batch = client.batches.retrieve_with_provider(
@@ -296,7 +296,7 @@ class TestBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve_with_provider(self, client: Hanzo) -> None:
         response = client.batches.with_raw_response.retrieve_with_provider(
@@ -309,7 +309,7 @@ class TestBatches:
         batch = response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve_with_provider(self, client: Hanzo) -> None:
         with client.batches.with_streaming_response.retrieve_with_provider(
@@ -324,7 +324,7 @@ class TestBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve_with_provider(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -345,13 +345,13 @@ class TestAsyncBatches:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.create()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.create(
@@ -359,7 +359,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.create()
@@ -369,7 +369,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.create() as response:
@@ -381,7 +381,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.retrieve(
@@ -389,7 +389,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.retrieve(
@@ -398,7 +398,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.retrieve(
@@ -410,7 +410,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.retrieve(
@@ -424,7 +424,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
@@ -432,13 +432,13 @@ class TestAsyncBatches:
                 batch_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.list()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.list(
@@ -448,7 +448,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.list()
@@ -458,7 +458,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.list() as response:
@@ -470,7 +470,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.cancel_with_provider(
@@ -479,7 +479,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.cancel_with_provider(
@@ -492,7 +492,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.cancel_with_provider(
@@ -507,7 +507,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_cancel_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -522,7 +522,7 @@ class TestAsyncBatches:
                 provider="provider",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_provider(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.create_with_provider(
@@ -530,7 +530,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.create_with_provider(
@@ -542,7 +542,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.create_with_provider(
@@ -556,7 +556,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -564,7 +564,7 @@ class TestAsyncBatches:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_provider(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.list_with_provider(
@@ -572,7 +572,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_provider_with_all_params(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.list_with_provider(
@@ -582,7 +582,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.list_with_provider(
@@ -594,7 +594,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.list_with_provider(
@@ -608,7 +608,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
@@ -616,7 +616,7 @@ class TestAsyncBatches:
                 provider="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         batch = await async_client.batches.retrieve_with_provider(
@@ -625,7 +625,7 @@ class TestAsyncBatches:
         )
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         response = await async_client.batches.with_raw_response.retrieve_with_provider(
@@ -638,7 +638,7 @@ class TestAsyncBatches:
         batch = await response.parse()
         assert_matches_type(object, batch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         async with async_client.batches.with_streaming_response.retrieve_with_provider(
@@ -653,7 +653,7 @@ class TestAsyncBatches:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve_with_provider(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `provider` but received ''"):
