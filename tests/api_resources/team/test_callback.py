@@ -16,7 +16,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestCallback:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Hanzo) -> None:
         callback = client.team.callback.retrieve(
@@ -24,7 +24,7 @@ class TestCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Hanzo) -> None:
         response = client.team.callback.with_raw_response.retrieve(
@@ -36,7 +36,7 @@ class TestCallback:
         callback = response.parse()
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Hanzo) -> None:
         with client.team.callback.with_streaming_response.retrieve(
@@ -50,7 +50,7 @@ class TestCallback:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):
@@ -58,7 +58,7 @@ class TestCallback:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_add(self, client: Hanzo) -> None:
         callback = client.team.callback.add(
@@ -68,7 +68,7 @@ class TestCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_add_with_all_params(self, client: Hanzo) -> None:
         callback = client.team.callback.add(
@@ -80,7 +80,7 @@ class TestCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_add(self, client: Hanzo) -> None:
         response = client.team.callback.with_raw_response.add(
@@ -94,7 +94,7 @@ class TestCallback:
         callback = response.parse()
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_add(self, client: Hanzo) -> None:
         with client.team.callback.with_streaming_response.add(
@@ -110,7 +110,7 @@ class TestCallback:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_add(self, client: Hanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):
@@ -126,7 +126,7 @@ class TestAsyncCallback:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncHanzo) -> None:
         callback = await async_client.team.callback.retrieve(
@@ -134,7 +134,7 @@ class TestAsyncCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.callback.with_raw_response.retrieve(
@@ -146,7 +146,7 @@ class TestAsyncCallback:
         callback = await response.parse()
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.callback.with_streaming_response.retrieve(
@@ -160,7 +160,7 @@ class TestAsyncCallback:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):
@@ -168,7 +168,7 @@ class TestAsyncCallback:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_add(self, async_client: AsyncHanzo) -> None:
         callback = await async_client.team.callback.add(
@@ -178,7 +178,7 @@ class TestAsyncCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_add_with_all_params(self, async_client: AsyncHanzo) -> None:
         callback = await async_client.team.callback.add(
@@ -190,7 +190,7 @@ class TestAsyncCallback:
         )
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_add(self, async_client: AsyncHanzo) -> None:
         response = await async_client.team.callback.with_raw_response.add(
@@ -204,7 +204,7 @@ class TestAsyncCallback:
         callback = await response.parse()
         assert_matches_type(object, callback, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_add(self, async_client: AsyncHanzo) -> None:
         async with async_client.team.callback.with_streaming_response.add(
@@ -220,7 +220,7 @@ class TestAsyncCallback:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_add(self, async_client: AsyncHanzo) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `team_id` but received ''"):

@@ -20,7 +20,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestUtils:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_supported_openai_params(self, client: Hanzo) -> None:
         util = client.utils.get_supported_openai_params(
@@ -28,7 +28,7 @@ class TestUtils:
         )
         assert_matches_type(object, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_supported_openai_params(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.get_supported_openai_params(
@@ -40,7 +40,7 @@ class TestUtils:
         util = response.parse()
         assert_matches_type(object, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_supported_openai_params(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.get_supported_openai_params(
@@ -54,7 +54,7 @@ class TestUtils:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_token_counter(self, client: Hanzo) -> None:
         util = client.utils.token_counter(
@@ -62,7 +62,7 @@ class TestUtils:
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_token_counter_with_all_params(self, client: Hanzo) -> None:
         util = client.utils.token_counter(
@@ -72,7 +72,7 @@ class TestUtils:
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_token_counter(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.token_counter(
@@ -84,7 +84,7 @@ class TestUtils:
         util = response.parse()
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_token_counter(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.token_counter(
@@ -98,7 +98,7 @@ class TestUtils:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_transform_request(self, client: Hanzo) -> None:
         util = client.utils.transform_request(
@@ -107,7 +107,7 @@ class TestUtils:
         )
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_transform_request(self, client: Hanzo) -> None:
         response = client.utils.with_raw_response.transform_request(
@@ -120,7 +120,7 @@ class TestUtils:
         util = response.parse()
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_transform_request(self, client: Hanzo) -> None:
         with client.utils.with_streaming_response.transform_request(
@@ -141,7 +141,7 @@ class TestAsyncUtils:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.get_supported_openai_params(
@@ -149,7 +149,7 @@ class TestAsyncUtils:
         )
         assert_matches_type(object, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.get_supported_openai_params(
@@ -161,7 +161,7 @@ class TestAsyncUtils:
         util = await response.parse()
         assert_matches_type(object, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_supported_openai_params(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.get_supported_openai_params(
@@ -175,7 +175,7 @@ class TestAsyncUtils:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_token_counter(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.token_counter(
@@ -183,7 +183,7 @@ class TestAsyncUtils:
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_token_counter_with_all_params(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.token_counter(
@@ -193,7 +193,7 @@ class TestAsyncUtils:
         )
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_token_counter(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.token_counter(
@@ -205,7 +205,7 @@ class TestAsyncUtils:
         util = await response.parse()
         assert_matches_type(UtilTokenCounterResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_token_counter(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.token_counter(
@@ -219,7 +219,7 @@ class TestAsyncUtils:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_transform_request(self, async_client: AsyncHanzo) -> None:
         util = await async_client.utils.transform_request(
@@ -228,7 +228,7 @@ class TestAsyncUtils:
         )
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_transform_request(self, async_client: AsyncHanzo) -> None:
         response = await async_client.utils.with_raw_response.transform_request(
@@ -241,7 +241,7 @@ class TestAsyncUtils:
         util = await response.parse()
         assert_matches_type(UtilTransformRequestResponse, util, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_transform_request(self, async_client: AsyncHanzo) -> None:
         async with async_client.utils.with_streaming_response.transform_request(

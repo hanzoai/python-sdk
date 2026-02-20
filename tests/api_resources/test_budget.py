@@ -16,13 +16,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestBudget:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         budget = client.budget.create()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         budget = client.budget.create(
@@ -44,7 +44,7 @@ class TestBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.create()
@@ -54,7 +54,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.create() as response:
@@ -66,13 +66,13 @@ class TestBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         budget = client.budget.update()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         budget = client.budget.update(
@@ -94,7 +94,7 @@ class TestBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.update()
@@ -104,7 +104,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.update() as response:
@@ -116,13 +116,13 @@ class TestBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         budget = client.budget.list()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.list()
@@ -132,7 +132,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.list() as response:
@@ -144,7 +144,7 @@ class TestBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         budget = client.budget.delete(
@@ -152,7 +152,7 @@ class TestBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.delete(
@@ -164,7 +164,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.delete(
@@ -178,7 +178,7 @@ class TestBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_info(self, client: Hanzo) -> None:
         budget = client.budget.info(
@@ -186,7 +186,7 @@ class TestBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_info(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.info(
@@ -198,7 +198,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_info(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.info(
@@ -212,7 +212,7 @@ class TestBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_settings(self, client: Hanzo) -> None:
         budget = client.budget.settings(
@@ -220,7 +220,7 @@ class TestBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_settings(self, client: Hanzo) -> None:
         response = client.budget.with_raw_response.settings(
@@ -232,7 +232,7 @@ class TestBudget:
         budget = response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_settings(self, client: Hanzo) -> None:
         with client.budget.with_streaming_response.settings(
@@ -252,13 +252,13 @@ class TestAsyncBudget:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.create()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.create(
@@ -280,7 +280,7 @@ class TestAsyncBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.create()
@@ -290,7 +290,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.create() as response:
@@ -302,13 +302,13 @@ class TestAsyncBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.update()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.update(
@@ -330,7 +330,7 @@ class TestAsyncBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.update()
@@ -340,7 +340,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.update() as response:
@@ -352,13 +352,13 @@ class TestAsyncBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.list()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.list()
@@ -368,7 +368,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.list() as response:
@@ -380,7 +380,7 @@ class TestAsyncBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.delete(
@@ -388,7 +388,7 @@ class TestAsyncBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.delete(
@@ -400,7 +400,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.delete(
@@ -414,7 +414,7 @@ class TestAsyncBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_info(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.info(
@@ -422,7 +422,7 @@ class TestAsyncBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_info(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.info(
@@ -434,7 +434,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_info(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.info(
@@ -448,7 +448,7 @@ class TestAsyncBudget:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_settings(self, async_client: AsyncHanzo) -> None:
         budget = await async_client.budget.settings(
@@ -456,7 +456,7 @@ class TestAsyncBudget:
         )
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_settings(self, async_client: AsyncHanzo) -> None:
         response = await async_client.budget.with_raw_response.settings(
@@ -468,7 +468,7 @@ class TestAsyncBudget:
         budget = await response.parse()
         assert_matches_type(object, budget, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_settings(self, async_client: AsyncHanzo) -> None:
         async with async_client.budget.with_streaming_response.settings(
