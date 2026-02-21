@@ -66,14 +66,18 @@ def fn_group():
 @click.option(
     "--runtime",
     "-r",
-    type=click.Choice(["python3.12", "python3.11", "node20", "node18", "go1.22", "rust", "deno"]),
+    type=click.Choice(
+        ["python3.12", "python3.11", "node20", "node18", "go1.22", "rust", "deno"]
+    ),
     default="python3.12",
 )
 @click.option("--memory", "-m", default="256", help="Memory in MB (128-4096)")
 @click.option("--timeout", "-t", default=30, help="Timeout in seconds (1-900)")
 @click.option("--region", help="Deployment region")
 @click.option("--from", "source", help="Source: directory, git URL, or template")
-def fn_create(name: str, runtime: str, memory: str, timeout: int, region: str, source: str):
+def fn_create(
+    name: str, runtime: str, memory: str, timeout: int, region: str, source: str
+):
     """Create a new function.
 
     \b
@@ -140,7 +144,9 @@ def fn_list(region: str, runtime: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No functions found. Create one with 'hanzo fn create'[/dim]")
+        console.print(
+            "[dim]No functions found. Create one with 'hanzo fn create'[/dim]"
+        )
 
 
 @fn_group.command(name="describe")
@@ -234,7 +240,12 @@ def triggers():
 
 @triggers.command(name="add")
 @click.argument("function")
-@click.option("--type", "trigger_type", type=click.Choice(["http", "event", "cron", "queue", "storage"]), required=True)
+@click.option(
+    "--type",
+    "trigger_type",
+    type=click.Choice(["http", "event", "cron", "queue", "storage"]),
+    required=True,
+)
 @click.option("--path", "-p", help="HTTP path (for http triggers)")
 @click.option("--method", "-m", multiple=True, help="HTTP methods (for http triggers)")
 @click.option("--event", "-e", help="Event type (for event triggers)")
@@ -312,7 +323,10 @@ def triggers_list(function: str):
     table.add_column("Status", style="dim")
 
     for t in items:
-        source = t.get("path", t.get("event", t.get("schedule", t.get("queue", t.get("bucket", "-")))))
+        source = t.get(
+            "path",
+            t.get("event", t.get("schedule", t.get("queue", t.get("bucket", "-")))),
+        )
         t_status = t.get("status", "active")
         style = "green" if t_status == "active" else "yellow"
         table.add_row(
@@ -383,7 +397,11 @@ def fn_invoke(name: str, data: str, payload_file: str, async_invoke: bool, tail:
             console.print(f"  Response: {json.dumps(result['body'], default=str)}")
 
     if tail and result.get("request_id"):
-        log_resp = _request("get", f"/v1/functions/{name}/logs", params={"request_id": result["request_id"]})
+        log_resp = _request(
+            "get",
+            f"/v1/functions/{name}/logs",
+            params={"request_id": result["request_id"]},
+        )
         log_data = check_response(log_resp)
         for line in log_data.get("logs", []):
             console.print(str(line))
@@ -426,7 +444,9 @@ def fn_logs(name: str, follow: bool, since: str, log_filter: str, limit: int):
             ts = str(line.get("timestamp", ""))[:19]
             level = line.get("level", "info")
             msg = line.get("message", "")
-            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            style = (
+                "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            )
             console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
         else:
             console.print(str(line))
@@ -622,7 +642,9 @@ def fn_rollback(name: str, version: str):
     console.print(f"[cyan]Rolling back '{name}'...[/cyan]")
     resp = _request("post", f"/v1/functions/{name}/rollback", json=body)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Rolled back to {data.get('version', version or 'previous')}")
+    console.print(
+        f"[green]✓[/green] Rolled back to {data.get('version', version or 'previous')}"
+    )
 
 
 # ============================================================================
@@ -632,7 +654,9 @@ def fn_rollback(name: str, version: str):
 
 @fn_group.command(name="traffic")
 @click.argument("name")
-@click.option("--version", "-v", multiple=True, help="Version:weight pairs (e.g., v1:90 v2:10)")
+@click.option(
+    "--version", "-v", multiple=True, help="Version:weight pairs (e.g., v1:90 v2:10)"
+)
 def fn_traffic(name: str, version: tuple):
     """Configure traffic splitting between versions.
 

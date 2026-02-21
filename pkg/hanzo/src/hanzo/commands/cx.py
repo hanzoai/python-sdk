@@ -58,8 +58,14 @@ def inbox():
 
 
 @inbox.command(name="list")
-@click.option("--status", type=click.Choice(["open", "pending", "resolved", "all"]), default="open")
-@click.option("--channel", type=click.Choice(["email", "chat", "social", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["open", "pending", "resolved", "all"]),
+    default="open",
+)
+@click.option(
+    "--channel", type=click.Choice(["email", "chat", "social", "all"]), default="all"
+)
 @click.option("--limit", "-n", default=50, help="Max results")
 def inbox_list(status: str, channel: str, limit: int):
     """List inbox conversations."""
@@ -81,7 +87,9 @@ def inbox_list(status: str, channel: str, limit: int):
 
     for c in data.get("conversations", []):
         st = c.get("status", "open")
-        st_style = {"open": "yellow", "pending": "cyan", "resolved": "green"}.get(st, "white")
+        st_style = {"open": "yellow", "pending": "cyan", "resolved": "green"}.get(
+            st, "white"
+        )
         table.add_row(
             c.get("id", "")[:12],
             c.get("subject", ""),
@@ -118,7 +126,9 @@ def inbox_show(conversation_id: str):
         for msg in messages:
             sender = msg.get("sender", "unknown")
             style = "cyan" if msg.get("is_agent") else "white"
-            console.print(f"[{style}]{sender}[/{style}] [dim]{msg.get('created_at', '')}[/dim]")
+            console.print(
+                f"[{style}]{sender}[/{style}] [dim]{msg.get('created_at', '')}[/dim]"
+            )
             console.print(f"  {msg.get('body', '')}")
             console.print()
 
@@ -128,7 +138,11 @@ def inbox_show(conversation_id: str):
 @click.option("--agent", "-a", required=True, help="Agent email or ID")
 def inbox_assign(conversation_id: str, agent: str):
     """Assign conversation to agent."""
-    resp = _request("post", f"/v1/inbox/conversations/{conversation_id}/assign", json={"agent": agent})
+    resp = _request(
+        "post",
+        f"/v1/inbox/conversations/{conversation_id}/assign",
+        json={"agent": agent},
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Conversation assigned to {agent}")
 
@@ -138,7 +152,11 @@ def inbox_assign(conversation_id: str, agent: str):
 @click.option("--message", "-m", prompt=True, help="Reply message")
 def inbox_reply(conversation_id: str, message: str):
     """Reply to a conversation."""
-    resp = _request("post", f"/v1/inbox/conversations/{conversation_id}/reply", json={"body": message})
+    resp = _request(
+        "post",
+        f"/v1/inbox/conversations/{conversation_id}/reply",
+        json={"body": message},
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Reply sent")
 
@@ -339,7 +357,12 @@ def deals_show(deal_id: str):
 @click.option("--stage", "-s", help="Initial stage")
 def deals_create(name: str, value: float, contact: str, pipeline: str, stage: str):
     """Create a deal."""
-    payload: dict = {"name": name, "value": value, "contact_id": contact, "pipeline": pipeline}
+    payload: dict = {
+        "name": name,
+        "value": value,
+        "contact_id": contact,
+        "pipeline": pipeline,
+    }
     if stage:
         payload["stage"] = stage
     resp = _request("post", "/v1/deals", json=payload)
@@ -433,7 +456,11 @@ def invoices():
 
 
 @invoices.command(name="list")
-@click.option("--status", type=click.Choice(["draft", "sent", "paid", "overdue", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["draft", "sent", "paid", "overdue", "all"]),
+    default="all",
+)
 @click.option("--limit", "-n", default=50, help="Max results")
 def invoices_list(status: str, limit: int):
     """List invoices."""
@@ -478,7 +505,9 @@ def invoices_create(customer: str, amount: float, due: str, items: str):
         payload["items"] = json.loads(items)
     resp = _request("post", "/v1/invoices", json=payload)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Invoice {data.get('number', '')} created for ${amount:,.2f}")
+    console.print(
+        f"[green]✓[/green] Invoice {data.get('number', '')} created for ${amount:,.2f}"
+    )
 
 
 @invoices.command(name="send")
@@ -524,7 +553,11 @@ def orders():
 
 
 @orders.command(name="list")
-@click.option("--status", type=click.Choice(["pending", "processing", "shipped", "delivered", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["pending", "processing", "shipped", "delivered", "all"]),
+    default="all",
+)
 @click.option("--limit", "-n", default=50, help="Max results")
 def orders_list(status: str, limit: int):
     """List orders."""
@@ -543,7 +576,11 @@ def orders_list(status: str, limit: int):
 
     for o in data.get("orders", []):
         st = o.get("status", "pending")
-        st_style = {"delivered": "green", "shipped": "cyan", "processing": "yellow"}.get(st, "white")
+        st_style = {
+            "delivered": "green",
+            "shipped": "cyan",
+            "processing": "yellow",
+        }.get(st, "white")
         table.add_row(
             o.get("order_number", ""),
             o.get("customer_name", ""),
@@ -592,7 +629,12 @@ def orders_show(order_id: str):
 
 @orders.command(name="update-status")
 @click.argument("order_id")
-@click.option("--status", "-s", type=click.Choice(["processing", "shipped", "delivered"]), required=True)
+@click.option(
+    "--status",
+    "-s",
+    type=click.Choice(["processing", "shipped", "delivered"]),
+    required=True,
+)
 @click.option("--tracking", "-t", help="Tracking number")
 def orders_update_status(order_id: str, status: str, tracking: str):
     """Update order status."""

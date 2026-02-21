@@ -186,6 +186,7 @@ cli.add_command(fn.fn_group, name="fn")  # fn alias for function
 def ask(ctx, prompt: tuple, model: str, local: bool):
     """Quick question to AI (alias for 'hanzo chat --once')."""
     import asyncio
+
     prompt_text = " ".join(prompt)
     asyncio.run(chat.ask_once(ctx, prompt_text, model, local))
 
@@ -207,7 +208,9 @@ def log(query: str, source: str, follow: bool, level: str, limit: int):
       hanzo log -f -s my-api        # Tail logs
     """
     if follow:
-        console.print(f"[cyan]Tailing log{' for ' + source if source else ''}...[/cyan]")
+        console.print(
+            f"[cyan]Tailing log{' for ' + source if source else ''}...[/cyan]"
+        )
         console.print("[dim]Press Ctrl+C to stop[/dim]")
     elif query:
         console.print(f"[cyan]Searching log for '{query}'...[/cyan]")
@@ -229,7 +232,9 @@ def metric(query: str, service: str, range: str):
       hanzo metric "http_requests_total"    # Query specific metric
       hanzo metric -s my-api -r 24h         # Service metric for 24h
     """
-    console.print(f"[cyan]Metric{' for ' + service if service else ''} (last {range}):[/cyan]")
+    console.print(
+        f"[cyan]Metric{' for ' + service if service else ''} (last {range}):[/cyan]"
+    )
     console.print("[dim]No metric found[/dim]")
 
 
@@ -249,7 +254,9 @@ def trace(trace_id: str, service: str, min_duration: str):
     if trace_id:
         console.print(f"[cyan]Trace {trace_id}:[/cyan]")
     else:
-        console.print(f"[cyan]Recent trace{' for ' + service if service else ''}:[/cyan]")
+        console.print(
+            f"[cyan]Recent trace{' for ' + service if service else ''}:[/cyan]"
+        )
     console.print("[dim]No trace found[/dim]")
 
 
@@ -271,7 +278,14 @@ def login(ctx, email, password, api_key, web, headless):
       hanzo login -k sk-xxx   # Direct API key authentication
       hanzo login -e user@example.com  # Email/password login
     """
-    ctx.invoke(auth.login, email=email, password=password, api_key=api_key, web=web, headless=headless)
+    ctx.invoke(
+        auth.login,
+        email=email,
+        password=password,
+        api_key=api_key,
+        web=web,
+        headless=headless,
+    )
 
 
 @cli.command()
@@ -303,6 +317,7 @@ cli.add_command(run.run_group, name="deploy")
 def serve(ctx, name: str, port: int):
     """Start local AI node (alias for 'hanzo node start')."""
     import asyncio
+
     asyncio.run(node.start_node(ctx, name, port))
 
 
@@ -418,7 +433,9 @@ def doctor(ctx, json_output: bool):
 
     console.print("[bold]Python Tools (uv):[/bold]")
     try:
-        result_uv = subprocess.run(["uv", "tool", "list"], capture_output=True, text=True, timeout=10)
+        result_uv = subprocess.run(
+            ["uv", "tool", "list"], capture_output=True, text=True, timeout=10
+        )
         if result_uv.returncode == 0:
             table = Table(show_header=True, header_style="bold")
             table.add_column("Package", style="cyan")
@@ -432,7 +449,14 @@ def doctor(ctx, json_output: bool):
                         name, version = parts[0], parts[1]
                         path = shutil.which(name) or f"~/.local/bin/{name}"
                         table.add_row(name, version, path)
-                        tools_found.append({"name": name, "version": version, "path": path, "source": "uv"})
+                        tools_found.append(
+                            {
+                                "name": name,
+                                "version": version,
+                                "path": path,
+                                "source": "uv",
+                            }
+                        )
 
             if tools_found:
                 console.print(table)
@@ -466,8 +490,14 @@ def doctor(ctx, json_output: bool):
         if path:
             ai_found = True
             try:
-                ver_result = subprocess.run([cmd, "--version"], capture_output=True, text=True, timeout=5)
-                version = ver_result.stdout.strip().split("\n")[0] if ver_result.returncode == 0 else "?"
+                ver_result = subprocess.run(
+                    [cmd, "--version"], capture_output=True, text=True, timeout=5
+                )
+                version = (
+                    ver_result.stdout.strip().split("\n")[0]
+                    if ver_result.returncode == 0
+                    else "?"
+                )
             except Exception:
                 version = "?"
             ai_table.add_row(name, version, path)
@@ -533,7 +563,13 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
 
     # Default packages to update
     default_packages = ["hanzo", "hanzo-mcp"]
-    all_packages = ["hanzo", "hanzo-mcp", "hanzo-agents", "hanzo-memory", "hanzo-network"]
+    all_packages = [
+        "hanzo",
+        "hanzo-mcp",
+        "hanzo-agents",
+        "hanzo-memory",
+        "hanzo-network",
+    ]
 
     if packages:
         to_update = list(packages)
@@ -567,7 +603,9 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
 
             if result.returncode == 0:
                 # Get new version
-                ver_result = subprocess.run(["uv", "tool", "list"], capture_output=True, text=True, timeout=10)
+                ver_result = subprocess.run(
+                    ["uv", "tool", "list"], capture_output=True, text=True, timeout=10
+                )
                 version = "?"
                 for line in ver_result.stdout.split("\n"):
                     if line.startswith(pkg + " "):
@@ -580,7 +618,10 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
                 # Try install if upgrade failed (package not installed)
                 if "not installed" in result.stderr.lower():
                     install_result = subprocess.run(
-                        ["uv", "tool", "install", pkg], capture_output=True, text=True, timeout=120
+                        ["uv", "tool", "install", pkg],
+                        capture_output=True,
+                        text=True,
+                        timeout=120,
                     )
                     if install_result.returncode == 0:
                         console.print("[green]✓[/green] installed")
