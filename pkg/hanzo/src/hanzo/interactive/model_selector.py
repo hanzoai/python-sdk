@@ -14,7 +14,9 @@ from prompt_toolkit.layout.containers import HSplit, Window
 class QuickModelSelector:
     """Quick model selector with arrow navigation."""
 
-    def __init__(self, models: List[Tuple[str, str]], tools: List[Tuple[str, str]], current: str):
+    def __init__(
+        self, models: List[Tuple[str, str]], tools: List[Tuple[str, str]], current: str
+    ):
         self.models = models
         self.tools = tools
         self.current = current
@@ -97,7 +99,9 @@ class QuickModelSelector:
 
         layout = Layout(Window(FormattedTextControl(get_text), wrap_lines=False))
 
-        app = Application(layout=layout, key_bindings=kb, full_screen=False, mouse_support=True)
+        app = Application(
+            layout=layout, key_bindings=kb, full_screen=False, mouse_support=True
+        )
 
         return await app.run_async()
 
@@ -134,7 +138,9 @@ class BackgroundTaskManager:
             task = self.tasks[task_id]
             if task["process"].poll() is None:
                 task["process"].terminate()
-                self.console.print(f"[yellow]Terminated {task_id}: {task['name']}[/yellow]")
+                self.console.print(
+                    f"[yellow]Terminated {task_id}: {task['name']}[/yellow]"
+                )
             else:
                 self.console.print(f"[dim]Task {task_id} already stopped[/dim]")
             del self.tasks[task_id]

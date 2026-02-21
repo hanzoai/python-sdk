@@ -46,9 +46,27 @@ from .pubsub import Message, PubSubClient, PubSubConfig, Subscription
 from .queues import Job, JobStatus, QueueStats, QueuesClient, QueuesConfig
 from .search import SearchHit, SearchClient, SearchConfig, SearchResult
 from .vector import ScoredPoint, VectorPoint, VectorClient, VectorConfig
-from .storage import ObjectInfo, PresignedUrl, UploadResult, StorageClient, StorageConfig
-from .functions import FunctionSpec, InvokeResult, FunctionStatus, FunctionsClient, FunctionsConfig
-from .documentdb import Document, DeleteResult, UpdateResult, DocumentDBClient, DocumentDBConfig
+from .storage import (
+    ObjectInfo,
+    PresignedUrl,
+    UploadResult,
+    StorageClient,
+    StorageConfig,
+)
+from .functions import (
+    FunctionSpec,
+    InvokeResult,
+    FunctionStatus,
+    FunctionsClient,
+    FunctionsConfig,
+)
+from .documentdb import (
+    Document,
+    DeleteResult,
+    UpdateResult,
+    DocumentDBClient,
+    DocumentDBConfig,
+)
 
 __all__ = [
     # Main class
@@ -183,70 +201,90 @@ class HanzoInfra:
     def vector(self) -> VectorClient:
         """Get vector client (Qdrant)."""
         if self._vector is None:
-            raise RuntimeError("Vector client not initialized. Initialize with services=['vector']")
+            raise RuntimeError(
+                "Vector client not initialized. Initialize with services=['vector']"
+            )
         return self._vector
 
     @property
     def kv(self) -> KVClient:
         """Get key-value client (Redis/Valkey)."""
         if self._kv is None:
-            raise RuntimeError("KV client not initialized. Initialize with services=['kv']")
+            raise RuntimeError(
+                "KV client not initialized. Initialize with services=['kv']"
+            )
         return self._kv
 
     @property
     def documentdb(self) -> DocumentDBClient:
         """Get document database client (MongoDB)."""
         if self._documentdb is None:
-            raise RuntimeError("DocumentDB client not initialized. Initialize with services=['documentdb']")
+            raise RuntimeError(
+                "DocumentDB client not initialized. Initialize with services=['documentdb']"
+            )
         return self._documentdb
 
     @property
     def storage(self) -> StorageClient:
         """Get object storage client (S3/MinIO)."""
         if self._storage is None:
-            raise RuntimeError("Storage client not initialized. Initialize with services=['storage']")
+            raise RuntimeError(
+                "Storage client not initialized. Initialize with services=['storage']"
+            )
         return self._storage
 
     @property
     def search(self) -> SearchClient:
         """Get search client (Meilisearch)."""
         if self._search is None:
-            raise RuntimeError("Search client not initialized. Initialize with services=['search']")
+            raise RuntimeError(
+                "Search client not initialized. Initialize with services=['search']"
+            )
         return self._search
 
     @property
     def pubsub(self) -> PubSubClient:
         """Get pub/sub client (NATS)."""
         if self._pubsub is None:
-            raise RuntimeError("PubSub client not initialized. Initialize with services=['pubsub']")
+            raise RuntimeError(
+                "PubSub client not initialized. Initialize with services=['pubsub']"
+            )
         return self._pubsub
 
     @property
     def tasks(self) -> TasksClient:
         """Get tasks/workflow client (Temporal)."""
         if self._tasks is None:
-            raise RuntimeError("Tasks client not initialized. Initialize with services=['tasks']")
+            raise RuntimeError(
+                "Tasks client not initialized. Initialize with services=['tasks']"
+            )
         return self._tasks
 
     @property
     def queues(self) -> QueuesClient:
         """Get work queue client."""
         if self._queues is None:
-            raise RuntimeError("Queues client not initialized. Initialize with services=['queues']")
+            raise RuntimeError(
+                "Queues client not initialized. Initialize with services=['queues']"
+            )
         return self._queues
 
     @property
     def cron(self) -> CronClient:
         """Get cron scheduler client."""
         if self._cron is None:
-            raise RuntimeError("Cron client not initialized. Initialize with services=['cron']")
+            raise RuntimeError(
+                "Cron client not initialized. Initialize with services=['cron']"
+            )
         return self._cron
 
     @property
     def functions(self) -> FunctionsClient:
         """Get serverless functions client (Nuclio)."""
         if self._functions is None:
-            raise RuntimeError("Functions client not initialized. Initialize with services=['functions']")
+            raise RuntimeError(
+                "Functions client not initialized. Initialize with services=['functions']"
+            )
         return self._functions
 
     @classmethod

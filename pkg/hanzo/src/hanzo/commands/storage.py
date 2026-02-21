@@ -34,7 +34,9 @@ def _get_s3_client():
         import boto3
         from botocore.config import Config
     except ImportError:
-        console.print("[red]boto3 not installed.[/red] Run: pip install 'hanzo[storage]'")
+        console.print(
+            "[red]boto3 not installed.[/red] Run: pip install 'hanzo[storage]'"
+        )
         raise SystemExit(1)
 
     # Try to get credentials from env or hanzo auth
@@ -171,14 +173,21 @@ def buckets_list(json_out: bool):
     bucket_list = response.get("Buckets", [])
 
     if json_out:
-        click.echo(json.dumps(
-            [{"name": b["Name"], "created": b["CreationDate"].isoformat()} for b in bucket_list],
-            indent=2,
-        ))
+        click.echo(
+            json.dumps(
+                [
+                    {"name": b["Name"], "created": b["CreationDate"].isoformat()}
+                    for b in bucket_list
+                ],
+                indent=2,
+            )
+        )
         return
 
     if not bucket_list:
-        console.print("[dim]No buckets found. Create one with 'hanzo storage buckets create'[/dim]")
+        console.print(
+            "[dim]No buckets found. Create one with 'hanzo storage buckets create'[/dim]"
+        )
         return
 
     table = Table(title=f"Buckets ({len(bucket_list)})", box=box.ROUNDED)
@@ -278,12 +287,14 @@ def storage_ls(path: str, recursive: bool, human: bool, json_out: bool):
         for p in all_prefixes:
             items.append({"key": p["Prefix"], "type": "directory"})
         for o in all_objects:
-            items.append({
-                "key": o["Key"],
-                "size": o["Size"],
-                "modified": o["LastModified"].isoformat(),
-                "type": "file",
-            })
+            items.append(
+                {
+                    "key": o["Key"],
+                    "size": o["Size"],
+                    "modified": o["LastModified"].isoformat(),
+                    "type": "file",
+                }
+            )
         click.echo(json.dumps(items, indent=2))
         return
 
@@ -327,8 +338,14 @@ def storage_cp(source: str, dest: str, recursive: bool):
       hanzo storage cp mybucket/a.txt mybucket/b.txt Server-side copy
     """
     s3 = _get_s3_client()
-    is_s3_src = source.startswith("s3://") or "/" in source and not os.path.exists(source)
-    is_s3_dst = dest.startswith("s3://") or "/" in dest and not os.path.exists(os.path.dirname(dest) or ".")
+    is_s3_src = (
+        source.startswith("s3://") or "/" in source and not os.path.exists(source)
+    )
+    is_s3_dst = (
+        dest.startswith("s3://")
+        or "/" in dest
+        and not os.path.exists(os.path.dirname(dest) or ".")
+    )
 
     # Heuristic: if source exists locally, it's an upload
     if os.path.exists(source) and not source.startswith("s3://"):
@@ -347,13 +364,17 @@ def storage_cp(source: str, dest: str, recursive: bool):
                 TextColumn("[progress.description]{task.description}"),
                 console=console,
             ) as progress:
-                task = progress.add_task(f"Uploading {len(files)} files...", total=len(files))
+                task = progress.add_task(
+                    f"Uploading {len(files)} files...", total=len(files)
+                )
                 for f in files:
                     rel = f.relative_to(local_path)
                     obj_key = f"{key}{rel}" if key else str(rel)
                     s3.upload_file(str(f), bucket, obj_key)
                     progress.advance(task)
-            console.print(f"[green]Uploaded {len(files)} files to {bucket}/{key}[/green]")
+            console.print(
+                f"[green]Uploaded {len(files)} files to {bucket}/{key}[/green]"
+            )
         else:
             if not key or key.endswith("/"):
                 key = key + local_path.name
@@ -381,7 +402,9 @@ def storage_cp(source: str, dest: str, recursive: bool):
                 TextColumn("[progress.description]{task.description}"),
                 console=console,
             ) as progress:
-                task = progress.add_task(f"Downloading {len(objects)} files...", total=len(objects))
+                task = progress.add_task(
+                    f"Downloading {len(objects)} files...", total=len(objects)
+                )
                 for obj in objects:
                     rel_key = obj["Key"].removeprefix(key).lstrip("/")
                     if not rel_key:
@@ -397,7 +420,9 @@ def storage_cp(source: str, dest: str, recursive: bool):
                 local_path = local_path / filename
             local_path.parent.mkdir(parents=True, exist_ok=True)
             s3.download_file(bucket, key, str(local_path))
-            console.print(f"[green]Downloaded s3://{bucket}/{key} -> {local_path}[/green]")
+            console.print(
+                f"[green]Downloaded s3://{bucket}/{key} -> {local_path}[/green]"
+            )
 
     elif is_s3_src and is_s3_dst:
         # Server-side copy
@@ -408,9 +433,13 @@ def storage_cp(source: str, dest: str, recursive: bool):
             Bucket=dst_bucket,
             Key=dst_key,
         )
-        console.print(f"[green]Copied s3://{src_bucket}/{src_key} -> s3://{dst_bucket}/{dst_key}[/green]")
+        console.print(
+            f"[green]Copied s3://{src_bucket}/{src_key} -> s3://{dst_bucket}/{dst_key}[/green]"
+        )
     else:
-        console.print("[red]At least one path must be an S3 path (bucket/key or s3://bucket/key).[/red]")
+        console.print(
+            "[red]At least one path must be an S3 path (bucket/key or s3://bucket/key).[/red]"
+        )
         raise SystemExit(1)
 
 
@@ -436,7 +465,9 @@ def storage_mv(source: str, dest: str):
         Key=dst_key,
     )
     s3.delete_object(Bucket=src_bucket, Key=src_key)
-    console.print(f"[green]Moved s3://{src_bucket}/{src_key} -> s3://{dst_bucket}/{dst_key}[/green]")
+    console.print(
+        f"[green]Moved s3://{src_bucket}/{src_key} -> s3://{dst_bucket}/{dst_key}[/green]"
+    )
 
 
 @storage_group.command(name="rm")
@@ -466,7 +497,9 @@ def storage_rm(path: str, recursive: bool, yes: bool):
             return
 
         if not yes:
-            click.confirm(f"Delete {len(objects)} object(s) under '{path}'?", abort=True)
+            click.confirm(
+                f"Delete {len(objects)} object(s) under '{path}'?", abort=True
+            )
 
         # Delete in batches of 1000 (S3 limit)
         for i in range(0, len(objects), 1000):
@@ -486,7 +519,9 @@ def storage_rm(path: str, recursive: bool, yes: bool):
 @storage_group.command(name="sync")
 @click.argument("source")
 @click.argument("dest")
-@click.option("--delete", "delete_extra", is_flag=True, help="Delete files not in source")
+@click.option(
+    "--delete", "delete_extra", is_flag=True, help="Delete files not in source"
+)
 @click.option("--dry-run", is_flag=True, help="Show what would be done")
 def storage_sync(source: str, dest: str, delete_extra: bool, dry_run: bool):
     """Sync directories with storage.
@@ -539,7 +574,9 @@ def storage_sync(source: str, dest: str, delete_extra: bool, dry_run: bool):
                 console.print(f"  [green]upload[/green]  {rel}")
             for rel in to_delete:
                 console.print(f"  [red]delete[/red]  {rel}")
-            console.print(f"[dim]Would upload {len(to_upload)}, delete {len(to_delete)}[/dim]")
+            console.print(
+                f"[dim]Would upload {len(to_upload)}, delete {len(to_delete)}[/dim]"
+            )
             return
 
         for rel in to_upload:
@@ -596,7 +633,9 @@ def storage_sync(source: str, dest: str, delete_extra: bool, dry_run: bool):
                 console.print(f"  [green]download[/green]  {rel}")
             for rel in to_delete:
                 console.print(f"  [red]delete[/red]  {rel}")
-            console.print(f"[dim]Would download {len(to_download)}, delete {len(to_delete)}[/dim]")
+            console.print(
+                f"[dim]Would download {len(to_download)}, delete {len(to_delete)}[/dim]"
+            )
             return
 
         for rel in to_download:
@@ -615,7 +654,13 @@ def storage_sync(source: str, dest: str, delete_extra: bool, dry_run: bool):
 
 @storage_group.command(name="presign")
 @click.argument("path")
-@click.option("--expires", "-e", default=3600, type=int, help="Expiration in seconds (default: 3600)")
+@click.option(
+    "--expires",
+    "-e",
+    default=3600,
+    type=int,
+    help="Expiration in seconds (default: 3600)",
+)
 @click.option("--method", "-m", default="GET", type=click.Choice(["GET", "PUT"]))
 def storage_presign(path: str, expires: int, method: str):
     """Generate a presigned URL for an object.

@@ -397,7 +397,9 @@ def operations_wait(operation_id: str, timeout: int):
                         console.print("[green]✓ Operation completed[/green]")
                         return
                     elif status in ("failed", "error"):
-                        console.print(f"[red]✗ Operation failed: {data.get('error', 'Unknown error')}[/red]")
+                        console.print(
+                            f"[red]✗ Operation failed: {data.get('error', 'Unknown error')}[/red]"
+                        )
                         return
 
                     time.sleep(2)
@@ -426,7 +428,9 @@ def create_service_group(service_key: str, service_info: dict):
     # create command
     @service_group.command(name="create")
     @click.option("--name", default="default", help="Instance name")
-    @click.option("--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free")
+    @click.option(
+        "--tier", type=click.Choice(["free", "pro", "enterprise"]), default="free"
+    )
     @click.option("--region", default="us-west-2", help="Deployment region")
     def create(name: str, tier: str, region: str):
         """Create a new instance."""
@@ -463,7 +467,11 @@ def create_service_group(service_key: str, service_info: dict):
     # env command
     @service_group.command(name="env")
     @click.option("--name", default="default", help="Instance name")
-    @click.option("--shell", type=click.Choice(["bash", "zsh", "fish", "powershell"]), default="bash")
+    @click.option(
+        "--shell",
+        type=click.Choice(["bash", "zsh", "fish", "powershell"]),
+        default="bash",
+    )
     @click.option("--export", "do_export", is_flag=True, help="Print export statements")
     def env(name: str, shell: str, do_export: bool):
         """Show/export environment variables."""
@@ -574,7 +582,9 @@ def _create_instance(service: str, name: str, tier: str, region: str):
             )
 
             if resp.status_code == 401:
-                console.print("[red]Authentication failed. Run 'hanzo auth login'.[/red]")
+                console.print(
+                    "[red]Authentication failed. Run 'hanzo auth login'.[/red]"
+                )
                 return
 
             if resp.status_code == 402:
@@ -583,7 +593,9 @@ def _create_instance(service: str, name: str, tier: str, region: str):
                 return
 
             if resp.status_code == 409:
-                console.print(f"[yellow]Instance '{name}' already exists. Use 'update' to modify.[/yellow]")
+                console.print(
+                    f"[yellow]Instance '{name}' already exists. Use 'update' to modify.[/yellow]"
+                )
                 return
 
             if resp.status_code >= 400:
@@ -611,7 +623,9 @@ def _create_instance(service: str, name: str, tier: str, region: str):
             console.print()
             console.print(f"[cyan]URL:[/cyan] {data.get('url')}")
             console.print()
-            console.print(f"[dim]Run 'hanzo cloud {service} env --export' for environment variables[/dim]")
+            console.print(
+                f"[dim]Run 'hanzo cloud {service} env --export' for environment variables[/dim]"
+            )
 
     except httpx.ConnectError:
         console.print("[red]Could not connect to Hanzo API.[/red]")
@@ -690,7 +704,9 @@ def _delete_instance(service: str, name: str, force: bool):
     info = SERVICES[service]
 
     if not force:
-        if not Confirm.ask(f"[red]Delete {info['name']} '{name}'? This cannot be undone.[/red]"):
+        if not Confirm.ask(
+            f"[red]Delete {info['name']} '{name}'? This cannot be undone.[/red]"
+        ):
             console.print("Cancelled.")
             return
 
@@ -797,7 +813,9 @@ def _env_instance(service: str, name: str, shell: str, do_export: bool):
 
         console.print(table)
         console.print()
-        console.print(f"[dim]Run 'hanzo cloud {service} env --export' for export statements[/dim]")
+        console.print(
+            f"[dim]Run 'hanzo cloud {service} env --export' for export statements[/dim]"
+        )
 
 
 def _status_instance(service: str, name: str):

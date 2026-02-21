@@ -25,7 +25,9 @@ class StreamingHandler:
     async def stream_openai(self, client, messages: list, model: str = "gpt-4") -> str:
         """Stream response from OpenAI API."""
         try:
-            stream = await client.chat.completions.create(model=model, messages=messages, stream=True, max_tokens=1000)
+            stream = await client.chat.completions.create(
+                model=model, messages=messages, stream=True, max_tokens=1000
+            )
 
             self.current_response = ""
             self.is_streaming = True
@@ -61,7 +63,9 @@ class StreamingHandler:
             self.is_streaming = False
             return None
 
-    async def stream_anthropic(self, client, messages: list, model: str = "claude-3-5-sonnet-20241022") -> str:
+    async def stream_anthropic(
+        self, client, messages: list, model: str = "claude-3-5-sonnet-20241022"
+    ) -> str:
         """Stream response from Anthropic API."""
         try:
             self.current_response = ""
@@ -77,7 +81,9 @@ class StreamingHandler:
                 console=self.console,
                 refresh_per_second=10,
             ) as live:
-                async with client.messages.stream(model=model, messages=messages, max_tokens=1000) as stream:
+                async with client.messages.stream(
+                    model=model, messages=messages, max_tokens=1000
+                ) as stream:
                     async for text in stream.text_stream:
                         self.current_response += text
                         live.update(
@@ -218,11 +224,15 @@ class TypewriterEffect:
             for line in lines:
                 for char in line:
                     current_code += char
-                    syntax = Syntax(current_code, language, theme="monokai", line_numbers=True)
+                    syntax = Syntax(
+                        current_code, language, theme="monokai", line_numbers=True
+                    )
                     live.update(syntax)
                     await asyncio.sleep(speed)
                 current_code += "\n"
-                syntax = Syntax(current_code, language, theme="monokai", line_numbers=True)
+                syntax = Syntax(
+                    current_code, language, theme="monokai", line_numbers=True
+                )
                 live.update(syntax)
 
 
@@ -240,7 +250,9 @@ async def stream_with_fallback(message: str, console: Console = None) -> Optiona
             from openai import AsyncOpenAI
 
             client = AsyncOpenAI()
-            return await handler.stream_openai(client, [{"role": "user", "content": message}])
+            return await handler.stream_openai(
+                client, [{"role": "user", "content": message}]
+            )
         except Exception as e:
             if console:
                 console.print(f"[yellow]OpenAI streaming failed: {e}[/yellow]")
@@ -251,7 +263,9 @@ async def stream_with_fallback(message: str, console: Console = None) -> Optiona
             from anthropic import AsyncAnthropic
 
             client = AsyncAnthropic()
-            return await handler.stream_anthropic(client, [{"role": "user", "content": message}])
+            return await handler.stream_anthropic(
+                client, [{"role": "user", "content": message}]
+            )
         except Exception as e:
             if console:
                 console.print(f"[yellow]Anthropic streaming failed: {e}[/yellow]")

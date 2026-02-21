@@ -88,15 +88,23 @@ def edge_list():
 @edge.command(name="deploy")
 @click.option("--name", "-n", prompt=True, help="Deployment name")
 @click.option("--dir", "-d", "source_dir", default=".", help="Directory to deploy")
-@click.option("--regions", "-r", default="all", help="Target regions (comma-separated or 'all')")
+@click.option(
+    "--regions", "-r", default="all", help="Target regions (comma-separated or 'all')"
+)
 def edge_deploy(name: str, source_dir: str, regions: str):
     """Deploy to edge locations."""
-    region_list = [r.strip() for r in regions.split(",")] if regions != "all" else ["all"]
-    resp = _request("post", "/v1/edge/deployments", json={
-        "name": name,
-        "source_dir": source_dir,
-        "regions": region_list,
-    })
+    region_list = (
+        [r.strip() for r in regions.split(",")] if regions != "all" else ["all"]
+    )
+    resp = _request(
+        "post",
+        "/v1/edge/deployments",
+        json={
+            "name": name,
+            "source_dir": source_dir,
+            "regions": region_list,
+        },
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Deployed '{name}' to edge")
@@ -133,7 +141,9 @@ def edge_delete(name: str):
 @click.option("--period", "-p", default="24h", help="Time period")
 def edge_stats(name: str, period: str):
     """Show edge deployment statistics."""
-    resp = _request("get", f"/v1/edge/deployments/{name}/stats", params={"period": period})
+    resp = _request(
+        "get", f"/v1/edge/deployments/{name}/stats", params={"period": period}
+    )
     data = check_response(resp)
 
     info = (
@@ -172,7 +182,9 @@ def hke_list():
 
     for c in data.get("clusters", []):
         st = c.get("status", "running")
-        st_style = {"running": "green", "provisioning": "yellow", "error": "red"}.get(st, "white")
+        st_style = {"running": "green", "provisioning": "yellow", "error": "red"}.get(
+            st, "white"
+        )
         table.add_row(
             c.get("name", ""),
             c.get("version", ""),
@@ -191,16 +203,22 @@ def hke_list():
 @click.option("--region", "-r", default="us-west-2", help="Region")
 @click.option("--gpu", is_flag=True, help="Enable GPU node pool")
 @click.option("--node-size", default="s-4vcpu-8gb", help="Node size")
-def hke_create(name: str, version: str, nodes: int, region: str, gpu: bool, node_size: str):
+def hke_create(
+    name: str, version: str, nodes: int, region: str, gpu: bool, node_size: str
+):
     """Create a Kubernetes cluster."""
-    resp = _request("post", "/v1/hke/clusters", json={
-        "name": name,
-        "version": version,
-        "node_count": nodes,
-        "region": region,
-        "gpu": gpu,
-        "node_size": node_size,
-    })
+    resp = _request(
+        "post",
+        "/v1/hke/clusters",
+        json={
+            "name": name,
+            "version": version,
+            "node_count": nodes,
+            "region": region,
+            "gpu": gpu,
+            "node_size": node_size,
+        },
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Cluster '{name}' creation initiated")
@@ -218,7 +236,10 @@ def hke_delete(name: str, confirmed: bool):
     """Delete a Kubernetes cluster."""
     if not confirmed:
         from rich.prompt import Confirm
-        if not Confirm.ask(f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"):
+
+        if not Confirm.ask(
+            f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"
+        ):
             return
     resp = _request("delete", f"/v1/hke/clusters/{name}")
     check_response(resp)
@@ -240,6 +261,7 @@ def hke_kubeconfig(name: str, output: str):
         console.print(f"[green]✓[/green] Kubeconfig saved to {output}")
     else:
         import os as _os
+
         kube_path = _os.path.expanduser("~/.kube/config")
         with open(kube_path, "w") as f:
             f.write(kubeconfig)
@@ -251,7 +273,9 @@ def hke_kubeconfig(name: str, output: str):
 @click.option("--nodes", "-n", required=True, type=int, help="Target nodes")
 def hke_scale(name: str, nodes: int):
     """Scale cluster nodes."""
-    resp = _request("post", f"/v1/hke/clusters/{name}/scale", json={"node_count": nodes})
+    resp = _request(
+        "post", f"/v1/hke/clusters/{name}/scale", json={"node_count": nodes}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Cluster '{name}' scaling to {nodes} nodes")
 
@@ -261,7 +285,9 @@ def hke_scale(name: str, nodes: int):
 @click.option("--version", "-v", required=True, help="Target Kubernetes version")
 def hke_upgrade(name: str, version: str):
     """Upgrade cluster Kubernetes version."""
-    resp = _request("post", f"/v1/hke/clusters/{name}/upgrade", json={"version": version})
+    resp = _request(
+        "post", f"/v1/hke/clusters/{name}/upgrade", json={"version": version}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Cluster '{name}' upgrading to {version}")
 
@@ -306,6 +332,7 @@ def tunnel_share(target: str, name: str, auth: bool):
     try:
         tunnel_id = data.get("id", "")
         import time
+
         while True:
             time.sleep(30)
             _request("post", f"/v1/tunnels/{tunnel_id}/keepalive")
@@ -411,21 +438,31 @@ def dns_list(zone: str):
 @dns.command(name="create")
 @click.option("--zone", "-z", required=True, help="DNS zone")
 @click.option("--name", "-n", required=True, help="Record name")
-@click.option("--type", "-t", "record_type", required=True, help="Record type (A, CNAME, etc.)")
+@click.option(
+    "--type", "-t", "record_type", required=True, help="Record type (A, CNAME, etc.)"
+)
 @click.option("--value", "-v", required=True, help="Record value")
 @click.option("--ttl", default=300, help="TTL in seconds")
 @click.option("--proxied", is_flag=True, help="Enable proxy")
-def dns_create(zone: str, name: str, record_type: str, value: str, ttl: int, proxied: bool):
+def dns_create(
+    zone: str, name: str, record_type: str, value: str, ttl: int, proxied: bool
+):
     """Create a DNS record."""
-    resp = _request("post", f"/v1/dns/zones/{zone}/records", json={
-        "name": name,
-        "type": record_type,
-        "value": value,
-        "ttl": ttl,
-        "proxied": proxied,
-    })
+    resp = _request(
+        "post",
+        f"/v1/dns/zones/{zone}/records",
+        json={
+            "name": name,
+            "type": record_type,
+            "value": value,
+            "ttl": ttl,
+            "proxied": proxied,
+        },
+    )
     check_response(resp)
-    console.print(f"[green]✓[/green] DNS record created: {name}.{zone} {record_type} {value}")
+    console.print(
+        f"[green]✓[/green] DNS record created: {name}.{zone} {record_type} {value}"
+    )
 
 
 @dns.command(name="delete")
@@ -434,7 +471,11 @@ def dns_create(zone: str, name: str, record_type: str, value: str, ttl: int, pro
 @click.option("--type", "-t", "record_type", required=True)
 def dns_delete(zone: str, name: str, record_type: str):
     """Delete a DNS record."""
-    resp = _request("delete", f"/v1/dns/zones/{zone}/records", params={"name": name, "type": record_type})
+    resp = _request(
+        "delete",
+        f"/v1/dns/zones/{zone}/records",
+        params={"name": name, "type": record_type},
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] DNS record deleted: {name}.{zone} {record_type}")
 
@@ -452,7 +493,13 @@ def guard():
 
 @guard.command(name="enable")
 @click.option("--project", "-p", help="Project ID")
-@click.option("--mode", "-m", type=click.Choice(["block", "warn", "log"]), default="block", help="Enforcement mode")
+@click.option(
+    "--mode",
+    "-m",
+    type=click.Choice(["block", "warn", "log"]),
+    default="block",
+    help="Enforcement mode",
+)
 def guard_enable(project: str, mode: str):
     """Enable LLM guard for project."""
     payload: dict = {"enabled": True, "mode": mode}
@@ -505,7 +552,13 @@ def guard_status(project: str):
 
 @guard.command(name="logs")
 @click.option("--limit", "-n", default=50, help="Number of logs")
-@click.option("--type", "-t", "log_type", type=click.Choice(["all", "blocked", "warned", "pii", "injection"]), default="all")
+@click.option(
+    "--type",
+    "-t",
+    "log_type",
+    type=click.Choice(["all", "blocked", "warned", "pii", "injection"]),
+    default="all",
+)
 def guard_logs(limit: int, log_type: str):
     """View guard logs."""
     params: dict = {"limit": limit}

@@ -91,7 +91,9 @@ def _find_container(client, base_url: str, name: str):
 @click.argument("name", required=False)
 @click.option("--image", "-i", help="Container image")
 @click.option("--source", "-s", help="Git repo URL (source build)")
-@click.option("--env", "-e", "env_name", help="Override environment (uses context by default)")
+@click.option(
+    "--env", "-e", "env_name", help="Override environment (uses context by default)"
+)
 @click.option("--replicas", "-r", default=1, help="Number of replicas")
 @click.option("--port", "-p", default=8080, help="Service port")
 @click.option("--cpu", default="0.5", help="CPU cores")
@@ -184,7 +186,11 @@ def run_service(name, image, source, env_name, replicas, port, cpu, memory, wait
 
     # Trigger build if source
     if source and not existing:
-        cid = (result or {}).get("_id") or (result or {}).get("iid") or (result or {}).get("id", "")
+        cid = (
+            (result or {}).get("_id")
+            or (result or {}).get("iid")
+            or (result or {}).get("id", "")
+        )
         if cid:
             console.print("[cyan]Triggering build...[/cyan]")
             client.post(f"{base_url}/{cid}/trigger")
@@ -197,7 +203,10 @@ def run_service(name, image, source, env_name, replicas, port, cpu, memory, wait
             cid = (result or {}).get("_id") or existing_id
             if cid:
                 data = client.get(f"{base_url}/{cid}")
-                if data and data.get("status", {}).get("availableReplicas", 0) >= replicas:
+                if (
+                    data
+                    and data.get("status", {}).get("availableReplicas", 0) >= replicas
+                ):
                     console.print("[green]✓[/green] Deployment ready")
                     return
             time.sleep(2)
@@ -290,7 +299,9 @@ def run_status(name):
         replicas = container.get("deploymentConfig", {}).get("desiredReplicas", "?")
         avail = status_info.get("availableReplicas", "?")
         state = status_info.get("conditions", [{}])
-        state_str = "[green]● Running[/green]" if avail else "[yellow]○ Pending[/yellow]"
+        state_str = (
+            "[green]● Running[/green]" if avail else "[yellow]○ Pending[/yellow]"
+        )
 
         img = ""
         if container.get("repoOrRegistry") == "registry":
@@ -324,7 +335,9 @@ def run_status(name):
 
         if not containers:
             console.print("[dim]No services deployed in current context.[/dim]")
-            console.print("[dim]Deploy with: hanzo run service NAME --image IMAGE[/dim]")
+            console.print(
+                "[dim]Deploy with: hanzo run service NAME --image IMAGE[/dim]"
+            )
             return
 
         table = Table(title="Services", box=box.ROUNDED)
@@ -392,7 +405,9 @@ def run_logs(name, follow, tail, since):
         console.print("[dim]No logs available.[/dim]")
 
     if follow:
-        console.print("[dim]Follow mode is not yet supported via API. Use 'hanzo k8s logs' for streaming.[/dim]")
+        console.print(
+            "[dim]Follow mode is not yet supported via API. Use 'hanzo k8s logs' for streaming.[/dim]"
+        )
 
 
 # ============================================================================
@@ -523,7 +538,11 @@ def run_rollback(name, version):
         console.print("[yellow]No pipeline history found.[/yellow]")
         return
 
-    runs = pipelines if isinstance(pipelines, list) else pipelines.get("runs", pipelines.get("data", []))
+    runs = (
+        pipelines
+        if isinstance(pipelines, list)
+        else pipelines.get("runs", pipelines.get("data", []))
+    )
 
     if version:
         # Find specific run
@@ -562,7 +581,9 @@ def run_traffic(name, version):
       hanzo run traffic my-api -v v2:100  # Full cutover
     """
     if not version:
-        console.print("[yellow]Traffic splitting requires PaaS ingress configuration.[/yellow]")
+        console.print(
+            "[yellow]Traffic splitting requires PaaS ingress configuration.[/yellow]"
+        )
         console.print("[dim]Specify version weights: -v v1:90 -v v2:10[/dim]")
         return
 
@@ -573,7 +594,9 @@ def run_traffic(name, version):
         if len(parts) == 2:
             console.print(f"  {parts[0]}: {parts[1]}%")
 
-    console.print("[yellow]Traffic splitting requires ingress controller support.[/yellow]")
+    console.print(
+        "[yellow]Traffic splitting requires ingress controller support.[/yellow]"
+    )
     console.print("[dim]Configure via 'hanzo k8s ingress' or your service mesh.[/dim]")
 
 
@@ -595,7 +618,9 @@ def run_delete(name, force):
     if not force:
         from rich.prompt import Confirm
 
-        if not Confirm.ask(f"[red]Delete service '{name}'? This cannot be undone.[/red]"):
+        if not Confirm.ask(
+            f"[red]Delete service '{name}'? This cannot be undone.[/red]"
+        ):
             return
 
     result = client.delete(f"{base_url}/{cid}")

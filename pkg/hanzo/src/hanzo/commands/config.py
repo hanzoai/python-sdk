@@ -115,7 +115,9 @@ def set(ctx, key: str, value: str, is_global: bool, is_local: bool):
     # Save config
     save_config(config_path, config)
 
-    console.print(f"[green]✓[/green] Set {key} = {parsed_value} in {config_name} config")
+    console.print(
+        f"[green]✓[/green] Set {key} = {parsed_value} in {config_name} config"
+    )
 
 
 @config_group.command()

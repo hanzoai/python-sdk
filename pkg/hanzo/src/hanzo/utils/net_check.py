@@ -44,7 +44,9 @@ def check_net_installation() -> Tuple[bool, Optional[str], Optional[str]]:
             return False, str(net_path), str(venv_python)
 
     # No venv, check system Python
-    result = subprocess.run([sys.executable, "-c", "import scapy"], capture_output=True, text=True)
+    result = subprocess.run(
+        [sys.executable, "-c", "import scapy"], capture_output=True, text=True
+    )
 
     if result.returncode == 0:
         return True, str(net_path), sys.executable
@@ -102,7 +104,9 @@ def get_missing_dependencies(python_exe: str = None) -> list:
 
     missing = []
     for package in required_packages:
-        result = subprocess.run([python_exe, "-c", f"import {package}"], capture_output=True, text=True)
+        result = subprocess.run(
+            [python_exe, "-c", f"import {package}"], capture_output=True, text=True
+        )
         if result.returncode != 0:
             missing.append(package)
 
