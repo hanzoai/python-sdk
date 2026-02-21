@@ -94,6 +94,43 @@ def api_request(method: str, path: str, **kwargs) -> httpx.Response:
         return getattr(client, method)(f"{HANZO_API_URL}{path}", headers=headers, **kwargs)
 
 
+def service_request(base_url: str, method: str, path: str, **kwargs) -> httpx.Response:
+    """Make authenticated request to a Hanzo service.
+
+    Shared utility for all service CLIs (vector, kv, search, etc).
+    Each service file defines its own SERVICE_URL and calls this.
+    """
+    api_key = get_api_key()
+    if not api_key:
+        raise click.ClickException("Not authenticated. Run 'hanzo login' first.")
+
+    headers = kwargs.pop("headers", {})
+    headers["Authorization"] = f"Bearer {api_key}"
+
+    try:
+        with httpx.Client(timeout=60) as client:
+            return getattr(client, method)(f"{base_url}{path}", headers=headers, **kwargs)
+    except httpx.ConnectError:
+        raise click.ClickException(f"Could not connect to {base_url}")
+
+
+def check_response(resp: httpx.Response) -> dict:
+    """Check API response and return JSON data or raise error."""
+    if resp.status_code >= 400:
+        try:
+            error = resp.json()
+            msg = error.get("message", error.get("error", resp.text))
+        except Exception:
+            msg = resp.text
+        raise click.ClickException(f"API error ({resp.status_code}): {msg}")
+    if resp.status_code == 204:
+        return {}
+    try:
+        return resp.json()
+    except Exception:
+        return {}
+
+
 # ============================================================================
 # Main base group
 # ============================================================================
