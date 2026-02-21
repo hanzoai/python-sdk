@@ -8,6 +8,7 @@ Usage:
     hanzo iam <subcommand>
     hanzo kms <subcommand>
     hanzo paas <subcommand>
+    hanzo k8s <subcommand | kubectl args>
 """
 
 from __future__ import annotations
@@ -117,10 +118,12 @@ def whoami() -> None:
 # =========================================================================
 
 from hanzo_cli.iam.commands import iam  # noqa: E402
+from hanzo_cli.k8s.commands import k8s  # noqa: E402
 from hanzo_cli.kms.commands import kms  # noqa: E402
 from hanzo_cli.paas.commands import deploy, paas  # noqa: E402
 
 main.add_command(iam)
+main.add_command(k8s)
 main.add_command(kms)
 main.add_command(paas)
 
