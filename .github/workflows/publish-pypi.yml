@@ -158,18 +158,24 @@ jobs:
             echo "Building and publishing $package..."
             echo "=========================================="
 
-            if [ -d "pkg/$package" ]; then
-              # Clean any previous builds
-              rm -rf "pkg/$package/dist/" "pkg/$package/build/"
-
-              # Build from repo root to avoid stdlib shadowing (hanzoai/types vs types)
-              python -m build "pkg/$package" --outdir "pkg/$package/dist"
-
-              # Upload to PyPI
-              python -m twine upload "pkg/$package/dist/"* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
+            # hanzoai is the root package, all others live under pkg/
+            if [ "$package" = "hanzoai" ]; then
+              PKG_DIR="."
+            elif [ -d "pkg/$package" ]; then
+              PKG_DIR="pkg/$package"
             else
               echo "Warning: Package directory pkg/$package does not exist, skipping"
+              continue
             fi
+
+            # Clean any previous builds
+            rm -rf "$PKG_DIR/dist/" "$PKG_DIR/build/"
+
+            # Build from repo root to avoid stdlib shadowing (hanzoai/types vs types)
+            python -m build "$PKG_DIR" --outdir "$PKG_DIR/dist"
+
+            # Upload to PyPI
+            python -m twine upload "$PKG_DIR/dist/"* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
           done
 
       - name: Create GitHub Release Notes
