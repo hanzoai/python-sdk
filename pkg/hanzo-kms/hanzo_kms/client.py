@@ -333,16 +333,19 @@ class KMSClient:
             **kwargs,
         )
 
+        payload: dict = {
+            "workspaceId": options.project_id,
+            "environment": options.environment,
+            "secretPath": options.path,
+            "secretValue": options.secret_value,
+            "type": options.type,
+        }
+        if options.secret_comment is not None:
+            payload["secretComment"] = options.secret_comment
+
         response = self.http.post(
             f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
-                "secretComment": options.secret_comment,
-                "type": options.type,
-            },
+            json=payload,
             headers=self._auth_headers(),
         )
         response.raise_for_status()
