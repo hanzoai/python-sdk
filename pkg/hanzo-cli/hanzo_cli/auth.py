@@ -13,7 +13,6 @@ import json
 import os
 import secrets
 import sys
-import threading
 import time
 import webbrowser
 from pathlib import Path
@@ -21,7 +20,7 @@ from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 import click
-from hanzo_iam import IAMClient, IAMConfig, Organization
+from hanzo_iam import IAMClient, IAMConfig
 
 TOKEN_DIR = Path.home() / ".hanzo" / "auth"
 TOKEN_FILE = TOKEN_DIR / "token.json"
@@ -70,11 +69,7 @@ def _iam_app() -> str:
 
 
 def _iam_client_id() -> str:
-    return (
-        os.getenv("IAM_CLIENT_ID")
-        or os.getenv("HANZO_IAM_CLIENT_ID")
-        or DEFAULT_CLIENT_ID
-    )
+    return os.getenv("IAM_CLIENT_ID") or os.getenv("HANZO_IAM_CLIENT_ID") or DEFAULT_CLIENT_ID
 
 
 def get_client(ctx: click.Context | None = None) -> IAMClient:
@@ -84,16 +79,8 @@ def get_client(ctx: click.Context | None = None) -> IAMClient:
     2. Stored bearer token from `hanzo login`
     3. Exit with instructions
     """
-    client_id = (
-        os.getenv("IAM_CLIENT_ID")
-        or os.getenv("HANZO_IAM_CLIENT_ID")
-        or ""
-    )
-    client_secret = (
-        os.getenv("IAM_CLIENT_SECRET")
-        or os.getenv("HANZO_IAM_CLIENT_SECRET")
-        or ""
-    )
+    client_id = os.getenv("IAM_CLIENT_ID") or os.getenv("HANZO_IAM_CLIENT_ID") or ""
+    client_secret = os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
 
     if client_id and client_secret:
         config = IAMConfig(
@@ -156,21 +143,57 @@ class _OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
 
         if "error" in qs:
             _OAuthCallbackHandler.error = qs["error"][0]
-            self._respond("Login failed. You can close this window.")
+            self._respond("Login failed. You can close this window.", success=False)
             return
 
         _OAuthCallbackHandler.code = qs.get("code", [None])[0]
         _OAuthCallbackHandler.state = qs.get("state", [None])[0]
         self._respond("Login successful! You can close this window.")
 
-    def _respond(self, message: str) -> None:
+    def _respond(self, message: str, success: bool = True) -> None:
         self.send_response(200)
         self.send_header("Content-Type", "text/html")
         self.end_headers()
-        body = (
-            f"<html><body><h2>{message}</h2>"
-            "<p>Return to your terminal.</p></body></html>"
-        )
+        accent = "#6C5CE7" if success else "#e74c3c"
+        body = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanzo</title>
+<style>
+  *{{margin:0;padding:0;box-sizing:border-box}}
+  body{{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:#0a0a0a;color:#fafafa;
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;
+  }}
+  .card{{
+    text-align:center;max-width:420px;padding:48px 32px;
+    background:#111;border:1px solid #222;border-radius:16px;
+  }}
+  .logo{{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:32px;color:#fff}}
+  .logo span{{color:{accent}}}
+  .icon{{font-size:48px;margin-bottom:20px}}
+  h2{{font-size:20px;font-weight:600;margin-bottom:8px;color:#fff}}
+  .sub{{color:#888;font-size:14px;line-height:1.5;margin-bottom:28px}}
+  .tagline{{
+    font-size:13px;color:#555;border-top:1px solid #222;
+    padding-top:20px;margin-top:8px;
+  }}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo"><span>&#x25B2;</span> hanzo</div>
+  <div class="icon">{"&#x2705;" if success else "&#x274C;"}</div>
+  <h2>{message}</h2>
+  <p class="sub">You can close this window and return to your terminal.</p>
+  <p class="tagline">Build something you love.</p>
+</div>
+</body>
+</html>"""
         self.wfile.write(body.encode())
 
     def log_message(self, format: str, *args: Any) -> None:
@@ -228,9 +251,7 @@ def browser_login(port: int = CALLBACK_PORT) -> dict[str, Any]:
     server.server_close()
 
     if _OAuthCallbackHandler.error:
-        raise click.ClickException(
-            f"Login failed: {_OAuthCallbackHandler.error}"
-        )
+        raise click.ClickException(f"Login failed: {_OAuthCallbackHandler.error}")
 
     if _OAuthCallbackHandler.state != state:
         raise click.ClickException("State mismatch — possible CSRF attack.")
@@ -281,11 +302,7 @@ def password_login(username: str | None = None, password: str | None = None) -> 
     org = _iam_org()
     app = _iam_app()
     client_id = _iam_client_id()
-    client_secret = (
-        os.getenv("IAM_CLIENT_SECRET")
-        or os.getenv("HANZO_IAM_CLIENT_SECRET")
-        or ""
-    )
+    client_secret = os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
 
     if not username:
         username = click.prompt("Username or email")
