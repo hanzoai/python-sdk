@@ -468,7 +468,7 @@ def doctor(ctx, json_output: bool):
             try:
                 ver_result = subprocess.run([cmd, "--version"], capture_output=True, text=True, timeout=5)
                 version = ver_result.stdout.strip().split("\n")[0] if ver_result.returncode == 0 else "?"
-            except:
+            except Exception:
                 version = "?"
             ai_table.add_row(name, version, path)
 

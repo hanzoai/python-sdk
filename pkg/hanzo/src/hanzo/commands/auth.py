@@ -254,7 +254,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
         }
     ).encode()
 
-    req = urllib.request.Request(
+    req = urllib.request.Request(  # noqa: S310
         token_url,
         data=token_data,
         headers={"Content-Type": "application/x-www-form-urlencoded"},
@@ -262,7 +262,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310
             data = json.loads(resp.read().decode())
     except Exception as e:
         console.print(f"[red]Token exchange failed: {e}[/red]")
@@ -310,7 +310,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
         }
     ).encode()
 
-    req = urllib.request.Request(
+    req = urllib.request.Request(  # noqa: S310
         f"{iam_url}/api/device/code",
         data=device_req_data,
         headers={"Content-Type": "application/json"},
@@ -318,7 +318,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310
             data = json.loads(resp.read().decode())
     except Exception as e:
         console.print(f"[red]Failed to request device code: {e}[/red]")
@@ -355,7 +355,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
             }
         ).encode()
 
-        poll_req = urllib.request.Request(
+        poll_req = urllib.request.Request(  # noqa: S310
             f"{iam_url}/api/login/oauth/access_token",
             data=poll_data,
             headers={"Content-Type": "application/json"},
@@ -363,7 +363,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
         )
 
         try:
-            with urllib.request.urlopen(poll_req, timeout=30) as resp:
+            with urllib.request.urlopen(poll_req, timeout=30) as resp:  # noqa: S310
                 token_data = json.loads(resp.read().decode())
 
             access_token = token_data.get("access_token", "")

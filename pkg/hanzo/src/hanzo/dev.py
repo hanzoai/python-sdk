@@ -699,7 +699,7 @@ class HanzoDevOrchestrator:
                     reward=reward,
                     groundtruth=groundtruth,
                 )
-                for response, reward in zip(responses, rewards)
+                for response, reward in zip(responses, rewards, strict=False)
             ]
 
             # Stage 1: Summarize trajectories

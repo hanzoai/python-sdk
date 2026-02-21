@@ -243,7 +243,7 @@ def install_list(installed: bool, available: bool):
                 try:
                     result = subprocess.run([binary, "--version"], capture_output=True, text=True, timeout=5)
                     version = result.stdout.strip().split()[-1] if result.returncode == 0 else "?"
-                except:
+                except Exception:
                     version = "?"
 
         if installed and not is_installed:
@@ -383,7 +383,7 @@ def _install_github_release(tool: dict, version: str, force: bool):
     # Get latest release if no version specified
     if not version:
         api_url = f"https://api.github.com/repos/{repo}/releases/latest"
-        with urllib.request.urlopen(api_url) as response:
+        with urllib.request.urlopen(api_url) as response:  # noqa: S310
             import json
 
             data = json.loads(response.read())
@@ -403,13 +403,13 @@ def _install_github_release(tool: dict, version: str, force: bool):
     # Get release assets
     api_url = f"https://api.github.com/repos/{repo}/releases/tags/v{version}"
     try:
-        with urllib.request.urlopen(api_url) as response:
+        with urllib.request.urlopen(api_url) as response:  # noqa: S310
             import json
 
             data = json.loads(response.read())
-    except:
+    except Exception:
         api_url = f"https://api.github.com/repos/{repo}/releases/tags/{version}"
-        with urllib.request.urlopen(api_url) as response:
+        with urllib.request.urlopen(api_url) as response:  # noqa: S310
             import json
 
             data = json.loads(response.read())
@@ -439,26 +439,26 @@ def _install_github_release(tool: dict, version: str, force: bool):
         archive_path = tmppath / "archive"
 
         console.print(f"  Downloading from {download_url}...")
-        urllib.request.urlretrieve(download_url, archive_path)
+        urllib.request.urlretrieve(download_url, archive_path)  # noqa: S310
 
         # Extract
         if download_url.endswith(".tar.gz") or download_url.endswith(".tgz"):
             with tarfile.open(archive_path, "r:gz") as tar:
-                tar.extractall(tmppath)
+                tar.extractall(tmppath)  # noqa: S202
         elif download_url.endswith(".zip"):
             with zipfile.ZipFile(archive_path, "r") as z:
-                z.extractall(tmppath)
+                z.extractall(tmppath)  # noqa: S202
         else:
             # Assume it's a raw binary
             shutil.copy(archive_path, install_dir / binary)
-            os.chmod(install_dir / binary, 0o755)
+            os.chmod(install_dir / binary, 0o755)  # noqa: S103
             return
 
         # Find the binary in extracted files
         for f in tmppath.rglob("*"):
             if f.is_file() and f.name == binary:
                 shutil.copy(f, install_dir / binary)
-                os.chmod(install_dir / binary, 0o755)
+                os.chmod(install_dir / binary, 0o755)  # noqa: S103
                 break
 
     ensure_path_configured()
@@ -742,7 +742,7 @@ main "$@"
     if output:
         with open(output, "w") as f:
             f.write(script)
-        os.chmod(output, 0o755)
+        os.chmod(output, 0o755)  # noqa: S103
         console.print(f"[green]✓[/green] Install script written to {output}")
     else:
         console.print(script)
@@ -773,7 +773,7 @@ def install_doctor():
                 console.print(f"  [green]✓[/green] {name}: {version}")
             else:
                 console.print(f"  [yellow]![/yellow] {name}: not found (optional)")
-        except:
+        except Exception:
             console.print(f"  [yellow]![/yellow] {name}: not found")
 
     console.print()
@@ -918,7 +918,7 @@ def install_ide(target: str, install_all: bool, list_only: bool):
                         status = (
                             "[green]✓ hanzo-mcp configured[/green]" if has_hanzo else "[yellow]○ no hanzo-mcp[/yellow]"
                         )
-                    except:
+                    except Exception:
                         status = "[dim]○ config exists[/dim]"
                     console.print(f"  [green]✓[/green] {app_name}: {status}")
                 elif parent_exists:
@@ -1122,7 +1122,7 @@ def install_all_cmd(force: bool):
                 try:
                     with open(config_path) as f:
                         config = json.load(f)
-                except:
+                except Exception:
                     config = {}
             else:
                 config = {}
@@ -1425,7 +1425,7 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
                 console.print(f"  [green]✓[/green] Python: {result.stdout.strip()}")
             else:
                 console.print("  [dim]○[/dim] Python: not installed")
-        except:
+        except Exception:
             console.print("  [dim]○[/dim] Python: not installed")
 
         # TypeScript SDK
