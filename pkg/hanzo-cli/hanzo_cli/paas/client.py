@@ -65,33 +65,8 @@ class PaaSClient:
     # -- bootstrap -----------------------------------------------------------
 
     @classmethod
-    def from_auth(cls) -> PaaSClient:
-        """Build a client, exchanging the IAM token for a PaaS session.
-
-        1. Check for a cached PaaS session
-        2. If none, exchange the IAM token via POST /v1/auth/login
-        3. Cache the PaaS session for reuse
-        """
-        base_url = os.getenv("HANZO_PAAS_URL", DEFAULT_PAAS_URL).rstrip("/")
-
-        # Try cached PaaS session first
-        session = _load_session()
-        if session and session.get("at"):
-            inst = cls(
-                base_url=base_url,
-                access_token=session["at"],
-                refresh_token=session.get("rt"),
-            )
-            # Quick health check — if 401, re-login
-            try:
-                resp = inst.http.get("/v1/cluster/setup-status")
-                if resp.status_code != 401:
-                    return inst
-            except Exception:
-                pass
-            inst.close()
-
-        # Need the IAM token
+    def _exchange_iam_token(cls, base_url: str) -> PaaSClient:
+        """Exchange the stored IAM token for a fresh PaaS session."""
         token_data = get_token_info()
         if not token_data or not token_data.get("access_token"):
             click.echo(
@@ -102,7 +77,6 @@ class PaaSClient:
 
         iam_token = token_data["access_token"]
 
-        # Exchange IAM token for PaaS session
         with httpx.Client(base_url=base_url, timeout=30.0) as tmp:
             resp = tmp.post(
                 "/v1/auth/login",
@@ -134,6 +108,35 @@ class PaaSClient:
         _save_session({"at": at, "rt": rt, "login_time": int(time.time())})
         return cls(base_url=base_url, access_token=at, refresh_token=rt)
 
+    @classmethod
+    def from_auth(cls) -> PaaSClient:
+        """Build a client, exchanging the IAM token for a PaaS session.
+
+        1. Check for a cached PaaS session (validate with authenticated endpoint)
+        2. If expired/invalid, exchange the IAM token via POST /v1/auth/login
+        3. Cache the PaaS session for reuse
+        """
+        base_url = os.getenv("HANZO_PAAS_URL", DEFAULT_PAAS_URL).rstrip("/")
+
+        # Try cached PaaS session first
+        session = _load_session()
+        if session and session.get("at"):
+            inst = cls(
+                base_url=base_url,
+                access_token=session["at"],
+                refresh_token=session.get("rt"),
+            )
+            # Validate with an authenticated endpoint
+            try:
+                resp = inst.http.get("/v1/org")
+                if resp.status_code != 401:
+                    return inst
+            except Exception:
+                pass
+            inst.close()
+
+        return cls._exchange_iam_token(base_url)
+
     @property
     def http(self) -> httpx.Client:
         if self._http is None:
@@ -159,7 +162,15 @@ class PaaSClient:
 
     # -- helpers -------------------------------------------------------------
 
-    def _ok(self, resp: httpx.Response) -> Any:
+    def _reauth(self) -> None:
+        """Re-exchange the IAM token for a fresh PaaS session."""
+        self.close()
+        fresh = self._exchange_iam_token(self._base_url)
+        self._at = fresh._at
+        self._rt = fresh._rt
+        # _http will be lazily rebuilt on next access
+
+    def _ok(self, resp: httpx.Response, *, _retried: bool = False) -> Any:
         # PaaS may return refreshed tokens in headers
         new_at = resp.headers.get("Access-Token")
         new_rt = resp.headers.get("Refresh-Token")
@@ -172,6 +183,19 @@ class PaaSClient:
             })
             # Rebuild client with new token
             self.close()
+
+        # Auto-retry on 401: re-exchange IAM token and replay the request
+        if resp.status_code == 401 and not _retried:
+            self._reauth()
+            # Replay the original request using just the path
+            req = resp.request
+            path = req.url.raw_path.decode("ascii")  # e.g. /v1/org
+            retry_resp = self.http.request(
+                method=req.method,
+                url=path,
+                content=req.content if req.content else None,
+            )
+            return self._ok(retry_resp, _retried=True)
 
         if resp.status_code >= 400:
             try:
@@ -273,11 +297,15 @@ class PaaSClient:
     def redeploy_container(
         self, org_id: str, project_id: str, env_id: str, container_id: str,
     ) -> dict[str, Any]:
-        url = (
-            f"{self._container_base(org_id, project_id, env_id)}"
-            f"/{container_id}/redeploy"
-        )
-        return self._ok(self.http.post(url))
+        """Trigger a redeploy by re-PUTting the container config.
+
+        The PaaS API doesn't expose a dedicated /redeploy endpoint.
+        Updating the container with its current config triggers a rolling restart.
+        """
+        # Fetch current config, then PUT it back to trigger redeployment
+        container = self.get_container(org_id, project_id, env_id, container_id)
+        url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}"
+        return self._ok(self.http.put(url, json=container))
 
     def get_container_pods(
         self, org_id: str, project_id: str, env_id: str, container_id: str,
