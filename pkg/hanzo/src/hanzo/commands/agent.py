@@ -55,6 +55,7 @@ def list(ctx):
     agents = []
     try:
         from hanzoai.agents import list_agents
+
         agents = list_agents()
     except ImportError:
         console.print("[dim]Install hanzo-agents for full registry support[/dim]")
@@ -100,11 +101,7 @@ async def run(ctx, agents: tuple, task: str, parallel: bool, timeout: Optional[i
         network = create_network(agents=agent_list)
 
         # Run task
-        result = (
-            await asyncio.wait_for(network.run(task), timeout=timeout)
-            if timeout
-            else await network.run(task)
-        )
+        result = await asyncio.wait_for(network.run(task), timeout=timeout) if timeout else await network.run(task)
 
     console.print("[green]Task completed![/green]")
     console.print(result)

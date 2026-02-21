@@ -8,7 +8,6 @@ Regenerate with: python scripts/generate_providers.py > hanzo_tools/api/apis_gur
 
 from typing import Any
 
-
 # =============================================================================
 # APIs.guru Provider Configurations (with oapis.org enhancements)
 # =============================================================================
@@ -294,7 +293,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "alertersystem": {
         "display_name": "Alerter System API",
-        "description": "<p>This is the <a href=\"/\">Alerter System</a> API playground. More documentation is available at the <a href=\"/help/developers/\">API Help Center</",
+        "description": '<p>This is the <a href="/">Alerter System</a> API playground. More documentation is available at the <a href="/help/developers/">API Help Center</',
         "spec_url": "https://api.apis.guru/v2/specs/alertersystem.com/1.6.0/openapi.json",
         "base_url": "https://www.alertersystem.com/api/docs.json",
         "env_vars": ["ALERTERSYSTEM_API_KEY", "ALERTERSYSTEM_TOKEN"],
@@ -804,7 +803,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "apiz-ebay-com-commerce-identity": {
         "display_name": "Identity API",
-        "description": "<span class=\"tablenote\"><b>Note:</b> Not all the account related fields are returned for an authenticated user. The fields returned in the response ",
+        "description": '<span class="tablenote"><b>Note:</b> Not all the account related fields are returned for an authenticated user. The fields returned in the response ',
         "spec_url": "https://api.apis.guru/v2/specs/apiz.ebay.com/commerce-identity/v1.1.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/commerce/identity/openapi/3/commerce_identity_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -935,7 +934,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "autodealerdata": {
         "display_name": "CIS Automotive API",
-        "description": "<div style=\"\">This API provides access to our Automotive Data. Use of this API is subject to our <a href=\"https://autodealerdata.com/tos\">Terms of",
+        "description": '<div style="">This API provides access to our Automotive Data. Use of this API is subject to our <a href="https://autodealerdata.com/tos">Terms of',
         "spec_url": "https://api.apis.guru/v2/specs/autodealerdata.com/1.0/openapi.json",
         "base_url": "https://api.autodealerdata.com/openapi.json",
         "env_vars": ["AUTODEALERDATA_API_KEY", "AUTODEALERDATA_TOKEN"],
@@ -1071,7 +1070,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "bikewise": {
         "display_name": "BikeWise API v2",
-        "description": "<p>This is an API for accessing information about bicycling related incidents. You can find the source code on <a href=\"https://github.com/bikeindex/",
+        "description": '<p>This is an API for accessing information about bicycling related incidents. You can find the source code on <a href="https://github.com/bikeindex/',
         "spec_url": "https://api.apis.guru/v2/specs/bikewise.org/v2/openapi.json",
         "base_url": "https://bikewise.org/api/v2/swagger_doc",
         "env_vars": ["BIKEWISE_API_KEY", "BIKEWISE_TOKEN"],
@@ -1528,7 +1527,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "collegefootballdata": {
         "display_name": "College Football Data API",
-        "description": "This is an API for accessing all sorts of college football data. Please note that API keys should be supplied with \"Bearer \" prepended (e.g. \"Beare",
+        "description": 'This is an API for accessing all sorts of college football data. Please note that API keys should be supplied with "Bearer " prepended (e.g. "Beare',
         "spec_url": "https://api.apis.guru/v2/specs/collegefootballdata.com/4.4.12/openapi.json",
         "base_url": "https://api.collegefootballdata.com/api-docs.json",
         "env_vars": ["COLLEGEFOOTBALLDATA_API_KEY", "COLLEGEFOOTBALLDATA_TOKEN"],
@@ -1590,7 +1589,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "core-ac-uk": {
         "display_name": "CORE API v2",
-        "description": "<p style=\"text-align: justify;\">You can use the CORE API to access the resources harvested and enriched by CORE. If you encounter any problems with ",
+        "description": '<p style="text-align: justify;">You can use the CORE API to access the resources harvested and enriched by CORE. If you encounter any problems with ',
         "spec_url": "https://api.apis.guru/v2/specs/core.ac.uk/2.0/swagger.json",
         "base_url": "http://core.ac.uk/api-v2/doc",
         "env_vars": ["CORE_AC_UK_API_KEY", "CORE_AC_UK_TOKEN"],
@@ -1914,14 +1913,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-buy-deal": {
         "display_name": "Deal API",
-        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
+        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/buy-deal/v1.3.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/buy/deal/openapi/3/buy_deal_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
     },
     "ebay-com-buy-feed": {
         "display_name": "Item Feed Service",
-        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited \" target=\"_blank\"> <i",
+        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited " target="_blank"> <i',
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/buy-feed/v1_beta.34.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/buy/feed/openapi/2/buy_feed_v1_beta_oas2.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2005,14 +2004,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-sell-listing": {
         "display_name": "Listing API",
-        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
+        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-listing/v1_beta.3.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/listing/openapi/3/sell_listing_v1_beta_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
     },
     "ebay-com-sell-logistics": {
         "display_name": "Logistics API",
-        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
+        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-logistics/v1_beta.0.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/logistics/openapi/3/sell_logistics_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2033,7 +2032,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-sell-negotiation": {
         "display_name": "Negotiation API",
-        "description": "The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an \"interest\" in their listings. ",
+        "description": 'The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an "interest" in their listings. ',
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-negotiation/v1.1.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/negotiation/openapi/3/sell_negotiation_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2309,7 +2308,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "firstinspires": {
         "display_name": "FRC Events",
-        "description": "<html><head></head><body><h1 id=\"overview\">Overview</h1> <p><em>FIRST</em>/FMS FRC Events API is a service to return relevant information about the ",
+        "description": '<html><head></head><body><h1 id="overview">Overview</h1> <p><em>FIRST</em>/FMS FRC Events API is a service to return relevant information about the ',
         "spec_url": "https://api.apis.guru/v2/specs/firstinspires.org/1.0.0/openapi.json",
         "base_url": "https://frc-api-docs.firstinspires.org/api/collections/13920602/TW6zHTEi?segregateAuth=true&versionTag=latest",
         "env_vars": ["FIRSTINSPIRES_API_KEY", "FIRSTINSPIRES_TOKEN"],
@@ -2511,7 +2510,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "geneea": {
         "display_name": "Geneea Natural Language Processing",
-        "description": "<div class=\"api-description\"> <h2>Authentication</h2> <p>For all calls, supply your API key. <a href=\"https://www.geneea.com/pricing\">Sign up to <",
+        "description": '<div class="api-description"> <h2>Authentication</h2> <p>For all calls, supply your API key. <a href="https://www.geneea.com/pricing">Sign up to <',
         "spec_url": "https://api.apis.guru/v2/specs/geneea.com/1.0/swagger.json",
         "base_url": "https://api.geneea.com/api-docs?group=s1",
         "env_vars": ["GENEEA_API_KEY", "GENEEA_TOKEN"],
@@ -2817,7 +2816,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "gsa-gov": {
         "display_name": "Discovery Market Research",
-        "description": "<p>This API drives the <a href=\"https://discovery.gsa.gov\">Discovery Market Research Tool</a>. It contains information on the vendors that are part ",
+        "description": '<p>This API drives the <a href="https://discovery.gsa.gov">Discovery Market Research Tool</a>. It contains information on the vendors that are part ',
         "spec_url": "https://api.apis.guru/v2/specs/gsa.gov/0.1/swagger.json",
         "base_url": "https://discovery.gsa.gov/docs/api-docs/",
         "env_vars": ["GSA_GOV_API_KEY", "GSA_GOV_TOKEN"],
@@ -2911,7 +2910,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "hhs-gov": {
         "display_name": "HHS Media Services API",
-        "description": "<div class=\"swagger-ui-wrap extraFooter\"><h3>Common Features / Behaviors</h3> <div class=\"features\"> <ul> <li><strong>* \"sort\" param:</strong> s",
+        "description": '<div class="swagger-ui-wrap extraFooter"><h3>Common Features / Behaviors</h3> <div class="features"> <ul> <li><strong>* "sort" param:</strong> s',
         "spec_url": "https://api.apis.guru/v2/specs/hhs.gov/2/openapi.json",
         "base_url": "https://api.digitalmedia.hhs.gov/swagger",
         "env_vars": ["HHS_GOV_API_KEY", "HHS_GOV_TOKEN"],
@@ -3685,14 +3684,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "logoraisr": {
         "display_name": "API docs | logoraisr.com",
-        "description": "<p style=\"font-size:110%;\">Dig into our logoraisr API reference documentation. We also offer an OpenAPI specification to allow easy integration into",
+        "description": '<p style="font-size:110%;">Dig into our logoraisr API reference documentation. We also offer an OpenAPI specification to allow easy integration into',
         "spec_url": "https://api.apis.guru/v2/specs/logoraisr.com/v1/openapi.json",
         "base_url": "https://docs.logoraisr.com/swagger.json",
         "env_vars": ["LOGORAISR_API_KEY", "LOGORAISR_TOKEN"],
     },
     "loket-nl": {
         "display_name": "Loket.nl API",
-        "description": "<span style=\"color:green\">**Is this your first time here? Please check out our [introduction to Loket (API)](./Introduction)**</span> **The initial ",
+        "description": '<span style="color:green">**Is this your first time here? Please check out our [introduction to Loket (API)](./Introduction)**</span> **The initial ',
         "spec_url": "https://api.apis.guru/v2/specs/loket.nl/V2/openapi.json",
         "base_url": "https://developer.loket.nl/swagger.json",
         "env_vars": ["LOKET_NL_API_KEY", "LOKET_NL_TOKEN"],
@@ -4016,56 +4015,80 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Autosuggest supplies search terms derived from a root text sent to the service. The terms Autosuggest supplies are related to the root text based on s",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-AutoSuggest/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/AutoSuggest/stable/v1.0/AutoSuggest.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-computervision": {
         "display_name": "Computer Vision Client",
         "description": "The Computer Vision API provides state-of-the-art algorithms to process images and return information. For example, it can be used to determine if an ",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-ComputerVision/2.1/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/ComputerVision/stable/v2.1/ComputerVision.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-customimagesearch": {
         "display_name": "Custom Image Search Client",
         "description": "The Bing Custom Image Search API lets you send an image search query to Bing and get back image search results customized to meet your custom search d",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-CustomImageSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomImageSearch/stable/v1.0/CustomImageSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-customsearch": {
         "display_name": "Custom Search Client",
         "description": "The Bing Custom Search API lets you send a search query to Bing and get back search results customized to meet your custom search definition.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-CustomSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomWebSearch/stable/v1.0/CustomSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-entitysearch": {
         "display_name": "Entity Search Client",
         "description": "The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaur",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-EntitySearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/EntitySearch/stable/v1.0/EntitySearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-imagesearch": {
         "display_name": "Image Search Client",
         "description": "The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the qu",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-ImageSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/ImageSearch/stable/v1.0/ImageSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-localsearch": {
         "display_name": "Local Search Client",
         "description": "The Local Search client lets you send a search query to Bing and get back search results that include local businesses such as restaurants, hotels, re",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-LocalSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/LocalSearch/stable/v1.0/LocalSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-newssearch": {
         "display_name": "News Search Client",
         "description": "The News Search API lets you send a search query to Bing and get back a list of news that are relevant to the search query. This section provides tech",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-NewsSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/NewsSearch/stable/v1.0/NewsSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-ocr": {
         "display_name": "Computer Vision Client",
@@ -4078,41 +4101,59 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "Custom Vision Prediction Client",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-Prediction/3.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomVision/Prediction/stable/v3.0/Prediction.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-spellcheck": {
         "display_name": "Spell Check Client",
         "description": "The Spell Check API - V7 lets you check a text string for spelling and grammar errors.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-SpellCheck/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/SpellCheck/stable/v1.0/SpellCheck.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-training": {
         "display_name": "Custom Vision Training Client",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-Training/3.2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomVision/Training/stable/v3.2/Training.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_TRAINING_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-videosearch": {
         "display_name": "Video Search Client",
         "description": "The Video Search API lets you search on Bing for video that are relevant to the user's search query, for insights about a video or for videos that are",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-VideoSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/VideoSearch/stable/v1.0/VideoSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-visualsearch": {
         "display_name": "Visual Search Client",
         "description": "Visual Search API lets you discover insights about an image such as visually similar images, shopping sources, and related searches. The API can also ",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-VisualSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/VisualSearch/preview/v1.0/VisualSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-cognitiveservices-websearch": {
         "display_name": "Web Search Client",
         "description": "The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-WebSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/WebSearch/stable/v1.0/WebSearch.json",
-        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_TOKEN"],
+        "env_vars": [
+            "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_API_KEY",
+            "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_TOKEN",
+        ],
     },
     "microsoft-com-graph": {
         "display_name": "OData Service for namespace microsoft.graph",
@@ -4254,7 +4295,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "nbg-gr": {
         "display_name": "Account and Transaction API Specification - UK",
-        "description": "## Functionality at a glance The NBG \"UK OPB - Account and Transaction v3.1.5\" API follows the [UK Open Banking Specification v3.1.5](https://openba",
+        "description": '## Functionality at a glance The NBG "UK OPB - Account and Transaction v3.1.5" API follows the [UK Open Banking Specification v3.1.5](https://openba',
         "spec_url": "https://api.apis.guru/v2/specs/nbg.gr/v3.1.5/openapi.json",
         "base_url": "https://developer.nbg.gr/api.gateway/publicportal/sites/default/files/2020-09/NBGSwagger-account-and_transaction_api_specification_uk-v3.1.5-swagger%20%284%29.yaml",
         "env_vars": ["NBG_GR_API_KEY", "NBG_GR_TOKEN"],
@@ -4303,14 +4344,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "neowsapp": {
         "display_name": "NeoWs - (Near Earth Object Web Service)",
-        "description": "A web service for near earth objects. All the data is from the <a href=\"http://neo.jpl.nasa.gov/\" target=\"_blank\">NASA JPL Asteroid team</a>. NeoW",
+        "description": 'A web service for near earth objects. All the data is from the <a href="http://neo.jpl.nasa.gov/" target="_blank">NASA JPL Asteroid team</a>. NeoW',
         "spec_url": "https://api.apis.guru/v2/specs/neowsapp.com/1.0/openapi.json",
         "base_url": "http://www.neowsapp.com/api-docs",
         "env_vars": ["NEOWSAPP_API_KEY", "NEOWSAPP_TOKEN"],
     },
     "netatmo": {
         "display_name": "Netatmo",
-        "description": "<h3>Welcome to the Netatmo swagger on-line documentation !</h3> This site is a complement to the official <a href=\"https://dev.netatmo.com/\">Netatmo",
+        "description": '<h3>Welcome to the Netatmo swagger on-line documentation !</h3> This site is a complement to the official <a href="https://dev.netatmo.com/">Netatmo',
         "spec_url": "https://api.apis.guru/v2/specs/netatmo.net/1.1.5/openapi.json",
         "base_url": "https://raw.githubusercontent.com/cbornet/netatmo-swagger-decl/master/spec/swagger.yaml",
         "env_vars": ["NETATMO_API_KEY", "NETATMO_TOKEN"],
@@ -4359,7 +4400,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "nexmo-com-application": {
         "display_name": "Nexmo Application API",
-        "description": "<div class=\"Vlt-callout Vlt-callout--critical\"> <i></i> <div class=\"Vlt-callout__content\"> <h4>Applications V1 is deprecated</h4> This version of ",
+        "description": '<div class="Vlt-callout Vlt-callout--critical"> <i></i> <div class="Vlt-callout__content"> <h4>Applications V1 is deprecated</h4> This version of ',
         "spec_url": "https://api.apis.guru/v2/specs/nexmo.com/application/1.0.2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/nexmo/api-specification/master/definitions/application.yml",
         "env_vars": ["NEXMO_API_KEY", "NEXMO_API_SECRET"],
@@ -4583,7 +4624,10 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Query our database of federal and state laws and incentives for alternative fuels and vehicles, air quality, fuel efficiency, and other transportation",
         "spec_url": "https://api.apis.guru/v2/specs/nrel.gov/transportation-incentives-laws/0.1.0/openapi.json",
         "base_url": "http://developer.nrel.gov/docs/transportation/transportation-incentives-laws-v1/spec.yml",
-        "env_vars": ["NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_API_KEY", "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_TOKEN"],
+        "env_vars": [
+            "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_API_KEY",
+            "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_TOKEN",
+        ],
     },
     "nrm-se-georg": {
         "display_name": "Georg API",
@@ -4793,28 +4837,40 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Swagger for Account and Transaction API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/account-info-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/account-info-openapi.yaml",
-        "env_vars": ["OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_TOKEN"],
+        "env_vars": [
+            "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_API_KEY",
+            "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_TOKEN",
+        ],
     },
     "openbanking-org-uk-confirmation-funds-openapi": {
         "display_name": "Confirmation of Funds API Specification",
         "description": "Swagger for Confirmation of Funds API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/confirmation-funds-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/confirmation-funds-openapi.yaml",
-        "env_vars": ["OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_TOKEN"],
+        "env_vars": [
+            "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_API_KEY",
+            "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_TOKEN",
+        ],
     },
     "openbanking-org-uk-event-notifications-openapi": {
         "display_name": "Event Notification API Specification - TPP Endpoints",
         "description": "Swagger for Event Notification API Specification - TPP Endpoints",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/event-notifications-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/event-notifications-openapi.yaml",
-        "env_vars": ["OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_TOKEN"],
+        "env_vars": [
+            "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_API_KEY",
+            "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_TOKEN",
+        ],
     },
     "openbanking-org-uk-payment-initiation-openapi": {
         "display_name": "Payment Initiation API",
         "description": "Swagger for Payment Initiation API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/payment-initiation-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/payment-initiation-openapi.yaml",
-        "env_vars": ["OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_TOKEN"],
+        "env_vars": [
+            "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_API_KEY",
+            "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_TOKEN",
+        ],
     },
     "openbankingproject-ch": {
         "display_name": "Swiss NextGen Banking API-Framework",
@@ -5572,7 +5628,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "rumble-run": {
         "display_name": "Rumble API (deprecated)",
-        "description": "<p><b><i>Rumble Network Discovery is now runZero. <a href=\"https://www.runzero.com/blog/introducing-runzero/\">Read the announcement</a></i></b>.</p>",
+        "description": '<p><b><i>Rumble Network Discovery is now runZero. <a href="https://www.runzero.com/blog/introducing-runzero/">Read the announcement</a></i></b>.</p>',
         "spec_url": "https://api.apis.guru/v2/specs/rumble.run/2.15.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/RumbleDiscovery/rumble-api/main/rumble-api.yml",
         "env_vars": ["RUMBLE_RUN_API_KEY", "RUMBLE_RUN_TOKEN"],
@@ -6881,7 +6937,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "unicourt": {
         "display_name": "UniCourt Enterprise APIs",
-        "description": "<button><a href=\"/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml\" >Download UniCourt Enterprise APIs Specification</a></button>",
+        "description": '<button><a href="/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml" >Download UniCourt Enterprise APIs Specification</a></button>',
         "spec_url": "https://api.apis.guru/v2/specs/unicourt.com/1.0.0/openapi.json",
         "base_url": "https://docs.unicourt.com/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml",
         "env_vars": ["UNICOURT_API_KEY", "UNICOURT_TOKEN"],
@@ -7318,7 +7374,10 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "API for issuers to save and manage Google Wallet Objects.",
         "spec_url": "https://api.apis.guru/v2/specs/walletobjects.googleapis.com/pay-passes/v1/openapi.json",
         "base_url": "https://walletobjects.googleapis.com/$discovery/rest?version=v1",
-        "env_vars": ["WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_API_KEY", "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_TOKEN"],
+        "env_vars": [
+            "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_API_KEY",
+            "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_TOKEN",
+        ],
     },
     "walmart-com-inventory": {
         "display_name": "Inventory Management",
@@ -7652,7 +7711,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "zapier-com-nla": {
         "display_name": "Zapier Natural Language Actions (NLA) API - Beta",
-        "description": "<img src=\"https://cdn.zappy.app/945f9bf9e44126873952ec5113949c3f.png\" width=\"100\" /> ## Hi, there! Welcome to the **Zapier Natural Language Action",
+        "description": '<img src="https://cdn.zappy.app/945f9bf9e44126873952ec5113949c3f.png" width="100" /> ## Hi, there! Welcome to the **Zapier Natural Language Action',
         "spec_url": "https://api.apis.guru/v2/specs/zapier.com/nla/1.0.0/openapi.json",
         "base_url": "https://nla.zapier.com/api/v1/openapi.json",
         "env_vars": ["ZAPIER_COM_NLA_API_KEY", "ZAPIER_COM_NLA_TOKEN"],

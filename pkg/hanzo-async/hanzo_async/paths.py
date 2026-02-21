@@ -14,7 +14,7 @@ For file content operations (read/write), use hanzo_async.files which wraps aiof
 import os
 import asyncio
 from glob import glob as sync_glob
-from typing import List, Optional, Union
+from typing import List, Union, Optional
 from pathlib import Path
 
 
@@ -166,6 +166,7 @@ async def glob(
     Returns:
         List of matching paths
     """
+
     def _glob():
         if root_dir:
             old_cwd = os.getcwd()
@@ -208,6 +209,7 @@ async def copy(src: Union[str, Path], dst: Union[str, Path]) -> None:
         PermissionError: If permission denied
     """
     import shutil
+
     await _run_in_executor(shutil.copy2, str(src), str(dst))
 
 

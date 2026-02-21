@@ -17,30 +17,31 @@ import re
 import json
 import fnmatch
 import hashlib
-import aiofiles
-from typing import Any, Optional, ClassVar
+from enum import Enum
+from typing import Any, ClassVar, Optional
 from pathlib import Path
 from datetime import datetime
-from dataclasses import dataclass, field
-from enum import Enum
+from dataclasses import field, dataclass
 
+import aiofiles
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
+    Paging,
     BaseTool,
-    PermissionManager,
     ConflictError,
     NotFoundError,
+    PermissionManager,
     InvalidParamsError,
-    Paging,
-    content_hash,
     file_uri,
+    content_hash,
 )
 
 
 class PatchOp(str, Enum):
     """Patch operation type (Rust parity)."""
+
     ADD = "add"
     UPDATE = "update"
     DELETE = "delete"
@@ -49,6 +50,7 @@ class PatchOp(str, Enum):
 @dataclass
 class PatchHunk:
     """A single hunk in a patch (Rust parity)."""
+
     context: str = ""  # @@ header context
     old_lines: list[str] = field(default_factory=list)
     new_lines: list[str] = field(default_factory=list)
@@ -57,6 +59,7 @@ class PatchHunk:
 @dataclass
 class PatchFile:
     """A single file operation in a patch (Rust parity)."""
+
     op: PatchOp
     path: str
     hunks: list[PatchHunk] = field(default_factory=list)
@@ -254,7 +257,7 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 # Apply offset/limit by lines
                 lines = content.splitlines(keepends=True)
                 total_lines = len(lines)
-                selected = lines[offset:offset + limit]
+                selected = lines[offset : offset + limit]
 
                 # Format with line numbers
                 output_lines = []
@@ -394,12 +397,14 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                             continue
 
                         rel_path = entry.relative_to(path)
-                        entries.append({
-                            "name": str(rel_path),
-                            "uri": file_uri(str(entry)),
-                            "is_dir": entry.is_dir(),
-                            "size": entry.stat().st_size if entry.is_file() else None,
-                        })
+                        entries.append(
+                            {
+                                "name": str(rel_path),
+                                "uri": file_uri(str(entry)),
+                                "is_dir": entry.is_dir(),
+                                "size": entry.stat().st_size if entry.is_file() else None,
+                            }
+                        )
                         count += 1
 
                         if entry.is_dir() and current_depth < depth:
@@ -420,7 +425,7 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                     "cursor": next_cursor,
                     "more": has_more,
                     "total": total,
-                }
+                },
             }
 
         @self.action("apply_patch", "Edit file with precondition")
@@ -563,12 +568,14 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                         async with aiofiles.open(path, "w", encoding="utf-8") as f:
                             await f.write(pf.content)
 
-                        results.append({
-                            "op": "add",
-                            "path": str(path),
-                            "hash": self._compute_hash(pf.content),
-                            "success": True,
-                        })
+                        results.append(
+                            {
+                                "op": "add",
+                                "path": str(path),
+                                "hash": self._compute_hash(pf.content),
+                                "success": True,
+                            }
+                        )
 
                     elif pf.op == PatchOp.UPDATE:
                         # Update existing file
@@ -592,38 +599,46 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                         async with aiofiles.open(path, "w", encoding="utf-8") as f:
                             await f.write(content)
 
-                        results.append({
-                            "op": "update",
-                            "path": str(path),
-                            "hash": self._compute_hash(content),
-                            "hunks_applied": len(pf.hunks),
-                            "success": True,
-                        })
+                        results.append(
+                            {
+                                "op": "update",
+                                "path": str(path),
+                                "hash": self._compute_hash(content),
+                                "hunks_applied": len(pf.hunks),
+                                "success": True,
+                            }
+                        )
 
                     elif pf.op == PatchOp.DELETE:
                         # Delete file
                         if not path.exists():
-                            results.append({
-                                "op": "delete",
-                                "path": str(path),
-                                "success": True,
-                                "message": "File already deleted",
-                            })
+                            results.append(
+                                {
+                                    "op": "delete",
+                                    "path": str(path),
+                                    "success": True,
+                                    "message": "File already deleted",
+                                }
+                            )
                         else:
                             path.unlink()
-                            results.append({
-                                "op": "delete",
-                                "path": str(path),
-                                "success": True,
-                            })
+                            results.append(
+                                {
+                                    "op": "delete",
+                                    "path": str(path),
+                                    "success": True,
+                                }
+                            )
 
                 except Exception as e:
-                    results.append({
-                        "op": pf.op.value,
-                        "path": str(path),
-                        "success": False,
-                        "error": str(e),
-                    })
+                    results.append(
+                        {
+                            "op": pf.op.value,
+                            "path": str(path),
+                            "success": False,
+                            "error": str(e),
+                        }
+                    )
 
             return {
                 "results": results,
@@ -680,11 +695,13 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                         data = json.loads(line)
                         if data.get("type") == "match":
                             match_data = data["data"]
-                            matches.append({
-                                "uri": file_uri(match_data["path"]["text"]),
-                                "line": match_data["line_number"],
-                                "text": match_data["lines"]["text"].strip(),
-                            })
+                            matches.append(
+                                {
+                                    "uri": file_uri(match_data["path"]["text"]),
+                                    "line": match_data["line_number"],
+                                    "text": match_data["lines"]["text"].strip(),
+                                }
+                            )
                     except json.JSONDecodeError:
                         continue
 
@@ -702,11 +719,13 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                             async for line in f:
                                 line_num += 1
                                 if regex.search(line):
-                                    matches.append({
-                                        "uri": file_uri(str(file_path)),
-                                        "line": line_num,
-                                        "text": line.strip()[:200],
-                                    })
+                                    matches.append(
+                                        {
+                                            "uri": file_uri(str(file_path)),
+                                            "line": line_num,
+                                            "text": line.strip()[:200],
+                                        }
+                                    )
                                     if len(matches) >= limit:
                                         return
                     except (PermissionError, IsADirectoryError):
@@ -731,7 +750,7 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 "paging": {
                     "cursor": next_cursor,
                     "more": has_more,
-                }
+                },
             }
 
         @self.action("mkdir", "Create directory")
@@ -774,6 +793,7 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 path.unlink()
             else:
                 import shutil
+
                 shutil.rmtree(path)
 
             return {"uri": file_uri(str(path)), "removed": True}

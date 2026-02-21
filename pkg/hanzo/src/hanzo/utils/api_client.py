@@ -7,13 +7,12 @@ the PaaS platform API (platform.hanzo.ai).
 import os
 import json
 import time
-from pathlib import Path
 from typing import Optional
+from pathlib import Path
 
 import httpx
 
 from .output import console
-
 
 PLATFORM_API_URL = os.getenv(
     "PLATFORM_API_URL",
@@ -29,6 +28,7 @@ SESSION_FILE = Path.home() / ".hanzo" / "paas_session.json"
 # Auth helpers
 # ---------------------------------------------------------------------------
 
+
 def get_iam_token() -> Optional[str]:
     """Get IAM bearer token from env or ~/.hanzo/auth.json."""
     token = os.getenv("HANZO_TOKEN") or os.getenv("HANZO_API_KEY")
@@ -39,11 +39,7 @@ def get_iam_token() -> Optional[str]:
         try:
             auth = json.loads(AUTH_FILE.read_text())
             # CLI login stores flat "token", worker/IAM stores nested "tokens.access_token"
-            return (
-                auth.get("token")
-                or auth.get("api_key")
-                or auth.get("tokens", {}).get("access_token")
-            )
+            return auth.get("token") or auth.get("api_key") or auth.get("tokens", {}).get("access_token")
         except Exception:
             pass
     return None
@@ -145,6 +141,7 @@ def _require_token() -> str:
 # Context helpers  (org / project / env selection)
 # ---------------------------------------------------------------------------
 
+
 def load_context() -> dict:
     """Load active org/project/env context from ~/.hanzo/context.json."""
     if CONTEXT_FILE.exists():
@@ -177,6 +174,7 @@ def require_context(fields: tuple = ("org_id", "project_id", "env_id")) -> dict:
 # ---------------------------------------------------------------------------
 # URL builders
 # ---------------------------------------------------------------------------
+
 
 def container_url(
     org_id: str,
@@ -228,6 +226,7 @@ def git_url(provider_id: Optional[str] = None) -> str:
 # Response helpers
 # ---------------------------------------------------------------------------
 
+
 def extract_list(data, key: str) -> list:
     """Extract list from API response (handles both direct lists and wrapped objects)."""
     if isinstance(data, list):
@@ -253,6 +252,7 @@ def find_container(client, base_url: str, name: str):
 # ---------------------------------------------------------------------------
 # PaaS HTTP client
 # ---------------------------------------------------------------------------
+
 
 class PaaSClient:
     """HTTP client for PaaS API with auto session management."""
@@ -293,12 +293,14 @@ class PaaSClient:
                     self.token = new_at
                     if new_rt:
                         self._refresh_token = new_rt
-                    _save_session({
-                        "access_token": new_at,
-                        "refresh_token": self._refresh_token,
-                        "created_at": time.time(),
-                        "platform_url": PLATFORM_API_URL,
-                    })
+                    _save_session(
+                        {
+                            "access_token": new_at,
+                            "refresh_token": self._refresh_token,
+                            "created_at": time.time(),
+                            "platform_url": PLATFORM_API_URL,
+                        }
+                    )
 
                 # On 401, try re-auth once
                 if resp.status_code == 401:

@@ -5,8 +5,8 @@ Build and deploy LLM applications with a visual interface (Langflow-compatible).
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -43,6 +43,7 @@ def flow_group():
 # ============================================================================
 # Flow Management
 # ============================================================================
+
 
 @flow_group.command(name="create")
 @click.argument("name")
@@ -86,17 +87,19 @@ def flow_list(status: str):
 @click.argument("name")
 def flow_describe(name: str):
     """Show flow details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Status:[/cyan] [green]● Deployed[/green]\n"
-        f"[cyan]Components:[/cyan] 5\n"
-        f"[cyan]Endpoint:[/cyan] https://flow.hanzo.ai/{name}\n"
-        f"[cyan]API Key:[/cyan] ****\n"
-        f"[cyan]Calls (24h):[/cyan] 1,234\n"
-        f"[cyan]Avg Latency:[/cyan] 850ms",
-        title="Flow Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Status:[/cyan] [green]● Deployed[/green]\n"
+            f"[cyan]Components:[/cyan] 5\n"
+            f"[cyan]Endpoint:[/cyan] https://flow.hanzo.ai/{name}\n"
+            f"[cyan]API Key:[/cyan] ****\n"
+            f"[cyan]Calls (24h):[/cyan] 1,234\n"
+            f"[cyan]Avg Latency:[/cyan] 850ms",
+            title="Flow Details",
+            border_style="cyan",
+        )
+    )
 
 
 @flow_group.command(name="run")
@@ -130,6 +133,7 @@ def flow_delete(name: str, force: bool):
     """Delete a flow."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete flow '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Flow '{name}' deleted")
@@ -157,6 +161,7 @@ def flow_import(file: str, name: str):
 # ============================================================================
 # Components
 # ============================================================================
+
 
 @flow_group.group()
 def components():
@@ -227,20 +232,23 @@ def components_list(category: str, search: str):
 @click.argument("name")
 def components_describe(name: str):
     """Show component details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Category:[/cyan] LLMs\n"
-        f"[cyan]Inputs:[/cyan] prompt, model, temperature\n"
-        f"[cyan]Outputs:[/cyan] text, tokens_used\n"
-        f"[cyan]Config:[/cyan] api_key, max_tokens",
-        title="Component Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Category:[/cyan] LLMs\n"
+            f"[cyan]Inputs:[/cyan] prompt, model, temperature\n"
+            f"[cyan]Outputs:[/cyan] text, tokens_used\n"
+            f"[cyan]Config:[/cyan] api_key, max_tokens",
+            title="Component Details",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Custom Components
 # ============================================================================
+
 
 @flow_group.group()
 def custom():
@@ -282,6 +290,7 @@ def custom_publish(name: str):
 # Development
 # ============================================================================
 
+
 @flow_group.command(name="dev")
 @click.option("--port", "-p", default=7860, help="Port to run on")
 @click.option("--flow", "-f", help="Open specific flow")
@@ -317,6 +326,7 @@ def flow_undeploy(name: str):
 # ============================================================================
 # API Management
 # ============================================================================
+
 
 @flow_group.group()
 def api():
@@ -372,6 +382,7 @@ def api_test(flow_name: str, input_data: str):
 # Playground
 # ============================================================================
 
+
 @flow_group.command(name="playground")
 @click.argument("name")
 @click.option("--port", "-p", default=7861, help="Port")
@@ -384,6 +395,7 @@ def flow_playground(name: str, port: int):
 # ============================================================================
 # Templates
 # ============================================================================
+
 
 @flow_group.group()
 def templates():
@@ -432,6 +444,7 @@ def templates_use(template: str, name: str):
 # ============================================================================
 # Versions & History
 # ============================================================================
+
 
 @flow_group.command(name="versions")
 @click.argument("name")

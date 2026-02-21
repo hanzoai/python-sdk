@@ -5,8 +5,8 @@ This script updates test files to use the new test_utils infrastructure.
 """
 
 import re
-from typing import List
 from pathlib import Path
+from typing import List
 
 # Patterns to replace
 REPLACEMENTS = [
@@ -53,7 +53,9 @@ def migrate_file(file_path: Path, dry_run: bool = False) -> bool:
 
     # Apply replacements
     for pattern, replacement in REPLACEMENTS:
-        new_content = re.sub(pattern, replacement, content, flags=re.MULTILINE | re.DOTALL)
+        new_content = re.sub(
+            pattern, replacement, content, flags=re.MULTILINE | re.DOTALL
+        )
         if new_content != content:
             content = new_content
             modified = True
@@ -81,8 +83,14 @@ def migrate_file(file_path: Path, dry_run: bool = False) -> bool:
         import_section_done = False
         for line in other_lines:
             new_lines.append(line)
-            if not import_section_done and line.startswith("import ") or line.startswith("from "):
-                if not other_lines[other_lines.index(line) + 1].startswith(("import ", "from ")):
+            if (
+                not import_section_done
+                and line.startswith("import ")
+                or line.startswith("from ")
+            ):
+                if not other_lines[other_lines.index(line) + 1].startswith(
+                    ("import ", "from ")
+                ):
                     new_lines.extend(import_lines)
                     import_section_done = True
 
@@ -102,7 +110,11 @@ def migrate_file(file_path: Path, dry_run: bool = False) -> bool:
                 fromfile=str(file_path),
                 tofile=str(file_path),
             )
-            print("".join(diff)[:1000] + "..." if len("".join(diff)) > 1000 else "".join(diff))
+            print(
+                "".join(diff)[:1000] + "..."
+                if len("".join(diff)) > 1000
+                else "".join(diff)
+            )
         else:
             with open(file_path, "w") as f:
                 f.write(content)

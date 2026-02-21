@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -268,13 +268,16 @@ class DeviceResourceWithRawResponse:
     def __init__(self, device: DeviceResource) -> None:
         self._device = device
 
+
 class AsyncDeviceResourceWithRawResponse:
     def __init__(self, device: AsyncDeviceResource) -> None:
         self._device = device
 
+
 class DeviceResourceWithStreamingResponse:
     def __init__(self, device: DeviceResource) -> None:
         self._device = device
+
 
 class AsyncDeviceResourceWithStreamingResponse:
     def __init__(self, device: AsyncDeviceResource) -> None:

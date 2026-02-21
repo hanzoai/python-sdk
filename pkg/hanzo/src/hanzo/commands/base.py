@@ -22,11 +22,10 @@ import httpx
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
+from rich.prompt import Prompt, Confirm
 from rich.syntax import Syntax
-from rich.prompt import Confirm, Prompt
 
 from ..utils.output import console
-
 
 HANZO_API_URL = os.getenv("HANZO_API_URL", "https://api.hanzo.ai")
 HANZO_BASE_URL = os.getenv("HANZO_BASE_URL", "https://base.hanzo.ai")
@@ -50,6 +49,7 @@ def get_project_config() -> dict:
     config_file = Path.cwd() / "hanzo" / "config.toml"
     if config_file.exists():
         import tomllib
+
         return tomllib.loads(config_file.read_text())
     return {}
 
@@ -69,11 +69,16 @@ def save_linked_project(project_id: str, project_name: str):
     """Save linked project."""
     link_dir = Path.cwd() / ".hanzo"
     link_dir.mkdir(exist_ok=True)
-    (link_dir / "project.json").write_text(json.dumps({
-        "project_id": project_id,
-        "project_name": project_name,
-        "linked_at": datetime.utcnow().isoformat(),
-    }, indent=2))
+    (link_dir / "project.json").write_text(
+        json.dumps(
+            {
+                "project_id": project_id,
+                "project_name": project_name,
+                "linked_at": datetime.utcnow().isoformat(),
+            },
+            indent=2,
+        )
+    )
 
 
 def api_request(method: str, path: str, **kwargs) -> httpx.Response:
@@ -86,16 +91,13 @@ def api_request(method: str, path: str, **kwargs) -> httpx.Response:
     headers["Authorization"] = f"Bearer {api_key}"
 
     with httpx.Client(timeout=60) as client:
-        return getattr(client, method)(
-            f"{HANZO_API_URL}{path}",
-            headers=headers,
-            **kwargs
-        )
+        return getattr(client, method)(f"{HANZO_API_URL}{path}", headers=headers, **kwargs)
 
 
 # ============================================================================
 # Main base group
 # ============================================================================
+
 
 @click.group(name="base")
 def base_group():
@@ -149,6 +151,7 @@ def base_group():
 # ============================================================================
 # Project management
 # ============================================================================
+
 
 @base_group.command()
 @click.option("--name", prompt="Project name", help="Project name")
@@ -217,19 +220,19 @@ enabled = false
     (project_dir / "config.toml").write_text(config)
 
     # Create seed.sql
-    (project_dir / "seed" / "seed.sql").write_text('''-- Seed data for development
+    (project_dir / "seed" / "seed.sql").write_text("""-- Seed data for development
 -- Add your seed data here
 
 -- Example:
 -- INSERT INTO public.profiles (id, username) VALUES
 --   ('00000000-0000-0000-0000-000000000001', 'alice'),
 --   ('00000000-0000-0000-0000-000000000002', 'bob');
-''')
+""")
 
     # Create initial migration
     migration_dir = project_dir / "migrations" / "00000000000000_init"
     migration_dir.mkdir(exist_ok=True)
-    (migration_dir / "up.sql").write_text('''-- Initial schema
+    (migration_dir / "up.sql").write_text("""-- Initial schema
 -- Enable extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -256,12 +259,12 @@ CREATE POLICY "Public profiles are viewable by everyone"
 CREATE POLICY "Users can update own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = id);
-''')
+""")
 
     # Create example function
     func_dir = project_dir / "functions" / "hello"
     func_dir.mkdir(exist_ok=True)
-    (func_dir / "index.ts").write_text('''import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+    (func_dir / "index.ts").write_text("""import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 serve(async (req) => {
   const { name } = await req.json()
@@ -274,7 +277,7 @@ serve(async (req) => {
     { headers: { "Content-Type": "application/json" } },
   )
 })
-''')
+""")
 
     # Create .gitignore
     gitignore = Path.cwd() / ".gitignore"
@@ -347,7 +350,7 @@ def start():
 
     if not compose_file.exists():
         # Generate docker-compose.yml
-        compose_content = '''version: "3.8"
+        compose_content = """version: "3.8"
 services:
   db:
     image: supabase/postgres:15.1.0.117
@@ -423,7 +426,7 @@ services:
 
 volumes:
   db-data:
-'''
+"""
         compose_file.write_text(compose_content)
 
     console.print("  Starting PostgreSQL...")
@@ -486,6 +489,7 @@ def status():
 # ============================================================================
 # Database commands
 # ============================================================================
+
 
 @base_group.group()
 def db():
@@ -631,6 +635,7 @@ def migrations_down(target: Optional[str]):
 # Auth commands
 # ============================================================================
 
+
 @base_group.group()
 def auth():
     """Manage authentication."""
@@ -726,6 +731,7 @@ def providers():
 # Storage commands
 # ============================================================================
 
+
 @base_group.group()
 def storage():
     """Manage file storage."""
@@ -819,6 +825,7 @@ def objects_delete(bucket: str, path: str):
 # Realtime commands
 # ============================================================================
 
+
 @base_group.group()
 def realtime():
     """Manage realtime subscriptions."""
@@ -846,15 +853,17 @@ def realtime_channels():
 @click.argument("channel")
 def realtime_inspect(channel: str):
     """Inspect a realtime channel."""
-    console.print(Panel(
-        f"[cyan]Channel:[/cyan] {channel}\n"
-        f"[cyan]Type:[/cyan] broadcast\n"
-        f"[cyan]Subscribers:[/cyan] 12\n"
-        f"[cyan]Created:[/cyan] 2024-01-15 10:30:00\n"
-        f"[cyan]Messages/min:[/cyan] 2,700",
-        title="Channel Details",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Channel:[/cyan] {channel}\n"
+            f"[cyan]Type:[/cyan] broadcast\n"
+            f"[cyan]Subscribers:[/cyan] 12\n"
+            f"[cyan]Created:[/cyan] 2024-01-15 10:30:00\n"
+            f"[cyan]Messages/min:[/cyan] 2,700",
+            title="Channel Details",
+            border_style="cyan",
+        )
+    )
 
 
 @realtime.command(name="broadcast")
@@ -870,6 +879,7 @@ def realtime_broadcast(channel: str, event: str, payload: Optional[str]):
 # ============================================================================
 # Functions commands
 # ============================================================================
+
 
 @base_group.group()
 def functions():
@@ -902,7 +912,7 @@ def functions_new(name: str):
     func_dir = Path.cwd() / "hanzo" / "functions" / name
     func_dir.mkdir(parents=True, exist_ok=True)
 
-    (func_dir / "index.ts").write_text(f'''import {{ serve }} from "https://deno.land/std@0.168.0/http/server.ts"
+    (func_dir / "index.ts").write_text(f"""import {{ serve }} from "https://deno.land/std@0.168.0/http/server.ts"
 
 serve(async (req) => {{
   const data = {{
@@ -914,7 +924,7 @@ serve(async (req) => {{
     {{ headers: {{ "Content-Type": "application/json" }} }},
   )
 }})
-''')
+""")
 
     console.print(f"[green]✓ Created function: {name}[/green]")
     console.print(f"  Edit: hanzo/functions/{name}/index.ts")
@@ -957,6 +967,7 @@ def functions_delete(name: str):
 # Secrets commands
 # ============================================================================
 
+
 @base_group.group()
 def secrets():
     """Manage secrets and environment variables."""
@@ -995,6 +1006,7 @@ def secrets_unset(name: str):
 # ============================================================================
 # Projects commands
 # ============================================================================
+
 
 @base_group.group()
 def projects():
@@ -1054,6 +1066,7 @@ def projects_delete(project_id: str):
 # Organizations commands
 # ============================================================================
 
+
 @base_group.group()
 def orgs():
     """Manage organizations."""
@@ -1076,6 +1089,7 @@ def orgs_list():
 # ============================================================================
 # Generate commands
 # ============================================================================
+
 
 @base_group.group()
 def gen():
@@ -1112,6 +1126,7 @@ def gen_keys():
 # Studio command
 # ============================================================================
 
+
 @base_group.command()
 def studio():
     """Open Hanzo Base Studio in browser."""
@@ -1130,6 +1145,7 @@ def studio():
 # ============================================================================
 # Commerce commands (Hanzo extension)
 # ============================================================================
+
 
 @base_group.group()
 def commerce():
@@ -1195,32 +1211,37 @@ def orders_list(status: Optional[str]):
 @click.argument("order_id")
 def orders_show(order_id: str):
     """Show order details."""
-    console.print(Panel(
-        f"[cyan]Order ID:[/cyan] {order_id}\n"
-        f"[cyan]Status:[/cyan] Pending\n"
-        f"[cyan]Total:[/cyan] $99.00\n"
-        f"[cyan]Items:[/cyan] 2",
-        title="Order Details",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Order ID:[/cyan] {order_id}\n"
+            f"[cyan]Status:[/cyan] Pending\n"
+            f"[cyan]Total:[/cyan] $99.00\n"
+            f"[cyan]Items:[/cyan] 2",
+            title="Order Details",
+            border_style="cyan",
+        )
+    )
 
 
 @commerce.command(name="checkout")
 def commerce_checkout():
     """Show checkout configuration."""
-    console.print(Panel(
-        "[cyan]Checkout URL:[/cyan] https://checkout.hanzo.ai/xxx\n"
-        "[cyan]Success URL:[/cyan] https://example.com/success\n"
-        "[cyan]Cancel URL:[/cyan] https://example.com/cancel\n"
-        "[cyan]Payment Methods:[/cyan] card, apple_pay, google_pay",
-        title="Checkout Configuration",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            "[cyan]Checkout URL:[/cyan] https://checkout.hanzo.ai/xxx\n"
+            "[cyan]Success URL:[/cyan] https://example.com/success\n"
+            "[cyan]Cancel URL:[/cyan] https://example.com/cancel\n"
+            "[cyan]Payment Methods:[/cyan] card, apple_pay, google_pay",
+            title="Checkout Configuration",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Analytics commands (Hanzo extension)
 # ============================================================================
+
 
 @base_group.group()
 def analytics():

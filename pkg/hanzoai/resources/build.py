@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -348,13 +348,16 @@ class BuildResourceWithRawResponse:
     def __init__(self, build: BuildResource) -> None:
         self._build = build
 
+
 class AsyncBuildResourceWithRawResponse:
     def __init__(self, build: AsyncBuildResource) -> None:
         self._build = build
 
+
 class BuildResourceWithStreamingResponse:
     def __init__(self, build: BuildResource) -> None:
         self._build = build
+
 
 class AsyncBuildResourceWithStreamingResponse:
     def __init__(self, build: AsyncBuildResource) -> None:

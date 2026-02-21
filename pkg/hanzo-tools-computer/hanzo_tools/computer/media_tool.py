@@ -29,17 +29,17 @@ Environment configuration:
 - HANZO_MEDIA_ACTIVITY_THRESHOLD: Activity detection sensitivity (default: 0.02)
 """
 
-import os
 import io
+import os
 import sys
 import json
 import base64
 import asyncio
 import hashlib
 import mimetypes
+from typing import Any, Union, Literal, Optional, Annotated, final, override
 from pathlib import Path
-from typing import Any, Literal, Optional, Annotated, final, override, Union
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 from concurrent.futures import ThreadPoolExecutor
 
 from pydantic import Field
@@ -129,6 +129,7 @@ class MediaLimits:
 @dataclass
 class MediaResult:
     """Result of media processing."""
+
     success: bool
     images: list[dict] = field(default_factory=list)
     total_size: int = 0
@@ -153,13 +154,13 @@ def _get_image_info(data: bytes) -> dict:
     info = {"size": len(data), "format": "unknown"}
 
     # Detect format from magic bytes
-    if data[:8] == b'\x89PNG\r\n\x1a\n':
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
         info["format"] = "png"
-    elif data[:2] == b'\xff\xd8':
+    elif data[:2] == b"\xff\xd8":
         info["format"] = "jpeg"
-    elif data[:6] in (b'GIF87a', b'GIF89a'):
+    elif data[:6] in (b"GIF87a", b"GIF89a"):
         info["format"] = "gif"
-    elif data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+    elif data[:4] == b"RIFF" and data[8:12] == b"WEBP":
         info["format"] = "webp"
 
     return info
@@ -200,15 +201,15 @@ def _resize_image(
     # Convert to JPEG if requested or if PNG is too large
     if force_jpeg or (output_format == "PNG" and len(data) > 500_000):
         output_format = "JPEG"
-        if img.mode in ('RGBA', 'P', 'LA'):
+        if img.mode in ("RGBA", "P", "LA"):
             # Convert transparency to white background
-            background = Image.new('RGB', img.size, (255, 255, 255))
-            if img.mode == 'P':
-                img = img.convert('RGBA')
-            background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+            background = Image.new("RGB", img.size, (255, 255, 255))
+            if img.mode == "P":
+                img = img.convert("RGBA")
+            background.paste(img, mask=img.split()[-1] if img.mode in ("RGBA", "LA") else None)
             img = background
-        elif img.mode != 'RGB':
-            img = img.convert('RGB')
+        elif img.mode != "RGB":
+            img = img.convert("RGB")
 
     # Save to buffer
     buffer = io.BytesIO()
@@ -225,8 +226,8 @@ def _resize_image(
         img.save(buffer, format=output_format, **save_kwargs)
     except Exception:
         # Fallback to JPEG
-        if img.mode != 'RGB':
-            img = img.convert('RGB')
+        if img.mode != "RGB":
+            img = img.convert("RGB")
         img.save(buffer, format="JPEG", quality=quality, optimize=True)
         output_format = "JPEG"
 
@@ -249,17 +250,21 @@ def _extract_video_frames(
     max_size: int = 768,
 ) -> list[tuple[bytes, dict]]:
     """Extract frames from video file."""
-    import subprocess
     import tempfile
+    import subprocess
 
     frames = []
 
     # Get video duration
     probe_cmd = [
-        "ffprobe", "-v", "error",
-        "-show_entries", "format=duration",
-        "-of", "default=noprint_wrappers=1:nokey=1",
-        video_path
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        video_path,
     ]
 
     try:
@@ -282,13 +287,19 @@ def _extract_video_frames(
 
         try:
             cmd = [
-                "ffmpeg", "-y",
-                "-ss", str(timestamp),
-                "-i", video_path,
-                "-frames:v", "1",
-                "-vf", f"scale='min({max_size},iw)':min'({max_size},ih)':force_original_aspect_ratio=decrease",
-                "-q:v", "2",
-                tmp_path
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(timestamp),
+                "-i",
+                video_path,
+                "-frames:v",
+                "1",
+                "-vf",
+                f"scale='min({max_size},iw)':min'({max_size},ih)':force_original_aspect_ratio=decrease",
+                "-q:v",
+                "2",
+                tmp_path,
             ]
 
             subprocess.run(cmd, capture_output=True, timeout=10)
@@ -296,12 +307,17 @@ def _extract_video_frames(
             if os.path.exists(tmp_path) and os.path.getsize(tmp_path) > 0:
                 with open(tmp_path, "rb") as f:
                     data = f.read()
-                frames.append((data, {
-                    "timestamp_ms": int(timestamp * 1000),
-                    "frame_index": i,
-                    "size": len(data),
-                    "format": "jpeg",
-                }))
+                frames.append(
+                    (
+                        data,
+                        {
+                            "timestamp_ms": int(timestamp * 1000),
+                            "frame_index": i,
+                            "size": len(data),
+                            "format": "jpeg",
+                        },
+                    )
+                )
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
@@ -312,6 +328,7 @@ def _extract_video_frames(
 @dataclass
 class ActivitySegment:
     """A detected activity segment in video."""
+
     start_ms: int
     end_ms: int
     activity_score: float  # 0-1, how much activity
@@ -332,18 +349,24 @@ def _detect_scene_changes(
 
     # Use FFmpeg scene detection filter
     cmd = [
-        "ffprobe", "-v", "quiet",
-        "-show_entries", "frame=pts_time",
-        "-select_streams", "v:0",
-        "-of", "csv=p=0",
-        "-f", "lavfi",
+        "ffprobe",
+        "-v",
+        "quiet",
+        "-show_entries",
+        "frame=pts_time",
+        "-select_streams",
+        "v:0",
+        "-of",
+        "csv=p=0",
+        "-f",
+        "lavfi",
         f"movie={video_path},select='gt(scene,{threshold})'",
     ]
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         timestamps = []
-        for line in result.stdout.strip().split('\n'):
+        for line in result.stdout.strip().split("\n"):
             if line:
                 try:
                     ts = float(line)
@@ -367,14 +390,14 @@ def _compute_frame_difference(
     difference_ratio is 0-1 representing % of pixels that changed.
     """
     try:
-        from PIL import Image, ImageChops
         import numpy as np
+        from PIL import Image, ImageChops
     except ImportError:
         return 0.0, False
 
     try:
-        img1 = Image.open(io.BytesIO(frame1_data)).convert('L')  # Grayscale
-        img2 = Image.open(io.BytesIO(frame2_data)).convert('L')
+        img1 = Image.open(io.BytesIO(frame1_data)).convert("L")  # Grayscale
+        img2 = Image.open(io.BytesIO(frame2_data)).convert("L")
 
         # Ensure same size
         if img1.size != img2.size:
@@ -412,18 +435,22 @@ def _analyze_video_activity(
     2. Frame differencing (PIL)
     3. Activity clustering
     """
-    import subprocess
     import tempfile
+    import subprocess
 
     segments = []
     keyframe_times = []
 
     # Get video duration
     probe_cmd = [
-        "ffprobe", "-v", "error",
-        "-show_entries", "format=duration",
-        "-of", "default=noprint_wrappers=1:nokey=1",
-        video_path
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        video_path,
     ]
     try:
         result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=10)
@@ -453,13 +480,19 @@ def _analyze_video_activity(
 
         try:
             cmd = [
-                "ffmpeg", "-y",
-                "-ss", str(timestamp),
-                "-i", video_path,
-                "-frames:v", "1",
-                "-vf", "scale=320:-1",  # Small for comparison
-                "-q:v", "5",
-                tmp_path
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(timestamp),
+                "-i",
+                video_path,
+                "-frames:v",
+                "1",
+                "-vf",
+                "scale=320:-1",  # Small for comparison
+                "-q:v",
+                "5",
+                tmp_path,
             ]
             subprocess.run(cmd, capture_output=True, timeout=5)
 
@@ -468,14 +501,14 @@ def _analyze_video_activity(
                     frame_data = f.read()
 
                 if prev_frame is not None:
-                    diff_ratio, has_activity = _compute_frame_difference(
-                        prev_frame, frame_data, activity_threshold
-                    )
+                    diff_ratio, has_activity = _compute_frame_difference(prev_frame, frame_data, activity_threshold)
                     if has_activity:
-                        activity_frames.append({
-                            "timestamp": timestamp,
-                            "diff_ratio": diff_ratio,
-                        })
+                        activity_frames.append(
+                            {
+                                "timestamp": timestamp,
+                                "diff_ratio": diff_ratio,
+                            }
+                        )
                         if timestamp not in keyframe_times:
                             keyframe_times.append(timestamp)
 
@@ -494,12 +527,14 @@ def _analyze_video_activity(
         for frame in activity_frames[1:]:
             # If gap > 1 second, start new segment
             if frame["timestamp"] - current_segment_start > 1.0 + segment_frame_count * sample_interval:
-                segments.append(ActivitySegment(
-                    start_ms=int(current_segment_start * 1000),
-                    end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
-                    activity_score=current_segment_score / segment_frame_count,
-                    frame_count=segment_frame_count,
-                ))
+                segments.append(
+                    ActivitySegment(
+                        start_ms=int(current_segment_start * 1000),
+                        end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+                        activity_score=current_segment_score / segment_frame_count,
+                        frame_count=segment_frame_count,
+                    )
+                )
                 current_segment_start = frame["timestamp"]
                 current_segment_score = frame["diff_ratio"]
                 segment_frame_count = 1
@@ -508,12 +543,14 @@ def _analyze_video_activity(
                 segment_frame_count += 1
 
         # Last segment
-        segments.append(ActivitySegment(
-            start_ms=int(current_segment_start * 1000),
-            end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
-            activity_score=current_segment_score / segment_frame_count,
-            frame_count=segment_frame_count,
-        ))
+        segments.append(
+            ActivitySegment(
+                start_ms=int(current_segment_start * 1000),
+                end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+                activity_score=current_segment_score / segment_frame_count,
+                frame_count=segment_frame_count,
+            )
+        )
 
     # Sort and deduplicate keyframe times
     keyframe_times = sorted(set(keyframe_times))
@@ -532,8 +569,8 @@ def _extract_activity_frames(
 
     Optimized for minimal payload size.
     """
-    import subprocess
     import tempfile
+    import subprocess
 
     frames = []
 
@@ -549,13 +586,19 @@ def _extract_activity_frames(
 
         try:
             cmd = [
-                "ffmpeg", "-y",
-                "-ss", str(timestamp),
-                "-i", video_path,
-                "-frames:v", "1",
-                "-vf", f"scale='min({max_size},iw)':'min({max_size},ih)':force_original_aspect_ratio=decrease",
-                "-q:v", str(max(1, min(31, (100 - quality) // 3))),  # FFmpeg quality 1-31
-                tmp_path
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(timestamp),
+                "-i",
+                video_path,
+                "-frames:v",
+                "1",
+                "-vf",
+                f"scale='min({max_size},iw)':'min({max_size},ih)':force_original_aspect_ratio=decrease",
+                "-q:v",
+                str(max(1, min(31, (100 - quality) // 3))),  # FFmpeg quality 1-31
+                tmp_path,
             ]
             subprocess.run(cmd, capture_output=True, timeout=10)
 
@@ -563,12 +606,17 @@ def _extract_activity_frames(
                 with open(tmp_path, "rb") as f:
                     data = f.read()
 
-                frames.append((data, {
-                    "timestamp_ms": int(timestamp * 1000),
-                    "timestamp_sec": round(timestamp, 2),
-                    "size": len(data),
-                    "format": "jpeg",
-                }))
+                frames.append(
+                    (
+                        data,
+                        {
+                            "timestamp_ms": int(timestamp * 1000),
+                            "timestamp_sec": round(timestamp, 2),
+                            "size": len(data),
+                            "format": "jpeg",
+                        },
+                    )
+                )
 
         finally:
             if os.path.exists(tmp_path):
@@ -601,11 +649,16 @@ def _compress_session(
     # If no activity detected, sample evenly
     if not keyframe_times:
         import subprocess
+
         probe_cmd = [
-            "ffprobe", "-v", "error",
-            "-show_entries", "format=duration",
-            "-of", "default=noprint_wrappers=1:nokey=1",
-            video_path
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            video_path,
         ]
         try:
             result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=10)
@@ -646,20 +699,20 @@ def _compress_session(
 
 Action = Literal[
     # Image operations
-    "load",           # Load single image
-    "load_batch",     # Load multiple images
-    "optimize",       # Optimize images for Claude
-    "resize",         # Resize images
-    "info",           # Get image info
+    "load",  # Load single image
+    "load_batch",  # Load multiple images
+    "optimize",  # Optimize images for Claude
+    "resize",  # Resize images
+    "info",  # Get image info
     # Video operations
-    "extract_frames", # Extract frames from video
+    "extract_frames",  # Extract frames from video
     # Activity detection & slicing (NEW)
-    "analyze",        # Detect activity segments in video
-    "slice",          # Extract frames at activity points only
+    "analyze",  # Detect activity segments in video
+    "slice",  # Extract frames at activity points only
     "compress_session",  # Full pipeline for computer use sessions
     # Configuration
-    "limits",         # Get/set limits
-    "status",         # Get current status
+    "limits",  # Get/set limits
+    "status",  # Get current status
 ]
 
 
@@ -831,17 +884,14 @@ EXAMPLES:
 
         # Enforce max images limit
         if len(paths) > self.limits.max_images:
-            result.warnings.append(
-                f"Requested {len(paths)} images, limited to {self.limits.max_images}"
-            )
-            paths = paths[:self.limits.max_images]
+            result.warnings.append(f"Requested {len(paths)} images, limited to {self.limits.max_images}")
+            paths = paths[: self.limits.max_images]
 
         for path in paths:
             # Check payload limit
             if result.total_size >= self.limits.max_payload_bytes:
                 result.warnings.append(
-                    f"Payload limit ({self.limits.max_payload_mb}MB) reached, "
-                    f"stopped at {result.total_count} images"
+                    f"Payload limit ({self.limits.max_payload_mb}MB) reached, stopped at {result.total_count} images"
                 )
                 break
 
@@ -853,19 +903,19 @@ EXAMPLES:
 
             # Check if this image would exceed payload
             if result.total_size + len(data) > self.limits.max_payload_bytes:
-                result.warnings.append(
-                    f"Skipping {path}: would exceed payload limit"
-                )
+                result.warnings.append(f"Skipping {path}: would exceed payload limit")
                 continue
 
-            result.images.append({
-                "path": path,
-                "size": len(data),
-                "format": info.get("format", "unknown"),
-                "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
-                "base64": base64.b64encode(data).decode(),
-                **{k: v for k, v in info.items() if k not in ("path", "base64")},
-            })
+            result.images.append(
+                {
+                    "path": path,
+                    "size": len(data),
+                    "format": info.get("format", "unknown"),
+                    "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
+                    "base64": base64.b64encode(data).decode(),
+                    **{k: v for k, v in info.items() if k not in ("path", "base64")},
+                }
+            )
             result.total_size += len(data)
             result.total_count += 1
 
@@ -908,23 +958,25 @@ EXAMPLES:
 
         try:
             if action == "status":
-                return json.dumps({
-                    "limits": {
-                        "max_images": self.limits.max_images,
-                        "max_payload_mb": self.limits.max_payload_mb,
-                        "max_resolution": self.limits.max_resolution,
-                        "optimal_size": self.limits.optimal_size,
-                        "jpeg_quality": self.limits.jpeg_quality,
-                        "max_frames": self.limits.max_frames,
-                    },
-                    "env_vars": {
-                        "HANZO_MEDIA_MAX_IMAGES": os.environ.get("HANZO_MEDIA_MAX_IMAGES"),
-                        "HANZO_MEDIA_MAX_PAYLOAD_MB": os.environ.get("HANZO_MEDIA_MAX_PAYLOAD_MB"),
-                        "HANZO_MEDIA_MAX_RESOLUTION": os.environ.get("HANZO_MEDIA_MAX_RESOLUTION"),
-                        "HANZO_MEDIA_OPTIMAL_SIZE": os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE"),
-                        "HANZO_MEDIA_JPEG_QUALITY": os.environ.get("HANZO_MEDIA_JPEG_QUALITY"),
-                    },
-                })
+                return json.dumps(
+                    {
+                        "limits": {
+                            "max_images": self.limits.max_images,
+                            "max_payload_mb": self.limits.max_payload_mb,
+                            "max_resolution": self.limits.max_resolution,
+                            "optimal_size": self.limits.optimal_size,
+                            "jpeg_quality": self.limits.jpeg_quality,
+                            "max_frames": self.limits.max_frames,
+                        },
+                        "env_vars": {
+                            "HANZO_MEDIA_MAX_IMAGES": os.environ.get("HANZO_MEDIA_MAX_IMAGES"),
+                            "HANZO_MEDIA_MAX_PAYLOAD_MB": os.environ.get("HANZO_MEDIA_MAX_PAYLOAD_MB"),
+                            "HANZO_MEDIA_MAX_RESOLUTION": os.environ.get("HANZO_MEDIA_MAX_RESOLUTION"),
+                            "HANZO_MEDIA_OPTIMAL_SIZE": os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE"),
+                            "HANZO_MEDIA_JPEG_QUALITY": os.environ.get("HANZO_MEDIA_JPEG_QUALITY"),
+                        },
+                    }
+                )
 
             elif action == "limits":
                 # Update limits if provided
@@ -935,16 +987,18 @@ EXAMPLES:
                 if max_resolution is not None:
                     self.limits.max_resolution = min(max_resolution, 4096)  # Hard cap
 
-                return json.dumps({
-                    "success": True,
-                    "limits": {
-                        "max_images": self.limits.max_images,
-                        "max_payload_mb": self.limits.max_payload_mb,
-                        "max_resolution": self.limits.max_resolution,
-                        "optimal_size": self.limits.optimal_size,
-                        "jpeg_quality": self.limits.jpeg_quality,
-                    },
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "limits": {
+                            "max_images": self.limits.max_images,
+                            "max_payload_mb": self.limits.max_payload_mb,
+                            "max_resolution": self.limits.max_resolution,
+                            "optimal_size": self.limits.optimal_size,
+                            "jpeg_quality": self.limits.jpeg_quality,
+                        },
+                    }
+                )
 
             elif action == "load":
                 if not path:
@@ -955,15 +1009,17 @@ EXAMPLES:
                 if data is None:
                     return json.dumps({"success": False, **info})
 
-                return json.dumps({
-                    "success": True,
-                    "path": path,
-                    "size": len(data),
-                    "format": info.get("format", "unknown"),
-                    "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
-                    "base64": base64.b64encode(data).decode(),
-                    **{k: v for k, v in info.items() if k not in ("path", "base64")},
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "path": path,
+                        "size": len(data),
+                        "format": info.get("format", "unknown"),
+                        "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
+                        "base64": base64.b64encode(data).decode(),
+                        **{k: v for k, v in info.items() if k not in ("path", "base64")},
+                    }
+                )
 
             elif action == "load_batch":
                 if not paths:
@@ -1011,15 +1067,17 @@ EXAMPLES:
                             result.warnings.append(f"Skipping {source}: would exceed limit")
                             continue
 
-                        result.images.append({
-                            "index": i,
-                            "source": source,
-                            "size": len(optimized),
-                            "format": info.get("format", "jpeg"),
-                            "dimensions": info.get("new_dimensions"),
-                            "compression_ratio": round(info.get("original_size", len(data)) / len(optimized), 2),
-                            "base64": base64.b64encode(optimized).decode(),
-                        })
+                        result.images.append(
+                            {
+                                "index": i,
+                                "source": source,
+                                "size": len(optimized),
+                                "format": info.get("format", "jpeg"),
+                                "dimensions": info.get("new_dimensions"),
+                                "compression_ratio": round(info.get("original_size", len(data)) / len(optimized), 2),
+                                "base64": base64.b64encode(optimized).decode(),
+                            }
+                        )
                         result.total_size += len(optimized)
                         result.total_count += 1
 
@@ -1058,13 +1116,15 @@ EXAMPLES:
                             False,
                         )
 
-                        result.images.append({
-                            "index": i,
-                            "size": len(resized),
-                            "dimensions": info.get("new_dimensions"),
-                            "format": info.get("format"),
-                            "base64": base64.b64encode(resized).decode(),
-                        })
+                        result.images.append(
+                            {
+                                "index": i,
+                                "size": len(resized),
+                                "dimensions": info.get("new_dimensions"),
+                                "format": info.get("format"),
+                                "base64": base64.b64encode(resized).decode(),
+                            }
+                        )
                         result.total_size += len(resized)
                         result.total_count += 1
 
@@ -1099,22 +1159,26 @@ EXAMPLES:
                         result.warnings.append("Payload limit reached, stopped extraction")
                         break
 
-                    result.images.append({
-                        "frame_index": info["frame_index"],
-                        "timestamp_ms": info["timestamp_ms"],
-                        "size": len(data),
-                        "format": info["format"],
-                        "base64": base64.b64encode(data).decode(),
-                    })
+                    result.images.append(
+                        {
+                            "frame_index": info["frame_index"],
+                            "timestamp_ms": info["timestamp_ms"],
+                            "size": len(data),
+                            "format": info["format"],
+                            "base64": base64.b64encode(data).decode(),
+                        }
+                    )
                     result.total_size += len(data)
                     result.total_count += 1
 
-                return json.dumps({
-                    **result.to_dict(),
-                    "source": path,
-                    "interval_ms": interval_ms,
-                    "frames_extracted": result.total_count,
-                })
+                return json.dumps(
+                    {
+                        **result.to_dict(),
+                        "source": path,
+                        "interval_ms": interval_ms,
+                        "frames_extracted": result.total_count,
+                    }
+                )
 
             elif action == "info":
                 if not path:
@@ -1137,6 +1201,7 @@ EXAMPLES:
                 # Get image dimensions if possible
                 try:
                     from PIL import Image
+
                     with Image.open(path) as img:
                         info["dimensions"] = img.size
                         info["format"] = img.format
@@ -1149,11 +1214,21 @@ EXAMPLES:
                     info["type"] = "video"
                     try:
                         import subprocess
+
                         probe = subprocess.run(
-                            ["ffprobe", "-v", "error", "-show_entries",
-                             "format=duration:stream=width,height,r_frame_rate",
-                             "-of", "json", path],
-                            capture_output=True, text=True, timeout=10
+                            [
+                                "ffprobe",
+                                "-v",
+                                "error",
+                                "-show_entries",
+                                "format=duration:stream=width,height,r_frame_rate",
+                                "-of",
+                                "json",
+                                path,
+                            ],
+                            capture_output=True,
+                            text=True,
+                            timeout=10,
                         )
                         if probe.returncode == 0:
                             probe_data = json.loads(probe.stdout)
@@ -1192,27 +1267,29 @@ EXAMPLES:
                     scene_threshold,
                 )
 
-                return json.dumps({
-                    "success": True,
-                    "source": path,
-                    "activity_segments": [
-                        {
-                            "start_ms": s.start_ms,
-                            "end_ms": s.end_ms,
-                            "duration_ms": s.end_ms - s.start_ms,
-                            "activity_score": round(s.activity_score, 4),
-                            "frame_count": s.frame_count,
-                        }
-                        for s in segments
-                    ],
-                    "keyframe_count": len(keyframe_times),
-                    "keyframe_times_sec": [round(t, 2) for t in keyframe_times],
-                    "settings": {
-                        "activity_threshold": activity_threshold,
-                        "scene_threshold": scene_threshold,
-                        "max_duration": max_duration,
-                    },
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "source": path,
+                        "activity_segments": [
+                            {
+                                "start_ms": s.start_ms,
+                                "end_ms": s.end_ms,
+                                "duration_ms": s.end_ms - s.start_ms,
+                                "activity_score": round(s.activity_score, 4),
+                                "frame_count": s.frame_count,
+                            }
+                            for s in segments
+                        ],
+                        "keyframe_count": len(keyframe_times),
+                        "keyframe_times_sec": [round(t, 2) for t in keyframe_times],
+                        "settings": {
+                            "activity_threshold": activity_threshold,
+                            "scene_threshold": scene_threshold,
+                            "max_duration": max_duration,
+                        },
+                    }
+                )
 
             elif action == "slice":
                 if not path:
@@ -1258,26 +1335,30 @@ EXAMPLES:
                         result.warnings.append("Payload limit reached")
                         break
 
-                    result.images.append({
-                        "timestamp_sec": info["timestamp_sec"],
-                        "timestamp_ms": info["timestamp_ms"],
-                        "size": len(data),
-                        "format": info["format"],
-                        "base64": base64.b64encode(data).decode(),
-                    })
+                    result.images.append(
+                        {
+                            "timestamp_sec": info["timestamp_sec"],
+                            "timestamp_ms": info["timestamp_ms"],
+                            "size": len(data),
+                            "format": info["format"],
+                            "base64": base64.b64encode(data).decode(),
+                        }
+                    )
                     result.total_size += len(data)
                     result.total_count += 1
 
-                return json.dumps({
-                    **result.to_dict(),
-                    "source": path,
-                    "activity_segments": len(segments),
-                    "keyframes_detected": len(keyframe_times),
-                    "compression_settings": {
-                        "max_size": slice_max_size,
-                        "quality": slice_quality,
-                    },
-                })
+                return json.dumps(
+                    {
+                        **result.to_dict(),
+                        "source": path,
+                        "activity_segments": len(segments),
+                        "keyframes_detected": len(keyframe_times),
+                        "compression_settings": {
+                            "max_size": slice_max_size,
+                            "quality": slice_quality,
+                        },
+                    }
+                )
 
             elif action == "compress_session":
                 if not path:
@@ -1314,28 +1395,32 @@ EXAMPLES:
                         result.warnings.append("Payload limit reached")
                         break
 
-                    result.images.append({
-                        "timestamp_sec": info["timestamp_sec"],
-                        "timestamp_ms": info["timestamp_ms"],
-                        "size": len(data),
-                        "format": info["format"],
-                        "base64": base64.b64encode(data).decode(),
-                    })
+                    result.images.append(
+                        {
+                            "timestamp_sec": info["timestamp_sec"],
+                            "timestamp_ms": info["timestamp_ms"],
+                            "size": len(data),
+                            "format": info["format"],
+                            "base64": base64.b64encode(data).decode(),
+                        }
+                    )
                     result.total_size += len(data)
                     result.total_count += 1
 
-                return json.dumps({
-                    **result.to_dict(),
-                    **metadata,
-                    "activity_segments": [
-                        {
-                            "start_ms": s.start_ms,
-                            "end_ms": s.end_ms,
-                            "activity_score": round(s.activity_score, 4),
-                        }
-                        for s in segments
-                    ],
-                })
+                return json.dumps(
+                    {
+                        **result.to_dict(),
+                        **metadata,
+                        "activity_segments": [
+                            {
+                                "start_ms": s.start_ms,
+                                "end_ms": s.end_ms,
+                                "activity_score": round(s.activity_score, 4),
+                            }
+                            for s in segments
+                        ],
+                    }
+                )
 
             else:
                 return json.dumps({"error": f"Unknown action: {action}"})

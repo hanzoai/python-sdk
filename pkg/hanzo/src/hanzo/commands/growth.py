@@ -5,8 +5,8 @@ Product analytics, feature flags, A/B testing, lifecycle messaging.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -43,6 +43,7 @@ def growth_group():
 # ============================================================================
 # Events (Product Analytics)
 # ============================================================================
+
 
 @growth_group.group()
 def events():
@@ -88,6 +89,7 @@ def events_schema():
 # Funnels
 # ============================================================================
 
+
 @growth_group.group()
 def funnels():
     """Manage conversion funnels."""
@@ -110,14 +112,16 @@ def funnels_list():
 @click.argument("funnel_name")
 def funnels_show(funnel_name: str):
     """Show funnel details."""
-    console.print(Panel(
-        f"[cyan]Funnel:[/cyan] {funnel_name}\n"
-        f"[cyan]Steps:[/cyan] 4\n"
-        f"[cyan]Conversion:[/cyan] 23.5%\n"
-        f"[cyan]Period:[/cyan] Last 30 days",
-        title="Funnel Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Funnel:[/cyan] {funnel_name}\n"
+            f"[cyan]Steps:[/cyan] 4\n"
+            f"[cyan]Conversion:[/cyan] 23.5%\n"
+            f"[cyan]Period:[/cyan] Last 30 days",
+            title="Funnel Details",
+            border_style="cyan",
+        )
+    )
 
 
 @funnels.command(name="create")
@@ -131,6 +135,7 @@ def funnels_create(name: str, steps: str):
 # ============================================================================
 # Web Analytics
 # ============================================================================
+
 
 @growth_group.group()
 def web():
@@ -157,10 +162,12 @@ def web_add(domain: str):
     console.print(f"[green]✓[/green] Website '{domain}' added")
     console.print()
     console.print("[dim]Add this script to your website:[/dim]")
-    console.print(Panel(
-        f'<script defer src="https://analytics.hanzo.ai/script.js" data-website-id="{domain}"></script>',
-        border_style="dim"
-    ))
+    console.print(
+        Panel(
+            f'<script defer src="https://analytics.hanzo.ai/script.js" data-website-id="{domain}"></script>',
+            border_style="dim",
+        )
+    )
 
 
 @web.command(name="stats")
@@ -168,21 +175,24 @@ def web_add(domain: str):
 @click.option("--period", "-p", default="7d", help="Time period (e.g., 7d, 30d)")
 def web_stats(domain: str, period: str):
     """View website statistics."""
-    console.print(Panel(
-        f"[cyan]Domain:[/cyan] {domain}\n"
-        f"[cyan]Period:[/cyan] {period}\n"
-        f"[cyan]Visitors:[/cyan] 12,456\n"
-        f"[cyan]Pageviews:[/cyan] 45,678\n"
-        f"[cyan]Bounce Rate:[/cyan] 42%\n"
-        f"[cyan]Avg Duration:[/cyan] 2m 34s",
-        title="Website Stats",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Domain:[/cyan] {domain}\n"
+            f"[cyan]Period:[/cyan] {period}\n"
+            f"[cyan]Visitors:[/cyan] 12,456\n"
+            f"[cyan]Pageviews:[/cyan] 45,678\n"
+            f"[cyan]Bounce Rate:[/cyan] 42%\n"
+            f"[cyan]Avg Duration:[/cyan] 2m 34s",
+            title="Website Stats",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Feature Flags
 # ============================================================================
+
 
 @growth_group.group()
 def flags():
@@ -237,6 +247,7 @@ def flags_delete(flag_key: str):
 # A/B Tests
 # ============================================================================
 
+
 @growth_group.group()
 def tests():
     """Manage A/B tests."""
@@ -284,22 +295,25 @@ def tests_stop(test_name: str):
 @click.argument("test_name")
 def tests_results(test_name: str):
     """View A/B test results."""
-    console.print(Panel(
-        f"[cyan]Test:[/cyan] {test_name}\n"
-        f"[cyan]Status:[/cyan] Running\n"
-        f"[cyan]Participants:[/cyan] 5,234\n"
-        f"[cyan]Control conversion:[/cyan] 12.3%\n"
-        f"[cyan]Treatment conversion:[/cyan] 14.7%\n"
-        f"[cyan]Lift:[/cyan] +19.5%\n"
-        f"[cyan]Confidence:[/cyan] 94%",
-        title="Test Results",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Test:[/cyan] {test_name}\n"
+            f"[cyan]Status:[/cyan] Running\n"
+            f"[cyan]Participants:[/cyan] 5,234\n"
+            f"[cyan]Control conversion:[/cyan] 12.3%\n"
+            f"[cyan]Treatment conversion:[/cyan] 14.7%\n"
+            f"[cyan]Lift:[/cyan] +19.5%\n"
+            f"[cyan]Confidence:[/cyan] 94%",
+            title="Test Results",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Campaigns (Engagement)
 # ============================================================================
+
 
 @growth_group.group()
 def campaigns():
@@ -345,13 +359,15 @@ def campaigns_send(campaign_name: str, schedule: str):
 @click.argument("campaign_name")
 def campaigns_stats(campaign_name: str):
     """View campaign statistics."""
-    console.print(Panel(
-        f"[cyan]Campaign:[/cyan] {campaign_name}\n"
-        f"[cyan]Sent:[/cyan] 10,234\n"
-        f"[cyan]Delivered:[/cyan] 9,876 (96.5%)\n"
-        f"[cyan]Opens:[/cyan] 2,345 (23.7%)\n"
-        f"[cyan]Clicks:[/cyan] 567 (5.7%)\n"
-        f"[cyan]Conversions:[/cyan] 89 (0.9%)",
-        title="Campaign Stats",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Campaign:[/cyan] {campaign_name}\n"
+            f"[cyan]Sent:[/cyan] 10,234\n"
+            f"[cyan]Delivered:[/cyan] 9,876 (96.5%)\n"
+            f"[cyan]Opens:[/cyan] 2,345 (23.7%)\n"
+            f"[cyan]Clicks:[/cyan] 567 (5.7%)\n"
+            f"[cyan]Conversions:[/cyan] 89 (0.9%)",
+            title="Campaign Stats",
+            border_style="cyan",
+        )
+    )

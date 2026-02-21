@@ -11,10 +11,9 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Literal, Optional
+from typing import Any
 
-from pydantic import BaseModel, Field, ConfigDict
-
+from pydantic import BaseModel, ConfigDict, Field
 
 # =============================================================================
 # Enums
@@ -61,10 +60,10 @@ class Credential(BaseModel):
     model_config = ConfigDict(frozen=False)
 
     provider: str = Field(description="Provider name")
-    api_key: Optional[str] = Field(default=None, description="API key or token")
-    api_secret: Optional[str] = Field(default=None, description="API secret (if needed)")
-    account_id: Optional[str] = Field(default=None, description="Account/organization ID")
-    base_url: Optional[str] = Field(default=None, description="Custom base URL override")
+    api_key: str | None = Field(default=None, description="API key or token")
+    api_secret: str | None = Field(default=None, description="API secret (if needed)")
+    account_id: str | None = Field(default=None, description="Account/organization ID")
+    base_url: str | None = Field(default=None, description="Custom base URL override")
     extra: dict[str, Any] = Field(default_factory=dict, description="Provider-specific fields")
 
     @property
@@ -80,7 +79,7 @@ class EffectiveCredential(BaseModel):
 
     credential: Credential
     source: CredentialSource = Field(description="Where the credential was resolved from")
-    env_var_used: Optional[str] = Field(default=None, description="Environment variable used (if any)")
+    env_var_used: str | None = Field(default=None, description="Environment variable used (if any)")
 
     @property
     def has_credentials(self) -> bool:
@@ -99,7 +98,7 @@ class ProviderConfig(BaseModel):
     auth_header: str = Field(default="Authorization", description="Header name for auth")
     auth_prefix: str = Field(default="Bearer", description="Prefix for auth value")
     auth_query_param: str = Field(default="api_key", description="Query param for auth")
-    spec_url: Optional[str] = Field(default=None, description="URL to OpenAPI spec")
+    spec_url: str | None = Field(default=None, description="URL to OpenAPI spec")
     env_vars: list[str] = Field(default_factory=list, description="Environment variables to check")
     extra_headers: dict[str, str] = Field(default_factory=dict, description="Additional headers")
 
@@ -112,11 +111,11 @@ class ProviderStatus(BaseModel):
     name: str
     display_name: str
     configured: bool = Field(description="Whether credentials are available")
-    source: Optional[CredentialSource] = Field(default=None, description="Credential source")
+    source: CredentialSource | None = Field(default=None, description="Credential source")
     base_url: str
     has_spec: bool = Field(description="Whether OpenAPI spec is available")
     spec_cached: bool = Field(default=False, description="Whether spec is cached locally")
-    spec_age_seconds: Optional[float] = Field(default=None, description="Age of cached spec")
+    spec_age_seconds: float | None = Field(default=None, description="Age of cached spec")
 
 
 # =============================================================================
@@ -136,7 +135,7 @@ class Parameter(BaseModel):
     description: str = Field(default="", description="Parameter description")
     default: Any = Field(default=None, description="Default value")
     enum: list[Any] = Field(default_factory=list, description="Allowed values")
-    json_schema: Optional[dict[str, Any]] = Field(default=None, description="Full JSON schema")
+    json_schema: dict[str, Any] | None = Field(default=None, description="Full JSON schema")
 
 
 class Operation(BaseModel):
@@ -150,9 +149,9 @@ class Operation(BaseModel):
     summary: str = Field(default="", description="Short description")
     description: str = Field(default="", description="Detailed description")
     parameters: list[Parameter] = Field(default_factory=list, description="Operation parameters")
-    request_body_schema: Optional[dict[str, Any]] = Field(default=None, description="Request body JSON schema")
+    request_body_schema: dict[str, Any] | None = Field(default=None, description="Request body JSON schema")
     request_body_required: bool = Field(default=False, description="Whether request body is required")
-    response_schema: Optional[dict[str, Any]] = Field(default=None, description="Response JSON schema")
+    response_schema: dict[str, Any] | None = Field(default=None, description="Response JSON schema")
     tags: list[str] = Field(default_factory=list, description="Operation tags")
     deprecated: bool = Field(default=False, description="Whether operation is deprecated")
 
@@ -201,7 +200,7 @@ class OperationSummary(BaseModel):
     deprecated: bool = False
 
     @classmethod
-    def from_operation(cls, op: Operation) -> "OperationSummary":
+    def from_operation(cls, op: Operation) -> OperationSummary:
         return cls(
             operation_id=op.operation_id,
             method=op.method,
@@ -226,13 +225,13 @@ class APICallResult(BaseModel):
     status_code: int = Field(description="HTTP status code")
     headers: dict[str, str] = Field(default_factory=dict, description="Response headers")
     body: Any = Field(default=None, description="Response body (parsed JSON or raw text)")
-    raw_body: Optional[str] = Field(default=None, description="Raw response body")
-    elapsed_ms: Optional[float] = Field(default=None, description="Request duration in milliseconds")
-    request_id: Optional[str] = Field(default=None, description="Request ID from headers")
+    raw_body: str | None = Field(default=None, description="Raw response body")
+    elapsed_ms: float | None = Field(default=None, description="Request duration in milliseconds")
+    request_id: str | None = Field(default=None, description="Request ID from headers")
 
     # Metadata
     provider: str = Field(description="Provider that was called")
-    operation_id: Optional[str] = Field(default=None, description="Operation ID (if using spec)")
+    operation_id: str | None = Field(default=None, description="Operation ID (if using spec)")
     method: str = Field(description="HTTP method used")
     url: str = Field(description="Full URL that was called")
 
@@ -272,9 +271,9 @@ class SpecCacheEntry(BaseModel):
     provider: str
     spec: dict[str, Any]
     fetched_at: datetime
-    etag: Optional[str] = None
-    last_modified: Optional[str] = None
-    source_url: Optional[str] = None
+    etag: str | None = None
+    last_modified: str | None = None
+    source_url: str | None = None
 
     @property
     def age_seconds(self) -> float:
@@ -302,7 +301,7 @@ class ToolParameter(BaseModel):
     description: str
     required: bool = False
     default: Any = None
-    enum: Optional[list[str]] = None
+    enum: list[str] | None = None
 
 
 class ToolSchema(BaseModel):
@@ -375,7 +374,7 @@ class OperationListResult(BaseModel):
     provider: str
     operations: list[OperationSummary]
     total_count: int
-    filter_applied: Optional[str] = None
+    filter_applied: str | None = None
 
     def by_tag(self) -> dict[str, list[OperationSummary]]:
         """Group operations by tag."""

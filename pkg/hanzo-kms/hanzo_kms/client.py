@@ -70,10 +70,14 @@ class KMSClient:
         """Create settings from environment variables."""
         from .models import UniversalAuthMethod
 
-        site_url = os.getenv("HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai"))
+        site_url = os.getenv(
+            "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
+        )
         organization = os.getenv("HANZO_KMS_ORG", "hanzo")
         client_id = os.getenv("HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", ""))
-        client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", ""))
+        client_secret = os.getenv(
+            "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
+        )
 
         auth = None
         if client_id and client_secret:
@@ -150,8 +154,10 @@ class KMSClient:
         if auth.aws_iam:
             # Get AWS credentials from environment/instance metadata
             import json
+
             try:
                 import boto3
+
                 session = boto3.Session()
                 credentials = session.get_credentials()
                 region = session.region_name or "us-east-1"
@@ -162,9 +168,11 @@ class KMSClient:
                         "identityId": auth.aws_iam.identity_id,
                         "iamHttpRequestMethod": "POST",
                         "iamRequestBody": "",
-                        "iamRequestHeaders": json.dumps({
-                            "X-Amz-Date": credentials.token or "",
-                        }),
+                        "iamRequestHeaders": json.dumps(
+                            {
+                                "X-Amz-Date": credentials.token or "",
+                            }
+                        ),
                     },
                 )
                 response.raise_for_status()

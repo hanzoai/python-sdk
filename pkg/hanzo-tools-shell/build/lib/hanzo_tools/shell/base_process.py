@@ -22,7 +22,6 @@ from hanzo_async import mkdir, write_file, append_file
 from hanzo_tools.core import BaseTool, PermissionManager
 from hanzo_tools.shell.truncate import truncate_response
 
-
 # Configurable auto-background timeout (seconds)
 # Set via HANZO_AUTO_BACKGROUND_TIMEOUT env var
 # 0 or negative = disabled (never auto-background, use 24h timeout)
@@ -69,7 +68,7 @@ class ProcessManager:
 
     def list_processes(self) -> Dict[str, Dict[str, Any]]:
         """List all tracked processes.
-        
+
         Note: Uses list(items()) to create snapshot before cleanup,
         preventing RuntimeError from dict modification during iteration.
         Completed processes are cleaned up after being reported.
@@ -572,8 +571,7 @@ class ShellExecutor:
             try:
                 # Read streams and wait for process with timeout
                 await asyncio.wait_for(
-                    asyncio.gather(read_stdout(), read_stderr(), proc.wait()),
-                    timeout=effective_timeout
+                    asyncio.gather(read_stdout(), read_stderr(), proc.wait()), timeout=effective_timeout
                 )
 
                 exit_code = proc.returncode or 0
@@ -582,20 +580,20 @@ class ShellExecutor:
                     b"".join(stderr_chunks).decode("utf-8", errors="replace"),
                     exit_code,
                     False,  # Not backgrounded
-                    None,   # No process_id (completed)
+                    None,  # No process_id (completed)
                 )
 
             except asyncio.TimeoutError:
                 # Background the process - don't kill it
                 partial_stdout = b"".join(stdout_chunks).decode("utf-8", errors="replace")
                 partial_stderr = b"".join(stderr_chunks).decode("utf-8", errors="replace")
-                
-                await write_file(log_file,
+
+                await write_file(
+                    log_file,
                     f"[{shell_name}] Command backgrounded after {effective_timeout}s timeout\n"
                     f"[{shell_name}] Command: {command}\n"
-                    f"[{shell_name}] PID: {proc.pid}\n"
-                    + "-" * 40 + "\n"
-                    f"{partial_stdout}{partial_stderr}"
+                    f"[{shell_name}] PID: {proc.pid}\n" + "-" * 40 + "\n"
+                    f"{partial_stdout}{partial_stderr}",
                 )
 
                 self._process_manager.add_process(process_id, proc, str(log_file))
@@ -635,6 +633,7 @@ class ShellExecutor:
     ) -> None:
         """Capture output from backgrounded process to log file."""
         try:
+
             async def read_stream(stream, prefix: str) -> None:
                 if stream:
                     while True:

@@ -34,23 +34,25 @@ console = Console()
 
 # ── shared option decorators ────────────────────────────────────────────
 
+
 def _org_option(fn):
     return click.option("--org", default=None, help="Organization ID (or from context).")(fn)
+
 
 def _project_option(fn):
     return click.option("--project", default=None, help="Project ID (or from context).")(fn)
 
+
 def _env_option(fn):
-    return click.option("--env", "env_id", default=None, help="Environment ID (or from context).")(fn)
+    return click.option("--env", "env_id", default=None, help="Environment ID (or from context).")(
+        fn
+    )
 
 
 def _require(label: str, value: str | None) -> str:
     """Ensure a value is set; exit with a helpful message if not."""
     if not value:
-        console.print(
-            f"[red]{label} is required.[/red] "
-            "Pass it via flag or run 'hanzo paas use'."
-        )
+        console.print(f"[red]{label} is required.[/red] Pass it via flag or run 'hanzo paas use'.")
         raise SystemExit(1)
     return value
 
@@ -84,6 +86,7 @@ def paas() -> None:
 
 
 # ── context ─────────────────────────────────────────────────────────────
+
 
 @paas.command("use")
 @click.option("--org", default=None, help="Organization ID to remember.")
@@ -244,6 +247,7 @@ def deploy() -> None:
 
 # ── deploy list ─────────────────────────────────────────────────────────
 
+
 @deploy.command("list")
 @_org_option
 @_project_option
@@ -287,16 +291,23 @@ def deploy_list(org: str | None, project: str | None, env_id: str | None) -> Non
 
 # ── deploy create ───────────────────────────────────────────────────────
 
+
 @deploy.command("create")
 @click.argument("name")
-@click.option("--image", default=None, help="Docker image URL (e.g. nginx:latest, ghcr.io/org/app:v1).")
+@click.option(
+    "--image", default=None, help="Docker image URL (e.g. nginx:latest, ghcr.io/org/app:v1)."
+)
 @click.option("--repo", default=None, help="Git repository (owner/repo).")
 @click.option("--branch", default="main", help="Branch to deploy (with --repo).")
 @click.option("--dockerfile", default="Dockerfile", help="Dockerfile path (with --repo).")
 @click.option("--port", type=int, default=3000, help="Container port.")
 @click.option("--replicas", type=int, default=1, help="Desired replica count.")
-@click.option("--type", "deploy_type", default="deployment",
-              type=click.Choice(["deployment", "statefulset", "cronjob"]))
+@click.option(
+    "--type",
+    "deploy_type",
+    default="deployment",
+    type=click.Choice(["deployment", "statefulset", "cronjob"]),
+)
 @_org_option
 @_project_option
 @_env_option
@@ -416,13 +427,17 @@ def deploy_create(
 
 # ── deploy status ───────────────────────────────────────────────────────
 
+
 @deploy.command("status")
 @click.argument("name")
 @_org_option
 @_project_option
 @_env_option
 def deploy_status(
-    name: str, org: str | None, project: str | None, env_id: str | None,
+    name: str,
+    org: str | None,
+    project: str | None,
+    env_id: str | None,
 ) -> None:
     """Show container status and pods."""
     org_id, project_id, env_id = resolve(org, project, env_id)
@@ -474,13 +489,17 @@ def deploy_status(
 
 # ── deploy logs ─────────────────────────────────────────────────────────
 
+
 @deploy.command("logs")
 @click.argument("name")
 @_org_option
 @_project_option
 @_env_option
 def deploy_logs(
-    name: str, org: str | None, project: str | None, env_id: str | None,
+    name: str,
+    org: str | None,
+    project: str | None,
+    env_id: str | None,
 ) -> None:
     """Show container logs."""
     org_id, project_id, env_id = resolve(org, project, env_id)
@@ -524,13 +543,17 @@ def deploy_logs(
 
 # ── deploy redeploy ─────────────────────────────────────────────────────
 
+
 @deploy.command("redeploy")
 @click.argument("name")
 @_org_option
 @_project_option
 @_env_option
 def deploy_redeploy(
-    name: str, org: str | None, project: str | None, env_id: str | None,
+    name: str,
+    org: str | None,
+    project: str | None,
+    env_id: str | None,
 ) -> None:
     """Trigger a rebuild and redeploy of a container."""
     org_id, project_id, env_id = resolve(org, project, env_id)
@@ -550,6 +573,7 @@ def deploy_redeploy(
 
 
 # ── deploy env ──────────────────────────────────────────────────────────
+
 
 @deploy.command("env")
 @click.argument("name")
@@ -616,7 +640,11 @@ def deploy_env(
             # PaaS requires the full container payload on PUT — merge vars into it
             container["variables"] = merged
             client.update_container(
-                org_id, project_id, env_id, cid, container,
+                org_id,
+                project_id,
+                env_id,
+                cid,
+                container,
             )
             console.print(f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]")
     finally:
@@ -624,6 +652,7 @@ def deploy_env(
 
 
 # ── deploy delete ───────────────────────────────────────────────────────
+
 
 @deploy.command("delete")
 @click.argument("name")

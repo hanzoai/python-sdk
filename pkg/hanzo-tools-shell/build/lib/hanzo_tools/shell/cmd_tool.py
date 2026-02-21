@@ -476,9 +476,7 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def cmd_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
             commands: Annotated[
                 Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
             ] = None,

@@ -13,18 +13,27 @@ Environment variables for override:
 from __future__ import annotations
 
 import os
-import platform
 import shlex
 import shutil
+import platform
 import subprocess
+from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
-from typing import Optional, Tuple, Dict, List
-
 
 # Common shells (names you might see from `ps -o comm=`) and typical full paths.
 KNOWN_SHELL_NAMES = {
-    "zsh", "bash", "fish", "sh", "ksh", "tcsh", "csh", "dash", "nu", "xonsh",
-    "pwsh", "powershell",
+    "zsh",
+    "bash",
+    "fish",
+    "sh",
+    "ksh",
+    "tcsh",
+    "csh",
+    "dash",
+    "nu",
+    "xonsh",
+    "pwsh",
+    "powershell",
 }
 KNOWN_SHELL_PATH_BASENAMES = KNOWN_SHELL_NAMES | {"busybox"}  # sometimes sh is busybox
 
@@ -35,6 +44,7 @@ SUPPORTED_SHELLS = {"zsh", "bash", "fish", "dash", "ksh", "tcsh", "csh"}
 @dataclass(frozen=True)
 class ShellInfo:
     """Information about detected shells."""
+
     # "Login shell" as configured on the user account (what ssh/login uses).
     login_shell: Optional[str]
     # The shell that appears to have invoked this process (best-effort).
@@ -94,6 +104,7 @@ def get_login_shell() -> Tuple[Optional[str], Dict[str, str]]:
     if os.name == "posix":
         try:
             import pwd
+
             if user:
                 shell = pwd.getpwnam(user).pw_shell
                 evidence["pwd.getpwnam"] = shell
@@ -270,9 +281,9 @@ def resolve_shell_path(shell_name: str) -> Optional[str]:
     # Priority paths - Homebrew first on macOS
     search_paths = [
         f"/opt/homebrew/bin/{shell_name}",  # Apple Silicon Homebrew
-        f"/usr/local/bin/{shell_name}",      # Intel Homebrew
-        f"/bin/{shell_name}",                # System
-        f"/usr/bin/{shell_name}",            # System alternative
+        f"/usr/local/bin/{shell_name}",  # Intel Homebrew
+        f"/bin/{shell_name}",  # System
+        f"/usr/bin/{shell_name}",  # System alternative
     ]
 
     for path in search_paths:
@@ -345,9 +356,7 @@ def get_shell_tool_class(shell_name: str):
         Shell tool class or None if not supported
     """
     # Import here to avoid circular imports
-    from hanzo_tools.shell.shell_tools import (
-        ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool
-    )
+    from hanzo_tools.shell.shell_tools import CshTool, KshTool, ZshTool, BashTool, DashTool, FishTool, TcshTool
 
     shell_map = {
         "zsh": ZshTool,
@@ -357,7 +366,7 @@ def get_shell_tool_class(shell_name: str):
         "ksh": KshTool,
         "ksh93": KshTool,  # Alias
         "pdksh": KshTool,  # Alias
-        "mksh": KshTool,   # Alias
+        "mksh": KshTool,  # Alias
         "tcsh": TcshTool,
         "csh": CshTool,
     }

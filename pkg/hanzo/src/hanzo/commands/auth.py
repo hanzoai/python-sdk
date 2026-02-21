@@ -5,11 +5,11 @@ import json
 import secrets
 import threading
 import webbrowser
-from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Optional
 from pathlib import Path
 from datetime import datetime
-from urllib.parse import urlencode, parse_qs, urlparse
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import parse_qs, urlparse, urlencode
 
 import click
 from rich import box
@@ -64,11 +64,7 @@ class AuthManager:
         if os.getenv("HANZO_API_KEY"):
             return os.getenv("HANZO_API_KEY")
         auth = self.load_auth()
-        return (
-            auth.get("api_key")
-            or auth.get("token")
-            or auth.get("tokens", {}).get("access_token")
-        )
+        return auth.get("api_key") or auth.get("token") or auth.get("tokens", {}).get("access_token")
 
 
 @click.group(name="auth")
@@ -114,11 +110,13 @@ def login(ctx, api_key: str, device_code: bool, headless: bool):
     try:
         if api_key:
             auth = auth_mgr.load_auth()
-            auth.update({
-                "api_key": api_key,
-                "logged_in": True,
-                "last_login": datetime.now().isoformat(),
-            })
+            auth.update(
+                {
+                    "api_key": api_key,
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
+            )
             auth_mgr.save_auth(auth)
             console.print(f"You are now logged in with API key {api_key[:8]}***.")
 
@@ -135,13 +133,13 @@ def login(ctx, api_key: str, device_code: bool, headless: bool):
 def _get_iam_url(auth_mgr: AuthManager) -> str:
     """Get the IAM URL from env or stored config."""
     existing = auth_mgr.load_auth()
-    return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL",
-        existing.get("iam_url", HANZO_IAM_URL)))
+    return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL", existing.get("iam_url", HANZO_IAM_URL)))
 
 
 def _decode_jwt_claims(token: str) -> dict:
     """Decode JWT payload without verification (for extracting email/name)."""
     import base64
+
     try:
         parts = token.split(".")
         if len(parts) < 2:
@@ -247,12 +245,14 @@ def _login_browser_oauth(auth_mgr: AuthManager):
 
     # Exchange authorization code for tokens
     token_url = f"{iam_url}/api/login/oauth/access_token"
-    token_data = urlencode({
-        "client_id": HANZO_CLIENT_ID,
-        "code": auth_result["code"],
-        "grant_type": "authorization_code",
-        "redirect_uri": CALLBACK_URI,
-    }).encode()
+    token_data = urlencode(
+        {
+            "client_id": HANZO_CLIENT_ID,
+            "code": auth_result["code"],
+            "grant_type": "authorization_code",
+            "redirect_uri": CALLBACK_URI,
+        }
+    ).encode()
 
     req = urllib.request.Request(
         token_url,
@@ -277,13 +277,15 @@ def _login_browser_oauth(auth_mgr: AuthManager):
 
     # Save auth
     auth = auth_mgr.load_auth()
-    auth.update({
-        "token": access_token,
-        "id_token": id_token,
-        "email": user_email,
-        "logged_in": True,
-        "last_login": datetime.now().isoformat(),
-    })
+    auth.update(
+        {
+            "token": access_token,
+            "id_token": id_token,
+            "email": user_email,
+            "logged_in": True,
+            "last_login": datetime.now().isoformat(),
+        }
+    )
     auth_mgr.save_auth(auth)
 
     if user_email:
@@ -295,16 +297,18 @@ def _login_browser_oauth(auth_mgr: AuthManager):
 
 def _login_device_code(auth_mgr: AuthManager, headless: bool):
     """Device code login flow (for SSH/headless)."""
-    import urllib.request
     import time
+    import urllib.request
 
     iam_url = _get_iam_url(auth_mgr)
 
     # Step 1: Request device code
-    device_req_data = json.dumps({
-        "client_id": HANZO_CLIENT_ID,
-        "scope": "openid profile email",
-    }).encode()
+    device_req_data = json.dumps(
+        {
+            "client_id": HANZO_CLIENT_ID,
+            "scope": "openid profile email",
+        }
+    ).encode()
 
     req = urllib.request.Request(
         f"{iam_url}/api/device/code",
@@ -323,10 +327,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     device_code = data["device_code"]
     user_code = data["user_code"]
     verification_url = data.get("verification_uri", f"{iam_url}/device")
-    verification_url_complete = data.get(
-        "verification_uri_complete",
-        f"{verification_url}?user_code={user_code}"
-    )
+    verification_url_complete = data.get("verification_uri_complete", f"{verification_url}?user_code={user_code}")
     expires_in = data.get("expires_in", 300)
     interval = data.get("interval", 5)
 
@@ -346,11 +347,13 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     while time.time() - start_time < expires_in:
         time.sleep(interval)
 
-        poll_data = json.dumps({
-            "client_id": HANZO_CLIENT_ID,
-            "device_code": device_code,
-            "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
-        }).encode()
+        poll_data = json.dumps(
+            {
+                "client_id": HANZO_CLIENT_ID,
+                "device_code": device_code,
+                "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
+            }
+        ).encode()
 
         poll_req = urllib.request.Request(
             f"{iam_url}/api/login/oauth/access_token",
@@ -370,13 +373,15 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
             user_email = claims.get("email", claims.get("name", ""))
 
             auth = auth_mgr.load_auth()
-            auth.update({
-                "token": access_token,
-                "id_token": id_token,
-                "email": user_email,
-                "logged_in": True,
-                "last_login": datetime.now().isoformat(),
-            })
+            auth.update(
+                {
+                    "token": access_token,
+                    "id_token": id_token,
+                    "email": user_email,
+                    "logged_in": True,
+                    "last_login": datetime.now().isoformat(),
+                }
+            )
             auth_mgr.save_auth(auth)
 
             if user_email:
@@ -524,9 +529,7 @@ def whoami():
         lines.append(f"[cyan]Last Login:[/cyan] {auth['last_login']}")
 
     content = "\n".join(lines) if lines else "[dim]No user information available[/dim]"
-    console.print(
-        Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED)
-    )
+    console.print(Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED))
 
 
 @auth_group.command(name="set-key")
@@ -549,6 +552,7 @@ def set_key(api_key: str):
 # ============================================================================
 # Context management  (org / project / env selection)
 # ============================================================================
+
 
 @auth_group.group(name="context", invoke_without_command=True)
 @click.pass_context
@@ -604,7 +608,7 @@ def context_set(org: str, project: str, env: str):
       hanzo auth context set --org hanzo
       hanzo auth context set --org hanzo --project myapp --env development
     """
-    from ..utils.api_client import PaaSClient, save_context, org_url, project_url, env_url
+    from ..utils.api_client import PaaSClient, env_url, org_url, project_url, save_context
 
     try:
         client = PaaSClient()
@@ -695,7 +699,7 @@ def context_set(org: str, project: str, env: str):
 @context_group.command(name="list")
 def context_list():
     """List available orgs, projects, and environments."""
-    from ..utils.api_client import PaaSClient, load_context, org_url, project_url, env_url
+    from ..utils.api_client import PaaSClient, env_url, org_url, project_url, load_context
 
     try:
         client = PaaSClient()
@@ -754,7 +758,9 @@ def context_list():
         if data:
             envs = data if isinstance(data, list) else data.get("environments", data.get("data", []))
             if envs:
-                etable = Table(title=f"Environments in {current.get('project_name', current['project_id'])}", box=box.ROUNDED)
+                etable = Table(
+                    title=f"Environments in {current.get('project_name', current['project_id'])}", box=box.ROUNDED
+                )
                 etable.add_column("", style="green", width=2)
                 etable.add_column("ID", style="cyan")
                 etable.add_column("Name", style="white")

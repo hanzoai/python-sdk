@@ -3,14 +3,14 @@
 List, monitor, and control background processes system-wide.
 """
 
-import signal
 import sys
-import psutil
-from typing import Any, Dict, List, Optional, Annotated, override, Literal
+import signal
+from typing import Any, Dict, List, Literal, Optional, Annotated, override
 from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass
 
+import psutil
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
@@ -91,28 +91,27 @@ USAGE:
             return None
 
     def _list_processes(
-        self,
-        sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu",
-        limit: int = 50,
-        user: Optional[str] = None
+        self, sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu", limit: int = 50, user: Optional[str] = None
     ) -> List[ProcessInfo]:
         """List system processes."""
         processes = []
-        for proc in psutil.process_iter(['pid', 'name', 'username', 'status', 'cpu_percent', 'memory_info', 'cmdline', 'create_time']):
+        for proc in psutil.process_iter(
+            ["pid", "name", "username", "status", "cpu_percent", "memory_info", "cmdline", "create_time"]
+        ):
             try:
                 # Filter by user if requested
-                if user and proc.info['username'] != user:
+                if user and proc.info["username"] != user:
                     continue
 
                 info = ProcessInfo(
-                    pid=proc.info['pid'],
-                    name=proc.info['name'] or "",
-                    username=proc.info['username'] or "",
-                    status=proc.info['status'] or "",
-                    cpu_percent=proc.info['cpu_percent'] or 0.0,
-                    memory_mb=(proc.info['memory_info'].rss / 1024 / 1024) if proc.info['memory_info'] else 0.0,
-                    cmdline=" ".join(proc.info['cmdline'] or []),
-                    create_time=datetime.fromtimestamp(proc.info['create_time']),
+                    pid=proc.info["pid"],
+                    name=proc.info["name"] or "",
+                    username=proc.info["username"] or "",
+                    status=proc.info["status"] or "",
+                    cpu_percent=proc.info["cpu_percent"] or 0.0,
+                    memory_mb=(proc.info["memory_info"].rss / 1024 / 1024) if proc.info["memory_info"] else 0.0,
+                    cmdline=" ".join(proc.info["cmdline"] or []),
+                    create_time=datetime.fromtimestamp(proc.info["create_time"]),
                 )
                 processes.append(info)
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
@@ -135,12 +134,12 @@ USAGE:
         try:
             process = psutil.Process(pid)
             process.send_signal(sig)
-            
+
             try:
                 sig_name = signal.Signals(sig).name
             except Exception:
                 sig_name = str(sig)
-                
+
             return f"Sent signal {sig_name} to PID {pid} ({process.name()})"
         except psutil.NoSuchProcess:
             return f"Process with PID {pid} not found"
@@ -162,8 +161,10 @@ USAGE:
             cmd = p.cmdline
             if len(cmd) > 50:
                 cmd = cmd[:47] + "..."
-            
-            line = f"{p.pid:<8} {p.username[:14]:<15} {p.cpu_percent:<6.1f} {p.memory_mb:<10.1f} {p.status[:9]:<10} {cmd}"
+
+            line = (
+                f"{p.pid:<8} {p.username[:14]:<15} {p.cpu_percent:<6.1f} {p.memory_mb:<10.1f} {p.status[:9]:<10} {cmd}"
+            )
             lines.append(line)
 
         return "\n".join(lines)
@@ -205,7 +206,7 @@ USAGE:
                 info = self._get_process_info(proc)
                 if not info:
                     return f"Process {pid} not found or access denied"
-                
+
                 return (
                     f"PID: {info.pid}\n"
                     f"Name: {info.name}\n"
@@ -230,10 +231,14 @@ USAGE:
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def ps(
-            action: Annotated[Literal["list", "kill", "get"], Field(description="Action to perform", default="list")] = "list",
+            action: Annotated[
+                Literal["list", "kill", "get"], Field(description="Action to perform", default="list")
+            ] = "list",
             pid: Annotated[Optional[int], Field(description="Process ID for kill/get", default=None)] = None,
             sig: Annotated[int, Field(description="Signal for kill (default: 15/SIGTERM)", default=15)] = 15,
-            sort_by: Annotated[Literal["cpu", "memory", "pid", "name"], Field(description="Sort field for list", default="cpu")] = "cpu",
+            sort_by: Annotated[
+                Literal["cpu", "memory", "pid", "name"], Field(description="Sort field for list", default="cpu")
+            ] = "cpu",
             limit: Annotated[int, Field(description="Number of processes to list", default=50)] = 50,
             user: Annotated[Optional[str], Field(description="Filter by username", default=None)] = None,
             ctx: MCPContext = None,

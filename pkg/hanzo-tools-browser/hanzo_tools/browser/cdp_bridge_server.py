@@ -25,19 +25,19 @@ Environment Variables:
     HANZO_CDP_HTTP_PORT: Port for the HTTP API (default: 9224)
 """
 
-import asyncio
-import json
-import logging
 import os
+import json
 import time
 import uuid
-from dataclasses import dataclass, field
+import asyncio
+import logging
 from typing import Any, Callable, Optional
+from dataclasses import field, dataclass
 
 try:
     import websockets
-    from websockets.server import serve as ws_serve
-    from websockets.server import WebSocketServerProtocol
+    from websockets.server import WebSocketServerProtocol, serve as ws_serve
+
     WEBSOCKETS_AVAILABLE = True
 except ImportError:
     WEBSOCKETS_AVAILABLE = False
@@ -46,6 +46,7 @@ except ImportError:
 # Try to import aiohttp for HTTP API server
 try:
     from aiohttp import web
+
     AIOHTTP_AVAILABLE = True
 except ImportError:
     AIOHTTP_AVAILABLE = False
@@ -57,6 +58,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ExtensionClient:
     """Represents a connected browser extension client."""
+
     client_id: str
     websocket: WebSocketServerProtocol
     browser: str = "unknown"
@@ -115,10 +117,7 @@ class CDPBridgeServer:
         if not self.extension_clients:
             return None
         # Return the client with most recent last_active timestamp
-        return max(
-            self.extension_clients.keys(),
-            key=lambda cid: self.extension_clients[cid].last_active
-        )
+        return max(self.extension_clients.keys(), key=lambda cid: self.extension_clients[cid].last_active)
 
     @property
     def default_client(self) -> Optional[ExtensionClient]:
@@ -129,10 +128,7 @@ class CDPBridgeServer:
     async def start(self) -> None:
         """Start the WebSocket and HTTP servers."""
         if not WEBSOCKETS_AVAILABLE:
-            raise ImportError(
-                "websockets package required for CDP bridge. "
-                "Install with: pip install websockets"
-            )
+            raise ImportError("websockets package required for CDP bridge. Install with: pip install websockets")
 
         # Start WebSocket server for browser extensions
         self._server = await ws_serve(
@@ -157,11 +153,7 @@ class CDPBridgeServer:
 
         self._http_runner = web.AppRunner(app)
         await self._http_runner.setup()
-        self._http_server = web.TCPSite(
-            self._http_runner,
-            self.host,
-            self.http_port
-        )
+        self._http_server = web.TCPSite(self._http_runner, self.host, self.http_port)
         await self._http_server.start()
         logger.info(f"CDP Bridge HTTP API started on http://{self.host}:{self.http_port}")
 
@@ -173,17 +165,20 @@ class CDPBridgeServer:
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type",
-            }
+            },
         )
 
     async def _http_status(self, request: "web.Request") -> "web.Response":
         """HTTP endpoint for status check."""
         connected = len(self.extension_clients) > 0
-        return web.json_response({
-            "connected": connected,
-            "clients": len(self.extension_clients),
-            "default_client_id": self.default_client_id,
-        }, headers={"Access-Control-Allow-Origin": "*"})
+        return web.json_response(
+            {
+                "connected": connected,
+                "clients": len(self.extension_clients),
+                "default_client_id": self.default_client_id,
+            },
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
 
     async def _http_command(self, request: "web.Request") -> "web.Response":
         """HTTP endpoint for sending commands to browser extension."""
@@ -191,9 +186,7 @@ class CDPBridgeServer:
             data = await request.json()
         except Exception as e:
             return web.json_response(
-                {"error": f"Invalid JSON: {e}"},
-                status=400,
-                headers={"Access-Control-Allow-Origin": "*"}
+                {"error": f"Invalid JSON: {e}"}, status=400, headers={"Access-Control-Allow-Origin": "*"}
             )
 
         # Resolve target client
@@ -203,11 +196,15 @@ class CDPBridgeServer:
         )
 
         if not target_client:
-            return web.json_response({
-                "error": "No browser extension connected"
+            return web.json_response(
+                {
+                    "error": "No browser extension connected"
                     if not self.extension_clients
                     else f"Client not found: {data.get('client_id') or data.get('target_id')}"
-            }, status=503, headers={"Access-Control-Allow-Origin": "*"})
+                },
+                status=503,
+                headers={"Access-Control-Allow-Origin": "*"},
+            )
 
         # Update target client's last_active
         target_client.last_active = time.time()
@@ -224,34 +221,49 @@ class CDPBridgeServer:
         self.pending_requests[request_id] = future
 
         try:
-            await target_client.websocket.send(json.dumps({
-                "id": request_id,
-                "method": method,
-                "params": params,
-            }))
+            await target_client.websocket.send(
+                json.dumps(
+                    {
+                        "id": request_id,
+                        "method": method,
+                        "params": params,
+                    }
+                )
+            )
 
             # Wait for response with timeout
             response = await asyncio.wait_for(future, timeout=30.0)
 
             # Return result
-            return web.json_response({
-                "success": True,
-                "client_id": target_client.client_id,
-                "result": response.get("result", {}),
-            }, headers={"Access-Control-Allow-Origin": "*"})
+            return web.json_response(
+                {
+                    "success": True,
+                    "client_id": target_client.client_id,
+                    "result": response.get("result", {}),
+                },
+                headers={"Access-Control-Allow-Origin": "*"},
+            )
 
         except asyncio.TimeoutError:
             self.pending_requests.pop(request_id, None)
-            return web.json_response({
-                "error": "Request timeout",
-                "client_id": target_client.client_id,
-            }, status=504, headers={"Access-Control-Allow-Origin": "*"})
+            return web.json_response(
+                {
+                    "error": "Request timeout",
+                    "client_id": target_client.client_id,
+                },
+                status=504,
+                headers={"Access-Control-Allow-Origin": "*"},
+            )
 
         except Exception as e:
             self.pending_requests.pop(request_id, None)
-            return web.json_response({
-                "error": str(e),
-            }, status=500, headers={"Access-Control-Allow-Origin": "*"})
+            return web.json_response(
+                {
+                    "error": str(e),
+                },
+                status=500,
+                headers={"Access-Control-Allow-Origin": "*"},
+            )
 
     def _action_to_method(self, action: str) -> str:
         """Map HTTP action to CDP method."""
@@ -332,27 +344,32 @@ class CDPBridgeServer:
                     self.extension_clients[client_id] = client
                     self._ws_to_client_id[websocket] = client_id
 
-                    logger.info(
-                        f"Browser extension registered: {client_id} "
-                        f"({client.browser}/{client.profile})"
-                    )
+                    logger.info(f"Browser extension registered: {client_id} ({client.browser}/{client.profile})")
 
                     # Send back the assigned client_id
-                    await websocket.send(json.dumps({
-                        "type": "registered",
-                        "client_id": client_id,
-                    }))
+                    await websocket.send(
+                        json.dumps(
+                            {
+                                "type": "registered",
+                                "client_id": client_id,
+                            }
+                        )
+                    )
 
                     # Notify MCP clients
                     for mcp in self.mcp_clients:
-                        await mcp.send(json.dumps({
-                            "type": "provider_connected",
-                            "client_id": client_id,
-                            "browser": client.browser,
-                            "profile": client.profile,
-                            "capabilities": client.capabilities,
-                            "total_clients": len(self.extension_clients),
-                        }))
+                        await mcp.send(
+                            json.dumps(
+                                {
+                                    "type": "provider_connected",
+                                    "client_id": client_id,
+                                    "browser": client.browser,
+                                    "profile": client.profile,
+                                    "capabilities": client.capabilities,
+                                    "total_clients": len(self.extension_clients),
+                                }
+                            )
+                        )
 
                 elif role == "mcp-client":
                     # This is hanzo-mcp or another MCP tool
@@ -360,12 +377,16 @@ class CDPBridgeServer:
                     logger.info("MCP client connected")
 
                     # Send status with all connected clients
-                    await websocket.send(json.dumps({
-                        "type": "status",
-                        "connected": len(self.extension_clients) > 0,
-                        "clients": [c.to_dict() for c in self.extension_clients.values()],
-                        "default_client_id": self.default_client_id,
-                    }))
+                    await websocket.send(
+                        json.dumps(
+                            {
+                                "type": "status",
+                                "connected": len(self.extension_clients) > 0,
+                                "clients": [c.to_dict() for c in self.extension_clients.values()],
+                                "default_client_id": self.default_client_id,
+                            }
+                        )
+                    )
 
             # Handle subsequent messages
             async for message in websocket:
@@ -383,11 +404,15 @@ class CDPBridgeServer:
                 # Notify MCP clients
                 for mcp in self.mcp_clients:
                     try:
-                        await mcp.send(json.dumps({
-                            "type": "provider_disconnected",
-                            "client_id": client_id,
-                            "remaining_clients": len(self.extension_clients),
-                        }))
+                        await mcp.send(
+                            json.dumps(
+                                {
+                                    "type": "provider_disconnected",
+                                    "client_id": client_id,
+                                    "remaining_clients": len(self.extension_clients),
+                                }
+                            )
+                        )
                     except Exception:
                         pass
 
@@ -463,15 +488,19 @@ class CDPBridgeServer:
 
             if not target_client:
                 # No extension connected or specified client not found
-                await sender.send(json.dumps({
-                    "id": data.get("id"),
-                    "error": {
-                        "code": -32000,
-                        "message": "No browser extension connected"
-                            if not self.extension_clients
-                            else f"Client not found: {data.get('client_id') or data.get('target_id')}"
-                    }
-                }))
+                await sender.send(
+                    json.dumps(
+                        {
+                            "id": data.get("id"),
+                            "error": {
+                                "code": -32000,
+                                "message": "No browser extension connected"
+                                if not self.extension_clients
+                                else f"Client not found: {data.get('client_id') or data.get('target_id')}",
+                            },
+                        }
+                    )
+                )
                 return
 
             # Update target client's last_active
@@ -495,22 +524,20 @@ class CDPBridgeServer:
 
             except asyncio.TimeoutError:
                 self.pending_requests.pop(request_id, None)
-                await sender.send(json.dumps({
-                    "id": request_id,
-                    "error": {
-                        "code": -32001,
-                        "message": f"Request timeout (client: {target_client.client_id})"
-                    }
-                }))
+                await sender.send(
+                    json.dumps(
+                        {
+                            "id": request_id,
+                            "error": {
+                                "code": -32001,
+                                "message": f"Request timeout (client: {target_client.client_id})",
+                            },
+                        }
+                    )
+                )
             except Exception as e:
                 self.pending_requests.pop(request_id, None)
-                await sender.send(json.dumps({
-                    "id": request_id,
-                    "error": {
-                        "code": -32603,
-                        "message": str(e)
-                    }
-                }))
+                await sender.send(json.dumps({"id": request_id, "error": {"code": -32603, "message": str(e)}}))
 
     def _next_request_id(self) -> int:
         """Generate next request ID."""
@@ -553,14 +580,12 @@ class CDPBridgeClient:
 
         try:
             import websockets
+
             uri = f"ws://{self.host}:{self.port}/cdp"
             self._websocket = await websockets.connect(uri)
 
             # Register as MCP client
-            await self._websocket.send(json.dumps({
-                "type": "register",
-                "role": "mcp-client"
-            }))
+            await self._websocket.send(json.dumps({"type": "register", "role": "mcp-client"}))
 
             # Wait for status response
             status_msg = await self._websocket.recv()
@@ -597,12 +622,14 @@ class CDPBridgeClient:
                 # Handle status updates
                 if data.get("type") == "provider_connected":
                     # New client connected
-                    self._clients.append({
-                        "client_id": data.get("client_id"),
-                        "browser": data.get("browser"),
-                        "profile": data.get("profile"),
-                        "capabilities": data.get("capabilities"),
-                    })
+                    self._clients.append(
+                        {
+                            "client_id": data.get("client_id"),
+                            "browser": data.get("browser"),
+                            "profile": data.get("profile"),
+                            "capabilities": data.get("capabilities"),
+                        }
+                    )
                 elif data.get("type") == "provider_disconnected":
                     # Client disconnected
                     cid = data.get("client_id")
@@ -653,11 +680,7 @@ class CDPBridgeClient:
         future: asyncio.Future = asyncio.get_event_loop().create_future()
         self._pending[request_id] = future
 
-        payload = {
-            "id": request_id,
-            "method": method,
-            "params": params or {}
-        }
+        payload = {"id": request_id, "method": method, "params": params or {}}
 
         # Add routing hints
         if client_id:

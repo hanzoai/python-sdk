@@ -5,8 +5,8 @@ BullMQ-compatible job and message queues.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -39,6 +39,7 @@ def queues_group():
 # ============================================================================
 # Queue Management
 # ============================================================================
+
 
 @queues_group.command(name="list")
 @click.option("--project", "-p", help="Project ID")
@@ -79,6 +80,7 @@ def queues_delete(name: str, force: bool):
     """Delete a queue."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete queue '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Queue '{name}' deleted")
@@ -88,23 +90,26 @@ def queues_delete(name: str, force: bool):
 @click.argument("name")
 def queues_stats(name: str):
     """Show queue statistics."""
-    console.print(Panel(
-        f"[cyan]Queue:[/cyan] {name}\n"
-        f"[cyan]Pending:[/cyan] 1,234\n"
-        f"[cyan]Active:[/cyan] 10\n"
-        f"[cyan]Completed:[/cyan] 45,678 (last 24h)\n"
-        f"[cyan]Failed:[/cyan] 23\n"
-        f"[cyan]Delayed:[/cyan] 56\n"
-        f"[cyan]Avg process time:[/cyan] 245ms\n"
-        f"[cyan]Throughput:[/cyan] 1,200/min",
-        title="Queue Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Queue:[/cyan] {name}\n"
+            f"[cyan]Pending:[/cyan] 1,234\n"
+            f"[cyan]Active:[/cyan] 10\n"
+            f"[cyan]Completed:[/cyan] 45,678 (last 24h)\n"
+            f"[cyan]Failed:[/cyan] 23\n"
+            f"[cyan]Delayed:[/cyan] 56\n"
+            f"[cyan]Avg process time:[/cyan] 245ms\n"
+            f"[cyan]Throughput:[/cyan] 1,200/min",
+            title="Queue Statistics",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Job Operations
 # ============================================================================
+
 
 @queues_group.command(name="push")
 @click.argument("queue")
@@ -116,6 +121,7 @@ def queues_stats(name: str):
 def queues_push(queue: str, data: str, name: str, priority: int, delay: str, attempts: int):
     """Push a job to a queue."""
     import secrets
+
     job_id = secrets.token_hex(8)
     console.print(f"[green]✓[/green] Job pushed to '{queue}'")
     console.print(f"  Job ID: {job_id}")
@@ -157,22 +163,25 @@ def queues_peek(queue: str, count: int):
 @click.argument("job_id")
 def queues_get(queue: str, job_id: str):
     """Get job details."""
-    console.print(Panel(
-        f"[cyan]Job ID:[/cyan] {job_id}\n"
-        f"[cyan]Queue:[/cyan] {queue}\n"
-        f"[cyan]Status:[/cyan] Completed\n"
-        f"[cyan]Attempts:[/cyan] 1/3\n"
-        f"[cyan]Created:[/cyan] 2024-01-20 10:30:00\n"
-        f"[cyan]Processed:[/cyan] 2024-01-20 10:30:05\n"
-        f"[cyan]Duration:[/cyan] 245ms",
-        title="Job Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Job ID:[/cyan] {job_id}\n"
+            f"[cyan]Queue:[/cyan] {queue}\n"
+            f"[cyan]Status:[/cyan] Completed\n"
+            f"[cyan]Attempts:[/cyan] 1/3\n"
+            f"[cyan]Created:[/cyan] 2024-01-20 10:30:00\n"
+            f"[cyan]Processed:[/cyan] 2024-01-20 10:30:05\n"
+            f"[cyan]Duration:[/cyan] 245ms",
+            title="Job Details",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Retry / DLQ / Drain
 # ============================================================================
+
 
 @queues_group.command(name="retry")
 @click.argument("queue")
@@ -232,6 +241,7 @@ def dlq_retry(queue: str, job_id: str, all_jobs: bool):
 def dlq_purge(queue: str):
     """Purge all jobs from dead letter queue."""
     from rich.prompt import Confirm
+
     if not Confirm.ask(f"[red]Purge all DLQ jobs for '{queue}'?[/red]"):
         return
     console.print(f"[green]✓[/green] DLQ purged for '{queue}'")
@@ -243,6 +253,7 @@ def dlq_purge(queue: str):
 def queues_drain(queue: str, delayed: bool):
     """Drain all jobs from a queue."""
     from rich.prompt import Confirm
+
     if not Confirm.ask(f"[red]Drain all jobs from '{queue}'?[/red]"):
         return
     console.print(f"[green]✓[/green] Queue '{queue}' drained")

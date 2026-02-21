@@ -12,15 +12,15 @@ Example servers that can be proxied:
 - @modelcontextprotocol/server-cloudflare (Cloudflare)
 """
 
-import asyncio
-import json
-import logging
 import os
+import json
 import shutil
+import asyncio
+import logging
 import subprocess
-from dataclasses import dataclass, field
+from typing import Any, Dict, List, Callable, Optional, Awaitable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable, Awaitable
+from dataclasses import field, dataclass
 
 logger = logging.getLogger(__name__)
 
@@ -74,9 +74,7 @@ class MCPServerConnection:
         # Check auth if required
         if self.config.auth_required and self.config.auth_env_var:
             if not os.environ.get(self.config.auth_env_var):
-                logger.warning(
-                    f"MCP server '{self.config.name}' requires {self.config.auth_env_var} to be set"
-                )
+                logger.warning(f"MCP server '{self.config.name}' requires {self.config.auth_env_var} to be set")
                 return False
 
         # Prepare environment
@@ -112,9 +110,7 @@ class MCPServerConnection:
             # Discover tools
             await self._discover_tools()
 
-            logger.info(
-                f"Connected to MCP server '{self.config.name}' with {len(self.tools)} tools"
-            )
+            logger.info(f"Connected to MCP server '{self.config.name}' with {len(self.tools)} tools")
             return True
 
         except Exception as e:
@@ -215,16 +211,19 @@ class MCPServerConnection:
 
     async def _initialize(self):
         """Initialize the MCP connection."""
-        result = await self._send_request("initialize", {
-            "protocolVersion": "2024-11-05",
-            "capabilities": {
-                "roots": {"listChanged": True},
+        result = await self._send_request(
+            "initialize",
+            {
+                "protocolVersion": "2024-11-05",
+                "capabilities": {
+                    "roots": {"listChanged": True},
+                },
+                "clientInfo": {
+                    "name": "hanzo-mcp-proxy",
+                    "version": "1.0.0",
+                },
             },
-            "clientInfo": {
-                "name": "hanzo-mcp-proxy",
-                "version": "1.0.0",
-            },
-        })
+        )
 
         # Send initialized notification
         if self._writer:
@@ -241,22 +240,27 @@ class MCPServerConnection:
 
             self.tools = []
             for tool in result.get("tools", []):
-                self.tools.append(ProxiedTool(
-                    name=tool["name"],
-                    description=tool.get("description", ""),
-                    input_schema=tool.get("inputSchema", {}),
-                    server_name=self.config.name,
-                ))
+                self.tools.append(
+                    ProxiedTool(
+                        name=tool["name"],
+                        description=tool.get("description", ""),
+                        input_schema=tool.get("inputSchema", {}),
+                        server_name=self.config.name,
+                    )
+                )
 
         except Exception as e:
             logger.warning(f"Failed to discover tools from '{self.config.name}': {e}")
 
     async def call_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
         """Call a tool on the MCP server."""
-        result = await self._send_request("tools/call", {
-            "name": tool_name,
-            "arguments": arguments,
-        })
+        result = await self._send_request(
+            "tools/call",
+            {
+                "name": tool_name,
+                "arguments": arguments,
+            },
+        )
         return result
 
 
@@ -406,17 +410,19 @@ class MCPProxyRegistry:
             if config.auth_required and config.auth_env_var:
                 auth_configured = bool(os.environ.get(config.auth_env_var))
 
-            servers.append({
-                "name": name,
-                "description": config.description,
-                "builtin": True,
-                "connected": is_connected,
-                "auth_required": config.auth_required,
-                "auth_configured": auth_configured,
-                "auth_env_var": config.auth_env_var,
-                "auth_url": config.auth_url,
-                "tool_count": len(self._connections[name].tools) if is_connected else 0,
-            })
+            servers.append(
+                {
+                    "name": name,
+                    "description": config.description,
+                    "builtin": True,
+                    "connected": is_connected,
+                    "auth_required": config.auth_required,
+                    "auth_configured": auth_configured,
+                    "auth_env_var": config.auth_env_var,
+                    "auth_url": config.auth_url,
+                    "tool_count": len(self._connections[name].tools) if is_connected else 0,
+                }
+            )
 
         # Add custom servers
         for name, config in self._custom_servers.items():
@@ -428,17 +434,19 @@ class MCPProxyRegistry:
             if config.auth_required and config.auth_env_var:
                 auth_configured = bool(os.environ.get(config.auth_env_var))
 
-            servers.append({
-                "name": name,
-                "description": config.description,
-                "builtin": False,
-                "connected": is_connected,
-                "auth_required": config.auth_required,
-                "auth_configured": auth_configured,
-                "auth_env_var": config.auth_env_var,
-                "auth_url": config.auth_url,
-                "tool_count": len(self._connections[name].tools) if is_connected else 0,
-            })
+            servers.append(
+                {
+                    "name": name,
+                    "description": config.description,
+                    "builtin": False,
+                    "connected": is_connected,
+                    "auth_required": config.auth_required,
+                    "auth_configured": auth_configured,
+                    "auth_env_var": config.auth_env_var,
+                    "auth_url": config.auth_url,
+                    "tool_count": len(self._connections[name].tools) if is_connected else 0,
+                }
+            )
 
         return servers
 
@@ -519,9 +527,7 @@ class MCPProxyRegistry:
             tools.extend(conn.tools)
         return tools
 
-    async def call_proxied_tool(
-        self, server_name: str, tool_name: str, arguments: Dict[str, Any]
-    ) -> Any:
+    async def call_proxied_tool(self, server_name: str, tool_name: str, arguments: Dict[str, Any]) -> Any:
         """Call a tool on a proxied server.
 
         If lazy_load is enabled, the server will be connected on first use.

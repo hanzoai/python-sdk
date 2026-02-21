@@ -280,12 +280,12 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
         if isinstance(cmd, list):
             tasks = [self._execute_node(c, ctx, shell, cwd, env, timeout) for c in cmd]
             results = await asyncio.gather(*tasks, return_exceptions=True)
-            
+
             combined_stdout = []
             combined_stderr = []
             all_success = True
             total_duration = 0
-            
+
             for i, r in enumerate(results):
                 if isinstance(r, Exception):
                     combined_stderr.append(f"[{i}] Error: {r}")
@@ -298,7 +298,7 @@ backgrounded. Use ps tool to monitor: ps --logs <id>, ps --kill <id>"""
                     if r.status != NodeStatus.SUCCESS:
                         all_success = False
                     total_duration = max(total_duration, r.duration_ms)
-            
+
             return DagResult(
                 node_id=f"auto_parallel_{len(cmd)}",
                 command=f"parallel[{len(cmd)} tasks]",

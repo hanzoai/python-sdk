@@ -60,13 +60,13 @@ except ImportError as e:
 # Proxy utilities for programmatic use
 try:
     from .mcp_proxy import (
-        MCPProxyRegistry,
-        MCPServerConfig,
-        MCPServerConnection,
-        ProxiedTool,
-        enable_mcp_server,
-        call_mcp_tool,
         BUILTIN_SERVERS,
+        ProxiedTool,
+        MCPServerConfig,
+        MCPProxyRegistry,
+        MCPServerConnection,
+        call_mcp_tool,
+        enable_mcp_server,
     )
 except ImportError as e:
     logger.debug(f"MCP proxy utilities not available: {e}")

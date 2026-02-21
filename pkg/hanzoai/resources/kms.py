@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -710,13 +710,16 @@ class KMSResourceWithRawResponse:
     def __init__(self, kms: KMSResource) -> None:
         self._kms = kms
 
+
 class AsyncKMSResourceWithRawResponse:
     def __init__(self, kms: AsyncKMSResource) -> None:
         self._kms = kms
 
+
 class KMSResourceWithStreamingResponse:
     def __init__(self, kms: KMSResource) -> None:
         self._kms = kms
+
 
 class AsyncKMSResourceWithStreamingResponse:
     def __init__(self, kms: AsyncKMSResource) -> None:
