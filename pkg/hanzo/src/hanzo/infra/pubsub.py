@@ -17,16 +17,28 @@ from pydantic import Field, BaseModel
 class PubSubConfig(BaseModel):
     """Configuration for NATS connection."""
 
-    servers: list[str] = Field(default=["nats://localhost:4222"], description="NATS server URLs")
+    servers: list[str] = Field(
+        default=["nats://localhost:4222"], description="NATS server URLs"
+    )
     user: Optional[str] = Field(default=None, description="Username for authentication")
-    password: Optional[str] = Field(default=None, description="Password for authentication")
+    password: Optional[str] = Field(
+        default=None, description="Password for authentication"
+    )
     token: Optional[str] = Field(default=None, description="Token for authentication")
-    nkey_seed: Optional[str] = Field(default=None, description="NKey seed for authentication")
+    nkey_seed: Optional[str] = Field(
+        default=None, description="NKey seed for authentication"
+    )
     tls: bool = Field(default=False, description="Use TLS")
     name: str = Field(default="hanzo-client", description="Client name")
-    connect_timeout: float = Field(default=5.0, description="Connection timeout in seconds")
-    reconnect_time_wait: float = Field(default=2.0, description="Time between reconnect attempts")
-    max_reconnect_attempts: int = Field(default=60, description="Max reconnection attempts")
+    connect_timeout: float = Field(
+        default=5.0, description="Connection timeout in seconds"
+    )
+    reconnect_time_wait: float = Field(
+        default=2.0, description="Time between reconnect attempts"
+    )
+    max_reconnect_attempts: int = Field(
+        default=60, description="Max reconnection attempts"
+    )
     ping_interval: float = Field(default=120.0, description="Ping interval in seconds")
     max_outstanding_pings: int = Field(default=2, description="Max outstanding pings")
 
@@ -132,7 +144,9 @@ class PubSubClient:
         try:
             import nats
         except ImportError as e:
-            raise ImportError("nats-py is required for PubSubClient. Install with: pip install nats-py") from e
+            raise ImportError(
+                "nats-py is required for PubSubClient. Install with: pip install nats-py"
+            ) from e
 
         connect_opts: dict[str, Any] = {
             "servers": self.config.servers,
@@ -268,7 +282,9 @@ class PubSubClient:
         Raises:
             TimeoutError: If no response within timeout.
         """
-        response = await self._nc.request(subject, data, timeout=timeout, headers=headers)
+        response = await self._nc.request(
+            subject, data, timeout=timeout, headers=headers
+        )
         return Message(
             subject=response.subject,
             data=response.data,

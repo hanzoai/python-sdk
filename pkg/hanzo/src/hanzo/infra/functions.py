@@ -17,11 +17,19 @@ from pydantic import Field, BaseModel
 class FunctionsConfig(BaseModel):
     """Configuration for Nuclio connection."""
 
-    dashboard_url: str = Field(default="http://localhost:8070", description="Nuclio dashboard URL")
-    api_key: Optional[str] = Field(default=None, description="API key for authentication")
+    dashboard_url: str = Field(
+        default="http://localhost:8070", description="Nuclio dashboard URL"
+    )
+    api_key: Optional[str] = Field(
+        default=None, description="API key for authentication"
+    )
     namespace: str = Field(default="nuclio", description="Kubernetes namespace")
-    default_runtime: str = Field(default="python:3.11", description="Default function runtime")
-    default_handler: str = Field(default="main:handler", description="Default function handler")
+    default_runtime: str = Field(
+        default="python:3.11", description="Default function runtime"
+    )
+    default_handler: str = Field(
+        default="main:handler", description="Default function handler"
+    )
     registry: Optional[str] = Field(default=None, description="Container registry URL")
     timeout: float = Field(default=30.0, description="Request timeout in seconds")
 
@@ -188,7 +196,9 @@ class FunctionsClient:
         try:
             import httpx
         except ImportError as e:
-            raise ImportError("httpx is required for FunctionsClient. Install with: pip install httpx") from e
+            raise ImportError(
+                "httpx is required for FunctionsClient. Install with: pip install httpx"
+            ) from e
 
         self._client = httpx.AsyncClient(
             base_url=self.config.dashboard_url,
@@ -314,9 +324,11 @@ class FunctionsClient:
             replicas=status.get("replicas", 0),
             version=metadata.get("version", ""),
             invoke_url=status.get("httpPort"),
-            internal_url=status.get("internalInvocationUrls", [None])[0]
-            if status.get("internalInvocationUrls")
-            else None,
+            internal_url=(
+                status.get("internalInvocationUrls", [None])[0]
+                if status.get("internalInvocationUrls")
+                else None
+            ),
             message=status.get("message"),
         )
 

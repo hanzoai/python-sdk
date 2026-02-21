@@ -27,7 +27,9 @@ class QueuesConfig(BaseModel):
     db: int = Field(default=1, description="Redis database number")
     url: Optional[str] = Field(default=None, description="Full Redis URL")
     prefix: str = Field(default="hanzo:queue", description="Key prefix for queues")
-    default_timeout: int = Field(default=300, description="Default job timeout in seconds")
+    default_timeout: int = Field(
+        default=300, description="Default job timeout in seconds"
+    )
     default_ttl: int = Field(default=86400, description="Default result TTL in seconds")
 
     @classmethod
@@ -97,7 +99,9 @@ class Job:
             "error": self.error,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "started_at": self.started_at.isoformat() if self.started_at else None,
-            "completed_at": self.completed_at.isoformat() if self.completed_at else None,
+            "completed_at": (
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
             "attempts": self.attempts,
             "max_attempts": self.max_attempts,
             "timeout": self.timeout,
@@ -117,9 +121,21 @@ class Job:
             status=JobStatus(data.get("status", "pending")),
             result=data.get("result"),
             error=data.get("error"),
-            created_at=datetime.fromisoformat(data["created_at"]) if data.get("created_at") else None,
-            started_at=datetime.fromisoformat(data["started_at"]) if data.get("started_at") else None,
-            completed_at=datetime.fromisoformat(data["completed_at"]) if data.get("completed_at") else None,
+            created_at=(
+                datetime.fromisoformat(data["created_at"])
+                if data.get("created_at")
+                else None
+            ),
+            started_at=(
+                datetime.fromisoformat(data["started_at"])
+                if data.get("started_at")
+                else None
+            ),
+            completed_at=(
+                datetime.fromisoformat(data["completed_at"])
+                if data.get("completed_at")
+                else None
+            ),
             attempts=data.get("attempts", 0),
             max_attempts=data.get("max_attempts", 3),
             timeout=data.get("timeout", 300),
@@ -194,7 +210,9 @@ class QueuesClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError("redis is required for QueuesClient. Install with: pip install redis") from e
+            raise ImportError(
+                "redis is required for QueuesClient. Install with: pip install redis"
+            ) from e
 
         if self.config.url:
             self._redis = redis.from_url(

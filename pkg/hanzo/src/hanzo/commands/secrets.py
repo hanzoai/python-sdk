@@ -157,7 +157,9 @@ def secrets_list(env: str, prefix: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No secrets found. Create one with 'hanzo secrets set'[/dim]")
+        console.print(
+            "[dim]No secrets found. Create one with 'hanzo secrets set'[/dim]"
+        )
 
 
 @secrets_group.command(name="unset")
@@ -260,10 +262,14 @@ def secrets_rollback(name: str, version: str, env: str):
 @secrets_group.command(name="grant")
 @click.argument("name")
 @click.option("--to", "-t", required=True, help="Service or user to grant access")
-@click.option("--role", "-r", default="read", type=click.Choice(["read", "write", "admin"]))
+@click.option(
+    "--role", "-r", default="read", type=click.Choice(["read", "write", "admin"])
+)
 def secrets_grant(name: str, to: str, role: str):
     """Grant access to a secret."""
-    resp = _request("post", f"/v1/secrets/{name}/access", json={"principal": to, "role": role})
+    resp = _request(
+        "post", f"/v1/secrets/{name}/access", json={"principal": to, "role": role}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Granted {role} access to '{name}' for {to}")
 

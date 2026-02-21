@@ -39,7 +39,11 @@ def get_iam_token() -> Optional[str]:
         try:
             auth = json.loads(AUTH_FILE.read_text())
             # CLI login stores flat "token", worker/IAM stores nested "tokens.access_token"
-            return auth.get("token") or auth.get("api_key") or auth.get("tokens", {}).get("access_token")
+            return (
+                auth.get("token")
+                or auth.get("api_key")
+                or auth.get("tokens", {}).get("access_token")
+            )
         except Exception:
             pass
     return None
@@ -272,7 +276,9 @@ class PaaSClient:
     def get(self, url: str, **kwargs) -> Optional[dict]:
         return self._request("GET", url, **kwargs)
 
-    def post(self, url: str, payload: Optional[dict] = None, **kwargs) -> Optional[dict]:
+    def post(
+        self, url: str, payload: Optional[dict] = None, **kwargs
+    ) -> Optional[dict]:
         return self._request("POST", url, json=payload, **kwargs)
 
     def put(self, url: str, payload: Optional[dict] = None, **kwargs) -> Optional[dict]:
@@ -306,7 +312,9 @@ class PaaSClient:
                 if resp.status_code == 401:
                     new_token = self._reauth()
                     if new_token:
-                        resp = client.request(method, url, headers=self.headers, **kwargs)
+                        resp = client.request(
+                            method, url, headers=self.headers, **kwargs
+                        )
                     else:
                         return self._handle_response(resp)
 
