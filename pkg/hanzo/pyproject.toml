@@ -8,14 +8,11 @@ authors = [
 dependencies = [
     "click>=8.1.0",
     "rich>=13.0.0",
-    "typer>=0.9.0",
-    "prompt-toolkit>=3.0.0",
     "httpx>=0.23.0",
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
-    "openai>=1.0.0",
-    "anthropic>=0.25.0",
-    "qrcode>=7.4.2",
+    "hanzo-cli>=0.2.0",
+    "hanzo-kms>=1.1.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -35,30 +32,25 @@ classifiers = [
 
 [project.scripts]
 hanzo = "hanzo.cli:main"
-hanzo-ai = "hanzo.repl:ai_chat"
-hanzo-chat = "hanzo.repl:ai_chat"
-hanzo-repl = "hanzo.repl:repl_main"
-# Note: hanzo-mcp command is provided by the dedicated hanzo-mcp package
 
 [project.optional-dependencies]
-cli = [
-    "hanzo-cli>=0.2.0",
-    "hanzo-kms>=1.1.0",
-]
 all = [
     "hanzoai>=1.0.0",
     "hanzo-mcp>=0.7.0",
     "hanzo-agents>=0.1.0",
     "hanzo-network>=0.1.3",
-    "hanzo-repl>=0.1.0",
     "hanzo-memory>=1.0.0",
-    "hanzo-cli>=0.2.0",
-    "hanzo-kms>=1.1.0",
     # "hanzo-router>=1.74.3",  # TODO: Publish hanzo-router to PyPI
     "hanzo-aci>=0.2.8",
+    "prompt-toolkit>=3.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.25.0",
+    "qrcode>=7.4.2",
 ]
 ai = [
-    "hanzoai>=1.0.0",  # This provides the same as standalone hanzoai package
+    "hanzoai>=1.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.25.0",
 ]
 router = [
     # "hanzo-router>=1.74.3",  # TODO: Publish hanzo-router to PyPI
@@ -73,9 +65,9 @@ agents = [
 dev = [
     "hanzo-aci>=0.2.8",
 ]
-repl = [
-    "hanzo-repl>=0.1.0",
-    # "hanzo-router>=1.74.3",  # TODO: For AI chat functionality - publish to PyPI
+interactive = [
+    "prompt-toolkit>=3.0.0",
+    "qrcode>=7.4.2",
 ]
 
 # Infrastructure extras - simple names
