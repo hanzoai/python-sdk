@@ -3,12 +3,23 @@
 Topics, subscriptions, publish, consume.
 """
 
+import os
+import json
+
 import click
+import httpx
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
 from ..utils.output import console
+from .base import service_request, check_response
+
+PUBSUB_URL = os.getenv("HANZO_PUBSUB_URL", "https://pubsub.hanzo.ai")
+
+
+def _request(method: str, path: str, **kwargs) -> httpx.Response:
+    return service_request(PUBSUB_URL, method, path, **kwargs)
 
 
 @click.group(name="pubsub")
@@ -52,6 +63,14 @@ def topics():
 @click.option("--project", "-p", help="Project ID")
 def topics_list(project: str):
     """List all topics."""
+    params = {}
+    if project:
+        params["project"] = project
+
+    resp = _request("get", "/v1/topics", params=params)
+    data = check_response(resp)
+    items = data.get("topics", data.get("items", []))
+
     table = Table(title="Topics", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Subscriptions", style="white")
@@ -59,8 +78,18 @@ def topics_list(project: str):
     table.add_column("Retention", style="dim")
     table.add_column("Created", style="dim")
 
+    for t in items:
+        table.add_row(
+            t.get("name", ""),
+            str(t.get("subscription_count", 0)),
+            str(t.get("messages_per_day", 0)),
+            t.get("retention", "-"),
+            str(t.get("created_at", ""))[:10],
+        )
+
     console.print(table)
-    console.print("[dim]No topics found. Create one with 'hanzo pubsub topics create'[/dim]")
+    if not items:
+        console.print("[dim]No topics found. Create one with 'hanzo pubsub topics create'[/dim]")
 
 
 @topics.command(name="create")
@@ -69,7 +98,15 @@ def topics_list(project: str):
 @click.option("--schema", "-s", help="Schema for message validation")
 def topics_create(name: str, retention: str, schema: str):
     """Create a topic."""
+    payload = {"name": name, "retention": retention}
+    if schema:
+        payload["schema"] = schema
+
+    resp = _request("post", "/v1/topics", json=payload)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Topic '{name}' created")
+    console.print(f"  ID: {data.get('id', '-')}")
     console.print(f"  Retention: {retention}")
     if schema:
         console.print(f"  Schema: {schema}")
@@ -85,6 +122,9 @@ def topics_delete(name: str, force: bool):
 
         if not Confirm.ask(f"[red]Delete topic '{name}' and all subscriptions?[/red]"):
             return
+
+    resp = _request("delete", f"/v1/topics/{name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Topic '{name}' deleted")
 
 
@@ -92,14 +132,17 @@ def topics_delete(name: str, force: bool):
 @click.argument("name")
 def topics_describe(name: str):
     """Show topic details."""
+    resp = _request("get", f"/v1/topics/{name}")
+    data = check_response(resp)
+
     console.print(
         Panel(
-            f"[cyan]Topic:[/cyan] {name}\n"
-            f"[cyan]Subscriptions:[/cyan] 3\n"
-            f"[cyan]Messages/day:[/cyan] 125,000\n"
-            f"[cyan]Retention:[/cyan] 7 days\n"
-            f"[cyan]Schema:[/cyan] None\n"
-            f"[cyan]Created:[/cyan] 2024-01-15",
+            f"[cyan]Topic:[/cyan] {data.get('name', name)}\n"
+            f"[cyan]Subscriptions:[/cyan] {data.get('subscription_count', 0)}\n"
+            f"[cyan]Messages/day:[/cyan] {data.get('messages_per_day', 0):,}\n"
+            f"[cyan]Retention:[/cyan] {data.get('retention', '-')}\n"
+            f"[cyan]Schema:[/cyan] {data.get('schema', 'None')}\n"
+            f"[cyan]Created:[/cyan] {str(data.get('created_at', ''))[:19]}",
             title="Topic Details",
             border_style="cyan",
         )
@@ -121,6 +164,14 @@ def subs():
 @click.option("--topic", "-t", help="Filter by topic")
 def subs_list(topic: str):
     """List subscriptions."""
+    params = {}
+    if topic:
+        params["topic"] = topic
+
+    resp = _request("get", "/v1/subscriptions", params=params)
+    data = check_response(resp)
+    items = data.get("subscriptions", data.get("items", []))
+
     table = Table(title="Subscriptions", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Topic", style="white")
@@ -128,7 +179,19 @@ def subs_list(topic: str):
     table.add_column("Pending", style="yellow")
     table.add_column("Ack Deadline", style="dim")
 
+    for s in items:
+        sub_type = "push" if s.get("push_endpoint") else "pull"
+        table.add_row(
+            s.get("name", ""),
+            s.get("topic", "-"),
+            sub_type,
+            str(s.get("pending_count", 0)),
+            f"{s.get('ack_deadline', 10)}s",
+        )
+
     console.print(table)
+    if not items:
+        console.print("[dim]No subscriptions found[/dim]")
 
 
 @subs.command(name="create")
@@ -139,6 +202,15 @@ def subs_list(topic: str):
 @click.option("--filter", "-f", help="Message filter expression")
 def subs_create(name: str, topic: str, push_endpoint: str, ack_deadline: int, filter: str):
     """Create a subscription."""
+    payload = {"name": name, "topic": topic, "ack_deadline": ack_deadline}
+    if push_endpoint:
+        payload["push_endpoint"] = push_endpoint
+    if filter:
+        payload["filter"] = filter
+
+    resp = _request("post", "/v1/subscriptions", json=payload)
+    data = check_response(resp)
+
     sub_type = "push" if push_endpoint else "pull"
     console.print(f"[green]✓[/green] Subscription '{name}' created")
     console.print(f"  Topic: {topic}")
@@ -154,6 +226,8 @@ def subs_create(name: str, topic: str, push_endpoint: str, ack_deadline: int, fi
 @click.argument("name")
 def subs_delete(name: str):
     """Delete a subscription."""
+    resp = _request("delete", f"/v1/subscriptions/{name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Subscription '{name}' deleted")
 
 
@@ -161,14 +235,18 @@ def subs_delete(name: str):
 @click.argument("name")
 def subs_describe(name: str):
     """Show subscription details."""
+    resp = _request("get", f"/v1/subscriptions/{name}")
+    data = check_response(resp)
+
+    sub_type = "Push" if data.get("push_endpoint") else "Pull"
     console.print(
         Panel(
-            f"[cyan]Subscription:[/cyan] {name}\n"
-            f"[cyan]Topic:[/cyan] events\n"
-            f"[cyan]Type:[/cyan] Pull\n"
-            f"[cyan]Pending messages:[/cyan] 1,234\n"
-            f"[cyan]Ack deadline:[/cyan] 10s\n"
-            f"[cyan]Filter:[/cyan] None",
+            f"[cyan]Subscription:[/cyan] {data.get('name', name)}\n"
+            f"[cyan]Topic:[/cyan] {data.get('topic', '-')}\n"
+            f"[cyan]Type:[/cyan] {sub_type}\n"
+            f"[cyan]Pending messages:[/cyan] {data.get('pending_count', 0):,}\n"
+            f"[cyan]Ack deadline:[/cyan] {data.get('ack_deadline', 10)}s\n"
+            f"[cyan]Filter:[/cyan] {data.get('filter', 'None')}",
             title="Subscription Details",
             border_style="cyan",
         )
@@ -186,11 +264,19 @@ def subs_describe(name: str):
 @click.option("--attributes", "-a", multiple=True, help="Attributes (key=value)")
 def publish(topic: str, message: str, attributes: tuple):
     """Publish a message to a topic."""
-    import secrets
+    payload = {"data": message}
+    if attributes:
+        attrs = {}
+        for a in attributes:
+            k, v = a.split("=", 1)
+            attrs[k] = v
+        payload["attributes"] = attrs
 
-    msg_id = secrets.token_hex(8)
+    resp = _request("post", f"/v1/topics/{topic}/publish", json=payload)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Message published to '{topic}'")
-    console.print(f"  Message ID: {msg_id}")
+    console.print(f"  Message ID: {data.get('message_id', data.get('id', '-'))}")
     if attributes:
         console.print(f"  Attributes: {', '.join(attributes)}")
 
@@ -202,8 +288,31 @@ def publish(topic: str, message: str, attributes: tuple):
 @click.option("--auto-ack", is_flag=True, help="Automatically acknowledge messages")
 def pull(subscription: str, max_messages: int, wait: bool, auto_ack: bool):
     """Pull messages from a subscription."""
-    console.print(f"[cyan]Pulling from '{subscription}'...[/cyan]")
-    console.print("[dim]No messages available[/dim]")
+    params = {"max_messages": max_messages}
+    if wait:
+        params["wait"] = "true"
+
+    resp = _request("post", f"/v1/subscriptions/{subscription}/pull", json=params)
+    data = check_response(resp)
+    messages = data.get("messages", [])
+
+    for msg in messages:
+        console.print(
+            f"[dim]{msg.get('publish_time', '')}[/dim] "
+            f"[cyan]{msg.get('message_id', msg.get('id', ''))}[/cyan] "
+            f"{msg.get('data', '')}"
+        )
+        if msg.get("attributes"):
+            console.print(f"  [dim]attrs: {json.dumps(msg['attributes'])}[/dim]")
+
+    if auto_ack and messages:
+        ack_ids = [m.get("ack_id") for m in messages if m.get("ack_id")]
+        if ack_ids:
+            _request("post", f"/v1/subscriptions/{subscription}/ack", json={"ack_ids": ack_ids})
+            console.print(f"[dim]Auto-acknowledged {len(ack_ids)} message(s)[/dim]")
+
+    if not messages:
+        console.print("[dim]No messages available[/dim]")
 
 
 @pubsub_group.command()
@@ -211,7 +320,9 @@ def pull(subscription: str, max_messages: int, wait: bool, auto_ack: bool):
 @click.option("--ack-ids", "-a", multiple=True, required=True, help="Ack IDs to acknowledge")
 def ack(subscription: str, ack_ids: tuple):
     """Acknowledge messages."""
-    console.print(f"[green]✓[/green] Acknowledged {len(ack_ids)} messages")
+    resp = _request("post", f"/v1/subscriptions/{subscription}/ack", json={"ack_ids": list(ack_ids)})
+    check_response(resp)
+    console.print(f"[green]✓[/green] Acknowledged {len(ack_ids)} message(s)")
 
 
 @pubsub_group.command()
@@ -220,12 +331,22 @@ def ack(subscription: str, ack_ids: tuple):
 @click.option("--snapshot", "-s", help="Seek to snapshot")
 def seek(subscription: str, time: str, snapshot: str):
     """Seek subscription to a point in time or snapshot."""
+    if not time and not snapshot:
+        raise click.ClickException("Specify --time or --snapshot")
+
+    payload = {}
+    if time:
+        payload["time"] = time
+    if snapshot:
+        payload["snapshot"] = snapshot
+
+    resp = _request("post", f"/v1/subscriptions/{subscription}/seek", json=payload)
+    check_response(resp)
+
     if time:
         console.print(f"[green]✓[/green] Subscription '{subscription}' seeked to {time}")
-    elif snapshot:
-        console.print(f"[green]✓[/green] Subscription '{subscription}' seeked to snapshot '{snapshot}'")
     else:
-        console.print("[yellow]Specify --time or --snapshot[/yellow]")
+        console.print(f"[green]✓[/green] Subscription '{subscription}' seeked to snapshot '{snapshot}'")
 
 
 # ============================================================================
@@ -242,13 +363,27 @@ def snapshots():
 @snapshots.command(name="list")
 def snapshots_list():
     """List snapshots."""
+    resp = _request("get", "/v1/snapshots")
+    data = check_response(resp)
+    items = data.get("snapshots", data.get("items", []))
+
     table = Table(title="Snapshots", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Subscription", style="white")
     table.add_column("Created", style="dim")
     table.add_column("Expires", style="dim")
 
+    for s in items:
+        table.add_row(
+            s.get("name", ""),
+            s.get("subscription", "-"),
+            str(s.get("created_at", ""))[:19],
+            str(s.get("expires_at", ""))[:19],
+        )
+
     console.print(table)
+    if not items:
+        console.print("[dim]No snapshots found[/dim]")
 
 
 @snapshots.command(name="create")
@@ -256,6 +391,8 @@ def snapshots_list():
 @click.option("--subscription", "-s", required=True, help="Subscription to snapshot")
 def snapshots_create(name: str, subscription: str):
     """Create a snapshot of a subscription."""
+    resp = _request("post", "/v1/snapshots", json={"name": name, "subscription": subscription})
+    check_response(resp)
     console.print(f"[green]✓[/green] Snapshot '{name}' created from '{subscription}'")
 
 
@@ -263,4 +400,6 @@ def snapshots_create(name: str, subscription: str):
 @click.argument("name")
 def snapshots_delete(name: str):
     """Delete a snapshot."""
+    resp = _request("delete", f"/v1/snapshots/{name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Snapshot '{name}' deleted")
