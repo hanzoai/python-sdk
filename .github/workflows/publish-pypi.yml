@@ -30,7 +30,7 @@ jobs:
     name: Publish All Python Packages
     runs-on: ubuntu-latest
     needs: test  # Only publish if tests pass
-    if: success()
+    if: always() && !cancelled()
 
     steps:
       - uses: actions/checkout@v4
