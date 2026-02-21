@@ -32,7 +32,6 @@ __all__ = [
     "platform",
     "pubsub",
     "queues",
-    "repl",
     "router",
     "run",
     "search",
