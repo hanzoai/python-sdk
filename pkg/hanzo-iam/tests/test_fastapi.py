@@ -7,15 +7,11 @@ from fastapi.testclient import TestClient
 from hanzo_iam.fastapi import (
     configure,
     get_config,
-    get_token,
-    require_token,
-    get_token_claims,
-    require_auth,
-    require_org,
     require_admin,
+    require_org,
     require_role,
 )
-from hanzo_iam.models import IAMConfig, JWTClaims, Organization
+from hanzo_iam.models import Organization
 
 
 class TestConfigure:
@@ -45,6 +41,7 @@ class TestConfigure:
     def test_configure_missing_client_id_raises(self):
         """Missing client_id raises ValueError."""
         import os
+
         # Ensure env var is not set
         os.environ.pop("HANZO_IAM_CLIENT_ID", None)
 
@@ -55,6 +52,7 @@ class TestConfigure:
         """get_config() before configure() raises RuntimeError."""
         # Reset global state
         import hanzo_iam.fastapi as module
+
         module._config = None
 
         with pytest.raises(RuntimeError, match="IAM not configured"):
@@ -123,6 +121,7 @@ class TestRequireAdmin:
     def test_require_admin_is_async(self):
         """require_admin is an async function."""
         import asyncio
+
         assert asyncio.iscoroutinefunction(require_admin)
 
 

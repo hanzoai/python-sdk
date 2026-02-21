@@ -6,7 +6,7 @@ making it easy for agents to understand and recover from errors.
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -16,14 +16,14 @@ class APIErrorInfo(BaseModel):
 
     error_type: str = Field(description="Error category")
     message: str = Field(description="Human-readable error message")
-    provider: Optional[str] = Field(default=None, description="Provider involved")
-    operation_id: Optional[str] = Field(default=None, description="Operation involved")
-    status_code: Optional[int] = Field(default=None, description="HTTP status code")
+    provider: str | None = Field(default=None, description="Provider involved")
+    operation_id: str | None = Field(default=None, description="Operation involved")
+    status_code: int | None = Field(default=None, description="HTTP status code")
     missing_fields: list[str] = Field(default_factory=list, description="Required fields that are missing")
-    hint: Optional[str] = Field(default=None, description="Suggested fix")
+    hint: str | None = Field(default=None, description="Suggested fix")
     env_vars: list[str] = Field(default_factory=list, description="Environment variables to set")
-    config_command: Optional[str] = Field(default=None, description="CLI command to fix")
-    details: Optional[dict[str, Any]] = Field(default=None, description="Additional error details")
+    config_command: str | None = Field(default=None, description="CLI command to fix")
+    details: dict[str, Any] | None = Field(default=None, description="Additional error details")
 
 
 class APIError(Exception):
@@ -33,15 +33,15 @@ class APIError(Exception):
         self,
         message: str,
         error_type: str = "api_error",
-        provider: Optional[str] = None,
-        operation_id: Optional[str] = None,
-        status_code: Optional[int] = None,
+        provider: str | None = None,
+        operation_id: str | None = None,
+        status_code: int | None = None,
         body: Any = None,
-        hint: Optional[str] = None,
-        missing_fields: Optional[list[str]] = None,
-        env_vars: Optional[list[str]] = None,
-        config_command: Optional[str] = None,
-        details: Optional[dict[str, Any]] = None,
+        hint: str | None = None,
+        missing_fields: list[str] | None = None,
+        env_vars: list[str] | None = None,
+        config_command: str | None = None,
+        details: dict[str, Any] | None = None,
     ):
         self.message = message
         self.error_type = error_type
@@ -91,8 +91,8 @@ class CredentialError(APIError):
         self,
         message: str,
         provider: str,
-        missing_fields: Optional[list[str]] = None,
-        env_vars: Optional[list[str]] = None,
+        missing_fields: list[str] | None = None,
+        env_vars: list[str] | None = None,
     ):
         config_cmd = f'api config --provider {provider} --api_key "YOUR_KEY"'
         hint = f"Configure credentials for {provider}"
@@ -111,7 +111,7 @@ class CredentialError(APIError):
 class ProviderNotFoundError(APIError):
     """Provider is not recognized."""
 
-    def __init__(self, provider: str, available_providers: Optional[list[str]] = None):
+    def __init__(self, provider: str, available_providers: list[str] | None = None):
         hint = None
         if available_providers:
             hint = f"Available providers: {', '.join(available_providers[:10])}"
@@ -132,7 +132,7 @@ class OperationNotFoundError(APIError):
         self,
         operation_id: str,
         provider: str,
-        similar_operations: Optional[list[str]] = None,
+        similar_operations: list[str] | None = None,
     ):
         hint = None
         if similar_operations:
@@ -170,8 +170,8 @@ class SpecParseError(APIError):
         self,
         message: str,
         provider: str,
-        path_in_spec: Optional[str] = None,
-        parse_error: Optional[str] = None,
+        path_in_spec: str | None = None,
+        parse_error: str | None = None,
     ):
         details = {}
         if path_in_spec:
@@ -196,8 +196,8 @@ class ParameterValidationError(APIError):
         message: str,
         provider: str,
         operation_id: str,
-        missing_params: Optional[list[str]] = None,
-        invalid_params: Optional[dict[str, str]] = None,
+        missing_params: list[str] | None = None,
+        invalid_params: dict[str, str] | None = None,
     ):
         details = {}
         if missing_params:
@@ -230,8 +230,8 @@ class NetworkError(APIError):
         self,
         message: str,
         provider: str,
-        url: Optional[str] = None,
-        original_error: Optional[Exception] = None,
+        url: str | None = None,
+        original_error: Exception | None = None,
     ):
         details = {}
         if url:
@@ -254,7 +254,7 @@ class RateLimitError(APIError):
     def __init__(
         self,
         provider: str,
-        retry_after: Optional[int] = None,
+        retry_after: int | None = None,
         status_code: int = 429,
     ):
         hint = "Rate limit exceeded"
@@ -278,7 +278,7 @@ class AuthenticationError(APIError):
         self,
         provider: str,
         status_code: int = 401,
-        env_vars: Optional[list[str]] = None,
+        env_vars: list[str] | None = None,
     ):
         super().__init__(
             message=f"Authentication failed for {provider}",
@@ -297,8 +297,8 @@ class SpecLoadError(APIError):
     def __init__(
         self,
         provider: str,
-        spec_url: Optional[str] = None,
-        original_error: Optional[Exception] = None,
+        spec_url: str | None = None,
+        original_error: Exception | None = None,
     ):
         message = f"Failed to load OpenAPI spec for {provider}"
         if spec_url:
@@ -325,11 +325,11 @@ class ValidationError(APIError):
     def __init__(
         self,
         message: str,
-        provider: Optional[str] = None,
-        operation_id: Optional[str] = None,
-        field: Optional[str] = None,
+        provider: str | None = None,
+        operation_id: str | None = None,
+        field: str | None = None,
         value: Any = None,
-        expected: Optional[str] = None,
+        expected: str | None = None,
     ):
         details = {}
         if field:

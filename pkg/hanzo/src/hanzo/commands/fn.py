@@ -5,8 +5,8 @@ Deploy and manage serverless functions with automatic scaling.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -49,9 +49,15 @@ def fn_group():
 # Function Management
 # ============================================================================
 
+
 @fn_group.command(name="create")
 @click.argument("name")
-@click.option("--runtime", "-r", type=click.Choice(["python3.12", "python3.11", "node20", "node18", "go1.22", "rust", "deno"]), default="python3.12")
+@click.option(
+    "--runtime",
+    "-r",
+    type=click.Choice(["python3.12", "python3.11", "node20", "node18", "go1.22", "rust", "deno"]),
+    default="python3.12",
+)
 @click.option("--memory", "-m", default="256", help="Memory in MB (128-4096)")
 @click.option("--timeout", "-t", default=30, help="Timeout in seconds (1-900)")
 @click.option("--region", help="Deployment region")
@@ -97,19 +103,21 @@ def fn_list(region: str, runtime: str):
 @click.argument("name")
 def fn_describe(name: str):
     """Show function details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Runtime:[/cyan] python3.12\n"
-        f"[cyan]Memory:[/cyan] 256 MB\n"
-        f"[cyan]Timeout:[/cyan] 30s\n"
-        f"[cyan]Status:[/cyan] [green]● Active[/green]\n"
-        f"[cyan]Triggers:[/cyan] 2 (http, cron)\n"
-        f"[cyan]Invocations (24h):[/cyan] 1,234\n"
-        f"[cyan]Avg Duration:[/cyan] 45ms\n"
-        f"[cyan]Endpoint:[/cyan] https://fn.hanzo.ai/{name}",
-        title="Function Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Runtime:[/cyan] python3.12\n"
+            f"[cyan]Memory:[/cyan] 256 MB\n"
+            f"[cyan]Timeout:[/cyan] 30s\n"
+            f"[cyan]Status:[/cyan] [green]● Active[/green]\n"
+            f"[cyan]Triggers:[/cyan] 2 (http, cron)\n"
+            f"[cyan]Invocations (24h):[/cyan] 1,234\n"
+            f"[cyan]Avg Duration:[/cyan] 45ms\n"
+            f"[cyan]Endpoint:[/cyan] https://fn.hanzo.ai/{name}",
+            title="Function Details",
+            border_style="cyan",
+        )
+    )
 
 
 @fn_group.command(name="deploy")
@@ -145,6 +153,7 @@ def fn_delete(name: str, force: bool):
     """Delete a function."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete function '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Function '{name}' deleted")
@@ -153,6 +162,7 @@ def fn_delete(name: str, force: bool):
 # ============================================================================
 # Triggers
 # ============================================================================
+
 
 @fn_group.group()
 def triggers():
@@ -170,8 +180,17 @@ def triggers():
 @click.option("--schedule", "-s", help="Cron expression (for cron triggers)")
 @click.option("--queue", "-q", help="Queue name (for queue triggers)")
 @click.option("--bucket", help="Storage bucket (for storage triggers)")
-def triggers_add(function: str, trigger_type: str, path: str, method: tuple,
-                 event: str, bus: str, schedule: str, queue: str, bucket: str):
+def triggers_add(
+    function: str,
+    trigger_type: str,
+    path: str,
+    method: tuple,
+    event: str,
+    bus: str,
+    schedule: str,
+    queue: str,
+    bucket: str,
+):
     """Add a trigger to a function.
 
     \b
@@ -223,6 +242,7 @@ def triggers_rm(function: str, trigger_id: str):
 # ============================================================================
 # Invocation & Logs
 # ============================================================================
+
 
 @fn_group.command(name="invoke")
 @click.argument("name")
@@ -280,23 +300,26 @@ def fn_logs(name: str, follow: bool, since: str, log_filter: str, limit: int):
 @click.option("--range", "-r", "time_range", default="24h", help="Time range")
 def fn_stats(name: str, time_range: str):
     """Show function statistics."""
-    console.print(Panel(
-        f"[cyan]Function:[/cyan] {name}\n"
-        f"[cyan]Time Range:[/cyan] {time_range}\n\n"
-        f"[cyan]Invocations:[/cyan] 0\n"
-        f"[cyan]Errors:[/cyan] 0 (0%)\n"
-        f"[cyan]Avg Duration:[/cyan] 0ms\n"
-        f"[cyan]P95 Duration:[/cyan] 0ms\n"
-        f"[cyan]Cold Starts:[/cyan] 0\n"
-        f"[cyan]Memory Peak:[/cyan] 0 MB",
-        title="Function Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Function:[/cyan] {name}\n"
+            f"[cyan]Time Range:[/cyan] {time_range}\n\n"
+            f"[cyan]Invocations:[/cyan] 0\n"
+            f"[cyan]Errors:[/cyan] 0 (0%)\n"
+            f"[cyan]Avg Duration:[/cyan] 0ms\n"
+            f"[cyan]P95 Duration:[/cyan] 0ms\n"
+            f"[cyan]Cold Starts:[/cyan] 0\n"
+            f"[cyan]Memory Peak:[/cyan] 0 MB",
+            title="Function Statistics",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Environment & Secrets
 # ============================================================================
+
 
 @fn_group.group()
 def env():
@@ -381,6 +404,7 @@ def secrets_list(function: str):
 # Versions & Rollback
 # ============================================================================
 
+
 @fn_group.command(name="versions")
 @click.argument("name")
 def fn_versions(name: str):
@@ -408,6 +432,7 @@ def fn_rollback(name: str, version: str):
 # ============================================================================
 # Traffic Splitting
 # ============================================================================
+
 
 @fn_group.command(name="traffic")
 @click.argument("name")

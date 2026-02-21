@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -338,13 +338,16 @@ class MinerResourceWithRawResponse:
     def __init__(self, miner: MinerResource) -> None:
         self._miner = miner
 
+
 class AsyncMinerResourceWithRawResponse:
     def __init__(self, miner: AsyncMinerResource) -> None:
         self._miner = miner
 
+
 class MinerResourceWithStreamingResponse:
     def __init__(self, miner: MinerResource) -> None:
         self._miner = miner
+
 
 class AsyncMinerResourceWithStreamingResponse:
     def __init__(self, miner: AsyncMinerResource) -> None:

@@ -9,7 +9,7 @@ import httpx
 from pydantic import BaseModel
 
 from hanzo_web3.types import Chain, Network
-from hanzo_web3.exceptions import AuthenticationError, HanzoWeb3Error
+from hanzo_web3.exceptions import HanzoWeb3Error, AuthenticationError
 
 
 class ClientConfig(BaseModel):
@@ -71,13 +71,9 @@ class RPCClient:
         result = await self.call("eth_blockNumber", chain=chain, network=network)
         return int(result, 16)
 
-    async def eth_get_balance(
-        self, address: str, chain: str = "ethereum", network: str = "mainnet"
-    ) -> int:
+    async def eth_get_balance(self, address: str, chain: str = "ethereum", network: str = "mainnet") -> int:
         """Get ETH balance for address."""
-        result = await self.call(
-            "eth_getBalance", [address, "latest"], chain=chain, network=network
-        )
+        result = await self.call("eth_getBalance", [address, "latest"], chain=chain, network=network)
         return int(result, 16)
 
 
@@ -331,9 +327,7 @@ class AsyncClient:
         """
         api_key = api_key or os.environ.get("HANZO_WEB3_API_KEY")
         if not api_key:
-            raise AuthenticationError(
-                "API key required. Pass api_key or set HANZO_WEB3_API_KEY env var."
-            )
+            raise AuthenticationError("API key required. Pass api_key or set HANZO_WEB3_API_KEY env var.")
 
         self._config = ClientConfig(
             api_key=api_key,

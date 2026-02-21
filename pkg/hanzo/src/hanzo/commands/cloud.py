@@ -26,7 +26,6 @@ from rich.prompt import Confirm
 
 from ..utils.output import console
 
-
 HANZO_API_URL = os.getenv("HANZO_API_URL", "https://api.hanzo.ai")
 
 # Service definitions with lifecycle capabilities
@@ -144,6 +143,7 @@ def save_cloud_config(config: dict):
 # Main cloud group
 # ============================================================================
 
+
 @click.group(name="cloud")
 def cloud_group():
     """Manage Hanzo Cloud infrastructure.
@@ -176,6 +176,7 @@ def cloud_group():
 # Services subgroup - list available service types
 # ============================================================================
 
+
 @cloud_group.group(name="services")
 def services_group():
     """Manage available service types."""
@@ -201,6 +202,7 @@ def services_list():
 # ============================================================================
 # Instances subgroup - list/describe provisioned instances
 # ============================================================================
+
 
 @cloud_group.group(name="instances")
 def instances_group():
@@ -258,24 +260,27 @@ def instances_describe(service: str, name: str):
     svc_config = instances[service]
     info = SERVICES[service]
 
-    console.print(Panel(
-        f"[cyan]Service:[/cyan] {info['name']}\n"
-        f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
-        f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
-        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
-        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
-        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
-        f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
-        f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
-        f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
-        title=f"[bold]{service}[/bold]",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Service:[/cyan] {info['name']}\n"
+            f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
+            f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
+            f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+            f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+            f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
+            f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
+            f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
+            f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
+            title=f"[bold]{service}[/bold]",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Operations subgroup - async operation tracking
 # ============================================================================
+
 
 @cloud_group.group(name="operations")
 def operations_group():
@@ -369,6 +374,7 @@ def operations_wait(operation_id: str, timeout: int):
         return
 
     import time
+
     start = time.time()
 
     with console.status(f"Waiting for operation {operation_id[:12]}..."):
@@ -406,6 +412,7 @@ def operations_wait(operation_id: str, timeout: int):
 # ============================================================================
 # Per-service command factory
 # ============================================================================
+
 
 def create_service_group(service_key: str, service_info: dict):
     """Create a command group for a specific service."""
@@ -481,6 +488,7 @@ def create_service_group(service_key: str, service_info: dict):
     lifecycle = service_info.get("lifecycle", [])
 
     if "start" in lifecycle:
+
         @service_group.command(name="start")
         @click.option("--name", default="default")
         def start(name: str):
@@ -488,6 +496,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "start")
 
     if "stop" in lifecycle:
+
         @service_group.command(name="stop")
         @click.option("--name", default="default")
         def stop(name: str):
@@ -495,6 +504,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "stop")
 
     if "restart" in lifecycle:
+
         @service_group.command(name="restart")
         @click.option("--name", default="default")
         def restart(name: str):
@@ -502,6 +512,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "restart")
 
     if "enable" in lifecycle:
+
         @service_group.command(name="enable")
         @click.option("--name", default="default")
         def enable(name: str):
@@ -509,6 +520,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "enable")
 
     if "disable" in lifecycle:
+
         @service_group.command(name="disable")
         @click.option("--name", default="default")
         def disable(name: str):
@@ -516,6 +528,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "disable")
 
     if "pause" in lifecycle:
+
         @service_group.command(name="pause")
         @click.option("--name", default="default")
         def pause(name: str):
@@ -523,6 +536,7 @@ def create_service_group(service_key: str, service_info: dict):
             _lifecycle_action(service_key, name, "pause")
 
     if "resume" in lifecycle:
+
         @service_group.command(name="resume")
         @click.option("--name", default="default")
         def resume(name: str):
@@ -535,6 +549,7 @@ def create_service_group(service_key: str, service_info: dict):
 # ============================================================================
 # Implementation functions
 # ============================================================================
+
 
 def _create_instance(service: str, name: str, tier: str, region: str):
     """Create a new instance."""
@@ -617,19 +632,21 @@ def _describe_instance(service: str, name: str):
     svc_config = instances[service]
     info = SERVICES[service]
 
-    console.print(Panel(
-        f"[cyan]Service:[/cyan] {info['name']}\n"
-        f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
-        f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
-        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
-        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
-        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
-        f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
-        f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
-        f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
-        title=f"[bold]{service}[/bold]",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Service:[/cyan] {info['name']}\n"
+            f"[cyan]Name:[/cyan] {svc_config.get('name', 'default')}\n"
+            f"[cyan]ID:[/cyan] {svc_config.get('id', 'N/A')}\n"
+            f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+            f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+            f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}\n"
+            f"[cyan]Tier:[/cyan] {svc_config.get('tier', 'free')}\n"
+            f"[cyan]Region:[/cyan] {svc_config.get('region', 'N/A')}\n"
+            f"[cyan]Status:[/cyan] {svc_config.get('status', 'unknown')}",
+            title=f"[bold]{service}[/bold]",
+            border_style="cyan",
+        )
+    )
 
 
 def _list_service_instances(service: str):
@@ -716,13 +733,15 @@ def _connect_instance(service: str, name: str):
     svc_config = instances[service]
     info = SERVICES[service]
 
-    console.print(Panel(
-        f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
-        f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
-        f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}",
-        title=f"[bold]{info['name']} Connection[/bold]",
-        border_style="cyan",
-    ))
+    console.print(
+        Panel(
+            f"[cyan]URL:[/cyan] {svc_config.get('url', 'N/A')}\n"
+            f"[cyan]Host:[/cyan] {svc_config.get('host', 'N/A')}\n"
+            f"[cyan]Port:[/cyan] {svc_config.get('port', 'N/A')}",
+            title=f"[bold]{info['name']} Connection[/bold]",
+            border_style="cyan",
+        )
+    )
 
 
 def _env_instance(service: str, name: str, shell: str, do_export: bool):
@@ -921,6 +940,7 @@ for svc_key, svc_info in SERVICES.items():
 # ============================================================================
 # Init command
 # ============================================================================
+
 
 @cloud_group.command(name="init")
 def init():

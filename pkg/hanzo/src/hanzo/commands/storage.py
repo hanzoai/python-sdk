@@ -5,8 +5,8 @@ S3-compatible object storage with CDN.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -40,6 +40,7 @@ def storage_group():
 # ============================================================================
 # Bucket Management
 # ============================================================================
+
 
 @storage_group.group()
 def buckets():
@@ -82,6 +83,7 @@ def buckets_delete(name: str, force: bool):
     """Delete a bucket."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete bucket '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Bucket '{name}' deleted")
@@ -90,6 +92,7 @@ def buckets_delete(name: str, force: bool):
 # ============================================================================
 # Object Operations
 # ============================================================================
+
 
 @storage_group.command(name="ls")
 @click.argument("path", default="")
@@ -146,6 +149,7 @@ def storage_rm(path: str, recursive: bool, force: bool):
     """Delete objects."""
     if not force and not recursive:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete '{path}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Deleted {path}")

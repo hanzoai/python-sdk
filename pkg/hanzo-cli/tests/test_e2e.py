@@ -11,8 +11,6 @@ Run:
 
 from __future__ import annotations
 
-import json
-import os
 import subprocess
 import time
 
@@ -111,20 +109,31 @@ class TestPaaSRead:
         assert "Platform" in r.stdout
 
     def test_paas_envs(self):
-        r = run([
-            "paas", "envs",
-            "--org", "698cda6739f65183b3009313",
-            "--project", "698cda6739f65183b3009318",
-        ])
+        r = run(
+            [
+                "paas",
+                "envs",
+                "--org",
+                "698cda6739f65183b3009313",
+                "--project",
+                "698cda6739f65183b3009318",
+            ]
+        )
         assert "production" in r.stdout
 
     def test_paas_context_set_and_show(self):
-        run([
-            "paas", "use",
-            "--org", "698cda6739f65183b3009313",
-            "--project", "698cda6739f65183b3009318",
-            "--env", "698cda6739f65183b300931c",
-        ])
+        run(
+            [
+                "paas",
+                "use",
+                "--org",
+                "698cda6739f65183b3009313",
+                "--project",
+                "698cda6739f65183b3009318",
+                "--env",
+                "698cda6739f65183b300931c",
+            ]
+        )
         r = run(["paas", "context"])
         assert "698cda6739f65183b3009313" in r.stdout
         assert "698cda6739f65183b3009318" in r.stdout
@@ -149,12 +158,18 @@ class TestPaaSDeployLifecycle:
     @classmethod
     def setup_class(cls):
         """Ensure context is set and clean up any leftover test containers."""
-        run([
-            "paas", "use",
-            "--org", "698cda6739f65183b3009313",
-            "--project", "698cda6739f65183b3009318",
-            "--env", "698cda6739f65183b300931c",
-        ])
+        run(
+            [
+                "paas",
+                "use",
+                "--org",
+                "698cda6739f65183b3009313",
+                "--project",
+                "698cda6739f65183b3009318",
+                "--env",
+                "698cda6739f65183b300931c",
+            ]
+        )
         # Clean up leftover from previous failed runs
         r = run(["paas", "deploy", "delete", cls.CONTAINER_NAME, "-y"], check=False)
 
@@ -164,11 +179,18 @@ class TestPaaSDeployLifecycle:
         run(["paas", "deploy", "delete", cls.CONTAINER_NAME, "-y"], check=False)
 
     def test_01_create(self):
-        r = run([
-            "paas", "deploy", "create", self.CONTAINER_NAME,
-            "--image", "nginx:latest",
-            "--port", "80",
-        ])
+        r = run(
+            [
+                "paas",
+                "deploy",
+                "create",
+                self.CONTAINER_NAME,
+                "--image",
+                "nginx:latest",
+                "--port",
+                "80",
+            ]
+        )
         assert "Created container" in r.stdout
         assert self.CONTAINER_NAME in r.stdout
 
@@ -207,10 +229,15 @@ class TestPaaSDeployLifecycle:
 
     def test_07_env_set(self):
         """Set an env var on the container."""
-        r = run([
-            "paas", "deploy", "env", self.CONTAINER_NAME,
-            "TEST_VAR=hello_e2e",
-        ])
+        r = run(
+            [
+                "paas",
+                "deploy",
+                "env",
+                self.CONTAINER_NAME,
+                "TEST_VAR=hello_e2e",
+            ]
+        )
         assert "Set 1 variable" in r.stdout
 
     def test_08_env_verify(self):
@@ -248,12 +275,18 @@ class TestPaaSErrors:
         assert "required" in r.stdout.lower() or "required" in r.stderr.lower()
 
     def test_nonexistent_container(self):
-        run([
-            "paas", "use",
-            "--org", "698cda6739f65183b3009313",
-            "--project", "698cda6739f65183b3009318",
-            "--env", "698cda6739f65183b300931c",
-        ])
+        run(
+            [
+                "paas",
+                "use",
+                "--org",
+                "698cda6739f65183b3009313",
+                "--project",
+                "698cda6739f65183b3009318",
+                "--env",
+                "698cda6739f65183b300931c",
+            ]
+        )
         r = run(["paas", "deploy", "status", "nonexistent-container-xyz"], check=False)
         assert r.returncode != 0
         assert "not found" in r.stdout.lower() or "not found" in r.stderr.lower()

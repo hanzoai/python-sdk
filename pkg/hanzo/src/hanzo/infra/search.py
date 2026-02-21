@@ -7,10 +7,10 @@ with typo tolerance, filtering, and faceted search.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
 from typing import Any, Optional, Sequence
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class SearchConfig(BaseModel):
@@ -122,8 +122,7 @@ class SearchClient:
             from meilisearch_python_sdk import AsyncClient
         except ImportError as e:
             raise ImportError(
-                "meilisearch-python-sdk is required for SearchClient. "
-                "Install with: pip install meilisearch-python-sdk"
+                "meilisearch-python-sdk is required for SearchClient. Install with: pip install meilisearch-python-sdk"
             ) from e
 
         self._client = AsyncClient(
@@ -393,12 +392,14 @@ class SearchClient:
             # Extract ID from document
             doc_id = doc.get("id") or doc.get("_id") or str(hash(str(doc)))
 
-            hits.append(SearchHit(
-                id=str(doc_id),
-                document=doc,
-                score=score,
-                highlights=formatted,
-            ))
+            hits.append(
+                SearchHit(
+                    id=str(doc_id),
+                    document=doc,
+                    score=score,
+                    highlights=formatted,
+                )
+            )
 
         return SearchResult(
             hits=hits,

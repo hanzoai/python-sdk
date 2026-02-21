@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -264,13 +264,16 @@ class ChainResourceWithRawResponse:
     def __init__(self, chain: ChainResource) -> None:
         self._chain = chain
 
+
 class AsyncChainResourceWithRawResponse:
     def __init__(self, chain: AsyncChainResource) -> None:
         self._chain = chain
 
+
 class ChainResourceWithStreamingResponse:
     def __init__(self, chain: ChainResource) -> None:
         self._chain = chain
+
 
 class AsyncChainResourceWithStreamingResponse:
     def __init__(self, chain: AsyncChainResource) -> None:

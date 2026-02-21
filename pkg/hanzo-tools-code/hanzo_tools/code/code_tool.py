@@ -17,26 +17,23 @@ Representation: Text → AST → Patch
 Scope: File → Package → Repo
 """
 
-import os
-import json
-import hashlib
 import difflib
-from typing import Any, ClassVar, Literal
-from pathlib import Path
+import json
+import os
 from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, ClassVar, Literal
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    ToolError,
     InvalidParamsError,
     NotFoundError,
-    Paging,
+    ToolError,
     content_hash,
 )
-
 
 # Language detection by extension
 LANG_MAP = {
@@ -76,6 +73,7 @@ LANG_MAP = {
 @dataclass
 class TransformSpec:
     """Specification for code transformation."""
+
     kind: Literal["rename", "extract", "inline", "move", "codemod", "generate"]
 
     # For rename
@@ -158,6 +156,7 @@ All operations are PURE - safe to cache and parallelize.
         if self._tree_sitter is None:
             try:
                 import tree_sitter_languages
+
                 self._tree_sitter = tree_sitter_languages
             except ImportError:
                 raise ToolError(
@@ -213,8 +212,18 @@ All operations are PURE - safe to cache and parallelize.
         # Symbol node types by language
         symbol_types = {
             "python": ["function_definition", "class_definition", "assignment"],
-            "javascript": ["function_declaration", "class_declaration", "variable_declaration", "lexical_declaration"],
-            "typescript": ["function_declaration", "class_declaration", "interface_declaration", "type_alias_declaration"],
+            "javascript": [
+                "function_declaration",
+                "class_declaration",
+                "variable_declaration",
+                "lexical_declaration",
+            ],
+            "typescript": [
+                "function_declaration",
+                "class_declaration",
+                "interface_declaration",
+                "type_alias_declaration",
+            ],
             "go": ["function_declaration", "method_declaration", "type_declaration"],
             "rust": ["function_item", "struct_item", "enum_item", "impl_item", "trait_item"],
         }
@@ -236,15 +245,17 @@ All operations are PURE - safe to cache and parallelize.
                         break
 
                 if name:
-                    symbols.append({
-                        "name": name,
-                        "kind": node_type,
-                        "range": {
-                            "start": node["start"],
-                            "end": node["end"],
-                        },
-                        "parent": parent_name or None,
-                    })
+                    symbols.append(
+                        {
+                            "name": name,
+                            "kind": node_type,
+                            "range": {
+                                "start": node["start"],
+                                "end": node["end"],
+                            },
+                            "parent": parent_name or None,
+                        }
+                    )
                     parent_name = name
 
             for child in node.get("children", []):
@@ -272,6 +283,7 @@ All operations are PURE - safe to cache and parallelize.
     def _apply_rename(self, text: str, old_name: str, new_name: str) -> tuple[str, int]:
         """Apply simple rename transformation. Returns (new_text, count)."""
         import re
+
         # Word-boundary rename to avoid partial matches
         pattern = rf"\b{re.escape(old_name)}\b"
         new_text, count = re.subn(pattern, new_name, text)
@@ -280,6 +292,7 @@ All operations are PURE - safe to cache and parallelize.
     def _apply_codemod(self, text: str, match: str, replace: str) -> tuple[str, int]:
         """Apply pattern-based codemod. Returns (new_text, count)."""
         import re
+
         try:
             new_text, count = re.subn(match, replace, text)
             return new_text, count
@@ -342,6 +355,7 @@ All operations are PURE - safe to cache and parallelize.
 
             Effect: PURE
             """
+
             def extract_text(node: dict) -> str:
                 if "text" in node:
                     return node["text"]
@@ -577,7 +591,9 @@ All operations are PURE - safe to cache and parallelize.
                     summary_parts.append("(truncated for summary)")
 
             return {
-                "summary": " | ".join(summary_parts) if summary_parts else "No content to summarize",
+                "summary": " | ".join(summary_parts)
+                if summary_parts
+                else "No content to summarize",
                 "risks": risks,
                 "next_actions": next_actions,
             }

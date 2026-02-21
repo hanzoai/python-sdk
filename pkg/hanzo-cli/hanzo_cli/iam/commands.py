@@ -11,8 +11,6 @@ Usage:
 
 from __future__ import annotations
 
-import json
-
 import click
 from rich.console import Console
 from rich.table import Table
@@ -254,7 +252,7 @@ def sync_app(name: str, init_data: bool) -> None:
         else:
             console.print(f"Application: {target.owner}/{target.name}")
             console.print(f"Client ID: {target.client_id}")
-            console.print(f"Redirect URIs:")
+            console.print("Redirect URIs:")
             for uri in target.redirect_uris:
                 console.print(f"  - {uri}")
     finally:

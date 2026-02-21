@@ -30,9 +30,7 @@ async def list_tools(ctx, category: str, installed: bool):
 
     with console.status("Loading tools..."):
         try:
-            tools = await registry.list_tools(
-                category=category, installed_only=installed
-            )
+            tools = await registry.list_tools(category=category, installed_only=installed)
         except Exception as e:
             console.print(f"[red]Failed to load tools: {e}[/red]")
             return
@@ -88,9 +86,7 @@ async def install(ctx, tool_name: str, version: str):
         try:
             result = await registry.install_tool(name=tool_name, version=version)
 
-            console.print(
-                f"[green]✓[/green] Installed {tool_name} v{result['version']}"
-            )
+            console.print(f"[green]✓[/green] Installed {tool_name} v{result['version']}")
 
             if deps := result.get("dependencies_installed"):
                 console.print(f"  Dependencies: {', '.join(deps)}")

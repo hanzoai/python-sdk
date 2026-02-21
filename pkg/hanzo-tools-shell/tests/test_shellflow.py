@@ -360,7 +360,7 @@ class TestPerformance:
         cmds = to_commands(ast)
         elapsed = time.perf_counter() - start
 
-        print(f"\nLarge DAG (100x10): {elapsed*1000:.2f}ms")
+        print(f"\nLarge DAG (100x10): {elapsed * 1000:.2f}ms")
         assert elapsed < 0.1  # Should complete in under 100ms
         assert len(cmds) == 100
 
@@ -391,9 +391,7 @@ class TestIntegration:
         from hanzo_tools.shell import ZshTool
 
         zsh = ZshTool()
-        result = await zsh.call(
-            None, command="echo start ; { echo A & echo B } ; echo end"
-        )
+        result = await zsh.call(None, command="echo start ; { echo A & echo B } ; echo end")
         assert "start" in result
         assert "A" in result
         assert "B" in result
@@ -404,9 +402,7 @@ class TestIntegration:
 
         bash = BashTool()
         # Use proper bash syntax (no zsh-style { } backgrounding)
-        result = await bash.call(
-            None, command="echo start && echo A && echo B && echo end"
-        )
+        result = await bash.call(None, command="echo start && echo A && echo B && echo end")
         assert "start" in result
         assert "end" in result
 

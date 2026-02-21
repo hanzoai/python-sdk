@@ -11,44 +11,44 @@ import click
 from rich.console import Console
 
 from .commands import (
+    cx,
+    fn,
+    kv,
+    ml,
+    doc,
+    env,
+    iam,
+    k8s,
     mcp,
+    run,
     auth,
     auto,
     base,
     chat,
-    cx,
-    doc,
-    env,
-    events,
     flow,
-    fn,
-    git_provider,
-    growth,
-    install,
-    k8s,
-    iam,
     jobs,
-    kv,
-    ml,
     node,
     o11y,
-    platform,
     repl,
     agent,
+    cloud,
     miner,
+    tasks,
     tools,
     config,
-    router,
-    network,
-    cloud,
+    events,
+    growth,
     pubsub,
     queues,
-    run,
+    router,
     search,
+    vector,
+    install,
+    network,
     secrets,
     storage,
-    tasks,
-    vector,
+    platform,
+    git_provider,
 )
 from .ui.startup import show_startup
 from .utils.output import console
@@ -279,15 +279,9 @@ def serve(ctx, name: str, port: int):
 
 @cli.command()
 @click.option("--name", "-n", help="Node name (auto-generated if not provided)")
-@click.option(
-    "--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)"
-)
-@click.option(
-    "--network", default="local", help="Network to join (mainnet/testnet/local)"
-)
-@click.option(
-    "--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)"
-)
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
 def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
@@ -301,15 +295,9 @@ def net(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 
 @cli.command()
 @click.option("--name", "-n", help="Node name (auto-generated if not provided)")
-@click.option(
-    "--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)"
-)
-@click.option(
-    "--network", default="local", help="Network to join (mainnet/testnet/local)"
-)
-@click.option(
-    "--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)"
-)
+@click.option("--port", "-p", default=52415, help="Node port (default: 52415 for hanzo/net)")
+@click.option("--network", default="local", help="Network to join (mainnet/testnet/local)")
+@click.option("--models", "-m", multiple=True, help="Models to serve (e.g., llama-3.2-3b)")
 @click.option("--max-jobs", type=int, default=10, help="Max concurrent jobs")
 @click.pass_context
 def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
@@ -344,15 +332,9 @@ def node(ctx, name: str, port: int, network: str, models: tuple, max_jobs: int):
 @click.option("--repl", is_flag=True, help="Start REPL interface (default)")
 @click.option("--instances", type=int, default=2, help="Number of worker agents")
 @click.option("--mcp-tools", is_flag=True, default=True, help="Enable all MCP tools")
-@click.option(
-    "--network-mode", is_flag=True, default=True, help="Network agents together"
-)
-@click.option(
-    "--guardrails", is_flag=True, default=True, help="Enable code quality guardrails"
-)
-@click.option(
-    "--use-network/--no-network", default=True, help="Use hanzo-network if available"
-)
+@click.option("--network-mode", is_flag=True, default=True, help="Network agents together")
+@click.option("--guardrails", is_flag=True, default=True, help="Enable code quality guardrails")
+@click.option("--use-network/--no-network", default=True, help="Use hanzo-network if available")
 @click.option(
     "--use-hanzo-net",
     is_flag=True,
@@ -430,9 +412,7 @@ def dev(
         console.print(f"  Router Endpoint: {orch_config.router.endpoint}")
     if orch_config.codex:
         console.print(f"  Codex Model: {orch_config.codex.model}")
-    console.print(
-        f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}"
-    )
+    console.print(f"  Cost Optimization: {'Enabled' if orch_config.enable_cost_optimization else 'Disabled'}")
     console.print()
 
     asyncio.run(
@@ -515,9 +495,7 @@ async def start_compute_node(
 
                 console.print(f"\n[green]✓[/green] Node initialized")
                 console.print(f"  Port: {port}")
-                console.print(
-                    f"  Models: {', '.join(models) if models else 'auto-detect'}"
-                )
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
                 console.print("\n[bold green]Hanzo Net is running![/bold green]")
                 console.print("WebUI: http://localhost:52415")
                 console.print("API: http://localhost:52415/v1/chat/completions")
@@ -539,9 +517,7 @@ async def start_compute_node(
                     stop_task = asyncio.create_task(stop_event.wait())
 
                     # Wait for either net to complete or stop signal
-                    done, pending = await asyncio.wait(
-                        [net_task, stop_task], return_when=asyncio.FIRST_COMPLETED
-                    )
+                    done, pending = await asyncio.wait([net_task, stop_task], return_when=asyncio.FIRST_COMPLETED)
 
                     # Cancel pending tasks
                     for task in pending:
@@ -577,15 +553,11 @@ async def start_compute_node(
                     env["NET_MODELS"] = ",".join(models)
                 if name:
                     env["NET_NODE_NAME"] = name
-                env["PYTHONPATH"] = (
-                    os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
-                )
+                env["PYTHONPATH"] = os.path.join(net_path, "src") + ":" + env.get("PYTHONPATH", "")
 
                 console.print(f"\n[green]✓[/green] Starting net node")
                 console.print(f"  Port: {port}")
-                console.print(
-                    f"  Models: {', '.join(models) if models else 'auto-detect'}"
-                )
+                console.print(f"  Models: {', '.join(models) if models else 'auto-detect'}")
                 console.print("\n[bold green]Hanzo Net is running![/bold green]")
                 console.print("WebUI: http://localhost:52415")
                 console.print("API: http://localhost:52415/v1/chat/completions")
@@ -671,21 +643,24 @@ def doctor(ctx, json_output: bool):
     """
     import shutil
     import platform
-    from rich.table import Table
+
     from rich.panel import Panel
+    from rich.table import Table
 
     console = ctx.obj.get("console", Console())
 
     if json_output:
         import json as json_module
+
         result = {"tools": [], "system": {}}
 
     # System info
-    console.print(Panel.fit(
-        f"[bold cyan]Hanzo Doctor[/bold cyan]\n"
-        f"[dim]System: {platform.system()} {platform.machine()}[/dim]",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel.fit(
+            f"[bold cyan]Hanzo Doctor[/bold cyan]\n[dim]System: {platform.system()} {platform.machine()}[/dim]",
+            border_style="cyan",
+        )
+    )
     console.print()
 
     # Check uv tools
@@ -693,18 +668,15 @@ def doctor(ctx, json_output: bool):
 
     console.print("[bold]Python Tools (uv):[/bold]")
     try:
-        result_uv = subprocess.run(
-            ["uv", "tool", "list"],
-            capture_output=True, text=True, timeout=10
-        )
+        result_uv = subprocess.run(["uv", "tool", "list"], capture_output=True, text=True, timeout=10)
         if result_uv.returncode == 0:
             table = Table(show_header=True, header_style="bold")
             table.add_column("Package", style="cyan")
             table.add_column("Version", style="green")
             table.add_column("Path", style="dim")
 
-            for line in result_uv.stdout.strip().split('\n'):
-                if line.startswith('hanzo'):
+            for line in result_uv.stdout.strip().split("\n"):
+                if line.startswith("hanzo"):
                     parts = line.split()
                     if len(parts) >= 2:
                         name, version = parts[0], parts[1]
@@ -744,11 +716,8 @@ def doctor(ctx, json_output: bool):
         if path:
             ai_found = True
             try:
-                ver_result = subprocess.run(
-                    [cmd, "--version"],
-                    capture_output=True, text=True, timeout=5
-                )
-                version = ver_result.stdout.strip().split('\n')[0] if ver_result.returncode == 0 else "?"
+                ver_result = subprocess.run([cmd, "--version"], capture_output=True, text=True, timeout=5)
+                version = ver_result.stdout.strip().split("\n")[0] if ver_result.returncode == 0 else "?"
             except:
                 version = "?"
             ai_table.add_row(name, version, path)
@@ -828,6 +797,7 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
 
     # Check if uv is available
     import shutil
+
     if not shutil.which("uv"):
         console.print("[red]Error:[/red] uv is not installed")
         console.print("Install with: curl -LsSf https://astral.sh/uv/install.sh | sh")
@@ -843,20 +813,14 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
             if force:
                 cmd.append("--force")
 
-            result = subprocess.run(
-                cmd,
-                capture_output=True, text=True, timeout=120
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
 
             if result.returncode == 0:
                 # Get new version
-                ver_result = subprocess.run(
-                    ["uv", "tool", "list"],
-                    capture_output=True, text=True, timeout=10
-                )
+                ver_result = subprocess.run(["uv", "tool", "list"], capture_output=True, text=True, timeout=10)
                 version = "?"
-                for line in ver_result.stdout.split('\n'):
-                    if line.startswith(pkg + ' '):
+                for line in ver_result.stdout.split("\n"):
+                    if line.startswith(pkg + " "):
                         version = line.split()[1] if len(line.split()) > 1 else "?"
                         break
 
@@ -866,8 +830,7 @@ def update(ctx, upgrade_all: bool, force: bool, packages: tuple):
                 # Try install if upgrade failed (package not installed)
                 if "not installed" in result.stderr.lower():
                     install_result = subprocess.run(
-                        ["uv", "tool", "install", pkg],
-                        capture_output=True, text=True, timeout=120
+                        ["uv", "tool", "install", pkg], capture_output=True, text=True, timeout=120
                     )
                     if install_result.returncode == 0:
                         console.print("[green]✓[/green] installed")

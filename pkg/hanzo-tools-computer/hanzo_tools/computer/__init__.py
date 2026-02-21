@@ -40,12 +40,12 @@ from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 # HIP-0300: Single unified 'ui' tool
 from .ui_tool import UiTool, ui_tool
 
-# Backward compatibility (deprecated)
-from .computer_tool import ComputerTool
-from .screen_tool import ScreenTool, ScreenConfig, screen_tool
-
 # Internal utilities (used by screen_tool)
 from .media_tool import MediaLimits, MediaResult, ActivitySegment, media_tool
+from .screen_tool import ScreenTool, ScreenConfig, screen_tool
+
+# Backward compatibility (deprecated)
+from .computer_tool import ComputerTool
 
 # Export list for tool discovery - single ui tool (HIP-0300)
 TOOLS = [UiTool]

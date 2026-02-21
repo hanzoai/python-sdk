@@ -19,8 +19,8 @@ import sys
 import json
 import time
 import base64
-import asyncio
 import shutil
+import asyncio
 import tempfile
 import subprocess
 from typing import Any, Literal, Optional, Annotated, final, override
@@ -43,32 +43,33 @@ IS_WINDOWS = PLATFORM == "win32"
 QUARTZ_AVAILABLE = False
 if IS_MACOS:
     try:
-        import Quartz
         import AppKit
+        import Quartz
         from Quartz import (
+            CGEventPost,
+            CGMainDisplayID,
+            CGDisplayPixelsHigh,
+            CGDisplayPixelsWide,
             CGEventCreateMouseEvent,
             CGEventCreateKeyboardEvent,
             CGEventCreateScrollWheelEvent,
-            CGEventPost,
-            CGDisplayPixelsWide,
-            CGDisplayPixelsHigh,
-            CGMainDisplayID,
-            kCGEventLeftMouseDown,
-            kCGEventLeftMouseUp,
-            kCGEventRightMouseDown,
-            kCGEventRightMouseUp,
-            kCGEventOtherMouseDown,
-            kCGEventOtherMouseUp,
-            kCGEventMouseMoved,
-            kCGEventLeftMouseDragged,
-            kCGEventRightMouseDragged,
-            kCGEventOtherMouseDragged,
-            kCGMouseButtonLeft,
-            kCGMouseButtonRight,
-            kCGMouseButtonCenter,
             kCGHIDEventTap,
+            kCGEventMouseMoved,
+            kCGMouseButtonLeft,
+            kCGEventLeftMouseUp,
+            kCGMouseButtonRight,
+            kCGEventOtherMouseUp,
+            kCGEventRightMouseUp,
+            kCGMouseButtonCenter,
+            kCGEventLeftMouseDown,
+            kCGEventOtherMouseDown,
+            kCGEventRightMouseDown,
             kCGScrollEventUnitLine,
+            kCGEventLeftMouseDragged,
+            kCGEventOtherMouseDragged,
+            kCGEventRightMouseDragged,
         )
+
         QUARTZ_AVAILABLE = True
     except ImportError:
         QUARTZ_AVAILABLE = False
@@ -85,6 +86,7 @@ WIN32_AVAILABLE = False
 if IS_WINDOWS:
     try:
         import ctypes
+
         WIN32_AVAILABLE = True
     except ImportError:
         WIN32_AVAILABLE = False
@@ -97,33 +99,104 @@ _EXECUTOR = ThreadPoolExecutor(max_workers=4, thread_name_prefix="computer_")
 
 # macOS key codes
 KEY_CODES = {
-    'a': 0x00, 's': 0x01, 'd': 0x02, 'f': 0x03, 'h': 0x04, 'g': 0x05,
-    'z': 0x06, 'x': 0x07, 'c': 0x08, 'v': 0x09, 'b': 0x0b, 'q': 0x0c,
-    'w': 0x0d, 'e': 0x0e, 'r': 0x0f, 'y': 0x10, 't': 0x11,
-    '1': 0x12, '2': 0x13, '3': 0x14, '4': 0x15, '5': 0x17, '6': 0x16,
-    '7': 0x1a, '8': 0x1c, '9': 0x19, '0': 0x1d,
-    '-': 0x1b, '=': 0x18, '[': 0x21, ']': 0x1e, '\\': 0x2a,
-    ';': 0x29, "'": 0x27, '`': 0x32, ',': 0x2b, '.': 0x2f, '/': 0x2c,
-    'o': 0x1f, 'u': 0x20, 'i': 0x22, 'p': 0x23, 'l': 0x25, 'j': 0x26,
-    'k': 0x28, 'n': 0x2d, 'm': 0x2e,
-    ' ': 0x31, 'space': 0x31,
-    'return': 0x24, 'enter': 0x24, '\n': 0x24, '\r': 0x24,
-    'tab': 0x30, '\t': 0x30,
-    'backspace': 0x33, '\b': 0x33,
-    'escape': 0x35, 'esc': 0x35,
-    'command': 0x37, 'cmd': 0x37,
-    'shift': 0x38, 'shiftleft': 0x38, 'shiftright': 0x3c,
-    'capslock': 0x39,
-    'option': 0x3a, 'alt': 0x3a, 'optionleft': 0x3a, 'altleft': 0x3a,
-    'optionright': 0x3d, 'altright': 0x3d,
-    'control': 0x3b, 'ctrl': 0x3b, 'ctrlleft': 0x3b, 'ctrlright': 0x3e,
-    'fn': 0x3f,
-    'f1': 0x7a, 'f2': 0x78, 'f3': 0x63, 'f4': 0x76, 'f5': 0x60,
-    'f6': 0x61, 'f7': 0x62, 'f8': 0x64, 'f9': 0x65, 'f10': 0x6d,
-    'f11': 0x67, 'f12': 0x6f,
-    'home': 0x73, 'end': 0x77, 'pageup': 0x74, 'pagedown': 0x79,
-    'delete': 0x75, 'del': 0x75,
-    'left': 0x7b, 'right': 0x7c, 'down': 0x7d, 'up': 0x7e,
+    "a": 0x00,
+    "s": 0x01,
+    "d": 0x02,
+    "f": 0x03,
+    "h": 0x04,
+    "g": 0x05,
+    "z": 0x06,
+    "x": 0x07,
+    "c": 0x08,
+    "v": 0x09,
+    "b": 0x0B,
+    "q": 0x0C,
+    "w": 0x0D,
+    "e": 0x0E,
+    "r": 0x0F,
+    "y": 0x10,
+    "t": 0x11,
+    "1": 0x12,
+    "2": 0x13,
+    "3": 0x14,
+    "4": 0x15,
+    "5": 0x17,
+    "6": 0x16,
+    "7": 0x1A,
+    "8": 0x1C,
+    "9": 0x19,
+    "0": 0x1D,
+    "-": 0x1B,
+    "=": 0x18,
+    "[": 0x21,
+    "]": 0x1E,
+    "\\": 0x2A,
+    ";": 0x29,
+    "'": 0x27,
+    "`": 0x32,
+    ",": 0x2B,
+    ".": 0x2F,
+    "/": 0x2C,
+    "o": 0x1F,
+    "u": 0x20,
+    "i": 0x22,
+    "p": 0x23,
+    "l": 0x25,
+    "j": 0x26,
+    "k": 0x28,
+    "n": 0x2D,
+    "m": 0x2E,
+    " ": 0x31,
+    "space": 0x31,
+    "return": 0x24,
+    "enter": 0x24,
+    "\n": 0x24,
+    "\r": 0x24,
+    "tab": 0x30,
+    "\t": 0x30,
+    "backspace": 0x33,
+    "\b": 0x33,
+    "escape": 0x35,
+    "esc": 0x35,
+    "command": 0x37,
+    "cmd": 0x37,
+    "shift": 0x38,
+    "shiftleft": 0x38,
+    "shiftright": 0x3C,
+    "capslock": 0x39,
+    "option": 0x3A,
+    "alt": 0x3A,
+    "optionleft": 0x3A,
+    "altleft": 0x3A,
+    "optionright": 0x3D,
+    "altright": 0x3D,
+    "control": 0x3B,
+    "ctrl": 0x3B,
+    "ctrlleft": 0x3B,
+    "ctrlright": 0x3E,
+    "fn": 0x3F,
+    "f1": 0x7A,
+    "f2": 0x78,
+    "f3": 0x63,
+    "f4": 0x76,
+    "f5": 0x60,
+    "f6": 0x61,
+    "f7": 0x62,
+    "f8": 0x64,
+    "f9": 0x65,
+    "f10": 0x6D,
+    "f11": 0x67,
+    "f12": 0x6F,
+    "home": 0x73,
+    "end": 0x77,
+    "pageup": 0x74,
+    "pagedown": 0x79,
+    "delete": 0x75,
+    "del": 0x75,
+    "left": 0x7B,
+    "right": 0x7C,
+    "down": 0x7D,
+    "up": 0x7E,
 }
 
 SHIFT_CHARS = '~!@#$%^&*()_+{}|:"<>?ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -132,22 +205,74 @@ SHIFT_CHARS = '~!@#$%^&*()_+{}|:"<>?ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 def _get_vk_code(key: str) -> int | None:
     """Get Windows virtual key code."""
     VK_CODES = {
-        'a': 0x41, 'b': 0x42, 'c': 0x43, 'd': 0x44, 'e': 0x45, 'f': 0x46,
-        'g': 0x47, 'h': 0x48, 'i': 0x49, 'j': 0x4A, 'k': 0x4B, 'l': 0x4C,
-        'm': 0x4D, 'n': 0x4E, 'o': 0x4F, 'p': 0x50, 'q': 0x51, 'r': 0x52,
-        's': 0x53, 't': 0x54, 'u': 0x55, 'v': 0x56, 'w': 0x57, 'x': 0x58,
-        'y': 0x59, 'z': 0x5A,
-        '0': 0x30, '1': 0x31, '2': 0x32, '3': 0x33, '4': 0x34,
-        '5': 0x35, '6': 0x36, '7': 0x37, '8': 0x38, '9': 0x39,
-        'return': 0x0D, 'enter': 0x0D, 'tab': 0x09, 'space': 0x20,
-        'backspace': 0x08, 'escape': 0x1B, 'esc': 0x1B,
-        'shift': 0x10, 'ctrl': 0x11, 'control': 0x11, 'alt': 0x12,
-        'left': 0x25, 'up': 0x26, 'right': 0x27, 'down': 0x28,
-        'delete': 0x2E, 'home': 0x24, 'end': 0x23,
-        'pageup': 0x21, 'pagedown': 0x22,
-        'f1': 0x70, 'f2': 0x71, 'f3': 0x72, 'f4': 0x73, 'f5': 0x74,
-        'f6': 0x75, 'f7': 0x76, 'f8': 0x77, 'f9': 0x78, 'f10': 0x79,
-        'f11': 0x7A, 'f12': 0x7B,
+        "a": 0x41,
+        "b": 0x42,
+        "c": 0x43,
+        "d": 0x44,
+        "e": 0x45,
+        "f": 0x46,
+        "g": 0x47,
+        "h": 0x48,
+        "i": 0x49,
+        "j": 0x4A,
+        "k": 0x4B,
+        "l": 0x4C,
+        "m": 0x4D,
+        "n": 0x4E,
+        "o": 0x4F,
+        "p": 0x50,
+        "q": 0x51,
+        "r": 0x52,
+        "s": 0x53,
+        "t": 0x54,
+        "u": 0x55,
+        "v": 0x56,
+        "w": 0x57,
+        "x": 0x58,
+        "y": 0x59,
+        "z": 0x5A,
+        "0": 0x30,
+        "1": 0x31,
+        "2": 0x32,
+        "3": 0x33,
+        "4": 0x34,
+        "5": 0x35,
+        "6": 0x36,
+        "7": 0x37,
+        "8": 0x38,
+        "9": 0x39,
+        "return": 0x0D,
+        "enter": 0x0D,
+        "tab": 0x09,
+        "space": 0x20,
+        "backspace": 0x08,
+        "escape": 0x1B,
+        "esc": 0x1B,
+        "shift": 0x10,
+        "ctrl": 0x11,
+        "control": 0x11,
+        "alt": 0x12,
+        "left": 0x25,
+        "up": 0x26,
+        "right": 0x27,
+        "down": 0x28,
+        "delete": 0x2E,
+        "home": 0x24,
+        "end": 0x23,
+        "pageup": 0x21,
+        "pagedown": 0x22,
+        "f1": 0x70,
+        "f2": 0x71,
+        "f3": 0x72,
+        "f4": 0x73,
+        "f5": 0x74,
+        "f6": 0x75,
+        "f7": 0x76,
+        "f8": 0x77,
+        "f9": 0x78,
+        "f10": 0x79,
+        "f11": 0x7A,
+        "f12": 0x7B,
     }
     return VK_CODES.get(key.lower())
 
@@ -166,7 +291,7 @@ class NativeControl:
                 "xdotool": XDOTOOL_AVAILABLE,
                 "scrot": SCROT_AVAILABLE,
                 "win32": WIN32_AVAILABLE,
-            }
+            },
         }
 
     @staticmethod
@@ -177,19 +302,21 @@ class NativeControl:
             return int(loc.x), int(CGDisplayPixelsHigh(0) - loc.y)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "getmouselocation", "--shell"],
-                capture_output=True, text=True, timeout=2
+                ["xdotool", "getmouselocation", "--shell"], capture_output=True, text=True, timeout=2
             )
             vals = dict(line.split("=") for line in result.stdout.strip().split("\n") if "=" in line)
             return int(vals.get("X", 0)), int(vals.get("Y", 0))
         elif IS_WINDOWS and WIN32_AVAILABLE:
+
             class POINT(ctypes.Structure):
                 _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
+
             pt = POINT()
             ctypes.windll.user32.GetCursorPos(ctypes.byref(pt))
             return pt.x, pt.y
         else:
             import pyautogui
+
             return pyautogui.position()
 
     @staticmethod
@@ -215,6 +342,7 @@ class NativeControl:
             )
         else:
             import pyautogui
+
             return pyautogui.size()
 
     @staticmethod
@@ -240,7 +368,8 @@ class NativeControl:
             btn_map = {"left": "1", "middle": "2", "right": "3"}
             subprocess.run(
                 ["xdotool", "mousemove", str(x), str(y), "click", btn_map.get(button, "1")],
-                capture_output=True, timeout=2
+                capture_output=True,
+                timeout=2,
             )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             ctypes.windll.user32.SetCursorPos(x, y)
@@ -255,6 +384,7 @@ class NativeControl:
                 ctypes.windll.user32.mouse_event(0x0040, 0, 0, 0, 0)
         else:
             import pyautogui
+
             pyautogui.click(x, y, button=button)
 
     @staticmethod
@@ -262,8 +392,7 @@ class NativeControl:
         """Double click."""
         if IS_LINUX and XDOTOOL_AVAILABLE:
             subprocess.run(
-                ["xdotool", "mousemove", str(x), str(y), "click", "--repeat", "2", "1"],
-                capture_output=True, timeout=2
+                ["xdotool", "mousemove", str(x), str(y), "click", "--repeat", "2", "1"], capture_output=True, timeout=2
             )
         else:
             NativeControl.click(x, y)
@@ -281,6 +410,7 @@ class NativeControl:
             ctypes.windll.user32.SetCursorPos(x, y)
         else:
             import pyautogui
+
             pyautogui.moveTo(x, y, _pause=False)
 
     @staticmethod
@@ -312,12 +442,23 @@ class NativeControl:
             NativeControl._send_mouse_event_macos(up_type, end_x, end_y, btn)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             btn_map = {"left": "1", "middle": "2", "right": "3"}
-            subprocess.run([
-                "xdotool", "mousemove", str(start_x), str(start_y),
-                "mousedown", btn_map.get(button, "1"),
-                "mousemove", str(end_x), str(end_y),
-                "mouseup", btn_map.get(button, "1"),
-            ], capture_output=True, timeout=5)
+            subprocess.run(
+                [
+                    "xdotool",
+                    "mousemove",
+                    str(start_x),
+                    str(start_y),
+                    "mousedown",
+                    btn_map.get(button, "1"),
+                    "mousemove",
+                    str(end_x),
+                    str(end_y),
+                    "mouseup",
+                    btn_map.get(button, "1"),
+                ],
+                capture_output=True,
+                timeout=5,
+            )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             ctypes.windll.user32.SetCursorPos(start_x, start_y)
             ctypes.windll.user32.mouse_event(0x0002, 0, 0, 0, 0)
@@ -330,6 +471,7 @@ class NativeControl:
             ctypes.windll.user32.mouse_event(0x0004, 0, 0, 0, 0)
         else:
             import pyautogui
+
             pyautogui.moveTo(start_x, start_y, _pause=False)
             pyautogui.drag(end_x - start_x, end_y - start_y, _pause=False)
 
@@ -350,6 +492,7 @@ class NativeControl:
             ctypes.windll.user32.mouse_event(0x0800, 0, 0, amount * 120, 0)
         else:
             import pyautogui
+
             pyautogui.scroll(amount, _pause=False)
 
     @staticmethod
@@ -373,6 +516,7 @@ class NativeControl:
                 ctypes.windll.user32.keybd_event(vk, 0, 0, 0)
         else:
             import pyautogui
+
             pyautogui.keyDown(key_lower, _pause=False)
 
     @staticmethod
@@ -390,6 +534,7 @@ class NativeControl:
                 ctypes.windll.user32.keybd_event(vk, 0, 0x0002, 0)
         else:
             import pyautogui
+
             pyautogui.keyUp(key_lower, _pause=False)
 
     @staticmethod
@@ -420,15 +565,16 @@ class NativeControl:
             subprocess.run(["xdotool", "type", "--", char], capture_output=True, timeout=2)
         elif IS_MACOS and QUARTZ_AVAILABLE:
             if char in SHIFT_CHARS:
-                NativeControl.key_down('shift')
+                NativeControl.key_down("shift")
                 key = char.lower() if char.isalpha() else char
                 if key in KEY_CODES:
                     NativeControl.press(key)
-                NativeControl.key_up('shift')
+                NativeControl.key_up("shift")
             elif char.lower() in KEY_CODES:
                 NativeControl.press(char.lower())
         else:
             import pyautogui
+
             pyautogui.typewrite(char, _pause=False)
 
     @staticmethod
@@ -438,7 +584,8 @@ class NativeControl:
             if interval > 0:
                 subprocess.run(
                     ["xdotool", "type", "--delay", str(int(interval * 1000)), "--", text],
-                    capture_output=True, timeout=30
+                    capture_output=True,
+                    timeout=30,
                 )
             else:
                 subprocess.run(["xdotool", "type", "--", text], capture_output=True, timeout=30)
@@ -472,6 +619,7 @@ class NativeControl:
 
             elif IS_WINDOWS or IS_LINUX:
                 from PIL import ImageGrab
+
                 if region and len(region) == 4:
                     x, y, w, h = region
                     img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
@@ -499,7 +647,7 @@ class NativeControl:
                     return True
             except subprocess.TimeoutExpired:
                 pass
-            
+
             # If that fails, try to find app by partial name match
             search_script = f'''
             tell application "System Events"
@@ -521,8 +669,7 @@ class NativeControl:
             return False
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "search", "--name", title, "windowactivate"],
-                capture_output=True, timeout=10
+                ["xdotool", "search", "--name", title, "windowactivate"], capture_output=True, timeout=10
             )
             return result.returncode == 0
         elif IS_WINDOWS and WIN32_AVAILABLE:
@@ -537,7 +684,7 @@ class NativeControl:
     def get_active_window() -> dict:
         """Get active window info."""
         if IS_MACOS:
-            script = '''
+            script = """
             tell application "System Events"
                 set frontApp to first application process whose frontmost is true
                 set appName to name of frontApp
@@ -551,7 +698,7 @@ class NativeControl:
                     return appName & "|" & "" & "|0|0|0|0"
                 end try
             end tell
-            '''
+            """
             result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True, timeout=5)
             if result.returncode == 0:
                 parts = result.stdout.strip().split("|")
@@ -566,8 +713,7 @@ class NativeControl:
                     }
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "getactivewindow", "getwindowname"],
-                capture_output=True, text=True, timeout=5
+                ["xdotool", "getactivewindow", "getwindowname"], capture_output=True, text=True, timeout=5
             )
             if result.returncode == 0:
                 return {"title": result.stdout.strip()}
@@ -612,14 +758,16 @@ class NativeControl:
                         parts = line.split("\x1f")
                         if len(parts) >= 6:
                             try:
-                                windows.append({
-                                    "app": parts[0],
-                                    "title": parts[1],
-                                    "x": int(parts[2]),
-                                    "y": int(parts[3]),
-                                    "width": int(parts[4]),
-                                    "height": int(parts[5]),
-                                })
+                                windows.append(
+                                    {
+                                        "app": parts[0],
+                                        "title": parts[1],
+                                        "x": int(parts[2]),
+                                        "y": int(parts[3]),
+                                        "width": int(parts[4]),
+                                        "height": int(parts[5]),
+                                    }
+                                )
                             except (ValueError, IndexError):
                                 # Skip windows with parsing errors
                                 continue
@@ -629,36 +777,67 @@ class NativeControl:
 
 Action = Literal[
     # Mouse
-    "click", "double_click", "right_click", "middle_click",
-    "move", "move_relative", "drag", "drag_relative", "scroll",
+    "click",
+    "double_click",
+    "right_click",
+    "middle_click",
+    "move",
+    "move_relative",
+    "drag",
+    "drag_relative",
+    "scroll",
     # Touch (mobile emulation)
-    "tap", "swipe", "pinch",
+    "tap",
+    "swipe",
+    "pinch",
     # Keyboard
-    "type", "write", "press", "key_down", "key_up", "hotkey",
+    "type",
+    "write",
+    "press",
+    "key_down",
+    "key_up",
+    "hotkey",
     # Screen capture
-    "screenshot", "screenshot_region", "capture",
+    "screenshot",
+    "screenshot_region",
+    "capture",
     # Screen recording (consolidated from ScreenTool)
-    "session",   # ONE-SHOT: record → analyze → compress → return for Claude
-    "record",    # Start background recording
-    "stop",      # Stop recording and get compressed frames
-    "analyze",   # Analyze existing video file
+    "session",  # ONE-SHOT: record → analyze → compress → return for Claude
+    "record",  # Start background recording
+    "stop",  # Stop recording and get compressed frames
+    "analyze",  # Analyze existing video file
     # Image location
-    "locate", "locate_all", "locate_center",
-    "wait_for_image", "wait_while_image",
+    "locate",
+    "locate_all",
+    "locate_center",
+    "wait_for_image",
+    "wait_while_image",
     # Pixel
-    "pixel", "pixel_matches",
+    "pixel",
+    "pixel_matches",
     # Window
-    "get_active_window", "list_windows", "focus_window",
+    "get_active_window",
+    "list_windows",
+    "focus_window",
     # Screen info
-    "get_screens", "screen_size", "current_screen",
+    "get_screens",
+    "screen_size",
+    "current_screen",
     # Region helpers
-    "define_region", "region_screenshot", "region_locate",
+    "define_region",
+    "region_screenshot",
+    "region_locate",
     # Timing
-    "sleep", "countdown", "set_pause", "set_failsafe",
+    "sleep",
+    "countdown",
+    "set_pause",
+    "set_failsafe",
     # Batch
     "batch",
     # Info
-    "info", "position", "status",
+    "info",
+    "position",
+    "status",
 ]
 
 
@@ -694,6 +873,7 @@ class ComputerTool(BaseTool):
         """Lazy load pyautogui for fallback/advanced features."""
         if self._pyautogui is None:
             import pyautogui
+
             pyautogui.FAILSAFE = self._failsafe
             pyautogui.PAUSE = self._pause
             self._pyautogui = pyautogui
@@ -703,6 +883,7 @@ class ComputerTool(BaseTool):
         """Lazy load PIL."""
         if self._pil is None:
             from PIL import Image
+
             self._pil = Image
         return self._pil
 
@@ -710,10 +891,10 @@ class ComputerTool(BaseTool):
     @override
     def description(self) -> str:
         platform_info = NativeControl.get_platform_info()
-        backends = ', '.join(k for k, v in platform_info['backends'].items() if v) or 'pyautogui'
+        backends = ", ".join(k for k, v in platform_info["backends"].items() if v) or "pyautogui"
         return f"""Control local computer with native API acceleration.
 
-PLATFORM: {platform_info['platform']}
+PLATFORM: {platform_info["platform"]}
 BACKENDS: {backends}
 
 MOUSE (< 5ms native):
@@ -929,34 +1110,38 @@ Examples:
             # Screen actions
             elif action == "screenshot" or action == "screenshot_region":
                 data = await run(NativeControl.screenshot_native, region)
-                
+
                 # If name is provided, save to file instead of returning base64
                 if name:
                     # Expand ~ and make absolute path
                     file_path = os.path.expanduser(name)
                     if not os.path.isabs(file_path):
                         file_path = os.path.join(tempfile.gettempdir(), name)
-                    if not file_path.endswith('.png'):
-                        file_path += '.png'
-                    
-                    with open(file_path, 'wb') as f:
+                    if not file_path.endswith(".png"):
+                        file_path += ".png"
+
+                    with open(file_path, "wb") as f:
                         f.write(data)
-                    
-                    return json.dumps({
+
+                    return json.dumps(
+                        {
+                            "success": True,
+                            "format": "png",
+                            "size": len(data),
+                            "path": file_path,
+                        }
+                    )
+
+                # Otherwise return base64 (large output warning)
+                b64 = base64.b64encode(data).decode()
+                return json.dumps(
+                    {
                         "success": True,
                         "format": "png",
                         "size": len(data),
-                        "path": file_path,
-                    })
-                
-                # Otherwise return base64 (large output warning)
-                b64 = base64.b64encode(data).decode()
-                return json.dumps({
-                    "success": True,
-                    "format": "png",
-                    "size": len(data),
-                    "base64": b64,
-                })
+                        "base64": b64,
+                    }
+                )
 
             # Image location (uses pyautogui)
             elif action == "locate":
@@ -1035,10 +1220,12 @@ Examples:
             elif action == "current_screen":
                 pos = NativeControl.mouse_position()
                 size = NativeControl.screen_size()
-                return json.dumps({
-                    "size": {"width": size[0], "height": size[1]},
-                    "mouse": {"x": pos[0], "y": pos[1]},
-                })
+                return json.dumps(
+                    {
+                        "size": {"width": size[0], "height": size[1]},
+                        "mouse": {"x": pos[0], "y": pos[1]},
+                    }
+                )
 
             # Region helpers
             elif action == "define_region":
@@ -1134,26 +1321,30 @@ Examples:
                         results.append({"index": i, "action": act_type, "error": str(e)})
 
                 elapsed = time.time() - start
-                return json.dumps({
-                    "success": True,
-                    "count": len(results),
-                    "elapsed_ms": round(elapsed * 1000, 2),
-                    "results": results,
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "count": len(results),
+                        "elapsed_ms": round(elapsed * 1000, 2),
+                        "results": results,
+                    }
+                )
 
             # Info
             elif action == "info":
                 pos = NativeControl.mouse_position()
                 size = NativeControl.screen_size()
                 platform_info = NativeControl.get_platform_info()
-                return json.dumps({
-                    "screen": {"width": size[0], "height": size[1]},
-                    "mouse": {"x": pos[0], "y": pos[1]},
-                    "platform": platform_info,
-                    "pause": self._pause,
-                    "failsafe": self._failsafe,
-                    "regions": list(self._defined_regions.keys()),
-                })
+                return json.dumps(
+                    {
+                        "screen": {"width": size[0], "height": size[1]},
+                        "mouse": {"x": pos[0], "y": pos[1]},
+                        "platform": platform_info,
+                        "pause": self._pause,
+                        "failsafe": self._failsafe,
+                        "regions": list(self._defined_regions.keys()),
+                    }
+                )
 
             elif action == "position":
                 pos = NativeControl.mouse_position()
@@ -1181,11 +1372,18 @@ Examples:
             location = pg.locateOnScreen(str(path), **kwargs)
             if location:
                 center = pg.center(location)
-                return json.dumps({
-                    "found": True,
-                    "center": {"x": center.x, "y": center.y},
-                    "box": {"left": location.left, "top": location.top, "width": location.width, "height": location.height},
-                })
+                return json.dumps(
+                    {
+                        "found": True,
+                        "center": {"x": center.x, "y": center.y},
+                        "box": {
+                            "left": location.left,
+                            "top": location.top,
+                            "width": location.width,
+                            "height": location.height,
+                        },
+                    }
+                )
             return json.dumps({"found": False})
         except Exception as e:
             return json.dumps({"error": str(e)})
@@ -1203,10 +1401,12 @@ Examples:
             results = []
             for loc in locations:
                 center = pg.center(loc)
-                results.append({
-                    "center": {"x": center.x, "y": center.y},
-                    "box": {"left": loc.left, "top": loc.top, "width": loc.width, "height": loc.height},
-                })
+                results.append(
+                    {
+                        "center": {"x": center.x, "y": center.y},
+                        "box": {"left": loc.left, "top": loc.top, "width": loc.width, "height": loc.height},
+                    }
+                )
             return json.dumps({"found": len(results), "locations": results})
         except Exception as e:
             return json.dumps({"error": str(e)})
@@ -1236,7 +1436,9 @@ Examples:
             result = await run(self._locate_center, str(path), confidence)
             data = json.loads(result) if result.startswith("{") else {}
             if data.get("found"):
-                return json.dumps({"found": True, "x": data["x"], "y": data["y"], "elapsed": round(time.time() - start, 2)})
+                return json.dumps(
+                    {"found": True, "x": data["x"], "y": data["y"], "elapsed": round(time.time() - start, 2)}
+                )
             await asyncio.sleep(0.1)
         return json.dumps({"found": False, "timeout": timeout})
 
@@ -1268,11 +1470,13 @@ Examples:
             screenshot = pg.screenshot(region=(x, y, 1, 1))
             pixel = screenshot.getpixel((0, 0))
             matches = all(abs(pixel[i] - color[i]) <= tolerance for i in range(3))
-            return json.dumps({
-                "matches": matches,
-                "expected": {"r": color[0], "g": color[1], "b": color[2]},
-                "actual": {"r": pixel[0], "g": pixel[1], "b": pixel[2]},
-            })
+            return json.dumps(
+                {
+                    "matches": matches,
+                    "expected": {"r": color[0], "g": color[1], "b": color[2]},
+                    "actual": {"r": pixel[0], "g": pixel[1], "b": pixel[2]},
+                }
+            )
         except Exception as e:
             return json.dumps({"error": str(e)})
 
@@ -1281,18 +1485,22 @@ Examples:
             try:
                 result = subprocess.run(
                     ["system_profiler", "SPDisplaysDataType", "-json"],
-                    capture_output=True, text=True, timeout=5,
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
                 )
                 if result.returncode == 0:
                     data = json.loads(result.stdout)
                     displays = []
                     for gpu in data.get("SPDisplaysDataType", []):
                         for disp in gpu.get("spdisplays_ndrvs", []):
-                            displays.append({
-                                "name": disp.get("_name", "Unknown"),
-                                "resolution": disp.get("_spdisplays_resolution", "Unknown"),
-                                "main": disp.get("spdisplays_main") == "spdisplays_yes",
-                            })
+                            displays.append(
+                                {
+                                    "name": disp.get("_name", "Unknown"),
+                                    "resolution": disp.get("_spdisplays_resolution", "Unknown"),
+                                    "main": disp.get("spdisplays_main") == "spdisplays_yes",
+                                }
+                            )
                     return json.dumps(displays)
             except Exception:
                 pass
@@ -1339,13 +1547,31 @@ Examples:
             return await tool_self.call(
                 ctx,
                 action=action,
-                x=x, y=y, dx=dx, dy=dy, end_x=end_x, end_y=end_y,
-                text=text, key=key, keys=keys,
-                button=button, amount=amount, duration=duration, interval=interval,
-                region=region, clear=clear,
-                image_path=image_path, confidence=confidence, timeout=timeout,
-                color=tuple(color) if color else None, tolerance=tolerance,
-                title=title, use_regex=use_regex,
-                name=name, width=width, height=height,
-                value=value, actions=actions,
+                x=x,
+                y=y,
+                dx=dx,
+                dy=dy,
+                end_x=end_x,
+                end_y=end_y,
+                text=text,
+                key=key,
+                keys=keys,
+                button=button,
+                amount=amount,
+                duration=duration,
+                interval=interval,
+                region=region,
+                clear=clear,
+                image_path=image_path,
+                confidence=confidence,
+                timeout=timeout,
+                color=tuple(color) if color else None,
+                tolerance=tolerance,
+                title=title,
+                use_regex=use_regex,
+                name=name,
+                width=width,
+                height=height,
+                value=value,
+                actions=actions,
             )

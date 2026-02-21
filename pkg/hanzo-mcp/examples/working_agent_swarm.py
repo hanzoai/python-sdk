@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Working agent swarm demo with hanzo/net local inference."""
 
-import sys
 import asyncio
+import sys
 from pathlib import Path
 
 # Add hanzo-network to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
-from hanzo_network import create_tool, create_local_agent
+from hanzo_network import create_local_agent, create_tool
 
 
 class LocalAgentSwarm:
@@ -23,7 +23,9 @@ class LocalAgentSwarm:
 
         # Code Scanner Agent
         def scan_files(pattern: str) -> str:
-            return f"Scanned files matching '{pattern}': Found 15 Python files, 8 JS files"
+            return (
+                f"Scanned files matching '{pattern}': Found 15 Python files, 8 JS files"
+            )
 
         self.agents["scanner"] = create_local_agent(
             name="scanner",
@@ -41,7 +43,9 @@ class LocalAgentSwarm:
 
         # Vulnerability Detector Agent
         def detect_vulnerabilities(code: str) -> str:
-            return "Found 2 potential issues: SQL injection risk, missing input validation"
+            return (
+                "Found 2 potential issues: SQL injection risk, missing input validation"
+            )
 
         self.agents["detector"] = create_local_agent(
             name="detector",
@@ -193,7 +197,9 @@ class LocalAgentSwarm:
         yes_count = sum(1 for v in votes.values() if "yes" in v.lower())
         no_count = len(votes) - yes_count
 
-        print(f"\n🗳️  Consensus: {'YES' if yes_count > no_count else 'NO'} ({yes_count} yes, {no_count} no)")
+        print(
+            f"\n🗳️  Consensus: {'YES' if yes_count > no_count else 'NO'} ({yes_count} yes, {no_count} no)"
+        )
 
         return votes
 

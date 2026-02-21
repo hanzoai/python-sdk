@@ -53,7 +53,9 @@ def main() -> None:
     early_parser = argparse.ArgumentParser(add_help=False)
     early_parser.add_argument("--transport", choices=["stdio", "sse"], default="stdio")
     # Support --enable-agent as alias for --enable-agent-tool (Claude Code compatibility)
-    early_parser.add_argument("--enable-agent", dest="enable_agent", action="store_true")
+    early_parser.add_argument(
+        "--enable-agent", dest="enable_agent", action="store_true"
+    )
     early_args, _ = early_parser.parse_known_args()
 
     # Configure logging VERY early based on transport

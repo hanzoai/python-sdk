@@ -17,12 +17,12 @@ Design principles:
 Reference: HIP-0300 Unified MCP Tools Architecture
 """
 
-import inspect
 import json
 import hashlib
+import inspect
 from abc import abstractmethod
-from dataclasses import dataclass, field
-from typing import Any, Callable, ClassVar, Literal, TypeVar, get_type_hints
+from typing import Any, Literal, TypeVar, Callable, ClassVar, get_type_hints
+from dataclasses import field, dataclass
 from collections.abc import Awaitable
 
 from mcp.server import FastMCP
@@ -30,22 +30,22 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from .base import BaseTool as _BaseToolABC
 
-
 # Error codes for structured error handling
 ErrorCode = Literal[
-    "UNKNOWN_ACTION",      # Action not found
-    "INVALID_PARAMS",      # Invalid parameters
-    "NOT_FOUND",           # Resource not found
-    "CONFLICT",            # Precondition failed (e.g., base_hash mismatch)
-    "PERMISSION_DENIED",   # Access denied
-    "TIMEOUT",             # Operation timed out
-    "INTERNAL_ERROR",      # Unexpected error
+    "UNKNOWN_ACTION",  # Action not found
+    "INVALID_PARAMS",  # Invalid parameters
+    "NOT_FOUND",  # Resource not found
+    "CONFLICT",  # Precondition failed (e.g., base_hash mismatch)
+    "PERMISSION_DENIED",  # Access denied
+    "TIMEOUT",  # Operation timed out
+    "INTERNAL_ERROR",  # Unexpected error
 ]
 
 
 @dataclass
 class Paging:
     """Pagination info for large results."""
+
     cursor: str | None = None
     more: bool = False
     total: int | None = None
@@ -54,6 +54,7 @@ class Paging:
 @dataclass
 class ToolError(Exception):
     """Structured error for tool operations."""
+
     code: ErrorCode
     message: str
     details: dict[str, Any] = field(default_factory=dict)
@@ -61,6 +62,7 @@ class ToolError(Exception):
 
 class ConflictError(ToolError):
     """Precondition failed (e.g., base_hash mismatch)."""
+
     def __init__(self, message: str, expected: str | None = None, actual: str | None = None):
         details = {}
         if expected:
@@ -72,6 +74,7 @@ class ConflictError(ToolError):
 
 class NotFoundError(ToolError):
     """Resource not found."""
+
     def __init__(self, message: str, uri: str | None = None):
         details = {"uri": uri} if uri else {}
         super().__init__(code="NOT_FOUND", message=message, details=details)
@@ -79,6 +82,7 @@ class NotFoundError(ToolError):
 
 class InvalidParamsError(ToolError):
     """Invalid parameters."""
+
     def __init__(self, message: str, param: str | None = None, expected: str | None = None):
         details = {}
         if param:
@@ -91,6 +95,7 @@ class InvalidParamsError(ToolError):
 @dataclass
 class ActionHandler:
     """Metadata for a registered action handler."""
+
     name: str
     handler: Callable[..., Awaitable[Any]]
     description: str
@@ -162,7 +167,7 @@ class BaseTool(_BaseToolABC):
                     raise ToolError(
                         code="UNKNOWN_ACTION",
                         message=f"Unknown action: {action_name}",
-                        details={"available": list(self._handlers.keys())}
+                        details={"available": list(self._handlers.keys())},
                     )
                 return {"action": action_name, "schema": handler.schema or {}}
 
@@ -199,6 +204,7 @@ class BaseTool(_BaseToolABC):
         Returns:
             Decorator function
         """
+
         def decorator(fn: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:
             # Auto-generate schema from type hints if not provided
             auto_schema = schema
@@ -213,6 +219,7 @@ class BaseTool(_BaseToolABC):
                 examples=examples or [],
             )
             return fn
+
         return decorator
 
     def _generate_schema(self, fn: Callable) -> dict[str, Any]:
@@ -371,6 +378,7 @@ class BaseTool(_BaseToolABC):
 
 # Utility functions for composability
 
+
 def content_hash(content: str | bytes, algorithm: str = "sha256") -> str:
     """Generate content hash for file identity."""
     if isinstance(content, str):
@@ -383,6 +391,7 @@ def content_hash(content: str | bytes, algorithm: str = "sha256") -> str:
 def file_uri(path: str) -> str:
     """Convert path to file:// URI."""
     from pathlib import Path
+
     abs_path = Path(path).resolve()
     return f"file://{abs_path}"
 
@@ -393,6 +402,7 @@ class Range:
 
     0-based line and column numbers.
     """
+
     start_line: int
     start_col: int = 0
     end_line: int | None = None

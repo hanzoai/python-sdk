@@ -5,8 +5,8 @@ MongoDB-compatible document database with global distribution.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -47,6 +47,7 @@ def doc_group():
 # Database Management
 # ============================================================================
 
+
 @doc_group.command(name="create")
 @click.argument("name")
 @click.option("--region", "-r", multiple=True, help="Regions for replication")
@@ -78,18 +79,20 @@ def doc_list():
 @click.argument("name")
 def doc_describe(name: str):
     """Show database details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Tier:[/cyan] Standard\n"
-        f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
-        f"[cyan]Collections:[/cyan] 5\n"
-        f"[cyan]Documents:[/cyan] 12,345\n"
-        f"[cyan]Size:[/cyan] 256 MB\n"
-        f"[cyan]Regions:[/cyan] us-east-1\n"
-        f"[cyan]Connection:[/cyan] mongodb://doc.hanzo.ai/{name}",
-        title="Database Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Tier:[/cyan] Standard\n"
+            f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
+            f"[cyan]Collections:[/cyan] 5\n"
+            f"[cyan]Documents:[/cyan] 12,345\n"
+            f"[cyan]Size:[/cyan] 256 MB\n"
+            f"[cyan]Regions:[/cyan] us-east-1\n"
+            f"[cyan]Connection:[/cyan] mongodb://doc.hanzo.ai/{name}",
+            title="Database Details",
+            border_style="cyan",
+        )
+    )
 
 
 @doc_group.command(name="delete")
@@ -99,6 +102,7 @@ def doc_delete(name: str, force: bool):
     """Delete a document database."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete database '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Database '{name}' deleted")
@@ -115,6 +119,7 @@ def doc_connect(name: str):
 # ============================================================================
 # Collections
 # ============================================================================
+
 
 @doc_group.group()
 def collections():
@@ -157,6 +162,7 @@ def collections_drop(name: str, db: str, force: bool):
     """Drop a collection."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Drop collection '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Collection '{name}' dropped")
@@ -167,21 +173,24 @@ def collections_drop(name: str, db: str, force: bool):
 @click.option("--db", "-d", default="default")
 def collections_stats(name: str, db: str):
     """Show collection statistics."""
-    console.print(Panel(
-        f"[cyan]Collection:[/cyan] {name}\n"
-        f"[cyan]Documents:[/cyan] 1,234\n"
-        f"[cyan]Size:[/cyan] 12.5 MB\n"
-        f"[cyan]Avg doc size:[/cyan] 10.1 KB\n"
-        f"[cyan]Indexes:[/cyan] 3\n"
-        f"[cyan]Index size:[/cyan] 1.2 MB",
-        title="Collection Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Collection:[/cyan] {name}\n"
+            f"[cyan]Documents:[/cyan] 1,234\n"
+            f"[cyan]Size:[/cyan] 12.5 MB\n"
+            f"[cyan]Avg doc size:[/cyan] 10.1 KB\n"
+            f"[cyan]Indexes:[/cyan] 3\n"
+            f"[cyan]Index size:[/cyan] 1.2 MB",
+            title="Collection Statistics",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Data Operations
 # ============================================================================
+
 
 @doc_group.command(name="find")
 @click.argument("collection")
@@ -244,6 +253,7 @@ def doc_delete_docs(collection: str, db: str, filter: str, force: bool):
     """Delete documents matching filter."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask("[red]Delete matching documents?[/red]"):
             return
     console.print(f"[green]✓[/green] Deleted documents from '{collection}'")
@@ -262,6 +272,7 @@ def doc_count(collection: str, db: str, query: str):
 # ============================================================================
 # Indexes
 # ============================================================================
+
 
 @doc_group.group()
 def indexes():
@@ -320,6 +331,7 @@ def indexes_drop(collection: str, index_name: str, db: str):
 # ============================================================================
 # Admin
 # ============================================================================
+
 
 @doc_group.command(name="backup")
 @click.argument("name")

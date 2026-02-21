@@ -5,8 +5,8 @@ Redis-compatible key-value storage with global replication.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -39,6 +39,7 @@ def kv_group():
 # ============================================================================
 # Store Management
 # ============================================================================
+
 
 @kv_group.command(name="create")
 @click.argument("name")
@@ -74,6 +75,7 @@ def kv_delete(name: str, force: bool):
     """Delete a KV store."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete KV store '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] KV store '{name}' deleted")
@@ -82,6 +84,7 @@ def kv_delete(name: str, force: bool):
 # ============================================================================
 # Key-Value Operations
 # ============================================================================
+
 
 @kv_group.command(name="get")
 @click.argument("key")
@@ -158,11 +161,10 @@ def kv_ttl(key: str, store: str, set_ttl: str):
 @click.option("--store", "-s", default="default")
 def kv_stats(store: str):
     """Show store statistics."""
-    console.print(Panel(
-        f"[cyan]Store:[/cyan] {store}\n"
-        f"[cyan]Keys:[/cyan] 0\n"
-        f"[cyan]Memory:[/cyan] 0 B\n"
-        f"[cyan]Hit rate:[/cyan] 0%",
-        title="KV Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Store:[/cyan] {store}\n[cyan]Keys:[/cyan] 0\n[cyan]Memory:[/cyan] 0 B\n[cyan]Hit rate:[/cyan] 0%",
+            title="KV Statistics",
+            border_style="cyan",
+        )
+    )

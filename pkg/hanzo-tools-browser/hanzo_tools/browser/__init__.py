@@ -9,9 +9,9 @@ Integration with Hanzo Browser Extension:
     No manual setup required - just install the extension and use hanzo-mcp.
 """
 
+import os
 import asyncio
 import logging
-import os
 import threading
 from typing import Optional
 
@@ -32,9 +32,9 @@ logger = logging.getLogger(__name__)
 # CDP Bridge for browser extension integration
 try:
     from hanzo_tools.browser.cdp_bridge_server import (
-        CDPBridgeServer,
-        CDPBridgeClient,
         WEBSOCKETS_AVAILABLE as CDP_BRIDGE_AVAILABLE,
+        CDPBridgeClient,
+        CDPBridgeServer,
     )
 except ImportError:
     CDP_BRIDGE_AVAILABLE = False
@@ -133,10 +133,7 @@ def start_cdp_bridge(
 
     try:
         _cdp_bridge_thread = threading.Thread(
-            target=_run_cdp_bridge_server,
-            args=(host, port),
-            daemon=True,
-            name="cdp-bridge-server"
+            target=_run_cdp_bridge_server, args=(host, port), daemon=True, name="cdp-bridge-server"
         )
         _cdp_bridge_thread.start()
         logger.info(f"CDP bridge started on ws://{host}:{port}")
@@ -153,10 +150,7 @@ def stop_cdp_bridge() -> None:
     if _cdp_bridge_loop is not None:
         try:
             if _cdp_bridge_server is not None:
-                asyncio.run_coroutine_threadsafe(
-                    _cdp_bridge_server.stop(),
-                    _cdp_bridge_loop
-                )
+                asyncio.run_coroutine_threadsafe(_cdp_bridge_server.stop(), _cdp_bridge_loop)
         except Exception:
             pass
 

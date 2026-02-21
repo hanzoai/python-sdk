@@ -23,19 +23,20 @@ Usage:
 import json
 import time
 import asyncio
+from typing import Any, Dict, List, Tuple, Optional
 from pathlib import Path
 from datetime import datetime
-from typing import Optional, List, Tuple, Any, Dict
-from dataclasses import dataclass, asdict, field
+from dataclasses import field, asdict, dataclass
 
-from hanzo_async import append_file, write_file
+from hanzo_async import write_file, append_file
 
-from .agent_tool import AgentTool, Result, Telemetry
+from .agent_tool import Result, AgentTool, Telemetry
 
 
 @dataclass
 class DatasetSample:
     """Single dataset sample with full telemetry."""
+
     # Core fields
     id: str
     timestamp: str
@@ -187,18 +188,11 @@ class DatasetCollector:
 
         async def collect_one(agent: str, prompt: str, idx: int) -> DatasetSample:
             async with sem:
-                sample = await self.collect(
-                    agent, prompt, timeout,
-                    tags=tags,
-                    metadata={"batch_index": idx}
-                )
-                print(f"[{idx+1}/{len(prompts)}] {agent}: {len(sample.response)} chars, ${sample.cost_usd:.4f}")
+                sample = await self.collect(agent, prompt, timeout, tags=tags, metadata={"batch_index": idx})
+                print(f"[{idx + 1}/{len(prompts)}] {agent}: {len(sample.response)} chars, ${sample.cost_usd:.4f}")
                 return sample
 
-        tasks = [
-            collect_one(agent, prompt, i)
-            for i, (agent, prompt) in enumerate(prompts)
-        ]
+        tasks = [collect_one(agent, prompt, i) for i, (agent, prompt) in enumerate(prompts)]
 
         return await asyncio.gather(*tasks)
 
@@ -279,10 +273,7 @@ async def build_dataset(
     collector = DatasetCollector(output, auto_save=True)
 
     # Create prompt-agent pairs, cycling through agents
-    pairs = [
-        (agents[i % len(agents)], prompt)
-        for i, prompt in enumerate(prompts)
-    ]
+    pairs = [(agents[i % len(agents)], prompt) for i, prompt in enumerate(prompts)]
 
     print(f"Collecting {len(prompts)} samples across {len(agents)} agents...")
     start = time.time()
@@ -298,7 +289,7 @@ async def build_dataset(
     print(f"Total tokens: {stats['total_input_tokens']}→{stats['total_output_tokens']}")
     print(f"Cache reads: {stats['total_cache_read_tokens']}")
     print(f"Avg latency: {stats['avg_latency_ms']:.0f}ms")
-    print(f"Success rate: {stats['success_rate']*100:.1f}%")
+    print(f"Success rate: {stats['success_rate'] * 100:.1f}%")
     print(f"Time: {elapsed:.1f}s")
     print(f"Agents: {stats['agents']}")
     print(f"Models: {stats['models']}")

@@ -112,9 +112,11 @@ class IAMClient:
 
         def get_env(key: str, default: str = "") -> str:
             """Get env var with fallback chain: IAM_ -> HANZO_IAM_ -> {ORG}_IAM_."""
-            return (os.getenv(f"IAM_{key}")
-                    or os.getenv(f"HANZO_IAM_{key}")
-                    or os.getenv(f"{org_prefix}_IAM_{key}", default))
+            return (
+                os.getenv(f"IAM_{key}")
+                or os.getenv(f"HANZO_IAM_{key}")
+                or os.getenv(f"{org_prefix}_IAM_{key}", default)
+            )
 
         return IAMConfig(
             server_url=get_env("URL", org.iam_url),
@@ -468,7 +470,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-user", params=params, headers=self._admin_headers(),
+            "/api/get-user",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -490,7 +494,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-users", params=params, headers=self._admin_headers(),
+            "/api/get-users",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -513,7 +519,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-application", params=params, headers=self._admin_headers(),
+            "/api/get-application",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -592,7 +600,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-organizations", params=params, headers=self._admin_headers(),
+            "/api/get-organizations",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -617,7 +627,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-organization", params=params, headers=self._admin_headers(),
+            "/api/get-organization",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -646,7 +658,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-providers", params=params, headers=self._admin_headers(),
+            "/api/get-providers",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -675,7 +689,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-roles", params=params, headers=self._admin_headers(),
+            "/api/get-roles",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -747,7 +763,9 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-applications", params=params, headers=self._admin_headers(),
+            "/api/get-applications",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()

@@ -5,8 +5,8 @@ Purpose-built vector database for AI/ML embeddings and similarity search.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -42,6 +42,7 @@ def vector_group():
 # Database Management
 # ============================================================================
 
+
 @vector_group.command(name="create")
 @click.argument("name")
 @click.option("--region", "-r", help="Region")
@@ -74,17 +75,19 @@ def vector_list():
 @click.argument("name")
 def vector_describe(name: str):
     """Show vector database details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
-        f"[cyan]Collections:[/cyan] 3\n"
-        f"[cyan]Total vectors:[/cyan] 1,000,000\n"
-        f"[cyan]Storage:[/cyan] 2.5 GB\n"
-        f"[cyan]Default metric:[/cyan] cosine\n"
-        f"[cyan]Endpoint:[/cyan] https://vector.hanzo.ai/{name}",
-        title="Vector Database Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
+            f"[cyan]Collections:[/cyan] 3\n"
+            f"[cyan]Total vectors:[/cyan] 1,000,000\n"
+            f"[cyan]Storage:[/cyan] 2.5 GB\n"
+            f"[cyan]Default metric:[/cyan] cosine\n"
+            f"[cyan]Endpoint:[/cyan] https://vector.hanzo.ai/{name}",
+            title="Vector Database Details",
+            border_style="cyan",
+        )
+    )
 
 
 @vector_group.command(name="delete")
@@ -94,6 +97,7 @@ def vector_delete(name: str, force: bool):
     """Delete a vector database."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete vector database '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Vector database '{name}' deleted")
@@ -102,6 +106,7 @@ def vector_delete(name: str, force: bool):
 # ============================================================================
 # Collections
 # ============================================================================
+
 
 @vector_group.group()
 def collections():
@@ -150,16 +155,18 @@ def collections_list(db: str):
 @click.option("--db", "-d", default="default")
 def collections_describe(name: str, db: str):
     """Show collection details."""
-    console.print(Panel(
-        f"[cyan]Collection:[/cyan] {name}\n"
-        f"[cyan]Dimension:[/cyan] 1536\n"
-        f"[cyan]Vectors:[/cyan] 100,000\n"
-        f"[cyan]Metric:[/cyan] cosine\n"
-        f"[cyan]Index:[/cyan] HNSW (M=16, efConstruction=200)\n"
-        f"[cyan]Storage:[/cyan] 580 MB",
-        title="Collection Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Collection:[/cyan] {name}\n"
+            f"[cyan]Dimension:[/cyan] 1536\n"
+            f"[cyan]Vectors:[/cyan] 100,000\n"
+            f"[cyan]Metric:[/cyan] cosine\n"
+            f"[cyan]Index:[/cyan] HNSW (M=16, efConstruction=200)\n"
+            f"[cyan]Storage:[/cyan] 580 MB",
+            title="Collection Details",
+            border_style="cyan",
+        )
+    )
 
 
 @collections.command(name="delete")
@@ -170,6 +177,7 @@ def collections_delete(name: str, db: str, force: bool):
     """Delete a collection."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete collection '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Collection '{name}' deleted")
@@ -178,6 +186,7 @@ def collections_delete(name: str, db: str, force: bool):
 # ============================================================================
 # Vector Operations
 # ============================================================================
+
 
 @vector_group.command(name="upsert")
 @click.option("--collection", "-c", required=True, help="Collection name")
@@ -211,8 +220,17 @@ def vector_upsert(collection: str, db: str, source: str, id_field: str, vector_f
 @click.option("--include-vectors", is_flag=True, help="Include vectors in results")
 @click.option("--include-metadata", is_flag=True, default=True, help="Include metadata")
 @click.option("--embed", help="Embedding model for text queries")
-def vector_query(collection: str, db: str, text: str, vector: str, topk: int, filter: str, 
-                 include_vectors: bool, include_metadata: bool, embed: str):
+def vector_query(
+    collection: str,
+    db: str,
+    text: str,
+    vector: str,
+    topk: int,
+    filter: str,
+    include_vectors: bool,
+    include_metadata: bool,
+    embed: str,
+):
     """Query similar vectors.
 
     \b
@@ -246,6 +264,7 @@ def vector_delete_vectors(collection: str, db: str, ids: str, filter: str, delet
     """Delete vectors from a collection."""
     if delete_all and not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete ALL vectors from '{collection}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Vectors deleted from '{collection}'")
@@ -254,6 +273,7 @@ def vector_delete_vectors(collection: str, db: str, ids: str, filter: str, delet
 # ============================================================================
 # Indexes
 # ============================================================================
+
 
 @vector_group.group()
 def indexes():
@@ -285,8 +305,9 @@ def indexes_list(collection: str, db: str):
 @click.option("--hnsw-m", type=int, default=16, help="HNSW M parameter")
 @click.option("--hnsw-ef", type=int, default=200, help="HNSW efConstruction")
 @click.option("--ivf-nlist", type=int, default=100, help="IVF number of lists")
-def indexes_create(collection: str, db: str, name: str, idx_type: str, metric: str,
-                   hnsw_m: int, hnsw_ef: int, ivf_nlist: int):
+def indexes_create(
+    collection: str, db: str, name: str, idx_type: str, metric: str, hnsw_m: int, hnsw_ef: int, ivf_nlist: int
+):
     """Create a vector index.
 
     \b
@@ -314,20 +335,23 @@ def indexes_rebuild(collection: str, db: str, name: str):
 # Admin
 # ============================================================================
 
+
 @vector_group.command(name="stats")
 @click.option("--db", "-d", default="default")
 def vector_stats(db: str):
     """Show database statistics."""
-    console.print(Panel(
-        f"[cyan]Database:[/cyan] {db}\n"
-        f"[cyan]Collections:[/cyan] 0\n"
-        f"[cyan]Total vectors:[/cyan] 0\n"
-        f"[cyan]Storage:[/cyan] 0 B\n"
-        f"[cyan]Queries/day:[/cyan] 0\n"
-        f"[cyan]Avg latency:[/cyan] 0ms",
-        title="Vector Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Database:[/cyan] {db}\n"
+            f"[cyan]Collections:[/cyan] 0\n"
+            f"[cyan]Total vectors:[/cyan] 0\n"
+            f"[cyan]Storage:[/cyan] 0 B\n"
+            f"[cyan]Queries/day:[/cyan] 0\n"
+            f"[cyan]Avg latency:[/cyan] 0ms",
+            title="Vector Statistics",
+            border_style="cyan",
+        )
+    )
 
 
 @vector_group.command(name="bind")

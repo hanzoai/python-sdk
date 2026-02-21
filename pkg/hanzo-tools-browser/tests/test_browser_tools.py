@@ -33,7 +33,4 @@ class TestBrowserTool:
 
     def test_has_description(self, tool):
         assert tool.description
-        assert (
-            "browser" in tool.description.lower()
-            or "playwright" in tool.description.lower()
-        )
+        assert "browser" in tool.description.lower() or "playwright" in tool.description.lower()

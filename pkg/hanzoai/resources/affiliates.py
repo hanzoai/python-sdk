@@ -1,12 +1,20 @@
 # Hanzo AI SDK
 
 from __future__ import annotations
-from typing import Dict, Any
+
+from typing import Any, Dict
+
 import httpx
+
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, to_streamed_response_wrapper, async_to_raw_response_wrapper, async_to_streamed_response_wrapper
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from .._base_client import make_request_options
 
 __all__ = ["AffiliatesResource", "AsyncAffiliatesResource"]
@@ -23,33 +31,149 @@ class AffiliatesResource(SyncAPIResource):
     def with_streaming_response(self) -> AffiliatesResourceWithStreamingResponse:
         return AffiliatesResourceWithStreamingResponse(self)
 
-    def list(self, *, status: str | NotGiven = NOT_GIVEN, limit: int | NotGiven = NOT_GIVEN, offset: int | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def list(
+        self,
+        *,
+        status: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """List all affiliates."""
-        return self._get("/marketing/affiliates", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"status": status, "limit": limit, "offset": offset}), cast_to=object)
+        return self._get(
+            "/marketing/affiliates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"status": status, "limit": limit, "offset": offset},
+            ),
+            cast_to=object,
+        )
 
-    def get(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def get(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Get a specific affiliate."""
-        return self._get(f"/marketing/affiliates/{affiliate_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._get(
+            f"/marketing/affiliates/{affiliate_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def create(self, *, user_id: str, commission_rate: float | NotGiven = NOT_GIVEN, metadata: Dict[str, Any] | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def create(
+        self,
+        *,
+        user_id: str,
+        commission_rate: float | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Any] | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Create a new affiliate."""
-        return self._post("/marketing/affiliates", body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._post(
+            "/marketing/affiliates",
+            body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def update(self, affiliate_id: str, *, commission_rate: float | NotGiven = NOT_GIVEN, status: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def update(
+        self,
+        affiliate_id: str,
+        *,
+        commission_rate: float | NotGiven = NOT_GIVEN,
+        status: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Update an affiliate."""
-        return self._put(f"/marketing/affiliates/{affiliate_id}", body={"commission_rate": commission_rate, "status": status}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._put(
+            f"/marketing/affiliates/{affiliate_id}",
+            body={"commission_rate": commission_rate, "status": status},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def delete(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def delete(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Delete an affiliate."""
-        return self._delete(f"/marketing/affiliates/{affiliate_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._delete(
+            f"/marketing/affiliates/{affiliate_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def stats(self, affiliate_id: str, *, start_date: str | NotGiven = NOT_GIVEN, end_date: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def stats(
+        self,
+        affiliate_id: str,
+        *,
+        start_date: str | NotGiven = NOT_GIVEN,
+        end_date: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Get affiliate statistics."""
-        return self._get(f"/marketing/affiliates/{affiliate_id}/stats", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"start_date": start_date, "end_date": end_date}), cast_to=object)
+        return self._get(
+            f"/marketing/affiliates/{affiliate_id}/stats",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"start_date": start_date, "end_date": end_date},
+            ),
+            cast_to=object,
+        )
 
-    def payouts(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def payouts(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Get affiliate payouts."""
-        return self._get(f"/marketing/affiliates/{affiliate_id}/payouts", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._get(
+            f"/marketing/affiliates/{affiliate_id}/payouts",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
 
 class AsyncAffiliatesResource(AsyncAPIResource):
@@ -63,26 +187,142 @@ class AsyncAffiliatesResource(AsyncAPIResource):
     def with_streaming_response(self) -> AsyncAffiliatesResourceWithStreamingResponse:
         return AsyncAffiliatesResourceWithStreamingResponse(self)
 
-    async def list(self, *, status: str | NotGiven = NOT_GIVEN, limit: int | NotGiven = NOT_GIVEN, offset: int | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get("/marketing/affiliates", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"status": status, "limit": limit, "offset": offset}), cast_to=object)
+    async def list(
+        self,
+        *,
+        status: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        offset: int | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            "/marketing/affiliates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"status": status, "limit": limit, "offset": offset},
+            ),
+            cast_to=object,
+        )
 
-    async def get(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/marketing/affiliates/{affiliate_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def get(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/marketing/affiliates/{affiliate_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def create(self, *, user_id: str, commission_rate: float | NotGiven = NOT_GIVEN, metadata: Dict[str, Any] | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._post("/marketing/affiliates", body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def create(
+        self,
+        *,
+        user_id: str,
+        commission_rate: float | NotGiven = NOT_GIVEN,
+        metadata: Dict[str, Any] | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._post(
+            "/marketing/affiliates",
+            body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def update(self, affiliate_id: str, *, commission_rate: float | NotGiven = NOT_GIVEN, status: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._put(f"/marketing/affiliates/{affiliate_id}", body={"commission_rate": commission_rate, "status": status}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def update(
+        self,
+        affiliate_id: str,
+        *,
+        commission_rate: float | NotGiven = NOT_GIVEN,
+        status: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._put(
+            f"/marketing/affiliates/{affiliate_id}",
+            body={"commission_rate": commission_rate, "status": status},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def delete(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._delete(f"/marketing/affiliates/{affiliate_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def delete(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._delete(
+            f"/marketing/affiliates/{affiliate_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def stats(self, affiliate_id: str, *, start_date: str | NotGiven = NOT_GIVEN, end_date: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/marketing/affiliates/{affiliate_id}/stats", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"start_date": start_date, "end_date": end_date}), cast_to=object)
+    async def stats(
+        self,
+        affiliate_id: str,
+        *,
+        start_date: str | NotGiven = NOT_GIVEN,
+        end_date: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/marketing/affiliates/{affiliate_id}/stats",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"start_date": start_date, "end_date": end_date},
+            ),
+            cast_to=object,
+        )
 
-    async def payouts(self, affiliate_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/marketing/affiliates/{affiliate_id}/payouts", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def payouts(
+        self,
+        affiliate_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/marketing/affiliates/{affiliate_id}/payouts",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
 
 class AffiliatesResourceWithRawResponse:

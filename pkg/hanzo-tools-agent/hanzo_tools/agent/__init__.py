@@ -36,7 +36,7 @@ from .gemini_cli_tool import GeminiCLITool
 
 # Export list for tool discovery
 TOOLS = [
-    AgentTool,   # Multi-agent orchestration
+    AgentTool,  # Multi-agent orchestration
     IChingTool,  # I Ching wisdom
     ReviewTool,  # Code review
 ]

@@ -5,8 +5,8 @@ Job scheduling, execution, and management.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -37,6 +37,7 @@ def jobs_group():
 # ============================================================================
 # Job Operations
 # ============================================================================
+
 
 @jobs_group.command(name="run")
 @click.argument("name")
@@ -105,22 +106,25 @@ def jobs_retry(job_id: str):
 @click.argument("job_id")
 def jobs_describe(job_id: str):
     """Show job details."""
-    console.print(Panel(
-        f"[cyan]ID:[/cyan] {job_id}\n"
-        f"[cyan]Name:[/cyan] process-webhook\n"
-        f"[cyan]Status:[/cyan] completed\n"
-        f"[cyan]Queue:[/cyan] default\n"
-        f"[cyan]Started:[/cyan] 2024-01-15 10:30:00\n"
-        f"[cyan]Duration:[/cyan] 1.2s\n"
-        f"[cyan]Attempts:[/cyan] 1/3",
-        title="Job Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]ID:[/cyan] {job_id}\n"
+            f"[cyan]Name:[/cyan] process-webhook\n"
+            f"[cyan]Status:[/cyan] completed\n"
+            f"[cyan]Queue:[/cyan] default\n"
+            f"[cyan]Started:[/cyan] 2024-01-15 10:30:00\n"
+            f"[cyan]Duration:[/cyan] 1.2s\n"
+            f"[cyan]Attempts:[/cyan] 1/3",
+            title="Job Details",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Cron Operations
 # ============================================================================
+
 
 @jobs_group.group()
 def cron():

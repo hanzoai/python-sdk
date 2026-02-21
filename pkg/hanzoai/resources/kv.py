@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional, List
+from typing import List, Optional
 
 import httpx
 
@@ -207,25 +207,128 @@ class AsyncKVResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        return await self._get("/kv/namespaces", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return await self._get(
+            "/kv/namespaces",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def create_namespace(self, *, name: str, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._post("/kv/namespaces", body={"name": name}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def create_namespace(
+        self,
+        *,
+        name: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._post(
+            "/kv/namespaces",
+            body={"name": name},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def delete_namespace(self, namespace_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._delete(f"/kv/namespaces/{namespace_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def delete_namespace(
+        self,
+        namespace_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._delete(
+            f"/kv/namespaces/{namespace_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def get(self, namespace_id: str, key: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/kv/namespaces/{namespace_id}/values/{key}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def get(
+        self,
+        namespace_id: str,
+        key: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/kv/namespaces/{namespace_id}/values/{key}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def put(self, namespace_id: str, key: str, *, value: str, ttl: int | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._put(f"/kv/namespaces/{namespace_id}/values/{key}", body={"value": value, "ttl": ttl}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def put(
+        self,
+        namespace_id: str,
+        key: str,
+        *,
+        value: str,
+        ttl: int | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._put(
+            f"/kv/namespaces/{namespace_id}/values/{key}",
+            body={"value": value, "ttl": ttl},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def delete(self, namespace_id: str, key: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._delete(f"/kv/namespaces/{namespace_id}/values/{key}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def delete(
+        self,
+        namespace_id: str,
+        key: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._delete(
+            f"/kv/namespaces/{namespace_id}/values/{key}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def list_keys(self, namespace_id: str, *, prefix: str | NotGiven = NOT_GIVEN, limit: int | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/kv/namespaces/{namespace_id}/keys", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"prefix": prefix, "limit": limit}), cast_to=object)
+    async def list_keys(
+        self,
+        namespace_id: str,
+        *,
+        prefix: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/kv/namespaces/{namespace_id}/keys",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"prefix": prefix, "limit": limit},
+            ),
+            cast_to=object,
+        )
 
 
 class KVResourceWithRawResponse:

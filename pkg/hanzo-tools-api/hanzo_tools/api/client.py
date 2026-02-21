@@ -27,30 +27,24 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
+from .credentials import CredentialManager, get_credential_manager
+from .errors import (
+    ProviderNotFoundError,
+)
 from .models import (
     APICallResult,
-    Credential,
-    CredentialSource,
     EffectiveCredential,
     Operation,
     OperationListResult,
     ProviderListResult,
     ProviderStatus,
-    ToolSchema,
     ToolParameter,
+    ToolSchema,
 )
-from .credentials import CredentialManager, get_credential_manager, reset_credential_manager
-from .openapi_client import OpenAPIClient, SpecCache, get_client, clear_clients
-from .providers import PROVIDER_CONFIGS, get_provider_config, list_providers as _list_provider_names
-from .errors import (
-    APIError,
-    CredentialError,
-    OperationNotFoundError,
-    ProviderNotFoundError,
-    SpecNotLoadedError,
-)
+from .openapi_client import OpenAPIClient, SpecCache
+from .providers import PROVIDER_CONFIGS
 
 logger = logging.getLogger(__name__)
 
@@ -79,8 +73,8 @@ class APIClient:
 
     def __init__(
         self,
-        config_dir: Optional[Path] = None,
-        credential_manager: Optional[CredentialManager] = None,
+        config_dir: Path | None = None,
+        credential_manager: CredentialManager | None = None,
     ):
         """Initialize API client.
 
@@ -162,10 +156,10 @@ class APIClient:
     async def config(
         self,
         provider: str,
-        api_key: Optional[str] = None,
-        api_secret: Optional[str] = None,
-        account_id: Optional[str] = None,
-        base_url: Optional[str] = None,
+        api_key: str | None = None,
+        api_secret: str | None = None,
+        account_id: str | None = None,
+        base_url: str | None = None,
         **extra,
     ) -> None:
         """Configure credentials for a provider.
@@ -229,7 +223,7 @@ class APIClient:
     async def spec(
         self,
         provider: str,
-        spec_url: Optional[str] = None,
+        spec_url: str | None = None,
         force_refresh: bool = False,
     ) -> int:
         """Load or refresh OpenAPI spec for a provider.
@@ -272,7 +266,7 @@ class APIClient:
         openapi_client = await self._get_openapi_client(provider)
         return openapi_client.has_spec()
 
-    async def spec_age(self, provider: str) -> Optional[float]:
+    async def spec_age(self, provider: str) -> float | None:
         """Get age of cached spec in seconds.
 
         Args:
@@ -304,11 +298,11 @@ class APIClient:
     async def ops(
         self,
         provider: str,
-        search: Optional[str] = None,
-        tag: Optional[str] = None,
-        method: Optional[str] = None,
-        path_contains: Optional[str] = None,
-        operation_id_prefix: Optional[str] = None,
+        search: str | None = None,
+        tag: str | None = None,
+        method: str | None = None,
+        path_contains: str | None = None,
+        operation_id_prefix: str | None = None,
         include_deprecated: bool = False,
     ) -> OperationListResult:
         """List available operations for a provider.
@@ -382,9 +376,9 @@ class APIClient:
         self,
         provider: str,
         operation_id: str,
-        params: Optional[dict[str, Any]] = None,
-        body: Optional[dict[str, Any]] = None,
-        headers: Optional[dict[str, str]] = None,
+        params: dict[str, Any] | None = None,
+        body: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         dry_run: bool = False,
     ) -> APICallResult:
         """Call an API operation by ID.
@@ -437,9 +431,9 @@ class APIClient:
         provider: str,
         method: str,
         path: str,
-        params: Optional[dict[str, Any]] = None,
-        body: Optional[dict[str, Any]] = None,
-        headers: Optional[dict[str, str]] = None,
+        params: dict[str, Any] | None = None,
+        body: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         dry_run: bool = False,
     ) -> APICallResult:
         """Make a raw HTTP request.
@@ -694,7 +688,7 @@ class APIClient:
             # Search openapisearch.com
             try:
                 response = await http.get(
-                    f"https://openapisearch.com/api/search",
+                    "https://openapisearch.com/api/search",
                     params={"q": query},
                 )
                 if response.status_code == 200:
@@ -705,9 +699,7 @@ class APIClient:
 
             # Fallback: search handmade OpenAPIs on GitHub
             try:
-                response = await http.get(
-                    "https://api.github.com/repos/janwilmake/handmade-openapis/contents"
-                )
+                response = await http.get("https://api.github.com/repos/janwilmake/handmade-openapis/contents")
                 if response.status_code == 200:
                     files = response.json()
                     results = []
@@ -715,11 +707,13 @@ class APIClient:
                         if f["name"].endswith(".json"):
                             name = f["name"].replace(".json", "")
                             if query.lower() in name.lower():
-                                results.append({
-                                    "id": name,
-                                    "name": name.replace("-", " ").title(),
-                                    "spec_url": f["download_url"],
-                                })
+                                results.append(
+                                    {
+                                        "id": name,
+                                        "name": name.replace("-", " ").title(),
+                                        "spec_url": f["download_url"],
+                                    }
+                                )
                     return results
             except Exception as e:
                 logger.warning(f"GitHub fallback search failed: {e}")
@@ -729,12 +723,12 @@ class APIClient:
     async def register(
         self,
         name: str,
-        spec_url: Optional[str] = None,
-        base_url: Optional[str] = None,
+        spec_url: str | None = None,
+        base_url: str | None = None,
         auth_type: str = "bearer",
         auth_header: str = "Authorization",
         auth_prefix: str = "Bearer",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
     ) -> int:
         """Register a custom API provider dynamically.
 
@@ -765,7 +759,6 @@ class APIClient:
             )
         """
         from .models import AuthType, ProviderConfig
-        from .providers import PROVIDER_CONFIGS
 
         # Create dynamic provider config
         auth_type_enum = AuthType(auth_type) if auth_type in [e.value for e in AuthType] else AuthType.BEARER
@@ -826,22 +819,20 @@ class APIClient:
             try:
                 full_op = openapi_client.get_operation(op.operation_id)
                 # Build query params string
-                query_params = [
-                    f"{p.name}={p.schema_type}"
-                    for p in full_op.parameters
-                    if p.location.value == "query"
-                ]
+                query_params = [f"{p.name}={p.schema_type}" for p in full_op.parameters if p.location.value == "query"]
                 query_string = f"?{'&'.join(query_params)}" if query_params else ""
             except Exception:
                 query_string = ""
 
-            items.append({
-                "operation_id": op.operation_id,
-                "method": op.method,
-                "path": op.path,
-                "query_string": query_string,
-                "summary": op.summary or "",
-            })
+            items.append(
+                {
+                    "operation_id": op.operation_id,
+                    "method": op.method,
+                    "path": op.path,
+                    "query_string": query_string,
+                    "summary": op.summary or "",
+                }
+            )
 
         # Check if we need minified output (>10k chars ≈ 2500 tokens)
         is_large = len(str(items)) > 10000
@@ -860,11 +851,11 @@ class APIClient:
             for item in items:
                 if is_large:
                     # Super compact: just operation_id and summary
-                    summary_part = f" - {item['summary']}" if item['summary'] else ""
+                    summary_part = f" - {item['summary']}" if item["summary"] else ""
                     lines.append(f"- {item['operation_id']}{summary_part}")
                 else:
                     # Compact: include method and path
-                    summary_part = f" - {item['summary']}" if item['summary'] else ""
+                    summary_part = f" - {item['summary']}" if item["summary"] else ""
                     lines.append(
                         f"- {item['operation_id']}: {item['method']} {item['path']}{item['query_string']}{summary_part}"
                     )
@@ -920,14 +911,10 @@ class APIClient:
             await client.preload_specs(["cloudflare", "github", "openai"])
         """
         import asyncio
-        from .providers import PROVIDER_CONFIGS
 
         # Determine which providers to preload
         if providers is None:
-            providers = [
-                name for name, config in PROVIDER_CONFIGS.items()
-                if config.spec_url
-            ]
+            providers = [name for name, config in PROVIDER_CONFIGS.items() if config.spec_url]
 
         results: dict[str, int] = {}
         semaphore = asyncio.Semaphore(concurrent)
@@ -951,7 +938,7 @@ class APIClient:
         return results
 
     @classmethod
-    async def preload_common(cls) -> "APIClient":
+    async def preload_common(cls) -> APIClient:
         """Create a client with common specs preloaded.
 
         Returns a client with cloudflare, github, stripe, openai, notion
@@ -962,14 +949,16 @@ class APIClient:
             # Now all common specs are cached
         """
         client = cls()
-        await client.preload_specs([
-            "cloudflare",
-            "github",
-            "stripe",
-            "openai",
-            "notion",
-            "groq",
-        ])
+        await client.preload_specs(
+            [
+                "cloudflare",
+                "github",
+                "stripe",
+                "openai",
+                "notion",
+                "groq",
+            ]
+        )
         return client
 
     # =========================================================================
@@ -982,7 +971,7 @@ class APIClient:
             await client.close()
         self._clients.clear()
 
-    async def __aenter__(self) -> "APIClient":
+    async def __aenter__(self) -> APIClient:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
@@ -993,7 +982,7 @@ class APIClient:
 # Module-level singleton
 # =============================================================================
 
-_default_client: Optional[APIClient] = None
+_default_client: APIClient | None = None
 
 
 def get_api_client() -> APIClient:

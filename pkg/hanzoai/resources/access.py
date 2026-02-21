@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -274,13 +274,16 @@ class AccessResourceWithRawResponse:
     def __init__(self, access: AccessResource) -> None:
         self._access = access
 
+
 class AsyncAccessResourceWithRawResponse:
     def __init__(self, access: AsyncAccessResource) -> None:
         self._access = access
 
+
 class AccessResourceWithStreamingResponse:
     def __init__(self, access: AccessResource) -> None:
         self._access = access
+
 
 class AsyncAccessResourceWithStreamingResponse:
     def __init__(self, access: AsyncAccessResource) -> None:

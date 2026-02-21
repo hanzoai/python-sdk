@@ -7,11 +7,11 @@ supporting both MongoDB Atlas and self-hosted deployments.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from typing import Any, TypeVar, Optional, Sequence
 from datetime import datetime
-from typing import Any, Optional, Sequence, TypeVar
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 T = TypeVar("T", bound=dict[str, Any])
 
@@ -132,10 +132,7 @@ class DocumentDBClient:
         try:
             from motor.motor_asyncio import AsyncIOMotorClient
         except ImportError as e:
-            raise ImportError(
-                "motor is required for DocumentDBClient. "
-                "Install with: pip install motor"
-            ) from e
+            raise ImportError("motor is required for DocumentDBClient. Install with: pip install motor") from e
 
         if self.config.uri:
             self._client = AsyncIOMotorClient(

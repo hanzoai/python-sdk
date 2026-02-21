@@ -6,8 +6,8 @@ Built on top of jobs for execution substrate.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -49,6 +49,7 @@ def tasks_group():
 # ============================================================================
 # Task Management
 # ============================================================================
+
 
 @tasks_group.command(name="create")
 @click.argument("name")
@@ -98,19 +99,21 @@ def tasks_list(status: str):
 @click.argument("name")
 def tasks_describe(name: str):
     """Show task details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Type:[/cyan] image\n"
-        f"[cyan]Image:[/cyan] my-etl:v1\n"
-        f"[cyan]Timeout:[/cyan] 2h\n"
-        f"[cyan]Retries:[/cyan] 3\n"
-        f"[cyan]Schedule:[/cyan] 0 2 * * * (daily 2am)\n"
-        f"[cyan]Triggers:[/cyan] queue:incoming-data\n"
-        f"[cyan]Last run:[/cyan] 2024-01-20 02:00:00 (success)\n"
-        f"[cyan]Next run:[/cyan] 2024-01-21 02:00:00",
-        title="Task Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Type:[/cyan] image\n"
+            f"[cyan]Image:[/cyan] my-etl:v1\n"
+            f"[cyan]Timeout:[/cyan] 2h\n"
+            f"[cyan]Retries:[/cyan] 3\n"
+            f"[cyan]Schedule:[/cyan] 0 2 * * * (daily 2am)\n"
+            f"[cyan]Triggers:[/cyan] queue:incoming-data\n"
+            f"[cyan]Last run:[/cyan] 2024-01-20 02:00:00 (success)\n"
+            f"[cyan]Next run:[/cyan] 2024-01-21 02:00:00",
+            title="Task Details",
+            border_style="cyan",
+        )
+    )
 
 
 @tasks_group.command(name="delete")
@@ -120,6 +123,7 @@ def tasks_delete(name: str, force: bool):
     """Delete a task."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete task '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Task '{name}' deleted")
@@ -156,6 +160,7 @@ def tasks_disable(name: str):
 # ============================================================================
 # Schedules
 # ============================================================================
+
 
 @tasks_group.group()
 def schedule():
@@ -216,6 +221,7 @@ def schedule_resume(task: str):
 # Runs
 # ============================================================================
 
+
 @tasks_group.group()
 def runs():
     """Manage task runs."""
@@ -271,6 +277,7 @@ def runs_retry(run_id: str):
 # Triggers
 # ============================================================================
 
+
 @tasks_group.group()
 def triggers():
     """Manage task triggers."""
@@ -279,9 +286,13 @@ def triggers():
 
 @triggers.command(name="add")
 @click.argument("task")
-@click.option("--on", "trigger_type", required=True, 
-              type=click.Choice(["event", "queue", "topic", "http", "schedule"]),
-              help="Trigger type")
+@click.option(
+    "--on",
+    "trigger_type",
+    required=True,
+    type=click.Choice(["event", "queue", "topic", "http", "schedule"]),
+    help="Trigger type",
+)
 @click.option("--source", "-s", required=True, help="Trigger source (event name, queue name, etc.)")
 @click.option("--filter", "-f", help="Event filter expression")
 def triggers_add(task: str, trigger_type: str, source: str, filter: str):

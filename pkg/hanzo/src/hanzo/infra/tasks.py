@@ -7,11 +7,11 @@ activities, and task orchestration.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from typing import Any, TypeVar, Callable, Optional, Sequence
 from datetime import datetime, timedelta
-from typing import Any, Callable, Optional, Sequence, TypeVar
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 T = TypeVar("T")
 
@@ -179,10 +179,7 @@ class TasksClient:
         try:
             from temporalio.client import Client, TLSConfig
         except ImportError as e:
-            raise ImportError(
-                "temporalio is required for TasksClient. "
-                "Install with: pip install temporalio"
-            ) from e
+            raise ImportError("temporalio is required for TasksClient. Install with: pip install temporalio") from e
 
         connect_kwargs: dict[str, Any] = {
             "target_host": self.config.effective_target,
@@ -267,9 +264,10 @@ class TasksClient:
         Returns:
             Handle to the started workflow.
         """
+        import uuid
+
         from temporalio.client import WorkflowIDReusePolicy
         from temporalio.common import RetryPolicy
-        import uuid
 
         policy_map = {
             "allow_duplicate": WorkflowIDReusePolicy.ALLOW_DUPLICATE,
@@ -432,9 +430,9 @@ class TasksClient:
         from temporalio.client import (
             Schedule,
             ScheduleSpec,
-            ScheduleActionStartWorkflow,
-            ScheduleIntervalSpec,
             ScheduleCalendarSpec,
+            ScheduleIntervalSpec,
+            ScheduleActionStartWorkflow,
         )
 
         specs = []
@@ -448,13 +446,17 @@ class TasksClient:
         if not specs:
             raise ValueError("At least one of cron, interval, or calendar must be specified")
 
-        schedule_spec = specs[0] if len(specs) == 1 else ScheduleSpec(
-            cron_expressions=[cron] if cron else None,
-            intervals=[ScheduleIntervalSpec(every=interval)] if interval else None,
-            calendars=[ScheduleCalendarSpec(**calendar)] if calendar else None,
-            start_at=start_at,
-            end_at=end_at,
-            jitter=jitter,
+        schedule_spec = (
+            specs[0]
+            if len(specs) == 1
+            else ScheduleSpec(
+                cron_expressions=[cron] if cron else None,
+                intervals=[ScheduleIntervalSpec(every=interval)] if interval else None,
+                calendars=[ScheduleCalendarSpec(**calendar)] if calendar else None,
+                start_at=start_at,
+                end_at=end_at,
+                jitter=jitter,
+            )
         )
 
         await self._client.create_schedule(

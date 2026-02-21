@@ -13,32 +13,18 @@ import json
 import logging
 import re
 import time
-import hashlib
 from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Any, Optional
-from urllib.parse import urljoin, urlencode
+from typing import Any
+from urllib.parse import urlencode, urljoin
 
+import aiofiles
 import httpx
 import yaml
-import aiofiles
 
-from .models import (
-    APICallResult,
-    Credential,
-    Operation,
-    OperationSummary,
-    OperationListResult,
-    Parameter,
-    ParameterLocation,
-    ProviderConfig,
-    SpecCacheEntry,
-)
 from .credentials import CredentialManager, get_credential_manager
-from .providers import get_provider_config
 from .errors import (
-    APIError,
     AuthenticationError,
     NetworkError,
     OperationNotFoundError,
@@ -47,6 +33,17 @@ from .errors import (
     SpecNotLoadedError,
     SpecParseError,
 )
+from .models import (
+    APICallResult,
+    Credential,
+    Operation,
+    OperationListResult,
+    OperationSummary,
+    Parameter,
+    ParameterLocation,
+    SpecCacheEntry,
+)
+from .providers import get_provider_config
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +51,7 @@ logger = logging.getLogger(__name__)
 class SpecCache:
     """Smart OpenAPI spec caching with ETag support."""
 
-    def __init__(self, cache_dir: Optional[Path] = None):
+    def __init__(self, cache_dir: Path | None = None):
         """Initialize spec cache.
 
         Args:
@@ -81,7 +78,7 @@ class SpecCache:
             return True
         return self._cache_path(provider).exists()
 
-    def spec_age(self, provider: str) -> Optional[float]:
+    def spec_age(self, provider: str) -> float | None:
         """Get age of cached spec in seconds."""
         if provider in self._memory_cache:
             return self._memory_cache[provider].age_seconds
@@ -98,7 +95,7 @@ class SpecCache:
             return True
         return age > max_age
 
-    async def get(self, provider: str) -> Optional[SpecCacheEntry]:
+    async def get(self, provider: str) -> SpecCacheEntry | None:
         """Get cached spec entry."""
         # Check memory cache
         if provider in self._memory_cache:
@@ -110,7 +107,7 @@ class SpecCache:
 
         if cache_path.exists():
             try:
-                async with aiofiles.open(cache_path, "r") as f:
+                async with aiofiles.open(cache_path) as f:
                     spec = json.loads(await f.read())
 
                 # Load metadata
@@ -120,7 +117,7 @@ class SpecCache:
                 fetched_at = datetime.fromtimestamp(cache_path.stat().st_mtime)
 
                 if meta_path.exists():
-                    async with aiofiles.open(meta_path, "r") as f:
+                    async with aiofiles.open(meta_path) as f:
                         meta = json.loads(await f.read())
                         etag = meta.get("etag")
                         last_modified = meta.get("last_modified")
@@ -149,9 +146,9 @@ class SpecCache:
         self,
         provider: str,
         spec: dict,
-        etag: Optional[str] = None,
-        last_modified: Optional[str] = None,
-        source_url: Optional[str] = None,
+        etag: str | None = None,
+        last_modified: str | None = None,
+        source_url: str | None = None,
     ) -> SpecCacheEntry:
         """Cache a spec."""
         self._ensure_dir()
@@ -204,9 +201,9 @@ class OpenAPIClient:
     def __init__(
         self,
         provider: str,
-        base_url: Optional[str] = None,
-        credential_manager: Optional[CredentialManager] = None,
-        spec_cache: Optional[SpecCache] = None,
+        base_url: str | None = None,
+        credential_manager: CredentialManager | None = None,
+        spec_cache: SpecCache | None = None,
     ):
         """Initialize OpenAPI client.
 
@@ -218,7 +215,7 @@ class OpenAPIClient:
         """
         self.provider = provider
         self._base_url_override = base_url
-        self._spec: Optional[dict] = None
+        self._spec: dict | None = None
         self._operations: dict[str, Operation] = {}
         self._parsed = False
 
@@ -228,7 +225,7 @@ class OpenAPIClient:
         self.config = get_provider_config(provider)
 
         # HTTP client
-        self._client: Optional[httpx.AsyncClient] = None
+        self._client: httpx.AsyncClient | None = None
 
     @property
     def base_url(self) -> str:
@@ -268,7 +265,7 @@ class OpenAPIClient:
         """Check if spec is available (loaded or cached)."""
         return self._spec is not None or self.spec_cache.has_spec(self.provider)
 
-    def spec_age(self) -> Optional[float]:
+    def spec_age(self) -> float | None:
         """Get age of spec in seconds."""
         return self.spec_cache.spec_age(self.provider)
 
@@ -357,7 +354,7 @@ class OpenAPIClient:
                 original_error=e,
             )
 
-    async def load_spec(self, spec_source: Optional[str] = None) -> None:
+    async def load_spec(self, spec_source: str | None = None) -> None:
         """Load OpenAPI spec from various sources.
 
         Args:
@@ -422,7 +419,7 @@ class OpenAPIClient:
     async def _load_spec_from_file(self, path: str) -> None:
         """Load spec from local file."""
         try:
-            async with aiofiles.open(path, "r") as f:
+            async with aiofiles.open(path) as f:
                 content = await f.read()
 
             if path.endswith((".yaml", ".yml")):
@@ -507,7 +504,7 @@ class OpenAPIClient:
         op_data: dict,
         common_params: list,
         seen_ids: set[str],
-    ) -> Optional[Operation]:
+    ) -> Operation | None:
         """Parse a single operation."""
         # Generate unique operation ID
         op_id = op_data.get("operationId")
@@ -599,7 +596,7 @@ class OpenAPIClient:
             deprecated=op_data.get("deprecated", False),
         )
 
-    def _resolve_ref(self, ref: str) -> Optional[dict]:
+    def _resolve_ref(self, ref: str) -> dict | None:
         """Resolve a JSON reference in the spec."""
         if not ref.startswith("#/"):
             return None
@@ -623,11 +620,11 @@ class OpenAPIClient:
 
     def list_operations(
         self,
-        search: Optional[str] = None,
-        tag: Optional[str] = None,
-        method: Optional[str] = None,
-        path_contains: Optional[str] = None,
-        operation_id_prefix: Optional[str] = None,
+        search: str | None = None,
+        tag: str | None = None,
+        method: str | None = None,
+        path_contains: str | None = None,
+        operation_id_prefix: str | None = None,
         include_deprecated: bool = False,
     ) -> OperationListResult:
         """List available operations with filtering.
@@ -796,9 +793,9 @@ class OpenAPIClient:
     async def call(
         self,
         operation_id: str,
-        params: Optional[dict[str, Any]] = None,
-        body: Optional[dict[str, Any]] = None,
-        headers: Optional[dict[str, str]] = None,
+        params: dict[str, Any] | None = None,
+        body: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         dry_run: bool = False,
     ) -> APICallResult:
         """Call an API operation.
@@ -874,9 +871,9 @@ class OpenAPIClient:
         self,
         method: str,
         path: str,
-        params: Optional[dict[str, Any]] = None,
-        body: Optional[dict[str, Any]] = None,
-        headers: Optional[dict[str, str]] = None,
+        params: dict[str, Any] | None = None,
+        body: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         dry_run: bool = False,
     ) -> APICallResult:
         """Make a raw API call without using operation definitions.
@@ -929,8 +926,8 @@ class OpenAPIClient:
         method: str,
         url: str,
         headers: dict[str, str],
-        body: Optional[dict[str, Any]] = None,
-        operation_id: Optional[str] = None,
+        body: dict[str, Any] | None = None,
+        operation_id: str | None = None,
     ) -> APICallResult:
         """Make the actual HTTP request."""
         client = await self._get_client()
@@ -994,7 +991,7 @@ class OpenAPIClient:
         self,
         operation: Operation,
         params: dict[str, Any],
-        body: Optional[dict[str, Any]],
+        body: dict[str, Any] | None,
     ) -> None:
         """Validate parameters against operation schema."""
         missing = []
@@ -1026,7 +1023,7 @@ class OpenAPIClient:
 _clients: dict[str, OpenAPIClient] = {}
 
 
-async def get_client(provider: str, spec_url: Optional[str] = None) -> OpenAPIClient:
+async def get_client(provider: str, spec_url: str | None = None) -> OpenAPIClient:
     """Get or create an OpenAPI client for a provider.
 
     Args:

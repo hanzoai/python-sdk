@@ -28,8 +28,6 @@ Usage:
 """
 
 # HIP-0300: Unified fs tool
-from hanzo_tools.fs.fs_tool import FsTool, fs_tool
-
 # Legacy tools (backward compatibility)
 from hanzo_tools.fs.ast import ASTTool
 from hanzo_tools.fs.edit import EditTool
@@ -38,6 +36,7 @@ from hanzo_tools.fs.read import ReadTool
 from hanzo_tools.fs.tree import TreeTool
 from hanzo_tools.fs.write import WriteTool
 from hanzo_tools.fs.search import SearchTool
+from hanzo_tools.fs.fs_tool import FsTool, fs_tool
 
 # Backwards compatibility aliases
 Edit = EditTool

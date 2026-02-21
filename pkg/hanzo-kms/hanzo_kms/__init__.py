@@ -33,8 +33,8 @@ Usage:
 
 __version__ = "1.0.0"
 
-from .client import KMSClient
 from .async_client import AsyncKMSClient
+from .client import KMSClient
 from .models import (
     AuthenticationOptions,
     AWSIamAuthMethod,

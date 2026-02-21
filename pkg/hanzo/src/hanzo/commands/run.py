@@ -7,8 +7,8 @@ import os
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -44,8 +44,10 @@ def run_group():
 # Helpers
 # ============================================================================
 
+
 def _get_client():
     from ..utils.api_client import PaaSClient
+
     try:
         return PaaSClient(timeout=60)
     except SystemExit:
@@ -54,6 +56,7 @@ def _get_client():
 
 def _get_ctx():
     from ..utils.api_client import require_context
+
     try:
         return require_context()
     except SystemExit:
@@ -62,6 +65,7 @@ def _get_ctx():
 
 def _container_base():
     from ..utils.api_client import container_url
+
     client = _get_client()
     if not client:
         return None
@@ -74,12 +78,14 @@ def _container_base():
 
 def _find_container(client, base_url: str, name: str):
     from ..utils.api_client import find_container
+
     return find_container(client, base_url, name)
 
 
 # ============================================================================
 # Service Deployment
 # ============================================================================
+
 
 @run_group.command(name="service")
 @click.argument("name", required=False)
@@ -186,6 +192,7 @@ def run_service(name, image, source, env_name, replicas, port, cpu, memory, wait
     if wait:
         console.print("[dim]Waiting for deployment to be ready...[/dim]")
         import time
+
         for _ in range(60):
             cid = (result or {}).get("_id") or existing_id
             if cid:
@@ -262,6 +269,7 @@ def run_function(name, payload, async_):
 # Status & Logs
 # ============================================================================
 
+
 @run_group.command(name="status")
 @click.argument("name", required=False)
 def run_status(name):
@@ -292,16 +300,18 @@ def run_status(name):
 
         port = (container.get("networking") or {}).get("containerPort", "")
 
-        console.print(Panel(
-            f"[cyan]Service:[/cyan] {container.get('name', name)}\n"
-            f"[cyan]Status:[/cyan] {state_str}\n"
-            f"[cyan]Replicas:[/cyan] {avail}/{replicas}\n"
-            f"[cyan]Image:[/cyan] {img}\n"
-            f"[cyan]Port:[/cyan] {port}\n"
-            f"[cyan]ID:[/cyan] {cid}",
-            title="Service Status",
-            border_style="cyan"
-        ))
+        console.print(
+            Panel(
+                f"[cyan]Service:[/cyan] {container.get('name', name)}\n"
+                f"[cyan]Status:[/cyan] {state_str}\n"
+                f"[cyan]Replicas:[/cyan] {avail}/{replicas}\n"
+                f"[cyan]Image:[/cyan] {img}\n"
+                f"[cyan]Port:[/cyan] {port}\n"
+                f"[cyan]ID:[/cyan] {cid}",
+                title="Service Status",
+                border_style="cyan",
+            )
+        )
     else:
         # List all containers
         data = client.get(base_url)
@@ -309,6 +319,7 @@ def run_status(name):
             return
 
         from ..utils.api_client import extract_list
+
         containers = extract_list(data, "containers")
 
         if not containers:
@@ -388,6 +399,7 @@ def run_logs(name, follow, tail, since):
 # Scaling & Traffic
 # ============================================================================
 
+
 @run_group.command(name="scale")
 @click.argument("name")
 @click.option("--replicas", "-r", type=int, help="Number of replicas")
@@ -444,7 +456,7 @@ def run_promote(name, from_env, to_env):
 
     Copies container config from source environment to target.
     """
-    from ..utils.api_client import PaaSClient, require_context, container_url
+    from ..utils.api_client import PaaSClient, container_url, require_context
 
     try:
         client = PaaSClient(timeout=60)
@@ -582,6 +594,7 @@ def run_delete(name, force):
 
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete service '{name}'? This cannot be undone.[/red]"):
             return
 

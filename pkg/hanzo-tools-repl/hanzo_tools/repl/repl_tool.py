@@ -7,16 +7,17 @@ Uses Jupyter kernels as backend for consistent cross-language experience.
 
 from __future__ import annotations
 
-import asyncio
 import uuid
-from dataclasses import dataclass, field
-from datetime import datetime
+import asyncio
 from typing import Any
+from datetime import datetime
+from dataclasses import field, dataclass
 
 # Jupyter client imports
 try:
     from jupyter_client import KernelManager as JupyterKernelManager
     from jupyter_client.asynchronous import AsyncKernelClient
+
     JUPYTER_AVAILABLE = True
 except ImportError:
     JUPYTER_AVAILABLE = False
@@ -25,7 +26,6 @@ except ImportError:
 
 from hanzo_tools.core import BaseTool
 
-
 # Language to kernel mapping
 LANGUAGE_KERNELS: dict[str, str] = {
     # Python variants
@@ -33,20 +33,17 @@ LANGUAGE_KERNELS: dict[str, str] = {
     "python3": "python3",
     "py": "python3",
     "ipython": "python3",
-
     # JavaScript/TypeScript
     "javascript": "tslab",
     "js": "tslab",
     "typescript": "tslab",
     "ts": "tslab",
     "node": "tslab",
-
     # Shell
     "bash": "bash",
     "sh": "bash",
     "shell": "bash",
     "zsh": "bash",
-
     # Other languages (require kernel installation)
     "ruby": "ruby",
     "go": "gophernotes",
@@ -59,6 +56,7 @@ LANGUAGE_KERNELS: dict[str, str] = {
 @dataclass
 class ExecutionResult:
     """Result of code execution."""
+
     success: bool
     output: str
     error: str | None = None
@@ -70,11 +68,12 @@ class ExecutionResult:
 @dataclass
 class KernelSession:
     """Represents an active kernel session."""
+
     id: str
     language: str
     kernel_name: str
     manager: Any  # JupyterKernelManager
-    client: Any   # AsyncKernelClient
+    client: Any  # AsyncKernelClient
     created_at: datetime = field(default_factory=datetime.now)
     execution_count: int = 0
     history: list[tuple[str, ExecutionResult]] = field(default_factory=list)
@@ -104,10 +103,7 @@ class KernelManager:
     ) -> KernelSession:
         """Start a new kernel session."""
         if not JUPYTER_AVAILABLE:
-            raise RuntimeError(
-                "jupyter-client not installed. "
-                "Install with: pip install hanzo-tools-repl[full]"
-            )
+            raise RuntimeError("jupyter-client not installed. Install with: pip install hanzo-tools-repl[full]")
 
         kernel_name = LANGUAGE_KERNELS.get(language.lower(), language)
         session_id = session_id or f"{language}_{uuid.uuid4().hex[:8]}"
@@ -171,11 +167,7 @@ class KernelManager:
             while True:
                 try:
                     msg = await asyncio.wait_for(
-                        asyncio.to_thread(
-                            session.client.get_iopub_msg,
-                            timeout=timeout
-                        ),
-                        timeout=timeout
+                        asyncio.to_thread(session.client.get_iopub_msg, timeout=timeout), timeout=timeout
                     )
                 except asyncio.TimeoutError:
                     break
@@ -298,11 +290,9 @@ class KernelManager:
 
         try:
             from jupyter_client.kernelspec import find_kernel_specs
+
             specs = find_kernel_specs()
-            return [
-                {"name": name, "path": path}
-                for name, path in specs.items()
-            ]
+            return [{"name": name, "path": path} for name, path in specs.items()]
         except Exception:
             return []
 
@@ -420,10 +410,7 @@ Use repl(action="eval", code="...") to execute code."""
             await self.manager.start_kernel(language)
         elif session_id is None and language != "python":
             # Start language-specific kernel if not exists
-            lang_sessions = [
-                s for s in self.manager.sessions.values()
-                if s.language.lower() == language.lower()
-            ]
+            lang_sessions = [s for s in self.manager.sessions.values() if s.language.lower() == language.lower()]
             if not lang_sessions:
                 await self.manager.start_kernel(language)
 
@@ -456,10 +443,7 @@ Use repl(action="eval", code="...") to execute code."""
         lines = ["Active REPL sessions:"]
         for s in sessions:
             default = " (default)" if s["is_default"] else ""
-            lines.append(
-                f"  {s['id']}: {s['language']} ({s['kernel']}) "
-                f"- {s['executions']} executions{default}"
-            )
+            lines.append(f"  {s['id']}: {s['language']} ({s['kernel']}) - {s['executions']} executions{default}")
         return "\n".join(lines)
 
     def _history(self, session_id: str | None, limit: int) -> str:

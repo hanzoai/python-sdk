@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -360,13 +360,16 @@ class DNSResourceWithRawResponse:
     def __init__(self, dns: DNSResource) -> None:
         self._dns = dns
 
+
 class AsyncDNSResourceWithRawResponse:
     def __init__(self, dns: AsyncDNSResource) -> None:
         self._dns = dns
 
+
 class DNSResourceWithStreamingResponse:
     def __init__(self, dns: DNSResource) -> None:
         self._dns = dns
+
 
 class AsyncDNSResourceWithStreamingResponse:
     def __init__(self, dns: AsyncDNSResource) -> None:

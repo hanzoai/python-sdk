@@ -56,9 +56,15 @@ class TestToolPackages:
         assert len(TOOLS) == 9
         names = {t.name for t in TOOLS}
         expected = {
-            "recall_memories", "create_memories", "update_memories",
-            "delete_memories", "manage_memories", "recall_facts",
-            "store_facts", "summarize_to_memory", "manage_knowledge_bases"
+            "recall_memories",
+            "create_memories",
+            "update_memories",
+            "delete_memories",
+            "manage_memories",
+            "recall_facts",
+            "store_facts",
+            "summarize_to_memory",
+            "manage_knowledge_bases",
         }
         assert names == expected
 
@@ -267,18 +273,14 @@ class TestToolAsync:
         """Verify all tool .call() methods are async."""
         import importlib
 
-        all_packages = REQUIRED_PACKAGES + [
-            p for p in OPTIONAL_PACKAGES if _module_installed(p)
-        ]
+        all_packages = REQUIRED_PACKAGES + [p for p in OPTIONAL_PACKAGES if _module_installed(p)]
 
         for pkg_name in all_packages:
             pkg = importlib.import_module(pkg_name)
             tools = getattr(pkg, "TOOLS", [])
             for tool in tools:
                 if hasattr(tool, "call"):
-                    assert asyncio.iscoroutinefunction(
-                        tool.call
-                    ), f"{pkg_name}.{tool.name}.call() is not async"
+                    assert asyncio.iscoroutinefunction(tool.call), f"{pkg_name}.{tool.name}.call() is not async"
 
 
 class TestTotalToolCount:
@@ -311,9 +313,7 @@ class TestTotalToolCount:
             pkg = importlib.import_module(pkg_name)
             tools = getattr(pkg, "TOOLS", [])
             actual = len(tools)
-            assert (
-                actual == expected_count
-            ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
+            assert actual == expected_count, f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
         # Required tools: 38 (7+12+1+9+1+2+1+1+1+3)

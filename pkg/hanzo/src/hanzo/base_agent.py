@@ -125,9 +125,7 @@ class BaseAgent(ABC, Generic[TContext, TResult]):
 
             # Log start
             if context and hasattr(context, "log"):
-                await context.log(
-                    f"Starting {self.name} with model {self.config.model}"
-                )
+                await context.log(f"Starting {self.name} with model {self.config.model}")
 
             # Execute with retries
             result = await self._execute_with_retries(prompt, context, env, **kwargs)
@@ -145,11 +143,7 @@ class BaseAgent(ABC, Generic[TContext, TResult]):
 
         except Exception as e:
             self._end_time = datetime.now()
-            duration = (
-                (self._end_time - self._start_time).total_seconds()
-                if self._start_time
-                else None
-            )
+            duration = (self._end_time - self._start_time).total_seconds() if self._start_time else None
 
             logger.error(f"Agent {self.name} failed: {e}")
 
@@ -231,9 +225,7 @@ class BaseAgent(ABC, Generic[TContext, TResult]):
             if attempt < self.config.max_retries - 1:
                 await asyncio.sleep(2**attempt)
 
-        raise Exception(
-            f"All {self.config.max_retries} attempts failed. Last error: {last_error}"
-        )
+        raise Exception(f"All {self.config.max_retries} attempts failed. Last error: {last_error}")
 
     @abstractmethod
     async def _execute_impl(
@@ -326,9 +318,7 @@ class CLIAgent(BaseAgent[TContext, str]):
             )
         except asyncio.TimeoutError:
             process.kill()
-            raise asyncio.TimeoutError(
-                f"Command timed out after {self.config.timeout} seconds"
-            )
+            raise asyncio.TimeoutError(f"Command timed out after {self.config.timeout} seconds")
 
         # Check for errors
         if process.returncode != 0:

@@ -7,10 +7,10 @@ supporting both cloud and local deployments.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
 from typing import Any, Optional, Sequence
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class VectorConfig(BaseModel):
@@ -104,8 +104,7 @@ class VectorClient:
             from qdrant_client import AsyncQdrantClient
         except ImportError as e:
             raise ImportError(
-                "qdrant-client is required for VectorClient. "
-                "Install with: pip install qdrant-client"
+                "qdrant-client is required for VectorClient. Install with: pip install qdrant-client"
             ) from e
 
         if self.config.url:
@@ -219,9 +218,7 @@ class VectorClient:
         """
         from qdrant_client.models import PointStruct
 
-        qdrant_points = [
-            PointStruct(id=p.id, vector=p.vector, payload=p.payload) for p in points
-        ]
+        qdrant_points = [PointStruct(id=p.id, vector=p.vector, payload=p.payload) for p in points]
         await self._async_client.upsert(collection_name=collection, points=qdrant_points)
 
     async def search(
