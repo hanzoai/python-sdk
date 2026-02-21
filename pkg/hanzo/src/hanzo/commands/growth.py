@@ -84,7 +84,11 @@ def events_list(limit: int, event: str, user: str):
 
     for e in data.get("events", []):
         props = e.get("properties", {})
-        props_str = ", ".join(f"{k}={v}" for k, v in props.items()) if isinstance(props, dict) else str(props)
+        props_str = (
+            ", ".join(f"{k}={v}" for k, v in props.items())
+            if isinstance(props, dict)
+            else str(props)
+        )
         table.add_row(
             e.get("event", ""),
             e.get("user_id", ""),
@@ -214,7 +218,9 @@ def funnels_create(name: str, steps: str):
     step_list = [s.strip() for s in steps.split(",")]
     resp = _request("post", "/v1/funnels", json={"name": name, "steps": step_list})
     check_response(resp)
-    console.print(f"[green]✓[/green] Funnel '{name}' created with {len(step_list)} steps")
+    console.print(
+        f"[green]✓[/green] Funnel '{name}' created with {len(step_list)} steps"
+    )
 
 
 @funnels.command(name="delete")
@@ -308,7 +314,9 @@ def web_stats(domain: str, period: str):
         table.add_column("Visitors", style="dim")
 
         for p in pages[:10]:
-            table.add_row(p.get("path", ""), str(p.get("views", 0)), str(p.get("visitors", 0)))
+            table.add_row(
+                p.get("path", ""), str(p.get("views", 0)), str(p.get("visitors", 0))
+            )
 
         console.print(table)
 
@@ -377,7 +385,9 @@ def flags_create(key: str, description: str, rollout: int):
 @click.option("--rollout", "-r", default=100, help="Rollout percentage")
 def flags_enable(flag_key: str, rollout: int):
     """Enable a feature flag."""
-    resp = _request("patch", f"/v1/flags/{flag_key}", json={"enabled": True, "rollout": rollout})
+    resp = _request(
+        "patch", f"/v1/flags/{flag_key}", json={"enabled": True, "rollout": rollout}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Flag '{flag_key}' enabled at {rollout}%")
 
@@ -412,7 +422,11 @@ def tests():
 
 
 @tests.command(name="list")
-@click.option("--status", type=click.Choice(["running", "completed", "draft", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["running", "completed", "draft", "all"]),
+    default="all",
+)
 def tests_list(status: str):
     """List A/B tests."""
     params: dict = {}
@@ -430,7 +444,9 @@ def tests_list(status: str):
 
     for t in data.get("tests", []):
         st = t.get("status", "draft")
-        st_style = {"running": "green", "completed": "cyan", "draft": "dim"}.get(st, "white")
+        st_style = {"running": "green", "completed": "cyan", "draft": "dim"}.get(
+            st, "white"
+        )
         winner = t.get("winner", "-")
         table.add_row(
             t.get("name", ""),
@@ -445,20 +461,28 @@ def tests_list(status: str):
 
 @tests.command(name="create")
 @click.option("--name", "-n", prompt=True, help="Test name")
-@click.option("--variants", "-v", default="control,treatment", help="Comma-separated variants")
+@click.option(
+    "--variants", "-v", default="control,treatment", help="Comma-separated variants"
+)
 @click.option("--metric", "-m", required=True, help="Primary metric")
 @click.option("--traffic", "-t", default=100, help="Traffic percentage")
 def tests_create(name: str, variants: str, metric: str, traffic: int):
     """Create an A/B test."""
     variant_list = [v.strip() for v in variants.split(",")]
-    resp = _request("post", "/v1/tests", json={
-        "name": name,
-        "variants": variant_list,
-        "primary_metric": metric,
-        "traffic_percent": traffic,
-    })
+    resp = _request(
+        "post",
+        "/v1/tests",
+        json={
+            "name": name,
+            "variants": variant_list,
+            "primary_metric": metric,
+            "traffic_percent": traffic,
+        },
+    )
     check_response(resp)
-    console.print(f"[green]✓[/green] A/B test '{name}' created with {len(variant_list)} variants")
+    console.print(
+        f"[green]✓[/green] A/B test '{name}' created with {len(variant_list)} variants"
+    )
 
 
 @tests.command(name="start")
@@ -481,7 +505,9 @@ def tests_stop(test_name: str):
 
 @tests.command(name="results")
 @click.argument("test_name")
-@click.option("--format", "-f", "fmt", type=click.Choice(["table", "json"]), default="table")
+@click.option(
+    "--format", "-f", "fmt", type=click.Choice(["table", "json"]), default="table"
+)
 def tests_results(test_name: str, fmt: str):
     """View A/B test results."""
     resp = _request("get", f"/v1/tests/{test_name}/results")
@@ -510,7 +536,11 @@ def tests_results(test_name: str, fmt: str):
 
         for v in variants:
             is_winner = v.get("is_winner", False)
-            name_str = f"[bold]{v.get('name', '')}[/bold] *" if is_winner else v.get("name", "")
+            name_str = (
+                f"[bold]{v.get('name', '')}[/bold] *"
+                if is_winner
+                else v.get("name", "")
+            )
             table.add_row(
                 name_str,
                 str(v.get("users", 0)),
@@ -543,7 +573,11 @@ def campaigns():
 
 
 @campaigns.command(name="list")
-@click.option("--status", type=click.Choice(["active", "draft", "completed", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["active", "draft", "completed", "all"]),
+    default="all",
+)
 def campaigns_list(status: str):
     """List campaigns."""
     params: dict = {}
@@ -561,7 +595,9 @@ def campaigns_list(status: str):
 
     for c in data.get("campaigns", []):
         st = c.get("status", "draft")
-        st_style = {"active": "green", "completed": "cyan", "draft": "dim"}.get(st, "white")
+        st_style = {"active": "green", "completed": "cyan", "draft": "dim"}.get(
+            st, "white"
+        )
         table.add_row(
             c.get("name", ""),
             c.get("type", ""),
@@ -575,11 +611,19 @@ def campaigns_list(status: str):
 
 @campaigns.command(name="create")
 @click.option("--name", "-n", prompt=True, help="Campaign name")
-@click.option("--type", "-t", "campaign_type", type=click.Choice(["email", "push", "sms", "in-app"]), default="email")
+@click.option(
+    "--type",
+    "-t",
+    "campaign_type",
+    type=click.Choice(["email", "push", "sms", "in-app"]),
+    default="email",
+)
 @click.option("--segment", "-s", help="Target segment")
 @click.option("--subject", help="Email subject")
 @click.option("--body", "-b", help="Message body")
-def campaigns_create(name: str, campaign_type: str, segment: str, subject: str, body: str):
+def campaigns_create(
+    name: str, campaign_type: str, segment: str, subject: str, body: str
+):
     """Create a campaign."""
     payload: dict = {"name": name, "type": campaign_type}
     if segment:
@@ -604,7 +648,9 @@ def campaigns_send(campaign_name: str, schedule: str):
     resp = _request("post", f"/v1/campaigns/{campaign_name}/send", json=payload)
     check_response(resp)
     if schedule:
-        console.print(f"[green]✓[/green] Campaign '{campaign_name}' scheduled for {schedule}")
+        console.print(
+            f"[green]✓[/green] Campaign '{campaign_name}' scheduled for {schedule}"
+        )
     else:
         console.print(f"[green]✓[/green] Campaign '{campaign_name}' sent")
 

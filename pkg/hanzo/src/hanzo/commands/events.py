@@ -74,7 +74,9 @@ def bus():
 
 @bus.command(name="create")
 @click.argument("name")
-@click.option("--backend", "-b", type=click.Choice(["kafka", "pubsub", "redis"]), default="kafka")
+@click.option(
+    "--backend", "-b", type=click.Choice(["kafka", "pubsub", "redis"]), default="kafka"
+)
 @click.option("--region", "-r", multiple=True, help="Regions for replication")
 def bus_create(name: str, backend: str, region: tuple):
     """Create an event bus."""
@@ -119,7 +121,9 @@ def bus_list():
 
     console.print(table)
     if not buses:
-        console.print("[dim]No event buses found. Create one with 'hanzo events bus create'[/dim]")
+        console.print(
+            "[dim]No event buses found. Create one with 'hanzo events bus create'[/dim]"
+        )
 
 
 @bus.command(name="describe")
@@ -178,7 +182,9 @@ def schema():
 @schema.command(name="register")
 @click.argument("name")
 @click.option("--file", "-f", type=click.Path(exists=True), help="Schema file")
-@click.option("--format", "fmt", type=click.Choice(["json", "avro", "protobuf"]), default="json")
+@click.option(
+    "--format", "fmt", type=click.Choice(["json", "avro", "protobuf"]), default="json"
+)
 @click.option("--version", "-v", help="Schema version")
 def schema_register(name: str, file: str, fmt: str, version: str):
     """Register an event schema."""
@@ -391,7 +397,11 @@ def route():
 @route.command(name="create")
 @click.argument("name")
 @click.option("--from", "from_stream", required=True, help="Source stream")
-@click.option("--to", required=True, help="Target: service:<name>, task:<name>, queue:<name>, webhook:<url>")
+@click.option(
+    "--to",
+    required=True,
+    help="Target: service:<name>, task:<name>, queue:<name>, webhook:<url>",
+)
 @click.option("--filter", "-f", help="Filter expression")
 @click.option("--transform", "-t", help="Transform expression")
 def route_create(name: str, from_stream: str, to: str, filter: str, transform: str):
@@ -539,7 +549,9 @@ def events_publish(stream: str, data: str, file: str, key: str):
 
 @events_group.command(name="tail")
 @click.argument("stream")
-@click.option("--from", "from_pos", type=click.Choice(["latest", "earliest"]), default="latest")
+@click.option(
+    "--from", "from_pos", type=click.Choice(["latest", "earliest"]), default="latest"
+)
 @click.option("--filter", "-f", help="Filter expression")
 @click.option("--limit", "-n", type=int, help="Max events")
 def events_tail(stream: str, from_pos: str, filter: str, limit: int):
@@ -569,7 +581,9 @@ def events_tail(stream: str, from_pos: str, filter: str, limit: int):
 
 @events_group.command(name="replay")
 @click.option("--stream", "-s", required=True, help="Stream to replay")
-@click.option("--from", "from_pos", required=True, help="Start: earliest, timestamp, offset")
+@click.option(
+    "--from", "from_pos", required=True, help="Start: earliest, timestamp, offset"
+)
 @click.option("--to", "to_pos", help="End: latest, timestamp, offset")
 @click.option("--target", "-t", help="Target route or consumer")
 @click.option("--dry-run", is_flag=True, help="Show what would be replayed")
@@ -587,7 +601,9 @@ def events_replay(stream: str, from_pos: str, to_pos: str, target: str, dry_run:
     data = check_response(resp)
 
     if dry_run:
-        console.print(f"[dim]Dry run: {data.get('event_count', 0)} events would be replayed[/dim]")
+        console.print(
+            f"[dim]Dry run: {data.get('event_count', 0)} events would be replayed[/dim]"
+        )
     else:
         console.print(f"[green]✓[/green] Replay complete")
         console.print(f"  Events replayed: {data.get('replayed', 0):,}")

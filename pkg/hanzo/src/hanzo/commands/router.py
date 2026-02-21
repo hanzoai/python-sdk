@@ -40,7 +40,9 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
     if not router_dir:
         console.print("[red]Error:[/red] Hanzo router not found")
         console.print("\nPlease clone the router:")
-        console.print("  git clone https://github.com/hanzoai/router.git ~/work/hanzo/router")
+        console.print(
+            "  git clone https://github.com/hanzoai/router.git ~/work/hanzo/router"
+        )
         return
 
     console.print(f"[green]✓[/green] Found router at {router_dir}")
@@ -89,7 +91,9 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
                 stderr=subprocess.DEVNULL,
                 start_new_session=True,
             )
-            console.print(f"[green]✓[/green] Router started in background (PID: {process.pid})")
+            console.print(
+                f"[green]✓[/green] Router started in background (PID: {process.pid})"
+            )
             console.print(f"Check status: curl http://localhost:{port}/health")
         else:
             # Run in foreground
@@ -112,8 +116,14 @@ def stop_router(port: int):
     for proc in psutil.process_iter(["pid", "cmdline"]):
         try:
             cmdline = proc.info["cmdline"]
-            if cmdline and "proxy_server" in " ".join(cmdline) and str(port) in " ".join(cmdline):
-                console.print(f"[yellow]Stopping router (PID: {proc.info['pid']})[/yellow]")
+            if (
+                cmdline
+                and "proxy_server" in " ".join(cmdline)
+                and str(port) in " ".join(cmdline)
+            ):
+                console.print(
+                    f"[yellow]Stopping router (PID: {proc.info['pid']})[/yellow]"
+                )
                 proc.send_signal(signal.SIGTERM)
                 proc.wait(timeout=5)
                 found = True
@@ -138,7 +148,9 @@ def router_status(port: int):
 
             # Try to get models
             try:
-                models_response = httpx.get(f"http://localhost:{port}/models", timeout=2.0)
+                models_response = httpx.get(
+                    f"http://localhost:{port}/models", timeout=2.0
+                )
                 if models_response.status_code == 200:
                     data = models_response.json()
                     if "data" in data:
@@ -146,7 +158,9 @@ def router_status(port: int):
             except Exception:
                 pass
         else:
-            console.print(f"[yellow]Router responding but unhealthy (status: {response.status_code})[/yellow]")
+            console.print(
+                f"[yellow]Router responding but unhealthy (status: {response.status_code})[/yellow]"
+            )
     except httpx.ConnectError:
         console.print(f"[red]Router not running on port {port}[/red]")
         console.print("\nStart with: hanzo router start")

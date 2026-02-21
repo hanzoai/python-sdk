@@ -100,8 +100,16 @@ class CronJob:
             args=data.get("args", {}),
             enabled=data.get("enabled", True),
             timezone=data.get("timezone", "UTC"),
-            last_run=datetime.fromisoformat(data["last_run"]) if data.get("last_run") else None,
-            next_run=datetime.fromisoformat(data["next_run"]) if data.get("next_run") else None,
+            last_run=(
+                datetime.fromisoformat(data["last_run"])
+                if data.get("last_run")
+                else None
+            ),
+            next_run=(
+                datetime.fromisoformat(data["next_run"])
+                if data.get("next_run")
+                else None
+            ),
             run_count=data.get("run_count", 0),
             error_count=data.get("error_count", 0),
             last_error=data.get("last_error"),
@@ -185,7 +193,9 @@ class CronClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError("redis is required for CronClient. Install with: pip install redis") from e
+            raise ImportError(
+                "redis is required for CronClient. Install with: pip install redis"
+            ) from e
 
         if self.config.url:
             self._redis = redis.from_url(
@@ -475,7 +485,9 @@ class CronClient:
     async def _acquire_lock(self, job_id: str) -> bool:
         """Acquire a distributed lock for a job."""
         lock_key = self._key("lock", job_id)
-        lock_value = hashlib.md5(f"{os.getpid()}-{datetime.utcnow().isoformat()}".encode()).hexdigest()
+        lock_value = hashlib.md5(
+            f"{os.getpid()}-{datetime.utcnow().isoformat()}".encode()
+        ).hexdigest()
 
         acquired = await self._redis.set(
             lock_key,
@@ -515,7 +527,9 @@ class CronClient:
             execution.error = str(e)
 
         execution.completed_at = datetime.utcnow()
-        execution.duration_ms = int((execution.completed_at - execution.started_at).total_seconds() * 1000)
+        execution.duration_ms = int(
+            (execution.completed_at - execution.started_at).total_seconds() * 1000
+        )
 
         # Update job stats
         job.last_run = execution.started_at
@@ -608,7 +622,11 @@ class CronClient:
                 CronExecution(
                     job_id=data["job_id"],
                     started_at=datetime.fromisoformat(data["started_at"]),
-                    completed_at=datetime.fromisoformat(data["completed_at"]) if data.get("completed_at") else None,
+                    completed_at=(
+                        datetime.fromisoformat(data["completed_at"])
+                        if data.get("completed_at")
+                        else None
+                    ),
                     success=data.get("success", False),
                     result=data.get("result"),
                     error=data.get("error"),

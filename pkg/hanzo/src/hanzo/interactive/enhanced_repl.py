@@ -98,7 +98,9 @@ class EnhancedHanzoREPL:
         self.failed_tools = set()  # Track tools that have failed this session
 
         # Initialize background task manager
-        self.task_manager = BackgroundTaskManager(console) if BackgroundTaskManager else None
+        self.task_manager = (
+            BackgroundTaskManager(console) if BackgroundTaskManager else None
+        )
 
         # Initialize todo manager
         self.todo_manager = TodoManager(console) if TodoManager else None
@@ -112,7 +114,9 @@ class EnhancedHanzoREPL:
             if default_tool:
                 self.current_model = f"tool:{default_tool.name}"
                 self.current_tool = default_tool
-                self.console.print(f"[green]✓ Detected {default_tool.display_name} as default AI assistant[/green]")
+                self.console.print(
+                    f"[green]✓ Detected {default_tool.display_name} as default AI assistant[/green]"
+                )
             else:
                 # Fallback to regular models
                 self.current_model = self.config.get("default_model", "gpt-3.5-turbo")
@@ -351,7 +355,9 @@ class EnhancedHanzoREPL:
         # Router status
         try:
             response = httpx.get("http://localhost:4000/health", timeout=1)
-            router_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
+            router_status = (
+                "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
+            )
             router_details = "Port 4000"
         except Exception:
             router_status = "❌ Offline"
@@ -361,7 +367,9 @@ class EnhancedHanzoREPL:
         # Node status
         try:
             response = httpx.get("http://localhost:3690/health", timeout=1)
-            node_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
+            node_status = (
+                "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
+            )
             node_details = "Port 3690"
         except Exception:
             node_status = "❌ Offline"
@@ -404,7 +412,11 @@ class EnhancedHanzoREPL:
                         args = f"tool:{tool.name}"
                     else:
                         # It's a model selection
-                        model_idx = num - len(self.detected_tools) - 1 if self.detected_tools else num - 1
+                        model_idx = (
+                            num - len(self.detected_tools) - 1
+                            if self.detected_tools
+                            else num - 1
+                        )
                         models_list = list(self.MODELS.keys())
                         if 0 <= model_idx < len(models_list):
                             args = models_list[model_idx]
@@ -417,7 +429,11 @@ class EnhancedHanzoREPL:
                 return
 
         # Check if it's a tool
-        if args.startswith("tool:") or args in [t.name for t in self.detected_tools] if self.detected_tools else False:
+        if (
+            args.startswith("tool:") or args in [t.name for t in self.detected_tools]
+            if self.detected_tools
+            else False
+        ):
             # Handle tool selection
             tool_name = args.replace("tool:", "") if args.startswith("tool:") else args
 
@@ -451,7 +467,9 @@ class EnhancedHanzoREPL:
 
             # Show hint if it's a gateway model (not in our predefined list)
             if args not in self.MODELS and not args.startswith("local:"):
-                self.console.print("[dim]Using gateway model - all models free! Use /models to see full list.[/dim]")
+                self.console.print(
+                    "[dim]Using gateway model - all models free! Use /models to see full list.[/dim]"
+                )
 
     async def list_tools(self, args: str = ""):
         """List available AI tools."""
@@ -464,10 +482,14 @@ class EnhancedHanzoREPL:
         """List available models from gateway.hanzo.ai."""
         # Show tools first if available
         if self.detected_tools:
-            self.console.print("[bold cyan]AI Coding Assistants (Detected):[/bold cyan]")
+            self.console.print(
+                "[bold cyan]AI Coding Assistants (Detected):[/bold cyan]"
+            )
             for i, tool in enumerate(self.detected_tools, 1):
                 marker = "→" if self.current_model == f"tool:{tool.name}" else " "
-                self.console.print(f"  {marker} {i}. {tool.display_name} ({tool.provider})")
+                self.console.print(
+                    f"  {marker} {i}. {tool.display_name} ({tool.provider})"
+                )
             self.console.print()
 
         # Try to fetch live models from gateway
@@ -487,14 +509,20 @@ class EnhancedHanzoREPL:
                 models_list = [
                     model
                     for model in all_models
-                    if not any(keyword in model.get("id", "").lower() for keyword in embedding_keywords)
+                    if not any(
+                        keyword in model.get("id", "").lower()
+                        for keyword in embedding_keywords
+                    )
                 ]
         except Exception:
             pass
 
         # Fallback to static models if gateway fetch fails
         if not models_list:
-            models_list = [{"id": model_id, "name": model_name} for model_id, model_name in self.MODELS.items()]
+            models_list = [
+                {"id": model_id, "name": model_name}
+                for model_id, model_name in self.MODELS.items()
+            ]
 
         # Create table
         table = Table(title="Gateway LLMs (Chat Models)", box=box.ROUNDED)
@@ -533,16 +561,22 @@ class EnhancedHanzoREPL:
 
             # Highlight current model
             if model_id == self.current_model:
-                table.add_row(str(i), f"[bold green]→ {model_id}[/bold green]", tier, provider)
+                table.add_row(
+                    str(i), f"[bold green]→ {model_id}[/bold green]", tier, provider
+                )
             else:
                 table.add_row(str(i), model_id, tier, provider)
 
         self.console.print(table)
-        self.console.print("\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]")
+        self.console.print(
+            "\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]"
+        )
         self.console.print(
             "[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]"
         )
-        self.console.print("\n[dim]Use /model <name> or /model <number> to switch[/dim]")
+        self.console.print(
+            "\n[dim]Use /model <name> or /model <number> to switch[/dim]"
+        )
 
     async def login(self, args: str = ""):
         """Login to Hanzo."""
@@ -661,7 +695,9 @@ class EnhancedHanzoREPL:
         self.console.print(f"[dim]Executing: {full_cmd}[/dim]")
 
         try:
-            result = subprocess.run(full_cmd, shell=True, capture_output=True, text=True)
+            result = subprocess.run(
+                full_cmd, shell=True, capture_output=True, text=True
+            )
 
             if result.stdout:
                 self.console.print(result.stdout)
@@ -682,13 +718,19 @@ class EnhancedHanzoREPL:
                     if tool.name not in self.failed_tools:
                         self.current_tool = tool
                         self.current_model = f"tool:{tool.name}"
-                        self.console.print(f"[yellow]Switched to {tool.display_name}[/yellow]")
+                        self.console.print(
+                            f"[yellow]Switched to {tool.display_name}[/yellow]"
+                        )
                         break
 
             # Try the current tool
             if self.current_tool.name not in self.failed_tools:
-                self.console.print(f"[dim]Using {self.current_tool.display_name}...[/dim]")
-                success, output = self.tool_detector.execute_with_tool(self.current_tool, message)
+                self.console.print(
+                    f"[dim]Using {self.current_tool.display_name}...[/dim]"
+                )
+                success, output = self.tool_detector.execute_with_tool(
+                    self.current_tool, message
+                )
 
                 if success:
                     self.console.print(output)
@@ -703,8 +745,12 @@ class EnhancedHanzoREPL:
             if self.tool_detector and self.tool_detector.detected_tools:
                 for fallback_tool in self.tool_detector.detected_tools:
                     if fallback_tool.name not in self.failed_tools:
-                        self.console.print(f"[yellow]Trying {fallback_tool.display_name}...[/yellow]")
-                        success, output = self.tool_detector.execute_with_tool(fallback_tool, message)
+                        self.console.print(
+                            f"[yellow]Trying {fallback_tool.display_name}...[/yellow]"
+                        )
+                        success, output = self.tool_detector.execute_with_tool(
+                            fallback_tool, message
+                        )
                         if success:
                             self.console.print(output)
                             # Automatically switch to this working tool
@@ -720,15 +766,21 @@ class EnhancedHanzoREPL:
                         else:
                             # Mark as failed
                             self.failed_tools.add(fallback_tool.name)
-                            self.console.print(f"[red]{fallback_tool.display_name} also failed[/red]")
+                            self.console.print(
+                                f"[red]{fallback_tool.display_name} also failed[/red]"
+                            )
 
             if not found_working:
                 # Final fallback to cloud model
                 self.console.print(f"[yellow]Falling back to cloud model...[/yellow]")
-                await self.execute_command("ask", f"--cloud --model gpt-3.5-turbo {message}")
+                await self.execute_command(
+                    "ask", f"--cloud --model gpt-3.5-turbo {message}"
+                )
         else:
             # Use regular model through hanzo ask
-            await self.execute_command("ask", f"--cloud --model {self.current_model} {message}")
+            await self.execute_command(
+                "ask", f"--cloud --model {self.current_model} {message}"
+            )
 
     async def quick_model_select(self, args: str = ""):
         """Quick model selector with arrow keys."""
@@ -737,7 +789,11 @@ class EnhancedHanzoREPL:
             return
 
         # Prepare tools and models
-        tools = [(f"tool:{t.name}", t.display_name) for t in self.detected_tools] if self.detected_tools else []
+        tools = (
+            [(f"tool:{t.name}", t.display_name) for t in self.detected_tools]
+            if self.detected_tools
+            else []
+        )
         models = list(self.MODELS.items())
 
         selector = QuickModelSelector(models, tools, self.current_model)
@@ -768,7 +824,9 @@ class EnhancedHanzoREPL:
         else:
             # Show tasks and prompt for selection
             self.task_manager.list_tasks()
-            self.console.print("\n[cyan]Enter task ID to kill (or 'all' for all tasks):[/cyan]")
+            self.console.print(
+                "\n[cyan]Enter task ID to kill (or 'all' for all tasks):[/cyan]"
+            )
             try:
                 task_id = await self.session.prompt_async("> ")
                 if task_id:
@@ -803,7 +861,9 @@ class EnhancedHanzoREPL:
                 # Quick add
                 try:
                     todo = self.todo_manager.quick_add(rest)
-                    self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+                    self.console.print(
+                        f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]"
+                    )
                 except ValueError as e:
                     self.console.print(f"[red]Error: {e}[/red]")
             else:
@@ -829,7 +889,9 @@ class EnhancedHanzoREPL:
                     elif key in ["tag", "t"]:
                         tag = value
 
-            todos = self.todo_manager.list_todos(status=status, priority=priority, tag=tag)
+            todos = self.todo_manager.list_todos(
+                status=status, priority=priority, tag=tag
+            )
             title = "Filtered Todos" if (status or priority or tag) else "All Todos"
             self.todo_manager.display_todos(todos, title)
 
@@ -838,7 +900,9 @@ class EnhancedHanzoREPL:
             if rest:
                 todo = self.todo_manager.update_todo(rest, status="done")
                 if todo:
-                    self.console.print(f"[green]✅ Marked as done: {todo.title}[/green]")
+                    self.console.print(
+                        f"[green]✅ Marked as done: {todo.title}[/green]"
+                    )
                 else:
                     self.console.print(f"[red]Todo not found: {rest}[/red]")
             else:
@@ -894,7 +958,9 @@ class EnhancedHanzoREPL:
         elif subcommand in ["clear", "reset"]:
             # Clear all todos (with confirmation)
             try:
-                confirm = await self.session.prompt_async("Are you sure you want to delete ALL todos? (yes/no): ")
+                confirm = await self.session.prompt_async(
+                    "Are you sure you want to delete ALL todos? (yes/no): "
+                )
                 if confirm.lower() in ["yes", "y"]:
                     self.todo_manager.todos = []
                     self.todo_manager.save_todos()
@@ -912,9 +978,13 @@ class EnhancedHanzoREPL:
             # Unknown subcommand, treat as quick add
             try:
                 todo = self.todo_manager.quick_add(args)
-                self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+                self.console.print(
+                    f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]"
+                )
             except ValueError:
-                self.console.print(f"[yellow]Unknown todo command: {subcommand}[/yellow]")
+                self.console.print(
+                    f"[yellow]Unknown todo command: {subcommand}[/yellow]"
+                )
                 self.console.print("[dim]Use /todo help for available commands[/dim]")
 
     async def add_todo_interactive(self):
@@ -930,13 +1000,21 @@ class EnhancedHanzoREPL:
             description = await self.session.prompt_async("Description (optional): ")
 
             # Get priority
-            priority = await self.session.prompt_async("Priority (low/medium/high/urgent) [medium]: ")
+            priority = await self.session.prompt_async(
+                "Priority (low/medium/high/urgent) [medium]: "
+            )
             if not priority:
                 priority = "medium"
 
             # Get tags
-            tags_input = await self.session.prompt_async("Tags (comma-separated, optional): ")
-            tags = [t.strip() for t in tags_input.split(",") if t.strip()] if tags_input else []
+            tags_input = await self.session.prompt_async(
+                "Tags (comma-separated, optional): "
+            )
+            tags = (
+                [t.strip() for t in tags_input.split(",") if t.strip()]
+                if tags_input
+                else []
+            )
 
             # Get due date
             due_date = await self.session.prompt_async("Due date (optional): ")
@@ -950,7 +1028,9 @@ class EnhancedHanzoREPL:
                 due_date=due_date if due_date else None,
             )
 
-            self.console.print(f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]")
+            self.console.print(
+                f"[green]✅ Added todo: {todo.title} (ID: {todo.id})[/green]"
+            )
 
         except (KeyboardInterrupt, EOFError):
             self.console.print("[yellow]Cancelled[/yellow]")

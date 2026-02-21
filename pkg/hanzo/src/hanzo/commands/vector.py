@@ -57,8 +57,18 @@ def vector_group():
 @vector_group.command(name="create")
 @click.argument("name")
 @click.option("--region", "-r", help="Region")
-@click.option("--tier", "-t", type=click.Choice(["free", "standard", "dedicated"]), default="standard")
-@click.option("--metric", "-m", type=click.Choice(["cosine", "euclidean", "dotproduct"]), default="cosine")
+@click.option(
+    "--tier",
+    "-t",
+    type=click.Choice(["free", "standard", "dedicated"]),
+    default="standard",
+)
+@click.option(
+    "--metric",
+    "-m",
+    type=click.Choice(["cosine", "euclidean", "dotproduct"]),
+    default="cosine",
+)
 def vector_create(name: str, region: str, tier: str, metric: str):
     """Create a vector database."""
     payload = {"name": name, "tier": tier, "default_metric": metric}
@@ -103,7 +113,9 @@ def vector_list():
 
     console.print(table)
     if not dbs:
-        console.print("[dim]No vector databases found. Create one with 'hanzo vector create'[/dim]")
+        console.print(
+            "[dim]No vector databases found. Create one with 'hanzo vector create'[/dim]"
+        )
 
 
 @vector_group.command(name="describe")
@@ -163,9 +175,15 @@ def collections():
 @click.argument("name")
 @click.option("--db", "-d", default="default", help="Database name")
 @click.option("--dimension", "-dim", type=int, required=True, help="Vector dimension")
-@click.option("--metric", "-m", type=click.Choice(["cosine", "euclidean", "dotproduct"]))
-@click.option("--index-type", "-i", type=click.Choice(["hnsw", "ivf", "flat"]), default="hnsw")
-def collections_create(name: str, db: str, dimension: int, metric: str, index_type: str):
+@click.option(
+    "--metric", "-m", type=click.Choice(["cosine", "euclidean", "dotproduct"])
+)
+@click.option(
+    "--index-type", "-i", type=click.Choice(["hnsw", "ivf", "flat"]), default="hnsw"
+)
+def collections_create(
+    name: str, db: str, dimension: int, metric: str, index_type: str
+):
     """Create a vector collection.
 
     \b
@@ -267,9 +285,19 @@ def collections_delete(name: str, db: str, force: bool):
 @click.option("--from", "source", required=True, help="Source: file, jsonl, parquet")
 @click.option("--id-field", help="Field to use as ID")
 @click.option("--vector-field", default="embedding", help="Field containing vectors")
-@click.option("--embed", help="Embed text using model (e.g., openai:text-embedding-3-small)")
+@click.option(
+    "--embed", help="Embed text using model (e.g., openai:text-embedding-3-small)"
+)
 @click.option("--batch-size", "-b", default=100, help="Batch size")
-def vector_upsert(collection: str, db: str, source: str, id_field: str, vector_field: str, embed: str, batch_size: int):
+def vector_upsert(
+    collection: str,
+    db: str,
+    source: str,
+    id_field: str,
+    vector_field: str,
+    embed: str,
+    batch_size: int,
+):
     """Upsert vectors into a collection.
 
     \b
@@ -305,11 +333,15 @@ def vector_upsert(collection: str, db: str, source: str, id_field: str, vector_f
         if embed:
             payload["embed_model"] = embed
 
-        resp = _request("post", f"/v1/databases/{db}/collections/{collection}/upsert", json=payload)
+        resp = _request(
+            "post", f"/v1/databases/{db}/collections/{collection}/upsert", json=payload
+        )
         result = check_response(resp)
         total += result.get("upserted", len(batch))
         errors += result.get("errors", 0)
-        console.print(f"  Batch {i // batch_size + 1}: {result.get('upserted', len(batch))} upserted")
+        console.print(
+            f"  Batch {i // batch_size + 1}: {result.get('upserted', len(batch))} upserted"
+        )
 
     console.print(f"[green]✓[/green] Upsert complete")
     console.print(f"  Vectors: {total}")
@@ -361,7 +393,9 @@ def vector_query(
     if embed:
         payload["embed_model"] = embed
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/query", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/query", json=payload
+    )
     data = check_response(resp)
     matches = data.get("matches", data.get("results", []))
 
@@ -395,7 +429,9 @@ def vector_fetch(ids: tuple, collection: str, db: str, include_vectors: bool):
     """Fetch vectors by ID."""
     payload = {"ids": list(ids), "include_vectors": include_vectors}
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/fetch", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/fetch", json=payload
+    )
     data = check_response(resp)
     vectors = data.get("vectors", [])
 
@@ -409,7 +445,9 @@ def vector_fetch(ids: tuple, collection: str, db: str, include_vectors: bool):
         )
         if include_vectors and v.get("values"):
             dims = v["values"][:5]
-            console.print(f"  Vector: [{', '.join(f'{d:.4f}' for d in dims)}, ...] ({len(v['values'])} dims)")
+            console.print(
+                f"  Vector: [{', '.join(f'{d:.4f}' for d in dims)}, ...] ({len(v['values'])} dims)"
+            )
 
     if not vectors:
         console.print("[dim]No vectors found[/dim]")
@@ -422,7 +460,9 @@ def vector_fetch(ids: tuple, collection: str, db: str, include_vectors: bool):
 @click.option("--filter", "-f", help="Delete by filter")
 @click.option("--all", "delete_all", is_flag=True, help="Delete all vectors")
 @click.option("--force", is_flag=True)
-def vector_delete_vectors(collection: str, db: str, ids: str, filter: str, delete_all: bool, force: bool):
+def vector_delete_vectors(
+    collection: str, db: str, ids: str, filter: str, delete_all: bool, force: bool
+):
     """Delete vectors from a collection."""
     if delete_all and not force:
         from rich.prompt import Confirm
@@ -438,9 +478,13 @@ def vector_delete_vectors(collection: str, db: str, ids: str, filter: str, delet
     if delete_all:
         payload["delete_all"] = True
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/delete", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/delete", json=payload
+    )
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Deleted {data.get('deleted', 0)} vector(s) from '{collection}'")
+    console.print(
+        f"[green]✓[/green] Deleted {data.get('deleted', 0)} vector(s) from '{collection}'"
+    )
 
 
 # ============================================================================
@@ -488,13 +532,24 @@ def indexes_list(collection: str, db: str):
 @click.argument("collection")
 @click.option("--db", "-d", default="default")
 @click.option("--name", "-n", help="Index name")
-@click.option("--type", "idx_type", type=click.Choice(["hnsw", "ivf", "flat"]), default="hnsw")
-@click.option("--metric", "-m", type=click.Choice(["cosine", "euclidean", "dotproduct"]))
+@click.option(
+    "--type", "idx_type", type=click.Choice(["hnsw", "ivf", "flat"]), default="hnsw"
+)
+@click.option(
+    "--metric", "-m", type=click.Choice(["cosine", "euclidean", "dotproduct"])
+)
 @click.option("--hnsw-m", type=int, default=16, help="HNSW M parameter")
 @click.option("--hnsw-ef", type=int, default=200, help="HNSW efConstruction")
 @click.option("--ivf-nlist", type=int, default=100, help="IVF number of lists")
 def indexes_create(
-    collection: str, db: str, name: str, idx_type: str, metric: str, hnsw_m: int, hnsw_ef: int, ivf_nlist: int
+    collection: str,
+    db: str,
+    name: str,
+    idx_type: str,
+    metric: str,
+    hnsw_m: int,
+    hnsw_ef: int,
+    ivf_nlist: int,
 ):
     """Create a vector index.
 
@@ -514,7 +569,9 @@ def indexes_create(
     elif idx_type == "ivf":
         payload["parameters"] = {"nlist": ivf_nlist}
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/indexes", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/indexes", json=payload
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Index created on '{collection}'")
@@ -537,7 +594,11 @@ def indexes_rebuild(collection: str, db: str, name: str):
         payload["index_name"] = name
 
     console.print(f"[cyan]Rebuilding index for '{collection}'...[/cyan]")
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/indexes/rebuild", json=payload)
+    resp = _request(
+        "post",
+        f"/v1/databases/{db}/collections/{collection}/indexes/rebuild",
+        json=payload,
+    )
     data = check_response(resp)
     console.print(f"[green]✓[/green] Index rebuilt ({data.get('duration', '-')})")
 

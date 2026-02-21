@@ -50,9 +50,15 @@ def env_list(project: str):
     table.add_column("Variables", style="yellow")
     table.add_column("Updated", style="dim")
 
-    table.add_row("development", "[green]●[/green] active", "dev.app.hanzo.ai", "12", "2024-01-15")
-    table.add_row("staging", "[yellow]●[/yellow] idle", "staging.app.hanzo.ai", "12", "2024-01-14")
-    table.add_row("production", "[green]●[/green] active", "app.hanzo.ai", "15", "2024-01-13")
+    table.add_row(
+        "development", "[green]●[/green] active", "dev.app.hanzo.ai", "12", "2024-01-15"
+    )
+    table.add_row(
+        "staging", "[yellow]●[/yellow] idle", "staging.app.hanzo.ai", "12", "2024-01-14"
+    )
+    table.add_row(
+        "production", "[green]●[/green] active", "app.hanzo.ai", "15", "2024-01-13"
+    )
 
     console.print(table)
 
@@ -122,7 +128,9 @@ def env_vars(env: str, reveal: bool):
     table.add_column("Value", style="white")
     table.add_column("Source", style="dim")
 
-    table.add_row("DATABASE_URL", "●●●●●●●●" if not reveal else "postgres://...", "secret")
+    table.add_row(
+        "DATABASE_URL", "●●●●●●●●" if not reveal else "postgres://...", "secret"
+    )
     table.add_row("API_KEY", "●●●●●●●●" if not reveal else "sk-...", "secret")
     table.add_row("LOG_LEVEL", "debug", "config")
     table.add_row("NODE_ENV", "development", "config")

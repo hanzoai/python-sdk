@@ -26,7 +26,9 @@ def network_group():
 @click.option("--consensus", is_flag=True, help="Require consensus")
 @click.option("--timeout", "-t", type=int, default=300, help="Timeout in seconds")
 @click.pass_context
-async def dispatch(ctx, prompt: str, agents: int, model: str, mode: str, consensus: bool, timeout: int):
+async def dispatch(
+    ctx, prompt: str, agents: int, model: str, mode: str, consensus: bool, timeout: int
+):
     """Dispatch work to agent network."""
     try:
         from hanzo_network import NetworkDispatcher
@@ -389,9 +391,13 @@ def topology(ctx, json: bool):
     )
 
     if gpu_available:
-        console.print("[green]✓[/green] GPU/Accelerator detected and available for AI workloads")
+        console.print(
+            "[green]✓[/green] GPU/Accelerator detected and available for AI workloads"
+        )
         if "APPLE M" in caps.chip.upper():
-            console.print("  [dim]Apple Silicon Neural Engine available for on-device AI[/dim]")
+            console.print(
+                "  [dim]Apple Silicon Neural Engine available for on-device AI[/dim]"
+            )
     else:
         console.print("[yellow]⚠[/yellow] No GPU detected - using CPU only")
         console.print("  To enable GPU support:")
@@ -541,7 +547,9 @@ def topology_add(
         try:
             import qrcode
         except ImportError:
-            console.print("\n[yellow]QR code generation requires qrcode library[/yellow]")
+            console.print(
+                "\n[yellow]QR code generation requires qrcode library[/yellow]"
+            )
             console.print("Install with: pip install qrcode[pil]")
             return
 
@@ -692,7 +700,10 @@ def models(ctx, endpoint: str):
             models_list = [
                 model
                 for model in all_models
-                if not any(keyword in model.get("id", "").lower() for keyword in embedding_keywords)
+                if not any(
+                    keyword in model.get("id", "").lower()
+                    for keyword in embedding_keywords
+                )
             ]
 
             if models_list:
@@ -730,12 +741,16 @@ def models(ctx, endpoint: str):
                     table.add_row(str(i), model_id, tier, provider)
 
                 console.print(table)
-                console.print(f"\n[dim]Total LLMs: {len(models_list)} (embedding models filtered out)[/dim]")
+                console.print(
+                    f"\n[dim]Total LLMs: {len(models_list)} (embedding models filtered out)[/dim]"
+                )
             else:
                 console.print("[yellow]No models available on gateway[/yellow]")
         else:
             # Show static list of known models
-            console.print("[yellow]Could not fetch live models, showing known models:[/yellow]\n")
+            console.print(
+                "[yellow]Could not fetch live models, showing known models:[/yellow]\n"
+            )
             _show_static_models()
     except Exception as e:
         console.print(f"[yellow]Error fetching models: {e}[/yellow]\n")
@@ -743,7 +758,9 @@ def models(ctx, endpoint: str):
 
     console.print("\n[dim]To use a model:[/dim]")
     console.print("  [cyan]hanzo dev --model llama3-8b-instruct[/cyan]")
-    console.print("\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]")
+    console.print(
+        "\n[dim cyan]Free tier:[/dim cyan] [green]Most models available without login![/green]"
+    )
     console.print(
         "[dim cyan]Premium models:[/dim cyan] [yellow]gpt-4, claude-3-opus, o1-preview[/yellow] - [cyan]hanzo auth login[/cyan]"
     )

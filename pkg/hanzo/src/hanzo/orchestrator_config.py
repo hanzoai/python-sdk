@@ -16,7 +16,9 @@ from typing import Any, Dict, List, Optional
 from dataclasses import field, dataclass
 
 
-def check_local_node(host: str = "localhost", port: int = 4000, timeout: float = 0.5) -> bool:
+def check_local_node(
+    host: str = "localhost", port: int = 4000, timeout: float = 0.5
+) -> bool:
     """Check if hanzo-node is running locally.
 
     Args:

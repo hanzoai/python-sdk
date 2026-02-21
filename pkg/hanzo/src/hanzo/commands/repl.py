@@ -105,14 +105,18 @@ def info(ctx):
 
         if not providers:
             console.print("\n[yellow]No LLM providers configured[/yellow]")
-            console.print("Set one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, HANZO_API_KEY")
+            console.print(
+                "Set one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, HANZO_API_KEY"
+            )
 
     except ImportError:
         console.print("[red]Error:[/red] hanzo-repl not installed")
 
 
 @repl_group.command()
-@click.option("--interface", type=click.Choice(["all", "ipython", "tui", "voice"]), default="all")
+@click.option(
+    "--interface", type=click.Choice(["all", "ipython", "tui", "voice"]), default="all"
+)
 @click.pass_context
 def install_extras(ctx, interface: str):
     """Install optional REPL components."""
@@ -165,7 +169,9 @@ def exec(ctx, command: tuple, model: str):
 
     except ImportError as e:
         console.print(f"[red]Import Error:[/red] {e}")
-        console.print("[yellow]Note:[/yellow] hanzo-repl may not be installed correctly")
+        console.print(
+            "[yellow]Note:[/yellow] hanzo-repl may not be installed correctly"
+        )
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 

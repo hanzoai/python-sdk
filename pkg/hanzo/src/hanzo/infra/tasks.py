@@ -22,13 +22,21 @@ class TasksConfig(BaseModel):
     host: str = Field(default="localhost", description="Temporal server host")
     port: int = Field(default=7233, description="Temporal server port")
     namespace: str = Field(default="default", description="Temporal namespace")
-    target: Optional[str] = Field(default=None, description="Full target address (overrides host/port)")
+    target: Optional[str] = Field(
+        default=None, description="Full target address (overrides host/port)"
+    )
     tls: bool = Field(default=False, description="Use TLS")
-    tls_cert_path: Optional[str] = Field(default=None, description="Path to TLS certificate")
+    tls_cert_path: Optional[str] = Field(
+        default=None, description="Path to TLS certificate"
+    )
     tls_key_path: Optional[str] = Field(default=None, description="Path to TLS key")
-    api_key: Optional[str] = Field(default=None, description="API key for Temporal Cloud")
+    api_key: Optional[str] = Field(
+        default=None, description="API key for Temporal Cloud"
+    )
     identity: str = Field(default="hanzo-client", description="Client identity")
-    data_converter: Optional[str] = Field(default=None, description="Custom data converter class")
+    data_converter: Optional[str] = Field(
+        default=None, description="Custom data converter class"
+    )
 
     @classmethod
     def from_env(cls) -> TasksConfig:
@@ -179,7 +187,9 @@ class TasksClient:
         try:
             from temporalio.client import Client, TLSConfig
         except ImportError as e:
-            raise ImportError("temporalio is required for TasksClient. Install with: pip install temporalio") from e
+            raise ImportError(
+                "temporalio is required for TasksClient. Install with: pip install temporalio"
+            ) from e
 
         connect_kwargs: dict[str, Any] = {
             "target_host": self.config.effective_target,
@@ -281,7 +291,9 @@ class TasksClient:
             "arg": args,
             "id": id or f"{workflow}-{uuid.uuid4().hex[:8]}",
             "task_queue": task_queue,
-            "id_reuse_policy": policy_map.get(id_reuse_policy, WorkflowIDReusePolicy.ALLOW_DUPLICATE),
+            "id_reuse_policy": policy_map.get(
+                id_reuse_policy, WorkflowIDReusePolicy.ALLOW_DUPLICATE
+            ),
         }
 
         if execution_timeout:
@@ -299,8 +311,12 @@ class TasksClient:
 
         if retry_policy:
             start_kwargs["retry_policy"] = RetryPolicy(
-                initial_interval=timedelta(seconds=retry_policy.get("initial_interval", 1)),
-                maximum_interval=timedelta(seconds=retry_policy.get("maximum_interval", 100)),
+                initial_interval=timedelta(
+                    seconds=retry_policy.get("initial_interval", 1)
+                ),
+                maximum_interval=timedelta(
+                    seconds=retry_policy.get("maximum_interval", 100)
+                ),
                 backoff_coefficient=retry_policy.get("backoff_coefficient", 2.0),
                 maximum_attempts=retry_policy.get("maximum_attempts", 0),
             )
@@ -379,7 +395,9 @@ class TasksClient:
                 start_time=wf.start_time,
                 close_time=wf.close_time,
                 memo=dict(wf.memo) if wf.memo else {},
-                search_attributes=dict(wf.search_attributes) if wf.search_attributes else {},
+                search_attributes=(
+                    dict(wf.search_attributes) if wf.search_attributes else {}
+                ),
             )
 
     async def count_workflows(self, query: str = "") -> int:
@@ -444,7 +462,9 @@ class TasksClient:
             specs.append(ScheduleSpec(calendars=[ScheduleCalendarSpec(**calendar)]))
 
         if not specs:
-            raise ValueError("At least one of cron, interval, or calendar must be specified")
+            raise ValueError(
+                "At least one of cron, interval, or calendar must be specified"
+            )
 
         schedule_spec = (
             specs[0]

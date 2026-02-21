@@ -57,7 +57,9 @@ def jobs_group():
 @click.option("--priority", type=int, default=5, help="Priority (1-10)")
 @click.option("--delay", "-d", help="Delay before execution (e.g., 5m, 1h)")
 @click.option("--wait", "-w", is_flag=True, help="Wait for completion")
-def jobs_run(name: str, payload: str, queue: str, priority: int, delay: str, wait: bool):
+def jobs_run(
+    name: str, payload: str, queue: str, priority: int, delay: str, wait: bool
+):
     """Run a background job."""
     body = {"name": name, "queue": queue, "priority": priority}
     if payload:
@@ -88,7 +90,12 @@ def jobs_run(name: str, payload: str, queue: str, priority: int, delay: str, wai
 
 
 @jobs_group.command(name="list")
-@click.option("--status", "-s", type=click.Choice(["pending", "active", "completed", "failed", "all"]), default="all")
+@click.option(
+    "--status",
+    "-s",
+    type=click.Choice(["pending", "active", "completed", "failed", "all"]),
+    default="all",
+)
 @click.option("--queue", "-q", help="Filter by queue")
 @click.option("--limit", "-n", default=20, help="Max results")
 def jobs_list(status: str, queue: str, limit: int):
@@ -154,7 +161,9 @@ def jobs_logs(job_id: str, follow: bool, tail: int):
             ts = str(line.get("timestamp", ""))[:19]
             level = line.get("level", "info")
             msg = line.get("message", "")
-            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            style = (
+                "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            )
             console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
         else:
             console.print(str(line))
@@ -234,7 +243,9 @@ def cron():
 
 
 @cron.command(name="list")
-@click.option("--status", "-s", type=click.Choice(["active", "paused", "all"]), default="all")
+@click.option(
+    "--status", "-s", type=click.Choice(["active", "paused", "all"]), default="all"
+)
 def cron_list(status: str):
     """List cron schedules."""
     params = {}
@@ -265,12 +276,16 @@ def cron_list(status: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No cron schedules found. Create one with 'hanzo jobs cron create'[/dim]")
+        console.print(
+            "[dim]No cron schedules found. Create one with 'hanzo jobs cron create'[/dim]"
+        )
 
 
 @cron.command(name="create")
 @click.argument("name")
-@click.option("--schedule", "-s", required=True, help="Cron expression (e.g., '0 * * * *')")
+@click.option(
+    "--schedule", "-s", required=True, help="Cron expression (e.g., '0 * * * *')"
+)
 @click.option("--job", "-j", required=True, help="Job name to run")
 @click.option("--payload", "-p", help="JSON payload")
 @click.option("--timezone", "-tz", default="UTC", help="Timezone")

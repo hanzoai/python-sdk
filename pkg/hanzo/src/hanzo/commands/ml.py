@@ -92,7 +92,9 @@ def notebooks_list():
 
     console.print(table)
     if not items:
-        console.print("[dim]No notebooks found. Create one with 'hanzo ml notebooks create'[/dim]")
+        console.print(
+            "[dim]No notebooks found. Create one with 'hanzo ml notebooks create'[/dim]"
+        )
 
 
 @notebooks.command(name="create")
@@ -158,7 +160,11 @@ def training():
 
 
 @training.command(name="list")
-@click.option("--status", type=click.Choice(["running", "completed", "failed", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["running", "completed", "failed", "all"]),
+    default="all",
+)
 def training_list(status: str):
     """List training jobs."""
     params = {}
@@ -179,7 +185,9 @@ def training_list(status: str):
 
     for j in items:
         j_status = j.get("status", "unknown")
-        status_style = {"running": "cyan", "completed": "green", "failed": "red"}.get(j_status, "white")
+        status_style = {"running": "cyan", "completed": "green", "failed": "red"}.get(
+            j_status, "white"
+        )
         table.add_row(
             str(j.get("id", ""))[:16],
             j.get("name", "-"),
@@ -196,13 +204,24 @@ def training_list(status: str):
 
 @training.command(name="create")
 @click.option("--name", "-n", prompt=True, help="Job name")
-@click.option("--framework", "-f", type=click.Choice(["pytorch", "tensorflow", "xgboost"]), default="pytorch")
+@click.option(
+    "--framework",
+    "-f",
+    type=click.Choice(["pytorch", "tensorflow", "xgboost"]),
+    default="pytorch",
+)
 @click.option("--script", "-s", required=True, help="Training script path")
 @click.option("--gpu", "-g", default="1", help="Number of GPUs")
 @click.option("--instance", "-i", default="gpu-a10g", help="Instance type")
 def training_create(name: str, framework: str, script: str, gpu: str, instance: str):
     """Create a training job."""
-    body = {"name": name, "framework": framework, "script": script, "gpu": gpu, "instance": instance}
+    body = {
+        "name": name,
+        "framework": framework,
+        "script": script,
+        "gpu": gpu,
+        "instance": instance,
+    }
 
     console.print(f"[cyan]Creating training job '{name}'...[/cyan]")
     resp = _request("post", "/v1/training", json=body)
@@ -231,7 +250,9 @@ def training_logs(job_id: str, follow: bool):
     console.print(f"[cyan]Logs for job {job_id}:[/cyan]")
     for line in lines:
         if isinstance(line, dict):
-            console.print(f"[dim]{str(line.get('timestamp', ''))[:19]}[/dim] {line.get('message', '')}")
+            console.print(
+                f"[dim]{str(line.get('timestamp', ''))[:19]}[/dim] {line.get('message', '')}"
+            )
         else:
             console.print(str(line))
 
@@ -295,7 +316,9 @@ def pipelines_create(name: str, file: str):
     with open(file) as f:
         definition = json.load(f)
 
-    resp = _request("post", "/v1/pipelines", json={"name": name, "definition": definition})
+    resp = _request(
+        "post", "/v1/pipelines", json={"name": name, "definition": definition}
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Pipeline '{name}' created from {file}")
@@ -431,7 +454,11 @@ def registry_list(model: str):
 
     for m in items:
         stage = m.get("stage", "none")
-        style = "green" if stage == "production" else "yellow" if stage == "staging" else "dim"
+        style = (
+            "green"
+            if stage == "production"
+            else "yellow" if stage == "staging" else "dim"
+        )
         table.add_row(
             m.get("name", ""),
             str(m.get("version", "-")),
@@ -471,17 +498,23 @@ def registry_push(name: str, path: str, framework: str, version: str):
 def registry_pull(model_uri: str, output: str):
     """Pull a model from the registry."""
     console.print(f"[cyan]Pulling model {model_uri}...[/cyan]")
-    resp = _request("post", "/v1/registry/pull", json={"uri": model_uri, "output": output})
+    resp = _request(
+        "post", "/v1/registry/pull", json={"uri": model_uri, "output": output}
+    )
     data = check_response(resp)
     console.print(f"[green]✓[/green] Model downloaded to {data.get('path', output)}")
 
 
 @registry.command(name="promote")
 @click.argument("model_uri")
-@click.option("--stage", "-s", type=click.Choice(["staging", "production"]), required=True)
+@click.option(
+    "--stage", "-s", type=click.Choice(["staging", "production"]), required=True
+)
 def registry_promote(model_uri: str, stage: str):
     """Promote a model version to a stage."""
-    resp = _request("post", "/v1/registry/promote", json={"uri": model_uri, "stage": stage})
+    resp = _request(
+        "post", "/v1/registry/promote", json={"uri": model_uri, "stage": stage}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Model promoted to {stage}")
 
@@ -545,7 +578,11 @@ def experiments_list(namespace: str):
 
 @experiments.command(name="runs")
 @click.argument("experiment")
-@click.option("--status", type=click.Choice(["running", "completed", "failed", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["running", "completed", "failed", "all"]),
+    default="all",
+)
 def experiments_runs(experiment: str, status: str):
     """List runs in an experiment."""
     params = {}
@@ -564,8 +601,14 @@ def experiments_runs(experiment: str, status: str):
 
     for r in items:
         r_status = r.get("status", "unknown")
-        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(r_status, "white")
-        metrics = json.dumps(r.get("metrics", {}), default=str)[:40] if r.get("metrics") else "-"
+        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(
+            r_status, "white"
+        )
+        metrics = (
+            json.dumps(r.get("metrics", {}), default=str)[:40]
+            if r.get("metrics")
+            else "-"
+        )
         table.add_row(
             str(r.get("id", ""))[:16],
             f"[{style}]{r_status}[/{style}]",
@@ -631,16 +674,27 @@ def tune():
 @click.argument("name")
 @click.option("--experiment", "-e", required=True, help="Parent experiment")
 @click.option("--objective", "-o", required=True, help="Metric to optimize")
-@click.option("--goal", "-g", type=click.Choice(["minimize", "maximize"]), default="minimize")
 @click.option(
-    "--algorithm", "-a", type=click.Choice(["random", "grid", "bayesian", "hyperband", "tpe"]), default="bayesian"
+    "--goal", "-g", type=click.Choice(["minimize", "maximize"]), default="minimize"
+)
+@click.option(
+    "--algorithm",
+    "-a",
+    type=click.Choice(["random", "grid", "bayesian", "hyperband", "tpe"]),
+    default="bayesian",
 )
 @click.option("--max-trials", "-m", default=10, help="Maximum trials")
 @click.option("--parallel-trials", "-p", default=2, help="Parallel trials")
 @click.option("--config", "-c", help="Tuning config file (YAML)")
 def tune_create(
-    name: str, experiment: str, objective: str, goal: str, algorithm: str,
-    max_trials: int, parallel_trials: int, config: str,
+    name: str,
+    experiment: str,
+    objective: str,
+    goal: str,
+    algorithm: str,
+    max_trials: int,
+    parallel_trials: int,
+    config: str,
 ):
     """Create a hyperparameter tuning job.
 
@@ -651,8 +705,12 @@ def tune_create(
       hanzo ml tune create custom -e exp -o f1 -c tuning.yaml
     """
     body = {
-        "name": name, "experiment": experiment, "objective": objective,
-        "goal": goal, "algorithm": algorithm, "max_trials": max_trials,
+        "name": name,
+        "experiment": experiment,
+        "objective": objective,
+        "goal": goal,
+        "algorithm": algorithm,
+        "max_trials": max_trials,
         "parallel_trials": parallel_trials,
     }
     if config:
@@ -692,7 +750,9 @@ def tune_list(experiment: str):
 
     for j in items:
         j_status = j.get("status", "unknown")
-        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(j_status, "white")
+        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(
+            j_status, "white"
+        )
         table.add_row(
             j.get("name", ""),
             j.get("algorithm", "-"),
@@ -847,12 +907,16 @@ def features_describe(name: str):
 
 @features.command(name="ingest")
 @click.argument("name")
-@click.option("--from", "source", required=True, help="Data source (file, table, stream)")
+@click.option(
+    "--from", "source", required=True, help="Data source (file, table, stream)"
+)
 @click.option("--mode", type=click.Choice(["append", "overwrite"]), default="append")
 def features_ingest(name: str, source: str, mode: str):
     """Ingest data into feature group."""
     console.print(f"[cyan]Ingesting into '{name}'...[/cyan]")
-    resp = _request("post", f"/v1/features/{name}/ingest", json={"source": source, "mode": mode})
+    resp = _request(
+        "post", f"/v1/features/{name}/ingest", json={"source": source, "mode": mode}
+    )
     data = check_response(resp)
     console.print(f"[green]✓[/green] Ingestion complete")
     console.print(f"  Records: {data.get('records', 0)}")
@@ -916,7 +980,12 @@ def datasets():
 @datasets.command(name="create")
 @click.argument("name")
 @click.option("--from", "source", required=True, help="Source path or URI")
-@click.option("--format", "fmt", type=click.Choice(["csv", "parquet", "tfrecord", "jsonl"]), help="Data format")
+@click.option(
+    "--format",
+    "fmt",
+    type=click.Choice(["csv", "parquet", "tfrecord", "jsonl"]),
+    help="Data format",
+)
 @click.option("--split", help="Train/val/test split (e.g., 80:10:10)")
 def datasets_create(name: str, source: str, fmt: str, split: str):
     """Create a versioned dataset."""
@@ -1005,11 +1074,15 @@ def automl():
 @click.option("--dataset", "-d", required=True, help="Training dataset")
 @click.option("--target", "-t", required=True, help="Target column")
 @click.option(
-    "--task", type=click.Choice(["classification", "regression", "forecasting", "nlp", "vision"]), required=True
+    "--task",
+    type=click.Choice(["classification", "regression", "forecasting", "nlp", "vision"]),
+    required=True,
 )
 @click.option("--time-limit", default=3600, help="Time limit in seconds")
 @click.option("--metric", "-m", help="Optimization metric")
-def automl_create(name: str, dataset: str, target: str, task: str, time_limit: int, metric: str):
+def automl_create(
+    name: str, dataset: str, target: str, task: str, time_limit: int, metric: str
+):
     """Create an AutoML job.
 
     \b
@@ -1018,7 +1091,13 @@ def automl_create(name: str, dataset: str, target: str, task: str, time_limit: i
       hanzo ml automl create sales-forecast -d sales -t revenue --task forecasting
       hanzo ml automl create sentiment -d reviews -t label --task nlp --time-limit 7200
     """
-    body = {"name": name, "dataset": dataset, "target": target, "task": task, "time_limit": time_limit}
+    body = {
+        "name": name,
+        "dataset": dataset,
+        "target": target,
+        "task": task,
+        "time_limit": time_limit,
+    }
     if metric:
         body["metric"] = metric
 
@@ -1050,7 +1129,9 @@ def automl_list():
 
     for j in items:
         j_status = j.get("status", "unknown")
-        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(j_status, "white")
+        style = {"running": "cyan", "completed": "green", "failed": "red"}.get(
+            j_status, "white"
+        )
         table.add_row(
             j.get("name", ""),
             j.get("task", "-"),
@@ -1072,7 +1153,9 @@ def automl_status(name: str):
     data = check_response(resp)
 
     status = data.get("status", "unknown")
-    status_style = {"running": "cyan", "completed": "green", "failed": "red"}.get(status, "yellow")
+    status_style = {"running": "cyan", "completed": "green", "failed": "red"}.get(
+        status, "yellow"
+    )
 
     console.print(
         Panel(
