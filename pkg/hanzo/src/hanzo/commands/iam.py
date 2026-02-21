@@ -27,7 +27,9 @@ def _get_iam_url() -> str:
 def _get_iam_credentials() -> tuple[str, str]:
     """Get client_id and client_secret from env or defaults."""
     client_id = os.getenv("IAM_CLIENT_ID", os.getenv("HANZO_IAM_CLIENT_ID", ""))
-    client_secret = os.getenv("IAM_CLIENT_SECRET", os.getenv("HANZO_IAM_CLIENT_SECRET", ""))
+    client_secret = os.getenv(
+        "IAM_CLIENT_SECRET", os.getenv("HANZO_IAM_CLIENT_SECRET", "")
+    )
     if not client_id or not client_secret:
         # Try loading from auth file
         from pathlib import Path
@@ -44,7 +46,11 @@ def _get_iam_credentials() -> tuple[str, str]:
 
 
 def _iam_request(
-    method: str, path: str, params: dict | None = None, json_body: dict | None = None, auth_params: bool = True
+    method: str,
+    path: str,
+    params: dict | None = None,
+    json_body: dict | None = None,
+    auth_params: bool = True,
 ) -> dict:
     """Make authenticated request to IAM API."""
     url = _get_iam_url().rstrip("/") + path
@@ -173,7 +179,9 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
     if not client_id:
         client_id = Prompt.ask("Client ID", default=auth.get("iam_client_id", ""))
     if not client_secret:
-        client_secret = Prompt.ask("Client Secret", password=True, default=auth.get("iam_client_secret", ""))
+        client_secret = Prompt.ask(
+            "Client Secret", password=True, default=auth.get("iam_client_secret", "")
+        )
 
     auth["iam_url"] = url
     auth["iam_client_id"] = client_id
@@ -194,9 +202,14 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
         if data.get("status") != "error":
             console.print("[green]✓[/green] Connected to IAM successfully")
         else:
-            console.print("[yellow]⚠[/yellow] Connected but got error: " + data.get("msg", "unknown"))
+            console.print(
+                "[yellow]⚠[/yellow] Connected but got error: "
+                + data.get("msg", "unknown")
+            )
     except SystemExit:
-        console.print("[yellow]⚠[/yellow] Could not verify connection (credentials saved anyway)")
+        console.print(
+            "[yellow]⚠[/yellow] Could not verify connection (credentials saved anyway)"
+        )
 
 
 @iam_group.command(name="status")
@@ -210,8 +223,13 @@ def iam_status():
     table.add_column("Value", style="white")
 
     table.add_row("IAM URL", url)
-    table.add_row("Client ID", client_id[:12] + "..." if client_id else "[red]Not set[/red]")
-    table.add_row("Client Secret", "****" + client_secret[-4:] if client_secret else "[red]Not set[/red]")
+    table.add_row(
+        "Client ID", client_id[:12] + "..." if client_id else "[red]Not set[/red]"
+    )
+    table.add_row(
+        "Client Secret",
+        "****" + client_secret[-4:] if client_secret else "[red]Not set[/red]",
+    )
 
     if client_id and client_secret:
         try:
@@ -304,9 +322,13 @@ def users_get(username: str, org: str):
     if user.get("roles"):
         lines.append(f"[cyan]Roles:[/cyan] {', '.join(str(r) for r in user['roles'])}")
     if user.get("groups"):
-        lines.append(f"[cyan]Groups:[/cyan] {', '.join(str(g) for g in user['groups'])}")
+        lines.append(
+            f"[cyan]Groups:[/cyan] {', '.join(str(g) for g in user['groups'])}"
+        )
 
-    console.print(Panel("\n".join(lines), title=f"User: {username}", border_style="cyan"))
+    console.print(
+        Panel("\n".join(lines), title=f"User: {username}", border_style="cyan")
+    )
 
 
 @users.command(name="create")
@@ -317,7 +339,15 @@ def users_get(username: str, org: str):
 @click.option("--phone", help="Phone number")
 @click.option("--org", "-o", default="hanzo", help="Organization")
 @click.option("--admin", is_flag=True, help="Make admin")
-def users_create(username: str, email: str, password: str, name: str, phone: str, org: str, admin: bool):
+def users_create(
+    username: str,
+    email: str,
+    password: str,
+    name: str,
+    phone: str,
+    org: str,
+    admin: bool,
+):
     """Create a new user."""
     user_obj = {
         "owner": org,
@@ -355,7 +385,9 @@ def users_create(username: str, email: str, password: str, name: str, phone: str
                 if resp.status_code == 200 and resp.json().get("status") == "ok":
                     console.print("[green]✓[/green] Password set")
                 else:
-                    console.print(f"[yellow]⚠[/yellow] Password may not have been set: {resp.json().get('msg', '')}")
+                    console.print(
+                        f"[yellow]⚠[/yellow] Password may not have been set: {resp.json().get('msg', '')}"
+                    )
         except Exception as e:
             console.print(f"[yellow]⚠[/yellow] Could not set password: {e}")
 
@@ -370,7 +402,14 @@ def users_create(username: str, email: str, password: str, name: str, phone: str
 @click.option("--forbidden/--no-forbidden", default=None, help="Ban/unban user")
 @click.option("--org", "-o", default="hanzo", help="Organization")
 def users_update(
-    username: str, email: str, name: str, phone: str, password: str, admin: bool, forbidden: bool, org: str
+    username: str,
+    email: str,
+    name: str,
+    phone: str,
+    password: str,
+    admin: bool,
+    forbidden: bool,
+    org: str,
 ):
     """Update user fields."""
     # First get existing user
@@ -394,7 +433,12 @@ def users_update(
     if forbidden is not None:
         user_obj["isForbidden"] = forbidden
 
-    data = _iam_request("POST", "/api/update-user", params={"id": f"{org}/{username}"}, json_body=user_obj)
+    data = _iam_request(
+        "POST",
+        "/api/update-user",
+        params={"id": f"{org}/{username}"},
+        json_body=user_obj,
+    )
     _check_response(data, "update user")
 
     console.print(f"[green]✓[/green] User '{username}' updated")
@@ -417,7 +461,9 @@ def users_update(
                 if resp.status_code == 200 and resp.json().get("status") == "ok":
                     console.print("[green]✓[/green] Password updated")
                 else:
-                    console.print(f"[yellow]⚠[/yellow] Password update issue: {resp.json().get('msg', '')}")
+                    console.print(
+                        f"[yellow]⚠[/yellow] Password update issue: {resp.json().get('msg', '')}"
+                    )
         except Exception as e:
             console.print(f"[yellow]⚠[/yellow] Could not update password: {e}")
 
@@ -519,7 +565,9 @@ def orgs_get(name: str):
         f"[cyan]Created:[/cyan] {org.get('createdTime', '')}",
     ]
 
-    console.print(Panel("\n".join(lines), title=f"Organization: {name}", border_style="cyan"))
+    console.print(
+        Panel("\n".join(lines), title=f"Organization: {name}", border_style="cyan")
+    )
 
 
 @orgs.command(name="create")
@@ -550,7 +598,9 @@ def orgs_delete(name: str, yes: bool):
     if not yes:
         from rich.prompt import Confirm
 
-        if not Confirm.ask(f"[red]Delete organization '{name}'? This cannot be undone.[/red]"):
+        if not Confirm.ask(
+            f"[red]Delete organization '{name}'? This cannot be undone.[/red]"
+        ):
             return
 
     org_obj = {"owner": "admin", "name": name}
@@ -627,7 +677,9 @@ def providers_get(name: str, owner: str):
         f"[cyan]Created:[/cyan] {prov.get('createdTime', '')}",
     ]
 
-    console.print(Panel("\n".join(lines), title=f"Provider: {name}", border_style="cyan"))
+    console.print(
+        Panel("\n".join(lines), title=f"Provider: {name}", border_style="cyan")
+    )
 
 
 @providers.command(name="create")
@@ -662,7 +714,13 @@ def providers_get(name: str, owner: str):
 @click.option("--scopes", help="OAuth scopes")
 @click.option("--owner", default="admin", help="Provider owner")
 def providers_create(
-    name: str, ptype: str, display_name: str, client_id: str, client_secret: str, scopes: str, owner: str
+    name: str,
+    ptype: str,
+    display_name: str,
+    client_id: str,
+    client_secret: str,
+    scopes: str,
+    owner: str,
 ):
     """Create an authentication provider."""
     prov_obj = {
@@ -737,7 +795,11 @@ def apps_list(org: str):
             a.get("name", ""),
             a.get("displayName", ""),
             a.get("organization", ""),
-            a.get("clientId", "")[:20] + "..." if len(a.get("clientId", "")) > 20 else a.get("clientId", ""),
+            (
+                a.get("clientId", "")[:20] + "..."
+                if len(a.get("clientId", "")) > 20
+                else a.get("clientId", "")
+            ),
             str(providers_count),
         )
 
@@ -788,7 +850,9 @@ def apps_get(name: str, org: str):
             required = s.get("required", False) if isinstance(s, dict) else False
             lines.append(f"  - {sname} {'(required)' if required else '(optional)'}")
 
-    console.print(Panel("\n".join(lines), title=f"Application: {name}", border_style="cyan"))
+    console.print(
+        Panel("\n".join(lines), title=f"Application: {name}", border_style="cyan")
+    )
 
 
 # ============================================================================
@@ -1048,7 +1112,9 @@ def tokens_inspect(token: str):
             token = auth.get("token", "")
 
     if not token:
-        console.print("[red]No token provided and none found in ~/.hanzo/auth.json[/red]")
+        console.print(
+            "[red]No token provided and none found in ~/.hanzo/auth.json[/red]"
+        )
         return
 
     parts = token.split(".")
@@ -1081,14 +1147,18 @@ def tokens_inspect(token: str):
                 console.print(f"\n[red]Token EXPIRED at {exp}[/red]")
             else:
                 delta = exp - now
-                console.print(f"\n[green]Token valid until {exp} ({delta} remaining)[/green]")
+                console.print(
+                    f"\n[green]Token valid until {exp} ({delta} remaining)[/green]"
+                )
     except Exception:
         pass
 
 
 @tokens.command(name="exchange")
 @click.argument("code")
-@click.option("--redirect-uri", "-r", default="", help="Redirect URI used in authorization")
+@click.option(
+    "--redirect-uri", "-r", default="", help="Redirect URI used in authorization"
+)
 def tokens_exchange(code: str, redirect_uri: str):
     """Exchange authorization code for access token."""
     client_id, client_secret = _get_iam_credentials()

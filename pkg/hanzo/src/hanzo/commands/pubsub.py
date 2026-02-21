@@ -89,7 +89,9 @@ def topics_list(project: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No topics found. Create one with 'hanzo pubsub topics create'[/dim]")
+        console.print(
+            "[dim]No topics found. Create one with 'hanzo pubsub topics create'[/dim]"
+        )
 
 
 @topics.command(name="create")
@@ -200,7 +202,9 @@ def subs_list(topic: str):
 @click.option("--push-endpoint", help="Push endpoint URL")
 @click.option("--ack-deadline", "-a", default=10, help="Ack deadline in seconds")
 @click.option("--filter", "-f", help="Message filter expression")
-def subs_create(name: str, topic: str, push_endpoint: str, ack_deadline: int, filter: str):
+def subs_create(
+    name: str, topic: str, push_endpoint: str, ack_deadline: int, filter: str
+):
     """Create a subscription."""
     payload = {"name": name, "topic": topic, "ack_deadline": ack_deadline}
     if push_endpoint:
@@ -308,7 +312,11 @@ def pull(subscription: str, max_messages: int, wait: bool, auto_ack: bool):
     if auto_ack and messages:
         ack_ids = [m.get("ack_id") for m in messages if m.get("ack_id")]
         if ack_ids:
-            _request("post", f"/v1/subscriptions/{subscription}/ack", json={"ack_ids": ack_ids})
+            _request(
+                "post",
+                f"/v1/subscriptions/{subscription}/ack",
+                json={"ack_ids": ack_ids},
+            )
             console.print(f"[dim]Auto-acknowledged {len(ack_ids)} message(s)[/dim]")
 
     if not messages:
@@ -317,10 +325,14 @@ def pull(subscription: str, max_messages: int, wait: bool, auto_ack: bool):
 
 @pubsub_group.command()
 @click.argument("subscription")
-@click.option("--ack-ids", "-a", multiple=True, required=True, help="Ack IDs to acknowledge")
+@click.option(
+    "--ack-ids", "-a", multiple=True, required=True, help="Ack IDs to acknowledge"
+)
 def ack(subscription: str, ack_ids: tuple):
     """Acknowledge messages."""
-    resp = _request("post", f"/v1/subscriptions/{subscription}/ack", json={"ack_ids": list(ack_ids)})
+    resp = _request(
+        "post", f"/v1/subscriptions/{subscription}/ack", json={"ack_ids": list(ack_ids)}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Acknowledged {len(ack_ids)} message(s)")
 
@@ -344,9 +356,13 @@ def seek(subscription: str, time: str, snapshot: str):
     check_response(resp)
 
     if time:
-        console.print(f"[green]✓[/green] Subscription '{subscription}' seeked to {time}")
+        console.print(
+            f"[green]✓[/green] Subscription '{subscription}' seeked to {time}"
+        )
     else:
-        console.print(f"[green]✓[/green] Subscription '{subscription}' seeked to snapshot '{snapshot}'")
+        console.print(
+            f"[green]✓[/green] Subscription '{subscription}' seeked to snapshot '{snapshot}'"
+        )
 
 
 # ============================================================================
@@ -391,7 +407,9 @@ def snapshots_list():
 @click.option("--subscription", "-s", required=True, help="Subscription to snapshot")
 def snapshots_create(name: str, subscription: str):
     """Create a snapshot of a subscription."""
-    resp = _request("post", "/v1/snapshots", json={"name": name, "subscription": subscription})
+    resp = _request(
+        "post", "/v1/snapshots", json={"name": name, "subscription": subscription}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Snapshot '{name}' created from '{subscription}'")
 

@@ -241,8 +241,14 @@ def install_list(installed: bool, available: bool):
             is_installed = shutil.which(binary) is not None
             if is_installed:
                 try:
-                    result = subprocess.run([binary, "--version"], capture_output=True, text=True, timeout=5)
-                    version = result.stdout.strip().split()[-1] if result.returncode == 0 else "?"
+                    result = subprocess.run(
+                        [binary, "--version"], capture_output=True, text=True, timeout=5
+                    )
+                    version = (
+                        result.stdout.strip().split()[-1]
+                        if result.returncode == 0
+                        else "?"
+                    )
                 except Exception:
                     version = "?"
 
@@ -251,7 +257,14 @@ def install_list(installed: bool, available: bool):
         if available and is_installed:
             continue
 
-        table.add_row(tool_id, tool["name"], tool["language"], tool["source"], "✓" if is_installed else "", version)
+        table.add_row(
+            tool_id,
+            tool["name"],
+            tool["language"],
+            tool["source"],
+            "✓" if is_installed else "",
+            version,
+        )
 
     console.print(table)
 
@@ -426,7 +439,9 @@ def _install_github_release(tool: dict, version: str, force: bool):
             break
 
     if not download_url:
-        console.print(f"[yellow]No pre-built binary found, building from source...[/yellow]")
+        console.print(
+            f"[yellow]No pre-built binary found, building from source...[/yellow]"
+        )
         _install_cargo(tool, version, force)
         return
 
@@ -767,7 +782,9 @@ def install_doctor():
 
     for name, cmd, required in checks:
         try:
-            result = subprocess.run(cmd.split(), capture_output=True, text=True, timeout=5)
+            result = subprocess.run(
+                cmd.split(), capture_output=True, text=True, timeout=5
+            )
             if result.returncode == 0:
                 version = result.stdout.strip().split()[-1]
                 console.print(f"  [green]✓[/green] {name}: {version}")
@@ -912,19 +929,25 @@ def install_ide(target: str, install_all: bool, list_only: bool):
                     try:
                         with open(config_path) as f:
                             config = json.load(f)
-                        has_hanzo = "hanzo" in config.get("mcpServers", {}) or "hanzo-mcp" in config.get(
+                        has_hanzo = "hanzo" in config.get(
                             "mcpServers", {}
-                        )
+                        ) or "hanzo-mcp" in config.get("mcpServers", {})
                         status = (
-                            "[green]✓ hanzo-mcp configured[/green]" if has_hanzo else "[yellow]○ no hanzo-mcp[/yellow]"
+                            "[green]✓ hanzo-mcp configured[/green]"
+                            if has_hanzo
+                            else "[yellow]○ no hanzo-mcp[/yellow]"
                         )
                     except Exception:
                         status = "[dim]○ config exists[/dim]"
                     console.print(f"  [green]✓[/green] {app_name}: {status}")
                 elif parent_exists:
-                    console.print(f"  [yellow]○[/yellow] {app_name}: [dim]app installed, no MCP config[/dim]")
+                    console.print(
+                        f"  [yellow]○[/yellow] {app_name}: [dim]app installed, no MCP config[/dim]"
+                    )
                 else:
-                    console.print(f"  [dim]○[/dim] {app_name}: [dim]not installed[/dim]")
+                    console.print(
+                        f"  [dim]○[/dim] {app_name}: [dim]not installed[/dim]"
+                    )
 
         console.print()
         console.print("[dim]Run: hanzo install ide <name> to configure[/dim]")
@@ -978,7 +1001,9 @@ def install_ide(target: str, install_all: bool, list_only: bool):
 
 @install_group.command(name="browser")
 @click.argument("browser", required=False)
-@click.option("--list", "list_only", is_flag=True, help="List browser extension install URLs")
+@click.option(
+    "--list", "list_only", is_flag=True, help="List browser extension install URLs"
+)
 def install_browser(browser: str, list_only: bool):
     """Install Hanzo browser extension.
 
@@ -1075,7 +1100,9 @@ def install_ai(app: str, list_only: bool):
     from click import Context
 
     ctx = Context(install_ide)
-    ctx.invoke(install_ide, target=app, install_all=False, list_only=list_only or not app)
+    ctx.invoke(
+        install_ide, target=app, install_all=False, list_only=list_only or not app
+    )
 
 
 @install_group.command(name="all")
@@ -1167,7 +1194,9 @@ NANOBROWSER_PATH = Path.home() / "work" / "nanobrowser" / "nanobrowser"
 @install_group.command(name="nanobrowser")
 @click.option("--build", "-b", is_flag=True, help="Build from source")
 @click.option("--dev", is_flag=True, help="Run in development mode")
-@click.option("--open", "open_browser", is_flag=True, help="Open Chrome with extension loaded")
+@click.option(
+    "--open", "open_browser", is_flag=True, help="Open Chrome with extension loaded"
+)
 def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
     """Install/build Nanobrowser - lightweight AI browser for agents.
 
@@ -1198,7 +1227,9 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
         console.print(f"Expected at: {nanobrowser_dir}")
         console.print()
         console.print("Clone it with:")
-        console.print(f"  git clone https://github.com/nanobrowser/nanobrowser {nanobrowser_dir}")
+        console.print(
+            f"  git clone https://github.com/nanobrowser/nanobrowser {nanobrowser_dir}"
+        )
         return
 
     dist_dir = nanobrowser_dir / "dist"
@@ -1208,7 +1239,12 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
 
         # Install dependencies
         console.print("  Installing dependencies...")
-        result = subprocess.run(["pnpm", "install"], cwd=str(nanobrowser_dir), capture_output=True, text=True)
+        result = subprocess.run(
+            ["pnpm", "install"],
+            cwd=str(nanobrowser_dir),
+            capture_output=True,
+            text=True,
+        )
         if result.returncode != 0:
             console.print(f"[red]Failed to install dependencies: {result.stderr}[/red]")
             return
@@ -1219,7 +1255,12 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
             subprocess.run(["pnpm", "dev"], cwd=str(nanobrowser_dir))
         else:
             console.print("  Building extension...")
-            result = subprocess.run(["pnpm", "build"], cwd=str(nanobrowser_dir), capture_output=True, text=True)
+            result = subprocess.run(
+                ["pnpm", "build"],
+                cwd=str(nanobrowser_dir),
+                capture_output=True,
+                text=True,
+            )
             if result.returncode != 0:
                 console.print(f"[red]Build failed: {result.stderr}[/red]")
                 return
@@ -1227,7 +1268,9 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
 
     elif open_browser:
         if not dist_dir.exists():
-            console.print("[yellow]Extension not built yet. Run with --build first.[/yellow]")
+            console.print(
+                "[yellow]Extension not built yet. Run with --build first.[/yellow]"
+            )
             return
 
         # Open Chrome with extension loaded (macOS)
@@ -1254,7 +1297,9 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
         # Status check
         console.print("[bold]Nanobrowser Status[/bold]")
         console.print(f"  Location: {nanobrowser_dir}")
-        console.print(f"  Built: {'[green]✓[/green]' if dist_dir.exists() else '[yellow]○[/yellow] (run --build)'}")
+        console.print(
+            f"  Built: {'[green]✓[/green]' if dist_dir.exists() else '[yellow]○[/yellow] (run --build)'}"
+        )
 
         # Get version from package.json
         package_json = nanobrowser_dir / "package.json"
@@ -1286,8 +1331,12 @@ RUNTIME_PATH = Path.home() / "work" / "hanzo" / "runtime"
 
 @install_group.command(name="runtime")
 @click.option("--setup", "-s", is_flag=True, help="Set up the runtime environment")
-@click.option("--sdk", type=click.Choice(["python", "typescript", "both"]), help="Install SDK")
-@click.option("--computer-use", is_flag=True, help="Set up VNC desktop for computer use")
+@click.option(
+    "--sdk", type=click.Choice(["python", "typescript", "both"]), help="Install SDK"
+)
+@click.option(
+    "--computer-use", is_flag=True, help="Set up VNC desktop for computer use"
+)
 def install_runtime(setup: bool, sdk: str, computer_use: bool):
     """Configure Hanzo Runtime - sandboxed agent execution.
 
@@ -1320,7 +1369,10 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
             if shutil.which("uv"):
                 subprocess.run(["uv", "pip", "install", "hanzo-runtime"], check=True)
             else:
-                subprocess.run([sys.executable, "-m", "pip", "install", "hanzo-runtime"], check=True)
+                subprocess.run(
+                    [sys.executable, "-m", "pip", "install", "hanzo-runtime"],
+                    check=True,
+                )
             console.print("[green]✓[/green] Python SDK installed")
 
         if sdk in ("typescript", "both"):
@@ -1376,7 +1428,13 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
         cli_dir = runtime_dir / "apps" / "cli"
         if cli_dir.exists():
             result = subprocess.run(
-                ["go", "build", "-o", str(Path.home() / ".hanzo" / "bin" / "hanzo-runtime"), "."],
+                [
+                    "go",
+                    "build",
+                    "-o",
+                    str(Path.home() / ".hanzo" / "bin" / "hanzo-runtime"),
+                    ".",
+                ],
                 cwd=str(cli_dir),
                 capture_output=True,
                 text=True,
@@ -1417,7 +1475,11 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
         # Python SDK
         try:
             result = subprocess.run(
-                [sys.executable, "-c", "import hanzo_runtime; print(hanzo_runtime.__version__)"],
+                [
+                    sys.executable,
+                    "-c",
+                    "import hanzo_runtime; print(hanzo_runtime.__version__)",
+                ],
                 capture_output=True,
                 text=True,
             )
@@ -1429,7 +1491,9 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
             console.print("  [dim]○[/dim] Python: not installed")
 
         # TypeScript SDK
-        result = subprocess.run(["npm", "list", "-g", "@hanzo/runtime"], capture_output=True, text=True)
+        result = subprocess.run(
+            ["npm", "list", "-g", "@hanzo/runtime"], capture_output=True, text=True
+        )
         if "@hanzo/runtime" in result.stdout:
             console.print(f"  [green]✓[/green] TypeScript: installed")
         else:
@@ -1514,7 +1578,9 @@ def install_cas(component: str, setup: bool, start: bool):
 
         if not comp_path.exists():
             console.print(f"[red]{info['name']} not found at: {comp_path}[/red]")
-            console.print(f"Clone: git clone https://github.com/{component}/{component} {comp_path}")
+            console.print(
+                f"Clone: git clone https://github.com/{component}/{component} {comp_path}"
+            )
             return
 
         if setup:
@@ -1529,7 +1595,9 @@ def install_cas(component: str, setup: bool, start: bool):
 
             # Build
             console.print("  Building...")
-            result = subprocess.run(["go", "build", "."], cwd=str(comp_path), capture_output=True, text=True)
+            result = subprocess.run(
+                ["go", "build", "."], cwd=str(comp_path), capture_output=True, text=True
+            )
             if result.returncode == 0:
                 console.print(f"[green]✓[/green] {info['name']} built")
             else:
@@ -1576,9 +1644,17 @@ def install_cas(component: str, setup: bool, start: bool):
             built = binary and binary.exists() if binary else False
 
             status = "[green]✓[/green]" if exists else "[dim]○[/dim]"
-            build_status = " [green](built)[/green]" if built else " [yellow](not built)[/yellow]" if exists else ""
+            build_status = (
+                " [green](built)[/green]"
+                if built
+                else " [yellow](not built)[/yellow]" if exists else ""
+            )
 
-            console.print(f"  {status} {info['name']}: {info['description']}{build_status}")
+            console.print(
+                f"  {status} {info['name']}: {info['description']}{build_status}"
+            )
 
         console.print()
-        console.print("[dim]Set up a component: hanzo install cas <component> --setup[/dim]")
+        console.print(
+            "[dim]Set up a component: hanzo install cas <component> --setup[/dim]"
+        )

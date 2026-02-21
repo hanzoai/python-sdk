@@ -102,7 +102,9 @@ def cluster():
 @cluster.command(name="create")
 @click.argument("name")
 @click.option("--region", "-r", help="Region")
-@click.option("--version", "-v", "k8s_version", default="1.29", help="Kubernetes version")
+@click.option(
+    "--version", "-v", "k8s_version", default="1.29", help="Kubernetes version"
+)
 @click.option("--nodes", "-n", default=3, help="Number of nodes")
 @click.option("--node-type", "-t", default="standard-2", help="Node type")
 @click.option("--ha", is_flag=True, help="High availability control plane")
@@ -164,10 +166,14 @@ def cluster_list(region):
     if data is None:
         return
 
-    clusters = data if isinstance(data, list) else data.get("clusters", data.get("data", []))
+    clusters = (
+        data if isinstance(data, list) else data.get("clusters", data.get("data", []))
+    )
 
     if not clusters:
-        console.print("[dim]No clusters found. Create one with 'hanzo k8s cluster create'[/dim]")
+        console.print(
+            "[dim]No clusters found. Create one with 'hanzo k8s cluster create'[/dim]"
+        )
         return
 
     table = Table(title="Kubernetes Clusters", box=box.ROUNDED)
@@ -240,7 +246,9 @@ def cluster_delete(name, force):
     if not force:
         from rich.prompt import Confirm
 
-        if not Confirm.ask(f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"):
+        if not Confirm.ask(
+            f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"
+        ):
             return
 
     client = _get_client(timeout=60)
@@ -387,7 +395,9 @@ def fleet_create(name, description):
     console.print(f"[green]✓[/green] Fleet '{name}' created")
     if description:
         console.print(f"  Description: {description}")
-    console.print("[dim]Fleet management is handled at the cluster level in the current PaaS release.[/dim]")
+    console.print(
+        "[dim]Fleet management is handled at the cluster level in the current PaaS release.[/dim]"
+    )
 
 
 @fleet.command(name="list")
@@ -404,7 +414,9 @@ def fleet_list():
     if data is None:
         return
 
-    clusters = data if isinstance(data, list) else data.get("clusters", data.get("data", []))
+    clusters = (
+        data if isinstance(data, list) else data.get("clusters", data.get("data", []))
+    )
 
     if not clusters:
         console.print("[dim]No fleets found[/dim]")
@@ -450,7 +462,9 @@ def fleet_remove(fleet, cluster_name):
 @click.argument("fleet")
 @click.option("--manifest", "-f", required=True, help="Manifest file or directory")
 @click.option("--selector", "-l", help="Cluster selector (labels)")
-@click.option("--strategy", type=click.Choice(["rolling", "all", "canary"]), default="rolling")
+@click.option(
+    "--strategy", type=click.Choice(["rolling", "all", "canary"]), default="rolling"
+)
 def fleet_deploy(fleet, manifest, selector, strategy):
     """Deploy workloads across fleet.
 
@@ -561,7 +575,9 @@ def k8s_pods(name, all_namespaces):
         if data is None:
             return
 
-        pods = data if isinstance(data, list) else data.get("pods", data.get("data", []))
+        pods = (
+            data if isinstance(data, list) else data.get("pods", data.get("data", []))
+        )
         title = f"Pods for '{name}'"
     else:
         # List all containers, then get pods
@@ -569,14 +585,22 @@ def k8s_pods(name, all_namespaces):
         if data is None:
             return
 
-        containers = data if isinstance(data, list) else data.get("containers", data.get("data", []))
+        containers = (
+            data
+            if isinstance(data, list)
+            else data.get("containers", data.get("data", []))
+        )
         pods = []
         for c in containers:
             cid = c.get("_id") or c.get("iid") or c.get("id", "")
             cname = c.get("name", "")
             pod_data = client.get(f"{base_url}/{cid}/pods")
             if pod_data:
-                pod_list = pod_data if isinstance(pod_data, list) else pod_data.get("pods", pod_data.get("data", []))
+                pod_list = (
+                    pod_data
+                    if isinstance(pod_data, list)
+                    else pod_data.get("pods", pod_data.get("data", []))
+                )
                 for p in pod_list:
                     p["_container_name"] = cname
                 pods.extend(pod_list)
@@ -618,7 +642,9 @@ def k8s_services(all_namespaces):
     if data is None:
         return
 
-    containers = data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    containers = (
+        data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    )
 
     if not containers:
         console.print("[dim]No services found[/dim]")
@@ -703,7 +729,9 @@ def k8s_exec(pod, command, container, stdin, tty):
     cmd = " ".join(command) if command else "/bin/sh"
     console.print(f"[cyan]Executing in '{pod}': {cmd}[/cyan]")
     console.print("[yellow]Remote exec requires direct kubectl access.[/yellow]")
-    console.print("[dim]Use 'hanzo k8s cluster kubeconfig NAME --merge' then 'kubectl exec'[/dim]")
+    console.print(
+        "[dim]Use 'hanzo k8s cluster kubeconfig NAME --merge' then 'kubectl exec'[/dim]"
+    )
 
 
 # ============================================================================
@@ -775,7 +803,9 @@ def config_list(secrets):
     if data is None:
         return
 
-    containers = data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    containers = (
+        data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    )
     kind = "Secrets" if secrets else "ConfigMaps"
 
     table = Table(title=f"Container Variables ({kind})", box=box.ROUNDED)
@@ -859,7 +889,9 @@ def ingress_list(all_namespaces):
     if data is None:
         return
 
-    containers = data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    containers = (
+        data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    )
 
     table = Table(title="Ingress (Custom Domains)", box=box.ROUNDED)
     table.add_column("Container", style="cyan")
@@ -875,7 +907,9 @@ def ingress_list(all_namespaces):
             found = True
             port = str(networking.get("containerPort", ""))
             tls_secret = networking.get("tlsSecret", "")
-            table.add_row(c.get("name", ""), domain, port, "Yes" if tls_secret else "No")
+            table.add_row(
+                c.get("name", ""), domain, port, "Yes" if tls_secret else "No"
+            )
 
     if found:
         console.print(table)
@@ -952,7 +986,9 @@ def nodepool_list(cluster):
     if data is None:
         return
 
-    pools = data if isinstance(data, list) else data.get("nodePools", data.get("data", []))
+    pools = (
+        data if isinstance(data, list) else data.get("nodePools", data.get("data", []))
+    )
 
     if not pools:
         console.print("[dim]No node pools found[/dim]")
@@ -988,7 +1024,9 @@ def nodepool_scale(name, cluster, nodes):
         return
 
     console.print(f"[cyan]Scaling pool '{name}' to {nodes} nodes...[/cyan]")
-    result = client.put(f"{cluster_url(cluster)}/nodepools/{name}", {"nodeCount": nodes})
+    result = client.put(
+        f"{cluster_url(cluster)}/nodepools/{name}", {"nodeCount": nodes}
+    )
     if result is None:
         return
 

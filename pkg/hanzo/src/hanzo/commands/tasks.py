@@ -70,7 +70,15 @@ def tasks_group():
 @click.option("--env", "-e", multiple=True, help="Environment variables")
 @click.option("--timeout", "-t", default="1h", help="Task timeout")
 @click.option("--retries", "-r", default=3, help="Max retries on failure")
-def tasks_create(name: str, image: str, cmd: str, function: str, env: tuple, timeout: str, retries: int):
+def tasks_create(
+    name: str,
+    image: str,
+    cmd: str,
+    function: str,
+    env: tuple,
+    timeout: str,
+    retries: int,
+):
     """Create a task definition.
 
     \b
@@ -109,7 +117,9 @@ def tasks_create(name: str, image: str, cmd: str, function: str, env: tuple, tim
 
 
 @tasks_group.command(name="list")
-@click.option("--status", "-s", type=click.Choice(["active", "disabled", "all"]), default="all")
+@click.option(
+    "--status", "-s", type=click.Choice(["active", "disabled", "all"]), default="all"
+)
 def tasks_list(status: str):
     """List all tasks."""
     params = {}
@@ -131,7 +141,11 @@ def tasks_list(status: str):
     for t in items:
         t_status = t.get("status", "active")
         style = "green" if t_status == "active" else "yellow"
-        task_type = "image" if t.get("image") else "function" if t.get("function") else "command"
+        task_type = (
+            "image"
+            if t.get("image")
+            else "function" if t.get("function") else "command"
+        )
         table.add_row(
             t.get("name", ""),
             task_type,
@@ -350,7 +364,12 @@ def runs():
 
 @runs.command(name="list")
 @click.argument("task", required=False)
-@click.option("--status", "-s", type=click.Choice(["running", "success", "failed", "all"]), default="all")
+@click.option(
+    "--status",
+    "-s",
+    type=click.Choice(["running", "success", "failed", "all"]),
+    default="all",
+)
 @click.option("--limit", "-n", default=20, help="Max results")
 def runs_list(task: str, status: str, limit: int):
     """List task runs."""
@@ -414,7 +433,9 @@ def runs_logs(run_id: str, follow: bool, tail: int):
             ts = str(line.get("timestamp", ""))[:19]
             level = line.get("level", "info")
             msg = line.get("message", "")
-            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            style = (
+                "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            )
             console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
         else:
             console.print(str(line))
@@ -463,7 +484,12 @@ def triggers():
     type=click.Choice(["event", "queue", "topic", "http", "schedule"]),
     help="Trigger type",
 )
-@click.option("--source", "-s", required=True, help="Trigger source (event name, queue name, etc.)")
+@click.option(
+    "--source",
+    "-s",
+    required=True,
+    help="Trigger source (event name, queue name, etc.)",
+)
 @click.option("--filter", "-f", help="Event filter expression")
 def triggers_add(task: str, trigger_type: str, source: str, filter: str):
     """Add a trigger to a task.
@@ -544,7 +570,11 @@ def triggers_rm(task: str, source: str, remove_all: bool):
 @click.option("--source", "-s", help="Specific trigger")
 def triggers_pause(task: str, source: str):
     """Pause triggers."""
-    path = f"/v1/tasks/{task}/triggers/{source}/pause" if source else f"/v1/tasks/{task}/triggers/pause"
+    path = (
+        f"/v1/tasks/{task}/triggers/{source}/pause"
+        if source
+        else f"/v1/tasks/{task}/triggers/pause"
+    )
     resp = _request("post", path)
     check_response(resp)
     console.print(f"[green]✓[/green] Paused trigger(s) for '{task}'")
@@ -555,7 +585,11 @@ def triggers_pause(task: str, source: str):
 @click.option("--source", "-s", help="Specific trigger")
 def triggers_resume(task: str, source: str):
     """Resume triggers."""
-    path = f"/v1/tasks/{task}/triggers/{source}/resume" if source else f"/v1/tasks/{task}/triggers/resume"
+    path = (
+        f"/v1/tasks/{task}/triggers/{source}/resume"
+        if source
+        else f"/v1/tasks/{task}/triggers/resume"
+    )
     resp = _request("post", path)
     check_response(resp)
     console.print(f"[green]✓[/green] Resumed trigger(s) for '{task}'")

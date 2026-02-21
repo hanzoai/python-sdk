@@ -196,7 +196,9 @@ hanzo> mcp run read_file --arg path=README.md
         except subprocess.TimeoutExpired:
             self.console.print("[red]Command timed out[/red]")
         except FileNotFoundError:
-            self.console.print("[red]Command not found. Make sure 'hanzo' is installed.[/red]")
+            self.console.print(
+                "[red]Command not found. Make sure 'hanzo' is installed.[/red]"
+            )
         except Exception as e:
             self.console.print(f"[red]Command error: {e}[/red]")
 

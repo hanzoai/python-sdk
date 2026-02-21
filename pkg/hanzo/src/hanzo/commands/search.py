@@ -60,9 +60,16 @@ def search_group():
 
 @search_group.command(name="create")
 @click.argument("name")
-@click.option("--mode", "-m", type=click.Choice(["lexical", "vector", "hybrid"]), default="hybrid")
+@click.option(
+    "--mode", "-m", type=click.Choice(["lexical", "vector", "hybrid"]), default="hybrid"
+)
 @click.option("--region", "-r", help="Region")
-@click.option("--tier", "-t", type=click.Choice(["free", "standard", "dedicated"]), default="standard")
+@click.option(
+    "--tier",
+    "-t",
+    type=click.Choice(["free", "standard", "dedicated"]),
+    default="standard",
+)
 def search_create(name: str, mode: str, region: str, tier: str):
     """Create a search engine."""
     payload = {"name": name, "mode": mode, "tier": tier}
@@ -107,7 +114,9 @@ def search_list():
 
     console.print(table)
     if not engines:
-        console.print("[dim]No search engines found. Create one with 'hanzo search create'[/dim]")
+        console.print(
+            "[dim]No search engines found. Create one with 'hanzo search create'[/dim]"
+        )
 
 
 @search_group.command(name="describe")
@@ -166,11 +175,18 @@ def index():
 @index.command(name="create")
 @click.argument("name")
 @click.option("--engine", "-e", default="default", help="Search engine")
-@click.option("--mode", "-m", type=click.Choice(["lexical", "vector", "hybrid"]), help="Override engine mode")
+@click.option(
+    "--mode",
+    "-m",
+    type=click.Choice(["lexical", "vector", "hybrid"]),
+    help="Override engine mode",
+)
 @click.option("--mapping", help="Mapping JSON or file")
 @click.option("--shards", "-s", default=1, help="Number of shards")
 @click.option("--replicas", "-r", default=1, help="Number of replicas")
-def index_create(name: str, engine: str, mode: str, mapping: str, shards: int, replicas: int):
+def index_create(
+    name: str, engine: str, mode: str, mapping: str, shards: int, replicas: int
+):
     """Create a search index."""
     payload = {"name": name, "shards": shards, "replicas": replicas}
     if mode:
@@ -208,7 +224,9 @@ def index_list(engine: str):
 
     for idx in items:
         health = idx.get("health", "unknown")
-        style = "green" if health == "green" else "yellow" if health == "yellow" else "red"
+        style = (
+            "green" if health == "green" else "yellow" if health == "yellow" else "red"
+        )
         table.add_row(
             idx.get("name", ""),
             idx.get("mode", "-"),
@@ -277,7 +295,9 @@ def index_mapping(name: str, engine: str, get_mapping: bool, set_mapping: str):
         else:
             mapping_data = json.loads(set_mapping)
 
-        resp = _request("put", f"/v1/engines/{engine}/indexes/{name}/mapping", json=mapping_data)
+        resp = _request(
+            "put", f"/v1/engines/{engine}/indexes/{name}/mapping", json=mapping_data
+        )
         check_response(resp)
         console.print(f"[green]✓[/green] Mapping updated for '{name}'")
     else:
@@ -295,11 +315,18 @@ def index_mapping(name: str, engine: str, get_mapping: bool, set_mapping: str):
 @search_group.command(name="ingest")
 @click.option("--index", "-i", required=True, help="Target index")
 @click.option("--from", "source", required=True, help="Source: file, s3://, storage://")
-@click.option("--format", "fmt", type=click.Choice(["jsonl", "json", "csv", "parquet"]), default="jsonl")
+@click.option(
+    "--format",
+    "fmt",
+    type=click.Choice(["jsonl", "json", "csv", "parquet"]),
+    default="jsonl",
+)
 @click.option("--pipeline", "-p", help="Ingest pipeline to apply")
 @click.option("--batch-size", "-b", default=1000, help="Batch size")
 @click.option("--engine", "-e", default="default")
-def search_ingest(index: str, source: str, fmt: str, pipeline: str, batch_size: int, engine: str):
+def search_ingest(
+    index: str, source: str, fmt: str, pipeline: str, batch_size: int, engine: str
+):
     """Ingest documents into an index.
 
     \b
@@ -318,7 +345,9 @@ def search_ingest(index: str, source: str, fmt: str, pipeline: str, batch_size: 
     if pipeline:
         payload["pipeline"] = pipeline
 
-    resp = _request("post", f"/v1/engines/{engine}/indexes/{index}/ingest", json=payload)
+    resp = _request(
+        "post", f"/v1/engines/{engine}/indexes/{index}/ingest", json=payload
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Ingestion complete")
@@ -337,7 +366,16 @@ def search_ingest(index: str, source: str, fmt: str, pipeline: str, batch_size: 
 @click.option("--vector-field", help="Field for vector search")
 @click.option("--json", "as_json", is_flag=True, help="Output as JSON")
 @click.option("--engine", "-e", default="default")
-def search_query(index: str, q: str, filter: str, topk: int, mode: str, vector_field: str, as_json: bool, engine: str):
+def search_query(
+    index: str,
+    q: str,
+    filter: str,
+    topk: int,
+    mode: str,
+    vector_field: str,
+    as_json: bool,
+    engine: str,
+):
     """Search documents.
 
     \b
@@ -380,7 +418,9 @@ def search_query(index: str, q: str, filter: str, topk: int, mode: str, vector_f
 
     console.print(table)
     total = data.get("total", len(hits))
-    console.print(f"[dim]{total} total hit(s), showing top {min(topk, len(hits))}[/dim]")
+    console.print(
+        f"[dim]{total} total hit(s), showing top {min(topk, len(hits))}[/dim]"
+    )
 
 
 @search_group.command(name="reindex")
@@ -389,7 +429,9 @@ def search_query(index: str, q: str, filter: str, topk: int, mode: str, vector_f
 @click.option("--query", "-q", help="Filter query")
 @click.option("--pipeline", "-p", help="Transform pipeline")
 @click.option("--engine", "-e", default="default")
-def search_reindex(source_idx: str, dest_idx: str, query: str, pipeline: str, engine: str):
+def search_reindex(
+    source_idx: str, dest_idx: str, query: str, pipeline: str, engine: str
+):
     """Reindex documents."""
     console.print(f"[cyan]Reindexing from '{source_idx}' to '{dest_idx}'...[/cyan]")
 

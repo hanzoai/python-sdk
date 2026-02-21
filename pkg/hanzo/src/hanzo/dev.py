@@ -221,7 +221,9 @@ class HanzoDevOrchestrator:
             grpo_dir = self.workspace_dir / "grpo"
             grpo_dir.mkdir(exist_ok=True)
 
-            self.experience_manager = ExperienceManager(str(grpo_dir / "experience_library.json"))
+            self.experience_manager = ExperienceManager(
+                str(grpo_dir / "experience_library.json")
+            )
 
             # Initialize with DeepSeek if API key available
             deepseek_key = os.getenv("DEEPSEEK_API_KEY")
@@ -252,7 +254,9 @@ class HanzoDevOrchestrator:
 
         for path in possible_paths:
             expanded = Path(path).expanduser()
-            if expanded.exists() or (path == "claude" and os.system(f"which {path} >/dev/null 2>&1") == 0):
+            if expanded.exists() or (
+                path == "claude" and os.system(f"which {path} >/dev/null 2>&1") == 0
+            ):
                 return str(expanded) if expanded.exists() else path
 
         raise RuntimeError("Claude Code not found. Please specify path.")
@@ -339,7 +343,9 @@ class HanzoDevOrchestrator:
         else:
             return "Execute standard workflow with monitoring"
 
-    def _assess_risks(self, problem: str, alternatives: List[str], context: Dict[str, Any]) -> List[str]:
+    def _assess_risks(
+        self, problem: str, alternatives: List[str], context: Dict[str, Any]
+    ) -> List[str]:
         """Assess risks of different approaches."""
         risks = []
 
@@ -363,7 +369,9 @@ class HanzoDevOrchestrator:
     ) -> str:
         """Synthesize a decision from analysis."""
         if len(risks) > 2:
-            return "Proceed cautiously with incremental approach and rollback capability"
+            return (
+                "Proceed cautiously with incremental approach and rollback capability"
+            )
         elif alternatives:
             return f"Execute primary approach: {alternatives[0]}"
         else:
@@ -408,7 +416,9 @@ class HanzoDevOrchestrator:
             if resume:
                 checkpoint_file = self._get_latest_checkpoint()
                 if checkpoint_file:
-                    console.print(f"[green]Resuming from checkpoint: {checkpoint_file.name}[/green]")
+                    console.print(
+                        f"[green]Resuming from checkpoint: {checkpoint_file.name}[/green]"
+                    )
 
             # Prepare command
             cmd = [self.claude_code_path]
@@ -526,8 +536,12 @@ class HanzoDevOrchestrator:
             "timestamp": datetime.now().isoformat(),
             "agent_state": self.agent_state.value,
             "runtime_health": asdict(self.runtime_health),
-            "current_context": (asdict(self.current_context) if self.current_context else None),
-            "thinking_history": [asdict(t) for t in self.thinking_history[-10:]],  # Last 10
+            "current_context": (
+                asdict(self.current_context) if self.current_context else None
+            ),
+            "thinking_history": [
+                asdict(t) for t in self.thinking_history[-10:]
+            ],  # Last 10
         }
 
         with open(checkpoint_file, "w") as f:
@@ -545,7 +559,9 @@ class HanzoDevOrchestrator:
             self.agent_state = AgentState(data["agent_state"])
             # Restore other state as needed
 
-            console.print(f"[green]✓ Restored from checkpoint: {checkpoint_file.name}[/green]")
+            console.print(
+                f"[green]✓ Restored from checkpoint: {checkpoint_file.name}[/green]"
+            )
             return True
         except Exception as e:
             console.print(f"[red]Failed to restore checkpoint: {e}[/red]")
@@ -561,7 +577,9 @@ class HanzoDevOrchestrator:
                 healthy = await self.health_check()
 
                 if not healthy:
-                    console.print(f"[yellow]Health check failed. State: {self.runtime_health.state.value}[/yellow]")
+                    console.print(
+                        f"[yellow]Health check failed. State: {self.runtime_health.state.value}[/yellow]"
+                    )
 
                     # Use System 2 thinking to decide what to do
                     thinking_result = await self.think(
@@ -570,7 +588,9 @@ class HanzoDevOrchestrator:
                     )
 
                     console.print(f"[cyan]Decision: {thinking_result.decision}[/cyan]")
-                    console.print(f"[cyan]Confidence: {thinking_result.confidence:.2f}[/cyan]")
+                    console.print(
+                        f"[cyan]Confidence: {thinking_result.confidence:.2f}[/cyan]"
+                    )
 
                     # Execute decision
                     if thinking_result.confidence > 0.6:
@@ -725,10 +745,14 @@ class HanzoDevOrchestrator:
             experiences_after = len(self.experience_manager.experiences)
 
             # Save updated library
-            self.experience_manager.save(str(self.workspace_dir / "grpo" / "experience_library.json"))
+            self.experience_manager.save(
+                str(self.workspace_dir / "grpo" / "experience_library.json")
+            )
 
             learned_count = experiences_after - experiences_before
-            console.print(f"[green]✓ Learned {learned_count} new experiences (total: {experiences_after})[/green]")
+            console.print(
+                f"[green]✓ Learned {learned_count} new experiences (total: {experiences_after})[/green]"
+            )
 
             return learned_count
 
@@ -831,7 +855,9 @@ class HanzoDevREPL:
         handler = FallbackHandler()
         if not handler.fallback_order:
             console.print("[yellow]⚠️  No API keys detected[/yellow]")
-            console.print("[dim]Set OPENAI_API_KEY or ANTHROPIC_API_KEY to enable AI[/dim]")
+            console.print(
+                "[dim]Set OPENAI_API_KEY or ANTHROPIC_API_KEY to enable AI[/dim]"
+            )
             console.print()
         else:
             primary = handler.fallback_order[0][1]
@@ -877,9 +903,13 @@ class HanzoDevREPL:
                     # Handle memory/context commands
                     from .memory_manager import handle_memory_command
 
-                    handled = handle_memory_command(user_input, self.memory_manager, console)
+                    handled = handle_memory_command(
+                        user_input, self.memory_manager, console
+                    )
                     if not handled:
-                        console.print("[yellow]Unknown memory command. Use #memory help[/yellow]")
+                        console.print(
+                            "[yellow]Unknown memory command. Use #memory help[/yellow]"
+                        )
 
                 else:
                     # Natural chat - send directly to AI agents
@@ -922,13 +952,17 @@ class HanzoDevREPL:
 
         table.add_row("Agent State", self.orchestrator.agent_state.value)
         table.add_row("Runtime State", self.orchestrator.runtime_health.state.value)
-        table.add_row("Last Response", str(self.orchestrator.runtime_health.last_response))
+        table.add_row(
+            "Last Response", str(self.orchestrator.runtime_health.last_response)
+        )
         table.add_row(
             "Response Time",
             f"{self.orchestrator.runtime_health.response_time_ms:.2f}ms",
         )
         table.add_row("Error Count", str(self.orchestrator.runtime_health.error_count))
-        table.add_row("Restart Count", str(self.orchestrator.runtime_health.restart_count))
+        table.add_row(
+            "Restart Count", str(self.orchestrator.runtime_health.restart_count)
+        )
 
         console.print(table)
 
@@ -975,7 +1009,9 @@ class HanzoDevREPL:
         """Restore from checkpoint."""
         if not args:
             # Show available checkpoints
-            checkpoints = list(self.orchestrator.checkpoint_dir.glob("checkpoint_*.json"))
+            checkpoints = list(
+                self.orchestrator.checkpoint_dir.glob("checkpoint_*.json")
+            )
             if checkpoints:
                 console.print("[cyan]Available checkpoints:[/cyan]")
                 for cp in checkpoints:
@@ -1052,7 +1088,10 @@ Examples:
                 enhanced_message = message
 
             # Try smart fallback if no specific model configured
-            if not hasattr(self.orchestrator, "orchestrator_model") or self.orchestrator.orchestrator_model == "auto":
+            if (
+                not hasattr(self.orchestrator, "orchestrator_model")
+                or self.orchestrator.orchestrator_model == "auto"
+            ):
                 # Use streaming if available
                 from .streaming import stream_with_fallback
 
@@ -1064,7 +1103,9 @@ Examples:
                     # Response already displayed by streaming handler
                     return
                 else:
-                    console.print("[red]No AI options available. Please configure API keys or install tools.[/red]")
+                    console.print(
+                        "[red]No AI options available. Please configure API keys or install tools.[/red]"
+                    )
                     return
 
             # For codex and other CLI tools, go straight to direct API chat
@@ -1305,14 +1346,26 @@ Examples:
 
         # No API keys available
         console.print("[red]No AI API keys configured![/red]")
-        console.print("[yellow]Try these options that don't need your API key:[/yellow]")
+        console.print(
+            "[yellow]Try these options that don't need your API key:[/yellow]"
+        )
         console.print("\n[bold]CLI Tools (use existing tools):[/bold]")
-        console.print("  • hanzo dev --orchestrator codex          # OpenAI CLI (if installed)")
-        console.print("  • hanzo dev --orchestrator claude         # Claude Desktop (if installed)")
-        console.print("  • hanzo dev --orchestrator gemini         # Gemini CLI (if installed)")
-        console.print("  • hanzo dev --orchestrator hanzo-ide      # Hanzo IDE from ~/work/hanzo/ide")
+        console.print(
+            "  • hanzo dev --orchestrator codex          # OpenAI CLI (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator claude         # Claude Desktop (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator gemini         # Gemini CLI (if installed)"
+        )
+        console.print(
+            "  • hanzo dev --orchestrator hanzo-ide      # Hanzo IDE from ~/work/hanzo/ide"
+        )
         console.print("\n[bold]Free APIs (rate limited):[/bold]")
-        console.print("  • hanzo dev --orchestrator codestral      # Free Mistral Codestral")
+        console.print(
+            "  • hanzo dev --orchestrator codestral      # Free Mistral Codestral"
+        )
         console.print("  • hanzo dev --orchestrator starcoder      # Free StarCoder")
         console.print("\n[bold]Local Models (unlimited):[/bold]")
         console.print("  • hanzo dev --orchestrator local:llama3.2 # Via Ollama")
@@ -1355,10 +1408,16 @@ Examples:
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("choices"):
-                        console.print(f"[cyan]Codestral:[/cyan] {data['choices'][0]['message']['content']}")
+                        console.print(
+                            f"[cyan]Codestral:[/cyan] {data['choices'][0]['message']['content']}"
+                        )
                 else:
-                    console.print("[yellow]Free tier limit reached. Try local models instead:[/yellow]")
-                    console.print("  • Install Ollama: curl -fsSL https://ollama.com/install.sh | sh")
+                    console.print(
+                        "[yellow]Free tier limit reached. Try local models instead:[/yellow]"
+                    )
+                    console.print(
+                        "  • Install Ollama: curl -fsSL https://ollama.com/install.sh | sh"
+                    )
                     console.print("  • Run: ollama pull codellama")
                     console.print("  • Use: hanzo dev --orchestrator local:codellama")
 
@@ -1395,9 +1454,13 @@ Examples:
                 if response.status_code == 200:
                     data = response.json()
                     if isinstance(data, list) and data:
-                        console.print(f"[cyan]StarCoder:[/cyan] {data[0].get('generated_text', '')}")
+                        console.print(
+                            f"[cyan]StarCoder:[/cyan] {data[0].get('generated_text', '')}"
+                        )
                 else:
-                    console.print("[yellow]API limit reached. Install local models:[/yellow]")
+                    console.print(
+                        "[yellow]API limit reached. Install local models:[/yellow]"
+                    )
                     console.print("  • brew install ollama")
                     console.print("  • ollama pull starcoder2")
                     console.print("  • hanzo dev --orchestrator local:starcoder2")
@@ -1434,7 +1497,9 @@ Examples:
                 message,
             ]
 
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            process = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
 
             stdout, stderr = process.communicate(timeout=30)
 
@@ -1466,7 +1531,11 @@ Examples:
 
             claude_path = None
             for path in claude_paths:
-                if os.path.exists(path) or subprocess.run(["which", path], capture_output=True).returncode == 0:
+                if (
+                    os.path.exists(path)
+                    or subprocess.run(["which", path], capture_output=True).returncode
+                    == 0
+                ):
                     claude_path = path
                     break
 
@@ -1495,7 +1564,9 @@ Examples:
                 """
 
                 subprocess.run(["osascript", "-e", script])
-                console.print("[cyan]Sent to Claude Desktop. Check the app for response.[/cyan]")
+                console.print(
+                    "[cyan]Sent to Claude Desktop. Check the app for response.[/cyan]"
+                )
             else:
                 # Try direct CLI invocation
                 process = subprocess.Popen(
@@ -1534,7 +1605,9 @@ Examples:
             # Use gemini CLI
             cmd = ["gemini", "chat", message]
 
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            process = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
 
             stdout, stderr = process.communicate(timeout=30)
 
@@ -1562,7 +1635,9 @@ Examples:
                 console.print("[red]Hanzo Dev IDE not found![/red]")
                 console.print("[yellow]Expected location: ~/work/hanzo/ide[/yellow]")
                 console.print("To set up:")
-                console.print("  • git clone https://github.com/hanzoai/ide ~/work/hanzo/ide")
+                console.print(
+                    "  • git clone https://github.com/hanzoai/ide ~/work/hanzo/ide"
+                )
                 console.print("  • cd ~/work/hanzo/ide && npm install")
                 return
 
@@ -1598,7 +1673,9 @@ Examples:
                     cmd = [cli_path, "chat", message]
                 cwd = None
 
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
+            process = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd
+            )
 
             stdout, stderr = process.communicate(timeout=30)
 
@@ -1645,7 +1722,9 @@ Examples:
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("message"):
-                        console.print(f"[cyan]{model_name}:[/cyan] {data['message']['content']}")
+                        console.print(
+                            f"[cyan]{model_name}:[/cyan] {data['message']['content']}"
+                        )
                         return
 
         except Exception:
@@ -1676,7 +1755,9 @@ Examples:
                 if response.status_code == 200:
                     data = response.json()
                     if data.get("choices"):
-                        console.print(f"[cyan]{model_name}:[/cyan] {data['choices'][0]['message']['content']}")
+                        console.print(
+                            f"[cyan]{model_name}:[/cyan] {data['choices'][0]['message']['content']}"
+                        )
                         return
 
         except Exception:
@@ -1754,7 +1835,9 @@ async def run_dev_orchestrator(**kwargs):
     # Check if we should use network mode
     # For now, disable network mode since hanzo-network isn't available
     if False and use_network and NETWORK_AVAILABLE:
-        console_obj.print(f"[cyan]Mode: Network Orchestration with hanzo-network[/cyan]")
+        console_obj.print(
+            f"[cyan]Mode: Network Orchestration with hanzo-network[/cyan]"
+        )
         console_obj.print(f"Orchestrator: {orchestrator_model}")
         console_obj.print(f"Workers: {instances} agents")
         console_obj.print(f"Critics: {max(1, instances // 2)} agents")
@@ -1860,19 +1943,25 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
 
         # Check if we can use hanzo-network
         if not NETWORK_AVAILABLE:
-            self.console.print("[yellow]Warning: hanzo-network not available, falling back to basic mode[/yellow]")
+            self.console.print(
+                "[yellow]Warning: hanzo-network not available, falling back to basic mode[/yellow]"
+            )
 
     async def initialize(self):
         """Initialize the agent network with orchestrator and workers."""
         if not NETWORK_AVAILABLE:
-            self.console.print("[red]Cannot initialize network mode without hanzo-network[/red]")
+            self.console.print(
+                "[red]Cannot initialize network mode without hanzo-network[/red]"
+            )
             return False
 
         # Start hanzo net if requested for local orchestration
         if self.use_hanzo_net or self.orchestrator_model.startswith("local:"):
             await self._start_hanzo_net()
 
-        self.console.print(f"[cyan]Initializing agent network with {self.orchestrator_model} orchestrator...[/cyan]")
+        self.console.print(
+            f"[cyan]Initializing agent network with {self.orchestrator_model} orchestrator...[/cyan]"
+        )
 
         # Create orchestrator agent (GPT-5, local, or other model)
         self.orchestrator_agent = await self._create_orchestrator_agent()
@@ -1889,7 +1978,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
             for i in range(num_local_workers):
                 local_worker = await self._create_local_worker_agent(i)
                 self.worker_agents.append(local_worker)
-            self.console.print(f"[green]Added {num_local_workers} local workers for cost optimization[/green]")
+            self.console.print(
+                f"[green]Added {num_local_workers} local workers for cost optimization[/green]"
+            )
 
         # Create critic agents for System 2 thinking
         if self.enable_guardrails:
@@ -1912,15 +2003,21 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         self.agent_network = create_network(
             agents=all_agents,
             router=router,
-            default_agent=(self.orchestrator_agent.name if self.orchestrator_agent else None),
+            default_agent=(
+                self.orchestrator_agent.name if self.orchestrator_agent else None
+            ),
         )
 
-        self.console.print(f"[green]✓ Agent network initialized with {len(all_agents)} agents[/green]")
+        self.console.print(
+            f"[green]✓ Agent network initialized with {len(all_agents)} agents[/green]"
+        )
         return True
 
     async def _start_hanzo_net(self):
         """Start hanzo net for local AI orchestration."""
-        self.console.print("[cyan]Starting hanzo/net for local AI orchestration...[/cyan]")
+        self.console.print(
+            "[cyan]Starting hanzo/net for local AI orchestration...[/cyan]"
+        )
 
         # Check if hanzo net is already running
         import socket
@@ -1930,7 +2027,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
         sock.close()
 
         if result == 0:
-            self.console.print(f"[yellow]hanzo/net already running on port {self.hanzo_net_port}[/yellow]")
+            self.console.print(
+                f"[yellow]hanzo/net already running on port {self.hanzo_net_port}[/yellow]"
+            )
             return
 
         # Start hanzo net
@@ -1991,7 +2090,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                 tools=[],
             )
 
-            self.console.print(f"[green]✓ Created local {model_name} orchestrator via hanzo/net[/green]")
+            self.console.print(
+                f"[green]✓ Created local {model_name} orchestrator via hanzo/net[/green]"
+            )
             return orchestrator
 
         # Parse model string to get provider and model
@@ -2047,7 +2148,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
             tools=[],  # Orchestrator tools will be added
         )
 
-        self.console.print(f"[green]✓ Created {self.orchestrator_model} orchestrator[/green]")
+        self.console.print(
+            f"[green]✓ Created {self.orchestrator_model} orchestrator[/green]"
+        )
         return orchestrator
 
     def _get_orchestrator_system_prompt(self) -> str:
@@ -2180,7 +2283,10 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                     "count",
                     "find",
                 ]
-                if any(keyword in prompt_lower for keyword in simple_keywords) and self.local_workers:
+                if (
+                    any(keyword in prompt_lower for keyword in simple_keywords)
+                    and self.local_workers
+                ):
                     return self.local_workers[0].name
 
                 # Complex implementation → API workers (Claude)
@@ -2192,7 +2298,10 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                     "design",
                     "architect",
                 ]
-                if any(keyword in prompt_lower for keyword in complex_keywords) and self.api_workers:
+                if (
+                    any(keyword in prompt_lower for keyword in complex_keywords)
+                    and self.api_workers
+                ):
                     return self.api_workers[0].name
 
                 # Review tasks → Critics
@@ -2203,7 +2312,10 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                     "improve",
                     "validate code",
                 ]
-                if any(keyword in prompt_lower for keyword in review_keywords) and self.critics:
+                if (
+                    any(keyword in prompt_lower for keyword in review_keywords)
+                    and self.critics
+                ):
                     return self.critics[0].name
 
                 # Strategic decisions → Orchestrator
@@ -2224,12 +2336,20 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
                         return self.local_workers[0].name
 
                 # Fall back to API workers for complex tasks
-                return self.api_workers[0].name if self.api_workers else self.orchestrator.name
+                return (
+                    self.api_workers[0].name
+                    if self.api_workers
+                    else self.orchestrator.name
+                )
 
         # Create the cost-optimized router
-        router = CostOptimizedRouter(self.orchestrator_agent, self.worker_agents, self.critic_agents)
+        router = CostOptimizedRouter(
+            self.orchestrator_agent, self.worker_agents, self.critic_agents
+        )
 
-        self.console.print("[green]✓ Created cost-optimized router (local models preferred)[/green]")
+        self.console.print(
+            "[green]✓ Created cost-optimized router (local models preferred)[/green]"
+        )
         return router
 
     async def _create_intelligent_router(self) -> Router:
@@ -2264,7 +2384,9 @@ class NetworkOrchestrator(HanzoDevOrchestrator):
 
         return router
 
-    async def execute_with_network(self, task: str, context: Optional[Dict] = None) -> Dict:
+    async def execute_with_network(
+        self, task: str, context: Optional[Dict] = None
+    ) -> Dict:
         """Execute a task using the agent network.
 
         Args:
@@ -2402,7 +2524,9 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
             config = await self._create_instance_config(i, role)
             self.instance_configs.append(config)
 
-            self.console.print(f"  [{i + 1}/{self.num_instances}] {role} instance configured")
+            self.console.print(
+                f"  [{i + 1}/{self.num_instances}] {role} instance configured"
+            )
 
         # If networking enabled, configure MCP connections between instances
         if self.enable_networking:
@@ -2464,7 +2588,9 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
 
     async def _setup_mcp_networking(self):
         """Set up MCP networking between Claude instances."""
-        self.console.print("[cyan]Setting up MCP networking between instances...[/cyan]")
+        self.console.print(
+            "[cyan]Setting up MCP networking between instances...[/cyan]"
+        )
 
         # Each instance gets MCP servers for all other instances
         for i, config in enumerate(self.instance_configs):
@@ -2607,10 +2733,14 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
 
             # Validate improvement didn't degrade quality
             if await self._validate_improvement(result, improved):
-                self.console.print("[green]✓ Solution improved with System 2 feedback[/green]")
+                self.console.print(
+                    "[green]✓ Solution improved with System 2 feedback[/green]"
+                )
                 return improved
             else:
-                self.console.print("[yellow]⚠ Keeping original solution (improvement validation failed)[/yellow]")
+                self.console.print(
+                    "[yellow]⚠ Keeping original solution (improvement validation failed)[/yellow]"
+                )
 
         return result
 
@@ -2687,7 +2817,9 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         try:
             import subprocess
 
-            result = subprocess.run(["gemini", "chat", prompt], capture_output=True, text=True, timeout=30)
+            result = subprocess.run(
+                ["gemini", "chat", prompt], capture_output=True, text=True, timeout=30
+            )
             if result.returncode == 0 and result.stdout:
                 return {"output": result.stdout.strip(), "success": True}
         except Exception as e:
@@ -2751,7 +2883,9 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
                 logger.error(f"OpenAI API error: {e}")
 
         # Try Anthropic
-        anthropic_key = os.environ.get("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
+        anthropic_key = os.environ.get("ANTHROPIC_API_KEY") or os.getenv(
+            "ANTHROPIC_API_KEY"
+        )
         if anthropic_key:
             try:
                 from anthropic import AsyncAnthropic
@@ -2770,7 +2904,9 @@ class MultiClaudeOrchestrator(HanzoDevOrchestrator):
         # Try fallback handler as last resort
         from .fallback_handler import smart_chat
 
-        response = await smart_chat(prompt, console=None)  # No console to avoid duplicate messages
+        response = await smart_chat(
+            prompt, console=None
+        )  # No console to avoid duplicate messages
         if response:
             return {"output": response, "success": True}
 
@@ -2818,15 +2954,25 @@ async def main():
     """Main entry point for hanzo-dev."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Hanzo Dev - System 2 Meta-AI Orchestrator")
-    parser.add_argument("--workspace", default="~/.hanzo/dev", help="Workspace directory")
+    parser = argparse.ArgumentParser(
+        description="Hanzo Dev - System 2 Meta-AI Orchestrator"
+    )
+    parser.add_argument(
+        "--workspace", default="~/.hanzo/dev", help="Workspace directory"
+    )
     parser.add_argument("--claude-path", help="Path to Claude Code executable")
     parser.add_argument("--monitor", action="store_true", help="Start in monitor mode")
     parser.add_argument("--repl", action="store_true", help="Start REPL interface")
-    parser.add_argument("--instances", type=int, default=2, help="Number of Claude instances")
+    parser.add_argument(
+        "--instances", type=int, default=2, help="Number of Claude instances"
+    )
     parser.add_argument("--no-mcp", action="store_true", help="Disable MCP tools")
-    parser.add_argument("--no-network", action="store_true", help="Disable instance networking")
-    parser.add_argument("--no-guardrails", action="store_true", help="Disable guardrails")
+    parser.add_argument(
+        "--no-network", action="store_true", help="Disable instance networking"
+    )
+    parser.add_argument(
+        "--no-guardrails", action="store_true", help="Disable guardrails"
+    )
 
     args = parser.parse_args()
 

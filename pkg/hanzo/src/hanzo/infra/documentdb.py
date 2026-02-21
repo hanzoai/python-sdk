@@ -24,11 +24,15 @@ class DocumentDBConfig(BaseModel):
     username: Optional[str] = Field(default=None, description="Authentication username")
     password: Optional[str] = Field(default=None, description="Authentication password")
     database: str = Field(default="hanzo", description="Default database name")
-    uri: Optional[str] = Field(default=None, description="Full connection URI (overrides host/port)")
+    uri: Optional[str] = Field(
+        default=None, description="Full connection URI (overrides host/port)"
+    )
     auth_source: str = Field(default="admin", description="Authentication database")
     replica_set: Optional[str] = Field(default=None, description="Replica set name")
     tls: bool = Field(default=False, description="Use TLS/SSL")
-    server_selection_timeout_ms: int = Field(default=5000, description="Server selection timeout")
+    server_selection_timeout_ms: int = Field(
+        default=5000, description="Server selection timeout"
+    )
     connect_timeout_ms: int = Field(default=5000, description="Connection timeout")
     socket_timeout_ms: int = Field(default=30000, description="Socket timeout")
 
@@ -132,7 +136,9 @@ class DocumentDBClient:
         try:
             from motor.motor_asyncio import AsyncIOMotorClient
         except ImportError as e:
-            raise ImportError("motor is required for DocumentDBClient. Install with: pip install motor") from e
+            raise ImportError(
+                "motor is required for DocumentDBClient. Install with: pip install motor"
+            ) from e
 
         if self.config.uri:
             self._client = AsyncIOMotorClient(
@@ -198,7 +204,9 @@ class DocumentDBClient:
         result = await coll.insert_one(document)
         return str(result.inserted_id)
 
-    async def insert_many(self, collection: str, documents: Sequence[dict[str, Any]]) -> list[str]:
+    async def insert_many(
+        self, collection: str, documents: Sequence[dict[str, Any]]
+    ) -> list[str]:
         """Insert multiple documents.
 
         Args:
@@ -383,7 +391,9 @@ class DocumentDBClient:
         result = await coll.delete_one(filter)
         return DeleteResult(deleted_count=result.deleted_count)
 
-    async def delete_many(self, collection: str, filter: dict[str, Any]) -> DeleteResult:
+    async def delete_many(
+        self, collection: str, filter: dict[str, Any]
+    ) -> DeleteResult:
         """Delete multiple documents.
 
         Args:

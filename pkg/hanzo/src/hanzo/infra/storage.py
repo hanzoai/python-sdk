@@ -18,15 +18,21 @@ from pydantic import Field, BaseModel
 class StorageConfig(BaseModel):
     """Configuration for S3/MinIO connection."""
 
-    endpoint_url: Optional[str] = Field(default=None, description="Endpoint URL (required for MinIO)")
+    endpoint_url: Optional[str] = Field(
+        default=None, description="Endpoint URL (required for MinIO)"
+    )
     region: str = Field(default="us-east-1", description="AWS region")
     access_key: Optional[str] = Field(default=None, description="Access key ID")
     secret_key: Optional[str] = Field(default=None, description="Secret access key")
     bucket: str = Field(default="hanzo", description="Default bucket name")
     use_ssl: bool = Field(default=True, description="Use SSL/TLS")
     verify_ssl: bool = Field(default=True, description="Verify SSL certificates")
-    session_token: Optional[str] = Field(default=None, description="Session token (for temporary credentials)")
-    addressing_style: str = Field(default="auto", description="Path or virtual addressing style")
+    session_token: Optional[str] = Field(
+        default=None, description="Session token (for temporary credentials)"
+    )
+    addressing_style: str = Field(
+        default="auto", description="Path or virtual addressing style"
+    )
 
     @classmethod
     def from_env(cls) -> StorageConfig:
@@ -124,7 +130,9 @@ class StorageClient:
 
             from aiobotocore.session import get_session
         except ImportError as e:
-            raise ImportError("aiobotocore is required for StorageClient. Install with: pip install aiobotocore") from e
+            raise ImportError(
+                "aiobotocore is required for StorageClient. Install with: pip install aiobotocore"
+            ) from e
 
         self._session = get_session()
         self._exit_stack = AsyncExitStack()
@@ -191,7 +199,9 @@ class StorageClient:
         bucket_name = bucket or self.config.bucket
         create_config = {}
         if self.config.region != "us-east-1":
-            create_config["CreateBucketConfiguration"] = {"LocationConstraint": self.config.region}
+            create_config["CreateBucketConfiguration"] = {
+                "LocationConstraint": self.config.region
+            }
         await self._client.create_bucket(Bucket=bucket_name, **create_config)
 
     async def delete_bucket(self, bucket: Optional[str] = None) -> None:

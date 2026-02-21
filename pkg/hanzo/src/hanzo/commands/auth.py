@@ -64,7 +64,11 @@ class AuthManager:
         if os.getenv("HANZO_API_KEY"):
             return os.getenv("HANZO_API_KEY")
         auth = self.load_auth()
-        return auth.get("api_key") or auth.get("token") or auth.get("tokens", {}).get("access_token")
+        return (
+            auth.get("api_key")
+            or auth.get("token")
+            or auth.get("tokens", {}).get("access_token")
+        )
 
 
 @click.group(name="auth")
@@ -133,7 +137,9 @@ def login(ctx, api_key: str, device_code: bool, headless: bool):
 def _get_iam_url(auth_mgr: AuthManager) -> str:
     """Get the IAM URL from env or stored config."""
     existing = auth_mgr.load_auth()
-    return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL", existing.get("iam_url", HANZO_IAM_URL)))
+    return os.getenv(
+        "IAM_URL", os.getenv("HANZO_IAM_URL", existing.get("iam_url", HANZO_IAM_URL))
+    )
 
 
 def _decode_jwt_claims(token: str) -> dict:
@@ -327,7 +333,9 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     device_code = data["device_code"]
     user_code = data["user_code"]
     verification_url = data.get("verification_uri", f"{iam_url}/device")
-    verification_url_complete = data.get("verification_uri_complete", f"{verification_url}?user_code={user_code}")
+    verification_url_complete = data.get(
+        "verification_uri_complete", f"{verification_url}?user_code={user_code}"
+    )
     expires_in = data.get("expires_in", 300)
     interval = data.get("interval", 5)
 
@@ -401,7 +409,9 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
                         interval += 5
                         continue
                     elif error == "expired_token":
-                        console.print("[red]Device code expired. Please try again.[/red]")
+                        console.print(
+                            "[red]Device code expired. Please try again.[/red]"
+                        )
                         return
                     elif error == "access_denied":
                         console.print("[red]Authentication denied.[/red]")
@@ -430,7 +440,13 @@ def logout(ctx):
         # Clear login state but preserve IAM config
         auth = auth_mgr.load_auth()
         preserved = {}
-        for key in ("iam_url", "iam_client_id", "iam_client_secret", "iam_org", "iam_app"):
+        for key in (
+            "iam_url",
+            "iam_client_id",
+            "iam_client_secret",
+            "iam_org",
+            "iam_app",
+        ):
             if key in auth:
                 preserved[key] = auth[key]
         auth_mgr.save_auth(preserved)
@@ -529,7 +545,9 @@ def whoami():
         lines.append(f"[cyan]Last Login:[/cyan] {auth['last_login']}")
 
     content = "\n".join(lines) if lines else "[dim]No user information available[/dim]"
-    console.print(Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED))
+    console.print(
+        Panel(content, title="[bold cyan]User Information[/bold cyan]", box=box.ROUNDED)
+    )
 
 
 @auth_group.command(name="set-key")
@@ -581,14 +599,23 @@ def _print_context():
     ctx = load_context()
     if not ctx:
         console.print("[yellow]No context set.[/yellow]")
-        console.print("[dim]Run 'hanzo auth context set --org ORG --project PROJECT --env ENV'[/dim]")
+        console.print(
+            "[dim]Run 'hanzo auth context set --org ORG --project PROJECT --env ENV'[/dim]"
+        )
         return
 
     table = Table(title="Active Context", box=box.ROUNDED)
     table.add_column("Property", style="cyan")
     table.add_column("Value", style="white")
 
-    for key in ("org_id", "org_name", "project_id", "project_name", "env_id", "env_name"):
+    for key in (
+        "org_id",
+        "org_name",
+        "project_id",
+        "project_name",
+        "env_id",
+        "env_name",
+    ):
         if ctx.get(key):
             label = key.replace("_", " ").title()
             table.add_row(label, ctx[key])
@@ -608,7 +635,13 @@ def context_set(org: str, project: str, env: str):
       hanzo auth context set --org hanzo
       hanzo auth context set --org hanzo --project myapp --env development
     """
-    from ..utils.api_client import PaaSClient, env_url, org_url, project_url, save_context
+    from ..utils.api_client import (
+        PaaSClient,
+        env_url,
+        org_url,
+        project_url,
+        save_context,
+    )
 
     try:
         client = PaaSClient()
@@ -636,7 +669,9 @@ def context_set(org: str, project: str, env: str):
         console.print(f"[red]Organization '{org}' not found.[/red]")
         return
 
-    ctx["org_id"] = matched_org.get("_id") or matched_org.get("iid") or matched_org.get("id")
+    ctx["org_id"] = (
+        matched_org.get("_id") or matched_org.get("iid") or matched_org.get("id")
+    )
     ctx["org_name"] = matched_org.get("name", org)
     console.print(f"[green]✓[/green] Organization: {ctx['org_name']}")
 
@@ -648,7 +683,11 @@ def context_set(org: str, project: str, env: str):
                 save_context(ctx)
                 return
 
-        projects = data if isinstance(data, list) else data.get("projects", data.get("data", []))
+        projects = (
+            data
+            if isinstance(data, list)
+            else data.get("projects", data.get("data", []))
+        )
         matched_proj = None
         for p in projects:
             pid = p.get("_id") or p.get("iid") or p.get("id", "")
@@ -658,11 +697,15 @@ def context_set(org: str, project: str, env: str):
                 break
 
         if not matched_proj:
-            console.print(f"[yellow]Project '{project}' not found. Saving org-only context.[/yellow]")
+            console.print(
+                f"[yellow]Project '{project}' not found. Saving org-only context.[/yellow]"
+            )
             save_context(ctx)
             return
 
-        ctx["project_id"] = matched_proj.get("_id") or matched_proj.get("iid") or matched_proj.get("id")
+        ctx["project_id"] = (
+            matched_proj.get("_id") or matched_proj.get("iid") or matched_proj.get("id")
+        )
         ctx["project_name"] = matched_proj.get("name", project)
         console.print(f"[green]✓[/green] Project: {ctx['project_name']}")
 
@@ -674,7 +717,11 @@ def context_set(org: str, project: str, env: str):
                 save_context(ctx)
                 return
 
-        envs = data if isinstance(data, list) else data.get("environments", data.get("data", []))
+        envs = (
+            data
+            if isinstance(data, list)
+            else data.get("environments", data.get("data", []))
+        )
         matched_env = None
         for e in envs:
             eid = e.get("_id") or e.get("iid") or e.get("id", "")
@@ -684,11 +731,15 @@ def context_set(org: str, project: str, env: str):
                 break
 
         if not matched_env:
-            console.print(f"[yellow]Environment '{env}' not found. Saving org+project context.[/yellow]")
+            console.print(
+                f"[yellow]Environment '{env}' not found. Saving org+project context.[/yellow]"
+            )
             save_context(ctx)
             return
 
-        ctx["env_id"] = matched_env.get("_id") or matched_env.get("iid") or matched_env.get("id")
+        ctx["env_id"] = (
+            matched_env.get("_id") or matched_env.get("iid") or matched_env.get("id")
+        )
         ctx["env_name"] = matched_env.get("name", env)
         console.print(f"[green]✓[/green] Environment: {ctx['env_name']}")
 
@@ -699,7 +750,13 @@ def context_set(org: str, project: str, env: str):
 @context_group.command(name="list")
 def context_list():
     """List available orgs, projects, and environments."""
-    from ..utils.api_client import PaaSClient, env_url, org_url, project_url, load_context
+    from ..utils.api_client import (
+        PaaSClient,
+        env_url,
+        org_url,
+        project_url,
+        load_context,
+    )
 
     try:
         client = PaaSClient()
@@ -735,9 +792,16 @@ def context_list():
             data = client.get(project_url(current["org_id"]))
 
         if data:
-            projects = data if isinstance(data, list) else data.get("projects", data.get("data", []))
+            projects = (
+                data
+                if isinstance(data, list)
+                else data.get("projects", data.get("data", []))
+            )
             if projects:
-                ptable = Table(title=f"Projects in {current.get('org_name', current['org_id'])}", box=box.ROUNDED)
+                ptable = Table(
+                    title=f"Projects in {current.get('org_name', current['org_id'])}",
+                    box=box.ROUNDED,
+                )
                 ptable.add_column("", style="green", width=2)
                 ptable.add_column("ID", style="cyan")
                 ptable.add_column("Name", style="white")
@@ -756,10 +820,15 @@ def context_list():
             data = client.get(env_url(current["org_id"], current["project_id"]))
 
         if data:
-            envs = data if isinstance(data, list) else data.get("environments", data.get("data", []))
+            envs = (
+                data
+                if isinstance(data, list)
+                else data.get("environments", data.get("data", []))
+            )
             if envs:
                 etable = Table(
-                    title=f"Environments in {current.get('project_name', current['project_id'])}", box=box.ROUNDED
+                    title=f"Environments in {current.get('project_name', current['project_id'])}",
+                    box=box.ROUNDED,
                 )
                 etable.add_column("", style="green", width=2)
                 etable.add_column("ID", style="cyan")

@@ -66,7 +66,9 @@ def flows():
 
 
 @flows.command(name="list")
-@click.option("--status", type=click.Choice(["active", "inactive", "all"]), default="all")
+@click.option(
+    "--status", type=click.Choice(["active", "inactive", "all"]), default="all"
+)
 def flows_list(status: str):
     """List all automation flows."""
     params = {}
@@ -97,12 +99,19 @@ def flows_list(status: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No flows found. Create one with 'hanzo auto flows create'[/dim]")
+        console.print(
+            "[dim]No flows found. Create one with 'hanzo auto flows create'[/dim]"
+        )
 
 
 @flows.command(name="create")
 @click.option("--name", "-n", prompt=True, help="Flow name")
-@click.option("--trigger", "-t", type=click.Choice(["webhook", "schedule", "manual"]), default="manual")
+@click.option(
+    "--trigger",
+    "-t",
+    type=click.Choice(["webhook", "schedule", "manual"]),
+    default="manual",
+)
 def flows_create(name: str, trigger: str):
     """Create a new automation flow."""
     body = {"name": name, "trigger_type": trigger}
@@ -272,7 +281,9 @@ def connections_list():
 
     console.print(table)
     if not items:
-        console.print("[dim]No connections found. Add one with 'hanzo auto connections add'[/dim]")
+        console.print(
+            "[dim]No connections found. Add one with 'hanzo auto connections add'[/dim]"
+        )
 
 
 @connections.command(name="add")
@@ -330,7 +341,9 @@ def init():
 @click.option("--port", "-p", default=8080, help="Port to run on")
 def dev(port: int):
     """Start local development server."""
-    console.print(f"[cyan]Starting Hanzo Auto development server on port {port}...[/cyan]")
+    console.print(
+        f"[cyan]Starting Hanzo Auto development server on port {port}...[/cyan]"
+    )
     console.print()
     console.print(f"  [cyan]Visual Editor:[/cyan] http://localhost:{port}")
     console.print(f"  [cyan]API:[/cyan] http://localhost:{port}/api")
@@ -372,7 +385,11 @@ def runs():
 
 @runs.command(name="list")
 @click.option("--flow", "-f", help="Filter by flow")
-@click.option("--status", type=click.Choice(["success", "failed", "running", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["success", "failed", "running", "all"]),
+    default="all",
+)
 @click.option("--limit", "-n", default=50, help="Max results")
 def runs_list(flow: str, status: str, limit: int):
     """List flow runs."""
@@ -423,7 +440,11 @@ def runs_show(run_id: str):
     data = check_response(resp)
 
     run_status = data.get("status", "unknown")
-    status_style = "green" if run_status in ("success", "completed") else "red" if run_status == "failed" else "cyan"
+    status_style = (
+        "green"
+        if run_status in ("success", "completed")
+        else "red" if run_status == "failed" else "cyan"
+    )
 
     console.print(
         Panel(
@@ -461,7 +482,9 @@ def runs_logs(run_id: str, step: str):
             ts = str(line.get("timestamp", ""))[:19]
             level = line.get("level", "info")
             msg = line.get("message", "")
-            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            style = (
+                "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            )
             console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
         else:
             console.print(str(line))

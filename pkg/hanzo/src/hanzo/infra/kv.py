@@ -22,12 +22,16 @@ class KVConfig(BaseModel):
     port: int = Field(default=6379, description="Redis server port")
     password: Optional[str] = Field(default=None, description="Redis password")
     db: int = Field(default=0, description="Redis database number")
-    url: Optional[str] = Field(default=None, description="Full Redis URL (overrides host/port)")
+    url: Optional[str] = Field(
+        default=None, description="Full Redis URL (overrides host/port)"
+    )
     ssl: bool = Field(default=False, description="Use SSL/TLS")
     socket_timeout: float = Field(default=5.0, description="Socket timeout in seconds")
     socket_connect_timeout: float = Field(default=5.0, description="Connection timeout")
     max_connections: int = Field(default=10, description="Max pool connections")
-    decode_responses: bool = Field(default=True, description="Decode responses as strings")
+    decode_responses: bool = Field(
+        default=True, description="Decode responses as strings"
+    )
 
     @classmethod
     def from_env(cls) -> KVConfig:
@@ -99,7 +103,9 @@ class KVClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError("redis is required for KVClient. Install with: pip install redis") from e
+            raise ImportError(
+                "redis is required for KVClient. Install with: pip install redis"
+            ) from e
 
         if self.config.url:
             self._client = redis.from_url(
@@ -336,7 +342,9 @@ class KVClient:
         """
         return await self._client.rpush(key, *values)
 
-    async def lpop(self, key: str, count: Optional[int] = None) -> Optional[Union[str, list[str]]]:
+    async def lpop(
+        self, key: str, count: Optional[int] = None
+    ) -> Optional[Union[str, list[str]]]:
         """Pop values from the head of a list.
 
         Args:
@@ -348,7 +356,9 @@ class KVClient:
         """
         return await self._client.lpop(key, count)
 
-    async def rpop(self, key: str, count: Optional[int] = None) -> Optional[Union[str, list[str]]]:
+    async def rpop(
+        self, key: str, count: Optional[int] = None
+    ) -> Optional[Union[str, list[str]]]:
         """Pop values from the tail of a list.
 
         Args:

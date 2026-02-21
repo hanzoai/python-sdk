@@ -132,7 +132,9 @@ def metrics_query(promql: str, start: str, end: str, step: str):
 
 @metrics.command(name="export")
 @click.argument("promql")
-@click.option("--format", "-f", "fmt", type=click.Choice(["json", "csv"]), default="json")
+@click.option(
+    "--format", "-f", "fmt", type=click.Choice(["json", "csv"]), default="json"
+)
 @click.option("--output", "-o", help="Output file")
 @click.option("--start", "-s", help="Start time")
 @click.option("--end", "-e", help="End time")
@@ -149,10 +151,14 @@ def metrics_export(promql: str, fmt: str, output: str, start: str, end: str):
     content = data.get("data", "")
     if output:
         with open(output, "w") as f:
-            f.write(content if isinstance(content, str) else json.dumps(content, indent=2))
+            f.write(
+                content if isinstance(content, str) else json.dumps(content, indent=2)
+            )
         console.print(f"[green]✓[/green] Exported to {output}")
     else:
-        console.print(content if isinstance(content, str) else json.dumps(content, indent=2))
+        console.print(
+            content if isinstance(content, str) else json.dumps(content, indent=2)
+        )
 
 
 # ============================================================================
@@ -200,7 +206,12 @@ def logs_search(query: str, source: str, level: str, limit: int, start: str, end
 
     for entry in entries:
         lvl = entry.get("level", "info")
-        lvl_style = {"error": "red", "warn": "yellow", "info": "green", "debug": "dim"}.get(lvl, "white")
+        lvl_style = {
+            "error": "red",
+            "warn": "yellow",
+            "info": "green",
+            "debug": "dim",
+        }.get(lvl, "white")
         table.add_row(
             entry.get("timestamp", ""),
             f"[{lvl_style}]{lvl}[/{lvl_style}]",
@@ -230,19 +241,32 @@ def logs_tail(source: str, filter: str, level: str):
     try:
         url = f"{SERVICE_URL}/v1/logs/tail"
         from .base import get_api_key
+
         api_key = get_api_key()
         if not api_key:
             raise click.ClickException("Not authenticated. Run 'hanzo login' first.")
 
         with httpx.Client(timeout=None) as client:
-            with client.stream("GET", url, params=params, headers={"Authorization": f"Bearer {api_key}"}) as stream:
+            with client.stream(
+                "GET",
+                url,
+                params=params,
+                headers={"Authorization": f"Bearer {api_key}"},
+            ) as stream:
                 for line in stream.iter_lines():
                     if line:
                         try:
                             entry = json.loads(line)
                             lvl = entry.get("level", "info")
-                            lvl_style = {"error": "red", "warn": "yellow", "info": "green", "debug": "dim"}.get(lvl, "white")
-                            console.print(f"[dim]{entry.get('timestamp', '')}[/dim] [{lvl_style}]{lvl}[/{lvl_style}] [cyan]{entry.get('source', '')}[/cyan] {entry.get('message', '')}")
+                            lvl_style = {
+                                "error": "red",
+                                "warn": "yellow",
+                                "info": "green",
+                                "debug": "dim",
+                            }.get(lvl, "white")
+                            console.print(
+                                f"[dim]{entry.get('timestamp', '')}[/dim] [{lvl_style}]{lvl}[/{lvl_style}] [cyan]{entry.get('source', '')}[/cyan] {entry.get('message', '')}"
+                            )
                         except json.JSONDecodeError:
                             console.print(line)
     except KeyboardInterrupt:
@@ -470,7 +494,11 @@ def alerts():
 
 
 @alerts.command(name="list")
-@click.option("--status", type=click.Choice(["firing", "pending", "inactive", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["firing", "pending", "inactive", "all"]),
+    default="all",
+)
 def alerts_list(status: str):
     """List alert rules."""
     params: dict = {}
@@ -505,10 +533,19 @@ def alerts_list(status: str):
 @alerts.command(name="create")
 @click.option("--name", "-n", prompt=True, help="Alert name")
 @click.option("--condition", "-c", required=True, help="PromQL condition")
-@click.option("--severity", "-s", type=click.Choice(["critical", "warning", "info"]), default="warning")
+@click.option(
+    "--severity",
+    "-s",
+    type=click.Choice(["critical", "warning", "info"]),
+    default="warning",
+)
 @click.option("--channel", help="Notification channel")
-@click.option("--for-duration", "for_duration", default="5m", help="Duration before firing")
-def alerts_create(name: str, condition: str, severity: str, channel: str, for_duration: str):
+@click.option(
+    "--for-duration", "for_duration", default="5m", help="Duration before firing"
+)
+def alerts_create(
+    name: str, condition: str, severity: str, channel: str, for_duration: str
+):
     """Create an alert rule."""
     payload: dict = {
         "name": name,
@@ -602,7 +639,9 @@ def prompts_create(name: str, template: str, model: str, config: str, label: str
         payload["config"] = json.loads(config)
     resp = _request("post", "/v1/prompts", json=payload)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Prompt '{name}' created (v{data.get('version', '1')})")
+    console.print(
+        f"[green]✓[/green] Prompt '{name}' created (v{data.get('version', '1')})"
+    )
     if model:
         console.print(f"  Model: {model}")
 
@@ -641,7 +680,11 @@ def prompts_get(name: str, version: int, label: str):
 @click.option("--to", "to_label", required=True, help="Target label")
 def prompts_promote(name: str, version: int, to_label: str):
     """Promote a prompt version to a label."""
-    resp = _request("post", f"/v1/prompts/{name}/promote", json={"version": version, "label": to_label})
+    resp = _request(
+        "post",
+        f"/v1/prompts/{name}/promote",
+        json={"version": version, "label": to_label},
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Promoted '{name}' v{version} to {to_label}")
 
@@ -757,7 +800,9 @@ def generations_show(generation_id: str):
 @click.option("--by", type=click.Choice(["model", "prompt", "user"]), default="model")
 def generations_stats(time_range: str, by: str):
     """Show generation statistics."""
-    resp = _request("get", "/v1/generations/stats", params={"range": time_range, "group_by": by})
+    resp = _request(
+        "get", "/v1/generations/stats", params={"range": time_range, "group_by": by}
+    )
     data = check_response(resp)
 
     console.print(f"[cyan]Generation Statistics (last {time_range}):[/cyan]")
@@ -798,7 +843,11 @@ def evals():
 
 
 @evals.command(name="list")
-@click.option("--status", type=click.Choice(["pending", "running", "completed", "all"]), default="all")
+@click.option(
+    "--status",
+    type=click.Choice(["pending", "running", "completed", "all"]),
+    default="all",
+)
 def evals_list(status: str):
     """List evaluations."""
     params: dict = {}
@@ -817,7 +866,12 @@ def evals_list(status: str):
 
     for e in data.get("evals", []):
         st = e.get("status", "pending")
-        st_style = {"completed": "green", "running": "cyan", "pending": "yellow", "failed": "red"}.get(st, "white")
+        st_style = {
+            "completed": "green",
+            "running": "cyan",
+            "pending": "yellow",
+            "failed": "red",
+        }.get(st, "white")
         score = f"{e.get('score', 0):.2f}" if e.get("score") is not None else "-"
         table.add_row(
             e.get("name", ""),
@@ -864,7 +918,9 @@ def evals_run(name: str, parallel: int):
 
 @evals.command(name="results")
 @click.argument("name")
-@click.option("--format", "-f", "fmt", type=click.Choice(["table", "json"]), default="table")
+@click.option(
+    "--format", "-f", "fmt", type=click.Choice(["table", "json"]), default="table"
+)
 def evals_results(name: str, fmt: str):
     """Show evaluation results."""
     resp = _request("get", f"/v1/evals/{name}/results")
@@ -918,7 +974,9 @@ def scores():
 @scores.command(name="list")
 @click.option("--trace", "-t", help="Filter by trace ID")
 @click.option("--name", "-n", help="Filter by score name")
-@click.option("--source", type=click.Choice(["api", "human", "model", "all"]), default="all")
+@click.option(
+    "--source", type=click.Choice(["api", "human", "model", "all"]), default="all"
+)
 @click.option("--limit", default=50, help="Max results")
 def scores_list(trace: str, name: str, source: str, limit: int):
     """List scores."""
@@ -958,7 +1016,9 @@ def scores_list(trace: str, name: str, source: str, limit: int):
 @click.option("--name", "-n", required=True, help="Score name")
 @click.option("--value", "-v", type=float, required=True, help="Score value (0-1)")
 @click.option("--comment", "-c", help="Optional comment")
-@click.option("--source", "-s", type=click.Choice(["api", "human", "model"]), default="api")
+@click.option(
+    "--source", "-s", type=click.Choice(["api", "human", "model"]), default="api"
+)
 def scores_add(trace: str, name: str, value: float, comment: str, source: str):
     """Add a score to a trace."""
     payload: dict = {"trace_id": trace, "name": name, "value": value, "source": source}
@@ -1083,27 +1143,42 @@ def datasets_add_item(dataset_name: str, input_data: str, expected: str, metadat
 
 @datasets.command(name="import")
 @click.argument("dataset_name")
-@click.option("--file", "-f", "file_path", required=True, help="File to import (JSON/CSV)")
+@click.option(
+    "--file", "-f", "file_path", required=True, help="File to import (JSON/CSV)"
+)
 def datasets_import(dataset_name: str, file_path: str):
     """Import items from file."""
     with open(file_path) as f:
         content = f.read()
 
     if file_path.endswith(".csv"):
-        resp = _request("post", f"/v1/datasets/{dataset_name}/import", content=content, headers={"Content-Type": "text/csv"})
+        resp = _request(
+            "post",
+            f"/v1/datasets/{dataset_name}/import",
+            content=content,
+            headers={"Content-Type": "text/csv"},
+        )
     else:
-        resp = _request("post", f"/v1/datasets/{dataset_name}/import", json=json.loads(content))
+        resp = _request(
+            "post", f"/v1/datasets/{dataset_name}/import", json=json.loads(content)
+        )
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Imported {data.get('count', '?')} items to '{dataset_name}'")
+    console.print(
+        f"[green]✓[/green] Imported {data.get('count', '?')} items to '{dataset_name}'"
+    )
 
 
 @datasets.command(name="export")
 @click.argument("dataset_name")
 @click.option("--output", "-o", help="Output file")
-@click.option("--format", "-f", "fmt", type=click.Choice(["json", "csv"]), default="json")
+@click.option(
+    "--format", "-f", "fmt", type=click.Choice(["json", "csv"]), default="json"
+)
 def datasets_export(dataset_name: str, output: str, fmt: str):
     """Export dataset to file."""
-    resp = _request("get", f"/v1/datasets/{dataset_name}/export", params={"format": fmt})
+    resp = _request(
+        "get", f"/v1/datasets/{dataset_name}/export", params={"format": fmt}
+    )
     data = check_response(resp)
 
     out_file = output or f"{dataset_name}.{fmt}"
@@ -1256,10 +1331,14 @@ def llm_traces(user: str, name: str, session: str, limit: int):
 
 @llm.command(name="costs")
 @click.option("--range", "-r", "time_range", default="30d", help="Time range")
-@click.option("--by", type=click.Choice(["model", "user", "prompt", "day"]), default="model")
+@click.option(
+    "--by", type=click.Choice(["model", "user", "prompt", "day"]), default="model"
+)
 def llm_costs(time_range: str, by: str):
     """Show LLM cost analysis."""
-    resp = _request("get", "/v1/llm/costs", params={"range": time_range, "group_by": by})
+    resp = _request(
+        "get", "/v1/llm/costs", params={"range": time_range, "group_by": by}
+    )
     data = check_response(resp)
 
     console.print(f"[cyan]LLM Cost Analysis (last {time_range}):[/cyan]")
@@ -1288,10 +1367,14 @@ def llm_costs(time_range: str, by: str):
 
 @llm.command(name="latency")
 @click.option("--range", "-r", "time_range", default="24h", help="Time range")
-@click.option("--by", type=click.Choice(["model", "prompt", "endpoint"]), default="model")
+@click.option(
+    "--by", type=click.Choice(["model", "prompt", "endpoint"]), default="model"
+)
 def llm_latency(time_range: str, by: str):
     """Show LLM latency analysis."""
-    resp = _request("get", "/v1/llm/latency", params={"range": time_range, "group_by": by})
+    resp = _request(
+        "get", "/v1/llm/latency", params={"range": time_range, "group_by": by}
+    )
     data = check_response(resp)
 
     console.print(f"[cyan]LLM Latency Analysis (last {time_range}):[/cyan]")

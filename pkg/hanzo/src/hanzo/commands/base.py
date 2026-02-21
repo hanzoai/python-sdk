@@ -91,7 +91,9 @@ def api_request(method: str, path: str, **kwargs) -> httpx.Response:
     headers["Authorization"] = f"Bearer {api_key}"
 
     with httpx.Client(timeout=60) as client:
-        return getattr(client, method)(f"{HANZO_API_URL}{path}", headers=headers, **kwargs)
+        return getattr(client, method)(
+            f"{HANZO_API_URL}{path}", headers=headers, **kwargs
+        )
 
 
 def service_request(base_url: str, method: str, path: str, **kwargs) -> httpx.Response:
@@ -109,7 +111,9 @@ def service_request(base_url: str, method: str, path: str, **kwargs) -> httpx.Re
 
     try:
         with httpx.Client(timeout=60) as client:
-            return getattr(client, method)(f"{base_url}{path}", headers=headers, **kwargs)
+            return getattr(client, method)(
+                f"{base_url}{path}", headers=headers, **kwargs
+            )
     except httpx.ConnectError:
         raise click.ClickException(f"Could not connect to {base_url}")
 
@@ -210,7 +214,7 @@ def init(name: str, org: Optional[str], region: str):
     (project_dir / "seed").mkdir(exist_ok=True)
 
     # Create config.toml
-    config = f'''# Hanzo Base Configuration
+    config = f"""# Hanzo Base Configuration
 # https://docs.hanzo.ai/base/config
 
 [project]
@@ -253,7 +257,7 @@ enabled = true
 
 [commerce]
 enabled = false
-'''
+"""
     (project_dir / "config.toml").write_text(config)
 
     # Create seed.sql
@@ -301,7 +305,8 @@ CREATE POLICY "Users can update own profile"
     # Create example function
     func_dir = project_dir / "functions" / "hello"
     func_dir.mkdir(exist_ok=True)
-    (func_dir / "index.ts").write_text("""import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+    (func_dir / "index.ts").write_text(
+        """import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 serve(async (req) => {
   const { name } = await req.json()
@@ -314,7 +319,8 @@ serve(async (req) => {
     { headers: { "Content-Type": "application/json" } },
   )
 })
-""")
+"""
+    )
 
     # Create .gitignore
     gitignore = Path.cwd() / ".gitignore"
@@ -351,7 +357,10 @@ def link(project: Optional[str]):
 
         if project:
             # Find by ID or name
-            matched = next((p for p in projects if p["id"] == project or p["name"] == project), None)
+            matched = next(
+                (p for p in projects if p["id"] == project or p["name"] == project),
+                None,
+            )
             if not matched:
                 raise click.ClickException(f"Project '{project}' not found")
             selected = matched
@@ -380,7 +389,9 @@ def start():
     try:
         subprocess.run(["docker", "info"], capture_output=True, check=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
-        raise click.ClickException("Docker is required. Install from https://docker.com")
+        raise click.ClickException(
+            "Docker is required. Install from https://docker.com"
+        )
 
     # Start services via docker compose
     compose_file = Path.cwd() / "hanzo" / "docker-compose.yml"
@@ -481,7 +492,9 @@ volumes:
     console.print()
     console.print("  [cyan]Studio:[/cyan]    http://localhost:54323")
     console.print("  [cyan]API:[/cyan]       http://localhost:54321")
-    console.print("  [cyan]Database:[/cyan] postgresql://postgres:postgres@localhost:54322/postgres")
+    console.print(
+        "  [cyan]Database:[/cyan] postgresql://postgres:postgres@localhost:54322/postgres"
+    )
     console.print("  [cyan]Realtime:[/cyan] ws://localhost:54325")
 
 
@@ -513,14 +526,18 @@ def status():
     ]
 
     for name, local, remote in services:
-        table.add_row(name, f"● {local}", f"● {remote}" if project_id else "○ Not linked")
+        table.add_row(
+            name, f"● {local}", f"● {remote}" if project_id else "○ Not linked"
+        )
 
     console.print(table)
 
     if project_id:
         console.print(f"\n[dim]Linked to project: {project_id}[/dim]")
     else:
-        console.print("\n[dim]Run 'hanzo base link' to connect to a remote project[/dim]")
+        console.print(
+            "\n[dim]Run 'hanzo base link' to connect to a remote project[/dim]"
+        )
 
 
 # ============================================================================
@@ -694,7 +711,9 @@ def users_list(limit: int):
         raise click.ClickException("No project linked")
 
     try:
-        resp = api_request("get", f"/v1/base/{project_id}/auth/users", params={"limit": limit})
+        resp = api_request(
+            "get", f"/v1/base/{project_id}/auth/users", params={"limit": limit}
+        )
         users = resp.json().get("users", [])
 
         table = Table(title="Users", box=box.ROUNDED)
@@ -949,7 +968,8 @@ def functions_new(name: str):
     func_dir = Path.cwd() / "hanzo" / "functions" / name
     func_dir.mkdir(parents=True, exist_ok=True)
 
-    (func_dir / "index.ts").write_text(f"""import {{ serve }} from "https://deno.land/std@0.168.0/http/server.ts"
+    (func_dir / "index.ts").write_text(
+        f"""import {{ serve }} from "https://deno.land/std@0.168.0/http/server.ts"
 
 serve(async (req) => {{
   const data = {{
@@ -961,7 +981,8 @@ serve(async (req) => {{
     {{ headers: {{ "Content-Type": "application/json" }} }},
   )
 }})
-""")
+"""
+    )
 
     console.print(f"[green]✓ Created function: {name}[/green]")
     console.print(f"  Edit: hanzo/functions/{name}/index.ts")
@@ -1094,7 +1115,9 @@ def projects_create(name: str, org: Optional[str], region: str):
 @click.argument("project_id")
 def projects_delete(project_id: str):
     """Delete a project."""
-    if not Confirm.ask(f"[red]Delete project {project_id}? This cannot be undone.[/red]"):
+    if not Confirm.ask(
+        f"[red]Delete project {project_id}? This cannot be undone.[/red]"
+    ):
         return
     console.print("[green]✓ Project deleted[/green]")
 
@@ -1135,7 +1158,9 @@ def gen():
 
 
 @gen.command(name="types")
-@click.option("--lang", type=click.Choice(["typescript", "python", "go"]), default="typescript")
+@click.option(
+    "--lang", type=click.Choice(["typescript", "python", "go"]), default="typescript"
+)
 @click.option("--output", "-o", default="types", help="Output directory")
 def gen_types(lang: str, output: str):
     """Generate types from database schema."""
