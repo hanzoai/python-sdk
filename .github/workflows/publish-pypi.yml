@@ -157,20 +157,16 @@ jobs:
             echo "=========================================="
             echo "Building and publishing $package..."
             echo "=========================================="
-            
+
             if [ -d "pkg/$package" ]; then
-              cd "pkg/$package"
-
               # Clean any previous builds
-              rm -rf dist/ build/ *.egg-info
+              rm -rf "pkg/$package/dist/" "pkg/$package/build/"
 
-              # Build the package
-              python -m build
+              # Build from repo root to avoid stdlib shadowing (hanzoai/types vs types)
+              python -m build "pkg/$package" --outdir "pkg/$package/dist"
 
               # Upload to PyPI
-              python -m twine upload dist/* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
-
-              cd ../..
+              python -m twine upload "pkg/$package/dist/"* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
             else
               echo "Warning: Package directory pkg/$package does not exist, skipping"
             fi
