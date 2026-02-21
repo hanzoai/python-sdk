@@ -62,7 +62,12 @@ def doc_group():
 @doc_group.command(name="create")
 @click.argument("name")
 @click.option("--region", "-r", multiple=True, help="Regions for replication")
-@click.option("--tier", "-t", type=click.Choice(["free", "standard", "dedicated"]), default="standard")
+@click.option(
+    "--tier",
+    "-t",
+    type=click.Choice(["free", "standard", "dedicated"]),
+    default="standard",
+)
 def doc_create(name: str, region: tuple, tier: str):
     """Create a document database."""
     payload = {"name": name, "tier": tier}
@@ -77,7 +82,9 @@ def doc_create(name: str, region: tuple, tier: str):
     console.print(f"  Tier: {tier}")
     if region:
         console.print(f"  Regions: {', '.join(region)}")
-    console.print(f"  Connection: {data.get('connection_string', f'mongodb://doc.hanzo.ai/{name}')}")
+    console.print(
+        f"  Connection: {data.get('connection_string', f'mongodb://doc.hanzo.ai/{name}')}"
+    )
 
 
 @doc_group.command(name="list")
@@ -107,7 +114,9 @@ def doc_list():
 
     console.print(table)
     if not dbs:
-        console.print("[dim]No databases found. Create one with 'hanzo doc create'[/dim]")
+        console.print(
+            "[dim]No databases found. Create one with 'hanzo doc create'[/dim]"
+        )
 
 
 @doc_group.command(name="describe")
@@ -158,7 +167,9 @@ def doc_connect(name: str):
     """Get connection string."""
     resp = _request("get", f"/v1/databases/{name}")
     data = check_response(resp)
-    conn = data.get("connection_string", f"mongodb://doc.hanzo.ai/{name}?authSource=admin")
+    conn = data.get(
+        "connection_string", f"mongodb://doc.hanzo.ai/{name}?authSource=admin"
+    )
     console.print(f"[cyan]Connection string for '{name}':[/cyan]")
     console.print(conn)
 
@@ -277,7 +288,15 @@ def collections_stats(name: str, db: str):
 @click.option("--sort", "-s", help="Sort order")
 @click.option("--limit", "-n", default=20, help="Max results")
 @click.option("--skip", type=int, help="Skip documents")
-def doc_find(collection: str, db: str, query: str, projection: str, sort: str, limit: int, skip: int):
+def doc_find(
+    collection: str,
+    db: str,
+    query: str,
+    projection: str,
+    sort: str,
+    limit: int,
+    skip: int,
+):
     """Query documents in a collection.
 
     \b
@@ -294,7 +313,9 @@ def doc_find(collection: str, db: str, query: str, projection: str, sort: str, l
     if skip:
         payload["skip"] = skip
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/find", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/find", json=payload
+    )
     data = check_response(resp)
     docs = data.get("documents", data.get("items", []))
 
@@ -325,7 +346,11 @@ def doc_insert(collection: str, db: str, doc: str, file: str):
     else:
         raise click.ClickException("Provide --doc or --file")
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/insert", json={"document": document})
+    resp = _request(
+        "post",
+        f"/v1/databases/{db}/collections/{collection}/insert",
+        json={"document": document},
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Inserted document into '{collection}'")
@@ -339,7 +364,14 @@ def doc_insert(collection: str, db: str, doc: str, file: str):
 @click.option("--set", "set_fields", multiple=True, help="Fields to set")
 @click.option("--unset", "unset_fields", multiple=True, help="Fields to unset")
 @click.option("--upsert", is_flag=True, help="Insert if not found")
-def doc_update(collection: str, db: str, filter: str, set_fields: tuple, unset_fields: tuple, upsert: bool):
+def doc_update(
+    collection: str,
+    db: str,
+    filter: str,
+    set_fields: tuple,
+    unset_fields: tuple,
+    upsert: bool,
+):
     """Update documents.
 
     \b
@@ -363,11 +395,15 @@ def doc_update(collection: str, db: str, filter: str, set_fields: tuple, unset_f
         "upsert": upsert,
     }
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/update", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/update", json=payload
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Updated documents in '{collection}'")
-    console.print(f"  Matched: {data.get('matched_count', 0)}, Modified: {data.get('modified_count', 0)}")
+    console.print(
+        f"  Matched: {data.get('matched_count', 0)}, Modified: {data.get('modified_count', 0)}"
+    )
     if upsert and data.get("upserted_id"):
         console.print(f"  Upserted: {data['upserted_id']}")
 
@@ -386,7 +422,9 @@ def doc_delete_docs(collection: str, db: str, filter: str, force: bool):
             return
 
     payload = {"filter": json.loads(filter)}
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/delete", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/delete", json=payload
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Deleted documents from '{collection}'")
@@ -400,7 +438,9 @@ def doc_delete_docs(collection: str, db: str, filter: str, force: bool):
 def doc_count(collection: str, db: str, query: str):
     """Count documents."""
     payload = {"filter": json.loads(query)}
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/count", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/count", json=payload
+    )
     data = check_response(resp)
     console.print(f"[cyan]Count in {db}.{collection}:[/cyan] {data.get('count', 0):,}")
 
@@ -433,7 +473,11 @@ def indexes_list(collection: str, db: str):
 
     for idx in items:
         keys = idx.get("keys", idx.get("key", {}))
-        keys_str = ", ".join(f"{k}: {v}" for k, v in keys.items()) if isinstance(keys, dict) else str(keys)
+        keys_str = (
+            ", ".join(f"{k}: {v}" for k, v in keys.items())
+            if isinstance(keys, dict)
+            else str(keys)
+        )
         table.add_row(
             idx.get("name", "-"),
             keys_str,
@@ -447,12 +491,16 @@ def indexes_list(collection: str, db: str):
 @indexes.command(name="create")
 @click.argument("collection")
 @click.option("--db", "-d", default="default")
-@click.option("--keys", "-k", required=True, help="Index keys (e.g., 'field:1' or 'field:-1')")
+@click.option(
+    "--keys", "-k", required=True, help="Index keys (e.g., 'field:1' or 'field:-1')"
+)
 @click.option("--name", "-n", help="Index name")
 @click.option("--unique", "-u", is_flag=True, help="Unique index")
 @click.option("--sparse", is_flag=True, help="Sparse index")
 @click.option("--ttl", help="TTL in seconds")
-def indexes_create(collection: str, db: str, keys: str, name: str, unique: bool, sparse: bool, ttl: str):
+def indexes_create(
+    collection: str, db: str, keys: str, name: str, unique: bool, sparse: bool, ttl: str
+):
     """Create an index.
 
     \b
@@ -476,7 +524,9 @@ def indexes_create(collection: str, db: str, keys: str, name: str, unique: bool,
     if ttl:
         payload["expire_after_seconds"] = int(ttl)
 
-    resp = _request("post", f"/v1/databases/{db}/collections/{collection}/indexes", json=payload)
+    resp = _request(
+        "post", f"/v1/databases/{db}/collections/{collection}/indexes", json=payload
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Index created on '{collection}'")
@@ -492,7 +542,9 @@ def indexes_create(collection: str, db: str, keys: str, name: str, unique: bool,
 @click.option("--db", "-d", default="default")
 def indexes_drop(collection: str, index_name: str, db: str):
     """Drop an index."""
-    resp = _request("delete", f"/v1/databases/{db}/collections/{collection}/indexes/{index_name}")
+    resp = _request(
+        "delete", f"/v1/databases/{db}/collections/{collection}/indexes/{index_name}"
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Index '{index_name}' dropped from '{collection}'")
 
@@ -549,7 +601,11 @@ def doc_users(action: str, db: str, username: str, role: str):
         table.add_column("Created", style="dim")
 
         for u in users:
-            table.add_row(u.get("username", ""), u.get("role", "-"), str(u.get("created_at", ""))[:19])
+            table.add_row(
+                u.get("username", ""),
+                u.get("role", "-"),
+                str(u.get("created_at", ""))[:19],
+            )
 
         console.print(table)
         if not users:
@@ -558,7 +614,11 @@ def doc_users(action: str, db: str, username: str, role: str):
     elif action == "create":
         if not username or not role:
             raise click.ClickException("--username and --role required for create")
-        resp = _request("post", f"/v1/databases/{db}/users", json={"username": username, "role": role})
+        resp = _request(
+            "post",
+            f"/v1/databases/{db}/users",
+            json={"username": username, "role": role},
+        )
         data = check_response(resp)
         console.print(f"[green]✓[/green] User '{username}' created with role '{role}'")
         if data.get("password"):

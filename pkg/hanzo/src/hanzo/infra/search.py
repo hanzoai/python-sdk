@@ -19,7 +19,9 @@ class SearchConfig(BaseModel):
     host: str = Field(default="localhost", description="Meilisearch server host")
     port: int = Field(default=7700, description="Meilisearch server port")
     api_key: Optional[str] = Field(default=None, description="Master or API key")
-    url: Optional[str] = Field(default=None, description="Full URL (overrides host/port)")
+    url: Optional[str] = Field(
+        default=None, description="Full URL (overrides host/port)"
+    )
     timeout: float = Field(default=30.0, description="Request timeout in seconds")
     ssl: bool = Field(default=False, description="Use HTTPS")
 

@@ -20,7 +20,9 @@ class VectorConfig(BaseModel):
     port: int = Field(default=6333, description="Qdrant REST API port")
     grpc_port: int = Field(default=6334, description="Qdrant gRPC port")
     api_key: Optional[str] = Field(default=None, description="API key for Qdrant Cloud")
-    url: Optional[str] = Field(default=None, description="Full URL (overrides host/port)")
+    url: Optional[str] = Field(
+        default=None, description="Full URL (overrides host/port)"
+    )
     https: bool = Field(default=False, description="Use HTTPS")
     timeout: float = Field(default=30.0, description="Request timeout in seconds")
     prefer_grpc: bool = Field(default=True, description="Prefer gRPC over REST")
@@ -218,8 +220,12 @@ class VectorClient:
         """
         from qdrant_client.models import PointStruct
 
-        qdrant_points = [PointStruct(id=p.id, vector=p.vector, payload=p.payload) for p in points]
-        await self._async_client.upsert(collection_name=collection, points=qdrant_points)
+        qdrant_points = [
+            PointStruct(id=p.id, vector=p.vector, payload=p.payload) for p in points
+        ]
+        await self._async_client.upsert(
+            collection_name=collection, points=qdrant_points
+        )
 
     async def search(
         self,

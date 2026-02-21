@@ -84,7 +84,9 @@ def queues_list(project: str):
 
     console.print(table)
     if not items:
-        console.print("[dim]No queues found. Create one with 'hanzo queues create'[/dim]")
+        console.print(
+            "[dim]No queues found. Create one with 'hanzo queues create'[/dim]"
+        )
 
 
 @queues_group.command(name="create")
@@ -93,7 +95,9 @@ def queues_list(project: str):
 @click.option("--rate-limit", "-r", help="Rate limit (e.g., '100/m')")
 @click.option("--retry", default=3, help="Max retry attempts")
 @click.option("--backoff", default="exponential", help="Backoff strategy")
-def queues_create(name: str, concurrency: int, rate_limit: str, retry: int, backoff: str):
+def queues_create(
+    name: str, concurrency: int, rate_limit: str, retry: int, backoff: str
+):
     """Create a queue."""
     payload = {
         "name": name,
@@ -127,7 +131,9 @@ def queues_delete(name: str, force: bool):
         if not Confirm.ask(f"[red]Delete queue '{name}'?[/red]"):
             return
 
-    resp = _request("delete", f"/v1/queues/{name}", params={"force": str(force).lower()})
+    resp = _request(
+        "delete", f"/v1/queues/{name}", params={"force": str(force).lower()}
+    )
     check_response(resp)
     console.print(f"[green]✓[/green] Queue '{name}' deleted")
 
@@ -164,10 +170,14 @@ def queues_stats(name: str):
 @click.argument("queue")
 @click.option("--data", "-d", required=True, help="Job data (JSON)")
 @click.option("--name", "-n", help="Job name")
-@click.option("--priority", "-p", type=int, default=0, help="Job priority (higher = more urgent)")
+@click.option(
+    "--priority", "-p", type=int, default=0, help="Job priority (higher = more urgent)"
+)
 @click.option("--delay", help="Delay before processing (e.g., '5m', '1h')")
 @click.option("--attempts", "-a", default=3, help="Max attempts")
-def queues_push(queue: str, data: str, name: str, priority: int, delay: str, attempts: int):
+def queues_push(
+    queue: str, data: str, name: str, priority: int, delay: str, attempts: int
+):
     """Push a job to a queue."""
     payload = {"data": json.loads(data), "priority": priority, "max_attempts": attempts}
     if name:
@@ -220,7 +230,9 @@ def queues_pop(queue: str, count: int, wait: bool):
 @click.option("--count", "-n", default=5, help="Number of jobs to peek")
 def queues_peek(queue: str, count: int):
     """Peek at jobs without removing them."""
-    resp = _request("get", f"/v1/queues/{queue}/jobs", params={"limit": count, "status": "pending"})
+    resp = _request(
+        "get", f"/v1/queues/{queue}/jobs", params={"limit": count, "status": "pending"}
+    )
     data = check_response(resp)
     jobs = data.get("jobs", data.get("items", []))
 
@@ -360,7 +372,9 @@ def dlq_retry(queue: str, job_id: str, all_jobs: bool):
 
     resp = _request("post", f"/v1/queues/{queue}/dlq/retry", json=payload)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] {data.get('retried', 0)} DLQ job(s) moved back to queue")
+    console.print(
+        f"[green]✓[/green] {data.get('retried', 0)} DLQ job(s) moved back to queue"
+    )
 
 
 @dlq.command(name="purge")
@@ -374,7 +388,9 @@ def dlq_purge(queue: str):
 
     resp = _request("post", f"/v1/queues/{queue}/dlq/purge")
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Purged {data.get('purged', 0)} DLQ job(s) for '{queue}'")
+    console.print(
+        f"[green]✓[/green] Purged {data.get('purged', 0)} DLQ job(s) for '{queue}'"
+    )
 
 
 @queues_group.command(name="drain")
@@ -390,7 +406,9 @@ def queues_drain(queue: str, delayed: bool):
     payload = {"delayed": delayed}
     resp = _request("post", f"/v1/queues/{queue}/drain", json=payload)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Drained {data.get('drained', 0)} job(s) from '{queue}'")
+    console.print(
+        f"[green]✓[/green] Drained {data.get('drained', 0)} job(s) from '{queue}'"
+    )
     if delayed:
         console.print("[dim]Delayed jobs also removed[/dim]")
 

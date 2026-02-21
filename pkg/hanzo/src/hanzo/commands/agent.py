@@ -101,7 +101,11 @@ async def run(ctx, agents: tuple, task: str, parallel: bool, timeout: Optional[i
         network = create_network(agents=agent_list)
 
         # Run task
-        result = await asyncio.wait_for(network.run(task), timeout=timeout) if timeout else await network.run(task)
+        result = (
+            await asyncio.wait_for(network.run(task), timeout=timeout)
+            if timeout
+            else await network.run(task)
+        )
 
     console.print("[green]Task completed![/green]")
     console.print(result)

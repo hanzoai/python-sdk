@@ -90,7 +90,9 @@ def flow_create(name: str, template: str, description: str):
 
 
 @flow_group.command(name="list")
-@click.option("--status", type=click.Choice(["deployed", "draft", "all"]), default="all")
+@click.option(
+    "--status", type=click.Choice(["deployed", "draft", "all"]), default="all"
+)
 def flow_list(status: str):
     """List LLM flows."""
     params = {}
@@ -175,7 +177,9 @@ def flow_run(name: str, input_data: str, stream: bool, verbose: bool):
 
     if verbose and data.get("steps"):
         for step in data["steps"]:
-            console.print(f"  [dim]→ {step.get('name', 'step')}: {step.get('status', 'done')}[/dim]")
+            console.print(
+                f"  [dim]→ {step.get('name', 'step')}: {step.get('status', 'done')}[/dim]"
+            )
 
     console.print()
     console.print("[green]Output:[/green]")
@@ -233,7 +237,9 @@ def flow_import(file: str, name: str):
     console.print(f"[cyan]Importing flow from '{file}'...[/cyan]")
     resp = _request("post", "/v1/flows/import", json=body)
     data = check_response(resp)
-    console.print(f"[green]✓[/green] Flow '{data.get('name', name or 'imported')}' imported")
+    console.print(
+        f"[green]✓[/green] Flow '{data.get('name', name or 'imported')}' imported"
+    )
 
 
 # ============================================================================
@@ -317,7 +323,9 @@ def custom():
 
 @custom.command(name="create")
 @click.argument("name")
-@click.option("--template", "-t", type=click.Choice(["tool", "chain", "agent"]), default="tool")
+@click.option(
+    "--template", "-t", type=click.Choice(["tool", "chain", "agent"]), default="tool"
+)
 def custom_create(name: str, template: str):
     """Create a custom component."""
     body = {"name": name, "template": template}
@@ -540,7 +548,9 @@ def templates_list():
 def templates_use(template: str, name: str):
     """Create flow from template."""
     console.print(f"[cyan]Creating flow '{name}' from template '{template}'...[/cyan]")
-    resp = _request("post", "/v1/flows/from-template", json={"template": template, "name": name})
+    resp = _request(
+        "post", "/v1/flows/from-template", json={"template": template, "name": name}
+    )
     data = check_response(resp)
 
     console.print(f"[green]✓[/green] Flow created")

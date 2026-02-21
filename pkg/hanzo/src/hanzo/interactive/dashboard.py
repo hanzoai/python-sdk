@@ -42,7 +42,9 @@ def _get_jobs() -> List[Dict[str, Any]]:
         import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
-        req = urllib.request.urlopen(f"{endpoint}/jobs?limit=5", timeout=2)  # noqa: S310
+        req = urllib.request.urlopen(  # noqa: S310
+            f"{endpoint}/jobs?limit=5", timeout=2
+        )
         return json.loads(req.read().decode()).get("jobs", [])
     except Exception:
         return []
@@ -55,7 +57,9 @@ def _get_logs() -> List[str]:
         import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
-        req = urllib.request.urlopen(f"{endpoint}/logs?limit=5", timeout=2)  # noqa: S310
+        req = urllib.request.urlopen(  # noqa: S310
+            f"{endpoint}/logs?limit=5", timeout=2
+        )
         return json.loads(req.read().decode()).get("logs", [])
     except Exception:
         return []
@@ -99,7 +103,9 @@ def run_dashboard(refresh_rate: float = 1.0):
 
         cluster = _get_cluster_status()
         if cluster:
-            table.add_row("Status", f"[green]{cluster.get('status', 'unknown')}[/green]")
+            table.add_row(
+                "Status", f"[green]{cluster.get('status', 'unknown')}[/green]"
+            )
             table.add_row("Nodes", str(cluster.get("nodes", 0)))
             table.add_row("Models", ", ".join(cluster.get("models", [])) or "none")
             table.add_row("Port", str(cluster.get("port", "-")))
@@ -161,7 +167,10 @@ def run_dashboard(refresh_rate: float = 1.0):
         """Get logs panel."""
         logs = _get_logs()
         if logs:
-            log_text = "\n".join(f"[dim]{log.get('time', '')}[/dim] {log.get('message', '')}" for log in logs[:5])
+            log_text = "\n".join(
+                f"[dim]{log.get('time', '')}[/dim] {log.get('message', '')}"
+                for log in logs[:5]
+            )
             border = "dim"
         else:
             log_text = "[dim]No logs available[/dim]"

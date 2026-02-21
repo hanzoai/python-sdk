@@ -90,7 +90,9 @@ def git_connect(provider, token):
             console.print("[dim]Complete the OAuth flow in your browser.[/dim]")
             console.print("[dim]Then run 'hanzo git providers' to verify.[/dim]")
         except Exception:
-            console.print("[yellow]Could not open browser. Visit the URL above manually.[/yellow]")
+            console.print(
+                "[yellow]Could not open browser. Visit the URL above manually.[/yellow]"
+            )
 
 
 @git_group.command(name="providers")
@@ -106,7 +108,9 @@ def git_providers():
     if data is None:
         return
 
-    providers = data if isinstance(data, list) else data.get("providers", data.get("data", []))
+    providers = (
+        data if isinstance(data, list) else data.get("providers", data.get("data", []))
+    )
 
     if not providers:
         console.print("[dim]No git providers connected.[/dim]")
@@ -173,9 +177,15 @@ def git_repos(provider):
         data = client.get(git_url())
         if data is None:
             return
-        providers = data if isinstance(data, list) else data.get("providers", data.get("data", []))
+        providers = (
+            data
+            if isinstance(data, list)
+            else data.get("providers", data.get("data", []))
+        )
         if not providers:
-            console.print("[yellow]No git providers connected. Run 'hanzo git connect github' first.[/yellow]")
+            console.print(
+                "[yellow]No git providers connected. Run 'hanzo git connect github' first.[/yellow]"
+            )
             return
         provider = str(providers[0].get("_id") or providers[0].get("id", ""))
 
@@ -220,7 +230,11 @@ def git_branches(repo, provider):
         data = client.get(git_url())
         if data is None:
             return
-        providers = data if isinstance(data, list) else data.get("providers", data.get("data", []))
+        providers = (
+            data
+            if isinstance(data, list)
+            else data.get("providers", data.get("data", []))
+        )
         if not providers:
             console.print("[yellow]No git providers connected.[/yellow]")
             return
@@ -230,7 +244,9 @@ def git_branches(repo, provider):
     if data is None:
         return
 
-    branches = data if isinstance(data, list) else data.get("branches", data.get("data", []))
+    branches = (
+        data if isinstance(data, list) else data.get("branches", data.get("data", []))
+    )
 
     if not branches:
         console.print(f"[dim]No branches found for '{repo}'.[/dim]")
@@ -277,7 +293,11 @@ def git_link(repo, container, branch, provider):
         data = client.get(git_url())
         if data is None:
             return
-        providers = data if isinstance(data, list) else data.get("providers", data.get("data", []))
+        providers = (
+            data
+            if isinstance(data, list)
+            else data.get("providers", data.get("data", []))
+        )
         if not providers:
             console.print("[yellow]No git providers connected.[/yellow]")
             return
@@ -289,7 +309,9 @@ def git_link(repo, container, branch, provider):
     if data is None:
         return
 
-    containers = data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    containers = (
+        data if isinstance(data, list) else data.get("containers", data.get("data", []))
+    )
     cid = None
     for c in containers:
         cname = c.get("name", "")
