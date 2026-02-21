@@ -612,8 +612,11 @@ def deploy_env(
                 existing[nv["name"]] = nv["value"]
 
             merged = [{"name": k, "value": v} for k, v in existing.items()]
+
+            # PaaS requires the full container payload on PUT — merge vars into it
+            container["variables"] = merged
             client.update_container(
-                org_id, project_id, env_id, cid, {"variables": merged},
+                org_id, project_id, env_id, cid, container,
             )
             console.print(f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]")
     finally:
