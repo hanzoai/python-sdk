@@ -118,11 +118,14 @@ def whoami() -> None:
 
 from hanzo_cli.iam.commands import iam  # noqa: E402
 from hanzo_cli.kms.commands import kms  # noqa: E402
-from hanzo_cli.paas.commands import paas  # noqa: E402
+from hanzo_cli.paas.commands import deploy, paas  # noqa: E402
 
 main.add_command(iam)
 main.add_command(kms)
 main.add_command(paas)
+
+# Top-level aliases — `hanzo deploy` = `hanzo paas deploy`
+main.add_command(deploy)
 
 
 if __name__ == "__main__":
