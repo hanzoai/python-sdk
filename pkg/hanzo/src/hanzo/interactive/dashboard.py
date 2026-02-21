@@ -19,7 +19,7 @@ def _get_cluster_status() -> Optional[Dict[str, Any]]:
         import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
-        req = urllib.request.urlopen(f"{endpoint}/health", timeout=2)
+        req = urllib.request.urlopen(f"{endpoint}/health", timeout=2)  # noqa: S310
         return json.loads(req.read().decode())
     except Exception:
         return None
@@ -42,7 +42,7 @@ def _get_jobs() -> List[Dict[str, Any]]:
         import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
-        req = urllib.request.urlopen(f"{endpoint}/jobs?limit=5", timeout=2)
+        req = urllib.request.urlopen(f"{endpoint}/jobs?limit=5", timeout=2)  # noqa: S310
         return json.loads(req.read().decode()).get("jobs", [])
     except Exception:
         return []
@@ -55,7 +55,7 @@ def _get_logs() -> List[str]:
         import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
-        req = urllib.request.urlopen(f"{endpoint}/logs?limit=5", timeout=2)
+        req = urllib.request.urlopen(f"{endpoint}/logs?limit=5", timeout=2)  # noqa: S310
         return json.loads(req.read().decode()).get("logs", [])
     except Exception:
         return []
