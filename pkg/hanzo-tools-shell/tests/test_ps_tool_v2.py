@@ -1,9 +1,10 @@
-
-import pytest
-import psutil
 import os
 import signal
-from hanzo_tools.shell.ps_tool import ps_tool, PsTool
+
+import psutil
+import pytest
+from hanzo_tools.shell.ps_tool import PsTool, ps_tool
+
 
 @pytest.mark.asyncio
 async def test_ps_list():
@@ -18,6 +19,7 @@ async def test_ps_list():
     result_mem = await ps_tool.call(None, action="list", sort_by="memory", limit=10)
     assert "PID" in result_mem
 
+
 @pytest.mark.asyncio
 async def test_ps_get_self():
     """Test getting info for the current process."""
@@ -26,6 +28,7 @@ async def test_ps_get_self():
     assert f"PID: {my_pid}" in result
     assert "Status: running" in result or "Status: sleeping" in result
 
+
 @pytest.mark.asyncio
 async def test_ps_get_invalid():
     """Test getting info for non-existent process."""
@@ -33,10 +36,12 @@ async def test_ps_get_invalid():
     result = await ps_tool.call(None, action="get", pid=99999999)
     assert "not found" in result
 
+
 @pytest.mark.asyncio
 async def test_ps_kill_error():
     """Test killing a non-existent process."""
     result = await ps_tool.call(None, action="kill", pid=99999999)
     assert "not found" in result
+
 
 # Note: We don't test successful kill to avoid killing random processes or the test runner itself.

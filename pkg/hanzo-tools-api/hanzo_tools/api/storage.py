@@ -14,7 +14,6 @@ import logging
 import os
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional
 
 import aiofiles
 
@@ -31,7 +30,7 @@ class CredentialStorage(ABC):
     """
 
     @abstractmethod
-    async def get(self, provider: str) -> Optional[Credential]:
+    async def get(self, provider: str) -> Credential | None:
         """Retrieve credential for a provider.
 
         Args:
@@ -83,7 +82,7 @@ class FileCredentialStorage(CredentialStorage):
     credentials, consider using a proper secrets manager.
     """
 
-    def __init__(self, path: Optional[Path] = None):
+    def __init__(self, path: Path | None = None):
         """Initialize file storage.
 
         Args:
@@ -119,7 +118,7 @@ class FileCredentialStorage(CredentialStorage):
 
         if self.path.exists():
             try:
-                async with aiofiles.open(self.path, "r") as f:
+                async with aiofiles.open(self.path) as f:
                     content = await f.read()
                     data = json.loads(content)
 
@@ -156,7 +155,7 @@ class FileCredentialStorage(CredentialStorage):
         # Set restrictive permissions
         self.path.chmod(0o600)
 
-    async def get(self, provider: str) -> Optional[Credential]:
+    async def get(self, provider: str) -> Credential | None:
         await self._load()
         return self._cache.get(provider)
 
@@ -185,7 +184,7 @@ class EnvironmentCredentialStorage(CredentialStorage):
     provider-specific mappings.
     """
 
-    def __init__(self, env_mappings: Optional[dict[str, list[str]]] = None):
+    def __init__(self, env_mappings: dict[str, list[str]] | None = None):
         """Initialize environment storage.
 
         Args:
@@ -195,7 +194,7 @@ class EnvironmentCredentialStorage(CredentialStorage):
 
         self.env_mappings = env_mappings or ENV_VAR_MAPPINGS
 
-    async def get(self, provider: str) -> Optional[Credential]:
+    async def get(self, provider: str) -> Credential | None:
         env_vars = self.env_mappings.get(provider, [])
 
         for var in env_vars:
@@ -235,7 +234,7 @@ class MemoryCredentialStorage(CredentialStorage):
     def __init__(self):
         self._credentials: dict[str, Credential] = {}
 
-    async def get(self, provider: str) -> Optional[Credential]:
+    async def get(self, provider: str) -> Credential | None:
         return self._credentials.get(provider)
 
     async def set(self, credential: Credential) -> None:
@@ -263,7 +262,7 @@ class ChainedCredentialStorage(CredentialStorage):
     3. Environment variables
     """
 
-    def __init__(self, stores: Optional[list[CredentialStorage]] = None):
+    def __init__(self, stores: list[CredentialStorage] | None = None):
         """Initialize chained storage.
 
         Args:
@@ -278,7 +277,7 @@ class ChainedCredentialStorage(CredentialStorage):
             ]
         self.stores = stores
 
-    async def get(self, provider: str) -> Optional[Credential]:
+    async def get(self, provider: str) -> Credential | None:
         """Get credential from first store that has it."""
         for store in self.stores:
             cred = await store.get(provider)
@@ -286,7 +285,7 @@ class ChainedCredentialStorage(CredentialStorage):
                 return cred
         return None
 
-    async def get_with_source(self, provider: str) -> tuple[Optional[Credential], Optional[CredentialStorage]]:
+    async def get_with_source(self, provider: str) -> tuple[Credential | None, CredentialStorage | None]:
         """Get credential and its source store."""
         for store in self.stores:
             cred = await store.get(provider)

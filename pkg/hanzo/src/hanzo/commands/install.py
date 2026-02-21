@@ -5,20 +5,19 @@ Install Hanzo tools from PyPI, npm, cargo, and GitHub releases.
 
 import os
 import sys
+import shutil
 import platform
 import subprocess
-import shutil
+from typing import Dict, List, Optional
 from pathlib import Path
-from typing import Optional, List, Dict
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
+from rich.table import Table
+from rich.progress import Progress, BarColumn, TextColumn, SpinnerColumn
 
 from ..utils.output import console
-
 
 # ============================================================================
 # Tool Registry
@@ -242,12 +241,7 @@ def install_list(installed: bool, available: bool):
             is_installed = shutil.which(binary) is not None
             if is_installed:
                 try:
-                    result = subprocess.run(
-                        [binary, "--version"],
-                        capture_output=True,
-                        text=True,
-                        timeout=5
-                    )
+                    result = subprocess.run([binary, "--version"], capture_output=True, text=True, timeout=5)
                     version = result.stdout.strip().split()[-1] if result.returncode == 0 else "?"
                 except:
                     version = "?"
@@ -257,14 +251,7 @@ def install_list(installed: bool, available: bool):
         if available and is_installed:
             continue
 
-        table.add_row(
-            tool_id,
-            tool["name"],
-            tool["language"],
-            tool["source"],
-            "✓" if is_installed else "",
-            version
-        )
+        table.add_row(tool_id, tool["name"], tool["language"], tool["source"], "✓" if is_installed else "", version)
 
     console.print(table)
 
@@ -385,10 +372,10 @@ def _install_cargo(tool: dict, version: str, force: bool):
 
 def _install_github_release(tool: dict, version: str, force: bool):
     """Install pre-built binary from GitHub releases."""
-    import urllib.request
-    import tempfile
     import tarfile
     import zipfile
+    import tempfile
+    import urllib.request
 
     repo = tool["repo"]
     binary = tool["binary"]
@@ -398,6 +385,7 @@ def _install_github_release(tool: dict, version: str, force: bool):
         api_url = f"https://api.github.com/repos/{repo}/releases/latest"
         with urllib.request.urlopen(api_url) as response:
             import json
+
             data = json.loads(response.read())
             version = data["tag_name"].lstrip("v")
 
@@ -417,11 +405,13 @@ def _install_github_release(tool: dict, version: str, force: bool):
     try:
         with urllib.request.urlopen(api_url) as response:
             import json
+
             data = json.loads(response.read())
     except:
         api_url = f"https://api.github.com/repos/{repo}/releases/tags/{version}"
         with urllib.request.urlopen(api_url) as response:
             import json
+
             data = json.loads(response.read())
 
     # Find matching asset
@@ -568,7 +558,7 @@ def install_script(output: str):
       curl -fsSL https://hanzo.sh/install | bash
       hanzo install script > install.sh
     """
-    script = '''#!/usr/bin/env bash
+    script = """#!/usr/bin/env bash
 # Hanzo AI - Universal Installer
 # https://hanzo.ai
 #
@@ -747,7 +737,7 @@ main() {
 }
 
 main "$@"
-'''
+"""
 
     if output:
         with open(output, "w") as f:
@@ -777,12 +767,7 @@ def install_doctor():
 
     for name, cmd, required in checks:
         try:
-            result = subprocess.run(
-                cmd.split(),
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
+            result = subprocess.run(cmd.split(), capture_output=True, text=True, timeout=5)
             if result.returncode == 0:
                 version = result.stdout.strip().split()[-1]
                 console.print(f"  [green]✓[/green] {name}: {version}")
@@ -810,7 +795,7 @@ def install_doctor():
         console.print(f"[green]✓[/green] {install_dir} is in PATH")
     else:
         console.print(f"[yellow]![/yellow] {install_dir} is NOT in PATH")
-        console.print(f"  Add to your shell config: export PATH=\"{install_dir}:$PATH\"")
+        console.print(f'  Add to your shell config: export PATH="{install_dir}:$PATH"')
 
 
 # ============================================================================
@@ -881,11 +866,7 @@ def get_mcp_config_path(app: str) -> Optional[Path]:
 
 def get_mcp_server_config() -> dict:
     """Get hanzo-mcp server configuration for MCP config files."""
-    return {
-        "command": "uvx",
-        "args": ["--upgrade", "hanzo-mcp@latest"],
-        "env": {}
-    }
+    return {"command": "uvx", "args": ["--upgrade", "hanzo-mcp@latest"], "env": {}}
 
 
 @install_group.command(name="ide")
@@ -931,8 +912,12 @@ def install_ide(target: str, install_all: bool, list_only: bool):
                     try:
                         with open(config_path) as f:
                             config = json.load(f)
-                        has_hanzo = "hanzo" in config.get("mcpServers", {}) or "hanzo-mcp" in config.get("mcpServers", {})
-                        status = "[green]✓ hanzo-mcp configured[/green]" if has_hanzo else "[yellow]○ no hanzo-mcp[/yellow]"
+                        has_hanzo = "hanzo" in config.get("mcpServers", {}) or "hanzo-mcp" in config.get(
+                            "mcpServers", {}
+                        )
+                        status = (
+                            "[green]✓ hanzo-mcp configured[/green]" if has_hanzo else "[yellow]○ no hanzo-mcp[/yellow]"
+                        )
                     except:
                         status = "[dim]○ config exists[/dim]"
                     console.print(f"  [green]✓[/green] {app_name}: {status}")
@@ -1088,6 +1073,7 @@ def install_ai(app: str, list_only: bool):
     """
     # Delegate to install_ide
     from click import Context
+
     ctx = Context(install_ide)
     ctx.invoke(install_ide, target=app, install_all=False, list_only=list_only or not app)
 
@@ -1103,11 +1089,13 @@ def install_all_cmd(force: bool):
       2. Configures all detected IDEs with hanzo-mcp
       3. Shows browser extension installation instructions
     """
-    console.print(Panel.fit(
-        "[bold cyan]Hanzo Full Installation[/bold cyan]\n"
-        "[dim]Installing tools, IDE integrations, and browser extension[/dim]",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel.fit(
+            "[bold cyan]Hanzo Full Installation[/bold cyan]\n"
+            "[dim]Installing tools, IDE integrations, and browser extension[/dim]",
+            border_style="cyan",
+        )
+    )
     console.print()
 
     # 1. Install Python tools
@@ -1220,12 +1208,7 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
 
         # Install dependencies
         console.print("  Installing dependencies...")
-        result = subprocess.run(
-            ["pnpm", "install"],
-            cwd=str(nanobrowser_dir),
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["pnpm", "install"], cwd=str(nanobrowser_dir), capture_output=True, text=True)
         if result.returncode != 0:
             console.print(f"[red]Failed to install dependencies: {result.stderr}[/red]")
             return
@@ -1236,12 +1219,7 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
             subprocess.run(["pnpm", "dev"], cwd=str(nanobrowser_dir))
         else:
             console.print("  Building extension...")
-            result = subprocess.run(
-                ["pnpm", "build"],
-                cwd=str(nanobrowser_dir),
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(["pnpm", "build"], cwd=str(nanobrowser_dir), capture_output=True, text=True)
             if result.returncode != 0:
                 console.print(f"[red]Build failed: {result.stderr}[/red]")
                 return
@@ -1260,11 +1238,13 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
                 return
 
             console.print("[cyan]Opening Chrome with Nanobrowser extension...[/cyan]")
-            subprocess.Popen([
-                chrome_path,
-                f"--load-extension={dist_dir}",
-                "--new-window",
-            ])
+            subprocess.Popen(
+                [
+                    chrome_path,
+                    f"--load-extension={dist_dir}",
+                    "--new-window",
+                ]
+            )
             console.print("[green]✓[/green] Chrome launched with Nanobrowser")
         else:
             console.print("[yellow]Auto-open not supported on this platform[/yellow]")
@@ -1280,6 +1260,7 @@ def install_nanobrowser(build: bool, dev: bool, open_browser: bool):
         package_json = nanobrowser_dir / "package.json"
         if package_json.exists():
             import json
+
             with open(package_json) as f:
                 pkg = json.load(f)
             console.print(f"  Version: {pkg.get('version', 'unknown')}")
@@ -1398,7 +1379,7 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
                 ["go", "build", "-o", str(Path.home() / ".hanzo" / "bin" / "hanzo-runtime"), "."],
                 cwd=str(cli_dir),
                 capture_output=True,
-                text=True
+                text=True,
             )
             if result.returncode == 0:
                 console.print("[green]✓[/green] CLI built")
@@ -1438,7 +1419,7 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
             result = subprocess.run(
                 [sys.executable, "-c", "import hanzo_runtime; print(hanzo_runtime.__version__)"],
                 capture_output=True,
-                text=True
+                text=True,
             )
             if result.returncode == 0:
                 console.print(f"  [green]✓[/green] Python: {result.stdout.strip()}")
@@ -1448,11 +1429,7 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
             console.print("  [dim]○[/dim] Python: not installed")
 
         # TypeScript SDK
-        result = subprocess.run(
-            ["npm", "list", "-g", "@hanzo/runtime"],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["npm", "list", "-g", "@hanzo/runtime"], capture_output=True, text=True)
         if "@hanzo/runtime" in result.stdout:
             console.print(f"  [green]✓[/green] TypeScript: installed")
         else:
@@ -1552,12 +1529,7 @@ def install_cas(component: str, setup: bool, start: bool):
 
             # Build
             console.print("  Building...")
-            result = subprocess.run(
-                ["go", "build", "."],
-                cwd=str(comp_path),
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(["go", "build", "."], cwd=str(comp_path), capture_output=True, text=True)
             if result.returncode == 0:
                 console.print(f"[green]✓[/green] {info['name']} built")
             else:

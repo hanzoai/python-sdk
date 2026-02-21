@@ -5,8 +5,8 @@ Full visibility into your systems.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -45,6 +45,7 @@ def o11y_group():
 # ============================================================================
 # Metrics
 # ============================================================================
+
 
 @o11y_group.group()
 def metrics():
@@ -103,6 +104,7 @@ def metrics_export(promql: str, format: str, output: str):
 # Logs
 # ============================================================================
 
+
 @o11y_group.group()
 def logs():
     """Search and analyze logs."""
@@ -150,6 +152,7 @@ def logs_sources():
 # Traces
 # ============================================================================
 
+
 @o11y_group.group()
 def traces():
     """Analyze distributed traces."""
@@ -178,14 +181,16 @@ def traces_list(service: str, operation: str, min_duration: str, limit: int):
 @click.argument("trace_id")
 def traces_show(trace_id: str):
     """Show trace details."""
-    console.print(Panel(
-        f"[cyan]Trace ID:[/cyan] {trace_id}\n"
-        f"[cyan]Duration:[/cyan] 245ms\n"
-        f"[cyan]Spans:[/cyan] 12\n"
-        f"[cyan]Services:[/cyan] api, auth, database",
-        title="Trace Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Trace ID:[/cyan] {trace_id}\n"
+            f"[cyan]Duration:[/cyan] 245ms\n"
+            f"[cyan]Spans:[/cyan] 12\n"
+            f"[cyan]Services:[/cyan] api, auth, database",
+            title="Trace Details",
+            border_style="cyan",
+        )
+    )
 
 
 @traces.command(name="services")
@@ -203,6 +208,7 @@ def traces_services():
 # ============================================================================
 # Dashboards
 # ============================================================================
+
 
 @o11y_group.group()
 def dashboards():
@@ -235,6 +241,7 @@ def dashboards_create(name: str, file: str):
 def dashboards_open(name: str):
     """Open dashboard in browser."""
     import webbrowser
+
     url = f"https://dashboards.hanzo.ai/{name}"
     console.print(f"[cyan]Opening: {url}[/cyan]")
     webbrowser.open(url)
@@ -243,6 +250,7 @@ def dashboards_open(name: str):
 # ============================================================================
 # Alerts
 # ============================================================================
+
 
 @o11y_group.group()
 def alerts():
@@ -292,6 +300,7 @@ def alerts_delete(alert_name: str):
 # ============================================================================
 # LLM Observability (Langfuse-style)
 # ============================================================================
+
 
 @o11y_group.group()
 def prompts():
@@ -344,18 +353,20 @@ def prompts_create(name: str, template: str, model: str, config: str):
 @click.option("--label", "-l", help="Get by label (production, staging)")
 def prompts_get(name: str, version: str, label: str):
     """Get a prompt template."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Version:[/cyan] v{version or '3'}\n"
-        f"[cyan]Label:[/cyan] {label or 'production'}\n"
-        f"[cyan]Model:[/cyan] gpt-4o\n"
-        f"[cyan]Template:[/cyan]\n"
-        f"  You are a helpful assistant.\n"
-        f"  Context: {{{{context}}}}\n"
-        f"  User: {{{{user_input}}}}",
-        title="Prompt Template",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Version:[/cyan] v{version or '3'}\n"
+            f"[cyan]Label:[/cyan] {label or 'production'}\n"
+            f"[cyan]Model:[/cyan] gpt-4o\n"
+            f"[cyan]Template:[/cyan]\n"
+            f"  You are a helpful assistant.\n"
+            f"  Context: {{{{context}}}}\n"
+            f"  User: {{{{user_input}}}}",
+            title="Prompt Template",
+            border_style="cyan",
+        )
+    )
 
 
 @prompts.command(name="promote")
@@ -385,6 +396,7 @@ def prompts_history(name: str):
 # ============================================================================
 # Generations (LLM Call Tracking)
 # ============================================================================
+
 
 @o11y_group.group()
 def generations():
@@ -416,19 +428,21 @@ def generations_list(model: str, prompt: str, user: str, limit: int):
 @click.argument("generation_id")
 def generations_show(generation_id: str):
     """Show generation details."""
-    console.print(Panel(
-        f"[cyan]Generation ID:[/cyan] {generation_id}\n"
-        f"[cyan]Trace ID:[/cyan] trace_xxx\n"
-        f"[cyan]Model:[/cyan] gpt-4o\n"
-        f"[cyan]Prompt:[/cyan] chat-assistant v3\n"
-        f"[cyan]Input Tokens:[/cyan] 150\n"
-        f"[cyan]Output Tokens:[/cyan] 320\n"
-        f"[cyan]Total Cost:[/cyan] $0.0024\n"
-        f"[cyan]Latency:[/cyan] 1.2s\n"
-        f"[cyan]Finish Reason:[/cyan] stop",
-        title="Generation Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Generation ID:[/cyan] {generation_id}\n"
+            f"[cyan]Trace ID:[/cyan] trace_xxx\n"
+            f"[cyan]Model:[/cyan] gpt-4o\n"
+            f"[cyan]Prompt:[/cyan] chat-assistant v3\n"
+            f"[cyan]Input Tokens:[/cyan] 150\n"
+            f"[cyan]Output Tokens:[/cyan] 320\n"
+            f"[cyan]Total Cost:[/cyan] $0.0024\n"
+            f"[cyan]Latency:[/cyan] 1.2s\n"
+            f"[cyan]Finish Reason:[/cyan] stop",
+            title="Generation Details",
+            border_style="cyan",
+        )
+    )
 
 
 @generations.command(name="stats")
@@ -453,6 +467,7 @@ def generations_stats(time_range: str, by: str):
 # ============================================================================
 # Evaluations (Langfuse-style)
 # ============================================================================
+
 
 @o11y_group.group()
 def evals():
@@ -508,20 +523,23 @@ def evals_run(name: str, parallel: int):
 @click.option("--format", "-f", "fmt", type=click.Choice(["table", "json"]), default="table")
 def evals_results(name: str, fmt: str):
     """Show evaluation results."""
-    console.print(Panel(
-        f"[cyan]Evaluation:[/cyan] {name}\n"
-        f"[cyan]Status:[/cyan] [green]● Completed[/green]\n"
-        f"[cyan]Samples:[/cyan] 100\n"
-        f"[cyan]Avg Score:[/cyan] 0.85\n"
-        f"[cyan]Duration:[/cyan] 2m 34s",
-        title="Evaluation Results",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Evaluation:[/cyan] {name}\n"
+            f"[cyan]Status:[/cyan] [green]● Completed[/green]\n"
+            f"[cyan]Samples:[/cyan] 100\n"
+            f"[cyan]Avg Score:[/cyan] 0.85\n"
+            f"[cyan]Duration:[/cyan] 2m 34s",
+            title="Evaluation Results",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Scores (Metrics & Feedback)
 # ============================================================================
+
 
 @o11y_group.group()
 def scores():
@@ -596,6 +614,7 @@ def scores_stats(name: str, time_range: str):
 # Datasets (Test Data for Evals)
 # ============================================================================
 
+
 @o11y_group.group()
 def datasets():
     """Manage evaluation datasets (Langfuse-style)."""
@@ -659,6 +678,7 @@ def datasets_export(dataset_name: str, output: str, fmt: str):
 # Sessions (Conversation Tracking)
 # ============================================================================
 
+
 @o11y_group.group()
 def sessions():
     """Track conversation sessions (Langfuse-style)."""
@@ -685,18 +705,20 @@ def sessions_list(user: str, limit: int):
 @click.argument("session_id")
 def sessions_show(session_id: str):
     """Show session details."""
-    console.print(Panel(
-        f"[cyan]Session ID:[/cyan] {session_id}\n"
-        f"[cyan]User:[/cyan] user_123\n"
-        f"[cyan]Traces:[/cyan] 12\n"
-        f"[cyan]Generations:[/cyan] 24\n"
-        f"[cyan]Total Tokens:[/cyan] 15,432\n"
-        f"[cyan]Total Cost:[/cyan] $0.12\n"
-        f"[cyan]Duration:[/cyan] 15m 32s\n"
-        f"[cyan]Avg Score:[/cyan] 0.82",
-        title="Session Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Session ID:[/cyan] {session_id}\n"
+            f"[cyan]User:[/cyan] user_123\n"
+            f"[cyan]Traces:[/cyan] 12\n"
+            f"[cyan]Generations:[/cyan] 24\n"
+            f"[cyan]Total Tokens:[/cyan] 15,432\n"
+            f"[cyan]Total Cost:[/cyan] $0.12\n"
+            f"[cyan]Duration:[/cyan] 15m 32s\n"
+            f"[cyan]Avg Score:[/cyan] 0.82",
+            title="Session Details",
+            border_style="cyan",
+        )
+    )
 
 
 @sessions.command(name="traces")
@@ -718,6 +740,7 @@ def sessions_traces(session_id: str):
 # ============================================================================
 # LLM Traces (Enhanced for Langfuse)
 # ============================================================================
+
 
 @o11y_group.group()
 def llm():

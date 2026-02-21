@@ -6,16 +6,16 @@ built on top of Redis/Valkey for simplicity and reliability.
 
 from __future__ import annotations
 
-import asyncio
-import json
 import os
+import json
 import uuid
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+import asyncio
 from enum import Enum
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Callable, Optional, Awaitable
+from datetime import datetime, timedelta
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class QueuesConfig(BaseModel):
@@ -166,10 +166,12 @@ class QueuesClient:
         job = await client.get_job(job_id)
         print(f"Status: {job.status}")
 
+
         # Process jobs (in a worker)
         async def handler(job: Job) -> str:
             # Do work...
             return "sent"
+
 
         await client.process("emails", handler)
 
@@ -192,10 +194,7 @@ class QueuesClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError(
-                "redis is required for QueuesClient. "
-                "Install with: pip install redis"
-            ) from e
+            raise ImportError("redis is required for QueuesClient. Install with: pip install redis") from e
 
         if self.config.url:
             self._redis = redis.from_url(
@@ -577,7 +576,7 @@ class QueuesClient:
             job.error = error
 
             # Requeue with backoff
-            delay = min(60 * (2 ** job.attempts), 3600)  # Exponential backoff, max 1 hour
+            delay = min(60 * (2**job.attempts), 3600)  # Exponential backoff, max 1 hour
             queue_key = self._key("queue", job.queue)
             scheduled_key = self._key("scheduled", job.queue)
             execute_at = datetime.utcnow() + timedelta(seconds=delay)

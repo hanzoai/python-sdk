@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -406,13 +406,16 @@ class EdgeResourceWithRawResponse:
     def __init__(self, edge: EdgeResource) -> None:
         self._edge = edge
 
+
 class AsyncEdgeResourceWithRawResponse:
     def __init__(self, edge: AsyncEdgeResource) -> None:
         self._edge = edge
 
+
 class EdgeResourceWithStreamingResponse:
     def __init__(self, edge: EdgeResource) -> None:
         self._edge = edge
+
 
 class AsyncEdgeResourceWithStreamingResponse:
     def __init__(self, edge: AsyncEdgeResource) -> None:

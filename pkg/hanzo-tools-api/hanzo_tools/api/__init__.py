@@ -34,50 +34,14 @@ MCP Tool Usage:
 """
 
 # Models (structured data types)
-from .models import (
-    AuthType,
-    Credential,
-    CredentialSource,
-    EffectiveCredential,
-    ProviderConfig,
-    ProviderStatus,
-    ProviderListResult,
-    Operation,
-    Parameter,
-    OperationListResult,
-    APICallResult,
-    ToolSchema,
-    ToolParameter,
-)
+# MCP Tool
+from .api_tool import APITool
 
-# Errors (structured errors with hints)
-from .errors import (
-    APIError,
-    CredentialError,
-    OperationNotFoundError,
-    ProviderNotFoundError,
-    SpecNotLoadedError,
-    SpecLoadError,
-    AuthenticationError,
-    RateLimitError,
-    ValidationError,
-)
-
-# Storage (pluggable credential storage)
-from .storage import (
-    CredentialStorage,
-    MemoryCredentialStorage,
-    FileCredentialStorage,
-    EnvironmentCredentialStorage,
-    ChainedCredentialStorage,
-)
-
-# Providers (provider configs and env var mappings)
-from .providers import (
-    PROVIDER_CONFIGS,
-    ENV_VAR_MAPPINGS,
-    get_provider_config,
-    list_providers as list_provider_names,
+# Main client (typed interface)
+from .client import (
+    APIClient,
+    get_api_client,
+    reset_api_client,
 )
 
 # Credentials (credential management)
@@ -87,23 +51,60 @@ from .credentials import (
     reset_credential_manager,
 )
 
+# Errors (structured errors with hints)
+from .errors import (
+    APIError,
+    AuthenticationError,
+    CredentialError,
+    OperationNotFoundError,
+    ProviderNotFoundError,
+    RateLimitError,
+    SpecLoadError,
+    SpecNotLoadedError,
+    ValidationError,
+)
+from .models import (
+    APICallResult,
+    AuthType,
+    Credential,
+    CredentialSource,
+    EffectiveCredential,
+    Operation,
+    OperationListResult,
+    Parameter,
+    ProviderConfig,
+    ProviderListResult,
+    ProviderStatus,
+    ToolParameter,
+    ToolSchema,
+)
+
 # OpenAPI (spec parsing and caching)
 from .openapi_client import (
     OpenAPIClient,
     SpecCache,
-    get_client,
     clear_clients,
+    get_client,
 )
 
-# Main client (typed interface)
-from .client import (
-    APIClient,
-    get_api_client,
-    reset_api_client,
+# Providers (provider configs and env var mappings)
+from .providers import (
+    ENV_VAR_MAPPINGS,
+    PROVIDER_CONFIGS,
+    get_provider_config,
+)
+from .providers import (
+    list_providers as list_provider_names,
 )
 
-# MCP Tool
-from .api_tool import APITool
+# Storage (pluggable credential storage)
+from .storage import (
+    ChainedCredentialStorage,
+    CredentialStorage,
+    EnvironmentCredentialStorage,
+    FileCredentialStorage,
+    MemoryCredentialStorage,
+)
 
 # Tools list for entry point discovery - must be classes, not instances
 TOOLS = [APITool]

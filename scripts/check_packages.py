@@ -2,10 +2,9 @@
 """Check package configurations in the monorepo."""
 
 import sys
+import tomllib
 from typing import List, Tuple
 from pathlib import Path
-
-import tomllib
 
 # ANSI color codes
 CYAN = "\033[0;36m"

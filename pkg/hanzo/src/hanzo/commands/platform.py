@@ -5,8 +5,8 @@ Edge, HKE, networking, tunnel, DNS, guard.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -41,6 +41,7 @@ def platform_group():
 # ============================================================================
 # Edge
 # ============================================================================
+
 
 @platform_group.group()
 def edge():
@@ -89,6 +90,7 @@ def edge_purge(name: str, path: str):
 # HKE (Kubernetes)
 # ============================================================================
 
+
 @platform_group.group()
 def hke():
     """Manage Hanzo Kubernetes Engine clusters."""
@@ -130,6 +132,7 @@ def hke_create(name: str, version: str, nodes: int, region: str, gpu: bool):
 def hke_delete(name: str):
     """Delete a Kubernetes cluster."""
     from rich.prompt import Confirm
+
     if not Confirm.ask(f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"):
         return
     console.print(f"[green]✓[/green] Cluster '{name}' deleted")
@@ -154,6 +157,7 @@ def hke_scale(name: str, nodes: int):
 # ============================================================================
 # Tunnel
 # ============================================================================
+
 
 @platform_group.group()
 def tunnel():
@@ -200,6 +204,7 @@ def tunnel_stop(name: str):
 # DNS
 # ============================================================================
 
+
 @platform_group.group()
 def dns():
     """Manage DNS records."""
@@ -243,6 +248,7 @@ def dns_delete(zone: str, name: str, type: str):
 # Guard (LLM Safety)
 # ============================================================================
 
+
 @platform_group.group()
 def guard():
     """Manage LLM safety layer."""
@@ -270,14 +276,16 @@ def guard_disable(project: str):
 @guard.command(name="status")
 def guard_status():
     """Show guard status and stats."""
-    console.print(Panel(
-        "[cyan]Status:[/cyan] Active\n"
-        "[cyan]Requests scanned:[/cyan] 12,456\n"
-        "[cyan]Threats blocked:[/cyan] 23\n"
-        "[cyan]PII detected:[/cyan] 145",
-        title="Guard Status",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            "[cyan]Status:[/cyan] Active\n"
+            "[cyan]Requests scanned:[/cyan] 12,456\n"
+            "[cyan]Threats blocked:[/cyan] 23\n"
+            "[cyan]PII detected:[/cyan] 145",
+            title="Guard Status",
+            border_style="cyan",
+        )
+    )
 
 
 @guard.command(name="logs")
@@ -296,6 +304,7 @@ def guard_logs(limit: int):
 # ============================================================================
 # KMS (Secrets)
 # ============================================================================
+
 
 @platform_group.group()
 def kms():

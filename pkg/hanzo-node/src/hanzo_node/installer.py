@@ -1,13 +1,13 @@
 """Cross-platform binary installer for hanzo-node."""
 
 import os
-import platform
-import shutil
-import stat
 import sys
+import stat
+import shutil
 import tarfile
-import tempfile
 import zipfile
+import platform
+import tempfile
 from pathlib import Path
 
 import httpx
@@ -260,7 +260,7 @@ def install(force: bool = False, version: str | None = None) -> Path:
     # Check if in PATH
     install_dir = str(get_install_dir())
     if install_dir not in os.environ.get("PATH", ""):
-        print(f"\n  add to PATH: export PATH=\"{install_dir}:$PATH\"")
+        print(f'\n  add to PATH: export PATH="{install_dir}:$PATH"')
 
     return binary_path
 

@@ -10,23 +10,20 @@ Effect lattice position: NONDETERMINISTIC_EFFECT
 Network operations are inherently non-deterministic.
 """
 
-import os
 import json
-import asyncio
+import os
 import re
-from typing import Any, ClassVar
 from pathlib import Path
-from urllib.parse import urlparse, urljoin
-import mimetypes
+from typing import Any, ClassVar
+from urllib.parse import urljoin, urlparse
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    ToolError,
     InvalidParamsError,
-    NotFoundError,
+    ToolError,
     content_hash,
 )
 
@@ -70,12 +67,11 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
         if self._client is None:
             try:
                 import httpx
+
                 self._client = httpx.AsyncClient(
                     follow_redirects=True,
                     timeout=30.0,
-                    headers={
-                        "User-Agent": "Mozilla/5.0 (compatible; HanzoBot/1.0)"
-                    }
+                    headers={"User-Agent": "Mozilla/5.0 (compatible; HanzoBot/1.0)"},
                 )
             except ImportError:
                 raise ToolError(
@@ -88,6 +84,7 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
         """Extract text from HTML."""
         try:
             from bs4 import BeautifulSoup
+
             soup = BeautifulSoup(html, "lxml")
             # Remove script and style elements
             for script in soup(["script", "style"]):
@@ -105,6 +102,7 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
         """Extract links from HTML."""
         try:
             from bs4 import BeautifulSoup
+
             soup = BeautifulSoup(html, "lxml")
             links = []
             for a in soup.find_all("a", href=True):
@@ -150,6 +148,7 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                 results = []
                 try:
                     from bs4 import BeautifulSoup
+
                     soup = BeautifulSoup(response.text, "lxml")
                     for result in soup.select(".result")[:limit]:
                         title_el = result.select_one(".result__title")
@@ -157,17 +156,23 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                         link_el = result.select_one(".result__url")
 
                         if title_el and link_el:
-                            results.append({
-                                "title": title_el.get_text(strip=True),
-                                "url": link_el.get("href", ""),
-                                "snippet": snippet_el.get_text(strip=True) if snippet_el else "",
-                            })
+                            results.append(
+                                {
+                                    "title": title_el.get_text(strip=True),
+                                    "url": link_el.get("href", ""),
+                                    "snippet": snippet_el.get_text(strip=True)
+                                    if snippet_el
+                                    else "",
+                                }
+                            )
                 except ImportError:
                     # Fallback without beautifulsoup
-                    results = [{
-                        "note": "Install beautifulsoup4 for better parsing",
-                        "raw_length": len(response.text),
-                    }]
+                    results = [
+                        {
+                            "note": "Install beautifulsoup4 for better parsing",
+                            "raw_length": len(response.text),
+                        }
+                    ]
 
             else:
                 raise InvalidParamsError(
@@ -303,6 +308,7 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                 # Extract asset URLs
                 try:
                     from bs4 import BeautifulSoup
+
                     soup = BeautifulSoup(html, "lxml")
 
                     for tag in soup.find_all(["img", "link", "script"]):

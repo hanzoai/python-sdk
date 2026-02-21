@@ -7,11 +7,11 @@ request/reply, and streaming with JetStream.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+from typing import Any, Callable, Optional, Sequence, Awaitable, AsyncIterator
 from datetime import datetime
-from typing import Any, AsyncIterator, Awaitable, Callable, Optional, Sequence
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class PubSubConfig(BaseModel):
@@ -99,9 +99,11 @@ class PubSubClient:
         client = PubSubClient(PubSubConfig.from_env())
         await client.connect()
 
+
         # Simple pub/sub
         async def handler(msg: Message):
             print(f"Received: {msg.data.decode()}")
+
 
         sub = await client.subscribe("events.>", handler)
         await client.publish("events.user.created", b"user123")
@@ -130,10 +132,7 @@ class PubSubClient:
         try:
             import nats
         except ImportError as e:
-            raise ImportError(
-                "nats-py is required for PubSubClient. "
-                "Install with: pip install nats-py"
-            ) from e
+            raise ImportError("nats-py is required for PubSubClient. Install with: pip install nats-py") from e
 
         connect_opts: dict[str, Any] = {
             "servers": self.config.servers,
@@ -207,6 +206,7 @@ class PubSubClient:
         Returns:
             Subscription handle for unsubscribing.
         """
+
         async def _wrapper(msg: Any) -> None:
             wrapped = Message(
                 subject=msg.subject,
@@ -328,8 +328,8 @@ class PubSubClient:
             replicas: Number of replicas.
         """
         from nats.js.api import (
-            StreamConfig,
             StorageType,
+            StreamConfig,
             RetentionPolicy,
         )
 
@@ -437,7 +437,7 @@ class PubSubClient:
             max_deliver: Max redelivery attempts (-1 = unlimited).
             ack_wait: Ack wait time in seconds.
         """
-        from nats.js.api import ConsumerConfig, AckPolicy
+        from nats.js.api import AckPolicy, ConsumerConfig
 
         ack_map = {
             "none": AckPolicy.NONE,
@@ -473,6 +473,7 @@ class PubSubClient:
         Returns:
             Subscription handle.
         """
+
         async def _wrapper(msg: Any) -> None:
             wrapped = Message(
                 subject=msg.subject,
@@ -513,12 +514,14 @@ class PubSubClient:
             msgs = await sub.fetch(batch, timeout=timeout)
             result = []
             for msg in msgs:
-                result.append(Message(
-                    subject=msg.subject,
-                    data=msg.data,
-                    reply=msg.reply,
-                    headers=dict(msg.headers) if msg.headers else {},
-                ))
+                result.append(
+                    Message(
+                        subject=msg.subject,
+                        data=msg.data,
+                        reply=msg.reply,
+                        headers=dict(msg.headers) if msg.headers else {},
+                    )
+                )
                 await msg.ack()
             return result
         except Exception:

@@ -13,23 +13,18 @@ Following Unix philosophy: one tool for the Diffs + History axis.
 Outputs diffs in unified patch format; integrates with fs.apply_patch.
 """
 
-import os
-import json
 import asyncio
-import subprocess
-from typing import Any, Optional, ClassVar
-from pathlib import Path
+import json
+import os
+from typing import Any, ClassVar
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    ToolError,
     InvalidParamsError,
-    NotFoundError,
-    Paging,
-    file_uri,
+    ToolError,
 )
 
 
@@ -51,7 +46,7 @@ class VcsTool(BaseTool):
     name: ClassVar[str] = "vcs"
     VERSION: ClassVar[str] = "0.12.0"
 
-    def __init__(self, cwd: Optional[str] = None):
+    def __init__(self, cwd: str | None = None):
         super().__init__()
         self.cwd = cwd or os.getcwd()
         self._register_vcs_actions()
@@ -75,7 +70,7 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
     async def _run_git(
         self,
         *args: str,
-        cwd: Optional[str] = None,
+        cwd: str | None = None,
         check: bool = True,
     ) -> tuple[str, str, int]:
         """Run git command and return stdout, stderr, returncode."""
@@ -130,7 +125,9 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
             # Get status in porcelain format for parsing
             stdout, _, _ = await self._run_git(
-                "status", "--porcelain=v2", "--branch",
+                "status",
+                "--porcelain=v2",
+                "--branch",
                 cwd=work_dir,
             )
 
@@ -232,7 +229,8 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
             try:
                 proc = await asyncio.create_subprocess_exec(
-                    "git", *args,
+                    "git",
+                    *args,
                     cwd=work_dir,
                     stdin=asyncio.subprocess.PIPE,
                     stdout=asyncio.subprocess.PIPE,
@@ -290,7 +288,8 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
             # Get commit hash
             hash_stdout, _, _ = await self._run_git(
-                "rev-parse", "HEAD",
+                "rev-parse",
+                "HEAD",
                 cwd=work_dir,
             )
 
@@ -321,14 +320,17 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
             if op == "list":
                 stdout, _, _ = await self._run_git(
-                    "branch", "-a", "--format=%(refname:short)",
+                    "branch",
+                    "-a",
+                    "--format=%(refname:short)",
                     cwd=work_dir,
                 )
                 branches = [b.strip() for b in stdout.splitlines() if b.strip()]
 
                 # Get current branch
                 current, _, _ = await self._run_git(
-                    "branch", "--show-current",
+                    "branch",
+                    "--show-current",
                     cwd=work_dir,
                 )
 
@@ -428,13 +430,15 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
                     continue
                 parts = line.split("|", 4)
                 if len(parts) >= 5:
-                    commits.append({
-                        "hash": parts[0],
-                        "author": parts[1],
-                        "email": parts[2],
-                        "timestamp": int(parts[3]),
-                        "message": parts[4],
-                    })
+                    commits.append(
+                        {
+                            "hash": parts[0],
+                            "author": parts[1],
+                            "email": parts[2],
+                            "timestamp": int(parts[3]),
+                            "message": parts[4],
+                        }
+                    )
 
             return {
                 "commits": commits,

@@ -17,14 +17,14 @@ Usage:
     hanzo-platform status
 """
 
-import asyncio
-import json
 import os
 import sys
+import json
+import asyncio
 import webbrowser
-from dataclasses import dataclass
-from pathlib import Path
 from typing import Any, Dict, Optional
+from pathlib import Path
+from dataclasses import dataclass
 
 import httpx
 
@@ -81,6 +81,7 @@ class PlatformConfig:
         # Set restrictive permissions
         try:
             import stat
+
             config_file.chmod(stat.S_IRUSR | stat.S_IWUSR)  # 0600
         except Exception:
             pass

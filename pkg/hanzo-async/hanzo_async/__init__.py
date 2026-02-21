@@ -61,6 +61,7 @@ def configure_loop() -> bool:
 
     try:
         import uvloop
+
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
         _using_uvloop = True
         return True
@@ -104,30 +105,30 @@ configure_loop()
 from hanzo_async.files import (
     read_file,
     read_json,
+    read_lines,
     write_file,
     write_json,
     append_file,
-    read_lines,
     write_lines,
 )
 
 # Export path operations
 from hanzo_async.paths import (
-    path_exists,
-    is_file,
-    is_dir,
+    glob,
+    stat,
     mkdir,
     rmdir,
+    is_dir,
     unlink,
-    stat,
+    is_file,
     listdir,
-    glob,
+    path_exists,
 )
 
 # Export process operations
 from hanzo_async.process import (
-    run_command,
     run_shell,
+    run_command,
     check_command,
 )
 
