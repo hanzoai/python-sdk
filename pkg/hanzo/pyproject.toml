@@ -16,8 +16,6 @@ dependencies = [
     "openai>=1.0.0",
     "anthropic>=0.25.0",
     "qrcode>=7.4.2",
-    "hanzo-kms>=1.0.0",
-    "hanzo-cli>=0.2.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -43,6 +41,10 @@ hanzo-repl = "hanzo.repl:repl_main"
 # Note: hanzo-mcp command is provided by the dedicated hanzo-mcp package
 
 [project.optional-dependencies]
+cli = [
+    "hanzo-cli>=0.2.0",
+    "hanzo-kms>=1.1.0",
+]
 all = [
     "hanzoai>=1.0.0",
     "hanzo-mcp>=0.7.0",
@@ -50,6 +52,8 @@ all = [
     "hanzo-network>=0.1.3",
     "hanzo-repl>=0.1.0",
     "hanzo-memory>=1.0.0",
+    "hanzo-cli>=0.2.0",
+    "hanzo-kms>=1.1.0",
     # "hanzo-router>=1.74.3",  # TODO: Publish hanzo-router to PyPI
     "hanzo-aci>=0.2.8",
 ]
