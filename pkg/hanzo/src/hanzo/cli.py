@@ -29,7 +29,6 @@ from .commands import (
     jobs,
     node,
     o11y,
-    repl,
     agent,
     cloud,
     miner,
@@ -50,10 +49,7 @@ from .commands import (
     platform,
     git_provider,
 )
-from .ui.startup import show_startup
 from .utils.output import console
-from .interactive.repl import HanzoREPL
-from .interactive.enhanced_repl import EnhancedHanzoREPL
 
 # Version
 __version__ = "0.3.48"
@@ -66,10 +62,7 @@ __version__ = "0.3.48"
 @click.option("--config", "-c", type=click.Path(), help="Config file path")
 @click.pass_context
 def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
-    """Hanzo AI - Unified CLI for local, private, and free AI.
-
-    Run without arguments to enter interactive mode.
-    """
+    """Hanzo AI - Unified CLI for infrastructure, deployments, and services."""
     # Ensure context object exists
     ctx.ensure_object(dict)
     ctx.obj["verbose"] = verbose
@@ -77,32 +70,8 @@ def cli(ctx, verbose: bool, json: bool, config: Optional[str]):
     ctx.obj["config"] = config
     ctx.obj["console"] = console
 
-    # If no subcommand, enter interactive mode or start compute node
     if ctx.invoked_subcommand is None:
-        # Check if we should start as a compute node
-        import os
-
-        if os.environ.get("HANZO_COMPUTE_NODE") == "1":
-            # Start as a compute node
-            asyncio.run(start_compute_node(ctx))
-        else:
-            # Show startup UI (unless in quiet mode)
-            if not ctx.obj.get("quiet") and not os.environ.get("HANZO_NO_STARTUP"):
-                show_startup(minimal=os.environ.get("HANZO_MINIMAL_UI") == "1")
-
-            # Enter interactive REPL mode
-            try:
-                # Use enhanced REPL if available, otherwise fallback
-                use_enhanced = os.environ.get("HANZO_ENHANCED_REPL", "1") == "1"
-                if use_enhanced:
-                    repl = EnhancedHanzoREPL(console=console)
-                else:
-                    repl = HanzoREPL(console=console)
-                asyncio.run(repl.run())
-            except KeyboardInterrupt:
-                console.print("\n[yellow]Interrupted[/yellow]")
-            except EOFError:
-                console.print("\n[yellow]Goodbye![/yellow]")
+        click.echo(ctx.get_help())
 
 
 # Register command groups
@@ -135,7 +104,6 @@ cli.add_command(o11y.o11y_group)
 cli.add_command(platform.platform_group)
 cli.add_command(pubsub.pubsub_group)
 cli.add_command(queues.queues_group)
-cli.add_command(repl.repl_group)
 cli.add_command(router.router_group)
 cli.add_command(run.run_group)
 cli.add_command(search.search_group)
