@@ -50,9 +50,7 @@ async def start(
         if not click.confirm("Continue without wallet?"):
             return
 
-    miner = HanzoMiner(
-        name=name, wallet=wallet, device=device, network=network, min_stake=min_stake
-    )
+    miner = HanzoMiner(name=name, wallet=wallet, device=device, network=network, min_stake=min_stake)
 
     with Progress(
         SpinnerColumn(),
@@ -94,9 +92,7 @@ async def start(
             if event["type"] == "log":
                 console.print(event["message"], end="")
             elif event["type"] == "job":
-                console.print(
-                    f"[green]Job completed:[/green] {event['job_id']} (+{event['tokens']} tokens)"
-                )
+                console.print(f"[green]Job completed:[/green] {event['job_id']} (+{event['tokens']} tokens)")
             elif event["type"] == "error":
                 console.print(f"[red]Error:[/red] {event['message']}")
     except KeyboardInterrupt:
@@ -109,9 +105,7 @@ async def start(
             console.print("\n[cyan]Session Summary:[/cyan]")
             console.print(f"  Jobs completed: {final_stats.get('jobs_completed', 0)}")
             console.print(f"  Tokens earned: {final_stats.get('tokens_earned', 0)}")
-            console.print(
-                f"  Average job time: {final_stats.get('avg_job_time', 'N/A')}"
-            )
+            console.print(f"  Average job time: {final_stats.get('avg_job_time', 'N/A')}")
 
         console.print("[green]✓[/green] Miner stopped")
 
@@ -207,15 +201,11 @@ async def status(ctx, name: str, detailed: bool):
         console.print(f"  Network: {stats.get('network', 'unknown')}")
         console.print(f"  Wallet: {stats.get('wallet', 'Not set')}")
         console.print(f"  Models: {', '.join(stats.get('models', []))}")
-        console.print(
-            f"  Memory: {stats.get('memory_used', 0)} / {stats.get('memory_total', 0)} MB"
-        )
+        console.print(f"  Memory: {stats.get('memory_used', 0)} / {stats.get('memory_total', 0)} MB")
         console.print(f"  CPU: {stats.get('cpu_percent', 0)}%")
 
         if gpu := stats.get("gpu"):
-            console.print(
-                f"  GPU: {gpu['name']} ({gpu['memory_used']} / {gpu['memory_total']} MB)"
-            )
+            console.print(f"  GPU: {gpu['name']} ({gpu['memory_used']} / {gpu['memory_total']} MB)")
 
         console.print(f"\n[cyan]Performance:[/cyan]")
         console.print(f"  Average job time: {stats.get('avg_job_time', 'N/A')}")
@@ -292,9 +282,7 @@ async def earnings(ctx, wallet: str, network: str):
     if history := data.get("recent_jobs"):
         console.print("\n[cyan]Recent Jobs:[/cyan]")
         for job in history[:5]:
-            console.print(
-                f"  • {job['timestamp']}: +{job['tokens']} tokens ({job['model']})"
-            )
+            console.print(f"  • {job['timestamp']}: +{job['tokens']} tokens ({job['model']})")
 
 
 @miner_group.command()
@@ -323,9 +311,7 @@ async def withdraw(ctx, amount: float, wallet: str, to: str, network: str):
 
     with console.status("Processing withdrawal..."):
         try:
-            result = await withdraw_earnings(
-                wallet=wallet, amount=amount, destination=to, network=network
-            )
+            result = await withdraw_earnings(wallet=wallet, amount=amount, destination=to, network=network)
 
             console.print(f"[green]✓[/green] Withdrawal successful")
             console.print(f"  Transaction: {result['tx_hash']}")

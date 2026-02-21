@@ -5,8 +5,8 @@ Support, CRM, and ERP.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -39,6 +39,7 @@ def cx_group():
 # Inbox (Support)
 # ============================================================================
 
+
 @cx_group.group()
 def inbox():
     """Manage support inbox."""
@@ -65,16 +66,18 @@ def inbox_list(status: str, channel: str):
 @click.argument("conversation_id")
 def inbox_show(conversation_id: str):
     """Show conversation details."""
-    console.print(Panel(
-        f"[cyan]ID:[/cyan] {conversation_id}\n"
-        f"[cyan]Subject:[/cyan] Need help with billing\n"
-        f"[cyan]Customer:[/cyan] john@example.com\n"
-        f"[cyan]Status:[/cyan] Open\n"
-        f"[cyan]Channel:[/cyan] Email\n"
-        f"[cyan]Messages:[/cyan] 5",
-        title="Conversation",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]ID:[/cyan] {conversation_id}\n"
+            f"[cyan]Subject:[/cyan] Need help with billing\n"
+            f"[cyan]Customer:[/cyan] john@example.com\n"
+            f"[cyan]Status:[/cyan] Open\n"
+            f"[cyan]Channel:[/cyan] Email\n"
+            f"[cyan]Messages:[/cyan] 5",
+            title="Conversation",
+            border_style="cyan",
+        )
+    )
 
 
 @inbox.command(name="assign")
@@ -111,6 +114,7 @@ def inbox_reopen(conversation_id: str):
 # Contacts (CRM)
 # ============================================================================
 
+
 @cx_group.group()
 def contacts():
     """Manage CRM contacts."""
@@ -136,15 +140,17 @@ def contacts_list(search: str, limit: int):
 @click.argument("contact_id")
 def contacts_show(contact_id: str):
     """Show contact details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] John Doe\n"
-        f"[cyan]Email:[/cyan] john@example.com\n"
-        f"[cyan]Company:[/cyan] Acme Inc\n"
-        f"[cyan]Phone:[/cyan] +1 555-1234\n"
-        f"[cyan]Deals:[/cyan] 2 ($50,000)",
-        title="Contact Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] John Doe\n"
+            f"[cyan]Email:[/cyan] john@example.com\n"
+            f"[cyan]Company:[/cyan] Acme Inc\n"
+            f"[cyan]Phone:[/cyan] +1 555-1234\n"
+            f"[cyan]Deals:[/cyan] 2 ($50,000)",
+            title="Contact Details",
+            border_style="cyan",
+        )
+    )
 
 
 @contacts.command(name="create")
@@ -167,6 +173,7 @@ def contacts_delete(contact_id: str):
 # ============================================================================
 # Deals (CRM)
 # ============================================================================
+
 
 @cx_group.group()
 def deals():
@@ -193,15 +200,17 @@ def deals_list(pipeline: str, stage: str):
 @click.argument("deal_id")
 def deals_show(deal_id: str):
     """Show deal details."""
-    console.print(Panel(
-        f"[cyan]Deal:[/cyan] Enterprise License\n"
-        f"[cyan]Value:[/cyan] $50,000\n"
-        f"[cyan]Stage:[/cyan] Negotiation\n"
-        f"[cyan]Contact:[/cyan] John Doe\n"
-        f"[cyan]Close Date:[/cyan] 2024-02-15",
-        title="Deal Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Deal:[/cyan] Enterprise License\n"
+            f"[cyan]Value:[/cyan] $50,000\n"
+            f"[cyan]Stage:[/cyan] Negotiation\n"
+            f"[cyan]Contact:[/cyan] John Doe\n"
+            f"[cyan]Close Date:[/cyan] 2024-02-15",
+            title="Deal Details",
+            border_style="cyan",
+        )
+    )
 
 
 @deals.command(name="create")
@@ -225,6 +234,7 @@ def deals_move(deal_id: str, stage: str):
 # ============================================================================
 # Pipelines (CRM)
 # ============================================================================
+
 
 @cx_group.group()
 def pipelines():
@@ -257,6 +267,7 @@ def pipelines_create(name: str, stages: str):
 # ============================================================================
 # Invoices (ERP)
 # ============================================================================
+
 
 @cx_group.group()
 def invoices():
@@ -305,6 +316,7 @@ def invoices_mark_paid(invoice_number: str):
 # Orders (ERP)
 # ============================================================================
 
+
 @cx_group.group()
 def orders():
     """Manage orders."""
@@ -329,15 +341,17 @@ def orders_list(status: str):
 @click.argument("order_id")
 def orders_show(order_id: str):
     """Show order details."""
-    console.print(Panel(
-        f"[cyan]Order #:[/cyan] {order_id}\n"
-        f"[cyan]Customer:[/cyan] John Doe\n"
-        f"[cyan]Total:[/cyan] $299.00\n"
-        f"[cyan]Status:[/cyan] Processing\n"
-        f"[cyan]Items:[/cyan] 3",
-        title="Order Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Order #:[/cyan] {order_id}\n"
+            f"[cyan]Customer:[/cyan] John Doe\n"
+            f"[cyan]Total:[/cyan] $299.00\n"
+            f"[cyan]Status:[/cyan] Processing\n"
+            f"[cyan]Items:[/cyan] 3",
+            title="Order Details",
+            border_style="cyan",
+        )
+    )
 
 
 @orders.command(name="update-status")

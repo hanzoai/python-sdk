@@ -10,15 +10,15 @@ import json
 import click
 import httpx
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
-
 
 # ============================================================================
 # IAM Client Helper
 # ============================================================================
+
 
 def _get_iam_url() -> str:
     return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL", "https://hanzo.id"))
@@ -31,6 +31,7 @@ def _get_iam_credentials() -> tuple[str, str]:
     if not client_id or not client_secret:
         # Try loading from auth file
         from pathlib import Path
+
         auth_file = Path.home() / ".hanzo" / "auth.json"
         if auth_file.exists():
             try:
@@ -42,8 +43,9 @@ def _get_iam_credentials() -> tuple[str, str]:
     return client_id, client_secret
 
 
-def _iam_request(method: str, path: str, params: dict | None = None,
-                 json_body: dict | None = None, auth_params: bool = True) -> dict:
+def _iam_request(
+    method: str, path: str, params: dict | None = None, json_body: dict | None = None, auth_params: bool = True
+) -> dict:
     """Make authenticated request to IAM API."""
     url = _get_iam_url().rstrip("/") + path
     client_id, client_secret = _get_iam_credentials()
@@ -93,6 +95,7 @@ def _check_response(data: dict, action: str) -> None:
 # Main IAM Group
 # ============================================================================
 
+
 @click.group(name="iam")
 def iam_group():
     """Hanzo IAM - Identity and Access Management.
@@ -139,6 +142,7 @@ def iam_group():
 # Configure
 # ============================================================================
 
+
 @iam_group.command()
 @click.option("--url", "-u", help="IAM server URL (default: https://hanzo.id)")
 @click.option("--client-id", "-i", help="OAuth2 client ID")
@@ -153,6 +157,7 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
       hanzo iam configure --url https://iam.hanzo.ai
     """
     from pathlib import Path
+
     from rich.prompt import Prompt
 
     auth_file = Path.home() / ".hanzo" / "auth.json"
@@ -168,8 +173,7 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
     if not client_id:
         client_id = Prompt.ask("Client ID", default=auth.get("iam_client_id", ""))
     if not client_secret:
-        client_secret = Prompt.ask("Client Secret", password=True,
-                                    default=auth.get("iam_client_secret", ""))
+        client_secret = Prompt.ask("Client Secret", password=True, default=auth.get("iam_client_secret", ""))
 
     auth["iam_url"] = url
     auth["iam_client_id"] = client_id
@@ -225,6 +229,7 @@ def iam_status():
 # ============================================================================
 # Users
 # ============================================================================
+
 
 @iam_group.group()
 def users():
@@ -312,8 +317,7 @@ def users_get(username: str, org: str):
 @click.option("--phone", help="Phone number")
 @click.option("--org", "-o", default="hanzo", help="Organization")
 @click.option("--admin", is_flag=True, help="Make admin")
-def users_create(username: str, email: str, password: str, name: str,
-                 phone: str, org: str, admin: bool):
+def users_create(username: str, email: str, password: str, name: str, phone: str, org: str, admin: bool):
     """Create a new user."""
     user_obj = {
         "owner": org,
@@ -365,8 +369,9 @@ def users_create(username: str, email: str, password: str, name: str,
 @click.option("--admin/--no-admin", default=None, help="Set admin status")
 @click.option("--forbidden/--no-forbidden", default=None, help="Ban/unban user")
 @click.option("--org", "-o", default="hanzo", help="Organization")
-def users_update(username: str, email: str, name: str, phone: str,
-                 password: str, admin: bool, forbidden: bool, org: str):
+def users_update(
+    username: str, email: str, name: str, phone: str, password: str, admin: bool, forbidden: bool, org: str
+):
     """Update user fields."""
     # First get existing user
     get_data = _iam_request("GET", "/api/get-user", params={"id": f"{org}/{username}"})
@@ -389,9 +394,7 @@ def users_update(username: str, email: str, name: str, phone: str,
     if forbidden is not None:
         user_obj["isForbidden"] = forbidden
 
-    data = _iam_request("POST", "/api/update-user",
-                        params={"id": f"{org}/{username}"},
-                        json_body=user_obj)
+    data = _iam_request("POST", "/api/update-user", params={"id": f"{org}/{username}"}, json_body=user_obj)
     _check_response(data, "update user")
 
     console.print(f"[green]✓[/green] User '{username}' updated")
@@ -427,6 +430,7 @@ def users_delete(username: str, org: str, yes: bool):
     """Delete a user."""
     if not yes:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete user '{username}' from '{org}'?[/red]"):
             return
 
@@ -451,6 +455,7 @@ def users_count(org: str):
 # ============================================================================
 # Organizations
 # ============================================================================
+
 
 @iam_group.group()
 def orgs():
@@ -544,6 +549,7 @@ def orgs_delete(name: str, yes: bool):
     """Delete an organization."""
     if not yes:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete organization '{name}'? This cannot be undone.[/red]"):
             return
 
@@ -557,6 +563,7 @@ def orgs_delete(name: str, yes: bool):
 # ============================================================================
 # Providers
 # ============================================================================
+
 
 @iam_group.group()
 def providers():
@@ -600,8 +607,7 @@ def providers_list(owner: str):
 @click.option("--owner", default="admin", help="Provider owner")
 def providers_get(name: str, owner: str):
     """Get provider details."""
-    data = _iam_request("GET", "/api/get-provider",
-                        params={"id": f"{owner}/{name}"})
+    data = _iam_request("GET", "/api/get-provider", params={"id": f"{owner}/{name}"})
     _check_response(data, "get provider")
 
     prov = data.get("data") if isinstance(data, dict) else data
@@ -626,18 +632,38 @@ def providers_get(name: str, owner: str):
 
 @providers.command(name="create")
 @click.option("--name", "-n", required=True, help="Provider name")
-@click.option("--type", "-t", "ptype", required=True,
-              type=click.Choice(["Google", "GitHub", "Facebook", "Twitter",
-                                 "Apple", "Microsoft", "Discord", "Slack",
-                                 "WeChat", "SAML", "OIDC", "CAS", "LDAP"]),
-              help="Provider type")
+@click.option(
+    "--type",
+    "-t",
+    "ptype",
+    required=True,
+    type=click.Choice(
+        [
+            "Google",
+            "GitHub",
+            "Facebook",
+            "Twitter",
+            "Apple",
+            "Microsoft",
+            "Discord",
+            "Slack",
+            "WeChat",
+            "SAML",
+            "OIDC",
+            "CAS",
+            "LDAP",
+        ]
+    ),
+    help="Provider type",
+)
 @click.option("--display-name", "-d", help="Display name")
 @click.option("--client-id", "-i", required=True, help="OAuth client ID")
 @click.option("--client-secret", "-s", required=True, help="OAuth client secret")
 @click.option("--scopes", help="OAuth scopes")
 @click.option("--owner", default="admin", help="Provider owner")
-def providers_create(name: str, ptype: str, display_name: str,
-                     client_id: str, client_secret: str, scopes: str, owner: str):
+def providers_create(
+    name: str, ptype: str, display_name: str, client_id: str, client_secret: str, scopes: str, owner: str
+):
     """Create an authentication provider."""
     prov_obj = {
         "owner": owner,
@@ -664,6 +690,7 @@ def providers_delete(name: str, owner: str, yes: bool):
     """Delete an authentication provider."""
     if not yes:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete provider '{name}'?[/red]"):
             return
 
@@ -677,6 +704,7 @@ def providers_delete(name: str, owner: str, yes: bool):
 # ============================================================================
 # Applications
 # ============================================================================
+
 
 @iam_group.group()
 def apps():
@@ -721,8 +749,7 @@ def apps_list(org: str):
 @click.option("--org", "-o", default="admin", help="Organization/owner")
 def apps_get(name: str, org: str):
     """Get application details."""
-    data = _iam_request("GET", "/api/get-application",
-                        params={"id": f"{org}/{name}"})
+    data = _iam_request("GET", "/api/get-application", params={"id": f"{org}/{name}"})
     _check_response(data, "get application")
 
     app = data.get("data") if isinstance(data, dict) else data
@@ -767,6 +794,7 @@ def apps_get(name: str, org: str):
 # ============================================================================
 # Roles
 # ============================================================================
+
 
 @iam_group.group()
 def roles():
@@ -845,6 +873,7 @@ def roles_get(name: str, org: str):
 # Admin: Login / Masquerade
 # ============================================================================
 
+
 @iam_group.command(name="login")
 @click.option("--username", "-u", help="Username or email")
 @click.option("--password", "-p", help="Password")
@@ -862,9 +891,10 @@ def iam_login(username: str, password: str, org: str, app: str):
       hanzo iam login -u admin@hanzo.ai
       hanzo iam login -u z -p mypassword --org hanzo
     """
-    from rich.prompt import Prompt
     from pathlib import Path
     from datetime import datetime
+
+    from rich.prompt import Prompt
 
     if not username:
         username = Prompt.ask("Username or email")
@@ -875,13 +905,16 @@ def iam_login(username: str, password: str, org: str, app: str):
 
     try:
         with httpx.Client(timeout=30.0) as http:
-            resp = http.post(f"{url}/api/login", json={
-                "type": "token",
-                "username": username,
-                "password": password,
-                "organization": org,
-                "application": app,
-            })
+            resp = http.post(
+                f"{url}/api/login",
+                json={
+                    "type": "token",
+                    "username": username,
+                    "password": password,
+                    "organization": org,
+                    "application": app,
+                },
+            )
             resp.raise_for_status()
             data = resp.json()
     except httpx.ConnectError:
@@ -924,14 +957,18 @@ def iam_login(username: str, password: str, org: str, app: str):
     if client_id and client_secret:
         try:
             with httpx.Client(timeout=30.0) as http:
-                token_resp = http.post(f"{url}/api/login/oauth/access_token", data={
-                    "grant_type": "password",
-                    "client_id": client_id,
-                    "client_secret": client_secret,
-                    "username": username,
-                    "password": password,
-                    "scope": "openid profile email",
-                }, headers={"Content-Type": "application/x-www-form-urlencoded"})
+                token_resp = http.post(
+                    f"{url}/api/login/oauth/access_token",
+                    data={
+                        "grant_type": "password",
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "username": username,
+                        "password": password,
+                        "scope": "openid profile email",
+                    },
+                    headers={"Content-Type": "application/x-www-form-urlencoded"},
+                )
                 if token_resp.status_code == 200:
                     token_data = token_resp.json()
                     if token_data.get("refresh_token"):
@@ -945,6 +982,7 @@ def iam_login(username: str, password: str, org: str, app: str):
 # ============================================================================
 # Admin: Raw API Call
 # ============================================================================
+
 
 @iam_group.command(name="api")
 @click.argument("endpoint")
@@ -987,6 +1025,7 @@ def iam_api(endpoint: str, method: str, body: str, param: tuple):
 # Tokens
 # ============================================================================
 
+
 @iam_group.group()
 def tokens():
     """Manage and inspect tokens."""
@@ -1002,6 +1041,7 @@ def tokens_inspect(token: str):
     if not token:
         # Try to get from auth.json
         from pathlib import Path
+
         auth_file = Path.home() / ".hanzo" / "auth.json"
         if auth_file.exists():
             auth = json.loads(auth_file.read_text())
@@ -1034,6 +1074,7 @@ def tokens_inspect(token: str):
         payload = json.loads(base64.urlsafe_b64decode(padded))
         if "exp" in payload:
             from datetime import datetime
+
             exp = datetime.fromtimestamp(payload["exp"])
             now = datetime.now()
             if now > exp:
@@ -1058,13 +1099,17 @@ def tokens_exchange(code: str, redirect_uri: str):
     url = _get_iam_url().rstrip("/")
     try:
         with httpx.Client(timeout=30.0) as http:
-            resp = http.post(f"{url}/api/login/oauth/access_token", data={
-                "grant_type": "authorization_code",
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "code": code,
-                "redirect_uri": redirect_uri,
-            }, headers={"Content-Type": "application/x-www-form-urlencoded"})
+            resp = http.post(
+                f"{url}/api/login/oauth/access_token",
+                data={
+                    "grant_type": "authorization_code",
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "code": code,
+                    "redirect_uri": redirect_uri,
+                },
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
             resp.raise_for_status()
             data = resp.json()
     except Exception as e:
@@ -1080,6 +1125,7 @@ def tokens_exchange(code: str, redirect_uri: str):
 
         # Save to auth.json
         from pathlib import Path
+
         auth_file = Path.home() / ".hanzo" / "auth.json"
         auth = {}
         if auth_file.exists():

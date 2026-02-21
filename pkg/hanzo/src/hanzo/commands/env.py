@@ -5,8 +5,8 @@ Environment configuration and switching.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 from rich.syntax import Syntax
 
 from ..utils.output import console
@@ -37,6 +37,7 @@ def env_group():
 # ============================================================================
 # Environment Management
 # ============================================================================
+
 
 @env_group.command(name="list")
 @click.option("--project", "-p", help="Project ID")
@@ -78,14 +79,16 @@ def env_use(name: str):
 @env_group.command(name="current")
 def env_current():
     """Show current environment."""
-    console.print(Panel(
-        "[cyan]Environment:[/cyan] development\n"
-        "[cyan]Project:[/cyan] my-app\n"
-        "[cyan]URL:[/cyan] dev.app.hanzo.ai\n"
-        "[cyan]Variables:[/cyan] 12",
-        title="Current Environment",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            "[cyan]Environment:[/cyan] development\n"
+            "[cyan]Project:[/cyan] my-app\n"
+            "[cyan]URL:[/cyan] dev.app.hanzo.ai\n"
+            "[cyan]Variables:[/cyan] 12",
+            title="Current Environment",
+            border_style="cyan",
+        )
+    )
 
 
 @env_group.command(name="delete")
@@ -98,6 +101,7 @@ def env_delete(name: str, force: bool):
         return
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete environment '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Environment '{name}' deleted")
@@ -106,6 +110,7 @@ def env_delete(name: str, force: bool):
 # ============================================================================
 # Environment Variables
 # ============================================================================
+
 
 @env_group.command(name="vars")
 @click.option("--env", "-e", default="development", help="Environment name")

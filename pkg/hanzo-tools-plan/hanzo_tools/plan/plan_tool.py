@@ -14,21 +14,18 @@ Effect lattice:
 - execute: NONDETERMINISTIC (audit-friendly)
 """
 
-import os
 import json
-import hashlib
 import re
-from datetime import datetime, timezone
-from typing import Any, ClassVar, Literal
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, ClassVar
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    ToolError,
     InvalidParamsError,
     content_hash,
 )
@@ -36,6 +33,7 @@ from hanzo_tools.core import (
 
 class EffectClass(str, Enum):
     """Effect lattice for operators."""
+
     PURE = "pure"
     DETERMINISTIC = "deterministic"
     NONDETERMINISTIC = "nondeterministic"
@@ -43,6 +41,7 @@ class EffectClass(str, Enum):
 
 class StepStatus(str, Enum):
     """Status for plan steps (Rust parity)."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -51,6 +50,7 @@ class StepStatus(str, Enum):
 @dataclass
 class TrackedStep:
     """A tracked plan step with status (Rust parity)."""
+
     step: str
     status: StepStatus = StepStatus.PENDING
 
@@ -58,6 +58,7 @@ class TrackedStep:
 @dataclass
 class TrackedPlan:
     """A tracked plan with name and steps (Rust parity)."""
+
     name: str | None = None
     steps: list[TrackedStep] = field(default_factory=list)
     created_at: str | None = None
@@ -66,6 +67,7 @@ class TrackedPlan:
 
 class Scope(str, Enum):
     """Scope lattice for operators."""
+
     SPAN = "span"
     FILE = "file"
     PACKAGE = "package"
@@ -76,8 +78,9 @@ class Scope(str, Enum):
 @dataclass
 class IntentIR:
     """Intermediate representation for parsed intent."""
+
     category: str  # navigate, edit, refactor, test, deploy, etc.
-    action: str    # find, read, rename, run, etc.
+    action: str  # find, read, rename, run, etc.
     target: str | None = None
     params: dict[str, Any] = field(default_factory=dict)
     confidence: float = 1.0
@@ -87,6 +90,7 @@ class IntentIR:
 @dataclass
 class PlanNode:
     """Single node in execution plan."""
+
     id: str
     tool: str
     action: str
@@ -100,6 +104,7 @@ class PlanNode:
 @dataclass
 class Plan:
     """Execution plan as typed DAG."""
+
     nodes: list[PlanNode] = field(default_factory=list)
     policy_gates: list[str] = field(default_factory=list)  # Nodes requiring approval
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -108,6 +113,7 @@ class Plan:
 @dataclass
 class ExecGraph:
     """Compiled execution graph ready for execution."""
+
     plan: Plan
     execution_order: list[str]  # Topologically sorted node IDs
     parallelizable: list[list[str]]  # Groups that can run in parallel
@@ -122,25 +128,21 @@ INTENT_PATTERNS = [
     (r"(what|explain|describe)\s+(does\s+)?(.+)\s+(do|mean)", "navigate", "explain"),
     (r"(go\s+to|jump\s+to)\s+(definition\s+of\s+)?(.+)", "navigate", "definition"),
     (r"(show|list)\s+(symbols|functions|classes)", "navigate", "symbols"),
-
     # Edit / Transform
     (r"(edit|change|modify|update)\s+(.+)", "edit", "transform"),
     (r"(rename|refactor)\s+(.+)\s+(to|as)\s+(.+)", "refactor", "rename"),
     (r"(add|create|insert)\s+(.+)", "edit", "create"),
     (r"(remove|delete)\s+(.+)", "edit", "delete"),
     (r"(fix|repair|correct)\s+(.+)", "edit", "fix"),
-
     # Test / Validate
     (r"(run|execute)\s+(tests?|specs?)", "test", "run"),
     (r"(check|verify|validate)\s+(.+)", "test", "validate"),
     (r"(lint|typecheck|format)\s+(.+)?", "test", "lint"),
     (r"(why|debug)\s+(is|are|did)\s+(.+)\s+(failing|broken|wrong)", "test", "debug"),
-
     # VCS
     (r"(commit|save)\s+(changes?)?", "vcs", "commit"),
     (r"(diff|compare|show\s+changes)", "vcs", "diff"),
     (r"(log|history|blame)\s*(.+)?", "vcs", "log"),
-
     # General
     (r"(help|how\s+do\s+i)", "meta", "help"),
 ]
@@ -316,7 +318,7 @@ Turns permissive natural language input into strict canonical operator chains.
                 "intent": intent.category,
                 "action": intent.action,
                 "target": intent.target,
-            }
+            },
         )
 
     def _compile_graph(self, plan: Plan) -> ExecGraph:
@@ -416,8 +418,7 @@ Turns permissive natural language input into strict canonical operator chains.
                 "plan": {
                     "name": self._tracked_plan.name,
                     "steps": [
-                        {"step": s.step, "status": s.status.value}
-                        for s in self._tracked_plan.steps
+                        {"step": s.step, "status": s.status.value} for s in self._tracked_plan.steps
                     ],
                     "created_at": self._tracked_plan.created_at,
                     "updated_at": self._tracked_plan.updated_at,
@@ -440,8 +441,7 @@ Turns permissive natural language input into strict canonical operator chains.
                 "plan": {
                     "name": self._tracked_plan.name,
                     "steps": [
-                        {"step": s.step, "status": s.status.value}
-                        for s in self._tracked_plan.steps
+                        {"step": s.step, "status": s.status.value} for s in self._tracked_plan.steps
                     ],
                     "created_at": self._tracked_plan.created_at,
                     "updated_at": self._tracked_plan.updated_at,
@@ -449,16 +449,13 @@ Turns permissive natural language input into strict canonical operator chains.
                 "progress": {
                     "total": len(self._tracked_plan.steps),
                     "completed": sum(
-                        1 for s in self._tracked_plan.steps
-                        if s.status == StepStatus.COMPLETED
+                        1 for s in self._tracked_plan.steps if s.status == StepStatus.COMPLETED
                     ),
                     "in_progress": sum(
-                        1 for s in self._tracked_plan.steps
-                        if s.status == StepStatus.IN_PROGRESS
+                        1 for s in self._tracked_plan.steps if s.status == StepStatus.IN_PROGRESS
                     ),
                     "pending": sum(
-                        1 for s in self._tracked_plan.steps
-                        if s.status == StepStatus.PENDING
+                        1 for s in self._tracked_plan.steps if s.status == StepStatus.PENDING
                     ),
                 },
             }

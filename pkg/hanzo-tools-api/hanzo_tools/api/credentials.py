@@ -11,18 +11,17 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
-from typing import Optional
 
+from .errors import CredentialError
 from .models import Credential, CredentialSource, EffectiveCredential, ProviderConfig, ProviderStatus
-from .providers import PROVIDER_CONFIGS, ENV_VAR_MAPPINGS, get_env_vars, get_provider_config
+from .providers import ENV_VAR_MAPPINGS, PROVIDER_CONFIGS, get_env_vars, get_provider_config
 from .storage import (
-    CredentialStorage,
     ChainedCredentialStorage,
-    FileCredentialStorage,
+    CredentialStorage,
     EnvironmentCredentialStorage,
+    FileCredentialStorage,
     MemoryCredentialStorage,
 )
-from .errors import CredentialError
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +53,8 @@ class CredentialManager:
 
     def __init__(
         self,
-        config_dir: Optional[Path] = None,
-        storage: Optional[CredentialStorage] = None,
+        config_dir: Path | None = None,
+        storage: CredentialStorage | None = None,
     ):
         """Initialize credential manager.
 
@@ -73,10 +72,12 @@ class CredentialManager:
             self._storage = storage
         else:
             file_path = self.config_dir / "credentials.json"
-            self._storage = ChainedCredentialStorage([
-                FileCredentialStorage(file_path),  # Persistent storage
-                EnvironmentCredentialStorage(ENV_VAR_MAPPINGS),  # Read-only fallback
-            ])
+            self._storage = ChainedCredentialStorage(
+                [
+                    FileCredentialStorage(file_path),  # Persistent storage
+                    EnvironmentCredentialStorage(ENV_VAR_MAPPINGS),  # Read-only fallback
+                ]
+            )
 
         # Separate override storage for context manager
         self._overrides = MemoryCredentialStorage()
@@ -157,10 +158,10 @@ class CredentialManager:
     async def set_credential(
         self,
         provider: str,
-        api_key: Optional[str] = None,
-        api_secret: Optional[str] = None,
-        account_id: Optional[str] = None,
-        base_url: Optional[str] = None,
+        api_key: str | None = None,
+        api_secret: str | None = None,
+        account_id: str | None = None,
+        base_url: str | None = None,
         **extra,
     ) -> None:
         """Store a credential.
@@ -268,13 +269,13 @@ class CredentialManager:
 
         return effective.credential
 
-    def get_provider_config(self, provider: str) -> Optional[ProviderConfig]:
+    def get_provider_config(self, provider: str) -> ProviderConfig | None:
         """Get provider configuration."""
         return get_provider_config(provider)
 
 
 # Singleton instance
-_credential_manager: Optional[CredentialManager] = None
+_credential_manager: CredentialManager | None = None
 
 
 def get_credential_manager() -> CredentialManager:

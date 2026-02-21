@@ -8,20 +8,20 @@ Example:
     >>> balance = await client.tokens.get_balance("0x...", chain="ethereum")
 """
 
-from hanzo_web3.client import Client, AsyncClient
 from hanzo_web3.types import (
     Chain,
     Network,
-    TokenBalance,
-    NFTMetadata,
-    Transaction,
     Webhook,
+    NFTMetadata,
     SmartWallet,
+    Transaction,
+    TokenBalance,
 )
+from hanzo_web3.client import Client, AsyncClient
 from hanzo_web3.exceptions import (
     HanzoWeb3Error,
-    AuthenticationError,
     RateLimitError,
+    AuthenticationError,
     ChainNotSupportedError,
 )
 

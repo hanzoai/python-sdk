@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 """Agent swarm demo using hanzo/net for local private AI inference."""
 
-import sys
 import asyncio
+import sys
 from pathlib import Path
 
 # Add hanzo-network to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "hanzo-network" / "src"))
 
 from hanzo_network import (
-    create_tool,
-    create_router,
     create_local_agent,
     create_local_distributed_network,
+    create_router,
+    create_tool,
 )
-from hanzo_network.llm import HanzoNetProvider
 from hanzo_network.core.router import RouterArgs
+from hanzo_network.llm import HanzoNetProvider
 
 
 async def main():

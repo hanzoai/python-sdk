@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -758,13 +758,16 @@ class IdentityResourceWithRawResponse:
     def __init__(self, identity: IdentityResource) -> None:
         self._identity = identity
 
+
 class AsyncIdentityResourceWithRawResponse:
     def __init__(self, identity: AsyncIdentityResource) -> None:
         self._identity = identity
 
+
 class IdentityResourceWithStreamingResponse:
     def __init__(self, identity: IdentityResource) -> None:
         self._identity = identity
+
 
 class AsyncIdentityResourceWithStreamingResponse:
     def __init__(self, identity: AsyncIdentityResource) -> None:

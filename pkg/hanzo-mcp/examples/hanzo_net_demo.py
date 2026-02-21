@@ -4,10 +4,10 @@
 import asyncio
 
 from hanzo_network import (
-    create_tool,
-    create_local_agent,
     check_local_llm_status,
+    create_local_agent,
     create_local_distributed_network,
+    create_tool,
 )
 
 
@@ -48,7 +48,11 @@ async def main():
         name="code_analyzer",
         description="Analyzes code using distributed inference",
         system="You are powered by hanzo/net distributed inference. Analyze code efficiently.",
-        tools=[create_tool(name="analyze_code", description="Analyze code", handler=analyze_code)],
+        tools=[
+            create_tool(
+                name="analyze_code", description="Analyze code", handler=analyze_code
+            )
+        ],
         local_model="llama3.2",  # Will use hanzo/net
     )
 

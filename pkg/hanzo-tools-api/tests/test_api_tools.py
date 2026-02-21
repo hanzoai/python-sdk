@@ -1,29 +1,26 @@
 """Tests for hanzo-tools-api v0.2.0."""
 
-import json
 import os
 import tempfile
 from pathlib import Path
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
 from hanzo_tools.api import (
+    ENV_VAR_MAPPINGS,
+    PROVIDER_CONFIGS,
     APIClient,
     APITool,
     Credential,
     CredentialManager,
     OpenAPIClient,
     SpecCache,
-    get_credential_manager,
-    reset_credential_manager,
-    PROVIDER_CONFIGS,
-    ENV_VAR_MAPPINGS,
 )
 from hanzo_tools.api.models import AuthType
 from hanzo_tools.api.storage import (
-    MemoryCredentialStorage,
     ChainedCredentialStorage,
+    MemoryCredentialStorage,
 )
 
 
@@ -89,10 +86,12 @@ class TestCredentialManager:
             from hanzo_tools.api.storage import EnvironmentCredentialStorage
 
             env_mappings = {"testprov": ["TESTPROV_API_KEY"]}
-            storage = ChainedCredentialStorage([
-                MemoryCredentialStorage(),
-                EnvironmentCredentialStorage(env_mappings),
-            ])
+            storage = ChainedCredentialStorage(
+                [
+                    MemoryCredentialStorage(),
+                    EnvironmentCredentialStorage(env_mappings),
+                ]
+            )
 
             cred_manager = CredentialManager(
                 config_dir=temp_config_dir,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -408,13 +408,16 @@ class TunnelResourceWithRawResponse:
     def __init__(self, tunnel: TunnelResource) -> None:
         self._tunnel = tunnel
 
+
 class AsyncTunnelResourceWithRawResponse:
     def __init__(self, tunnel: AsyncTunnelResource) -> None:
         self._tunnel = tunnel
 
+
 class TunnelResourceWithStreamingResponse:
     def __init__(self, tunnel: TunnelResource) -> None:
         self._tunnel = tunnel
+
 
 class AsyncTunnelResourceWithStreamingResponse:
     def __init__(self, tunnel: AsyncTunnelResource) -> None:

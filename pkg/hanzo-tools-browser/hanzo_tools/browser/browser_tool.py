@@ -63,11 +63,9 @@ async def _check_extension() -> bool:
     """Check if Hanzo browser extension is connected."""
     try:
         import aiohttp
+
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                "http://localhost:9224/status",
-                timeout=aiohttp.ClientTimeout(total=1)
-            ) as resp:
+            async with session.get("http://localhost:9224/status", timeout=aiohttp.ClientTimeout(total=1)) as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     return data.get("connected", False)
@@ -80,15 +78,14 @@ async def _extension_command(action: str, **kwargs) -> Optional[dict]:
     """Send command to Hanzo browser extension."""
     try:
         import aiohttp
+
         # Filter out None values
         payload = {"action": action}
         payload.update({k: v for k, v in kwargs.items() if v is not None})
 
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                "http://localhost:9224",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=30)
+                "http://localhost:9224", json=payload, timeout=aiohttp.ClientTimeout(total=30)
             ) as resp:
                 if resp.status == 200:
                     return await resp.json()
@@ -732,8 +729,7 @@ CATEGORIES:
         extension_actions = {"navigate", "screenshot", "click", "fill", "evaluate", "tabs", "status"}
         if action in extension_actions:
             ext_result = await _extension_command(
-                action, url=url, selector=sel, text=text, value=value,
-                code=code, expression=code, full_page=full_page
+                action, url=url, selector=sel, text=text, value=value, code=code, expression=code, full_page=full_page
             )
             if ext_result is not None and "error" not in ext_result:
                 # Normalize response
@@ -745,9 +741,9 @@ CATEGORIES:
         if not PLAYWRIGHT_AVAILABLE:
             return {
                 "error": "Browser extension not connected and Playwright not installed. "
-                         "Either connect the Hanzo browser extension or install Playwright: "
-                         "pip install playwright && playwright install chromium",
-                "action": action
+                "Either connect the Hanzo browser extension or install Playwright: "
+                "pip install playwright && playwright install chromium",
+                "action": action,
             }
 
         pool = await BrowserPool.get_instance()

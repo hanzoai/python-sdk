@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -356,13 +356,16 @@ class PolicyResourceWithRawResponse:
     def __init__(self, policy: PolicyResource) -> None:
         self._policy = policy
 
+
 class AsyncPolicyResourceWithRawResponse:
     def __init__(self, policy: AsyncPolicyResource) -> None:
         self._policy = policy
 
+
 class PolicyResourceWithStreamingResponse:
     def __init__(self, policy: PolicyResource) -> None:
         self._policy = policy
+
 
 class AsyncPolicyResourceWithStreamingResponse:
     def __init__(self, policy: AsyncPolicyResource) -> None:

@@ -4,9 +4,9 @@ Provides non-blocking subprocess execution.
 All operations are fully async and safe for use in event loops.
 """
 
-import asyncio
 import shutil
-from typing import Dict, List, Optional, Tuple, Union
+import asyncio
+from typing import Dict, List, Tuple, Union, Optional
 
 
 async def run_command(
@@ -113,7 +113,9 @@ async def run_shell(
 
     # Create subprocess with shell
     proc = await asyncio.create_subprocess_exec(
-        shell, "-c", command,
+        shell,
+        "-c",
+        command,
         stdout=asyncio.subprocess.PIPE if capture else asyncio.subprocess.DEVNULL,
         stderr=asyncio.subprocess.PIPE if capture else asyncio.subprocess.DEVNULL,
         cwd=cwd,

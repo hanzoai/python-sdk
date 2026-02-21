@@ -15,8 +15,8 @@ from rich.console import Console
 def _get_cluster_status() -> Optional[Dict[str, Any]]:
     """Get cluster status from API. Returns None if not connected."""
     try:
-        import urllib.request
         import json
+        import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
         req = urllib.request.urlopen(f"{endpoint}/health", timeout=2)
@@ -29,6 +29,7 @@ def _get_agents() -> List[Dict[str, Any]]:
     """Get agents from registry. Returns empty list if not available."""
     try:
         from hanzoai.agents import list_agents
+
         return list_agents() or []
     except Exception:
         return []
@@ -37,8 +38,8 @@ def _get_agents() -> List[Dict[str, Any]]:
 def _get_jobs() -> List[Dict[str, Any]]:
     """Get recent jobs. Returns empty list if not available."""
     try:
-        import urllib.request
         import json
+        import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
         req = urllib.request.urlopen(f"{endpoint}/jobs?limit=5", timeout=2)
@@ -50,8 +51,8 @@ def _get_jobs() -> List[Dict[str, Any]]:
 def _get_logs() -> List[str]:
     """Get recent logs. Returns empty list if not available."""
     try:
-        import urllib.request
         import json
+        import urllib.request
 
         endpoint = os.getenv("HANZO_CLUSTER_URL", "http://localhost:8000")
         req = urllib.request.urlopen(f"{endpoint}/logs?limit=5", timeout=2)
@@ -160,10 +161,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         """Get logs panel."""
         logs = _get_logs()
         if logs:
-            log_text = "\n".join(
-                f"[dim]{log.get('time', '')}[/dim] {log.get('message', '')}"
-                for log in logs[:5]
-            )
+            log_text = "\n".join(f"[dim]{log.get('time', '')}[/dim] {log.get('message', '')}" for log in logs[:5])
             border = "dim"
         else:
             log_text = "[dim]No logs available[/dim]"
@@ -189,6 +187,7 @@ def run_dashboard(refresh_rate: float = 1.0):
         with Live(layout, refresh_per_second=1 / refresh_rate, screen=True):
             while True:
                 import time
+
                 time.sleep(refresh_rate)
 
                 # Update all panels with real data
