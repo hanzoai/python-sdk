@@ -4,12 +4,23 @@ Developer-facing task graphs, schedules, triggers, and runbooks.
 Built on top of jobs for execution substrate.
 """
 
+import os
+import json
+
 import click
+import httpx
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
 from ..utils.output import console
+from .base import service_request, check_response
+
+TASKS_URL = os.getenv("HANZO_TASKS_URL", "https://tasks.hanzo.ai")
+
+
+def _request(method: str, path: str, **kwargs) -> httpx.Response:
+    return service_request(TASKS_URL, method, path, **kwargs)
 
 
 @click.group(name="tasks")
@@ -68,7 +79,25 @@ def tasks_create(name: str, image: str, cmd: str, function: str, env: tuple, tim
       hanzo tasks create backup --cmd "pg_dump..." --retries 5
       hanzo tasks create notify --function notifications.send
     """
+    body = {"name": name, "timeout": timeout, "max_retries": retries}
+    if image:
+        body["image"] = image
+    if cmd:
+        body["command"] = cmd
+    if function:
+        body["function"] = function
+    if env:
+        env_dict = {}
+        for e in env:
+            k, v = e.split("=", 1)
+            env_dict[k] = v
+        body["env"] = env_dict
+
+    resp = _request("post", "/v1/tasks", json=body)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Task '{name}' created")
+    console.print(f"  ID: {data.get('id', '-')}")
     if image:
         console.print(f"  Image: {image}")
     elif cmd:
@@ -83,6 +112,14 @@ def tasks_create(name: str, image: str, cmd: str, function: str, env: tuple, tim
 @click.option("--status", "-s", type=click.Choice(["active", "disabled", "all"]), default="all")
 def tasks_list(status: str):
     """List all tasks."""
+    params = {}
+    if status != "all":
+        params["status"] = status
+
+    resp = _request("get", "/v1/tasks", params=params)
+    data = check_response(resp)
+    items = data.get("tasks", data.get("items", []))
+
     table = Table(title="Tasks", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Type", style="white")
@@ -91,25 +128,46 @@ def tasks_list(status: str):
     table.add_column("Last Run", style="dim")
     table.add_column("Status", style="dim")
 
+    for t in items:
+        t_status = t.get("status", "active")
+        style = "green" if t_status == "active" else "yellow"
+        task_type = "image" if t.get("image") else "function" if t.get("function") else "command"
+        table.add_row(
+            t.get("name", ""),
+            task_type,
+            t.get("schedule", "-"),
+            str(t.get("trigger_count", 0)),
+            str(t.get("last_run_at", "-"))[:19],
+            f"[{style}]{t_status}[/{style}]",
+        )
+
     console.print(table)
-    console.print("[dim]No tasks found. Create one with 'hanzo tasks create'[/dim]")
+    if not items:
+        console.print("[dim]No tasks found. Create one with 'hanzo tasks create'[/dim]")
 
 
 @tasks_group.command(name="describe")
 @click.argument("name")
 def tasks_describe(name: str):
     """Show task details."""
+    resp = _request("get", f"/v1/tasks/{name}")
+    data = check_response(resp)
+
+    status = data.get("status", "active")
+    status_style = "green" if status == "active" else "yellow"
+
     console.print(
         Panel(
-            f"[cyan]Name:[/cyan] {name}\n"
-            f"[cyan]Type:[/cyan] image\n"
-            f"[cyan]Image:[/cyan] my-etl:v1\n"
-            f"[cyan]Timeout:[/cyan] 2h\n"
-            f"[cyan]Retries:[/cyan] 3\n"
-            f"[cyan]Schedule:[/cyan] 0 2 * * * (daily 2am)\n"
-            f"[cyan]Triggers:[/cyan] queue:incoming-data\n"
-            f"[cyan]Last run:[/cyan] 2024-01-20 02:00:00 (success)\n"
-            f"[cyan]Next run:[/cyan] 2024-01-21 02:00:00",
+            f"[cyan]Name:[/cyan] {data.get('name', name)}\n"
+            f"[cyan]Type:[/cyan] {'image' if data.get('image') else 'function' if data.get('function') else 'command'}\n"
+            f"[cyan]Image:[/cyan] {data.get('image', '-')}\n"
+            f"[cyan]Timeout:[/cyan] {data.get('timeout', '-')}\n"
+            f"[cyan]Retries:[/cyan] {data.get('max_retries', 3)}\n"
+            f"[cyan]Schedule:[/cyan] {data.get('schedule', '-')}\n"
+            f"[cyan]Triggers:[/cyan] {data.get('trigger_count', 0)}\n"
+            f"[cyan]Status:[/cyan] [{status_style}]{status}[/{status_style}]\n"
+            f"[cyan]Last run:[/cyan] {str(data.get('last_run_at', '-'))[:19]}\n"
+            f"[cyan]Next run:[/cyan] {str(data.get('next_run_at', '-'))[:19]}",
             title="Task Details",
             border_style="cyan",
         )
@@ -126,6 +184,9 @@ def tasks_delete(name: str, force: bool):
 
         if not Confirm.ask(f"[red]Delete task '{name}'?[/red]"):
             return
+
+    resp = _request("delete", f"/v1/tasks/{name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Task '{name}' deleted")
 
 
@@ -136,17 +197,40 @@ def tasks_delete(name: str, force: bool):
 @click.option("--env", "-e", multiple=True, help="Override env vars")
 def tasks_run(name: str, input_data: str, wait: bool, env: tuple):
     """Run a task manually."""
-    run_id = "run_abc123"
+    body = {}
+    if input_data:
+        body["input"] = json.loads(input_data)
+    if env:
+        env_dict = {}
+        for e in env:
+            k, v = e.split("=", 1)
+            env_dict[k] = v
+        body["env"] = env_dict
+
+    resp = _request("post", f"/v1/tasks/{name}/run", json=body)
+    data = check_response(resp)
+
+    run_id = data.get("id", data.get("run_id", "-"))
     console.print(f"[green]✓[/green] Task '{name}' started")
     console.print(f"  Run ID: {run_id}")
+
     if wait:
         console.print("[dim]Waiting for completion...[/dim]")
+        resp = _request("get", f"/v1/tasks/{name}/runs/{run_id}/wait", timeout=300)
+        result = check_response(resp)
+        run_status = result.get("status", "unknown")
+        style = "green" if run_status == "success" else "red"
+        console.print(f"  Status: [{style}]{run_status}[/{style}]")
+        if result.get("duration_ms"):
+            console.print(f"  Duration: {result['duration_ms']}ms")
 
 
 @tasks_group.command(name="enable")
 @click.argument("name")
 def tasks_enable(name: str):
     """Enable a task."""
+    resp = _request("post", f"/v1/tasks/{name}/enable")
+    check_response(resp)
     console.print(f"[green]✓[/green] Task '{name}' enabled")
 
 
@@ -154,6 +238,8 @@ def tasks_enable(name: str):
 @click.argument("name")
 def tasks_disable(name: str):
     """Disable a task."""
+    resp = _request("post", f"/v1/tasks/{name}/disable")
+    check_response(resp)
     console.print(f"[green]✓[/green] Task '{name}' disabled")
 
 
@@ -175,6 +261,18 @@ def schedule():
 @click.option("--timezone", "-tz", default="UTC", help="Timezone")
 def schedule_set(task: str, cron: str, every: str, timezone: str):
     """Set schedule for a task."""
+    if not cron and not every:
+        raise click.ClickException("Specify --cron or --every")
+
+    body = {"timezone": timezone}
+    if cron:
+        body["cron"] = cron
+    if every:
+        body["interval"] = every
+
+    resp = _request("put", f"/v1/tasks/{task}/schedule", json=body)
+    check_response(resp)
+
     if cron:
         console.print(f"[green]✓[/green] Scheduled '{task}' with cron: {cron}")
     elif every:
@@ -185,6 +283,10 @@ def schedule_set(task: str, cron: str, every: str, timezone: str):
 @schedule.command(name="list")
 def schedule_list():
     """List all schedules."""
+    resp = _request("get", "/v1/schedules")
+    data = check_response(resp)
+    items = data.get("schedules", data.get("items", []))
+
     table = Table(title="Schedules", box=box.ROUNDED)
     table.add_column("Task", style="cyan")
     table.add_column("Schedule", style="white")
@@ -192,14 +294,28 @@ def schedule_list():
     table.add_column("Next Run", style="yellow")
     table.add_column("Status", style="green")
 
+    for s in items:
+        s_status = s.get("status", "active")
+        style = "green" if s_status == "active" else "yellow"
+        table.add_row(
+            s.get("task", ""),
+            s.get("cron", s.get("interval", "-")),
+            s.get("timezone", "UTC"),
+            str(s.get("next_run_at", "-"))[:19],
+            f"[{style}]{s_status}[/{style}]",
+        )
+
     console.print(table)
-    console.print("[dim]No schedules found[/dim]")
+    if not items:
+        console.print("[dim]No schedules found[/dim]")
 
 
 @schedule.command(name="rm")
 @click.argument("task")
 def schedule_rm(task: str):
     """Remove schedule from a task."""
+    resp = _request("delete", f"/v1/tasks/{task}/schedule")
+    check_response(resp)
     console.print(f"[green]✓[/green] Removed schedule from '{task}'")
 
 
@@ -207,6 +323,8 @@ def schedule_rm(task: str):
 @click.argument("task")
 def schedule_pause(task: str):
     """Pause a schedule."""
+    resp = _request("post", f"/v1/tasks/{task}/schedule/pause")
+    check_response(resp)
     console.print(f"[green]✓[/green] Paused schedule for '{task}'")
 
 
@@ -214,6 +332,8 @@ def schedule_pause(task: str):
 @click.argument("task")
 def schedule_resume(task: str):
     """Resume a schedule."""
+    resp = _request("post", f"/v1/tasks/{task}/schedule/resume")
+    check_response(resp)
     console.print(f"[green]✓[/green] Resumed schedule for '{task}'")
 
 
@@ -234,6 +354,15 @@ def runs():
 @click.option("--limit", "-n", default=20, help="Max results")
 def runs_list(task: str, status: str, limit: int):
     """List task runs."""
+    params = {"limit": limit}
+    if status != "all":
+        params["status"] = status
+
+    path = f"/v1/tasks/{task}/runs" if task else "/v1/runs"
+    resp = _request("get", path, params=params)
+    data = check_response(resp)
+    items = data.get("runs", data.get("items", []))
+
     title = f"Runs: {task}" if task else "All Runs"
     table = Table(title=title, box=box.ROUNDED)
     table.add_column("Run ID", style="cyan")
@@ -243,8 +372,26 @@ def runs_list(task: str, status: str, limit: int):
     table.add_column("Duration", style="dim")
     table.add_column("Trigger", style="dim")
 
+    for r in items:
+        r_status = r.get("status", "unknown")
+        status_style = {
+            "running": "cyan",
+            "success": "green",
+            "failed": "red",
+        }.get(r_status, "white")
+
+        table.add_row(
+            str(r.get("id", ""))[:16],
+            r.get("task", "-"),
+            f"[{status_style}]{r_status}[/{status_style}]",
+            str(r.get("started_at", ""))[:19],
+            f"{r.get('duration_ms', '-')}ms" if r.get("duration_ms") else "-",
+            r.get("trigger", "-"),
+        )
+
     console.print(table)
-    console.print("[dim]No runs found[/dim]")
+    if not items:
+        console.print("[dim]No runs found[/dim]")
 
 
 @runs.command(name="logs")
@@ -253,14 +400,35 @@ def runs_list(task: str, status: str, limit: int):
 @click.option("--tail", "-n", default=100, help="Number of lines")
 def runs_logs(run_id: str, follow: bool, tail: int):
     """View run logs."""
+    params = {"tail": tail}
+    if follow:
+        params["follow"] = "true"
+
+    resp = _request("get", f"/v1/runs/{run_id}/logs", params=params)
+    data = check_response(resp)
+    lines = data.get("logs", data.get("lines", []))
+
     console.print(f"[cyan]Logs for run {run_id}:[/cyan]")
-    console.print("[dim]No logs available[/dim]")
+    for line in lines:
+        if isinstance(line, dict):
+            ts = str(line.get("timestamp", ""))[:19]
+            level = line.get("level", "info")
+            msg = line.get("message", "")
+            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
+        else:
+            console.print(str(line))
+
+    if not lines:
+        console.print("[dim]No logs available[/dim]")
 
 
 @runs.command(name="cancel")
 @click.argument("run_id")
 def runs_cancel(run_id: str):
     """Cancel a running task."""
+    resp = _request("post", f"/v1/runs/{run_id}/cancel")
+    check_response(resp)
     console.print(f"[green]✓[/green] Run '{run_id}' cancelled")
 
 
@@ -268,7 +436,9 @@ def runs_cancel(run_id: str):
 @click.argument("run_id")
 def runs_retry(run_id: str):
     """Retry a failed run."""
-    new_run_id = "run_xyz789"
+    resp = _request("post", f"/v1/runs/{run_id}/retry")
+    data = check_response(resp)
+    new_run_id = data.get("id", data.get("run_id", "-"))
     console.print(f"[green]✓[/green] Run '{run_id}' retried")
     console.print(f"  New Run ID: {new_run_id}")
 
@@ -305,6 +475,13 @@ def triggers_add(task: str, trigger_type: str, source: str, filter: str):
       hanzo tasks triggers add webhook --on http --source /api/trigger
       hanzo tasks triggers add sync --on event --source user.signup
     """
+    body = {"type": trigger_type, "source": source}
+    if filter:
+        body["filter"] = filter
+
+    resp = _request("post", f"/v1/tasks/{task}/triggers", json=body)
+    check_response(resp)
+
     console.print(f"[green]✓[/green] Added {trigger_type} trigger to '{task}'")
     console.print(f"  Source: {source}")
     if filter:
@@ -315,6 +492,11 @@ def triggers_add(task: str, trigger_type: str, source: str, filter: str):
 @click.argument("task", required=False)
 def triggers_list(task: str):
     """List triggers."""
+    path = f"/v1/tasks/{task}/triggers" if task else "/v1/triggers"
+    resp = _request("get", path)
+    data = check_response(resp)
+    items = data.get("triggers", data.get("items", []))
+
     table = Table(title="Triggers", box=box.ROUNDED)
     table.add_column("Task", style="cyan")
     table.add_column("Type", style="white")
@@ -322,8 +504,20 @@ def triggers_list(task: str):
     table.add_column("Filter", style="dim")
     table.add_column("Status", style="green")
 
+    for t in items:
+        t_status = t.get("status", "active")
+        style = "green" if t_status == "active" else "yellow"
+        table.add_row(
+            t.get("task", "-"),
+            t.get("type", "-"),
+            t.get("source", "-"),
+            t.get("filter", "-"),
+            f"[{style}]{t_status}[/{style}]",
+        )
+
     console.print(table)
-    console.print("[dim]No triggers found[/dim]")
+    if not items:
+        console.print("[dim]No triggers found[/dim]")
 
 
 @triggers.command(name="rm")
@@ -332,12 +526,17 @@ def triggers_list(task: str):
 @click.option("--all", "remove_all", is_flag=True, help="Remove all triggers")
 def triggers_rm(task: str, source: str, remove_all: bool):
     """Remove triggers from a task."""
+    if not source and not remove_all:
+        raise click.ClickException("Specify --source or --all")
+
     if remove_all:
+        resp = _request("delete", f"/v1/tasks/{task}/triggers")
+        check_response(resp)
         console.print(f"[green]✓[/green] Removed all triggers from '{task}'")
     elif source:
+        resp = _request("delete", f"/v1/tasks/{task}/triggers/{source}")
+        check_response(resp)
         console.print(f"[green]✓[/green] Removed trigger '{source}' from '{task}'")
-    else:
-        console.print("[yellow]Specify --source or --all[/yellow]")
 
 
 @triggers.command(name="pause")
@@ -345,6 +544,9 @@ def triggers_rm(task: str, source: str, remove_all: bool):
 @click.option("--source", "-s", help="Specific trigger")
 def triggers_pause(task: str, source: str):
     """Pause triggers."""
+    path = f"/v1/tasks/{task}/triggers/{source}/pause" if source else f"/v1/tasks/{task}/triggers/pause"
+    resp = _request("post", path)
+    check_response(resp)
     console.print(f"[green]✓[/green] Paused trigger(s) for '{task}'")
 
 
@@ -353,4 +555,7 @@ def triggers_pause(task: str, source: str):
 @click.option("--source", "-s", help="Specific trigger")
 def triggers_resume(task: str, source: str):
     """Resume triggers."""
+    path = f"/v1/tasks/{task}/triggers/{source}/resume" if source else f"/v1/tasks/{task}/triggers/resume"
+    resp = _request("post", path)
+    check_response(resp)
     console.print(f"[green]✓[/green] Resumed trigger(s) for '{task}'")

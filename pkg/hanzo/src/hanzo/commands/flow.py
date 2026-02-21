@@ -3,12 +3,23 @@
 Build and deploy LLM applications with a visual interface (Langflow-compatible).
 """
 
+import os
+import json
+
 import click
+import httpx
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
 from ..utils.output import console
+from .base import service_request, check_response
+
+FLOW_URL = os.getenv("HANZO_FLOW_URL", "https://flow.hanzo.ai")
+
+
+def _request(method: str, path: str, **kwargs) -> httpx.Response:
+    return service_request(FLOW_URL, method, path, **kwargs)
 
 
 @click.group(name="flow")
@@ -58,20 +69,38 @@ def flow_create(name: str, template: str, description: str):
       hanzo flow create rag-assistant --template rag
       hanzo flow create summarizer --template chain
     """
+    body = {"name": name}
+    if template:
+        body["template"] = template
+    if description:
+        body["description"] = description
+
+    resp = _request("post", "/v1/flows", json=body)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Flow '{name}' created")
+    console.print(f"  ID: {data.get('id', '-')}")
     if template:
         console.print(f"  Template: {template}")
     console.print()
     console.print("Next steps:")
     console.print("  1. [cyan]hanzo flow dev[/cyan] - Open visual editor")
     console.print("  2. Add components to your flow")
-    console.print("  3. [cyan]hanzo flow deploy {name}[/cyan] - Deploy to production")
+    console.print(f"  3. [cyan]hanzo flow deploy {name}[/cyan] - Deploy to production")
 
 
 @flow_group.command(name="list")
 @click.option("--status", type=click.Choice(["deployed", "draft", "all"]), default="all")
 def flow_list(status: str):
     """List LLM flows."""
+    params = {}
+    if status != "all":
+        params["status"] = status
+
+    resp = _request("get", "/v1/flows", params=params)
+    data = check_response(resp)
+    items = data.get("flows", data.get("items", []))
+
     table = Table(title="LLM Flows", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Components", style="green")
@@ -79,23 +108,41 @@ def flow_list(status: str):
     table.add_column("Endpoint", style="white")
     table.add_column("Updated", style="dim")
 
+    for f in items:
+        f_status = f.get("status", "draft")
+        style = "green" if f_status == "deployed" else "yellow"
+        table.add_row(
+            f.get("name", ""),
+            str(f.get("component_count", 0)),
+            f"[{style}]{f_status}[/{style}]",
+            f.get("endpoint", "-"),
+            str(f.get("updated_at", ""))[:19],
+        )
+
     console.print(table)
-    console.print("[dim]No flows found. Create one with 'hanzo flow create'[/dim]")
+    if not items:
+        console.print("[dim]No flows found. Create one with 'hanzo flow create'[/dim]")
 
 
 @flow_group.command(name="describe")
 @click.argument("name")
 def flow_describe(name: str):
     """Show flow details."""
+    resp = _request("get", f"/v1/flows/{name}")
+    data = check_response(resp)
+
+    status = data.get("status", "draft")
+    status_style = "green" if status == "deployed" else "yellow"
+
     console.print(
         Panel(
-            f"[cyan]Name:[/cyan] {name}\n"
-            f"[cyan]Status:[/cyan] [green]● Deployed[/green]\n"
-            f"[cyan]Components:[/cyan] 5\n"
-            f"[cyan]Endpoint:[/cyan] https://flow.hanzo.ai/{name}\n"
-            f"[cyan]API Key:[/cyan] ****\n"
-            f"[cyan]Calls (24h):[/cyan] 1,234\n"
-            f"[cyan]Avg Latency:[/cyan] 850ms",
+            f"[cyan]Name:[/cyan] {data.get('name', name)}\n"
+            f"[cyan]Status:[/cyan] [{status_style}]{status}[/{status_style}]\n"
+            f"[cyan]Components:[/cyan] {data.get('component_count', 0)}\n"
+            f"[cyan]Endpoint:[/cyan] {data.get('endpoint', '-')}\n"
+            f"[cyan]Calls (24h):[/cyan] {data.get('calls_24h', 0):,}\n"
+            f"[cyan]Avg Latency:[/cyan] {data.get('avg_latency_ms', 0)}ms\n"
+            f"[cyan]Created:[/cyan] {str(data.get('created_at', ''))[:19]}",
             title="Flow Details",
             border_style="cyan",
         )
@@ -116,14 +163,24 @@ def flow_run(name: str, input_data: str, stream: bool, verbose: bool):
       hanzo flow run rag -i '{"query": "How do I reset my password?"}'
       hanzo flow run summarizer -i @document.txt --stream
     """
-    console.print(f"[cyan]Running flow '{name}'...[/cyan]")
+    body = {"input": input_data}
+    if stream:
+        body["stream"] = True
     if verbose:
-        console.print("  [dim]→ Input processed[/dim]")
-        console.print("  [dim]→ LLM called[/dim]")
-        console.print("  [dim]→ Output generated[/dim]")
+        body["verbose"] = True
+
+    console.print(f"[cyan]Running flow '{name}'...[/cyan]")
+    resp = _request("post", f"/v1/flows/{name}/run", json=body)
+    data = check_response(resp)
+
+    if verbose and data.get("steps"):
+        for step in data["steps"]:
+            console.print(f"  [dim]→ {step.get('name', 'step')}: {step.get('status', 'done')}[/dim]")
+
     console.print()
     console.print("[green]Output:[/green]")
-    console.print("[dim]<flow output would appear here>[/dim]")
+    output = data.get("output", data.get("result", ""))
+    console.print(str(output))
 
 
 @flow_group.command(name="delete")
@@ -136,6 +193,9 @@ def flow_delete(name: str, force: bool):
 
         if not Confirm.ask(f"[red]Delete flow '{name}'?[/red]"):
             return
+
+    resp = _request("delete", f"/v1/flows/{name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Flow '{name}' deleted")
 
 
@@ -145,7 +205,16 @@ def flow_delete(name: str, force: bool):
 @click.option("--format", "fmt", type=click.Choice(["json", "yaml"]), default="json")
 def flow_export(name: str, output: str, fmt: str):
     """Export flow definition."""
+    resp = _request("get", f"/v1/flows/{name}/export", params={"format": fmt})
+    data = check_response(resp)
+
     out_file = output or f"{name}.{fmt}"
+    with open(out_file, "w") as f:
+        if fmt == "json":
+            json.dump(data, f, indent=2, default=str)
+        else:
+            f.write(str(data.get("yaml", data.get("definition", ""))))
+
     console.print(f"[green]✓[/green] Flow exported to '{out_file}'")
 
 
@@ -154,8 +223,17 @@ def flow_export(name: str, output: str, fmt: str):
 @click.option("--name", "-n", help="Override flow name")
 def flow_import(file: str, name: str):
     """Import flow from file."""
+    with open(file) as f:
+        definition = json.load(f)
+
+    body = {"definition": definition}
+    if name:
+        body["name"] = name
+
     console.print(f"[cyan]Importing flow from '{file}'...[/cyan]")
-    console.print(f"[green]✓[/green] Flow imported")
+    resp = _request("post", "/v1/flows/import", json=body)
+    data = check_response(resp)
+    console.print(f"[green]✓[/green] Flow '{data.get('name', name or 'imported')}' imported")
 
 
 # ============================================================================
@@ -174,71 +252,52 @@ def components():
 @click.option("--search", "-s", help="Search components")
 def components_list(category: str, search: str):
     """List available components."""
+    params = {}
+    if category:
+        params["category"] = category
+    if search:
+        params["search"] = search
+
+    resp = _request("get", "/v1/components", params=params)
+    data = check_response(resp)
+    items = data.get("components", data.get("items", []))
+
     table = Table(title="Flow Components", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Category", style="white")
     table.add_column("Description", style="dim")
 
-    components_data = [
-        # LLMs
-        ("OpenAI", "LLMs", "GPT-4, GPT-3.5 models"),
-        ("Anthropic", "LLMs", "Claude models"),
-        ("Ollama", "LLMs", "Local LLM models"),
-        ("HuggingFace", "LLMs", "Open source models"),
-        # Embeddings
-        ("OpenAI Embeddings", "Embeddings", "text-embedding-3"),
-        ("Cohere Embeddings", "Embeddings", "embed-english-v3"),
-        # Vector Stores
-        ("Qdrant", "Vector Stores", "Vector database"),
-        ("Pinecone", "Vector Stores", "Managed vector DB"),
-        ("Chroma", "Vector Stores", "Local vector store"),
-        # Chains
-        ("LLM Chain", "Chains", "Simple LLM chain"),
-        ("Retrieval QA", "Chains", "RAG chain"),
-        ("Conversation", "Chains", "Chat with memory"),
-        # Agents
-        ("ReAct Agent", "Agents", "Reasoning + Acting"),
-        ("OpenAI Functions", "Agents", "Function calling agent"),
-        # Tools
-        ("Web Search", "Tools", "Search the web"),
-        ("Calculator", "Tools", "Math operations"),
-        ("Python REPL", "Tools", "Execute Python code"),
-        ("API Request", "Tools", "Call external APIs"),
-        # Memory
-        ("Buffer Memory", "Memory", "Simple conversation memory"),
-        ("Summary Memory", "Memory", "Summarized memory"),
-        ("Vector Memory", "Memory", "Vector-based memory"),
-        # Loaders
-        ("PDF Loader", "Loaders", "Load PDF documents"),
-        ("Web Loader", "Loaders", "Load web pages"),
-        ("File Loader", "Loaders", "Load text files"),
-        # Output
-        ("Text Output", "Output", "Plain text response"),
-        ("JSON Output", "Output", "Structured JSON"),
-        ("Chat Output", "Output", "Chat message format"),
-    ]
-
-    for name, cat, desc in components_data:
-        if category and category.lower() not in cat.lower():
-            continue
-        if search and search.lower() not in name.lower() and search.lower() not in desc.lower():
-            continue
-        table.add_row(name, cat, desc)
+    for c in items:
+        table.add_row(
+            c.get("name", ""),
+            c.get("category", "-"),
+            c.get("description", "-"),
+        )
 
     console.print(table)
+    if not items:
+        console.print("[dim]No components found[/dim]")
 
 
 @components.command(name="describe")
 @click.argument("name")
 def components_describe(name: str):
     """Show component details."""
+    resp = _request("get", f"/v1/components/{name}")
+    data = check_response(resp)
+
+    inputs = ", ".join(data.get("inputs", [])) or "-"
+    outputs = ", ".join(data.get("outputs", [])) or "-"
+    config = ", ".join(data.get("config", [])) or "-"
+
     console.print(
         Panel(
-            f"[cyan]Name:[/cyan] {name}\n"
-            f"[cyan]Category:[/cyan] LLMs\n"
-            f"[cyan]Inputs:[/cyan] prompt, model, temperature\n"
-            f"[cyan]Outputs:[/cyan] text, tokens_used\n"
-            f"[cyan]Config:[/cyan] api_key, max_tokens",
+            f"[cyan]Name:[/cyan] {data.get('name', name)}\n"
+            f"[cyan]Category:[/cyan] {data.get('category', '-')}\n"
+            f"[cyan]Inputs:[/cyan] {inputs}\n"
+            f"[cyan]Outputs:[/cyan] {outputs}\n"
+            f"[cyan]Config:[/cyan] {config}\n"
+            f"[cyan]Description:[/cyan] {data.get('description', '-')}",
             title="Component Details",
             border_style="cyan",
         )
@@ -261,21 +320,38 @@ def custom():
 @click.option("--template", "-t", type=click.Choice(["tool", "chain", "agent"]), default="tool")
 def custom_create(name: str, template: str):
     """Create a custom component."""
+    body = {"name": name, "template": template}
+
+    resp = _request("post", "/v1/components/custom", json=body)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Custom component '{name}' created")
     console.print(f"  Template: {template}")
-    console.print(f"  File: components/{name}.py")
+    console.print(f"  File: {data.get('file', f'components/{name}.py')}")
 
 
 @custom.command(name="list")
 def custom_list():
     """List custom components."""
+    resp = _request("get", "/v1/components/custom")
+    data = check_response(resp)
+    items = data.get("components", data.get("items", []))
+
     table = Table(title="Custom Components", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Type", style="white")
     table.add_column("File", style="dim")
 
+    for c in items:
+        table.add_row(
+            c.get("name", ""),
+            c.get("type", "-"),
+            c.get("file", "-"),
+        )
+
     console.print(table)
-    console.print("[dim]No custom components found[/dim]")
+    if not items:
+        console.print("[dim]No custom components found[/dim]")
 
 
 @custom.command(name="publish")
@@ -283,6 +359,8 @@ def custom_list():
 def custom_publish(name: str):
     """Publish component to registry."""
     console.print(f"[cyan]Publishing component '{name}'...[/cyan]")
+    resp = _request("post", f"/v1/components/custom/{name}/publish")
+    check_response(resp)
     console.print(f"[green]✓[/green] Component published")
 
 
@@ -311,15 +389,21 @@ def flow_dev(port: int, flow: str):
 def flow_deploy(name: str, env: str):
     """Deploy flow to production."""
     console.print(f"[cyan]Deploying flow '{name}' to {env}...[/cyan]")
+    resp = _request("post", f"/v1/flows/{name}/deploy", json={"environment": env})
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Flow deployed")
-    console.print(f"  Endpoint: https://flow.hanzo.ai/{name}")
-    console.print(f"  API Key: sk-flow-***")
+    console.print(f"  Endpoint: {data.get('endpoint', f'{FLOW_URL}/{name}')}")
+    if data.get("api_key"):
+        console.print(f"  API Key: {data['api_key'][:12]}***")
 
 
 @flow_group.command(name="undeploy")
 @click.argument("name")
 def flow_undeploy(name: str):
     """Undeploy a flow."""
+    resp = _request("post", f"/v1/flows/{name}/undeploy")
+    check_response(resp)
     console.print(f"[green]✓[/green] Flow '{name}' undeployed")
 
 
@@ -338,14 +422,27 @@ def api():
 @click.argument("flow_name")
 def api_keys(flow_name: str):
     """List API keys for a flow."""
+    resp = _request("get", f"/v1/flows/{flow_name}/keys")
+    data = check_response(resp)
+    items = data.get("keys", data.get("items", []))
+
     table = Table(title=f"API Keys for '{flow_name}'", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Key", style="white")
     table.add_column("Created", style="dim")
     table.add_column("Last Used", style="dim")
 
+    for k in items:
+        table.add_row(
+            k.get("name", ""),
+            k.get("key_prefix", "****"),
+            str(k.get("created_at", ""))[:19],
+            str(k.get("last_used_at", "-"))[:19],
+        )
+
     console.print(table)
-    console.print("[dim]No API keys found[/dim]")
+    if not items:
+        console.print("[dim]No API keys found[/dim]")
 
 
 @api.command(name="create-key")
@@ -353,9 +450,12 @@ def api_keys(flow_name: str):
 @click.option("--name", "-n", default="default", help="Key name")
 def api_create_key(flow_name: str, name: str):
     """Create API key for a flow."""
+    resp = _request("post", f"/v1/flows/{flow_name}/keys", json={"name": name})
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] API key created for '{flow_name}'")
     console.print(f"  Name: {name}")
-    console.print(f"  Key: sk-flow-xxxxxxxxxxxx")
+    console.print(f"  Key: {data.get('key', '-')}")
     console.print("[yellow]Save this key - it won't be shown again[/yellow]")
 
 
@@ -364,6 +464,8 @@ def api_create_key(flow_name: str, name: str):
 @click.argument("key_name")
 def api_revoke_key(flow_name: str, key_name: str):
     """Revoke an API key."""
+    resp = _request("delete", f"/v1/flows/{flow_name}/keys/{key_name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] API key '{key_name}' revoked")
 
 
@@ -373,9 +475,14 @@ def api_revoke_key(flow_name: str, key_name: str):
 def api_test(flow_name: str, input_data: str):
     """Test flow API endpoint."""
     console.print(f"[cyan]Testing API for '{flow_name}'...[/cyan]")
-    console.print("[green]✓[/green] API responded successfully")
-    console.print("  Status: 200")
-    console.print("  Latency: 850ms")
+    resp = _request("post", f"/v1/flows/{flow_name}/test", json={"input": input_data})
+    data = check_response(resp)
+
+    console.print(f"[green]✓[/green] API responded successfully")
+    console.print(f"  Status: {data.get('status_code', 200)}")
+    console.print(f"  Latency: {data.get('latency_ms', '-')}ms")
+    if data.get("output"):
+        console.print(f"  Output: {json.dumps(data['output'], default=str)[:200]}")
 
 
 # ============================================================================
@@ -406,26 +513,25 @@ def templates():
 @templates.command(name="list")
 def templates_list():
     """List available templates."""
+    resp = _request("get", "/v1/templates")
+    data = check_response(resp)
+    items = data.get("templates", data.get("items", []))
+
     table = Table(title="Flow Templates", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Description", style="white")
     table.add_column("Components", style="dim")
 
-    templates_data = [
-        ("chatbot", "Simple chatbot with memory", "LLM, Memory, Output"),
-        ("rag", "Retrieval Augmented Generation", "Loader, Embeddings, VectorStore, LLM"),
-        ("agent", "ReAct agent with tools", "Agent, Tools, LLM"),
-        ("chain", "Sequential LLM chain", "LLM, Chain, Output"),
-        ("summarizer", "Document summarizer", "Loader, LLM, Output"),
-        ("qa", "Question answering", "Loader, LLM, Output"),
-        ("translator", "Multi-language translator", "LLM, Output"),
-        ("code-assistant", "Code generation assistant", "LLM, Python REPL, Output"),
-    ]
-
-    for name, desc, comps in templates_data:
-        table.add_row(name, desc, comps)
+    for t in items:
+        table.add_row(
+            t.get("name", ""),
+            t.get("description", "-"),
+            t.get("components", "-"),
+        )
 
     console.print(table)
+    if not items:
+        console.print("[dim]No templates found[/dim]")
 
 
 @templates.command(name="use")
@@ -434,7 +540,11 @@ def templates_list():
 def templates_use(template: str, name: str):
     """Create flow from template."""
     console.print(f"[cyan]Creating flow '{name}' from template '{template}'...[/cyan]")
+    resp = _request("post", "/v1/flows/from-template", json={"template": template, "name": name})
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Flow created")
+    console.print(f"  ID: {data.get('id', '-')}")
     console.print()
     console.print("Next steps:")
     console.print(f"  1. [cyan]hanzo flow dev -f {name}[/cyan] - Edit in visual editor")
@@ -450,14 +560,29 @@ def templates_use(template: str, name: str):
 @click.argument("name")
 def flow_versions(name: str):
     """List flow versions."""
+    resp = _request("get", f"/v1/flows/{name}/versions")
+    data = check_response(resp)
+    items = data.get("versions", data.get("items", []))
+
     table = Table(title=f"Versions of '{name}'", box=box.ROUNDED)
     table.add_column("Version", style="cyan")
     table.add_column("Status", style="green")
     table.add_column("Created", style="dim")
     table.add_column("Note", style="dim")
 
+    for v in items:
+        v_status = v.get("status", "inactive")
+        style = "green" if v_status == "active" else "dim"
+        table.add_row(
+            str(v.get("version", "")),
+            f"[{style}]{v_status}[/{style}]",
+            str(v.get("created_at", ""))[:19],
+            v.get("note", "-"),
+        )
+
     console.print(table)
-    console.print("[dim]No versions found[/dim]")
+    if not items:
+        console.print("[dim]No versions found[/dim]")
 
 
 @flow_group.command(name="rollback")
@@ -466,4 +591,6 @@ def flow_versions(name: str):
 def flow_rollback(name: str, version: str):
     """Rollback to a previous version."""
     console.print(f"[cyan]Rolling back '{name}' to version {version}...[/cyan]")
+    resp = _request("post", f"/v1/flows/{name}/rollback", json={"version": version})
+    check_response(resp)
     console.print(f"[green]✓[/green] Rolled back successfully")
