@@ -1,12 +1,20 @@
 # Hanzo AI SDK
 
 from __future__ import annotations
+
 from typing import Dict
+
 import httpx
+
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import to_raw_response_wrapper, to_streamed_response_wrapper, async_to_raw_response_wrapper, async_to_streamed_response_wrapper
+from .._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from .._base_client import make_request_options
 
 __all__ = ["SecretsResource", "AsyncSecretsResource"]
@@ -23,25 +31,105 @@ class SecretsResource(SyncAPIResource):
     def with_streaming_response(self) -> SecretsResourceWithStreamingResponse:
         return SecretsResourceWithStreamingResponse(self)
 
-    def list(self, *, namespace: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def list(
+        self,
+        *,
+        namespace: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """List all secrets."""
-        return self._get("/infrastructure/secrets", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"namespace": namespace}), cast_to=object)
+        return self._get(
+            "/infrastructure/secrets",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"namespace": namespace},
+            ),
+            cast_to=object,
+        )
 
-    def get(self, secret_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def get(
+        self,
+        secret_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Get a specific secret (metadata only)."""
-        return self._get(f"/infrastructure/secrets/{secret_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._get(
+            f"/infrastructure/secrets/{secret_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def create(self, *, name: str, namespace: str, data: Dict[str, str], type: str = "Opaque", extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def create(
+        self,
+        *,
+        name: str,
+        namespace: str,
+        data: Dict[str, str],
+        type: str = "Opaque",
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Create a new secret."""
-        return self._post("/infrastructure/secrets", body={"name": name, "namespace": namespace, "data": data, "type": type}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._post(
+            "/infrastructure/secrets",
+            body={"name": name, "namespace": namespace, "data": data, "type": type},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def update(self, secret_id: str, *, data: Dict[str, str], extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def update(
+        self,
+        secret_id: str,
+        *,
+        data: Dict[str, str],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Update a secret."""
-        return self._put(f"/infrastructure/secrets/{secret_id}", body={"data": data}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._put(
+            f"/infrastructure/secrets/{secret_id}",
+            body={"data": data},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    def delete(self, secret_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
+    def delete(
+        self,
+        secret_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
         """Delete a secret."""
-        return self._delete(f"/infrastructure/secrets/{secret_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+        return self._delete(
+            f"/infrastructure/secrets/{secret_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
 
 class AsyncSecretsResource(AsyncAPIResource):
@@ -55,20 +143,100 @@ class AsyncSecretsResource(AsyncAPIResource):
     def with_streaming_response(self) -> AsyncSecretsResourceWithStreamingResponse:
         return AsyncSecretsResourceWithStreamingResponse(self)
 
-    async def list(self, *, namespace: str | NotGiven = NOT_GIVEN, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get("/infrastructure/secrets", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout, query={"namespace": namespace}), cast_to=object)
+    async def list(
+        self,
+        *,
+        namespace: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            "/infrastructure/secrets",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query={"namespace": namespace},
+            ),
+            cast_to=object,
+        )
 
-    async def get(self, secret_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._get(f"/infrastructure/secrets/{secret_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def get(
+        self,
+        secret_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._get(
+            f"/infrastructure/secrets/{secret_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def create(self, *, name: str, namespace: str, data: Dict[str, str], type: str = "Opaque", extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._post("/infrastructure/secrets", body={"name": name, "namespace": namespace, "data": data, "type": type}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def create(
+        self,
+        *,
+        name: str,
+        namespace: str,
+        data: Dict[str, str],
+        type: str = "Opaque",
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._post(
+            "/infrastructure/secrets",
+            body={"name": name, "namespace": namespace, "data": data, "type": type},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def update(self, secret_id: str, *, data: Dict[str, str], extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._put(f"/infrastructure/secrets/{secret_id}", body={"data": data}, options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def update(
+        self,
+        secret_id: str,
+        *,
+        data: Dict[str, str],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._put(
+            f"/infrastructure/secrets/{secret_id}",
+            body={"data": data},
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
-    async def delete(self, secret_id: str, *, extra_headers: Headers | None = None, extra_query: Query | None = None, extra_body: Body | None = None, timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN) -> object:
-        return await self._delete(f"/infrastructure/secrets/{secret_id}", options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout), cast_to=object)
+    async def delete(
+        self,
+        secret_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        return await self._delete(
+            f"/infrastructure/secrets/{secret_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
 
 
 class SecretsResourceWithRawResponse:

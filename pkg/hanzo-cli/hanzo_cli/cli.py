@@ -20,8 +20,10 @@ from hanzo_cli import __version__
 from hanzo_cli.auth import (
     browser_login,
     get_token_info,
-    logout as do_logout,
     password_login,
+)
+from hanzo_cli.auth import (
+    logout as do_logout,
 )
 
 console = Console()
@@ -52,11 +54,11 @@ def login(ctx: click.Context, no_browser: bool, port: int) -> None:
         else:
             token_data = browser_login(port=port)
 
-        console.print(f"[green]Logged in successfully.[/green]")
+        console.print("[green]Logged in successfully.[/green]")
         if token_data.get("access_token"):
             # Decode the token subject for display
             at = token_data["access_token"]
-            console.print(f"Token stored at ~/.hanzo/auth/token.json")
+            console.print("Token stored at ~/.hanzo/auth/token.json")
     except Exception as e:
         console.print(f"[red]Login failed:[/red] {e}")
         raise SystemExit(1)
@@ -91,6 +93,7 @@ def whoami() -> None:
     if access_token:
         try:
             import jwt
+
             # Decode without verification just to show user info
             claims = jwt.decode(access_token, options={"verify_signature": False})
             table.add_row("User", claims.get("name", claims.get("sub", "—")))
@@ -102,6 +105,7 @@ def whoami() -> None:
     login_time = token_data.get("login_time")
     if login_time:
         from datetime import datetime, timezone
+
         dt = datetime.fromtimestamp(login_time, tz=timezone.utc)
         table.add_row("Login Time", dt.isoformat())
 

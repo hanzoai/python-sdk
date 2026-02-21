@@ -5,8 +5,8 @@ End-to-end MLOps: notebooks, pipelines, training, serving, registry.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -46,6 +46,7 @@ def ml_group():
 # ============================================================================
 # Notebooks
 # ============================================================================
+
 
 @ml_group.group()
 def notebooks():
@@ -100,6 +101,7 @@ def notebooks_stop(name: str):
 def notebooks_delete(name: str):
     """Delete a notebook."""
     from rich.prompt import Confirm
+
     if not Confirm.ask(f"[red]Delete notebook '{name}'?[/red]"):
         return
     console.print(f"[green]✓[/green] Notebook '{name}' deleted")
@@ -108,6 +110,7 @@ def notebooks_delete(name: str):
 # ============================================================================
 # Training
 # ============================================================================
+
 
 @ml_group.group()
 def training():
@@ -165,6 +168,7 @@ def training_stop(job_id: str):
 # Pipelines
 # ============================================================================
 
+
 @ml_group.group()
 def pipelines():
     """Manage ML pipelines."""
@@ -203,6 +207,7 @@ def pipelines_run(pipeline_name: str, params: str):
 # ============================================================================
 # Serving
 # ============================================================================
+
 
 @ml_group.group()
 def serving():
@@ -259,6 +264,7 @@ def serving_delete(name: str):
 # Registry
 # ============================================================================
 
+
 @ml_group.group()
 def registry():
     """Manage model registry."""
@@ -313,6 +319,7 @@ def registry_promote(model_uri: str, stage: str):
 # ============================================================================
 # Experiments (Kubeflow-style experiment tracking)
 # ============================================================================
+
 
 @ml_group.group()
 def experiments():
@@ -379,6 +386,7 @@ def experiments_delete(name: str, force: bool):
     """Delete an experiment."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete experiment '{name}' and all runs?[/red]"):
             return
     console.print(f"[green]✓[/green] Experiment '{name}' deleted")
@@ -387,6 +395,7 @@ def experiments_delete(name: str, force: bool):
 # ============================================================================
 # Hyperparameter Tuning (Katib-style)
 # ============================================================================
+
 
 @ml_group.group()
 def tune():
@@ -399,12 +408,22 @@ def tune():
 @click.option("--experiment", "-e", required=True, help="Parent experiment")
 @click.option("--objective", "-o", required=True, help="Metric to optimize")
 @click.option("--goal", "-g", type=click.Choice(["minimize", "maximize"]), default="minimize")
-@click.option("--algorithm", "-a", type=click.Choice(["random", "grid", "bayesian", "hyperband", "tpe"]), default="bayesian")
+@click.option(
+    "--algorithm", "-a", type=click.Choice(["random", "grid", "bayesian", "hyperband", "tpe"]), default="bayesian"
+)
 @click.option("--max-trials", "-m", default=10, help="Maximum trials")
 @click.option("--parallel-trials", "-p", default=2, help="Parallel trials")
 @click.option("--config", "-c", help="Tuning config file (YAML)")
-def tune_create(name: str, experiment: str, objective: str, goal: str, algorithm: str,
-                max_trials: int, parallel_trials: int, config: str):
+def tune_create(
+    name: str,
+    experiment: str,
+    objective: str,
+    goal: str,
+    algorithm: str,
+    max_trials: int,
+    parallel_trials: int,
+    config: str,
+):
     """Create a hyperparameter tuning job.
 
     \b
@@ -470,6 +489,7 @@ def tune_stop(name: str):
 # Feature Store
 # ============================================================================
 
+
 @ml_group.group()
 def features():
     """Manage feature store."""
@@ -503,15 +523,17 @@ def features_list():
 @click.argument("name")
 def features_describe(name: str):
     """Show feature group details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Features:[/cyan] 0\n"
-        f"[cyan]Entities:[/cyan] user_id\n"
-        f"[cyan]Source:[/cyan] -\n"
-        f"[cyan]Updated:[/cyan] -",
-        title="Feature Group",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Features:[/cyan] 0\n"
+            f"[cyan]Entities:[/cyan] user_id\n"
+            f"[cyan]Source:[/cyan] -\n"
+            f"[cyan]Updated:[/cyan] -",
+            title="Feature Group",
+            border_style="cyan",
+        )
+    )
 
 
 @features.command(name="ingest")
@@ -548,6 +570,7 @@ def features_materialize(name: str, start: str, end: str):
 # ============================================================================
 # Datasets
 # ============================================================================
+
 
 @ml_group.group()
 def datasets():
@@ -599,6 +622,7 @@ def datasets_versions(name: str):
 # AutoML
 # ============================================================================
 
+
 @ml_group.group()
 def automl():
     """Automated Machine Learning."""
@@ -609,7 +633,9 @@ def automl():
 @click.argument("name")
 @click.option("--dataset", "-d", required=True, help="Training dataset")
 @click.option("--target", "-t", required=True, help="Target column")
-@click.option("--task", type=click.Choice(["classification", "regression", "forecasting", "nlp", "vision"]), required=True)
+@click.option(
+    "--task", type=click.Choice(["classification", "regression", "forecasting", "nlp", "vision"]), required=True
+)
 @click.option("--time-limit", default=3600, help="Time limit in seconds")
 @click.option("--metric", "-m", help="Optimization metric")
 def automl_create(name: str, dataset: str, target: str, task: str, time_limit: int, metric: str):
@@ -647,16 +673,18 @@ def automl_list():
 @click.argument("name")
 def automl_status(name: str):
     """Show AutoML job status."""
-    console.print(Panel(
-        f"[cyan]Job:[/cyan] {name}\n"
-        f"[cyan]Status:[/cyan] [yellow]Running[/yellow]\n"
-        f"[cyan]Progress:[/cyan] 0%\n"
-        f"[cyan]Models tried:[/cyan] 0\n"
-        f"[cyan]Best so far:[/cyan] -\n"
-        f"[cyan]Time remaining:[/cyan] -",
-        title="AutoML Status",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Job:[/cyan] {name}\n"
+            f"[cyan]Status:[/cyan] [yellow]Running[/yellow]\n"
+            f"[cyan]Progress:[/cyan] 0%\n"
+            f"[cyan]Models tried:[/cyan] 0\n"
+            f"[cyan]Best so far:[/cyan] -\n"
+            f"[cyan]Time remaining:[/cyan] -",
+            title="AutoML Status",
+            border_style="cyan",
+        )
+    )
 
 
 @automl.command(name="leaderboard")

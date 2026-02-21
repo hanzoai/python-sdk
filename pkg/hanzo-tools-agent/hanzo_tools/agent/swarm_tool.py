@@ -42,18 +42,36 @@ except ImportError:
 
     class _RequiresHanzoAgents(type):
         """Raises ImportError on instantiation."""
+
         def __call__(cls, *args, **kwargs):
             raise ImportError(f"{cls.__name__} requires: pip install hanzo-agents")
 
-    class Agent(metaclass=_RequiresHanzoAgents): pass
-    class State(metaclass=_RequiresHanzoAgents): pass
-    class Network(metaclass=_RequiresHanzoAgents): pass
-    class Tool(metaclass=_RequiresHanzoAgents): pass
-    class History(metaclass=_RequiresHanzoAgents): pass
-    class ModelRegistry(metaclass=_RequiresHanzoAgents): pass
-    class InferenceResult(metaclass=_RequiresHanzoAgents): pass
-    class ToolCall(metaclass=_RequiresHanzoAgents): pass
-    class Router(metaclass=_RequiresHanzoAgents): pass
+    class Agent(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class State(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class Network(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class Tool(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class History(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class ModelRegistry(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class InferenceResult(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class ToolCall(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class Router(metaclass=_RequiresHanzoAgents):
+        pass
 
 
 # Import optional components with fallbacks
@@ -68,15 +86,23 @@ except ImportError:
             DeterministicRouter,
         )
     except ImportError:
-        class DeterministicRouter(metaclass=_RequiresHanzoAgents): pass
-        class LLMRouter(metaclass=_RequiresHanzoAgents): pass
-        class HybridRouter(metaclass=_RequiresHanzoAgents): pass
+
+        class DeterministicRouter(metaclass=_RequiresHanzoAgents):
+            pass
+
+        class LLMRouter(metaclass=_RequiresHanzoAgents):
+            pass
+
+        class HybridRouter(metaclass=_RequiresHanzoAgents):
+            pass
 
 
 def _requires_hanzo_agents(name: str):
     """Create function that raises ImportError."""
+
     def fn(*args, **kwargs):
         raise ImportError(f"{name} requires: pip install hanzo-agents")
+
     fn.__name__ = name
     return fn
 
@@ -114,15 +140,23 @@ try:
         OpenAICodexAgent,
     )
 except ImportError:
-    class ClaudeCodeAgent(metaclass=_RequiresHanzoAgents): pass
-    class OpenAICodexAgent(metaclass=_RequiresHanzoAgents): pass
-    class GeminiAgent(metaclass=_RequiresHanzoAgents): pass
-    class GrokAgent(metaclass=_RequiresHanzoAgents): pass
+
+    class ClaudeCodeAgent(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class OpenAICodexAgent(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class GeminiAgent(metaclass=_RequiresHanzoAgents):
+        pass
+
+    class GrokAgent(metaclass=_RequiresHanzoAgents):
+        pass
 
 
+from hanzo_tools.fs import Edit, get_read_only_filesystem_tools
 from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
-from hanzo_tools.fs import Edit, get_read_only_filesystem_tools
 
 from .agent_tool import MCPAgent
 

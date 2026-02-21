@@ -6,8 +6,8 @@ Abstracts over streaming/pubsub/mq transports.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -54,6 +54,7 @@ def events_group():
 # Event Bus Management
 # ============================================================================
 
+
 @events_group.group()
 def bus():
     """Manage event buses."""
@@ -90,16 +91,18 @@ def bus_list():
 @click.argument("name")
 def bus_describe(name: str):
     """Show event bus details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Backend:[/cyan] Kafka\n"
-        f"[cyan]Streams:[/cyan] 12\n"
-        f"[cyan]Routes:[/cyan] 8\n"
-        f"[cyan]Events/day:[/cyan] 1.2M\n"
-        f"[cyan]Regions:[/cyan] us-east-1, eu-west-1",
-        title="Event Bus Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Backend:[/cyan] Kafka\n"
+            f"[cyan]Streams:[/cyan] 12\n"
+            f"[cyan]Routes:[/cyan] 8\n"
+            f"[cyan]Events/day:[/cyan] 1.2M\n"
+            f"[cyan]Regions:[/cyan] us-east-1, eu-west-1",
+            title="Event Bus Details",
+            border_style="cyan",
+        )
+    )
 
 
 @bus.command(name="delete")
@@ -109,6 +112,7 @@ def bus_delete(name: str, force: bool):
     """Delete an event bus."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete event bus '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Event bus '{name}' deleted")
@@ -117,6 +121,7 @@ def bus_delete(name: str, force: bool):
 # ============================================================================
 # Schemas
 # ============================================================================
+
 
 @events_group.group()
 def schema():
@@ -170,6 +175,7 @@ def schema_validate(schema: str, file: str, data: str):
 # Streams
 # ============================================================================
 
+
 @events_group.group()
 def stream():
     """Manage event streams."""
@@ -211,17 +217,19 @@ def stream_list(bus: str):
 @click.argument("name")
 def stream_describe(name: str):
     """Show stream details."""
-    console.print(Panel(
-        f"[cyan]Stream:[/cyan] {name}\n"
-        f"[cyan]Bus:[/cyan] default\n"
-        f"[cyan]Partitions:[/cyan] 3\n"
-        f"[cyan]Retention:[/cyan] 7 days\n"
-        f"[cyan]Schema:[/cyan] order.created.v1\n"
-        f"[cyan]Events/day:[/cyan] 50,000\n"
-        f"[cyan]Consumers:[/cyan] 4",
-        title="Stream Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Stream:[/cyan] {name}\n"
+            f"[cyan]Bus:[/cyan] default\n"
+            f"[cyan]Partitions:[/cyan] 3\n"
+            f"[cyan]Retention:[/cyan] 7 days\n"
+            f"[cyan]Schema:[/cyan] order.created.v1\n"
+            f"[cyan]Events/day:[/cyan] 50,000\n"
+            f"[cyan]Consumers:[/cyan] 4",
+            title="Stream Details",
+            border_style="cyan",
+        )
+    )
 
 
 @stream.command(name="delete")
@@ -231,6 +239,7 @@ def stream_delete(name: str, force: bool):
     """Delete an event stream."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete stream '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Stream '{name}' deleted")
@@ -239,6 +248,7 @@ def stream_delete(name: str, force: bool):
 # ============================================================================
 # Routes
 # ============================================================================
+
 
 @events_group.group()
 def route():
@@ -315,6 +325,7 @@ def route_resume(name: str):
 # Operations
 # ============================================================================
 
+
 @events_group.command(name="publish")
 @click.option("--stream", "-s", required=True, help="Target stream")
 @click.option("--data", "-d", help="Event JSON data")
@@ -361,6 +372,7 @@ def events_replay(stream: str, from_pos: str, to_pos: str, target: str, dry_run:
 # Dead Letter Queue
 # ============================================================================
 
+
 @events_group.group()
 def dlq():
     """Manage dead letter queue."""
@@ -404,6 +416,7 @@ def dlq_purge(stream: str, force: bool):
     """Purge dead letter events."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask("[red]Purge DLQ events?[/red]"):
             return
     console.print("[green]✓[/green] DLQ purged")

@@ -359,9 +359,7 @@ class AsyncIAMClient:
             JWTClaims with decoded token claims.
         """
         if not self._config.certificate:
-            raise ValueError(
-                "Certificate not configured. Use validate_token() with JWKS instead."
-            )
+            raise ValueError("Certificate not configured. Use validate_token() with JWKS instead.")
 
         options = {"verify_exp": verify_exp}
 
@@ -441,7 +439,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user", params=params, headers=self._admin_headers(),
+            "/api/get-user",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -464,7 +464,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-users", params=params, headers=self._admin_headers(),
+            "/api/get-users",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -499,7 +501,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-count", params=params, headers=self._admin_headers(),
+            "/api/get-user-count",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -572,7 +576,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-application", params=params, headers=self._admin_headers(),
+            "/api/get-application",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -599,7 +605,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organizations", params=params, headers=self._admin_headers(),
+            "/api/get-organizations",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -625,7 +633,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organization", params=params, headers=self._admin_headers(),
+            "/api/get-organization",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -675,7 +685,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/enforce", json=payload, headers=self._admin_headers(),
+            "/api/enforce",
+            json=payload,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -718,7 +730,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/batch-enforce", json=payload, headers=self._admin_headers(),
+            "/api/batch-enforce",
+            json=payload,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -749,7 +763,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-roles", params=params, headers=self._admin_headers(),
+            "/api/get-roles",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -782,7 +798,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-role", params=params, headers=self._admin_headers(),
+            "/api/get-role",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -815,7 +833,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-roles", params=params, headers=self._admin_headers(),
+            "/api/get-user-roles",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -851,7 +871,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/add-user-role", json=payload, headers=self._admin_headers(),
+            "/api/add-user-role",
+            json=payload,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -887,7 +909,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/delete-user-role", json=payload, headers=self._admin_headers(),
+            "/api/delete-user-role",
+            json=payload,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -961,7 +985,9 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-applications", params=params, headers=self._admin_headers(),
+            "/api/get-applications",
+            params=params,
+            headers=self._admin_headers(),
         )
         response.raise_for_status()
         data = response.json()

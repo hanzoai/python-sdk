@@ -8,8 +8,8 @@ Usage:
     python scripts/preload_specs.py github stripe  # Download specific specs
 """
 
-import asyncio
 import argparse
+import asyncio
 import sys
 from pathlib import Path
 
@@ -17,28 +17,65 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from hanzo_tools.api.client import APIClient
-from hanzo_tools.api.providers import list_providers_with_specs, get_provider_config
+from hanzo_tools.api.providers import get_provider_config, list_providers_with_specs
 
 # Top 50 most popular APIs to pre-cache
 POPULAR_APIS = [
     # AI/ML
-    "openai", "anthropic", "together", "groq", "mistral", "cohere", "replicate",
+    "openai",
+    "anthropic",
+    "together",
+    "groq",
+    "mistral",
+    "cohere",
+    "replicate",
     # Developer
-    "github", "gitlab", "bitbucket", "vercel", "netlify", "fly", "railway", "render",
+    "github",
+    "gitlab",
+    "bitbucket",
+    "vercel",
+    "netlify",
+    "fly",
+    "railway",
+    "render",
     # Cloud
-    "cloudflare", "digitalocean", "hetzner", "linode", "vultr",
+    "cloudflare",
+    "digitalocean",
+    "hetzner",
+    "linode",
+    "vultr",
     # Payment
-    "stripe", "paypal", "adyen-com-accountservice", "square",
+    "stripe",
+    "paypal",
+    "adyen-com-accountservice",
+    "square",
     # Communication
-    "twilio", "sendgrid", "resend", "slack", "discord",
+    "twilio",
+    "sendgrid",
+    "resend",
+    "slack",
+    "discord",
     # Databases
-    "supabase", "neon", "planetscale", "mongodb", "redis",
+    "supabase",
+    "neon",
+    "planetscale",
+    "mongodb",
+    "redis",
     # Search
-    "algolia", "elasticsearch", "meilisearch", "typesense",
+    "algolia",
+    "elasticsearch",
+    "meilisearch",
+    "typesense",
     # Monitoring
-    "datadog", "sentry", "newrelic",
+    "datadog",
+    "sentry",
+    "newrelic",
     # Other popular
-    "notion", "airtable", "hubspot", "shopify", "jira",
+    "notion",
+    "airtable",
+    "hubspot",
+    "shopify",
+    "jira",
 ]
 
 

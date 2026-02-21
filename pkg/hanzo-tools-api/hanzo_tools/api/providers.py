@@ -452,11 +452,7 @@ def get_env_vars(provider: str) -> list[str]:
 
 def list_providers() -> list[str]:
     """List all known provider names (1100+ providers)."""
-    return sorted(
-        set(PROVIDER_CONFIGS.keys())
-        | set(ENV_VAR_MAPPINGS.keys())
-        | set(APIS_GURU_PROVIDERS.keys())
-    )
+    return sorted(set(PROVIDER_CONFIGS.keys()) | set(ENV_VAR_MAPPINGS.keys()) | set(APIS_GURU_PROVIDERS.keys()))
 
 
 def list_providers_with_specs() -> list[str]:

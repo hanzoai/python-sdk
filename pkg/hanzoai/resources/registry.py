@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -300,13 +300,16 @@ class RegistryResourceWithRawResponse:
     def __init__(self, registry: RegistryResource) -> None:
         self._registry = registry
 
+
 class AsyncRegistryResourceWithRawResponse:
     def __init__(self, registry: AsyncRegistryResource) -> None:
         self._registry = registry
 
+
 class RegistryResourceWithStreamingResponse:
     def __init__(self, registry: RegistryResource) -> None:
         self._registry = registry
+
 
 class AsyncRegistryResourceWithStreamingResponse:
     def __init__(self, registry: AsyncRegistryResource) -> None:

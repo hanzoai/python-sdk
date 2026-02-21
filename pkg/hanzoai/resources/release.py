@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -228,13 +228,16 @@ class ReleaseResourceWithRawResponse:
     def __init__(self, release: ReleaseResource) -> None:
         self._release = release
 
+
 class AsyncReleaseResourceWithRawResponse:
     def __init__(self, release: AsyncReleaseResource) -> None:
         self._release = release
 
+
 class ReleaseResourceWithStreamingResponse:
     def __init__(self, release: ReleaseResource) -> None:
         self._release = release
+
 
 class AsyncReleaseResourceWithStreamingResponse:
     def __init__(self, release: AsyncReleaseResource) -> None:

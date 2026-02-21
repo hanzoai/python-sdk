@@ -30,6 +30,7 @@ from pydantic import Field
 from openai.types.chat import ChatCompletionMessageParam
 from mcp.server.fastmcp import Context as MCPContext
 
+from hanzo_tools.fs import get_read_only_filesystem_tools
 from hanzo_tools.core import (
     BaseTool,
     ToolContext,
@@ -38,7 +39,6 @@ from hanzo_tools.core import (
     create_tool_context,
 )
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
-from hanzo_tools.fs import get_read_only_filesystem_tools
 
 from .prompt import (
     get_default_model,
@@ -378,6 +378,7 @@ Use 'agent --action call --agent-id {agent_id} --method <method> --args <args>' 
         """Execute a single agent. Uses unified agent tool for actual execution."""
         try:
             from .unified_agent_tool import UnifiedAgentTool
+
             agent_tool = UnifiedAgentTool()
             result = await agent_tool.call(
                 tool_ctx,

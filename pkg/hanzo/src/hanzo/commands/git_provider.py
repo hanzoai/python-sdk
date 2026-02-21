@@ -31,6 +31,7 @@ def git_group():
 
 def _get_client():
     from ..utils.api_client import PaaSClient
+
     try:
         return PaaSClient(timeout=30)
     except SystemExit:
@@ -40,6 +41,7 @@ def _get_client():
 # ============================================================================
 # Provider management
 # ============================================================================
+
 
 @git_group.command(name="connect")
 @click.argument("provider", type=click.Choice(["github", "gitlab", "bitbucket"]))
@@ -76,12 +78,14 @@ def git_connect(provider, token):
     else:
         # OAuth flow - redirect to PaaS OAuth endpoint
         from ..utils.api_client import PLATFORM_API_URL
+
         oauth_url = f"{PLATFORM_API_URL}/v1/user/git/connect/{provider}"
         console.print(f"[cyan]Opening browser for {provider} OAuth...[/cyan]")
         console.print(f"\n  {oauth_url}\n")
 
         try:
             import webbrowser
+
             webbrowser.open(oauth_url)
             console.print("[dim]Complete the OAuth flow in your browser.[/dim]")
             console.print("[dim]Then run 'hanzo git providers' to verify.[/dim]")
@@ -134,6 +138,7 @@ def git_disconnect(provider_id, force):
 
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Disconnect git provider '{provider_id}'?[/red]"):
             return
 
@@ -151,6 +156,7 @@ def git_disconnect(provider_id, force):
 # ============================================================================
 # Repos & Branches
 # ============================================================================
+
 
 @git_group.command(name="repos")
 @click.option("--provider", "-p", help="Provider ID (uses first connected if omitted)")
@@ -255,7 +261,7 @@ def git_link(repo, container, branch, provider):
       hanzo git link org/repo --container my-app
       hanzo git link org/repo --container api --branch develop
     """
-    from ..utils.api_client import container_url, require_context, git_url
+    from ..utils.api_client import git_url, container_url, require_context
 
     client = _get_client()
     if not client:

@@ -5,7 +5,7 @@ All operations are fully async and safe for use in event loops.
 """
 
 import json
-from typing import Any, List, Optional, Union
+from typing import Any, List, Union, Optional
 from pathlib import Path
 
 import aiofiles
@@ -76,6 +76,7 @@ async def write_file(
     path = Path(path)
     if mkdir_parents:
         from hanzo_async.paths import mkdir
+
         await mkdir(path.parent, parents=True, exist_ok=True)
 
     async with aiofiles.open(path, "w", encoding=encoding) as f:
@@ -126,6 +127,7 @@ async def append_file(
     path = Path(path)
     if mkdir_parents:
         from hanzo_async.paths import mkdir
+
         await mkdir(path.parent, parents=True, exist_ok=True)
 
     async with aiofiles.open(path, "a", encoding=encoding) as f:
@@ -212,6 +214,7 @@ async def write_bytes(
     path = Path(path)
     if mkdir_parents:
         from hanzo_async.paths import mkdir
+
         await mkdir(path.parent, parents=True, exist_ok=True)
 
     async with aiofiles.open(path, "wb") as f:

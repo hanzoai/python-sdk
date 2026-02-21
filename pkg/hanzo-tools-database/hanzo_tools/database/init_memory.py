@@ -1,28 +1,28 @@
 """Initialize default memory structure for new projects."""
 
 import os
-from pathlib import Path
 from typing import Optional
+from pathlib import Path
 
 
 def init_global_memory():
     """Initialize global memory structure in ~/.hanzo/memory/."""
     hanzo_dir = Path.home() / ".hanzo"
     memory_dir = hanzo_dir / "memory"
-    
+
     # Create directories
     memory_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Template directory
     template_dir = Path(__file__).parent.parent.parent / "templates"
-    
+
     # Copy templates if they don't exist
     templates = [
         ("global_rules.md", "rules.md"),
         ("user_preferences.md", "user_preferences.md"),
         ("coding_standards.md", "coding_standards.md"),
     ]
-    
+
     for template_file, target_file in templates:
         target_path = memory_dir / target_file
         if not target_path.exists():
@@ -30,7 +30,7 @@ def init_global_memory():
             if template_path.exists():
                 target_path.write_text(template_path.read_text())
                 print(f"Created global memory file: {target_path}")
-    
+
     print(f"Global memory initialized at: {memory_dir}")
 
 
@@ -38,18 +38,18 @@ def init_project_memory(project_path: Optional[str] = None):
     """Initialize project memory structure in project/.hanzo/memory/."""
     if not project_path:
         project_path = os.getcwd()
-        
+
     project_path = Path(project_path)
     memory_dir = project_path / ".hanzo" / "memory"
-    
+
     # Create directories
     memory_dir.mkdir(parents=True, exist_ok=True)
     sessions_dir = memory_dir / "sessions"
     sessions_dir.mkdir(exist_ok=True)
-    
+
     # Template directory
     template_dir = Path(__file__).parent.parent.parent / "templates"
-    
+
     # Create architecture.md if it doesn't exist
     arch_file = memory_dir / "architecture.md"
     if not arch_file.exists():
@@ -58,11 +58,10 @@ def init_project_memory(project_path: Optional[str] = None):
             content = template_path.read_text()
             # Customize for this project
             project_name = project_path.name
-            content = content.replace("# Project Architecture Decisions", 
-                                    f"# {project_name} Architecture Decisions")
+            content = content.replace("# Project Architecture Decisions", f"# {project_name} Architecture Decisions")
             arch_file.write_text(content)
             print(f"Created project architecture file: {arch_file}")
-    
+
     # Create patterns.md template
     patterns_file = memory_dir / "patterns.md"
     if not patterns_file.exists():
@@ -118,7 +117,7 @@ except SpecificError as e:
 """
         patterns_file.write_text(patterns_content)
         print(f"Created project patterns file: {patterns_file}")
-    
+
     # Create README for memory system
     readme_file = memory_dir / "README.md"
     if not readme_file.exists():
@@ -152,12 +151,13 @@ These files are automatically indexed in `.hanzo/db/memory.db` for fast full-tex
 """
         readme_file.write_text(readme_content)
         print(f"Created memory README: {readme_file}")
-    
+
     print(f"Project memory initialized at: {memory_dir}")
 
 
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         init_project_memory(sys.argv[1])
     else:

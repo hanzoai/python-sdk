@@ -25,25 +25,23 @@ Representation: Report (Diagnostics | BuildResult | TestResult)
 Scope: Buffer → File → Package → Repo
 """
 
-import os
-import json
 import asyncio
+import json
+import os
 import re
-from typing import Any, ClassVar, Literal
-from pathlib import Path
 from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, ClassVar, Literal
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    ToolError,
     InvalidParamsError,
-    Paging,
+    ToolError,
     content_hash,
 )
-
 
 # Test runner detection and commands
 TEST_RUNNERS = {
@@ -179,6 +177,7 @@ CHECK_TOOLS = {
 @dataclass
 class TestResult:
     """Single test result."""
+
     name: str
     status: Literal["pass", "fail", "skip", "error"]
     duration_ms: float = 0
@@ -189,6 +188,7 @@ class TestResult:
 @dataclass
 class Report:
     """Structured test/lint report."""
+
     kind: str  # test, lint, typecheck
     tool: str
     passed: bool
@@ -317,9 +317,7 @@ Effect: NONDETERMINISTIC_EFFECT
             exit_code=exit_code,
         )
 
-    def _parse_generic_output(
-        self, output: str, exit_code: int, kind: str, tool: str
-    ) -> Report:
+    def _parse_generic_output(self, output: str, exit_code: int, kind: str, tool: str) -> Report:
         """Generic output parser."""
         # Try JSON parsing first
         try:
@@ -330,10 +328,12 @@ Effect: NONDETERMINISTIC_EFFECT
                     results = []
                     for suite in data.get("testResults", []):
                         for test in suite.get("assertionResults", []):
-                            results.append(TestResult(
-                                name=test.get("fullName", ""),
-                                status="pass" if test.get("status") == "passed" else "fail",
-                            ))
+                            results.append(
+                                TestResult(
+                                    name=test.get("fullName", ""),
+                                    status="pass" if test.get("status") == "passed" else "fail",
+                                )
+                            )
                     return Report(
                         kind=kind,
                         tool=tool,
@@ -486,9 +486,9 @@ Effect: NONDETERMINISTIC_EFFECT
             """
             work_dir = cwd or self.cwd
             detected = {
-                "check": [],   # Fast incremental (lint/typecheck)
-                "build": [],   # Whole-project compilation
-                "test": [],    # Runtime behavior validation
+                "check": [],  # Fast incremental (lint/typecheck)
+                "build": [],  # Whole-project compilation
+                "test": [],  # Runtime behavior validation
             }
 
             # Detect test runners

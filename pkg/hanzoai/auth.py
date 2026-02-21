@@ -136,8 +136,7 @@ class HanzoAuth:
             user_code = data["user_code"]
             verification_url = data.get("verification_uri", f"{self.base_url}/device")
             verification_url_complete = data.get(
-                "verification_uri_complete",
-                f"{verification_url}?user_code={user_code}"
+                "verification_uri_complete", f"{verification_url}?user_code={user_code}"
             )
             expires_in = data.get("expires_in", timeout)
             interval = data.get("interval", poll_interval)
@@ -536,9 +535,7 @@ class AgentAuth:
 
         # 3. Device code flow for interactive authentication
         self._hanzo_auth = HanzoAuth()
-        result = await self._hanzo_auth.login_with_device_code(
-            open_browser=not headless
-        )
+        result = await self._hanzo_auth.login_with_device_code(open_browser=not headless)
 
         # Save credentials for future use
         await self._hanzo_auth.save_credentials(config_file)

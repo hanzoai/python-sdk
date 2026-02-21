@@ -19,8 +19,8 @@ Typical usage:
     # Claude can interpret the computer use session
 """
 
-import os
 import io
+import os
 import sys
 import json
 import time
@@ -30,7 +30,7 @@ import tempfile
 import subprocess
 from typing import Any, Literal, Optional, Annotated, final, override
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import field, dataclass
 from concurrent.futures import ThreadPoolExecutor
 
 from pydantic import Field
@@ -43,10 +43,10 @@ from .media_tool import (
     MediaLimits,
     MediaResult,
     ActivitySegment,
+    _resize_image,
+    _compress_session,
     _analyze_video_activity,
     _extract_activity_frames,
-    _compress_session,
-    _resize_image,
 )
 
 # Thread pool for blocking operations
@@ -139,14 +139,22 @@ def _record_screen(
     cmd = [
         "ffmpeg",
         "-y",
-        "-f", "avfoundation",
-        "-framerate", str(fps),
-        "-i", "1:none",  # Screen capture
-        "-t", str(duration),
-        "-c:v", "libx264",
-        "-crf", crf,
-        "-preset", "ultrafast",
-        "-pix_fmt", "yuv420p",
+        "-f",
+        "avfoundation",
+        "-framerate",
+        str(fps),
+        "-i",
+        "1:none",  # Screen capture
+        "-t",
+        str(duration),
+        "-c:v",
+        "libx264",
+        "-crf",
+        crf,
+        "-preset",
+        "ultrafast",
+        "-pix_fmt",
+        "yuv420p",
     ]
 
     if region and len(region) == 4:
@@ -186,12 +194,14 @@ def _process_recording_for_claude(
     # Convert to serializable format
     frames_data = []
     for data, info in frames:
-        frames_data.append({
-            "timestamp_sec": info["timestamp_sec"],
-            "timestamp_ms": info["timestamp_ms"],
-            "size": len(data),
-            "base64": base64.b64encode(data).decode(),
-        })
+        frames_data.append(
+            {
+                "timestamp_sec": info["timestamp_sec"],
+                "timestamp_ms": info["timestamp_ms"],
+                "size": len(data),
+                "base64": base64.b64encode(data).decode(),
+            }
+        )
 
     segments_data = [
         {
@@ -206,13 +216,13 @@ def _process_recording_for_claude(
 
 
 Action = Literal[
-    "capture",   # Single screenshot
-    "record",    # Start recording (background)
-    "stop",      # Stop recording
-    "status",    # Recording status
-    "session",   # ONE-SHOT: record → analyze → compress → return
-    "analyze",   # Analyze existing video file
-    "info",      # System info
+    "capture",  # Single screenshot
+    "record",  # Start recording (background)
+    "stop",  # Stop recording
+    "status",  # Recording status
+    "session",  # ONE-SHOT: record → analyze → compress → return
+    "analyze",  # Analyze existing video file
+    "info",  # System info
 ]
 
 
@@ -363,19 +373,21 @@ EXAMPLES:
 
         try:
             if action == "info":
-                return json.dumps({
-                    "platform": sys.platform,
-                    "has_ffmpeg": self._check_ffmpeg(),
-                    "has_screencapture": self._check_screencapture(),
-                    "recording": self._recording,
-                    "config": {
-                        "default_duration": self.config.default_duration,
-                        "max_duration": self.config.max_duration,
-                        "target_frames": self.config.target_frames,
-                        "max_size": self.config.max_size,
-                        "jpeg_quality": self.config.jpeg_quality,
-                    },
-                })
+                return json.dumps(
+                    {
+                        "platform": sys.platform,
+                        "has_ffmpeg": self._check_ffmpeg(),
+                        "has_screencapture": self._check_screencapture(),
+                        "recording": self._recording,
+                        "config": {
+                            "default_duration": self.config.default_duration,
+                            "max_duration": self.config.max_duration,
+                            "target_frames": self.config.target_frames,
+                            "max_size": self.config.max_size,
+                            "jpeg_quality": self.config.jpeg_quality,
+                        },
+                    }
+                )
 
             elif action == "capture":
                 # Single screenshot
@@ -403,13 +415,15 @@ EXAMPLES:
                     format_type = "png"
                     info = {}
 
-                return json.dumps({
-                    "success": True,
-                    "format": format_type,
-                    "size": len(data),
-                    "dimensions": info.get("new_dimensions"),
-                    "base64": base64.b64encode(data).decode(),
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "format": format_type,
+                        "size": len(data),
+                        "dimensions": info.get("new_dimensions"),
+                        "base64": base64.b64encode(data).decode(),
+                    }
+                )
 
             elif action == "session":
                 # ONE-SHOT: record → analyze → compress → return
@@ -446,22 +460,24 @@ EXAMPLES:
 
                     total_size = sum(f["size"] for f in frames_data)
 
-                    return json.dumps({
-                        "success": True,
-                        "action": "session",
-                        "duration_seconds": duration,
-                        "frames": frames_data,
-                        "activity_segments": segments_data,
-                        "total_frames": len(frames_data),
-                        "total_size_bytes": total_size,
-                        "total_size_kb": round(total_size / 1024, 1),
-                        "compression_settings": {
-                            "target_frames": target_frames,
-                            "max_size": max_size,
-                            "quality": jpeg_quality,
-                        },
-                        "metadata": metadata,
-                    })
+                    return json.dumps(
+                        {
+                            "success": True,
+                            "action": "session",
+                            "duration_seconds": duration,
+                            "frames": frames_data,
+                            "activity_segments": segments_data,
+                            "total_frames": len(frames_data),
+                            "total_size_bytes": total_size,
+                            "total_size_kb": round(total_size / 1024, 1),
+                            "compression_settings": {
+                                "target_frames": target_frames,
+                                "max_size": max_size,
+                                "quality": jpeg_quality,
+                            },
+                            "metadata": metadata,
+                        }
+                    )
 
                 finally:
                     # Cleanup temp file
@@ -486,14 +502,22 @@ EXAMPLES:
                 cmd = [
                     "ffmpeg",
                     "-y",
-                    "-f", "avfoundation",
-                    "-framerate", str(fps),
-                    "-i", "1:none",
-                    "-t", str(duration),
-                    "-c:v", "libx264",
-                    "-crf", crf,
-                    "-preset", "ultrafast",
-                    "-pix_fmt", "yuv420p",
+                    "-f",
+                    "avfoundation",
+                    "-framerate",
+                    str(fps),
+                    "-i",
+                    "1:none",
+                    "-t",
+                    str(duration),
+                    "-c:v",
+                    "libx264",
+                    "-crf",
+                    crf,
+                    "-preset",
+                    "ultrafast",
+                    "-pix_fmt",
+                    "yuv420p",
                 ]
 
                 if region and len(region) == 4:
@@ -512,12 +536,14 @@ EXAMPLES:
                 self._recording = True
                 self._start_time = time.time()
 
-                return json.dumps({
-                    "success": True,
-                    "recording": True,
-                    "duration": duration,
-                    "output": self._output_file,
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "recording": True,
+                        "duration": duration,
+                        "output": self._output_file,
+                    }
+                )
 
             elif action == "stop":
                 # Stop recording and process
@@ -562,15 +588,17 @@ EXAMPLES:
 
                         total_size = sum(f["size"] for f in frames_data)
 
-                        return json.dumps({
-                            "success": True,
-                            "duration_seconds": round(actual_duration, 2),
-                            "frames": frames_data,
-                            "activity_segments": segments_data,
-                            "total_frames": len(frames_data),
-                            "total_size_kb": round(total_size / 1024, 1),
-                            "metadata": metadata,
-                        })
+                        return json.dumps(
+                            {
+                                "success": True,
+                                "duration_seconds": round(actual_duration, 2),
+                                "frames": frames_data,
+                                "activity_segments": segments_data,
+                                "total_frames": len(frames_data),
+                                "total_size_kb": round(total_size / 1024, 1),
+                                "metadata": metadata,
+                            }
+                        )
 
                     finally:
                         os.unlink(video_path)
@@ -606,15 +634,17 @@ EXAMPLES:
 
                 total_size = sum(f["size"] for f in frames_data)
 
-                return json.dumps({
-                    "success": True,
-                    "source": path,
-                    "frames": frames_data,
-                    "activity_segments": segments_data,
-                    "total_frames": len(frames_data),
-                    "total_size_kb": round(total_size / 1024, 1),
-                    "metadata": metadata,
-                })
+                return json.dumps(
+                    {
+                        "success": True,
+                        "source": path,
+                        "frames": frames_data,
+                        "activity_segments": segments_data,
+                        "total_frames": len(frames_data),
+                        "total_size_kb": round(total_size / 1024, 1),
+                        "metadata": metadata,
+                    }
+                )
 
             else:
                 return json.dumps({"error": f"Unknown action: {action}"})

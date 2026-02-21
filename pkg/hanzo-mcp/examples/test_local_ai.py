@@ -4,10 +4,10 @@
 import asyncio
 
 from hanzo_network import (
-    create_tool,
-    create_local_agent,
     check_local_llm_status,
+    create_local_agent,
     create_local_distributed_network,
+    create_tool,
 )
 
 
@@ -38,7 +38,9 @@ async def main():
 
     # Check LLM status
     ollama_status = await check_local_llm_status("ollama")
-    print(f"\n📡 Ollama status: {'✅ Available' if ollama_status['available'] else '❌ Not available'}")
+    print(
+        f"\n📡 Ollama status: {'✅ Available' if ollama_status['available'] else '❌ Not available'}"
+    )
 
     # Create AI agents
     analyzer = create_local_agent(
