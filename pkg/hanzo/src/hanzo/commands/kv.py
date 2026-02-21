@@ -56,7 +56,9 @@ def kv_group():
 @click.argument("name")
 @click.option("--region", "-r", multiple=True, help="Regions for replication")
 @click.option("--max-size", default="1GB", help="Max store size")
-@click.option("--eviction", type=click.Choice(["lru", "lfu", "ttl", "none"]), default="lru")
+@click.option(
+    "--eviction", type=click.Choice(["lru", "lfu", "ttl", "none"]), default="lru"
+)
 def kv_create(name: str, region: tuple, max_size: str, eviction: str):
     """Create a KV store."""
     payload = {"name": name, "max_size": max_size, "eviction_policy": eviction}
@@ -98,7 +100,9 @@ def kv_list():
 
     console.print(table)
     if not stores:
-        console.print("[dim]No KV stores found. Create one with 'hanzo kv create'[/dim]")
+        console.print(
+            "[dim]No KV stores found. Create one with 'hanzo kv create'[/dim]"
+        )
 
 
 @kv_group.command(name="delete")
@@ -177,7 +181,9 @@ def kv_del(keys: tuple, store: str):
 @click.option("--limit", "-n", default=100, help="Max keys")
 def kv_keys(store: str, pattern: str, limit: int):
     """List keys matching pattern."""
-    resp = _request("get", f"/v1/stores/{store}/keys", params={"pattern": pattern, "limit": limit})
+    resp = _request(
+        "get", f"/v1/stores/{store}/keys", params={"pattern": pattern, "limit": limit}
+    )
     data = check_response(resp)
     keys = data.get("keys", [])
 
@@ -240,7 +246,9 @@ def kv_mset(pairs: tuple, store: str):
 def kv_ttl(key: str, store: str, set_ttl: str):
     """Get or set TTL for a key."""
     if set_ttl:
-        resp = _request("put", f"/v1/stores/{store}/keys/{key}/ttl", json={"ttl": set_ttl})
+        resp = _request(
+            "put", f"/v1/stores/{store}/keys/{key}/ttl", json={"ttl": set_ttl}
+        )
         check_response(resp)
         console.print(f"[green]✓[/green] Set TTL for '{key}' to {set_ttl}")
     else:

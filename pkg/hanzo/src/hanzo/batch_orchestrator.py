@@ -55,7 +55,11 @@ class BatchTask:
     @property
     def success(self) -> bool:
         """Check if task succeeded."""
-        return self.status == "completed" and self.result and getattr(self.result, "success", True)
+        return (
+            self.status == "completed"
+            and self.result
+            and getattr(self.result, "success", True)
+        )
 
     def get_error(self) -> Optional[str]:
         """Get error message from direct error or result."""
@@ -157,7 +161,9 @@ class BatchConfig:
         if not config.consensus_mode and not config.critic_mode:
             agent_match = re.search(r"agent:(\w+)", command)
             if agent_match:
-                config.agent_model = agent_match.group(1)  # Will be resolved in __post_init__
+                config.agent_model = agent_match.group(
+                    1
+                )  # Will be resolved in __post_init__
 
         # Parse worktree option
         worktree_match = re.search(r"worktree:(true|false)", command)
@@ -214,7 +220,9 @@ class BatchOrchestrator:
         self._task_counter += 1
         return f"task_{self._task_counter:04d}"
 
-    async def _setup_worktree(self, task_id: str, config: BatchConfig) -> Optional[Path]:
+    async def _setup_worktree(
+        self, task_id: str, config: BatchConfig
+    ) -> Optional[Path]:
         """Setup git worktree for parallel editing.
 
         Args:
@@ -503,7 +511,9 @@ class BatchOrchestrator:
                         "success": True,
                     }
                 else:
-                    logger.warning(f"No API client configured - returning empty response for {model}")
+                    logger.warning(
+                        f"No API client configured - returning empty response for {model}"
+                    )
                     return {
                         "model": model,
                         "response": "",
@@ -530,7 +540,9 @@ class BatchOrchestrator:
 
         # If consensus reached, combine insights
         if consensus_result["consensus_reached"] and successful_responses:
-            combined = "\n\n".join([f"[{r['model']}]: {r['response']}" for r in successful_responses])
+            combined = "\n\n".join(
+                [f"[{r['model']}]: {r['response']}" for r in successful_responses]
+            )
             consensus_result["combined_response"] = combined
 
         return consensus_result
@@ -620,7 +632,9 @@ Provide your critical analysis:"""
 
         return {
             "critic_chain": reviews,
-            "final_review": (reviews[-1]["review"] if reviews and "review" in reviews[-1] else None),
+            "final_review": (
+                reviews[-1]["review"] if reviews and "review" in reviews[-1] else None
+            ),
             "models_used": models,
             "chain_length": len(reviews),
         }
@@ -697,7 +711,11 @@ Provide your critical analysis:"""
                     if "review" in review:
                         console.print(
                             Panel(
-                                (review["review"][:500] + "..." if len(review["review"]) > 500 else review["review"]),
+                                (
+                                    review["review"][:500] + "..."
+                                    if len(review["review"]) > 500
+                                    else review["review"]
+                                ),
                                 title=f"[cyan]Critic {review['iteration']}: {review['model']}[/cyan]",
                             )
                         )
@@ -772,7 +790,9 @@ Provide your critical analysis:"""
             del self.active_tasks[task.id]
 
         # Generate summary
-        total_duration = sum(t.duration() or 0 for t in self.completed_tasks + self.failed_tasks)
+        total_duration = sum(
+            t.duration() or 0 for t in self.completed_tasks + self.failed_tasks
+        )
 
         summary = {
             "total_tasks": len(tasks),
