@@ -13,8 +13,8 @@ from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
+from .base import check_response, service_request
 from ..utils.output import console
-from .base import service_request, check_response
 
 TASKS_URL = os.getenv("HANZO_TASKS_URL", "https://tasks.hanzo.ai")
 
