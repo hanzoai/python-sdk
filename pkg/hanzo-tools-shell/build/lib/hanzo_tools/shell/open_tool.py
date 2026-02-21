@@ -99,6 +99,7 @@ open /path/to/image.png"""
                 raise RuntimeError("No suitable file opener found on Linux")
             elif system == "windows":
                 import os
+
                 # Run os.startfile in executor to avoid blocking
                 loop = asyncio.get_running_loop()
                 await loop.run_in_executor(None, os.startfile, str(file_path))

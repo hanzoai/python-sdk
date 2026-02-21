@@ -8,16 +8,16 @@ rename symbol, and diagnostics.
 
 import os
 import json
+import uuid
 import atexit
 import shutil
 import asyncio
 import logging
 import tempfile
-import uuid
-from urllib.parse import unquote, urlparse
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 from dataclasses import field, dataclass
+from urllib.parse import unquote, urlparse
 
 from hanzo_tools.core import BaseTool, MCPResourceDocument
 
@@ -529,7 +529,14 @@ class LSPTool(BaseTool):
                 language_id = "typescriptreact" if "ts" in ext else "javascriptreact"
             elif ext in [".js", ".mjs", ".cjs"]:
                 language_id = "javascript"
-        params = {"textDocument": {"uri": self._path_to_uri(abs_path), "languageId": language_id, "version": 1, "text": content}}
+        params = {
+            "textDocument": {
+                "uri": self._path_to_uri(abs_path),
+                "languageId": language_id,
+                "version": 1,
+                "text": content,
+            }
+        }
         return await self._send_notification(server, "textDocument/didOpen", params)
 
     def _parse_location(self, location: Dict[str, Any]) -> Dict[str, Any]:
@@ -597,12 +604,8 @@ class LSPTool(BaseTool):
             range_info = edit.get("range", {})
             start = range_info.get("start", {})
             end = range_info.get("end", {})
-            start_offset = self._lsp_position_to_offset(
-                lines, start.get("line", 0), start.get("character", 0)
-            )
-            end_offset = self._lsp_position_to_offset(
-                lines, end.get("line", 0), end.get("character", 0)
-            )
+            start_offset = self._lsp_position_to_offset(lines, start.get("line", 0), start.get("character", 0))
+            end_offset = self._lsp_position_to_offset(lines, end.get("line", 0), end.get("character", 0))
             normalized.append(
                 (
                     start.get("line", 0),
@@ -665,9 +668,7 @@ class LSPTool(BaseTool):
                     if kind == "rename":
                         old_path = self._uri_to_path(change.get("oldUri", ""))
                         new_path = self._uri_to_path(change.get("newUri", ""))
-                        if not self._is_within_root(old_path, root_dir) or not self._is_within_root(
-                            new_path, root_dir
-                        ):
+                        if not self._is_within_root(old_path, root_dir) or not self._is_within_root(new_path, root_dir):
                             raise RuntimeError(f"rename outside workspace root: {old_path} -> {new_path}")
                         if os.path.exists(old_path) and old_path not in backups:
                             backups[old_path] = backup_path(old_path)

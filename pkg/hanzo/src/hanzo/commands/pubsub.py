@@ -5,8 +5,8 @@ Topics, subscriptions, publish, consume.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -40,6 +40,7 @@ def pubsub_group():
 # ============================================================================
 # Topics
 # ============================================================================
+
 
 @pubsub_group.group()
 def topics():
@@ -81,6 +82,7 @@ def topics_delete(name: str, force: bool):
     """Delete a topic."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete topic '{name}' and all subscriptions?[/red]"):
             return
     console.print(f"[green]✓[/green] Topic '{name}' deleted")
@@ -90,21 +92,24 @@ def topics_delete(name: str, force: bool):
 @click.argument("name")
 def topics_describe(name: str):
     """Show topic details."""
-    console.print(Panel(
-        f"[cyan]Topic:[/cyan] {name}\n"
-        f"[cyan]Subscriptions:[/cyan] 3\n"
-        f"[cyan]Messages/day:[/cyan] 125,000\n"
-        f"[cyan]Retention:[/cyan] 7 days\n"
-        f"[cyan]Schema:[/cyan] None\n"
-        f"[cyan]Created:[/cyan] 2024-01-15",
-        title="Topic Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Topic:[/cyan] {name}\n"
+            f"[cyan]Subscriptions:[/cyan] 3\n"
+            f"[cyan]Messages/day:[/cyan] 125,000\n"
+            f"[cyan]Retention:[/cyan] 7 days\n"
+            f"[cyan]Schema:[/cyan] None\n"
+            f"[cyan]Created:[/cyan] 2024-01-15",
+            title="Topic Details",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Subscriptions
 # ============================================================================
+
 
 @pubsub_group.group()
 def subs():
@@ -156,21 +161,24 @@ def subs_delete(name: str):
 @click.argument("name")
 def subs_describe(name: str):
     """Show subscription details."""
-    console.print(Panel(
-        f"[cyan]Subscription:[/cyan] {name}\n"
-        f"[cyan]Topic:[/cyan] events\n"
-        f"[cyan]Type:[/cyan] Pull\n"
-        f"[cyan]Pending messages:[/cyan] 1,234\n"
-        f"[cyan]Ack deadline:[/cyan] 10s\n"
-        f"[cyan]Filter:[/cyan] None",
-        title="Subscription Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Subscription:[/cyan] {name}\n"
+            f"[cyan]Topic:[/cyan] events\n"
+            f"[cyan]Type:[/cyan] Pull\n"
+            f"[cyan]Pending messages:[/cyan] 1,234\n"
+            f"[cyan]Ack deadline:[/cyan] 10s\n"
+            f"[cyan]Filter:[/cyan] None",
+            title="Subscription Details",
+            border_style="cyan",
+        )
+    )
 
 
 # ============================================================================
 # Publish / Pull / Ack
 # ============================================================================
+
 
 @pubsub_group.command()
 @click.argument("topic")
@@ -179,6 +187,7 @@ def subs_describe(name: str):
 def publish(topic: str, message: str, attributes: tuple):
     """Publish a message to a topic."""
     import secrets
+
     msg_id = secrets.token_hex(8)
     console.print(f"[green]✓[/green] Message published to '{topic}'")
     console.print(f"  Message ID: {msg_id}")
@@ -222,6 +231,7 @@ def seek(subscription: str, time: str, snapshot: str):
 # ============================================================================
 # Snapshots
 # ============================================================================
+
 
 @pubsub_group.group()
 def snapshots():

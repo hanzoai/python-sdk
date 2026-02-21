@@ -7,11 +7,11 @@ serverless functions with auto-scaling and GPU support.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
-from datetime import datetime
 from typing import Any, Optional
+from datetime import datetime
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class FunctionsConfig(BaseModel):
@@ -144,34 +144,34 @@ class InvokeResult:
 class FunctionsClient:
     """Async client for Nuclio serverless functions.
 
-    Wraps Nuclio HTTP API for deploying, managing, and invoking
-    serverless functions with Hanzo conventions.
+        Wraps Nuclio HTTP API for deploying, managing, and invoking
+        serverless functions with Hanzo conventions.
 
-    Example:
-        ```python
-        client = FunctionsClient(FunctionsConfig.from_env())
-        await client.connect()
+        Example:
+            ```python
+            client = FunctionsClient(FunctionsConfig.from_env())
+            await client.connect()
 
-        # Deploy a function
-        spec = FunctionSpec(
-            name="hello",
-            code='''
-def handler(context, event):
-    return "Hello, " + event.body.decode()
-''',
-            runtime="python:3.11",
-        )
-        await client.deploy(spec)
+            # Deploy a function
+            spec = FunctionSpec(
+                name="hello",
+                code='''
+    def handler(context, event):
+        return "Hello, " + event.body.decode()
+    ''',
+                runtime="python:3.11",
+            )
+            await client.deploy(spec)
 
-        # Invoke the function
-        result = await client.invoke("hello", body=b"World")
-        print(result.body)  # "Hello, World"
+            # Invoke the function
+            result = await client.invoke("hello", body=b"World")
+            print(result.body)  # "Hello, World"
 
-        # List functions
-        functions = await client.list_functions()
-        for fn in functions:
-            print(f"{fn.name}: {fn.state}")
-        ```
+            # List functions
+            functions = await client.list_functions()
+            for fn in functions:
+                print(f"{fn.name}: {fn.state}")
+            ```
     """
 
     def __init__(self, config: Optional[FunctionsConfig] = None) -> None:
@@ -188,10 +188,7 @@ def handler(context, event):
         try:
             import httpx
         except ImportError as e:
-            raise ImportError(
-                "httpx is required for FunctionsClient. "
-                "Install with: pip install httpx"
-            ) from e
+            raise ImportError("httpx is required for FunctionsClient. Install with: pip install httpx") from e
 
         self._client = httpx.AsyncClient(
             base_url=self.config.dashboard_url,
@@ -317,7 +314,9 @@ def handler(context, event):
             replicas=status.get("replicas", 0),
             version=metadata.get("version", ""),
             invoke_url=status.get("httpPort"),
-            internal_url=status.get("internalInvocationUrls", [None])[0] if status.get("internalInvocationUrls") else None,
+            internal_url=status.get("internalInvocationUrls", [None])[0]
+            if status.get("internalInvocationUrls")
+            else None,
             message=status.get("message"),
         )
 
@@ -339,14 +338,16 @@ def handler(context, event):
         for name, data in response.json().items():
             status = data.get("status", {})
             metadata = data.get("metadata", {})
-            functions.append(FunctionStatus(
-                name=name,
-                state=status.get("state", "unknown"),
-                replicas=status.get("replicas", 0),
-                version=metadata.get("version", ""),
-                invoke_url=status.get("httpPort"),
-                message=status.get("message"),
-            ))
+            functions.append(
+                FunctionStatus(
+                    name=name,
+                    state=status.get("state", "unknown"),
+                    replicas=status.get("replicas", 0),
+                    version=metadata.get("version", ""),
+                    invoke_url=status.get("httpPort"),
+                    message=status.get("message"),
+                )
+            )
 
         return functions
 

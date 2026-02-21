@@ -5,13 +5,14 @@ This example shows how to use the swarm tool to edit variables across
 multiple files in parallel using Claude 3.5 Sonnet.
 """
 
+import asyncio
 import os
 import shutil
-import asyncio
 import tempfile
 
-from mcp.server.fastmcp import Context as MCPContext
 from hanzo_tools.agent.swarm_tool import SwarmTool
+from mcp.server.fastmcp import Context as MCPContext
+
 from hanzo_mcp.tools.common.permissions import PermissionManager
 
 

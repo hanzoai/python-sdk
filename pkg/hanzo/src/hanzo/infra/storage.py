@@ -7,12 +7,12 @@ AWS S3, MinIO, and other compatible services.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
-from datetime import datetime
 from io import BytesIO
-from typing import Any, AsyncIterator, BinaryIO, Optional, Union
+from typing import Any, Union, BinaryIO, Optional, AsyncIterator
+from datetime import datetime
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class StorageConfig(BaseModel):
@@ -120,13 +120,11 @@ class StorageClient:
     async def connect(self) -> None:
         """Establish connection to S3 service."""
         try:
-            from aiobotocore.session import get_session
             from contextlib import AsyncExitStack
+
+            from aiobotocore.session import get_session
         except ImportError as e:
-            raise ImportError(
-                "aiobotocore is required for StorageClient. "
-                "Install with: pip install aiobotocore"
-            ) from e
+            raise ImportError("aiobotocore is required for StorageClient. Install with: pip install aiobotocore") from e
 
         self._session = get_session()
         self._exit_stack = AsyncExitStack()
@@ -193,9 +191,7 @@ class StorageClient:
         bucket_name = bucket or self.config.bucket
         create_config = {}
         if self.config.region != "us-east-1":
-            create_config["CreateBucketConfiguration"] = {
-                "LocationConstraint": self.config.region
-            }
+            create_config["CreateBucketConfiguration"] = {"LocationConstraint": self.config.region}
         await self._client.create_bucket(Bucket=bucket_name, **create_config)
 
     async def delete_bucket(self, bucket: Optional[str] = None) -> None:

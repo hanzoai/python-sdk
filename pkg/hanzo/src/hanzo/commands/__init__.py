@@ -1,7 +1,6 @@
 """Command modules for Hanzo CLI."""
 
-from . import flow
-from . import install
+from . import flow, install
 
 __all__ = [
     "agent",

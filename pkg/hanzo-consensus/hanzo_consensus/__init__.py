@@ -11,7 +11,7 @@ from .consensus import State, Result, Consensus, run
 __all__ = [
     # Core
     "Consensus",
-    "State", 
+    "State",
     "Result",
     "run",
     # MCP Mesh

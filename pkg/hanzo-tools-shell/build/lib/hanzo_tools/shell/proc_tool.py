@@ -14,7 +14,7 @@ import os
 import json
 import signal
 import asyncio
-from typing import Any, Optional, ClassVar, Dict
+from typing import Any, Dict, ClassVar, Optional
 from pathlib import Path
 from datetime import datetime
 
@@ -22,16 +22,16 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
+    Paging,
     BaseTool,
     ToolError,
-    InvalidParamsError,
     NotFoundError,
-    Paging,
+    InvalidParamsError,
 )
 from hanzo_tools.shell.base_process import (
+    AUTO_BACKGROUND_TIMEOUT,
     ProcessManager,
     get_shell_executor,
-    AUTO_BACKGROUND_TIMEOUT,
 )
 
 
@@ -206,15 +206,17 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                 if filter and filter.lower() not in cmd.lower():
                     continue
 
-                processes.append({
-                    "proc_id": pid,
-                    "pid": info.get("pid"),
-                    "command": cmd,
-                    "running": info.get("running", False),
-                    "exit_code": info.get("return_code"),
-                    "started": info.get("started"),
-                    "log_file": info.get("log_file"),
-                })
+                processes.append(
+                    {
+                        "proc_id": pid,
+                        "pid": info.get("pid"),
+                        "command": cmd,
+                        "running": info.get("running", False),
+                        "exit_code": info.get("return_code"),
+                        "started": info.get("started"),
+                        "log_file": info.get("log_file"),
+                    }
+                )
 
             if proc_id and not processes:
                 raise NotFoundError(f"Process not found: {proc_id}")
@@ -328,6 +330,7 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
 
             try:
                 from hanzo_async import read_file
+
                 content = await read_file(log_file, encoding="utf-8", errors="replace")
 
                 # Apply tail

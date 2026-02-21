@@ -22,19 +22,21 @@ from dataclasses import field, dataclass
 
 from pydantic import Field
 from mcp.server import FastMCP
+
+# Unified async I/O with uvloop support
+from hanzo_async import append_file, using_uvloop, configure_loop
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 from hanzo_tools.shell import ProcessManager
 
-# Unified async I/O with uvloop support
-from hanzo_async import append_file, configure_loop, using_uvloop
 configure_loop()  # Auto-configure uvloop if available
 HAS_UVLOOP = using_uvloop()
 
 # Optional httpx for API mode
 try:
     import httpx
+
     HAS_HTTPX = True
 except ImportError:
     HAS_HTTPX = False
@@ -42,6 +44,7 @@ except ImportError:
 # Optional consensus import - fallback to local implementation
 try:
     from hanzo_consensus import Result as ConsensusResult, Consensus as MetastableConsensus, run as run_consensus
+
     HAS_CONSENSUS = True
 except ImportError:
     HAS_CONSENSUS = False
@@ -52,14 +55,14 @@ except ImportError:
 
 Action = Annotated[
     Literal[
-        "run",        # Run single agent
-        "dag",        # DAG execution with dependencies
-        "swarm",      # Work distribution across agents
+        "run",  # Run single agent
+        "dag",  # DAG execution with dependencies
+        "swarm",  # Work distribution across agents
         "consensus",  # Metastable multi-model consensus
-        "dispatch",   # Different agents for different tasks
-        "list",       # List available agents
-        "status",     # Check agent availability
-        "config",     # Show configuration
+        "dispatch",  # Different agents for different tasks
+        "list",  # List available agents
+        "status",  # Check agent availability
+        "config",  # Show configuration
     ],
     Field(description="Agent action"),
 ]
@@ -68,6 +71,7 @@ Action = Annotated[
 @dataclass
 class Result:
     """Agent execution result."""
+
     agent: str
     prompt: str
     output: str
@@ -80,18 +84,16 @@ class Result:
     lux: float = 1.0  # Luminance (Photon) - faster agents get higher weight
 
 
-
-
-
 # Agent configurations
 # Format: {name: AgentConfig}
 # AgentConfig: (command, args, env_key, priority, base_url, auth_env)
 # For Anthropic-compatible APIs: base_url + auth_env override ANTHROPIC_BASE_URL/ANTHROPIC_AUTH_TOKEN
 
+
 @dataclass
 class AgentConfig:
     """Agent configuration.
-    
+
     Config files: ~/.hanzo/agents/<name>.json
     Format:
     {
@@ -103,22 +105,23 @@ class AgentConfig:
         "model": "claude-3-opus",
         "system_prompt": "You are a helpful assistant"
     }
-    
+
     Environment overrides: HANZO_AGENT_<NAME>_ARGS="--flag1 --flag2"
     """
+
     cmd: str
     args: List[str] = field(default_factory=list)
     env_key: Optional[str] = None
     priority: int = 10
     base_url: Optional[str] = None  # Anthropic-compatible base URL
     auth_env: Optional[str] = None  # Env var for auth token
-    model: Optional[str] = None     # Model name override
-    max_turns: int = 999            # Max turns per session
-    session: bool = False           # Enable session persistence
+    model: Optional[str] = None  # Model name override
+    max_turns: int = 999  # Max turns per session
+    session: bool = False  # Enable session persistence
     session_id: Optional[str] = None  # Resume specific session
     system_prompt: Optional[str] = None  # System prompt to append
-    endpoint: Optional[str] = None       # Direct API endpoint (no CLI needed)
-    api_type: str = "cli"                # "cli", "openai", "anthropic"
+    endpoint: Optional[str] = None  # Direct API endpoint (no CLI needed)
+    api_type: str = "cli"  # "cli", "openai", "anthropic"
 
 
 CONFIG_DIR = Path.home() / ".hanzo" / "agents"
@@ -130,6 +133,7 @@ def _load_config_file(name: str) -> Optional[Dict[str, Any]]:
     if config_file.exists():
         try:
             import json
+
             with open(config_file) as f:
                 return json.load(f)
         except Exception:
@@ -168,7 +172,9 @@ Provide clear, reasoned responses that can be compared and synthesized."""
 # Each agent configured with its specific flags for autonomous operation
 NATIVE_AGENTS = {
     # claude: --dangerously-skip-permissions (YOLO), --print (non-interactive), --output-format text
-    "claude": AgentConfig("claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], "ANTHROPIC_API_KEY", 1),
+    "claude": AgentConfig(
+        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], "ANTHROPIC_API_KEY", 1
+    ),
     # codex: --full-auto (auto-approve everything)
     "codex": AgentConfig("codex", ["--full-auto"], "OPENAI_API_KEY", 2),
     # gemini: -y (yolo), -q (quiet/non-interactive)
@@ -183,33 +189,34 @@ NATIVE_AGENTS = {
     "dev": AgentConfig("hanzo-dev", ["-y"], None, 8),
 }
 
+
 # Dynamic config overrides
 # Priority: 1) ~/.hanzo/agents/<name>.json  2) HANZO_AGENT_<NAME>_ARGS env
 def _load_agent_overrides():
     """Load agent config overrides from files and environment."""
     # Ensure config dir exists
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-    
+
     all_agents = list(NATIVE_AGENTS.keys())
     # Add compat agents if defined
-    if 'ANTHROPIC_COMPAT_AGENTS' in globals():
+    if "ANTHROPIC_COMPAT_AGENTS" in globals():
         all_agents.extend(ANTHROPIC_COMPAT_AGENTS.keys())
-    
+
     for name in all_agents:
         # Get base config
         if name in NATIVE_AGENTS:
             base = NATIVE_AGENTS[name]
             target = NATIVE_AGENTS
-        elif name in globals().get('ANTHROPIC_COMPAT_AGENTS', {}):
+        elif name in globals().get("ANTHROPIC_COMPAT_AGENTS", {}):
             base = ANTHROPIC_COMPAT_AGENTS[name]
             target = ANTHROPIC_COMPAT_AGENTS
         else:
             continue
-        
+
         # 1) Load from config file
         if file_config := _load_config_file(name):
             base = _apply_config(base, file_config)
-        
+
         # 2) Override from environment
         env_key = f"HANZO_AGENT_{name.upper().replace('-', '_')}_ARGS"
         if env_val := os.environ.get(env_key):
@@ -224,71 +231,99 @@ def _load_agent_overrides():
                 max_turns=base.max_turns,
                 session=base.session,
             )
-        
+
         target[name] = base
+
 
 # Anthropic-compatible API agents (use claude CLI with custom base URL)
 # All use claude CLI with --dangerously-skip-permissions for YOLO mode
 ANTHROPIC_COMPAT_AGENTS = {
     # MiniMax M2.1 - https://api.minimax.io
     "minimax": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 10,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        10,
         base_url="https://api.minimax.io/anthropic",
         auth_env="MINIMAX_API_KEY",
         model="MiniMax-M2.1",
     ),
     # Kimi K2 (Moonshot) - https://api.moonshot.cn
     "kimi": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 11,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        11,
         base_url="https://api.moonshot.cn/anthropic",
         auth_env="MOONSHOT_API_KEY",
         model="kimi-k2",
     ),
     # DeepSeek - https://api.deepseek.com
     "deepseek": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 12,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        12,
         base_url="https://api.deepseek.com/anthropic",
         auth_env="DEEPSEEK_API_KEY",
         model="deepseek-chat",
     ),
     # Yi/01.AI - https://api.01.ai
     "yi": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 13,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        13,
         base_url="https://api.01.ai/anthropic",
         auth_env="YI_API_KEY",
         model="yi-large",
     ),
     # Zhipu GLM-4 - https://open.bigmodel.cn
     "glm": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 14,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        14,
         base_url="https://open.bigmodel.cn/api/paas/v4/anthropic",
         auth_env="ZHIPU_API_KEY",
         model="glm-4",
     ),
     # Baichuan - https://api.baichuan-ai.com
     "baichuan": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 15,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        15,
         base_url="https://api.baichuan-ai.com/anthropic",
         auth_env="BAICHUAN_API_KEY",
         model="Baichuan4",
     ),
     # StepFun - https://api.stepfun.com
     "step": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 16,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        16,
         base_url="https://api.stepfun.com/anthropic",
         auth_env="STEPFUN_API_KEY",
         model="step-2",
     ),
     # Qwen via DashScope Claude Code proxy - https://dashscope-intl.aliyuncs.com
     "dashscope": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 17,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        17,
         base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
         auth_env="DASHSCOPE_API_KEY",
         model="qwen-max",
     ),
     # Qwen via DashScope (alias)
     "qwen-cc": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], None, 18,
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        None,
+        18,
         base_url="https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
         auth_env="DASHSCOPE_API_KEY",
         model="qwen-plus",
@@ -305,49 +340,60 @@ _load_agent_overrides()
 def detect_env() -> Dict[str, Any]:
     """Detect Claude Code environment."""
     result = {"in_claude": False, "session": None, "api_key": None}
-    
+
     if os.environ.get("CLAUDE_CODE") or os.environ.get("CLAUDE_SESSION_ID"):
         result["in_claude"] = True
         result["session"] = os.environ.get("CLAUDE_SESSION_ID")
-    
+
     if os.environ.get("ANTHROPIC_API_KEY"):
         result["api_key"] = os.environ.get("ANTHROPIC_API_KEY")[:8] + "..."
-    
+
     return result
 
 
 def get_mcp_env() -> Dict[str, str]:
     """Get MCP environment to share with agents.
-    
+
     Includes hanzo-mcp config so spawned agents can use MCP tools
     and communicate with each other during consensus.
     """
     env = {}
     keys = [
         # Hanzo MCP config
-        "HANZO_MCP_MODE", "HANZO_MCP_ALLOWED_PATHS", "HANZO_MCP_ENABLED_TOOLS",
-        "HANZO_MCP_SERVER", "HANZO_MCP_TRANSPORT",
+        "HANZO_MCP_MODE",
+        "HANZO_MCP_ALLOWED_PATHS",
+        "HANZO_MCP_ENABLED_TOOLS",
+        "HANZO_MCP_SERVER",
+        "HANZO_MCP_TRANSPORT",
         # API keys for various providers
-        "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "GOOGLE_API_KEY",
-        "XAI_API_KEY", "DASHSCOPE_API_KEY", "DEEPSEEK_API_KEY",
-        "MINIMAX_API_KEY", "MOONSHOT_API_KEY", "YI_API_KEY",
-        "ZHIPU_API_KEY", "BAICHUAN_API_KEY", "STEPFUN_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "OPENAI_API_KEY",
+        "GOOGLE_API_KEY",
+        "XAI_API_KEY",
+        "DASHSCOPE_API_KEY",
+        "DEEPSEEK_API_KEY",
+        "MINIMAX_API_KEY",
+        "MOONSHOT_API_KEY",
+        "YI_API_KEY",
+        "ZHIPU_API_KEY",
+        "BAICHUAN_API_KEY",
+        "STEPFUN_API_KEY",
     ]
     for k in keys:
         if os.environ.get(k):
             env[k] = os.environ[k]
-    
+
     # Enable hanzo-mcp for spawned agents
     # This allows agent-to-agent communication via MCP
     env["HANZO_AGENT_MCP_ENABLED"] = "true"
-    
+
     return env
 
 
 @final
 class AgentTool(BaseTool):
     """Multi-agent orchestration tool.
-    
+
     Actions:
     - run: Single agent execution (default: claude -p)
     - dag: DAG execution with dependencies
@@ -355,20 +401,20 @@ class AgentTool(BaseTool):
     - consensus: Metastable multi-model consensus
     - dispatch: Different agents for different tasks
     """
-    
+
     name = "agent"
-    
+
     def __init__(self):
         super().__init__()
         self._env = detect_env()
         self._mcp_env = get_mcp_env()
-    
+
     @property
     @override
     def description(self) -> str:
         default = self._default_agent()
-        native = ', '.join(NATIVE_AGENTS.keys())
-        compat = ', '.join(ANTHROPIC_COMPAT_AGENTS.keys())
+        native = ", ".join(NATIVE_AGENTS.keys())
+        compat = ", ".join(ANTHROPIC_COMPAT_AGENTS.keys())
         return f"""Multi-agent orchestration. Default: {default}
 
 Actions:
@@ -392,7 +438,7 @@ Examples:
 
 Consensus: https://github.com/luxfi/consensus
 """
-    
+
     def _default_agent(self) -> str:
         """Get default agent based on environment."""
         if self._env.get("in_claude"):
@@ -406,7 +452,7 @@ Consensus: https://github.com/luxfi/consensus
             if cfg.auth_env and os.environ.get(cfg.auth_env):
                 return name
         return "dev"
-    
+
     @override
     @auto_timeout("agent")
     async def call(
@@ -436,7 +482,7 @@ Consensus: https://github.com/luxfi/consensus
         """Execute agent action."""
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-        
+
         if action == "list":
             return self._list()
         elif action == "status":
@@ -451,36 +497,38 @@ Consensus: https://github.com/luxfi/consensus
         elif action == "swarm":
             return await self._swarm(items or [], template or "", name, max_concurrent, cwd, timeout)
         elif action == "consensus":
-            return await self._consensus(prompt or "", agents or ["claude", "gemini", "codex"], rounds, k, alpha, beta_1, beta_2, cwd, timeout)
+            return await self._consensus(
+                prompt or "", agents or ["claude", "gemini", "codex"], rounds, k, alpha, beta_1, beta_2, cwd, timeout
+            )
         elif action == "dispatch":
             return await self._dispatch(tasks or [], cwd, timeout)
         else:
             return f"Unknown action: {action}. Use: run, dag, swarm, consensus, dispatch, list, status, config"
-    
+
     def _list(self) -> str:
         """List available agents."""
         default = self._default_agent()
         lines = ["Agents:"]
-        
+
         # Native agents
         lines.append("  Native:")
         for name, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
             mark = " (default)" if name == default else ""
             lines.append(f"    • {name}: {cfg.cmd}{mark}")
-        
+
         # Anthropic-compatible agents
         lines.append("  Anthropic-compatible:")
         for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
             has_key = bool(cfg.auth_env and os.environ.get(cfg.auth_env))
             key_mark = " ✓" if has_key else ""
             lines.append(f"    • {name}: {cfg.model}{key_mark}")
-        
+
         lines.append("")
         lines.append("Actions: run, dag, swarm, consensus, dispatch")
         if self._env.get("in_claude"):
             lines.append("⚡ Running in Claude Code")
         return "\n".join(lines)
-    
+
     def _config(self) -> str:
         """Show configuration."""
         lines = [
@@ -492,7 +540,7 @@ Consensus: https://github.com/luxfi/consensus
         ]
         if self._env.get("session"):
             lines.append(f"Session: {self._env['session'][:8]}...")
-        
+
         lines.append("")
         lines.append("Native Agents:")
         for name, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
@@ -500,24 +548,24 @@ Consensus: https://github.com/luxfi/consensus
             lines.append(f"  {name}: {cfg.cmd} {args_str}")
             if cfg.max_turns != 999:
                 lines.append(f"    max_turns: {cfg.max_turns}")
-        
+
         lines.append("")
         lines.append("Anthropic-compat Agents:")
         for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
             lines.append(f"  {name}: {cfg.model}")
-        
+
         lines.append("")
         lines.append("Override configs:")
         lines.append(f"  File: ~/.hanzo/agents/<name>.json")
-        lines.append(f"  Env:  HANZO_AGENT_<NAME>_ARGS=\"--flag1 --flag2\"")
-        
+        lines.append(f'  Env:  HANZO_AGENT_<NAME>_ARGS="--flag1 --flag2"')
+
         lines.append("")
         lines.append("MCP env shared with agents:")
         for k, v in self._mcp_env.items():
             display = v[:8] + "..." if "KEY" in k else v
             lines.append(f"  {k}: {display}")
         return "\n".join(lines)
-    
+
     async def _status(self, name: Optional[str]) -> str:
         """Check agent availability."""
         if name:
@@ -529,9 +577,9 @@ Consensus: https://github.com/luxfi/consensus
             env_to_check = cfg.auth_env or cfg.env_key
             has_key = bool(env_to_check and os.environ.get(env_to_check))
             return f"{'✓' if ok else '✗'} {name} ({'✓ key' if has_key else '○ no key'})"
-        
+
         lines = ["Status:"]
-        
+
         # Native agents
         lines.append("  Native:")
         for agent, cfg in sorted(NATIVE_AGENTS.items(), key=lambda x: x[1].priority):
@@ -540,7 +588,7 @@ Consensus: https://github.com/luxfi/consensus
             key_status = "✓ key" if has_key else "○ no key"
             status = f"✓ ({key_status})" if ok else "✗ not found"
             lines.append(f"    {agent}: {status}")
-        
+
         # Anthropic-compatible agents
         lines.append("  Anthropic-compatible (via claude):")
         claude_ok = await self._available("claude")
@@ -553,14 +601,15 @@ Consensus: https://github.com/luxfi/consensus
             else:
                 status = "✗ need claude CLI"
             lines.append(f"    {agent}: {status}")
-        
+
         return "\n".join(lines)
-    
+
     async def _available(self, cmd: str) -> bool:
         """Check if command is available."""
         try:
             proc = await asyncio.create_subprocess_exec(
-                cmd, "--version",
+                cmd,
+                "--version",
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL,
             )
@@ -568,26 +617,26 @@ Consensus: https://github.com/luxfi/consensus
             return proc.returncode == 0
         except Exception:
             return False
-    
+
     async def _exec(self, agent: str, prompt: str, cwd: Optional[str], timeout: int) -> Result:
         """Execute single agent with auto-backgrounding.
-        
+
         Supports two modes:
         - CLI mode (api_type="cli"): Spawn CLI subprocess
         - API mode (api_type="openai"|"anthropic"): Direct HTTP calls
         """
         if agent not in AGENTS:
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"Unknown agent: {agent}")
-        
+
         cfg = AGENTS[agent]
-        
+
         # Route to API mode if endpoint is configured
         if cfg.endpoint and cfg.api_type != "cli":
             return await self._exec_api(agent, cfg, prompt, timeout)
-        
+
         # CLI mode: Build command with YOLO flags and max_turns
         full_cmd = [cfg.cmd]
-        
+
         # For claude CLI, add output format first
         if cfg.cmd == "claude":
             full_cmd.extend(["--output-format", "text"])
@@ -597,49 +646,49 @@ Consensus: https://github.com/luxfi/consensus
             # Resume session if specified
             if cfg.session_id:
                 full_cmd.extend(["--resume", cfg.session_id])
-        
+
         # Add model override
         if cfg.model:
             full_cmd.extend(["--model", cfg.model])
-        
+
         # For Anthropic-compatible APIs
         if cfg.base_url:
             full_cmd.append("--dangerously-skip-permissions")
-        
+
         # Add configured args (includes YOLO flags)
         full_cmd.extend(cfg.args)
-        
+
         # Add max_turns for agents that support it (if not already in args)
         if cfg.max_turns and "--max-turns" not in cfg.args and "--max-session-turns" not in str(cfg.args):
             if cfg.cmd in ("vibe",):
                 full_cmd.extend(["--max-turns", str(cfg.max_turns)])
             elif cfg.cmd in ("qwen",):
                 full_cmd.append(f"--max-session-turns={cfg.max_turns}")
-        
+
         # Add system prompt if configured (claude CLI only)
         if cfg.system_prompt and cfg.cmd == "claude":
             full_cmd.extend(["--append-system-prompt", cfg.system_prompt])
-        
+
         full_cmd.append(prompt)
-        
+
         # Build environment
         env = os.environ.copy()
         env["OTEL_SDK_DISABLED"] = "true"  # Disable OpenTelemetry noise
         env.update(self._mcp_env)
         env["HANZO_AGENT_PARENT"] = "true"
         env["HANZO_AGENT_NAME"] = agent
-        
+
         # Set Anthropic-compatible API overrides
         if cfg.base_url:
             env["ANTHROPIC_BASE_URL"] = cfg.base_url
         if cfg.auth_env and os.environ.get(cfg.auth_env):
             env["ANTHROPIC_AUTH_TOKEN"] = os.environ[cfg.auth_env]
-        
+
         # Get shared ProcessManager for auto-backgrounding
         pm = ProcessManager()
         process_id = f"agent_{agent}_{uuid.uuid4().hex[:8]}"
         log_file = await pm.create_log_file(process_id)
-        
+
         start = time.time()
         try:
             proc = await asyncio.create_subprocess_exec(
@@ -649,29 +698,29 @@ Consensus: https://github.com/luxfi/consensus
                 cwd=cwd or os.getcwd(),
                 env=env,
             )
-            
+
             # Track process immediately for ps visibility
             pm.add_process(process_id, proc, str(log_file))
-            
+
             # Read output with timeout, auto-background if exceeded
             output_lines: List[str] = []
-            
+
             async def read_output():
                 if proc.stdout:
                     async for line in proc.stdout:
                         line_str = line.decode("utf-8", errors="replace")
                         output_lines.append(line_str)
                         await append_file(log_file, line_str)
-            
+
             read_task = asyncio.create_task(read_output())
             wait_task = asyncio.create_task(proc.wait())
-            
+
             done, pending = await asyncio.wait(
                 [read_task, wait_task],
                 timeout=timeout,
                 return_when=asyncio.FIRST_COMPLETED,
             )
-            
+
             if wait_task in done:
                 # Process completed
                 return_code = await wait_task
@@ -679,27 +728,29 @@ Consensus: https://github.com/luxfi/consensus
                     await asyncio.wait_for(read_task, timeout=1.0)
                 except asyncio.TimeoutError:
                     read_task.cancel()
-                
+
                 ms = int((time.time() - start) * 1000)
                 output = "".join(output_lines)
                 pm.remove_process(process_id)
-                
+
                 if return_code != 0:
-                    return Result(agent=agent, prompt=prompt, output=output, ok=False, 
-                                  error=f"Exit code {return_code}", ms=ms)
+                    return Result(
+                        agent=agent, prompt=prompt, output=output, ok=False, error=f"Exit code {return_code}", ms=ms
+                    )
                 return Result(agent=agent, prompt=prompt, output=output, ok=True, ms=ms)
-            
+
             # Timeout - auto-background
             ms = int((time.time() - start) * 1000)
             partial = "".join(output_lines)
-            
+
             # Write backgrounding message to log
-            await append_file(log_file,
+            await append_file(
+                log_file,
                 f"\n[agent] Backgrounded after {timeout}s timeout\n"
                 f"[agent] Process ID: {process_id}\n"
-                f"[agent] PID: {proc.pid}\n"
+                f"[agent] PID: {proc.pid}\n",
             )
-            
+
             bg_msg = (
                 f"[backgrounded] Agent {agent} running in background.\n"
                 f"Process ID: {process_id}\n"
@@ -709,46 +760,46 @@ Consensus: https://github.com/luxfi/consensus
             )
             if partial:
                 bg_msg += f"\n=== Partial output ===\n{partial[:500]}{'...' if len(partial) > 500 else ''}"
-            
-            return Result(agent=agent, prompt=prompt, output=bg_msg, ok=True, 
-                          error=f"backgrounded:{process_id}", ms=ms)
-        
+
+            return Result(agent=agent, prompt=prompt, output=bg_msg, ok=True, error=f"backgrounded:{process_id}", ms=ms)
+
         except FileNotFoundError:
             pm.remove_process(process_id)
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"{cfg.cmd} not found")
         except Exception as e:
             pm.remove_process(process_id)
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=str(e))
-    
+
     async def _exec_api(self, agent: str, cfg: AgentConfig, prompt: str, timeout: int) -> Result:
         """Execute agent via direct API call (OpenAI or Anthropic format).
-        
+
         Supports:
         - api_type="openai": OpenAI-compatible /v1/chat/completions
         - api_type="anthropic": Anthropic /v1/messages
         """
         if not HAS_HTTPX:
-            return Result(agent=agent, prompt=prompt, output="", ok=False, 
-                          error="httpx not installed. Run: pip install httpx")
-        
+            return Result(
+                agent=agent, prompt=prompt, output="", ok=False, error="httpx not installed. Run: pip install httpx"
+            )
+
         start = time.time()
-        
+
         # Get auth token
         auth_token = None
         if cfg.auth_env:
             auth_token = os.environ.get(cfg.auth_env)
         if not auth_token and cfg.env_key:
             auth_token = os.environ.get(cfg.env_key)
-        
+
         if not auth_token:
-            return Result(agent=agent, prompt=prompt, output="", ok=False,
-                          error=f"No API key. Set {cfg.auth_env or cfg.env_key}")
-        
+            return Result(
+                agent=agent, prompt=prompt, output="", ok=False, error=f"No API key. Set {cfg.auth_env or cfg.env_key}"
+            )
+
         endpoint = cfg.endpoint
         if not endpoint:
-            return Result(agent=agent, prompt=prompt, output="", ok=False,
-                          error="No endpoint configured for API mode")
-        
+            return Result(agent=agent, prompt=prompt, output="", ok=False, error="No endpoint configured for API mode")
+
         try:
             async with httpx.AsyncClient(timeout=timeout) as client:
                 if cfg.api_type == "openai":
@@ -757,13 +808,13 @@ Consensus: https://github.com/luxfi/consensus
                     if cfg.system_prompt:
                         messages.append({"role": "system", "content": cfg.system_prompt})
                     messages.append({"role": "user", "content": prompt})
-                    
+
                     payload = {
                         "model": cfg.model or "gpt-4",
                         "messages": messages,
                         "max_tokens": 4096,
                     }
-                    
+
                     resp = await client.post(
                         endpoint,
                         json=payload,
@@ -772,27 +823,32 @@ Consensus: https://github.com/luxfi/consensus
                             "Content-Type": "application/json",
                         },
                     )
-                    
+
                     if resp.status_code != 200:
-                        return Result(agent=agent, prompt=prompt, output="", ok=False,
-                                      error=f"API error {resp.status_code}: {resp.text[:200]}")
-                    
+                        return Result(
+                            agent=agent,
+                            prompt=prompt,
+                            output="",
+                            ok=False,
+                            error=f"API error {resp.status_code}: {resp.text[:200]}",
+                        )
+
                     data = resp.json()
                     output = data.get("choices", [{}])[0].get("message", {}).get("content", "")
-                    
+
                 elif cfg.api_type == "anthropic":
                     # Anthropic format
                     messages = [{"role": "user", "content": prompt}]
-                    
+
                     payload = {
                         "model": cfg.model or "claude-3-5-sonnet-20241022",
                         "max_tokens": 4096,
                         "messages": messages,
                     }
-                    
+
                     if cfg.system_prompt:
                         payload["system"] = cfg.system_prompt
-                    
+
                     resp = await client.post(
                         endpoint,
                         json=payload,
@@ -802,54 +858,60 @@ Consensus: https://github.com/luxfi/consensus
                             "Content-Type": "application/json",
                         },
                     )
-                    
+
                     if resp.status_code != 200:
-                        return Result(agent=agent, prompt=prompt, output="", ok=False,
-                                      error=f"API error {resp.status_code}: {resp.text[:200]}")
-                    
+                        return Result(
+                            agent=agent,
+                            prompt=prompt,
+                            output="",
+                            ok=False,
+                            error=f"API error {resp.status_code}: {resp.text[:200]}",
+                        )
+
                     data = resp.json()
                     content = data.get("content", [])
                     output = "".join(c.get("text", "") for c in content if c.get("type") == "text")
-                    
+
                 else:
-                    return Result(agent=agent, prompt=prompt, output="", ok=False,
-                                  error=f"Unknown api_type: {cfg.api_type}")
-                
+                    return Result(
+                        agent=agent, prompt=prompt, output="", ok=False, error=f"Unknown api_type: {cfg.api_type}"
+                    )
+
                 ms = int((time.time() - start) * 1000)
                 return Result(agent=agent, prompt=prompt, output=output, ok=True, ms=ms)
-                
+
         except httpx.TimeoutException:
             ms = int((time.time() - start) * 1000)
-            return Result(agent=agent, prompt=prompt, output="", ok=False,
-                          error=f"Request timeout after {timeout}s", ms=ms)
+            return Result(
+                agent=agent, prompt=prompt, output="", ok=False, error=f"Request timeout after {timeout}s", ms=ms
+            )
         except Exception as e:
             ms = int((time.time() - start) * 1000)
-            return Result(agent=agent, prompt=prompt, output="", ok=False,
-                          error=str(e), ms=ms)
+            return Result(agent=agent, prompt=prompt, output="", ok=False, error=str(e), ms=ms)
 
     async def _run(self, agent: str, prompt: Optional[str], cwd: Optional[str], timeout: int) -> str:
         """Run single agent."""
         if not prompt:
             return "Error: prompt required"
-        
+
         result = await self._exec(agent, prompt, cwd, timeout)
-        
+
         if result.ok:
             return f"[{agent}] {result.output}"
         return f"[{agent}] Error: {result.error}\n{result.output}"
-    
+
     async def _dag(self, tasks: List[Dict], name: Optional[str], cwd: Optional[str], timeout: int) -> str:
         """Execute DAG with dependencies.
-        
+
         Tasks: [{id, prompt, agent?, after?: [ids]}]
         Uses topological sort, executes in waves.
         Injects {dep_id} outputs into prompts.
         """
         if not tasks:
             return "Error: tasks required"
-        
+
         agent = name or self._default_agent()
-        
+
         # Build dependency graph
         graph: Dict[str, Dict] = {}
         for t in tasks:
@@ -861,25 +923,24 @@ Consensus: https://github.com/luxfi/consensus
                 "done": False,
                 "result": None,
             }
-        
+
         results: List[Result] = []
         outputs: Dict[str, str] = {}
-        
+
         # Execute in waves (topological order)
         while True:
             # Find ready tasks (dependencies satisfied)
             ready = [
-                tid for tid, task in graph.items()
-                if not task["done"] and task["after"].issubset(set(outputs.keys()))
+                tid for tid, task in graph.items() if not task["done"] and task["after"].issubset(set(outputs.keys()))
             ]
-            
+
             if not ready:
                 # Check for cycles or completion
                 pending = [tid for tid, task in graph.items() if not task["done"]]
                 if pending:
                     return f"Error: Dependency cycle or missing deps: {pending}"
                 break
-            
+
             # Execute wave in parallel
             wave_tasks = []
             for tid in ready:
@@ -889,19 +950,18 @@ Consensus: https://github.com/luxfi/consensus
                 for dep_id, dep_out in outputs.items():
                     prompt = prompt.replace(f"{{{dep_id}}}", dep_out)
                 wave_tasks.append((tid, task["agent"], prompt))
-            
-            wave_results = await asyncio.gather(*[
-                self._exec(task_agent, prompt, cwd, timeout)
-                for tid, task_agent, prompt in wave_tasks
-            ])
-            
+
+            wave_results = await asyncio.gather(
+                *[self._exec(task_agent, prompt, cwd, timeout) for tid, task_agent, prompt in wave_tasks]
+            )
+
             for (tid, _, _), result in zip(wave_tasks, wave_results):
                 result.id = tid
                 results.append(result)
                 outputs[tid] = result.output
                 graph[tid]["done"] = True
                 graph[tid]["result"] = result
-        
+
         # Format results
         lines = [f"DAG completed: {len(results)} tasks"]
         for r in results:
@@ -909,18 +969,26 @@ Consensus: https://github.com/luxfi/consensus
             lines.append(f"  {status} {r.id}: {r.agent} ({r.ms}ms)")
             if not r.ok and r.error:
                 lines.append(f"      Error: {r.error}")
-        
+
         lines.append("")
         lines.append("Outputs:")
         for r in results:
             lines.append(f"--- {r.id} ---")
             lines.append(r.output[:500] + ("..." if len(r.output) > 500 else ""))
-        
+
         return "\n".join(lines)
-    
-    async def _swarm(self, items: List[str], template: str, name: Optional[str], max_concurrent: int, cwd: Optional[str], timeout: int) -> str:
+
+    async def _swarm(
+        self,
+        items: List[str],
+        template: str,
+        name: Optional[str],
+        max_concurrent: int,
+        cwd: Optional[str],
+        timeout: int,
+    ) -> str:
         """Distribute work across agents.
-        
+
         Each item processed once. Uses {item} substitution.
         Semaphore controls max concurrency.
         """
@@ -928,45 +996,56 @@ Consensus: https://github.com/luxfi/consensus
             return "Error: items required"
         if not template:
             return "Error: template required (use {item} for substitution)"
-        
+
         agent = name or self._default_agent()
         sem = asyncio.Semaphore(max_concurrent)
-        
+
         async def process(item: str) -> Result:
             async with sem:
                 prompt = template.replace("{item}", item)
                 result = await self._exec(agent, prompt, cwd, timeout)
                 result.item = item
                 return result
-        
+
         start = time.time()
         results = await asyncio.gather(*[process(item) for item in items])
         elapsed = time.time() - start
-        
+
         ok = sum(1 for r in results if r.ok)
         fail = len(results) - ok
-        
+
         lines = [
             f"Swarm completed: {len(items)} items in {elapsed:.1f}s",
             f"  Agent: {agent}",
             f"  Success: {ok}, Failed: {fail}",
             f"  Concurrency: {max_concurrent}",
         ]
-        
+
         if fail > 0:
             lines.append("")
             lines.append("Failures:")
             for r in results:
                 if not r.ok:
                     lines.append(f"  ✗ {r.item}: {r.error}")
-        
+
         return "\n".join(lines)
-    
-    async def _consensus(self, prompt: str, agents: List[str], rounds: int, k: int, alpha: float, beta_1: float, beta_2: float, cwd: Optional[str], timeout: int) -> str:
+
+    async def _consensus(
+        self,
+        prompt: str,
+        agents: List[str],
+        rounds: int,
+        k: int,
+        alpha: float,
+        beta_1: float,
+        beta_2: float,
+        cwd: Optional[str],
+        timeout: int,
+    ) -> str:
         """Metastable consensus with agent-to-agent MCP communication.
-        
+
         https://github.com/luxfi/consensus
-        
+
         Each agent gets a system prompt enabling hanzo-mcp so they can
         query each other during consensus rounds.
         """
@@ -974,20 +1053,20 @@ Consensus: https://github.com/luxfi/consensus
             return "Error: prompt required"
         if not agents:
             return "Error: agents required"
-        
+
         if not HAS_CONSENSUS:
             return "Error: hanzo-consensus not installed. Run: pip install hanzo-tools-agent[consensus]"
-        
+
         # Build consensus prompt with MCP context
         consensus_prompt = f"""{CONSENSUS_SYSTEM_PROMPT}
 
-Participants in this consensus: {', '.join(agents)}
+Participants in this consensus: {", ".join(agents)}
 Rounds: {rounds}, Sample size: {k}
 
 Question: {prompt}
 
 Provide your reasoned response. You may use the 'agent' tool to query other participants."""
-        
+
         # Executor adapter - adds system prompt for MCP communication
         async def execute(agent_id: str, agent_prompt: str) -> ConsensusResult:
             # Wrap prompt with consensus context
@@ -1000,7 +1079,7 @@ Provide your reasoned response. You may use the 'agent' tool to query other part
                 error=result.error,
                 ms=result.ms,
             )
-        
+
         start = time.time()
         state = await run_consensus(
             prompt=consensus_prompt,
@@ -1013,7 +1092,7 @@ Provide your reasoned response. You may use the 'agent' tool to query other part
             beta_2=beta_2,
         )
         elapsed = time.time() - start
-        
+
         # Final synthesis by winner agent
         synthesis = state.synthesis or ""
         if state.winner and state.finalized:
@@ -1024,47 +1103,47 @@ Original question: {prompt}
 
 Synthesize the final answer based on the consensus discussion.
 Be concise but comprehensive."""
-            
+
             summary_result = await self._exec(state.winner, summary_prompt, cwd, timeout // 2)
             if summary_result.ok:
                 synthesis = summary_result.output
-        
+
         return f"[Metastable] {elapsed:.1f}s, winner: {state.winner}, finalized: {state.finalized}\n\n{synthesis}"
-    
+
     async def _dispatch(self, tasks: List[Dict], cwd: Optional[str], timeout: int) -> str:
         """Execute different agents for different tasks in parallel.
-        
+
         Tasks: [{agent, prompt}]
         """
         if not tasks:
             return "Error: tasks required"
-        
+
         async def run_task(t: Dict) -> Result:
             agent = t.get("agent", self._default_agent())
             prompt = t.get("prompt", "")
             return await self._exec(agent, prompt, cwd, timeout)
-        
+
         results = await asyncio.gather(*[run_task(t) for t in tasks])
-        
+
         lines = [f"Dispatched: {len(tasks)} tasks"]
         for i, r in enumerate(results):
             status = "✓" if r.ok else "✗"
-            lines.append(f"  {status} Task {i+1}: {r.agent} ({r.ms}ms)")
-        
+            lines.append(f"  {status} Task {i + 1}: {r.agent} ({r.ms}ms)")
+
         lines.append("")
         for i, r in enumerate(results):
-            lines.append(f"--- Task {i+1} ({r.agent}) ---")
+            lines.append(f"--- Task {i + 1} ({r.agent}) ---")
             if r.ok:
                 lines.append(r.output[:500] + ("..." if len(r.output) > 500 else ""))
             else:
                 lines.append(f"Error: {r.error}")
-        
+
         return "\n".join(lines)
-    
+
     def register(self, mcp_server: FastMCP) -> None:
         """Register with MCP server."""
         tool = self
-        
+
         @mcp_server.tool()
         async def agent(
             action: Action = "run",
@@ -1085,7 +1164,7 @@ Be concise but comprehensive."""
             ctx: MCPContext = None,
         ) -> str:
             """Multi-agent orchestration: run, dag, swarm, consensus, dispatch.
-            
+
             Consensus: https://github.com/luxfi/consensus
             """
             return await tool.call(

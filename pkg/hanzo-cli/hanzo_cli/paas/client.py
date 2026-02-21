@@ -176,11 +176,13 @@ class PaaSClient:
         new_rt = resp.headers.get("Refresh-Token")
         if new_at:
             self._at = new_at
-            _save_session({
-                "at": new_at,
-                "rt": new_rt or self._rt or "",
-                "login_time": int(time.time()),
-            })
+            _save_session(
+                {
+                    "at": new_at,
+                    "rt": new_rt or self._rt or "",
+                    "login_time": int(time.time()),
+                }
+            )
             # Rebuild client with new token
             self.close()
 
@@ -244,9 +246,7 @@ class PaaSClient:
     # ========================================================================
 
     def list_envs(self, org_id: str, project_id: str) -> list[dict[str, Any]]:
-        return self._ok(
-            self.http.get(f"/v1/org/{org_id}/project/{project_id}/env")
-        )
+        return self._ok(self.http.get(f"/v1/org/{org_id}/project/{project_id}/env"))
 
     # ========================================================================
     # Containers (Deployments)
@@ -256,13 +256,20 @@ class PaaSClient:
         return f"/v1/org/{org_id}/project/{project_id}/env/{env_id}/container"
 
     def list_containers(
-        self, org_id: str, project_id: str, env_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
     ) -> list[dict[str, Any]]:
         url = self._container_base(org_id, project_id, env_id)
         return self._ok(self.http.get(url))
 
     def get_container(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> dict[str, Any]:
         url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}"
         return self._ok(self.http.get(url))
@@ -289,13 +296,21 @@ class PaaSClient:
         return self._ok(self.http.put(url, json=payload))
 
     def delete_container(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> dict[str, Any]:
         url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}"
         return self._ok(self.http.delete(url))
 
     def redeploy_container(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> dict[str, Any]:
         """Trigger a redeploy by re-PUTting the container config.
 
@@ -308,30 +323,33 @@ class PaaSClient:
         return self._ok(self.http.put(url, json=container))
 
     def get_container_pods(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> list[dict[str, Any]]:
-        url = (
-            f"{self._container_base(org_id, project_id, env_id)}"
-            f"/{container_id}/pods"
-        )
+        url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}/pods"
         return self._ok(self.http.get(url))
 
     def get_container_logs(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> Any:
-        url = (
-            f"{self._container_base(org_id, project_id, env_id)}"
-            f"/{container_id}/logs"
-        )
+        url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}/logs"
         return self._ok(self.http.get(url))
 
     def get_container_events(
-        self, org_id: str, project_id: str, env_id: str, container_id: str,
+        self,
+        org_id: str,
+        project_id: str,
+        env_id: str,
+        container_id: str,
     ) -> list[dict[str, Any]]:
-        url = (
-            f"{self._container_base(org_id, project_id, env_id)}"
-            f"/{container_id}/events"
-        )
+        url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}/events"
         return self._ok(self.http.get(url))
 
     # ========================================================================

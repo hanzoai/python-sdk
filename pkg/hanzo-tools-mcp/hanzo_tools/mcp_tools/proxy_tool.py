@@ -11,15 +11,14 @@ When enabled, tools from these servers become available through hanzo-mcp.
 
 import os
 import json
-from typing import Any, Dict, List, Optional, Unpack, Annotated, TypedDict, final, override
+from typing import Any, Dict, List, Unpack, Optional, Annotated, TypedDict, final, override
 
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 
-from .mcp_proxy import MCPProxyRegistry, MCPServerConfig
-
+from .mcp_proxy import MCPServerConfig, MCPProxyRegistry
 
 # Parameter types
 Action = Annotated[
@@ -244,6 +243,7 @@ Usage:
 
         # Parse command
         import shlex
+
         cmd_parts = shlex.split(command)
 
         config = MCPServerConfig(
@@ -273,9 +273,7 @@ Usage:
         else:
             return f"❌ {result.get('error', 'Unknown error')}"
 
-    async def _handle_call(
-        self, server: Optional[str], tool: Optional[str], args: Dict[str, Any]
-    ) -> str:
+    async def _handle_call(self, server: Optional[str], tool: Optional[str], args: Dict[str, Any]) -> str:
         """Call a tool on a proxied server."""
         if not server:
             return "Error: --server is required"
@@ -331,6 +329,7 @@ Usage:
             # Set file permissions
             try:
                 import stat
+
                 creds_file.chmod(stat.S_IRUSR | stat.S_IWUSR)  # 0600
             except Exception:
                 pass
@@ -341,7 +340,7 @@ Usage:
             return f"""To authenticate with '{server}':
 
 1. Get your API key:
-   {config.auth_url or 'Check the service documentation'}
+   {config.auth_url or "Check the service documentation"}
 
 2. Set it:
    proxy --action auth --server {server} --token YOUR_API_KEY

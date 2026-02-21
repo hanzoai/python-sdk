@@ -98,9 +98,7 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def zsh_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
             commands: Annotated[
                 Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
             ] = None,
@@ -166,12 +164,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def bash_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -246,12 +240,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def fish_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -328,12 +318,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def dash_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -416,12 +402,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def ksh_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -500,12 +482,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def tcsh_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -583,12 +561,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def csh_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
@@ -643,12 +617,8 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def shell_handler(
-            command: Annotated[
-                Optional[str], Field(description="Single command to execute", default=None)
-            ] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands", default=None)
-            ] = None,
+            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
+            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
             parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
             cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
             env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,

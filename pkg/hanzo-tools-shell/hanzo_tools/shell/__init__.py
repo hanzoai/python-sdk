@@ -41,7 +41,7 @@ Falls back to standard asyncio on Windows.
 """
 
 # Use hanzo-async for unified async I/O and uvloop configuration
-from hanzo_async import configure_loop, using_uvloop
+from hanzo_async import using_uvloop, configure_loop
 
 # Auto-configure uvloop on import
 configure_loop()
@@ -50,63 +50,77 @@ _using_uvloop = using_uvloop()
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
-from hanzo_tools.shell.base_process import AUTO_BACKGROUND_TIMEOUT
 from hanzo_tools.shell.jq_tool import JqTool
 from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
-# HIP-0300: Unified proc tool
-from hanzo_tools.shell.proc_tool import ProcTool, proc_tool
-
 # Core tools
-from hanzo_tools.shell.cmd_tool import CmdTool, CmdResult, CmdNode, NodeStatus, create_cmd_tool, cmd_tool
+from hanzo_tools.shell.cmd_tool import CmdNode, CmdTool, CmdResult, NodeStatus, cmd_tool, create_cmd_tool
+
+# Backwards compatibility - DagTool is now CmdTool
+from hanzo_tools.shell.dag_tool import DagNode, DagTool, DagResult, create_dag_tool
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
 from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
-from hanzo_tools.shell.shell_tools import (
-    ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool, ShellTool,
-    zsh_tool, bash_tool, fish_tool, dash_tool, ksh_tool, tcsh_tool, csh_tool, shell_tool
-)
 
 # HTTP/Data tools (no shell escaping issues)
 from hanzo_tools.shell.curl_tool import CurlTool
 
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
+
+# HIP-0300: Unified proc tool
+from hanzo_tools.shell.proc_tool import ProcTool, proc_tool
 from hanzo_tools.shell.shellflow import parse as parse_shellflow, compile as compile_shellflow
 from hanzo_tools.shell.wget_tool import WgetTool
+from hanzo_tools.shell.shell_tools import (
+    CshTool,
+    KshTool,
+    ZshTool,
+    BashTool,
+    DashTool,
+    FishTool,
+    TcshTool,
+    ShellTool,
+    csh_tool,
+    ksh_tool,
+    zsh_tool,
+    bash_tool,
+    dash_tool,
+    fish_tool,
+    tcsh_tool,
+    shell_tool,
+)
 
 # Base classes
 from hanzo_tools.shell.base_process import (
+    AUTO_BACKGROUND_TIMEOUT,
+    ShellExecutor,
     BaseBinaryTool,
     BaseScriptTool,
     ProcessManager,
     BaseProcessTool,
     AutoBackgroundExecutor,
-    ShellExecutor,
     get_shell_executor,
+)
+
+# Shell detection
+from hanzo_tools.shell.shell_detect import (
+    SUPPORTED_SHELLS,
+    ShellInfo,
+    detect_shells,
+    get_active_shell,
+    clear_shell_cache,
+    resolve_shell_path,
+    get_shell_tool_class,
+    get_cached_active_shell,
 )
 
 # Session management
 from hanzo_tools.shell.session_storage import (
-    SessionStorage,
     SessionInfo,
-    cleanup_expired_sessions,
+    SessionStorage,
     clear_all_sessions,
-)
-
-# Backwards compatibility - DagTool is now CmdTool
-from hanzo_tools.shell.dag_tool import DagTool, DagResult, DagNode, create_dag_tool
-
-# Shell detection
-from hanzo_tools.shell.shell_detect import (
-    ShellInfo,
-    detect_shells,
-    get_active_shell,
-    get_cached_active_shell,
-    clear_shell_cache,
-    get_shell_tool_class,
-    resolve_shell_path,
-    SUPPORTED_SHELLS,
+    cleanup_expired_sessions,
 )
 
 
@@ -124,7 +138,22 @@ def _get_detected_shell_tools() -> list:
 
     # Allow exposing all shells via env var (for debugging/testing)
     if os.environ.get("HANZO_MCP_ALL_SHELLS", "").lower() in ("1", "true", "yes"):
-        return [ZshTool, BashTool, FishTool, DashTool, KshTool, TcshTool, CshTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+        return [
+            ZshTool,
+            BashTool,
+            FishTool,
+            DashTool,
+            KshTool,
+            TcshTool,
+            CshTool,
+            PsTool,
+            NpxTool,
+            UvxTool,
+            OpenTool,
+            CurlTool,
+            JqTool,
+            WgetTool,
+        ]
 
     # Detect active shell
     shell_name, shell_path = get_cached_active_shell()
@@ -254,10 +283,10 @@ def get_shell_tools(
 
     # Base tools list (no cmd - just the detected shell and utilities)
     tools = [
-        ps_tool,   # Process management
+        ps_tool,  # Process management
         npx_tool,  # Node packages
         uvx_tool,  # Python packages
-        open_tool, # Open files/URLs
+        open_tool,  # Open files/URLs
     ]
 
     # Check for all-shells mode

@@ -11,17 +11,17 @@ Provides a single tool interface for:
 
 import json
 import logging
-from typing import Annotated, Any, Optional, final, override
+from typing import Annotated, final, override
 
-from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
+from pydantic import Field
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
 
 from .client import APIClient, get_api_client
-from .models import APICallResult, OperationListResult, ProviderListResult
 from .errors import APIError
+from .models import APICallResult, OperationListResult, ProviderListResult
 
 logger = logging.getLogger(__name__)
 
@@ -124,7 +124,7 @@ class APITool(BaseTool):
 
     name = "api"
 
-    def __init__(self, client: Optional[APIClient] = None):
+    def __init__(self, client: APIClient | None = None):
         """Initialize with optional client."""
         self._client = client
 
@@ -192,25 +192,25 @@ Examples:
         self,
         ctx: MCPContext,
         action: str = "list",
-        provider: Optional[str] = None,
+        provider: str | None = None,
         # Config params
-        api_key: Optional[str] = None,
-        api_secret: Optional[str] = None,
-        account_id: Optional[str] = None,
-        base_url: Optional[str] = None,
+        api_key: str | None = None,
+        api_secret: str | None = None,
+        account_id: str | None = None,
+        base_url: str | None = None,
         # Spec params
-        spec_url: Optional[str] = None,
+        spec_url: str | None = None,
         force_refresh: bool = False,
         # Operation params
-        operation: Optional[str] = None,
-        params: Optional[str] = None,  # JSON string
-        body: Optional[str] = None,  # JSON string
+        operation: str | None = None,
+        params: str | None = None,  # JSON string
+        body: str | None = None,  # JSON string
         # Raw call params
         method: str = "GET",
-        path: Optional[str] = None,
+        path: str | None = None,
         # List/search params
-        search: Optional[str] = None,
-        tag: Optional[str] = None,
+        search: str | None = None,
+        tag: str | None = None,
         configured_only: bool = False,
         **kwargs,
     ) -> str:
@@ -223,9 +223,7 @@ Examples:
                 return await self._handle_list(provider, configured_only)
 
             elif action == "config":
-                return await self._handle_config(
-                    provider, api_key, api_secret, account_id, base_url
-                )
+                return await self._handle_config(provider, api_key, api_secret, account_id, base_url)
 
             elif action == "delete":
                 return await self._handle_delete(provider)
@@ -266,7 +264,7 @@ Examples:
             logger.exception(f"API tool error: {e}")
             return f"Error: {e}"
 
-    async def _handle_list(self, provider: Optional[str], configured_only: bool) -> str:
+    async def _handle_list(self, provider: str | None, configured_only: bool) -> str:
         """List providers and their status."""
         if provider:
             # Show details for specific provider
@@ -295,11 +293,11 @@ Examples:
 
     async def _handle_config(
         self,
-        provider: Optional[str],
-        api_key: Optional[str],
-        api_secret: Optional[str],
-        account_id: Optional[str],
-        base_url: Optional[str],
+        provider: str | None,
+        api_key: str | None,
+        api_secret: str | None,
+        account_id: str | None,
+        base_url: str | None,
     ) -> str:
         """Configure credentials for a provider."""
         if not provider:
@@ -318,7 +316,7 @@ Examples:
 
         return f"Configured credentials for {provider}"
 
-    async def _handle_delete(self, provider: Optional[str]) -> str:
+    async def _handle_delete(self, provider: str | None) -> str:
         """Delete credentials for a provider."""
         if not provider:
             return "Error: --provider required for delete action"
@@ -329,8 +327,8 @@ Examples:
 
     async def _handle_spec(
         self,
-        provider: Optional[str],
-        spec_url: Optional[str],
+        provider: str | None,
+        spec_url: str | None,
         force_refresh: bool,
     ) -> str:
         """Load or refresh OpenAPI spec."""
@@ -349,9 +347,9 @@ Examples:
 
     async def _handle_ops(
         self,
-        provider: Optional[str],
-        search: Optional[str],
-        tag: Optional[str],
+        provider: str | None,
+        search: str | None,
+        tag: str | None,
     ) -> str:
         """List operations for a provider."""
         if not provider:
@@ -369,10 +367,10 @@ Examples:
 
     async def _handle_call(
         self,
-        provider: Optional[str],
-        operation: Optional[str],
-        params: Optional[str],
-        body: Optional[str],
+        provider: str | None,
+        operation: str | None,
+        params: str | None,
+        body: str | None,
     ) -> str:
         """Call an API operation."""
         if not provider:
@@ -401,11 +399,11 @@ Examples:
 
     async def _handle_raw(
         self,
-        provider: Optional[str],
+        provider: str | None,
         method: str,
-        path: Optional[str],
-        params: Optional[str],
-        body: Optional[str],
+        path: str | None,
+        params: str | None,
+        body: str | None,
     ) -> str:
         """Make a raw API request."""
         if not provider:
@@ -433,7 +431,7 @@ Examples:
         except Exception as e:
             return f"Error making request: {e}"
 
-    async def _handle_search(self, query: Optional[str]) -> str:
+    async def _handle_search(self, query: str | None) -> str:
         """Search for APIs in public registries."""
         if not query:
             return "Error: --search <query> required for search action"
@@ -468,10 +466,10 @@ Examples:
 
     async def _handle_register(
         self,
-        name: Optional[str],
-        spec_url: Optional[str],
-        base_url: Optional[str],
-        api_key: Optional[str],
+        name: str | None,
+        spec_url: str | None,
+        base_url: str | None,
+        api_key: str | None,
         auth_type: str,
     ) -> str:
         """Register a custom API provider."""
@@ -507,7 +505,7 @@ Examples:
         except Exception as e:
             return f"Error registering API: {e}"
 
-    async def _handle_overview(self, provider: Optional[str]) -> str:
+    async def _handle_overview(self, provider: str | None) -> str:
         """Get API overview."""
         if not provider:
             return "Error: --provider required for overview action"
@@ -541,7 +539,7 @@ Examples:
                 lines.extend(failed)
 
             lines.append(f"\nTotal: {len(success)} loaded, {len(failed)} failed")
-            lines.append(f"Cache: ~/.hanzo/api/specs/")
+            lines.append("Cache: ~/.hanzo/api/specs/")
 
             return "\n".join(lines)
 
@@ -562,27 +560,27 @@ Examples:
                 ),
             ] = "list",
             provider: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Provider name (e.g., cloudflare, github)"),
             ] = None,
             api_key: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="API key or token for config action"),
             ] = None,
             api_secret: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="API secret (if needed) for config action"),
             ] = None,
             account_id: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Account/org ID for config action"),
             ] = None,
             base_url: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Override base URL for provider"),
             ] = None,
             spec_url: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="URL to OpenAPI spec for spec action"),
             ] = None,
             force_refresh: Annotated[
@@ -590,15 +588,15 @@ Examples:
                 Field(description="Force refresh cached spec"),
             ] = False,
             operation: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Operation ID for call action"),
             ] = None,
             params: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="JSON parameters for call/raw action"),
             ] = None,
             body: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="JSON body for call/raw action"),
             ] = None,
             method: Annotated[
@@ -606,15 +604,15 @@ Examples:
                 Field(description="HTTP method for raw action"),
             ] = "GET",
             path: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="URL path for raw action"),
             ] = None,
             search: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Search filter for ops action"),
             ] = None,
             tag: Annotated[
-                Optional[str],
+                str | None,
                 Field(description="Tag filter for ops action"),
             ] = None,
             configured_only: Annotated[
