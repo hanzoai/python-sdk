@@ -3,12 +3,23 @@
 Based on Activepieces with 280+ integrations.
 """
 
+import os
+import json
+
 import click
+import httpx
 from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
 from ..utils.output import console
+from .base import service_request, check_response
+
+AUTO_URL = os.getenv("HANZO_AUTO_URL", "https://auto.hanzo.ai")
+
+
+def _request(method: str, path: str, **kwargs) -> httpx.Response:
+    return service_request(AUTO_URL, method, path, **kwargs)
 
 
 @click.group(name="auto")
@@ -58,6 +69,14 @@ def flows():
 @click.option("--status", type=click.Choice(["active", "inactive", "all"]), default="all")
 def flows_list(status: str):
     """List all automation flows."""
+    params = {}
+    if status != "all":
+        params["status"] = status
+
+    resp = _request("get", "/v1/flows", params=params)
+    data = check_response(resp)
+    items = data.get("flows", data.get("items", []))
+
     table = Table(title="Automation Flows", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Status", style="green")
@@ -65,8 +84,20 @@ def flows_list(status: str):
     table.add_column("Last Run", style="dim")
     table.add_column("Runs", style="dim")
 
+    for f in items:
+        f_status = f.get("status", "inactive")
+        style = "green" if f_status == "active" else "yellow"
+        table.add_row(
+            f.get("name", ""),
+            f"[{style}]{f_status}[/{style}]",
+            f.get("trigger_type", "-"),
+            str(f.get("last_run_at", ""))[:19],
+            str(f.get("run_count", 0)),
+        )
+
     console.print(table)
-    console.print("[dim]No flows found. Create one with 'hanzo auto flows create'[/dim]")
+    if not items:
+        console.print("[dim]No flows found. Create one with 'hanzo auto flows create'[/dim]")
 
 
 @flows.command(name="create")
@@ -74,8 +105,13 @@ def flows_list(status: str):
 @click.option("--trigger", "-t", type=click.Choice(["webhook", "schedule", "manual"]), default="manual")
 def flows_create(name: str, trigger: str):
     """Create a new automation flow."""
-    console.print(f"[cyan]Creating flow '{name}'...[/cyan]")
+    body = {"name": name, "trigger_type": trigger}
+
+    resp = _request("post", "/v1/flows", json=body)
+    data = check_response(resp)
+
     console.print(f"[green]✓[/green] Flow '{name}' created with {trigger} trigger")
+    console.print(f"  ID: {data.get('id', '-')}")
     console.print()
     console.print("Next steps:")
     console.print("  1. [cyan]hanzo auto dev[/cyan] - Start visual editor")
@@ -88,8 +124,20 @@ def flows_create(name: str, trigger: str):
 @click.option("--input", "-i", help="JSON input for the flow")
 def flows_run(flow_name: str, input: str):
     """Run an automation flow."""
+    body = {}
+    if input:
+        body["input"] = json.loads(input)
+
     console.print(f"[cyan]Running flow '{flow_name}'...[/cyan]")
-    console.print("[green]✓[/green] Flow completed successfully")
+    resp = _request("post", f"/v1/flows/{flow_name}/run", json=body)
+    data = check_response(resp)
+
+    run_status = data.get("status", "completed")
+    style = "green" if run_status in ("completed", "success") else "red"
+    console.print(f"[{style}]✓[/{style}] Flow {run_status}")
+    console.print(f"  Run ID: {data.get('id', data.get('run_id', '-'))}")
+    if data.get("duration_ms"):
+        console.print(f"  Duration: {data['duration_ms']}ms")
 
 
 @flows.command(name="delete")
@@ -100,6 +148,9 @@ def flows_delete(flow_name: str):
 
     if not Confirm.ask(f"[red]Delete flow '{flow_name}'?[/red]"):
         return
+
+    resp = _request("delete", f"/v1/flows/{flow_name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Flow '{flow_name}' deleted")
 
 
@@ -107,6 +158,8 @@ def flows_delete(flow_name: str):
 @click.argument("flow_name")
 def flows_enable(flow_name: str):
     """Enable an automation flow."""
+    resp = _request("post", f"/v1/flows/{flow_name}/enable")
+    check_response(resp)
     console.print(f"[green]✓[/green] Flow '{flow_name}' enabled")
 
 
@@ -114,6 +167,8 @@ def flows_enable(flow_name: str):
 @click.argument("flow_name")
 def flows_disable(flow_name: str):
     """Disable an automation flow."""
+    resp = _request("post", f"/v1/flows/{flow_name}/disable")
+    check_response(resp)
     console.print(f"[green]✓[/green] Flow '{flow_name}' disabled")
 
 
@@ -133,31 +188,33 @@ def pieces():
 @click.option("--search", "-s", help="Search pieces")
 def pieces_list(category: str, search: str):
     """List available pieces."""
-    table = Table(title="Available Pieces (280+)", box=box.ROUNDED)
+    params = {}
+    if category:
+        params["category"] = category
+    if search:
+        params["search"] = search
+
+    resp = _request("get", "/v1/pieces", params=params)
+    data = check_response(resp)
+    items = data.get("pieces", data.get("items", []))
+
+    table = Table(title="Available Pieces", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Category", style="white")
     table.add_column("Version", style="dim")
     table.add_column("Installed", style="green")
 
-    pieces_data = [
-        ("Gmail", "Email", "0.3.0", "✓"),
-        ("Slack", "Communication", "0.4.0", "✓"),
-        ("GitHub", "Development", "0.5.0", "✓"),
-        ("OpenAI", "AI", "0.6.0", "✓"),
-        ("Anthropic", "AI", "0.2.0", ""),
-        ("Google Sheets", "Productivity", "0.3.0", ""),
-        ("Stripe", "Payments", "0.4.0", ""),
-        ("HubSpot", "CRM", "0.2.0", ""),
-    ]
-
-    for name, cat, version, installed in pieces_data:
-        if category and cat.lower() != category.lower():
-            continue
-        if search and search.lower() not in name.lower():
-            continue
-        table.add_row(name, cat, version, installed)
+    for p in items:
+        table.add_row(
+            p.get("name", ""),
+            p.get("category", "-"),
+            p.get("version", "-"),
+            "✓" if p.get("installed") else "",
+        )
 
     console.print(table)
+    if not items:
+        console.print("[dim]No pieces found[/dim]")
 
 
 @pieces.command(name="install")
@@ -165,6 +222,8 @@ def pieces_list(category: str, search: str):
 def pieces_install(piece_name: str):
     """Install a piece."""
     console.print(f"[cyan]Installing piece '{piece_name}'...[/cyan]")
+    resp = _request("post", f"/v1/pieces/{piece_name}/install")
+    check_response(resp)
     console.print(f"[green]✓[/green] Piece '{piece_name}' installed")
 
 
@@ -172,6 +231,8 @@ def pieces_install(piece_name: str):
 @click.argument("piece_name")
 def pieces_uninstall(piece_name: str):
     """Uninstall a piece."""
+    resp = _request("post", f"/v1/pieces/{piece_name}/uninstall")
+    check_response(resp)
     console.print(f"[green]✓[/green] Piece '{piece_name}' uninstalled")
 
 
@@ -189,14 +250,29 @@ def connections():
 @connections.command(name="list")
 def connections_list():
     """List all connections."""
+    resp = _request("get", "/v1/connections")
+    data = check_response(resp)
+    items = data.get("connections", data.get("items", []))
+
     table = Table(title="Connections", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Piece", style="white")
     table.add_column("Status", style="green")
     table.add_column("Created", style="dim")
 
+    for c in items:
+        c_status = c.get("status", "active")
+        style = "green" if c_status == "active" else "yellow"
+        table.add_row(
+            c.get("name", ""),
+            c.get("piece", "-"),
+            f"[{style}]{c_status}[/{style}]",
+            str(c.get("created_at", ""))[:19],
+        )
+
     console.print(table)
-    console.print("[dim]No connections found. Add one with 'hanzo auto connections add'[/dim]")
+    if not items:
+        console.print("[dim]No connections found. Add one with 'hanzo auto connections add'[/dim]")
 
 
 @connections.command(name="add")
@@ -204,15 +280,26 @@ def connections_list():
 @click.option("--name", "-n", help="Connection name")
 def connections_add(piece_name: str, name: str):
     """Add a new connection."""
-    console.print(f"[cyan]Adding connection for '{piece_name}'...[/cyan]")
-    console.print("Opening browser for OAuth authentication...")
+    body = {"piece": piece_name}
+    if name:
+        body["name"] = name
+
+    resp = _request("post", "/v1/connections", json=body)
+    data = check_response(resp)
+
+    auth_url = data.get("auth_url")
+    if auth_url:
+        console.print(f"[cyan]Authenticate at:[/cyan] {auth_url}")
     console.print(f"[green]✓[/green] Connection added")
+    console.print(f"  ID: {data.get('id', '-')}")
 
 
 @connections.command(name="delete")
 @click.argument("connection_name")
 def connections_delete(connection_name: str):
     """Delete a connection."""
+    resp = _request("delete", f"/v1/connections/{connection_name}")
+    check_response(resp)
     console.print(f"[green]✓[/green] Connection '{connection_name}' deleted")
 
 
@@ -257,15 +344,19 @@ def dev(port: int):
 def deploy(flow_name: str, deploy_all: bool):
     """Deploy flows to production."""
     if not flow_name and not deploy_all:
-        console.print("[yellow]Specify a flow name or use --all[/yellow]")
-        return
+        raise click.ClickException("Specify a flow name or use --all")
 
+    body = {}
     if deploy_all:
+        body["all"] = True
         console.print("[cyan]Deploying all flows...[/cyan]")
     else:
+        body["flow"] = flow_name
         console.print(f"[cyan]Deploying flow '{flow_name}'...[/cyan]")
 
-    console.print("[green]✓[/green] Deployed successfully")
+    resp = _request("post", "/v1/flows/deploy", json=body)
+    data = check_response(resp)
+    console.print(f"[green]✓[/green] Deployed {data.get('deployed', 1)} flow(s)")
 
 
 # ============================================================================
@@ -285,6 +376,16 @@ def runs():
 @click.option("--limit", "-n", default=50, help="Max results")
 def runs_list(flow: str, status: str, limit: int):
     """List flow runs."""
+    params = {"limit": limit}
+    if flow:
+        params["flow"] = flow
+    if status != "all":
+        params["status"] = status
+
+    resp = _request("get", "/v1/runs", params=params)
+    data = check_response(resp)
+    items = data.get("runs", data.get("items", []))
+
     table = Table(title="Flow Runs", box=box.ROUNDED)
     table.add_column("Run ID", style="cyan")
     table.add_column("Flow", style="white")
@@ -292,26 +393,53 @@ def runs_list(flow: str, status: str, limit: int):
     table.add_column("Duration", style="yellow")
     table.add_column("Started", style="dim")
 
+    for r in items:
+        r_status = r.get("status", "unknown")
+        status_style = {
+            "success": "green",
+            "completed": "green",
+            "failed": "red",
+            "running": "cyan",
+        }.get(r_status, "white")
+
+        table.add_row(
+            str(r.get("id", ""))[:16],
+            r.get("flow", "-"),
+            f"[{status_style}]{r_status}[/{status_style}]",
+            f"{r.get('duration_ms', '-')}ms" if r.get("duration_ms") else "-",
+            str(r.get("started_at", ""))[:19],
+        )
+
     console.print(table)
-    console.print("[dim]No runs found[/dim]")
+    if not items:
+        console.print("[dim]No runs found[/dim]")
 
 
 @runs.command(name="show")
 @click.argument("run_id")
 def runs_show(run_id: str):
     """Show run details."""
+    resp = _request("get", f"/v1/runs/{run_id}")
+    data = check_response(resp)
+
+    run_status = data.get("status", "unknown")
+    status_style = "green" if run_status in ("success", "completed") else "red" if run_status == "failed" else "cyan"
+
     console.print(
         Panel(
-            f"[cyan]Run ID:[/cyan] {run_id}\n"
-            f"[cyan]Flow:[/cyan] my-flow\n"
-            f"[cyan]Status:[/cyan] [green]● Success[/green]\n"
-            f"[cyan]Duration:[/cyan] 2.3s\n"
-            f"[cyan]Steps:[/cyan] 5\n"
-            f"[cyan]Started:[/cyan] 2024-01-15 10:30:00",
+            f"[cyan]Run ID:[/cyan] {data.get('id', run_id)}\n"
+            f"[cyan]Flow:[/cyan] {data.get('flow', '-')}\n"
+            f"[cyan]Status:[/cyan] [{status_style}]{run_status}[/{status_style}]\n"
+            f"[cyan]Duration:[/cyan] {data.get('duration_ms', '-')}ms\n"
+            f"[cyan]Steps:[/cyan] {data.get('step_count', 0)}\n"
+            f"[cyan]Started:[/cyan] {str(data.get('started_at', ''))[:19]}",
             title="Run Details",
             border_style="cyan",
         )
     )
+
+    if data.get("error"):
+        console.print(f"\n[red]Error:[/red] {data['error']}")
 
 
 @runs.command(name="logs")
@@ -319,16 +447,37 @@ def runs_show(run_id: str):
 @click.option("--step", "-s", help="Specific step")
 def runs_logs(run_id: str, step: str):
     """View run logs."""
+    params = {}
+    if step:
+        params["step"] = step
+
+    resp = _request("get", f"/v1/runs/{run_id}/logs", params=params)
+    data = check_response(resp)
+    lines = data.get("logs", data.get("lines", []))
+
     console.print(f"[cyan]Logs for run {run_id}:[/cyan]")
-    console.print("[dim]No logs available[/dim]")
+    for line in lines:
+        if isinstance(line, dict):
+            ts = str(line.get("timestamp", ""))[:19]
+            level = line.get("level", "info")
+            msg = line.get("message", "")
+            style = "red" if level == "error" else "yellow" if level == "warn" else "dim"
+            console.print(f"[dim]{ts}[/dim] [{style}]{level}[/{style}] {msg}")
+        else:
+            console.print(str(line))
+
+    if not lines:
+        console.print("[dim]No logs available[/dim]")
 
 
 @runs.command(name="retry")
 @click.argument("run_id")
 def runs_retry(run_id: str):
     """Retry a failed run."""
-    console.print(f"[cyan]Retrying run {run_id}...[/cyan]")
-    console.print("[green]✓[/green] Run restarted")
+    resp = _request("post", f"/v1/runs/{run_id}/retry")
+    data = check_response(resp)
+    console.print(f"[green]✓[/green] Run restarted")
+    console.print(f"  New Run ID: {data.get('id', data.get('run_id', '-'))}")
 
 
 # ============================================================================
@@ -346,27 +495,31 @@ def templates():
 @click.option("--category", "-c", help="Filter by category")
 def templates_list(category: str):
     """List available templates."""
+    params = {}
+    if category:
+        params["category"] = category
+
+    resp = _request("get", "/v1/templates", params=params)
+    data = check_response(resp)
+    items = data.get("templates", data.get("items", []))
+
     table = Table(title="Automation Templates", box=box.ROUNDED)
     table.add_column("Name", style="cyan")
     table.add_column("Category", style="white")
     table.add_column("Pieces", style="green")
     table.add_column("Description", style="dim")
 
-    templates_data = [
-        ("Slack to Notion", "Productivity", "2", "Save Slack messages to Notion"),
-        ("GitHub PR Notify", "Development", "2", "Slack notification on PR"),
-        ("Email to CRM", "Sales", "3", "Add email leads to HubSpot"),
-        ("Invoice Processor", "Finance", "4", "Process invoices with AI"),
-        ("Social Media Scheduler", "Marketing", "5", "Schedule posts across platforms"),
-        ("Support Ticket Router", "Support", "3", "AI-powered ticket routing"),
-    ]
-
-    for name, cat, pieces, desc in templates_data:
-        if category and category.lower() not in cat.lower():
-            continue
-        table.add_row(name, cat, pieces, desc)
+    for t in items:
+        table.add_row(
+            t.get("name", ""),
+            t.get("category", "-"),
+            str(t.get("piece_count", 0)),
+            t.get("description", "-"),
+        )
 
     console.print(table)
+    if not items:
+        console.print("[dim]No templates found[/dim]")
 
 
 @templates.command(name="use")
@@ -374,9 +527,16 @@ def templates_list(category: str):
 @click.option("--name", "-n", help="Flow name")
 def templates_use(template_name: str, name: str):
     """Create flow from template."""
-    flow_name = name or template_name.lower().replace(" ", "-")
-    console.print(f"[cyan]Creating flow from template '{template_name}'...[/cyan]")
-    console.print(f"[green]✓[/green] Flow '{flow_name}' created")
+    body = {"template": template_name}
+    if name:
+        body["name"] = name
+
+    resp = _request("post", "/v1/flows/from-template", json=body)
+    data = check_response(resp)
+
+    flow_name = data.get("name", name or template_name.lower().replace(" ", "-"))
+    console.print(f"[green]✓[/green] Flow '{flow_name}' created from template")
+    console.print(f"  ID: {data.get('id', '-')}")
     console.print("Configure connections with: hanzo auto connections add <piece>")
 
 
@@ -394,14 +554,27 @@ def webhooks():
 @webhooks.command(name="list")
 def webhooks_list():
     """List webhook endpoints."""
+    resp = _request("get", "/v1/webhooks")
+    data = check_response(resp)
+    items = data.get("webhooks", data.get("items", []))
+
     table = Table(title="Webhooks", box=box.ROUNDED)
     table.add_column("Flow", style="cyan")
     table.add_column("URL", style="white")
     table.add_column("Method", style="green")
     table.add_column("Calls", style="dim")
 
+    for w in items:
+        table.add_row(
+            w.get("flow", ""),
+            w.get("url", "-"),
+            w.get("method", "POST"),
+            str(w.get("call_count", 0)),
+        )
+
     console.print(table)
-    console.print("[dim]No webhooks found[/dim]")
+    if not items:
+        console.print("[dim]No webhooks found[/dim]")
 
 
 @webhooks.command(name="test")
@@ -409,8 +582,18 @@ def webhooks_list():
 @click.option("--data", "-d", help="JSON payload")
 def webhooks_test(flow_name: str, data: str):
     """Test webhook endpoint."""
+    body = {}
+    if data:
+        body = json.loads(data)
+
     console.print(f"[cyan]Testing webhook for '{flow_name}'...[/cyan]")
-    console.print("[green]✓[/green] Webhook triggered successfully")
+    resp = _request("post", f"/v1/webhooks/{flow_name}/test", json=body)
+    result = check_response(resp)
+
+    console.print(f"[green]✓[/green] Webhook triggered successfully")
+    console.print(f"  Status: {result.get('status_code', '-')}")
+    if result.get("run_id"):
+        console.print(f"  Run ID: {result['run_id']}")
 
 
 # ============================================================================
@@ -435,12 +618,19 @@ def ai_generate(prompt: str, name: str):
       hanzo auto ai generate -p "When I get an email from a customer, summarize it and post to Slack"
       hanzo auto ai generate -p "Every morning, send me a summary of GitHub issues"
     """
-    console.print(f"[cyan]Generating flow from prompt...[/cyan]")
-    console.print(f"  Prompt: {prompt}")
-    console.print()
-    console.print("[green]✓[/green] Flow generated")
-    console.print("  Steps: 3")
-    console.print("  Pieces: gmail, openai, slack")
+    body = {"prompt": prompt}
+    if name:
+        body["name"] = name
+
+    console.print("[cyan]Generating flow from prompt...[/cyan]")
+    resp = _request("post", "/v1/ai/generate", json=body)
+    data = check_response(resp)
+
+    console.print(f"[green]✓[/green] Flow generated")
+    console.print(f"  Name: {data.get('name', '-')}")
+    console.print(f"  Steps: {data.get('step_count', 0)}")
+    if data.get("pieces"):
+        console.print(f"  Pieces: {', '.join(data['pieces'])}")
 
 
 @ai.command(name="suggest")
@@ -448,11 +638,17 @@ def ai_generate(prompt: str, name: str):
 def ai_suggest(flow_name: str):
     """Get AI suggestions to improve a flow."""
     console.print(f"[cyan]Analyzing flow '{flow_name}'...[/cyan]")
-    console.print()
-    console.print("[cyan]Suggestions:[/cyan]")
-    console.print("  1. Add error handling for API failures")
-    console.print("  2. Consider adding a retry step")
-    console.print("  3. Add a filter to reduce unnecessary runs")
+    resp = _request("post", f"/v1/ai/suggest", json={"flow": flow_name})
+    data = check_response(resp)
+
+    suggestions = data.get("suggestions", [])
+    if suggestions:
+        console.print()
+        console.print("[cyan]Suggestions:[/cyan]")
+        for i, s in enumerate(suggestions, 1):
+            console.print(f"  {i}. {s}")
+    else:
+        console.print("[dim]No suggestions at this time[/dim]")
 
 
 @ai.command(name="explain")
@@ -460,8 +656,9 @@ def ai_suggest(flow_name: str):
 def ai_explain(flow_name: str):
     """Get AI explanation of what a flow does."""
     console.print(f"[cyan]Explaining flow '{flow_name}'...[/cyan]")
+    resp = _request("post", f"/v1/ai/explain", json={"flow": flow_name})
+    data = check_response(resp)
+
+    explanation = data.get("explanation", "No explanation available")
     console.print()
-    console.print("[dim]This flow does the following:[/dim]")
-    console.print("  1. Triggers when...")
-    console.print("  2. Then it...")
-    console.print("  3. Finally it...")
+    console.print(explanation)
