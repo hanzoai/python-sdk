@@ -5,8 +5,8 @@ Based on Activepieces with 280+ integrations.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -46,6 +46,7 @@ def auto_group():
 # ============================================================================
 # Flows
 # ============================================================================
+
 
 @auto_group.group()
 def flows():
@@ -96,6 +97,7 @@ def flows_run(flow_name: str, input: str):
 def flows_delete(flow_name: str):
     """Delete an automation flow."""
     from rich.prompt import Confirm
+
     if not Confirm.ask(f"[red]Delete flow '{flow_name}'?[/red]"):
         return
     console.print(f"[green]✓[/green] Flow '{flow_name}' deleted")
@@ -118,6 +120,7 @@ def flows_disable(flow_name: str):
 # ============================================================================
 # Pieces (Integrations)
 # ============================================================================
+
 
 @auto_group.group()
 def pieces():
@@ -176,6 +179,7 @@ def pieces_uninstall(piece_name: str):
 # Connections
 # ============================================================================
 
+
 @auto_group.group()
 def connections():
     """Manage connections to external services."""
@@ -215,6 +219,7 @@ def connections_delete(connection_name: str):
 # ============================================================================
 # Development
 # ============================================================================
+
 
 @auto_group.command()
 def init():
@@ -267,6 +272,7 @@ def deploy(flow_name: str, deploy_all: bool):
 # Runs (Execution History)
 # ============================================================================
 
+
 @auto_group.group()
 def runs():
     """View flow execution history."""
@@ -294,16 +300,18 @@ def runs_list(flow: str, status: str, limit: int):
 @click.argument("run_id")
 def runs_show(run_id: str):
     """Show run details."""
-    console.print(Panel(
-        f"[cyan]Run ID:[/cyan] {run_id}\n"
-        f"[cyan]Flow:[/cyan] my-flow\n"
-        f"[cyan]Status:[/cyan] [green]● Success[/green]\n"
-        f"[cyan]Duration:[/cyan] 2.3s\n"
-        f"[cyan]Steps:[/cyan] 5\n"
-        f"[cyan]Started:[/cyan] 2024-01-15 10:30:00",
-        title="Run Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Run ID:[/cyan] {run_id}\n"
+            f"[cyan]Flow:[/cyan] my-flow\n"
+            f"[cyan]Status:[/cyan] [green]● Success[/green]\n"
+            f"[cyan]Duration:[/cyan] 2.3s\n"
+            f"[cyan]Steps:[/cyan] 5\n"
+            f"[cyan]Started:[/cyan] 2024-01-15 10:30:00",
+            title="Run Details",
+            border_style="cyan",
+        )
+    )
 
 
 @runs.command(name="logs")
@@ -326,6 +334,7 @@ def runs_retry(run_id: str):
 # ============================================================================
 # Templates
 # ============================================================================
+
 
 @auto_group.group()
 def templates():
@@ -375,6 +384,7 @@ def templates_use(template_name: str, name: str):
 # Webhooks
 # ============================================================================
 
+
 @auto_group.group()
 def webhooks():
     """Manage webhook triggers."""
@@ -406,6 +416,7 @@ def webhooks_test(flow_name: str, data: str):
 # ============================================================================
 # AI Actions
 # ============================================================================
+
 
 @auto_group.group()
 def ai():

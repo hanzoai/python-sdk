@@ -15,21 +15,21 @@ from .llm_unified import LLMTool
 @final
 class ConsensusTool(BaseTool):
     """Metastable consensus across multiple LLMs.
-    
+
     https://github.com/luxfi/consensus
     """
-    
+
     name = "consensus"
-    
+
     DEFAULT_MODELS = [
         "gpt-4o-mini",
         "claude-3-5-sonnet-20241022",
         "gemini/gemini-1.5-pro",
     ]
-    
+
     def __init__(self):
         self.llm_tool = LLMTool()
-    
+
     @property
     @override
     def description(self) -> str:
@@ -45,7 +45,7 @@ Usage:
 
 Reference: https://github.com/luxfi/consensus
 """
-    
+
     @override
     @auto_timeout("consensus")
     async def call(
@@ -64,28 +64,29 @@ Reference: https://github.com/luxfi/consensus
         """Run Metastable consensus."""
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-        
+
         if not prompt:
             return "Error: prompt required"
-        
+
         model_list = models or self.DEFAULT_MODELS
-        
+
         # Filter to available models
         available = []
         for m in model_list:
             provider = self.llm_tool._get_provider_for_model(m)
             if provider in self.llm_tool.available_providers:
                 available.append(m)
-        
+
         if not available:
             return "Error: No models available"
-        
+
         await tool_ctx.info(f"Metastable consensus: {len(available)} models, {rounds} rounds")
-        
+
         # Execute adapter
         async def execute(model: str, model_prompt: str) -> ConsensusResult:
             try:
                 import time
+
                 start = time.time()
                 result = await self.llm_tool.call(
                     ctx,
@@ -97,7 +98,7 @@ Reference: https://github.com/luxfi/consensus
                 return ConsensusResult(id=model, output=result, ok=True, ms=ms)
             except Exception as e:
                 return ConsensusResult(id=model, output="", ok=False, error=str(e))
-        
+
         # Run consensus
         state = await run_consensus(
             prompt=prompt,
@@ -109,7 +110,7 @@ Reference: https://github.com/luxfi/consensus
             beta_1=beta_1,
             beta_2=beta_2,
         )
-        
+
         lines = [
             "=== Metastable Consensus ===",
             f"Models: {', '.join(available)}",
@@ -120,9 +121,9 @@ Reference: https://github.com/luxfi/consensus
             "=== Synthesis ===",
             state.synthesis or "(no synthesis)",
         ]
-        
+
         return "\n".join(lines)
-    
+
     def register(self, mcp_server) -> None:
         """Register with MCP server."""
         pass

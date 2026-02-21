@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -338,13 +338,16 @@ class GatewayResourceWithRawResponse:
     def __init__(self, gateway: GatewayResource) -> None:
         self._gateway = gateway
 
+
 class AsyncGatewayResourceWithRawResponse:
     def __init__(self, gateway: AsyncGatewayResource) -> None:
         self._gateway = gateway
 
+
 class GatewayResourceWithStreamingResponse:
     def __init__(self, gateway: GatewayResource) -> None:
         self._gateway = gateway
+
 
 class AsyncGatewayResourceWithStreamingResponse:
     def __init__(self, gateway: AsyncGatewayResource) -> None:

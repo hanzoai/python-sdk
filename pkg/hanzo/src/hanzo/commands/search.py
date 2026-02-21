@@ -5,8 +5,8 @@ Hybrid search with lexical (BM25) and vector (semantic) capabilities.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -46,6 +46,7 @@ def search_group():
 # Engine Management
 # ============================================================================
 
+
 @search_group.command(name="create")
 @click.argument("name")
 @click.option("--mode", "-m", type=click.Choice(["lexical", "vector", "hybrid"]), default="hybrid")
@@ -78,18 +79,20 @@ def search_list():
 @click.argument("name")
 def search_describe(name: str):
     """Show search engine details."""
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Mode:[/cyan] Hybrid (lexical + vector)\n"
-        f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
-        f"[cyan]Indexes:[/cyan] 3\n"
-        f"[cyan]Documents:[/cyan] 100,000\n"
-        f"[cyan]Size:[/cyan] 1.2 GB\n"
-        f"[cyan]Queries/day:[/cyan] 50,000\n"
-        f"[cyan]Endpoint:[/cyan] https://search.hanzo.ai/{name}",
-        title="Search Engine Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Mode:[/cyan] Hybrid (lexical + vector)\n"
+            f"[cyan]Status:[/cyan] [green]● Running[/green]\n"
+            f"[cyan]Indexes:[/cyan] 3\n"
+            f"[cyan]Documents:[/cyan] 100,000\n"
+            f"[cyan]Size:[/cyan] 1.2 GB\n"
+            f"[cyan]Queries/day:[/cyan] 50,000\n"
+            f"[cyan]Endpoint:[/cyan] https://search.hanzo.ai/{name}",
+            title="Search Engine Details",
+            border_style="cyan",
+        )
+    )
 
 
 @search_group.command(name="delete")
@@ -99,6 +102,7 @@ def search_delete(name: str, force: bool):
     """Delete a search engine."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete search engine '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Search engine '{name}' deleted")
@@ -107,6 +111,7 @@ def search_delete(name: str, force: bool):
 # ============================================================================
 # Index Management
 # ============================================================================
+
 
 @search_group.group()
 def index():
@@ -148,17 +153,19 @@ def index_list(engine: str):
 @click.option("--engine", "-e", default="default")
 def index_describe(name: str, engine: str):
     """Show index details."""
-    console.print(Panel(
-        f"[cyan]Index:[/cyan] {name}\n"
-        f"[cyan]Engine:[/cyan] {engine}\n"
-        f"[cyan]Mode:[/cyan] Hybrid\n"
-        f"[cyan]Documents:[/cyan] 10,000\n"
-        f"[cyan]Size:[/cyan] 150 MB\n"
-        f"[cyan]Shards:[/cyan] 1\n"
-        f"[cyan]Replicas:[/cyan] 1",
-        title="Index Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Index:[/cyan] {name}\n"
+            f"[cyan]Engine:[/cyan] {engine}\n"
+            f"[cyan]Mode:[/cyan] Hybrid\n"
+            f"[cyan]Documents:[/cyan] 10,000\n"
+            f"[cyan]Size:[/cyan] 150 MB\n"
+            f"[cyan]Shards:[/cyan] 1\n"
+            f"[cyan]Replicas:[/cyan] 1",
+            title="Index Details",
+            border_style="cyan",
+        )
+    )
 
 
 @index.command(name="delete")
@@ -169,6 +176,7 @@ def index_delete(name: str, engine: str, force: bool):
     """Delete an index."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete index '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Index '{name}' deleted")
@@ -191,6 +199,7 @@ def index_mapping(name: str, engine: str, get_mapping: bool, set_mapping: str):
 # ============================================================================
 # Data Operations
 # ============================================================================
+
 
 @search_group.command(name="ingest")
 @click.option("--index", "-i", required=True, help="Target index")
@@ -252,6 +261,7 @@ def search_reindex(source_idx: str, dest_idx: str, query: str, pipeline: str, en
 # Pipelines
 # ============================================================================
 
+
 @search_group.group()
 def pipeline():
     """Manage ingest pipelines."""
@@ -310,20 +320,23 @@ def pipeline_test(name: str, doc: str, engine: str):
 # Admin
 # ============================================================================
 
+
 @search_group.command(name="stats")
 @click.option("--engine", "-e", default="default")
 def search_stats(engine: str):
     """Show search engine statistics."""
-    console.print(Panel(
-        f"[cyan]Engine:[/cyan] {engine}\n"
-        f"[cyan]Indexes:[/cyan] 0\n"
-        f"[cyan]Documents:[/cyan] 0\n"
-        f"[cyan]Size:[/cyan] 0 B\n"
-        f"[cyan]Queries/day:[/cyan] 0\n"
-        f"[cyan]Avg latency:[/cyan] 0ms",
-        title="Search Statistics",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Engine:[/cyan] {engine}\n"
+            f"[cyan]Indexes:[/cyan] 0\n"
+            f"[cyan]Documents:[/cyan] 0\n"
+            f"[cyan]Size:[/cyan] 0 B\n"
+            f"[cyan]Queries/day:[/cyan] 0\n"
+            f"[cyan]Avg latency:[/cyan] 0ms",
+            title="Search Statistics",
+            border_style="cyan",
+        )
+    )
 
 
 @search_group.command(name="backup")

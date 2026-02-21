@@ -6,13 +6,13 @@ and general key-value storage.
 
 from __future__ import annotations
 
-import json
 import os
-from dataclasses import dataclass
+import json
+from typing import Any, Union, Optional
 from datetime import timedelta
-from typing import Any, Optional, Union
+from dataclasses import dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class KVConfig(BaseModel):
@@ -99,9 +99,7 @@ class KVClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError(
-                "redis is required for KVClient. " "Install with: pip install redis"
-            ) from e
+            raise ImportError("redis is required for KVClient. Install with: pip install redis") from e
 
         if self.config.url:
             self._client = redis.from_url(

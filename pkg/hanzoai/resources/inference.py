@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -454,13 +454,16 @@ class InferenceResourceWithRawResponse:
     def __init__(self, inference: InferenceResource) -> None:
         self._inference = inference
 
+
 class AsyncInferenceResourceWithRawResponse:
     def __init__(self, inference: AsyncInferenceResource) -> None:
         self._inference = inference
 
+
 class InferenceResourceWithStreamingResponse:
     def __init__(self, inference: InferenceResource) -> None:
         self._inference = inference
+
 
 class AsyncInferenceResourceWithStreamingResponse:
     def __init__(self, inference: AsyncInferenceResource) -> None:

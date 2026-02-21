@@ -80,13 +80,15 @@ Returns status and download summary.
 
         # Mirror mode (most common for site downloads)
         if mirror:
-            cmd.extend([
-                "--mirror",           # Turn on mirroring
-                "--convert-links",    # Convert links for offline viewing
-                "--adjust-extension", # Add .html extension
-                "--page-requisites",  # Get all assets (css, js, images)
-                "--no-host-directories",  # Don't create host directory
-            ])
+            cmd.extend(
+                [
+                    "--mirror",  # Turn on mirroring
+                    "--convert-links",  # Convert links for offline viewing
+                    "--adjust-extension",  # Add .html extension
+                    "--page-requisites",  # Get all assets (css, js, images)
+                    "--no-host-directories",  # Don't create host directory
+                ]
+            )
             recursive = True  # Mirror implies recursive
 
         # Recursive download
@@ -135,10 +137,7 @@ Returns status and download summary.
             cmd.append("--progress=dot:mega")  # Show progress for large files
 
         # User agent (avoid blocks)
-        cmd.extend([
-            "--user-agent",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
-        ])
+        cmd.extend(["--user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"])
 
         # URL (last)
         cmd.append(url)
@@ -175,9 +174,11 @@ Returns status and download summary.
 
             # Summarize success
             lines = combined.split("\n")
-            summary_lines = [l for l in lines if any(x in l.lower() for x in [
-                "saved", "downloaded", "finished", "total", "retrieved"
-            ])]
+            summary_lines = [
+                l
+                for l in lines
+                if any(x in l.lower() for x in ["saved", "downloaded", "finished", "total", "retrieved"])
+            ]
 
             if summary_lines:
                 return "Download complete:\n" + "\n".join(summary_lines[-5:])

@@ -133,7 +133,12 @@ def get_secret(project: str, env: str, name: str, path: str, reveal: bool) -> No
 @click.option("--path", default="/", help="Secret path prefix.")
 @click.option("--comment", default=None, help="Secret comment.")
 def set_secret(
-    project: str, env: str, name: str, value: str | None, path: str, comment: str | None,
+    project: str,
+    env: str,
+    name: str,
+    value: str | None,
+    path: str,
+    comment: str | None,
 ) -> None:
     """Create or update a secret. Prompts for value if not given."""
     if not value:

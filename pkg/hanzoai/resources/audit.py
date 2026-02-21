@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -194,13 +194,16 @@ class AuditResourceWithRawResponse:
     def __init__(self, audit: AuditResource) -> None:
         self._audit = audit
 
+
 class AsyncAuditResourceWithRawResponse:
     def __init__(self, audit: AsyncAuditResource) -> None:
         self._audit = audit
 
+
 class AuditResourceWithStreamingResponse:
     def __init__(self, audit: AuditResource) -> None:
         self._audit = audit
+
 
 class AsyncAuditResourceWithStreamingResponse:
     def __init__(self, audit: AsyncAuditResource) -> None:

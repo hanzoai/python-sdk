@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Test memory integration in hanzo-mcp."""
 
-import sys
 import asyncio
+import sys
 from pathlib import Path
 
 # Add parent to path
@@ -46,10 +46,18 @@ async def test_memory_integration():
 
         # Check for markdown memories
         projects = await client.list_projects()
-        markdown_project = next((p for p in projects if p.project_id == "markdown_import"), None)
+        markdown_project = next(
+            (p for p in projects if p.project_id == "markdown_import"), None
+        )
 
         if markdown_project:
-            memory_count = len([m for m in client.memories.values() if m.get("project_id") == "markdown_import"])
+            memory_count = len(
+                [
+                    m
+                    for m in client.memories.values()
+                    if m.get("project_id") == "markdown_import"
+                ]
+            )
             console.print(f"✅ Found {memory_count} memories from markdown files")
         else:
             console.print("ℹ️ No markdown memories found (first run)")
@@ -72,9 +80,13 @@ async def test_memory_integration():
 
     except ImportError as e:
         console.print(f"⚠️ Memory tools not available (expected): {e}")
-        console.print("  This is OK - memory tools are loaded dynamically when MCP server starts")
+        console.print(
+            "  This is OK - memory tools are loaded dynamically when MCP server starts"
+        )
 
-    console.print("\n[bold green]✅ Memory integration test completed successfully![/bold green]")
+    console.print(
+        "\n[bold green]✅ Memory integration test completed successfully![/bold green]"
+    )
     console.print(
         "\nYour markdown files (LLM.md, CLAUDE.md, etc.) will be automatically loaded into memory when using hanzo-mcp tools."
     )

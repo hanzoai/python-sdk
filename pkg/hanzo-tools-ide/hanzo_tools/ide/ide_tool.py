@@ -19,22 +19,24 @@ via WebSocket for external AI agent control.
 
 from __future__ import annotations
 
-import asyncio
 import json
 import uuid
+import asyncio
 import logging
-from dataclasses import dataclass, field
-from typing import Any
 from enum import Enum
+from typing import Any
+from dataclasses import field, dataclass
 
 try:
     import aiohttp
+
     AIOHTTP_AVAILABLE = True
 except ImportError:
     AIOHTTP_AVAILABLE = False
 
 try:
     import websockets
+
     WEBSOCKETS_AVAILABLE = True
 except ImportError:
     WEBSOCKETS_AVAILABLE = False
@@ -46,6 +48,7 @@ logger = logging.getLogger(__name__)
 
 class IdeType(str, Enum):
     """Supported IDE types."""
+
     VSCODE = "vscode"
     JETBRAINS = "jetbrains"
     NEOVIM = "neovim"
@@ -57,6 +60,7 @@ class IdeType(str, Enum):
 @dataclass
 class IdeConnection:
     """Connection state for an IDE."""
+
     ide_type: IdeType
     endpoint: str
     websocket: Any = None

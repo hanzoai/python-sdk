@@ -80,6 +80,7 @@ class LLMClient:
                     # Check if Ollama is installed and responsive
                     try:
                         import urllib.request
+
                         urllib.request.urlopen("http://localhost:11434/api/tags", timeout=1)
                         available.add(provider)
                     except Exception:

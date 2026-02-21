@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -456,13 +456,16 @@ class DBResourceWithRawResponse:
     def __init__(self, db: DBResource) -> None:
         self._db = db
 
+
 class AsyncDBResourceWithRawResponse:
     def __init__(self, db: AsyncDBResource) -> None:
         self._db = db
 
+
 class DBResourceWithStreamingResponse:
     def __init__(self, db: DBResource) -> None:
         self._db = db
+
 
 class AsyncDBResourceWithStreamingResponse:
     def __init__(self, db: AsyncDBResource) -> None:

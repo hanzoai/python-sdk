@@ -6,15 +6,15 @@ built on top of Redis for distributed scheduling.
 
 from __future__ import annotations
 
+import os
+import json
 import asyncio
 import hashlib
-import json
-import os
-from dataclasses import dataclass, field
+from typing import Any, Callable, Optional, Awaitable
 from datetime import datetime, timedelta
-from typing import Any, Awaitable, Callable, Optional
+from dataclasses import field, dataclass
 
-from pydantic import BaseModel, Field
+from pydantic import Field, BaseModel
 
 
 class CronConfig(BaseModel):
@@ -185,10 +185,7 @@ class CronClient:
         try:
             import redis.asyncio as redis
         except ImportError as e:
-            raise ImportError(
-                "redis is required for CronClient. "
-                "Install with: pip install redis"
-            ) from e
+            raise ImportError("redis is required for CronClient. Install with: pip install redis") from e
 
         if self.config.url:
             self._redis = redis.from_url(
@@ -518,9 +515,7 @@ class CronClient:
             execution.error = str(e)
 
         execution.completed_at = datetime.utcnow()
-        execution.duration_ms = int(
-            (execution.completed_at - execution.started_at).total_seconds() * 1000
-        )
+        execution.duration_ms = int((execution.completed_at - execution.started_at).total_seconds() * 1000)
 
         # Update job stats
         job.last_run = execution.started_at
@@ -609,15 +604,17 @@ class CronClient:
         executions = []
         for entry in entries:
             data = json.loads(entry)
-            executions.append(CronExecution(
-                job_id=data["job_id"],
-                started_at=datetime.fromisoformat(data["started_at"]),
-                completed_at=datetime.fromisoformat(data["completed_at"]) if data.get("completed_at") else None,
-                success=data.get("success", False),
-                result=data.get("result"),
-                error=data.get("error"),
-                duration_ms=data.get("duration_ms", 0),
-            ))
+            executions.append(
+                CronExecution(
+                    job_id=data["job_id"],
+                    started_at=datetime.fromisoformat(data["started_at"]),
+                    completed_at=datetime.fromisoformat(data["completed_at"]) if data.get("completed_at") else None,
+                    success=data.get("success", False),
+                    result=data.get("result"),
+                    error=data.get("error"),
+                    duration_ms=data.get("duration_ms", 0),
+                )
+            )
 
         return executions
 

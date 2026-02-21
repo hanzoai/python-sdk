@@ -16,12 +16,12 @@ Usage:
 from __future__ import annotations
 
 import os
-import signal
 import time
+import signal
 import threading
-from dataclasses import dataclass, field
+from typing import Dict, ClassVar, Optional
 from pathlib import Path
-from typing import Dict, Optional, ClassVar
+from dataclasses import field, dataclass
 
 from hanzo_tools.shell.base_process import ProcessManager
 

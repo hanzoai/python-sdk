@@ -5,8 +5,8 @@ Secure secret storage with versioning and rotation.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
 
@@ -41,6 +41,7 @@ def secrets_group():
 # Secret Operations
 # ============================================================================
 
+
 @secrets_group.command(name="set")
 @click.argument("name")
 @click.option("--value", "-v", help="Secret value (or use stdin)")
@@ -59,6 +60,7 @@ def secrets_set(name: str, value: str, file: str, env: str, description: str):
     if not value and not file:
         # Read from stdin
         import sys
+
         if not sys.stdin.isatty():
             value = sys.stdin.read().strip()
         else:
@@ -103,6 +105,7 @@ def secrets_unset(name: str, env: str, force: bool):
     """Delete a secret."""
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete secret '{name}'?[/red]"):
             return
     console.print(f"[green]✓[/green] Secret '{name}' deleted")
@@ -121,6 +124,7 @@ def secrets_rotate(name: str, env: str):
 # ============================================================================
 # Version Management
 # ============================================================================
+
 
 @secrets_group.command(name="versions")
 @click.argument("name")
@@ -149,6 +153,7 @@ def secrets_rollback(name: str, version: str, env: str):
 # ============================================================================
 # Access Control
 # ============================================================================
+
 
 @secrets_group.command(name="grant")
 @click.argument("name")

@@ -1,18 +1,18 @@
 """CLI for hanzo-node installer and runner."""
 
 import os
-import subprocess
 import sys
+import subprocess
 
 import click
 
 from . import __version__
 from .installer import (
+    install,
+    uninstall,
+    is_installed,
     get_binary_path,
     get_installed_version,
-    install,
-    is_installed,
-    uninstall,
 )
 
 

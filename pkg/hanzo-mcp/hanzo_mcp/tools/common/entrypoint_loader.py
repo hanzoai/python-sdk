@@ -30,21 +30,21 @@ TOOLS_ENTRY_POINT_GROUP = "hanzo.tools"
 # HIP-0300 Operator Lattice: 16 tools organized by axis
 PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     # Core operators (HIP-0300)
-    "filesystem": ["fs"],      # Bytes + Paths axis
-    "core": ["id"],            # Identity axis (hash, uri, ref, verify)
-    "code": ["code"],          # Symbols + Structure axis (parse, transform, summarize)
-    "shell": ["proc"],         # Execution axis
-    "vcs": ["vcs"],            # History + Diffs axis
-    "test": ["test"],          # Validation axis (check, build, test)
-    "net": ["net"],            # Network axis (search, fetch, download, crawl)
-    "plan": ["plan"],          # Orchestration axis (intent, route, compose)
+    "filesystem": ["fs"],  # Bytes + Paths axis
+    "core": ["id"],  # Identity axis (hash, uri, ref, verify)
+    "code": ["code"],  # Symbols + Structure axis (parse, transform, summarize)
+    "shell": ["proc"],  # Execution axis
+    "vcs": ["vcs"],  # History + Diffs axis
+    "test": ["test"],  # Validation axis (check, build, test)
+    "net": ["net"],  # Network axis (search, fetch, download, crawl)
+    "plan": ["plan"],  # Orchestration axis (intent, route, compose)
     # Control surfaces
-    "browser": ["browser"],    # Web content control (Playwright/extension)
+    "browser": ["browser"],  # Web content control (Playwright/extension)
     "computer": ["computer"],  # OS/desktop control (computer use)
     # Extended operators
-    "lsp": ["lsp"],            # Semantic stream (diagnostics, code_actions)
-    "memory": ["memory"],      # Knowledge persistence
-    "todo": ["todo"],          # Task tracking
+    "lsp": ["lsp"],  # Semantic stream (diagnostics, code_actions)
+    "memory": ["memory"],  # Knowledge persistence
+    "todo": ["todo"],  # Task tracking
     "reasoning": ["think", "critic"],
     "refactor": ["refactor"],
     "database": ["sql", "graph"],

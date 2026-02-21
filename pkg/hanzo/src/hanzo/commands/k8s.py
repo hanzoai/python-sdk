@@ -5,18 +5,19 @@ Manage Kubernetes clusters, deployments, and fleet operations via PaaS API.
 
 import click
 from rich import box
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from ..utils.output import console
-
 
 # ============================================================================
 # Helpers
 # ============================================================================
 
+
 def _get_client(timeout: int = 30):
     from ..utils.api_client import PaaSClient
+
     try:
         return PaaSClient(timeout=timeout)
     except SystemExit:
@@ -25,6 +26,7 @@ def _get_client(timeout: int = 30):
 
 def _get_ctx(fields=("org_id", "project_id", "env_id")):
     from ..utils.api_client import require_context
+
     try:
         return require_context(fields)
     except SystemExit:
@@ -33,6 +35,7 @@ def _get_ctx(fields=("org_id", "project_id", "env_id")):
 
 def _container_base():
     from ..utils.api_client import container_url
+
     client = _get_client(timeout=60)
     if not client:
         return None
@@ -45,12 +48,14 @@ def _container_base():
 
 def _find_container(client, base_url: str, name: str):
     from ..utils.api_client import find_container
+
     return find_container(client, base_url, name)
 
 
 # ============================================================================
 # Main group
 # ============================================================================
+
 
 @click.group(name="k8s")
 def k8s_group():
@@ -86,6 +91,7 @@ def k8s_group():
 # ============================================================================
 # Cluster Management
 # ============================================================================
+
 
 @k8s_group.group()
 def cluster():
@@ -208,18 +214,20 @@ def cluster_describe(name):
     api_server = data.get("apiServer", data.get("endpoint", ""))
     ha = data.get("ha", False)
 
-    console.print(Panel(
-        f"[cyan]Name:[/cyan] {name}\n"
-        f"[cyan]Kubernetes:[/cyan] v{version}\n"
-        f"[cyan]Status:[/cyan] {status}\n"
-        f"[cyan]Nodes:[/cyan] {nodes}\n"
-        f"[cyan]Region:[/cyan] {region}\n"
-        f"[cyan]Created:[/cyan] {created}\n"
-        f"[cyan]API Server:[/cyan] {api_server}\n"
-        f"[cyan]Control Plane:[/cyan] {'HA' if ha else 'Standard'}",
-        title="Cluster Details",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel(
+            f"[cyan]Name:[/cyan] {name}\n"
+            f"[cyan]Kubernetes:[/cyan] v{version}\n"
+            f"[cyan]Status:[/cyan] {status}\n"
+            f"[cyan]Nodes:[/cyan] {nodes}\n"
+            f"[cyan]Region:[/cyan] {region}\n"
+            f"[cyan]Created:[/cyan] {created}\n"
+            f"[cyan]API Server:[/cyan] {api_server}\n"
+            f"[cyan]Control Plane:[/cyan] {'HA' if ha else 'Standard'}",
+            title="Cluster Details",
+            border_style="cyan",
+        )
+    )
 
 
 @cluster.command(name="delete")
@@ -231,6 +239,7 @@ def cluster_delete(name, force):
 
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete cluster '{name}'? This cannot be undone.[/red]"):
             return
 
@@ -258,8 +267,9 @@ def cluster_kubeconfig(name, output, merge):
       hanzo k8s cluster kubeconfig prod -o config    # Save to file
       hanzo k8s cluster kubeconfig prod --merge      # Merge into ~/.kube/config
     """
-    from ..utils.api_client import cluster_url
     from pathlib import Path
+
+    from ..utils.api_client import cluster_url
 
     client = _get_client()
     if not client:
@@ -279,6 +289,7 @@ def cluster_kubeconfig(name, output, merge):
 
     if isinstance(kubeconfig, dict):
         import json
+
         kubeconfig = json.dumps(kubeconfig, indent=2)
 
     if merge:
@@ -360,6 +371,7 @@ def cluster_upgrade(name, k8s_version, dry_run):
 # ============================================================================
 # Fleet Management
 # ============================================================================
+
 
 @k8s_group.group()
 def fleet():
@@ -457,6 +469,7 @@ def fleet_deploy(fleet, manifest, selector, strategy):
 # ============================================================================
 # Workloads
 # ============================================================================
+
 
 @k8s_group.command(name="deploy")
 @click.argument("name")
@@ -697,6 +710,7 @@ def k8s_exec(pod, command, container, stdin, tty):
 # Configuration
 # ============================================================================
 
+
 @k8s_group.group()
 def config():
     """Manage ConfigMaps and Secrets."""
@@ -780,6 +794,7 @@ def config_list(secrets):
 # ============================================================================
 # Ingress
 # ============================================================================
+
 
 @k8s_group.group()
 def ingress():
@@ -871,6 +886,7 @@ def ingress_list(all_namespaces):
 # ============================================================================
 # Node Pools
 # ============================================================================
+
 
 @k8s_group.group()
 def nodepool():
@@ -989,6 +1005,7 @@ def nodepool_delete(name, cluster, force):
 
     if not force:
         from rich.prompt import Confirm
+
         if not Confirm.ask(f"[red]Delete node pool '{name}'?[/red]"):
             return
 

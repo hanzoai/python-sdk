@@ -83,6 +83,7 @@ def _get_session_storage():
     if _SessionStorage is None:
         try:
             from hanzo_tools.shell.session_storage import SessionStorage
+
             _SessionStorage = SessionStorage
         except ImportError:
             # session_storage module not available - return sentinel value
