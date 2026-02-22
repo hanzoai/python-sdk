@@ -71,6 +71,7 @@ members = [
   "pkg/hanzo-memory",
   "pkg/hanzo-network",
   "pkg/hanzo-repl",
+  "pkg/hanzo-s3",
   "pkg/hanzoai",
 ]
 
@@ -467,6 +468,7 @@ exclude = [
 [tool.uv.workspace]
 members = [
     "pkg/hanzo-memory",
+    "pkg/hanzo-s3",
 ]
 
 [tool.uv.sources]
