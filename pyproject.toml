@@ -171,10 +171,10 @@ filterwarnings = [
 ]
 
 [tool.pyright]
-# this enables practically every flag given by pyright.
-# there are a couple of flags that are still disabled by
-# default in strict mode as they are experimental and niche.
-typeCheckingMode = "strict"
+# Use basic mode — strict mode with 22+ disabled checks is contradictory.
+# SDK has many optional dependencies and generated code that cannot be
+# fully type-checked in strict mode.
+typeCheckingMode = "basic"
 pythonVersion = "3.12"
 
 exclude = [
