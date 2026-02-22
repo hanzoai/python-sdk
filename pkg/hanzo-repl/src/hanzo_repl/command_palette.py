@@ -42,12 +42,16 @@ class CommandItem(ListItem):
         """Create child widgets."""
         with Horizontal(classes="command-item"):
             # Icon and category
-            yield Static(f"{self.command.icon} [{self.command.category}]", classes="command-icon")
+            yield Static(
+                f"{self.command.icon} [{self.command.category}]", classes="command-icon"
+            )
 
             # Name and description
             with Vertical(classes="command-info"):
                 yield Static(self.command.name, classes="command-name")
-                yield Static(self.command.description[:60] + "...", classes="command-desc")
+                yield Static(
+                    self.command.description[:60] + "...", classes="command-desc"
+                )
 
 
 class CommandPalette(Vertical):
@@ -159,7 +163,9 @@ class CommandPalette(Vertical):
                     description=tool.description,
                     category=category,
                     icon=icon,
-                    parameters=(tool.get_schema() if hasattr(tool, "get_schema") else None),
+                    parameters=(
+                        tool.get_schema() if hasattr(tool, "get_schema") else None
+                    ),
                 )
             )
 
@@ -182,7 +188,9 @@ class CommandPalette(Vertical):
             id="palette-input",
         )
         yield ListView(id="palette-list")
-        yield Label("↑↓ Navigate · ⏎ Select · esc Close · ⇥ Complete", id="palette-hint")
+        yield Label(
+            "↑↓ Navigate · ⏎ Select · esc Close · ⇥ Complete", id="palette-hint"
+        )
 
     def on_mount(self) -> None:
         """Focus input when mounted."""

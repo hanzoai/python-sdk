@@ -98,7 +98,9 @@ class SimpleLLMClient:
                 "scope": "openid profile email",
                 "state": "hanzoai-login",
             }
-            auth_url = f"{HANZO_IAM_BASE}/login/oauth/authorize?{urlencode(auth_params)}"
+            auth_url = (
+                f"{HANZO_IAM_BASE}/login/oauth/authorize?{urlencode(auth_params)}"
+            )
 
             print(f"Opening browser for Hanzo AI login...")
             print(f"If browser doesn't open, visit: {auth_url}")
@@ -119,7 +121,9 @@ class SimpleLLMClient:
 
         except Exception as e:
             print(f"IAM login failed: {e}")
-            print("Please set HANZO_API_KEY environment variable or pass api_key parameter")
+            print(
+                "Please set HANZO_API_KEY environment variable or pass api_key parameter"
+            )
 
     def completion(self, **kwargs):
         """

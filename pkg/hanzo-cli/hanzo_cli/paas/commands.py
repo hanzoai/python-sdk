@@ -36,23 +36,29 @@ console = Console()
 
 
 def _org_option(fn):
-    return click.option("--org", default=None, help="Organization ID (or from context).")(fn)
+    return click.option(
+        "--org", default=None, help="Organization ID (or from context)."
+    )(fn)
 
 
 def _project_option(fn):
-    return click.option("--project", default=None, help="Project ID (or from context).")(fn)
+    return click.option(
+        "--project", default=None, help="Project ID (or from context)."
+    )(fn)
 
 
 def _env_option(fn):
-    return click.option("--env", "env_id", default=None, help="Environment ID (or from context).")(
-        fn
-    )
+    return click.option(
+        "--env", "env_id", default=None, help="Environment ID (or from context)."
+    )(fn)
 
 
 def _require(label: str, value: str | None) -> str:
     """Ensure a value is set; exit with a helpful message if not."""
     if not value:
-        console.print(f"[red]{label} is required.[/red] Pass it via flag or run 'hanzo paas use'.")
+        console.print(
+            f"[red]{label} is required.[/red] Pass it via flag or run 'hanzo paas use'."
+        )
         raise SystemExit(1)
     return value
 
@@ -67,7 +73,11 @@ def _find_container(
     """Look up a container by name within the current context."""
     containers = client.list_containers(org_id, project_id, env_id)
     # list may be wrapped in {"data": [...]} or raw [...]
-    items = containers if isinstance(containers, list) else containers.get("data", containers)
+    items = (
+        containers
+        if isinstance(containers, list)
+        else containers.get("data", containers)
+    )
     for c in items:
         if c.get("iid") == name or c.get("name") == name or c.get("slug") == name:
             return c
@@ -93,7 +103,9 @@ def paas() -> None:
 @click.option("--project", default=None, help="Project ID to remember.")
 @click.option("--env", "env_id", default=None, help="Environment ID to remember.")
 @click.option("--clear", is_flag=True, help="Clear stored context.")
-def use_context(org: str | None, project: str | None, env_id: str | None, clear: bool) -> None:
+def use_context(
+    org: str | None, project: str | None, env_id: str | None, clear: bool
+) -> None:
     """Set the default org / project / environment context."""
     if clear:
         clear_context()
@@ -295,11 +307,15 @@ def deploy_list(org: str | None, project: str | None, env_id: str | None) -> Non
 @deploy.command("create")
 @click.argument("name")
 @click.option(
-    "--image", default=None, help="Docker image URL (e.g. nginx:latest, ghcr.io/org/app:v1)."
+    "--image",
+    default=None,
+    help="Docker image URL (e.g. nginx:latest, ghcr.io/org/app:v1).",
 )
 @click.option("--repo", default=None, help="Git repository (owner/repo).")
 @click.option("--branch", default="main", help="Branch to deploy (with --repo).")
-@click.option("--dockerfile", default="Dockerfile", help="Dockerfile path (with --repo).")
+@click.option(
+    "--dockerfile", default="Dockerfile", help="Dockerfile path (with --repo)."
+)
 @click.option("--port", type=int, default=3000, help="Container port.")
 @click.option("--replicas", type=int, default=1, help="Desired replica count.")
 @click.option(
@@ -462,13 +478,17 @@ def deploy_status(
         if isinstance(status, dict):
             table.add_row("Desired Replicas", str(status.get("desiredReplicas", "—")))
             table.add_row("Ready Replicas", str(status.get("readyReplicas", "—")))
-            table.add_row("Available Replicas", str(status.get("availableReplicas", "—")))
+            table.add_row(
+                "Available Replicas", str(status.get("availableReplicas", "—"))
+            )
         console.print(table)
 
         # Pods
         try:
             pods_data = client.get_container_pods(org_id, project_id, env_id, cid)
-            pods = pods_data if isinstance(pods_data, list) else pods_data.get("data", [])
+            pods = (
+                pods_data if isinstance(pods_data, list) else pods_data.get("data", [])
+            )
             if pods:
                 pod_table = Table(title="Pods")
                 pod_table.add_column("Name", style="cyan")
@@ -646,7 +666,9 @@ def deploy_env(
                 cid,
                 container,
             )
-            console.print(f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]")
+            console.print(
+                f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]"
+            )
     finally:
         client.close()
 

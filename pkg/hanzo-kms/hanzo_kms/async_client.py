@@ -52,7 +52,9 @@ class AsyncKMSClient:
             "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
         )
         organization = os.getenv("HANZO_KMS_ORG", "hanzo")
-        client_id = os.getenv("HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", ""))
+        client_id = os.getenv(
+            "HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", "")
+        )
         client_secret = os.getenv(
             "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
         )

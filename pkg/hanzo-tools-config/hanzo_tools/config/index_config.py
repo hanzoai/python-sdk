@@ -99,7 +99,9 @@ class IndexConfig:
             if project_root:
                 if str(project_root) not in self._config["project_configs"]:
                     self._config["project_configs"][str(project_root)] = {}
-                self._config["project_configs"][str(project_root)]["scope"] = scope.value
+                self._config["project_configs"][str(project_root)][
+                    "scope"
+                ] = scope.value
         else:
             # Set global default
             self._config["default_scope"] = scope.value

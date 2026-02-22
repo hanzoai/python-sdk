@@ -39,7 +39,10 @@ class DNSResource(SyncAPIResource):
             "/dns/zones",
             body={"name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -56,7 +59,10 @@ class DNSResource(SyncAPIResource):
         return self._get(
             "/dns/zones",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -74,7 +80,10 @@ class DNSResource(SyncAPIResource):
         return self._delete(
             f"/dns/zones/{zone_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -98,7 +107,10 @@ class DNSResource(SyncAPIResource):
             f"/dns/zones/{zone_id}/records",
             body={"name": name, "type": type, "value": value, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -116,7 +128,10 @@ class DNSResource(SyncAPIResource):
         return self._get(
             f"/dns/zones/{zone_id}/records",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -135,7 +150,10 @@ class DNSResource(SyncAPIResource):
         return self._delete(
             f"/dns/zones/{zone_id}/records/{record_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -157,7 +175,10 @@ class DNSResource(SyncAPIResource):
             "/dns/link",
             body={"service": service, "hostname": hostname, "zone_id": zone_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -212,7 +233,10 @@ class AsyncDNSResource(AsyncAPIResource):
             "/dns/zones",
             body={"name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -229,7 +253,10 @@ class AsyncDNSResource(AsyncAPIResource):
         return await self._get(
             "/dns/zones",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -247,7 +274,10 @@ class AsyncDNSResource(AsyncAPIResource):
         return await self._delete(
             f"/dns/zones/{zone_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -270,7 +300,10 @@ class AsyncDNSResource(AsyncAPIResource):
             f"/dns/zones/{zone_id}/records",
             body={"name": name, "type": type, "value": value, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -288,7 +321,10 @@ class AsyncDNSResource(AsyncAPIResource):
         return await self._get(
             f"/dns/zones/{zone_id}/records",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -307,7 +343,10 @@ class AsyncDNSResource(AsyncAPIResource):
         return await self._delete(
             f"/dns/zones/{zone_id}/records/{record_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -328,7 +367,10 @@ class AsyncDNSResource(AsyncAPIResource):
             "/dns/link",
             body={"service": service, "hostname": hostname, "zone_id": zone_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional
 
 class MemoryType(Enum):
     """Type of memory entry."""
+
     SHORT_TERM = "short_term"
     LONG_TERM = "long_term"
     WORKING = "working"
@@ -25,6 +26,7 @@ class MemoryType(Enum):
 @dataclass
 class MemoryEntry:
     """A single memory entry."""
+
     id: str
     type: MemoryType
     content: Any
@@ -35,7 +37,7 @@ class MemoryEntry:
     last_accessed: Optional[float] = None
     agent_name: Optional[str] = None
     importance: float = 1.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -48,9 +50,9 @@ class MemoryEntry:
             "access_count": self.access_count,
             "last_accessed": self.last_accessed,
             "agent_name": self.agent_name,
-            "importance": self.importance
+            "importance": self.importance,
         }
-    
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> MemoryEntry:
         """Create from dictionary."""
@@ -64,5 +66,5 @@ class MemoryEntry:
             access_count=data.get("access_count", 0),
             last_accessed=data.get("last_accessed"),
             agent_name=data.get("agent_name"),
-            importance=data.get("importance", 1.0)
+            importance=data.get("importance", 1.0),
         )

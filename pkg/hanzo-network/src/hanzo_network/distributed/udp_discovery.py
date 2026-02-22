@@ -62,9 +62,13 @@ class BroadcastProtocol(asyncio.DatagramProtocol):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         # Try both subnet-specific and global broadcast
         broadcast_addr = get_broadcast_address(self.source_ip)
-        transport.sendto(self.message.encode("utf-8"), (broadcast_addr, self.broadcast_port))
+        transport.sendto(
+            self.message.encode("utf-8"), (broadcast_addr, self.broadcast_port)
+        )
         if broadcast_addr != "255.255.255.255":
-            transport.sendto(self.message.encode("utf-8"), ("255.255.255.255", self.broadcast_port))
+            transport.sendto(
+                self.message.encode("utf-8"), ("255.255.255.255", self.broadcast_port)
+            )
         transport.close()
 
 
@@ -112,7 +116,9 @@ class UDPDiscovery(Discovery):
         self.listen_task = asyncio.create_task(self._listen_loop())
         self.cleanup_task = asyncio.create_task(self._cleanup_loop())
 
-        print(f"UDP Discovery started for node {self.node_id} on port {self.listen_port}")
+        print(
+            f"UDP Discovery started for node {self.node_id} on port {self.listen_port}"
+        )
 
     async def stop(self) -> None:
         """Stop UDP discovery."""
@@ -144,7 +150,9 @@ class UDPDiscovery(Discovery):
             start_time = time.time()
             while len(self.known_peers) < wait_for_peers:
                 if time.time() - start_time > 30:  # 30 second timeout
-                    print(f"Timeout waiting for {wait_for_peers} peers, found {len(self.known_peers)}")
+                    print(
+                        f"Timeout waiting for {wait_for_peers} peers, found {len(self.known_peers)}"
+                    )
                     break
                 await asyncio.sleep(0.1)
 
@@ -160,7 +168,11 @@ class UDPDiscovery(Discovery):
                         "type": "discovery",
                         "node_id": self.node_id,
                         "listen_port": self.listen_port,
-                        "device_capabilities": (self.device_capabilities.to_dict() if self.device_capabilities else {}),
+                        "device_capabilities": (
+                            self.device_capabilities.to_dict()
+                            if self.device_capabilities
+                            else {}
+                        ),
                         "timestamp": time.time(),
                     }
                 )
@@ -176,7 +188,9 @@ class UDPDiscovery(Discovery):
                 sock.bind((self.local_ip, 0))
 
                 transport, _ = await asyncio.get_event_loop().create_datagram_endpoint(
-                    lambda: BroadcastProtocol(message, self.broadcast_port, self.local_ip),
+                    lambda: BroadcastProtocol(
+                        message, self.broadcast_port, self.local_ip
+                    ),
                     sock=sock,
                 )
 
@@ -203,7 +217,9 @@ class UDPDiscovery(Discovery):
         except Exception as e:
             print(f"Error in listen loop: {e}")
 
-    async def _handle_discovery_message(self, data: bytes, addr: Tuple[str, int]) -> None:
+    async def _handle_discovery_message(
+        self, data: bytes, addr: Tuple[str, int]
+    ) -> None:
         """Handle incoming discovery message."""
         try:
             # Decode message
@@ -236,7 +252,9 @@ class UDPDiscovery(Discovery):
 
             if peer_id not in self.known_peers:
                 # New peer discovered
-                peer_handle = MinimalPeerHandle(peer_id=peer_id, address=peer_address, capabilities=peer_caps)
+                peer_handle = MinimalPeerHandle(
+                    peer_id=peer_id, address=peer_address, capabilities=peer_caps
+                )
                 self.known_peers[peer_id] = (peer_handle, current_time, current_time)
                 print(f"Discovered new peer: {peer_id} at {peer_address}")
             else:

@@ -45,9 +45,16 @@ class CheckoutResource(SyncAPIResource):
         """Create a checkout session."""
         return self._post(
             "/commerce/checkout/sessions",
-            body={"cart_id": cart_id, "success_url": success_url, "cancel_url": cancel_url},
+            body={
+                "cart_id": cart_id,
+                "success_url": success_url,
+                "cancel_url": cancel_url,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -65,7 +72,10 @@ class CheckoutResource(SyncAPIResource):
         return self._get(
             f"/commerce/checkout/sessions/{session_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -86,7 +96,10 @@ class CheckoutResource(SyncAPIResource):
             f"/commerce/checkout/sessions/{session_id}/complete",
             body={"payment_method": payment_method, "payment_details": payment_details},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -104,7 +117,10 @@ class CheckoutResource(SyncAPIResource):
         return self._post(
             f"/commerce/checkout/sessions/{session_id}/expire",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -121,7 +137,10 @@ class CheckoutResource(SyncAPIResource):
         return self._get(
             "/commerce/checkout/payment-methods",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -151,9 +170,16 @@ class AsyncCheckoutResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/commerce/checkout/sessions",
-            body={"cart_id": cart_id, "success_url": success_url, "cancel_url": cancel_url},
+            body={
+                "cart_id": cart_id,
+                "success_url": success_url,
+                "cancel_url": cancel_url,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -170,7 +196,10 @@ class AsyncCheckoutResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/checkout/sessions/{session_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -190,7 +219,10 @@ class AsyncCheckoutResource(AsyncAPIResource):
             f"/commerce/checkout/sessions/{session_id}/complete",
             body={"payment_method": payment_method, "payment_details": payment_details},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -207,7 +239,10 @@ class AsyncCheckoutResource(AsyncAPIResource):
         return await self._post(
             f"/commerce/checkout/sessions/{session_id}/expire",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -223,7 +258,10 @@ class AsyncCheckoutResource(AsyncAPIResource):
         return await self._get(
             "/commerce/checkout/payment-methods",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -236,7 +274,9 @@ class CheckoutResourceWithRawResponse:
         self.get_session = to_raw_response_wrapper(checkout.get_session)
         self.complete = to_raw_response_wrapper(checkout.complete)
         self.expire = to_raw_response_wrapper(checkout.expire)
-        self.list_payment_methods = to_raw_response_wrapper(checkout.list_payment_methods)
+        self.list_payment_methods = to_raw_response_wrapper(
+            checkout.list_payment_methods
+        )
 
 
 class AsyncCheckoutResourceWithRawResponse:
@@ -246,7 +286,9 @@ class AsyncCheckoutResourceWithRawResponse:
         self.get_session = async_to_raw_response_wrapper(checkout.get_session)
         self.complete = async_to_raw_response_wrapper(checkout.complete)
         self.expire = async_to_raw_response_wrapper(checkout.expire)
-        self.list_payment_methods = async_to_raw_response_wrapper(checkout.list_payment_methods)
+        self.list_payment_methods = async_to_raw_response_wrapper(
+            checkout.list_payment_methods
+        )
 
 
 class CheckoutResourceWithStreamingResponse:
@@ -256,14 +298,20 @@ class CheckoutResourceWithStreamingResponse:
         self.get_session = to_streamed_response_wrapper(checkout.get_session)
         self.complete = to_streamed_response_wrapper(checkout.complete)
         self.expire = to_streamed_response_wrapper(checkout.expire)
-        self.list_payment_methods = to_streamed_response_wrapper(checkout.list_payment_methods)
+        self.list_payment_methods = to_streamed_response_wrapper(
+            checkout.list_payment_methods
+        )
 
 
 class AsyncCheckoutResourceWithStreamingResponse:
     def __init__(self, checkout: AsyncCheckoutResource) -> None:
         self._checkout = checkout
-        self.create_session = async_to_streamed_response_wrapper(checkout.create_session)
+        self.create_session = async_to_streamed_response_wrapper(
+            checkout.create_session
+        )
         self.get_session = async_to_streamed_response_wrapper(checkout.get_session)
         self.complete = async_to_streamed_response_wrapper(checkout.complete)
         self.expire = async_to_streamed_response_wrapper(checkout.expire)
-        self.list_payment_methods = async_to_streamed_response_wrapper(checkout.list_payment_methods)
+        self.list_payment_methods = async_to_streamed_response_wrapper(
+            checkout.list_payment_methods
+        )

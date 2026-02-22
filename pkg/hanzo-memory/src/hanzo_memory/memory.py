@@ -40,10 +40,7 @@ class MemoryBackendProxy:
         """Get the database client for this backend."""
         if self._client is None:
             reset_db_client()
-            self._client = get_db_client(
-                backend=self.backend_name,
-                config=self.config
-            )
+            self._client = get_db_client(backend=self.backend_name, config=self.config)
         return self._client
 
     @property
@@ -138,11 +135,13 @@ class Memory:
             Backend proxy instance
         """
         # Handle special attributes
-        if backend_name.startswith('_'):
-            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{backend_name}'")
+        if backend_name.startswith("_"):
+            raise AttributeError(
+                f"'{self.__class__.__name__}' object has no attribute '{backend_name}'"
+            )
 
         # Convert attribute name to backend name (e.g., 'infinity_db' -> 'infinitydb')
-        backend_name = backend_name.replace('_', '')
+        backend_name = backend_name.replace("_", "")
 
         return self[backend_name]
 
@@ -213,14 +212,11 @@ async def remember(content: str, backend: str = "local", **kwargs):
     async with memory.use(backend) as mem:
         from .models.memory import MemoryCreate
 
-        memory_obj = MemoryCreate(
-            content=content,
-            **kwargs
-        )
+        memory_obj = MemoryCreate(content=content, **kwargs)
         return await mem.service.create_memory(
             memory=memory_obj,
-            project_id=kwargs.get('project_id', 'default'),
-            user_id=kwargs.get('user_id', 'default')
+            project_id=kwargs.get("project_id", "default"),
+            user_id=kwargs.get("user_id", "default"),
         )
 
 
@@ -238,18 +234,18 @@ async def recall(query: str, backend: str = "local", **kwargs):
     async with memory.use(backend) as mem:
         return await mem.service.search_memories(
             query=query,
-            user_id=kwargs.get('user_id', 'default'),
-            project_id=kwargs.get('project_id', 'default'),
-            limit=kwargs.get('limit', 10)
+            user_id=kwargs.get("user_id", "default"),
+            project_id=kwargs.get("project_id", "default"),
+            limit=kwargs.get("limit", 10),
         )
 
 
 # Export main components
 __all__ = [
-    'Memory',
-    'memory',
-    'remember',
-    'recall',
-    'MemoryBackendProxy',
-    'MemoryBackendContext',
+    "Memory",
+    "memory",
+    "remember",
+    "recall",
+    "MemoryBackendProxy",
+    "MemoryBackendContext",
 ]

@@ -68,7 +68,9 @@ class DeleteResource(SyncAPIResource):
         """
         return self._post(
             "/delete/allowed_ip",
-            body=maybe_transform({"ip": ip}, delete_create_allowed_ip_params.DeleteCreateAllowedIPParams),
+            body=maybe_transform(
+                {"ip": ip}, delete_create_allowed_ip_params.DeleteCreateAllowedIPParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -124,7 +126,9 @@ class AsyncDeleteResource(AsyncAPIResource):
         """
         return await self._post(
             "/delete/allowed_ip",
-            body=await async_maybe_transform({"ip": ip}, delete_create_allowed_ip_params.DeleteCreateAllowedIPParams),
+            body=await async_maybe_transform(
+                {"ip": ip}, delete_create_allowed_ip_params.DeleteCreateAllowedIPParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

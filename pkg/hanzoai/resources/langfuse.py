@@ -65,7 +65,9 @@ class LangfuseResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._post(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -104,7 +106,9 @@ class LangfuseResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._get(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -143,7 +147,9 @@ class LangfuseResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._put(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -182,7 +188,9 @@ class LangfuseResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._delete(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -221,7 +229,9 @@ class LangfuseResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._patch(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -281,7 +291,9 @@ class AsyncLangfuseResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._post(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -320,7 +332,9 @@ class AsyncLangfuseResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._get(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -359,7 +373,9 @@ class AsyncLangfuseResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._put(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -398,7 +414,9 @@ class AsyncLangfuseResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._delete(
             f"/langfuse/{endpoint}",
             options=make_request_options(
@@ -437,7 +455,9 @@ class AsyncLangfuseResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._patch(
             f"/langfuse/{endpoint}",
             options=make_request_options(

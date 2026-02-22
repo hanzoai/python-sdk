@@ -31,7 +31,9 @@ def validate_json(json_str: str, type_adapter: TypeAdapter[T], partial: bool) ->
         "trailing-strings" if partial else False
     )
     try:
-        validated = type_adapter.validate_json(json_str, experimental_allow_partial=partial_setting)
+        validated = type_adapter.validate_json(
+            json_str, experimental_allow_partial=partial_setting
+        )
         return validated
     except ValidationError as e:
         attach_error_to_current_span(

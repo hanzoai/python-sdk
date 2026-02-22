@@ -85,11 +85,15 @@ async def test_memory_system():
     print("\n3. 📖 Read memory files...")
 
     try:
-        result = await memory_tool.call(ctx, action="read", file_path="test_rules.md", scope="global")
+        result = await memory_tool.call(
+            ctx, action="read", file_path="test_rules.md", scope="global"
+        )
         print("✓ Global read successful")
         print(f"Content preview: {result[:100]}...")
 
-        result = await memory_tool.call(ctx, action="read", file_path="test_architecture.md", scope="project")
+        result = await memory_tool.call(
+            ctx, action="read", file_path="test_architecture.md", scope="project"
+        )
         print("✓ Project read successful")
         print(f"Content preview: {result[:100]}...")
 
@@ -132,7 +136,9 @@ async def test_memory_system():
     print("\n6. 🔍 Search memories...")
 
     try:
-        result = await memory_tool.call(ctx, action="search", content="test", scope="both", limit=5)
+        result = await memory_tool.call(
+            ctx, action="search", content="test", scope="both", limit=5
+        )
         print("✓ Search successful")
         print(f"Results preview: {result[:300]}...")
     except Exception as e:
@@ -163,12 +169,16 @@ async def test_memory_system():
 
     try:
         # Test FTS5 search
-        results = memory_manager.search_memories("test architecture", "both", str(test_project))
+        results = memory_manager.search_memories(
+            "test architecture", "both", str(test_project)
+        )
         print(f"✓ FTS5 search found {len(results)} results")
 
         # Get stats
         stats = memory_manager.get_memory_stats("both", str(test_project))
-        print(f"✓ Database stats: {stats['markdown_files']} markdown files, {stats['structured_memories']} memories")
+        print(
+            f"✓ Database stats: {stats['markdown_files']} markdown files, {stats['structured_memories']} memories"
+        )
 
         # Test sqlite-vec availability
         try:
@@ -179,7 +189,7 @@ async def test_memory_system():
             conn.load_extension("vec0")
             conn.close()
             print("✓ sqlite-vec extension available")
-        except:
+        except Exception:
             print("⚠️  sqlite-vec extension not available (optional)")
 
     except Exception as e:
@@ -194,7 +204,7 @@ async def test_memory_system():
     try:
         shutil.rmtree(test_project)
         print(f"🧹 Cleaned up test project: {test_project}")
-    except:
+    except Exception:
         pass
 
 

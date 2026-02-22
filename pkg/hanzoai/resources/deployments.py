@@ -66,7 +66,10 @@ class DeploymentsResource(SyncAPIResource):
         return self._get(
             f"/infrastructure/deployments/{deployment_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -97,7 +100,10 @@ class DeploymentsResource(SyncAPIResource):
                 "resources": resources,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -119,7 +125,10 @@ class DeploymentsResource(SyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}",
             body={"image": image, "replicas": replicas, "env": env},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -137,7 +146,10 @@ class DeploymentsResource(SyncAPIResource):
         return self._delete(
             f"/infrastructure/deployments/{deployment_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -157,7 +169,10 @@ class DeploymentsResource(SyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}/scale",
             body={"replicas": replicas},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -175,7 +190,10 @@ class DeploymentsResource(SyncAPIResource):
         return self._post(
             f"/infrastructure/deployments/{deployment_id}/restart",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -195,7 +213,10 @@ class DeploymentsResource(SyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}/rollback",
             body={"revision": revision},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -213,7 +234,10 @@ class DeploymentsResource(SyncAPIResource):
         return self._get(
             f"/infrastructure/deployments/{deployment_id}/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -263,7 +287,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         return await self._get(
             f"/infrastructure/deployments/{deployment_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -293,7 +320,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
                 "resources": resources,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -314,7 +344,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}",
             body={"image": image, "replicas": replicas, "env": env},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -331,7 +364,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         return await self._delete(
             f"/infrastructure/deployments/{deployment_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -350,7 +386,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}/scale",
             body={"replicas": replicas},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -367,7 +406,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         return await self._post(
             f"/infrastructure/deployments/{deployment_id}/restart",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -386,7 +428,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             f"/infrastructure/deployments/{deployment_id}/rollback",
             body={"revision": revision},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -403,7 +448,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         return await self._get(
             f"/infrastructure/deployments/{deployment_id}/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

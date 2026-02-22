@@ -35,7 +35,9 @@ class FakeModel(Model):
     def set_next_output(self, output: list[TResponseOutputItem] | Exception):
         self.turn_outputs.append(output)
 
-    def add_multiple_turn_outputs(self, outputs: list[list[TResponseOutputItem] | Exception]):
+    def add_multiple_turn_outputs(
+        self, outputs: list[list[TResponseOutputItem] | Exception]
+    ):
         self.turn_outputs.extend(outputs)
 
     def get_next_output(self) -> list[TResponseOutputItem] | Exception:
@@ -105,7 +107,9 @@ class FakeModel(Model):
             )
 
 
-def get_response_obj(output: list[TResponseOutputItem], response_id: str | None = None) -> Response:
+def get_response_obj(
+    output: list[TResponseOutputItem], response_id: str | None = None
+) -> Response:
     return Response(
         id=response_id or "123",
         created_at=123,

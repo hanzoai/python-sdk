@@ -25,13 +25,11 @@ def test_project(tmp_path):
 
     # Create a test file with a challenging problem
     test_file = project_dir / "complex_algorithm.py"
-    test_file.write_text(
-        """def find_optimal_path(graph, start, end):
+    test_file.write_text("""def find_optimal_path(graph, start, end):
     # TODO: Implement this complex pathfinding algorithm
     # Should handle weighted graphs, cycles, and negative edges
     pass
-"""
-    )
+""")
 
     return project_dir
 

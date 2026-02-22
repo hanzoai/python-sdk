@@ -58,7 +58,9 @@ def _env_option(fn):
 
 def _name_option(fn):
     return click.option(
-        "--name", "-n", default=DEFAULT_BOT_NAME,
+        "--name",
+        "-n",
+        default=DEFAULT_BOT_NAME,
         help="Container name (default: bot).",
     )(fn)
 
@@ -86,7 +88,11 @@ def _find_container(
 ) -> dict[str, Any]:
     """Look up a container by name."""
     containers = client.list_containers(org_id, project_id, env_id)
-    items = containers if isinstance(containers, list) else containers.get("data", containers)
+    items = (
+        containers
+        if isinstance(containers, list)
+        else containers.get("data", containers)
+    )
     for c in items:
         if c.get("iid") == name or c.get("name") == name or c.get("slug") == name:
             return c
@@ -150,7 +156,9 @@ def bot_status(
         # Pods
         try:
             pods_data = client.get_container_pods(org_id, project_id, env_id, cid)
-            pods = pods_data if isinstance(pods_data, list) else pods_data.get("data", [])
+            pods = (
+                pods_data if isinstance(pods_data, list) else pods_data.get("data", [])
+            )
             if pods:
                 pod_table = Table(title="Pods")
                 pod_table.add_column("Name", style="cyan")
@@ -321,7 +329,9 @@ def bot_env(
             merged = [{"name": k, "value": v} for k, v in existing.items()]
             container["variables"] = merged
             client.update_container(org_id, project_id, env_id, cid, container)
-            console.print(f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]")
+            console.print(
+                f"[green]Set {len(new_vars)} variable(s) on '{name}'.[/green]"
+            )
     finally:
         client.close()
 
@@ -349,7 +359,11 @@ def bot_events(
         cid = str(container.get("_id", container.get("id")))
         events_data = client.get_container_events(org_id, project_id, env_id, cid)
 
-        events = events_data if isinstance(events_data, list) else events_data.get("data", [])
+        events = (
+            events_data
+            if isinstance(events_data, list)
+            else events_data.get("data", [])
+        )
         if not events:
             console.print("[yellow]No events found.[/yellow]")
             return

@@ -66,7 +66,9 @@ async def test_distributed_network_start_stop():
     """Test starting and stopping a distributed network."""
     agents = create_test_agents()
 
-    network = create_distributed_network(agents=agents, name="test-network", listen_port=15679, broadcast_port=15679)
+    network = create_distributed_network(
+        agents=agents, name="test-network", listen_port=15679, broadcast_port=15679
+    )
 
     # Start network
     await network.start(wait_for_peers=0)
@@ -89,7 +91,9 @@ async def test_distributed_network_local_execution():
     """Test executing agents locally in distributed network."""
     agents = create_test_agents()
 
-    network = create_distributed_network(agents=agents, name="test-network", listen_port=15680, broadcast_port=15680)
+    network = create_distributed_network(
+        agents=agents, name="test-network", listen_port=15680, broadcast_port=15680
+    )
 
     # Start network
     await network.start(wait_for_peers=0)
@@ -106,7 +110,9 @@ async def test_distributed_network_local_execution():
         assert "echo_agent" in echo_result["final_output"]
 
         # Test math agent
-        math_result = await network.run(prompt="Calculate 2 + 2", initial_agent=network.get_agent("math_agent"))
+        math_result = await network.run(
+            prompt="Calculate 2 + 2", initial_agent=network.get_agent("math_agent")
+        )
 
         assert math_result["success"]
         # Mock agents return mock responses

@@ -119,17 +119,23 @@ class AgentParams(TypedDict, total=False):
 class RPCAgent:
     """Long-running RPC agent."""
 
-    def __init__(self, agent_id: str, model: str, system_prompt: str, tools: List[BaseTool]):
+    def __init__(
+        self, agent_id: str, model: str, system_prompt: str, tools: List[BaseTool]
+    ):
         self.agent_id = agent_id
         self.model = model
         self.system_prompt = system_prompt
         self.tools = tools
-        self.messages: List[ChatCompletionMessageParam] = [{"role": "system", "content": system_prompt}]
+        self.messages: List[ChatCompletionMessageParam] = [
+            {"role": "system", "content": system_prompt}
+        ]
         self.created_at = time.time()
         self.last_used = time.time()
         self.call_count = 0
 
-    async def call_method(self, method: str, args: Dict[str, Any], tool_ctx: ToolContext) -> str:
+    async def call_method(
+        self, method: str, args: Dict[str, Any], tool_ctx: ToolContext
+    ) -> str:
         """Call a method on the RPC agent."""
         self.last_used = time.time()
         self.call_count += 1
@@ -184,8 +190,12 @@ class AgentTool(BaseTool):
 
         # Available tools
         self.available_tools: list[BaseTool] = []
-        self.available_tools.extend(get_read_only_filesystem_tools(self.permission_manager))
-        self.available_tools.extend(get_read_only_jupyter_tools(self.permission_manager))
+        self.available_tools.extend(
+            get_read_only_filesystem_tools(self.permission_manager)
+        )
+        self.available_tools.extend(
+            get_read_only_jupyter_tools(self.permission_manager)
+        )
 
     @property
     @override
@@ -261,10 +271,14 @@ Modes:
 
         if len(prompt_list) == 1:
             await tool_ctx.info("Launching agent")
-            result = await self._execute_agent(prompt_list[0], params.get("model"), tool_ctx)
+            result = await self._execute_agent(
+                prompt_list[0], params.get("model"), tool_ctx
+            )
         else:
             await tool_ctx.info(f"Launching {len(prompt_list)} agents in parallel")
-            result = await self._execute_multiple_agents(prompt_list, params.get("model"), tool_ctx)
+            result = await self._execute_multiple_agents(
+                prompt_list, params.get("model"), tool_ctx
+            )
 
         execution_time = time.time() - start_time
 
@@ -374,7 +388,9 @@ Use 'agent --action call --agent-id {agent_id} --method <method> --args <args>' 
         absolute_path_pattern = r"/(?:[^/\s]+/)*[^/\s]+"
         return bool(re.search(absolute_path_pattern, prompt))
 
-    async def _execute_agent(self, prompt: str, model: Optional[str], tool_ctx: ToolContext) -> str:
+    async def _execute_agent(
+        self, prompt: str, model: Optional[str], tool_ctx: ToolContext
+    ) -> str:
         """Execute a single agent. Uses unified agent tool for actual execution."""
         try:
             from .unified_agent_tool import UnifiedAgentTool
@@ -390,7 +406,9 @@ Use 'agent --action call --agent-id {agent_id} --method <method> --args <args>' 
         except ImportError:
             return f"Agent execution requires unified_agent_tool: {prompt[:100]}..."
 
-    async def _execute_multiple_agents(self, prompts: List[str], model: Optional[str], tool_ctx: ToolContext) -> str:
+    async def _execute_multiple_agents(
+        self, prompts: List[str], model: Optional[str], tool_ctx: ToolContext
+    ) -> str:
         """Execute multiple agents in parallel."""
         tasks = []
         for prompt in prompts:

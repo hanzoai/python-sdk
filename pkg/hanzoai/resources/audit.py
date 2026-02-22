@@ -95,7 +95,10 @@ class AuditResource(SyncAPIResource):
             "/audit/export",
             body={"since": since, "until": until, "format": format},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -184,7 +187,10 @@ class AsyncAuditResource(AsyncAPIResource):
             "/audit/export",
             body={"since": since, "until": until, "format": format},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

@@ -19,6 +19,7 @@ logger = get_logger()
 # Try to import optional backends
 try:
     from ..lancedb_client import LanceDBClient
+
     LANCEDB_AVAILABLE = True
 except ImportError:
     LANCEDB_AVAILABLE = False
@@ -26,6 +27,7 @@ except ImportError:
 
 try:
     from ..kuzudb_client import KuzuDBClient
+
     KUZU_AVAILABLE = True
 except ImportError:
     KUZU_AVAILABLE = False
@@ -33,6 +35,7 @@ except ImportError:
 
 try:
     from ..client import InfinityClient
+
     INFINITY_AVAILABLE = True
 except ImportError:
     INFINITY_AVAILABLE = False
@@ -40,6 +43,7 @@ except ImportError:
 
 try:
     from ..sqlite_client import SQLiteMemoryClient
+
     SQLITE_AVAILABLE = True
 except ImportError:
     SQLITE_AVAILABLE = False

@@ -82,7 +82,9 @@ Returns:
             return
 
         try:
-            entries = sorted(path.iterdir(), key=lambda x: (not x.is_dir(), x.name.lower()))
+            entries = sorted(
+                path.iterdir(), key=lambda x: (not x.is_dir(), x.name.lower())
+            )
         except PermissionError:
             lines.append(f"{prefix}[permission denied]")
             return
@@ -99,7 +101,9 @@ Returns:
                 lines.append(f"{prefix}{connector}{entry.name}/")
                 if depth > 0:
                     extension = "    " if is_last else "│   "
-                    self._build_tree(entry, lines, prefix + extension, depth - 1, include_filtered)
+                    self._build_tree(
+                        entry, lines, prefix + extension, depth - 1, include_filtered
+                    )
             else:
                 lines.append(f"{prefix}{connector}{entry.name}")
 
@@ -111,8 +115,12 @@ Returns:
         async def tree(
             path: Annotated[str, Field(description="Directory path")],
             depth: Annotated[int, Field(description="Max depth")] = 3,
-            include_filtered: Annotated[bool, Field(description="Include filtered dirs")] = False,
+            include_filtered: Annotated[
+                bool, Field(description="Include filtered dirs")
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             """Display directory tree structure."""
-            return await tool_instance.call(ctx, path=path, depth=depth, include_filtered=include_filtered)
+            return await tool_instance.call(
+                ctx, path=path, depth=depth, include_filtered=include_filtered
+            )

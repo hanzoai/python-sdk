@@ -127,7 +127,9 @@ class FileCredentialStorage(CredentialStorage):
                     if cred_data.get("api_key"):
                         cred_data["api_key"] = self._deobfuscate(cred_data["api_key"])
                     if cred_data.get("api_secret"):
-                        cred_data["api_secret"] = self._deobfuscate(cred_data["api_secret"])
+                        cred_data["api_secret"] = self._deobfuscate(
+                            cred_data["api_secret"]
+                        )
                     self._cache[name] = Credential(**cred_data)
 
             except Exception as e:
@@ -285,7 +287,9 @@ class ChainedCredentialStorage(CredentialStorage):
                 return cred
         return None
 
-    async def get_with_source(self, provider: str) -> tuple[Credential | None, CredentialStorage | None]:
+    async def get_with_source(
+        self, provider: str
+    ) -> tuple[Credential | None, CredentialStorage | None]:
         """Get credential and its source store."""
         for store in self.stores:
             cred = await store.get(provider)

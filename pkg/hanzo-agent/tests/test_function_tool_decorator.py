@@ -70,7 +70,9 @@ async def test_async_no_context_invocation():
 
 
 @function_tool
-async def async_with_context(ctx: RunContextWrapper[DummyContext], prefix: str, num: int) -> str:
+async def async_with_context(
+    ctx: RunContextWrapper[DummyContext], prefix: str, num: int
+) -> str:
     await asyncio.sleep(0)
     return f"{prefix}-{num}-{ctx.context.data}"
 

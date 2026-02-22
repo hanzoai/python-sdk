@@ -331,9 +331,9 @@ class DevToolBase:
         backend_map = {
             "go": "go",
             "ts": "pnpm" if ws_type == "pnpm" else "npm",
-            "py": "uv"
-            if Path(self.workspace["root"], "uv.lock").exists()
-            else "pytest",
+            "py": (
+                "uv" if Path(self.workspace["root"], "uv.lock").exists() else "pytest"
+            ),
             "rs": "cargo",
             "cc": "cmake",
             "sol": "forge",

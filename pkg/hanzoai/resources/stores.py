@@ -347,4 +347,6 @@ class AsyncStoresResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(stores.create)
         self.update = async_to_streamed_response_wrapper(stores.update)
         self.delete = async_to_streamed_response_wrapper(stores.delete)
-        self.refresh_vectors = async_to_streamed_response_wrapper(stores.refresh_vectors)
+        self.refresh_vectors = async_to_streamed_response_wrapper(
+            stores.refresh_vectors
+        )

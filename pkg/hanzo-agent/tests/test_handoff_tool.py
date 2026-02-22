@@ -25,7 +25,9 @@ def message_item(content: str, agent: Agent[Any]) -> MessageOutputItem:
             status="completed",
             role="assistant",
             type="message",
-            content=[ResponseOutputText(text=content, type="output_text", annotations=[])],
+            content=[
+                ResponseOutputText(text=content, type="output_text", annotations=[])
+            ],
         ),
     )
 
@@ -68,8 +70,12 @@ def test_multiple_handoffs_setup():
     assert handoff_objects[0].tool_name == Handoff.default_tool_name(agent_1)
     assert handoff_objects[1].tool_name == Handoff.default_tool_name(agent_2)
 
-    assert handoff_objects[0].tool_description == Handoff.default_tool_description(agent_1)
-    assert handoff_objects[1].tool_description == Handoff.default_tool_description(agent_2)
+    assert handoff_objects[0].tool_description == Handoff.default_tool_description(
+        agent_1
+    )
+    assert handoff_objects[1].tool_description == Handoff.default_tool_description(
+        agent_2
+    )
 
     assert handoff_objects[0].agent_name == agent_1.name
     assert handoff_objects[1].agent_name == agent_2.name

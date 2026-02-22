@@ -15,7 +15,12 @@ from collections import deque
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 from .database_manager import DatabaseManager
 
@@ -101,7 +106,9 @@ class GraphQueryParams(TypedDict, total=False):
 class GraphQueryTool(BaseTool):
     """Tool for querying the graph database."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph query tool.
 
         Args:
@@ -190,7 +197,10 @@ Examples:
             return f"Error: Invalid query '{query}'. Must be one of: {', '.join(valid_queries)}"
 
         # Validate required parameters
-        if query in ["neighbors", "subgraph", "connected", "ancestors", "descendants"] and not node_id:
+        if (
+            query in ["neighbors", "subgraph", "connected", "ancestors", "descendants"]
+            and not node_id
+        ):
             return f"Error: node_id is required for '{query}' query"
 
         if query == "path" and (not node_id or not target_id):
@@ -220,17 +230,27 @@ Examples:
 
         try:
             if query == "neighbors":
-                return self._query_neighbors(graph_conn, node_id, relationship, node_type, direction)
+                return self._query_neighbors(
+                    graph_conn, node_id, relationship, node_type, direction
+                )
             elif query == "path":
                 return self._query_path(graph_conn, node_id, target_id, relationship)
             elif query == "subgraph":
-                return self._query_subgraph(graph_conn, node_id, depth, relationship, node_type, direction)
+                return self._query_subgraph(
+                    graph_conn, node_id, depth, relationship, node_type, direction
+                )
             elif query == "connected":
-                return self._query_connected(graph_conn, node_id, relationship, node_type, direction)
+                return self._query_connected(
+                    graph_conn, node_id, relationship, node_type, direction
+                )
             elif query == "ancestors":
-                return self._query_ancestors(graph_conn, node_id, depth, relationship, node_type)
+                return self._query_ancestors(
+                    graph_conn, node_id, depth, relationship, node_type
+                )
             elif query == "descendants":
-                return self._query_descendants(graph_conn, node_id, depth, relationship, node_type)
+                return self._query_descendants(
+                    graph_conn, node_id, depth, relationship, node_type
+                )
 
         except Exception as e:
             await tool_ctx.error(f"Failed to execute query: {str(e)}")
@@ -316,9 +336,13 @@ Examples:
         output = [f"Neighbors of '{node_id}' ({node_info[0]}):\n"]
         for n in neighbors:
             arrow = "<--" if n["direction"] == "incoming" else "-->"
-            output.append(f"  {node_id} {arrow}[{n['relationship']}]--> {n['node_id']} ({n['node_type']})")
+            output.append(
+                f"  {node_id} {arrow}[{n['relationship']}]--> {n['node_id']} ({n['node_type']})"
+            )
             if n["properties"]:
-                output.append(f"    Properties: {json.dumps(n['properties'], indent=6)[:100]}")
+                output.append(
+                    f"    Properties: {json.dumps(n['properties'], indent=6)[:100]}"
+                )
 
         output.append(f"\nTotal neighbors: {len(neighbors)}")
         return "\n".join(output)
@@ -571,7 +595,9 @@ Examples:
         node_type: Optional[str],
     ) -> str:
         """Find nodes that point TO this node (incoming edges only)."""
-        return self._query_subgraph(conn, node_id, depth, relationship, node_type, "incoming")
+        return self._query_subgraph(
+            conn, node_id, depth, relationship, node_type, "incoming"
+        )
 
     def _query_descendants(
         self,
@@ -582,7 +608,9 @@ Examples:
         node_type: Optional[str],
     ) -> str:
         """Find nodes that this node points TO (outgoing edges only)."""
-        return self._query_subgraph(conn, node_id, depth, relationship, node_type, "outgoing")
+        return self._query_subgraph(
+            conn, node_id, depth, relationship, node_type, "outgoing"
+        )
 
     def register(self, mcp_server) -> None:
         """Register this tool with the MCP server."""

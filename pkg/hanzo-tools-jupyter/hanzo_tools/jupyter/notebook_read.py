@@ -89,7 +89,9 @@ class NotebookReadTool(JupyterBaseTool):
 
         # Check if path is allowed
         if not self.is_path_allowed(notebook_path):
-            await tool_ctx.error(f"Access denied - path outside allowed directories: {notebook_path}")
+            await tool_ctx.error(
+                f"Access denied - path outside allowed directories: {notebook_path}"
+            )
             return f"Error: Access denied - path outside allowed directories: {notebook_path}"
 
         try:
@@ -116,7 +118,9 @@ class NotebookReadTool(JupyterBaseTool):
                 # Format the notebook content as a readable string
                 result = self.format_notebook_cells(processed_cells)
 
-                await tool_ctx.info(f"Successfully read notebook: {notebook_path} ({len(processed_cells)} cells)")
+                await tool_ctx.info(
+                    f"Successfully read notebook: {notebook_path} ({len(processed_cells)} cells)"
+                )
                 return result
             except json.JSONDecodeError:
                 await tool_ctx.error(f"Invalid notebook format: {notebook_path}")

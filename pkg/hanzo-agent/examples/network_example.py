@@ -19,7 +19,6 @@ from agents import (
     Runner,
 )
 
-
 # Define specialized agents
 research_agent = Agent(
     name="research_agent",
@@ -75,7 +74,7 @@ coordinator_agent = Agent(
 async def save_to_memory(ctx, key: str, value: str) -> str:
     """Save information to shared memory for other agents to access."""
     # Access network context
-    if hasattr(ctx, 'network'):
+    if hasattr(ctx, "network"):
         await ctx.set_state(key, value, namespace="shared")
         return f"Saved '{key}' to shared memory"
     return "Memory not available"
@@ -84,7 +83,7 @@ async def save_to_memory(ctx, key: str, value: str) -> str:
 @function_tool
 async def recall_from_memory(ctx, key: str) -> str:
     """Recall information from shared memory."""
-    if hasattr(ctx, 'network'):
+    if hasattr(ctx, "network"):
         value = await ctx.get_state(key, namespace="shared")
         if value:
             return f"Retrieved from memory: {value}"
@@ -95,7 +94,7 @@ async def recall_from_memory(ctx, key: str) -> str:
 @function_tool
 async def list_memories(ctx) -> str:
     """List all keys in shared memory."""
-    if hasattr(ctx, 'network'):
+    if hasattr(ctx, "network"):
         keys = await ctx.state_store.keys(namespace="shared")
         if keys:
             return f"Memory keys: {', '.join(keys)}"
@@ -113,13 +112,13 @@ coordinator_agent.tools = [save_to_memory, recall_from_memory, list_memories]
 async def basic_network_example():
     """Basic example of agent network with semantic routing."""
     print("=== Basic Network Example ===\n")
-    
+
     # Create network with semantic router
     network = AgentNetwork(
         config=NetworkConfig(name="Research Network"),
         router=SemanticRouter(),
     )
-    
+
     # Add agents with capabilities
     network.add_agent(
         research_agent,
@@ -133,14 +132,14 @@ async def basic_network_example():
         coder_agent,
         capabilities=["coding", "programming", "debugging", "implementation"],
     )
-    
+
     # Test routing
     queries = [
         "Research the latest trends in AI",
         "Write a blog post about climate change",
         "Debug this Python function that's not working",
     ]
-    
+
     for query in queries:
         print(f"Query: {query}")
         result = await network.run(input=query, max_turns=1)
@@ -150,13 +149,13 @@ async def basic_network_example():
 async def advanced_network_with_rules():
     """Advanced example with rule-based routing and state sharing."""
     print("\n=== Advanced Network with Rules ===\n")
-    
+
     # Create router with rules
     router = RuleBasedRouter()
     router.add_rule(r"research|analyze|find", "research_agent", priority=10)
     router.add_rule(r"write|draft|compose", "writer_agent", priority=10)
     router.add_rule(r"code|program|debug|implement", "coder_agent", priority=10)
-    
+
     # Create network with state store
     state_store = InMemoryStateStore()
     network = AgentNetwork(
@@ -166,22 +165,22 @@ async def advanced_network_with_rules():
         ),
         router=router,
     )
-    
+
     # Add agents
     network.add_agent(research_agent)
     network.add_agent(writer_agent)
     network.add_agent(coder_agent)
-    
+
     # Complex task that requires multiple agents
     print("Task: Research AI trends and write a technical blog post\n")
-    
+
     # Step 1: Research
     result1 = await network.run(
         input="Research the top 3 AI trends in 2024 and save them to memory",
         starting_agent="research_agent",
     )
     print(f"Research complete: {result1.final_output}\n")
-    
+
     # Step 2: Write based on research
     result2 = await network.run(
         input="Recall the AI trends from memory and write a technical blog post about them",
@@ -193,7 +192,7 @@ async def advanced_network_with_rules():
 async def orchestrated_workflow_example():
     """Example using the orchestrator for complex workflows."""
     print("\n=== Orchestrated Workflow Example ===\n")
-    
+
     # Create orchestrator
     orchestrator = Orchestrator(
         config=OrchestrationConfig(
@@ -201,22 +200,22 @@ async def orchestrated_workflow_example():
             enable_ui_streaming=True,
         ),
     )
-    
+
     # Register agents
     orchestrator.register_agent(coordinator_agent, capabilities=["coordination"])
     orchestrator.register_agent(research_agent, capabilities=["research"])
     orchestrator.register_agent(writer_agent, capabilities=["writing"])
     orchestrator.register_agent(coder_agent, capabilities=["coding"])
-    
+
     # Create a workflow
     workflow = orchestrator.create_workflow_from_agents(
         name="AI Article Workflow",
         agents=["coordinator_agent"],
     )
-    
+
     # Register and execute workflow
     orchestrator.register_workflow(workflow)
-    
+
     result = await orchestrator.execute_workflow(
         workflow_id=workflow.id,
         input="""Create a comprehensive guide about implementing 
@@ -226,7 +225,7 @@ async def orchestrated_workflow_example():
         3. Well-written explanation
         """,
     )
-    
+
     print(f"Workflow completed: {result.success}")
     print(f"Duration: {result.duration:.2f}s")
     print(f"Output: {result.output}")
@@ -235,10 +234,10 @@ async def orchestrated_workflow_example():
 async def memory_system_example():
     """Example demonstrating the memory system."""
     print("\n=== Memory System Example ===\n")
-    
+
     # Create memory system
     memory = Memory(max_entries=100)
-    
+
     # Create memory-enabled agent
     memory_agent = Agent(
         name="memory_agent",
@@ -246,31 +245,31 @@ async def memory_system_example():
         You can remember facts, conversations, and learn from experience.
         Always check your memory before responding.""",
     )
-    
+
     # Wrap with memory capabilities
     memory_enabled = memory.create_agent_wrapper(memory_agent)
-    
+
     # Store some memories
     await memory.remember(
         "The user's favorite color is blue",
         type=MemoryType.FACT,
         agent_name="memory_agent",
     )
-    
+
     await memory.remember(
         "The user is interested in machine learning",
         type=MemoryType.FACT,
         agent_name="memory_agent",
     )
-    
+
     # Test memory recall
     result = await Runner.run(
         starting_agent=memory_enabled,
         input="What do you remember about me?",
     )
-    
+
     print(f"Memory recall: {result.final_output}")
-    
+
     # Generate reflection
     reflection = await memory.reflect(memory_agent)
     print(f"\nReflection: {reflection.content}")
@@ -279,7 +278,7 @@ async def memory_system_example():
 async def parallel_network_example():
     """Example of parallel task execution in a network."""
     print("\n=== Parallel Network Execution ===\n")
-    
+
     # Create network
     network = AgentNetwork(
         config=NetworkConfig(
@@ -288,28 +287,28 @@ async def parallel_network_example():
             max_parallel_agents=3,
         ),
     )
-    
+
     # Add agents
     network.add_agent(research_agent)
     network.add_agent(writer_agent)
     network.add_agent(coder_agent)
-    
+
     # Define parallel tasks
     tasks = [
         {"input": "Research quantum computing basics", "agent": "research_agent"},
         {"input": "Write a haiku about technology", "agent": "writer_agent"},
         {"input": "Implement a fibonacci function", "agent": "coder_agent"},
     ]
-    
+
     print("Running 3 tasks in parallel...\n")
-    
+
     start_time = asyncio.get_event_loop().time()
     results = await network.run_parallel(tasks)
     duration = asyncio.get_event_loop().time() - start_time
-    
+
     for i, result in enumerate(results):
         print(f"Task {i+1} result: {result.final_output[:100]}...")
-    
+
     print(f"\nTotal execution time: {duration:.2f}s")
 
 

@@ -111,7 +111,9 @@ def get_user(name: str) -> None:
 def set_password(user: str, password: str | None) -> None:
     """Set a user's password. Prompts if password not given."""
     if not password:
-        password = click.prompt("New password", hide_input=True, confirmation_prompt=True)
+        password = click.prompt(
+            "New password", hide_input=True, confirmation_prompt=True
+        )
 
     client = get_client()
     org = client.config.organization
@@ -243,8 +245,10 @@ def sync_app(name: str, init_data: bool) -> None:
                     added.append(uri)
 
             if added:
-                result = client.update_application(target)
-                console.print(f"[green]Added {len(added)} redirect URIs to {name}:[/green]")
+                _result = client.update_application(target)
+                console.print(
+                    f"[green]Added {len(added)} redirect URIs to {name}:[/green]"
+                )
                 for uri in added:
                     console.print(f"  + {uri}")
             else:

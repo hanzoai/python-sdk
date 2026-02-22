@@ -19,6 +19,7 @@ from ..models.knowledge import Fact, FactCreate, KnowledgeBase
 from ..models.memory import Memory, MemoryCreate
 from ..services.embeddings import EmbeddingService, get_embedding_service
 from ..services.llm import LLMService, get_llm_service
+
 # Constants
 ServiceName = "hanzo-memory"
 
@@ -75,23 +76,64 @@ Supports the following actions:
                                     "add_fact",
                                     "search_facts",
                                     "delete_fact",
-                                    "summarize"
+                                    "summarize",
                                 ],
-                                "description": "The action to perform"
+                                "description": "The action to perform",
                             },
-                            "user_id": {"type": "string", "description": "User ID (required for all actions)"},
-                            "project_id": {"type": "string", "description": "Project ID (optional for some actions)"},
-                            "content": {"type": "string", "description": "Content for storage or analysis"},
-                            "query": {"type": "string", "description": "Search query for recall/search purposes"},
-                            "id": {"type": "string", "description": "ID of item to delete (memory_id or fact_id)"},
-                            "kb_id": {"type": "string", "description": "Knowledge base ID for fact operations"},
-                            "name": {"type": "string", "description": "Name for new project or knowledge base"},
-                            "description": {"type": "string", "description": "Description for new project or KB"},
-                            "metadata": {"type": "object", "description": "Additional metadata"},
-                            "limit": {"type": "integer", "description": "Limit results", "default": 10},
-                            "importance": {"type": "number", "description": "Importance score (0-10)", "default": 1.0},
-                            "parent_id": {"type": "string", "description": "Parent fact ID"},
-                            "context": {"type": "string", "description": "Context for summarization"},
+                            "user_id": {
+                                "type": "string",
+                                "description": "User ID (required for all actions)",
+                            },
+                            "project_id": {
+                                "type": "string",
+                                "description": "Project ID (optional for some actions)",
+                            },
+                            "content": {
+                                "type": "string",
+                                "description": "Content for storage or analysis",
+                            },
+                            "query": {
+                                "type": "string",
+                                "description": "Search query for recall/search purposes",
+                            },
+                            "id": {
+                                "type": "string",
+                                "description": "ID of item to delete (memory_id or fact_id)",
+                            },
+                            "kb_id": {
+                                "type": "string",
+                                "description": "Knowledge base ID for fact operations",
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Name for new project or knowledge base",
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description for new project or KB",
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "description": "Additional metadata",
+                            },
+                            "limit": {
+                                "type": "integer",
+                                "description": "Limit results",
+                                "default": 10,
+                            },
+                            "importance": {
+                                "type": "number",
+                                "description": "Importance score (0-10)",
+                                "default": 1.0,
+                            },
+                            "parent_id": {
+                                "type": "string",
+                                "description": "Parent fact ID",
+                            },
+                            "context": {
+                                "type": "string",
+                                "description": "Context for summarization",
+                            },
                         },
                         "required": ["action", "user_id"],
                     },
@@ -105,7 +147,12 @@ Supports the following actions:
             """Handle tool calls."""
             try:
                 if name != "memory":
-                    return [TextContent(type="text", text=json.dumps({"error": f"Unknown tool: {name}"}))]
+                    return [
+                        TextContent(
+                            type="text",
+                            text=json.dumps({"error": f"Unknown tool: {name}"}),
+                        )
+                    ]
 
                 args = arguments or {}
                 action = args.get("action")
@@ -129,11 +176,18 @@ Supports the following actions:
                 elif action == "summarize":
                     result = await self._handle_summarize_for_knowledge(args)
                 else:
-                    return [TextContent(type="text", text=json.dumps({"error": f"Unknown action: {action}"}))]
+                    return [
+                        TextContent(
+                            type="text",
+                            text=json.dumps({"error": f"Unknown action: {action}"}),
+                        )
+                    ]
 
                 return [TextContent(type="text", text=json.dumps(result, indent=2))]
             except Exception as e:
-                logger.error(f"Error handling memory action {arguments.get('action')}: {e}")
+                logger.error(
+                    f"Error handling memory action {arguments.get('action')}: {e}"
+                )
                 return [TextContent(type="text", text=json.dumps({"error": str(e)}))]
 
     async def _handle_remember(self, args: dict[str, Any]) -> dict[str, Any]:
@@ -143,12 +197,14 @@ Supports the following actions:
         content = args.get("content")
         if not content:
             raise ValueError("content is required for remember action")
-            
+
         metadata = args.get("metadata", {})
         importance = args.get("importance", 1.0)
 
         # Run embedding generation in thread pool
-        embedding = (await asyncio.to_thread(self.embedding_service.embed_text, content))[0]
+        embedding = (
+            await asyncio.to_thread(self.embedding_service.embed_text, content)
+        )[0]
         memory_id = str(uuid4())
 
         # Run DB operations in thread pool
@@ -179,11 +235,13 @@ Supports the following actions:
         query = args.get("query")
         if not query:
             raise ValueError("query is required for recall action")
-            
+
         limit = args.get("limit", 10)
 
         # Generate query embedding
-        query_embedding = (await asyncio.to_thread(self.embedding_service.embed_text, query))[0]
+        query_embedding = (
+            await asyncio.to_thread(self.embedding_service.embed_text, query)
+        )[0]
 
         # Search memories
         results_df = await asyncio.to_thread(
@@ -197,16 +255,22 @@ Supports the following actions:
         # Convert results
         memories = []
         if isinstance(results_df, list):
-             memories = results_df # It's a list of dicts from sqlite client fallback or non-polars return
+            memories = results_df  # It's a list of dicts from sqlite client fallback or non-polars return
         elif not results_df.is_empty():
             for row in results_df.to_dicts():
                 memories.append(
                     {
                         "memory_id": row.get("memory_id"),
                         "content": row.get("content"),
-                        "metadata": json.loads(row.get("metadata", "{}")) if isinstance(row.get("metadata"), str) else row.get("metadata", {}),
+                        "metadata": (
+                            json.loads(row.get("metadata", "{}"))
+                            if isinstance(row.get("metadata"), str)
+                            else row.get("metadata", {})
+                        ),
                         "importance": row.get("importance", 1.0),
-                        "similarity_score": row.get("_similarity", row.get("similarity_score", 0.0)),
+                        "similarity_score": row.get(
+                            "_similarity", row.get("similarity_score", 0.0)
+                        ),
                     }
                 )
 
@@ -221,7 +285,7 @@ Supports the following actions:
         user_id = args["user_id"]
         project_id = args.get("project_id", "default")
         memory_id = args.get("id")
-        
+
         if not memory_id:
             raise ValueError("id is required for delete action")
 
@@ -229,12 +293,12 @@ Supports the following actions:
             self.db_client.delete_memory,
             memory_id=memory_id,
             user_id=user_id,
-            project_id=project_id
+            project_id=project_id,
         )
 
         return {
             "success": success,
-            "message": "Memory deleted" if success else "Memory not found"
+            "message": "Memory deleted" if success else "Memory not found",
         }
 
     async def _handle_create_project(self, args: dict[str, Any]) -> dict[str, Any]:
@@ -242,13 +306,13 @@ Supports the following actions:
         user_id = args["user_id"]
         name = args.get("name")
         if not name:
-             raise ValueError("name is required for create_project action")
-             
+            raise ValueError("name is required for create_project action")
+
         description = args.get("description", "")
         metadata = args.get("metadata", {})
 
         project_id = str(uuid4())
-        
+
         await asyncio.to_thread(
             self.db_client.create_project,
             project_id=project_id,
@@ -272,12 +336,12 @@ Supports the following actions:
         project_id = args.get("project_id", "default")
         name = args.get("name")
         if not name:
-             raise ValueError("name is required for create_kb action")
-             
+            raise ValueError("name is required for create_kb action")
+
         description = args.get("description", "")
 
         kb_id = str(uuid4())
-        
+
         await asyncio.to_thread(
             self.db_client.create_knowledge_base,
             kb_id=kb_id,
@@ -297,18 +361,20 @@ Supports the following actions:
         """Handle add fact action."""
         kb_id = args.get("kb_id")
         if not kb_id:
-             raise ValueError("kb_id is required for add_fact action")
-             
+            raise ValueError("kb_id is required for add_fact action")
+
         content = args.get("content")
         if not content:
-             raise ValueError("content is required for add_fact action")
-             
+            raise ValueError("content is required for add_fact action")
+
         parent_id = args.get("parent_id")
         metadata = args.get("metadata", {})
 
-        embedding = (await asyncio.to_thread(self.embedding_service.embed_text, content))[0]
+        embedding = (
+            await asyncio.to_thread(self.embedding_service.embed_text, content)
+        )[0]
         fact_id = str(uuid4())
-        
+
         await asyncio.to_thread(
             self.db_client.add_fact,
             fact_id=fact_id,
@@ -329,15 +395,17 @@ Supports the following actions:
         """Handle search facts action."""
         kb_id = args.get("kb_id")
         if not kb_id:
-             raise ValueError("kb_id is required for search_facts action")
-             
+            raise ValueError("kb_id is required for search_facts action")
+
         query = args.get("query")
         if not query:
-             raise ValueError("query is required for search_facts action")
-             
+            raise ValueError("query is required for search_facts action")
+
         limit = args.get("limit", 10)
 
-        query_embedding = (await asyncio.to_thread(self.embedding_service.embed_text, query))[0]
+        query_embedding = (
+            await asyncio.to_thread(self.embedding_service.embed_text, query)
+        )[0]
 
         results_df = await asyncio.to_thread(
             self.db_client.search_facts,
@@ -356,8 +424,14 @@ Supports the following actions:
                         "fact_id": row.get("fact_id"),
                         "content": row.get("content"),
                         "parent_id": row.get("parent_id"),
-                        "metadata": json.loads(row.get("metadata", "{}")) if isinstance(row.get("metadata"), str) else row.get("metadata", {}),
-                        "similarity_score": row.get("_similarity", row.get("similarity_score", 0.0)),
+                        "metadata": (
+                            json.loads(row.get("metadata", "{}"))
+                            if isinstance(row.get("metadata"), str)
+                            else row.get("metadata", {})
+                        ),
+                        "similarity_score": row.get(
+                            "_similarity", row.get("similarity_score", 0.0)
+                        ),
                     }
                 )
 
@@ -372,17 +446,15 @@ Supports the following actions:
         kb_id = args.get("kb_id")
         fact_id = args.get("id")
         if not kb_id or not fact_id:
-             raise ValueError("kb_id and id are required for delete_fact action")
+            raise ValueError("kb_id and id are required for delete_fact action")
 
         success = await asyncio.to_thread(
-            self.db_client.delete_fact,
-            fact_id=fact_id,
-            knowledge_base_id=kb_id
+            self.db_client.delete_fact, fact_id=fact_id, knowledge_base_id=kb_id
         )
 
         return {
             "success": success,
-            "message": "Fact deleted" if success else "Fact not found"
+            "message": "Fact deleted" if success else "Fact not found",
         }
 
     async def _handle_summarize_for_knowledge(
@@ -391,8 +463,8 @@ Supports the following actions:
         """Handle summarize for knowledge action."""
         content = args.get("content")
         if not content:
-             raise ValueError("content is required for summarize action")
-             
+            raise ValueError("content is required for summarize action")
+
         context = args.get("context")
         skip_summarization = args.get("skip_summarization", False)
         provided_summary = args.get("provided_summary")

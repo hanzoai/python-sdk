@@ -14,7 +14,6 @@ from .router import (
 )
 from .state import NetworkState
 
-
 T = TypeVar("T")
 
 
@@ -209,7 +208,9 @@ class Network(Generic[T]):
             # No router - stop
             return None
 
-    def _build_agent_prompt(self, agent: Agent, last_result: Optional[Dict[str, Any]]) -> List[Any]:
+    def _build_agent_prompt(
+        self, agent: Agent, last_result: Optional[Dict[str, Any]]
+    ) -> List[Any]:
         """Build prompt for agent including conversation history.
 
         Args:

@@ -58,7 +58,9 @@ class BudgetResource(SyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: (Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven) = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -145,7 +147,9 @@ class BudgetResource(SyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: (Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven) = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -314,7 +318,9 @@ class BudgetResource(SyncAPIResource):
         """
         return self._post(
             "/budget/info",
-            body=maybe_transform({"budgets": budgets}, budget_info_params.BudgetInfoParams),
+            body=maybe_transform(
+                {"budgets": budgets}, budget_info_params.BudgetInfoParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -397,7 +403,9 @@ class AsyncBudgetResource(AsyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: (Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven) = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, budget_create_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -484,7 +492,9 @@ class AsyncBudgetResource(AsyncAPIResource):
         budget_id: Optional[str] | NotGiven = NOT_GIVEN,
         max_budget: Optional[float] | NotGiven = NOT_GIVEN,
         max_parallel_requests: Optional[int] | NotGiven = NOT_GIVEN,
-        model_max_budget: (Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven) = NOT_GIVEN,
+        model_max_budget: (
+            Optional[Dict[str, budget_update_params.ModelMaxBudget]] | NotGiven
+        ) = NOT_GIVEN,
         rpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
         soft_budget: Optional[float] | NotGiven = NOT_GIVEN,
         tpm_limit: Optional[int] | NotGiven = NOT_GIVEN,
@@ -614,7 +624,9 @@ class AsyncBudgetResource(AsyncAPIResource):
         """
         return await self._post(
             "/budget/delete",
-            body=await async_maybe_transform({"id": id}, budget_delete_params.BudgetDeleteParams),
+            body=await async_maybe_transform(
+                {"id": id}, budget_delete_params.BudgetDeleteParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -653,7 +665,9 @@ class AsyncBudgetResource(AsyncAPIResource):
         """
         return await self._post(
             "/budget/info",
-            body=await async_maybe_transform({"budgets": budgets}, budget_info_params.BudgetInfoParams),
+            body=await async_maybe_transform(
+                {"budgets": budgets}, budget_info_params.BudgetInfoParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

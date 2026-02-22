@@ -19,7 +19,9 @@ class PartitioningStrategy(ABC):
         pass
 
 
-def map_partitions_to_shards(partitions: List[Partition], num_layers: int, model_id: str) -> List[Shard]:
+def map_partitions_to_shards(
+    partitions: List[Partition], num_layers: int, model_id: str
+) -> List[Shard]:
     shards = []
     for i, partition in enumerate(partitions):
         start_layer = int(partition.start * num_layers)

@@ -11,7 +11,17 @@ When enabled, tools from these servers become available through hanzo-mcp.
 
 import os
 import json
-from typing import Any, Dict, List, Unpack, Optional, Annotated, TypedDict, final, override
+from typing import (
+    Any,
+    Dict,
+    List,
+    Unpack,
+    Optional,
+    Annotated,
+    TypedDict,
+    final,
+    override,
+)
 
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
@@ -167,13 +177,23 @@ Usage:
 
         # Group by status
         connected = [s for s in servers if s.get("connected")]
-        available = [s for s in servers if not s.get("connected") and s.get("auth_configured", True)]
-        needs_auth = [s for s in servers if not s.get("connected") and not s.get("auth_configured", True)]
+        available = [
+            s
+            for s in servers
+            if not s.get("connected") and s.get("auth_configured", True)
+        ]
+        needs_auth = [
+            s
+            for s in servers
+            if not s.get("connected") and not s.get("auth_configured", True)
+        ]
 
         if connected:
             output.append("🟢 Connected:")
             for s in connected:
-                output.append(f"  {s['name']}: {s['description']} ({s['tool_count']} tools)")
+                output.append(
+                    f"  {s['name']}: {s['description']} ({s['tool_count']} tools)"
+                )
             output.append("")
 
         if available:
@@ -208,7 +228,9 @@ Usage:
         if result.get("success"):
             tools = result.get("tools", [])
             if tools:
-                tool_list = "\n".join([f"  - {t['name']}: {t['description']}" for t in tools[:10]])
+                tool_list = "\n".join(
+                    [f"  - {t['name']}: {t['description']}" for t in tools[:10]]
+                )
                 if len(tools) > 10:
                     tool_list += f"\n  ... and {len(tools) - 10} more"
                 return f"✅ Enabled '{server}' with {len(tools)} tools:\n{tool_list}"
@@ -273,7 +295,9 @@ Usage:
         else:
             return f"❌ {result.get('error', 'Unknown error')}"
 
-    async def _handle_call(self, server: Optional[str], tool: Optional[str], args: Dict[str, Any]) -> str:
+    async def _handle_call(
+        self, server: Optional[str], tool: Optional[str], args: Dict[str, Any]
+    ) -> str:
         """Call a tool on a proxied server."""
         if not server:
             return "Error: --server is required"
@@ -282,7 +306,11 @@ Usage:
 
         try:
             result = await self._registry.call_proxied_tool(server, tool, args)
-            return json.dumps(result, indent=2) if isinstance(result, (dict, list)) else str(result)
+            return (
+                json.dumps(result, indent=2)
+                if isinstance(result, (dict, list))
+                else str(result)
+            )
         except Exception as e:
             return f"❌ Error calling {server}/{tool}: {e}"
 

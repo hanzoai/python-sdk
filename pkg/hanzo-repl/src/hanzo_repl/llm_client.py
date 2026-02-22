@@ -62,13 +62,17 @@ class LLMClient:
             for provider in preferred_order:
                 if provider in self.available_providers:
                     self.current_provider = provider
-                    self.current_model = self.DEFAULT_MODELS.get(provider, "gpt-3.5-turbo")
+                    self.current_model = self.DEFAULT_MODELS.get(
+                        provider, "gpt-3.5-turbo"
+                    )
                     break
 
             # If no preferred provider, use the first available
             if not self.current_provider:
                 self.current_provider = list(self.available_providers)[0]
-                self.current_model = self.DEFAULT_MODELS.get(self.current_provider, "gpt-3.5-turbo")
+                self.current_model = self.DEFAULT_MODELS.get(
+                    self.current_provider, "gpt-3.5-turbo"
+                )
 
     def _detect_providers(self) -> Set[str]:
         """Detect which LLM providers have API keys configured."""
@@ -81,9 +85,11 @@ class LLMClient:
                     try:
                         import urllib.request
 
-                        urllib.request.urlopen("http://localhost:11434/api/tags", timeout=1)
+                        urllib.request.urlopen(
+                            "http://localhost:11434/api/tags", timeout=1
+                        )
                         available.add(provider)
-                    except Exception:
+                    except Exception:  # noqa: S110
                         pass  # Ollama not running
                 continue
 
@@ -172,7 +178,10 @@ class LLMClient:
 
         # Try to infer provider from model name
         for prefix, provider in provider_prefixes.items():
-            if model.lower().startswith(prefix) and provider in self.available_providers:
+            if (
+                model.lower().startswith(prefix)
+                and provider in self.available_providers
+            ):
                 self.current_provider = provider
                 self.current_model = model
                 return

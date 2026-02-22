@@ -105,7 +105,9 @@ class BatchesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"provider": provider}, batch_create_params.BatchCreateParams),
+                query=maybe_transform(
+                    {"provider": provider}, batch_create_params.BatchCreateParams
+                ),
             ),
             cast_to=object,
         )
@@ -146,7 +148,9 @@ class BatchesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return self._get(
             f"/v1/batches/{batch_id}",
             options=make_request_options(
@@ -154,7 +158,9 @@ class BatchesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"provider": provider}, batch_retrieve_params.BatchRetrieveParams),
+                query=maybe_transform(
+                    {"provider": provider}, batch_retrieve_params.BatchRetrieveParams
+                ),
             ),
             cast_to=object,
         )
@@ -247,9 +253,13 @@ class BatchesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return self._post(
             f"/{provider}/v1/batches/{batch_id}/cancel",
             options=make_request_options(
@@ -298,7 +308,9 @@ class BatchesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return self._post(
             f"/{provider}/v1/batches",
             options=make_request_options(
@@ -343,7 +355,9 @@ class BatchesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return self._get(
             f"/{provider}/v1/batches",
             options=make_request_options(
@@ -398,9 +412,13 @@ class BatchesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return self._get(
             f"/{provider}/v1/batches/{batch_id}",
             options=make_request_options(
@@ -480,7 +498,9 @@ class AsyncBatchesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"provider": provider}, batch_create_params.BatchCreateParams),
+                query=await async_maybe_transform(
+                    {"provider": provider}, batch_create_params.BatchCreateParams
+                ),
             ),
             cast_to=object,
         )
@@ -521,7 +541,9 @@ class AsyncBatchesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return await self._get(
             f"/v1/batches/{batch_id}",
             options=make_request_options(
@@ -529,7 +551,9 @@ class AsyncBatchesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"provider": provider}, batch_retrieve_params.BatchRetrieveParams),
+                query=await async_maybe_transform(
+                    {"provider": provider}, batch_retrieve_params.BatchRetrieveParams
+                ),
             ),
             cast_to=object,
         )
@@ -622,9 +646,13 @@ class AsyncBatchesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return await self._post(
             f"/{provider}/v1/batches/{batch_id}/cancel",
             options=make_request_options(
@@ -673,7 +701,9 @@ class AsyncBatchesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return await self._post(
             f"/{provider}/v1/batches",
             options=make_request_options(
@@ -718,7 +748,9 @@ class AsyncBatchesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return await self._get(
             f"/{provider}/v1/batches",
             options=make_request_options(
@@ -773,9 +805,13 @@ class AsyncBatchesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not batch_id:
-            raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `batch_id` but received {batch_id!r}"
+            )
         return await self._get(
             f"/{provider}/v1/batches/{batch_id}",
             options=make_request_options(

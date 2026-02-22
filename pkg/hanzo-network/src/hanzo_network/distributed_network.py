@@ -14,7 +14,6 @@ from .distributed.udp_discovery import UDPDiscovery
 from .distributed.grpc_server import GRPCServer
 from .topology.device_capabilities import DeviceCapabilities, device_capabilities
 
-
 T = TypeVar("T")
 
 
@@ -97,7 +96,9 @@ class DistributedNetwork(Network[T]):
         self.sync_task = asyncio.create_task(self._sync_loop())
 
         self.is_running = True
-        print(f"Distributed network node {self.node_id} started with {len(self.peers)} peers")
+        print(
+            f"Distributed network node {self.node_id} started with {len(self.peers)} peers"
+        )
 
     async def stop(self) -> None:
         """Stop the distributed network node."""
@@ -152,7 +153,9 @@ class DistributedNetwork(Network[T]):
                 peer = self._get_peer(peer_id)
                 if peer:
                     # Execute remotely
-                    return await self._execute_remote(peer, prompt, initial_agent, dist_context)
+                    return await self._execute_remote(
+                        peer, prompt, initial_agent, dist_context
+                    )
 
         # Execute locally (using base implementation)
         return await super().run(prompt, initial_agent, dist_context)
@@ -252,7 +255,9 @@ class DistributedNetwork(Network[T]):
                 {
                     "id": p.id,
                     "address": p.address,
-                    "capabilities": (p.device_capabilities.__dict__ if p.device_capabilities else {}),
+                    "capabilities": (
+                        p.device_capabilities.__dict__ if p.device_capabilities else {}
+                    ),
                 }
                 for p in self.peers
             ],
@@ -269,7 +274,9 @@ class DistributedNetwork(Network[T]):
                 {
                     "name": name,
                     "type": agent.__class__.__name__,
-                    "has_tools": (len(agent.tools) > 0 if hasattr(agent, "tools") else False),
+                    "has_tools": (
+                        len(agent.tools) > 0 if hasattr(agent, "tools") else False
+                    ),
                 }
             )
 

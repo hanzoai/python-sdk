@@ -56,7 +56,9 @@ async def test_get_response_with_text_message(monkeypatch) -> None:
     async def patched_fetch_response(self, *args, **kwargs):
         return chat
 
-    monkeypatch.setattr(OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response)
+    monkeypatch.setattr(
+        OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response
+    )
     model = OpenAIProvider(use_responses=False).get_model("gpt-4")
     resp: ModelResponse = await model.get_response(
         system_instructions=None,
@@ -104,7 +106,9 @@ async def test_get_response_with_refusal(monkeypatch) -> None:
     async def patched_fetch_response(self, *args, **kwargs):
         return chat
 
-    monkeypatch.setattr(OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response)
+    monkeypatch.setattr(
+        OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response
+    )
     model = OpenAIProvider(use_responses=False).get_model("gpt-4")
     resp: ModelResponse = await model.get_response(
         system_instructions=None,
@@ -153,7 +157,9 @@ async def test_get_response_with_tool_call(monkeypatch) -> None:
     async def patched_fetch_response(self, *args, **kwargs):
         return chat
 
-    monkeypatch.setattr(OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response)
+    monkeypatch.setattr(
+        OpenAIChatCompletionsModel, "_fetch_response", patched_fetch_response
+    )
     model = OpenAIProvider(use_responses=False).get_model("gpt-4")
     resp: ModelResponse = await model.get_response(
         system_instructions=None,

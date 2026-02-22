@@ -33,7 +33,9 @@ class IAMConfig(BaseModel):
     client_secret: str = Field(default="", description="OAuth2 client secret")
     organization: str = Field(default="hanzo", description="IAM organization name")
     application: str = Field(default="app", description="IAM application name")
-    certificate: str = Field(default="", description="JWT verification certificate (PEM)")
+    certificate: str = Field(
+        default="", description="JWT verification certificate (PEM)"
+    )
 
 
 class TokenResponse(BaseModel):
@@ -58,7 +60,9 @@ class JWTClaims(BaseModel):
     iss: str | None = Field(default=None, description="Issuer")
     sub: str | None = Field(default=None, description="Subject (user ID)")
     aud: str | list[str] | None = Field(default=None, description="Audience")
-    exp: int | None = Field(default=None, description="Expiration time (Unix timestamp)")
+    exp: int | None = Field(
+        default=None, description="Expiration time (Unix timestamp)"
+    )
     iat: int | None = Field(default=None, description="Issued at (Unix timestamp)")
     nbf: int | None = Field(default=None, description="Not before (Unix timestamp)")
     jti: str | None = Field(default=None, description="JWT ID")
@@ -186,7 +190,9 @@ class Application(BaseModel):
 
     # Providers
     providers: list[dict[str, Any]] = Field(default_factory=list)
-    signup_items: list[dict[str, Any]] = Field(default_factory=list, alias="signupItems")
+    signup_items: list[dict[str, Any]] = Field(
+        default_factory=list, alias="signupItems"
+    )
 
     # Features
     enable_password: bool = Field(default=True, alias="enablePassword")

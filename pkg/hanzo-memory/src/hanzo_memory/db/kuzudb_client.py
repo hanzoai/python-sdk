@@ -19,6 +19,7 @@ logger = get_logger()
 
 try:
     import kuzu
+
     KUZU_AVAILABLE = True
 except ImportError:
     KUZU_AVAILABLE = False
@@ -52,6 +53,7 @@ class KuzuDBClient(BaseVectorDB):
         self.enable_markdown = enable_markdown
         if enable_markdown:
             from ..markdown_memory import MarkdownMemoryReader
+
             self.markdown_reader = MarkdownMemoryReader()
             self._import_markdown_memories()
 
@@ -67,7 +69,6 @@ class KuzuDBClient(BaseVectorDB):
                 name STRING,
                 created_at TIMESTAMP
             )""",
-
             # Project node
             """CREATE NODE TABLE IF NOT EXISTS Project(
                 project_id STRING PRIMARY KEY,
@@ -77,7 +78,6 @@ class KuzuDBClient(BaseVectorDB):
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP
             )""",
-
             # Memory node
             """CREATE NODE TABLE IF NOT EXISTS Memory(
                 memory_id STRING PRIMARY KEY,
@@ -91,7 +91,6 @@ class KuzuDBClient(BaseVectorDB):
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP
             )""",
-
             # Fact node
             """CREATE NODE TABLE IF NOT EXISTS Fact(
                 fact_id STRING PRIMARY KEY,
@@ -103,7 +102,6 @@ class KuzuDBClient(BaseVectorDB):
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP
             )""",
-
             # KnowledgeBase node
             """CREATE NODE TABLE IF NOT EXISTS KnowledgeBase(
                 kb_id STRING PRIMARY KEY,
@@ -113,32 +111,26 @@ class KuzuDBClient(BaseVectorDB):
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP
             )""",
-
             # Create relationship tables
             """CREATE REL TABLE IF NOT EXISTS OWNS(
                 FROM User TO Project
             )""",
-
             """CREATE REL TABLE IF NOT EXISTS HAS_MEMORY(
                 FROM Project TO Memory,
                 user_id STRING
             )""",
-
             """CREATE REL TABLE IF NOT EXISTS HAS_FACT(
                 FROM Project TO Fact,
                 user_id STRING
             )""",
-
             """CREATE REL TABLE IF NOT EXISTS IN_KB(
                 FROM Memory TO KnowledgeBase
             )""",
-
             """CREATE REL TABLE IF NOT EXISTS RELATES_TO(
                 FROM Memory TO Memory,
                 relationship_type STRING,
                 strength DOUBLE
             )""",
-
             """CREATE REL TABLE IF NOT EXISTS DERIVED_FROM(
                 FROM Fact TO Memory
             )""",
@@ -157,7 +149,7 @@ class KuzuDBClient(BaseVectorDB):
 
     async def close(self) -> None:
         """Close database connection."""
-        if hasattr(self, 'conn'):
+        if hasattr(self, "conn"):
             # KuzuDB doesn't have explicit close, but we can clean up
             self.conn = None
         logger.info("Closing KuzuDB connection")
@@ -183,7 +175,7 @@ class KuzuDBClient(BaseVectorDB):
                 "metadata": json.dumps(project.metadata or {}),
                 "created": now,
                 "updated": now,
-            }
+            },
         )
 
         # Create or connect user
@@ -191,7 +183,7 @@ class KuzuDBClient(BaseVectorDB):
             """MERGE (u:User {user_id: $uid})
             ON CREATE SET u.created_at = $created
             """,
-            {"uid": user_id, "created": now}
+            {"uid": user_id, "created": now},
         )
 
         # Create ownership relationship
@@ -199,7 +191,7 @@ class KuzuDBClient(BaseVectorDB):
             """MATCH (u:User {user_id: $uid}), (p:Project {project_id: $pid})
             MERGE (u)-[:OWNS]->(p)
             """,
-            {"uid": user_id, "pid": project_id}
+            {"uid": user_id, "pid": project_id},
         )
 
         return {
@@ -246,7 +238,9 @@ class KuzuDBClient(BaseVectorDB):
             {
                 "mid": memory_id,
                 "content": content,
-                "mtype": metadata.get("memory_type", "general") if metadata else "general",
+                "mtype": (
+                    metadata.get("memory_type", "general") if metadata else "general"
+                ),
                 "importance": importance,
                 "context": json.dumps(metadata.get("context", {}) if metadata else {}),
                 "metadata": json.dumps(metadata or {}),
@@ -254,7 +248,7 @@ class KuzuDBClient(BaseVectorDB):
                 "embedding": embedding,
                 "created": now,
                 "updated": now,
-            }
+            },
         )
 
         # Connect to project
@@ -262,7 +256,7 @@ class KuzuDBClient(BaseVectorDB):
             """MATCH (p:Project {project_id: $pid}), (m:Memory {memory_id: $mid})
             MERGE (p)-[:HAS_MEMORY {user_id: $uid}]->(m)
             """,
-            {"pid": project_id, "mid": memory_id, "uid": user_id}
+            {"pid": project_id, "mid": memory_id, "uid": user_id},
         )
 
         # Find and create relationships to related memories
@@ -280,7 +274,9 @@ class KuzuDBClient(BaseVectorDB):
             "updated_at": now,
         }
 
-    def _create_memory_relationships(self, memory_id: str, embedding: list[float], project_id: str):
+    def _create_memory_relationships(
+        self, memory_id: str, embedding: list[float], project_id: str
+    ):
         """Create relationships between related memories based on similarity."""
         # Find similar memories in the same project
         results = self.conn.execute(
@@ -289,7 +285,7 @@ class KuzuDBClient(BaseVectorDB):
             RETURN m.memory_id, m.embedding
             LIMIT 10
             """,
-            {"pid": project_id, "mid": memory_id}
+            {"pid": project_id, "mid": memory_id},
         )
 
         query_vec = np.array(embedding)
@@ -297,13 +293,15 @@ class KuzuDBClient(BaseVectorDB):
             other_id = row[0]
             other_embedding = row[1]
             if other_embedding:
-                similarity = self._compute_similarity(query_vec, np.array(other_embedding))
+                similarity = self._compute_similarity(
+                    query_vec, np.array(other_embedding)
+                )
                 if similarity > 0.7:  # Only create strong relationships
                     self.conn.execute(
                         """MATCH (m1:Memory {memory_id: $mid1}), (m2:Memory {memory_id: $mid2})
                         MERGE (m1)-[:RELATES_TO {relationship_type: 'similar', strength: $strength}]->(m2)
                         """,
-                        {"mid1": memory_id, "mid2": other_id, "strength": similarity}
+                        {"mid1": memory_id, "mid2": other_id, "strength": similarity},
                     )
 
     def _compute_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
@@ -361,20 +359,22 @@ class KuzuDBClient(BaseVectorDB):
             if query_vec is not None and row[7]:  # embedding
                 similarity = self._compute_similarity(query_vec, np.array(row[7]))
 
-            data.append({
-                "memory_id": row[0],
-                "content": row[1],
-                "memory_type": row[2],
-                "importance": row[3],
-                "context": row[4],
-                "metadata": row[5],
-                "source": row[6],
-                "created_at": row[8],
-                "updated_at": row[9],
-                "project_id": row[10],
-                "user_id": row[11],
-                "similarity_score": similarity,
-            })
+            data.append(
+                {
+                    "memory_id": row[0],
+                    "content": row[1],
+                    "memory_type": row[2],
+                    "importance": row[3],
+                    "context": row[4],
+                    "metadata": row[5],
+                    "source": row[6],
+                    "created_at": row[8],
+                    "updated_at": row[9],
+                    "project_id": row[10],
+                    "user_id": row[11],
+                    "similarity_score": similarity,
+                }
+            )
 
         # Sort by similarity if we have embeddings
         if query_embedding:
@@ -391,23 +391,35 @@ class KuzuDBClient(BaseVectorDB):
         memory_type: Optional[str] = None,
     ) -> List[Memory]:
         """Async wrapper for search_memories."""
-        df = self.search_memories(query_embedding, user_id or "default", project_id, limit, memory_type)
+        df = self.search_memories(
+            query_embedding, user_id or "default", project_id, limit, memory_type
+        )
 
         memories = []
         for _, row in df.iterrows():
-            memories.append(Memory(
-                memory_id=row.get("memory_id"),
-                project_id=row.get("project_id"),
-                user_id=row.get("user_id"),
-                content=row.get("content"),
-                memory_type=row.get("memory_type"),
-                importance=row.get("importance", 0.5),
-                context=json.loads(row.get("context", "{}")) if isinstance(row.get("context"), str) else row.get("context", {}),
-                metadata=json.loads(row.get("metadata", "{}")) if isinstance(row.get("metadata"), str) else row.get("metadata", {}),
-                source=row.get("source"),
-                created_at=row.get("created_at"),
-                updated_at=row.get("updated_at"),
-            ))
+            memories.append(
+                Memory(
+                    memory_id=row.get("memory_id"),
+                    project_id=row.get("project_id"),
+                    user_id=row.get("user_id"),
+                    content=row.get("content"),
+                    memory_type=row.get("memory_type"),
+                    importance=row.get("importance", 0.5),
+                    context=(
+                        json.loads(row.get("context", "{}"))
+                        if isinstance(row.get("context"), str)
+                        else row.get("context", {})
+                    ),
+                    metadata=(
+                        json.loads(row.get("metadata", "{}"))
+                        if isinstance(row.get("metadata"), str)
+                        else row.get("metadata", {})
+                    ),
+                    source=row.get("source"),
+                    created_at=row.get("created_at"),
+                    updated_at=row.get("updated_at"),
+                )
+            )
         return memories
 
     async def create_memory(
@@ -427,7 +439,7 @@ class KuzuDBClient(BaseVectorDB):
                 "memory_type": memory.memory_type,
                 "context": memory.context or {},
                 "source": memory.source,
-                **(memory.metadata or {})
+                **(memory.metadata or {}),
             },
             importance=memory.importance,
         )
@@ -467,19 +479,21 @@ class KuzuDBClient(BaseVectorDB):
 
         memories = []
         for row in results:
-            memories.append(Memory(
-                memory_id=row[0],
-                project_id=project_id,
-                user_id=user_id,
-                content=row[1],
-                memory_type=row[2],
-                importance=row[3],
-                context=json.loads(row[4]) if isinstance(row[4], str) else row[4],
-                metadata=json.loads(row[5]) if isinstance(row[5], str) else row[5],
-                source=row[6],
-                created_at=row[7],
-                updated_at=row[8],
-            ))
+            memories.append(
+                Memory(
+                    memory_id=row[0],
+                    project_id=project_id,
+                    user_id=user_id,
+                    content=row[1],
+                    memory_type=row[2],
+                    importance=row[3],
+                    context=json.loads(row[4]) if isinstance(row[4], str) else row[4],
+                    metadata=json.loads(row[5]) if isinstance(row[5], str) else row[5],
+                    source=row[6],
+                    created_at=row[7],
+                    updated_at=row[8],
+                )
+            )
 
         return memories
 
@@ -492,20 +506,22 @@ class KuzuDBClient(BaseVectorDB):
             RETURN p.project_id, p.name, p.description, p.metadata,
                    p.created_at, p.updated_at
             """,
-            {"uid": user_id}
+            {"uid": user_id},
         )
 
         projects = []
         for row in results:
-            projects.append(Project(
-                project_id=row[0],
-                name=row[1],
-                description=row[2],
-                user_id=user_id,
-                metadata=json.loads(row[3]) if isinstance(row[3], str) else row[3],
-                created_at=row[4],
-                updated_at=row[5],
-            ))
+            projects.append(
+                Project(
+                    project_id=row[0],
+                    name=row[1],
+                    description=row[2],
+                    user_id=user_id,
+                    metadata=json.loads(row[3]) if isinstance(row[3], str) else row[3],
+                    created_at=row[4],
+                    updated_at=row[5],
+                )
+            )
 
         return projects
 
@@ -536,7 +552,7 @@ class KuzuDBClient(BaseVectorDB):
                 "desc": "Memories imported from markdown files",
                 "created": datetime.now(timezone.utc).isoformat(),
                 "updated": datetime.now(timezone.utc).isoformat(),
-            }
+            },
         )
 
         for memory_create in memories:
@@ -551,17 +567,21 @@ class KuzuDBClient(BaseVectorDB):
                     "memory_type": memory_create.memory_type or "knowledge",
                     "context": memory_create.context or {},
                     "source": memory_create.source,
-                    **(memory_create.metadata or {})
+                    **(memory_create.metadata or {}),
                 },
                 importance=memory_create.importance,
             )
             imported_count += 1
 
         if imported_count > 0:
-            logger.info(f"Imported {imported_count} memories from markdown files to KuzuDB")
+            logger.info(
+                f"Imported {imported_count} memories from markdown files to KuzuDB"
+            )
 
     # Additional methods for graph-specific operations
-    def get_related_memories(self, memory_id: str, relationship_type: Optional[str] = None) -> List[Dict]:
+    def get_related_memories(
+        self, memory_id: str, relationship_type: Optional[str] = None
+    ) -> List[Dict]:
         """Get memories related to a specific memory through graph relationships."""
         where = ""
         params = {"mid": memory_id}
@@ -580,12 +600,14 @@ class KuzuDBClient(BaseVectorDB):
 
         related = []
         for row in results:
-            related.append({
-                "memory_id": row[0],
-                "content": row[1],
-                "relationship_type": row[2],
-                "strength": row[3],
-            })
+            related.append(
+                {
+                    "memory_id": row[0],
+                    "content": row[1],
+                    "relationship_type": row[2],
+                    "strength": row[3],
+                }
+            )
 
         return related
 
@@ -603,12 +625,14 @@ class KuzuDBClient(BaseVectorDB):
         nodes = []
         node_ids = set()
         for row in nodes_results:
-            nodes.append({
-                "id": row[0],
-                "content": row[1],
-                "type": row[2],
-                "importance": row[3],
-            })
+            nodes.append(
+                {
+                    "id": row[0],
+                    "content": row[1],
+                    "type": row[2],
+                    "importance": row[3],
+                }
+            )
             node_ids.add(row[0])
 
         # Get edges
@@ -622,12 +646,14 @@ class KuzuDBClient(BaseVectorDB):
 
         edges = []
         for row in edges_results:
-            edges.append({
-                "source": row[0],
-                "target": row[1],
-                "type": row[2],
-                "strength": row[3],
-            })
+            edges.append(
+                {
+                    "source": row[0],
+                    "target": row[1],
+                    "type": row[2],
+                    "strength": row[3],
+                }
+            )
 
         return {
             "nodes": nodes,

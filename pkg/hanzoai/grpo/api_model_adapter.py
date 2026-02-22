@@ -67,7 +67,9 @@ class APIModelAdapter:
         try:
             from openai import OpenAI
         except ImportError:
-            raise ImportError("OpenAI package not found. Install with: pip install openai")
+            raise ImportError(
+                "OpenAI package not found. Install with: pip install openai"
+            )
 
         self.client = OpenAI(api_key=config.api_key, base_url=config.base_url)
 
@@ -130,13 +132,20 @@ class APIModelAdapter:
         responses = []
         for prompt in prompts:
             response = self.generate(
-                prompt, temperature=temperature, max_tokens=max_tokens, system_prompt=system_prompt
+                prompt,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                system_prompt=system_prompt,
             )
             responses.append(response)
         return responses
 
     def generate_with_experiences(
-        self, query: str, experiences: str, temperature: Optional[float] = None, max_tokens: Optional[int] = None
+        self,
+        query: str,
+        experiences: str,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
     ) -> str:
         """Generate response with experiences injected into prompt.
 
@@ -166,7 +175,9 @@ Now solve the problem step by step."""
 
 Solve the problem step by step."""
 
-        return self.generate(enhanced_prompt, temperature=temperature, max_tokens=max_tokens)
+        return self.generate(
+            enhanced_prompt, temperature=temperature, max_tokens=max_tokens
+        )
 
     def __repr__(self) -> str:
         """Return string representation."""
@@ -185,7 +196,9 @@ class DeepSeekAdapter(APIModelAdapter):
         >>> response = adapter.generate("Solve: x + 5 = 10")
     """
 
-    def __init__(self, api_key: str, model: str = "deepseek-chat", temperature: float = 0.7):
+    def __init__(
+        self, api_key: str, model: str = "deepseek-chat", temperature: float = 0.7
+    ):
         """Initialize DeepSeek adapter.
 
         Args:
@@ -194,7 +207,10 @@ class DeepSeekAdapter(APIModelAdapter):
             temperature: Sampling temperature
         """
         config = APIModelConfig(
-            api_key=api_key, base_url="https://api.deepseek.com/v1", model=model, temperature=temperature
+            api_key=api_key,
+            base_url="https://api.deepseek.com/v1",
+            model=model,
+            temperature=temperature,
         )
         super().__init__(config)
 
@@ -212,7 +228,9 @@ class OpenAIAdapter(APIModelAdapter):
         >>> response = adapter.generate("Solve: x + 5 = 10")
     """
 
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini", temperature: float = 0.7):
+    def __init__(
+        self, api_key: str, model: str = "gpt-4o-mini", temperature: float = 0.7
+    ):
         """Initialize OpenAI adapter.
 
         Args:
@@ -221,6 +239,9 @@ class OpenAIAdapter(APIModelAdapter):
             temperature: Sampling temperature
         """
         config = APIModelConfig(
-            api_key=api_key, base_url="https://api.openai.com/v1", model=model, temperature=temperature
+            api_key=api_key,
+            base_url="https://api.openai.com/v1",
+            model=model,
+            temperature=temperature,
         )
         super().__init__(config)

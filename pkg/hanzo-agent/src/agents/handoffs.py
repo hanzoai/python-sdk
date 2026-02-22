@@ -67,7 +67,9 @@ class Handoff(Generic[TContext]):
     """The JSON schema for the handoff input. Can be empty if the handoff does not take an input.
     """
 
-    on_invoke_handoff: Callable[[RunContextWrapper[Any], str], Awaitable[Agent[TContext]]]
+    on_invoke_handoff: Callable[
+        [RunContextWrapper[Any], str], Awaitable[Agent[TContext]]
+    ]
     """The function that invokes the handoff. The parameters passed are:
     1. The handoff run context
     2. The arguments from the LLM, as a JSON string. Empty string if input_json_schema is empty.
@@ -167,9 +169,9 @@ def handoff(
             against this type. Only relevant if you pass a function that takes an input.
         input_filter: a function that filters the inputs that are passed to the next agent.
     """
-    assert (on_handoff and input_type) or not (on_handoff and input_type), (
-        "You must provide either both on_input and input_type, or neither"
-    )
+    assert (on_handoff and input_type) or not (
+        on_handoff and input_type
+    ), "You must provide either both on_input and input_type, or neither"
     type_adapter: TypeAdapter[Any] | None
     if input_type is not None:
         assert callable(on_handoff), "on_handoff must be callable"
@@ -198,7 +200,9 @@ def handoff(
                         data={"details": "input_json is None"},
                     )
                 )
-                raise ModelBehaviorError("Handoff function expected non-null input, but got None")
+                raise ModelBehaviorError(
+                    "Handoff function expected non-null input, but got None"
+                )
 
             validated_input = _utils.validate_json(
                 json_str=input_json,
@@ -220,7 +224,9 @@ def handoff(
         return agent
 
     tool_name = tool_name_override or Handoff.default_tool_name(agent)
-    tool_description = tool_description_override or Handoff.default_tool_description(agent)
+    tool_description = tool_description_override or Handoff.default_tool_description(
+        agent
+    )
 
     # Always ensure the input JSON schema is in strict mode
     # If there is a need, we can make this configurable in the future

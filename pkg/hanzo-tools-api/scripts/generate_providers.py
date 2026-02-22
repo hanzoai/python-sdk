@@ -223,9 +223,13 @@ def fetch_oapis_slop(name: str) -> dict | None:
             result = {}
 
             # Extract base URL (usually on a line with https://)
-            base_match = re.search(r"Base URL:\s*(https?://[^\s]+)", content, re.IGNORECASE)
+            base_match = re.search(
+                r"Base URL:\s*(https?://[^\s]+)", content, re.IGNORECASE
+            )
             if not base_match:
-                base_match = re.search(r"\*\*Base URL\*\*:\s*(https?://[^\s]+)", content, re.IGNORECASE)
+                base_match = re.search(
+                    r"\*\*Base URL\*\*:\s*(https?://[^\s]+)", content, re.IGNORECASE
+                )
             if base_match:
                 result["base_url"] = base_match.group(1).rstrip("/")
 
@@ -272,7 +276,10 @@ def main():
     print(f"Found {len(data)} APIs", file=sys.stderr)
 
     # Fetch oapis.org LLM descriptions for popular APIs
-    print(f"Fetching LLM descriptions from oapis.org for {len(OAPIS_POPULAR)} popular APIs...", file=sys.stderr)
+    print(
+        f"Fetching LLM descriptions from oapis.org for {len(OAPIS_POPULAR)} popular APIs...",
+        file=sys.stderr,
+    )
     oapis_data = fetch_oapis_batch(OAPIS_POPULAR)
     print(f"Got {len(oapis_data)} oapis.org descriptions", file=sys.stderr)
 
@@ -320,7 +327,9 @@ def main():
                 oapis_key = popular
                 break
 
-        description = api_info.get("description", "")[:200] if api_info.get("description") else ""
+        description = (
+            api_info.get("description", "")[:200] if api_info.get("description") else ""
+        )
         endpoints_count = None
 
         if oapis_key and oapis_key in oapis_data:
@@ -363,15 +372,21 @@ def main():
     print(f"Generated {len(apis)} provider configurations.")
     print("Includes LLM-optimized descriptions from oapis.org for popular APIs.")
     print()
-    print("Regenerate with: python scripts/generate_providers.py > hanzo_tools/api/apis_guru_providers.py")
+    print(
+        "Regenerate with: python scripts/generate_providers.py > hanzo_tools/api/apis_guru_providers.py"
+    )
     print('"""')
     print()
     print("from typing import Any")
     print()
     print()
-    print("# =============================================================================")
+    print(
+        "# ============================================================================="
+    )
     print("# APIs.guru Provider Configurations (with oapis.org enhancements)")
-    print("# =============================================================================")
+    print(
+        "# ============================================================================="
+    )
     print()
     print("APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {")
 

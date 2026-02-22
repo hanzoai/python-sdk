@@ -50,7 +50,11 @@ class ProductsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"collection_id": collection_id, "limit": limit, "offset": offset},
+                query={
+                    "collection_id": collection_id,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -68,7 +72,10 @@ class ProductsResource(SyncAPIResource):
         return self._get(
             f"/commerce/products/{product_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -89,9 +96,18 @@ class ProductsResource(SyncAPIResource):
         """Create a new product."""
         return self._post(
             "/commerce/products",
-            body={"name": name, "price": price, "description": description, "images": images, "metadata": metadata},
+            body={
+                "name": name,
+                "price": price,
+                "description": description,
+                "images": images,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -113,7 +129,10 @@ class ProductsResource(SyncAPIResource):
             f"/commerce/products/{product_id}",
             body={"name": name, "price": price, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -131,7 +150,10 @@ class ProductsResource(SyncAPIResource):
         return self._delete(
             f"/commerce/products/{product_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -149,7 +171,10 @@ class ProductsResource(SyncAPIResource):
         return self._get(
             f"/commerce/products/{product_id}/variants",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -184,7 +209,11 @@ class AsyncProductsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"collection_id": collection_id, "limit": limit, "offset": offset},
+                query={
+                    "collection_id": collection_id,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -201,7 +230,10 @@ class AsyncProductsResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/products/{product_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -221,9 +253,18 @@ class AsyncProductsResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/commerce/products",
-            body={"name": name, "price": price, "description": description, "images": images, "metadata": metadata},
+            body={
+                "name": name,
+                "price": price,
+                "description": description,
+                "images": images,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -244,7 +285,10 @@ class AsyncProductsResource(AsyncAPIResource):
             f"/commerce/products/{product_id}",
             body={"name": name, "price": price, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -261,7 +305,10 @@ class AsyncProductsResource(AsyncAPIResource):
         return await self._delete(
             f"/commerce/products/{product_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -278,7 +325,10 @@ class AsyncProductsResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/products/{product_id}/variants",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

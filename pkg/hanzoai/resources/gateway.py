@@ -39,7 +39,10 @@ class GatewayResource(SyncAPIResource):
             "/gateway",
             body={"name": name, "type": type, "config": config},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -56,7 +59,10 @@ class GatewayResource(SyncAPIResource):
         return self._get(
             "/gateway",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -74,7 +80,10 @@ class GatewayResource(SyncAPIResource):
         return self._get(
             f"/gateway/{gateway_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -92,7 +101,10 @@ class GatewayResource(SyncAPIResource):
         return self._delete(
             f"/gateway/{gateway_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -113,7 +125,10 @@ class GatewayResource(SyncAPIResource):
             f"/gateway/{gateway_id}/attach",
             body={"target": target, "target_type": target_type},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -131,7 +146,10 @@ class GatewayResource(SyncAPIResource):
         return self._get(
             f"/gateway/{gateway_id}/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -149,7 +167,10 @@ class GatewayResource(SyncAPIResource):
         return self._get(
             f"/gateway/{gateway_id}/logs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -167,7 +188,10 @@ class GatewayResource(SyncAPIResource):
         return self._post(
             f"/gateway/{gateway_id}/rotate-keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -200,7 +224,10 @@ class AsyncGatewayResource(AsyncAPIResource):
             "/gateway",
             body={"name": name, "type": type, "config": config},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -217,7 +244,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._get(
             "/gateway",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -235,7 +265,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._get(
             f"/gateway/{gateway_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -253,7 +286,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._delete(
             f"/gateway/{gateway_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -274,7 +310,10 @@ class AsyncGatewayResource(AsyncAPIResource):
             f"/gateway/{gateway_id}/attach",
             body={"target": target, "target_type": target_type},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -292,7 +331,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._get(
             f"/gateway/{gateway_id}/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -310,7 +352,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._get(
             f"/gateway/{gateway_id}/logs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -328,7 +373,10 @@ class AsyncGatewayResource(AsyncAPIResource):
         return await self._post(
             f"/gateway/{gateway_id}/rotate-keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

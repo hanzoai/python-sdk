@@ -59,21 +59,49 @@ UNKNOWN_DEVICE_CAPABILITIES = DeviceCapabilities(
 CHIP_FLOPS = {
     # Apple M series
     "Apple M1": DeviceFlops(fp32=2.29 * TFLOPS, fp16=4.58 * TFLOPS, int8=9.16 * TFLOPS),
-    "Apple M1 Pro": DeviceFlops(fp32=5.30 * TFLOPS, fp16=10.60 * TFLOPS, int8=21.20 * TFLOPS),
-    "Apple M1 Max": DeviceFlops(fp32=10.60 * TFLOPS, fp16=21.20 * TFLOPS, int8=42.40 * TFLOPS),
-    "Apple M2": DeviceFlops(fp32=3.55 * TFLOPS, fp16=7.10 * TFLOPS, int8=14.20 * TFLOPS),
-    "Apple M2 Pro": DeviceFlops(fp32=5.68 * TFLOPS, fp16=11.36 * TFLOPS, int8=22.72 * TFLOPS),
-    "Apple M2 Max": DeviceFlops(fp32=13.49 * TFLOPS, fp16=26.98 * TFLOPS, int8=53.96 * TFLOPS),
-    "Apple M3": DeviceFlops(fp32=3.55 * TFLOPS, fp16=7.10 * TFLOPS, int8=14.20 * TFLOPS),
-    "Apple M3 Pro": DeviceFlops(fp32=4.97 * TFLOPS, fp16=9.94 * TFLOPS, int8=19.88 * TFLOPS),
-    "Apple M3 Max": DeviceFlops(fp32=14.20 * TFLOPS, fp16=28.40 * TFLOPS, int8=56.80 * TFLOPS),
-    "Apple M4": DeviceFlops(fp32=4.26 * TFLOPS, fp16=8.52 * TFLOPS, int8=17.04 * TFLOPS),
+    "Apple M1 Pro": DeviceFlops(
+        fp32=5.30 * TFLOPS, fp16=10.60 * TFLOPS, int8=21.20 * TFLOPS
+    ),
+    "Apple M1 Max": DeviceFlops(
+        fp32=10.60 * TFLOPS, fp16=21.20 * TFLOPS, int8=42.40 * TFLOPS
+    ),
+    "Apple M2": DeviceFlops(
+        fp32=3.55 * TFLOPS, fp16=7.10 * TFLOPS, int8=14.20 * TFLOPS
+    ),
+    "Apple M2 Pro": DeviceFlops(
+        fp32=5.68 * TFLOPS, fp16=11.36 * TFLOPS, int8=22.72 * TFLOPS
+    ),
+    "Apple M2 Max": DeviceFlops(
+        fp32=13.49 * TFLOPS, fp16=26.98 * TFLOPS, int8=53.96 * TFLOPS
+    ),
+    "Apple M3": DeviceFlops(
+        fp32=3.55 * TFLOPS, fp16=7.10 * TFLOPS, int8=14.20 * TFLOPS
+    ),
+    "Apple M3 Pro": DeviceFlops(
+        fp32=4.97 * TFLOPS, fp16=9.94 * TFLOPS, int8=19.88 * TFLOPS
+    ),
+    "Apple M3 Max": DeviceFlops(
+        fp32=14.20 * TFLOPS, fp16=28.40 * TFLOPS, int8=56.80 * TFLOPS
+    ),
+    "Apple M4": DeviceFlops(
+        fp32=4.26 * TFLOPS, fp16=8.52 * TFLOPS, int8=17.04 * TFLOPS
+    ),
     # NVIDIA GPUs
-    "NVIDIA GEFORCE RTX 4090": DeviceFlops(fp32=82.58 * TFLOPS, fp16=165.16 * TFLOPS, int8=330.32 * TFLOPS),
-    "NVIDIA GEFORCE RTX 4080": DeviceFlops(fp32=48.74 * TFLOPS, fp16=97.48 * TFLOPS, int8=194.96 * TFLOPS),
-    "NVIDIA GEFORCE RTX 4070": DeviceFlops(fp32=29.0 * TFLOPS, fp16=58.0 * TFLOPS, int8=116.0 * TFLOPS),
-    "NVIDIA GEFORCE RTX 3090": DeviceFlops(fp32=35.6 * TFLOPS, fp16=71.2 * TFLOPS, int8=142.4 * TFLOPS),
-    "NVIDIA GEFORCE RTX 3080": DeviceFlops(fp32=29.8 * TFLOPS, fp16=59.6 * TFLOPS, int8=119.2 * TFLOPS),
+    "NVIDIA GEFORCE RTX 4090": DeviceFlops(
+        fp32=82.58 * TFLOPS, fp16=165.16 * TFLOPS, int8=330.32 * TFLOPS
+    ),
+    "NVIDIA GEFORCE RTX 4080": DeviceFlops(
+        fp32=48.74 * TFLOPS, fp16=97.48 * TFLOPS, int8=194.96 * TFLOPS
+    ),
+    "NVIDIA GEFORCE RTX 4070": DeviceFlops(
+        fp32=29.0 * TFLOPS, fp16=58.0 * TFLOPS, int8=116.0 * TFLOPS
+    ),
+    "NVIDIA GEFORCE RTX 3090": DeviceFlops(
+        fp32=35.6 * TFLOPS, fp16=71.2 * TFLOPS, int8=142.4 * TFLOPS
+    ),
+    "NVIDIA GEFORCE RTX 3080": DeviceFlops(
+        fp32=29.8 * TFLOPS, fp16=59.6 * TFLOPS, int8=119.2 * TFLOPS
+    ),
     # Add more as needed
 }
 
@@ -103,7 +131,9 @@ def mac_device_capabilities() -> DeviceCapabilities:
         import subprocess
 
         # Get model info
-        model_result = subprocess.run(["system_profiler", "SPHardwareDataType"], capture_output=True, text=True)
+        model_result = subprocess.run(
+            ["system_profiler", "SPHardwareDataType"], capture_output=True, text=True
+        )
 
         model = "Mac"
         chip = "Unknown"
@@ -146,7 +176,11 @@ def linux_device_capabilities() -> DeviceCapabilities:
         # Try to detect NVIDIA GPU using nvidia-smi
         try:
             result = subprocess.run(
-                ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                [
+                    "nvidia-smi",
+                    "--query-gpu=name,memory.total",
+                    "--format=csv,noheader",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=5,
@@ -158,7 +192,9 @@ def linux_device_capabilities() -> DeviceCapabilities:
                 gpu_memory = int(gpu_info[1].strip().split()[0])  # Memory in MiB
 
                 # Lookup FLOPS from known GPUs
-                flops = CHIP_FLOPS.get(gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0))
+                flops = CHIP_FLOPS.get(
+                    gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0)
+                )
 
                 return DeviceCapabilities(
                     model="Linux Box with GPU",
@@ -171,13 +207,20 @@ def linux_device_capabilities() -> DeviceCapabilities:
 
         # Try to detect AMD GPU using rocm-smi
         try:
-            result = subprocess.run(["rocm-smi", "--showproductname"], capture_output=True, text=True, timeout=5)
+            result = subprocess.run(
+                ["rocm-smi", "--showproductname"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
 
             if result.returncode == 0 and result.stdout.strip():
                 # Parse AMD GPU info
                 for line in result.stdout.split("\n"):
                     if "GPU" in line:
-                        gpu_name = line.split(":")[-1].strip() if ":" in line else "AMD GPU"
+                        gpu_name = (
+                            line.split(":")[-1].strip() if ":" in line else "AMD GPU"
+                        )
                         memory = psutil.virtual_memory().total // 2**20
 
                         return DeviceCapabilities(
@@ -216,7 +259,11 @@ def windows_device_capabilities() -> DeviceCapabilities:
         # Try to detect NVIDIA GPU using nvidia-smi
         try:
             result = subprocess.run(
-                ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                [
+                    "nvidia-smi",
+                    "--query-gpu=name,memory.total",
+                    "--format=csv,noheader",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=5,
@@ -229,7 +276,9 @@ def windows_device_capabilities() -> DeviceCapabilities:
                 gpu_memory = int(gpu_info[1].strip().split()[0])  # Memory in MiB
 
                 # Lookup FLOPS from known GPUs
-                flops = CHIP_FLOPS.get(gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0))
+                flops = CHIP_FLOPS.get(
+                    gpu_name.upper(), DeviceFlops(fp32=0, fp16=0, int8=0)
+                )
 
                 return DeviceCapabilities(
                     model="Windows Box with GPU",

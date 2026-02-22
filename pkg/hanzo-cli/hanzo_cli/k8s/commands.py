@@ -18,7 +18,6 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
 
 import click
 from rich.console import Console
@@ -103,7 +102,9 @@ class KubectlGroup(click.Group):
         @click.argument("args", nargs=-1, type=click.UNPROCESSED)
         @click.pass_context
         def kubectl_proxy(ctx: click.Context, args: tuple[str, ...]) -> None:
-            ns = (ctx.parent.params.get("namespace") if ctx.parent else None) or DEFAULT_NAMESPACE
+            ns = (
+                ctx.parent.params.get("namespace") if ctx.parent else None
+            ) or DEFAULT_NAMESPACE
             all_args = [cmd_name] + list(args)
             rc = _kubectl_run(all_args, namespace=ns)
             ctx.exit(rc)
@@ -245,7 +246,11 @@ def k8s_info() -> None:
     table.add_column("Value", style="white")
 
     for key, value in info.items():
-        display = json.dumps(value, indent=2) if isinstance(value, (dict, list)) else str(value)
+        display = (
+            json.dumps(value, indent=2)
+            if isinstance(value, (dict, list))
+            else str(value)
+        )
         table.add_row(key, display)
 
     console.print(table)

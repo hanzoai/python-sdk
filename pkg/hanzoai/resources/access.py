@@ -39,7 +39,10 @@ class AccessResource(SyncAPIResource):
             "/access/grant",
             body={"principal": principal, "resource": resource, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -59,7 +62,10 @@ class AccessResource(SyncAPIResource):
             "/access/revoke",
             body={"principal": principal, "resource": resource},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -76,7 +82,10 @@ class AccessResource(SyncAPIResource):
         return self._get(
             "/access/whoami",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -118,7 +127,10 @@ class AccessResource(SyncAPIResource):
             "/access/share",
             body={"service": service, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -135,7 +147,10 @@ class AccessResource(SyncAPIResource):
         return self._get(
             "/access",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -168,7 +183,10 @@ class AsyncAccessResource(AsyncAPIResource):
             "/access/grant",
             body={"principal": principal, "resource": resource, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -188,7 +206,10 @@ class AsyncAccessResource(AsyncAPIResource):
             "/access/revoke",
             body={"principal": principal, "resource": resource},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -205,7 +226,10 @@ class AsyncAccessResource(AsyncAPIResource):
         return await self._get(
             "/access/whoami",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -247,7 +271,10 @@ class AsyncAccessResource(AsyncAPIResource):
             "/access/share",
             body={"service": service, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -264,7 +291,10 @@ class AsyncAccessResource(AsyncAPIResource):
         return await self._get(
             "/access",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

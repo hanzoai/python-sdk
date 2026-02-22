@@ -51,7 +51,12 @@ class CampaignsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"status": status, "type": type, "limit": limit, "offset": offset},
+                query={
+                    "status": status,
+                    "type": type,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -69,7 +74,10 @@ class CampaignsResource(SyncAPIResource):
         return self._get(
             f"/marketing/campaigns/{campaign_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -102,7 +110,10 @@ class CampaignsResource(SyncAPIResource):
                 "content": content,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -123,9 +134,17 @@ class CampaignsResource(SyncAPIResource):
         """Update a campaign."""
         return self._put(
             f"/marketing/campaigns/{campaign_id}",
-            body={"name": name, "status": status, "budget": budget, "targeting": targeting},
+            body={
+                "name": name,
+                "status": status,
+                "budget": budget,
+                "targeting": targeting,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -143,7 +162,10 @@ class CampaignsResource(SyncAPIResource):
         return self._delete(
             f"/marketing/campaigns/{campaign_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -161,7 +183,10 @@ class CampaignsResource(SyncAPIResource):
         return self._post(
             f"/marketing/campaigns/{campaign_id}/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -179,7 +204,10 @@ class CampaignsResource(SyncAPIResource):
         return self._post(
             f"/marketing/campaigns/{campaign_id}/pause",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -197,7 +225,10 @@ class CampaignsResource(SyncAPIResource):
         return self._get(
             f"/marketing/campaigns/{campaign_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -233,7 +264,12 @@ class AsyncCampaignsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"status": status, "type": type, "limit": limit, "offset": offset},
+                query={
+                    "status": status,
+                    "type": type,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -250,7 +286,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/campaigns/{campaign_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -282,7 +321,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
                 "content": content,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -302,9 +344,17 @@ class AsyncCampaignsResource(AsyncAPIResource):
     ) -> object:
         return await self._put(
             f"/marketing/campaigns/{campaign_id}",
-            body={"name": name, "status": status, "budget": budget, "targeting": targeting},
+            body={
+                "name": name,
+                "status": status,
+                "budget": budget,
+                "targeting": targeting,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -321,7 +371,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
         return await self._delete(
             f"/marketing/campaigns/{campaign_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -338,7 +391,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
         return await self._post(
             f"/marketing/campaigns/{campaign_id}/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -355,7 +411,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
         return await self._post(
             f"/marketing/campaigns/{campaign_id}/pause",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -372,7 +431,10 @@ class AsyncCampaignsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/campaigns/{campaign_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

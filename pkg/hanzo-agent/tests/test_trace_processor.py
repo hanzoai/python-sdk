@@ -64,7 +64,9 @@ def test_batch_trace_processor_on_span_end(mocked_exporter):
 
 
 def test_batch_trace_processor_queue_full(mocked_exporter):
-    processor = BatchTraceProcessor(exporter=mocked_exporter, max_queue_size=2, schedule_delay=0.1)
+    processor = BatchTraceProcessor(
+        exporter=mocked_exporter, max_queue_size=2, schedule_delay=0.1
+    )
     # Fill the queue
     processor.on_trace_start(get_trace(processor))
     processor.on_trace_start(get_trace(processor))
@@ -99,7 +101,9 @@ def test_batch_processor_doesnt_enqueue_on_trace_end_or_span_start(mocked_export
 
 
 def test_batch_trace_processor_force_flush(mocked_exporter):
-    processor = BatchTraceProcessor(exporter=mocked_exporter, max_batch_size=2, schedule_delay=5.0)
+    processor = BatchTraceProcessor(
+        exporter=mocked_exporter, max_batch_size=2, schedule_delay=5.0
+    )
 
     processor.on_trace_start(get_trace(processor))
     processor.on_span_end(get_span(processor))
@@ -135,7 +139,9 @@ def test_batch_trace_processor_shutdown_flushes(mocked_exporter):
         batch = call_args[0][0]
         total_exported += len(batch)
 
-    assert total_exported == 2, "All items in the queue should be exported upon shutdown"
+    assert (
+        total_exported == 2
+    ), "All items in the queue should be exported upon shutdown"
 
 
 def test_batch_trace_processor_scheduled_export(mocked_exporter):
@@ -244,7 +250,9 @@ def test_backend_span_exporter_5xx_retry(mock_client, patched_time_sleep):
     # Make post() return 500 every time
     mock_client.return_value.post.return_value = mock_response
 
-    exporter = BackendSpanExporter(api_key="test_key", max_retries=3, base_delay=0.1, max_delay=0.2)
+    exporter = BackendSpanExporter(
+        api_key="test_key", max_retries=3, base_delay=0.1, max_delay=0.2
+    )
     exporter.export([get_span(mock_processor())])
 
     # Should retry up to max_retries times
@@ -258,7 +266,9 @@ def test_backend_span_exporter_request_error(mock_client, patched_time_sleep):
     # Make post() raise a RequestError each time
     mock_client.return_value.post.side_effect = httpx.RequestError("Network error")
 
-    exporter = BackendSpanExporter(api_key="test_key", max_retries=2, base_delay=0.1, max_delay=0.2)
+    exporter = BackendSpanExporter(
+        api_key="test_key", max_retries=2, base_delay=0.1, max_delay=0.2
+    )
     exporter.export([get_span(mock_processor())])
 
     # Should retry up to max_retries times

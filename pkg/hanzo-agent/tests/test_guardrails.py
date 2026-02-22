@@ -18,7 +18,9 @@ from agents.guardrail import input_guardrail, output_guardrail
 
 def get_sync_guardrail(triggers: bool, output_info: Any | None = None):
     def sync_guardrail(
-        context: RunContextWrapper[Any], agent: Agent[Any], input: str | list[TResponseInputItem]
+        context: RunContextWrapper[Any],
+        agent: Agent[Any],
+        input: str | list[TResponseInputItem],
     ):
         return GuardrailFunctionOutput(
             output_info=output_info,
@@ -56,7 +58,9 @@ async def test_sync_input_guardrail():
 
 def get_async_input_guardrail(triggers: bool, output_info: Any | None = None):
     async def async_guardrail(
-        context: RunContextWrapper[Any], agent: Agent[Any], input: str | list[TResponseInputItem]
+        context: RunContextWrapper[Any],
+        agent: Agent[Any],
+        input: str | list[TResponseInputItem],
     ):
         return GuardrailFunctionOutput(
             output_info=output_info,
@@ -68,14 +72,18 @@ def get_async_input_guardrail(triggers: bool, output_info: Any | None = None):
 
 @pytest.mark.asyncio
 async def test_async_input_guardrail():
-    guardrail = InputGuardrail(guardrail_function=get_async_input_guardrail(triggers=False))
+    guardrail = InputGuardrail(
+        guardrail_function=get_async_input_guardrail(triggers=False)
+    )
     result = await guardrail.run(
         agent=Agent(name="test"), input="test", context=RunContextWrapper(context=None)
     )
     assert not result.output.tripwire_triggered
     assert result.output.output_info is None
 
-    guardrail = InputGuardrail(guardrail_function=get_async_input_guardrail(triggers=True))
+    guardrail = InputGuardrail(
+        guardrail_function=get_async_input_guardrail(triggers=True)
+    )
     result = await guardrail.run(
         agent=Agent(name="test"), input="test", context=RunContextWrapper(context=None)
     )
@@ -98,12 +106,16 @@ async def test_invalid_input_guardrail_raises_user_error():
         # Purposely ignoring type error
         guardrail = InputGuardrail(guardrail_function="foo")  # type: ignore
         await guardrail.run(
-            agent=Agent(name="test"), input="test", context=RunContextWrapper(context=None)
+            agent=Agent(name="test"),
+            input="test",
+            context=RunContextWrapper(context=None),
         )
 
 
 def get_sync_output_guardrail(triggers: bool, output_info: Any | None = None):
-    def sync_guardrail(context: RunContextWrapper[Any], agent: Agent[Any], agent_output: Any):
+    def sync_guardrail(
+        context: RunContextWrapper[Any], agent: Agent[Any], agent_output: Any
+    ):
         return GuardrailFunctionOutput(
             output_info=output_info,
             tripwire_triggered=triggers,
@@ -114,16 +126,24 @@ def get_sync_output_guardrail(triggers: bool, output_info: Any | None = None):
 
 @pytest.mark.asyncio
 async def test_sync_output_guardrail():
-    guardrail = OutputGuardrail(guardrail_function=get_sync_output_guardrail(triggers=False))
+    guardrail = OutputGuardrail(
+        guardrail_function=get_sync_output_guardrail(triggers=False)
+    )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert not result.output.tripwire_triggered
     assert result.output.output_info is None
 
-    guardrail = OutputGuardrail(guardrail_function=get_sync_output_guardrail(triggers=True))
+    guardrail = OutputGuardrail(
+        guardrail_function=get_sync_output_guardrail(triggers=True)
+    )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert result.output.tripwire_triggered
     assert result.output.output_info is None
@@ -132,7 +152,9 @@ async def test_sync_output_guardrail():
         guardrail_function=get_sync_output_guardrail(triggers=True, output_info="test")
     )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert result.output.tripwire_triggered
     assert result.output.output_info == "test"
@@ -152,16 +174,24 @@ def get_async_output_guardrail(triggers: bool, output_info: Any | None = None):
 
 @pytest.mark.asyncio
 async def test_async_output_guardrail():
-    guardrail = OutputGuardrail(guardrail_function=get_async_output_guardrail(triggers=False))
+    guardrail = OutputGuardrail(
+        guardrail_function=get_async_output_guardrail(triggers=False)
+    )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert not result.output.tripwire_triggered
     assert result.output.output_info is None
 
-    guardrail = OutputGuardrail(guardrail_function=get_async_output_guardrail(triggers=True))
+    guardrail = OutputGuardrail(
+        guardrail_function=get_async_output_guardrail(triggers=True)
+    )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert result.output.tripwire_triggered
     assert result.output.output_info is None
@@ -170,7 +200,9 @@ async def test_async_output_guardrail():
         guardrail_function=get_async_output_guardrail(triggers=True, output_info="test")
     )
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert result.output.tripwire_triggered
     assert result.output.output_info == "test"
@@ -182,13 +214,17 @@ async def test_invalid_output_guardrail_raises_user_error():
         # Purposely ignoring type error
         guardrail = OutputGuardrail(guardrail_function="foo")  # type: ignore
         await guardrail.run(
-            agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+            agent=Agent(name="test"),
+            agent_output="test",
+            context=RunContextWrapper(context=None),
         )
 
 
 @input_guardrail
 def decorated_input_guardrail(
-    context: RunContextWrapper[Any], agent: Agent[Any], input: str | list[TResponseInputItem]
+    context: RunContextWrapper[Any],
+    agent: Agent[Any],
+    input: str | list[TResponseInputItem],
 ) -> GuardrailFunctionOutput:
     return GuardrailFunctionOutput(
         output_info="test_1",
@@ -198,7 +234,9 @@ def decorated_input_guardrail(
 
 @input_guardrail(name="Custom name")
 def decorated_named_input_guardrail(
-    context: RunContextWrapper[Any], agent: Agent[Any], input: str | list[TResponseInputItem]
+    context: RunContextWrapper[Any],
+    agent: Agent[Any],
+    input: str | list[TResponseInputItem],
 ) -> GuardrailFunctionOutput:
     return GuardrailFunctionOutput(
         output_info="test_2",
@@ -248,14 +286,18 @@ def decorated_named_output_guardrail(
 async def test_output_guardrail_decorators():
     guardrail = decorated_output_guardrail
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert not result.output.tripwire_triggered
     assert result.output.output_info == "test_3"
 
     guardrail = decorated_named_output_guardrail
     result = await guardrail.run(
-        agent=Agent(name="test"), agent_output="test", context=RunContextWrapper(context=None)
+        agent=Agent(name="test"),
+        agent_output="test",
+        context=RunContextWrapper(context=None),
     )
     assert not result.output.tripwire_triggered
     assert result.output.output_info == "test_4"

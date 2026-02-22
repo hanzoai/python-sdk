@@ -187,8 +187,12 @@ mode --action current"""
                 for mode_name in mode_names:
                     mode = next((m for m in modes if m.name == mode_name), None)
                     if mode:
-                        marker = " (active)" if active and active.name == mode.name else ""
-                        output.append(f"  {mode.name}{marker}: {mode.programmer} - {mode.description}")
+                        marker = (
+                            " (active)" if active and active.name == mode.name else ""
+                        )
+                        output.append(
+                            f"  {mode.name}{marker}: {mode.programmer} - {mode.description}"
+                        )
 
             output.append("\nUse 'mode --action activate <name>' to activate a mode")
 
@@ -252,7 +256,9 @@ mode --action current"""
                     for key, value in mode.environment.items():
                         output.append(f"  {key}={value}")
 
-                output.append("\nNote: Restart MCP session for changes to take full effect")
+                output.append(
+                    "\nNote: Restart MCP session for changes to take full effect"
+                )
 
                 return "\n".join(output)
 
@@ -306,14 +312,18 @@ mode --action current"""
         tool_self = self
 
         @server.tool(name=self.name, description=self.description)
-        async def mode_handler(ctx: MCPContext, action: str = "list", name: Optional[str] = None) -> str:
+        async def mode_handler(
+            ctx: MCPContext, action: str = "list", name: Optional[str] = None
+        ) -> str:
             """Handle mode tool calls."""
             return await tool_self.run(ctx, action=action, name=name)
 
     @auto_timeout("mode")
     async def call(self, ctx: MCPContext, **params) -> str:
         """Call the tool with arguments."""
-        return await self.run(ctx, action=params.get("action", "list"), name=params.get("name"))
+        return await self.run(
+            ctx, action=params.get("action", "list"), name=params.get("name")
+        )
 
 
 # Create tool instance

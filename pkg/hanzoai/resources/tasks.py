@@ -51,7 +51,12 @@ class TasksResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"status": status, "type": type, "limit": limit, "offset": offset},
+                query={
+                    "status": status,
+                    "type": type,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -69,7 +74,10 @@ class TasksResource(SyncAPIResource):
         return self._get(
             f"/operations/tasks/{task_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -90,9 +98,18 @@ class TasksResource(SyncAPIResource):
         """Create a new task."""
         return self._post(
             "/operations/tasks",
-            body={"name": name, "type": type, "config": config, "schedule": schedule, "priority": priority},
+            body={
+                "name": name,
+                "type": type,
+                "config": config,
+                "schedule": schedule,
+                "priority": priority,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -114,7 +131,10 @@ class TasksResource(SyncAPIResource):
             f"/operations/tasks/{task_id}",
             body={"config": config, "schedule": schedule, "priority": priority},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -132,7 +152,10 @@ class TasksResource(SyncAPIResource):
         return self._delete(
             f"/operations/tasks/{task_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -150,7 +173,10 @@ class TasksResource(SyncAPIResource):
         return self._post(
             f"/operations/tasks/{task_id}/run",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -168,7 +194,10 @@ class TasksResource(SyncAPIResource):
         return self._post(
             f"/operations/tasks/{task_id}/cancel",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -227,7 +256,12 @@ class AsyncTasksResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"status": status, "type": type, "limit": limit, "offset": offset},
+                query={
+                    "status": status,
+                    "type": type,
+                    "limit": limit,
+                    "offset": offset,
+                },
             ),
             cast_to=object,
         )
@@ -244,7 +278,10 @@ class AsyncTasksResource(AsyncAPIResource):
         return await self._get(
             f"/operations/tasks/{task_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -264,9 +301,18 @@ class AsyncTasksResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/operations/tasks",
-            body={"name": name, "type": type, "config": config, "schedule": schedule, "priority": priority},
+            body={
+                "name": name,
+                "type": type,
+                "config": config,
+                "schedule": schedule,
+                "priority": priority,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -287,7 +333,10 @@ class AsyncTasksResource(AsyncAPIResource):
             f"/operations/tasks/{task_id}",
             body={"config": config, "schedule": schedule, "priority": priority},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -304,7 +353,10 @@ class AsyncTasksResource(AsyncAPIResource):
         return await self._delete(
             f"/operations/tasks/{task_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -321,7 +373,10 @@ class AsyncTasksResource(AsyncAPIResource):
         return await self._post(
             f"/operations/tasks/{task_id}/run",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -338,7 +393,10 @@ class AsyncTasksResource(AsyncAPIResource):
         return await self._post(
             f"/operations/tasks/{task_id}/cancel",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

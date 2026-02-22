@@ -54,12 +54,23 @@ from hanzo_tools.shell.jq_tool import JqTool
 from hanzo_tools.shell.ps_tool import PsTool, ps_tool
 
 # Core tools
-from hanzo_tools.shell.cmd_tool import CmdNode, CmdTool, CmdResult, NodeStatus, cmd_tool, create_cmd_tool
+from hanzo_tools.shell.cmd_tool import (
+    CmdNode,
+    CmdTool,
+    CmdResult,
+    NodeStatus,
+    cmd_tool,
+    create_cmd_tool,
+)
 
 # Backwards compatibility - DagTool is now CmdTool
 from hanzo_tools.shell.dag_tool import DagNode, DagTool, DagResult, create_dag_tool
 from hanzo_tools.shell.npx_tool import NpxTool, npx_tool
-from hanzo_tools.shell.truncate import truncate_lines, estimate_tokens, truncate_response
+from hanzo_tools.shell.truncate import (
+    truncate_lines,
+    estimate_tokens,
+    truncate_response,
+)
 from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
 
 # HTTP/Data tools (no shell escaping issues)
@@ -70,7 +81,10 @@ from hanzo_tools.shell.open_tool import OpenTool, open_tool
 
 # HIP-0300: Unified proc tool
 from hanzo_tools.shell.proc_tool import ProcTool, proc_tool
-from hanzo_tools.shell.shellflow import parse as parse_shellflow, compile as compile_shellflow
+from hanzo_tools.shell.shellflow import (
+    parse as parse_shellflow,
+    compile as compile_shellflow,
+)
 from hanzo_tools.shell.wget_tool import WgetTool
 from hanzo_tools.shell.shell_tools import (
     CshTool,
@@ -359,4 +373,6 @@ def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     permission_manager = kwargs.get("permission_manager") or PermissionManager()
     all_tools = kwargs.get("all_tools")
     shell_override = kwargs.get("shell_override") or kwargs.get("shell")
-    return register_shell_tools(mcp_server, permission_manager, all_tools, shell_override)
+    return register_shell_tools(
+        mcp_server, permission_manager, all_tools, shell_override
+    )

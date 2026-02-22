@@ -39,9 +39,17 @@ class KMSResource(SyncAPIResource):
         """Create a new cryptographic key."""
         return self._post(
             "/kms/keys",
-            body={"name": name, "type": type, "algorithm": algorithm, "description": description},
+            body={
+                "name": name,
+                "type": type,
+                "algorithm": algorithm,
+                "description": description,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -58,7 +66,10 @@ class KMSResource(SyncAPIResource):
         return self._get(
             "/kms/keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -76,7 +87,10 @@ class KMSResource(SyncAPIResource):
         return self._get(
             f"/kms/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -94,7 +108,10 @@ class KMSResource(SyncAPIResource):
         return self._post(
             f"/kms/keys/{key_id}/enable",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -112,7 +129,10 @@ class KMSResource(SyncAPIResource):
         return self._post(
             f"/kms/keys/{key_id}/disable",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -130,7 +150,10 @@ class KMSResource(SyncAPIResource):
         return self._delete(
             f"/kms/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -148,7 +171,10 @@ class KMSResource(SyncAPIResource):
         return self._post(
             f"/kms/keys/{key_id}/rotate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -166,7 +192,10 @@ class KMSResource(SyncAPIResource):
         return self._get(
             f"/kms/keys/{key_id}/versions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -186,7 +215,10 @@ class KMSResource(SyncAPIResource):
             f"/kms/keys/{key_id}/rollback",
             body={"version": version},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -208,7 +240,10 @@ class KMSResource(SyncAPIResource):
             "/kms/encrypt",
             body={"key_id": key_id, "plaintext": plaintext, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -229,7 +264,10 @@ class KMSResource(SyncAPIResource):
             "/kms/decrypt",
             body={"key_id": key_id, "ciphertext": ciphertext, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -250,7 +288,10 @@ class KMSResource(SyncAPIResource):
             "/kms/sign",
             body={"key_id": key_id, "message": message, "algorithm": algorithm},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -270,9 +311,17 @@ class KMSResource(SyncAPIResource):
         """Verify signature with a key."""
         return self._post(
             "/kms/verify",
-            body={"key_id": key_id, "message": message, "signature": signature, "algorithm": algorithm},
+            body={
+                "key_id": key_id,
+                "message": message,
+                "signature": signature,
+                "algorithm": algorithm,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -294,7 +343,10 @@ class KMSResource(SyncAPIResource):
             f"/kms/keys/{key_id}/grants",
             body={"principal": principal, "operations": operations},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -313,7 +365,10 @@ class KMSResource(SyncAPIResource):
         return self._delete(
             f"/kms/keys/{key_id}/grants/{grant_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -331,7 +386,10 @@ class KMSResource(SyncAPIResource):
         return self._get(
             f"/kms/keys/{key_id}/grants",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -387,9 +445,17 @@ class AsyncKMSResource(AsyncAPIResource):
         """Create a new cryptographic key."""
         return await self._post(
             "/kms/keys",
-            body={"name": name, "type": type, "algorithm": algorithm, "description": description},
+            body={
+                "name": name,
+                "type": type,
+                "algorithm": algorithm,
+                "description": description,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -406,7 +472,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._get(
             "/kms/keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -424,7 +493,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._get(
             f"/kms/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -442,7 +514,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._post(
             f"/kms/keys/{key_id}/enable",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -460,7 +535,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._post(
             f"/kms/keys/{key_id}/disable",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -478,7 +556,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._delete(
             f"/kms/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -496,7 +577,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._post(
             f"/kms/keys/{key_id}/rotate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -514,7 +598,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._get(
             f"/kms/keys/{key_id}/versions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -534,7 +621,10 @@ class AsyncKMSResource(AsyncAPIResource):
             f"/kms/keys/{key_id}/rollback",
             body={"version": version},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -555,7 +645,10 @@ class AsyncKMSResource(AsyncAPIResource):
             "/kms/encrypt",
             body={"key_id": key_id, "plaintext": plaintext, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -576,7 +669,10 @@ class AsyncKMSResource(AsyncAPIResource):
             "/kms/decrypt",
             body={"key_id": key_id, "ciphertext": ciphertext, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -597,7 +693,10 @@ class AsyncKMSResource(AsyncAPIResource):
             "/kms/sign",
             body={"key_id": key_id, "message": message, "algorithm": algorithm},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -617,9 +716,17 @@ class AsyncKMSResource(AsyncAPIResource):
         """Verify signature with a key."""
         return await self._post(
             "/kms/verify",
-            body={"key_id": key_id, "message": message, "signature": signature, "algorithm": algorithm},
+            body={
+                "key_id": key_id,
+                "message": message,
+                "signature": signature,
+                "algorithm": algorithm,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -640,7 +747,10 @@ class AsyncKMSResource(AsyncAPIResource):
             f"/kms/keys/{key_id}/grants",
             body={"principal": principal, "operations": operations},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -659,7 +769,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._delete(
             f"/kms/keys/{key_id}/grants/{grant_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -677,7 +790,10 @@ class AsyncKMSResource(AsyncAPIResource):
         return await self._get(
             f"/kms/keys/{key_id}/grants",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

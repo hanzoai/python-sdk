@@ -559,9 +559,13 @@ class InfinityClient(BaseVectorDB):
             for table_name in db.list_tables():
                 if table_name.startswith("chats_"):
                     table = db.get_table(table_name)
-                    query = table.output(["*"]).match_dense(
-                        "embedding", query_embedding, "float", "cosine", limit
-                    ).filter(f"session_id = '{session_id}'")
+                    query = (
+                        table.output(["*"])
+                        .match_dense(
+                            "embedding", query_embedding, "float", "cosine", limit
+                        )
+                        .filter(f"session_id = '{session_id}'")
+                    )
                     result = query.to_pl()
                     if len(result) > 0:
                         return result.to_dicts()

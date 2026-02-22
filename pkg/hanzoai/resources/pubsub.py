@@ -43,7 +43,10 @@ class PubSubResource(SyncAPIResource):
         return self._get(
             "/pubsub/topics",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -62,7 +65,10 @@ class PubSubResource(SyncAPIResource):
             "/pubsub/topics",
             body={"name": name},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -80,7 +86,10 @@ class PubSubResource(SyncAPIResource):
         return self._delete(
             f"/pubsub/topics/{topic_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -100,7 +109,10 @@ class PubSubResource(SyncAPIResource):
             f"/pubsub/topics/{topic_id}/publish",
             body={"message": message},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -118,7 +130,10 @@ class PubSubResource(SyncAPIResource):
         return self._get(
             f"/pubsub/topics/{topic_id}/subscriptions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -139,7 +154,10 @@ class PubSubResource(SyncAPIResource):
             f"/pubsub/topics/{topic_id}/subscriptions",
             body={"name": name, "endpoint": endpoint},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -158,7 +176,10 @@ class PubSubResource(SyncAPIResource):
         return self._delete(
             f"/pubsub/topics/{topic_id}/subscriptions/{subscription_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -203,7 +224,10 @@ class PubSubResource(SyncAPIResource):
             f"/pubsub/topics/{topic_id}/subscriptions/{subscription_id}/ack",
             body={"ack_ids": ack_ids},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -231,7 +255,10 @@ class AsyncPubSubResource(AsyncAPIResource):
         return await self._get(
             "/pubsub/topics",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -249,7 +276,10 @@ class AsyncPubSubResource(AsyncAPIResource):
             "/pubsub/topics",
             body={"name": name},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -266,7 +296,10 @@ class AsyncPubSubResource(AsyncAPIResource):
         return await self._delete(
             f"/pubsub/topics/{topic_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -285,7 +318,10 @@ class AsyncPubSubResource(AsyncAPIResource):
             f"/pubsub/topics/{topic_id}/publish",
             body={"message": message},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -302,7 +338,10 @@ class AsyncPubSubResource(AsyncAPIResource):
         return await self._get(
             f"/pubsub/topics/{topic_id}/subscriptions",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -322,7 +361,10 @@ class AsyncPubSubResource(AsyncAPIResource):
             f"/pubsub/topics/{topic_id}/subscriptions",
             body={"name": name, "endpoint": endpoint},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -340,7 +382,10 @@ class AsyncPubSubResource(AsyncAPIResource):
         return await self._delete(
             f"/pubsub/topics/{topic_id}/subscriptions/{subscription_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -383,7 +428,10 @@ class AsyncPubSubResource(AsyncAPIResource):
             f"/pubsub/topics/{topic_id}/subscriptions/{subscription_id}/ack",
             body={"ack_ids": ack_ids},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -410,9 +458,15 @@ class AsyncPubSubResourceWithRawResponse:
         self.create_topic = async_to_raw_response_wrapper(pubsub.create_topic)
         self.delete_topic = async_to_raw_response_wrapper(pubsub.delete_topic)
         self.publish = async_to_raw_response_wrapper(pubsub.publish)
-        self.list_subscriptions = async_to_raw_response_wrapper(pubsub.list_subscriptions)
-        self.create_subscription = async_to_raw_response_wrapper(pubsub.create_subscription)
-        self.delete_subscription = async_to_raw_response_wrapper(pubsub.delete_subscription)
+        self.list_subscriptions = async_to_raw_response_wrapper(
+            pubsub.list_subscriptions
+        )
+        self.create_subscription = async_to_raw_response_wrapper(
+            pubsub.create_subscription
+        )
+        self.delete_subscription = async_to_raw_response_wrapper(
+            pubsub.delete_subscription
+        )
         self.pull = async_to_raw_response_wrapper(pubsub.pull)
         self.ack = async_to_raw_response_wrapper(pubsub.ack)
 
@@ -424,9 +478,15 @@ class PubSubResourceWithStreamingResponse:
         self.create_topic = to_streamed_response_wrapper(pubsub.create_topic)
         self.delete_topic = to_streamed_response_wrapper(pubsub.delete_topic)
         self.publish = to_streamed_response_wrapper(pubsub.publish)
-        self.list_subscriptions = to_streamed_response_wrapper(pubsub.list_subscriptions)
-        self.create_subscription = to_streamed_response_wrapper(pubsub.create_subscription)
-        self.delete_subscription = to_streamed_response_wrapper(pubsub.delete_subscription)
+        self.list_subscriptions = to_streamed_response_wrapper(
+            pubsub.list_subscriptions
+        )
+        self.create_subscription = to_streamed_response_wrapper(
+            pubsub.create_subscription
+        )
+        self.delete_subscription = to_streamed_response_wrapper(
+            pubsub.delete_subscription
+        )
         self.pull = to_streamed_response_wrapper(pubsub.pull)
         self.ack = to_streamed_response_wrapper(pubsub.ack)
 
@@ -438,8 +498,14 @@ class AsyncPubSubResourceWithStreamingResponse:
         self.create_topic = async_to_streamed_response_wrapper(pubsub.create_topic)
         self.delete_topic = async_to_streamed_response_wrapper(pubsub.delete_topic)
         self.publish = async_to_streamed_response_wrapper(pubsub.publish)
-        self.list_subscriptions = async_to_streamed_response_wrapper(pubsub.list_subscriptions)
-        self.create_subscription = async_to_streamed_response_wrapper(pubsub.create_subscription)
-        self.delete_subscription = async_to_streamed_response_wrapper(pubsub.delete_subscription)
+        self.list_subscriptions = async_to_streamed_response_wrapper(
+            pubsub.list_subscriptions
+        )
+        self.create_subscription = async_to_streamed_response_wrapper(
+            pubsub.create_subscription
+        )
+        self.delete_subscription = async_to_streamed_response_wrapper(
+            pubsub.delete_subscription
+        )
         self.pull = async_to_streamed_response_wrapper(pubsub.pull)
         self.ack = async_to_streamed_response_wrapper(pubsub.ack)

@@ -13,8 +13,19 @@ import os
 from pathlib import Path
 
 from .errors import CredentialError
-from .models import Credential, CredentialSource, EffectiveCredential, ProviderConfig, ProviderStatus
-from .providers import ENV_VAR_MAPPINGS, PROVIDER_CONFIGS, get_env_vars, get_provider_config
+from .models import (
+    Credential,
+    CredentialSource,
+    EffectiveCredential,
+    ProviderConfig,
+    ProviderStatus,
+)
+from .providers import (
+    ENV_VAR_MAPPINGS,
+    PROVIDER_CONFIGS,
+    get_env_vars,
+    get_provider_config,
+)
 from .storage import (
     ChainedCredentialStorage,
     CredentialStorage,
@@ -75,7 +86,9 @@ class CredentialManager:
             self._storage = ChainedCredentialStorage(
                 [
                     FileCredentialStorage(file_path),  # Persistent storage
-                    EnvironmentCredentialStorage(ENV_VAR_MAPPINGS),  # Read-only fallback
+                    EnvironmentCredentialStorage(
+                        ENV_VAR_MAPPINGS
+                    ),  # Read-only fallback
                 ]
             )
 

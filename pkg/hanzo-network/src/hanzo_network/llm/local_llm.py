@@ -4,7 +4,6 @@ import asyncio
 from typing import Any, Dict, List, Optional
 from abc import ABC, abstractmethod
 
-
 # Commenting out missing imports - need to implement these
 # from .inference.inference_engine import get_inference_engine
 # from .inference.shard import Shard
@@ -171,7 +170,9 @@ class HanzoNetProvider(LocalLLMProvider):
             "stable-diffusion-2-1-base",
         ]
 
-    def _messages_to_prompt(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]]) -> str:
+    def _messages_to_prompt(
+        self, messages: List[Message], tools: Optional[List[Dict[str, Any]]]
+    ) -> str:
         """Convert messages to a prompt string."""
         prompt = ""
 
@@ -202,7 +203,9 @@ class HanzoNetProvider(LocalLLMProvider):
         prompt += "Assistant: "
         return prompt
 
-    def _generate_dummy_response(self, prompt: str, tools: Optional[List[Dict[str, Any]]]) -> str:
+    def _generate_dummy_response(
+        self, prompt: str, tools: Optional[List[Dict[str, Any]]]
+    ) -> str:
         """Generate a contextual dummy response based on prompt."""
         prompt_lower = prompt.lower()
 
@@ -210,7 +213,10 @@ class HanzoNetProvider(LocalLLMProvider):
         if tools:
             for tool in tools:
                 tool_name = tool["name"]
-                if tool_name in prompt_lower or tool["description"].lower() in prompt_lower:
+                if (
+                    tool_name in prompt_lower
+                    or tool["description"].lower() in prompt_lower
+                ):
                     # Generate a response that calls the tool
                     if "search" in tool_name:
                         return f"I'll search for that information using the {tool_name} tool.\n\n<tool_call>{tool_name}('authentication')</tool_call>"
@@ -227,9 +233,7 @@ class HanzoNetProvider(LocalLLMProvider):
         elif "analyze" in prompt_lower:
             return "After analyzing the code, I can see it follows good practices with clear structure and efficient implementation."
         elif "generate" in prompt_lower or "test" in prompt_lower:
-            return (
-                "I've generated the requested code/tests following best practices and ensuring comprehensive coverage."
-            )
+            return "I've generated the requested code/tests following best practices and ensuring comprehensive coverage."
         elif "explain" in prompt_lower or "what is" in prompt_lower:
             return "Let me explain that concept: It's a fundamental programming technique that involves a function calling itself to solve smaller instances of the same problem."
         else:

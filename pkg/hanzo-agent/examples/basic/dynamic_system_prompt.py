@@ -29,7 +29,9 @@ agent = Agent(
 
 
 async def main():
-    choice: Literal["haiku", "pirate", "robot"] = random.choice(["haiku", "pirate", "robot"])
+    choice: Literal["haiku", "pirate", "robot"] = random.choice(
+        ["haiku", "pirate", "robot"]
+    )
     context = CustomContext(style=choice)
     print(f"Using style: {choice}\n")
 

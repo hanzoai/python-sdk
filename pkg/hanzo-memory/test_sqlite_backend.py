@@ -13,17 +13,17 @@ async def test_sqlite_backend():
     print("\n[bold cyan]Testing SQLite Memory Backend[/bold cyan]\n")
 
     # Create a temporary database file for testing
-    with tempfile.NamedTemporaryFile(suffix='.db', delete=False) as tmp_file:
+    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as tmp_file:
         tmp_path = Path(tmp_file.name)
 
     try:
         # Get SQLite backend
         print("📂 Getting SQLite backend...")
-        sqlite_backend = memory['sqlite']  # Use indexing instead of attribute access
+        sqlite_backend = memory["sqlite"]  # Use indexing instead of attribute access
 
         # Initialize with temporary path
         sqlite_backend._client = None  # Reset client
-        sqlite_backend.config = {'db_path': tmp_path}
+        sqlite_backend.config = {"db_path": tmp_path}
 
         # Initialize the backend
         print("🔌 Initializing SQLite backend...")
@@ -40,9 +40,7 @@ async def test_sqlite_backend():
         )
 
         created_memory = await sqlite_backend.service.create_memory(
-            memory=memory_create,
-            project_id="test-project",
-            user_id="test-user"
+            memory=memory_create, project_id="test-project", user_id="test-user"
         )
 
         print(f"✅ Created memory with ID: {created_memory.id}")
@@ -50,10 +48,7 @@ async def test_sqlite_backend():
         # Test searching for the memory
         print("🔍 Testing memory search...")
         search_results = await sqlite_backend.service.search_memories(
-            query="test memory",
-            project_id="test-project",
-            user_id="test-user",
-            limit=5
+            query="test memory", project_id="test-project", user_id="test-user", limit=5
         )
 
         print(f"✅ Found {len(search_results)} memories")
@@ -67,7 +62,7 @@ async def test_sqlite_backend():
         project_create = ProjectCreate(
             name="Test Project",
             description="A test project for SQLite backend",
-            metadata={"test": True}
+            metadata={"test": True},
         )
 
         created_project = await sqlite_backend.service.db.create_project(
@@ -75,7 +70,7 @@ async def test_sqlite_backend():
             user_id="test-user",
             name="Test Project",
             description="A test project for SQLite backend",
-            metadata={"test": True}
+            metadata={"test": True},
         )
 
         print(f"✅ Created project: {created_project['name']}")

@@ -154,7 +154,9 @@ jupyter --action create "new.ipynb"
         else:
             return f"Error: Unknown action '{action}'. Valid actions: read, edit, create, delete, execute"
 
-    async def _handle_read(self, notebook_path: str, params: Dict[str, Any], tool_ctx) -> str:
+    async def _handle_read(
+        self, notebook_path: str, params: Dict[str, Any], tool_ctx
+    ) -> str:
         """Read notebook or specific cell."""
         exists, error_msg = await self.check_path_exists(notebook_path, tool_ctx)
         if not exists:
@@ -189,7 +191,9 @@ jupyter --action create "new.ipynb"
             await tool_ctx.error(f"Failed to read notebook: {str(e)}")
             return f"Error reading notebook: {str(e)}"
 
-    async def _handle_edit(self, notebook_path: str, params: Dict[str, Any], tool_ctx) -> str:
+    async def _handle_edit(
+        self, notebook_path: str, params: Dict[str, Any], tool_ctx
+    ) -> str:
         """Edit notebook cell."""
         exists, error_msg = await self.check_path_exists(notebook_path, tool_ctx)
         if not exists:
@@ -294,7 +298,9 @@ jupyter --action create "new.ipynb"
             await tool_ctx.error(f"Failed to create notebook: {str(e)}")
             return f"Error creating notebook: {str(e)}"
 
-    async def _handle_delete(self, notebook_path: str, params: Dict[str, Any], tool_ctx) -> str:
+    async def _handle_delete(
+        self, notebook_path: str, params: Dict[str, Any], tool_ctx
+    ) -> str:
         """Delete notebook or cell."""
         # If cell specified, delegate to edit with delete mode
         if params.get("cell_id") or params.get("cell_index") is not None:
@@ -313,7 +319,9 @@ jupyter --action create "new.ipynb"
             await tool_ctx.error(f"Failed to delete notebook: {str(e)}")
             return f"Error deleting notebook: {str(e)}"
 
-    async def _handle_execute(self, notebook_path: str, params: Dict[str, Any], tool_ctx) -> str:
+    async def _handle_execute(
+        self, notebook_path: str, params: Dict[str, Any], tool_ctx
+    ) -> str:
         """Execute notebook cells using nbclient."""
         try:
             import nbclient
@@ -323,7 +331,9 @@ jupyter --action create "new.ipynb"
 
             # Create a notebook client with default kernel
             client = NotebookClient(
-                nb, timeout=params.get("timeout", 600), kernel_name=params.get("kernel_name", "python3")
+                nb,
+                timeout=params.get("timeout", 600),
+                kernel_name=params.get("kernel_name", "python3"),
             )
 
             # Execute the notebook

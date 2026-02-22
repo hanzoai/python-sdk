@@ -30,7 +30,9 @@ def create_local_agent(
         Agent configured for local LLM
     """
     # Create model config for local provider
-    model_config = ModelConfig(provider=ModelProvider.LOCAL, model=local_model, base_url=base_url)
+    model_config = ModelConfig(
+        provider=ModelProvider.LOCAL, model=local_model, base_url=base_url
+    )
 
     return create_agent(
         name=name,
@@ -74,7 +76,9 @@ def create_local_distributed_network(
 
     # Create a local router if one isn't provided
     if "router" not in kwargs:
-        router_config = ModelConfig(provider=ModelProvider.LOCAL, model=local_model, base_url=base_url)
+        router_config = ModelConfig(
+            provider=ModelProvider.LOCAL, model=local_model, base_url=base_url
+        )
 
         kwargs["router"] = create_routing_agent(
             name="local_router", description="Local routing agent", model=router_config
@@ -128,12 +132,18 @@ async def check_local_llm_status(provider: str = "hanzo") -> dict:
     if engine_type == "mlx":
         import platform
 
-        status["platform"] = "Apple Silicon" if platform.machine() in ["arm64", "aarch64"] else platform.machine()
+        status["platform"] = (
+            "Apple Silicon"
+            if platform.machine() in ["arm64", "aarch64"]
+            else platform.machine()
+        )
         if not is_available:
             status["instructions"] = "MLX requires Apple Silicon (M1/M2/M3)"
     elif engine_type == "tinygrad":
         status["instructions"] = (
-            "Tinygrad engine ready for distributed inference" if is_available else "Install tinygrad"
+            "Tinygrad engine ready for distributed inference"
+            if is_available
+            else "Install tinygrad"
         )
     else:  # dummy
         status["instructions"] = "Using mock responses for testing"

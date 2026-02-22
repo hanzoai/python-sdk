@@ -75,11 +75,15 @@ def test_simple_tracing() -> None:
     trace_id = trace.trace_id
 
     first_span = spans[0]
-    standard_span_checks(first_span, trace_id=trace_id, parent_id=None, span_type="agent")
+    standard_span_checks(
+        first_span, trace_id=trace_id, parent_id=None, span_type="agent"
+    )
     assert first_span.span_data.name == "agent_1"
 
     second_span = spans[1]
-    standard_span_checks(second_span, trace_id=trace_id, parent_id=None, span_type="custom")
+    standard_span_checks(
+        second_span, trace_id=trace_id, parent_id=None, span_type="custom"
+    )
     assert second_span.span_id == "span_2"
     assert second_span.span_data.name == "custom_1"
 
@@ -113,17 +117,24 @@ def test_ctxmanager_spans() -> None:
     trace_id = trace.trace_id
 
     first_span = spans[0]
-    standard_span_checks(first_span, trace_id=trace_id, parent_id=None, span_type="custom")
+    standard_span_checks(
+        first_span, trace_id=trace_id, parent_id=None, span_type="custom"
+    )
     assert first_span.span_id == "span_1"
 
     first_inner_span = spans[1]
     standard_span_checks(
-        first_inner_span, trace_id=trace_id, parent_id=first_span.span_id, span_type="custom"
+        first_inner_span,
+        trace_id=trace_id,
+        parent_id=first_span.span_id,
+        span_type="custom",
     )
     assert first_inner_span.span_id == "span_1_inner"
 
     second_span = spans[2]
-    standard_span_checks(second_span, trace_id=trace_id, parent_id=None, span_type="custom")
+    standard_span_checks(
+        second_span, trace_id=trace_id, parent_id=None, span_type="custom"
+    )
     assert second_span.span_id == "span_2"
 
 
@@ -152,7 +163,9 @@ async def test_async_tracing() -> None:
 
     # We don't care about ordering here, just that they're there
     for s in spans:
-        standard_span_checks(s, trace_id=trace_id, parent_id=None, span_type="generation")
+        standard_span_checks(
+            s, trace_id=trace_id, parent_id=None, span_type="generation"
+        )
 
     ids = [span.span_id for span in spans]
     assert "span_1" in ids
@@ -200,21 +213,29 @@ async def test_complex_async_tracing() -> None:
     for span_id in ["span_1", "span_2", "span_3", "span_4"]:
         span = next((s for s in spans if s.span_id == span_id), None)
         assert span is not None
-        standard_span_checks(span, trace_id=trace_id, parent_id=None, span_type="generation")
+        standard_span_checks(
+            span, trace_id=trace_id, parent_id=None, span_type="generation"
+        )
 
     # Ensure 5 and 7 exist and have the trace as parent
     for span_id in ["span_5", "span_7"]:
         span = next((s for s in spans if s.span_id == span_id), None)
         assert span is not None
-        standard_span_checks(span, trace_id=trace_id, parent_id=None, span_type="generation")
+        standard_span_checks(
+            span, trace_id=trace_id, parent_id=None, span_type="generation"
+        )
 
     # Ensure 6 and 8 exist and have 5 and 7 as parents
     six = next((s for s in spans if s.span_id == "span_6"), None)
     assert six is not None
-    standard_span_checks(six, trace_id=trace_id, parent_id="span_5", span_type="generation")
+    standard_span_checks(
+        six, trace_id=trace_id, parent_id="span_5", span_type="generation"
+    )
     eight = next((s for s in spans if s.span_id == "span_8"), None)
     assert eight is not None
-    standard_span_checks(eight, trace_id=trace_id, parent_id="span_7", span_type="generation")
+    standard_span_checks(
+        eight, trace_id=trace_id, parent_id="span_7", span_type="generation"
+    )
 
 
 def spans_with_setters():
@@ -246,24 +267,35 @@ def test_spans_with_setters() -> None:
 
     # Check the spans
     first_span = spans[0]
-    standard_span_checks(first_span, trace_id=trace_id, parent_id=None, span_type="agent")
+    standard_span_checks(
+        first_span, trace_id=trace_id, parent_id=None, span_type="agent"
+    )
     assert first_span.span_data.name == "agent_2"
 
     second_span = spans[1]
     standard_span_checks(
-        second_span, trace_id=trace_id, parent_id=first_span.span_id, span_type="function"
+        second_span,
+        trace_id=trace_id,
+        parent_id=first_span.span_id,
+        span_type="function",
     )
     assert second_span.span_data.input == "i"
     assert second_span.span_data.output == "o"
 
     third_span = spans[2]
     standard_span_checks(
-        third_span, trace_id=trace_id, parent_id=first_span.span_id, span_type="generation"
+        third_span,
+        trace_id=trace_id,
+        parent_id=first_span.span_id,
+        span_type="generation",
     )
 
     fourth_span = spans[3]
     standard_span_checks(
-        fourth_span, trace_id=trace_id, parent_id=first_span.span_id, span_type="handoff"
+        fourth_span,
+        trace_id=trace_id,
+        parent_id=first_span.span_id,
+        span_type="handoff",
     )
 
 
@@ -302,7 +334,9 @@ def test_enabled_trace_disabled_span():
     trace_id = trace.trace_id
 
     first_span = spans[0]
-    standard_span_checks(first_span, trace_id=trace_id, parent_id=None, span_type="agent")
+    standard_span_checks(
+        first_span, trace_id=trace_id, parent_id=None, span_type="agent"
+    )
     assert first_span.span_data.name == "agent_1"
 
 

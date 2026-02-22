@@ -97,7 +97,9 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         body = deepcopy_minimal(
             {
                 "file": file,
@@ -161,9 +163,13 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `file_id` but received {file_id!r}"
+            )
         return self._get(
             f"/{provider}/v1/files/{file_id}",
             options=make_request_options(
@@ -212,7 +218,9 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return self._get(
             f"/{provider}/v1/files",
             options=make_request_options(
@@ -220,7 +228,9 @@ class FilesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"purpose": purpose}, file_list_params.FileListParams),
+                query=maybe_transform(
+                    {"purpose": purpose}, file_list_params.FileListParams
+                ),
             ),
             cast_to=object,
         )
@@ -262,9 +272,13 @@ class FilesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `file_id` but received {file_id!r}"
+            )
         return self._delete(
             f"/{provider}/v1/files/{file_id}",
             options=make_request_options(
@@ -339,7 +353,9 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         body = deepcopy_minimal(
             {
                 "file": file,
@@ -403,9 +419,13 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `file_id` but received {file_id!r}"
+            )
         return await self._get(
             f"/{provider}/v1/files/{file_id}",
             options=make_request_options(
@@ -454,7 +474,9 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         return await self._get(
             f"/{provider}/v1/files",
             options=make_request_options(
@@ -462,7 +484,9 @@ class AsyncFilesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"purpose": purpose}, file_list_params.FileListParams),
+                query=await async_maybe_transform(
+                    {"purpose": purpose}, file_list_params.FileListParams
+                ),
             ),
             cast_to=object,
         )
@@ -504,9 +528,13 @@ class AsyncFilesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not provider:
-            raise ValueError(f"Expected a non-empty value for `provider` but received {provider!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `provider` but received {provider!r}"
+            )
         if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `file_id` but received {file_id!r}"
+            )
         return await self._delete(
             f"/{provider}/v1/files/{file_id}",
             options=make_request_options(

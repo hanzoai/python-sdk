@@ -6,7 +6,12 @@ from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 from .database_manager import DatabaseManager
 
@@ -47,7 +52,9 @@ class SqlQueryParams(TypedDict, total=False):
 class SqlQueryTool(BaseTool):
     """Tool for executing SQL queries on project databases."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL query tool.
 
         Args:
@@ -136,20 +143,37 @@ Note: Use sql_search for text search operations."""
             import re
 
             # Remove comments and string literals to prevent bypass
-            clean_query = re.sub(r"--.*$", "", query, flags=re.MULTILINE)  # Remove -- comments
-            clean_query = re.sub(r"/\*.*?\*/", "", clean_query, flags=re.DOTALL)  # Remove /* */ comments
-            clean_query = re.sub(r"'[^']*'", "''", clean_query)  # Neutralize string literals
-            clean_query = re.sub(r'"[^"]*"', '""', clean_query)  # Neutralize identifiers
+            clean_query = re.sub(
+                r"--.*$", "", query, flags=re.MULTILINE
+            )  # Remove -- comments
+            clean_query = re.sub(
+                r"/\*.*?\*/", "", clean_query, flags=re.DOTALL
+            )  # Remove /* */ comments
+            clean_query = re.sub(
+                r"'[^']*'", "''", clean_query
+            )  # Neutralize string literals
+            clean_query = re.sub(
+                r'"[^"]*"', '""', clean_query
+            )  # Neutralize identifiers
 
             # Check for write operations using word boundaries
-            write_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "CREATE", "ALTER", "TRUNCATE", "REPLACE"]
+            write_keywords = [
+                "INSERT",
+                "UPDATE",
+                "DELETE",
+                "DROP",
+                "CREATE",
+                "ALTER",
+                "TRUNCATE",
+                "REPLACE",
+            ]
             for keyword in write_keywords:
                 if re.search(rf"\b{keyword}\b", clean_query, re.IGNORECASE):
-                    return (
-                        f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
-                    )
+                    return f"Error: Query contains {keyword} operation. Set --read-only false to allow write operations."
 
-        await tool_ctx.info(f"Executing SQL query on project: {project_db.project_path}")
+        await tool_ctx.info(
+            f"Executing SQL query on project: {project_db.project_path}"
+        )
 
         # Execute query
         conn = None
@@ -207,15 +231,19 @@ Note: Use sql_search for text search operations."""
             col_widths.append(min(max_width, 50))  # Cap at 50 chars
 
         # Build header
-        header = " | ".join(col.ljust(width) for col, width in zip(columns, col_widths))
+        header = " | ".join(
+            col.ljust(width) for col, width in zip(columns, col_widths, strict=False)
+        )
         separator = "-+-".join("-" * width for width in col_widths)
 
         # Build rows
         output_rows = []
         for row in rows[:1000]:  # Limit to 1000 rows
             row_str = " | ".join(
-                self._truncate(str(val) if val is not None else "NULL", width).ljust(width)
-                for val, width in zip(row, col_widths)
+                self._truncate(str(val) if val is not None else "NULL", width).ljust(
+                    width
+                )
+                for val, width in zip(row, col_widths, strict=False)
             )
             output_rows.append(row_str)
 

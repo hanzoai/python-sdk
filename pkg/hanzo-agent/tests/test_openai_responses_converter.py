@@ -55,8 +55,12 @@ def test_convert_tool_choice_standard_values():
     assert Converter.convert_tool_choice("none") == "none"
     # Special tool types are represented as dicts of type only.
     assert Converter.convert_tool_choice("file_search") == {"type": "file_search"}
-    assert Converter.convert_tool_choice("web_search_preview") == {"type": "web_search_preview"}
-    assert Converter.convert_tool_choice("computer_use_preview") == {"type": "computer_use_preview"}
+    assert Converter.convert_tool_choice("web_search_preview") == {
+        "type": "web_search_preview"
+    }
+    assert Converter.convert_tool_choice("computer_use_preview") == {
+        "type": "computer_use_preview"
+    }
     # Arbitrary string should be interpreted as a function name.
     assert Converter.convert_tool_choice("my_function") == {
         "type": "function",
@@ -169,11 +173,15 @@ def test_convert_tools_basic_types_and_includes():
     assert file_params.get("max_num_results") == file_tool.max_num_results
     assert file_params.get("vector_store_ids") == file_tool.vector_store_ids
     # Verify web search tool contains user_location and search_context_size
-    web_params = next(ct for ct in converted.tools if ct["type"] == "web_search_preview")
+    web_params = next(
+        ct for ct in converted.tools if ct["type"] == "web_search_preview"
+    )
     assert web_params.get("user_location") == web_tool.user_location
     assert web_params.get("search_context_size") == web_tool.search_context_size
     # Verify computer tool contains environment and computed dimensions
-    comp_params = next(ct for ct in converted.tools if ct["type"] == "computer_use_preview")
+    comp_params = next(
+        ct for ct in converted.tools if ct["type"] == "computer_use_preview"
+    )
     assert comp_params.get("environment") == "mac"
     assert comp_params.get("display_width") == 800
     assert comp_params.get("display_height") == 600

@@ -23,7 +23,9 @@ class Scope:
         return _current_span.get()
 
     @classmethod
-    def set_current_span(cls, span: "Span[Any] | None") -> "contextvars.Token[Span[Any] | None]":
+    def set_current_span(
+        cls, span: "Span[Any] | None"
+    ) -> "contextvars.Token[Span[Any] | None]":
         return _current_span.set(span)
 
     @classmethod
@@ -35,7 +37,9 @@ class Scope:
         return _current_trace.get()
 
     @classmethod
-    def set_current_trace(cls, trace: "Trace | None") -> "contextvars.Token[Trace | None]":
+    def set_current_trace(
+        cls, trace: "Trace | None"
+    ) -> "contextvars.Token[Trace | None]":
         logger.debug(f"Setting current trace: {trace.trace_id if trace else None}")
         return _current_trace.set(trace)
 

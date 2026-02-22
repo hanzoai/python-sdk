@@ -102,7 +102,9 @@ class DatasetCollector:
                         data = json.loads(line)
                         self.samples.append(DatasetSample(**data))
             self._sample_count = len(self.samples)
-            print(f"Loaded {len(self.samples)} existing samples from {self.output_path}")
+            print(
+                f"Loaded {len(self.samples)} existing samples from {self.output_path}"
+            )
         except Exception as e:
             print(f"Could not load existing samples: {e}")
 
@@ -188,11 +190,17 @@ class DatasetCollector:
 
         async def collect_one(agent: str, prompt: str, idx: int) -> DatasetSample:
             async with sem:
-                sample = await self.collect(agent, prompt, timeout, tags=tags, metadata={"batch_index": idx})
-                print(f"[{idx + 1}/{len(prompts)}] {agent}: {len(sample.response)} chars, ${sample.cost_usd:.4f}")
+                sample = await self.collect(
+                    agent, prompt, timeout, tags=tags, metadata={"batch_index": idx}
+                )
+                print(
+                    f"[{idx + 1}/{len(prompts)}] {agent}: {len(sample.response)} chars, ${sample.cost_usd:.4f}"
+                )
                 return sample
 
-        tasks = [collect_one(agent, prompt, i) for i, (agent, prompt) in enumerate(prompts)]
+        tasks = [
+            collect_one(agent, prompt, i) for i, (agent, prompt) in enumerate(prompts)
+        ]
 
         return await asyncio.gather(*tasks)
 

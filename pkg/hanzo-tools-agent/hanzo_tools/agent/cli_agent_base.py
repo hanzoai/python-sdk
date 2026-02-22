@@ -13,7 +13,12 @@ from typing import List, Optional
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 
 class CLIAgentBase(BaseTool):
@@ -95,7 +100,9 @@ class CLIAgentBase(BaseTool):
 
         # Check if installed
         if not self.is_installed():
-            error_msg = f"{self.provider_name} CLI ({self.command_name}) is not installed. "
+            error_msg = (
+                f"{self.provider_name} CLI ({self.command_name}) is not installed. "
+            )
             error_msg += f"Please install it first: https://github.com/anthropics/{self.command_name}"
             await tool_ctx.error(error_msg)
             return f"Error: {error_msg}"
@@ -111,11 +118,15 @@ class CLIAgentBase(BaseTool):
         cli_args = self.get_cli_args(prompt, **kwargs)
 
         # Log command
-        await tool_ctx.info(f"Executing {self.provider_name}: {self.command_name} {' '.join(cli_args[:3])}...")
+        await tool_ctx.info(
+            f"Executing {self.provider_name}: {self.command_name} {' '.join(cli_args[:3])}..."
+        )
 
         try:
             # Create temp file for prompt if needed
-            with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+            with tempfile.NamedTemporaryFile(
+                mode="w", suffix=".txt", delete=False
+            ) as f:
                 f.write(prompt)
                 prompt_file = f.name
 
@@ -123,7 +134,12 @@ class CLIAgentBase(BaseTool):
             if "--prompt-file" in cli_args:
                 # Substitute with actual temp file path
                 cli_args = [
-                    (arg.replace("--prompt-file", prompt_file) if arg == "--prompt-file" else arg) for arg in cli_args
+                    (
+                        arg.replace("--prompt-file", prompt_file)
+                        if arg == "--prompt-file"
+                        else arg
+                    )
+                    for arg in cli_args
                 ]
 
             # Execute command
@@ -138,9 +154,13 @@ class CLIAgentBase(BaseTool):
 
             # Send prompt via stdin if not using file
             if "--prompt-file" not in cli_args:
-                stdout, stderr = await asyncio.wait_for(process.communicate(input=prompt.encode()), timeout=timeout)
+                stdout, stderr = await asyncio.wait_for(
+                    process.communicate(input=prompt.encode()), timeout=timeout
+                )
             else:
-                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
+                stdout, stderr = await asyncio.wait_for(
+                    process.communicate(), timeout=timeout
+                )
 
             # Clean up temp file
             try:
@@ -158,7 +178,9 @@ class CLIAgentBase(BaseTool):
             return result
 
         except asyncio.TimeoutError:
-            await tool_ctx.error(f"{self.provider_name} timed out after {timeout} seconds")
+            await tool_ctx.error(
+                f"{self.provider_name} timed out after {timeout} seconds"
+            )
             return f"Error: Command timed out after {timeout} seconds"
         except Exception as e:
             await tool_ctx.error(f"{self.provider_name} error: {str(e)}")

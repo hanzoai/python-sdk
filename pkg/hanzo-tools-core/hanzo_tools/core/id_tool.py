@@ -120,7 +120,9 @@ All operations are PURE.
             Effect: PURE
             """
             if path:
-                full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                full_path = (
+                    Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                )
                 if not full_path.exists():
                     raise NotFoundError(f"File not found: {path}", uri=str(full_path))
                 async with aiofiles.open(full_path, "rb") as f:
@@ -153,7 +155,9 @@ All operations are PURE.
 
             Effect: PURE
             """
-            full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            full_path = (
+                Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            )
             uri = self._path_to_uri(str(full_path))
 
             return {
@@ -185,7 +189,9 @@ All operations are PURE.
 
             Effect: PURE
             """
-            full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            full_path = (
+                Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            )
             uri = self._path_to_uri(str(full_path))
 
             result = {
@@ -243,7 +249,9 @@ All operations are PURE.
 
             # Get content
             if path:
-                full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                full_path = (
+                    Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                )
                 if not full_path.exists():
                     raise NotFoundError(f"File not found: {path}")
                 async with aiofiles.open(full_path, "rb") as f:

@@ -65,7 +65,9 @@ def detect_claude_code_env() -> dict:
         result["api_key"] = os.environ.get("ANTHROPIC_API_KEY")
 
     # Check Claude Desktop config for OAuth tokens
-    claude_config_path = Path.home() / "Library/Application Support/Claude/claude_desktop_config.json"
+    claude_config_path = (
+        Path.home() / "Library/Application Support/Claude/claude_desktop_config.json"
+    )
     if claude_config_path.exists():
         try:
             with open(claude_config_path) as f:
@@ -212,7 +214,9 @@ Examples:
             return "claude"
 
         # Otherwise check which agents are configured
-        for name, config in sorted(self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)):
+        for name, config in sorted(
+            self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)
+        ):
             env_key = config.get("env_key")
             if env_key and os.environ.get(env_key):
                 return name
@@ -247,7 +251,9 @@ Examples:
         elif action == "run":
             # Use default agent if not specified
             agent_name = name or self._get_default_agent()
-            return await self._run_agent(agent_name, prompt, cwd, args, timeout, share_config)
+            return await self._run_agent(
+                agent_name, prompt, cwd, args, timeout, share_config
+            )
         else:
             return f"Unknown action: {action}. Use: run, list, status, config"
 
@@ -256,7 +262,9 @@ Examples:
         default = self._get_default_agent()
         lines = ["Available agents:"]
 
-        for name, config in sorted(self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)):
+        for name, config in sorted(
+            self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)
+        ):
             marker = " (default)" if name == default else ""
             lines.append(f"  • {name}: {config['description']}{marker}")
 
@@ -274,7 +282,9 @@ Examples:
         """Show current agent configuration."""
         lines = ["Agent Configuration:"]
         lines.append(f"  Default agent: {self._get_default_agent()}")
-        lines.append(f"  Running in Claude: {self._claude_env.get('running_in_claude', False)}")
+        lines.append(
+            f"  Running in Claude: {self._claude_env.get('running_in_claude', False)}"
+        )
 
         if self._claude_env.get("session_id"):
             lines.append(f"  Claude session: {self._claude_env['session_id'][:8]}...")
@@ -296,7 +306,9 @@ Examples:
         if not name:
             # Check all agents
             results = []
-            for agent_name, config in sorted(self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)):
+            for agent_name, config in sorted(
+                self.AGENTS.items(), key=lambda x: x[1].get("priority", 99)
+            ):
                 available = await self._is_available(config["check"])
 
                 # Check for API key
@@ -418,13 +430,24 @@ Examples:
         async def agent(
             action: Action = "run",
             name: Annotated[
-                Optional[str], Field(description="Agent: claude, codex, gemini, grok, qwen, vibe, code, dev")
+                Optional[str],
+                Field(
+                    description="Agent: claude, codex, gemini, grok, qwen, vibe, code, dev"
+                ),
             ] = None,
-            prompt: Annotated[Optional[str], Field(description="Prompt for the agent")] = None,
-            cwd: Annotated[Optional[str], Field(description="Working directory")] = None,
-            args: Annotated[Optional[List[str]], Field(description="Additional arguments")] = None,
+            prompt: Annotated[
+                Optional[str], Field(description="Prompt for the agent")
+            ] = None,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory")
+            ] = None,
+            args: Annotated[
+                Optional[List[str]], Field(description="Additional arguments")
+            ] = None,
             timeout: Annotated[int, Field(description="Timeout in seconds")] = 300,
-            share_config: Annotated[bool, Field(description="Share hanzo-mcp config with agent")] = True,
+            share_config: Annotated[
+                bool, Field(description="Share hanzo-mcp config with agent")
+            ] = True,
             ctx: MCPContext = None,
         ) -> str:
             """Run AI agents: claude, codex, gemini, grok, qwen, vibe, code, dev.

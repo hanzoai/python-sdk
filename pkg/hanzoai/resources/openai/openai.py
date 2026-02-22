@@ -76,7 +76,9 @@ class OpenAIResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._post(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -114,7 +116,9 @@ class OpenAIResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._get(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -152,7 +156,9 @@ class OpenAIResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._put(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -190,7 +196,9 @@ class OpenAIResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._delete(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -228,7 +236,9 @@ class OpenAIResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._patch(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -291,7 +301,9 @@ class AsyncOpenAIResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._post(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -329,7 +341,9 @@ class AsyncOpenAIResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._get(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -367,7 +381,9 @@ class AsyncOpenAIResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._put(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -405,7 +421,9 @@ class AsyncOpenAIResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._delete(
             f"/openai/{endpoint}",
             options=make_request_options(
@@ -443,7 +461,9 @@ class AsyncOpenAIResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._patch(
             f"/openai/{endpoint}",
             options=make_request_options(

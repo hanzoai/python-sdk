@@ -1,6 +1,5 @@
 """Embedding service using FastEmbed or LanceDB."""
 
-
 import numpy as np
 from structlog import get_logger
 
@@ -211,7 +210,9 @@ class MinimalEmbeddingService:
         for t in text:
             # Create a simple hash-based embedding
             hash_val = hash(t) % 1000000
-            embedding = [float((hash_val >> i) & 0xFF) / 255.0 for i in range(0, 384, 8)]
+            embedding = [
+                float((hash_val >> i) & 0xFF) / 255.0 for i in range(0, 384, 8)
+            ]
             # Pad or truncate to ensure consistent size
             embedding = (embedding * (384 // len(embedding) + 1))[:384]
             embeddings.append(embedding)
@@ -223,11 +224,18 @@ class MinimalEmbeddingService:
         embeddings = self.embed_text(text)
         return embeddings[0]
 
-    def embed_batch(self, texts: list[str], batch_size: int = 32, show_progress: bool = False) -> list[list[float]]:
+    def embed_batch(
+        self, texts: list[str], batch_size: int = 32, show_progress: bool = False
+    ) -> list[list[float]]:
         """Generate embeddings for a batch of texts."""
         return self.embed_text(texts)
 
-    def compute_similarity(self, query_embedding: list[float], embeddings: list[list[float]], metric: str = "cosine") -> list[float]:
+    def compute_similarity(
+        self,
+        query_embedding: list[float],
+        embeddings: list[list[float]],
+        metric: str = "cosine",
+    ) -> list[float]:
         """Compute similarity between query embedding and a list of embeddings."""
         # For minimal service, return dummy similarity scores
         return [0.5] * len(embeddings)  # Return neutral similarity

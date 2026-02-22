@@ -13,13 +13,12 @@ async def example_lancedb():
     print("-" * 40)
 
     # Access LanceDB backend using dictionary syntax
-    lance = memory['lancedb']
+    lance = memory["lancedb"]
     await lance.initialize()
 
     # Create a project
     project = ProjectCreate(
-        name="AI Research",
-        description="Storing AI research notes with embeddings"
+        name="AI Research", description="Storing AI research notes with embeddings"
     )
     proj = await lance.client.create_project(project, user_id="researcher")
 
@@ -36,7 +35,7 @@ async def example_lancedb():
             content=content,
             memory_type="research",
             importance=0.9,
-            embedding=[0.1] * 384  # Dummy embedding
+            embedding=[0.1] * 384,  # Dummy embedding
         )
         await lance.client.create_memory(mem, proj.project_id, "researcher")
 
@@ -47,7 +46,7 @@ async def example_lancedb():
         query_embedding=[0.1] * 384,  # Would use real query embedding
         project_id=proj.project_id,
         user_id="researcher",
-        limit=3
+        limit=3,
     )
     print(f"✅ Found {len(results)} similar memories")
 
@@ -66,8 +65,7 @@ async def example_kuzudb():
 
         # Create a project
         project = ProjectCreate(
-            name="Knowledge Graph",
-            description="Building connected knowledge"
+            name="Knowledge Graph", description="Building connected knowledge"
         )
         proj = await kuzu.client.create_project(project, user_id="analyst")
 
@@ -85,7 +83,7 @@ async def example_kuzudb():
                 content=content,
                 memory_type=mem_type,
                 importance=0.7,
-                embedding=[0.2] * 384  # Dummy embedding
+                embedding=[0.2] * 384,  # Dummy embedding
             )
             created = await kuzu.client.create_memory(mem, proj.project_id, "analyst")
             memory_ids.append(created.memory_id)
@@ -93,12 +91,12 @@ async def example_kuzudb():
         print("✅ Created graph of connected memories")
 
         # Get related memories (KuzuDB specific feature)
-        if hasattr(kuzu.client, 'get_related_memories'):
+        if hasattr(kuzu.client, "get_related_memories"):
             related = kuzu.client.get_related_memories(memory_ids[0])
             print(f"✅ Found {len(related)} related memories")
 
         # Get memory graph
-        if hasattr(kuzu.client, 'get_memory_graph'):
+        if hasattr(kuzu.client, "get_memory_graph"):
             graph = kuzu.client.get_memory_graph(proj.project_id, depth=2)
             print(f"✅ Retrieved graph with {len(graph.get('nodes', []))} nodes")
 
@@ -114,11 +112,10 @@ async def example_local():
     print("-" * 40)
 
     # Access local backend using context manager
-    async with memory.use('local', config={'enable_markdown': False}) as local:
+    async with memory.use("local", config={"enable_markdown": False}) as local:
         # Create a project
         project = ProjectCreate(
-            name="Dev Notes",
-            description="Quick notes during development"
+            name="Dev Notes", description="Quick notes during development"
         )
         proj = await local.client.create_project(project, user_id="developer")
 
@@ -130,20 +127,14 @@ async def example_local():
         ]
 
         for note in notes:
-            mem = MemoryCreate(
-                content=note,
-                memory_type="note",
-                importance=0.5
-            )
+            mem = MemoryCreate(content=note, memory_type="note", importance=0.5)
             await local.client.create_memory(mem, proj.project_id, "developer")
 
         print("✅ Stored development notes locally")
 
         # Get recent memories
         recent = await local.client.get_recent_memories(
-            project_id=proj.project_id,
-            user_id="developer",
-            limit=5
+            project_id=proj.project_id, user_id="developer", limit=5
         )
         print(f"✅ Retrieved {len(recent)} recent notes")
 
@@ -176,15 +167,17 @@ async def example_advanced_patterns():
 
     # Find backend with vector search
     vector_backends = [
-        name for name, info in backends.items()
-        if 'vector_search' in info['capabilities']
+        name
+        for name, info in backends.items()
+        if "vector_search" in info["capabilities"]
     ]
     print(f"  Vector search backends: {vector_backends}")
 
     # Find backend with graph queries
     graph_backends = [
-        name for name, info in backends.items()
-        if 'graph_queries' in info['capabilities']
+        name
+        for name, info in backends.items()
+        if "graph_queries" in info["capabilities"]
     ]
     print(f"  Graph query backends: {graph_backends}")
 
@@ -192,8 +185,8 @@ async def example_advanced_patterns():
     print("\n2. Using multiple backends:")
 
     # Use LanceDB for vectors, local for quick notes
-    lance = memory['lancedb']
-    local = memory['local']
+    lance = memory["lancedb"]
+    local = memory["local"]
 
     print("  ✅ Can use multiple backends simultaneously")
 

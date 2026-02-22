@@ -43,7 +43,10 @@ class WalletsResource(SyncAPIResource):
         return self._get(
             "/network/wallets",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -61,7 +64,10 @@ class WalletsResource(SyncAPIResource):
         return self._get(
             f"/network/wallets/{wallet_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -81,7 +87,10 @@ class WalletsResource(SyncAPIResource):
             "/network/wallets",
             body={"name": name, "network_id": network_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -99,7 +108,10 @@ class WalletsResource(SyncAPIResource):
         return self._delete(
             f"/network/wallets/{wallet_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -117,7 +129,10 @@ class WalletsResource(SyncAPIResource):
         return self._get(
             f"/network/wallets/{wallet_id}/balance",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -163,7 +178,10 @@ class WalletsResource(SyncAPIResource):
             f"/network/wallets/{wallet_id}/transfer",
             body={"to_address": to_address, "amount": amount, "token_id": token_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -183,7 +201,10 @@ class WalletsResource(SyncAPIResource):
             f"/network/wallets/{wallet_id}/sign",
             body={"message": message},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -211,7 +232,10 @@ class AsyncWalletsResource(AsyncAPIResource):
         return await self._get(
             "/network/wallets",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -228,7 +252,10 @@ class AsyncWalletsResource(AsyncAPIResource):
         return await self._get(
             f"/network/wallets/{wallet_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -247,7 +274,10 @@ class AsyncWalletsResource(AsyncAPIResource):
             "/network/wallets",
             body={"name": name, "network_id": network_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -264,7 +294,10 @@ class AsyncWalletsResource(AsyncAPIResource):
         return await self._delete(
             f"/network/wallets/{wallet_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -281,7 +314,10 @@ class AsyncWalletsResource(AsyncAPIResource):
         return await self._get(
             f"/network/wallets/{wallet_id}/balance",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -325,7 +361,10 @@ class AsyncWalletsResource(AsyncAPIResource):
             f"/network/wallets/{wallet_id}/transfer",
             body={"to_address": to_address, "amount": amount, "token_id": token_id},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -344,7 +383,10 @@ class AsyncWalletsResource(AsyncAPIResource):
             f"/network/wallets/{wallet_id}/sign",
             body={"message": message},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

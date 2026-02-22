@@ -119,7 +119,9 @@ class AssistantsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not assistant_id:
-            raise ValueError(f"Expected a non-empty value for `assistant_id` but received {assistant_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `assistant_id` but received {assistant_id!r}"
+            )
         return self._delete(
             f"/v1/assistants/{assistant_id}",
             options=make_request_options(
@@ -233,7 +235,9 @@ class AsyncAssistantsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not assistant_id:
-            raise ValueError(f"Expected a non-empty value for `assistant_id` but received {assistant_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `assistant_id` but received {assistant_id!r}"
+            )
         return await self._delete(
             f"/v1/assistants/{assistant_id}",
             options=make_request_options(

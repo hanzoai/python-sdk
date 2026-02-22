@@ -302,9 +302,16 @@ class NativeControl:
             return int(loc.x), int(CGDisplayPixelsHigh(0) - loc.y)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "getmouselocation", "--shell"], capture_output=True, text=True, timeout=2
+                ["xdotool", "getmouselocation", "--shell"],
+                capture_output=True,
+                text=True,
+                timeout=2,
             )
-            vals = dict(line.split("=") for line in result.stdout.strip().split("\n") if "=" in line)
+            vals = dict(
+                line.split("=")
+                for line in result.stdout.strip().split("\n")
+                if "=" in line
+            )
             return int(vals.get("X", 0)), int(vals.get("Y", 0))
         elif IS_WINDOWS and WIN32_AVAILABLE:
 
@@ -323,10 +330,14 @@ class NativeControl:
     def screen_size() -> tuple[int, int]:
         """Get screen size."""
         if IS_MACOS and QUARTZ_AVAILABLE:
-            return CGDisplayPixelsWide(CGMainDisplayID()), CGDisplayPixelsHigh(CGMainDisplayID())
+            return CGDisplayPixelsWide(CGMainDisplayID()), CGDisplayPixelsHigh(
+                CGMainDisplayID()
+            )
         elif IS_LINUX:
             try:
-                result = subprocess.run(["xdpyinfo"], capture_output=True, text=True, timeout=2)
+                result = subprocess.run(
+                    ["xdpyinfo"], capture_output=True, text=True, timeout=2
+                )
                 for line in result.stdout.split("\n"):
                     if "dimensions:" in line:
                         dims = line.split()[1]
@@ -346,7 +357,9 @@ class NativeControl:
             return pyautogui.size()
 
     @staticmethod
-    def _send_mouse_event_macos(event_type: int, x: int, y: int, button: int = 0) -> None:
+    def _send_mouse_event_macos(
+        event_type: int, x: int, y: int, button: int = 0
+    ) -> None:
         """Send mouse event via macOS Quartz."""
         event = CGEventCreateMouseEvent(None, event_type, (x, y), button)
         CGEventPost(kCGHIDEventTap, event)
@@ -356,18 +369,37 @@ class NativeControl:
         """Click at position - native speed."""
         if IS_MACOS and QUARTZ_AVAILABLE:
             if button == "left":
-                NativeControl._send_mouse_event_macos(kCGEventLeftMouseDown, x, y, kCGMouseButtonLeft)
-                NativeControl._send_mouse_event_macos(kCGEventLeftMouseUp, x, y, kCGMouseButtonLeft)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventLeftMouseDown, x, y, kCGMouseButtonLeft
+                )
+                NativeControl._send_mouse_event_macos(
+                    kCGEventLeftMouseUp, x, y, kCGMouseButtonLeft
+                )
             elif button == "right":
-                NativeControl._send_mouse_event_macos(kCGEventRightMouseDown, x, y, kCGMouseButtonRight)
-                NativeControl._send_mouse_event_macos(kCGEventRightMouseUp, x, y, kCGMouseButtonRight)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventRightMouseDown, x, y, kCGMouseButtonRight
+                )
+                NativeControl._send_mouse_event_macos(
+                    kCGEventRightMouseUp, x, y, kCGMouseButtonRight
+                )
             elif button == "middle":
-                NativeControl._send_mouse_event_macos(kCGEventOtherMouseDown, x, y, kCGMouseButtonCenter)
-                NativeControl._send_mouse_event_macos(kCGEventOtherMouseUp, x, y, kCGMouseButtonCenter)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventOtherMouseDown, x, y, kCGMouseButtonCenter
+                )
+                NativeControl._send_mouse_event_macos(
+                    kCGEventOtherMouseUp, x, y, kCGMouseButtonCenter
+                )
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             btn_map = {"left": "1", "middle": "2", "right": "3"}
             subprocess.run(
-                ["xdotool", "mousemove", str(x), str(y), "click", btn_map.get(button, "1")],
+                [
+                    "xdotool",
+                    "mousemove",
+                    str(x),
+                    str(y),
+                    "click",
+                    btn_map.get(button, "1"),
+                ],
                 capture_output=True,
                 timeout=2,
             )
@@ -392,7 +424,9 @@ class NativeControl:
         """Double click."""
         if IS_LINUX and XDOTOOL_AVAILABLE:
             subprocess.run(
-                ["xdotool", "mousemove", str(x), str(y), "click", "--repeat", "2", "1"], capture_output=True, timeout=2
+                ["xdotool", "mousemove", str(x), str(y), "click", "--repeat", "2", "1"],
+                capture_output=True,
+                timeout=2,
             )
         else:
             NativeControl.click(x, y)
@@ -405,7 +439,9 @@ class NativeControl:
         if IS_MACOS and QUARTZ_AVAILABLE:
             NativeControl._send_mouse_event_macos(kCGEventMouseMoved, x, y, 0)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
-            subprocess.run(["xdotool", "mousemove", str(x), str(y)], capture_output=True, timeout=2)
+            subprocess.run(
+                ["xdotool", "mousemove", str(x), str(y)], capture_output=True, timeout=2
+            )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             ctypes.windll.user32.SetCursorPos(x, y)
         else:
@@ -414,21 +450,29 @@ class NativeControl:
             pyautogui.moveTo(x, y, _pause=False)
 
     @staticmethod
-    def drag(start_x: int, start_y: int, end_x: int, end_y: int, button: str = "left") -> None:
+    def drag(
+        start_x: int, start_y: int, end_x: int, end_y: int, button: str = "left"
+    ) -> None:
         """Drag from start to end."""
         if IS_MACOS and QUARTZ_AVAILABLE:
             if button == "left":
-                NativeControl._send_mouse_event_macos(kCGEventLeftMouseDown, start_x, start_y, kCGMouseButtonLeft)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventLeftMouseDown, start_x, start_y, kCGMouseButtonLeft
+                )
                 drag_type = kCGEventLeftMouseDragged
                 up_type = kCGEventLeftMouseUp
                 btn = kCGMouseButtonLeft
             elif button == "right":
-                NativeControl._send_mouse_event_macos(kCGEventRightMouseDown, start_x, start_y, kCGMouseButtonRight)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventRightMouseDown, start_x, start_y, kCGMouseButtonRight
+                )
                 drag_type = kCGEventRightMouseDragged
                 up_type = kCGEventRightMouseUp
                 btn = kCGMouseButtonRight
             else:
-                NativeControl._send_mouse_event_macos(kCGEventOtherMouseDown, start_x, start_y, kCGMouseButtonCenter)
+                NativeControl._send_mouse_event_macos(
+                    kCGEventOtherMouseDown, start_x, start_y, kCGMouseButtonCenter
+                )
                 drag_type = kCGEventOtherMouseDragged
                 up_type = kCGEventOtherMouseUp
                 btn = kCGMouseButtonCenter
@@ -482,12 +526,16 @@ class NativeControl:
             NativeControl.move(x, y)
 
         if IS_MACOS and QUARTZ_AVAILABLE:
-            event = CGEventCreateScrollWheelEvent(None, kCGScrollEventUnitLine, 1, amount)
+            event = CGEventCreateScrollWheelEvent(
+                None, kCGScrollEventUnitLine, 1, amount
+            )
             CGEventPost(kCGHIDEventTap, event)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             btn = "4" if amount > 0 else "5"
             for _ in range(abs(amount)):
-                subprocess.run(["xdotool", "click", btn], capture_output=True, timeout=2)
+                subprocess.run(
+                    ["xdotool", "click", btn], capture_output=True, timeout=2
+                )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             ctypes.windll.user32.mouse_event(0x0800, 0, 0, amount * 120, 0)
         else:
@@ -509,7 +557,9 @@ class NativeControl:
             if key_lower in KEY_CODES:
                 NativeControl._send_key_event_macos(KEY_CODES[key_lower], True)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
-            subprocess.run(["xdotool", "keydown", key_lower], capture_output=True, timeout=2)
+            subprocess.run(
+                ["xdotool", "keydown", key_lower], capture_output=True, timeout=2
+            )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             vk = _get_vk_code(key_lower)
             if vk:
@@ -527,7 +577,9 @@ class NativeControl:
             if key_lower in KEY_CODES:
                 NativeControl._send_key_event_macos(KEY_CODES[key_lower], False)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
-            subprocess.run(["xdotool", "keyup", key_lower], capture_output=True, timeout=2)
+            subprocess.run(
+                ["xdotool", "keyup", key_lower], capture_output=True, timeout=2
+            )
         elif IS_WINDOWS and WIN32_AVAILABLE:
             vk = _get_vk_code(key_lower)
             if vk:
@@ -541,7 +593,9 @@ class NativeControl:
     def press(key: str) -> None:
         """Press and release key."""
         if IS_LINUX and XDOTOOL_AVAILABLE:
-            subprocess.run(["xdotool", "key", key.lower()], capture_output=True, timeout=2)
+            subprocess.run(
+                ["xdotool", "key", key.lower()], capture_output=True, timeout=2
+            )
         else:
             NativeControl.key_down(key)
             NativeControl.key_up(key)
@@ -562,7 +616,9 @@ class NativeControl:
     def type_char(char: str) -> None:
         """Type a single character."""
         if IS_LINUX and XDOTOOL_AVAILABLE:
-            subprocess.run(["xdotool", "type", "--", char], capture_output=True, timeout=2)
+            subprocess.run(
+                ["xdotool", "type", "--", char], capture_output=True, timeout=2
+            )
         elif IS_MACOS and QUARTZ_AVAILABLE:
             if char in SHIFT_CHARS:
                 NativeControl.key_down("shift")
@@ -583,12 +639,21 @@ class NativeControl:
         if IS_LINUX and XDOTOOL_AVAILABLE:
             if interval > 0:
                 subprocess.run(
-                    ["xdotool", "type", "--delay", str(int(interval * 1000)), "--", text],
+                    [
+                        "xdotool",
+                        "type",
+                        "--delay",
+                        str(int(interval * 1000)),
+                        "--",
+                        text,
+                    ],
                     capture_output=True,
                     timeout=30,
                 )
             else:
-                subprocess.run(["xdotool", "type", "--", text], capture_output=True, timeout=30)
+                subprocess.run(
+                    ["xdotool", "type", "--", text], capture_output=True, timeout=30
+                )
         else:
             for char in text:
                 NativeControl.type_char(char)
@@ -642,14 +707,16 @@ class NativeControl:
             # First try direct app activation
             script = f'tell application "{title}" to activate'
             try:
-                result = subprocess.run(["osascript", "-e", script], capture_output=True, timeout=10)
+                result = subprocess.run(
+                    ["osascript", "-e", script], capture_output=True, timeout=10
+                )
                 if result.returncode == 0:
                     return True
             except subprocess.TimeoutExpired:
                 pass
 
             # If that fails, try to find app by partial name match
-            search_script = f'''
+            search_script = f"""
             tell application "System Events"
                 set matchingApps to (application processes whose name contains "{title}")
                 if (count of matchingApps) > 0 then
@@ -659,9 +726,14 @@ class NativeControl:
                 end if
             end tell
             return ""
-            '''
+            """
             try:
-                result = subprocess.run(["osascript", "-e", search_script], capture_output=True, text=True, timeout=10)
+                result = subprocess.run(
+                    ["osascript", "-e", search_script],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
                 if result.returncode == 0 and result.stdout.strip():
                     return True
             except subprocess.TimeoutExpired:
@@ -669,7 +741,9 @@ class NativeControl:
             return False
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "search", "--name", title, "windowactivate"], capture_output=True, timeout=10
+                ["xdotool", "search", "--name", title, "windowactivate"],
+                capture_output=True,
+                timeout=10,
             )
             return result.returncode == 0
         elif IS_WINDOWS and WIN32_AVAILABLE:
@@ -699,7 +773,9 @@ class NativeControl:
                 end try
             end tell
             """
-            result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True, timeout=5)
+            result = subprocess.run(
+                ["osascript", "-e", script], capture_output=True, text=True, timeout=5
+            )
             if result.returncode == 0:
                 parts = result.stdout.strip().split("|")
                 if len(parts) >= 6:
@@ -713,7 +789,10 @@ class NativeControl:
                     }
         elif IS_LINUX and XDOTOOL_AVAILABLE:
             result = subprocess.run(
-                ["xdotool", "getactivewindow", "getwindowname"], capture_output=True, text=True, timeout=5
+                ["xdotool", "getactivewindow", "getwindowname"],
+                capture_output=True,
+                text=True,
+                timeout=5,
             )
             if result.returncode == 0:
                 return {"title": result.stdout.strip()}
@@ -750,7 +829,9 @@ class NativeControl:
             end tell
             return windowList
             """
-            result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True, timeout=10)
+            result = subprocess.run(
+                ["osascript", "-e", script], capture_output=True, text=True, timeout=10
+            )
             if result.returncode == 0:
                 windows = []
                 for line in result.stdout.strip().split("\n"):
@@ -891,7 +972,10 @@ class ComputerTool(BaseTool):
     @override
     def description(self) -> str:
         platform_info = NativeControl.get_platform_info()
-        backends = ", ".join(k for k, v in platform_info["backends"].items() if v) or "pyautogui"
+        backends = (
+            ", ".join(k for k, v in platform_info["backends"].items() if v)
+            or "pyautogui"
+        )
         return f"""Control local computer with native API acceleration.
 
 PLATFORM: {platform_info["platform"]}
@@ -1012,7 +1096,9 @@ Examples:
                 if x is None or y is None:
                     return json.dumps({"error": "x and y required"})
                 await run(NativeControl.click, x, y, button)
-                return json.dumps({"success": True, "clicked": [x, y], "button": button})
+                return json.dumps(
+                    {"success": True, "clicked": [x, y], "button": button}
+                )
 
             elif action == "double_click":
                 if x is None or y is None:
@@ -1051,14 +1137,18 @@ Examples:
                 start = NativeControl.mouse_position()
                 target_x = end_x if end_x is not None else x
                 target_y = end_y if end_y is not None else y
-                await run(NativeControl.drag, start[0], start[1], target_x, target_y, button)
+                await run(
+                    NativeControl.drag, start[0], start[1], target_x, target_y, button
+                )
                 return json.dumps({"success": True, "dragged_to": [target_x, target_y]})
 
             elif action == "drag_relative":
                 if dx is None or dy is None:
                     return json.dumps({"error": "dx and dy required"})
                 pos = NativeControl.mouse_position()
-                await run(NativeControl.drag, pos[0], pos[1], pos[0] + dx, pos[1] + dy, button)
+                await run(
+                    NativeControl.drag, pos[0], pos[1], pos[0] + dx, pos[1] + dy, button
+                )
                 return json.dumps({"success": True, "dragged_by": [dx, dy]})
 
             elif action == "scroll":
@@ -1081,7 +1171,9 @@ Examples:
                     await run(NativeControl.hotkey, "command", "a")
                     await asyncio.sleep(0.05)
                 await run(NativeControl.type_text, text, interval)
-                return json.dumps({"success": True, "wrote": len(text), "cleared": clear})
+                return json.dumps(
+                    {"success": True, "wrote": len(text), "cleared": clear}
+                )
 
             elif action == "press":
                 if not key:
@@ -1234,7 +1326,9 @@ Examples:
                 if x is None or y is None or width is None or height is None:
                     return json.dumps({"error": "x, y, width, height required"})
                 self._defined_regions[name] = (x, y, width, height)
-                return json.dumps({"success": True, "defined": name, "region": [x, y, width, height]})
+                return json.dumps(
+                    {"success": True, "defined": name, "region": [x, y, width, height]}
+                )
 
             elif action == "region_screenshot":
                 if not name:
@@ -1244,7 +1338,9 @@ Examples:
                 reg = list(self._defined_regions[name])
                 data = await run(NativeControl.screenshot_native, reg)
                 b64 = base64.b64encode(data).decode()
-                return json.dumps({"success": True, "format": "png", "size": len(data), "base64": b64})
+                return json.dumps(
+                    {"success": True, "format": "png", "size": len(data), "base64": b64}
+                )
 
             elif action == "region_locate":
                 if not name:
@@ -1300,9 +1396,15 @@ Examples:
                     act_type = act.get("action", "")
                     try:
                         if act_type == "click":
-                            NativeControl.click(act.get("x", 0), act.get("y", 0), act.get("button", "left"))
+                            NativeControl.click(
+                                act.get("x", 0),
+                                act.get("y", 0),
+                                act.get("button", "left"),
+                            )
                         elif act_type == "type":
-                            NativeControl.type_text(act.get("text", ""), act.get("interval", 0))
+                            NativeControl.type_text(
+                                act.get("text", ""), act.get("interval", 0)
+                            )
                         elif act_type == "press":
                             NativeControl.press(act.get("key", ""))
                         elif act_type == "hotkey":
@@ -1310,15 +1412,23 @@ Examples:
                         elif act_type == "move":
                             NativeControl.move(act.get("x", 0), act.get("y", 0))
                         elif act_type == "scroll":
-                            NativeControl.scroll(act.get("amount", 0), act.get("x"), act.get("y"))
+                            NativeControl.scroll(
+                                act.get("amount", 0), act.get("x"), act.get("y")
+                            )
                         elif act_type == "sleep":
                             time.sleep(act.get("ms", 0) / 1000)
                         else:
-                            results.append({"index": i, "action": act_type, "error": "unknown"})
+                            results.append(
+                                {"index": i, "action": act_type, "error": "unknown"}
+                            )
                             continue
-                        results.append({"index": i, "action": act_type, "success": True})
+                        results.append(
+                            {"index": i, "action": act_type, "success": True}
+                        )
                     except Exception as e:
-                        results.append({"index": i, "action": act_type, "error": str(e)})
+                        results.append(
+                            {"index": i, "action": act_type, "error": str(e)}
+                        )
 
                 elapsed = time.time() - start
                 return json.dumps(
@@ -1404,7 +1514,12 @@ Examples:
                 results.append(
                     {
                         "center": {"x": center.x, "y": center.y},
-                        "box": {"left": loc.left, "top": loc.top, "width": loc.width, "height": loc.height},
+                        "box": {
+                            "left": loc.left,
+                            "top": loc.top,
+                            "width": loc.width,
+                            "height": loc.height,
+                        },
                     }
                 )
             return json.dumps({"found": len(results), "locations": results})
@@ -1427,7 +1542,9 @@ Examples:
         except Exception as e:
             return json.dumps({"error": str(e)})
 
-    async def _wait_for_image(self, image_path: str, timeout: float, confidence: float, run) -> str:
+    async def _wait_for_image(
+        self, image_path: str, timeout: float, confidence: float, run
+    ) -> str:
         path = Path(image_path)
         if not path.exists():
             return json.dumps({"error": f"Image not found: {image_path}"})
@@ -1437,12 +1554,19 @@ Examples:
             data = json.loads(result) if result.startswith("{") else {}
             if data.get("found"):
                 return json.dumps(
-                    {"found": True, "x": data["x"], "y": data["y"], "elapsed": round(time.time() - start, 2)}
+                    {
+                        "found": True,
+                        "x": data["x"],
+                        "y": data["y"],
+                        "elapsed": round(time.time() - start, 2),
+                    }
                 )
             await asyncio.sleep(0.1)
         return json.dumps({"found": False, "timeout": timeout})
 
-    async def _wait_while_image(self, image_path: str, timeout: float, confidence: float, run) -> str:
+    async def _wait_while_image(
+        self, image_path: str, timeout: float, confidence: float, run
+    ) -> str:
         path = Path(image_path)
         if not path.exists():
             return json.dumps({"error": f"Image not found: {image_path}"})
@@ -1451,20 +1575,28 @@ Examples:
             result = await run(self._locate_center, str(path), confidence)
             data = json.loads(result) if result.startswith("{") else {}
             if not data.get("found"):
-                return json.dumps({"disappeared": True, "elapsed": round(time.time() - start, 2)})
+                return json.dumps(
+                    {"disappeared": True, "elapsed": round(time.time() - start, 2)}
+                )
             await asyncio.sleep(0.1)
-        return json.dumps({"disappeared": False, "timeout": timeout, "still_visible": True})
+        return json.dumps(
+            {"disappeared": False, "timeout": timeout, "still_visible": True}
+        )
 
     def _get_pixel(self, x: int, y: int) -> str:
         pg = self._ensure_pyautogui()
         try:
             screenshot = pg.screenshot(region=(x, y, 1, 1))
             pixel = screenshot.getpixel((0, 0))
-            return json.dumps({"x": x, "y": y, "color": {"r": pixel[0], "g": pixel[1], "b": pixel[2]}})
+            return json.dumps(
+                {"x": x, "y": y, "color": {"r": pixel[0], "g": pixel[1], "b": pixel[2]}}
+            )
         except Exception as e:
             return json.dumps({"error": str(e)})
 
-    def _pixel_matches(self, x: int, y: int, color: tuple[int, int, int], tolerance: int) -> str:
+    def _pixel_matches(
+        self, x: int, y: int, color: tuple[int, int, int], tolerance: int
+    ) -> str:
         pg = self._ensure_pyautogui()
         try:
             screenshot = pg.screenshot(region=(x, y, 1, 1))
@@ -1497,15 +1629,20 @@ Examples:
                             displays.append(
                                 {
                                     "name": disp.get("_name", "Unknown"),
-                                    "resolution": disp.get("_spdisplays_resolution", "Unknown"),
-                                    "main": disp.get("spdisplays_main") == "spdisplays_yes",
+                                    "resolution": disp.get(
+                                        "_spdisplays_resolution", "Unknown"
+                                    ),
+                                    "main": disp.get("spdisplays_main")
+                                    == "spdisplays_yes",
                                 }
                             )
                     return json.dumps(displays)
             except Exception:
                 pass
         size = NativeControl.screen_size()
-        return json.dumps([{"name": "Primary", "resolution": f"{size[0]}x{size[1]}", "main": True}])
+        return json.dumps(
+            [{"name": "Primary", "resolution": f"{size[0]}x{size[1]}", "main": True}]
+        )
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
@@ -1523,12 +1660,16 @@ Examples:
             end_y: Annotated[int | None, Field(description="End Y for drag")] = None,
             text: Annotated[str | None, Field(description="Text to type")] = None,
             key: Annotated[str | None, Field(description="Key to press")] = None,
-            keys: Annotated[list[str] | None, Field(description="Keys for hotkey")] = None,
+            keys: Annotated[
+                list[str] | None, Field(description="Keys for hotkey")
+            ] = None,
             button: Annotated[str, Field(description="Mouse button")] = "left",
             amount: Annotated[int | None, Field(description="Scroll amount")] = None,
             duration: Annotated[float, Field(description="Duration")] = 0.25,
             interval: Annotated[float, Field(description="Type interval")] = 0.02,
-            region: Annotated[list[int] | None, Field(description="Region [x,y,w,h]")] = None,
+            region: Annotated[
+                list[int] | None, Field(description="Region [x,y,w,h]")
+            ] = None,
             clear: Annotated[bool, Field(description="Clear before write")] = False,
             image_path: Annotated[str | None, Field(description="Image path")] = None,
             confidence: Annotated[float, Field(description="Match confidence")] = 0.9,
@@ -1541,7 +1682,9 @@ Examples:
             width: Annotated[int | None, Field(description="Width")] = None,
             height: Annotated[int | None, Field(description="Height")] = None,
             value: Annotated[float | None, Field(description="Value")] = None,
-            actions: Annotated[list[dict] | None, Field(description="Batch actions")] = None,
+            actions: Annotated[
+                list[dict] | None, Field(description="Batch actions")
+            ] = None,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(

@@ -164,9 +164,9 @@ class ToolTestHelper:
         if message:
             assert expected in normalized, f"{message}. Got: {normalized}"
         else:
-            assert expected in normalized, (
-                f"Expected '{expected}' in result. Got: {normalized}"
-            )
+            assert (
+                expected in normalized
+            ), f"Expected '{expected}' in result. Got: {normalized}"
 
     @staticmethod
     def assert_success(result: Any):
@@ -174,9 +174,9 @@ class ToolTestHelper:
         normalized = ToolTestHelper.normalize_result(result)
         error_indicators = ["error", "failed", "exception", "Error:", "Failed:"]
         for indicator in error_indicators:
-            assert indicator.lower() not in normalized.lower(), (
-                f"Result indicates error: {normalized}"
-            )
+            assert (
+                indicator.lower() not in normalized.lower()
+            ), f"Result indicates error: {normalized}"
 
 
 class FileSystemTestHelper:

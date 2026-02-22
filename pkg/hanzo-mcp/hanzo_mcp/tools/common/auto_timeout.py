@@ -164,12 +164,14 @@ def with_auto_timeout(
 
                 def call_func():
                     return func(self_or_ctx, ctx, **params)
+
             elif len(args) == 1:
                 # Function call: ctx, **params
                 ctx = args[0]
 
                 def call_func():
                     return func(ctx, **params)
+
             else:
                 raise TypeError(f"Expected at least 1 argument (ctx), got {len(args)}")
 

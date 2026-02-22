@@ -137,7 +137,12 @@ Returns status and download summary.
             cmd.append("--progress=dot:mega")  # Show progress for large files
 
         # User agent (avoid blocks)
-        cmd.extend(["--user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"])
+        cmd.extend(
+            [
+                "--user-agent",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            ]
+        )
 
         # URL (last)
         cmd.append(url)
@@ -177,7 +182,10 @@ Returns status and download summary.
             summary_lines = [
                 l
                 for l in lines
-                if any(x in l.lower() for x in ["saved", "downloaded", "finished", "total", "retrieved"])
+                if any(
+                    x in l.lower()
+                    for x in ["saved", "downloaded", "finished", "total", "retrieved"]
+                )
             ]
 
             if summary_lines:
@@ -198,16 +206,36 @@ Returns status and download summary.
         @mcp_server.tool()
         async def wget(
             url: Annotated[str, Field(description="URL to download")],
-            output: Annotated[Optional[str], Field(description="Output file or directory")] = None,
-            mirror: Annotated[bool, Field(description="Mirror site for offline viewing")] = False,
-            recursive: Annotated[bool, Field(description="Download recursively")] = False,
-            depth: Annotated[Optional[int], Field(description="Max recursion depth")] = None,
-            accept: Annotated[Optional[str], Field(description="Accept pattern (e.g. '*.pdf')")] = None,
-            reject: Annotated[Optional[str], Field(description="Reject pattern")] = None,
-            domains: Annotated[Optional[str], Field(description="Limit to domains")] = None,
-            no_parent: Annotated[bool, Field(description="Don't go to parent directories")] = True,
-            continue_download: Annotated[bool, Field(description="Continue partial downloads")] = False,
-            timeout: Annotated[Optional[int], Field(description="Timeout in seconds")] = None,
+            output: Annotated[
+                Optional[str], Field(description="Output file or directory")
+            ] = None,
+            mirror: Annotated[
+                bool, Field(description="Mirror site for offline viewing")
+            ] = False,
+            recursive: Annotated[
+                bool, Field(description="Download recursively")
+            ] = False,
+            depth: Annotated[
+                Optional[int], Field(description="Max recursion depth")
+            ] = None,
+            accept: Annotated[
+                Optional[str], Field(description="Accept pattern (e.g. '*.pdf')")
+            ] = None,
+            reject: Annotated[
+                Optional[str], Field(description="Reject pattern")
+            ] = None,
+            domains: Annotated[
+                Optional[str], Field(description="Limit to domains")
+            ] = None,
+            no_parent: Annotated[
+                bool, Field(description="Don't go to parent directories")
+            ] = True,
+            continue_download: Annotated[
+                bool, Field(description="Continue partial downloads")
+            ] = False,
+            timeout: Annotated[
+                Optional[int], Field(description="Timeout in seconds")
+            ] = None,
             quiet: Annotated[bool, Field(description="Suppress output")] = False,
             ctx: MCPContext = None,
         ) -> str:

@@ -173,13 +173,15 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
         executor = get_shell_executor()
         use_shell = shell or self.default_shell
 
-        stdout, stderr, exit_code, was_backgrounded, process_id = await executor.run_shell(
-            command=cmd,
-            shell=use_shell,
-            cwd=cwd,
-            env=env,
-            timeout=float(timeout),
-            tool_name="cmd",
+        stdout, stderr, exit_code, was_backgrounded, process_id = (
+            await executor.run_shell(
+                command=cmd,
+                shell=use_shell,
+                cwd=cwd,
+                env=env,
+                timeout=float(timeout),
+                tool_name="cmd",
+            )
         )
 
         duration = int((datetime.now() - start_time).total_seconds() * 1000)
@@ -207,7 +209,9 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
             node_type="shell",
         )
 
-    async def _run_tool(self, tool_name: str, tool_input: Dict[str, Any], ctx: MCPContext) -> CmdResult:
+    async def _run_tool(
+        self, tool_name: str, tool_input: Dict[str, Any], ctx: MCPContext
+    ) -> CmdResult:
         """Run an MCP tool invocation."""
         start_time = datetime.now()
         node_id = f"tool_{tool_name}"
@@ -314,7 +318,10 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
             if "parallel" in cmd:
                 parallel_cmds = cmd["parallel"]
-                tasks = [self._execute_node(c, ctx, cwd, env, timeout, shell) for c in parallel_cmds]
+                tasks = [
+                    self._execute_node(c, ctx, cwd, env, timeout, shell)
+                    for c in parallel_cmds
+                ]
                 results = await asyncio.gather(*tasks, return_exceptions=True)
 
                 combined_stdout = []
@@ -392,7 +399,9 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         if len(results) > 1:
             status = "✓" if failed_count == 0 else f"✗ ({failed_count} failed)"
-            output_parts.append(f"\n[cmd] {len(results)} nodes, {total_duration}ms, {status}")
+            output_parts.append(
+                f"\n[cmd] {len(results)} nodes, {total_duration}ms, {status}"
+            )
 
         return "\n".join(output_parts) if output_parts else "(no output)"
 
@@ -433,7 +442,11 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
             result = await self._run_shell(command, cwd, env, timeout, shell)
             if result.status == NodeStatus.SUCCESS:
                 return result.stdout if result.stdout else "(no output)"
-            return f"{result.stdout}\n[stderr] {result.stderr}" if result.stderr else result.stdout
+            return (
+                f"{result.stdout}\n[stderr] {result.stderr}"
+                if result.stderr
+                else result.stdout
+            )
 
         # DAG mode
         if not commands:
@@ -442,20 +455,25 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
         results: List[CmdResult] = []
 
         if parallel:
-            tasks = [self._execute_node(cmd, ctx, cwd, env, timeout, shell) for cmd in commands]
+            tasks = [
+                self._execute_node(cmd, ctx, cwd, env, timeout, shell)
+                for cmd in commands
+            ]
             results = await asyncio.gather(*tasks, return_exceptions=True)
             results = [
-                r
-                if not isinstance(r, Exception)
-                else CmdResult(
-                    node_id=f"error_{i}",
-                    command=str(commands[i]),
-                    stdout="",
-                    stderr=str(r),
-                    status=NodeStatus.FAILED,
-                    exit_code=1,
-                    duration_ms=0,
-                    node_type="error",
+                (
+                    r
+                    if not isinstance(r, Exception)
+                    else CmdResult(
+                        node_id=f"error_{i}",
+                        command=str(commands[i]),
+                        stdout="",
+                        stderr=str(r),
+                        status=NodeStatus.FAILED,
+                        exit_code=1,
+                        duration_ms=0,
+                        node_type="error",
+                    )
                 )
                 for i, r in enumerate(results)
             ]
@@ -476,17 +494,36 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def cmd_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
             ] = None,
-            parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
-            shell: Annotated[Optional[str], Field(description="Shell: zsh, bash, sh", default=None)] = None,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            commands: Annotated[
+                Optional[List[Any]],
+                Field(description="List of commands for DAG execution", default=None),
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run all commands in parallel", default=False)
+            ] = False,
+            shell: Annotated[
+                Optional[str], Field(description="Shell: zsh, bash, sh", default=None)
+            ] = None,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout per command (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -503,7 +540,9 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
             )
 
 
-def create_cmd_tool(tools: Optional[Dict[str, BaseTool]] = None, default_shell: str = "zsh") -> CmdTool:
+def create_cmd_tool(
+    tools: Optional[Dict[str, BaseTool]] = None, default_shell: str = "zsh"
+) -> CmdTool:
     """Factory to create command execution tool."""
     return CmdTool(tools, default_shell)
 

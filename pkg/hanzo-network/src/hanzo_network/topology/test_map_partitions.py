@@ -53,7 +53,9 @@ class TestRingMemoryWeightedPartitioningStrategy(unittest.TestCase):
 
     def test_broken_map_partitions_to_shards(self):
         # this was an old broken implementation that sometimes had rounding errors!
-        def _broken_map_partitions_to_shards(partitions: List[Partition], num_layers, model_id: str):
+        def _broken_map_partitions_to_shards(
+            partitions: List[Partition], num_layers, model_id: str
+        ):
             shards = []
             for i, partition in enumerate(partitions):
                 start_layer = int(partition.start * num_layers)

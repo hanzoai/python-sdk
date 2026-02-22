@@ -98,16 +98,33 @@ Use ps --logs <id> to view, ps --kill <id> to stop."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def zsh_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[
-                Optional[List[Any]], Field(description="List of commands for DAG execution", default=None)
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
             ] = None,
-            parallel: Annotated[bool, Field(description="Run all commands in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout per command (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            commands: Annotated[
+                Optional[List[Any]],
+                Field(description="List of commands for DAG execution", default=None),
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run all commands in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout per command (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -164,14 +181,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def bash_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -240,14 +275,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def fish_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -318,14 +371,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def dash_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -402,14 +473,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def ksh_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -482,14 +571,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def tcsh_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -561,14 +668,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def csh_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(
@@ -592,7 +717,9 @@ class ShellTool(CmdTool):
 
     def __init__(self, tools: Optional[Dict[str, BaseTool]] = None):
         """Initialize with best available shell."""
-        super().__init__(tools=tools, default_shell="zsh")  # Will resolve to best available
+        super().__init__(
+            tools=tools, default_shell="zsh"
+        )  # Will resolve to best available
 
     @property
     @override
@@ -617,14 +744,32 @@ AUTO-BACKGROUNDING: Commands exceeding 45s auto-background."""
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def shell_handler(
-            command: Annotated[Optional[str], Field(description="Single command to execute", default=None)] = None,
-            commands: Annotated[Optional[List[Any]], Field(description="List of commands", default=None)] = None,
-            parallel: Annotated[bool, Field(description="Run in parallel", default=False)] = False,
-            cwd: Annotated[Optional[str], Field(description="Working directory", default=None)] = None,
-            env: Annotated[Optional[Dict[str, str]], Field(description="Environment variables", default=None)] = None,
-            timeout: Annotated[int, Field(description="Timeout (seconds)", default=30)] = 30,
-            strict: Annotated[bool, Field(description="Stop on first error", default=False)] = False,
-            quiet: Annotated[bool, Field(description="Suppress stdout", default=False)] = False,
+            command: Annotated[
+                Optional[str],
+                Field(description="Single command to execute", default=None),
+            ] = None,
+            commands: Annotated[
+                Optional[List[Any]], Field(description="List of commands", default=None)
+            ] = None,
+            parallel: Annotated[
+                bool, Field(description="Run in parallel", default=False)
+            ] = False,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory", default=None)
+            ] = None,
+            env: Annotated[
+                Optional[Dict[str, str]],
+                Field(description="Environment variables", default=None),
+            ] = None,
+            timeout: Annotated[
+                int, Field(description="Timeout (seconds)", default=30)
+            ] = 30,
+            strict: Annotated[
+                bool, Field(description="Stop on first error", default=False)
+            ] = False,
+            quiet: Annotated[
+                bool, Field(description="Suppress stdout", default=False)
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(

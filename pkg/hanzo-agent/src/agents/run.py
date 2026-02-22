@@ -27,7 +27,12 @@ from .exceptions import (
     ModelBehaviorError,
     OutputGuardrailTripwireTriggered,
 )
-from .guardrail import InputGuardrail, InputGuardrailResult, OutputGuardrail, OutputGuardrailResult
+from .guardrail import (
+    InputGuardrail,
+    InputGuardrailResult,
+    OutputGuardrail,
+    OutputGuardrailResult,
+)
 from .handoffs import Handoff, HandoffInputFilter, handoff
 from .items import ItemHelpers, ModelResponse, RunItem, TResponseInputItem
 from .lifecycle import RunHooks
@@ -176,7 +181,9 @@ class Runner:
                     # Start an agent span if we don't have one. This span is ended if the current
                     # agent changes, or if the agent loop ends.
                     if current_span is None:
-                        handoff_names = [h.agent_name for h in cls._get_handoffs(current_agent)]
+                        handoff_names = [
+                            h.agent_name for h in cls._get_handoffs(current_agent)
+                        ]
                         tool_names = [t.name for t in current_agent.tools]
                         if output_schema := cls._get_output_schema(current_agent):
                             output_type_name = output_schema.output_type_name()
@@ -243,7 +250,8 @@ class Runner:
 
                     if isinstance(turn_result.next_step, NextStepFinalOutput):
                         output_guardrail_results = await cls._run_output_guardrails(
-                            current_agent.output_guardrails + (run_config.output_guardrails or []),
+                            current_agent.output_guardrails
+                            + (run_config.output_guardrails or []),
                             current_agent,
                             turn_result.next_step.output,
                             context_wrapper,
@@ -258,7 +266,9 @@ class Runner:
                             output_guardrail_results=output_guardrail_results,
                         )
                     elif isinstance(turn_result.next_step, NextStepHandoff):
-                        current_agent = cast(Agent[TContext], turn_result.next_step.new_agent)
+                        current_agent = cast(
+                            Agent[TContext], turn_result.next_step.new_agent
+                        )
                         current_span.finish(reset_current=True)
                         current_span = None
                         should_run_agent_start_hooks = True
@@ -482,7 +492,9 @@ class Runner:
         current_turn = 0
         should_run_agent_start_hooks = True
 
-        streamed_result._event_queue.put_nowait(AgentUpdatedStreamEvent(new_agent=current_agent))
+        streamed_result._event_queue.put_nowait(
+            AgentUpdatedStreamEvent(new_agent=current_agent)
+        )
 
         try:
             while True:
@@ -492,7 +504,9 @@ class Runner:
                 # Start an agent span if we don't have one. This span is ended if the current
                 # agent changes, or if the agent loop ends.
                 if current_span is None:
-                    handoff_names = [h.agent_name for h in cls._get_handoffs(current_agent)]
+                    handoff_names = [
+                        h.agent_name for h in cls._get_handoffs(current_agent)
+                    ]
                     tool_names = [t.name for t in current_agent.tools]
                     if output_schema := cls._get_output_schema(current_agent):
                         output_type_name = output_schema.output_type_name()
@@ -526,8 +540,11 @@ class Runner:
                     streamed_result._input_guardrails_task = asyncio.create_task(
                         cls._run_input_guardrails_with_queue(
                             starting_agent,
-                            starting_agent.input_guardrails + (run_config.input_guardrails or []),
-                            copy.deepcopy(ItemHelpers.input_to_new_input_list(starting_input)),
+                            starting_agent.input_guardrails
+                            + (run_config.input_guardrails or []),
+                            copy.deepcopy(
+                                ItemHelpers.input_to_new_input_list(starting_input)
+                            ),
                             context_wrapper,
                             streamed_result,
                             current_span,
@@ -570,12 +587,16 @@ class Runner:
                         )
 
                         try:
-                            output_guardrail_results = await streamed_result._output_guardrails_task
+                            output_guardrail_results = (
+                                await streamed_result._output_guardrails_task
+                            )
                         except Exception:
                             # Exceptions will be checked in the stream_events loop
                             output_guardrail_results = []
 
-                        streamed_result.output_guardrail_results = output_guardrail_results
+                        streamed_result.output_guardrail_results = (
+                            output_guardrail_results
+                        )
                         streamed_result.final_output = turn_result.next_step.output
                         streamed_result.is_complete = True
                         streamed_result._event_queue.put_nowait(QueueCompleteSentinel())
@@ -683,7 +704,9 @@ class Runner:
             run_config=run_config,
         )
 
-        RunImpl.stream_step_result_to_queue(single_step_result, streamed_result._event_queue)
+        RunImpl.stream_step_result_to_queue(
+            single_step_result, streamed_result._event_queue
+        )
         return single_step_result
 
     @classmethod
@@ -714,7 +737,9 @@ class Runner:
         output_schema = cls._get_output_schema(agent)
         handoffs = cls._get_handoffs(agent)
         input = ItemHelpers.input_to_new_input_list(original_input)
-        input.extend([generated_item.to_input_item() for generated_item in generated_items])
+        input.extend(
+            [generated_item.to_input_item() for generated_item in generated_items]
+        )
 
         new_response = await cls._get_new_response(
             agent,
@@ -821,7 +846,9 @@ class Runner:
 
         guardrail_tasks = [
             asyncio.create_task(
-                RunImpl.run_single_output_guardrail(guardrail, agent, agent_output, context)
+                RunImpl.run_single_output_guardrail(
+                    guardrail, agent, agent_output, context
+                )
             )
             for guardrail in guardrails
         ]

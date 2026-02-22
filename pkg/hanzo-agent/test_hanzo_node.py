@@ -9,7 +9,7 @@ import sys
 from typing import Optional
 
 # Add src to path if running from project root
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from agents import (
     Agent,
@@ -17,7 +17,7 @@ from agents import (
     RunConfig,
     HanzoNodeProvider,
     create_hanzo_node_provider,
-    function_tool
+    function_tool,
 )
 
 # Colors for output
@@ -56,7 +56,9 @@ async def test_hanzo_node_connection():
     is_healthy = await provider.health_check()
 
     if is_healthy:
-        print(f"{GREEN}✓ Successfully connected to Hanzo Node at {provider.base_url}{RESET}")
+        print(
+            f"{GREEN}✓ Successfully connected to Hanzo Node at {provider.base_url}{RESET}"
+        )
         return provider
     else:
         print(f"{RED}✗ Failed to connect to Hanzo Node at {provider.base_url}{RESET}")
@@ -95,11 +97,11 @@ async def test_simple_agent(provider: HanzoNodeProvider):
 
             print(f"{GREEN}Response:{RESET}")
             for item in result.items:
-                if hasattr(item, 'content'):
+                if hasattr(item, "content"):
                     for content in item.content:
-                        if hasattr(content, 'text'):
+                        if hasattr(content, "text"):
                             print(f"  {content.text}")
-                        elif hasattr(content, 'name') and hasattr(content, 'result'):
+                        elif hasattr(content, "name") and hasattr(content, "result"):
                             print(f"  Tool: {content.name}")
                             print(f"  Result: {content.result}")
         except Exception as e:
@@ -125,10 +127,10 @@ async def test_streaming_agent(provider: HanzoNodeProvider):
     try:
         async with runner.run_stream(query) as stream:
             async for chunk in stream:
-                if hasattr(chunk, 'content'):
+                if hasattr(chunk, "content"):
                     for content in chunk.content:
-                        if hasattr(content, 'text'):
-                            print(content.text, end='', flush=True)
+                        if hasattr(content, "text"):
+                            print(content.text, end="", flush=True)
         print()  # New line after streaming
     except Exception as e:
         print(f"\n{RED}Error during streaming: {e}{RESET}")

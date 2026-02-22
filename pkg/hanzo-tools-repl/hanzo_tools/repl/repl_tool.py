@@ -103,7 +103,9 @@ class KernelManager:
     ) -> KernelSession:
         """Start a new kernel session."""
         if not JUPYTER_AVAILABLE:
-            raise RuntimeError("jupyter-client not installed. Install with: pip install hanzo-tools-repl[full]")
+            raise RuntimeError(
+                "jupyter-client not installed. Install with: pip install hanzo-tools-repl[full]"
+            )
 
         kernel_name = LANGUAGE_KERNELS.get(language.lower(), language)
         session_id = session_id or f"{language}_{uuid.uuid4().hex[:8]}"
@@ -167,7 +169,10 @@ class KernelManager:
             while True:
                 try:
                     msg = await asyncio.wait_for(
-                        asyncio.to_thread(session.client.get_iopub_msg, timeout=timeout), timeout=timeout
+                        asyncio.to_thread(
+                            session.client.get_iopub_msg, timeout=timeout
+                        ),
+                        timeout=timeout,
                     )
                 except asyncio.TimeoutError:
                     break
@@ -410,7 +415,11 @@ Use repl(action="eval", code="...") to execute code."""
             await self.manager.start_kernel(language)
         elif session_id is None and language != "python":
             # Start language-specific kernel if not exists
-            lang_sessions = [s for s in self.manager.sessions.values() if s.language.lower() == language.lower()]
+            lang_sessions = [
+                s
+                for s in self.manager.sessions.values()
+                if s.language.lower() == language.lower()
+            ]
             if not lang_sessions:
                 await self.manager.start_kernel(language)
 
@@ -443,7 +452,9 @@ Use repl(action="eval", code="...") to execute code."""
         lines = ["Active REPL sessions:"]
         for s in sessions:
             default = " (default)" if s["is_default"] else ""
-            lines.append(f"  {s['id']}: {s['language']} ({s['kernel']}) - {s['executions']} executions{default}")
+            lines.append(
+                f"  {s['id']}: {s['language']} ({s['kernel']}) - {s['executions']} executions{default}"
+            )
         return "\n".join(lines)
 
     def _history(self, session_id: str | None, limit: int) -> str:
