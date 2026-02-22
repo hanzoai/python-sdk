@@ -81,7 +81,7 @@ async def async_grok_usage():
     print("Concurrent requests to Grok, Claude, and GPT-4:")
     responses = await asyncio.gather(*tasks)
 
-    for i, (model, response) in enumerate(zip(["Grok", "Claude", "GPT-4"], responses)):
+    for i, (model, response) in enumerate(zip(["Grok", "Claude", "GPT-4"], responses, strict=False)):
         print(f"\n{model} Response:")
         print(response.choices[0].message.content[:200] + "...")
 
