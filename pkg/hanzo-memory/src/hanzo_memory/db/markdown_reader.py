@@ -79,7 +79,7 @@ class MarkdownMemoryReader:
     def _compute_file_hash(self, filepath: Path) -> str:
         """Compute hash of file contents."""
         try:
-            content = filepath.read_text(encoding='utf-8')
+            content = filepath.read_text(encoding="utf-8")
             return hashlib.sha256(content.encode()).hexdigest()
         except Exception as e:
             logger.error(f"Error hashing file {filepath}: {e}")
@@ -95,21 +95,21 @@ class MarkdownMemoryReader:
             "line_start": 0,
         }
 
-        lines = content.split('\n')
+        lines = content.split("\n")
         current_line = 0
 
         for line in lines:
             current_line += 1
 
             # Check for headers
-            if line.startswith('#'):
+            if line.startswith("#"):
                 # Save previous section if it has content
                 if current_section["content"].strip():
                     sections.append(current_section)
 
                 # Start new section
-                header_level = len(line) - len(line.lstrip('#'))
-                header_text = line.lstrip('#').strip()
+                header_level = len(line) - len(line.lstrip("#"))
+                header_text = line.lstrip("#").strip()
 
                 current_section = {
                     "title": header_text or f"Section from {filepath.name}",
@@ -127,12 +127,14 @@ class MarkdownMemoryReader:
 
         # If no sections were found, treat entire content as one section
         if not sections and content.strip():
-            sections.append({
-                "title": f"Content from {filepath.name}",
-                "content": content,
-                "level": 0,
-                "line_start": 0,
-            })
+            sections.append(
+                {
+                    "title": f"Content from {filepath.name}",
+                    "content": content,
+                    "level": 0,
+                    "line_start": 0,
+                }
+            )
 
         return sections
 
@@ -189,12 +191,15 @@ class MarkdownMemoryReader:
                 file_id = str(filepath.absolute())
                 current_hash = self._compute_file_hash(filepath)
 
-                if file_id in self.file_hashes and self.file_hashes[file_id] == current_hash:
+                if (
+                    file_id in self.file_hashes
+                    and self.file_hashes[file_id] == current_hash
+                ):
                     logger.debug(f"Skipping unchanged file: {filepath}")
                     continue
 
                 # Read and parse the file
-                content = filepath.read_text(encoding='utf-8')
+                content = filepath.read_text(encoding="utf-8")
                 if not content.strip():
                     continue
 
@@ -224,7 +229,9 @@ class MarkdownMemoryReader:
                             "section_level": section["level"],
                             "line_start": section["line_start"],
                             "directory": str(filepath.parent.absolute()),
-                            "file_modified": datetime.fromtimestamp(filepath.stat().st_mtime).isoformat(),
+                            "file_modified": datetime.fromtimestamp(
+                                filepath.stat().st_mtime
+                            ).isoformat(),
                         },
                         metadata={
                             "auto_imported": True,
@@ -262,9 +269,20 @@ class MarkdownMemoryReader:
 
         # High importance keywords
         high_importance_keywords = [
-            "important", "critical", "essential", "must", "always",
-            "never", "warning", "error", "security", "key",
-            "architecture", "design", "api", "interface"
+            "important",
+            "critical",
+            "essential",
+            "must",
+            "always",
+            "never",
+            "warning",
+            "error",
+            "security",
+            "key",
+            "architecture",
+            "design",
+            "api",
+            "interface",
         ]
 
         for keyword in high_importance_keywords:
@@ -298,15 +316,30 @@ class MarkdownMemoryReader:
             return "system_context"
 
         # Check content patterns
-        if any(word in content_lower[:500] for word in ["instruction", "prompt", "you should", "you must"]):
+        if any(
+            word in content_lower[:500]
+            for word in ["instruction", "prompt", "you should", "you must"]
+        ):
             return "instruction"
-        elif any(word in content_lower[:500] for word in ["api", "endpoint", "function", "method", "class"]):
+        elif any(
+            word in content_lower[:500]
+            for word in ["api", "endpoint", "function", "method", "class"]
+        ):
             return "technical"
-        elif any(word in content_lower[:500] for word in ["example", "usage", "how to", "tutorial"]):
+        elif any(
+            word in content_lower[:500]
+            for word in ["example", "usage", "how to", "tutorial"]
+        ):
             return "example"
-        elif any(word in title_lower for word in ["config", "setting", "environment", "variable"]):
+        elif any(
+            word in title_lower
+            for word in ["config", "setting", "environment", "variable"]
+        ):
             return "configuration"
-        elif any(word in title_lower for word in ["architecture", "design", "structure", "pattern"]):
+        elif any(
+            word in title_lower
+            for word in ["architecture", "design", "structure", "pattern"]
+        ):
             return "architectural"
 
         return "knowledge"
@@ -345,13 +378,15 @@ class MarkdownMemoryReader:
 
         for filepath in md_files:
             try:
-                content = filepath.read_text(encoding='utf-8')
+                content = filepath.read_text(encoding="utf-8")
                 sections = self._parse_markdown_sections(content, filepath)
 
                 file_info = {
                     "path": str(filepath.absolute()),
                     "name": filepath.name,
-                    "modified": datetime.fromtimestamp(filepath.stat().st_mtime).isoformat(),
+                    "modified": datetime.fromtimestamp(
+                        filepath.stat().st_mtime
+                    ).isoformat(),
                     "sections": len(sections),
                 }
                 context["markdown_files"].append(file_info)
@@ -362,11 +397,19 @@ class MarkdownMemoryReader:
 
                     section_info = {
                         "title": section["title"],
-                        "content_preview": section["content"][:200] + "..." if len(section["content"]) > 200 else section["content"],
+                        "content_preview": (
+                            section["content"][:200] + "..."
+                            if len(section["content"]) > 200
+                            else section["content"]
+                        ),
                         "source": filepath.name,
                     }
 
-                    if memory_type in ["instruction", "agent_instruction", "model_instruction"]:
+                    if memory_type in [
+                        "instruction",
+                        "agent_instruction",
+                        "model_instruction",
+                    ]:
                         context["instructions"].append(section_info)
                     elif memory_type == "configuration":
                         context["configurations"].append(section_info)

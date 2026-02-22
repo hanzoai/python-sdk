@@ -67,7 +67,10 @@ class PodsResource(SyncAPIResource):
         return self._get(
             f"/infrastructure/pods/{pod_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -98,7 +101,10 @@ class PodsResource(SyncAPIResource):
                 "resources": resources,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -116,7 +122,10 @@ class PodsResource(SyncAPIResource):
         return self._delete(
             f"/infrastructure/pods/{pod_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -162,7 +171,10 @@ class PodsResource(SyncAPIResource):
             f"/infrastructure/pods/{pod_id}/exec",
             body={"command": command, "container": container},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -213,7 +225,10 @@ class AsyncPodsResource(AsyncAPIResource):
         return await self._get(
             f"/infrastructure/pods/{pod_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -243,7 +258,10 @@ class AsyncPodsResource(AsyncAPIResource):
                 "resources": resources,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -260,7 +278,10 @@ class AsyncPodsResource(AsyncAPIResource):
         return await self._delete(
             f"/infrastructure/pods/{pod_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -304,7 +325,10 @@ class AsyncPodsResource(AsyncAPIResource):
             f"/infrastructure/pods/{pod_id}/exec",
             body={"command": command, "container": container},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

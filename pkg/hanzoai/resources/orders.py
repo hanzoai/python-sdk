@@ -68,7 +68,10 @@ class OrdersResource(SyncAPIResource):
         return self._get(
             f"/commerce/orders/{order_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -87,9 +90,16 @@ class OrdersResource(SyncAPIResource):
         """Create a new order."""
         return self._post(
             "/commerce/orders",
-            body={"cart_id": cart_id, "shipping_address": shipping_address, "billing_address": billing_address},
+            body={
+                "cart_id": cart_id,
+                "shipping_address": shipping_address,
+                "billing_address": billing_address,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -110,7 +120,10 @@ class OrdersResource(SyncAPIResource):
             f"/commerce/orders/{order_id}",
             body={"status": status, "tracking_number": tracking_number},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -130,7 +143,10 @@ class OrdersResource(SyncAPIResource):
             f"/commerce/orders/{order_id}/cancel",
             body={"reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -151,7 +167,10 @@ class OrdersResource(SyncAPIResource):
             f"/commerce/orders/{order_id}/refund",
             body={"amount": amount, "reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -169,7 +188,10 @@ class OrdersResource(SyncAPIResource):
         return self._get(
             f"/commerce/orders/{order_id}/items",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -221,7 +243,10 @@ class AsyncOrdersResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/orders/{order_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -239,9 +264,16 @@ class AsyncOrdersResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/commerce/orders",
-            body={"cart_id": cart_id, "shipping_address": shipping_address, "billing_address": billing_address},
+            body={
+                "cart_id": cart_id,
+                "shipping_address": shipping_address,
+                "billing_address": billing_address,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -261,7 +293,10 @@ class AsyncOrdersResource(AsyncAPIResource):
             f"/commerce/orders/{order_id}",
             body={"status": status, "tracking_number": tracking_number},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -280,7 +315,10 @@ class AsyncOrdersResource(AsyncAPIResource):
             f"/commerce/orders/{order_id}/cancel",
             body={"reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -300,7 +338,10 @@ class AsyncOrdersResource(AsyncAPIResource):
             f"/commerce/orders/{order_id}/refund",
             body={"amount": amount, "reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -317,7 +358,10 @@ class AsyncOrdersResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/orders/{order_id}/items",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

@@ -29,7 +29,13 @@ class VisionConfig:
 
     @classmethod
     def from_dict(cls, params):
-        return cls(**{k: v for k, v in params.items() if k in inspect.signature(cls).parameters})
+        return cls(
+            **{
+                k: v
+                for k, v in params.items()
+                if k in inspect.signature(cls).parameters
+            }
+        )
 
 
 class VisionAttention(nn.Module):
@@ -102,7 +108,9 @@ class VisionEncoderLayer(nn.Module):
     def __init__(self, config: VisionConfig):
         super().__init__()
         self.embed_dim = config.hidden_size
-        self.self_attn = VisionAttention(config.hidden_size, config.num_attention_heads, bias=True)
+        self.self_attn = VisionAttention(
+            config.hidden_size, config.num_attention_heads, bias=True
+        )
         self.layer_norm1 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
         self.mlp = VisionMLP(config)
         self.layer_norm2 = nn.LayerNorm(self.embed_dim, eps=config.layer_norm_eps)
@@ -119,7 +127,9 @@ class VisionEncoderLayer(nn.Module):
 class VisionEncoder(nn.Module):
     def __init__(self, config: VisionConfig):
         super().__init__()
-        self.layers = [VisionEncoderLayer(config) for _ in range(config.num_hidden_layers)]
+        self.layers = [
+            VisionEncoderLayer(config) for _ in range(config.num_hidden_layers)
+        ]
 
 
 class VisionEmbeddings(nn.Module):
@@ -149,7 +159,9 @@ class VisionEmbeddings(nn.Module):
         patch_embeddings = self.patch_embedding(x)
         patch_embeddings = mx.flatten(patch_embeddings, start_axis=1, end_axis=2)
         embed_dim = patch_embeddings.shape[-1]
-        cls_embeddings = mx.broadcast_to(self.class_embedding, (batch_size, 1, embed_dim))
+        cls_embeddings = mx.broadcast_to(
+            self.class_embedding, (batch_size, 1, embed_dim)
+        )
         embeddings = mx.concatenate((cls_embeddings, patch_embeddings), axis=1)
         embeddings += self.position_embedding.weight
         return embeddings
@@ -192,7 +204,9 @@ class VisionModel(nn.Module):
 
         self.vision_model = ClipVisionModel(config)
 
-    def __call__(self, x: mx.array, output_hidden_states: Optional[bool] = None) -> mx.array:
+    def __call__(
+        self, x: mx.array, output_hidden_states: Optional[bool] = None
+    ) -> mx.array:
         return self.vision_model(x, output_hidden_states)
 
     def sanitize(self, weights):
@@ -230,7 +244,13 @@ class TextConfig:
 
     @classmethod
     def from_dict(cls, params):
-        return cls(**{k: v for k, v in params.items() if k in inspect.signature(cls).parameters})
+        return cls(
+            **{
+                k: v
+                for k, v in params.items()
+                if k in inspect.signature(cls).parameters
+            }
+        )
 
     def __post_init__(self):
         if self.num_key_value_heads is None:
@@ -271,7 +291,8 @@ class TextAttention(nn.Module):
 
         rope_scale = (
             1 / config.rope_scaling["factor"]
-            if config.rope_scaling is not None and config.rope_scaling["type"] == "linear"
+            if config.rope_scaling is not None
+            and config.rope_scaling["type"] == "linear"
             else 1
         )
         self.rope = nn.RoPE(
@@ -304,7 +325,9 @@ class TextAttention(nn.Module):
             queries = self.rope(queries)
             keys = self.rope(keys)
 
-        output = mx.fast.scaled_dot_product_attention(queries, keys, values, scale=self.scale, mask=mask)
+        output = mx.fast.scaled_dot_product_attention(
+            queries, keys, values, scale=self.scale, mask=mask
+        )
         output = output.transpose(0, 2, 1, 3).reshape(B, L, -1)
         return self.o_proj(output)
 
@@ -328,7 +351,9 @@ class TransformerBlock(nn.Module):
         self.self_attn = TextAttention(config)
         self.mlp = TextMLP(config.hidden_size, config.intermediate_size)
         self.input_layernorm = nn.RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
-        self.post_attention_layernorm = nn.RMSNorm(config.hidden_size, eps=config.rms_norm_eps)
+        self.post_attention_layernorm = nn.RMSNorm(
+            config.hidden_size, eps=config.rms_norm_eps
+        )
         self.config = config
 
     def __call__(
@@ -402,7 +427,9 @@ class LanguageModel(nn.Module):
         super().__init__()
         self.model_type = config.model_type
         if self.model_type != "llama":
-            raise ValueError(f"Model type {self.model_type} not supported. Currently only 'llama' is supported")
+            raise ValueError(
+                f"Model type {self.model_type} not supported. Currently only 'llama' is supported"
+            )
         self.shard = shard
         self.model = Llama(config, shard)
         if self.shard.is_last_layer():
@@ -427,13 +454,19 @@ class LanguageModel(nn.Module):
 
             if key.startswith("language_model.model.layers."):
                 layer_num = int(key.split(".")[3])
-                if layer_num < self.shard.start_layer or layer_num > self.shard.end_layer:
+                if (
+                    layer_num < self.shard.start_layer
+                    or layer_num > self.shard.end_layer
+                ):
                     continue
             if (
                 not self.shard.is_first_layer()
                 and key.startswith("language_model.model.embed_tokens")
                 or not self.shard.is_last_layer()
-                and (key.startswith("language_model.model.norm") or key.startswith("language_model.lm_head"))
+                and (
+                    key.startswith("language_model.model.norm")
+                    or key.startswith("language_model.lm_head")
+                )
             ):
                 continue
 
@@ -475,7 +508,9 @@ class ModelArgs(LlaVAConfig):
             self.shard = Shard(**self.shard)
 
         if not isinstance(self.shard, Shard):
-            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
+            raise TypeError(
+                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
+            )
 
         if not self.shard.is_first_layer():
             self.vision_config = None
@@ -484,9 +519,13 @@ class ModelArgs(LlaVAConfig):
 class LlavaMultiModalProjector(nn.Module):
     def __init__(self, config: LlaVAConfig):
         super().__init__()
-        self.linear_1 = nn.Linear(config.vision_config.hidden_size, config.text_config.hidden_size, bias=True)
+        self.linear_1 = nn.Linear(
+            config.vision_config.hidden_size, config.text_config.hidden_size, bias=True
+        )
         self.gelu = nn.GELU()
-        self.linear_2 = nn.Linear(config.text_config.hidden_size, config.text_config.hidden_size, bias=True)
+        self.linear_2 = nn.Linear(
+            config.text_config.hidden_size, config.text_config.hidden_size, bias=True
+        )
 
     def __call__(self, x: mx.array) -> mx.array:
         x = self.linear_1(x)
@@ -519,7 +558,9 @@ class Model(nn.Module):
         inputs_embeds = self.language_model.model.embed_tokens(input_ids)
 
         # Get the ouptut hidden states from the vision model
-        *_, hidden_states = self.vision_tower(pixel_values.transpose(0, 2, 3, 1), output_hidden_states=True)
+        *_, hidden_states = self.vision_tower(
+            pixel_values.transpose(0, 2, 3, 1), output_hidden_states=True
+        )
 
         # Select the hidden states from the desired layer
         selected_image_feature = hidden_states[self.vision_feature_layer]
@@ -529,16 +570,22 @@ class Model(nn.Module):
         elif self.vision_feature_select_strategy == "full":
             selected_image_feature = selected_image_feature
         else:
-            raise ValueError(f"Unexpected feature selection strategy: {self.vision_feature_select_strategy}")
+            raise ValueError(
+                f"Unexpected feature selection strategy: {self.vision_feature_select_strategy}"
+            )
 
         # Pass image features through the multi-modal projector
         image_features = self.multi_modal_projector(selected_image_feature)
 
         # Insert special image tokens in the input_ids
-        final_inputs_embeds = self._merge_input_ids_with_image_features(image_features, inputs_embeds, input_ids)
+        final_inputs_embeds = self._merge_input_ids_with_image_features(
+            image_features, inputs_embeds, input_ids
+        )
         return final_inputs_embeds
 
-    def _merge_input_ids_with_image_features(self, image_features, inputs_embeds, input_ids):
+    def _merge_input_ids_with_image_features(
+        self, image_features, inputs_embeds, input_ids
+    ):
         image_token_index = self.config.image_token_index
         num_images, num_image_patches, embed_dim = image_features.shape
 
@@ -570,7 +617,9 @@ class Model(nn.Module):
         input_embddings = None
         if pixel_values is not None:
             input_embddings = self.get_input_embeddings(input_ids, pixel_values)
-        logits = self.language_model(input_ids, cache=cache, inputs_embeds=input_embddings)
+        logits = self.language_model(
+            input_ids, cache=cache, inputs_embeds=input_embddings
+        )
         return logits
 
     def sanitize(self, weights):
@@ -600,7 +649,8 @@ class Model(nn.Module):
     def head_dim(self):
         return (
             self.language_model.model.head_dim
-            or self.language_model.model.hidden_size // self.language_model.model.num_attention_heads
+            or self.language_model.model.hidden_size
+            // self.language_model.model.num_attention_heads
         )
 
     @property

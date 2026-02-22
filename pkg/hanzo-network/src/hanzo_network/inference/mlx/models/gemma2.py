@@ -18,7 +18,9 @@ class ModelArgs(ModelArgs):
         if isinstance(self.shard, Shard):
             return
         if not isinstance(self.shard, dict):
-            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
+            raise TypeError(
+                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
+            )
 
         self.shard = Shard(**self.shard)
 
@@ -96,7 +98,11 @@ class Model(nn.Module):
                 continue
             if key.startswith("model.layers."):
                 layer_num = int(key.split(".")[2])
-                if self.args.shard.start_layer <= layer_num <= self.args.shard.end_layer:
+                if (
+                    self.args.shard.start_layer
+                    <= layer_num
+                    <= self.args.shard.end_layer
+                ):
                     shard_state_dict[key] = value
             elif (
                 (self.args.shard.is_first_layer() or self.args.shard.is_last_layer())

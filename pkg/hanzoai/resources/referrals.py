@@ -68,7 +68,10 @@ class ReferralsResource(SyncAPIResource):
         return self._get(
             f"/marketing/referrals/{referral_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -87,9 +90,16 @@ class ReferralsResource(SyncAPIResource):
         """Create a new referral."""
         return self._post(
             "/marketing/referrals",
-            body={"referrer_id": referrer_id, "referred_email": referred_email, "metadata": metadata},
+            body={
+                "referrer_id": referrer_id,
+                "referred_email": referred_email,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -110,7 +120,10 @@ class ReferralsResource(SyncAPIResource):
             f"/marketing/referrals/{referral_code}/track",
             body={"event": event, "metadata": metadata},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -128,7 +141,10 @@ class ReferralsResource(SyncAPIResource):
         return self._get(
             f"/marketing/referrals/{referral_code}/validate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -146,7 +162,10 @@ class ReferralsResource(SyncAPIResource):
         return self._post(
             f"/marketing/referrals/{referral_id}/complete",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -164,7 +183,10 @@ class ReferralsResource(SyncAPIResource):
         return self._get(
             f"/marketing/referrals/stats/{user_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -216,7 +238,10 @@ class AsyncReferralsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/referrals/{referral_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -234,9 +259,16 @@ class AsyncReferralsResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/marketing/referrals",
-            body={"referrer_id": referrer_id, "referred_email": referred_email, "metadata": metadata},
+            body={
+                "referrer_id": referrer_id,
+                "referred_email": referred_email,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -256,7 +288,10 @@ class AsyncReferralsResource(AsyncAPIResource):
             f"/marketing/referrals/{referral_code}/track",
             body={"event": event, "metadata": metadata},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -273,7 +308,10 @@ class AsyncReferralsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/referrals/{referral_code}/validate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -290,7 +328,10 @@ class AsyncReferralsResource(AsyncAPIResource):
         return await self._post(
             f"/marketing/referrals/{referral_id}/complete",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -307,7 +348,10 @@ class AsyncReferralsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/referrals/stats/{user_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

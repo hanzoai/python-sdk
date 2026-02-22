@@ -214,7 +214,9 @@ async def test_sync_custom_error_function_works():
     def my_func(a: int, b: int = 5):
         raise ValueError("test")
 
-    def custom_sync_error_function(ctx: RunContextWrapper[Any], error: Exception) -> str:
+    def custom_sync_error_function(
+        ctx: RunContextWrapper[Any], error: Exception
+    ) -> str:
         return f"error_{error.__class__.__name__}"
 
     tool = function_tool(my_func, failure_error_function=custom_sync_error_function)
@@ -238,7 +240,9 @@ async def test_async_custom_error_function_works():
     async def my_func(a: int, b: int = 5):
         raise ValueError("test")
 
-    def custom_sync_error_function(ctx: RunContextWrapper[Any], error: Exception) -> str:
+    def custom_sync_error_function(
+        ctx: RunContextWrapper[Any], error: Exception
+    ) -> str:
         return f"error_{error.__class__.__name__}"
 
     tool = function_tool(my_func, failure_error_function=custom_sync_error_function)

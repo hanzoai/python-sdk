@@ -54,14 +54,18 @@ Returns:
 
         # Try ripgrep first (much faster)
         try:
-            result = await self._search_with_rg(pattern, root, include, context_lines, max_results)
+            result = await self._search_with_rg(
+                pattern, root, include, context_lines, max_results
+            )
             if result is not None:
                 return result
         except Exception:
             pass
 
         # Fallback to Python
-        return await self._search_with_python(pattern, root, include, context_lines, max_results)
+        return await self._search_with_python(
+            pattern, root, include, context_lines, max_results
+        )
 
     async def _search_with_rg(
         self,
@@ -95,7 +99,9 @@ Returns:
             )
 
             try:
-                stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=30)
+                stdout, stderr = await asyncio.wait_for(
+                    process.communicate(), timeout=30
+                )
             except asyncio.TimeoutError:
                 process.kill()
                 await process.wait()

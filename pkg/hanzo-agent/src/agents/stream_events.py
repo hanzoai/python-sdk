@@ -54,5 +54,7 @@ class AgentUpdatedStreamEvent:
     type: Literal["agent_updated_stream_event"] = "agent_updated_stream_event"
 
 
-StreamEvent: TypeAlias = Union[RawResponsesStreamEvent, RunItemStreamEvent, AgentUpdatedStreamEvent]
+StreamEvent: TypeAlias = Union[
+    RawResponsesStreamEvent, RunItemStreamEvent, AgentUpdatedStreamEvent
+]
 """A streaming event from an agent."""

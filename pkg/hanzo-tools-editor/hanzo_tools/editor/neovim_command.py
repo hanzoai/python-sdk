@@ -9,7 +9,12 @@ from typing import List, Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 Command = Annotated[
     Optional[str],
@@ -157,7 +162,9 @@ Note: Requires Neovim to be installed.
             return "Error: Must provide either 'command', 'commands', or 'macro'"
 
         if sum(bool(x) for x in [command, commands, macro]) > 1:
-            return "Error: Can only use one of 'command', 'commands', or 'macro' at a time"
+            return (
+                "Error: Can only use one of 'command', 'commands', or 'macro' at a time"
+            )
 
         # Check if Neovim is available
         nvim_cmd = shutil.which("nvim")

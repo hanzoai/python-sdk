@@ -112,9 +112,13 @@ Use 'mcp_stats' to see all servers before removing.
                         import signal
 
                         os.kill(process_id, signal.SIGTERM)
-                        await tool_ctx.info(f"Stopped running server '{name}' (PID: {process_id})")
+                        await tool_ctx.info(
+                            f"Stopped running server '{name}' (PID: {process_id})"
+                        )
                     except ProcessLookupError:
-                        await tool_ctx.info(f"Server '{name}' process not found (already stopped)")
+                        await tool_ctx.info(
+                            f"Server '{name}' process not found (already stopped)"
+                        )
 
         # Remove from registry
         del McpAddTool._mcp_servers[name]

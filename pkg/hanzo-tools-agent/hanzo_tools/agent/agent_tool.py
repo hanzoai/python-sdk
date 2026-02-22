@@ -43,7 +43,11 @@ except ImportError:
 
 # Optional consensus import - fallback to local implementation
 try:
-    from hanzo_consensus import Result as ConsensusResult, Consensus as MetastableConsensus, run as run_consensus
+    from hanzo_consensus import (
+        Result as ConsensusResult,
+        Consensus as MetastableConsensus,
+        run as run_consensus,
+    )
 
     HAS_CONSENSUS = True
 except ImportError:
@@ -173,7 +177,10 @@ Provide clear, reasoned responses that can be compared and synthesized."""
 NATIVE_AGENTS = {
     # claude: --dangerously-skip-permissions (YOLO), --print (non-interactive), --output-format text
     "claude": AgentConfig(
-        "claude", ["--print", "--dangerously-skip-permissions", "--output-format", "text"], "ANTHROPIC_API_KEY", 1
+        "claude",
+        ["--print", "--dangerously-skip-permissions", "--output-format", "text"],
+        "ANTHROPIC_API_KEY",
+        1,
     ),
     # codex: --full-auto (auto-approve everything)
     "codex": AgentConfig("codex", ["--full-auto"], "OPENAI_API_KEY", 2),
@@ -182,9 +189,13 @@ NATIVE_AGENTS = {
     # grok: -y (yolo) - assumed similar to others
     "grok": AgentConfig("grok", ["-y"], "XAI_API_KEY", 4),
     # qwen: --approval-mode yolo, -p (prompt mode)
-    "qwen": AgentConfig("qwen", ["--approval-mode", "yolo", "-p"], "DASHSCOPE_API_KEY", 5),
+    "qwen": AgentConfig(
+        "qwen", ["--approval-mode", "yolo", "-p"], "DASHSCOPE_API_KEY", 5
+    ),
     # vibe: --auto-approve, --max-turns 999, -p (prompt)
-    "vibe": AgentConfig("vibe", ["--auto-approve", "--max-turns", "999", "-p"], None, 6),
+    "vibe": AgentConfig(
+        "vibe", ["--auto-approve", "--max-turns", "999", "-p"], None, 6
+    ),
     # hanzo-dev: -y (yolo)
     "dev": AgentConfig("hanzo-dev", ["-y"], None, 8),
 }
@@ -448,7 +459,9 @@ Consensus: https://github.com/luxfi/consensus
             if cfg.env_key and os.environ.get(cfg.env_key):
                 return name
         # Then check Anthropic-compatible agents
-        for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+        for name, cfg in sorted(
+            ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority
+        ):
             if cfg.auth_env and os.environ.get(cfg.auth_env):
                 return name
         return "dev"
@@ -495,10 +508,20 @@ Consensus: https://github.com/luxfi/consensus
         elif action == "dag":
             return await self._dag(tasks or [], name, cwd, timeout)
         elif action == "swarm":
-            return await self._swarm(items or [], template or "", name, max_concurrent, cwd, timeout)
+            return await self._swarm(
+                items or [], template or "", name, max_concurrent, cwd, timeout
+            )
         elif action == "consensus":
             return await self._consensus(
-                prompt or "", agents or ["claude", "gemini", "codex"], rounds, k, alpha, beta_1, beta_2, cwd, timeout
+                prompt or "",
+                agents or ["claude", "gemini", "codex"],
+                rounds,
+                k,
+                alpha,
+                beta_1,
+                beta_2,
+                cwd,
+                timeout,
             )
         elif action == "dispatch":
             return await self._dispatch(tasks or [], cwd, timeout)
@@ -518,7 +541,9 @@ Consensus: https://github.com/luxfi/consensus
 
         # Anthropic-compatible agents
         lines.append("  Anthropic-compatible:")
-        for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+        for name, cfg in sorted(
+            ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority
+        ):
             has_key = bool(cfg.auth_env and os.environ.get(cfg.auth_env))
             key_mark = " ✓" if has_key else ""
             lines.append(f"    • {name}: {cfg.model}{key_mark}")
@@ -551,7 +576,9 @@ Consensus: https://github.com/luxfi/consensus
 
         lines.append("")
         lines.append("Anthropic-compat Agents:")
-        for name, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+        for name, cfg in sorted(
+            ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority
+        ):
             lines.append(f"  {name}: {cfg.model}")
 
         lines.append("")
@@ -592,7 +619,9 @@ Consensus: https://github.com/luxfi/consensus
         # Anthropic-compatible agents
         lines.append("  Anthropic-compatible (via claude):")
         claude_ok = await self._available("claude")
-        for agent, cfg in sorted(ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority):
+        for agent, cfg in sorted(
+            ANTHROPIC_COMPAT_AGENTS.items(), key=lambda x: x[1].priority
+        ):
             has_key = bool(cfg.auth_env and os.environ.get(cfg.auth_env))
             if claude_ok and has_key:
                 status = f"✓ ready ({cfg.model})"
@@ -618,7 +647,9 @@ Consensus: https://github.com/luxfi/consensus
         except Exception:
             return False
 
-    async def _exec(self, agent: str, prompt: str, cwd: Optional[str], timeout: int) -> Result:
+    async def _exec(
+        self, agent: str, prompt: str, cwd: Optional[str], timeout: int
+    ) -> Result:
         """Execute single agent with auto-backgrounding.
 
         Supports two modes:
@@ -626,7 +657,13 @@ Consensus: https://github.com/luxfi/consensus
         - API mode (api_type="openai"|"anthropic"): Direct HTTP calls
         """
         if agent not in AGENTS:
-            return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"Unknown agent: {agent}")
+            return Result(
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error=f"Unknown agent: {agent}",
+            )
 
         cfg = AGENTS[agent]
 
@@ -659,7 +696,11 @@ Consensus: https://github.com/luxfi/consensus
         full_cmd.extend(cfg.args)
 
         # Add max_turns for agents that support it (if not already in args)
-        if cfg.max_turns and "--max-turns" not in cfg.args and "--max-session-turns" not in str(cfg.args):
+        if (
+            cfg.max_turns
+            and "--max-turns" not in cfg.args
+            and "--max-session-turns" not in str(cfg.args)
+        ):
             if cfg.cmd in ("vibe",):
                 full_cmd.extend(["--max-turns", str(cfg.max_turns)])
             elif cfg.cmd in ("qwen",):
@@ -735,7 +776,12 @@ Consensus: https://github.com/luxfi/consensus
 
                 if return_code != 0:
                     return Result(
-                        agent=agent, prompt=prompt, output=output, ok=False, error=f"Exit code {return_code}", ms=ms
+                        agent=agent,
+                        prompt=prompt,
+                        output=output,
+                        ok=False,
+                        error=f"Exit code {return_code}",
+                        ms=ms,
                     )
                 return Result(agent=agent, prompt=prompt, output=output, ok=True, ms=ms)
 
@@ -761,16 +807,31 @@ Consensus: https://github.com/luxfi/consensus
             if partial:
                 bg_msg += f"\n=== Partial output ===\n{partial[:500]}{'...' if len(partial) > 500 else ''}"
 
-            return Result(agent=agent, prompt=prompt, output=bg_msg, ok=True, error=f"backgrounded:{process_id}", ms=ms)
+            return Result(
+                agent=agent,
+                prompt=prompt,
+                output=bg_msg,
+                ok=True,
+                error=f"backgrounded:{process_id}",
+                ms=ms,
+            )
 
         except FileNotFoundError:
             pm.remove_process(process_id)
-            return Result(agent=agent, prompt=prompt, output="", ok=False, error=f"{cfg.cmd} not found")
+            return Result(
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error=f"{cfg.cmd} not found",
+            )
         except Exception as e:
             pm.remove_process(process_id)
             return Result(agent=agent, prompt=prompt, output="", ok=False, error=str(e))
 
-    async def _exec_api(self, agent: str, cfg: AgentConfig, prompt: str, timeout: int) -> Result:
+    async def _exec_api(
+        self, agent: str, cfg: AgentConfig, prompt: str, timeout: int
+    ) -> Result:
         """Execute agent via direct API call (OpenAI or Anthropic format).
 
         Supports:
@@ -779,7 +840,11 @@ Consensus: https://github.com/luxfi/consensus
         """
         if not HAS_HTTPX:
             return Result(
-                agent=agent, prompt=prompt, output="", ok=False, error="httpx not installed. Run: pip install httpx"
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error="httpx not installed. Run: pip install httpx",
             )
 
         start = time.time()
@@ -793,12 +858,22 @@ Consensus: https://github.com/luxfi/consensus
 
         if not auth_token:
             return Result(
-                agent=agent, prompt=prompt, output="", ok=False, error=f"No API key. Set {cfg.auth_env or cfg.env_key}"
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error=f"No API key. Set {cfg.auth_env or cfg.env_key}",
             )
 
         endpoint = cfg.endpoint
         if not endpoint:
-            return Result(agent=agent, prompt=prompt, output="", ok=False, error="No endpoint configured for API mode")
+            return Result(
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error="No endpoint configured for API mode",
+            )
 
         try:
             async with httpx.AsyncClient(timeout=timeout) as client:
@@ -806,7 +881,9 @@ Consensus: https://github.com/luxfi/consensus
                     # OpenAI-compatible format
                     messages = []
                     if cfg.system_prompt:
-                        messages.append({"role": "system", "content": cfg.system_prompt})
+                        messages.append(
+                            {"role": "system", "content": cfg.system_prompt}
+                        )
                     messages.append({"role": "user", "content": prompt})
 
                     payload = {
@@ -834,7 +911,11 @@ Consensus: https://github.com/luxfi/consensus
                         )
 
                     data = resp.json()
-                    output = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    output = (
+                        data.get("choices", [{}])[0]
+                        .get("message", {})
+                        .get("content", "")
+                    )
 
                 elif cfg.api_type == "anthropic":
                     # Anthropic format
@@ -870,11 +951,17 @@ Consensus: https://github.com/luxfi/consensus
 
                     data = resp.json()
                     content = data.get("content", [])
-                    output = "".join(c.get("text", "") for c in content if c.get("type") == "text")
+                    output = "".join(
+                        c.get("text", "") for c in content if c.get("type") == "text"
+                    )
 
                 else:
                     return Result(
-                        agent=agent, prompt=prompt, output="", ok=False, error=f"Unknown api_type: {cfg.api_type}"
+                        agent=agent,
+                        prompt=prompt,
+                        output="",
+                        ok=False,
+                        error=f"Unknown api_type: {cfg.api_type}",
                     )
 
                 ms = int((time.time() - start) * 1000)
@@ -883,13 +970,22 @@ Consensus: https://github.com/luxfi/consensus
         except httpx.TimeoutException:
             ms = int((time.time() - start) * 1000)
             return Result(
-                agent=agent, prompt=prompt, output="", ok=False, error=f"Request timeout after {timeout}s", ms=ms
+                agent=agent,
+                prompt=prompt,
+                output="",
+                ok=False,
+                error=f"Request timeout after {timeout}s",
+                ms=ms,
             )
         except Exception as e:
             ms = int((time.time() - start) * 1000)
-            return Result(agent=agent, prompt=prompt, output="", ok=False, error=str(e), ms=ms)
+            return Result(
+                agent=agent, prompt=prompt, output="", ok=False, error=str(e), ms=ms
+            )
 
-    async def _run(self, agent: str, prompt: Optional[str], cwd: Optional[str], timeout: int) -> str:
+    async def _run(
+        self, agent: str, prompt: Optional[str], cwd: Optional[str], timeout: int
+    ) -> str:
         """Run single agent."""
         if not prompt:
             return "Error: prompt required"
@@ -900,7 +996,9 @@ Consensus: https://github.com/luxfi/consensus
             return f"[{agent}] {result.output}"
         return f"[{agent}] Error: {result.error}\n{result.output}"
 
-    async def _dag(self, tasks: List[Dict], name: Optional[str], cwd: Optional[str], timeout: int) -> str:
+    async def _dag(
+        self, tasks: List[Dict], name: Optional[str], cwd: Optional[str], timeout: int
+    ) -> str:
         """Execute DAG with dependencies.
 
         Tasks: [{id, prompt, agent?, after?: [ids]}]
@@ -931,7 +1029,9 @@ Consensus: https://github.com/luxfi/consensus
         while True:
             # Find ready tasks (dependencies satisfied)
             ready = [
-                tid for tid, task in graph.items() if not task["done"] and task["after"].issubset(set(outputs.keys()))
+                tid
+                for tid, task in graph.items()
+                if not task["done"] and task["after"].issubset(set(outputs.keys()))
             ]
 
             if not ready:
@@ -952,10 +1052,13 @@ Consensus: https://github.com/luxfi/consensus
                 wave_tasks.append((tid, task["agent"], prompt))
 
             wave_results = await asyncio.gather(
-                *[self._exec(task_agent, prompt, cwd, timeout) for tid, task_agent, prompt in wave_tasks]
+                *[
+                    self._exec(task_agent, prompt, cwd, timeout)
+                    for tid, task_agent, prompt in wave_tasks
+                ]
             )
 
-            for (tid, _, _), result in zip(wave_tasks, wave_results):
+            for (tid, _, _), result in zip(wave_tasks, wave_results, strict=False):
                 result.id = tid
                 results.append(result)
                 outputs[tid] = result.output
@@ -1104,13 +1207,17 @@ Original question: {prompt}
 Synthesize the final answer based on the consensus discussion.
 Be concise but comprehensive."""
 
-            summary_result = await self._exec(state.winner, summary_prompt, cwd, timeout // 2)
+            summary_result = await self._exec(
+                state.winner, summary_prompt, cwd, timeout // 2
+            )
             if summary_result.ok:
                 synthesis = summary_result.output
 
         return f"[Metastable] {elapsed:.1f}s, winner: {state.winner}, finalized: {state.finalized}\n\n{synthesis}"
 
-    async def _dispatch(self, tasks: List[Dict], cwd: Optional[str], timeout: int) -> str:
+    async def _dispatch(
+        self, tasks: List[Dict], cwd: Optional[str], timeout: int
+    ) -> str:
         """Execute different agents for different tasks in parallel.
 
         Tasks: [{agent, prompt}]
@@ -1147,15 +1254,32 @@ Be concise but comprehensive."""
         @mcp_server.tool()
         async def agent(
             action: Action = "run",
-            name: Annotated[Optional[str], Field(description="Agent: claude, codex, gemini, grok, qwen, dev")] = None,
-            prompt: Annotated[Optional[str], Field(description="Prompt for run/consensus")] = None,
-            cwd: Annotated[Optional[str], Field(description="Working directory")] = None,
+            name: Annotated[
+                Optional[str],
+                Field(description="Agent: claude, codex, gemini, grok, qwen, dev"),
+            ] = None,
+            prompt: Annotated[
+                Optional[str], Field(description="Prompt for run/consensus")
+            ] = None,
+            cwd: Annotated[
+                Optional[str], Field(description="Working directory")
+            ] = None,
             timeout: Annotated[int, Field(description="Timeout seconds")] = 300,
-            tasks: Annotated[Optional[List[Dict]], Field(description="Tasks for dag/dispatch")] = None,
-            items: Annotated[Optional[List[str]], Field(description="Items for swarm")] = None,
-            template: Annotated[Optional[str], Field(description="Template for swarm ({item})")] = None,
-            max_concurrent: Annotated[int, Field(description="Max concurrency for swarm")] = 100,
-            agents: Annotated[Optional[List[str]], Field(description="Agents for consensus")] = None,
+            tasks: Annotated[
+                Optional[List[Dict]], Field(description="Tasks for dag/dispatch")
+            ] = None,
+            items: Annotated[
+                Optional[List[str]], Field(description="Items for swarm")
+            ] = None,
+            template: Annotated[
+                Optional[str], Field(description="Template for swarm ({item})")
+            ] = None,
+            max_concurrent: Annotated[
+                int, Field(description="Max concurrency for swarm")
+            ] = 100,
+            agents: Annotated[
+                Optional[List[str]], Field(description="Agents for consensus")
+            ] = None,
             rounds: Annotated[int, Field(description="Consensus rounds")] = 3,
             k: Annotated[int, Field(description="Sample size per round")] = 3,
             alpha: Annotated[float, Field(description="Agreement threshold")] = 0.6,

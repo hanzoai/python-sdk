@@ -120,7 +120,9 @@ class GraphParams(TypedDict, total=False):
 class GraphTool(BaseTool):
     """Unified graph database tool."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the graph tool."""
         super().__init__(permission_manager)
         self.db_manager = db_manager
@@ -223,14 +225,12 @@ graph --action search --pattern "John" --node-type User
                     nodes = cursor.fetchall()
 
                     # Get edges
-                    cursor = conn.execute(
-                        """
+                    cursor = conn.execute("""
                         SELECT from_node, to_node, type, properties
                         FROM edges
                         WHERE from_node IN (SELECT id FROM node_tree)
                            OR to_node IN (SELECT id FROM node_tree)
-                    """
-                    )
+                    """)
 
                     edges = cursor.fetchall()
 
@@ -470,26 +470,22 @@ graph --action search --pattern "John" --node-type User
         try:
             with project_db.get_graph_connection() as conn:
                 # Node stats
-                cursor = conn.execute(
-                    """
+                cursor = conn.execute("""
                     SELECT type, COUNT(*) as count
                     FROM nodes
                     GROUP BY type
                     ORDER BY count DESC
-                """
-                )
+                """)
 
                 node_stats = cursor.fetchall()
 
                 # Edge stats
-                cursor = conn.execute(
-                    """
+                cursor = conn.execute("""
                     SELECT type, COUNT(*) as count
                     FROM edges
                     GROUP BY type
                     ORDER BY count DESC
-                """
-                )
+                """)
 
                 edge_stats = cursor.fetchall()
 

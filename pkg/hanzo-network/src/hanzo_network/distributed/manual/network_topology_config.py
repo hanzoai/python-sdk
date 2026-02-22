@@ -29,4 +29,6 @@ class NetworkTopology(BaseModel):
         try:
             return cls.model_validate_json(config_data)
         except ValidationError as e:
-            raise ValueError(f"Error validating network topology config from {path}: {e}") from e
+            raise ValueError(
+                f"Error validating network topology config from {path}: {e}"
+            ) from e

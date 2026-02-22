@@ -117,7 +117,10 @@ class CDPBridgeServer:
         if not self.extension_clients:
             return None
         # Return the client with most recent last_active timestamp
-        return max(self.extension_clients.keys(), key=lambda cid: self.extension_clients[cid].last_active)
+        return max(
+            self.extension_clients.keys(),
+            key=lambda cid: self.extension_clients[cid].last_active,
+        )
 
     @property
     def default_client(self) -> Optional[ExtensionClient]:
@@ -128,7 +131,9 @@ class CDPBridgeServer:
     async def start(self) -> None:
         """Start the WebSocket and HTTP servers."""
         if not WEBSOCKETS_AVAILABLE:
-            raise ImportError("websockets package required for CDP bridge. Install with: pip install websockets")
+            raise ImportError(
+                "websockets package required for CDP bridge. Install with: pip install websockets"
+            )
 
         # Start WebSocket server for browser extensions
         self._server = await ws_serve(
@@ -142,7 +147,9 @@ class CDPBridgeServer:
         if AIOHTTP_AVAILABLE:
             await self._start_http_server()
         else:
-            logger.warning("aiohttp not installed, HTTP API disabled. Install with: pip install aiohttp")
+            logger.warning(
+                "aiohttp not installed, HTTP API disabled. Install with: pip install aiohttp"
+            )
 
     async def _start_http_server(self) -> None:
         """Start the HTTP API server."""
@@ -155,7 +162,9 @@ class CDPBridgeServer:
         await self._http_runner.setup()
         self._http_server = web.TCPSite(self._http_runner, self.host, self.http_port)
         await self._http_server.start()
-        logger.info(f"CDP Bridge HTTP API started on http://{self.host}:{self.http_port}")
+        logger.info(
+            f"CDP Bridge HTTP API started on http://{self.host}:{self.http_port}"
+        )
 
     async def _http_cors(self, request: "web.Request") -> "web.Response":
         """Handle CORS preflight requests."""
@@ -186,7 +195,9 @@ class CDPBridgeServer:
             data = await request.json()
         except Exception as e:
             return web.json_response(
-                {"error": f"Invalid JSON: {e}"}, status=400, headers={"Access-Control-Allow-Origin": "*"}
+                {"error": f"Invalid JSON: {e}"},
+                status=400,
+                headers={"Access-Control-Allow-Origin": "*"},
             )
 
         # Resolve target client
@@ -198,9 +209,11 @@ class CDPBridgeServer:
         if not target_client:
             return web.json_response(
                 {
-                    "error": "No browser extension connected"
-                    if not self.extension_clients
-                    else f"Client not found: {data.get('client_id') or data.get('target_id')}"
+                    "error": (
+                        "No browser extension connected"
+                        if not self.extension_clients
+                        else f"Client not found: {data.get('client_id') or data.get('target_id')}"
+                    )
                 },
                 status=503,
                 headers={"Access-Control-Allow-Origin": "*"},
@@ -344,7 +357,9 @@ class CDPBridgeServer:
                     self.extension_clients[client_id] = client
                     self._ws_to_client_id[websocket] = client_id
 
-                    logger.info(f"Browser extension registered: {client_id} ({client.browser}/{client.profile})")
+                    logger.info(
+                        f"Browser extension registered: {client_id} ({client.browser}/{client.profile})"
+                    )
 
                     # Send back the assigned client_id
                     await websocket.send(
@@ -382,7 +397,9 @@ class CDPBridgeServer:
                             {
                                 "type": "status",
                                 "connected": len(self.extension_clients) > 0,
-                                "clients": [c.to_dict() for c in self.extension_clients.values()],
+                                "clients": [
+                                    c.to_dict() for c in self.extension_clients.values()
+                                ],
                                 "default_client_id": self.default_client_id,
                             }
                         )
@@ -494,9 +511,11 @@ class CDPBridgeServer:
                             "id": data.get("id"),
                             "error": {
                                 "code": -32000,
-                                "message": "No browser extension connected"
-                                if not self.extension_clients
-                                else f"Client not found: {data.get('client_id') or data.get('target_id')}",
+                                "message": (
+                                    "No browser extension connected"
+                                    if not self.extension_clients
+                                    else f"Client not found: {data.get('client_id') or data.get('target_id')}"
+                                ),
                             },
                         }
                     )
@@ -537,7 +556,11 @@ class CDPBridgeServer:
                 )
             except Exception as e:
                 self.pending_requests.pop(request_id, None)
-                await sender.send(json.dumps({"id": request_id, "error": {"code": -32603, "message": str(e)}}))
+                await sender.send(
+                    json.dumps(
+                        {"id": request_id, "error": {"code": -32603, "message": str(e)}}
+                    )
+                )
 
     def _next_request_id(self) -> int:
         """Generate next request ID."""
@@ -585,7 +608,9 @@ class CDPBridgeClient:
             self._websocket = await websockets.connect(uri)
 
             # Register as MCP client
-            await self._websocket.send(json.dumps({"type": "register", "role": "mcp-client"}))
+            await self._websocket.send(
+                json.dumps({"type": "register", "role": "mcp-client"})
+            )
 
             # Wait for status response
             status_msg = await self._websocket.recv()
@@ -633,7 +658,9 @@ class CDPBridgeClient:
                 elif data.get("type") == "provider_disconnected":
                     # Client disconnected
                     cid = data.get("client_id")
-                    self._clients = [c for c in self._clients if c.get("client_id") != cid]
+                    self._clients = [
+                        c for c in self._clients if c.get("client_id") != cid
+                    ]
 
                 # Handle responses
                 if "id" in data and data["id"] in self._pending:

@@ -125,7 +125,11 @@ def test_varargs_function():
         func_schema.params_pydantic_model(**{"numbers": [1.1, 2.2]})
 
     # 'flag' can be omitted because it has a default
-    valid_input_no_flag = {"x": 7, "numbers": [9.9], "kwargs": {"some_key": "some_value"}}
+    valid_input_no_flag = {
+        "x": 7,
+        "numbers": [9.9],
+        "kwargs": {"some_key": "some_value"},
+    }
     parsed2 = func_schema.params_pydantic_model(**valid_input_no_flag)
     args2, kwargs_dict2 = func_schema.to_call_args(parsed2)
     result2 = varargs_function(*args2, **kwargs_dict2)
@@ -188,12 +192,21 @@ def test_complex_args_and_docs_function():
     func_schema = function_schema(complex_args_and_docs_function)
 
     assert isinstance(func_schema.params_json_schema, dict)
-    assert func_schema.params_json_schema.get("title") == "complex_args_and_docs_function_args"
+    assert (
+        func_schema.params_json_schema.get("title")
+        == "complex_args_and_docs_function_args"
+    )
 
     # Check docstring is parsed correctly
     properties = func_schema.params_json_schema.get("properties", {})
-    assert properties.get("model").get("description") == "A model with an inner and foo field"
-    assert properties.get("some_flag").get("description") == "An optional flag with a default of 0"
+    assert (
+        properties.get("model").get("description")
+        == "A model with an inner and foo field"
+    )
+    assert (
+        properties.get("some_flag").get("description")
+        == "An optional flag with a default of 0"
+    )
 
     # Valid input
     model = OuterModel(inner=InnerModel(a=1, b="hello"), foo=Foo(a=2, b="world"))
@@ -350,10 +363,14 @@ def enum_and_literal_function(a: MyEnum, b: Literal["a", "b", "c"]) -> str:
 def test_enum_and_literal_function():
     func_schema = function_schema(enum_and_literal_function)
     assert isinstance(func_schema.params_json_schema, dict)
-    assert func_schema.params_json_schema.get("title") == "enum_and_literal_function_args"
+    assert (
+        func_schema.params_json_schema.get("title") == "enum_and_literal_function_args"
+    )
 
     # Check that the enum values are included in the JSON schema
-    assert func_schema.params_json_schema.get("$defs", {}).get("MyEnum", {}).get("enum") == [
+    assert func_schema.params_json_schema.get("$defs", {}).get("MyEnum", {}).get(
+        "enum"
+    ) == [
         "foo",
         "bar",
         "baz",
@@ -366,7 +383,9 @@ def test_enum_and_literal_function():
     )
 
     # Check that the literal values are included in the JSON schema
-    assert func_schema.params_json_schema.get("properties", {}).get("b", {}).get("enum") == [
+    assert func_schema.params_json_schema.get("properties", {}).get("b", {}).get(
+        "enum"
+    ) == [
         "a",
         "b",
         "c",

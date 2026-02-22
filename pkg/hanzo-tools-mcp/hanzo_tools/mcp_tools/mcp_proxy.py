@@ -74,7 +74,9 @@ class MCPServerConnection:
         # Check auth if required
         if self.config.auth_required and self.config.auth_env_var:
             if not os.environ.get(self.config.auth_env_var):
-                logger.warning(f"MCP server '{self.config.name}' requires {self.config.auth_env_var} to be set")
+                logger.warning(
+                    f"MCP server '{self.config.name}' requires {self.config.auth_env_var} to be set"
+                )
                 return False
 
         # Prepare environment
@@ -83,7 +85,11 @@ class MCPServerConnection:
 
         # Process environment variable references
         for key, value in list(env.items()):
-            if isinstance(value, str) and value.startswith("${") and value.endswith("}"):
+            if (
+                isinstance(value, str)
+                and value.startswith("${")
+                and value.endswith("}")
+            ):
                 var_name = value[2:-1]
                 env[key] = os.environ.get(var_name, "")
 
@@ -110,7 +116,9 @@ class MCPServerConnection:
             # Discover tools
             await self._discover_tools()
 
-            logger.info(f"Connected to MCP server '{self.config.name}' with {len(self.tools)} tools")
+            logger.info(
+                f"Connected to MCP server '{self.config.name}' with {len(self.tools)} tools"
+            )
             return True
 
         except Exception as e:
@@ -420,7 +428,9 @@ class MCPProxyRegistry:
                     "auth_configured": auth_configured,
                     "auth_env_var": config.auth_env_var,
                     "auth_url": config.auth_url,
-                    "tool_count": len(self._connections[name].tools) if is_connected else 0,
+                    "tool_count": (
+                        len(self._connections[name].tools) if is_connected else 0
+                    ),
                 }
             )
 
@@ -444,7 +454,9 @@ class MCPProxyRegistry:
                     "auth_configured": auth_configured,
                     "auth_env_var": config.auth_env_var,
                     "auth_url": config.auth_url,
-                    "tool_count": len(self._connections[name].tools) if is_connected else 0,
+                    "tool_count": (
+                        len(self._connections[name].tools) if is_connected else 0
+                    ),
                 }
             )
 
@@ -474,7 +486,9 @@ class MCPProxyRegistry:
             return {
                 "success": True,
                 "message": f"Already connected to '{name}'",
-                "tools": [{"name": t.name, "description": t.description} for t in conn.tools],
+                "tools": [
+                    {"name": t.name, "description": t.description} for t in conn.tools
+                ],
             }
 
         # Create and connect
@@ -484,7 +498,9 @@ class MCPProxyRegistry:
             return {
                 "success": True,
                 "message": f"Connected to '{name}'",
-                "tools": [{"name": t.name, "description": t.description} for t in conn.tools],
+                "tools": [
+                    {"name": t.name, "description": t.description} for t in conn.tools
+                ],
             }
         else:
             return {"success": False, "error": f"Failed to connect to '{name}'"}
@@ -509,7 +525,10 @@ class MCPProxyRegistry:
         """Remove a custom MCP server configuration."""
         if name not in self._custom_servers:
             if name in self.BUILTIN_SERVERS:
-                return {"success": False, "error": f"Cannot remove builtin server '{name}'"}
+                return {
+                    "success": False,
+                    "error": f"Cannot remove builtin server '{name}'",
+                }
             return {"success": False, "error": f"Server '{name}' not found"}
 
         # Disconnect if connected
@@ -527,7 +546,9 @@ class MCPProxyRegistry:
             tools.extend(conn.tools)
         return tools
 
-    async def call_proxied_tool(self, server_name: str, tool_name: str, arguments: Dict[str, Any]) -> Any:
+    async def call_proxied_tool(
+        self, server_name: str, tool_name: str, arguments: Dict[str, Any]
+    ) -> Any:
         """Call a tool on a proxied server.
 
         If lazy_load is enabled, the server will be connected on first use.

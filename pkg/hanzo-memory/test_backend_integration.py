@@ -22,30 +22,23 @@ async def test_local_backend():
 
     # Create project
     project = ProjectCreate(
-        name="Test Project",
-        description="Test project for local backend"
+        name="Test Project", description="Test project for local backend"
     )
     created_project = await client.create_project(project, user_id="test_user")
     assert created_project.name == "Test Project"
 
     # Create memory
     memory = MemoryCreate(
-        content="Test memory content",
-        memory_type="test",
-        importance=0.5
+        content="Test memory content", memory_type="test", importance=0.5
     )
     created_memory = await client.create_memory(
-        memory,
-        project_id=created_project.project_id,
-        user_id="test_user"
+        memory, project_id=created_project.project_id, user_id="test_user"
     )
     assert created_memory.content == "Test memory content"
 
     # Get recent memories
     recent = await client.get_recent_memories(
-        project_id=created_project.project_id,
-        user_id="test_user",
-        limit=10
+        project_id=created_project.project_id, user_id="test_user", limit=10
     )
     assert len(recent) > 0
 
@@ -60,8 +53,7 @@ async def test_lancedb_backend():
     # Use temporary directory for LanceDB
     with tempfile.TemporaryDirectory() as tmpdir:
         client = get_db_client(
-            backend="lancedb",
-            config={"db_path": tmpdir, "enable_markdown": False}
+            backend="lancedb", config={"db_path": tmpdir, "enable_markdown": False}
         )
 
         # Initialize
@@ -69,8 +61,7 @@ async def test_lancedb_backend():
 
         # Create project
         project = ProjectCreate(
-            name="LanceDB Test",
-            description="Test project for LanceDB"
+            name="LanceDB Test", description="Test project for LanceDB"
         )
         created_project = await client.create_project(project, user_id="test_user")
         assert created_project.name == "LanceDB Test"
@@ -80,12 +71,10 @@ async def test_lancedb_backend():
             content="LanceDB test memory",
             memory_type="test",
             importance=0.7,
-            embedding=[0.1] * 384  # Dummy embedding
+            embedding=[0.1] * 384,  # Dummy embedding
         )
         created_memory = await client.create_memory(
-            memory,
-            project_id=created_project.project_id,
-            user_id="test_user"
+            memory, project_id=created_project.project_id, user_id="test_user"
         )
         assert created_memory.content == "LanceDB test memory"
 
@@ -94,7 +83,7 @@ async def test_lancedb_backend():
             query_embedding=[0.1] * 384,
             project_id=created_project.project_id,
             user_id="test_user",
-            limit=5
+            limit=5,
         )
         assert len(results) > 0
 
@@ -111,8 +100,7 @@ async def test_markdown_import():
 
     projects = await client.list_projects()
     markdown_project = next(
-        (p for p in projects if p.project_id == "markdown_import"),
-        None
+        (p for p in projects if p.project_id == "markdown_import"), None
     )
 
     if markdown_project:
@@ -127,8 +115,7 @@ async def test_markdown_import():
 
     projects = await client.list_projects()
     markdown_project = next(
-        (p for p in projects if p.project_id == "markdown_import"),
-        None
+        (p for p in projects if p.project_id == "markdown_import"), None
     )
 
     if markdown_project:
@@ -159,9 +146,9 @@ async def test_backend_switching():
 
 async def main():
     """Run all tests."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("BACKEND INTEGRATION TESTS")
-    print("="*60)
+    print("=" * 60)
 
     try:
         await test_local_backend()
@@ -169,13 +156,14 @@ async def main():
         await test_markdown_import()
         await test_backend_switching()
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("ALL TESTS PASSED ✅")
-        print("="*60)
+        print("=" * 60)
 
     except Exception as e:
         print(f"\n❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

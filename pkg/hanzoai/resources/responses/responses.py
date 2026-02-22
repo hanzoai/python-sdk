@@ -113,7 +113,9 @@ class ResponsesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not response_id:
-            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `response_id` but received {response_id!r}"
+            )
         return self._get(
             f"/v1/responses/{response_id}",
             options=make_request_options(
@@ -156,7 +158,9 @@ class ResponsesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not response_id:
-            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `response_id` but received {response_id!r}"
+            )
         return self._delete(
             f"/v1/responses/{response_id}",
             options=make_request_options(
@@ -256,7 +260,9 @@ class AsyncResponsesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not response_id:
-            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `response_id` but received {response_id!r}"
+            )
         return await self._get(
             f"/v1/responses/{response_id}",
             options=make_request_options(
@@ -299,7 +305,9 @@ class AsyncResponsesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not response_id:
-            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `response_id` but received {response_id!r}"
+            )
         return await self._delete(
             f"/v1/responses/{response_id}",
             options=make_request_options(

@@ -30,7 +30,14 @@ LSP_SERVERS = {
         "start_cmd": ["gopls", "serve", "-mode=stdio"],
         "root_markers": ["go.work", "go.mod", "go.sum"],
         "file_extensions": [".go"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
         "env": {"GOWORK": "auto"},
     },
     "python": {
@@ -38,18 +45,44 @@ LSP_SERVERS = {
         "install_cmd": ["npm", "install", "-g", "pyright"],
         "check_cmd": ["pyright-langserver", "--version"],
         "start_cmd": ["pyright-langserver", "--stdio"],
-        "root_markers": ["pyproject.toml", "setup.py", "requirements.txt", "pyrightconfig.json"],
+        "root_markers": [
+            "pyproject.toml",
+            "setup.py",
+            "requirements.txt",
+            "pyrightconfig.json",
+        ],
         "file_extensions": [".py", ".pyi"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion", "typeDefinition"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+            "typeDefinition",
+        ],
     },
     "typescript": {
         "name": "typescript-language-server",
-        "install_cmd": ["npm", "install", "-g", "typescript", "typescript-language-server"],
+        "install_cmd": [
+            "npm",
+            "install",
+            "-g",
+            "typescript",
+            "typescript-language-server",
+        ],
         "check_cmd": ["typescript-language-server", "--version"],
         "start_cmd": ["typescript-language-server", "--stdio"],
         "root_markers": ["tsconfig.json", "package.json"],
         "file_extensions": [".ts", ".tsx", ".js", ".jsx"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
     },
     "rust": {
         "name": "rust-analyzer",
@@ -58,7 +91,15 @@ LSP_SERVERS = {
         "start_cmd": ["rust-analyzer"],
         "root_markers": ["Cargo.toml"],
         "file_extensions": [".rs"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion", "inlay_hints"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+            "inlay_hints",
+        ],
     },
     "java": {
         "name": "jdtls",
@@ -67,7 +108,14 @@ LSP_SERVERS = {
         "start_cmd": ["jdtls"],
         "root_markers": ["pom.xml", "build.gradle", "build.gradle.kts"],
         "file_extensions": [".java"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
     },
     "cpp": {
         "name": "clangd",
@@ -76,7 +124,14 @@ LSP_SERVERS = {
         "start_cmd": ["clangd"],
         "root_markers": ["compile_commands.json", "CMakeLists.txt"],
         "file_extensions": [".cpp", ".cc", ".cxx", ".c", ".h", ".hpp"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
     },
     "ruby": {
         "name": "solargraph",
@@ -85,7 +140,13 @@ LSP_SERVERS = {
         "start_cmd": ["solargraph", "stdio"],
         "root_markers": ["Gemfile", ".solargraph.yml"],
         "file_extensions": [".rb"],
-        "capabilities": ["definition", "references", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
     },
     "lua": {
         "name": "lua-language-server",
@@ -94,7 +155,14 @@ LSP_SERVERS = {
         "start_cmd": ["lua-language-server"],
         "root_markers": [".luarc.json"],
         "file_extensions": [".lua"],
-        "capabilities": ["definition", "references", "rename", "diagnostics", "hover", "completion"],
+        "capabilities": [
+            "definition",
+            "references",
+            "rename",
+            "diagnostics",
+            "hover",
+            "completion",
+        ],
     },
 }
 
@@ -233,7 +301,9 @@ class LSPTool(BaseTool):
             logger.error(f"Installation error: {e}")
             return False
 
-    async def _ensure_lsp_running(self, language: str, root_uri: str) -> Optional[LSPServer]:
+    async def _ensure_lsp_running(
+        self, language: str, root_uri: str
+    ) -> Optional[LSPServer]:
         """Ensure LSP server is running for language."""
         server_key = f"{language}:{root_uri}"
         if server_key in _GLOBAL_SERVERS:
@@ -264,13 +334,17 @@ class LSPTool(BaseTool):
                     cwd=root_uri,
                     env=env,
                 )
-                server = LSPServer(language=language, process=process, config=config, root_uri=root_uri)
+                server = LSPServer(
+                    language=language, process=process, config=config, root_uri=root_uri
+                )
                 if not await self._initialize_lsp(server):
                     if server.process:
                         server.process.terminate()
                     return None
                 _GLOBAL_SERVERS[server_key] = server
-                logger.info(f"Started global LSP server: {config['name']} for {root_uri}")
+                logger.info(
+                    f"Started global LSP server: {config['name']} for {root_uri}"
+                )
                 return server
             except Exception as e:
                 logger.error(f"Failed to start LSP: {e}")
@@ -296,7 +370,12 @@ class LSPTool(BaseTool):
             },
             "workspaceFolders": [{"uri": root_uri, "name": Path(server.root_uri).name}],
         }
-        request = {"jsonrpc": "2.0", "id": server.next_id(), "method": "initialize", "params": init_params}
+        request = {
+            "jsonrpc": "2.0",
+            "id": server.next_id(),
+            "method": "initialize",
+            "params": init_params,
+        }
         response = await self._send_request(server, request, timeout=60.0)
         if not response or "error" in response:
             logger.error(f"Failed to initialize LSP: {response}")
@@ -305,14 +384,18 @@ class LSPTool(BaseTool):
         server.initialized = True
         return True
 
-    async def _read_lsp_message(self, server: LSPServer, timeout: float = 30.0) -> Optional[Dict[str, Any]]:
+    async def _read_lsp_message(
+        self, server: LSPServer, timeout: float = 30.0
+    ) -> Optional[Dict[str, Any]]:
         """Read a single LSP message from server stdout."""
         if not server.process or not server.process.stdout:
             return None
         try:
             headers = {}
             while True:
-                line = await asyncio.wait_for(server.process.stdout.readline(), timeout=timeout)
+                line = await asyncio.wait_for(
+                    server.process.stdout.readline(), timeout=timeout
+                )
                 if not line:
                     return None
                 line_str = line.decode("utf-8").strip()
@@ -324,7 +407,9 @@ class LSPTool(BaseTool):
             content_length = int(headers.get("content-length", 0))
             if content_length == 0:
                 return None
-            content = await asyncio.wait_for(server.process.stdout.read(content_length), timeout=timeout)
+            content = await asyncio.wait_for(
+                server.process.stdout.read(content_length), timeout=timeout
+            )
             return json.loads(content.decode("utf-8"))
         except asyncio.TimeoutError:
             return None
@@ -336,7 +421,11 @@ class LSPTool(BaseTool):
         self, server: LSPServer, request: Dict[str, Any], timeout: float = 30.0
     ) -> Optional[Dict[str, Any]]:
         """Send JSON-RPC request to LSP server and wait for response."""
-        if not server.process or server.process.returncode is not None or not server.process.stdin:
+        if (
+            not server.process
+            or server.process.returncode is not None
+            or not server.process.stdin
+        ):
             return None
         import time
 
@@ -364,9 +453,15 @@ class LSPTool(BaseTool):
                 logger.error(f"LSP communication error: {e}")
                 return None
 
-    async def _send_notification(self, server: LSPServer, method: str, params: Dict[str, Any]) -> bool:
+    async def _send_notification(
+        self, server: LSPServer, method: str, params: Dict[str, Any]
+    ) -> bool:
         """Send JSON-RPC notification (no response expected)."""
-        if not server.process or server.process.returncode is not None or not server.process.stdin:
+        if (
+            not server.process
+            or server.process.returncode is not None
+            or not server.process.stdin
+        ):
             return False
         try:
             notification = {"jsonrpc": "2.0", "method": method, "params": params}
@@ -402,18 +497,32 @@ class LSPTool(BaseTool):
             "status",
         ]
         if action not in valid_actions:
-            return MCPResourceDocument(data={"error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"})
+            return MCPResourceDocument(
+                data={
+                    "error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"
+                }
+            )
 
         language = self._get_language_from_file(file)
         if not language:
             return MCPResourceDocument(
-                data={"error": f"Unsupported file type: {file}", "supported_languages": list(LSP_SERVERS.keys())}
+                data={
+                    "error": f"Unsupported file type: {file}",
+                    "supported_languages": list(LSP_SERVERS.keys()),
+                }
             )
 
         capabilities = LSP_SERVERS[language]["capabilities"]
-        if action not in capabilities and action not in ["status", "organize_imports", "code_action"]:
+        if action not in capabilities and action not in [
+            "status",
+            "organize_imports",
+            "code_action",
+        ]:
             return MCPResourceDocument(
-                data={"error": f"Action '{action}' not supported for {language}", "supported_actions": capabilities}
+                data={
+                    "error": f"Action '{action}' not supported for {language}",
+                    "supported_actions": capabilities,
+                }
             )
 
         if action == "status":
@@ -487,7 +596,12 @@ class LSPTool(BaseTool):
         if uri.startswith("file://"):
             parsed = urlparse(uri)
             path = unquote(parsed.path)
-            if path.startswith("/") and len(path) >= 3 and path[2] == ":" and path[1].isalpha():
+            if (
+                path.startswith("/")
+                and len(path) >= 3
+                and path[2] == ":"
+                and path[1].isalpha()
+            ):
                 path = path[1:]
             return path
         return uri
@@ -548,8 +662,14 @@ class LSPTool(BaseTool):
         end = range_info.get("end", {})
         return {
             "file": file_path,
-            "start": {"line": start.get("line", 0) + 1, "character": start.get("character", 0)},
-            "end": {"line": end.get("line", 0) + 1, "character": end.get("character", 0)},
+            "start": {
+                "line": start.get("line", 0) + 1,
+                "character": start.get("character", 0),
+            },
+            "end": {
+                "line": end.get("line", 0) + 1,
+                "character": end.get("character", 0),
+            },
         }
 
     def _utf16_index_to_py_index(self, text: str, utf16_index: int) -> int:
@@ -568,7 +688,9 @@ class LSPTool(BaseTool):
             units += 2 if ord(ch) > 0xFFFF else 1
         return units
 
-    def _lsp_position_to_offset(self, lines: List[str], line: int, character: int) -> int:
+    def _lsp_position_to_offset(
+        self, lines: List[str], line: int, character: int
+    ) -> int:
         if line < 0:
             return 0
         if line >= len(lines):
@@ -582,13 +704,22 @@ class LSPTool(BaseTool):
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
         except Exception:
-            return {"start": {"line": 0, "character": 0}, "end": {"line": 0, "character": 0}}
+            return {
+                "start": {"line": 0, "character": 0},
+                "end": {"line": 0, "character": 0},
+            }
         if not content:
-            return {"start": {"line": 0, "character": 0}, "end": {"line": 0, "character": 0}}
+            return {
+                "start": {"line": 0, "character": 0},
+                "end": {"line": 0, "character": 0},
+            }
         lines = content.splitlines()
         last_line_index = len(lines) - 1
         end_char = self._utf16_len(lines[last_line_index])
-        return {"start": {"line": 0, "character": 0}, "end": {"line": last_line_index, "character": end_char}}
+        return {
+            "start": {"line": 0, "character": 0},
+            "end": {"line": last_line_index, "character": end_char},
+        }
 
     def _apply_text_edits(self, file_path: str, edits: List[Dict[str, Any]]) -> None:
         with open(file_path, "r", encoding="utf-8") as f:
@@ -604,8 +735,12 @@ class LSPTool(BaseTool):
             range_info = edit.get("range", {})
             start = range_info.get("start", {})
             end = range_info.get("end", {})
-            start_offset = self._lsp_position_to_offset(lines, start.get("line", 0), start.get("character", 0))
-            end_offset = self._lsp_position_to_offset(lines, end.get("line", 0), end.get("character", 0))
+            start_offset = self._lsp_position_to_offset(
+                lines, start.get("line", 0), start.get("character", 0)
+            )
+            end_offset = self._lsp_position_to_offset(
+                lines, end.get("line", 0), end.get("character", 0)
+            )
             normalized.append(
                 (
                     start.get("line", 0),
@@ -637,14 +772,19 @@ class LSPTool(BaseTool):
                 files.append(self._uri_to_path(uri))
         return sorted({f for f in files if f})
 
-    def _apply_workspace_edit(self, edit: Dict[str, Any], root_dir: str) -> tuple[list[str], list[str]]:
+    def _apply_workspace_edit(
+        self, edit: Dict[str, Any], root_dir: str
+    ) -> tuple[list[str], list[str]]:
         applied: list[str] = []
         errors: list[str] = []
         root_dir = str(Path(root_dir).resolve())
 
         changes = edit.get("documentChanges")
         if changes is None:
-            changes = [{"textDocument": {"uri": uri}, "edits": edits} for uri, edits in edit.get("changes", {}).items()]
+            changes = [
+                {"textDocument": {"uri": uri}, "edits": edits}
+                for uri, edits in edit.get("changes", {}).items()
+            ]
 
         if not changes:
             return applied, errors
@@ -668,8 +808,12 @@ class LSPTool(BaseTool):
                     if kind == "rename":
                         old_path = self._uri_to_path(change.get("oldUri", ""))
                         new_path = self._uri_to_path(change.get("newUri", ""))
-                        if not self._is_within_root(old_path, root_dir) or not self._is_within_root(new_path, root_dir):
-                            raise RuntimeError(f"rename outside workspace root: {old_path} -> {new_path}")
+                        if not self._is_within_root(
+                            old_path, root_dir
+                        ) or not self._is_within_root(new_path, root_dir):
+                            raise RuntimeError(
+                                f"rename outside workspace root: {old_path} -> {new_path}"
+                            )
                         if os.path.exists(old_path) and old_path not in backups:
                             backups[old_path] = backup_path(old_path)
                             shutil.copy2(old_path, backups[old_path])
@@ -681,7 +825,9 @@ class LSPTool(BaseTool):
                     elif kind == "create":
                         file_path = self._uri_to_path(change.get("uri", ""))
                         if not self._is_within_root(file_path, root_dir):
-                            raise RuntimeError(f"create outside workspace root: {file_path}")
+                            raise RuntimeError(
+                                f"create outside workspace root: {file_path}"
+                            )
                         if os.path.exists(file_path) and file_path not in backups:
                             backups[file_path] = backup_path(file_path)
                             shutil.copy2(file_path, backups[file_path])
@@ -689,7 +835,9 @@ class LSPTool(BaseTool):
                     elif kind == "delete":
                         file_path = self._uri_to_path(change.get("uri", ""))
                         if not self._is_within_root(file_path, root_dir):
-                            raise RuntimeError(f"delete outside workspace root: {file_path}")
+                            raise RuntimeError(
+                                f"delete outside workspace root: {file_path}"
+                            )
                         if os.path.exists(file_path) and file_path not in backups:
                             backups[file_path] = backup_path(file_path)
                             shutil.copy2(file_path, backups[file_path])
@@ -743,7 +891,9 @@ class LSPTool(BaseTool):
                             raise RuntimeError(f"delete target missing: {file_path}")
                         if os.path.isdir(file_path):
                             if not options.get("recursive"):
-                                raise RuntimeError(f"delete target is directory: {file_path}")
+                                raise RuntimeError(
+                                    f"delete target is directory: {file_path}"
+                                )
                             shutil.rmtree(file_path)
                         else:
                             os.unlink(file_path)
@@ -765,7 +915,9 @@ class LSPTool(BaseTool):
                     os.replace(temp_path, file_path)
                     applied.append(file_path)
                 else:
-                    raise RuntimeError(f"unsupported documentChange: {change.get('kind', 'unknown')}")
+                    raise RuntimeError(
+                        f"unsupported documentChange: {change.get('kind', 'unknown')}"
+                    )
 
         except Exception as exc:
             errors.append(str(exc))
@@ -807,7 +959,10 @@ class LSPTool(BaseTool):
         abs_path = str(Path(file).resolve())
         uri = self._path_to_uri(abs_path)
         await self._open_document(server, file)
-        position = {"line": (line - 1) if line else 0, "character": character if character else 0}
+        position = {
+            "line": (line - 1) if line else 0,
+            "character": character if character else 0,
+        }
 
         if action == "definition":
             request = {
@@ -820,7 +975,12 @@ class LSPTool(BaseTool):
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
-                    return {"action": "definition", "file": file, "result": None, "message": "No definition found"}
+                    return {
+                        "action": "definition",
+                        "file": file,
+                        "result": None,
+                        "message": "No definition found",
+                    }
                 if isinstance(result, list):
                     return {
                         "action": "definition",
@@ -828,44 +988,82 @@ class LSPTool(BaseTool):
                         "definitions": [self._parse_location(loc) for loc in result],
                     }
                 elif isinstance(result, dict):
-                    return {"action": "definition", "file": file, "definition": self._parse_location(result)}
-            return {"action": "definition", "file": file, "error": response.get("error") if response else "No response"}
+                    return {
+                        "action": "definition",
+                        "file": file,
+                        "definition": self._parse_location(result),
+                    }
+            return {
+                "action": "definition",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "references":
             request = {
                 "jsonrpc": "2.0",
                 "id": server.next_id(),
                 "method": "textDocument/references",
-                "params": {"textDocument": {"uri": uri}, "position": position, "context": {"includeDeclaration": True}},
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                    "context": {"includeDeclaration": True},
+                },
             }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
-                refs = [self._parse_location(loc) for loc in result] if isinstance(result, list) else []
-                return {"action": "references", "file": file, "references": refs, "count": len(refs)}
-            return {"action": "references", "file": file, "error": response.get("error") if response else "No response"}
+                refs = (
+                    [self._parse_location(loc) for loc in result]
+                    if isinstance(result, list)
+                    else []
+                )
+                return {
+                    "action": "references",
+                    "file": file,
+                    "references": refs,
+                    "count": len(refs),
+                }
+            return {
+                "action": "references",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "rename":
             if not new_name:
-                return {"action": "rename", "error": "new_name is required for rename action"}
+                return {
+                    "action": "rename",
+                    "error": "new_name is required for rename action",
+                }
             request = {
                 "jsonrpc": "2.0",
                 "id": server.next_id(),
                 "method": "textDocument/rename",
-                "params": {"textDocument": {"uri": uri}, "position": position, "newName": new_name},
+                "params": {
+                    "textDocument": {"uri": uri},
+                    "position": position,
+                    "newName": new_name,
+                },
             }
             response = await self._send_request(server, request)
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
-                    return {"action": "rename", "file": file, "error": "Rename not possible at this location"}
+                    return {
+                        "action": "rename",
+                        "file": file,
+                        "error": "Rename not possible at this location",
+                    }
                 changes = {}
                 if "changes" in result:
                     for file_uri, edits in result["changes"].items():
                         file_path = self._uri_to_path(file_uri)
                         changes[file_path] = [
                             {
-                                "range": self._parse_location({"uri": file_uri, "range": edit["range"]}),
+                                "range": self._parse_location(
+                                    {"uri": file_uri, "range": edit["range"]}
+                                ),
                                 "newText": edit["newText"],
                             }
                             for edit in edits
@@ -874,7 +1072,9 @@ class LSPTool(BaseTool):
                 apply_errors: List[str] = []
                 touched_files = self._workspace_edit_files(result)
                 if apply_edits:
-                    applied, apply_errors = self._apply_workspace_edit(result, server.root_uri)
+                    applied, apply_errors = self._apply_workspace_edit(
+                        result, server.root_uri
+                    )
                 payload: Dict[str, Any] = {
                     "action": "rename",
                     "file": file,
@@ -888,7 +1088,11 @@ class LSPTool(BaseTool):
                     if apply_errors:
                         payload["apply_errors"] = apply_errors
                 return payload
-            return {"action": "rename", "file": file, "error": response.get("error") if response else "No response"}
+            return {
+                "action": "rename",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "hover":
             request = {
@@ -901,12 +1105,20 @@ class LSPTool(BaseTool):
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
-                    return {"action": "hover", "file": file, "result": None, "message": "No hover info"}
+                    return {
+                        "action": "hover",
+                        "file": file,
+                        "result": None,
+                        "message": "No hover info",
+                    }
                 contents = result.get("contents", "")
                 if isinstance(contents, dict):
                     hover_text = contents.get("value", str(contents))
                 elif isinstance(contents, list):
-                    hover_text = "\n".join(c.get("value", str(c)) if isinstance(c, dict) else str(c) for c in contents)
+                    hover_text = "\n".join(
+                        c.get("value", str(c)) if isinstance(c, dict) else str(c)
+                        for c in contents
+                    )
                 else:
                     hover_text = str(contents)
                 return {
@@ -915,7 +1127,11 @@ class LSPTool(BaseTool):
                     "position": {"line": line, "character": character},
                     "contents": hover_text,
                 }
-            return {"action": "hover", "file": file, "error": response.get("error") if response else "No response"}
+            return {
+                "action": "hover",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "completion":
             request = {
@@ -928,10 +1144,19 @@ class LSPTool(BaseTool):
             if response and "result" in response:
                 result = response["result"]
                 if result is None:
-                    return {"action": "completion", "file": file, "completions": [], "count": 0}
+                    return {
+                        "action": "completion",
+                        "file": file,
+                        "completions": [],
+                        "count": 0,
+                    }
                 items = result if isinstance(result, list) else result.get("items", [])
                 completions = [
-                    {"label": item.get("label", ""), "kind": item.get("kind", 0), "detail": item.get("detail", "")}
+                    {
+                        "label": item.get("label", ""),
+                        "kind": item.get("kind", 0),
+                        "detail": item.get("detail", ""),
+                    }
                     for item in items[:50]
                 ]
                 return {
@@ -941,7 +1166,11 @@ class LSPTool(BaseTool):
                     "completions": completions,
                     "count": len(completions),
                 }
-            return {"action": "completion", "file": file, "error": response.get("error") if response else "No response"}
+            return {
+                "action": "completion",
+                "file": file,
+                "error": response.get("error") if response else "No response",
+            }
 
         elif action == "code_action":
             action_range = range_spec or self._file_range_for_code_action(abs_path)
@@ -969,9 +1198,13 @@ class LSPTool(BaseTool):
                 for action_item in actions:
                     if "edit" in action_item:
                         edits_seen += 1
-                        touched_files.extend(self._workspace_edit_files(action_item["edit"]))
+                        touched_files.extend(
+                            self._workspace_edit_files(action_item["edit"])
+                        )
                         if apply_edits:
-                            applied, errors = self._apply_workspace_edit(action_item["edit"], server.root_uri)
+                            applied, errors = self._apply_workspace_edit(
+                                action_item["edit"], server.root_uri
+                            )
                             edits_applied.extend(applied)
                             apply_errors.extend(errors)
                     if "command" in action_item:
@@ -1019,9 +1252,13 @@ class LSPTool(BaseTool):
                         continue
                     if "edit" in action_item:
                         edits_seen += 1
-                        touched_files.extend(self._workspace_edit_files(action_item["edit"]))
+                        touched_files.extend(
+                            self._workspace_edit_files(action_item["edit"])
+                        )
                         if apply_edits:
-                            applied, errors = self._apply_workspace_edit(action_item["edit"], server.root_uri)
+                            applied, errors = self._apply_workspace_edit(
+                                action_item["edit"], server.root_uri
+                            )
                             edits_applied.extend(applied)
                             apply_errors.extend(errors)
                 payload: Dict[str, Any] = {

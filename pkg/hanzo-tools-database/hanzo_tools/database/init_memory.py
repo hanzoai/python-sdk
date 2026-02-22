@@ -58,7 +58,10 @@ def init_project_memory(project_path: Optional[str] = None):
             content = template_path.read_text()
             # Customize for this project
             project_name = project_path.name
-            content = content.replace("# Project Architecture Decisions", f"# {project_name} Architecture Decisions")
+            content = content.replace(
+                "# Project Architecture Decisions",
+                f"# {project_name} Architecture Decisions",
+            )
             arch_file.write_text(content)
             print(f"Created project architecture file: {arch_file}")
 

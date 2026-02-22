@@ -35,7 +35,9 @@ class HanzoAuth:
             api_base_url: API service URL
         """
         self.api_key = api_key or os.environ.get("HANZO_API_KEY")
-        self.base_url = os.environ.get("HANZO_IAM_URL", os.environ.get("IAM_URL", base_url))
+        self.base_url = os.environ.get(
+            "HANZO_IAM_URL", os.environ.get("IAM_URL", base_url)
+        )
         self.api_base_url = api_base_url
         self._token = None
         self._user_info = None
@@ -287,7 +289,9 @@ class HanzoAuth:
         if self._token:
             # Revoke token
             async with httpx.AsyncClient() as client:
-                await client.post(f"{self.base_url}/api/logout", headers=self._get_headers())
+                await client.post(
+                    f"{self.base_url}/api/logout", headers=self._get_headers()
+                )
 
         self._token = None
         self.api_key = None
@@ -303,7 +307,9 @@ class HanzoAuth:
             return self._user_info
 
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{self.api_base_url}/v1/user", headers=self._get_headers())
+            response = await client.get(
+                f"{self.api_base_url}/v1/user", headers=self._get_headers()
+            )
             response.raise_for_status()
 
             self._user_info = response.json()
@@ -346,7 +352,9 @@ class HanzoAuth:
             List of API key information
         """
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{self.api_base_url}/v1/api-keys", headers=self._get_headers())
+            response = await client.get(
+                f"{self.api_base_url}/v1/api-keys", headers=self._get_headers()
+            )
             response.raise_for_status()
 
             return response.json().get("keys", [])
@@ -358,7 +366,9 @@ class HanzoAuth:
             name: Key name to revoke
         """
         async with httpx.AsyncClient() as client:
-            response = await client.delete(f"{self.api_base_url}/v1/api-keys/{name}", headers=self._get_headers())
+            response = await client.delete(
+                f"{self.api_base_url}/v1/api-keys/{name}", headers=self._get_headers()
+            )
             response.raise_for_status()
 
     async def save_credentials(self, path: Path):
@@ -419,7 +429,9 @@ class HanzoAuth:
 
 
 # MCP Authentication Flow
-async def authenticate_for_mcp(server_name: str = "hanzo-mcp", permissions: List[str] = None) -> str:
+async def authenticate_for_mcp(
+    server_name: str = "hanzo-mcp", permissions: List[str] = None
+) -> str:
     """Authenticate and get token for MCP server.
 
     Args:
@@ -535,7 +547,9 @@ class AgentAuth:
 
         # 3. Device code flow for interactive authentication
         self._hanzo_auth = HanzoAuth()
-        result = await self._hanzo_auth.login_with_device_code(open_browser=not headless)
+        result = await self._hanzo_auth.login_with_device_code(
+            open_browser=not headless
+        )
 
         # Save credentials for future use
         await self._hanzo_auth.save_credentials(config_file)

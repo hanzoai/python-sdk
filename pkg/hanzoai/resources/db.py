@@ -39,9 +39,18 @@ class DBResource(SyncAPIResource):
         """Create a managed database."""
         return self._post(
             "/db",
-            body={"name": name, "engine": engine, "version": version, "size": size, "region": region},
+            body={
+                "name": name,
+                "engine": engine,
+                "version": version,
+                "size": size,
+                "region": region,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -58,7 +67,10 @@ class DBResource(SyncAPIResource):
         return self._get(
             "/db",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -76,7 +88,10 @@ class DBResource(SyncAPIResource):
         return self._get(
             f"/db/{db_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -94,7 +109,10 @@ class DBResource(SyncAPIResource):
         return self._delete(
             f"/db/{db_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -115,7 +133,10 @@ class DBResource(SyncAPIResource):
             f"/db/{db_id}/users",
             body={"username": username, "password": password},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -134,7 +155,10 @@ class DBResource(SyncAPIResource):
         return self._post(
             f"/db/{db_id}/users/{username}/rotate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -153,7 +177,10 @@ class DBResource(SyncAPIResource):
         return self._delete(
             f"/db/{db_id}/users/{username}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -171,7 +198,10 @@ class DBResource(SyncAPIResource):
         return self._post(
             f"/db/{db_id}/backups",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -189,7 +219,10 @@ class DBResource(SyncAPIResource):
         return self._get(
             f"/db/{db_id}/backups",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -208,7 +241,10 @@ class DBResource(SyncAPIResource):
         return self._post(
             f"/db/{db_id}/backups/{backup_id}/restore",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -226,7 +262,10 @@ class DBResource(SyncAPIResource):
         return self._get(
             f"/db/{db_id}/connstr",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -259,9 +298,18 @@ class AsyncDBResource(AsyncAPIResource):
         """Create a managed database."""
         return await self._post(
             "/db",
-            body={"name": name, "engine": engine, "version": version, "size": size, "region": region},
+            body={
+                "name": name,
+                "engine": engine,
+                "version": version,
+                "size": size,
+                "region": region,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -278,7 +326,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._get(
             "/db",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -296,7 +347,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._get(
             f"/db/{db_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -314,7 +368,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._delete(
             f"/db/{db_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -335,7 +392,10 @@ class AsyncDBResource(AsyncAPIResource):
             f"/db/{db_id}/users",
             body={"username": username, "password": password},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -354,7 +414,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._post(
             f"/db/{db_id}/users/{username}/rotate",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -373,7 +436,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._delete(
             f"/db/{db_id}/users/{username}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -391,7 +457,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._post(
             f"/db/{db_id}/backups",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -409,7 +478,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._get(
             f"/db/{db_id}/backups",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -428,7 +500,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._post(
             f"/db/{db_id}/backups/{backup_id}/restore",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -446,7 +521,10 @@ class AsyncDBResource(AsyncAPIResource):
         return await self._get(
             f"/db/{db_id}/connstr",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

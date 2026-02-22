@@ -74,7 +74,9 @@ class KMSClient:
             "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
         )
         organization = os.getenv("HANZO_KMS_ORG", "hanzo")
-        client_id = os.getenv("HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", ""))
+        client_id = os.getenv(
+            "HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", "")
+        )
         client_secret = os.getenv(
             "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
         )
@@ -160,7 +162,7 @@ class KMSClient:
 
                 session = boto3.Session()
                 credentials = session.get_credentials()
-                region = session.region_name or "us-east-1"
+                _region = session.region_name or "us-east-1"
 
                 response = self.http.post(
                     "/api/v1/auth/aws-auth/login",
@@ -181,8 +183,10 @@ class KMSClient:
                 self._access_token = token_data.access_token
                 self._token_expires_at = time.time() + token_data.expires_in
                 return self._access_token
-            except ImportError:
-                raise ValueError("boto3 required for AWS IAM auth: pip install boto3")
+            except ImportError as e:
+                raise ValueError(
+                    "boto3 required for AWS IAM auth: pip install boto3"
+                ) from e
 
         raise ValueError("No valid authentication method configured")
 

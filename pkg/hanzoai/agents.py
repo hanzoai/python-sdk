@@ -42,7 +42,9 @@ except ImportError:
 
     # Provide a helpful error message
     def _agents_not_installed(*args, **kwargs):
-        raise ImportError("hanzo-agents is not installed. Install it with: pip install hanzo-agents")
+        raise ImportError(
+            "hanzo-agents is not installed. Install it with: pip install hanzo-agents"
+        )
 
     # Create placeholder classes/functions
     Agent = State = Network = Tool = History = _agents_not_installed
@@ -56,7 +58,9 @@ except ImportError:
     AgentConfig = NetworkConfig = _agents_not_installed
 
 
-def create_agent(name: str, model: str = "anthropic/claude-3-5-sonnet-20241022", **kwargs):
+def create_agent(
+    name: str, model: str = "anthropic/claude-3-5-sonnet-20241022", **kwargs
+):
     """Create a new AI agent.
 
     Args:
@@ -68,7 +72,9 @@ def create_agent(name: str, model: str = "anthropic/claude-3-5-sonnet-20241022",
         Agent instance
     """
     if not AGENTS_AVAILABLE:
-        raise ImportError("hanzo-agents is not installed. Install it with: pip install hanzo-agents")
+        raise ImportError(
+            "hanzo-agents is not installed. Install it with: pip install hanzo-agents"
+        )
 
     config = AgentConfig(name=name, model=model, **kwargs)
     return LocalAgent(config)
@@ -86,7 +92,9 @@ def create_network(agents: list, router=None, **kwargs):
         Network instance
     """
     if not AGENTS_AVAILABLE:
-        raise ImportError("hanzo-agents is not installed. Install it with: pip install hanzo-agents")
+        raise ImportError(
+            "hanzo-agents is not installed. Install it with: pip install hanzo-agents"
+        )
 
     if router is None:
         router = sequential_router()

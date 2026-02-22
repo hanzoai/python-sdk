@@ -7,7 +7,10 @@ from openai.types.responses import (
     ResponseFunctionWebSearch,
 )
 from openai.types.responses.response_computer_tool_call import ActionClick
-from openai.types.responses.response_reasoning_item import ResponseReasoningItem, Summary
+from openai.types.responses.response_reasoning_item import (
+    ResponseReasoningItem,
+    Summary,
+)
 from pydantic import BaseModel
 
 from agents import (
@@ -267,7 +270,9 @@ def test_file_search_tool_call_parsed_correctly():
 
 def test_function_web_search_tool_call_parsed_correctly():
     agent = Agent(name="test")
-    web_search_call = ResponseFunctionWebSearch(id="w1", status="completed", type="web_search_call")
+    web_search_call = ResponseFunctionWebSearch(
+        id="w1", status="completed", type="web_search_call"
+    )
     response = ModelResponse(
         output=[get_text_message("hello"), web_search_call],
         usage=Usage(),
@@ -299,7 +304,8 @@ def test_reasoning_item_parsed_correctly():
         agent=Agent(name="test"), response=response, output_schema=None, handoffs=[]
     )
     assert any(
-        isinstance(item, ReasoningItem) and item.raw_item is reasoning for item in result.new_items
+        isinstance(item, ReasoningItem) and item.raw_item is reasoning
+        for item in result.new_items
     )
 
 
@@ -389,14 +395,19 @@ def test_computer_tool_call_with_computer_tool_parsed_correctly():
         isinstance(item, ToolCallItem) and item.raw_item is computer_call
         for item in result.new_items
     )
-    assert result.computer_actions and result.computer_actions[0].tool_call == computer_call
+    assert (
+        result.computer_actions
+        and result.computer_actions[0].tool_call == computer_call
+    )
 
 
 def test_tool_and_handoff_parsed_correctly():
     agent_1 = Agent(name="test_1")
     agent_2 = Agent(name="test_2")
     agent_3 = Agent(
-        name="test_3", tools=[get_function_tool(name="test")], handoffs=[agent_1, agent_2]
+        name="test_3",
+        tools=[get_function_tool(name="test")],
+        handoffs=[agent_1, agent_2],
     )
     response = ModelResponse(
         output=[

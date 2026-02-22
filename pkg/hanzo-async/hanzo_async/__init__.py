@@ -31,7 +31,7 @@ Usage:
 
 import sys
 import asyncio
-from functools import lru_cache
+from functools import lru_cache  # noqa: TID251
 
 # Track uvloop configuration state
 _uvloop_configured = False

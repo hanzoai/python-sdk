@@ -208,7 +208,9 @@ class Hanzo(SyncAPIClient):
         base_url_env = os.environ.get("HANZO_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
-            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+            base_url = cast(
+                "str | httpx.URL", base_url
+            )  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
@@ -330,10 +332,14 @@ class Hanzo(SyncAPIClient):
         Create a new client instance re-using the same options given to the current client with optional overriding.
         """
         if default_headers is not None and set_default_headers is not None:
-            raise ValueError("The `default_headers` and `set_default_headers` arguments are mutually exclusive")
+            raise ValueError(
+                "The `default_headers` and `set_default_headers` arguments are mutually exclusive"
+            )
 
         if default_query is not None and set_default_query is not None:
-            raise ValueError("The `default_query` and `set_default_query` arguments are mutually exclusive")
+            raise ValueError(
+                "The `default_query` and `set_default_query` arguments are mutually exclusive"
+            )
 
         headers = self._custom_headers
         if default_headers is not None:
@@ -398,10 +404,14 @@ class Hanzo(SyncAPIClient):
             return _exceptions.BadRequestError(err_msg, response=response, body=body)
 
         if response.status_code == 401:
-            return _exceptions.AuthenticationError(err_msg, response=response, body=body)
+            return _exceptions.AuthenticationError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 403:
-            return _exceptions.PermissionDeniedError(err_msg, response=response, body=body)
+            return _exceptions.PermissionDeniedError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 404:
             return _exceptions.NotFoundError(err_msg, response=response, body=body)
@@ -410,13 +420,17 @@ class Hanzo(SyncAPIClient):
             return _exceptions.ConflictError(err_msg, response=response, body=body)
 
         if response.status_code == 422:
-            return _exceptions.UnprocessableEntityError(err_msg, response=response, body=body)
+            return _exceptions.UnprocessableEntityError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 429:
             return _exceptions.RateLimitError(err_msg, response=response, body=body)
 
         if response.status_code >= 500:
-            return _exceptions.InternalServerError(err_msg, response=response, body=body)
+            return _exceptions.InternalServerError(
+                err_msg, response=response, body=body
+            )
         return APIStatusError(err_msg, response=response, body=body)
 
 
@@ -518,7 +532,9 @@ class AsyncHanzo(AsyncAPIClient):
         base_url_env = os.environ.get("HANZO_BASE_URL")
         if is_given(base_url) and base_url is not None:
             # cast required because mypy doesn't understand the type narrowing
-            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+            base_url = cast(
+                "str | httpx.URL", base_url
+            )  # pyright: ignore[reportUnnecessaryCast]
         elif is_given(environment):
             if base_url_env and base_url is not None:
                 raise ValueError(
@@ -640,10 +656,14 @@ class AsyncHanzo(AsyncAPIClient):
         Create a new client instance re-using the same options given to the current client with optional overriding.
         """
         if default_headers is not None and set_default_headers is not None:
-            raise ValueError("The `default_headers` and `set_default_headers` arguments are mutually exclusive")
+            raise ValueError(
+                "The `default_headers` and `set_default_headers` arguments are mutually exclusive"
+            )
 
         if default_query is not None and set_default_query is not None:
-            raise ValueError("The `default_query` and `set_default_query` arguments are mutually exclusive")
+            raise ValueError(
+                "The `default_query` and `set_default_query` arguments are mutually exclusive"
+            )
 
         headers = self._custom_headers
         if default_headers is not None:
@@ -708,10 +728,14 @@ class AsyncHanzo(AsyncAPIClient):
             return _exceptions.BadRequestError(err_msg, response=response, body=body)
 
         if response.status_code == 401:
-            return _exceptions.AuthenticationError(err_msg, response=response, body=body)
+            return _exceptions.AuthenticationError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 403:
-            return _exceptions.PermissionDeniedError(err_msg, response=response, body=body)
+            return _exceptions.PermissionDeniedError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 404:
             return _exceptions.NotFoundError(err_msg, response=response, body=body)
@@ -720,13 +744,17 @@ class AsyncHanzo(AsyncAPIClient):
             return _exceptions.ConflictError(err_msg, response=response, body=body)
 
         if response.status_code == 422:
-            return _exceptions.UnprocessableEntityError(err_msg, response=response, body=body)
+            return _exceptions.UnprocessableEntityError(
+                err_msg, response=response, body=body
+            )
 
         if response.status_code == 429:
             return _exceptions.RateLimitError(err_msg, response=response, body=body)
 
         if response.status_code >= 500:
-            return _exceptions.InternalServerError(err_msg, response=response, body=body)
+            return _exceptions.InternalServerError(
+                err_msg, response=response, body=body
+            )
         return APIStatusError(err_msg, response=response, body=body)
 
 
@@ -736,29 +764,47 @@ class HanzoWithRawResponse:
         self.openai = openai.OpenAIResourceWithRawResponse(client.openai)
         self.engines = engines.EnginesResourceWithRawResponse(client.engines)
         self.chat = chat.ChatResourceWithRawResponse(client.chat)
-        self.completions = completions.CompletionsResourceWithRawResponse(client.completions)
-        self.embeddings = embeddings.EmbeddingsResourceWithRawResponse(client.embeddings)
+        self.completions = completions.CompletionsResourceWithRawResponse(
+            client.completions
+        )
+        self.embeddings = embeddings.EmbeddingsResourceWithRawResponse(
+            client.embeddings
+        )
         self.images = images.ImagesResourceWithRawResponse(client.images)
         self.audio = audio.AudioResourceWithRawResponse(client.audio)
-        self.assistants = assistants.AssistantsResourceWithRawResponse(client.assistants)
+        self.assistants = assistants.AssistantsResourceWithRawResponse(
+            client.assistants
+        )
         self.threads = threads.ThreadsResourceWithRawResponse(client.threads)
-        self.moderations = moderations.ModerationsResourceWithRawResponse(client.moderations)
+        self.moderations = moderations.ModerationsResourceWithRawResponse(
+            client.moderations
+        )
         self.utils = utils.UtilsResourceWithRawResponse(client.utils)
         self.model = model.ModelResourceWithRawResponse(client.model)
-        self.model_group = model_group.ModelGroupResourceWithRawResponse(client.model_group)
+        self.model_group = model_group.ModelGroupResourceWithRawResponse(
+            client.model_group
+        )
         self.routes = routes.RoutesResourceWithRawResponse(client.routes)
         self.responses = responses.ResponsesResourceWithRawResponse(client.responses)
         self.batches = batches.BatchesResourceWithRawResponse(client.batches)
         self.rerank = rerank.RerankResourceWithRawResponse(client.rerank)
-        self.fine_tuning = fine_tuning.FineTuningResourceWithRawResponse(client.fine_tuning)
-        self.credentials = credentials.CredentialsResourceWithRawResponse(client.credentials)
+        self.fine_tuning = fine_tuning.FineTuningResourceWithRawResponse(
+            client.fine_tuning
+        )
+        self.credentials = credentials.CredentialsResourceWithRawResponse(
+            client.credentials
+        )
         self.vertex_ai = vertex_ai.VertexAIResourceWithRawResponse(client.vertex_ai)
         self.gemini = gemini.GeminiResourceWithRawResponse(client.gemini)
         self.cohere = cohere.CohereResourceWithRawResponse(client.cohere)
         self.anthropic = anthropic.AnthropicResourceWithRawResponse(client.anthropic)
         self.bedrock = bedrock.BedrockResourceWithRawResponse(client.bedrock)
-        self.eu_assemblyai = eu_assemblyai.EuAssemblyaiResourceWithRawResponse(client.eu_assemblyai)
-        self.assemblyai = assemblyai.AssemblyaiResourceWithRawResponse(client.assemblyai)
+        self.eu_assemblyai = eu_assemblyai.EuAssemblyaiResourceWithRawResponse(
+            client.eu_assemblyai
+        )
+        self.assemblyai = assemblyai.AssemblyaiResourceWithRawResponse(
+            client.assemblyai
+        )
         self.azure = azure.AzureResourceWithRawResponse(client.azure)
         self.langfuse = langfuse.LangfuseResourceWithRawResponse(client.langfuse)
         self.config = config.ConfigResourceWithRawResponse(client.config)
@@ -769,13 +815,17 @@ class HanzoWithRawResponse:
         self.key = key.KeyResourceWithRawResponse(client.key)
         self.user = user.UserResourceWithRawResponse(client.user)
         self.team = team.TeamResourceWithRawResponse(client.team)
-        self.organization = organization.OrganizationResourceWithRawResponse(client.organization)
+        self.organization = organization.OrganizationResourceWithRawResponse(
+            client.organization
+        )
         self.customer = customer.CustomerResourceWithRawResponse(client.customer)
         self.spend = spend.SpendResourceWithRawResponse(client.spend)
         self.global_ = global_.GlobalResourceWithRawResponse(client.global_)
         self.provider = provider.ProviderResourceWithRawResponse(client.provider)
         self.cache = cache.CacheResourceWithRawResponse(client.cache)
-        self.guardrails = guardrails.GuardrailsResourceWithRawResponse(client.guardrails)
+        self.guardrails = guardrails.GuardrailsResourceWithRawResponse(
+            client.guardrails
+        )
         self.add = add.AddResourceWithRawResponse(client.add)
         self.delete = delete.DeleteResourceWithRawResponse(client.delete)
         self.files = files.FilesResourceWithRawResponse(client.files)
@@ -792,29 +842,53 @@ class AsyncHanzoWithRawResponse:
         self.openai = openai.AsyncOpenAIResourceWithRawResponse(client.openai)
         self.engines = engines.AsyncEnginesResourceWithRawResponse(client.engines)
         self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
-        self.completions = completions.AsyncCompletionsResourceWithRawResponse(client.completions)
-        self.embeddings = embeddings.AsyncEmbeddingsResourceWithRawResponse(client.embeddings)
+        self.completions = completions.AsyncCompletionsResourceWithRawResponse(
+            client.completions
+        )
+        self.embeddings = embeddings.AsyncEmbeddingsResourceWithRawResponse(
+            client.embeddings
+        )
         self.images = images.AsyncImagesResourceWithRawResponse(client.images)
         self.audio = audio.AsyncAudioResourceWithRawResponse(client.audio)
-        self.assistants = assistants.AsyncAssistantsResourceWithRawResponse(client.assistants)
+        self.assistants = assistants.AsyncAssistantsResourceWithRawResponse(
+            client.assistants
+        )
         self.threads = threads.AsyncThreadsResourceWithRawResponse(client.threads)
-        self.moderations = moderations.AsyncModerationsResourceWithRawResponse(client.moderations)
+        self.moderations = moderations.AsyncModerationsResourceWithRawResponse(
+            client.moderations
+        )
         self.utils = utils.AsyncUtilsResourceWithRawResponse(client.utils)
         self.model = model.AsyncModelResourceWithRawResponse(client.model)
-        self.model_group = model_group.AsyncModelGroupResourceWithRawResponse(client.model_group)
+        self.model_group = model_group.AsyncModelGroupResourceWithRawResponse(
+            client.model_group
+        )
         self.routes = routes.AsyncRoutesResourceWithRawResponse(client.routes)
-        self.responses = responses.AsyncResponsesResourceWithRawResponse(client.responses)
+        self.responses = responses.AsyncResponsesResourceWithRawResponse(
+            client.responses
+        )
         self.batches = batches.AsyncBatchesResourceWithRawResponse(client.batches)
         self.rerank = rerank.AsyncRerankResourceWithRawResponse(client.rerank)
-        self.fine_tuning = fine_tuning.AsyncFineTuningResourceWithRawResponse(client.fine_tuning)
-        self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(client.credentials)
-        self.vertex_ai = vertex_ai.AsyncVertexAIResourceWithRawResponse(client.vertex_ai)
+        self.fine_tuning = fine_tuning.AsyncFineTuningResourceWithRawResponse(
+            client.fine_tuning
+        )
+        self.credentials = credentials.AsyncCredentialsResourceWithRawResponse(
+            client.credentials
+        )
+        self.vertex_ai = vertex_ai.AsyncVertexAIResourceWithRawResponse(
+            client.vertex_ai
+        )
         self.gemini = gemini.AsyncGeminiResourceWithRawResponse(client.gemini)
         self.cohere = cohere.AsyncCohereResourceWithRawResponse(client.cohere)
-        self.anthropic = anthropic.AsyncAnthropicResourceWithRawResponse(client.anthropic)
+        self.anthropic = anthropic.AsyncAnthropicResourceWithRawResponse(
+            client.anthropic
+        )
         self.bedrock = bedrock.AsyncBedrockResourceWithRawResponse(client.bedrock)
-        self.eu_assemblyai = eu_assemblyai.AsyncEuAssemblyaiResourceWithRawResponse(client.eu_assemblyai)
-        self.assemblyai = assemblyai.AsyncAssemblyaiResourceWithRawResponse(client.assemblyai)
+        self.eu_assemblyai = eu_assemblyai.AsyncEuAssemblyaiResourceWithRawResponse(
+            client.eu_assemblyai
+        )
+        self.assemblyai = assemblyai.AsyncAssemblyaiResourceWithRawResponse(
+            client.assemblyai
+        )
         self.azure = azure.AsyncAzureResourceWithRawResponse(client.azure)
         self.langfuse = langfuse.AsyncLangfuseResourceWithRawResponse(client.langfuse)
         self.config = config.AsyncConfigResourceWithRawResponse(client.config)
@@ -825,13 +899,17 @@ class AsyncHanzoWithRawResponse:
         self.key = key.AsyncKeyResourceWithRawResponse(client.key)
         self.user = user.AsyncUserResourceWithRawResponse(client.user)
         self.team = team.AsyncTeamResourceWithRawResponse(client.team)
-        self.organization = organization.AsyncOrganizationResourceWithRawResponse(client.organization)
+        self.organization = organization.AsyncOrganizationResourceWithRawResponse(
+            client.organization
+        )
         self.customer = customer.AsyncCustomerResourceWithRawResponse(client.customer)
         self.spend = spend.AsyncSpendResourceWithRawResponse(client.spend)
         self.global_ = global_.AsyncGlobalResourceWithRawResponse(client.global_)
         self.provider = provider.AsyncProviderResourceWithRawResponse(client.provider)
         self.cache = cache.AsyncCacheResourceWithRawResponse(client.cache)
-        self.guardrails = guardrails.AsyncGuardrailsResourceWithRawResponse(client.guardrails)
+        self.guardrails = guardrails.AsyncGuardrailsResourceWithRawResponse(
+            client.guardrails
+        )
         self.add = add.AsyncAddResourceWithRawResponse(client.add)
         self.delete = delete.AsyncDeleteResourceWithRawResponse(client.delete)
         self.files = files.AsyncFilesResourceWithRawResponse(client.files)
@@ -848,29 +926,53 @@ class HanzoWithStreamedResponse:
         self.openai = openai.OpenAIResourceWithStreamingResponse(client.openai)
         self.engines = engines.EnginesResourceWithStreamingResponse(client.engines)
         self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
-        self.completions = completions.CompletionsResourceWithStreamingResponse(client.completions)
-        self.embeddings = embeddings.EmbeddingsResourceWithStreamingResponse(client.embeddings)
+        self.completions = completions.CompletionsResourceWithStreamingResponse(
+            client.completions
+        )
+        self.embeddings = embeddings.EmbeddingsResourceWithStreamingResponse(
+            client.embeddings
+        )
         self.images = images.ImagesResourceWithStreamingResponse(client.images)
         self.audio = audio.AudioResourceWithStreamingResponse(client.audio)
-        self.assistants = assistants.AssistantsResourceWithStreamingResponse(client.assistants)
+        self.assistants = assistants.AssistantsResourceWithStreamingResponse(
+            client.assistants
+        )
         self.threads = threads.ThreadsResourceWithStreamingResponse(client.threads)
-        self.moderations = moderations.ModerationsResourceWithStreamingResponse(client.moderations)
+        self.moderations = moderations.ModerationsResourceWithStreamingResponse(
+            client.moderations
+        )
         self.utils = utils.UtilsResourceWithStreamingResponse(client.utils)
         self.model = model.ModelResourceWithStreamingResponse(client.model)
-        self.model_group = model_group.ModelGroupResourceWithStreamingResponse(client.model_group)
+        self.model_group = model_group.ModelGroupResourceWithStreamingResponse(
+            client.model_group
+        )
         self.routes = routes.RoutesResourceWithStreamingResponse(client.routes)
-        self.responses = responses.ResponsesResourceWithStreamingResponse(client.responses)
+        self.responses = responses.ResponsesResourceWithStreamingResponse(
+            client.responses
+        )
         self.batches = batches.BatchesResourceWithStreamingResponse(client.batches)
         self.rerank = rerank.RerankResourceWithStreamingResponse(client.rerank)
-        self.fine_tuning = fine_tuning.FineTuningResourceWithStreamingResponse(client.fine_tuning)
-        self.credentials = credentials.CredentialsResourceWithStreamingResponse(client.credentials)
-        self.vertex_ai = vertex_ai.VertexAIResourceWithStreamingResponse(client.vertex_ai)
+        self.fine_tuning = fine_tuning.FineTuningResourceWithStreamingResponse(
+            client.fine_tuning
+        )
+        self.credentials = credentials.CredentialsResourceWithStreamingResponse(
+            client.credentials
+        )
+        self.vertex_ai = vertex_ai.VertexAIResourceWithStreamingResponse(
+            client.vertex_ai
+        )
         self.gemini = gemini.GeminiResourceWithStreamingResponse(client.gemini)
         self.cohere = cohere.CohereResourceWithStreamingResponse(client.cohere)
-        self.anthropic = anthropic.AnthropicResourceWithStreamingResponse(client.anthropic)
+        self.anthropic = anthropic.AnthropicResourceWithStreamingResponse(
+            client.anthropic
+        )
         self.bedrock = bedrock.BedrockResourceWithStreamingResponse(client.bedrock)
-        self.eu_assemblyai = eu_assemblyai.EuAssemblyaiResourceWithStreamingResponse(client.eu_assemblyai)
-        self.assemblyai = assemblyai.AssemblyaiResourceWithStreamingResponse(client.assemblyai)
+        self.eu_assemblyai = eu_assemblyai.EuAssemblyaiResourceWithStreamingResponse(
+            client.eu_assemblyai
+        )
+        self.assemblyai = assemblyai.AssemblyaiResourceWithStreamingResponse(
+            client.assemblyai
+        )
         self.azure = azure.AzureResourceWithStreamingResponse(client.azure)
         self.langfuse = langfuse.LangfuseResourceWithStreamingResponse(client.langfuse)
         self.config = config.ConfigResourceWithStreamingResponse(client.config)
@@ -881,13 +983,17 @@ class HanzoWithStreamedResponse:
         self.key = key.KeyResourceWithStreamingResponse(client.key)
         self.user = user.UserResourceWithStreamingResponse(client.user)
         self.team = team.TeamResourceWithStreamingResponse(client.team)
-        self.organization = organization.OrganizationResourceWithStreamingResponse(client.organization)
+        self.organization = organization.OrganizationResourceWithStreamingResponse(
+            client.organization
+        )
         self.customer = customer.CustomerResourceWithStreamingResponse(client.customer)
         self.spend = spend.SpendResourceWithStreamingResponse(client.spend)
         self.global_ = global_.GlobalResourceWithStreamingResponse(client.global_)
         self.provider = provider.ProviderResourceWithStreamingResponse(client.provider)
         self.cache = cache.CacheResourceWithStreamingResponse(client.cache)
-        self.guardrails = guardrails.GuardrailsResourceWithStreamingResponse(client.guardrails)
+        self.guardrails = guardrails.GuardrailsResourceWithStreamingResponse(
+            client.guardrails
+        )
         self.add = add.AddResourceWithStreamingResponse(client.add)
         self.delete = delete.DeleteResourceWithStreamingResponse(client.delete)
         self.files = files.FilesResourceWithStreamingResponse(client.files)
@@ -904,46 +1010,84 @@ class AsyncHanzoWithStreamedResponse:
         self.openai = openai.AsyncOpenAIResourceWithStreamingResponse(client.openai)
         self.engines = engines.AsyncEnginesResourceWithStreamingResponse(client.engines)
         self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
-        self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(client.completions)
-        self.embeddings = embeddings.AsyncEmbeddingsResourceWithStreamingResponse(client.embeddings)
+        self.completions = completions.AsyncCompletionsResourceWithStreamingResponse(
+            client.completions
+        )
+        self.embeddings = embeddings.AsyncEmbeddingsResourceWithStreamingResponse(
+            client.embeddings
+        )
         self.images = images.AsyncImagesResourceWithStreamingResponse(client.images)
         self.audio = audio.AsyncAudioResourceWithStreamingResponse(client.audio)
-        self.assistants = assistants.AsyncAssistantsResourceWithStreamingResponse(client.assistants)
+        self.assistants = assistants.AsyncAssistantsResourceWithStreamingResponse(
+            client.assistants
+        )
         self.threads = threads.AsyncThreadsResourceWithStreamingResponse(client.threads)
-        self.moderations = moderations.AsyncModerationsResourceWithStreamingResponse(client.moderations)
+        self.moderations = moderations.AsyncModerationsResourceWithStreamingResponse(
+            client.moderations
+        )
         self.utils = utils.AsyncUtilsResourceWithStreamingResponse(client.utils)
         self.model = model.AsyncModelResourceWithStreamingResponse(client.model)
-        self.model_group = model_group.AsyncModelGroupResourceWithStreamingResponse(client.model_group)
+        self.model_group = model_group.AsyncModelGroupResourceWithStreamingResponse(
+            client.model_group
+        )
         self.routes = routes.AsyncRoutesResourceWithStreamingResponse(client.routes)
-        self.responses = responses.AsyncResponsesResourceWithStreamingResponse(client.responses)
+        self.responses = responses.AsyncResponsesResourceWithStreamingResponse(
+            client.responses
+        )
         self.batches = batches.AsyncBatchesResourceWithStreamingResponse(client.batches)
         self.rerank = rerank.AsyncRerankResourceWithStreamingResponse(client.rerank)
-        self.fine_tuning = fine_tuning.AsyncFineTuningResourceWithStreamingResponse(client.fine_tuning)
-        self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(client.credentials)
-        self.vertex_ai = vertex_ai.AsyncVertexAIResourceWithStreamingResponse(client.vertex_ai)
+        self.fine_tuning = fine_tuning.AsyncFineTuningResourceWithStreamingResponse(
+            client.fine_tuning
+        )
+        self.credentials = credentials.AsyncCredentialsResourceWithStreamingResponse(
+            client.credentials
+        )
+        self.vertex_ai = vertex_ai.AsyncVertexAIResourceWithStreamingResponse(
+            client.vertex_ai
+        )
         self.gemini = gemini.AsyncGeminiResourceWithStreamingResponse(client.gemini)
         self.cohere = cohere.AsyncCohereResourceWithStreamingResponse(client.cohere)
-        self.anthropic = anthropic.AsyncAnthropicResourceWithStreamingResponse(client.anthropic)
+        self.anthropic = anthropic.AsyncAnthropicResourceWithStreamingResponse(
+            client.anthropic
+        )
         self.bedrock = bedrock.AsyncBedrockResourceWithStreamingResponse(client.bedrock)
-        self.eu_assemblyai = eu_assemblyai.AsyncEuAssemblyaiResourceWithStreamingResponse(client.eu_assemblyai)
-        self.assemblyai = assemblyai.AsyncAssemblyaiResourceWithStreamingResponse(client.assemblyai)
+        self.eu_assemblyai = (
+            eu_assemblyai.AsyncEuAssemblyaiResourceWithStreamingResponse(
+                client.eu_assemblyai
+            )
+        )
+        self.assemblyai = assemblyai.AsyncAssemblyaiResourceWithStreamingResponse(
+            client.assemblyai
+        )
         self.azure = azure.AsyncAzureResourceWithStreamingResponse(client.azure)
-        self.langfuse = langfuse.AsyncLangfuseResourceWithStreamingResponse(client.langfuse)
+        self.langfuse = langfuse.AsyncLangfuseResourceWithStreamingResponse(
+            client.langfuse
+        )
         self.config = config.AsyncConfigResourceWithStreamingResponse(client.config)
         self.test = test.AsyncTestResourceWithStreamingResponse(client.test)
         self.health = health.AsyncHealthResourceWithStreamingResponse(client.health)
         self.active = active.AsyncActiveResourceWithStreamingResponse(client.active)
-        self.settings = settings.AsyncSettingsResourceWithStreamingResponse(client.settings)
+        self.settings = settings.AsyncSettingsResourceWithStreamingResponse(
+            client.settings
+        )
         self.key = key.AsyncKeyResourceWithStreamingResponse(client.key)
         self.user = user.AsyncUserResourceWithStreamingResponse(client.user)
         self.team = team.AsyncTeamResourceWithStreamingResponse(client.team)
-        self.organization = organization.AsyncOrganizationResourceWithStreamingResponse(client.organization)
-        self.customer = customer.AsyncCustomerResourceWithStreamingResponse(client.customer)
+        self.organization = organization.AsyncOrganizationResourceWithStreamingResponse(
+            client.organization
+        )
+        self.customer = customer.AsyncCustomerResourceWithStreamingResponse(
+            client.customer
+        )
         self.spend = spend.AsyncSpendResourceWithStreamingResponse(client.spend)
         self.global_ = global_.AsyncGlobalResourceWithStreamingResponse(client.global_)
-        self.provider = provider.AsyncProviderResourceWithStreamingResponse(client.provider)
+        self.provider = provider.AsyncProviderResourceWithStreamingResponse(
+            client.provider
+        )
         self.cache = cache.AsyncCacheResourceWithStreamingResponse(client.cache)
-        self.guardrails = guardrails.AsyncGuardrailsResourceWithStreamingResponse(client.guardrails)
+        self.guardrails = guardrails.AsyncGuardrailsResourceWithStreamingResponse(
+            client.guardrails
+        )
         self.add = add.AsyncAddResourceWithStreamingResponse(client.add)
         self.delete = delete.AsyncDeleteResourceWithStreamingResponse(client.delete)
         self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)

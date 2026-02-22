@@ -177,7 +177,7 @@ def _extract_tarball(archive: Path, dest: Path) -> None:
 
         # If not found by name, try extracting all and finding it
         with tempfile.TemporaryDirectory() as tmpdir:
-            tar.extractall(tmpdir)
+            tar.extractall(tmpdir)  # noqa: S202
             for f in Path(tmpdir).rglob(binary_name):
                 if f.is_file():
                     shutil.copy2(f, dest)
@@ -204,7 +204,7 @@ def _extract_zip(archive: Path, dest: Path) -> None:
 
         # If not found, extract all and search
         with tempfile.TemporaryDirectory() as tmpdir:
-            zf.extractall(tmpdir)
+            zf.extractall(tmpdir)  # noqa: S202
             for f in Path(tmpdir).rglob(binary_name):
                 if f.is_file():
                     shutil.copy2(f, dest)

@@ -52,8 +52,7 @@ class TestSearchTool:
 
             # Create test Python file
             python_file = test_dir / "test_module.py"
-            python_file.write_text(
-                """
+            python_file.write_text("""
 def hello_world():
     '''Say hello to the world.'''
     print("Hello, world!")
@@ -85,13 +84,11 @@ def complex_function(data, options=None):
             processed.append(str(item))
     
     return processed
-"""
-            )
+""")
 
             # Create test JavaScript file
             js_file = test_dir / "test_script.js"
-            js_file.write_text(
-                """
+            js_file.write_text("""
 function helloWorld() {
     console.log("Hello, world!");
     return "greeting";
@@ -123,13 +120,11 @@ function complexFunction(data, options = {}) {
     
     return processed;
 }
-"""
-            )
+""")
 
             # Create test documentation file
             md_file = test_dir / "README.md"
-            md_file.write_text(
-                """
+            md_file.write_text("""
 # Test Project
 
 This is a test project for demonstrating search capabilities.
@@ -151,8 +146,7 @@ result = hello_world()
 ## Error Handling
 
 The project includes comprehensive error handling throughout.
-"""
-            )
+""")
 
             yield {
                 "dir": test_dir,
@@ -505,8 +499,7 @@ class TestUnifiedSearchIntegration:
             (test_dir / "__init__.py").touch()
 
             main_file = test_dir / "main.py"
-            main_file.write_text(
-                """
+            main_file.write_text("""
 #!/usr/bin/env python3
 '''Main module for testing search.'''
 
@@ -562,12 +555,10 @@ def main():
 
 if __name__ == "__main__":
     main()
-"""
-            )
+""")
 
             utils_file = test_dir / "utils.py"
-            utils_file.write_text(
-                """
+            utils_file.write_text("""
 '''Utility functions for the test project.'''
 
 import re
@@ -599,8 +590,7 @@ def extract_function_names(code: str) -> List[str]:
     pattern = r'def\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\('
     matches = re.findall(pattern, code)
     return matches
-"""
-            )
+""")
 
             yield {"dir": test_dir, "main": main_file, "utils": utils_file}
 

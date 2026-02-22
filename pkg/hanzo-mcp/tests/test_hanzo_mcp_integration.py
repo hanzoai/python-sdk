@@ -115,13 +115,11 @@ class TestHanzoMCPIntegration:
         # Create test files with content
         for i in range(3):
             test_file = temp_dir / f"file{i}.py"
-            test_file.write_text(
-                f"""
+            test_file.write_text(f"""
 def function_{i}():
     # TODO: Implement this function
     return "result_{i}"
-"""
-            )
+""")
 
         # Test search
         search_result = await mcp_server.mcp.call_tool(
@@ -155,8 +153,7 @@ def function_{i}():
         """Test integration with Claude CLI."""
         # Create a simple test script that uses hanzo-mcp
         test_script = temp_dir / "test_claude.py"
-        test_script.write_text(
-            """
+        test_script.write_text("""
 import subprocess
 import json
 
@@ -168,8 +165,7 @@ result = subprocess.run([
 ], capture_output=True, text=True)
 
 print(result.stdout)
-"""
-        )
+""")
 
         # Run the test script
         result = subprocess.run(
@@ -187,8 +183,7 @@ print(result.stdout)
         """Test a workflow using multiple tools."""
         # Create a Python file with issues
         test_file = temp_dir / "buggy.py"
-        test_file.write_text(
-            """
+        test_file.write_text("""
 def calculate_sum(a, b):
     # TODO: Add type hints
     result = a + b
@@ -199,8 +194,7 @@ def main():
     # This will fail with strings
     result = calculate_sum("10", "20")
     print(result)
-"""
-        )
+""")
 
         # 1. Search for TODOs
         search_result = await mcp_server.mcp.call_tool(
