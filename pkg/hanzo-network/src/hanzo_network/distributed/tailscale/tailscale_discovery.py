@@ -53,7 +53,9 @@ class TailscaleDiscovery(Discovery):
         self.device_capabilities = await device_capabilities()
         self.discovery_task = asyncio.create_task(self.task_discover_peers())
         self.cleanup_task = asyncio.create_task(self.task_cleanup_peers())
-        self.update_task = asyncio.create_task(self.task_update_device_posture_attributes())
+        self.update_task = asyncio.create_task(
+            self.task_update_device_posture_attributes()
+        )
 
     async def task_update_device_posture_attributes(self):
         while True:
@@ -85,45 +87,60 @@ class TailscaleDiscovery(Discovery):
     async def task_discover_peers(self):
         while True:
             try:
-                devices: dict[str, Device] = await get_tailscale_devices(self.tailscale_api_key, self.tailnet)
+                devices: dict[str, Device] = await get_tailscale_devices(
+                    self.tailscale_api_key, self.tailnet
+                )
                 current_time = time.time()
 
                 active_devices = {
                     name: device
                     for name, device in devices.items()
-                    if device.last_seen is not None and (current_time - device.last_seen.timestamp()) < 30
+                    if device.last_seen is not None
+                    and (current_time - device.last_seen.timestamp()) < 30
                 }
 
                 if DEBUG_DISCOVERY >= 4:
                     print(f"Found tailscale devices: {devices}")
                 if DEBUG_DISCOVERY >= 2:
-                    print(f"Active tailscale devices: {len(active_devices)}/{len(devices)}")
+                    print(
+                        f"Active tailscale devices: {len(active_devices)}/{len(devices)}"
+                    )
                 if DEBUG_DISCOVERY >= 2:
                     print(
                         "Time since last seen tailscale devices",
-                        [(current_time - device.last_seen.timestamp()) for device in devices.values()],
+                        [
+                            (current_time - device.last_seen.timestamp())
+                            for device in devices.values()
+                        ],
                     )
 
                 for device in active_devices.values():
                     if device.name == self.node_id:
                         continue
                     peer_host = device.addresses[0]
-                    peer_id, peer_port, device_capabilities = await get_device_attributes(
-                        device.device_id, self.tailscale_api_key
+                    peer_id, peer_port, device_capabilities = (
+                        await get_device_attributes(
+                            device.device_id, self.tailscale_api_key
+                        )
                     )
                     if not peer_id:
                         if DEBUG_DISCOVERY >= 4:
-                            print(f"{device.device_id} does not have exo node attributes. skipping.")
+                            print(
+                                f"{device.device_id} does not have exo node attributes. skipping."
+                            )
                         continue
 
                     if self.allowed_node_ids and peer_id not in self.allowed_node_ids:
                         if DEBUG_DISCOVERY >= 2:
-                            print(f"Ignoring peer {peer_id} as it's not in the allowed node IDs list")
+                            print(
+                                f"Ignoring peer {peer_id} as it's not in the allowed node IDs list"
+                            )
                         continue
 
                     if (
                         peer_id not in self.known_peers
-                        or self.known_peers[peer_id][0].addr() != f"{peer_host}:{peer_port}"
+                        or self.known_peers[peer_id][0].addr()
+                        != f"{peer_host}:{peer_port}"
                     ):
                         new_peer_handle = self.create_peer_handle(
                             peer_id,
@@ -133,7 +150,9 @@ class TailscaleDiscovery(Discovery):
                         )
                         if not await new_peer_handle.health_check():
                             if DEBUG >= 1:
-                                print(f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Skipping.")
+                                print(
+                                    f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Skipping."
+                                )
                             continue
 
                         if DEBUG >= 1:
@@ -148,7 +167,9 @@ class TailscaleDiscovery(Discovery):
                     else:
                         if not await self.known_peers[peer_id][0].health_check():
                             if DEBUG >= 1:
-                                print(f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Removing.")
+                                print(
+                                    f"Peer {peer_id} at {peer_host}:{peer_port} is not healthy. Removing."
+                                )
                             if peer_id in self.known_peers:
                                 del self.known_peers[peer_id]
                             continue
@@ -183,7 +204,9 @@ class TailscaleDiscovery(Discovery):
         if wait_for_peers > 0:
             while len(self.known_peers) < wait_for_peers:
                 if DEBUG_DISCOVERY >= 2:
-                    print(f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers...")
+                    print(
+                        f"Current peers: {len(self.known_peers)}/{wait_for_peers}. Waiting for more peers..."
+                    )
                 await asyncio.sleep(0.1)
         return [peer_handle for peer_handle, _, _ in self.known_peers.values()]
 
@@ -216,7 +239,9 @@ class TailscaleDiscovery(Discovery):
                     if peer_id in self.known_peers:
                         del self.known_peers[peer_id]
                         if DEBUG_DISCOVERY >= 2:
-                            print(f"Removed peer {peer_id} due to inactivity or failed health check.")
+                            print(
+                                f"Removed peer {peer_id} due to inactivity or failed health check."
+                            )
             except Exception as e:
                 print(f"Error in cleanup peers: {e}")
                 print(traceback.format_exc())
@@ -224,7 +249,9 @@ class TailscaleDiscovery(Discovery):
                 await asyncio.sleep(self.discovery_interval)
 
     async def check_peer(self, peer_id: str, current_time: float) -> bool:
-        peer_handle, connected_at, last_seen = self.known_peers.get(peer_id, (None, None, None))
+        peer_handle, connected_at, last_seen = self.known_peers.get(
+            peer_id, (None, None, None)
+        )
         if peer_handle is None:
             return False
 

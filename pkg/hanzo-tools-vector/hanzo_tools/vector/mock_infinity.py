@@ -58,7 +58,9 @@ class MockQuery:
         self.filters.append(condition)
         return self
 
-    def match_dense(self, column: str, vector: List[float], dtype: str, metric: str, limit: int):
+    def match_dense(
+        self, column: str, vector: List[float], dtype: str, metric: str, limit: int
+    ):
         """Add vector search."""
         self.vector_search = {
             "column": column,

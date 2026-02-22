@@ -36,42 +36,44 @@ class TestMemoryToolsConsolidated(MemoryTestBase):
 
     @pytest.mark.parametrize(
         "tool_class,method_name,params,expected_result",
-        [
-            (
-                CreateMemoriesTool,
-                "create_memory",
-                {
-                    "content": "Test memory content",
-                    "metadata": {"type": "test"},
-                    "importance": 1.0,
-                },
-                "Successfully created memory mem_123",
-            ),
-            (
-                UpdateMemoriesTool,
-                "update_memory",
-                {
-                    "memory_id": "mem_123",
-                    "content": "Updated content",
-                    "metadata": {"type": "updated"},
-                },
-                "Would update memory mem_123",
-            ),
-            (
-                DeleteMemoriesTool,
-                "delete_memory",
-                {"memory_id": "mem_123"},
-                "Successfully deleted memory mem_123",
-            ),
-            (
-                RecallMemoriesTool,
-                "search_memories",
-                {"query": "test query", "limit": 5},
-                "Found 1 relevant memories",
-            ),
-        ]
-        if HANZO_MEMORY_AVAILABLE
-        else [],
+        (
+            [
+                (
+                    CreateMemoriesTool,
+                    "create_memory",
+                    {
+                        "content": "Test memory content",
+                        "metadata": {"type": "test"},
+                        "importance": 1.0,
+                    },
+                    "Successfully created memory mem_123",
+                ),
+                (
+                    UpdateMemoriesTool,
+                    "update_memory",
+                    {
+                        "memory_id": "mem_123",
+                        "content": "Updated content",
+                        "metadata": {"type": "updated"},
+                    },
+                    "Would update memory mem_123",
+                ),
+                (
+                    DeleteMemoriesTool,
+                    "delete_memory",
+                    {"memory_id": "mem_123"},
+                    "Successfully deleted memory mem_123",
+                ),
+                (
+                    RecallMemoriesTool,
+                    "search_memories",
+                    {"query": "test query", "limit": 5},
+                    "Found 1 relevant memories",
+                ),
+            ]
+            if HANZO_MEMORY_AVAILABLE
+            else []
+        ),
     )
     async def test_memory_operations(
         self,

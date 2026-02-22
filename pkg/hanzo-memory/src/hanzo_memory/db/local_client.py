@@ -21,7 +21,9 @@ logger = get_logger()
 class LocalMemoryClient(BaseVectorDB):
     """Local file-based implementation of the vector database."""
 
-    def __init__(self, storage_dir: Optional[Path] = None, enable_markdown: bool = True):
+    def __init__(
+        self, storage_dir: Optional[Path] = None, enable_markdown: bool = True
+    ):
         """Initialize local memory storage.
 
         Args:
@@ -59,7 +61,7 @@ class LocalMemoryClient(BaseVectorDB):
         """Load JSON data from file."""
         if file_path.exists():
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     return json.load(f)
             except Exception as e:
                 logger.error(f"Error loading {file_path}: {e}")
@@ -68,7 +70,7 @@ class LocalMemoryClient(BaseVectorDB):
     def _save_json(self, data: Dict[str, Any], file_path: Path):
         """Save JSON data to file."""
         try:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 json.dump(data, f, indent=2, default=str)
         except Exception as e:
             logger.error(f"Error saving {file_path}: {e}")
@@ -90,7 +92,9 @@ class LocalMemoryClient(BaseVectorDB):
         except Exception as e:
             logger.error(f"Error saving embeddings: {e}")
 
-    def _compute_similarity(self, embedding1: np.ndarray, embedding2: np.ndarray) -> float:
+    def _compute_similarity(
+        self, embedding1: np.ndarray, embedding2: np.ndarray
+    ) -> float:
         """Compute cosine similarity between two embeddings."""
         dot_product = np.dot(embedding1, embedding2)
         norm1 = np.linalg.norm(embedding1)
@@ -174,11 +178,10 @@ class LocalMemoryClient(BaseVectorDB):
             # Calculate similarity if embedding exists
             embedding_key = f"memory_{mem_id}"
             if embedding_key in self.embeddings:
-                similarity = self._compute_similarity(query_vec, self.embeddings[embedding_key])
-                results.append({
-                    "memory": memory,
-                    "similarity": similarity
-                })
+                similarity = self._compute_similarity(
+                    query_vec, self.embeddings[embedding_key]
+                )
+                results.append({"memory": memory, "similarity": similarity})
 
         # Sort by similarity and limit
         results.sort(key=lambda x: x["similarity"], reverse=True)
@@ -186,6 +189,7 @@ class LocalMemoryClient(BaseVectorDB):
 
         # Convert to dataframe-like structure for compatibility
         import pandas as pd
+
         if not results:
             return pd.DataFrame()
 
@@ -193,23 +197,24 @@ class LocalMemoryClient(BaseVectorDB):
         data = []
         for r in results:
             mem = r["memory"]
-            data.append({
-                "memory_id": mem.get("id", mem.get("memory_id")),
-                "project_id": mem.get("project_id"),
-                "user_id": mem.get("user_id"),
-                "content": mem.get("content"),
-                "memory_type": mem.get("memory_type"),
-                "importance": mem.get("importance"),
-                "context": mem.get("context"),
-                "metadata": mem.get("metadata"),
-                "source": mem.get("source"),
-                "created_at": mem.get("created_at"),
-                "updated_at": mem.get("updated_at"),
-                "similarity_score": r["similarity"]
-            })
+            data.append(
+                {
+                    "memory_id": mem.get("id", mem.get("memory_id")),
+                    "project_id": mem.get("project_id"),
+                    "user_id": mem.get("user_id"),
+                    "content": mem.get("content"),
+                    "memory_type": mem.get("memory_type"),
+                    "importance": mem.get("importance"),
+                    "context": mem.get("context"),
+                    "metadata": mem.get("metadata"),
+                    "source": mem.get("source"),
+                    "created_at": mem.get("created_at"),
+                    "updated_at": mem.get("updated_at"),
+                    "similarity_score": r["similarity"],
+                }
+            )
 
         return pd.DataFrame(data)
-
 
     async def search_memories_async(
         self,
@@ -238,11 +243,10 @@ class LocalMemoryClient(BaseVectorDB):
             # Calculate similarity if embedding exists
             embedding_key = f"memory_{mem_id}"
             if embedding_key in self.embeddings:
-                similarity = self._compute_similarity(query_vec, self.embeddings[embedding_key])
-                results.append({
-                    "memory": Memory(**memory),
-                    "similarity": similarity
-                })
+                similarity = self._compute_similarity(
+                    query_vec, self.embeddings[embedding_key]
+                )
+                results.append({"memory": Memory(**memory), "similarity": similarity})
 
         # Sort by similarity and limit
         results.sort(key=lambda x: x["similarity"], reverse=True)
@@ -252,7 +256,7 @@ class LocalMemoryClient(BaseVectorDB):
             MemoryResponse(
                 memory=r["memory"],
                 similarity=r["similarity"],
-                relevance_score=r["similarity"]
+                relevance_score=r["similarity"],
             )
             for r in results
         ]
@@ -359,11 +363,10 @@ class LocalMemoryClient(BaseVectorDB):
             # Calculate similarity
             embedding_key = f"fact_{fact_id}"
             if embedding_key in self.embeddings:
-                similarity = self._compute_similarity(query_vec, self.embeddings[embedding_key])
-                results.append({
-                    "fact": fact,
-                    "similarity": similarity
-                })
+                similarity = self._compute_similarity(
+                    query_vec, self.embeddings[embedding_key]
+                )
+                results.append({"fact": fact, "similarity": similarity})
 
         # Sort and limit
         results.sort(key=lambda x: x["similarity"], reverse=True)
@@ -400,8 +403,8 @@ class LocalMemoryClient(BaseVectorDB):
             metadata={
                 "fact_count": len(project_facts),
                 "entity_count": len(entities),
-                "relation_count": len(relations)
-            }
+                "relation_count": len(relations),
+            },
         )
 
     # Project operations
@@ -462,7 +465,8 @@ class LocalMemoryClient(BaseVectorDB):
 
                 # Delete associated memories
                 memory_ids_to_delete = [
-                    mid for mid, m in self.memories.items()
+                    mid
+                    for mid, m in self.memories.items()
                     if m["project_id"] == project_id
                 ]
                 for mid in memory_ids_to_delete:
@@ -473,7 +477,8 @@ class LocalMemoryClient(BaseVectorDB):
 
                 # Delete associated facts
                 fact_ids_to_delete = [
-                    fid for fid, f in self.facts.items()
+                    fid
+                    for fid, f in self.facts.items()
                     if f["project_id"] == project_id
                 ]
                 for fid in fact_ids_to_delete:
@@ -490,6 +495,7 @@ class LocalMemoryClient(BaseVectorDB):
 
                 return True
         return False
+
     # Additional abstract methods implementation
     async def create_memories_table(self, user_id: str = None) -> None:
         """Create memories table (no-op for local storage)."""
@@ -516,7 +522,9 @@ class LocalMemoryClient(BaseVectorDB):
             "project_id": project_id,
             "user_id": user_id,
             "content": content,
-            "memory_type": metadata.get("memory_type", "general") if metadata else "general",
+            "memory_type": (
+                metadata.get("memory_type", "general") if metadata else "general"
+            ),
             "importance": importance,
             "context": metadata.get("context", {}) if metadata else {},
             "metadata": metadata or {},
@@ -560,7 +568,9 @@ class LocalMemoryClient(BaseVectorDB):
             return True
         return False
 
-    async def create_knowledge_base(self, name: str, description: str, project_id: str) -> KnowledgeBase:
+    async def create_knowledge_base(
+        self, name: str, description: str, project_id: str
+    ) -> KnowledgeBase:
         """Create a knowledge base."""
         return await self.get_knowledge_graph(project_id)
 
@@ -568,7 +578,9 @@ class LocalMemoryClient(BaseVectorDB):
         """Get all knowledge bases for a project."""
         return [await self.get_knowledge_graph(project_id)]
 
-    async def create_chat_session(self, project_id: str, user_id: Optional[str] = None) -> str:
+    async def create_chat_session(
+        self, project_id: str, user_id: Optional[str] = None
+    ) -> str:
         """Create a new chat session."""
         session_id = str(uuid.uuid4())
         if not hasattr(self, "chat_sessions"):
@@ -578,7 +590,7 @@ class LocalMemoryClient(BaseVectorDB):
             "project_id": project_id,
             "user_id": user_id or "default",
             "messages": [],
-            "created_at": datetime.utcnow().isoformat()
+            "created_at": datetime.utcnow().isoformat(),
         }
         return session_id
 
@@ -587,11 +599,13 @@ class LocalMemoryClient(BaseVectorDB):
         if not hasattr(self, "chat_sessions"):
             self.chat_sessions = {}
         if session_id in self.chat_sessions:
-            self.chat_sessions[session_id]["messages"].append({
-                "role": role,
-                "content": content,
-                "timestamp": datetime.utcnow().isoformat()
-            })
+            self.chat_sessions[session_id]["messages"].append(
+                {
+                    "role": role,
+                    "content": content,
+                    "timestamp": datetime.utcnow().isoformat(),
+                }
+            )
 
     async def get_chat_messages(self, session_id: str) -> List[Dict[str, Any]]:
         """Get messages from a chat session."""
@@ -601,7 +615,9 @@ class LocalMemoryClient(BaseVectorDB):
             return self.chat_sessions[session_id]["messages"]
         return []
 
-    async def search_chat_messages(self, query: str, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def search_chat_messages(
+        self, query: str, session_id: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """Search chat messages."""
         if not hasattr(self, "chat_sessions"):
             return []
@@ -684,8 +700,7 @@ class LocalMemoryClient(BaseVectorDB):
                 # Check if this memory already exists (by source)
                 source = memory_create.source
                 existing = any(
-                    m.get("source") == source
-                    for m in self.memories.values()
+                    m.get("source") == source for m in self.memories.values()
                 )
 
                 if not existing:
@@ -709,8 +724,9 @@ class LocalMemoryClient(BaseVectorDB):
 
             if imported_count > 0:
                 self._save_json(self.memories, self.memories_file)
-                logger.info(f"Imported {imported_count} new memories from markdown files")
+                logger.info(
+                    f"Imported {imported_count} new memories from markdown files"
+                )
 
         except Exception as e:
             logger.error(f"Error importing markdown memories: {e}")
-

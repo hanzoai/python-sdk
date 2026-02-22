@@ -101,7 +101,9 @@ async def test_plaintext_agent_no_tool_calls_multiple_messages_is_final_output()
 
 @pytest.mark.asyncio
 async def test_plaintext_agent_with_tool_call_is_run_again():
-    agent = Agent(name="test", tools=[get_function_tool(name="test", return_value="123")])
+    agent = Agent(
+        name="test", tools=[get_function_tool(name="test", return_value="123")]
+    )
     response = ModelResponse(
         output=[get_text_message("hello_world"), get_function_tool_call("test", "")],
         usage=Usage(),
@@ -182,7 +184,9 @@ class Foo(BaseModel):
 
 @pytest.mark.asyncio
 async def test_final_output_without_tool_runs_again():
-    agent = Agent(name="test", output_type=Foo, tools=[get_function_tool("tool_1", "result")])
+    agent = Agent(
+        name="test", output_type=Foo, tools=[get_function_tool("tool_1", "result")]
+    )
     response = ModelResponse(
         output=[get_function_tool_call("tool_1")],
         usage=Usage(),
@@ -191,7 +195,9 @@ async def test_final_output_without_tool_runs_again():
     result = await get_execute_result(agent, response)
 
     assert isinstance(result.next_step, NextStepRunAgain)
-    assert len(result.generated_items) == 2, "expected 2 items: tool call, tool call output"
+    assert (
+        len(result.generated_items) == 2
+    ), "expected 2 items: tool call, tool call output"
 
 
 @pytest.mark.asyncio

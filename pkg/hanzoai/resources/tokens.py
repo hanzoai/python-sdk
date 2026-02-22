@@ -66,7 +66,10 @@ class TokensResource(SyncAPIResource):
         return self._get(
             f"/network/tokens/{token_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -95,7 +98,10 @@ class TokensResource(SyncAPIResource):
                 "decimals": decimals,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -116,7 +122,10 @@ class TokensResource(SyncAPIResource):
             f"/network/tokens/{token_id}/mint",
             body={"to_address": to_address, "amount": amount},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -136,7 +145,10 @@ class TokensResource(SyncAPIResource):
             f"/network/tokens/{token_id}/burn",
             body={"amount": amount},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -210,7 +222,10 @@ class AsyncTokensResource(AsyncAPIResource):
         return await self._get(
             f"/network/tokens/{token_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -238,7 +253,10 @@ class AsyncTokensResource(AsyncAPIResource):
                 "decimals": decimals,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -258,7 +276,10 @@ class AsyncTokensResource(AsyncAPIResource):
             f"/network/tokens/{token_id}/mint",
             body={"to_address": to_address, "amount": amount},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -277,7 +298,10 @@ class AsyncTokensResource(AsyncAPIResource):
             f"/network/tokens/{token_id}/burn",
             body={"amount": amount},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

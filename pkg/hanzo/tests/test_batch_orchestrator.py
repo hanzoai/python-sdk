@@ -210,7 +210,9 @@ class TestBatchOrchestrator:
 
         mock_mcp_client.call_tool.side_effect = [
             "file1.py\nfile2.py\nfile3.py\nfile4.py",  # Find files
-        ] + [delayed_response] * 4  # 4 agent tasks
+        ] + [
+            delayed_response
+        ] * 4  # 4 agent tasks
 
         import time
 
@@ -257,7 +259,9 @@ class TestGitWorktreeIntegration:
         import subprocess
 
         subprocess.run(["git", "init"], capture_output=True)
-        subprocess.run(["git", "config", "user.email", "test@example.com"], capture_output=True)
+        subprocess.run(
+            ["git", "config", "user.email", "test@example.com"], capture_output=True
+        )
         subprocess.run(["git", "config", "user.name", "Test User"], capture_output=True)
 
         # Create initial commit
@@ -329,7 +333,9 @@ class TestMetaAIOrchestrator:
         # Mock file finding to avoid filesystem scan
         meta_orchestrator.mcp_client.call_tool.return_value = "file1.py\nfile2.py"
 
-        result = await meta_orchestrator.parse_and_execute("batch:5 files:*.py add copyright")
+        result = await meta_orchestrator.parse_and_execute(
+            "batch:5 files:*.py add copyright"
+        )
 
         # Should recognize as batch command
         assert "total_tasks" in result or "error" not in result
@@ -348,7 +354,9 @@ class TestMetaAIOrchestrator:
         }
         """
 
-        intent = await meta_orchestrator._analyze_intent("Add copyright headers to all Python files")
+        intent = await meta_orchestrator._analyze_intent(
+            "Add copyright headers to all Python files"
+        )
 
         assert intent["type"] == "batch_operation"
 
@@ -398,7 +406,9 @@ class TestBatchOrchestratorIntegration:
 
         try:
             # Execute batch
-            summary = await orchestrator.execute_batch("batch:3 files:test_batch/*.txt add header")
+            summary = await orchestrator.execute_batch(
+                "batch:3 files:test_batch/*.txt add header"
+            )
 
             assert summary["completed"] == 3
             assert summary["failed"] == 0

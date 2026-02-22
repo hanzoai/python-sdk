@@ -200,7 +200,9 @@ def _parse_tokens(tokens: TokenList) -> ASTDict:
         if t.startswith("{") and t.endswith("}"):
             inner: str = t[1:-1].strip()
             inner_tokens: TokenList = _tokenize_parallel_fast(inner)
-            steps: List[ASTNode] = [_parse_single(tok) for tok in inner_tokens if tok and tok != "&"]
+            steps: List[ASTNode] = [
+                _parse_single(tok) for tok in inner_tokens if tok and tok != "&"
+            ]
             return {"type": TYPE_ALL, "steps": steps}
 
     # Parse as sequential
@@ -213,7 +215,9 @@ def _parse_tokens(tokens: TokenList) -> ASTDict:
         elif token.startswith("{") and token.endswith("}"):
             inner = token[1:-1].strip()
             inner_tokens = _tokenize_parallel_fast(inner)
-            inner_steps: List[ASTNode] = [_parse_single(tok) for tok in inner_tokens if tok and tok != "&"]
+            inner_steps: List[ASTNode] = [
+                _parse_single(tok) for tok in inner_tokens if tok and tok != "&"
+            ]
             if len(inner_steps) == 1:
                 steps_append(inner_steps[0])
             else:
@@ -424,7 +428,9 @@ def compile(source: str, format: str = "commands", cached: bool = False) -> Any:
     if cached:
         ast_tuple: ASTTuple | str = _parse_cached(source)
         result: ASTNode = _tuple_to_dict(ast_tuple)
-        ast = result if isinstance(result, dict) else {"type": TYPE_DO, "steps": [result]}
+        ast = (
+            result if isinstance(result, dict) else {"type": TYPE_DO, "steps": [result]}
+        )
     else:
         ast = parse(source)
 

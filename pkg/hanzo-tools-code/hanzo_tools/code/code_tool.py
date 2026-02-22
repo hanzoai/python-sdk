@@ -225,10 +225,18 @@ All operations are PURE - safe to cache and parallelize.
                 "type_alias_declaration",
             ],
             "go": ["function_declaration", "method_declaration", "type_declaration"],
-            "rust": ["function_item", "struct_item", "enum_item", "impl_item", "trait_item"],
+            "rust": [
+                "function_item",
+                "struct_item",
+                "enum_item",
+                "impl_item",
+                "trait_item",
+            ],
         }
 
-        types_to_find = symbol_types.get(lang, ["function_definition", "class_definition"])
+        types_to_find = symbol_types.get(
+            lang, ["function_definition", "class_definition"]
+        )
 
         def walk(node: dict, parent_name: str = ""):
             node_type = node.get("type", "")
@@ -297,7 +305,9 @@ All operations are PURE - safe to cache and parallelize.
             new_text, count = re.subn(match, replace, text)
             return new_text, count
         except re.error as e:
-            raise InvalidParamsError(f"Invalid regex pattern: {e}", param="match_pattern")
+            raise InvalidParamsError(
+                f"Invalid regex pattern: {e}", param="match_pattern"
+            )
 
     def _register_code_actions(self):
         """Register all code actions."""
@@ -323,7 +333,9 @@ All operations are PURE - safe to cache and parallelize.
             Cache: hash(text)
             """
             if path and not text:
-                full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                full_path = (
+                    Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                )
                 if not full_path.exists():
                     raise NotFoundError(f"File not found: {path}", uri=str(full_path))
                 text = full_path.read_text()
@@ -395,7 +407,11 @@ All operations are PURE - safe to cache and parallelize.
             """
             if ast is None:
                 if path and not text:
-                    full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                    full_path = (
+                        Path(path)
+                        if Path(path).is_absolute()
+                        else Path(self.cwd) / path
+                    )
                     if not full_path.exists():
                         raise NotFoundError(f"File not found: {path}")
                     text = full_path.read_text()
@@ -408,7 +424,9 @@ All operations are PURE - safe to cache and parallelize.
                 ast = parsed
                 lang = detected_lang
 
-            symbols_list = self._extract_symbols(ast, lang or ast.get("lang", "unknown"))
+            symbols_list = self._extract_symbols(
+                ast, lang or ast.get("lang", "unknown")
+            )
 
             return {
                 "symbols": symbols_list,
@@ -488,7 +506,9 @@ All operations are PURE - safe to cache and parallelize.
             """
             # Load text if path provided
             if path and not text:
-                full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                full_path = (
+                    Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+                )
                 if not full_path.exists():
                     raise NotFoundError(f"File not found: {path}")
                 text = full_path.read_text()
@@ -507,8 +527,12 @@ All operations are PURE - safe to cache and parallelize.
 
             elif kind == "codemod":
                 if not match_pattern or replace_template is None:
-                    raise InvalidParamsError("codemod requires match_pattern and replace_template")
-                text, changes_count = self._apply_codemod(text, match_pattern, replace_template)
+                    raise InvalidParamsError(
+                        "codemod requires match_pattern and replace_template"
+                    )
+                text, changes_count = self._apply_codemod(
+                    text, match_pattern, replace_template
+                )
 
             else:
                 raise InvalidParamsError(
@@ -555,11 +579,21 @@ All operations are PURE - safe to cache and parallelize.
             if diff:
                 # Analyze diff
                 lines = diff.split("\n")
-                adds = sum(1 for l in lines if l.startswith("+") and not l.startswith("+++"))
-                dels = sum(1 for l in lines if l.startswith("-") and not l.startswith("---"))
-                files = [l[6:] for l in lines if l.startswith("+++ b/")]
+                adds = sum(
+                    1
+                    for line in lines
+                    if line.startswith("+") and not line.startswith("+++")
+                )
+                dels = sum(
+                    1
+                    for line in lines
+                    if line.startswith("-") and not line.startswith("---")
+                )
+                files = [line[6:] for line in lines if line.startswith("+++ b/")]
 
-                summary_parts.append(f"Patch: +{adds}/-{dels} lines across {len(files)} file(s)")
+                summary_parts.append(
+                    f"Patch: +{adds}/-{dels} lines across {len(files)} file(s)"
+                )
 
                 if adds + dels > 100:
                     risks.append("Large change - review carefully")
@@ -572,7 +606,9 @@ All operations are PURE - safe to cache and parallelize.
             if log:
                 summary_parts.append(f"History: {len(log)} commit(s)")
                 if log:
-                    latest = log[0] if isinstance(log[0], dict) else {"message": str(log[0])}
+                    latest = (
+                        log[0] if isinstance(log[0], dict) else {"message": str(log[0])}
+                    )
                     summary_parts.append(f"Latest: {latest.get('message', 'N/A')[:50]}")
 
             if report:
@@ -591,9 +627,11 @@ All operations are PURE - safe to cache and parallelize.
                     summary_parts.append("(truncated for summary)")
 
             return {
-                "summary": " | ".join(summary_parts)
-                if summary_parts
-                else "No content to summarize",
+                "summary": (
+                    " | ".join(summary_parts)
+                    if summary_parts
+                    else "No content to summarize"
+                ),
                 "risks": risks,
                 "next_actions": next_actions,
             }

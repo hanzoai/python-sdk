@@ -81,7 +81,9 @@ class ToolExecutor:
             return result
 
         except Exception as e:
-            self.console.print(Panel(f"[bold red]Error:[/bold red] {str(e)}", border_style="red"))
+            self.console.print(
+                Panel(f"[bold red]Error:[/bold red] {str(e)}", border_style="red")
+            )
             raise
 
     async def execute_with_tools(self, user_message: str) -> str:
@@ -133,11 +135,19 @@ Available tool categories:
                 from types import SimpleNamespace
 
                 response = SimpleNamespace(
-                    choices=[SimpleNamespace(message=SimpleNamespace(content=response_text, tool_calls=None))]
+                    choices=[
+                        SimpleNamespace(
+                            message=SimpleNamespace(
+                                content=response_text, tool_calls=None
+                            )
+                        )
+                    ]
                 )
             else:
                 # Legacy LLMClient
-                response = await self.backend.chat(messages=messages, tools=tools, tool_choice="auto")
+                response = await self.backend.chat(
+                    messages=messages, tools=tools, tool_choice="auto"
+                )
 
             # Extract response
             message = response.choices[0].message
@@ -170,7 +180,11 @@ Available tool categories:
                             {
                                 "role": "tool",
                                 "tool_call_id": tool_call.id,
-                                "content": (json.dumps(result) if not isinstance(result, str) else result),
+                                "content": (
+                                    json.dumps(result)
+                                    if not isinstance(result, str)
+                                    else result
+                                ),
                             }
                         )
 
@@ -191,7 +205,9 @@ Available tool categories:
             final_response = message.content
 
             # Add to history
-            self.conversation_history.append({"role": "assistant", "content": final_response})
+            self.conversation_history.append(
+                {"role": "assistant", "content": final_response}
+            )
 
             break
 

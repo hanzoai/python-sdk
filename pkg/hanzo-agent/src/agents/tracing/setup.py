@@ -83,7 +83,9 @@ class SynchronousMultiTracingProcessor(TracingProcessor):
 class TraceProvider:
     def __init__(self):
         self._multi_processor = SynchronousMultiTracingProcessor()
-        self._disabled = os.environ.get("OPENAI_AGENTS_DISABLE_TRACING", "false").lower() in (
+        self._disabled = os.environ.get(
+            "OPENAI_AGENTS_DISABLE_TRACING", "false"
+        ).lower() in (
             "true",
             "1",
         )
@@ -168,7 +170,9 @@ class TraceProvider:
                     "Returning NoOpSpan."
                 )
                 return NoOpSpan(span_data)
-            elif isinstance(current_trace, NoOpTrace) or isinstance(current_span, NoOpSpan):
+            elif isinstance(current_trace, NoOpTrace) or isinstance(
+                current_span, NoOpSpan
+            ):
                 logger.debug(
                     f"Parent {current_span} or {current_trace} is no-op, returning NoOpSpan"
                 )

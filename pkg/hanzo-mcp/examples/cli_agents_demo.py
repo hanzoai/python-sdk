@@ -96,8 +96,7 @@ def show_swarm_examples():
     print("=" * 60)
 
     print("\n1. Multi-Agent Code Review:")
-    print(
-        """
+    print("""
 swarm(
     tasks=[
         {
@@ -118,12 +117,10 @@ swarm(
     ],
     common_instructions="Provide specific, actionable feedback"
 )
-"""
-    )
+""")
 
     print("\n2. Parallel Refactoring with Different Agents:")
-    print(
-        """
+    print("""
 swarm(
     tasks=[
         {
@@ -143,12 +140,10 @@ swarm(
         }
     ]
 )
-"""
-    )
+""")
 
     print("\n3. Consensus-Based Decision Making:")
-    print(
-        """
+    print("""
 # Get multiple perspectives on the same problem
 consensus_prompt = "Should we migrate from REST to GraphQL for our API?"
 
@@ -159,8 +154,7 @@ gemini_response = await gemini_cli(prompts=consensus_prompt)
 grok_response = await grok_cli(prompts=consensus_prompt)
 
 # Synthesize responses for a balanced decision
-"""
-    )
+""")
 
 
 def show_auth_management():

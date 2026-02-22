@@ -172,7 +172,9 @@ class MCPTool(BaseTool):
     def _auto_start_servers(self):
         """Auto-start servers configured for auto-start."""
         for name, server_config in self.config.get("servers", {}).items():
-            if server_config.get("enabled", False) and server_config.get("auto_start", False):
+            if server_config.get("enabled", False) and server_config.get(
+                "auto_start", False
+            ):
                 self._start_server(name, server_config)
 
     def _start_server(self, name: str, config: Dict[str, Any]) -> bool:
@@ -199,7 +201,9 @@ class MCPTool(BaseTool):
             cmd = [config["command"]] + config.get("args", [])
 
             # Create log directory
-            log_dir = Path(self.config.get("log_dir", str(Path.home() / ".hanzo" / "mcp" / "logs")))
+            log_dir = Path(
+                self.config.get("log_dir", str(Path.home() / ".hanzo" / "mcp" / "logs"))
+            )
             log_dir.mkdir(parents=True, exist_ok=True)
 
             # Start process
@@ -303,11 +307,11 @@ Status: {enabled} enabled, {running} running"""
         elif action == "restart":
             return self._handle_restart(params.get("name"))
         elif action == "config":
-            return self._handle_config(params.get("config_key"), params.get("config_value"))
-        else:
-            return (
-                f"Error: Unknown action '{action}'. Valid actions: list, add, remove, enable, disable, restart, config"
+            return self._handle_config(
+                params.get("config_key"), params.get("config_value")
             )
+        else:
+            return f"Error: Unknown action '{action}'. Valid actions: list, add, remove, enable, disable, restart, config"
 
     def _handle_list(self) -> str:
         """List all MCP servers."""
@@ -351,7 +355,9 @@ Status: {enabled} enabled, {running} running"""
             output.append(f"{name}: {status}")
             if config.get("description"):
                 output.append(f"  Description: {config['description']}")
-            output.append(f"  Command: {config['command']} {' '.join(config.get('args', []))}")
+            output.append(
+                f"  Command: {config['command']} {' '.join(config.get('args', []))}"
+            )
 
             if config.get("env"):
                 env_str = ", ".join([f"{k}={v}" for k, v in config["env"].items()])
@@ -492,7 +498,11 @@ Status: {enabled} enabled, {running} running"""
                 else:
                     return f"Configuration key '{key}' not found"
 
-            return json.dumps(current, indent=2) if isinstance(current, (dict, list)) else str(current)
+            return (
+                json.dumps(current, indent=2)
+                if isinstance(current, (dict, list))
+                else str(current)
+            )
         else:
             # Set value
             # Navigate to parent
@@ -503,7 +513,11 @@ Status: {enabled} enabled, {running} running"""
                 current = current[k]
 
             # Parse value if it looks like JSON
-            if isinstance(value, str) and value.startswith("{") or value.startswith("["):
+            if (
+                isinstance(value, str)
+                and value.startswith("{")
+                or value.startswith("[")
+            ):
                 try:
                     value = json.loads(value)
                 except Exception:

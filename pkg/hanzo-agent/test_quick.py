@@ -5,7 +5,8 @@ Quick test of Agent SDK
 
 import os
 import sys
-sys.path.insert(0, 'src')
+
+sys.path.insert(0, "src")
 
 # For synchronous execution
 from agents import Agent, Runner
@@ -31,22 +32,20 @@ try:
     print(f"Answer: {result.final_output}")
 except Exception as e:
     print(f"Error: {e}")
-    
+
     # Try with explicit provider
     print("\nTrying with Hanzo Router...")
     from agents.models.openai_provider import OpenAIProvider
-    
-    provider = OpenAIProvider(
-        base_url="http://localhost:4000/v1",
-        api_key="sk-1234"
-    )
-    
+
+    provider = OpenAIProvider(base_url="http://localhost:4000/v1", api_key="sk-1234")
+
     try:
         from agents import RunConfig
+
         result = Runner.run_sync(
-            agent, 
+            agent,
             "What's 1+2?",
-            run_config=RunConfig(model_provider=provider, model="gpt-3.5-turbo")
+            run_config=RunConfig(model_provider=provider, model="gpt-3.5-turbo"),
         )
         print(f"Answer: {result.final_output}")
     except Exception as e2:

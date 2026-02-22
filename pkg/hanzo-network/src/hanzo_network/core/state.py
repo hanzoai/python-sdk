@@ -4,7 +4,6 @@ from typing import Any, Dict, List, Optional, TypeVar, Generic
 from dataclasses import dataclass, field
 from datetime import datetime
 
-
 T = TypeVar("T")
 
 
@@ -50,7 +49,9 @@ class NetworkState(Generic[T]):
         self.execution_count: int = 0
         self.metadata: Dict[str, Any] = {}
 
-    def add_message(self, role: str, content: str, agent_id: Optional[str] = None, **metadata) -> None:
+    def add_message(
+        self, role: str, content: str, agent_id: Optional[str] = None, **metadata
+    ) -> None:
         """Add a message to the conversation history.
 
         Args:
@@ -59,7 +60,9 @@ class NetworkState(Generic[T]):
             agent_id: ID of the agent that generated this message
             **metadata: Additional metadata for the message
         """
-        self.messages.append(Message(role=role, content=content, agent_id=agent_id, metadata=metadata))
+        self.messages.append(
+            Message(role=role, content=content, agent_id=agent_id, metadata=metadata)
+        )
 
     def get_messages(
         self,

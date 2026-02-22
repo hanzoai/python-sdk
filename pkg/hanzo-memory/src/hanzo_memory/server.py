@@ -268,7 +268,7 @@ async def update_memory_endpoint(
         user_id=request.userid,
         memory_id=request.memoryid,
         project_id=request.projectid,
-        **update_params
+        **update_params,
     )
 
     if not updated_memory:

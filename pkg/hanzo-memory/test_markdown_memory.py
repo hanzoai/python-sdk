@@ -34,7 +34,9 @@ async def test_markdown_memory():
     md_files = reader.find_markdown_files()
 
     if not md_files:
-        console.print("  [yellow]No markdown files found in watched directories[/yellow]")
+        console.print(
+            "  [yellow]No markdown files found in watched directories[/yellow]"
+        )
         console.print("  Watched directories:")
         for dir in reader.watch_dirs[:5]:
             console.print(f"    - {dir}")
@@ -57,7 +59,9 @@ async def test_markdown_memory():
 
     # Get the markdown import project
     projects = await client.list_projects()
-    markdown_project = next((p for p in projects if p.project_id == "markdown_import"), None)
+    markdown_project = next(
+        (p for p in projects if p.project_id == "markdown_import"), None
+    )
 
     if markdown_project:
         console.print(f"  ✅ Found markdown import project: {markdown_project.name}")
@@ -77,13 +81,16 @@ async def test_markdown_memory():
             # Show sample memories
             console.print("\n  [bold]Sample imported memories:[/bold]")
             sample_memories = [
-                m for m in client.memories.values()
+                m
+                for m in client.memories.values()
                 if m.get("project_id") == "markdown_import"
             ][:3]
 
             for i, memory in enumerate(sample_memories, 1):
                 source_file = memory.get("context", {}).get("file_name", "Unknown")
-                section_title = memory.get("context", {}).get("section_title", "No title")
+                section_title = memory.get("context", {}).get(
+                    "section_title", "No title"
+                )
                 content_preview = memory.get("content", "")[:100] + "..."
                 importance = memory.get("importance", 0)
 
@@ -94,11 +101,13 @@ async def test_markdown_memory():
                     f"[bold]Type:[/bold] {memory.get('memory_type', 'unknown')}\n"
                     f"[bold]Importance:[/bold] {importance:.2f}",
                     title=f"Memory {i}",
-                    border_style="blue"
+                    border_style="blue",
                 )
                 console.print(panel)
         else:
-            console.print("  [yellow]No memories found in markdown import project[/yellow]")
+            console.print(
+                "  [yellow]No memories found in markdown import project[/yellow]"
+            )
     else:
         console.print("  [yellow]No markdown import project found[/yellow]")
 
@@ -111,13 +120,11 @@ async def test_markdown_memory():
         memory_type="test",
         importance=0.5,
         context={"test": True},
-        source="test_script"
+        source="test_script",
     )
 
     created_memory = await client.create_memory(
-        test_memory,
-        project_id="test_project",
-        user_id="test_user"
+        test_memory, project_id="test_project", user_id="test_user"
     )
 
     console.print(f"  ✅ Created test memory with ID: {created_memory.id}")
@@ -125,9 +132,7 @@ async def test_markdown_memory():
     # Test searching (without embeddings for now)
     console.print("\n[bold]🔎 Testing memory retrieval:[/bold]")
     recent_memories = await client.get_recent_memories(
-        project_id="test_project",
-        user_id="test_user",
-        limit=5
+        project_id="test_project", user_id="test_user", limit=5
     )
 
     console.print(f"  Found {len(recent_memories)} recent memories")

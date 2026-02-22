@@ -1,4 +1,3 @@
-
 """Reflexion module for agent self-correction and rule management.
 
 This module provides capabilities for agents to:
@@ -15,14 +14,17 @@ from .memory import Memory, MemoryType
 
 logger = structlog.get_logger()
 
+
 class Rule(BaseModel):
     """A behavioral rule for the agent."""
+
     id: str
     content: str
     context: str = "general"
     confidence: float = 1.0
     created_at: float
     updated_at: float
+
 
 class ReflexionEngine:
     """Engine for managing agent reflection and rules."""
@@ -43,12 +45,13 @@ class ReflexionEngine:
         # functionality will use memory.remember(content=f"Rule: {content}", metadata={"type": "rule", "context": context})
         import time
         import uuid
+
         rule = Rule(
             id=str(uuid.uuid4()),
             content=content,
             context=context,
             created_at=time.time(),
-            updated_at=time.time()
+            updated_at=time.time(),
         )
         if context not in self.rules:
             self.rules[context] = []
@@ -60,12 +63,16 @@ class ReflexionEngine:
         # Simple heuristic for now: if failed, suggest checking the error.
         reflections = []
         if not success:
-            reflections.append(f"Reflection: Task '{task}' failed. Consider input validation.")
+            reflections.append(
+                f"Reflection: Task '{task}' failed. Consider input validation."
+            )
             reflections.append(f"Reflection: Analyze error message: {outcome}")
         else:
-            reflections.append(f"Reflection: Task '{task}' succeeded. Reinforce this path.")
-            
+            reflections.append(
+                f"Reflection: Task '{task}' succeeded. Reinforce this path."
+            )
+
         # Todo: In production, call an LLM here to analyze the trace:
         # response = await self.llm.generate(f"Analyze this execution: {task} -> {outcome}")
-        
+
         return reflections

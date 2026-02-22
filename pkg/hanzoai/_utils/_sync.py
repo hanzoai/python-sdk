@@ -88,7 +88,9 @@ def asyncify(
     and returns the result.
     """
 
-    async def wrapper(*args: T_ParamSpec.args, **kwargs: T_ParamSpec.kwargs) -> T_Retval:
+    async def wrapper(
+        *args: T_ParamSpec.args, **kwargs: T_ParamSpec.kwargs
+    ) -> T_Retval:
         return await to_thread(function, *args, **kwargs)
 
     return wrapper

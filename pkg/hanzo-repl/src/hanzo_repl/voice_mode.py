@@ -21,7 +21,9 @@ class VoiceMode:
 
     def __init__(self):
         if not VOICE_AVAILABLE:
-            raise ImportError("Voice dependencies not installed. Run: pip install speechrecognition pyttsx3 pyaudio")
+            raise ImportError(
+                "Voice dependencies not installed. Run: pip install speechrecognition pyttsx3 pyaudio"
+            )
 
         # Speech recognition
         self.recognizer = sr.Recognizer()
@@ -97,7 +99,9 @@ class VoiceMode:
                         self.on_listening_started()
 
                     # Listen with timeout
-                    audio = self.recognizer.listen(source, timeout=1, phrase_time_limit=10)
+                    audio = self.recognizer.listen(
+                        source, timeout=1, phrase_time_limit=10
+                    )
 
                     # Signal listening stopped
                     self.is_listening = False

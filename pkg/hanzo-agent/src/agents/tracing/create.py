@@ -105,7 +105,9 @@ def agent_span(
         The newly created agent span.
     """
     return GLOBAL_TRACE_PROVIDER.create_span(
-        span_data=AgentSpanData(name=name, handoffs=handoffs, tools=tools, output_type=output_type),
+        span_data=AgentSpanData(
+            name=name, handoffs=handoffs, tools=tools, output_type=output_type
+        ),
         span_id=span_id,
         parent=parent,
         disabled=disabled,
@@ -181,7 +183,11 @@ def generation_span(
     """
     return GLOBAL_TRACE_PROVIDER.create_span(
         span_data=GenerationSpanData(
-            input=input, output=output, model=model, model_config=model_config, usage=usage
+            input=input,
+            output=output,
+            model=model,
+            model_config=model_config,
+            usage=usage,
         ),
         span_id=span_id,
         parent=parent,

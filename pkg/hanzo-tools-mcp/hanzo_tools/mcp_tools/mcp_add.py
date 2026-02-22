@@ -189,7 +189,9 @@ Use 'mcp_stats' to see all added servers and their status.
 
                 full_command = shlex.split(command)
 
-        await tool_ctx.info(f"Adding MCP server '{name}' with command: {' '.join(full_command)}")
+        await tool_ctx.info(
+            f"Adding MCP server '{name}' with command: {' '.join(full_command)}"
+        )
 
         # Create server configuration
         server_config = {

@@ -52,7 +52,11 @@ def register_tools(mcp_server, enabled_tools: dict[str, bool] | None = None):
     registered = []
 
     for tool_class in TOOLS:
-        tool_name = tool_class.name if hasattr(tool_class, "name") else tool_class.__name__.lower()
+        tool_name = (
+            tool_class.name
+            if hasattr(tool_class, "name")
+            else tool_class.__name__.lower()
+        )
         if enabled.get(tool_name, True):  # Enabled by default
             try:
                 tool = tool_class()

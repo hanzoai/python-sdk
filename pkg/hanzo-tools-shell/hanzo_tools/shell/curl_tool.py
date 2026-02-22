@@ -162,13 +162,20 @@ Returns formatted response with status, headers (if verbose), and body.
             url: Annotated[str, Field(description="Request URL")],
             method: Method = "GET",
             json_body: Annotated[
-                Optional[str], Field(description="JSON body (will be properly escaped)", alias="json")
+                Optional[str],
+                Field(description="JSON body (will be properly escaped)", alias="json"),
             ] = None,
             data: Annotated[Optional[str], Field(description="Raw body data")] = None,
-            headers: Annotated[Optional[str], Field(description="Headers as JSON object")] = None,
+            headers: Annotated[
+                Optional[str], Field(description="Headers as JSON object")
+            ] = None,
             timeout: Annotated[int, Field(description="Timeout in seconds")] = 30,
-            follow_redirects: Annotated[bool, Field(description="Follow redirects")] = True,
-            verbose: Annotated[bool, Field(description="Include response headers")] = False,
+            follow_redirects: Annotated[
+                bool, Field(description="Follow redirects")
+            ] = True,
+            verbose: Annotated[
+                bool, Field(description="Include response headers")
+            ] = False,
             ctx: MCPContext = None,
         ) -> str:
             """HTTP client - curl without shell escaping issues.

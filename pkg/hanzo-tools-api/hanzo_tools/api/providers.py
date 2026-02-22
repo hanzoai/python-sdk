@@ -15,7 +15,12 @@ from .models import AuthType, ProviderConfig
 
 ENV_VAR_MAPPINGS: dict[str, list[str]] = {
     # Cloud Providers
-    "cloudflare": ["CLOUDFLARE_API_TOKEN", "CF_API_TOKEN", "CLOUDFLARE_API_KEY", "CF_API_KEY"],
+    "cloudflare": [
+        "CLOUDFLARE_API_TOKEN",
+        "CF_API_TOKEN",
+        "CLOUDFLARE_API_KEY",
+        "CF_API_KEY",
+    ],
     "aws": ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"],
     "gcp": ["GOOGLE_APPLICATION_CREDENTIALS", "GCP_API_KEY", "GOOGLE_API_KEY"],
     "azure": ["AZURE_API_KEY", "AZURE_SUBSCRIPTION_KEY"],
@@ -103,7 +108,12 @@ PROVIDER_CONFIGS: dict[str, ProviderConfig] = {
         base_url="https://api.cloudflare.com/client/v4",
         auth_type=AuthType.BEARER,
         spec_url="https://raw.githubusercontent.com/cloudflare/api-schemas/main/openapi.json",
-        env_vars=["CLOUDFLARE_API_TOKEN", "CF_API_TOKEN", "CLOUDFLARE_API_KEY", "CF_API_KEY"],
+        env_vars=[
+            "CLOUDFLARE_API_TOKEN",
+            "CF_API_TOKEN",
+            "CLOUDFLARE_API_KEY",
+            "CF_API_KEY",
+        ],
     ),
     "digitalocean": ProviderConfig(
         name="digitalocean",
@@ -169,7 +179,10 @@ PROVIDER_CONFIGS: dict[str, ProviderConfig] = {
         auth_type=AuthType.BEARER,
         spec_url="https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
         env_vars=["GITHUB_TOKEN", "GH_TOKEN"],
-        extra_headers={"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"},
+        extra_headers={
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
     ),
     "gitlab": ProviderConfig(
         name="gitlab",
@@ -452,7 +465,11 @@ def get_env_vars(provider: str) -> list[str]:
 
 def list_providers() -> list[str]:
     """List all known provider names (1100+ providers)."""
-    return sorted(set(PROVIDER_CONFIGS.keys()) | set(ENV_VAR_MAPPINGS.keys()) | set(APIS_GURU_PROVIDERS.keys()))
+    return sorted(
+        set(PROVIDER_CONFIGS.keys())
+        | set(ENV_VAR_MAPPINGS.keys())
+        | set(APIS_GURU_PROVIDERS.keys())
+    )
 
 
 def list_providers_with_specs() -> list[str]:

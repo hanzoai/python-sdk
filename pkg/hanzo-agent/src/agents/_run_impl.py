@@ -30,7 +30,12 @@ from .agent import Agent
 from .agent_output import AgentOutputSchema
 from .computer import AsyncComputer, Computer
 from .exceptions import AgentsException, ModelBehaviorError, UserError
-from .guardrail import InputGuardrail, InputGuardrailResult, OutputGuardrail, OutputGuardrailResult
+from .guardrail import (
+    InputGuardrail,
+    InputGuardrailResult,
+    OutputGuardrail,
+    OutputGuardrailResult,
+)
 from .handoffs import Handoff, HandoffInputData
 from .items import (
     HandoffCallItem,
@@ -217,17 +222,25 @@ class RunImpl:
             )
 
         # Now we can check if the model also produced a final output
-        message_items = [item for item in new_step_items if isinstance(item, MessageOutputItem)]
+        message_items = [
+            item for item in new_step_items if isinstance(item, MessageOutputItem)
+        ]
 
         # We'll use the last content output as the final output
         potential_final_output_text = (
-            ItemHelpers.extract_last_text(message_items[-1].raw_item) if message_items else None
+            ItemHelpers.extract_last_text(message_items[-1].raw_item)
+            if message_items
+            else None
         )
 
         # There are two possibilities that lead to a final output:
         # 1. Structured output schema => always leads to a final output
         # 2. Plain text output schema => only leads to a final output if there are no tool calls
-        if output_schema and not output_schema.is_plain_text() and potential_final_output_text:
+        if (
+            output_schema
+            and not output_schema.is_plain_text()
+            and potential_final_output_text
+        ):
             final_output = output_schema.validate_json(potential_final_output_text)
             return await cls.execute_final_output(
                 agent=agent,
@@ -278,8 +291,12 @@ class RunImpl:
         computer_actions = []
 
         handoff_map = {handoff.tool_name: handoff for handoff in handoffs}
-        function_map = {tool.name: tool for tool in agent.tools if isinstance(tool, FunctionTool)}
-        computer_tool = next((tool for tool in agent.tools if isinstance(tool, ComputerTool)), None)
+        function_map = {
+            tool.name: tool for tool in agent.tools if isinstance(tool, FunctionTool)
+        }
+        computer_tool = next(
+            (tool for tool in agent.tools if isinstance(tool, ComputerTool)), None
+        )
 
         for output in response.output:
             if isinstance(output, ResponseOutputMessage):
@@ -330,7 +347,9 @@ class RunImpl:
                             data={"tool_name": output.name},
                         )
                     )
-                    raise ModelBehaviorError(f"Tool {output.name} not found in agent {agent.name}")
+                    raise ModelBehaviorError(
+                        f"Tool {output.name} not found in agent {agent.name}"
+                    )
                 items.append(ToolCallItem(raw_item=output, agent=agent))
                 functions.append(
                     ToolRunFunction(
@@ -376,7 +395,9 @@ class RunImpl:
                     await asyncio.gather(
                         hooks.on_tool_end(context_wrapper, agent, func_tool, result),
                         (
-                            agent.hooks.on_tool_end(context_wrapper, agent, func_tool, result)
+                            agent.hooks.on_tool_end(
+                                context_wrapper, agent, func_tool, result
+                            )
                             if agent.hooks
                             else _utils.noop_coroutine()
                         ),
@@ -406,7 +427,9 @@ class RunImpl:
         return [
             ToolCallOutputItem(
                 output=str(result),
-                raw_item=ItemHelpers.tool_call_output_item(tool_run.tool_call, str(result)),
+                raw_item=ItemHelpers.tool_call_output_item(
+                    tool_run.tool_call, str(result)
+                ),
                 agent=agent,
             )
             for tool_run, result in zip(tool_runs, results)
@@ -513,9 +536,11 @@ class RunImpl:
             if input_filter:
                 logger.debug("Filtering inputs for handoff")
                 handoff_input_data = HandoffInputData(
-                    input_history=tuple(original_input)
-                    if isinstance(original_input, list)
-                    else original_input,
+                    input_history=(
+                        tuple(original_input)
+                        if isinstance(original_input, list)
+                        else original_input
+                    ),
                     pre_handoff_items=tuple(pre_step_items),
                     new_items=tuple(new_step_items),
                 )
@@ -589,9 +614,11 @@ class RunImpl:
     ):
         await asyncio.gather(
             hooks.on_agent_end(context_wrapper, agent, final_output),
-            agent.hooks.on_end(context_wrapper, agent, final_output)
-            if agent.hooks
-            else _utils.noop_coroutine(),
+            (
+                agent.hooks.on_end(context_wrapper, agent, final_output)
+                if agent.hooks
+                else _utils.noop_coroutine()
+            ),
         )
 
     @classmethod
@@ -616,7 +643,9 @@ class RunImpl:
         context: RunContextWrapper[TContext],
     ) -> OutputGuardrailResult:
         with guardrail_span(guardrail.get_name()) as span_guardrail:
-            result = await guardrail.run(agent=agent, agent_output=agent_output, context=context)
+            result = await guardrail.run(
+                agent=agent, agent_output=agent_output, context=context
+            )
             span_guardrail.span_data.triggered = result.output.tripwire_triggered
             return result
 
@@ -698,7 +727,9 @@ class ComputerAction:
         output_func = (
             cls._get_screenshot_async(action.computer_tool.computer, action.tool_call)
             if isinstance(action.computer_tool.computer, AsyncComputer)
-            else cls._get_screenshot_sync(action.computer_tool.computer, action.tool_call)
+            else cls._get_screenshot_sync(
+                action.computer_tool.computer, action.tool_call
+            )
         )
 
         _, _, output = await asyncio.gather(
@@ -714,7 +745,9 @@ class ComputerAction:
         await asyncio.gather(
             hooks.on_tool_end(context_wrapper, agent, action.computer_tool, output),
             (
-                agent.hooks.on_tool_end(context_wrapper, agent, action.computer_tool, output)
+                agent.hooks.on_tool_end(
+                    context_wrapper, agent, action.computer_tool, output
+                )
                 if agent.hooks
                 else _utils.noop_coroutine()
             ),

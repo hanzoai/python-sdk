@@ -70,7 +70,9 @@ class CancelResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
+            )
         return self._post(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel",
             options=make_request_options(
@@ -135,7 +137,9 @@ class AsyncCancelResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not fine_tuning_job_id:
-            raise ValueError(f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `fine_tuning_job_id` but received {fine_tuning_job_id!r}"
+            )
         return await self._post(
             f"/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel",
             options=make_request_options(

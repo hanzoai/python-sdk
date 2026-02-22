@@ -36,7 +36,9 @@ def _get_message_output_run_item(content: str) -> MessageOutputItem:
         agent=fake_agent(),
         raw_item=ResponseOutputMessage(
             id="1",
-            content=[ResponseOutputText(text=content, annotations=[], type="output_text")],
+            content=[
+                ResponseOutputText(text=content, annotations=[], type="output_text")
+            ],
             role="assistant",
             status="completed",
             type="message",
@@ -78,13 +80,17 @@ def _get_handoff_output_run_item(content: str) -> HandoffOutputItem:
 
 
 def test_empty_data():
-    handoff_input_data = HandoffInputData(input_history=(), pre_handoff_items=(), new_items=())
+    handoff_input_data = HandoffInputData(
+        input_history=(), pre_handoff_items=(), new_items=()
+    )
     filtered_data = remove_all_tools(handoff_input_data)
     assert filtered_data == handoff_input_data
 
 
 def test_str_historyonly():
-    handoff_input_data = HandoffInputData(input_history="Hello", pre_handoff_items=(), new_items=())
+    handoff_input_data = HandoffInputData(
+        input_history="Hello", pre_handoff_items=(), new_items=()
+    )
     filtered_data = remove_all_tools(handoff_input_data)
     assert filtered_data == handoff_input_data
 

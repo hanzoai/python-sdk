@@ -138,7 +138,11 @@ def get_default_model(model_override: str | None = None) -> str:
     model = os.environ.get("AGENT_MODEL", "claude-3-5-sonnet-20241022")
 
     # Special cases for tests
-    if model.startswith("test-model") or "TEST_MODE" in os.environ and model == "claude-3-5-sonnet-20241022":
+    if (
+        model.startswith("test-model")
+        or "TEST_MODE" in os.environ
+        and model == "claude-3-5-sonnet-20241022"
+    ):
         return model
 
     provider = os.environ.get("AGENT_PROVIDER", "anthropic")

@@ -19,11 +19,17 @@ class APIErrorInfo(BaseModel):
     provider: str | None = Field(default=None, description="Provider involved")
     operation_id: str | None = Field(default=None, description="Operation involved")
     status_code: int | None = Field(default=None, description="HTTP status code")
-    missing_fields: list[str] = Field(default_factory=list, description="Required fields that are missing")
+    missing_fields: list[str] = Field(
+        default_factory=list, description="Required fields that are missing"
+    )
     hint: str | None = Field(default=None, description="Suggested fix")
-    env_vars: list[str] = Field(default_factory=list, description="Environment variables to set")
+    env_vars: list[str] = Field(
+        default_factory=list, description="Environment variables to set"
+    )
     config_command: str | None = Field(default=None, description="CLI command to fix")
-    details: dict[str, Any] | None = Field(default=None, description="Additional error details")
+    details: dict[str, Any] | None = Field(
+        default=None, description="Additional error details"
+    )
 
 
 class APIError(Exception):
@@ -121,7 +127,11 @@ class ProviderNotFoundError(APIError):
             error_type="provider_not_found",
             provider=provider,
             hint=hint,
-            details={"available_providers": available_providers} if available_providers else None,
+            details=(
+                {"available_providers": available_providers}
+                if available_providers
+                else None
+            ),
         )
 
 
@@ -146,7 +156,11 @@ class OperationNotFoundError(APIError):
             provider=provider,
             operation_id=operation_id,
             hint=hint,
-            details={"similar_operations": similar_operations} if similar_operations else None,
+            details=(
+                {"similar_operations": similar_operations}
+                if similar_operations
+                else None
+            ),
         )
 
 

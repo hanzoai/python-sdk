@@ -95,7 +95,9 @@ Returns:
             file_path: Annotated[str, Field(description="Absolute path to the file")],
             old_string: Annotated[str, Field(description="Text to find")],
             new_string: Annotated[str, Field(description="Text to replace with")],
-            expected_replacements: Annotated[int, Field(description="Expected replacements")] = 1,
+            expected_replacements: Annotated[
+                int, Field(description="Expected replacements")
+            ] = 1,
             ctx: MCPContext = None,
         ) -> str:
             """Edit a file by replacing text."""

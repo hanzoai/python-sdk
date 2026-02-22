@@ -88,7 +88,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._get(
             f"/infrastructure/machines/{machine_id}",
             options=make_request_options(
@@ -183,7 +185,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._put(
             f"/infrastructure/machines/{machine_id}",
             body={
@@ -225,7 +229,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._delete(
             f"/infrastructure/machines/{machine_id}",
             options=make_request_options(
@@ -263,7 +269,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._post(
             f"/infrastructure/machines/{machine_id}/start",
             options=make_request_options(
@@ -301,7 +309,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._post(
             f"/infrastructure/machines/{machine_id}/stop",
             options=make_request_options(
@@ -339,7 +349,9 @@ class MachinesResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return self._post(
             f"/infrastructure/machines/{machine_id}/restart",
             options=make_request_options(
@@ -420,7 +432,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._get(
             f"/infrastructure/machines/{machine_id}",
             options=make_request_options(
@@ -515,7 +529,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._put(
             f"/infrastructure/machines/{machine_id}",
             body={
@@ -557,7 +573,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._delete(
             f"/infrastructure/machines/{machine_id}",
             options=make_request_options(
@@ -595,7 +613,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._post(
             f"/infrastructure/machines/{machine_id}/start",
             options=make_request_options(
@@ -633,7 +653,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._post(
             f"/infrastructure/machines/{machine_id}/stop",
             options=make_request_options(
@@ -671,7 +693,9 @@ class AsyncMachinesResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not machine_id:
-            raise ValueError(f"Expected a non-empty value for `machine_id` but received {machine_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `machine_id` but received {machine_id!r}"
+            )
         return await self._post(
             f"/infrastructure/machines/{machine_id}/restart",
             options=make_request_options(

@@ -114,7 +114,9 @@ class TodoStorage:
         for session_id, session_data in cls._sessions.items():
             todos = session_data.get("todos", [])
             # Check for unfinished todos
-            has_unfinished = any(todo.get("status") in ["pending", "in_progress"] for todo in todos)
+            has_unfinished = any(
+                todo.get("status") in ["pending", "in_progress"] for todo in todos
+            )
             if has_unfinished:
                 last_updated = session_data.get("last_updated", 0)
                 if last_updated > latest_timestamp:

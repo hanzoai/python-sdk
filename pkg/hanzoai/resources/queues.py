@@ -43,7 +43,10 @@ class QueuesResource(SyncAPIResource):
         return self._get(
             "/queues",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -62,7 +65,10 @@ class QueuesResource(SyncAPIResource):
             "/queues",
             body={"name": name},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -80,7 +86,10 @@ class QueuesResource(SyncAPIResource):
         return self._delete(
             f"/queues/{queue_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -101,7 +110,10 @@ class QueuesResource(SyncAPIResource):
             f"/queues/{queue_id}/messages",
             body={"message": message, "delay": delay},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -125,7 +137,10 @@ class QueuesResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"batch_size": batch_size, "visibility_timeout": visibility_timeout},
+                query={
+                    "batch_size": batch_size,
+                    "visibility_timeout": visibility_timeout,
+                },
             ),
             cast_to=object,
         )
@@ -144,7 +159,10 @@ class QueuesResource(SyncAPIResource):
         return self._post(
             f"/queues/{queue_id}/messages/{message_id}/ack",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -162,7 +180,10 @@ class QueuesResource(SyncAPIResource):
         return self._get(
             f"/queues/{queue_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -190,7 +211,10 @@ class AsyncQueuesResource(AsyncAPIResource):
         return await self._get(
             "/queues",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -208,7 +232,10 @@ class AsyncQueuesResource(AsyncAPIResource):
             "/queues",
             body={"name": name},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -225,7 +252,10 @@ class AsyncQueuesResource(AsyncAPIResource):
         return await self._delete(
             f"/queues/{queue_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -245,7 +275,10 @@ class AsyncQueuesResource(AsyncAPIResource):
             f"/queues/{queue_id}/messages",
             body={"message": message, "delay": delay},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -268,7 +301,10 @@ class AsyncQueuesResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"batch_size": batch_size, "visibility_timeout": visibility_timeout},
+                query={
+                    "batch_size": batch_size,
+                    "visibility_timeout": visibility_timeout,
+                },
             ),
             cast_to=object,
         )
@@ -286,7 +322,10 @@ class AsyncQueuesResource(AsyncAPIResource):
         return await self._post(
             f"/queues/{queue_id}/messages/{message_id}/ack",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -303,7 +342,10 @@ class AsyncQueuesResource(AsyncAPIResource):
         return await self._get(
             f"/queues/{queue_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

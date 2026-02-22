@@ -93,7 +93,9 @@ class BackendSpanExporter(TracingExporter):
         while True:
             attempt += 1
             try:
-                response = self._client.post(url=self.endpoint, headers=headers, json=payload)
+                response = self._client.post(
+                    url=self.endpoint, headers=headers, json=payload
+                )
 
                 # If the response is successful, break out of the loop
                 if response.status_code < 300:
@@ -102,7 +104,9 @@ class BackendSpanExporter(TracingExporter):
 
                 # If the response is a client error (4xx), we wont retry
                 if 400 <= response.status_code < 500:
-                    logger.error(f"Tracing client error {response.status_code}: {response.text}")
+                    logger.error(
+                        f"Tracing client error {response.status_code}: {response.text}"
+                    )
                     return
 
                 # For 5xx or other unexpected codes, treat it as transient and retry
@@ -151,7 +155,9 @@ class BatchTraceProcessor(TracingProcessor):
             export_trigger_ratio: The ratio of the queue size at which we will trigger an export.
         """
         self._exporter = exporter
-        self._queue: queue.Queue[Trace | Span[Any]] = queue.Queue(maxsize=max_queue_size)
+        self._queue: queue.Queue[Trace | Span[Any]] = queue.Queue(
+            maxsize=max_queue_size
+        )
         self._max_queue_size = max_queue_size
         self._max_batch_size = max_batch_size
         self._schedule_delay = schedule_delay
@@ -206,7 +212,10 @@ class BatchTraceProcessor(TracingProcessor):
             queue_size = self._queue.qsize()
 
             # If it's time for a scheduled flush or queue is above the trigger threshold
-            if current_time >= self._next_export_time or queue_size >= self._export_trigger_size:
+            if (
+                current_time >= self._next_export_time
+                or queue_size >= self._export_trigger_size
+            ):
                 self._export_batches(force=False)
                 # Reset the next scheduled flush time
                 self._next_export_time = time.time() + self._schedule_delay

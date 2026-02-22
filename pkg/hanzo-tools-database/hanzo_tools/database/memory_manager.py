@@ -181,7 +181,9 @@ class MemoryManager:
         return conn
 
     # Markdown file operations
-    def read_markdown_file(self, file_path: str, scope: str = "project", project_path: str = None) -> Optional[str]:
+    def read_markdown_file(
+        self, file_path: str, scope: str = "project", project_path: str = None
+    ) -> Optional[str]:
         """Read markdown memory file."""
         if scope == "global":
             full_path = self.global_memory_dir / file_path
@@ -197,7 +199,12 @@ class MemoryManager:
         return full_path.read_text()
 
     def write_markdown_file(
-        self, file_path: str, content: str, scope: str = "project", project_path: str = None, category: str = None
+        self,
+        file_path: str,
+        content: str,
+        scope: str = "project",
+        project_path: str = None,
+        category: str = None,
     ) -> bool:
         """Write markdown memory file and index in database."""
         if scope == "global":
@@ -235,7 +242,12 @@ class MemoryManager:
         return True
 
     def append_markdown_file(
-        self, file_path: str, content: str, scope: str = "project", project_path: str = None, category: str = None
+        self,
+        file_path: str,
+        content: str,
+        scope: str = "project",
+        project_path: str = None,
+        category: str = None,
     ) -> bool:
         """Append to markdown memory file."""
         existing = self.read_markdown_file(file_path, scope, project_path) or ""
@@ -247,9 +259,13 @@ class MemoryManager:
         else:
             new_content = f"# {file_path}\n\n## {timestamp}\n\n{content}"
 
-        return self.write_markdown_file(file_path, new_content, scope, project_path, category)
+        return self.write_markdown_file(
+            file_path, new_content, scope, project_path, category
+        )
 
-    def list_markdown_files(self, scope: str = "both", project_path: str = None) -> List[Dict[str, Any]]:
+    def list_markdown_files(
+        self, scope: str = "both", project_path: str = None
+    ) -> List[Dict[str, Any]]:
         """List all markdown memory files."""
         files = []
 
@@ -262,7 +278,9 @@ class MemoryManager:
                         "full_path": str(f),
                         "scope": "global",
                         "size": f.stat().st_size,
-                        "modified": datetime.fromtimestamp(f.stat().st_mtime).isoformat(),
+                        "modified": datetime.fromtimestamp(
+                            f.stat().st_mtime
+                        ).isoformat(),
                     }
                     for f in global_files
                 ]
@@ -280,7 +298,9 @@ class MemoryManager:
                         "full_path": str(f),
                         "scope": "project",
                         "size": f.stat().st_size,
-                        "modified": datetime.fromtimestamp(f.stat().st_mtime).isoformat(),
+                        "modified": datetime.fromtimestamp(
+                            f.stat().st_mtime
+                        ).isoformat(),
                     }
                     for f in project_files
                 ]
@@ -312,7 +332,13 @@ class MemoryManager:
             INSERT INTO memories (content, category, importance, metadata, scope)
             VALUES (?, ?, ?, ?, ?)
         """,
-            (content, category, importance, json.dumps(metadata) if metadata else None, scope),
+            (
+                content,
+                category,
+                importance,
+                json.dumps(metadata) if metadata else None,
+                scope,
+            ),
         )
 
         memory_id = cursor.lastrowid
@@ -322,17 +348,26 @@ class MemoryManager:
 
     # Search operations
     def search_memories(
-        self, query: str, scope: str = "both", project_path: str = None, search_type: str = "fulltext", limit: int = 10
+        self,
+        query: str,
+        scope: str = "both",
+        project_path: str = None,
+        search_type: str = "fulltext",
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Search across all memory types."""
         results = []
 
         # Search markdown files
-        markdown_results = self._search_markdown_fulltext(query, scope, project_path, limit)
+        markdown_results = self._search_markdown_fulltext(
+            query, scope, project_path, limit
+        )
         results.extend([{**r, "source": "markdown"} for r in markdown_results])
 
         # Search structured memories
-        memory_results = self._search_structured_memories(query, scope, project_path, limit)
+        memory_results = self._search_structured_memories(
+            query, scope, project_path, limit
+        )
         results.extend([{**r, "source": "memory"} for r in memory_results])
 
         # Vector search available when sqlite-vec extension installed
@@ -340,7 +375,9 @@ class MemoryManager:
         # Sort by relevance/recency
         return sorted(results, key=lambda x: x.get("score", 0), reverse=True)[:limit]
 
-    def _search_markdown_fulltext(self, query: str, scope: str, project_path: str, limit: int) -> List[Dict[str, Any]]:
+    def _search_markdown_fulltext(
+        self, query: str, scope: str, project_path: str, limit: int
+    ) -> List[Dict[str, Any]]:
         """Search markdown files using FTS5."""
         results = []
 
@@ -376,7 +413,11 @@ class MemoryManager:
                         {
                             "id": row["id"],
                             "path": row["path"],
-                            "content": row["content"][:500] + "..." if len(row["content"]) > 500 else row["content"],
+                            "content": (
+                                row["content"][:500] + "..."
+                                if len(row["content"]) > 500
+                                else row["content"]
+                            ),
                             "snippet": row["snippet"],
                             "category": row["category"],
                             "scope": scope_name,
@@ -433,7 +474,9 @@ class MemoryManager:
                             "snippet": row["snippet"],
                             "category": row["category"],
                             "importance": row["importance"],
-                            "metadata": json.loads(row["metadata"]) if row["metadata"] else {},
+                            "metadata": (
+                                json.loads(row["metadata"]) if row["metadata"] else {}
+                            ),
                             "scope": scope_name,
                             "score": -row["rank"],
                             "created_at": row["created_at"],
@@ -448,7 +491,9 @@ class MemoryManager:
         return results
 
     # Vector operations (requires sqlite-vec extension)
-    def generate_embedding(self, text: str, model: str = "bge-small-en-v1.5") -> Optional[List[float]]:
+    def generate_embedding(
+        self, text: str, model: str = "bge-small-en-v1.5"
+    ) -> Optional[List[float]]:
         """Generate embedding for text. Returns None if embedding model unavailable."""
         # Requires: pip install fastembed
         try:
@@ -512,7 +557,11 @@ class MemoryManager:
             return False
 
     def vector_search(
-        self, query_embedding: List[float], scope: str = "both", project_path: str = None, limit: int = 10
+        self,
+        query_embedding: List[float],
+        scope: str = "both",
+        project_path: str = None,
+        limit: int = 10,
     ) -> List[Dict[str, Any]]:
         """Search using vector similarity. Requires sqlite-vec extension."""
         results = []
@@ -530,7 +579,9 @@ class MemoryManager:
             try:
                 conn = self._init_memory_db(db_path)
                 # Check if vec_index exists (sqlite-vec installed)
-                cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='vec_index'")
+                cursor = conn.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name='vec_index'"
+                )
                 if not cursor.fetchone():
                     conn.close()
                     continue
@@ -563,7 +614,9 @@ class MemoryManager:
         return sorted(results, key=lambda x: x.get("distance", float("inf")))[:limit]
 
     # Utility methods
-    def get_memory_stats(self, scope: str = "both", project_path: str = None) -> Dict[str, Any]:
+    def get_memory_stats(
+        self, scope: str = "both", project_path: str = None
+    ) -> Dict[str, Any]:
         """Get memory system statistics."""
         stats = {
             "markdown_files": {"global": 0, "project": 0},
@@ -583,7 +636,9 @@ class MemoryManager:
             if memory_dir.exists():
                 project_files = list(memory_dir.rglob("*.md"))
                 stats["markdown_files"]["project"] = len(project_files)
-                stats["total_size_bytes"] += sum(f.stat().st_size for f in project_files)
+                stats["total_size_bytes"] += sum(
+                    f.stat().st_size for f in project_files
+                )
 
         # Count database records
         dbs = []

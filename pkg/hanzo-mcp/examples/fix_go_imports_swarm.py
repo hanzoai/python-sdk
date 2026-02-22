@@ -178,8 +178,7 @@ vms/xvm/network/network.go:25:4: too many errors
     print("=" * 60)
 
     # Example of combining batch for analysis + swarm for fixes
-    print(
-        """
+    print("""
 # Step 1: Use batch tool for rapid analysis across all files
 batch_tasks = [
     {"tool": "grep", "args": {"pattern": "undefined: common", "path": "vms/"}},
@@ -196,8 +195,7 @@ swarm_tasks = generate_informed_tasks(batch_results)
 # - Batch: Fast whole-codebase analysis (100+ files in seconds)
 # - Swarm: Parallel fixes with full context per file
 # - Result: 10-100x speedup vs sequential processing
-"""
-    )
+""")
 
 
 if __name__ == "__main__":

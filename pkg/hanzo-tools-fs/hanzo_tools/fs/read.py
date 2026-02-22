@@ -97,4 +97,6 @@ Returns:
             ctx: MCPContext = None,
         ) -> str:
             """Read file contents with line numbers."""
-            return await tool_instance.call(ctx, file_path=file_path, offset=offset, limit=limit)
+            return await tool_instance.call(
+                ctx, file_path=file_path, offset=offset, limit=limit
+            )

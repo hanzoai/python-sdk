@@ -159,11 +159,18 @@ def generate_func_documentation(
         return FuncDocumentation(name=name, description=None, param_descriptions=None)
 
     with _suppress_griffe_logging():
-        docstring = Docstring(doc, lineno=1, parser=style or _detect_docstring_style(doc))
+        docstring = Docstring(
+            doc, lineno=1, parser=style or _detect_docstring_style(doc)
+        )
         parsed = docstring.parse()
 
     description: str | None = next(
-        (section.value for section in parsed if section.kind == DocstringSectionKind.text), None
+        (
+            section.value
+            for section in parsed
+            if section.kind == DocstringSectionKind.text
+        ),
+        None,
     )
 
     param_descriptions: dict[str, str] = {

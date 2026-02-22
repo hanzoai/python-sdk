@@ -121,6 +121,9 @@ def test_ref_no_expansion_when_alone():
 
 def test_invalid_ref_format():
     # A $ref that does not start with "#/" should trigger a ValueError when resolved.
-    schema = {"type": "object", "properties": {"a": {"$ref": "invalid", "description": "desc"}}}
+    schema = {
+        "type": "object",
+        "properties": {"a": {"$ref": "invalid", "description": "desc"}},
+    }
     with pytest.raises(ValueError):
         ensure_strict_json_schema(schema)

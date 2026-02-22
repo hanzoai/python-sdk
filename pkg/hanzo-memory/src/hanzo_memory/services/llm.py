@@ -12,6 +12,7 @@ logger = get_logger()
 # Try to import LiteLLM, but make it optional
 try:
     import litellm
+
     LITELLM_AVAILABLE = True
     # Configure LiteLLM
     litellm.drop_params = True  # Drop unsupported params instead of failing

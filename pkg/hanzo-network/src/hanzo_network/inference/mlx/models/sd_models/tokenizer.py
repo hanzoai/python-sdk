@@ -49,7 +49,9 @@ class Tokenizer:
         #
         # Ported from https://github.com/huggingface/transformers/blob/main/src/transformers/models/clip/tokenization_clip.py
         while unique_bigrams:
-            bigram = min(unique_bigrams, key=lambda pair: self.bpe_ranks.get(pair, float("inf")))
+            bigram = min(
+                unique_bigrams, key=lambda pair: self.bpe_ranks.get(pair, float("inf"))
+            )
             if bigram not in self.bpe_ranks:
                 break
 

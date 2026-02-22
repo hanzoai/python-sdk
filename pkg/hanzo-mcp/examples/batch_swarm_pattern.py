@@ -198,8 +198,7 @@ async def demonstrate_performance_gains():
     print("\n" + "=" * 60)
     print("KEY INSIGHTS:")
     print("=" * 60)
-    print(
-        """
+    print("""
 1. Batch Tool Benefits:
    - Runs multiple analysis operations in parallel
    - Gathers context from entire codebase quickly
@@ -220,8 +219,7 @@ async def demonstrate_performance_gains():
    - 50 files: ~40x speedup
    - 100 files: ~50x speedup
    - 1000 files: ~100x speedup!
-"""
-    )
+""")
 
 
 async def real_world_example():
@@ -231,13 +229,11 @@ async def real_world_example():
     print("REAL WORLD EXAMPLE: Refactoring Entire Codebase")
     print("=" * 60)
 
-    print(
-        """
+    print("""
 Task: Update all deprecated API calls across 500 files
 
 Step 1: Batch Analysis (0.5s)
-"""
-    )
+""")
 
     batch_config = {
         "description": "Analyze deprecated API usage",
@@ -263,16 +259,14 @@ Step 1: Batch Analysis (0.5s)
 
     print(f"Batch tasks: {json.dumps(batch_config, indent=2)}")
 
-    print(
-        """
+    print("""
 Step 2: Generate Swarm Tasks (instant)
 - Parse batch results
 - Create targeted fix task for each file
 - Include specific instructions based on usage pattern
 
 Step 3: Swarm Execution (2-3s for all files!)
-"""
-    )
+""")
 
     swarm_tasks_example = [
         {
@@ -288,15 +282,13 @@ Step 3: Swarm Execution (2-3s for all files!)
 
     print(f"Swarm tasks (first 2 of 500): {json.dumps(swarm_tasks_example, indent=2)}")
 
-    print(
-        """
+    print("""
 Results:
 - Sequential approach: 500 files × 3s = 1500s (25 minutes)
 - Batch + Swarm: 0.5s + 3s = 3.5s total
 - Speedup: 428x faster!
 - Developer time saved: 24.9 minutes
-"""
-    )
+""")
 
 
 async def main():
