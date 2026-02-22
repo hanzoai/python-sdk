@@ -8,8 +8,10 @@ Usage:
     hanzo paas orgs
     hanzo paas projects
     hanzo paas envs
+    hanzo paas deploy up [--config hanzo.toml]
     hanzo paas deploy list
     hanzo paas deploy create <name> --repo <url> [--branch main]
+    hanzo paas deploy create <name> --config hanzo.toml
     hanzo paas deploy status <name>
     hanzo paas deploy logs <name>
     hanzo paas deploy redeploy <name>
@@ -324,6 +326,13 @@ def deploy_list(org: str | None, project: str | None, env_id: str | None) -> Non
     default="deployment",
     type=click.Choice(["deployment", "statefulset", "cronjob"]),
 )
+@click.option(
+    "--config",
+    "config_path",
+    default=None,
+    type=click.Path(exists=True),
+    help="Path to hanzo.toml deployment manifest.",
+)
 @_org_option
 @_project_option
 @_env_option
@@ -336,19 +345,46 @@ def deploy_create(
     port: int,
     replicas: int,
     deploy_type: str,
+    config_path: str | None,
     org: str | None,
     project: str | None,
     env_id: str | None,
 ) -> None:
-    """Create a new container deployment from a Docker image or git repo.
+    """Create a new container deployment from a Docker image, git repo, or hanzo.toml.
 
     Examples:
         hanzo paas deploy create myapp --image nginx:latest --port 80
         hanzo paas deploy create myapp --image ghcr.io/org/app:v1 --port 8080
         hanzo paas deploy create myapp --repo hanzoai/app --branch main
+        hanzo paas deploy create myapp --config hanzo.toml
     """
+    if config_path:
+        from hanzo_cli.paas.config import config_to_payload, load_config
+
+        cfg = load_config(config_path)
+        payload = config_to_payload(cfg)
+        # CLI name argument overrides config name
+        payload["name"] = name
+
+        org_id, project_id, env_id = resolve(org, project, env_id)
+        org_id = _require("--org", org_id)
+        project_id = _require("--project", project_id)
+        env_id = _require("--env", env_id)
+
+        client = PaaSClient.from_auth()
+        try:
+            data = client.create_container(org_id, project_id, env_id, payload)
+        finally:
+            client.close()
+
+        console.print(f"[green]Created container '{name}' from {config_path}[/green]")
+        cid = data.get("_id", data.get("id", ""))
+        if cid:
+            console.print(f"ID: {cid}")
+        return
+
     if not image and not repo:
-        console.print("[red]Specify --image or --repo.[/red]")
+        console.print("[red]Specify --image, --repo, or --config.[/red]")
         raise SystemExit(1)
 
     org_id, project_id, env_id = resolve(org, project, env_id)
@@ -674,6 +710,88 @@ def deploy_env(
 
 
 # ── deploy delete ───────────────────────────────────────────────────────
+
+
+@deploy.command("up")
+@click.option(
+    "--config",
+    "config_path",
+    default=None,
+    type=click.Path(),
+    help="Path to hanzo.toml (default: ./hanzo.toml).",
+)
+@_org_option
+@_project_option
+@_env_option
+def deploy_up(
+    config_path: str | None,
+    org: str | None,
+    project: str | None,
+    env_id: str | None,
+) -> None:
+    """Deploy from hanzo.toml — create or update.
+
+    Reads hanzo.toml from the current directory (or --config path),
+    creates the container if it doesn't exist, or updates it if it does.
+
+    Examples:
+        hanzo deploy up
+        hanzo deploy up --config path/to/hanzo.toml
+    """
+    from hanzo_cli.paas.config import config_to_payload, find_config, load_config
+
+    resolved = find_config(config_path)
+    if not resolved:
+        console.print(
+            "[red]No hanzo.toml found.[/red] "
+            "Create one or pass --config <path>."
+        )
+        raise SystemExit(1)
+
+    cfg = load_config(resolved)
+    payload = config_to_payload(cfg)
+    name = payload.get("name", "app")
+
+    org_id, project_id, env_id = resolve(org, project, env_id)
+    org_id = _require("--org", org_id)
+    project_id = _require("--project", project_id)
+    env_id = _require("--env", env_id)
+
+    client = PaaSClient.from_auth()
+    try:
+        # Check if container already exists
+        containers = client.list_containers(org_id, project_id, env_id)
+        items = (
+            containers
+            if isinstance(containers, list)
+            else containers.get("data", containers)
+        )
+        existing = None
+        for c in items:
+            if c.get("iid") == name or c.get("name") == name:
+                existing = c
+                break
+
+        if existing:
+            # Update existing container
+            cid = str(existing.get("_id", existing.get("id")))
+            # Merge payload into existing config
+            existing.update(payload)
+            client.update_container(org_id, project_id, env_id, cid, existing)
+            console.print(
+                f"[green]Updated container '{name}' from {resolved}[/green]"
+            )
+        else:
+            # Create new container
+            data = client.create_container(org_id, project_id, env_id, payload)
+            cid = data.get("_id", data.get("id", ""))
+            console.print(
+                f"[green]Created container '{name}' from {resolved}[/green]"
+            )
+            if cid:
+                console.print(f"ID: {cid}")
+    finally:
+        client.close()
 
 
 @deploy.command("delete")
