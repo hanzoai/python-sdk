@@ -43,7 +43,10 @@ class MCPServersResource(SyncAPIResource):
         return self._get(
             "/mcp/servers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -61,7 +64,10 @@ class MCPServersResource(SyncAPIResource):
         return self._get(
             f"/mcp/servers/{server_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -83,7 +89,10 @@ class MCPServersResource(SyncAPIResource):
             "/mcp/servers",
             body={"name": name, "url": url, "api_key": api_key, "tools": tools},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -105,7 +114,10 @@ class MCPServersResource(SyncAPIResource):
             f"/mcp/servers/{server_id}",
             body={"url": url, "api_key": api_key, "enabled": enabled},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -123,7 +135,10 @@ class MCPServersResource(SyncAPIResource):
         return self._delete(
             f"/mcp/servers/{server_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -141,7 +156,10 @@ class MCPServersResource(SyncAPIResource):
         return self._get(
             f"/mcp/servers/{server_id}/tools",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -162,7 +180,10 @@ class MCPServersResource(SyncAPIResource):
             f"/mcp/servers/{server_id}/tools/{tool_name}",
             body={"arguments": arguments},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -180,7 +201,10 @@ class MCPServersResource(SyncAPIResource):
         return self._post(
             f"/mcp/servers/{server_id}/refresh",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -208,7 +232,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
         return await self._get(
             "/mcp/servers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -225,7 +252,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
         return await self._get(
             f"/mcp/servers/{server_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -246,7 +276,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
             "/mcp/servers",
             body={"name": name, "url": url, "api_key": api_key, "tools": tools},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -267,7 +300,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
             f"/mcp/servers/{server_id}",
             body={"url": url, "api_key": api_key, "enabled": enabled},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -284,7 +320,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
         return await self._delete(
             f"/mcp/servers/{server_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -301,7 +340,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
         return await self._get(
             f"/mcp/servers/{server_id}/tools",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -321,7 +363,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
             f"/mcp/servers/{server_id}/tools/{tool_name}",
             body={"arguments": arguments},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -338,7 +383,10 @@ class AsyncMCPServersResource(AsyncAPIResource):
         return await self._post(
             f"/mcp/servers/{server_id}/refresh",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

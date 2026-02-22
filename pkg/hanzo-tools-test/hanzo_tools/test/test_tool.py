@@ -275,7 +275,7 @@ Effect: NONDETERMINISTIC_EFFECT
         total = passed = failed = skipped = errors = 0
 
         # Parse summary line
-        summary_match = re.search(
+        _summary_match = re.search(
             r"(\d+) passed.*?(\d+) failed.*?(\d+) error|"
             r"(\d+) passed.*?(\d+) skipped|"
             r"(\d+) passed",
@@ -287,7 +287,12 @@ Effect: NONDETERMINISTIC_EFFECT
             r"(PASSED|FAILED|SKIPPED|ERROR)\s+(\S+)::",
             output,
         ):
-            status_map = {"PASSED": "pass", "FAILED": "fail", "SKIPPED": "skip", "ERROR": "error"}
+            status_map = {
+                "PASSED": "pass",
+                "FAILED": "fail",
+                "SKIPPED": "skip",
+                "ERROR": "error",
+            }
             status = status_map.get(match.group(1), "error")
             name = match.group(2)
 
@@ -317,7 +322,9 @@ Effect: NONDETERMINISTIC_EFFECT
             exit_code=exit_code,
         )
 
-    def _parse_generic_output(self, output: str, exit_code: int, kind: str, tool: str) -> Report:
+    def _parse_generic_output(
+        self, output: str, exit_code: int, kind: str, tool: str
+    ) -> Report:
         """Generic output parser."""
         # Try JSON parsing first
         try:
@@ -331,7 +338,11 @@ Effect: NONDETERMINISTIC_EFFECT
                             results.append(
                                 TestResult(
                                     name=test.get("fullName", ""),
-                                    status="pass" if test.get("status") == "passed" else "fail",
+                                    status=(
+                                        "pass"
+                                        if test.get("status") == "passed"
+                                        else "fail"
+                                    ),
                                 )
                             )
                     return Report(
@@ -350,7 +361,9 @@ Effect: NONDETERMINISTIC_EFFECT
 
         # Fallback: line-based parsing
         lines = output.strip().split("\n")
-        error_lines = [l for l in lines if "error" in l.lower() or "fail" in l.lower()]
+        error_lines = [
+            line for line in lines if "error" in line.lower() or "fail" in line.lower()
+        ]
 
         return Report(
             kind=kind,
@@ -439,7 +452,9 @@ Effect: NONDETERMINISTIC_EFFECT
                 exit_code = proc.returncode or 0
 
             except asyncio.TimeoutError:
-                raise ToolError(code="TIMEOUT", message=f"{kind} timed out after {timeout}s")
+                raise ToolError(
+                    code="TIMEOUT", message=f"{kind} timed out after {timeout}s"
+                )
             except FileNotFoundError as e:
                 raise ToolError(code="NOT_FOUND", message=f"Tool not found: {e}")
 

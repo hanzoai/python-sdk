@@ -34,7 +34,9 @@ async def main():
             elif event.item.type == "tool_call_output_item":
                 print(f"-- Tool output: {event.item.output}")
             elif event.item.type == "message_output_item":
-                print(f"-- Message output:\n {ItemHelpers.text_message_output(event.item)}")
+                print(
+                    f"-- Message output:\n {ItemHelpers.text_message_output(event.item)}"
+                )
             else:
                 pass  # Ignore other event types
 

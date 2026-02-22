@@ -109,7 +109,11 @@ class OpenAIResponsesModel(Model):
                     SpanError(
                         message="Error getting response",
                         data={
-                            "error": str(e) if tracing.include_data() else e.__class__.__name__,
+                            "error": (
+                                str(e)
+                                if tracing.include_data()
+                                else e.__class__.__name__
+                            ),
                         },
                     )
                 )
@@ -155,7 +159,9 @@ class OpenAIResponsesModel(Model):
                     # Ensure sequence_number is present for compatibility with newer SDKs
                     if getattr(chunk, "sequence_number", None) is None:
                         try:
-                            chunk = chunk.model_copy(update={"sequence_number": sequence_number})
+                            chunk = chunk.model_copy(
+                                update={"sequence_number": sequence_number}
+                            )
                         except Exception:
                             # If model_copy isn't available, fall back to yielding as-is
                             pass
@@ -173,7 +179,11 @@ class OpenAIResponsesModel(Model):
                     SpanError(
                         message="Error streaming response",
                         data={
-                            "error": str(e) if tracing.include_data() else e.__class__.__name__,
+                            "error": (
+                                str(e)
+                                if tracing.include_data()
+                                else e.__class__.__name__
+                            ),
                         },
                     )
                 )
@@ -217,7 +227,9 @@ class OpenAIResponsesModel(Model):
         list_input = ItemHelpers.input_to_new_input_list(input)
 
         parallel_tool_calls = (
-            True if model_settings.parallel_tool_calls and tools and len(tools) > 0 else NOT_GIVEN
+            True
+            if model_settings.parallel_tool_calls and tools and len(tools) > 0
+            else NOT_GIVEN
         )
 
         tool_choice = Converter.convert_tool_choice(model_settings.tool_choice)
@@ -323,7 +335,9 @@ class Converter:
 
         computer_tools = [tool for tool in tools if isinstance(tool, ComputerTool)]
         if len(computer_tools) > 1:
-            raise UserError(f"You can only provide one computer tool. Got {len(computer_tools)}")
+            raise UserError(
+                f"You can only provide one computer tool. Got {len(computer_tools)}"
+            )
 
         for tool in tools:
             converted_tool, include = cls._convert_tool(tool)
@@ -369,7 +383,9 @@ class Converter:
             if tool.filters:
                 converted_tool["filters"] = tool.filters
 
-            includes = "file_search_call.results" if tool.include_search_results else None
+            includes = (
+                "file_search_call.results" if tool.include_search_results else None
+            )
         elif isinstance(tool, ComputerTool):
             converted_tool = {
                 "type": "computer_use_preview",

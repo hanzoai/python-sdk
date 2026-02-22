@@ -171,7 +171,7 @@ class TestPaaSDeployLifecycle:
             ]
         )
         # Clean up leftover from previous failed runs
-        r = run(["paas", "deploy", "delete", cls.CONTAINER_NAME, "-y"], check=False)
+        _r = run(["paas", "deploy", "delete", cls.CONTAINER_NAME, "-y"], check=False)
 
     @classmethod
     def teardown_class(cls):
@@ -200,7 +200,7 @@ class TestPaaSDeployLifecycle:
 
     def test_03_status_shows_pod(self):
         """Wait for the pod to appear and check status."""
-        for attempt in range(6):
+        for _attempt in range(6):
             r = run(["paas", "deploy", "status", self.CONTAINER_NAME])
             if "Running" in r.stdout or "Pending" in r.stdout:
                 break
@@ -210,7 +210,7 @@ class TestPaaSDeployLifecycle:
 
     def test_04_wait_for_running(self):
         """Wait up to 60s for the pod to be Running."""
-        for attempt in range(12):
+        for _attempt in range(12):
             r = run(["paas", "deploy", "status", self.CONTAINER_NAME])
             if "Running" in r.stdout:
                 return

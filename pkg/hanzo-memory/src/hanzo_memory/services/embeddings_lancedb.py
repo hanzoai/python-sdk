@@ -1,6 +1,5 @@
 """Embedding service using LanceDB's built-in embedding functions."""
 
-
 import numpy as np
 from lancedb.embeddings import get_registry
 from structlog import get_logger

@@ -144,9 +144,13 @@ async def preload_specs(
 async def main():
     parser = argparse.ArgumentParser(description="Pre-download OpenAPI specs")
     parser.add_argument("providers", nargs="*", help="Specific providers to download")
-    parser.add_argument("--all", action="store_true", help="Download all available specs")
+    parser.add_argument(
+        "--all", action="store_true", help="Download all available specs"
+    )
     parser.add_argument("--list", action="store_true", help="List available specs")
-    parser.add_argument("-n", "--concurrent", type=int, default=10, help="Concurrent downloads")
+    parser.add_argument(
+        "-n", "--concurrent", type=int, default=10, help="Concurrent downloads"
+    )
     parser.add_argument("-q", "--quiet", action="store_true", help="Quiet mode")
 
     args = parser.parse_args()

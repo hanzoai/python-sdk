@@ -68,7 +68,10 @@ class SubscriptionsResource(SyncAPIResource):
         return self._get(
             f"/commerce/subscriptions/{subscription_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -87,9 +90,16 @@ class SubscriptionsResource(SyncAPIResource):
         """Create a new subscription."""
         return self._post(
             "/commerce/subscriptions",
-            body={"plan_id": plan_id, "customer_id": customer_id, "payment_method_id": payment_method_id},
+            body={
+                "plan_id": plan_id,
+                "customer_id": customer_id,
+                "payment_method_id": payment_method_id,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -110,7 +120,10 @@ class SubscriptionsResource(SyncAPIResource):
             f"/commerce/subscriptions/{subscription_id}",
             body={"plan_id": plan_id, "quantity": quantity},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -131,7 +144,10 @@ class SubscriptionsResource(SyncAPIResource):
             f"/commerce/subscriptions/{subscription_id}/cancel",
             body={"at_period_end": at_period_end, "reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -149,7 +165,10 @@ class SubscriptionsResource(SyncAPIResource):
         return self._post(
             f"/commerce/subscriptions/{subscription_id}/pause",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -167,7 +186,10 @@ class SubscriptionsResource(SyncAPIResource):
         return self._post(
             f"/commerce/subscriptions/{subscription_id}/resume",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -185,7 +207,10 @@ class SubscriptionsResource(SyncAPIResource):
         return self._get(
             f"/commerce/subscriptions/{subscription_id}/invoices",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -199,7 +224,9 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         return AsyncSubscriptionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncSubscriptionsResourceWithStreamingResponse:
+    def with_streaming_response(
+        self,
+    ) -> AsyncSubscriptionsResourceWithStreamingResponse:
         return AsyncSubscriptionsResourceWithStreamingResponse(self)
 
     async def list(
@@ -237,7 +264,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/subscriptions/{subscription_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -255,9 +285,16 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/commerce/subscriptions",
-            body={"plan_id": plan_id, "customer_id": customer_id, "payment_method_id": payment_method_id},
+            body={
+                "plan_id": plan_id,
+                "customer_id": customer_id,
+                "payment_method_id": payment_method_id,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -277,7 +314,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
             f"/commerce/subscriptions/{subscription_id}",
             body={"plan_id": plan_id, "quantity": quantity},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -297,7 +337,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
             f"/commerce/subscriptions/{subscription_id}/cancel",
             body={"at_period_end": at_period_end, "reason": reason},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -314,7 +357,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         return await self._post(
             f"/commerce/subscriptions/{subscription_id}/pause",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -331,7 +377,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         return await self._post(
             f"/commerce/subscriptions/{subscription_id}/resume",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -348,7 +397,10 @@ class AsyncSubscriptionsResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/subscriptions/{subscription_id}/invoices",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -403,4 +455,6 @@ class AsyncSubscriptionsResourceWithStreamingResponse:
         self.cancel = async_to_streamed_response_wrapper(subscriptions.cancel)
         self.pause = async_to_streamed_response_wrapper(subscriptions.pause)
         self.resume = async_to_streamed_response_wrapper(subscriptions.resume)
-        self.list_invoices = async_to_streamed_response_wrapper(subscriptions.list_invoices)
+        self.list_invoices = async_to_streamed_response_wrapper(
+            subscriptions.list_invoices
+        )

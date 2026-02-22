@@ -36,7 +36,9 @@ except ImportError:
 
     # Provide a helpful error message
     def _mcp_not_installed(*args, **kwargs):
-        raise ImportError("hanzo-mcp is not installed. Install it with: pip install hanzo-mcp")
+        raise ImportError(
+            "hanzo-mcp is not installed. Install it with: pip install hanzo-mcp"
+        )
 
     # Create placeholder classes/functions
     HanzoMCPServer = create_server = _mcp_not_installed
@@ -61,7 +63,9 @@ def create_mcp_server(name: str = "hanzo-mcp", allowed_paths: list = None, **kwa
         HanzoMCPServer instance
     """
     if not MCP_AVAILABLE:
-        raise ImportError("hanzo-mcp is not installed. Install it with: pip install hanzo-mcp")
+        raise ImportError(
+            "hanzo-mcp is not installed. Install it with: pip install hanzo-mcp"
+        )
 
     return create_server(name=name, allowed_paths=allowed_paths, **kwargs)
 
@@ -75,7 +79,9 @@ def run_mcp_server(name: str = "hanzo-mcp", transport: str = "stdio", **kwargs):
         **kwargs: Additional server options
     """
     if not MCP_AVAILABLE:
-        raise ImportError("hanzo-mcp is not installed. Install it with: pip install hanzo-mcp")
+        raise ImportError(
+            "hanzo-mcp is not installed. Install it with: pip install hanzo-mcp"
+        )
 
     server = create_server(name=name, **kwargs)
     server.run(transport=transport)
@@ -91,7 +97,9 @@ class MCPClient:
             server_command: Command to start the server (e.g., ["python", "-m", "hanzo_mcp"])
         """
         if not MCP_AVAILABLE:
-            raise ImportError("hanzo-mcp is not installed. Install it with: pip install hanzo-mcp")
+            raise ImportError(
+                "hanzo-mcp is not installed. Install it with: pip install hanzo-mcp"
+            )
 
         self.server_command = server_command or ["python", "-m", "hanzo_mcp"]
         self._client = None

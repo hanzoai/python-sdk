@@ -491,8 +491,7 @@ class TestHanzoNetworkMCPIntegration:
 
         # Create a file with code to analyze
         code_file = temp_dir / "legacy_code.py"
-        code_file.write_text(
-            """
+        code_file.write_text("""
 def calculate(x, y):
     # TODO: Add error handling
     result = x + y
@@ -506,8 +505,7 @@ def process_data(data):
         if data[i] > 0:
             output.append(data[i] * 2)
     return output
-"""
-        )
+""")
 
         # Workflow: Analyze -> Refactor -> Review
         workflow_result = await network.execute_collaborative_task(

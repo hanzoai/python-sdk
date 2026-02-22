@@ -3,7 +3,11 @@ import os
 import openai
 import pytest
 
-from agents import set_default_openai_api, set_default_openai_client, set_default_openai_key
+from agents import (
+    set_default_openai_api,
+    set_default_openai_client,
+    set_default_openai_key,
+)
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 from agents.models.openai_provider import OpenAIProvider
 from agents.models.openai_responses import OpenAIResponsesModel
@@ -49,16 +53,16 @@ def test_resp_set_default_openai_client():
 
 
 def test_set_default_openai_api():
-    assert isinstance(OpenAIProvider().get_model("gpt-4"), OpenAIResponsesModel), (
-        "Default should be responses"
-    )
+    assert isinstance(
+        OpenAIProvider().get_model("gpt-4"), OpenAIResponsesModel
+    ), "Default should be responses"
 
     set_default_openai_api("chat_completions")
-    assert isinstance(OpenAIProvider().get_model("gpt-4"), OpenAIChatCompletionsModel), (
-        "Should be chat completions model"
-    )
+    assert isinstance(
+        OpenAIProvider().get_model("gpt-4"), OpenAIChatCompletionsModel
+    ), "Should be chat completions model"
 
     set_default_openai_api("responses")
-    assert isinstance(OpenAIProvider().get_model("gpt-4"), OpenAIResponsesModel), (
-        "Should be responses model"
-    )
+    assert isinstance(
+        OpenAIProvider().get_model("gpt-4"), OpenAIResponsesModel
+    ), "Should be responses model"

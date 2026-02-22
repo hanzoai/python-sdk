@@ -1,6 +1,5 @@
 """Authentication middleware and utilities."""
 
-
 from fastapi import HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 

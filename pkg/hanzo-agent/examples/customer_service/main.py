@@ -36,7 +36,8 @@ class AirlineAgentContext(BaseModel):
 
 
 @function_tool(
-    name_override="faq_lookup_tool", description_override="Lookup frequently asked questions."
+    name_override="faq_lookup_tool",
+    description_override="Lookup frequently asked questions.",
 )
 async def faq_lookup_tool(question: str) -> str:
     if "bag" in question or "baggage" in question:
@@ -58,7 +59,9 @@ async def faq_lookup_tool(question: str) -> str:
 
 @function_tool
 async def update_seat(
-    context: RunContextWrapper[AirlineAgentContext], confirmation_number: str, new_seat: str
+    context: RunContextWrapper[AirlineAgentContext],
+    confirmation_number: str,
+    new_seat: str,
 ) -> str:
     """
     Update the seat for a given confirmation number.
@@ -78,7 +81,9 @@ async def update_seat(
 ### HOOKS
 
 
-async def on_seat_booking_handoff(context: RunContextWrapper[AirlineAgentContext]) -> None:
+async def on_seat_booking_handoff(
+    context: RunContextWrapper[AirlineAgentContext],
+) -> None:
     flight_number = f"FLT-{random.randint(100, 999)}"
     context.context.flight_number = flight_number
 

@@ -16,8 +16,7 @@ async def test_lsp_tool_status():
 
     # Create a test Go file
     with tempfile.NamedTemporaryFile(suffix=".go", mode="w", delete=False) as f:
-        f.write(
-            """package main
+        f.write("""package main
 
 import "fmt"
 
@@ -28,8 +27,7 @@ func main() {
 func greet(name string) string {
     return fmt.Sprintf("Hello, %s!", name)
 }
-"""
-        )
+""")
         go_file = f.name
 
     try:
@@ -89,13 +87,11 @@ async def test_lsp_tool_definition_placeholder():
     lsp_tool = create_lsp_tool()
 
     with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as f:
-        f.write(
-            """def hello():
+        f.write("""def hello():
     return "Hello"
 
 result = hello()
-"""
-        )
+""")
         py_file = f.name
 
     try:

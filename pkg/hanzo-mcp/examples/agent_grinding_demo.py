@@ -213,8 +213,7 @@ async def run_agent_grinding_demo():
 
     # Show example swarm command
     print("\n=== Example Swarm Command ===")
-    print(
-        """
+    print("""
 swarm_tool(
     query="Fix all FIXME comments in the codebase",
     agents=[
@@ -225,8 +224,7 @@ swarm_tool(
         {"id": "reviewer", "query": "Review all fixes", "receives_from": ["grinder1", "grinder2", "grinder3"]}
     ]
 )
-"""
-    )
+""")
 
     print("\nThe agents will:")
     print("- finder: Search and categorize all FIXMEs")

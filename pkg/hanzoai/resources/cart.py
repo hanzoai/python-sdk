@@ -42,7 +42,10 @@ class CartResource(SyncAPIResource):
         return self._get(
             f"/commerce/cart/{cart_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -59,7 +62,10 @@ class CartResource(SyncAPIResource):
         return self._post(
             "/commerce/cart",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -79,9 +85,16 @@ class CartResource(SyncAPIResource):
         """Add item to cart."""
         return self._post(
             f"/commerce/cart/{cart_id}/items",
-            body={"product_id": product_id, "quantity": quantity, "variant_id": variant_id},
+            body={
+                "product_id": product_id,
+                "quantity": quantity,
+                "variant_id": variant_id,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -102,7 +115,10 @@ class CartResource(SyncAPIResource):
             f"/commerce/cart/{cart_id}/items/{item_id}",
             body={"quantity": quantity},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -121,7 +137,10 @@ class CartResource(SyncAPIResource):
         return self._delete(
             f"/commerce/cart/{cart_id}/items/{item_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -139,7 +158,10 @@ class CartResource(SyncAPIResource):
         return self._delete(
             f"/commerce/cart/{cart_id}/items",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -159,7 +181,10 @@ class CartResource(SyncAPIResource):
             f"/commerce/cart/{cart_id}/coupon",
             body={"code": code},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -188,7 +213,10 @@ class AsyncCartResource(AsyncAPIResource):
         return await self._get(
             f"/commerce/cart/{cart_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -204,7 +232,10 @@ class AsyncCartResource(AsyncAPIResource):
         return await self._post(
             "/commerce/cart",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -223,9 +254,16 @@ class AsyncCartResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             f"/commerce/cart/{cart_id}/items",
-            body={"product_id": product_id, "quantity": quantity, "variant_id": variant_id},
+            body={
+                "product_id": product_id,
+                "quantity": quantity,
+                "variant_id": variant_id,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -245,7 +283,10 @@ class AsyncCartResource(AsyncAPIResource):
             f"/commerce/cart/{cart_id}/items/{item_id}",
             body={"quantity": quantity},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -263,7 +304,10 @@ class AsyncCartResource(AsyncAPIResource):
         return await self._delete(
             f"/commerce/cart/{cart_id}/items/{item_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -280,7 +324,10 @@ class AsyncCartResource(AsyncAPIResource):
         return await self._delete(
             f"/commerce/cart/{cart_id}/items",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -299,7 +346,10 @@ class AsyncCartResource(AsyncAPIResource):
             f"/commerce/cart/{cart_id}/coupon",
             body={"code": code},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

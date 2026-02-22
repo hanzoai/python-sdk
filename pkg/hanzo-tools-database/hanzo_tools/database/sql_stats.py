@@ -6,7 +6,12 @@ from typing import Unpack, Optional, Annotated, TypedDict, final, override
 from pydantic import Field
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 from .database_manager import DatabaseManager
 
@@ -38,7 +43,9 @@ class SqlStatsParams(TypedDict, total=False):
 class SqlStatsTool(BaseTool):
     """Tool for getting SQLite database statistics."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL stats tool.
 
         Args:
@@ -113,7 +120,9 @@ Examples:
         except Exception as e:
             return f"Error accessing project database: {str(e)}"
 
-        await tool_ctx.info(f"Getting statistics for project: {project_db.project_path}")
+        await tool_ctx.info(
+            f"Getting statistics for project: {project_db.project_path}"
+        )
 
         # Collect statistics
         conn = None
@@ -132,7 +141,9 @@ Examples:
             output.append("")
 
             # Get table statistics
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+            )
             tables = cursor.fetchall()
 
             output.append("=== Tables ===")
@@ -176,7 +187,9 @@ Examples:
 
                     # Show sample data for specific tables
                     if table_name == "files" and row_count > 0:
-                        cursor.execute(f"SELECT COUNT(DISTINCT SUBSTR(path, -3)) as ext_count FROM {table_name}")
+                        cursor.execute(
+                            f"SELECT COUNT(DISTINCT SUBSTR(path, -3)) as ext_count FROM {table_name}"
+                        )
                         ext_count = cursor.fetchone()[0]
                         output.append(f"  File types: ~{ext_count}")
 
@@ -198,7 +211,9 @@ Examples:
             output.append(f"\nTotal Rows: {total_rows:,}")
 
             # Get index statistics
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='index' AND sql IS NOT NULL ORDER BY name")
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='index' AND sql IS NOT NULL ORDER BY name"
+            )
             indexes = cursor.fetchall()
             if indexes:
                 output.append(f"\n=== Indexes ===")

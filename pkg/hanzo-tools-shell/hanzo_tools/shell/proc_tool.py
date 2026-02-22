@@ -235,7 +235,9 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                     try:
                         from hanzo_async import read_file
 
-                        output = await read_file(log_file, encoding="utf-8", errors="replace")
+                        output = await read_file(
+                            log_file, encoding="utf-8", errors="replace"
+                        )
                     except Exception:
                         pass
 
@@ -275,7 +277,9 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                         try:
                             from hanzo_async import read_file
 
-                            output = await read_file(log_file, encoding="utf-8", errors="replace")
+                            output = await read_file(
+                                log_file, encoding="utf-8", errors="replace"
+                            )
                         except Exception:
                             pass
 

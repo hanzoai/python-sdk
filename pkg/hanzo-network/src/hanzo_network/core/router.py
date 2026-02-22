@@ -129,7 +129,9 @@ class RoutingAgent(Agent):
 
         return "\n".join(prompt_parts)
 
-    def _parse_routing_decision(self, result: Dict[str, Any], args: RouterArgs) -> Optional[Agent]:
+    def _parse_routing_decision(
+        self, result: Dict[str, Any], args: RouterArgs
+    ) -> Optional[Agent]:
         """Parse routing decision from agent result."""
         output = result.get("output", [])
 
@@ -224,7 +226,9 @@ def get_default_routing_agent(
         from .agent import ModelConfig, ModelProvider
 
         # Use local dummy model for default router
-        model = ModelConfig(provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.3)
+        model = ModelConfig(
+            provider=ModelProvider.LOCAL, model="llama3.2", temperature=0.3
+        )
 
     return create_routing_agent(
         name="default_router",

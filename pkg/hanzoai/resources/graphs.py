@@ -43,7 +43,10 @@ class GraphsResource(SyncAPIResource):
         return self._get(
             "/ai/graphs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -61,7 +64,10 @@ class GraphsResource(SyncAPIResource):
         return self._get(
             f"/ai/graphs/{graph_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -82,7 +88,10 @@ class GraphsResource(SyncAPIResource):
             "/ai/graphs",
             body={"name": name, "description": description, "schema": schema},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -100,7 +109,10 @@ class GraphsResource(SyncAPIResource):
         return self._delete(
             f"/ai/graphs/{graph_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -121,7 +133,10 @@ class GraphsResource(SyncAPIResource):
             f"/ai/graphs/{graph_id}/nodes",
             body={"type": type, "properties": properties},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -142,9 +157,17 @@ class GraphsResource(SyncAPIResource):
         """Add an edge to the graph."""
         return self._post(
             f"/ai/graphs/{graph_id}/edges",
-            body={"source_id": source_id, "target_id": target_id, "type": type, "properties": properties},
+            body={
+                "source_id": source_id,
+                "target_id": target_id,
+                "type": type,
+                "properties": properties,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -165,7 +188,10 @@ class GraphsResource(SyncAPIResource):
             f"/ai/graphs/{graph_id}/query",
             body={"query": query, "params": params},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -187,7 +213,10 @@ class GraphsResource(SyncAPIResource):
             f"/ai/graphs/{graph_id}/search",
             body={"text": text, "node_types": node_types, "limit": limit},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -205,7 +234,10 @@ class GraphsResource(SyncAPIResource):
         return self._get(
             f"/ai/graphs/{graph_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -233,7 +265,10 @@ class AsyncGraphsResource(AsyncAPIResource):
         return await self._get(
             "/ai/graphs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -250,7 +285,10 @@ class AsyncGraphsResource(AsyncAPIResource):
         return await self._get(
             f"/ai/graphs/{graph_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -270,7 +308,10 @@ class AsyncGraphsResource(AsyncAPIResource):
             "/ai/graphs",
             body={"name": name, "description": description, "schema": schema},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -287,7 +328,10 @@ class AsyncGraphsResource(AsyncAPIResource):
         return await self._delete(
             f"/ai/graphs/{graph_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -307,7 +351,10 @@ class AsyncGraphsResource(AsyncAPIResource):
             f"/ai/graphs/{graph_id}/nodes",
             body={"type": type, "properties": properties},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -327,9 +374,17 @@ class AsyncGraphsResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             f"/ai/graphs/{graph_id}/edges",
-            body={"source_id": source_id, "target_id": target_id, "type": type, "properties": properties},
+            body={
+                "source_id": source_id,
+                "target_id": target_id,
+                "type": type,
+                "properties": properties,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -349,7 +404,10 @@ class AsyncGraphsResource(AsyncAPIResource):
             f"/ai/graphs/{graph_id}/query",
             body={"query": query, "params": params},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -370,7 +428,10 @@ class AsyncGraphsResource(AsyncAPIResource):
             f"/ai/graphs/{graph_id}/search",
             body={"text": text, "node_types": node_types, "limit": limit},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -387,7 +448,10 @@ class AsyncGraphsResource(AsyncAPIResource):
         return await self._get(
             f"/ai/graphs/{graph_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

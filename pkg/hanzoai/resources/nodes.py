@@ -67,7 +67,10 @@ class NodesResource(SyncAPIResource):
         return self._get(
             f"/network/nodes/{node_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -88,7 +91,10 @@ class NodesResource(SyncAPIResource):
             "/network/nodes",
             body={"network_id": network_id, "type": type, "config": config},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -106,7 +112,10 @@ class NodesResource(SyncAPIResource):
         return self._delete(
             f"/network/nodes/{node_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -124,7 +133,10 @@ class NodesResource(SyncAPIResource):
         return self._post(
             f"/network/nodes/{node_id}/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -142,7 +154,10 @@ class NodesResource(SyncAPIResource):
         return self._post(
             f"/network/nodes/{node_id}/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -183,7 +198,10 @@ class NodesResource(SyncAPIResource):
         return self._get(
             f"/network/nodes/{node_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -234,7 +252,10 @@ class AsyncNodesResource(AsyncAPIResource):
         return await self._get(
             f"/network/nodes/{node_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -254,7 +275,10 @@ class AsyncNodesResource(AsyncAPIResource):
             "/network/nodes",
             body={"network_id": network_id, "type": type, "config": config},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -271,7 +295,10 @@ class AsyncNodesResource(AsyncAPIResource):
         return await self._delete(
             f"/network/nodes/{node_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -288,7 +315,10 @@ class AsyncNodesResource(AsyncAPIResource):
         return await self._post(
             f"/network/nodes/{node_id}/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -305,7 +335,10 @@ class AsyncNodesResource(AsyncAPIResource):
         return await self._post(
             f"/network/nodes/{node_id}/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -344,7 +377,10 @@ class AsyncNodesResource(AsyncAPIResource):
         return await self._get(
             f"/network/nodes/{node_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

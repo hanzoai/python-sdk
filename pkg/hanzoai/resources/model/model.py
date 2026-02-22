@@ -249,7 +249,9 @@ class AsyncModelResource(AsyncAPIResource):
         """
         return await self._post(
             "/model/delete",
-            body=await async_maybe_transform({"id": id}, model_delete_params.ModelDeleteParams),
+            body=await async_maybe_transform(
+                {"id": id}, model_delete_params.ModelDeleteParams
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

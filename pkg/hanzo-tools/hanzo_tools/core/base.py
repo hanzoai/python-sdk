@@ -46,9 +46,7 @@ def with_error_logging(tool_name: str) -> Callable:
                         f"expected {func.__name__}{sig}, got args={args}, kwargs={kwargs}"
                     )
                 logger.exception(f"Tool {tool_name} TypeError: {e}")
-                return (
-                    f"Error executing tool '{tool_name}': {error_msg}\n\nCheck logs at ~/.hanzo/mcp/logs/ for details."
-                )
+                return f"Error executing tool '{tool_name}': {error_msg}\n\nCheck logs at ~/.hanzo/mcp/logs/ for details."
             except Exception as e:
                 logger.exception(f"Tool {tool_name} error: {e}")
                 return f"Error executing tool '{tool_name}': {str(e)}\n\nCheck logs at ~/.hanzo/mcp/logs/ for details."
@@ -69,7 +67,14 @@ def handle_connection_errors(
             return await func(*args, **kwargs)
         except Exception as e:
             error_name = type(e).__name__
-            if any(name in error_name for name in ["ClosedResourceError", "ConnectionError", "BrokenPipeError"]):
+            if any(
+                name in error_name
+                for name in [
+                    "ClosedResourceError",
+                    "ConnectionError",
+                    "BrokenPipeError",
+                ]
+            ):
                 return f"Client disconnected during operation: {error_name}"
             raise
 
@@ -205,7 +210,9 @@ class ToolRegistry:
         return cls._enabled_tools.get(tool_name, True)  # Enabled by default
 
     @classmethod
-    def set_tool_enabled(cls, tool_name: str, enabled: bool, persist: bool = True) -> None:
+    def set_tool_enabled(
+        cls, tool_name: str, enabled: bool, persist: bool = True
+    ) -> None:
         """Enable or disable a tool."""
         import json
 

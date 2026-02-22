@@ -8,14 +8,29 @@ from __future__ import annotations
 
 import os
 import asyncio
-from typing import Any, Dict, List, Unpack, Optional, Annotated, TypedDict, final, override
+from typing import (
+    Any,
+    Dict,
+    List,
+    Unpack,
+    Optional,
+    Annotated,
+    TypedDict,
+    final,
+    override,
+)
 from pathlib import Path
 
 from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, create_tool_context
+from hanzo_tools.core import (
+    BaseTool,
+    PermissionManager,
+    auto_timeout,
+    create_tool_context,
+)
 
 # Parameter types for CLI tools
 Prompt = Annotated[
@@ -161,7 +176,11 @@ class BaseCLITool(BaseTool):
             timeout: int = 300,
         ) -> str:
             result: str = await tool_self.call(
-                ctx, prompt=prompt, model=model, working_dir=working_dir, timeout=timeout
+                ctx,
+                prompt=prompt,
+                model=model,
+                working_dir=working_dir,
+                timeout=timeout,
             )
             return result
 

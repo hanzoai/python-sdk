@@ -325,7 +325,9 @@ class AsyncProvidersResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(providers.create)
         self.update = async_to_raw_response_wrapper(providers.update)
         self.delete = async_to_raw_response_wrapper(providers.delete)
-        self.refresh_mcp_tools = async_to_raw_response_wrapper(providers.refresh_mcp_tools)
+        self.refresh_mcp_tools = async_to_raw_response_wrapper(
+            providers.refresh_mcp_tools
+        )
 
 
 class ProvidersResourceWithStreamingResponse:
@@ -336,7 +338,9 @@ class ProvidersResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(providers.create)
         self.update = to_streamed_response_wrapper(providers.update)
         self.delete = to_streamed_response_wrapper(providers.delete)
-        self.refresh_mcp_tools = to_streamed_response_wrapper(providers.refresh_mcp_tools)
+        self.refresh_mcp_tools = to_streamed_response_wrapper(
+            providers.refresh_mcp_tools
+        )
 
 
 class AsyncProvidersResourceWithStreamingResponse:
@@ -347,4 +351,6 @@ class AsyncProvidersResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(providers.create)
         self.update = async_to_streamed_response_wrapper(providers.update)
         self.delete = async_to_streamed_response_wrapper(providers.delete)
-        self.refresh_mcp_tools = async_to_streamed_response_wrapper(providers.refresh_mcp_tools)
+        self.refresh_mcp_tools = async_to_streamed_response_wrapper(
+            providers.refresh_mcp_tools
+        )

@@ -190,7 +190,7 @@ async def main():
     results = await asyncio.gather(*tasks)
 
     print("\n📊 Parallel Analysis Results:")
-    for component, result in zip(components, results):
+    for component, result in zip(components, results, strict=False):
         print(f"\n{component.upper()}:")
         agent_count = result.get("agent_count", 0)
         print(f"  Agents used: {agent_count}")

@@ -24,7 +24,9 @@ class IAMConfig(BaseModel):
     client_secret: str = Field(default="", description="OAuth2 client secret")
     organization: str = Field(default="hanzo", description="IAM organization name")
     application: str = Field(default="app", description="IAM application name")
-    certificate: str = Field(default="", description="JWT verification certificate (PEM)")
+    certificate: str = Field(
+        default="", description="JWT verification certificate (PEM)"
+    )
 
     @classmethod
     def from_env(cls, prefix: str | None = None) -> IAMConfig:
@@ -40,11 +42,17 @@ class IAMConfig(BaseModel):
         """
         p = prefix or cls.ENV_PREFIX
 
-        server_url = os.environ.get(f"{p}ENDPOINT") or os.environ.get(f"{p}SERVER_URL", "")
+        server_url = os.environ.get(f"{p}ENDPOINT") or os.environ.get(
+            f"{p}SERVER_URL", ""
+        )
         client_id = os.environ.get(f"{p}CLIENT_ID", "")
         client_secret = os.environ.get(f"{p}CLIENT_SECRET", "")
-        organization = os.environ.get(f"{p}ORG_NAME") or os.environ.get(f"{p}ORGANIZATION", "hanzo")
-        application = os.environ.get(f"{p}APP_NAME") or os.environ.get(f"{p}APPLICATION", "app")
+        organization = os.environ.get(f"{p}ORG_NAME") or os.environ.get(
+            f"{p}ORGANIZATION", "hanzo"
+        )
+        application = os.environ.get(f"{p}APP_NAME") or os.environ.get(
+            f"{p}APPLICATION", "app"
+        )
 
         # Certificate can be content or file path
         cert_val = os.environ.get(f"{p}CERTIFICATE", "")

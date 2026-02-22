@@ -27,8 +27,7 @@ def test_project(tmp_path):
 
     # Create a test file with import issues
     test_file = project_dir / "main.go"
-    test_file.write_text(
-        """package main
+    test_file.write_text("""package main
 
 import (
     "fmt"
@@ -41,8 +40,7 @@ func main() {
     config := common.LoadConfig()
     fmt.Printf("Config: %v\\n", config)
 }
-"""
-    )
+""")
 
     return project_dir
 
