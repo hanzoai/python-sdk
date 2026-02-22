@@ -58,8 +58,7 @@ class SearchBenchmark:
 
         # Create LLM.md for project detection
         llm_md = test_dir / "LLM.md"
-        llm_md.write_text(
-            f"""# Test Project ({size})
+        llm_md.write_text(f"""# Test Project ({size})
 
 This is a test project for benchmarking search performance.
 
@@ -73,8 +72,7 @@ This is a test project for benchmarking search performance.
 - Data processing functions
 - Utility functions
 - Configuration management
-"""
-        )
+""")
 
         return test_dir
 
@@ -442,9 +440,9 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             )
 
             # 3. Benchmark search performance
-            size_results[
-                "search_performance"
-            ] = await self.benchmark_search_performance(test_project, test_queries)
+            size_results["search_performance"] = (
+                await self.benchmark_search_performance(test_project, test_queries)
+            )
 
             benchmark_results["results"][size] = size_results
 

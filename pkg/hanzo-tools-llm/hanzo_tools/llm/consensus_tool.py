@@ -80,7 +80,9 @@ Reference: https://github.com/luxfi/consensus
         if not available:
             return "Error: No models available"
 
-        await tool_ctx.info(f"Metastable consensus: {len(available)} models, {rounds} rounds")
+        await tool_ctx.info(
+            f"Metastable consensus: {len(available)} models, {rounds} rounds"
+        )
 
         # Execute adapter
         async def execute(model: str, model_prompt: str) -> ConsensusResult:

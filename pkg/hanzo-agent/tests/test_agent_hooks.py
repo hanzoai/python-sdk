@@ -30,7 +30,9 @@ class AgentHooksForTests(AgentHooks):
     def reset(self):
         self.events.clear()
 
-    async def on_start(self, context: RunContextWrapper[TContext], agent: Agent[TContext]) -> None:
+    async def on_start(
+        self, context: RunContextWrapper[TContext], agent: Agent[TContext]
+    ) -> None:
         self.events["on_start"] += 1
 
     async def on_end(

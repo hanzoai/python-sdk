@@ -66,7 +66,9 @@ class SemanticExtractor:
     # STAGE 1: Trajectory Summarization (Figure 11)
     # =========================================================================
 
-    def summarize_trajectory(self, trajectory: Trajectory, use_groundtruth: bool = True) -> str:
+    def summarize_trajectory(
+        self, trajectory: Trajectory, use_groundtruth: bool = True
+    ) -> str:
         """Summarize a single trajectory step-by-step.
 
         This stage analyzes what happened in each step of the trajectory,
@@ -121,7 +123,10 @@ Only return the trajectory summary of each step, e.g.,
     # =========================================================================
 
     def extract_group_advantage(
-        self, trajectories: List[Trajectory], experiences: str, use_groundtruth: bool = True
+        self,
+        trajectories: List[Trajectory],
+        experiences: str,
+        use_groundtruth: bool = True,
     ) -> List[Dict]:
         """Extract semantic advantage from a group of trajectories.
 
@@ -151,7 +156,9 @@ Only return the trajectory summary of each step, e.g.,
         for i, traj in enumerate(trajectories):
             status = "correct" if traj.reward > 0 else "wrong"
             content = traj.summary or traj.output
-            formatted_trajectories.append(f"Attempt {i + 1} (Answer {status}):\n{content}")
+            formatted_trajectories.append(
+                f"Attempt {i + 1} (Answer {status}):\n{content}"
+            )
 
         trajectories_text = "\n\n".join(formatted_trajectories)
 
@@ -230,7 +237,9 @@ Note that your updated experiences may not need to cover all the options.
     # STAGE 3: Batch Consolidation (Figure 13)
     # =========================================================================
 
-    def consolidate_batch(self, all_group_operations: List[List[Dict]], experiences: str) -> List[Dict]:
+    def consolidate_batch(
+        self, all_group_operations: List[List[Dict]], experiences: str
+    ) -> List[Dict]:
         """Consolidate all group advantages into final experience updates.
 
         This stage merges operations from all groups in the batch, ensuring:
@@ -306,7 +315,9 @@ After generating the step-by-step reasoning, you need to give the final experien
     # Helper Methods
     # =========================================================================
 
-    def _parse_json_operations(self, response: str, max_ops: Optional[int] = None) -> List[Dict]:
+    def _parse_json_operations(
+        self, response: str, max_ops: Optional[int] = None
+    ) -> List[Dict]:
         """Parse JSON operations from LLM response.
 
         Extracts JSON block from markdown code fence and validates format.
@@ -354,7 +365,12 @@ class LLMClient:
     Supports OpenAI-compatible APIs (OpenAI, DeepSeek, etc.).
     """
 
-    def __init__(self, api_key: str, base_url: str = "https://api.deepseek.com/v1", model: str = "deepseek-chat"):
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.deepseek.com/v1",
+        model: str = "deepseek-chat",
+    ):
         """Initialize LLM client.
 
         Args:
@@ -365,12 +381,16 @@ class LLMClient:
         try:
             from openai import OpenAI
         except ImportError:
-            raise ImportError("OpenAI package not found. Install with: pip install openai")
+            raise ImportError(
+                "OpenAI package not found. Install with: pip install openai"
+            )
 
         self.client = OpenAI(api_key=api_key, base_url=base_url)
         self.model = model
 
-    def chat(self, prompt: str, temperature: float = 0.7, max_tokens: int = 4096) -> str:
+    def chat(
+        self, prompt: str, temperature: float = 0.7, max_tokens: int = 4096
+    ) -> str:
         """Send chat request to LLM.
 
         Args:

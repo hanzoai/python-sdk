@@ -39,7 +39,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/login",
             body={"provider": provider, "redirect_uri": redirect_uri},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -56,7 +59,10 @@ class IdentityResource(SyncAPIResource):
         return self._post(
             "/identity/logout",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -73,7 +79,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             "/identity/whoami",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -90,7 +99,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             "/identity/token",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -109,7 +121,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/refresh",
             body={"refresh_token": refresh_token},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -130,7 +145,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/sa",
             body={"name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -147,7 +165,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             "/identity/sa",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -165,7 +186,10 @@ class IdentityResource(SyncAPIResource):
         return self._delete(
             f"/identity/sa/{sa_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -185,7 +209,10 @@ class IdentityResource(SyncAPIResource):
             f"/identity/sa/{sa_id}/keys",
             body={"ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -203,7 +230,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             f"/identity/sa/{sa_id}/keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -222,7 +252,10 @@ class IdentityResource(SyncAPIResource):
         return self._delete(
             f"/identity/sa/{sa_id}/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -244,7 +277,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/roles",
             body={"name": name, "permissions": permissions, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -261,7 +297,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             "/identity/roles",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -279,7 +318,10 @@ class IdentityResource(SyncAPIResource):
         return self._delete(
             f"/identity/roles/{role_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -300,7 +342,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/grants",
             body={"principal": principal, "role": role, "scope": scope},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -321,7 +366,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/grants",
             body={"principal": principal, "role": role, "scope": scope},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -343,7 +391,10 @@ class IdentityResource(SyncAPIResource):
             "/identity/apps",
             body={"name": name, "type": type, "redirect_uris": redirect_uris},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -361,7 +412,10 @@ class IdentityResource(SyncAPIResource):
         return self._get(
             f"/identity/apps/{app_id}/credentials",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -379,7 +433,10 @@ class IdentityResource(SyncAPIResource):
         return self._post(
             f"/identity/apps/{app_id}/rotate-secret",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -411,7 +468,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/login",
             body={"provider": provider, "redirect_uri": redirect_uri},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -428,7 +488,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._post(
             "/identity/logout",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -445,7 +508,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             "/identity/whoami",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -462,7 +528,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             "/identity/token",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -481,7 +550,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/refresh",
             body={"refresh_token": refresh_token},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -501,7 +573,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/sa",
             body={"name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -518,7 +593,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             "/identity/sa",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -536,7 +614,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._delete(
             f"/identity/sa/{sa_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -556,7 +637,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             f"/identity/sa/{sa_id}/keys",
             body={"ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -574,7 +658,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             f"/identity/sa/{sa_id}/keys",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -593,7 +680,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._delete(
             f"/identity/sa/{sa_id}/keys/{key_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -614,7 +704,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/roles",
             body={"name": name, "permissions": permissions, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -631,7 +724,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             "/identity/roles",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -649,7 +745,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._delete(
             f"/identity/roles/{role_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -670,7 +769,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/grants",
             body={"principal": principal, "role": role, "scope": scope},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -691,7 +793,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/grants",
             body={"principal": principal, "role": role, "scope": scope},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -712,7 +817,10 @@ class AsyncIdentityResource(AsyncAPIResource):
             "/identity/apps",
             body={"name": name, "type": type, "redirect_uris": redirect_uris},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -730,7 +838,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._get(
             f"/identity/apps/{app_id}/credentials",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -748,7 +859,10 @@ class AsyncIdentityResource(AsyncAPIResource):
         return await self._post(
             f"/identity/apps/{app_id}/rotate-secret",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

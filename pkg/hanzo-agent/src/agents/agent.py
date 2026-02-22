@@ -135,7 +135,8 @@ class Agent(Generic[TContext]):
         """
 
         @function_tool(
-            name_override=tool_name or _utils.transform_string_function_style(self.name),
+            name_override=tool_name
+            or _utils.transform_string_function_style(self.name),
             description_override=tool_description or "",
         )
         async def run_agent(context: RunContextWrapper, input: str) -> str:
@@ -153,7 +154,9 @@ class Agent(Generic[TContext]):
 
         return run_agent
 
-    async def get_system_prompt(self, run_context: RunContextWrapper[TContext]) -> str | None:
+    async def get_system_prompt(
+        self, run_context: RunContextWrapper[TContext]
+    ) -> str | None:
         """Get the system prompt for the agent."""
         if isinstance(self.instructions, str):
             return self.instructions
@@ -163,6 +166,8 @@ class Agent(Generic[TContext]):
             else:
                 return cast(str, self.instructions(run_context, self))
         elif self.instructions is not None:
-            logger.error(f"Instructions must be a string or a function, got {self.instructions}")
+            logger.error(
+                f"Instructions must be a string or a function, got {self.instructions}"
+            )
 
         return None

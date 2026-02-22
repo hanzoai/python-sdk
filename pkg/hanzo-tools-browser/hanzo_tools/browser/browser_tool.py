@@ -65,7 +65,9 @@ async def _check_extension() -> bool:
         import aiohttp
 
         async with aiohttp.ClientSession() as session:
-            async with session.get("http://localhost:9224/status", timeout=aiohttp.ClientTimeout(total=1)) as resp:
+            async with session.get(
+                "http://localhost:9224/status", timeout=aiohttp.ClientTimeout(total=1)
+            ) as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     return data.get("connected", False)
@@ -85,7 +87,9 @@ async def _extension_command(action: str, **kwargs) -> Optional[dict]:
 
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                "http://localhost:9224", json=payload, timeout=aiohttp.ClientTimeout(total=30)
+                "http://localhost:9224",
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=30),
             ) as resp:
                 if resp.status == 200:
                     return await resp.json()
@@ -401,7 +405,9 @@ class BrowserPool:
     ) -> Page:
         """Ensure browser is running, return current page."""
         if not PLAYWRIGHT_AVAILABLE:
-            raise RuntimeError("Playwright not installed. Run: pip install playwright && playwright install chromium")
+            raise RuntimeError(
+                "Playwright not installed. Run: pip install playwright && playwright install chromium"
+            )
 
         needs_init = (
             not self._initialized
@@ -425,7 +431,9 @@ class BrowserPool:
 
             if cdp_endpoint:
                 logger.info(f"Connecting to browser at {cdp_endpoint}")
-                self._browser = await self._playwright.chromium.connect_over_cdp(cdp_endpoint)
+                self._browser = await self._playwright.chromium.connect_over_cdp(
+                    cdp_endpoint
+                )
                 contexts = self._browser.contexts
                 if contexts:
                     self._context = contexts[0]
@@ -470,7 +478,9 @@ class BrowserPool:
 
         return self._page
 
-    async def new_context(self, device: Optional[str] = None, **kwargs) -> BrowserContext:
+    async def new_context(
+        self, device: Optional[str] = None, **kwargs
+    ) -> BrowserContext:
         """Create a new isolated browser context for parallel agents."""
         if not self._browser:
             raise RuntimeError("Browser not initialized")
@@ -484,7 +494,9 @@ class BrowserPool:
         self._contexts.append(context)
         return context
 
-    async def new_page(self, url: Optional[str] = None, context: Optional[BrowserContext] = None) -> Page:
+    async def new_page(
+        self, url: Optional[str] = None, context: Optional[BrowserContext] = None
+    ) -> Page:
         """Open a new page in specified or current context."""
         ctx = context or self._context
         if not ctx:
@@ -502,7 +514,11 @@ class BrowserPool:
         if not self._pages:
             return
 
-        idx = index if index is not None else self._pages.index(self._page) if self._page in self._pages else -1
+        idx = (
+            index
+            if index is not None
+            else self._pages.index(self._page) if self._page in self._pages else -1
+        )
         if 0 <= idx < len(self._pages):
             page = self._pages.pop(idx)
             await page.close()
@@ -630,7 +646,9 @@ CATEGORIES:
             device=device,
         )
 
-    def _get_locator(self, page: Page, selector: str, frame: Optional[str] = None) -> Locator:
+    def _get_locator(
+        self, page: Page, selector: str, frame: Optional[str] = None
+    ) -> Locator:
         """Get a locator, optionally within a frame."""
         if frame:
             return page.frame_locator(frame).locator(selector)
@@ -726,10 +744,25 @@ CATEGORIES:
         sel = selector or ref
 
         # === TRY EXTENSION FIRST ===
-        extension_actions = {"navigate", "screenshot", "click", "fill", "evaluate", "tabs", "status"}
+        extension_actions = {
+            "navigate",
+            "screenshot",
+            "click",
+            "fill",
+            "evaluate",
+            "tabs",
+            "status",
+        }
         if action in extension_actions:
             ext_result = await _extension_command(
-                action, url=url, selector=sel, text=text, value=value, code=code, expression=code, full_page=full_page
+                action,
+                url=url,
+                selector=sel,
+                text=text,
+                value=value,
+                code=code,
+                expression=code,
+                full_page=full_page,
             )
             if ext_result is not None and "error" not in ext_result:
                 # Normalize response
@@ -754,16 +787,31 @@ CATEGORIES:
                 endpoint = cdp_endpoint or self.cdp_endpoint
                 if not endpoint:
                     return {"error": "cdp_endpoint required"}
-                page = await pool.ensure_browser(headless=self.headless, cdp_endpoint=endpoint)
-                return {"success": True, "connected": True, "endpoint": endpoint, "url": page.url}
+                page = await pool.ensure_browser(
+                    headless=self.headless, cdp_endpoint=endpoint
+                )
+                return {
+                    "success": True,
+                    "connected": True,
+                    "endpoint": endpoint,
+                    "url": page.url,
+                }
 
             # === Device Emulation ===
             if action == "emulate":
                 if not device:
-                    return {"error": f"device required. Available: {list(DEVICES.keys())}"}
+                    return {
+                        "error": f"device required. Available: {list(DEVICES.keys())}"
+                    }
                 if device not in DEVICES:
-                    return {"error": f"Unknown device. Available: {list(DEVICES.keys())}"}
-                page = await pool.ensure_browser(headless=self.headless, cdp_endpoint=self.cdp_endpoint, device=device)
+                    return {
+                        "error": f"Unknown device. Available: {list(DEVICES.keys())}"
+                    }
+                page = await pool.ensure_browser(
+                    headless=self.headless,
+                    cdp_endpoint=self.cdp_endpoint,
+                    device=device,
+                )
                 settings = DEVICES[device]
                 return {"success": True, "device": device, **settings}
 
@@ -773,7 +821,9 @@ CATEGORIES:
             if action == "navigate":
                 if not url:
                     return {"error": "url required"}
-                resp = await page.goto(url, timeout=timeout, wait_until=state or "domcontentloaded")
+                resp = await page.goto(
+                    url, timeout=timeout, wait_until=state or "domcontentloaded"
+                )
                 return {
                     "success": True,
                     "url": page.url,
@@ -798,7 +848,11 @@ CATEGORIES:
 
             elif action == "reload":
                 resp = await page.reload(timeout=timeout)
-                return {"success": True, "url": page.url, "status": resp.status if resp else None}
+                return {
+                    "success": True,
+                    "url": page.url,
+                    "status": resp.status if resp else None,
+                }
 
             elif action == "go_back":
                 resp = await page.go_back(timeout=timeout)
@@ -859,7 +913,9 @@ CATEGORIES:
                 if not sel or value is None:
                     return {"error": "selector and value required"}
                 loc = self._get_locator(page, sel, frame)
-                selected = await loc.select_option(value if isinstance(value, list) else [value], timeout=timeout)
+                selected = await loc.select_option(
+                    value if isinstance(value, list) else [value], timeout=timeout
+                )
                 return {"success": True, "selected": selected}
 
             elif action == "check":
@@ -913,7 +969,10 @@ CATEGORIES:
 
             elif action == "mouse_wheel":
                 await page.mouse.wheel(delta_x or 0, delta_y or 0)
-                return {"success": True, "scrolled": {"delta_x": delta_x or 0, "delta_y": delta_y or 0}}
+                return {
+                    "success": True,
+                    "scrolled": {"delta_x": delta_x or 0, "delta_y": delta_y or 0},
+                }
 
             elif action == "scroll":
                 if sel:
@@ -921,8 +980,16 @@ CATEGORIES:
                     await loc.scroll_into_view_if_needed(timeout=timeout)
                     return {"success": True, "scrolled_to": sel}
                 else:
-                    await page.evaluate(f"window.scrollBy({delta_x or 0}, {delta_y or 300})")
-                    return {"success": True, "scrolled": {"delta_x": delta_x or 0, "delta_y": delta_y or 300}}
+                    await page.evaluate(
+                        f"window.scrollBy({delta_x or 0}, {delta_y or 300})"
+                    )
+                    return {
+                        "success": True,
+                        "scrolled": {
+                            "delta_x": delta_x or 0,
+                            "delta_y": delta_y or 300,
+                        },
+                    }
 
             # === Touch ===
             elif action == "tap":
@@ -941,7 +1008,12 @@ CATEGORIES:
                     return {"error": "Element not visible"}
                 cx, cy = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
                 dist = distance or 200
-                offsets = {"left": (-dist, 0), "right": (dist, 0), "up": (0, -dist), "down": (0, dist)}
+                offsets = {
+                    "left": (-dist, 0),
+                    "right": (dist, 0),
+                    "up": (0, -dist),
+                    "down": (0, dist),
+                }
                 dx, dy = offsets.get(direction, (0, 0))
                 await page.touchscreen.tap(cx, cy)
                 await page.mouse.move(cx, cy)
@@ -981,7 +1053,11 @@ CATEGORIES:
                     return {"error": "selector required"}
                 # Just validate frame exists
                 frame_loc = page.frame_locator(sel)
-                return {"success": True, "frame": sel, "note": "Use frame parameter in subsequent actions"}
+                return {
+                    "success": True,
+                    "frame": sel,
+                    "note": "Use frame parameter in subsequent actions",
+                }
 
             # === Built-in Locators ===
             elif action == "get_by_role":
@@ -1007,7 +1083,11 @@ CATEGORIES:
                 if not text:
                     return {"error": "text required"}
                 loc = page.get_by_placeholder(text, exact=exact)
-                return {"success": True, "placeholder": text, "count": await loc.count()}
+                return {
+                    "success": True,
+                    "placeholder": text,
+                    "count": await loc.count(),
+                }
 
             elif action == "get_by_test_id":
                 if not text:
@@ -1078,7 +1158,11 @@ CATEGORIES:
                             "text": await el.text_content(),
                         }
                     )
-                return {"success": True, "count": len(results), "elements": results[:20]}  # Limit to 20
+                return {
+                    "success": True,
+                    "count": len(results),
+                    "elements": results[:20],
+                }  # Limit to 20
 
             elif action == "count":
                 if not sel:
@@ -1091,13 +1175,19 @@ CATEGORIES:
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "text": await loc.text_content(timeout=timeout)}
+                return {
+                    "success": True,
+                    "text": await loc.text_content(timeout=timeout),
+                }
 
             elif action == "get_inner_text":
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "inner_text": await loc.inner_text(timeout=timeout)}
+                return {
+                    "success": True,
+                    "inner_text": await loc.inner_text(timeout=timeout),
+                }
 
             elif action == "get_attribute":
                 if not sel or not attribute:
@@ -1113,12 +1203,18 @@ CATEGORIES:
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "value": await loc.input_value(timeout=timeout)}
+                return {
+                    "success": True,
+                    "value": await loc.input_value(timeout=timeout),
+                }
 
             elif action == "get_html":
                 if sel:
                     loc = self._get_locator(page, sel, frame)
-                    return {"success": True, "html": await loc.inner_html(timeout=timeout)}
+                    return {
+                        "success": True,
+                        "html": await loc.inner_html(timeout=timeout),
+                    }
                 return {"success": True, "html": await page.content()}
 
             elif action == "get_bounding_box":
@@ -1126,14 +1222,21 @@ CATEGORIES:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
                 box = await loc.bounding_box(timeout=timeout)
-                return {"success": True, "bounding_box": box} if box else {"error": "Element not visible"}
+                return (
+                    {"success": True, "bounding_box": box}
+                    if box
+                    else {"error": "Element not visible"}
+                )
 
             # === State Checks ===
             elif action == "is_visible":
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "visible": await loc.is_visible(timeout=timeout)}
+                return {
+                    "success": True,
+                    "visible": await loc.is_visible(timeout=timeout),
+                }
 
             elif action == "is_hidden":
                 if not sel:
@@ -1145,19 +1248,28 @@ CATEGORIES:
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "enabled": await loc.is_enabled(timeout=timeout)}
+                return {
+                    "success": True,
+                    "enabled": await loc.is_enabled(timeout=timeout),
+                }
 
             elif action == "is_editable":
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "editable": await loc.is_editable(timeout=timeout)}
+                return {
+                    "success": True,
+                    "editable": await loc.is_editable(timeout=timeout),
+                }
 
             elif action == "is_checked":
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {"success": True, "checked": await loc.is_checked(timeout=timeout)}
+                return {
+                    "success": True,
+                    "checked": await loc.is_checked(timeout=timeout),
+                }
 
             # === Assertions (expect) ===
             elif action.startswith("expect_"):
@@ -1169,11 +1281,17 @@ CATEGORIES:
                         return {"error": "expected URL pattern required"}
                     try:
                         await expect(page).to_have_url(
-                            re.compile(pattern) if "*" in pattern else pattern, timeout=timeout
+                            re.compile(pattern) if "*" in pattern else pattern,
+                            timeout=timeout,
                         )
                         return {"success": True, "assertion": "url", "passed": True}
                     except Exception as e:
-                        return {"success": False, "assertion": "url", "passed": False, "error": str(e)}
+                        return {
+                            "success": False,
+                            "assertion": "url",
+                            "passed": False,
+                            "error": str(e),
+                        }
 
                 elif action == "expect_title":
                     pattern = expected or text
@@ -1181,11 +1299,17 @@ CATEGORIES:
                         return {"error": "expected title required"}
                     try:
                         await expect(page).to_have_title(
-                            re.compile(pattern) if "*" in pattern else pattern, timeout=timeout
+                            re.compile(pattern) if "*" in pattern else pattern,
+                            timeout=timeout,
                         )
                         return {"success": True, "assertion": "title", "passed": True}
                     except Exception as e:
-                        return {"success": False, "assertion": "title", "passed": False, "error": str(e)}
+                        return {
+                            "success": False,
+                            "assertion": "title",
+                            "passed": False,
+                            "error": str(e),
+                        }
 
                 elif not sel:
                     return {"error": "selector required for element assertions"}
@@ -1238,13 +1362,22 @@ CATEGORIES:
                         if not attribute or not expected:
                             return {"error": "attribute and expected required"}
                         if not_:
-                            await expect(loc).not_to_have_attribute(attribute, expected, timeout=timeout)
+                            await expect(loc).not_to_have_attribute(
+                                attribute, expected, timeout=timeout
+                            )
                         else:
-                            await expect(loc).to_have_attribute(attribute, expected, timeout=timeout)
+                            await expect(loc).to_have_attribute(
+                                attribute, expected, timeout=timeout
+                            )
                     else:
                         return {"error": f"Unknown assertion: {assertion_type}"}
 
-                    return {"success": True, "assertion": assertion_type, "passed": True, "selector": sel}
+                    return {
+                        "success": True,
+                        "assertion": assertion_type,
+                        "passed": True,
+                        "selector": sel,
+                    }
                 except Exception as e:
                     return {
                         "success": False,
@@ -1262,11 +1395,21 @@ CATEGORIES:
                     data = await loc.screenshot(**opts)
                 else:
                     data = await page.screenshot(**opts)
-                return {"success": True, "format": "png", "size": len(data), "base64": base64.b64encode(data).decode()}
+                return {
+                    "success": True,
+                    "format": "png",
+                    "size": len(data),
+                    "base64": base64.b64encode(data).decode(),
+                }
 
             elif action == "pdf":
                 data = await page.pdf()
-                return {"success": True, "format": "pdf", "size": len(data), "base64": base64.b64encode(data).decode()}
+                return {
+                    "success": True,
+                    "format": "pdf",
+                    "size": len(data),
+                    "base64": base64.b64encode(data).decode(),
+                }
 
             elif action == "snapshot":
                 return {
@@ -1326,14 +1469,30 @@ CATEGORIES:
 
             elif action == "wait_for_event":
                 if not event:
-                    return {"error": "event required (request, response, download, filechooser, popup)"}
+                    return {
+                        "error": "event required (request, response, download, filechooser, popup)"
+                    }
                 result = await page.wait_for_event(event, timeout=timeout)
                 if event == "request":
-                    return {"success": True, "event": event, "url": result.url, "method": result.method}
+                    return {
+                        "success": True,
+                        "event": event,
+                        "url": result.url,
+                        "method": result.method,
+                    }
                 elif event == "response":
-                    return {"success": True, "event": event, "url": result.url, "status": result.status}
+                    return {
+                        "success": True,
+                        "event": event,
+                        "url": result.url,
+                        "status": result.status,
+                    }
                 elif event == "download":
-                    return {"success": True, "event": event, "filename": result.suggested_filename}
+                    return {
+                        "success": True,
+                        "event": event,
+                        "filename": result.suggested_filename,
+                    }
                 return {"success": True, "event": event}
 
             elif action == "wait_for_request":
@@ -1365,9 +1524,16 @@ CATEGORIES:
                 if latitude is None or longitude is None:
                     return {"error": "latitude and longitude required"}
                 await pool._context.set_geolocation(
-                    {"latitude": latitude, "longitude": longitude, "accuracy": accuracy or 100}
+                    {
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "accuracy": accuracy or 100,
+                    }
                 )
-                return {"success": True, "geolocation": {"lat": latitude, "lon": longitude}}
+                return {
+                    "success": True,
+                    "geolocation": {"lat": latitude, "lon": longitude},
+                }
 
             elif action == "permissions":
                 if not permission:
@@ -1384,13 +1550,24 @@ CATEGORIES:
                     if block:
                         await route.abort()
                     elif response:
-                        body = json.dumps(response) if isinstance(response, dict) else response
-                        await route.fulfill(status=status_code or 200, content_type="application/json", body=body)
+                        body = (
+                            json.dumps(response)
+                            if isinstance(response, dict)
+                            else response
+                        )
+                        await route.fulfill(
+                            status=status_code or 200,
+                            content_type="application/json",
+                            body=body,
+                        )
                     else:
                         await route.continue_()
 
                 await page.route(pattern, handle)
-                pool._state.routes[pattern] = {"block": block, "mock": response is not None}
+                pool._state.routes[pattern] = {
+                    "block": block,
+                    "mock": response is not None,
+                }
                 return {"success": True, "route": pattern}
 
             elif action == "unroute":
@@ -1420,7 +1597,12 @@ CATEGORIES:
                             f"{store}.setItem('{k}', '{json.dumps(v) if isinstance(v, (dict, list)) else v}')"
                         )
                     return {"success": True, "set_keys": list(storage_data.keys())}
-                return {"success": True, "data": await page.evaluate(f"Object.fromEntries(Object.entries({store}))")}
+                return {
+                    "success": True,
+                    "data": await page.evaluate(
+                        f"Object.fromEntries(Object.entries({store}))"
+                    ),
+                }
 
             elif action == "storage_state":
                 if not auth_file:
@@ -1446,7 +1628,10 @@ CATEGORIES:
                 }
 
             elif action == "off":
-                return {"success": True, "note": "Event listeners managed automatically"}
+                return {
+                    "success": True,
+                    "note": "Event listeners managed automatically",
+                }
 
             # === Dialogs ===
             elif action == "dialog":
@@ -1457,14 +1642,23 @@ CATEGORIES:
                     else:
                         await d.dismiss()
                     pool._state.pending_dialog = None
-                    return {"success": True, "type": d.type, "message": d.message, "accepted": accept}
+                    return {
+                        "success": True,
+                        "type": d.type,
+                        "message": d.message,
+                        "accepted": accept,
+                    }
                 return {"error": "No pending dialog"}
 
             # === Frames ===
             elif action == "frame":
                 if not sel:
                     return {"error": "selector required for frame"}
-                return {"success": True, "frame": sel, "note": "Use frame parameter in subsequent actions"}
+                return {
+                    "success": True,
+                    "frame": sel,
+                    "note": "Use frame parameter in subsequent actions",
+                }
 
             elif action == "main_frame":
                 return {"success": True, "frame": "main"}
@@ -1477,7 +1671,11 @@ CATEGORIES:
                         await fc.set_files(files)
                         pool._state.pending_file_chooser = None
                         return {"success": True, "uploaded": len(files)}
-                    return {"success": True, "file_chooser_pending": True, "multiple": fc.is_multiple}
+                    return {
+                        "success": True,
+                        "file_chooser_pending": True,
+                        "multiple": fc.is_multiple,
+                    }
                 return {"error": "No pending file chooser. Trigger an upload first."}
 
             elif action == "download":
@@ -1496,7 +1694,11 @@ CATEGORIES:
                     async with page.expect_download(timeout=timeout) as dl:
                         await page.click(sel)
                     d = await dl.value
-                    return {"success": True, "filename": d.suggested_filename, "url": d.url}
+                    return {
+                        "success": True,
+                        "filename": d.suggested_filename,
+                        "url": d.url,
+                    }
                 return {"error": "No pending download and no selector to click"}
 
             # === Console/Errors ===
@@ -1504,10 +1706,18 @@ CATEGORIES:
                 msgs = pool._state.console_messages
                 if level:
                     msgs = [m for m in msgs if m["type"] == level]
-                return {"success": True, "messages": msgs[-50:], "count": len(msgs)}  # Last 50
+                return {
+                    "success": True,
+                    "messages": msgs[-50:],
+                    "count": len(msgs),
+                }  # Last 50
 
             elif action == "errors":
-                return {"success": True, "errors": pool._state.page_errors[-20:], "count": len(pool._state.page_errors)}
+                return {
+                    "success": True,
+                    "errors": pool._state.page_errors[-20:],
+                    "count": len(pool._state.page_errors),
+                }
 
             # === Browser/Context ===
             elif action == "close":
@@ -1516,7 +1726,11 @@ CATEGORIES:
 
             elif action == "new_page" or action == "new_tab":
                 new_page = await pool.new_page(url)
-                return {"success": True, "page_index": len(pool.pages) - 1, "url": new_page.url}
+                return {
+                    "success": True,
+                    "page_index": len(pool.pages) - 1,
+                    "url": new_page.url,
+                }
 
             elif action == "new_context":
                 context = await pool.new_context(device=device)
@@ -1526,7 +1740,13 @@ CATEGORIES:
                 pool._setup_page_listeners(page)
                 if url:
                     await page.goto(url)
-                return {"success": True, "context": "new", "device": device, "isolated": True, "url": page.url}
+                return {
+                    "success": True,
+                    "context": "new",
+                    "device": device,
+                    "isolated": True,
+                    "url": page.url,
+                }
 
             elif action == "close_tab":
                 await pool.close_page(tab_index)
@@ -1536,13 +1756,19 @@ CATEGORIES:
                 if tab_index is not None:
                     try:
                         page = await pool.switch_page(tab_index)
-                        return {"success": True, "switched_to": tab_index, "url": page.url}
+                        return {
+                            "success": True,
+                            "switched_to": tab_index,
+                            "url": page.url,
+                        }
                     except ValueError as e:
                         return {"error": str(e)}
                 return {
                     "success": True,
                     "count": len(pool.pages),
-                    "tabs": [{"index": i, "url": p.url} for i, p in enumerate(pool.pages)],
+                    "tabs": [
+                        {"index": i, "url": p.url} for i, p in enumerate(pool.pages)
+                    ],
                 }
 
             elif action == "set_headless":
@@ -1579,7 +1805,9 @@ CATEGORIES:
             elif action == "trace_start":
                 if pool._state.tracing:
                     return {"error": "Tracing already active"}
-                await pool._context.tracing.start(screenshots=True, snapshots=True, sources=True)
+                await pool._context.tracing.start(
+                    screenshots=True, snapshots=True, sources=True
+                )
                 pool._state.tracing = True
                 return {"success": True, "tracing": True}
 
@@ -1606,58 +1834,126 @@ CATEGORIES:
         async def browser(
             action: Action,
             url: Annotated[Optional[str], Field(description="URL")] = None,
-            selector: Annotated[Optional[str], Field(description="CSS/XPath selector")] = None,
-            ref: Annotated[Optional[str], Field(description="Alias for selector")] = None,
-            target_selector: Annotated[Optional[str], Field(description="Target for drag")] = None,
-            text: Annotated[Optional[str], Field(description="Text for type/fill/locators")] = None,
-            value: Annotated[Optional[str], Field(description="Value for select/assertions")] = None,
+            selector: Annotated[
+                Optional[str], Field(description="CSS/XPath selector")
+            ] = None,
+            ref: Annotated[
+                Optional[str], Field(description="Alias for selector")
+            ] = None,
+            target_selector: Annotated[
+                Optional[str], Field(description="Target for drag")
+            ] = None,
+            text: Annotated[
+                Optional[str], Field(description="Text for type/fill/locators")
+            ] = None,
+            value: Annotated[
+                Optional[str], Field(description="Value for select/assertions")
+            ] = None,
             key: Annotated[Optional[str], Field(description="Key for press")] = None,
             code: Annotated[Optional[str], Field(description="JavaScript code")] = None,
-            html: Annotated[Optional[str], Field(description="HTML for set_content")] = None,
-            attribute: Annotated[Optional[str], Field(description="Attribute name")] = None,
+            html: Annotated[
+                Optional[str], Field(description="HTML for set_content")
+            ] = None,
+            attribute: Annotated[
+                Optional[str], Field(description="Attribute name")
+            ] = None,
             role: Annotated[Optional[str], Field(description="ARIA role")] = None,
             name: Annotated[Optional[str], Field(description="Accessible name")] = None,
             exact: Annotated[bool, Field(description="Exact text match")] = False,
-            index: Annotated[Optional[int], Field(description="Index for nth/count")] = None,
-            has_text: Annotated[Optional[str], Field(description="Filter by text")] = None,
-            has_not_text: Annotated[Optional[str], Field(description="Filter excluding text")] = None,
-            has: Annotated[Optional[str], Field(description="Filter by nested selector")] = None,
-            files: Annotated[Optional[list[str]], Field(description="Files for upload")] = None,
+            index: Annotated[
+                Optional[int], Field(description="Index for nth/count")
+            ] = None,
+            has_text: Annotated[
+                Optional[str], Field(description="Filter by text")
+            ] = None,
+            has_not_text: Annotated[
+                Optional[str], Field(description="Filter excluding text")
+            ] = None,
+            has: Annotated[
+                Optional[str], Field(description="Filter by nested selector")
+            ] = None,
+            files: Annotated[
+                Optional[list[str]], Field(description="Files for upload")
+            ] = None,
             x: Annotated[Optional[int], Field(description="X coordinate")] = None,
             y: Annotated[Optional[int], Field(description="Y coordinate")] = None,
             button: Annotated[Optional[str], Field(description="Mouse button")] = None,
-            delta_x: Annotated[Optional[int], Field(description="Horizontal delta")] = None,
-            delta_y: Annotated[Optional[int], Field(description="Vertical delta")] = None,
-            direction: Annotated[Optional[str], Field(description="Swipe direction")] = None,
-            distance: Annotated[Optional[int], Field(description="Swipe distance")] = None,
+            delta_x: Annotated[
+                Optional[int], Field(description="Horizontal delta")
+            ] = None,
+            delta_y: Annotated[
+                Optional[int], Field(description="Vertical delta")
+            ] = None,
+            direction: Annotated[
+                Optional[str], Field(description="Swipe direction")
+            ] = None,
+            distance: Annotated[
+                Optional[int], Field(description="Swipe distance")
+            ] = None,
             scale: Annotated[Optional[float], Field(description="Pinch scale")] = None,
             width: Annotated[Optional[int], Field(description="Viewport width")] = None,
-            height: Annotated[Optional[int], Field(description="Viewport height")] = None,
-            device: Annotated[Optional[str], Field(description="Device: mobile, tablet, laptop")] = None,
-            latitude: Annotated[Optional[float], Field(description="Geo latitude")] = None,
-            longitude: Annotated[Optional[float], Field(description="Geo longitude")] = None,
-            permission: Annotated[Optional[str], Field(description="Permission to grant")] = None,
+            height: Annotated[
+                Optional[int], Field(description="Viewport height")
+            ] = None,
+            device: Annotated[
+                Optional[str], Field(description="Device: mobile, tablet, laptop")
+            ] = None,
+            latitude: Annotated[
+                Optional[float], Field(description="Geo latitude")
+            ] = None,
+            longitude: Annotated[
+                Optional[float], Field(description="Geo longitude")
+            ] = None,
+            permission: Annotated[
+                Optional[str], Field(description="Permission to grant")
+            ] = None,
             pattern: Annotated[Optional[str], Field(description="URL pattern")] = None,
-            response: Annotated[Optional[dict], Field(description="Mock response")] = None,
-            status_code: Annotated[Optional[int], Field(description="Mock status")] = None,
+            response: Annotated[
+                Optional[dict], Field(description="Mock response")
+            ] = None,
+            status_code: Annotated[
+                Optional[int], Field(description="Mock status")
+            ] = None,
             block: Annotated[bool, Field(description="Block request")] = False,
-            state: Annotated[Optional[str], Field(description="Load state/wait state")] = None,
+            state: Annotated[
+                Optional[str], Field(description="Load state/wait state")
+            ] = None,
             event: Annotated[Optional[str], Field(description="Event name")] = None,
-            expected: Annotated[Optional[str], Field(description="Expected value for assertions")] = None,
+            expected: Annotated[
+                Optional[str], Field(description="Expected value for assertions")
+            ] = None,
             not_: Annotated[bool, Field(description="Negate assertion")] = False,
             timeout: Annotated[Optional[int], Field(description="Timeout ms")] = None,
-            full_page: Annotated[bool, Field(description="Full page screenshot")] = False,
+            full_page: Annotated[
+                bool, Field(description="Full page screenshot")
+            ] = False,
             tab_index: Annotated[Optional[int], Field(description="Tab index")] = None,
-            cdp_endpoint: Annotated[Optional[str], Field(description="CDP endpoint")] = None,
-            headless: Annotated[Optional[bool], Field(description="Headless mode")] = None,
-            cookies: Annotated[Optional[list[dict]], Field(description="Cookies")] = None,
-            storage_type: Annotated[Optional[str], Field(description="local/session")] = None,
-            storage_data: Annotated[Optional[dict], Field(description="Storage data")] = None,
-            auth_file: Annotated[Optional[str], Field(description="Auth state file")] = None,
+            cdp_endpoint: Annotated[
+                Optional[str], Field(description="CDP endpoint")
+            ] = None,
+            headless: Annotated[
+                Optional[bool], Field(description="Headless mode")
+            ] = None,
+            cookies: Annotated[
+                Optional[list[dict]], Field(description="Cookies")
+            ] = None,
+            storage_type: Annotated[
+                Optional[str], Field(description="local/session")
+            ] = None,
+            storage_data: Annotated[
+                Optional[dict], Field(description="Storage data")
+            ] = None,
+            auth_file: Annotated[
+                Optional[str], Field(description="Auth state file")
+            ] = None,
             accept: Annotated[bool, Field(description="Accept dialog")] = True,
-            prompt_text: Annotated[Optional[str], Field(description="Dialog text")] = None,
+            prompt_text: Annotated[
+                Optional[str], Field(description="Dialog text")
+            ] = None,
             frame: Annotated[Optional[str], Field(description="Frame selector")] = None,
-            trace_path: Annotated[Optional[str], Field(description="Trace output")] = None,
+            trace_path: Annotated[
+                Optional[str], Field(description="Trace output")
+            ] = None,
             level: Annotated[Optional[str], Field(description="Console level")] = None,
         ) -> dict[str, Any]:
             """Complete browser automation with full Playwright API surface area."""
@@ -1720,7 +2016,9 @@ CATEGORIES:
             )
 
 
-def create_browser_tool(headless: bool = True, cdp_endpoint: Optional[str] = None) -> BrowserTool:
+def create_browser_tool(
+    headless: bool = True, cdp_endpoint: Optional[str] = None
+) -> BrowserTool:
     """Create a browser tool instance."""
     return BrowserTool(headless=headless, cdp_endpoint=cdp_endpoint)
 

@@ -51,7 +51,9 @@ class PermissionManager:
             resolved = Path(path).resolve()
 
             # Check if path is under any allowed path
-            is_under_allowed = any(self._is_subpath(resolved, allowed) for allowed in self.allowed_paths)
+            is_under_allowed = any(
+                self._is_subpath(resolved, allowed) for allowed in self.allowed_paths
+            )
 
             if not is_under_allowed:
                 return False

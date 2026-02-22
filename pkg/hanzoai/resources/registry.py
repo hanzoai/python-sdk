@@ -35,7 +35,10 @@ class RegistryResource(SyncAPIResource):
         return self._get(
             "/registry/repos",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -55,7 +58,10 @@ class RegistryResource(SyncAPIResource):
             "/registry/repos",
             body={"name": name, "visibility": visibility},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -73,7 +79,10 @@ class RegistryResource(SyncAPIResource):
         return self._delete(
             f"/registry/repos/{repo_name}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -91,7 +100,10 @@ class RegistryResource(SyncAPIResource):
         return self._get(
             f"/registry/repos/{repo_name}/images",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -112,7 +124,10 @@ class RegistryResource(SyncAPIResource):
             f"/registry/repos/{repo_name}/tag",
             body={"source_tag": source_tag, "target_tag": target_tag},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -131,7 +146,10 @@ class RegistryResource(SyncAPIResource):
         return self._delete(
             f"/registry/repos/{repo_name}/images/{tag}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -148,7 +166,10 @@ class RegistryResource(SyncAPIResource):
         return self._post(
             "/registry/login",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -177,7 +198,10 @@ class AsyncRegistryResource(AsyncAPIResource):
         return await self._get(
             "/registry/repos",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -197,7 +221,10 @@ class AsyncRegistryResource(AsyncAPIResource):
             "/registry/repos",
             body={"name": name, "visibility": visibility},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -215,7 +242,10 @@ class AsyncRegistryResource(AsyncAPIResource):
         return await self._delete(
             f"/registry/repos/{repo_name}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -233,7 +263,10 @@ class AsyncRegistryResource(AsyncAPIResource):
         return await self._get(
             f"/registry/repos/{repo_name}/images",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -254,7 +287,10 @@ class AsyncRegistryResource(AsyncAPIResource):
             f"/registry/repos/{repo_name}/tag",
             body={"source_tag": source_tag, "target_tag": target_tag},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -273,7 +309,10 @@ class AsyncRegistryResource(AsyncAPIResource):
         return await self._delete(
             f"/registry/repos/{repo_name}/images/{tag}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -290,7 +329,10 @@ class AsyncRegistryResource(AsyncAPIResource):
         return await self._post(
             "/registry/login",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

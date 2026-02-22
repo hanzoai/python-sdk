@@ -57,7 +57,9 @@ class PaaSClient:
         access_token: str | None = None,
         refresh_token: str | None = None,
     ):
-        self._base_url = (base_url or os.getenv("HANZO_PAAS_URL", DEFAULT_PAAS_URL)).rstrip("/")
+        self._base_url = (
+            base_url or os.getenv("HANZO_PAAS_URL", DEFAULT_PAAS_URL)
+        ).rstrip("/")
         self._at = access_token
         self._rt = refresh_token
         self._http: httpx.Client | None = None
@@ -349,7 +351,9 @@ class PaaSClient:
         env_id: str,
         container_id: str,
     ) -> list[dict[str, Any]]:
-        url = f"{self._container_base(org_id, project_id, env_id)}/{container_id}/events"
+        url = (
+            f"{self._container_base(org_id, project_id, env_id)}/{container_id}/events"
+        )
         return self._ok(self.http.get(url))
 
     # ========================================================================

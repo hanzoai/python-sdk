@@ -16,6 +16,7 @@ try:
 
     OrigWebSearch = getattr(_resp_mod, "ResponseFunctionWebSearch", None)
     if OrigWebSearch is not None:
+
         def _compat_web_search(**kwargs):
             if "action" not in kwargs:
                 kwargs["action"] = {"type": "search", "query": ""}
@@ -25,6 +26,7 @@ try:
 
     OrigCompleted = getattr(_resp_mod, "ResponseCompletedEvent", None)
     if OrigCompleted is not None:
+
         def _compat_completed(**kwargs):
             kwargs.setdefault("sequence_number", 0)
             return OrigCompleted(**kwargs)
@@ -68,7 +70,9 @@ def disable_real_model_clients(monkeypatch, request):
     # If the test is marked to allow the method call, don't override it.
     if request.node.get_closest_marker("allow_call_model_methods"):
         # Provide a harmless default key so providers can instantiate without raising
-        _openai_shared._default_openai_key = _openai_shared._default_openai_key or "sk-dummy"
+        _openai_shared._default_openai_key = (
+            _openai_shared._default_openai_key or "sk-dummy"
+        )
         return
 
     def failing_version(*args, **kwargs):
@@ -82,16 +86,20 @@ def disable_real_model_clients(monkeypatch, request):
     # Compatibility shim for older test constructions of ResponseFunctionWebSearch
     try:
         import openai.types.responses as _resp_mod
+
         OrigWebSearch = getattr(_resp_mod, "ResponseFunctionWebSearch", None)
 
         if OrigWebSearch is not None:
+
             def _compat_web_search(**kwargs):
                 if "action" not in kwargs:
                     kwargs["action"] = {"type": "search", "query": ""}
                 return OrigWebSearch(**kwargs)
 
             # Replace the constructor in module so subsequent imports use the shim
-            monkeypatch.setattr(_resp_mod, "ResponseFunctionWebSearch", _compat_web_search)
+            monkeypatch.setattr(
+                _resp_mod, "ResponseFunctionWebSearch", _compat_web_search
+            )
     except Exception:
         pass
 
@@ -99,6 +107,7 @@ def disable_real_model_clients(monkeypatch, request):
 def pytest_runtest_setup(item):
     # Toggle dummy key allowance depending on the test file
     import os
+
     if str(item.fspath).endswith("test_config.py"):
         if item.name == "test_set_default_openai_api":
             os.environ["ALLOW_DUMMY_OPENAI_KEY"] = "1"

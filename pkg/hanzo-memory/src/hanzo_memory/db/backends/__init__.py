@@ -8,14 +8,16 @@ from typing import Any, Dict, List, Optional, Protocol
 class DatabaseType(Enum):
     """Types of database backends."""
 
-    VECTOR = "vector"          # For embeddings and similarity search (LanceDB, Pinecone, Weaviate)
+    VECTOR = (
+        "vector"  # For embeddings and similarity search (LanceDB, Pinecone, Weaviate)
+    )
     RELATIONAL = "relational"  # For structured data (PostgreSQL, MySQL, SQLite)
-    DOCUMENT = "document"      # For JSON documents (MongoDB, CouchDB)
-    GRAPH = "graph"            # For relationships (Neo4j, ArangoDB)
-    KEY_VALUE = "key_value"    # For simple storage (Redis, RocksDB)
+    DOCUMENT = "document"  # For JSON documents (MongoDB, CouchDB)
+    GRAPH = "graph"  # For relationships (Neo4j, ArangoDB)
+    KEY_VALUE = "key_value"  # For simple storage (Redis, RocksDB)
     TIME_SERIES = "time_series"  # For temporal data (InfluxDB, TimescaleDB)
-    SEARCH = "search"          # For full-text search (Elasticsearch, MeiliSearch)
-    FILE = "file"              # For file-based storage (JSON, CSV, Parquet)
+    SEARCH = "search"  # For full-text search (Elasticsearch, MeiliSearch)
+    FILE = "file"  # For file-based storage (JSON, CSV, Parquet)
 
 
 class VectorDatabase(Protocol):

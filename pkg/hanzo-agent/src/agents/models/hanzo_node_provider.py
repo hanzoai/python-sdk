@@ -64,10 +64,7 @@ class HanzoNodeProvider(ModelProvider):
         model = model_name or "gpt-oss:20b"
         print(f"Using Hanzo Node model: {model}")
 
-        return OpenAIChatCompletionsModel(
-            model=model,
-            openai_client=self.client
-        )
+        return OpenAIChatCompletionsModel(model=model, openai_client=self.client)
 
     @property
     def is_local(self) -> bool:
@@ -92,8 +89,7 @@ class HanzoNodeProvider(ModelProvider):
 
 # Convenience function to create a Hanzo Node provider
 def create_hanzo_node_provider(
-    port: int = 3690,
-    api_key: Optional[str] = None
+    port: int = 3690, api_key: Optional[str] = None
 ) -> HanzoNodeProvider:
     """
     Create a Hanzo Node provider with default settings.

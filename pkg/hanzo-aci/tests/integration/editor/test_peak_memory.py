@@ -256,9 +256,9 @@ def test_large_history_insert():
 
         # Check if we can still retrieve the last entry
         last_content = manager.pop_last_history(Path(f"test_file_{num_files - 1}.txt"))
-        assert last_content == large_content, (
-            "Failed to retrieve the last inserted content"
-        )
+        assert (
+            last_content == large_content
+        ), "Failed to retrieve the last inserted content"
 
         # Check if the number of cache entries is correct
         cache_entries = list(manager.cache)
@@ -266,6 +266,4 @@ def test_large_history_insert():
             len(cache_entries)
             == num_files * 2
             - 1  # The cache entry for file content was removed, only metadata remains
-        ), (
-            f"Expected {num_files * 2 - 1} cache entries ({num_files - 1} content + {num_files} metadata), but found {len(cache_entries)}"
-        )
+        ), f"Expected {num_files * 2 - 1} cache entries ({num_files - 1} content + {num_files} metadata), but found {len(cache_entries)}"

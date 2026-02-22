@@ -64,7 +64,9 @@ class AzureResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._post(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -102,7 +104,9 @@ class AzureResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._put(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -140,7 +144,9 @@ class AzureResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._delete(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -178,7 +184,9 @@ class AzureResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._get(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -216,7 +224,9 @@ class AzureResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._patch(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -275,7 +285,9 @@ class AsyncAzureResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._post(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -313,7 +325,9 @@ class AsyncAzureResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._put(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -351,7 +365,9 @@ class AsyncAzureResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._delete(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -389,7 +405,9 @@ class AsyncAzureResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._get(
             f"/azure/{endpoint}",
             options=make_request_options(
@@ -427,7 +445,9 @@ class AsyncAzureResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._patch(
             f"/azure/{endpoint}",
             options=make_request_options(

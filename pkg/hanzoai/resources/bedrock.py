@@ -62,7 +62,9 @@ class BedrockResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._post(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -98,7 +100,9 @@ class BedrockResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._get(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -134,7 +138,9 @@ class BedrockResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._put(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -170,7 +176,9 @@ class BedrockResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._delete(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -206,7 +214,9 @@ class BedrockResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return self._patch(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -263,7 +273,9 @@ class AsyncBedrockResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._post(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -299,7 +311,9 @@ class AsyncBedrockResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._get(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -335,7 +349,9 @@ class AsyncBedrockResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._put(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -371,7 +387,9 @@ class AsyncBedrockResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._delete(
             f"/bedrock/{endpoint}",
             options=make_request_options(
@@ -407,7 +425,9 @@ class AsyncBedrockResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not endpoint:
-            raise ValueError(f"Expected a non-empty value for `endpoint` but received {endpoint!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `endpoint` but received {endpoint!r}"
+            )
         return await self._patch(
             f"/bedrock/{endpoint}",
             options=make_request_options(

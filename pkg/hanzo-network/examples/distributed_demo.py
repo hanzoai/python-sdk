@@ -91,7 +91,9 @@ async def run_node(node_id: str, port: int, agents_subset: list):
     while True:
         await asyncio.sleep(5)
         status = network.get_network_status()
-        print(f"📊 Node {node_id} status - Peers: {status['peer_count']}, Agents: {status['local_agents']}")
+        print(
+            f"📊 Node {node_id} status - Peers: {status['peer_count']}, Agents: {status['local_agents']}"
+        )
 
         # Show discovered peers
         if status["peers"]:

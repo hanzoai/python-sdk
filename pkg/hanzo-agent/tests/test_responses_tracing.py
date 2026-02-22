@@ -39,11 +39,19 @@ class DummyResponse:
 async def test_get_response_creates_trace(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Mock _fetch_response to return a dummy response with a known id
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             return DummyResponse()
 
@@ -67,11 +75,19 @@ async def test_get_response_creates_trace(monkeypatch):
 async def test_non_data_tracing_doesnt_set_response_id(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Mock _fetch_response to return a dummy response with a known id
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             return DummyResponse()
 
@@ -79,7 +95,13 @@ async def test_non_data_tracing_doesnt_set_response_id(monkeypatch):
 
         # Call get_response
         await model.get_response(
-            "instr", "input", ModelSettings(), [], None, [], ModelTracing.ENABLED_WITHOUT_DATA
+            "instr",
+            "input",
+            ModelSettings(),
+            [],
+            None,
+            [],
+            ModelTracing.ENABLED_WITHOUT_DATA,
         )
 
     spans = fetch_ordered_spans()
@@ -92,11 +114,19 @@ async def test_non_data_tracing_doesnt_set_response_id(monkeypatch):
 async def test_disable_tracing_does_not_create_span(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Mock _fetch_response to return a dummy response with a known id
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             return DummyResponse()
 
@@ -116,11 +146,19 @@ async def test_disable_tracing_does_not_create_span(monkeypatch):
 async def test_stream_response_creates_trace(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Define a dummy fetch function that returns an async stream with a dummy response
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             class DummyStream:
                 async def __aiter__(self):
@@ -151,11 +189,19 @@ async def test_stream_response_creates_trace(monkeypatch):
 async def test_stream_non_data_tracing_doesnt_set_response_id(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Define a dummy fetch function that returns an async stream with a dummy response
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             class DummyStream:
                 async def __aiter__(self):
@@ -170,7 +216,13 @@ async def test_stream_non_data_tracing_doesnt_set_response_id(monkeypatch):
 
         # Consume the stream to trigger processing of the final response
         async for _ in model.stream_response(
-            "instr", "input", ModelSettings(), [], None, [], ModelTracing.ENABLED_WITHOUT_DATA
+            "instr",
+            "input",
+            ModelSettings(),
+            [],
+            None,
+            [],
+            ModelTracing.ENABLED_WITHOUT_DATA,
         ):
             pass
 
@@ -185,11 +237,19 @@ async def test_stream_non_data_tracing_doesnt_set_response_id(monkeypatch):
 async def test_stream_disabled_tracing_doesnt_create_span(monkeypatch):
     with trace(workflow_name="test"):
         # Create an instance of the model
-        model = OpenAIResponsesModel(model="test-model", openai_client=AsyncOpenAI(api_key="test"))
+        model = OpenAIResponsesModel(
+            model="test-model", openai_client=AsyncOpenAI(api_key="test")
+        )
 
         # Define a dummy fetch function that returns an async stream with a dummy response
         async def dummy_fetch_response(
-            system_instructions, input, model_settings, tools, output_schema, handoffs, stream
+            system_instructions,
+            input,
+            model_settings,
+            tools,
+            output_schema,
+            handoffs,
+            stream,
         ):
             class DummyStream:
                 async def __aiter__(self):

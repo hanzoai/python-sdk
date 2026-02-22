@@ -200,7 +200,9 @@ def delete_secret(project: str, env: str, name: str, path: str, yes: bool) -> No
 @click.argument("project")
 @click.argument("env")
 @click.option("--path", default="/", help="Secret path prefix.")
-@click.option("--format", "fmt", type=click.Choice(["export", "dotenv", "json"]), default="export")
+@click.option(
+    "--format", "fmt", type=click.Choice(["export", "dotenv", "json"]), default="export"
+)
 def inject_secrets(project: str, env: str, path: str, fmt: str) -> None:
     """Print secrets as export statements, dotenv, or JSON.
 

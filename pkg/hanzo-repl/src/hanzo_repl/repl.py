@@ -69,14 +69,18 @@ class HanzoREPL:
             self.console.print("- etc.")
             sys.exit(1)
 
-        self.console.print(f"[green]Available providers: {', '.join(available_providers)}[/green]")
+        self.console.print(
+            f"[green]Available providers: {', '.join(available_providers)}[/green]"
+        )
 
         # Initialize tool executor
         self.tool_executor = ToolExecutor(self.mcp_server, self.llm_client)
 
         # Initialize prompt session
         tool_names = [tool.name for tool in self.mcp_server.tools.values()]
-        completer = WordCompleter(list(self.commands.keys()) + tool_names, ignore_case=True)
+        completer = WordCompleter(
+            list(self.commands.keys()) + tool_names, ignore_case=True
+        )
         self.session = PromptSession(
             history=FileHistory(self.history_file),
             auto_suggest=AutoSuggestFromHistory(),
@@ -199,12 +203,15 @@ Simply type your message and the REPL will:
             status = "Active" if provider == self.llm_client.current_provider else ""
             table.add_row(
                 provider,
-                ", ".join(provider_models[:3]) + ("..." if len(provider_models) > 3 else ""),
+                ", ".join(provider_models[:3])
+                + ("..." if len(provider_models) > 3 else ""),
                 status,
             )
 
         self.console.print(table)
-        self.console.print(f"\nCurrent model: [bold cyan]{self.llm_client.current_model}[/bold cyan]")
+        self.console.print(
+            f"\nCurrent model: [bold cyan]{self.llm_client.current_model}[/bold cyan]"
+        )
 
     async def set_model(self, command: str):
         """Set the LLM model to use."""

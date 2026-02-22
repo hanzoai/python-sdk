@@ -35,9 +35,9 @@ class OpenAIProvider(ModelProvider):
         use_responses: bool | None = None,
     ) -> None:
         if openai_client is not None:
-            assert api_key is None and base_url is None, (
-                "Don't provide api_key or base_url if you provide openai_client"
-            )
+            assert (
+                api_key is None and base_url is None
+            ), "Don't provide api_key or base_url if you provide openai_client"
             self._client: AsyncOpenAI | None = openai_client
         else:
             self._client = None
@@ -59,6 +59,7 @@ class OpenAIProvider(ModelProvider):
             # Only allow a dummy key if explicitly enabled via environment to support tests
             if api_key is None:
                 import os
+
                 if os.getenv("ALLOW_DUMMY_OPENAI_KEY") in {"1", "true", "True"}:
                     api_key = "sk-dummy"
             self._client = _openai_shared.get_default_openai_client() or AsyncOpenAI(
@@ -77,13 +78,16 @@ class OpenAIProvider(ModelProvider):
         # Try to construct a real client; if unavailable (e.g., no API key) fall back to a
         # lightweight stub so tests that only check isinstance can proceed without network creds.
         import os
+
         try:
             client = self._get_client()
         except Exception as e:
             if os.getenv("ALLOW_DUMMY_OPENAI_KEY") not in {"1", "true", "True"}:
                 raise
+
             class _ClientStub:
                 base_url = ""
+
             client = _ClientStub()  # type: ignore
 
         return (

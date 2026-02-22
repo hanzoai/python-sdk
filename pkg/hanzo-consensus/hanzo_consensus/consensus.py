@@ -98,7 +98,9 @@ class Consensus:
             state.responses[p] = []
 
         # Phase I: Sampling - initial proposals
-        initial = await asyncio.gather(*[self.execute(p, prompt) for p in self.participants])
+        initial = await asyncio.gather(
+            *[self.execute(p, prompt) for p in self.participants]
+        )
 
         for r in initial:
             state.responses[r.id].append(r.output)
@@ -111,7 +113,9 @@ class Consensus:
             # Luminance-weighted peer selection
             weights = [state.luminance[p] for p in self.participants]
             total = sum(weights)
-            sampled = random.choices(self.participants, [w / total for w in weights], k=state.k)
+            sampled = random.choices(
+                self.participants, [w / total for w in weights], k=state.k
+            )
 
             # Build context from sampled peers
             context = [f"Query: {prompt}", "", "Peers:"]
@@ -121,21 +125,27 @@ class Consensus:
             context.append("\nRefine your response:")
 
             # Each participant refines
-            round_results = await asyncio.gather(*[self.execute(p, "\n".join(context)) for p in self.participants])
+            round_results = await asyncio.gather(
+                *[self.execute(p, "\n".join(context)) for p in self.participants]
+            )
 
             for r in round_results:
                 state.responses[r.id].append(r.output)
                 if r.ok:
                     # Agreement metric
                     agreement = self._agreement(r.output, sampled, state)
-                    state.confidence[r.id] = state.confidence[r.id] * 0.5 + agreement * 0.5
+                    state.confidence[r.id] = (
+                        state.confidence[r.id] * 0.5 + agreement * 0.5
+                    )
 
             # Check β₁ threshold
             if max(state.confidence.values()) >= self.beta_1:
                 break
 
         # Phase II: Finality
-        scores = {p: state.confidence[p] * state.luminance[p] for p in self.participants}
+        scores = {
+            p: state.confidence[p] * state.luminance[p] for p in self.participants
+        }
         state.winner = max(scores, key=lambda p: scores[p])
 
         if scores[state.winner] >= self.beta_2:

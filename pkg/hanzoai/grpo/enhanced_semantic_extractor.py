@@ -104,17 +104,25 @@ class EnhancedLLMClient:
         from openai import OpenAI
 
         # Use env vars as fallback
-        self.api_key = api_key or os.getenv("HANZO_GRPO_API_KEY") or os.getenv("DEEPSEEK_API_KEY")
-        self.base_url = base_url or os.getenv("HANZO_GRPO_BASE_URL", "https://api.deepseek.com/v1")
+        self.api_key = (
+            api_key or os.getenv("HANZO_GRPO_API_KEY") or os.getenv("DEEPSEEK_API_KEY")
+        )
+        self.base_url = base_url or os.getenv(
+            "HANZO_GRPO_BASE_URL", "https://api.deepseek.com/v1"
+        )
         self.model = model or os.getenv("HANZO_GRPO_MODEL", "deepseek-chat")
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         self.timeout = timeout
 
         if not self.api_key:
-            raise ValueError("API key required. Set HANZO_GRPO_API_KEY or pass api_key parameter.")
+            raise ValueError(
+                "API key required. Set HANZO_GRPO_API_KEY or pass api_key parameter."
+            )
 
-        self.client = OpenAI(api_key=self.api_key, base_url=self.base_url, timeout=timeout)
+        self.client = OpenAI(
+            api_key=self.api_key, base_url=self.base_url, timeout=timeout
+        )
 
     def chat(
         self,
@@ -147,7 +155,9 @@ class EnhancedLLMClient:
 
                 if return_reasoning:
                     # For OpenAI o1 models or models with reasoning_content
-                    reasoning = getattr(response.choices[0].message, "reasoning_content", None)
+                    reasoning = getattr(
+                        response.choices[0].message, "reasoning_content", None
+                    )
                     return response_text, reasoning
 
                 return response_text
@@ -155,11 +165,15 @@ class EnhancedLLMClient:
             except Exception as e:
                 if attempt < self.max_retries - 1:
                     delay = self.retry_delay * (2**attempt)  # Exponential backoff
-                    print(f"LLM call failed (attempt {attempt + 1}/{self.max_retries}): {e}")
+                    print(
+                        f"LLM call failed (attempt {attempt + 1}/{self.max_retries}): {e}"
+                    )
                     print(f"Retrying in {delay}s...")
                     time.sleep(delay)
                 else:
-                    raise Exception(f"LLM call failed after {self.max_retries} attempts: {e}")
+                    raise Exception(
+                        f"LLM call failed after {self.max_retries} attempts: {e}"
+                    )
 
 
 class EnhancedSemanticExtractor:
@@ -317,12 +331,17 @@ Only return the trajectory summary of each step."""
         if self.enable_parallel and self.max_workers > 1:
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 future_to_traj = {
-                    executor.submit(process_trajectory, traj): traj for traj in all_trajectories_to_process
+                    executor.submit(process_trajectory, traj): traj
+                    for traj in all_trajectories_to_process
                 }
 
                 iterator = as_completed(future_to_traj)
                 if TQDM_AVAILABLE:
-                    iterator = tqdm(iterator, total=len(all_trajectories_to_process), desc="Summarizing trajectories")
+                    iterator = tqdm(
+                        iterator,
+                        total=len(all_trajectories_to_process),
+                        desc="Summarizing trajectories",
+                    )
 
                 for future in iterator:
                     result = future.result()
@@ -437,7 +456,11 @@ Return JSON array: [{{"option": "add", "experience": "..."}}, ...]"""
                 response_clean = response.split("```json")[-1].split("```")[0].strip()
                 operations = json.loads(response_clean)
 
-                return {"trajectories": trajs, "critique": response, "operations": operations[: self.max_operations]}
+                return {
+                    "trajectories": trajs,
+                    "critique": response,
+                    "operations": operations[: self.max_operations],
+                }
             except Exception as e:
                 print(f"Warning: Failed to extract group advantage: {e}")
                 return None
@@ -447,11 +470,17 @@ Return JSON array: [{{"option": "add", "experience": "..."}}, ...]"""
 
         if self.enable_parallel and self.max_workers > 1:
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-                future_to_group = {executor.submit(process_group, trajs): trajs for trajs in all_groups}
+                future_to_group = {
+                    executor.submit(process_group, trajs): trajs for trajs in all_groups
+                }
 
                 iterator = as_completed(future_to_group)
                 if TQDM_AVAILABLE:
-                    iterator = tqdm(iterator, total=len(all_groups), desc="Extracting group advantages")
+                    iterator = tqdm(
+                        iterator,
+                        total=len(all_groups),
+                        desc="Extracting group advantages",
+                    )
 
                 for future in iterator:
                     result = future.result()
@@ -548,7 +577,9 @@ Return only the JSON array."""
         for operation in revision_plan:
             try:
                 if operation["option"] == "modify":
-                    new_experiences[operation["modified_from"]] = operation["experience"]
+                    new_experiences[operation["modified_from"]] = operation[
+                        "experience"
+                    ]
                 elif operation["option"] == "merge":
                     for exp_id in operation["merged_from"]:
                         if exp_id in new_experiences:
@@ -569,14 +600,20 @@ Return only the JSON array."""
         self._save_cache("batch_update.json", cache_data)
 
         # Reassign IDs
-        final_experiences = {f"G{i}": exp for i, exp in enumerate(new_experiences.values())}
+        final_experiences = {
+            f"G{i}": exp for i, exp in enumerate(new_experiences.values())
+        }
 
         return final_experiences
 
 
 # Async rollout support with timeout
 async def rollout_with_timeout(
-    generate_func: Callable, query: str, timeout: float = 3600, max_retries: int = 3, **kwargs
+    generate_func: Callable,
+    query: str,
+    timeout: float = 3600,
+    max_retries: int = 3,
+    **kwargs,
 ) -> Optional[str]:
     """Execute rollout with timeout and retry support.
 

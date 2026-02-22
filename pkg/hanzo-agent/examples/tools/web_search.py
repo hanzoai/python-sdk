@@ -7,7 +7,9 @@ async def main():
     agent = Agent(
         name="Web searcher",
         instructions="You are a helpful agent.",
-        tools=[WebSearchTool(user_location={"type": "approximate", "city": "New York"})],
+        tools=[
+            WebSearchTool(user_location={"type": "approximate", "city": "New York"})
+        ],
     )
 
     with trace("Web search example"):

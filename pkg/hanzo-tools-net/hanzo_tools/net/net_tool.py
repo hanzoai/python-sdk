@@ -92,8 +92,12 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
             return soup.get_text(separator="\n", strip=True)
         except ImportError:
             # Fallback: simple regex
-            text = re.sub(r"<script[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE)
-            text = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL | re.IGNORECASE)
+            text = re.sub(
+                r"<script[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE
+            )
+            text = re.sub(
+                r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL | re.IGNORECASE
+            )
             text = re.sub(r"<[^>]+>", " ", text)
             text = re.sub(r"\s+", " ", text)
             return text.strip()
@@ -160,9 +164,11 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                                 {
                                     "title": title_el.get_text(strip=True),
                                     "url": link_el.get("href", ""),
-                                    "snippet": snippet_el.get_text(strip=True)
-                                    if snippet_el
-                                    else "",
+                                    "snippet": (
+                                        snippet_el.get_text(strip=True)
+                                        if snippet_el
+                                        else ""
+                                    ),
                                 }
                             )
                 except ImportError:

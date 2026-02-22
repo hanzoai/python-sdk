@@ -158,7 +158,12 @@ class VectorsResource(SyncAPIResource):
         """Search vectors by semantic similarity."""
         return self._post(
             "/vectors/search",
-            body={"query": query, "store_id": store_id, "limit": limit, "threshold": threshold},
+            body={
+                "query": query,
+                "store_id": store_id,
+                "limit": limit,
+                "threshold": threshold,
+            },
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -307,7 +312,12 @@ class AsyncVectorsResource(AsyncAPIResource):
         """Search vectors by semantic similarity."""
         return await self._post(
             "/vectors/search",
-            body={"query": query, "store_id": store_id, "limit": limit, "threshold": threshold},
+            body={
+                "query": query,
+                "store_id": store_id,
+                "limit": limit,
+                "threshold": threshold,
+            },
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

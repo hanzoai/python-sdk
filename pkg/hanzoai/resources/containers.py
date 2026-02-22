@@ -88,7 +88,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._get(
             f"/infrastructure/containers/{container_id}",
             options=make_request_options(
@@ -194,7 +196,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._put(
             f"/infrastructure/containers/{container_id}",
             body={
@@ -237,7 +241,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._delete(
             f"/infrastructure/containers/{container_id}",
             options=make_request_options(
@@ -275,7 +281,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._post(
             f"/infrastructure/containers/{container_id}/start",
             options=make_request_options(
@@ -313,7 +321,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._post(
             f"/infrastructure/containers/{container_id}/stop",
             options=make_request_options(
@@ -357,7 +367,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._get(
             f"/infrastructure/containers/{container_id}/logs",
             options=make_request_options(
@@ -408,7 +420,9 @@ class ContainersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return self._post(
             f"/infrastructure/containers/{container_id}/exec",
             body={
@@ -494,7 +508,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._get(
             f"/infrastructure/containers/{container_id}",
             options=make_request_options(
@@ -600,7 +616,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._put(
             f"/infrastructure/containers/{container_id}",
             body={
@@ -643,7 +661,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._delete(
             f"/infrastructure/containers/{container_id}",
             options=make_request_options(
@@ -681,7 +701,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._post(
             f"/infrastructure/containers/{container_id}/start",
             options=make_request_options(
@@ -719,7 +741,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._post(
             f"/infrastructure/containers/{container_id}/stop",
             options=make_request_options(
@@ -763,7 +787,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._get(
             f"/infrastructure/containers/{container_id}/logs",
             options=make_request_options(
@@ -814,7 +840,9 @@ class AsyncContainersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not container_id:
-            raise ValueError(f"Expected a non-empty value for `container_id` but received {container_id!r}")
+            raise ValueError(
+                f"Expected a non-empty value for `container_id` but received {container_id!r}"
+            )
         return await self._post(
             f"/infrastructure/containers/{container_id}/exec",
             body={

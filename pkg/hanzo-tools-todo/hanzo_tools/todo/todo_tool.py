@@ -172,7 +172,9 @@ todo --filter in_progress
                     priority_icon = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(
                         todo.get("priority", "medium"), "⚪"
                     )
-                    output.append(f"{priority_icon} [{todo['id'][:8]}] {todo['content']}")
+                    output.append(
+                        f"{priority_icon} [{todo['id'][:8]}] {todo['content']}"
+                    )
 
         # Summary
         output.append(

@@ -49,7 +49,9 @@ def get_function_tool(
     )
 
 
-def get_function_tool_call(name: str, arguments: str | None = None) -> ResponseOutputItem:
+def get_function_tool_call(
+    name: str, arguments: str | None = None
+) -> ResponseOutputItem:
     return ResponseFunctionToolCall(
         id="1",
         call_id="2",

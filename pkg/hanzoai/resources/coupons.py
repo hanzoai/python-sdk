@@ -68,7 +68,10 @@ class CouponsResource(SyncAPIResource):
         return self._get(
             f"/marketing/coupons/{coupon_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -103,7 +106,10 @@ class CouponsResource(SyncAPIResource):
                 "applicable_products": applicable_products,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -124,9 +130,17 @@ class CouponsResource(SyncAPIResource):
         """Update a coupon."""
         return self._put(
             f"/marketing/coupons/{coupon_id}",
-            body={"discount_value": discount_value, "valid_until": valid_until, "max_uses": max_uses, "active": active},
+            body={
+                "discount_value": discount_value,
+                "valid_until": valid_until,
+                "max_uses": max_uses,
+                "active": active,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -144,7 +158,10 @@ class CouponsResource(SyncAPIResource):
         return self._delete(
             f"/marketing/coupons/{coupon_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -165,7 +182,10 @@ class CouponsResource(SyncAPIResource):
             f"/marketing/coupons/{code}/validate",
             body={"cart_total": cart_total, "product_ids": product_ids},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -183,7 +203,10 @@ class CouponsResource(SyncAPIResource):
         return self._get(
             f"/marketing/coupons/{coupon_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -235,7 +258,10 @@ class AsyncCouponsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/coupons/{coupon_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -269,7 +295,10 @@ class AsyncCouponsResource(AsyncAPIResource):
                 "applicable_products": applicable_products,
             },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -289,9 +318,17 @@ class AsyncCouponsResource(AsyncAPIResource):
     ) -> object:
         return await self._put(
             f"/marketing/coupons/{coupon_id}",
-            body={"discount_value": discount_value, "valid_until": valid_until, "max_uses": max_uses, "active": active},
+            body={
+                "discount_value": discount_value,
+                "valid_until": valid_until,
+                "max_uses": max_uses,
+                "active": active,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -308,7 +345,10 @@ class AsyncCouponsResource(AsyncAPIResource):
         return await self._delete(
             f"/marketing/coupons/{coupon_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -328,7 +368,10 @@ class AsyncCouponsResource(AsyncAPIResource):
             f"/marketing/coupons/{code}/validate",
             body={"cart_total": cart_total, "product_ids": product_ids},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -345,7 +388,10 @@ class AsyncCouponsResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/coupons/{coupon_id}/stats",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

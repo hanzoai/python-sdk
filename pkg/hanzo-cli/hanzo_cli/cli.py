@@ -44,7 +44,9 @@ def main(ctx: click.Context) -> None:
 
 
 @main.command()
-@click.option("--no-browser", is_flag=True, help="Use password login instead of browser OAuth.")
+@click.option(
+    "--no-browser", is_flag=True, help="Use password login instead of browser OAuth."
+)
 @click.option("--port", default=8399, help="Local callback port for browser login.")
 @click.pass_context
 def login(ctx: click.Context, no_browser: bool, port: int) -> None:
@@ -58,11 +60,11 @@ def login(ctx: click.Context, no_browser: bool, port: int) -> None:
         console.print("[green]Logged in successfully.[/green]")
         if token_data.get("access_token"):
             # Decode the token subject for display
-            at = token_data["access_token"]
+            _at = token_data["access_token"]
             console.print("Token stored at ~/.hanzo/auth/token.json")
     except Exception as e:
         console.print(f"[red]Login failed:[/red] {e}")
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
 
 @main.command()

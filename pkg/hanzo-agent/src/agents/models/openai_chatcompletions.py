@@ -53,14 +53,23 @@ from openai.types.responses import (
     ResponseTextDeltaEvent,
     ResponseUsage,
 )
-from openai.types.responses.response_input_param import FunctionCallOutput, ItemReference, Message
+from openai.types.responses.response_input_param import (
+    FunctionCallOutput,
+    ItemReference,
+    Message,
+)
 from openai.types.responses.response_usage import OutputTokensDetails
 
 from .. import _debug
 from ..agent_output import AgentOutputSchema
 from ..exceptions import AgentsException, UserError
 from ..handoffs import Handoff
-from ..items import ModelResponse, TResponseInputItem, TResponseOutputItem, TResponseStreamEvent
+from ..items import (
+    ModelResponse,
+    TResponseInputItem,
+    TResponseOutputItem,
+    TResponseStreamEvent,
+)
 from ..logger import logger
 from ..tool import FunctionTool, Tool
 from ..tracing import generation_span
@@ -145,7 +154,9 @@ class OpenAIChatCompletionsModel(Model):
                 else Usage()
             )
             if tracing.include_data():
-                span_generation.span_data.output = [response.choices[0].message.model_dump()]
+                span_generation.span_data.output = [
+                    response.choices[0].message.model_dump()
+                ]
             span_generation.span_data.usage = {
                 "input_tokens": usage.input_tokens,
                 "output_tokens": usage.output_tokens,
@@ -323,12 +334,14 @@ class OpenAIChatCompletionsModel(Model):
                 if delta.tool_calls:
                     for tc_delta in delta.tool_calls:
                         if tc_delta.index not in state.function_calls:
-                            state.function_calls[tc_delta.index] = ResponseFunctionToolCall(
-                                id=FAKE_RESPONSES_ID,
-                                arguments="",
-                                name="",
-                                type="function_call",
-                                call_id="",
+                            state.function_calls[tc_delta.index] = (
+                                ResponseFunctionToolCall(
+                                    id=FAKE_RESPONSES_ID,
+                                    arguments="",
+                                    name="",
+                                    type="function_call",
+                                    call_id="",
+                                )
                             )
                         tc_function = tc_delta.function
 
@@ -338,7 +351,9 @@ class OpenAIChatCompletionsModel(Model):
                         state.function_calls[tc_delta.index].name += (
                             tc_function.name if tc_function else ""
                         ) or ""
-                        state.function_calls[tc_delta.index].call_id += tc_delta.id or ""
+                        state.function_calls[tc_delta.index].call_id += (
+                            tc_delta.id or ""
+                        )
 
             function_call_starting_index = 0
             if state.text_content_index_and_output:
@@ -409,7 +424,10 @@ class OpenAIChatCompletionsModel(Model):
 
             # Finally, send the Response completed event
             outputs: list[ResponseOutputItem] = []
-            if state.text_content_index_and_output or state.refusal_content_index_and_output:
+            if (
+                state.text_content_index_and_output
+                or state.refusal_content_index_and_output
+            ):
                 assistant_msg = ResponseOutputMessage(
                     id=FAKE_RESPONSES_ID,
                     content=[],
@@ -420,7 +438,9 @@ class OpenAIChatCompletionsModel(Model):
                 if state.text_content_index_and_output:
                     assistant_msg.content.append(state.text_content_index_and_output[1])
                 if state.refusal_content_index_and_output:
-                    assistant_msg.content.append(state.refusal_content_index_and_output[1])
+                    assistant_msg.content.append(
+                        state.refusal_content_index_and_output[1]
+                    )
                 outputs.append(assistant_msg)
 
                 # send a ResponseOutputItemDone for the assistant message
@@ -446,11 +466,15 @@ class OpenAIChatCompletionsModel(Model):
                         reasoning_tokens=(
                             usage.completion_tokens_details.reasoning_tokens
                             if getattr(usage, "completion_tokens_details", None)
-                            and getattr(usage.completion_tokens_details, "reasoning_tokens", None)
+                            and getattr(
+                                usage.completion_tokens_details,
+                                "reasoning_tokens",
+                                None,
+                            )
                             else 0
                         )
                     ),
-                    input_tokens_details={"cached_tokens": 0}
+                    input_tokens_details={"cached_tokens": 0},
                 )
                 if usage
                 else None
@@ -524,12 +548,16 @@ class OpenAIChatCompletionsModel(Model):
             span.span_data.input = converted_messages
 
         parallel_tool_calls = (
-            True if model_settings.parallel_tool_calls and tools and len(tools) > 0 else NOT_GIVEN
+            True
+            if model_settings.parallel_tool_calls and tools and len(tools) > 0
+            else NOT_GIVEN
         )
         tool_choice = _Converter.convert_tool_choice(model_settings.tool_choice)
         response_format = _Converter.convert_response_format(output_schema)
 
-        converted_tools = [ToolConverter.to_openai(tool) for tool in tools] if tools else []
+        converted_tools = (
+            [ToolConverter.to_openai(tool) for tool in tools] if tools else []
+        )
 
         for handoff in handoffs:
             converted_tools.append(ToolConverter.convert_handoff_tool(handoff))
@@ -551,8 +579,12 @@ class OpenAIChatCompletionsModel(Model):
             tools=converted_tools or NOT_GIVEN,
             temperature=self._non_null_or_not_given(model_settings.temperature),
             top_p=self._non_null_or_not_given(model_settings.top_p),
-            frequency_penalty=self._non_null_or_not_given(model_settings.frequency_penalty),
-            presence_penalty=self._non_null_or_not_given(model_settings.presence_penalty),
+            frequency_penalty=self._non_null_or_not_given(
+                model_settings.frequency_penalty
+            ),
+            presence_penalty=self._non_null_or_not_given(
+                model_settings.presence_penalty
+            ),
             max_tokens=self._non_null_or_not_given(model_settings.max_tokens),
             tool_choice=tool_choice,
             response_format=response_format,
@@ -571,9 +603,11 @@ class OpenAIChatCompletionsModel(Model):
             model=self.model,
             object="response",
             output=[],
-            tool_choice=cast(Literal["auto", "required", "none"], tool_choice)
-            if tool_choice != NOT_GIVEN
-            else "auto",
+            tool_choice=(
+                cast(Literal["auto", "required", "none"], tool_choice)
+                if tool_choice != NOT_GIVEN
+                else "auto"
+            ),
             top_p=model_settings.top_p,
             temperature=model_settings.temperature,
             tools=[],
@@ -625,7 +659,9 @@ class _Converter:
         }
 
     @classmethod
-    def message_to_output_items(cls, message: ChatCompletionMessage) -> list[TResponseOutputItem]:
+    def message_to_output_items(
+        cls, message: ChatCompletionMessage
+    ) -> list[TResponseOutputItem]:
         items: list[TResponseOutputItem] = []
 
         message_item = ResponseOutputMessage(
@@ -637,7 +673,9 @@ class _Converter:
         )
         if message.content:
             message_item.content.append(
-                ResponseOutputText(text=message.content, type="output_text", annotations=[])
+                ResponseOutputText(
+                    text=message.content, type="output_text", annotations=[]
+                )
             )
         if message.refusal:
             message_item.content.append(
@@ -699,13 +737,17 @@ class _Converter:
         return None
 
     @classmethod
-    def maybe_file_search_call(cls, item: Any) -> ResponseFileSearchToolCallParam | None:
+    def maybe_file_search_call(
+        cls, item: Any
+    ) -> ResponseFileSearchToolCallParam | None:
         if isinstance(item, dict) and item.get("type") == "file_search_call":
             return cast(ResponseFileSearchToolCallParam, item)
         return None
 
     @classmethod
-    def maybe_function_tool_call(cls, item: Any) -> ResponseFunctionToolCallParam | None:
+    def maybe_function_tool_call(
+        cls, item: Any
+    ) -> ResponseFunctionToolCallParam | None:
         if isinstance(item, dict) and item.get("type") == "function_call":
             return cast(ResponseFunctionToolCallParam, item)
         return None
@@ -726,7 +768,9 @@ class _Converter:
         return None
 
     @classmethod
-    def maybe_response_output_message(cls, item: Any) -> ResponseOutputMessageParam | None:
+    def maybe_response_output_message(
+        cls, item: Any
+    ) -> ResponseOutputMessageParam | None:
         # ResponseOutputMessage is only used for messages with role assistant
         if (
             isinstance(item, dict)
@@ -768,7 +812,10 @@ class _Converter:
                 )
             elif isinstance(c, dict) and c.get("type") == "input_image":
                 casted_image_param = cast(ResponseInputImageParam, c)
-                if "image_url" not in casted_image_param or not casted_image_param["image_url"]:
+                if (
+                    "image_url" not in casted_image_param
+                    or not casted_image_param["image_url"]
+                ):
                     raise UserError(
                         f"Only image URLs are supported for input_image {casted_image_param}"
                     )
@@ -782,7 +829,9 @@ class _Converter:
                     )
                 )
             elif isinstance(c, dict) and c.get("type") == "input_file":
-                raise UserError(f"File uploads are not supported for chat completions {c}")
+                raise UserError(
+                    f"File uploads are not supported for chat completions {c}"
+                )
             else:
                 raise UserError(f"Unknonw content: {c}")
         return out
@@ -828,7 +877,9 @@ class _Converter:
         def ensure_assistant_message() -> ChatCompletionAssistantMessageParam:
             nonlocal current_assistant_msg
             if current_assistant_msg is None:
-                current_assistant_msg = ChatCompletionAssistantMessageParam(role="assistant")
+                current_assistant_msg = ChatCompletionAssistantMessageParam(
+                    role="assistant"
+                )
                 current_assistant_msg["tool_calls"] = []
             return current_assistant_msg
 
@@ -914,7 +965,9 @@ class _Converter:
                             f"Only audio IDs are supported for chat completions, but got: {c}"
                         )
                     else:
-                        raise UserError(f"Unknown content type in ResponseOutputMessage: {c}")
+                        raise UserError(
+                            f"Unknown content type in ResponseOutputMessage: {c}"
+                        )
 
                 if text_segments:
                     combined = "\n".join(text_segments)

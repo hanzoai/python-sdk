@@ -501,7 +501,10 @@ class APIClient:
                     ),
                 ],
                 returns="ProviderListResult with provider statuses",
-                examples=["await client.list_providers()", "await client.list_providers(configured_only=True)"],
+                examples=[
+                    "await client.list_providers()",
+                    "await client.list_providers(configured_only=True)",
+                ],
             ),
             ToolSchema(
                 name="config",
@@ -555,7 +558,10 @@ class APIClient:
                     ),
                 ],
                 returns="Number of operations discovered",
-                examples=["await client.spec('cloudflare')", "await client.spec('custom', spec_url='...')"],
+                examples=[
+                    "await client.spec('cloudflare')",
+                    "await client.spec('custom', spec_url='...')",
+                ],
             ),
             ToolSchema(
                 name="ops",
@@ -699,7 +705,9 @@ class APIClient:
 
             # Fallback: search handmade OpenAPIs on GitHub
             try:
-                response = await http.get("https://api.github.com/repos/janwilmake/handmade-openapis/contents")
+                response = await http.get(
+                    "https://api.github.com/repos/janwilmake/handmade-openapis/contents"
+                )
                 if response.status_code == 200:
                     files = response.json()
                     results = []
@@ -761,7 +769,11 @@ class APIClient:
         from .models import AuthType, ProviderConfig
 
         # Create dynamic provider config
-        auth_type_enum = AuthType(auth_type) if auth_type in [e.value for e in AuthType] else AuthType.BEARER
+        auth_type_enum = (
+            AuthType(auth_type)
+            if auth_type in [e.value for e in AuthType]
+            else AuthType.BEARER
+        )
 
         config = ProviderConfig(
             name=name,
@@ -819,7 +831,11 @@ class APIClient:
             try:
                 full_op = openapi_client.get_operation(op.operation_id)
                 # Build query params string
-                query_params = [f"{p.name}={p.schema_type}" for p in full_op.parameters if p.location.value == "query"]
+                query_params = [
+                    f"{p.name}={p.schema_type}"
+                    for p in full_op.parameters
+                    if p.location.value == "query"
+                ]
                 query_string = f"?{'&'.join(query_params)}" if query_params else ""
             except Exception:
                 query_string = ""
@@ -873,7 +889,9 @@ class APIClient:
                 lines.append(f"## {tag_name}")
                 lines.append("")
                 for op in tag_ops:
-                    lines.append(f"- **{op.method}** `{op.path}` - {op.summary or op.operation_id}")
+                    lines.append(
+                        f"- **{op.method}** `{op.path}` - {op.summary or op.operation_id}"
+                    )
                 lines.append("")
 
         # Footer with help
@@ -914,7 +932,9 @@ class APIClient:
 
         # Determine which providers to preload
         if providers is None:
-            providers = [name for name, config in PROVIDER_CONFIGS.items() if config.spec_url]
+            providers = [
+                name for name, config in PROVIDER_CONFIGS.items() if config.spec_url
+            ]
 
         results: dict[str, int] = {}
         semaphore = asyncio.Semaphore(concurrent)

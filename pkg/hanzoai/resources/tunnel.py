@@ -35,7 +35,10 @@ class TunnelResource(SyncAPIResource):
         return self._get(
             "/tunnel/install",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -52,7 +55,10 @@ class TunnelResource(SyncAPIResource):
         return self._post(
             "/tunnel/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -69,7 +75,10 @@ class TunnelResource(SyncAPIResource):
         return self._post(
             "/tunnel/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -86,7 +95,10 @@ class TunnelResource(SyncAPIResource):
         return self._get(
             "/tunnel/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -107,9 +119,18 @@ class TunnelResource(SyncAPIResource):
         """Connect to environment or network."""
         return self._post(
             "/tunnel/connect",
-            body={"env": env, "network": network, "profile": profile, "identity": identity, "mode": mode},
+            body={
+                "env": env,
+                "network": network,
+                "profile": profile,
+                "identity": identity,
+                "mode": mode,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -126,7 +147,10 @@ class TunnelResource(SyncAPIResource):
         return self._post(
             "/tunnel/disconnect",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -143,7 +167,10 @@ class TunnelResource(SyncAPIResource):
         return self._get(
             "/tunnel/routes",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -163,7 +190,10 @@ class TunnelResource(SyncAPIResource):
             "/tunnel/dns",
             body={"action": action, "split_dns": split_dns},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -202,7 +232,10 @@ class TunnelResource(SyncAPIResource):
         return self._get(
             "/tunnel/diagnose",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -231,7 +264,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._get(
             "/tunnel/install",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -248,7 +284,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._post(
             "/tunnel/start",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -265,7 +304,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._post(
             "/tunnel/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -282,7 +324,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._get(
             "/tunnel/status",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -303,9 +348,18 @@ class AsyncTunnelResource(AsyncAPIResource):
         """Connect to environment or network."""
         return await self._post(
             "/tunnel/connect",
-            body={"env": env, "network": network, "profile": profile, "identity": identity, "mode": mode},
+            body={
+                "env": env,
+                "network": network,
+                "profile": profile,
+                "identity": identity,
+                "mode": mode,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -322,7 +376,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._post(
             "/tunnel/disconnect",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -339,7 +396,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._get(
             "/tunnel/routes",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -359,7 +419,10 @@ class AsyncTunnelResource(AsyncAPIResource):
             "/tunnel/dns",
             body={"action": action, "split_dns": split_dns},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -398,7 +461,10 @@ class AsyncTunnelResource(AsyncAPIResource):
         return await self._get(
             "/tunnel/diagnose",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

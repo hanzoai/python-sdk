@@ -20,7 +20,7 @@ from pydantic import BaseModel, ConfigDict, Field
 # =============================================================================
 
 
-class AuthType(str, Enum):
+class AuthType(str, Enum):  # noqa: UP042
     """Authentication type for API providers."""
 
     BEARER = "bearer"  # Authorization: Bearer <token>
@@ -30,7 +30,7 @@ class AuthType(str, Enum):
     QUERY = "query"  # Query parameter
 
 
-class CredentialSource(str, Enum):
+class CredentialSource(str, Enum):  # noqa: UP042
     """Source of credential resolution."""
 
     OVERRIDE = "override"  # Per-call override
@@ -40,7 +40,7 @@ class CredentialSource(str, Enum):
     NONE = "none"  # Not found
 
 
-class ParameterLocation(str, Enum):
+class ParameterLocation(str, Enum):  # noqa: UP042
     """Location of API parameter."""
 
     PATH = "path"
@@ -64,7 +64,9 @@ class Credential(BaseModel):
     api_secret: str | None = Field(default=None, description="API secret (if needed)")
     account_id: str | None = Field(default=None, description="Account/organization ID")
     base_url: str | None = Field(default=None, description="Custom base URL override")
-    extra: dict[str, Any] = Field(default_factory=dict, description="Provider-specific fields")
+    extra: dict[str, Any] = Field(
+        default_factory=dict, description="Provider-specific fields"
+    )
 
     @property
     def has_credentials(self) -> bool:
@@ -78,8 +80,12 @@ class EffectiveCredential(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     credential: Credential
-    source: CredentialSource = Field(description="Where the credential was resolved from")
-    env_var_used: str | None = Field(default=None, description="Environment variable used (if any)")
+    source: CredentialSource = Field(
+        description="Where the credential was resolved from"
+    )
+    env_var_used: str | None = Field(
+        default=None, description="Environment variable used (if any)"
+    )
 
     @property
     def has_credentials(self) -> bool:
@@ -94,13 +100,21 @@ class ProviderConfig(BaseModel):
     name: str = Field(description="Provider identifier")
     display_name: str = Field(description="Human-readable name")
     base_url: str = Field(description="Default base URL")
-    auth_type: AuthType = Field(default=AuthType.BEARER, description="Authentication method")
-    auth_header: str = Field(default="Authorization", description="Header name for auth")
+    auth_type: AuthType = Field(
+        default=AuthType.BEARER, description="Authentication method"
+    )
+    auth_header: str = Field(
+        default="Authorization", description="Header name for auth"
+    )
     auth_prefix: str = Field(default="Bearer", description="Prefix for auth value")
     auth_query_param: str = Field(default="api_key", description="Query param for auth")
     spec_url: str | None = Field(default=None, description="URL to OpenAPI spec")
-    env_vars: list[str] = Field(default_factory=list, description="Environment variables to check")
-    extra_headers: dict[str, str] = Field(default_factory=dict, description="Additional headers")
+    env_vars: list[str] = Field(
+        default_factory=list, description="Environment variables to check"
+    )
+    extra_headers: dict[str, str] = Field(
+        default_factory=dict, description="Additional headers"
+    )
 
 
 class ProviderStatus(BaseModel):
@@ -111,11 +125,17 @@ class ProviderStatus(BaseModel):
     name: str
     display_name: str
     configured: bool = Field(description="Whether credentials are available")
-    source: CredentialSource | None = Field(default=None, description="Credential source")
+    source: CredentialSource | None = Field(
+        default=None, description="Credential source"
+    )
     base_url: str
     has_spec: bool = Field(description="Whether OpenAPI spec is available")
-    spec_cached: bool = Field(default=False, description="Whether spec is cached locally")
-    spec_age_seconds: float | None = Field(default=None, description="Age of cached spec")
+    spec_cached: bool = Field(
+        default=False, description="Whether spec is cached locally"
+    )
+    spec_age_seconds: float | None = Field(
+        default=None, description="Age of cached spec"
+    )
 
 
 # =============================================================================
@@ -135,7 +155,9 @@ class Parameter(BaseModel):
     description: str = Field(default="", description="Parameter description")
     default: Any = Field(default=None, description="Default value")
     enum: list[Any] = Field(default_factory=list, description="Allowed values")
-    json_schema: dict[str, Any] | None = Field(default=None, description="Full JSON schema")
+    json_schema: dict[str, Any] | None = Field(
+        default=None, description="Full JSON schema"
+    )
 
 
 class Operation(BaseModel):
@@ -148,12 +170,22 @@ class Operation(BaseModel):
     path: str = Field(description="URL path pattern")
     summary: str = Field(default="", description="Short description")
     description: str = Field(default="", description="Detailed description")
-    parameters: list[Parameter] = Field(default_factory=list, description="Operation parameters")
-    request_body_schema: dict[str, Any] | None = Field(default=None, description="Request body JSON schema")
-    request_body_required: bool = Field(default=False, description="Whether request body is required")
-    response_schema: dict[str, Any] | None = Field(default=None, description="Response JSON schema")
+    parameters: list[Parameter] = Field(
+        default_factory=list, description="Operation parameters"
+    )
+    request_body_schema: dict[str, Any] | None = Field(
+        default=None, description="Request body JSON schema"
+    )
+    request_body_required: bool = Field(
+        default=False, description="Whether request body is required"
+    )
+    response_schema: dict[str, Any] | None = Field(
+        default=None, description="Response JSON schema"
+    )
     tags: list[str] = Field(default_factory=list, description="Operation tags")
-    deprecated: bool = Field(default=False, description="Whether operation is deprecated")
+    deprecated: bool = Field(
+        default=False, description="Whether operation is deprecated"
+    )
 
     @property
     def params_schema(self) -> dict[str, Any]:
@@ -223,15 +255,23 @@ class APICallResult(BaseModel):
 
     success: bool = Field(description="Whether the call succeeded (2xx status)")
     status_code: int = Field(description="HTTP status code")
-    headers: dict[str, str] = Field(default_factory=dict, description="Response headers")
-    body: Any = Field(default=None, description="Response body (parsed JSON or raw text)")
+    headers: dict[str, str] = Field(
+        default_factory=dict, description="Response headers"
+    )
+    body: Any = Field(
+        default=None, description="Response body (parsed JSON or raw text)"
+    )
     raw_body: str | None = Field(default=None, description="Raw response body")
-    elapsed_ms: float | None = Field(default=None, description="Request duration in milliseconds")
+    elapsed_ms: float | None = Field(
+        default=None, description="Request duration in milliseconds"
+    )
     request_id: str | None = Field(default=None, description="Request ID from headers")
 
     # Metadata
     provider: str = Field(description="Provider that was called")
-    operation_id: str | None = Field(default=None, description="Operation ID (if using spec)")
+    operation_id: str | None = Field(
+        default=None, description="Operation ID (if using spec)"
+    )
     method: str = Field(description="HTTP method used")
     url: str = Field(description="Full URL that was called")
 

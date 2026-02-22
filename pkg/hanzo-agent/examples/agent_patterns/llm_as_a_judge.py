@@ -53,7 +53,9 @@ async def main() -> None:
             )
 
             input_items = story_outline_result.to_input_list()
-            latest_outline = ItemHelpers.text_message_outputs(story_outline_result.new_items)
+            latest_outline = ItemHelpers.text_message_outputs(
+                story_outline_result.new_items
+            )
             print("Story outline generated")
 
             evaluator_result = await Runner.run(evaluator, input_items)
@@ -67,7 +69,9 @@ async def main() -> None:
 
             print("Re-running with feedback")
 
-            input_items.append({"content": f"Feedback: {result.feedback}", "role": "user"})
+            input_items.append(
+                {"content": f"Feedback: {result.feedback}", "role": "user"}
+            )
 
     print(f"Final story outline: {latest_outline}")
 

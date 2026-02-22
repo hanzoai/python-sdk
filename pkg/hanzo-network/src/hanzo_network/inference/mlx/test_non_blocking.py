@@ -12,7 +12,9 @@ async def test_non_blocking():
     shard_downloader = NewShardDownloader()
     engine = MLXDynamicShardInferenceEngine(shard_downloader)
     _shard = build_base_shard("llama-3.1-8b", "MLXDynamicShardInferenceEngine")
-    shard = Shard(_shard.model_id, _shard.start_layer, _shard.n_layers - 1, _shard.n_layers)
+    shard = Shard(
+        _shard.model_id, _shard.start_layer, _shard.n_layers - 1, _shard.n_layers
+    )
     await engine.ensure_shard(shard)
 
     queue = asyncio.Queue()
@@ -53,7 +55,9 @@ async def test_non_blocking():
         try:
             while running:
                 timestamp = await queue.get()
-                latency = (time.perf_counter_ns() - timestamp) / 1_000_000  # Convert to ms
+                latency = (
+                    time.perf_counter_ns() - timestamp
+                ) / 1_000_000  # Convert to ms
                 measurements.append(latency)
                 queue.task_done()
         except asyncio.CancelledError:
