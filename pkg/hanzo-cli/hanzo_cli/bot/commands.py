@@ -945,9 +945,34 @@ def bot_run(
 
         cmd.extend(["--display-name", platform_mod.node()])
 
-    # Set up environment
+    # Set up environment — the installed @hanzo/bot binary reads
+    # OPENCLAW_GATEWAY_TOKEN for the node run command's token resolution.
     env = os.environ.copy()
-    env["BOT_GATEWAY_TOKEN"] = iam_token
+    env["OPENCLAW_GATEWAY_TOKEN"] = iam_token
+
+    # Also write token into bot.json config so the config loader picks it up
+    bot_config_file = Path.home() / ".hanzo" / "bot" / "bot.json"
+    bot_config_file.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        bot_config: dict[str, Any] = {}
+        if bot_config_file.exists():
+            bot_config = json.loads(bot_config_file.read_text())
+        gw = bot_config.setdefault("gateway", {})
+        gw["mode"] = "remote"
+        remote = gw.setdefault("remote", {})
+        remote["url"] = f"{'wss' if not no_tls else 'ws'}://{host}"
+        remote["transport"] = "direct"
+        remote["token"] = iam_token
+        auth = gw.setdefault("auth", {})
+        auth["mode"] = "iam"
+        auth["token"] = iam_token
+        iam_cfg = auth.setdefault("iam", {})
+        iam_cfg["serverUrl"] = BOT_IAM_SERVER_URL
+        iam_cfg["clientId"] = BOT_IAM_CLIENT_ID
+        iam_cfg["orgName"] = BOT_IAM_ORG
+        bot_config_file.write_text(json.dumps(bot_config, indent=2))
+    except Exception:
+        pass  # Non-fatal — env var is the primary mechanism
 
     if daemon:
         # Run as background daemon
