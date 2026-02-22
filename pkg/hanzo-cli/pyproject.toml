@@ -26,6 +26,7 @@ dependencies = [
     "pyjwt>=2.8.0",
     "hanzo-iam>=1.0.0",
     "hanzo-kms>=1.0.0",
+    "tomli>=2.0.0; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
