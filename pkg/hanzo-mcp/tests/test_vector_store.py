@@ -43,7 +43,8 @@ class TestInfinityVectorStore:
     def test_add_file(self, tool_helper, temp_store):
         """Test adding a file with chunking."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
-            f.write("""
+            f.write(
+                """
 def hello_world():
     '''A simple hello world function.'''
     print("Hello, World!")
@@ -63,7 +64,9 @@ class Calculator:
 # This is a long comment to test chunking behavior
 # when files are larger than the chunk size
 # and need to be split into multiple documents
-""" * 50)  # Make it long enough to require chunking
+"""
+                * 50
+            )  # Make it long enough to require chunking
             f.flush()
 
             doc_ids = temp_store.add_file(
