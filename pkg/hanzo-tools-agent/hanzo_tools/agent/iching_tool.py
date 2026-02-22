@@ -423,13 +423,17 @@ class IChing:
                 lines += "1"
         return Hexagram(lines)
 
-    def select_principles(self, hexagram: Hexagram, challenge: str) -> List[HanzoPrinciple]:
+    def select_principles(
+        self, hexagram: Hexagram, challenge: str
+    ) -> List[HanzoPrinciple]:
         """Select relevant Hanzo principles based on hexagram and challenge."""
         # Use hexagram pattern to deterministically but creatively select principles
         selected = []
 
         # Primary principle based on hexagram pattern
-        primary_index = sum(int(bit) * (2**i) for i, bit in enumerate(hexagram.lines)) % len(self.principles)
+        primary_index = sum(
+            int(bit) * (2**i) for i, bit in enumerate(hexagram.lines)
+        ) % len(self.principles)
         selected.append(self.principles[primary_index])
 
         # Supporting principles based on challenge keywords
@@ -454,7 +458,9 @@ class IChing:
         # Add complementary principle based on changing lines
         changing_lines = hexagram.get_changing_lines()
         if changing_lines:
-            complement_index = (primary_index + sum(changing_lines)) % len(self.principles)
+            complement_index = (primary_index + sum(changing_lines)) % len(
+                self.principles
+            )
             selected.append(self.principles[complement_index])
 
         # Ensure uniqueness and limit to 3-5 principles
@@ -467,7 +473,9 @@ class IChing:
 
         return unique_selected[:5]
 
-    def generate_guidance(self, hexagram: Hexagram, principles: List[HanzoPrinciple], challenge: str) -> str:
+    def generate_guidance(
+        self, hexagram: Hexagram, principles: List[HanzoPrinciple], challenge: str
+    ) -> str:
         """Generate creative guidance combining I Ching wisdom and Hanzo principles."""
         guidance = f"☯️ I CHING GUIDANCE FOR ENGINEERING CHALLENGE ☯️\n\n"
         guidance += f"**Your Challenge:** {challenge}\n\n"
@@ -490,15 +498,21 @@ class IChing:
         if "Creative" in hexagram.title:
             guidance += "• This is a time for bold innovation. Don't hold back on ambitious ideas.\n"
         elif "Receptive" in hexagram.title:
-            guidance += "• Listen deeply to user needs and system constraints before acting.\n"
+            guidance += (
+                "• Listen deeply to user needs and system constraints before acting.\n"
+            )
         elif "Difficulty" in hexagram.title:
-            guidance += "• Challenges are teachers. Each obstacle reveals the path forward.\n"
+            guidance += (
+                "• Challenges are teachers. Each obstacle reveals the path forward.\n"
+            )
         elif "Waiting" in hexagram.title:
             guidance += "• Strategic patience required. Prepare thoroughly before implementation.\n"
         elif "Conflict" in hexagram.title:
             guidance += "• Technical disagreements? Seek data-driven resolution.\n"
         elif "Peace" in hexagram.title:
-            guidance += "• Harmony achieved. Now build sustainably on this foundation.\n"
+            guidance += (
+                "• Harmony achieved. Now build sustainably on this foundation.\n"
+            )
 
         # Principle-specific actionable advice
         principle_actions = {
@@ -520,7 +534,9 @@ class IChing:
         changing_lines = hexagram.get_changing_lines()
         if changing_lines:
             guidance += f"\n**Lines in Transition:** {', '.join(str(i + 1) for i in changing_lines)}\n"
-            guidance += "• Change is imminent in these areas. Prepare for transformation.\n"
+            guidance += (
+                "• Change is imminent in these areas. Prepare for transformation.\n"
+            )
 
         # Final synthesis
         guidance += "\n**The Way Forward:**\n"
@@ -531,7 +547,9 @@ class IChing:
 
         return guidance
 
-    def _synthesize_action_plan(self, hexagram: Hexagram, principles: List[HanzoPrinciple], challenge: str) -> str:
+    def _synthesize_action_plan(
+        self, hexagram: Hexagram, principles: List[HanzoPrinciple], challenge: str
+    ) -> str:
         """Create a specific action plan based on the reading."""
         plan = ""
 
@@ -540,15 +558,21 @@ class IChing:
             plan += "1. **Diagnose systematically** - Use empirical debugging, not guesswork\n"
             plan += "2. **Fix root cause** - Address the source, not just symptoms\n"
             plan += "3. **Prevent recurrence** - Add tests and monitoring\n"
-        elif any(word in challenge.lower() for word in ["scale", "performance", "slow"]):
+        elif any(
+            word in challenge.lower() for word in ["scale", "performance", "slow"]
+        ):
             plan += "1. **Measure first** - Profile to find actual bottlenecks\n"
             plan += "2. **Parallelize** - Use concurrency where possible\n"
             plan += "3. **Simplify** - Remove complexity before optimizing\n"
-        elif any(word in challenge.lower() for word in ["design", "architect", "structure"]):
+        elif any(
+            word in challenge.lower() for word in ["design", "architect", "structure"]
+        ):
             plan += "1. **Start simple** - MVP first, elaborate later\n"
             plan += "2. **Stay flexible** - Design for change\n"
             plan += "3. **Think holistically** - Consider entire system\n"
-        elif any(word in challenge.lower() for word in ["team", "collaborate", "people"]):
+        elif any(
+            word in challenge.lower() for word in ["team", "collaborate", "people"]
+        ):
             plan += "1. **Enable autonomy** - Trust your team\n"
             plan += "2. **Maintain balance** - Sustainable pace wins\n"
             plan += "3. **Share knowledge** - Elevate everyone\n"

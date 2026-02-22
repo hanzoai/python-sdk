@@ -429,7 +429,9 @@ class AsyncStorageResourceWithRawResponse:
         self.get_object = async_to_raw_response_wrapper(storage.get_object)
         self.put_object = async_to_raw_response_wrapper(storage.put_object)
         self.delete_object = async_to_raw_response_wrapper(storage.delete_object)
-        self.get_presigned_url = async_to_raw_response_wrapper(storage.get_presigned_url)
+        self.get_presigned_url = async_to_raw_response_wrapper(
+            storage.get_presigned_url
+        )
 
 
 class StorageResourceWithStreamingResponse:
@@ -455,4 +457,6 @@ class AsyncStorageResourceWithStreamingResponse:
         self.get_object = async_to_streamed_response_wrapper(storage.get_object)
         self.put_object = async_to_streamed_response_wrapper(storage.put_object)
         self.delete_object = async_to_streamed_response_wrapper(storage.delete_object)
-        self.get_presigned_url = async_to_streamed_response_wrapper(storage.get_presigned_url)
+        self.get_presigned_url = async_to_streamed_response_wrapper(
+            storage.get_presigned_url
+        )

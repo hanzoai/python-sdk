@@ -352,7 +352,7 @@ class OpenAPIClient:
                 provider=self.provider,
                 url=spec_url,
                 original_error=e,
-            )
+            ) from e
 
     async def load_spec(self, spec_source: str | None = None) -> None:
         """Load OpenAPI spec from various sources.
@@ -414,7 +414,7 @@ class OpenAPIClient:
                 provider=self.provider,
                 url=url,
                 original_error=e,
-            )
+            ) from e
 
     async def _load_spec_from_file(self, path: str) -> None:
         """Load spec from local file."""
@@ -435,7 +435,7 @@ class OpenAPIClient:
             raise SpecParseError(
                 message=f"Failed to load spec from {path}: {e}",
                 provider=self.provider,
-            )
+            ) from e
 
     def set_spec(self, spec: dict) -> None:
         """Set spec directly (for testing or inline specs)."""
@@ -560,7 +560,9 @@ class OpenAPIClient:
         if request_body:
             content = request_body.get("content", {})
             # Prefer JSON
-            json_content = content.get("application/json") or content.get("application/json; charset=utf-8")
+            json_content = content.get("application/json") or content.get(
+                "application/json; charset=utf-8"
+            )
             if json_content:
                 body_schema = json_content.get("schema")
                 if body_schema and "$ref" in body_schema:
@@ -642,7 +644,9 @@ class OpenAPIClient:
         """
         # Ensure spec is parsed if we have it
         if self._spec and not self._operations:
-            logger.debug(f"Spec loaded but operations empty, re-parsing for {self.provider}")
+            logger.debug(
+                f"Spec loaded but operations empty, re-parsing for {self.provider}"
+            )
             self._parsed = False
             self._parse_spec()
 
@@ -758,7 +762,9 @@ class OpenAPIClient:
                 import base64
 
                 secret = credential.api_secret or ""
-                creds = base64.b64encode(f"{credential.api_key}:{secret}".encode()).decode()
+                creds = base64.b64encode(
+                    f"{credential.api_key}:{secret}".encode()
+                ).decode()
                 headers["Authorization"] = f"Basic {creds}"
 
             elif auth_type.value == "header":
@@ -779,7 +785,9 @@ class OpenAPIClient:
 
         return headers
 
-    def _substitute_path_params(self, path: str, params: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    def _substitute_path_params(
+        self, path: str, params: dict[str, Any]
+    ) -> tuple[str, dict[str, Any]]:
         """Substitute path parameters and return remaining params."""
         remaining = dict(params)
         path_params = re.findall(r"\{(\w+)\}", path)
@@ -985,7 +993,7 @@ class OpenAPIClient:
                 provider=self.provider,
                 url=url,
                 original_error=e,
-            )
+            ) from e
 
     def _validate_params(
         self,

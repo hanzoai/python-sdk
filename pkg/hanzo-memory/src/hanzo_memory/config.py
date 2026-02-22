@@ -46,9 +46,7 @@ class Settings(BaseSettings):
     llm_model: str = Field(
         "gpt-4o-mini", description="LLM model to use (LiteLLM format)"
     )
-    llm_api_base: str | None = Field(
-        None, description="API base URL for local models"
-    )
+    llm_api_base: str | None = Field(None, description="API base URL for local models")
     llm_api_key: str | None = Field(None, description="API key for LLM provider")
     llm_temperature: float = Field(0.7, description="Default temperature for LLM")
     llm_max_tokens: int = Field(1000, description="Default max tokens for LLM")

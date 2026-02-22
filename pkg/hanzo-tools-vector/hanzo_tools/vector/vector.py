@@ -250,7 +250,9 @@ vector --action clear --path ./old_code
             output.append(f"Chunks created: {stats.get('chunks_created', 0)}")
             if stats.get("git_commits"):
                 output.append(f"Git commits indexed: {stats['git_commits']}")
-            output.append(f"Total documents: {project.get_stats().get('total_documents', 0)}")
+            output.append(
+                f"Total documents: {project.get_stats().get('total_documents', 0)}"
+            )
 
             return "\n".join(output)
 
@@ -282,7 +284,9 @@ vector --action clear --path ./old_code
             if stats.get("projects"):
                 output.append(f"\nProjects indexed: {len(stats['projects'])}")
                 for proj in stats["projects"]:
-                    output.append(f"  - {proj['name']}: {proj['documents']} docs, {proj['size_mb']:.1f} MB")
+                    output.append(
+                        f"  - {proj['name']}: {proj['documents']} docs, {proj['size_mb']:.1f} MB"
+                    )
 
             return "\n".join(output)
 

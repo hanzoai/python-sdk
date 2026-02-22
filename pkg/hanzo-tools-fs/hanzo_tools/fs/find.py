@@ -104,9 +104,13 @@ Returns:
         async def find(
             pattern: Annotated[str, Field(description="Glob pattern")],
             path: Annotated[str, Field(description="Directory to search")] = ".",
-            type: Annotated[Optional[str], Field(description="file, dir, or None")] = None,
+            type: Annotated[
+                Optional[str], Field(description="file, dir, or None")
+            ] = None,
             max_results: Annotated[int, Field(description="Max results")] = 100,
             ctx: MCPContext = None,
         ) -> str:
             """Find files and directories by pattern."""
-            return await tool_instance.call(ctx, pattern=pattern, path=path, type=type, max_results=max_results)
+            return await tool_instance.call(
+                ctx, pattern=pattern, path=path, type=type, max_results=max_results
+            )

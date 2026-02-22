@@ -23,12 +23,16 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
         self.sampler_params: tuple[float, float] = (0.0, 0.0, 0.0, 1)
         self.sampler = make_sampler(*self.sampler_params)
         self._mlx_thread = ThreadPoolExecutor(max_workers=1, thread_name_prefix="mlx")
-        self._tokenizer_thread = ThreadPoolExecutor(max_workers=1, thread_name_prefix="tokenizer")
+        self._tokenizer_thread = ThreadPoolExecutor(
+            max_workers=1, thread_name_prefix="tokenizer"
+        )
         self.session = {}
         self._shard_lock = asyncio.Lock()
 
     async def _eval_mlx(self, *args):
-        await asyncio.get_running_loop().run_in_executor(self._mlx_thread, mx.eval, *args)
+        await asyncio.get_running_loop().run_in_executor(
+            self._mlx_thread, mx.eval, *args
+        )
 
     async def poll_state(self, request_id: str, max_caches=2):
         if request_id in self.caches:
@@ -40,7 +44,9 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
             self.caches[request_id] = newcache
         return {"cache": self.caches[request_id]}
 
-    async def sample(self, x: np.ndarray, temp: float = 0.0, top_p: float = 1.0) -> np.ndarray:
+    async def sample(
+        self, x: np.ndarray, temp: float = 0.0, top_p: float = 1.0
+    ) -> np.ndarray:
         if (temp, top_p, 0.0, 1) != self.sampler_params:
             self.sampler_params = (temp, top_p, 0.0, 1)
             self.sampler = make_sampler(*self.sampler_params)
@@ -54,20 +60,28 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
     async def encode(self, shard: Shard, prompt: str) -> np.ndarray:
         await self.ensure_shard(shard)
         return np.asarray(
-            await asyncio.get_running_loop().run_in_executor(self._tokenizer_thread, self.tokenizer.encode, prompt)
+            await asyncio.get_running_loop().run_in_executor(
+                self._tokenizer_thread, self.tokenizer.encode, prompt
+            )
         )
 
     async def decode(self, shard: Shard, tokens) -> str:
         await self.ensure_shard(shard)
-        return await asyncio.get_running_loop().run_in_executor(self._tokenizer_thread, self.tokenizer.decode, tokens)
+        return await asyncio.get_running_loop().run_in_executor(
+            self._tokenizer_thread, self.tokenizer.decode, tokens
+        )
 
     async def save_checkpoint(self, shard: Shard, path: str):
         await self.ensure_shard(shard)
-        await asyncio.get_running_loop().run_in_executor(self._mlx_thread, lambda: self.model.save_weights(path))
+        await asyncio.get_running_loop().run_in_executor(
+            self._mlx_thread, lambda: self.model.save_weights(path)
+        )
 
     async def load_checkpoint(self, shard: Shard, path: str):
         await self.ensure_shard(shard)
-        await asyncio.get_running_loop().run_in_executor(self._mlx_thread, lambda: self.model.load_weights(path))
+        await asyncio.get_running_loop().run_in_executor(
+            self._mlx_thread, lambda: self.model.load_weights(path)
+        )
 
     async def infer_tensor(
         self,
@@ -77,7 +91,11 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
         inference_state: Optional[dict] = None,
     ) -> tuple[np.ndarray, Optional[dict]]:
         await self.ensure_shard(shard)
-        state = await self.poll_state(request_id) if self.model.model_type != "StableDiffusionPipeline" else {}
+        state = (
+            await self.poll_state(request_id)
+            if self.model.model_type != "StableDiffusionPipeline"
+            else {}
+        )
         x = mx.array(input_data)
 
         if self.model.model_type != "StableDiffusionPipeline":
@@ -129,22 +147,37 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
     ):
         await self.ensure_shard(shard)
 
-        if "train_layers" not in self.session or self.session["train_layers"] != trainable_layers:
+        if (
+            "train_layers" not in self.session
+            or self.session["train_layers"] != trainable_layers
+        ):
             await self.save_session("train_layers", trainable_layers)
 
             def freeze_unfreeze():
                 self.model.freeze()
                 self.model.apply_to_modules(
                     lambda k, v: (
-                        v.unfreeze() if any(k.endswith(layer_name) for layer_name in trainable_layers) else None
+                        v.unfreeze()
+                        if any(
+                            k.endswith(layer_name) for layer_name in trainable_layers
+                        )
+                        else None
                     )
                 )
 
-            await asyncio.get_running_loop().run_in_executor(self._mlx_thread, freeze_unfreeze)
+            await asyncio.get_running_loop().run_in_executor(
+                self._mlx_thread, freeze_unfreeze
+            )
 
-        if "lossname" not in self.session or "LVaG" not in self.session or self.session["lossname"] != loss:
+        if (
+            "lossname" not in self.session
+            or "LVaG" not in self.session
+            or self.session["lossname"] != loss
+        ):
             await self.save_session("lossname", loss)
-            await self.save_session("LVaG", nn.value_and_grad(self.model, loss_fns[loss]))
+            await self.save_session(
+                "LVaG", nn.value_and_grad(self.model, loss_fns[loss])
+            )
 
         if "opt" not in self.session:
             await self.save_session("opt", opt(lr))
@@ -181,7 +214,11 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
         )
         await self._eval_mlx(*eval_args)
 
-        layers = [{k: v["weight"] for k, v in layer.items() if "weight" in v} for layer in gradients if layer]
+        layers = [
+            {k: v["weight"] for k, v in layer.items() if "weight" in v}
+            for layer in gradients
+            if layer
+        ]
         first_layer = np.array(layers[0]["input_layernorm"], copy=False)
         await self._eval_mlx(first_layer)
         return score, first_layer
@@ -190,7 +227,9 @@ class MLXDynamicShardInferenceEngine(InferenceEngine):
         async with self._shard_lock:
             if self.shard == shard:
                 return
-            model_path = await self.shard_downloader.ensure_shard(shard, self.__class__.__name__)
+            model_path = await self.shard_downloader.ensure_shard(
+                shard, self.__class__.__name__
+            )
             if self.shard != shard:
                 model_shard = await asyncio.get_running_loop().run_in_executor(
                     self._mlx_thread,

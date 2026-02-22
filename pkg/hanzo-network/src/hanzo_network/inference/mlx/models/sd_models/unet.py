@@ -49,7 +49,9 @@ class UNetConfig:
             out_channels=config["out_channels"],
             block_out_channels=config["block_out_channels"],
             layers_per_block=[config["layers_per_block"]] * n_blocks,
-            transformer_layers_per_block=config.get("transformer_layers_per_block", (1,) * 4),
+            transformer_layers_per_block=config.get(
+                "transformer_layers_per_block", (1,) * 4
+            ),
             num_attention_heads=(
                 [config["attention_head_dim"]] * n_blocks
                 if isinstance(config["attention_head_dim"], int)
@@ -61,7 +63,9 @@ class UNetConfig:
             up_block_types=config["up_block_types"][::-1],
             addition_embed_type=config.get("addition_embed_type", None),
             addition_time_embed_dim=config.get("addition_time_embed_dim", None),
-            projection_class_embeddings_input_dim=config.get("projection_class_embeddings_input_dim", None),
+            projection_class_embeddings_input_dim=config.get(
+                "projection_class_embeddings_input_dim", None
+            ),
             weight_files=config.get("weight_files", []),
         )
 
@@ -105,7 +109,9 @@ class TransformerBlock(nn.Module):
 
         memory_dims = memory_dims or model_dims
         self.norm2 = nn.LayerNorm(model_dims)
-        self.attn2 = nn.MultiHeadAttention(model_dims, num_heads, key_input_dims=memory_dims)
+        self.attn2 = nn.MultiHeadAttention(
+            model_dims, num_heads, key_input_dims=memory_dims
+        )
         self.attn2.out_proj.bias = mx.zeros(model_dims)
 
         hidden_dims = hidden_dims or 4 * model_dims
@@ -153,7 +159,8 @@ class Transformer2D(nn.Module):
         self.norm = nn.GroupNorm(norm_num_groups, in_channels, pytorch_compatible=True)
         self.proj_in = nn.Linear(in_channels, model_dims)
         self.transformer_blocks = [
-            TransformerBlock(model_dims, num_heads, memory_dims=encoder_dims) for i in range(num_layers)
+            TransformerBlock(model_dims, num_heads, memory_dims=encoder_dims)
+            for i in range(num_layers)
         ]
         self.proj_out = nn.Linear(model_dims, in_channels)
 
@@ -191,11 +198,15 @@ class ResnetBlock2D(nn.Module):
         out_channels = out_channels or in_channels
 
         self.norm1 = nn.GroupNorm(groups, in_channels, pytorch_compatible=True)
-        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(
+            in_channels, out_channels, kernel_size=3, stride=1, padding=1
+        )
         if temb_channels is not None:
             self.time_emb_proj = nn.Linear(temb_channels, out_channels)
         self.norm2 = nn.GroupNorm(groups, out_channels, pytorch_compatible=True)
-        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(
+            out_channels, out_channels, kernel_size=3, stride=1, padding=1
+        )
 
         if in_channels != out_channels:
             self.conv_shortcut = nn.Linear(in_channels, out_channels)
@@ -245,7 +256,9 @@ class UNetBlock2D(nn.Module):
         else:
             in_channels_list = [prev_out_channels] + [out_channels] * (num_layers - 1)
             res_channels_list = [out_channels] * (num_layers - 1) + [in_channels]
-            in_channels_list = [a + b for a, b in zip(in_channels_list, res_channels_list)]
+            in_channels_list = [
+                a + b for a, b in zip(in_channels_list, res_channels_list)
+            ]
 
         # Add resnet blocks that also process the time embedding
         self.resnets = [
@@ -273,11 +286,15 @@ class UNetBlock2D(nn.Module):
 
         # Add an optional downsampling layer
         if add_downsample:
-            self.downsample = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=2, padding=1)
+            self.downsample = nn.Conv2d(
+                out_channels, out_channels, kernel_size=3, stride=2, padding=1
+            )
 
         # or upsampling layer
         if add_upsample:
-            self.upsample = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1)
+            self.upsample = nn.Conv2d(
+                out_channels, out_channels, kernel_size=3, stride=1, padding=1
+            )
 
     def __call__(
         self,
@@ -332,7 +349,9 @@ class UNetModel(nn.Module):
         self.timesteps = nn.SinusoidalPositionalEncoding(
             config.block_out_channels[0],
             max_freq=1,
-            min_freq=math.exp(-math.log(10000) + 2 * math.log(10000) / config.block_out_channels[0]),
+            min_freq=math.exp(
+                -math.log(10000) + 2 * math.log(10000) / config.block_out_channels[0]
+            ),
             scale=1.0,
             cos_first=True,
             full_turns=False,
@@ -346,7 +365,10 @@ class UNetModel(nn.Module):
             self.add_time_proj = nn.SinusoidalPositionalEncoding(
                 config.addition_time_embed_dim,
                 max_freq=1,
-                min_freq=math.exp(-math.log(10000) + 2 * math.log(10000) / config.addition_time_embed_dim),
+                min_freq=math.exp(
+                    -math.log(10000)
+                    + 2 * math.log(10000) / config.addition_time_embed_dim
+                ),
                 scale=1.0,
                 cos_first=True,
                 full_turns=False,
@@ -357,10 +379,14 @@ class UNetModel(nn.Module):
             )
 
         # Make the downsampling blocks
-        block_channels = [config.block_out_channels[0]] + list(config.block_out_channels)
+        block_channels = [config.block_out_channels[0]] + list(
+            config.block_out_channels
+        )
         self.down_blocks = []
 
-        for i, (in_channels, out_channels) in enumerate(zip(block_channels, block_channels[1:])):
+        for i, (in_channels, out_channels) in enumerate(
+            zip(block_channels, block_channels[1:])
+        ):
             if i in self.layers_range:
                 self.down_blocks.append(
                     UNetBlock2D(
@@ -368,7 +394,9 @@ class UNetModel(nn.Module):
                         out_channels=out_channels,
                         temb_channels=config.block_out_channels[0] * 4,
                         num_layers=config.layers_per_block[i],
-                        transformer_layers_per_block=config.transformer_layers_per_block[i],
+                        transformer_layers_per_block=config.transformer_layers_per_block[
+                            i
+                        ],
                         num_attention_heads=config.num_attention_heads[i],
                         cross_attention_dim=config.cross_attention_dim[i],
                         resnet_groups=config.norm_num_groups,
@@ -406,14 +434,20 @@ class UNetModel(nn.Module):
 
         # Make the upsampling blocks
         block_channels = (
-            [config.block_out_channels[0]] + list(config.block_out_channels) + [config.block_out_channels[-1]]
+            [config.block_out_channels[0]]
+            + list(config.block_out_channels)
+            + [config.block_out_channels[-1]]
         )
 
         total_items = len(block_channels) - 3
-        reversed_channels = list(reversed(list(zip(block_channels, block_channels[1:], block_channels[2:]))))
+        reversed_channels = list(
+            reversed(list(zip(block_channels, block_channels[1:], block_channels[2:])))
+        )
 
         self.up_blocks = []
-        for rev_i, (in_channels, out_channels, prev_out_channels) in enumerate(reversed_channels):
+        for rev_i, (in_channels, out_channels, prev_out_channels) in enumerate(
+            reversed_channels
+        ):
             i = total_items - rev_i
             if rev_i + 5 in self.layers_range:
                 self.up_blocks.append(
@@ -423,7 +457,9 @@ class UNetModel(nn.Module):
                         temb_channels=config.block_out_channels[0] * 4,
                         prev_out_channels=prev_out_channels,
                         num_layers=config.layers_per_block[i] + 1,
-                        transformer_layers_per_block=config.transformer_layers_per_block[i],
+                        transformer_layers_per_block=config.transformer_layers_per_block[
+                            i
+                        ],
                         num_attention_heads=config.num_attention_heads[i],
                         cross_attention_dim=config.cross_attention_dim[i],
                         resnet_groups=config.norm_num_groups,

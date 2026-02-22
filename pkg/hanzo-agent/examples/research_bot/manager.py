@@ -66,7 +66,9 @@ class ResearchManager:
         with custom_span("Search the web"):
             self.printer.update_item("searching", "Searching...")
             num_completed = 0
-            tasks = [asyncio.create_task(self._search(item)) for item in search_plan.searches]
+            tasks = [
+                asyncio.create_task(self._search(item)) for item in search_plan.searches
+            ]
             results = []
             for task in asyncio.as_completed(tasks):
                 result = await task

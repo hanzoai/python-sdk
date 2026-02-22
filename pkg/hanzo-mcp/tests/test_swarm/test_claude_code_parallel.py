@@ -294,8 +294,7 @@ class APIClient:
             # Write a large file with many functions
             f.write('"""Large module for testing pagination."""\n\n')
             for i in range(100):
-                f.write(
-                    f'''def function_{i}(param1, param2):
+                f.write(f'''def function_{i}(param1, param2):
     """Function {i} that needs documentation.
     
     This function currently lacks proper documentation,
@@ -305,8 +304,7 @@ class APIClient:
     print(f"Function {i} result: {{result}}")
     return result
 
-'''
-                )
+''')
 
         # Create agent directly to test pagination
         agent = AgentTool(

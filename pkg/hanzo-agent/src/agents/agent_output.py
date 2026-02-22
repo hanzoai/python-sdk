@@ -104,7 +104,9 @@ class AgentOutputSchema:
                 _utils.attach_error_to_current_span(
                     SpanError(
                         message="Invalid JSON",
-                        data={"details": f"Could not find key {_WRAPPER_DICT_KEY} in JSON"},
+                        data={
+                            "details": f"Could not find key {_WRAPPER_DICT_KEY} in JSON"
+                        },
                     )
                 )
                 raise ModelBehaviorError(

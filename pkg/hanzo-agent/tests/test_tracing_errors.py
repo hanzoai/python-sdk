@@ -66,7 +66,10 @@ async def test_multi_turn_no_handoffs():
     model.add_multiple_turn_outputs(
         [
             # First turn: a message and tool call
-            [get_text_message("a_message"), get_function_tool_call("foo", json.dumps({"a": "b"}))],
+            [
+                get_text_message("a_message"),
+                get_function_tool_call("foo", json.dumps({"a": "b"})),
+            ],
             # Second turn: error
             ValueError("test error"),
             # Third turn: text message
@@ -86,7 +89,9 @@ async def test_multi_turn_no_handoffs():
         f"{[x.span_data for x in spans]}"
     )
 
-    last_generation_span = [x for x in spans if isinstance(x.span_data, GenerationSpanData)][-1]
+    last_generation_span = [
+        x for x in spans if isinstance(x.span_data, GenerationSpanData)
+    ][-1]
     assert last_generation_span.error, "should have error"
 
 
@@ -244,9 +249,9 @@ async def test_handoffs_lead_to_correct_agent_spans():
     )
     result = await Runner.run(agent_3, input="user_message")
 
-    assert result.last_agent == agent_3, (
-        f"should have ended on the third agent, got {result.last_agent.name}"
-    )
+    assert (
+        result.last_agent == agent_3
+    ), f"should have ended on the third agent, got {result.last_agent.name}"
 
     traces = fetch_traces()
     assert len(traces) == 1, f"Expected 1 trace, got {len(traces)}"
@@ -296,7 +301,9 @@ async def test_max_turns_exceeded():
 
 
 def guardrail_function(
-    context: RunContextWrapper[Any], agent: Agent[Any], input: str | list[TResponseInputItem]
+    context: RunContextWrapper[Any],
+    agent: Agent[Any],
+    input: str | list[TResponseInputItem],
 ) -> GuardrailFunctionOutput:
     return GuardrailFunctionOutput(
         output_info=None,
@@ -307,7 +314,8 @@ def guardrail_function(
 @pytest.mark.asyncio
 async def test_guardrail_error():
     agent = Agent(
-        name="test", input_guardrails=[InputGuardrail(guardrail_function=guardrail_function)]
+        name="test",
+        input_guardrails=[InputGuardrail(guardrail_function=guardrail_function)],
     )
     model = FakeModel()
     model.set_next_output([get_text_message("some_message")])

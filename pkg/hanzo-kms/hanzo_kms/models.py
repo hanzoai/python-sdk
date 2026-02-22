@@ -39,7 +39,9 @@ class GCPIamAuthMethod(BaseModel):
     """GCP IAM authentication."""
 
     identity_id: str = Field(..., description="Identity ID in KMS")
-    service_account_key_file_path: str = Field(..., description="Path to service account key")
+    service_account_key_file_path: str = Field(
+        ..., description="Path to service account key"
+    )
 
 
 class GCPIDTokenAuthMethod(BaseModel):
@@ -78,8 +80,12 @@ class ClientSettings(BaseModel):
     """Client configuration settings."""
 
     site_url: str = Field("https://kms.hanzo.ai", description="KMS API URL")
-    organization: str = Field("hanzo", description="Organization name for multi-tenancy")
-    auth: Optional[AuthenticationOptions] = Field(None, description="Authentication options")
+    organization: str = Field(
+        "hanzo", description="Organization name for multi-tenancy"
+    )
+    auth: Optional[AuthenticationOptions] = Field(
+        None, description="Authentication options"
+    )
     user_agent: str = Field("hanzo-kms-python", description="User agent string")
     cache_ttl: int = Field(300, description="Cache TTL in seconds")
 
@@ -95,7 +101,9 @@ class SecretElement(BaseModel):
     id: str = Field(..., description="Secret ID")
     secret_key: str = Field(..., alias="secretKey", description="Secret key/name")
     secret_value: str = Field(..., alias="secretValue", description="Secret value")
-    secret_comment: Optional[str] = Field(None, alias="secretComment", description="Comment")
+    secret_comment: Optional[str] = Field(
+        None, alias="secretComment", description="Comment"
+    )
     version: int = Field(1, description="Secret version")
     type: str = Field("shared", description="Secret type")
     environment: str = Field(..., description="Environment slug")
@@ -132,7 +140,9 @@ class ListSecretsOptions(BaseModel):
     include_imports: bool = Field(True, description="Include imported secrets")
     recursive: bool = Field(False, description="Recursively fetch from subpaths")
     expand_secret_references: bool = Field(True, description="Expand ${} references")
-    attach_to_process_env: bool = Field(False, description="Set as environment variables")
+    attach_to_process_env: bool = Field(
+        False, description="Set as environment variables"
+    )
 
 
 class CreateSecretOptions(BaseModel):

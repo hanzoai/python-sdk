@@ -57,7 +57,9 @@ class MCPAgent:
             Agent's response
         """
         # Build context string from other agents' responses
-        context_str = "\n\n".join([f"[{agent_id}]: {response}" for agent_id, response in context.items()])
+        context_str = "\n\n".join(
+            [f"[{agent_id}]: {response}" for agent_id, response in context.items()]
+        )
 
         full_prompt = f"""Discussion prompt: {prompt}
 

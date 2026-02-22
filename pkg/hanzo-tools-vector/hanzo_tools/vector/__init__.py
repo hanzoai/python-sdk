@@ -42,7 +42,9 @@ if VECTOR_AVAILABLE:
     __all__.extend(["IndexTool", "VectorIndexTool", "VectorSearchTool"])
 
 
-def register_tools(mcp_server, permission_manager=None, enabled_tools: dict[str, bool] | None = None):
+def register_tools(
+    mcp_server, permission_manager=None, enabled_tools: dict[str, bool] | None = None
+):
     """Register vector tools with MCP server."""
     if not VECTOR_AVAILABLE:
         logger.warning("Vector tools not available - missing dependencies")
@@ -57,7 +59,11 @@ def register_tools(mcp_server, permission_manager=None, enabled_tools: dict[str,
         tool_name = getattr(tool_class, "name", tool_class.__name__.lower())
         if enabled.get(tool_name, True):
             try:
-                tool = tool_class(permission_manager) if permission_manager else tool_class()
+                tool = (
+                    tool_class(permission_manager)
+                    if permission_manager
+                    else tool_class()
+                )
                 ToolRegistry.register_tool(mcp_server, tool)
                 registered.append(tool)
             except Exception as e:

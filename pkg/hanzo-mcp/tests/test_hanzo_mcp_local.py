@@ -120,14 +120,12 @@ async def test_search_functionality():
         # Create test files
         for i in range(3):
             test_file = Path(tmpdir) / f"file{i}.py"
-            test_file.write_text(
-                f'''
+            test_file.write_text(f'''
 def function_{i}():
     """Function {i} documentation."""
     # TODO: Implement feature {i}
     return {i}
-'''
-            )
+''')
 
         # Search for TODOs using the search tool
         search_result = await server.mcp.call_tool(

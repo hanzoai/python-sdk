@@ -52,7 +52,9 @@ if TYPE_CHECKING:
     FileContent = Union[IO[bytes], bytes, PathLike[str]]
 else:
     Base64FileInput = Union[IO[bytes], PathLike]
-    FileContent = Union[IO[bytes], bytes, PathLike]  # PathLike is not subscriptable in Python 3.8.
+    FileContent = Union[
+        IO[bytes], bytes, PathLike
+    ]  # PathLike is not subscriptable in Python 3.8.
 FileTypes = Union[
     # file (or bytes)
     FileContent,
@@ -77,7 +79,9 @@ HttpxFileTypes = Union[
     # (filename, file (or bytes), content_type, headers)
     Tuple[Optional[str], HttpxFileContent, Optional[str], Mapping[str, str]],
 ]
-HttpxRequestFiles = Union[Mapping[str, HttpxFileTypes], Sequence[Tuple[str, HttpxFileTypes]]]
+HttpxRequestFiles = Union[
+    Mapping[str, HttpxFileTypes], Sequence[Tuple[str, HttpxFileTypes]]
+]
 
 # Workaround to support (cast_to: Type[ResponseT]) -> ResponseT
 # where ResponseT includes `None`. In order to support directly

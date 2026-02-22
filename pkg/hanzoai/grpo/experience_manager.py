@@ -177,7 +177,9 @@ class ExperienceManager:
         Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         with open(path, "w") as f:
-            json.dump({"experiences": self.experiences, "next_id": self._next_id}, f, indent=2)
+            json.dump(
+                {"experiences": self.experiences, "next_id": self._next_id}, f, indent=2
+            )
 
     def load(self, path: str) -> None:
         """Load experiences from JSON file.

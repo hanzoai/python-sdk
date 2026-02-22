@@ -66,7 +66,9 @@ async def main():
             print("Outline is not a scifi story, so we stop here.")
             exit(0)
 
-        print("Outline is good quality and a scifi story, so we continue to write the story.")
+        print(
+            "Outline is good quality and a scifi story, so we continue to write the story."
+        )
 
         # 4. Write the story
         story_result = await Runner.run(

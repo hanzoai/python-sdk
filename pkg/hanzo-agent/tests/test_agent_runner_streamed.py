@@ -51,24 +51,33 @@ async def test_simple_first_run():
     assert result.input == "test"
     assert len(result.new_items) == 1, "exactly one item should be generated"
     assert result.final_output == "first"
-    assert len(result.raw_responses) == 1, "exactly one model response should be generated"
+    assert (
+        len(result.raw_responses) == 1
+    ), "exactly one model response should be generated"
     assert result.raw_responses[0].output == [get_text_message("first")]
     assert result.last_agent == agent
 
-    assert len(result.to_input_list()) == 2, "should have original input and generated item"
+    assert (
+        len(result.to_input_list()) == 2
+    ), "should have original input and generated item"
 
     model.set_next_output([get_text_message("second")])
 
     result = Runner.run_streamed(
-        agent, input=[get_text_input_item("message"), get_text_input_item("another_message")]
+        agent,
+        input=[get_text_input_item("message"), get_text_input_item("another_message")],
     )
     async for _ in result.stream_events():
         pass
 
     assert len(result.new_items) == 1, "exactly one item should be generated"
     assert result.final_output == "second"
-    assert len(result.raw_responses) == 1, "exactly one model response should be generated"
-    assert len(result.to_input_list()) == 3, "should have original input and generated item"
+    assert (
+        len(result.raw_responses) == 1
+    ), "exactly one model response should be generated"
+    assert (
+        len(result.to_input_list()) == 3
+    ), "should have original input and generated item"
 
 
 @pytest.mark.asyncio
@@ -86,7 +95,9 @@ async def test_subsequent_runs():
 
     assert result.input == "test"
     assert len(result.new_items) == 1, "exactly one item should be generated"
-    assert len(result.to_input_list()) == 2, "should have original input and generated item"
+    assert (
+        len(result.to_input_list()) == 2
+    ), "should have original input and generated item"
 
     model.set_next_output([get_text_message("fourth")])
 
@@ -97,10 +108,14 @@ async def test_subsequent_runs():
     assert len(result.input) == 2, f"should have previous input but got {result.input}"
     assert len(result.new_items) == 1, "exactly one item should be generated"
     assert result.final_output == "fourth"
-    assert len(result.raw_responses) == 1, "exactly one model response should be generated"
+    assert (
+        len(result.raw_responses) == 1
+    ), "exactly one model response should be generated"
     assert result.raw_responses[0].output == [get_text_message("fourth")]
     assert result.last_agent == agent
-    assert len(result.to_input_list()) == 3, "should have original input and generated items"
+    assert (
+        len(result.to_input_list()) == 3
+    ), "should have original input and generated items"
 
 
 @pytest.mark.asyncio
@@ -115,7 +130,10 @@ async def test_tool_call_runs():
     model.add_multiple_turn_outputs(
         [
             # First turn: a message and tool call
-            [get_text_message("a_message"), get_function_tool_call("foo", json.dumps({"a": "b"}))],
+            [
+                get_text_message("a_message"),
+                get_function_tool_call("foo", json.dumps({"a": "b"})),
+            ],
             # Second turn: text message
             [get_text_message("done")],
         ]
@@ -263,7 +281,11 @@ async def test_handoff_filters():
 
     model.add_multiple_turn_outputs(
         [
-            [get_text_message("1"), get_text_message("2"), get_handoff_tool_call(agent_1)],
+            [
+                get_text_message("1"),
+                get_text_message("2"),
+                get_handoff_tool_call(agent_1),
+            ],
             [get_text_message("last")],
         ]
     )
@@ -274,9 +296,9 @@ async def test_handoff_filters():
 
     assert result.final_output == "last"
     assert len(result.raw_responses) == 2, "should have two model responses"
-    assert len(result.to_input_list()) == 2, (
-        "should only have 2 inputs: orig input and last message"
-    )
+    assert (
+        len(result.to_input_list()) == 2
+    ), "should only have 2 inputs: orig input and last message"
 
 
 @pytest.mark.asyncio
@@ -289,7 +311,9 @@ async def test_async_input_filter_fails():
         model=model,
     )
 
-    async def on_invoke_handoff(_ctx: RunContextWrapper[Any], _input: str) -> Agent[Any]:
+    async def on_invoke_handoff(
+        _ctx: RunContextWrapper[Any], _input: str
+    ) -> Agent[Any]:
         return agent_1
 
     async def invalid_input_filter(data: HandoffInputData) -> HandoffInputData:
@@ -313,7 +337,11 @@ async def test_async_input_filter_fails():
 
     model.add_multiple_turn_outputs(
         [
-            [get_text_message("1"), get_text_message("2"), get_handoff_tool_call(agent_1)],
+            [
+                get_text_message("1"),
+                get_text_message("2"),
+                get_handoff_tool_call(agent_1),
+            ],
             [get_text_message("last")],
         ]
     )
@@ -332,7 +360,9 @@ async def test_invalid_input_filter_fails():
         model=model,
     )
 
-    async def on_invoke_handoff(_ctx: RunContextWrapper[Any], _input: str) -> Agent[Any]:
+    async def on_invoke_handoff(
+        _ctx: RunContextWrapper[Any], _input: str
+    ) -> Agent[Any]:
         return agent_1
 
     def invalid_input_filter(data: HandoffInputData) -> HandoffInputData:
@@ -356,7 +386,11 @@ async def test_invalid_input_filter_fails():
 
     model.add_multiple_turn_outputs(
         [
-            [get_text_message("1"), get_text_message("2"), get_handoff_tool_call(agent_1)],
+            [
+                get_text_message("1"),
+                get_text_message("2"),
+                get_handoff_tool_call(agent_1),
+            ],
             [get_text_message("last")],
         ]
     )
@@ -375,7 +409,9 @@ async def test_non_callable_input_filter_causes_error():
         model=model,
     )
 
-    async def on_invoke_handoff(_ctx: RunContextWrapper[Any], _input: str) -> Agent[Any]:
+    async def on_invoke_handoff(
+        _ctx: RunContextWrapper[Any], _input: str
+    ) -> Agent[Any]:
         return agent_1
 
     agent_2 = Agent[None](
@@ -396,7 +432,11 @@ async def test_non_callable_input_filter_causes_error():
 
     model.add_multiple_turn_outputs(
         [
-            [get_text_message("1"), get_text_message("2"), get_handoff_tool_call(agent_1)],
+            [
+                get_text_message("1"),
+                get_text_message("2"),
+                get_handoff_tool_call(agent_1),
+            ],
             [get_text_message("last")],
         ]
     )
@@ -450,7 +490,9 @@ async def test_handoff_on_input():
 
     assert result.final_output == "last"
 
-    assert call_output == "test_input", "should have called the handoff with the correct input"
+    assert (
+        call_output == "test_input"
+    ), "should have called the handoff with the correct input"
 
 
 @pytest.mark.asyncio
@@ -496,7 +538,9 @@ async def test_async_handoff_on_input():
 
     assert result.final_output == "last"
 
-    assert call_output == "test_input", "should have called the handoff with the correct input"
+    assert (
+        call_output == "test_input"
+    ), "should have called the handoff with the correct input"
 
 
 @pytest.mark.asyncio
@@ -594,7 +638,9 @@ async def test_run_output_guardrail_tripwire_triggered_causes_exception_streamed
             agent,
             input="user_message",
             run_config=RunConfig(
-                output_guardrails=[OutputGuardrail(guardrail_function=guardrail_function)]
+                output_guardrails=[
+                    OutputGuardrail(guardrail_function=guardrail_function)
+                ]
             ),
         )
         async for _ in result.stream_events():
@@ -678,9 +724,9 @@ async def test_streaming_events():
         f"Expected events were: {expected_item_type_map}, got {event_counts}"
     )
 
-    assert len(item_data) == total_expected_item_count, (
-        f"should have {total_expected_item_count} run items"
-    )
+    assert (
+        len(item_data) == total_expected_item_count
+    ), f"should have {total_expected_item_count} run items"
     assert len(agent_data) == 2, "should have 2 agent updated events"
     assert agent_data[0].new_agent == agent_2, "should have started with agent_2"
     assert agent_data[1].new_agent == agent_1, "should have handed off to agent_1"

@@ -115,7 +115,11 @@ class MemoryService:
             # DataFrame case
             if results_df.empty:
                 return []
-            results = results_df.to_dicts() if hasattr(results_df, 'to_dicts') else results_df.to_dict('records')
+            results = (
+                results_df.to_dicts()
+                if hasattr(results_df, "to_dicts")
+                else results_df.to_dict("records")
+            )
 
         if not results:
             return []
@@ -147,8 +151,12 @@ class MemoryService:
                 content=row.get("content"),
                 metadata=metadata,
                 importance=row.get("importance", 0.5),
-                created_at=datetime.fromisoformat(row.get("created_at", datetime.now().isoformat())),
-                updated_at=datetime.fromisoformat(row.get("updated_at", datetime.now().isoformat())),
+                created_at=datetime.fromisoformat(
+                    row.get("created_at", datetime.now().isoformat())
+                ),
+                updated_at=datetime.fromisoformat(
+                    row.get("updated_at", datetime.now().isoformat())
+                ),
                 embedding=row.get("embedding"),
                 similarity_score=score,
             )

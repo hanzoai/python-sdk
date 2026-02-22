@@ -75,7 +75,9 @@ class SQLParams(TypedDict, total=False):
 class SQLTool(BaseTool):
     """Unified SQL database tool."""
 
-    def __init__(self, permission_manager: PermissionManager, db_manager: DatabaseManager):
+    def __init__(
+        self, permission_manager: PermissionManager, db_manager: DatabaseManager
+    ):
         """Initialize the SQL tool."""
         super().__init__(permission_manager)
         self.db_manager = db_manager
@@ -214,12 +216,10 @@ sql --action stats --table users
 
                 # Get all tables if not specified
                 if not table:
-                    cursor = conn.execute(
-                        """
+                    cursor = conn.execute("""
                         SELECT name FROM sqlite_master 
                         WHERE type='table' AND name NOT LIKE 'sqlite_%'
-                    """
-                    )
+                    """)
                     tables = [row[0] for row in cursor.fetchall()]
                 else:
                     tables = [table]
@@ -295,7 +295,9 @@ sql --action stats --table users
                     output.append("-" * 60)
 
                     for col in columns:
-                        output.append(f"{col[1]} | {col[2]} | {col[3]} | {col[4]} | {col[5]}")
+                        output.append(
+                            f"{col[1]} | {col[2]} | {col[3]} | {col[4]} | {col[5]}"
+                        )
 
                     # Get indexes
                     cursor = conn.execute(f"PRAGMA index_list({table})")
@@ -308,13 +310,11 @@ sql --action stats --table users
 
                 else:
                     # Show all tables
-                    cursor = conn.execute(
-                        """
+                    cursor = conn.execute("""
                         SELECT name, sql FROM sqlite_master 
                         WHERE type='table' AND name NOT LIKE 'sqlite_%'
                         ORDER BY name
-                    """
-                    )
+                    """)
                     tables = cursor.fetchall()
 
                     if not tables:
@@ -333,7 +333,9 @@ sql --action stats --table users
                         # Get columns
                         cursor = conn.execute(f"PRAGMA table_info({table_name})")
                         columns = cursor.fetchall()
-                        output.append(f"Columns: {', '.join([col[1] for col in columns])}")
+                        output.append(
+                            f"Columns: {', '.join([col[1] for col in columns])}"
+                        )
 
                 return "\n".join(output)
 
@@ -373,40 +375,36 @@ sql --action stats --table users
 
                         # Get basic stats based on type
                         if "INT" in col_type.upper() or "REAL" in col_type.upper():
-                            cursor = conn.execute(
-                                f"""
+                            cursor = conn.execute(f"""
                                 SELECT 
                                     MIN({col_name}) as min_val,
                                     MAX({col_name}) as max_val,
                                     AVG({col_name}) as avg_val,
                                     COUNT(DISTINCT {col_name}) as distinct_count
                                 FROM {table}
-                            """
-                            )
+                            """)
                             stats = cursor.fetchone()
                             output.append(
                                 f"  {col_name}: min={stats[0]}, max={stats[1]}, avg={stats[2]:.2f}, distinct={stats[3]}"
                             )
                         else:
-                            cursor = conn.execute(
-                                f"""
+                            cursor = conn.execute(f"""
                                 SELECT 
                                     COUNT(DISTINCT {col_name}) as distinct_count,
                                     COUNT(*) - COUNT({col_name}) as null_count
                                 FROM {table}
-                            """
-                            )
+                            """)
                             stats = cursor.fetchone()
-                            output.append(f"  {col_name}: distinct={stats[0]}, nulls={stats[1]}")
+                            output.append(
+                                f"  {col_name}: distinct={stats[0]}, nulls={stats[1]}"
+                            )
 
                 else:
                     # Overall database stats
-                    cursor = conn.execute(
-                        """
+                    cursor = conn.execute("""
                         SELECT name FROM sqlite_master 
                         WHERE type='table' AND name NOT LIKE 'sqlite_%'
-                    """
-                    )
+                    """)
                     tables = cursor.fetchall()
 
                     output.append(f"\nTotal tables: {len(tables)}")

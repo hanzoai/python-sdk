@@ -38,7 +38,9 @@ def test_convert_handoff_tool():
 
     assert result["type"] == "function"
     assert result["function"]["name"] == Handoff.default_tool_name(agent)
-    assert result["function"].get("description") == Handoff.default_tool_description(agent)
+    assert result["function"].get("description") == Handoff.default_tool_description(
+        agent
+    )
     params = result.get("function", {}).get("parameters")
     assert params is not None
 
@@ -51,4 +53,6 @@ def test_tool_converter_hosted_tools_errors():
         ToolConverter.to_openai(WebSearchTool())
 
     with pytest.raises(UserError):
-        ToolConverter.to_openai(FileSearchTool(vector_store_ids=["abc"], max_num_results=1))
+        ToolConverter.to_openai(
+            FileSearchTool(vector_store_ids=["abc"], max_num_results=1)
+        )

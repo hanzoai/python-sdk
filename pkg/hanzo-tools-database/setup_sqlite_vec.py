@@ -29,9 +29,7 @@ def get_sqlite_vec_url():
         elif machine in ("arm64", "aarch64"):
             return "https://github.com/asg017/sqlite-vec/releases/latest/download/sqlite-vec-v0.1.0-alpha.7-linux-aarch64.tar.gz"
     elif system == "windows":
-        return (
-            "https://github.com/asg017/sqlite-vec/releases/latest/download/sqlite-vec-v0.1.0-alpha.7-windows-x86_64.zip"
-        )
+        return "https://github.com/asg017/sqlite-vec/releases/latest/download/sqlite-vec-v0.1.0-alpha.7-windows-x86_64.zip"
 
     raise RuntimeError(f"Unsupported platform: {system} {machine}")
 
@@ -50,7 +48,7 @@ def download_sqlite_vec():
         filename = url.split("/")[-1]
         local_path = ext_dir / filename
 
-        urllib.request.urlretrieve(url, local_path)
+        urllib.request.urlretrieve(url, local_path)  # noqa: S310
         print(f"Downloaded: {local_path}")
 
         # Extract
@@ -58,12 +56,12 @@ def download_sqlite_vec():
             import tarfile
 
             with tarfile.open(local_path, "r:gz") as tar:
-                tar.extractall(ext_dir)
+                tar.extractall(ext_dir)  # noqa: S202
         elif filename.endswith(".zip"):
             import zipfile
 
             with zipfile.ZipFile(local_path, "r") as zip_ref:
-                zip_ref.extractall(ext_dir)
+                zip_ref.extractall(ext_dir)  # noqa: S202
 
         # Find the extension file
         for ext_file in ext_dir.rglob("vec0.*"):

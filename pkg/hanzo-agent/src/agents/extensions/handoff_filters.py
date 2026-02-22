@@ -20,9 +20,13 @@ def remove_all_tools(handoff_input_data: HandoffInputData) -> HandoffInputData:
     new_items = handoff_input_data.new_items
 
     filtered_history = (
-        _remove_tool_types_from_input(history) if isinstance(history, tuple) else history
+        _remove_tool_types_from_input(history)
+        if isinstance(history, tuple)
+        else history
     )
-    filtered_pre_handoff_items = _remove_tools_from_items(handoff_input_data.pre_handoff_items)
+    filtered_pre_handoff_items = _remove_tools_from_items(
+        handoff_input_data.pre_handoff_items
+    )
     filtered_new_items = _remove_tools_from_items(new_items)
 
     return HandoffInputData(

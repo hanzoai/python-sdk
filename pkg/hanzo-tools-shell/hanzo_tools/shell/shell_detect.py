@@ -199,7 +199,9 @@ def get_invoking_shell(max_hops: int = 12) -> Tuple[Optional[str], Dict[str, str
                 argv0 = shlex.split(args)[0]
             except Exception:
                 argv0 = ""
-            if argv0 and (os.path.isabs(argv0) or os.path.basename(argv0) in KNOWN_SHELL_NAMES):
+            if argv0 and (
+                os.path.isabs(argv0) or os.path.basename(argv0) in KNOWN_SHELL_NAMES
+            ):
                 return argv0, evidence
             return comm, evidence
 
@@ -356,7 +358,15 @@ def get_shell_tool_class(shell_name: str):
         Shell tool class or None if not supported
     """
     # Import here to avoid circular imports
-    from hanzo_tools.shell.shell_tools import CshTool, KshTool, ZshTool, BashTool, DashTool, FishTool, TcshTool
+    from hanzo_tools.shell.shell_tools import (
+        CshTool,
+        KshTool,
+        ZshTool,
+        BashTool,
+        DashTool,
+        FishTool,
+        TcshTool,
+    )
 
     shell_map = {
         "zsh": ZshTool,
@@ -407,4 +417,6 @@ if __name__ == "__main__":
     print(f"")
     print(f"=== Environment ===")
     print(f"HANZO_MCP_SHELL      : {os.environ.get('HANZO_MCP_SHELL', '(not set)')}")
-    print(f"HANZO_MCP_FORCE_SHELL: {os.environ.get('HANZO_MCP_FORCE_SHELL', '(not set)')}")
+    print(
+        f"HANZO_MCP_FORCE_SHELL: {os.environ.get('HANZO_MCP_FORCE_SHELL', '(not set)')}"
+    )

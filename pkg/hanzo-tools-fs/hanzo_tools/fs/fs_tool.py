@@ -206,7 +206,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
         if not path:
             raise InvalidParamsError("Path is required", param="uri")
         if not os.path.isabs(path):
-            raise InvalidParamsError("Path must be absolute", param="uri", expected="absolute path")
+            raise InvalidParamsError(
+                "Path must be absolute", param="uri", expected="absolute path"
+            )
         return Path(path)
 
     def _check_permission(self, path: str) -> None:
@@ -248,7 +250,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 raise InvalidParamsError(f"Not a file: {path}", param="uri")
 
             try:
-                async with aiofiles.open(path, "r", encoding=encoding, errors="replace") as f:
+                async with aiofiles.open(
+                    path, "r", encoding=encoding, errors="replace"
+                ) as f:
                     content = await f.read()
 
                 # Compute hash of full content
@@ -402,7 +406,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                                 "name": str(rel_path),
                                 "uri": file_uri(str(entry)),
                                 "is_dir": entry.is_dir(),
-                                "size": entry.stat().st_size if entry.is_file() else None,
+                                "size": (
+                                    entry.stat().st_size if entry.is_file() else None
+                                ),
                             }
                         )
                         count += 1
@@ -543,7 +549,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 raise InvalidParamsError(f"Invalid patch format: {e}", param="input")
 
             if not patch_files:
-                raise InvalidParamsError("No file operations found in patch", param="input")
+                raise InvalidParamsError(
+                    "No file operations found in patch", param="input"
+                )
 
             results = []
 
@@ -665,7 +673,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
             # Default to current directory
             search_path = "."
             if uri:
-                path_str = uri.replace("file://", "") if uri.startswith("file://") else uri
+                path_str = (
+                    uri.replace("file://", "") if uri.startswith("file://") else uri
+                )
                 path = self._validate_path(path_str)
                 self._check_permission(str(path))
                 search_path = str(path)
@@ -714,7 +724,9 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
 
                 async def search_file(file_path: Path):
                     try:
-                        async with aiofiles.open(file_path, "r", encoding="utf-8", errors="replace") as f:
+                        async with aiofiles.open(
+                            file_path, "r", encoding="utf-8", errors="replace"
+                        ) as f:
                             line_num = 0
                             async for line in f:
                                 line_num += 1

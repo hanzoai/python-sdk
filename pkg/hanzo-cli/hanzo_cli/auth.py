@@ -69,7 +69,11 @@ def _iam_app() -> str:
 
 
 def _iam_client_id() -> str:
-    return os.getenv("IAM_CLIENT_ID") or os.getenv("HANZO_IAM_CLIENT_ID") or DEFAULT_CLIENT_ID
+    return (
+        os.getenv("IAM_CLIENT_ID")
+        or os.getenv("HANZO_IAM_CLIENT_ID")
+        or DEFAULT_CLIENT_ID
+    )
 
 
 def get_client(ctx: click.Context | None = None) -> IAMClient:
@@ -80,7 +84,9 @@ def get_client(ctx: click.Context | None = None) -> IAMClient:
     3. Exit with instructions
     """
     client_id = os.getenv("IAM_CLIENT_ID") or os.getenv("HANZO_IAM_CLIENT_ID") or ""
-    client_secret = os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
+    client_secret = (
+        os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
+    )
 
     if client_id and client_secret:
         config = IAMConfig(
@@ -287,7 +293,9 @@ def browser_login(port: int = CALLBACK_PORT) -> dict[str, Any]:
 # =========================================================================
 
 
-def password_login(username: str | None = None, password: str | None = None) -> dict[str, Any]:
+def password_login(
+    username: str | None = None, password: str | None = None
+) -> dict[str, Any]:
     """Login with username/password (no browser).
 
     Uses the OAuth2 Resource Owner Password Credentials (ROPC) grant
@@ -302,7 +310,9 @@ def password_login(username: str | None = None, password: str | None = None) -> 
     org = _iam_org()
     app = _iam_app()
     client_id = _iam_client_id()
-    client_secret = os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
+    client_secret = (
+        os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
+    )
 
     if not username:
         username = click.prompt("Username or email")

@@ -34,19 +34,16 @@ class ProjectDatabase:
         conn = sqlite3.connect(self.sqlite_path)
         try:
             # Create metadata table
-            conn.execute(
-                """
+            conn.execute("""
                 CREATE TABLE IF NOT EXISTS metadata (
                     key TEXT PRIMARY KEY,
                     value TEXT,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """
-            )
+            """)
 
             # Create files table
-            conn.execute(
-                """
+            conn.execute("""
                 CREATE TABLE IF NOT EXISTS files (
                     path TEXT PRIMARY KEY,
                     content TEXT,
@@ -55,12 +52,10 @@ class ProjectDatabase:
                     hash TEXT,
                     metadata TEXT
                 )
-            """
-            )
+            """)
 
             # Create symbols table
-            conn.execute(
-                """
+            conn.execute("""
                 CREATE TABLE IF NOT EXISTS symbols (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     file_path TEXT,
@@ -72,8 +67,7 @@ class ProjectDatabase:
                     signature TEXT,
                     FOREIGN KEY (file_path) REFERENCES files(path)
                 )
-            """
-            )
+            """)
 
             # Create index for fast searches
             conn.execute("CREATE INDEX IF NOT EXISTS idx_files_path ON files(path)")
@@ -96,20 +90,17 @@ class ProjectDatabase:
     def _init_graph_schema(self, conn: sqlite3.Connection):
         """Initialize graph database schema."""
         # Nodes table
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS nodes (
                 id TEXT PRIMARY KEY,
                 type TEXT NOT NULL,
                 properties TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """
-        )
+        """)
 
         # Edges table
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS edges (
                 source TEXT NOT NULL,
                 target TEXT NOT NULL,
@@ -121,13 +112,14 @@ class ProjectDatabase:
                 FOREIGN KEY (source) REFERENCES nodes(id),
                 FOREIGN KEY (target) REFERENCES nodes(id)
             )
-        """
-        )
+        """)
 
         # Indexes for graph traversal
         conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_source ON edges(source)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_target ON edges(target)")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_edges_relationship ON edges(relationship)")
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_edges_relationship ON edges(relationship)"
+        )
         conn.execute("CREATE INDEX IF NOT EXISTS idx_nodes_type ON nodes(type)")
 
     def _load_graph_from_disk(self):
@@ -136,11 +128,15 @@ class ProjectDatabase:
         try:
             # Copy nodes
             nodes = disk_conn.execute("SELECT * FROM nodes").fetchall()
-            self.graph_conn.executemany("INSERT OR REPLACE INTO nodes VALUES (?, ?, ?, ?)", nodes)
+            self.graph_conn.executemany(
+                "INSERT OR REPLACE INTO nodes VALUES (?, ?, ?, ?)", nodes
+            )
 
             # Copy edges
             edges = disk_conn.execute("SELECT * FROM edges").fetchall()
-            self.graph_conn.executemany("INSERT OR REPLACE INTO edges VALUES (?, ?, ?, ?, ?, ?)", edges)
+            self.graph_conn.executemany(
+                "INSERT OR REPLACE INTO edges VALUES (?, ?, ?, ?, ?, ?)", edges
+            )
 
             self.graph_conn.commit()
         finally:

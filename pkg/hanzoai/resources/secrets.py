@@ -66,7 +66,10 @@ class SecretsResource(SyncAPIResource):
         return self._get(
             f"/infrastructure/secrets/{secret_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -88,7 +91,10 @@ class SecretsResource(SyncAPIResource):
             "/infrastructure/secrets",
             body={"name": name, "namespace": namespace, "data": data, "type": type},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -108,7 +114,10 @@ class SecretsResource(SyncAPIResource):
             f"/infrastructure/secrets/{secret_id}",
             body={"data": data},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -126,7 +135,10 @@ class SecretsResource(SyncAPIResource):
         return self._delete(
             f"/infrastructure/secrets/{secret_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -176,7 +188,10 @@ class AsyncSecretsResource(AsyncAPIResource):
         return await self._get(
             f"/infrastructure/secrets/{secret_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -197,7 +212,10 @@ class AsyncSecretsResource(AsyncAPIResource):
             "/infrastructure/secrets",
             body={"name": name, "namespace": namespace, "data": data, "type": type},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -216,7 +234,10 @@ class AsyncSecretsResource(AsyncAPIResource):
             f"/infrastructure/secrets/{secret_id}",
             body={"data": data},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -233,7 +254,10 @@ class AsyncSecretsResource(AsyncAPIResource):
         return await self._delete(
             f"/infrastructure/secrets/{secret_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

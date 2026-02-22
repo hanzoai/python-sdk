@@ -20,7 +20,9 @@ class ModelArgs(ModelArgs):
         if isinstance(self.shard, Shard):
             return
         if not isinstance(self.shard, dict):
-            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
+            raise TypeError(
+                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
+            )
 
         self.shard = Shard(**self.shard)
 
@@ -32,7 +34,9 @@ class LlamaModel(nn.Module):
         self.vocab_size = args.vocab_size
         self.num_hidden_layers = args.num_hidden_layers
         assert self.vocab_size > 0
-        if args.shard.is_first_layer() or (args.shard.is_last_layer() and args.tie_word_embeddings):
+        if args.shard.is_first_layer() or (
+            args.shard.is_last_layer() and args.tie_word_embeddings
+        ):
             self.embed_tokens = nn.Embedding(args.vocab_size, args.hidden_size)
         self.layers = []
         for i in range(self.num_hidden_layers):
@@ -99,14 +103,21 @@ class Model(nn.Module):
                 continue
             if key.startswith("model.layers."):
                 layer_num = int(key.split(".")[2])
-                if self.args.shard.start_layer <= layer_num <= self.args.shard.end_layer:
+                if (
+                    self.args.shard.start_layer
+                    <= layer_num
+                    <= self.args.shard.end_layer
+                ):
                     shard_state_dict[key] = value
             elif (
                 self.args.shard.is_first_layer()
                 and key.startswith("model.embed_tokens")
                 or (self.args.shard.is_last_layer() and self.args.tie_word_embeddings)
                 and key.startswith("model.embed_tokens")
-                or (self.args.shard.is_last_layer() and not self.args.tie_word_embeddings)
+                or (
+                    self.args.shard.is_last_layer()
+                    and not self.args.tie_word_embeddings
+                )
                 and key.startswith("lm_head")
                 or self.args.shard.is_last_layer()
                 and (key.startswith("model.norm"))
@@ -121,7 +132,9 @@ class Model(nn.Module):
 
     @property
     def head_dim(self):
-        return self.args.head_dim or self.args.hidden_size // self.args.num_attention_heads
+        return (
+            self.args.head_dim or self.args.hidden_size // self.args.num_attention_heads
+        )
 
     @property
     def n_kv_heads(self):

@@ -374,7 +374,9 @@ class IAMClient:
             JWTClaims with decoded token claims.
         """
         if not self._config.certificate:
-            raise ValueError("Certificate not configured. Use validate_token() with JWKS instead.")
+            raise ValueError(
+                "Certificate not configured. Use validate_token() with JWKS instead."
+            )
 
         options = {"verify_exp": verify_exp}
 

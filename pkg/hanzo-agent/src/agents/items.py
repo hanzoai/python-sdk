@@ -18,7 +18,10 @@ from openai.types.responses import (
     ResponseOutputText,
     ResponseStreamEvent,
 )
-from openai.types.responses.response_input_item_param import ComputerCallOutput, FunctionCallOutput
+from openai.types.responses.response_input_item_param import (
+    ComputerCallOutput,
+    FunctionCallOutput,
+)
 from openai.types.responses.response_reasoning_item import ResponseReasoningItem
 from pydantic import BaseModel
 from typing_extensions import TypeAlias

@@ -296,7 +296,11 @@ Turns permissive natural language input into strict canonical operator chains.
                 action=step["action"],
                 params=step.get("params", {}),
                 depends_on=[prev_id] if prev_id else [],
-                effect=EffectClass.DETERMINISTIC if step.get("policy_gate") else EffectClass.PURE,
+                effect=(
+                    EffectClass.DETERMINISTIC
+                    if step.get("policy_gate")
+                    else EffectClass.PURE
+                ),
             )
 
             # Add target from intent
@@ -324,7 +328,7 @@ Turns permissive natural language input into strict canonical operator chains.
     def _compile_graph(self, plan: Plan) -> ExecGraph:
         """Compile plan into execution graph."""
         # Topological sort
-        node_map = {n.id: n for n in plan.nodes}
+        _node_map = {n.id: n for n in plan.nodes}
         in_degree = {n.id: len(n.depends_on) for n in plan.nodes}
         execution_order = []
         parallelizable = []
@@ -357,7 +361,9 @@ Turns permissive natural language input into strict canonical operator chains.
     def _register_plan_actions(self):
         """Register all plan actions."""
 
-        @self.action("update", "Update tracked plan with steps and status (Rust parity)")
+        @self.action(
+            "update", "Update tracked plan with steps and status (Rust parity)"
+        )
         async def update(
             ctx: MCPContext,
             name: str | None = None,
@@ -418,7 +424,8 @@ Turns permissive natural language input into strict canonical operator chains.
                 "plan": {
                     "name": self._tracked_plan.name,
                     "steps": [
-                        {"step": s.step, "status": s.status.value} for s in self._tracked_plan.steps
+                        {"step": s.step, "status": s.status.value}
+                        for s in self._tracked_plan.steps
                     ],
                     "created_at": self._tracked_plan.created_at,
                     "updated_at": self._tracked_plan.updated_at,
@@ -441,7 +448,8 @@ Turns permissive natural language input into strict canonical operator chains.
                 "plan": {
                     "name": self._tracked_plan.name,
                     "steps": [
-                        {"step": s.step, "status": s.status.value} for s in self._tracked_plan.steps
+                        {"step": s.step, "status": s.status.value}
+                        for s in self._tracked_plan.steps
                     ],
                     "created_at": self._tracked_plan.created_at,
                     "updated_at": self._tracked_plan.updated_at,
@@ -449,13 +457,19 @@ Turns permissive natural language input into strict canonical operator chains.
                 "progress": {
                     "total": len(self._tracked_plan.steps),
                     "completed": sum(
-                        1 for s in self._tracked_plan.steps if s.status == StepStatus.COMPLETED
+                        1
+                        for s in self._tracked_plan.steps
+                        if s.status == StepStatus.COMPLETED
                     ),
                     "in_progress": sum(
-                        1 for s in self._tracked_plan.steps if s.status == StepStatus.IN_PROGRESS
+                        1
+                        for s in self._tracked_plan.steps
+                        if s.status == StepStatus.IN_PROGRESS
                     ),
                     "pending": sum(
-                        1 for s in self._tracked_plan.steps if s.status == StepStatus.PENDING
+                        1
+                        for s in self._tracked_plan.steps
+                        if s.status == StepStatus.PENDING
                     ),
                 },
             }

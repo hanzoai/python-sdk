@@ -8,13 +8,10 @@ def foo():
 foo()
 """
 
-NEW_CONTENT_V1 = (
-    OLD_CONTENT
-    + """
+NEW_CONTENT_V1 = OLD_CONTENT + """
 def new_function_that_causes_error():
     y = ANOTHER_UNDEFINED_VARIABLE
 """
-)
 
 NEW_CONTENT_V2 = """
 def foo():
@@ -28,9 +25,7 @@ foo()
 def test_get_and_parse_diff(tmp_path):
     diff = get_diff(OLD_CONTENT, NEW_CONTENT_V1, "test.py")
     print(diff)
-    assert (
-        diff
-        == """
+    assert diff == """
 --- test.py
 +++ test.py
 @@ -6,0 +7,3 @@
@@ -38,7 +33,6 @@ def test_get_and_parse_diff(tmp_path):
 +    y = ANOTHER_UNDEFINED_VARIABLE
 +
 """.strip()
-    )
 
     print(
         "\n".join(

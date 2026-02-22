@@ -27,7 +27,9 @@ class OrganizationDeleteResponseItemLlmBudgetTable(BaseModel):
 
     max_parallel_requests: Optional[int] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[object] = FieldInfo(
+        alias="model_max_budget", default=None
+    )
 
     rpm_limit: Optional[int] = None
 
@@ -43,7 +45,9 @@ class OrganizationDeleteResponseItemMemberLlmBudgetTable(BaseModel):
 
     max_parallel_requests: Optional[int] = None
 
-    api_model_max_budget: Optional[object] = FieldInfo(alias="model_max_budget", default=None)
+    api_model_max_budget: Optional[object] = FieldInfo(
+        alias="model_max_budget", default=None
+    )
 
     rpm_limit: Optional[int] = None
 
@@ -63,7 +67,9 @@ class OrganizationDeleteResponseItemMember(BaseModel):
 
     budget_id: Optional[str] = None
 
-    llm_budget_table: Optional[OrganizationDeleteResponseItemMemberLlmBudgetTable] = None
+    llm_budget_table: Optional[OrganizationDeleteResponseItemMemberLlmBudgetTable] = (
+        None
+    )
     """Represents user-controllable params for a LLM_BudgetTable record"""
 
     spend: Optional[float] = None
@@ -78,7 +84,9 @@ class OrganizationDeleteResponseItemTeamLlmModelTable(BaseModel):
 
     updated_by: str
 
-    api_model_aliases: Union[str, object, None] = FieldInfo(alias="model_aliases", default=None)
+    api_model_aliases: Union[str, object, None] = FieldInfo(
+        alias="model_aliases", default=None
+    )
 
 
 class OrganizationDeleteResponseItemTeam(BaseModel):
