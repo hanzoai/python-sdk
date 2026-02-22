@@ -196,7 +196,9 @@ class UnifiedCLITool(BaseTool, CLIAgent):
             )
 
 
-def create_cli_tools(permission_manager: Optional[PermissionManager] = None) -> Dict[str, UnifiedCLITool]:
+def create_cli_tools(
+    permission_manager: Optional[PermissionManager] = None,
+) -> Dict[str, UnifiedCLITool]:
     """Create all CLI tools with unified implementation.
 
     Args:

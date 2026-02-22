@@ -90,21 +90,27 @@ async def main():
 
     # Test weather agent
     print("\n🌤️  Testing weather agent...")
-    weather_result = await network.run(prompt="What's the weather in Tokyo?", initial_agent=weather_agent)
+    weather_result = await network.run(
+        prompt="What's the weather in Tokyo?", initial_agent=weather_agent
+    )
 
     if weather_result["success"]:
         print(f"Response: {weather_result['final_output']}")
 
     # Test math agent
     print("\n🔢 Testing math agent...")
-    math_result = await network.run(prompt="Calculate 42 * 17 + 3", initial_agent=math_agent)
+    math_result = await network.run(
+        prompt="Calculate 42 * 17 + 3", initial_agent=math_agent
+    )
 
     if math_result["success"]:
         print(f"Response: {math_result['final_output']}")
 
     # Test with router (let network decide which agent)
     print("\n🤔 Testing with router...")
-    auto_result = await network.run(prompt="I need to know the weather in Paris and also calculate 100 / 4")
+    auto_result = await network.run(
+        prompt="I need to know the weather in Paris and also calculate 100 / 4"
+    )
 
     if auto_result["success"]:
         print(f"Response: {auto_result['final_output']}")

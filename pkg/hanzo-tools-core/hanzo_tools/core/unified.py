@@ -63,7 +63,9 @@ class ToolError(Exception):
 class ConflictError(ToolError):
     """Precondition failed (e.g., base_hash mismatch)."""
 
-    def __init__(self, message: str, expected: str | None = None, actual: str | None = None):
+    def __init__(
+        self, message: str, expected: str | None = None, actual: str | None = None
+    ):
         details = {}
         if expected:
             details["expected"] = expected
@@ -83,7 +85,9 @@ class NotFoundError(ToolError):
 class InvalidParamsError(ToolError):
     """Invalid parameters."""
 
-    def __init__(self, message: str, param: str | None = None, expected: str | None = None):
+    def __init__(
+        self, message: str, param: str | None = None, expected: str | None = None
+    ):
         details = {}
         if param:
             details["param"] = param
@@ -160,7 +164,9 @@ class BaseTool(_BaseToolABC):
             return {"actions": actions, "tool": self.name}
 
         @self.action("schema", "Get JSON Schema for action parameters")
-        async def schema_action(ctx: MCPContext, action_name: str | None = None) -> dict:
+        async def schema_action(
+            ctx: MCPContext, action_name: str | None = None
+        ) -> dict:
             if action_name:
                 handler = self._handlers.get(action_name)
                 if not handler:
@@ -205,7 +211,9 @@ class BaseTool(_BaseToolABC):
             Decorator function
         """
 
-        def decorator(fn: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:
+        def decorator(
+            fn: Callable[..., Awaitable[Any]],
+        ) -> Callable[..., Awaitable[Any]]:
             # Auto-generate schema from type hints if not provided
             auto_schema = schema
             if auto_schema is None:
@@ -248,9 +256,13 @@ class BaseTool(_BaseToolABC):
                 param_schema["type"] = "number"
             elif hint is bool:
                 param_schema["type"] = "boolean"
-            elif hint is dict or (hasattr(hint, "__origin__") and hint.__origin__ is dict):
+            elif hint is dict or (
+                hasattr(hint, "__origin__") and hint.__origin__ is dict
+            ):
                 param_schema["type"] = "object"
-            elif hint is list or (hasattr(hint, "__origin__") and hint.__origin__ is list):
+            elif hint is list or (
+                hasattr(hint, "__origin__") and hint.__origin__ is list
+            ):
                 param_schema["type"] = "array"
             else:
                 param_schema["type"] = "string"  # Default to string
@@ -330,7 +342,9 @@ class BaseTool(_BaseToolABC):
         """Tool description for MCP registration."""
         pass
 
-    async def call(self, ctx: MCPContext, action: str = "help", **kwargs: Any) -> dict[str, Any]:
+    async def call(
+        self, ctx: MCPContext, action: str = "help", **kwargs: Any
+    ) -> dict[str, Any]:
         """Execute tool with action routing.
 
         Args:
@@ -364,7 +378,9 @@ class BaseTool(_BaseToolABC):
         Creates a single MCP tool with action parameter for routing.
         """
         tool_name = self.name
-        tool_description = f"{self.description}\n\nActions: {', '.join(self._handlers.keys())}"
+        tool_description = (
+            f"{self.description}\n\nActions: {', '.join(self._handlers.keys())}"
+        )
 
         @mcp_server.tool(name=tool_name, description=tool_description)
         async def handler(

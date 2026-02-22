@@ -72,7 +72,9 @@ uvx jupyter lab --port 8888  # Auto-backgrounds if needed"""
             cwd: Optional[str] = None,
             python: Optional[str] = None,
         ) -> str:
-            return await tool_self.run(ctx, package=package, args=args, cwd=cwd, python=python)
+            return await tool_self.run(
+                ctx, package=package, args=args, cwd=cwd, python=python
+            )
 
     @auto_timeout("uvx")
     async def call(self, ctx: MCPContext, **params) -> str:

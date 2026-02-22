@@ -86,7 +86,9 @@ class EmbeddingsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"model": model}, embedding_create_params.EmbeddingCreateParams),
+                query=maybe_transform(
+                    {"model": model}, embedding_create_params.EmbeddingCreateParams
+                ),
             ),
             cast_to=object,
         )
@@ -153,7 +155,9 @@ class AsyncEmbeddingsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"model": model}, embedding_create_params.EmbeddingCreateParams),
+                query=await async_maybe_transform(
+                    {"model": model}, embedding_create_params.EmbeddingCreateParams
+                ),
             ),
             cast_to=object,
         )

@@ -189,7 +189,9 @@ Searches code structure intelligently, understanding syntax and providing semant
             if self._is_supported_file(str(path_obj)):
                 files_to_process.append(str(path_obj))
             else:
-                return f"Error: File type not supported for AST parsing: {path_obj.suffix}"
+                return (
+                    f"Error: File type not supported for AST parsing: {path_obj.suffix}"
+                )
         elif path_obj.is_dir():
             for root, _, files in os.walk(path_obj):
                 # Skip hidden directories and common non-code directories
@@ -197,7 +199,8 @@ Searches code structure intelligently, understanding syntax and providing semant
                 if any(part.startswith(".") for part in root_path.parts):
                     continue
                 if any(
-                    part in ("node_modules", "__pycache__", "venv", ".venv", "dist", "build")
+                    part
+                    in ("node_modules", "__pycache__", "venv", ".venv", "dist", "build")
                     for part in root_path.parts
                 ):
                     continue

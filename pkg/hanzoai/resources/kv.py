@@ -210,7 +210,10 @@ class AsyncKVResource(AsyncAPIResource):
         return await self._get(
             "/kv/namespaces",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -228,7 +231,10 @@ class AsyncKVResource(AsyncAPIResource):
             "/kv/namespaces",
             body={"name": name},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -245,7 +251,10 @@ class AsyncKVResource(AsyncAPIResource):
         return await self._delete(
             f"/kv/namespaces/{namespace_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -263,7 +272,10 @@ class AsyncKVResource(AsyncAPIResource):
         return await self._get(
             f"/kv/namespaces/{namespace_id}/values/{key}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -284,7 +296,10 @@ class AsyncKVResource(AsyncAPIResource):
             f"/kv/namespaces/{namespace_id}/values/{key}",
             body={"value": value, "ttl": ttl},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -302,7 +317,10 @@ class AsyncKVResource(AsyncAPIResource):
         return await self._delete(
             f"/kv/namespaces/{namespace_id}/values/{key}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

@@ -71,7 +71,9 @@ class MediaLimits:
     max_fps: int = 30  # Max frame rate for extraction
 
     # Activity detection settings
-    activity_threshold: float = 0.02  # % of pixels changed to count as activity (0.01-0.10)
+    activity_threshold: float = (
+        0.02  # % of pixels changed to count as activity (0.01-0.10)
+    )
     min_activity_gap_ms: int = 200  # Min ms between activity frames
     scene_change_threshold: float = 0.3  # FFmpeg scene change threshold
 
@@ -110,15 +112,25 @@ class MediaLimits:
                 int(os.environ.get("HANZO_MEDIA_MAX_FRAMES", "100")),
                 cls.HARD_MAX_IMAGES,
             ),
-            activity_threshold=float(os.environ.get("HANZO_MEDIA_ACTIVITY_THRESHOLD", "0.02")),
-            min_activity_gap_ms=int(os.environ.get("HANZO_MEDIA_MIN_ACTIVITY_GAP_MS", "200")),
-            scene_change_threshold=float(os.environ.get("HANZO_MEDIA_SCENE_THRESHOLD", "0.3")),
-            session_max_duration=int(os.environ.get("HANZO_MEDIA_SESSION_MAX_DURATION", "60")),
+            activity_threshold=float(
+                os.environ.get("HANZO_MEDIA_ACTIVITY_THRESHOLD", "0.02")
+            ),
+            min_activity_gap_ms=int(
+                os.environ.get("HANZO_MEDIA_MIN_ACTIVITY_GAP_MS", "200")
+            ),
+            scene_change_threshold=float(
+                os.environ.get("HANZO_MEDIA_SCENE_THRESHOLD", "0.3")
+            ),
+            session_max_duration=int(
+                os.environ.get("HANZO_MEDIA_SESSION_MAX_DURATION", "60")
+            ),
             session_target_frames=min(
                 int(os.environ.get("HANZO_MEDIA_SESSION_TARGET_FRAMES", "30")),
                 cls.HARD_MAX_IMAGES,
             ),
-            session_compression_quality=int(os.environ.get("HANZO_MEDIA_SESSION_QUALITY", "60")),
+            session_compression_quality=int(
+                os.environ.get("HANZO_MEDIA_SESSION_QUALITY", "60")
+            ),
         )
 
     @property
@@ -206,7 +218,9 @@ def _resize_image(
             background = Image.new("RGB", img.size, (255, 255, 255))
             if img.mode == "P":
                 img = img.convert("RGBA")
-            background.paste(img, mask=img.split()[-1] if img.mode in ("RGBA", "LA") else None)
+            background.paste(
+                img, mask=img.split()[-1] if img.mode in ("RGBA", "LA") else None
+            )
             img = background
         elif img.mode != "RGB":
             img = img.convert("RGB")
@@ -501,7 +515,9 @@ def _analyze_video_activity(
                     frame_data = f.read()
 
                 if prev_frame is not None:
-                    diff_ratio, has_activity = _compute_frame_difference(prev_frame, frame_data, activity_threshold)
+                    diff_ratio, has_activity = _compute_frame_difference(
+                        prev_frame, frame_data, activity_threshold
+                    )
                     if has_activity:
                         activity_frames.append(
                             {
@@ -526,11 +542,20 @@ def _analyze_video_activity(
 
         for frame in activity_frames[1:]:
             # If gap > 1 second, start new segment
-            if frame["timestamp"] - current_segment_start > 1.0 + segment_frame_count * sample_interval:
+            if (
+                frame["timestamp"] - current_segment_start
+                > 1.0 + segment_frame_count * sample_interval
+            ):
                 segments.append(
                     ActivitySegment(
                         start_ms=int(current_segment_start * 1000),
-                        end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+                        end_ms=int(
+                            (
+                                current_segment_start
+                                + segment_frame_count * sample_interval
+                            )
+                            * 1000
+                        ),
                         activity_score=current_segment_score / segment_frame_count,
                         frame_count=segment_frame_count,
                     )
@@ -546,7 +571,10 @@ def _analyze_video_activity(
         segments.append(
             ActivitySegment(
                 start_ms=int(current_segment_start * 1000),
-                end_ms=int((current_segment_start + segment_frame_count * sample_interval) * 1000),
+                end_ms=int(
+                    (current_segment_start + segment_frame_count * sample_interval)
+                    * 1000
+                ),
                 activity_score=current_segment_score / segment_frame_count,
                 frame_count=segment_frame_count,
             )
@@ -661,7 +689,9 @@ def _compress_session(
             video_path,
         ]
         try:
-            result = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(
+                probe_cmd, capture_output=True, text=True, timeout=10
+            )
             duration = min(float(result.stdout.strip()), max_duration)
         except Exception:
             duration = max_duration
@@ -884,7 +914,9 @@ EXAMPLES:
 
         # Enforce max images limit
         if len(paths) > self.limits.max_images:
-            result.warnings.append(f"Requested {len(paths)} images, limited to {self.limits.max_images}")
+            result.warnings.append(
+                f"Requested {len(paths)} images, limited to {self.limits.max_images}"
+            )
             paths = paths[: self.limits.max_images]
 
         for path in paths:
@@ -911,7 +943,9 @@ EXAMPLES:
                     "path": path,
                     "size": len(data),
                     "format": info.get("format", "unknown"),
-                    "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
+                    "dimensions": info.get(
+                        "new_dimensions", info.get("original_dimensions")
+                    ),
                     "base64": base64.b64encode(data).decode(),
                     **{k: v for k, v in info.items() if k not in ("path", "base64")},
                 }
@@ -969,11 +1003,21 @@ EXAMPLES:
                             "max_frames": self.limits.max_frames,
                         },
                         "env_vars": {
-                            "HANZO_MEDIA_MAX_IMAGES": os.environ.get("HANZO_MEDIA_MAX_IMAGES"),
-                            "HANZO_MEDIA_MAX_PAYLOAD_MB": os.environ.get("HANZO_MEDIA_MAX_PAYLOAD_MB"),
-                            "HANZO_MEDIA_MAX_RESOLUTION": os.environ.get("HANZO_MEDIA_MAX_RESOLUTION"),
-                            "HANZO_MEDIA_OPTIMAL_SIZE": os.environ.get("HANZO_MEDIA_OPTIMAL_SIZE"),
-                            "HANZO_MEDIA_JPEG_QUALITY": os.environ.get("HANZO_MEDIA_JPEG_QUALITY"),
+                            "HANZO_MEDIA_MAX_IMAGES": os.environ.get(
+                                "HANZO_MEDIA_MAX_IMAGES"
+                            ),
+                            "HANZO_MEDIA_MAX_PAYLOAD_MB": os.environ.get(
+                                "HANZO_MEDIA_MAX_PAYLOAD_MB"
+                            ),
+                            "HANZO_MEDIA_MAX_RESOLUTION": os.environ.get(
+                                "HANZO_MEDIA_MAX_RESOLUTION"
+                            ),
+                            "HANZO_MEDIA_OPTIMAL_SIZE": os.environ.get(
+                                "HANZO_MEDIA_OPTIMAL_SIZE"
+                            ),
+                            "HANZO_MEDIA_JPEG_QUALITY": os.environ.get(
+                                "HANZO_MEDIA_JPEG_QUALITY"
+                            ),
                         },
                     }
                 )
@@ -983,7 +1027,9 @@ EXAMPLES:
                 if max_images is not None:
                     self.limits.max_images = min(max_images, 100)  # Hard cap at 100
                 if max_payload_mb is not None:
-                    self.limits.max_payload_mb = min(max_payload_mb, 32.0)  # Hard cap at 32MB
+                    self.limits.max_payload_mb = min(
+                        max_payload_mb, 32.0
+                    )  # Hard cap at 32MB
                 if max_resolution is not None:
                     self.limits.max_resolution = min(max_resolution, 4096)  # Hard cap
 
@@ -1015,9 +1061,13 @@ EXAMPLES:
                         "path": path,
                         "size": len(data),
                         "format": info.get("format", "unknown"),
-                        "dimensions": info.get("new_dimensions", info.get("original_dimensions")),
+                        "dimensions": info.get(
+                            "new_dimensions", info.get("original_dimensions")
+                        ),
                         "base64": base64.b64encode(data).decode(),
-                        **{k: v for k, v in info.items() if k not in ("path", "base64")},
+                        **{
+                            k: v for k, v in info.items() if k not in ("path", "base64")
+                        },
                     }
                 )
 
@@ -1030,13 +1080,17 @@ EXAMPLES:
 
             elif action == "optimize":
                 if not images:
-                    return json.dumps({"error": "images required (list of base64 or paths)"})
+                    return json.dumps(
+                        {"error": "images required (list of base64 or paths)"}
+                    )
 
                 result = MediaResult(success=True)
 
                 for i, img in enumerate(images):
                     if result.total_count >= self.limits.max_images:
-                        result.warnings.append(f"Max images ({self.limits.max_images}) reached")
+                        result.warnings.append(
+                            f"Max images ({self.limits.max_images}) reached"
+                        )
                         break
 
                     if result.total_size >= self.limits.max_payload_bytes:
@@ -1063,8 +1117,13 @@ EXAMPLES:
                             True,  # Force JPEG for optimization
                         )
 
-                        if result.total_size + len(optimized) > self.limits.max_payload_bytes:
-                            result.warnings.append(f"Skipping {source}: would exceed limit")
+                        if (
+                            result.total_size + len(optimized)
+                            > self.limits.max_payload_bytes
+                        ):
+                            result.warnings.append(
+                                f"Skipping {source}: would exceed limit"
+                            )
                             continue
 
                         result.images.append(
@@ -1074,7 +1133,11 @@ EXAMPLES:
                                 "size": len(optimized),
                                 "format": info.get("format", "jpeg"),
                                 "dimensions": info.get("new_dimensions"),
-                                "compression_ratio": round(info.get("original_size", len(data)) / len(optimized), 2),
+                                "compression_ratio": round(
+                                    info.get("original_size", len(data))
+                                    / len(optimized),
+                                    2,
+                                ),
                                 "base64": base64.b64encode(optimized).decode(),
                             }
                         )
@@ -1141,7 +1204,9 @@ EXAMPLES:
                     return json.dumps({"error": f"File not found: {path}"})
 
                 # Enforce limits
-                actual_count = min(count, self.limits.max_frames, self.limits.max_images)
+                actual_count = min(
+                    count, self.limits.max_frames, self.limits.max_images
+                )
 
                 frames = await loop.run_in_executor(
                     _EXECUTOR,
@@ -1156,7 +1221,9 @@ EXAMPLES:
 
                 for data, info in frames:
                     if result.total_size + len(data) > self.limits.max_payload_bytes:
-                        result.warnings.append("Payload limit reached, stopped extraction")
+                        result.warnings.append(
+                            "Payload limit reached, stopped extraction"
+                        )
                         break
 
                     result.images.append(
@@ -1233,10 +1300,15 @@ EXAMPLES:
                         if probe.returncode == 0:
                             probe_data = json.loads(probe.stdout)
                             if "format" in probe_data:
-                                info["duration_seconds"] = float(probe_data["format"].get("duration", 0))
+                                info["duration_seconds"] = float(
+                                    probe_data["format"].get("duration", 0)
+                                )
                             if "streams" in probe_data and probe_data["streams"]:
                                 stream = probe_data["streams"][0]
-                                info["dimensions"] = (stream.get("width"), stream.get("height"))
+                                info["dimensions"] = (
+                                    stream.get("width"),
+                                    stream.get("height"),
+                                )
                                 info["frame_rate"] = stream.get("r_frame_rate")
                     except Exception:
                         pass
@@ -1253,9 +1325,15 @@ EXAMPLES:
                     return json.dumps({"error": f"File not found: {path}"})
 
                 # Get optional params from kwargs
-                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
-                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
-                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
+                activity_threshold = kwargs.get(
+                    "activity_threshold", self.limits.activity_threshold
+                )
+                scene_threshold = kwargs.get(
+                    "scene_threshold", self.limits.scene_change_threshold
+                )
+                max_duration = kwargs.get(
+                    "max_duration", self.limits.session_max_duration
+                )
 
                 segments, keyframe_times = await loop.run_in_executor(
                     _EXECUTOR,
@@ -1299,12 +1377,24 @@ EXAMPLES:
                     return json.dumps({"error": f"File not found: {path}"})
 
                 # Get params
-                target_frames = kwargs.get("target_frames", self.limits.session_target_frames)
-                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
-                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
-                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
-                slice_max_size = kwargs.get("max_size", 512)  # Smaller default for compression
-                slice_quality = kwargs.get("quality", self.limits.session_compression_quality)
+                target_frames = kwargs.get(
+                    "target_frames", self.limits.session_target_frames
+                )
+                activity_threshold = kwargs.get(
+                    "activity_threshold", self.limits.activity_threshold
+                )
+                scene_threshold = kwargs.get(
+                    "scene_threshold", self.limits.scene_change_threshold
+                )
+                max_duration = kwargs.get(
+                    "max_duration", self.limits.session_max_duration
+                )
+                slice_max_size = kwargs.get(
+                    "max_size", 512
+                )  # Smaller default for compression
+                slice_quality = kwargs.get(
+                    "quality", self.limits.session_compression_quality
+                )
 
                 # First analyze
                 segments, keyframe_times = await loop.run_in_executor(
@@ -1368,12 +1458,22 @@ EXAMPLES:
                     return json.dumps({"error": f"File not found: {path}"})
 
                 # Get params
-                target_frames = kwargs.get("target_frames", self.limits.session_target_frames)
-                activity_threshold = kwargs.get("activity_threshold", self.limits.activity_threshold)
-                scene_threshold = kwargs.get("scene_threshold", self.limits.scene_change_threshold)
-                max_duration = kwargs.get("max_duration", self.limits.session_max_duration)
+                target_frames = kwargs.get(
+                    "target_frames", self.limits.session_target_frames
+                )
+                activity_threshold = kwargs.get(
+                    "activity_threshold", self.limits.activity_threshold
+                )
+                scene_threshold = kwargs.get(
+                    "scene_threshold", self.limits.scene_change_threshold
+                )
+                max_duration = kwargs.get(
+                    "max_duration", self.limits.session_max_duration
+                )
                 session_max_size = kwargs.get("max_size", 512)
-                session_quality = kwargs.get("quality", self.limits.session_compression_quality)
+                session_quality = kwargs.get(
+                    "quality", self.limits.session_compression_quality
+                )
 
                 # Full pipeline
                 frames, segments, metadata = await loop.run_in_executor(
@@ -1437,25 +1537,49 @@ EXAMPLES:
         async def media(
             action: Annotated[str, Field(description="Action to perform")] = "status",
             path: Annotated[Optional[str], Field(description="File path")] = None,
-            paths: Annotated[Optional[list[str]], Field(description="List of file paths")] = None,
-            images: Annotated[Optional[list[str]], Field(description="Base64 images or paths")] = None,
+            paths: Annotated[
+                Optional[list[str]], Field(description="List of file paths")
+            ] = None,
+            images: Annotated[
+                Optional[list[str]], Field(description="Base64 images or paths")
+            ] = None,
             optimize: Annotated[bool, Field(description="Optimize for Claude")] = True,
-            max_size: Annotated[Optional[int], Field(description="Max dimension")] = None,
+            max_size: Annotated[
+                Optional[int], Field(description="Max dimension")
+            ] = None,
             width: Annotated[Optional[int], Field(description="Target width")] = None,
             height: Annotated[Optional[int], Field(description="Target height")] = None,
-            maintain_aspect: Annotated[bool, Field(description="Keep aspect ratio")] = True,
-            quality: Annotated[Optional[int], Field(description="JPEG quality 1-100")] = None,
+            maintain_aspect: Annotated[
+                bool, Field(description="Keep aspect ratio")
+            ] = True,
+            quality: Annotated[
+                Optional[int], Field(description="JPEG quality 1-100")
+            ] = None,
             count: Annotated[int, Field(description="Frame count")] = 10,
             interval_ms: Annotated[int, Field(description="Frame interval ms")] = 1000,
             # Activity detection params
-            target_frames: Annotated[Optional[int], Field(description="Target frames for activity slicing")] = None,
-            activity_threshold: Annotated[Optional[float], Field(description="Activity sensitivity 0.01-0.10")] = None,
-            scene_threshold: Annotated[Optional[float], Field(description="Scene change sensitivity")] = None,
-            max_duration: Annotated[Optional[int], Field(description="Max seconds to analyze")] = None,
+            target_frames: Annotated[
+                Optional[int], Field(description="Target frames for activity slicing")
+            ] = None,
+            activity_threshold: Annotated[
+                Optional[float], Field(description="Activity sensitivity 0.01-0.10")
+            ] = None,
+            scene_threshold: Annotated[
+                Optional[float], Field(description="Scene change sensitivity")
+            ] = None,
+            max_duration: Annotated[
+                Optional[int], Field(description="Max seconds to analyze")
+            ] = None,
             # Limit updates
-            max_images: Annotated[Optional[int], Field(description="Update max images limit")] = None,
-            max_payload_mb: Annotated[Optional[float], Field(description="Update max payload MB")] = None,
-            max_resolution: Annotated[Optional[int], Field(description="Update max resolution")] = None,
+            max_images: Annotated[
+                Optional[int], Field(description="Update max images limit")
+            ] = None,
+            max_payload_mb: Annotated[
+                Optional[float], Field(description="Update max payload MB")
+            ] = None,
+            max_resolution: Annotated[
+                Optional[int], Field(description="Update max resolution")
+            ] = None,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(

@@ -91,12 +91,24 @@ USAGE:
             return None
 
     def _list_processes(
-        self, sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu", limit: int = 50, user: Optional[str] = None
+        self,
+        sort_by: Literal["cpu", "memory", "pid", "name"] = "cpu",
+        limit: int = 50,
+        user: Optional[str] = None,
     ) -> List[ProcessInfo]:
         """List system processes."""
         processes = []
         for proc in psutil.process_iter(
-            ["pid", "name", "username", "status", "cpu_percent", "memory_info", "cmdline", "create_time"]
+            [
+                "pid",
+                "name",
+                "username",
+                "status",
+                "cpu_percent",
+                "memory_info",
+                "cmdline",
+                "create_time",
+            ]
         ):
             try:
                 # Filter by user if requested
@@ -109,7 +121,11 @@ USAGE:
                     username=proc.info["username"] or "",
                     status=proc.info["status"] or "",
                     cpu_percent=proc.info["cpu_percent"] or 0.0,
-                    memory_mb=(proc.info["memory_info"].rss / 1024 / 1024) if proc.info["memory_info"] else 0.0,
+                    memory_mb=(
+                        (proc.info["memory_info"].rss / 1024 / 1024)
+                        if proc.info["memory_info"]
+                        else 0.0
+                    ),
                     cmdline=" ".join(proc.info["cmdline"] or []),
                     create_time=datetime.fromtimestamp(proc.info["create_time"]),
                 )
@@ -162,9 +178,7 @@ USAGE:
             if len(cmd) > 50:
                 cmd = cmd[:47] + "..."
 
-            line = (
-                f"{p.pid:<8} {p.username[:14]:<15} {p.cpu_percent:<6.1f} {p.memory_mb:<10.1f} {p.status[:9]:<10} {cmd}"
-            )
+            line = f"{p.pid:<8} {p.username[:14]:<15} {p.cpu_percent:<6.1f} {p.memory_mb:<10.1f} {p.status[:9]:<10} {cmd}"
             lines.append(line)
 
         return "\n".join(lines)
@@ -232,18 +246,38 @@ USAGE:
         @mcp_server.tool(name=self.name, description=self.description)
         async def ps(
             action: Annotated[
-                Literal["list", "kill", "get"], Field(description="Action to perform", default="list")
+                Literal["list", "kill", "get"],
+                Field(description="Action to perform", default="list"),
             ] = "list",
-            pid: Annotated[Optional[int], Field(description="Process ID for kill/get", default=None)] = None,
-            sig: Annotated[int, Field(description="Signal for kill (default: 15/SIGTERM)", default=15)] = 15,
+            pid: Annotated[
+                Optional[int],
+                Field(description="Process ID for kill/get", default=None),
+            ] = None,
+            sig: Annotated[
+                int,
+                Field(description="Signal for kill (default: 15/SIGTERM)", default=15),
+            ] = 15,
             sort_by: Annotated[
-                Literal["cpu", "memory", "pid", "name"], Field(description="Sort field for list", default="cpu")
+                Literal["cpu", "memory", "pid", "name"],
+                Field(description="Sort field for list", default="cpu"),
             ] = "cpu",
-            limit: Annotated[int, Field(description="Number of processes to list", default=50)] = 50,
-            user: Annotated[Optional[str], Field(description="Filter by username", default=None)] = None,
+            limit: Annotated[
+                int, Field(description="Number of processes to list", default=50)
+            ] = 50,
+            user: Annotated[
+                Optional[str], Field(description="Filter by username", default=None)
+            ] = None,
             ctx: MCPContext = None,
         ) -> str:
-            return await tool_self.call(ctx, action=action, pid=pid, sig=sig, sort_by=sort_by, limit=limit, user=user)
+            return await tool_self.call(
+                ctx,
+                action=action,
+                pid=pid,
+                sig=sig,
+                sort_by=sort_by,
+                limit=limit,
+                user=user,
+            )
 
 
 # Singleton instance

@@ -43,7 +43,10 @@ class AgentsResource(SyncAPIResource):
         return self._get(
             "/agents",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -61,7 +64,10 @@ class AgentsResource(SyncAPIResource):
         return self._get(
             f"/agents/{agent_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -82,7 +88,10 @@ class AgentsResource(SyncAPIResource):
             "/agents",
             body={"name": name, "config": config, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -104,7 +113,10 @@ class AgentsResource(SyncAPIResource):
             f"/agents/{agent_id}",
             body={"config": config, "name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -122,7 +134,10 @@ class AgentsResource(SyncAPIResource):
         return self._delete(
             f"/agents/{agent_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -143,7 +158,10 @@ class AgentsResource(SyncAPIResource):
             f"/agents/{agent_id}/run",
             body={"prompt": prompt, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -162,7 +180,10 @@ class AgentsResource(SyncAPIResource):
         return self._post(
             f"/agents/{agent_id}/runs/{run_id}/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -180,7 +201,10 @@ class AgentsResource(SyncAPIResource):
         return self._get(
             f"/agents/{agent_id}/runs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -199,7 +223,10 @@ class AgentsResource(SyncAPIResource):
         return self._get(
             f"/agents/{agent_id}/runs/{run_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -227,7 +254,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._get(
             "/agents",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -244,7 +274,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._get(
             f"/agents/{agent_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -264,7 +297,10 @@ class AsyncAgentsResource(AsyncAPIResource):
             "/agents",
             body={"name": name, "config": config, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -285,7 +321,10 @@ class AsyncAgentsResource(AsyncAPIResource):
             f"/agents/{agent_id}",
             body={"config": config, "name": name, "description": description},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -302,7 +341,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._delete(
             f"/agents/{agent_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -322,7 +364,10 @@ class AsyncAgentsResource(AsyncAPIResource):
             f"/agents/{agent_id}/run",
             body={"prompt": prompt, "context": context},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -340,7 +385,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._post(
             f"/agents/{agent_id}/runs/{run_id}/stop",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -357,7 +405,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._get(
             f"/agents/{agent_id}/runs",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -375,7 +426,10 @@ class AsyncAgentsResource(AsyncAPIResource):
         return await self._get(
             f"/agents/{agent_id}/runs/{run_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

@@ -133,7 +133,10 @@ def start_cdp_bridge(
 
     try:
         _cdp_bridge_thread = threading.Thread(
-            target=_run_cdp_bridge_server, args=(host, port), daemon=True, name="cdp-bridge-server"
+            target=_run_cdp_bridge_server,
+            args=(host, port),
+            daemon=True,
+            name="cdp-bridge-server",
         )
         _cdp_bridge_thread.start()
         logger.info(f"CDP bridge started on ws://{host}:{port}")
@@ -150,7 +153,9 @@ def stop_cdp_bridge() -> None:
     if _cdp_bridge_loop is not None:
         try:
             if _cdp_bridge_server is not None:
-                asyncio.run_coroutine_threadsafe(_cdp_bridge_server.stop(), _cdp_bridge_loop)
+                asyncio.run_coroutine_threadsafe(
+                    _cdp_bridge_server.stop(), _cdp_bridge_loop
+                )
         except Exception:
             pass
 

@@ -171,7 +171,7 @@ def test_items_to_messages_with_output_message_and_function_call():
         "type": "function_call",
     }
     items: list[TResponseInputItem] = [
-        resp_msg.model_dump(),  # type:ignore
+        resp_msg.model_dump(),  # type: ignore
         func_item,
     ]
     messages = _Converter.items_to_messages(items)
@@ -212,7 +212,9 @@ def test_convert_tool_choice_handles_standard_and_named_options() -> None:
     assert tool_choice_dict["function"]["name"] == "mytool"
 
 
-def test_convert_response_format_returns_not_given_for_plain_text_and_dict_for_schemas() -> None:
+def test_convert_response_format_returns_not_given_for_plain_text_and_dict_for_schemas() -> (
+    None
+):
     """
     The `_Converter.convert_response_format` method should return NOT_GIVEN
     when no output schema is provided or if the output schema indicates
@@ -223,7 +225,8 @@ def test_convert_response_format_returns_not_given_for_plain_text_and_dict_for_s
     # when output is plain text (schema None or output_type str), do not include response_format
     assert _Converter.convert_response_format(None).__class__.__name__ == "NotGiven"
     assert (
-        _Converter.convert_response_format(AgentOutputSchema(str)).__class__.__name__ == "NotGiven"
+        _Converter.convert_response_format(AgentOutputSchema(str)).__class__.__name__
+        == "NotGiven"
     )
     # For e.g. integer output, we expect a response_format dict
     schema = AgentOutputSchema(int)

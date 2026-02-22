@@ -47,10 +47,14 @@ def _format_provider_list(result: ProviderListResult) -> str:
             lines.append(f"  ... and {len(unconfigured) - 20} more")
 
     lines.append("")
-    lines.append(f"Total: {result.total_count} providers, {result.configured_count} configured")
+    lines.append(
+        f"Total: {result.total_count} providers, {result.configured_count} configured"
+    )
     lines.append("")
     lines.append("Use 'api --provider <name>' for details")
-    lines.append("Use 'api --action config --provider <name> --api_key <key>' to configure")
+    lines.append(
+        "Use 'api --action config --provider <name> --api_key <key>' to configure"
+    )
 
     return "\n".join(lines)
 
@@ -223,7 +227,9 @@ Examples:
                 return await self._handle_list(provider, configured_only)
 
             elif action == "config":
-                return await self._handle_config(provider, api_key, api_secret, account_id, base_url)
+                return await self._handle_config(
+                    provider, api_key, api_secret, account_id, base_url
+                )
 
             elif action == "delete":
                 return await self._handle_delete(provider)
@@ -245,7 +251,11 @@ Examples:
 
             elif action == "register":
                 return await self._handle_register(
-                    provider, spec_url, base_url, api_key, kwargs.get("auth_type", "bearer")
+                    provider,
+                    spec_url,
+                    base_url,
+                    api_key,
+                    kwargs.get("auth_type", "bearer"),
                 )
 
             elif action == "overview":
@@ -498,7 +508,9 @@ Examples:
             ]
 
             if not api_key:
-                lines.append(f"  api --action config --provider {name} --api_key <your-key>")
+                lines.append(
+                    f"  api --action config --provider {name} --api_key <your-key>"
+                )
 
             return "\n".join(lines)
 

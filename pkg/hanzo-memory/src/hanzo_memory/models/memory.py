@@ -70,7 +70,9 @@ class MemoryResponse(BaseModel):
     relevant_memories: list[str | dict[str, str]] | None = Field(
         None, description="Relevant memories"
     )
-    memory_stored: bool | None = Field(None, description="Whether the memory was stored")
+    memory_stored: bool | None = Field(
+        None, description="Whether the memory was stored"
+    )
     usage_info: dict[str, int] | None = Field(None, description="Usage information")
 
 
@@ -129,7 +131,9 @@ class UpdateMemoryRequest(BaseModel):
     memoryid: str = Field(..., description="Memory ID to update")
     projectid: str = Field(..., description="Project ID")
     content: str | None = Field(None, description="New content")
-    importance: float | None = Field(None, ge=0.0, le=10.0, description="New importance score")
+    importance: float | None = Field(
+        None, ge=0.0, le=10.0, description="New importance score"
+    )
     metadata: dict[str, Any] | None = Field(None, description="New metadata")
 
 

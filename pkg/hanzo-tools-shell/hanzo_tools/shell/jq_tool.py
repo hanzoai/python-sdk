@@ -142,8 +142,12 @@ so you don't need to escape special characters like ! or |
         @mcp_server.tool()
         async def jq(
             filter: Annotated[str, Field(description="jq filter expression")],
-            input: Annotated[Optional[str], Field(description="JSON input string")] = None,
-            file: Annotated[Optional[str], Field(description="Path to JSON file")] = None,
+            input: Annotated[
+                Optional[str], Field(description="JSON input string")
+            ] = None,
+            file: Annotated[
+                Optional[str], Field(description="Path to JSON file")
+            ] = None,
             raw: Annotated[bool, Field(description="Output raw strings")] = False,
             compact: Annotated[bool, Field(description="Compact output")] = False,
             slurp: Annotated[bool, Field(description="Read as single array")] = False,

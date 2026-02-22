@@ -198,7 +198,9 @@ async def interactive_login() -> bool:
     try:
         webbrowser.open(f"{config.base_url}/settings/api-keys")
     except Exception:
-        print(f"Could not open browser. Please visit: {config.base_url}/settings/api-keys")
+        print(
+            f"Could not open browser. Please visit: {config.base_url}/settings/api-keys"
+        )
 
     print("1. Create a new API key in the Platform dashboard")
     print("2. Copy the API key")
@@ -307,7 +309,9 @@ def cli():
     subparsers.add_parser("status", help="Check authentication status")
 
     # Deploy token command
-    deploy_parser = subparsers.add_parser("deploy-token", help="Get deploy token for app")
+    deploy_parser = subparsers.add_parser(
+        "deploy-token", help="Get deploy token for app"
+    )
     deploy_parser.add_argument("--app", required=True, help="Application name or ID")
     deploy_parser.add_argument("--output", choices=["plain", "json"], default="plain")
 
@@ -364,7 +368,9 @@ def cli():
 
         if not args.set_url and not args.set_key:
             print(f"Platform URL: {config.base_url}")
-            print(f"API Key: {'****' + config.api_key[-4:] if config.api_key else 'Not set'}")
+            print(
+                f"API Key: {'****' + config.api_key[-4:] if config.api_key else 'Not set'}"
+            )
             print(f"Org ID: {config.org_id or 'Not set'}")
 
         sys.exit(0)

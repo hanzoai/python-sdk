@@ -51,7 +51,12 @@ class ObservabilityResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"names": names, "start_time": start_time, "end_time": end_time, "step": step},
+                query={
+                    "names": names,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "step": step,
+                },
             ),
             cast_to=object,
         )
@@ -76,7 +81,12 @@ class ObservabilityResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"query": query, "start_time": start_time, "end_time": end_time, "limit": limit},
+                query={
+                    "query": query,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "limit": limit,
+                },
             ),
             cast_to=object,
         )
@@ -126,7 +136,10 @@ class ObservabilityResource(SyncAPIResource):
         return self._get(
             f"/operations/observability/traces/{trace_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -170,9 +183,17 @@ class ObservabilityResource(SyncAPIResource):
         """Create an alert rule."""
         return self._post(
             "/operations/observability/alerts",
-            body={"name": name, "query": query, "threshold": threshold, "severity": severity},
+            body={
+                "name": name,
+                "query": query,
+                "threshold": threshold,
+                "severity": severity,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -189,7 +210,10 @@ class ObservabilityResource(SyncAPIResource):
         return self._get(
             "/operations/observability/health",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -203,7 +227,9 @@ class AsyncObservabilityResource(AsyncAPIResource):
         return AsyncObservabilityResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncObservabilityResourceWithStreamingResponse:
+    def with_streaming_response(
+        self,
+    ) -> AsyncObservabilityResourceWithStreamingResponse:
         return AsyncObservabilityResourceWithStreamingResponse(self)
 
     async def metrics(
@@ -225,7 +251,12 @@ class AsyncObservabilityResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"names": names, "start_time": start_time, "end_time": end_time, "step": step},
+                query={
+                    "names": names,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "step": step,
+                },
             ),
             cast_to=object,
         )
@@ -249,7 +280,12 @@ class AsyncObservabilityResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query={"query": query, "start_time": start_time, "end_time": end_time, "limit": limit},
+                query={
+                    "query": query,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "limit": limit,
+                },
             ),
             cast_to=object,
         )
@@ -297,7 +333,10 @@ class AsyncObservabilityResource(AsyncAPIResource):
         return await self._get(
             f"/operations/observability/traces/{trace_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -339,9 +378,17 @@ class AsyncObservabilityResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/operations/observability/alerts",
-            body={"name": name, "query": query, "threshold": threshold, "severity": severity},
+            body={
+                "name": name,
+                "query": query,
+                "threshold": threshold,
+                "severity": severity,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -357,7 +404,10 @@ class AsyncObservabilityResource(AsyncAPIResource):
         return await self._get(
             "/operations/observability/health",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -407,5 +457,7 @@ class AsyncObservabilityResourceWithStreamingResponse:
         self.traces = async_to_streamed_response_wrapper(observability.traces)
         self.get_trace = async_to_streamed_response_wrapper(observability.get_trace)
         self.alerts = async_to_streamed_response_wrapper(observability.alerts)
-        self.create_alert = async_to_streamed_response_wrapper(observability.create_alert)
+        self.create_alert = async_to_streamed_response_wrapper(
+            observability.create_alert
+        )
         self.health = async_to_streamed_response_wrapper(observability.health)

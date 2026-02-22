@@ -54,7 +54,9 @@ class MCPResourceDocument:
                             total_time = sum(time_ms.values())
                         else:
                             total_time = time_ms
-                        lines.append(f"# Search: '{query}' ({total} results, {total_time}ms)")
+                        lines.append(
+                            f"# Search: '{query}' ({total} results, {total_time}ms)"
+                        )
                     else:
                         lines.append(f"# Found {total} results for '{query}'")
                 else:
@@ -67,7 +69,9 @@ class MCPResourceDocument:
                         # Common patterns for search results
                         file_path = result.get("file", result.get("path", ""))
                         line_num = result.get("line", result.get("line_number", ""))
-                        match_text = result.get("match", result.get("text", result.get("content", "")))
+                        match_text = result.get(
+                            "match", result.get("text", result.get("content", ""))
+                        )
                         result_type = result.get("type", "")
 
                         if file_path:
@@ -75,7 +79,11 @@ class MCPResourceDocument:
                             lines.append(f"{i}. {loc}")
                             if match_text:
                                 # Truncate long matches for readability
-                                preview = match_text[:200] + "..." if len(match_text) > 200 else match_text
+                                preview = (
+                                    match_text[:200] + "..."
+                                    if len(match_text) > 200
+                                    else match_text
+                                )
                                 lines.append(f"   {preview}")
                             if result_type:
                                 lines.append(f"   [{result_type}]")
@@ -91,10 +99,14 @@ class MCPResourceDocument:
                     has_next = pagination.get("has_next", False)
                     if has_next and total > 0:
                         total_pages = (total // 50) + 1
-                        lines.append(f"\n... page {page} of {total_pages} ({total} total)")
+                        lines.append(
+                            f"\n... page {page} of {total_pages} ({total} total)"
+                        )
 
             # Handle command execution results
-            elif "output" in self.data or "stdout" in self.data or "stderr" in self.data:
+            elif (
+                "output" in self.data or "stdout" in self.data or "stderr" in self.data
+            ):
                 # Shell command output
                 exit_code = self.data.get("exit_code", self.data.get("returncode", 0))
                 stdout = self.data.get("output", self.data.get("stdout", ""))
@@ -107,7 +119,11 @@ class MCPResourceDocument:
                     lines.append(f"✗ Command failed (exit {exit_code})")
 
                 if elapsed:
-                    lines.append(f"Time: {elapsed}ms" if isinstance(elapsed, (int, float)) else f"Time: {elapsed}")
+                    lines.append(
+                        f"Time: {elapsed}ms"
+                        if isinstance(elapsed, (int, float))
+                        else f"Time: {elapsed}"
+                    )
                 lines.append("")
 
                 if stdout:

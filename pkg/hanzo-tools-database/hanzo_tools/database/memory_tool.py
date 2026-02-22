@@ -170,15 +170,15 @@ memory --action stats
             elif action == "stats":
                 return await self._handle_stats(params, project_path, tool_ctx)
             else:
-                return (
-                    f"Error: Unknown action '{action}'. Valid actions: read, write, append, search, create, list, stats"
-                )
+                return f"Error: Unknown action '{action}'. Valid actions: read, write, append, search, create, list, stats"
 
         except Exception as e:
             await tool_ctx.error(f"Memory operation failed: {str(e)}")
             return f"Error: {str(e)}"
 
-    async def _handle_read(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_read(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Read markdown memory file."""
         file_path = params.get("file_path")
         if not file_path:
@@ -195,7 +195,9 @@ memory --action stats
 
         return f"=== {file_path} ({scope}) ===\n\n{content}"
 
-    async def _handle_write(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_write(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Write markdown memory file."""
         file_path = params.get("file_path")
         content = params.get("content")
@@ -208,7 +210,9 @@ memory --action stats
         scope = params.get("scope", "project")
         category = params.get("category")
 
-        success = self.memory_manager.write_markdown_file(file_path, content, scope, project_path, category)
+        success = self.memory_manager.write_markdown_file(
+            file_path, content, scope, project_path, category
+        )
 
         if success:
             await tool_ctx.info(f"Wrote {scope} memory file: {file_path}")
@@ -216,7 +220,9 @@ memory --action stats
         else:
             return f"Error: Failed to write memory file: {file_path}"
 
-    async def _handle_append(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_append(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Append to markdown memory file."""
         file_path = params.get("file_path")
         content = params.get("content")
@@ -229,7 +235,9 @@ memory --action stats
         scope = params.get("scope", "project")
         category = params.get("category")
 
-        success = self.memory_manager.append_markdown_file(file_path, content, scope, project_path, category)
+        success = self.memory_manager.append_markdown_file(
+            file_path, content, scope, project_path, category
+        )
 
         if success:
             await tool_ctx.info(f"Appended to {scope} memory file: {file_path}")
@@ -237,7 +245,9 @@ memory --action stats
         else:
             return f"Error: Failed to append to memory file: {file_path}"
 
-    async def _handle_search(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_search(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Search across all memory types."""
         query = params.get("content")
         if not query:
@@ -247,7 +257,9 @@ memory --action stats
         search_type = params.get("search_type", "fulltext")
         limit = params.get("limit", 10)
 
-        results = self.memory_manager.search_memories(query, scope, project_path, search_type, limit)
+        results = self.memory_manager.search_memories(
+            query, scope, project_path, search_type, limit
+        )
 
         if not results:
             return f"No memories found for query: '{query}'"
@@ -268,7 +280,9 @@ memory --action stats
                 output.append(f"   Modified: {result['modified_at']}")
 
             elif source == "memory":
-                output.append(f"{i}. [{scope_name}] Memory #{result['id']} (structured)")
+                output.append(
+                    f"{i}. [{scope_name}] Memory #{result['id']} (structured)"
+                )
                 if "snippet" in result:
                     output.append(f"   {result['snippet']}")
                 output.append(f"   Category: {result.get('category', 'none')}")
@@ -281,7 +295,9 @@ memory --action stats
 
         return "\n".join(output)
 
-    async def _handle_create(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_create(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Create structured memory record."""
         content = params.get("content")
         if not content:
@@ -291,13 +307,17 @@ memory --action stats
         category = params.get("category")
         importance = params.get("importance", 5)
 
-        memory_id = self.memory_manager.create_memory(content, category, importance, None, scope, project_path)
+        memory_id = self.memory_manager.create_memory(
+            content, category, importance, None, scope, project_path
+        )
 
         await tool_ctx.info(f"Created {scope} memory: #{memory_id}")
 
         return f"Successfully created {scope} memory #{memory_id}\nContent: {content[:100]}..."
 
-    async def _handle_list(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_list(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """List memory files and records."""
         scope = params.get("scope", "both")
 
@@ -323,14 +343,18 @@ memory --action stats
         if scope in ("global", "both"):
             output.append(f"  Global: {stats['structured_memories']['global']} records")
         if scope in ("project", "both"):
-            output.append(f"  Project: {stats['structured_memories']['project']} records")
+            output.append(
+                f"  Project: {stats['structured_memories']['project']} records"
+            )
 
         total_size_mb = stats["total_size_bytes"] / 1024 / 1024
         output.append(f"\nTotal size: {total_size_mb:.2f}MB")
 
         return "\n".join(output)
 
-    async def _handle_stats(self, params: Dict[str, Any], project_path: str, tool_ctx) -> str:
+    async def _handle_stats(
+        self, params: Dict[str, Any], project_path: str, tool_ctx
+    ) -> str:
         """Get detailed memory statistics."""
         scope = params.get("scope", "both")
 

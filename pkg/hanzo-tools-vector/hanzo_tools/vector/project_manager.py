@@ -152,7 +152,9 @@ class ProjectVectorManager:
 
         return None
 
-    def get_vector_store(self, project_info: Optional[ProjectInfo] = None) -> InfinityVectorStore:
+    def get_vector_store(
+        self, project_info: Optional[ProjectInfo] = None
+    ) -> InfinityVectorStore:
         """Get vector store for a project or global store.
 
         Args:
@@ -175,7 +177,9 @@ class ProjectVectorManager:
 
         if project_key not in self.vector_stores:
             # Get index path based on configuration
-            index_path = self.index_config.get_index_path("vector", str(project_info.root_path))
+            index_path = self.index_config.get_index_path(
+                "vector", str(project_info.root_path)
+            )
             index_path.mkdir(parents=True, exist_ok=True)
 
             self.vector_stores[project_key] = InfinityVectorStore(
@@ -265,7 +269,9 @@ class ProjectVectorManager:
             search_tasks.append(
                 asyncio.get_event_loop().run_in_executor(
                     self.executor,
-                    lambda: global_store.search(query, limit_per_project, score_threshold),
+                    lambda: global_store.search(
+                        query, limit_per_project, score_threshold
+                    ),
                 )
             )
             project_names.append("global")
@@ -280,7 +286,9 @@ class ProjectVectorManager:
             search_tasks.append(
                 asyncio.get_event_loop().run_in_executor(
                     self.executor,
-                    lambda vs=vector_store: vs.search(query, limit_per_project, score_threshold),
+                    lambda vs=vector_store: vs.search(
+                        query, limit_per_project, score_threshold
+                    ),
                 )
             )
             project_names.append(project_info.name)

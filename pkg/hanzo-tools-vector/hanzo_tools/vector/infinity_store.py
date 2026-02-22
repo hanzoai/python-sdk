@@ -79,7 +79,9 @@ class InfinityVectorStore:
             dimension: Vector dimension (must match embedding model)
         """
         if not INFINITY_AVAILABLE:
-            raise ImportError("infinity_embedded is required for vector store functionality")
+            raise ImportError(
+                "infinity_embedded is required for vector store functionality"
+            )
 
         # Set up data path
         if data_path:
@@ -170,13 +172,17 @@ class InfinityVectorStore:
                     "source_file": {"type": "varchar"},
                     "target_file": {"type": "varchar"},
                     "symbol_name": {"type": "varchar"},
-                    "reference_type": {"type": "varchar"},  # import, call, inheritance, etc.
+                    "reference_type": {
+                        "type": "varchar"
+                    },  # import, call, inheritance, etc.
                     "line_number": {"type": "integer"},
                     "metadata": {"type": "varchar"},  # JSON string
                 },
             )
 
-    def _generate_doc_id(self, content: str, file_path: str = "", chunk_index: int = 0) -> str:
+    def _generate_doc_id(
+        self, content: str, file_path: str = "", chunk_index: int = 0
+    ) -> str:
         """Generate a unique document ID."""
         content_hash = hashlib.sha256(content.encode()).hexdigest()[:16]
         path_hash = hashlib.sha256(file_path.encode()).hexdigest()[:8]
@@ -528,7 +534,11 @@ class InfinityVectorStore:
             FileAST object if file found, None otherwise
         """
         try:
-            results = self.ast_table.output(["*"]).filter(f"file_path = '{file_path}'").to_pl()
+            results = (
+                self.ast_table.output(["*"])
+                .filter(f"file_path = '{file_path}'")
+                .to_pl()
+            )
 
             if len(results) == 0:
                 return None
@@ -567,7 +577,11 @@ class InfinityVectorStore:
             List of reference information
         """
         try:
-            results = self.references_table.output(["*"]).filter(f"target_file = '{file_path}'").to_pl()
+            results = (
+                self.references_table.output(["*"])
+                .filter(f"target_file = '{file_path}'")
+                .to_pl()
+            )
 
             references = []
             for row in results.iter_rows(named=True):
@@ -682,7 +696,11 @@ class InfinityVectorStore:
         """
         try:
             # Get count first
-            results = self.documents_table.output(["id"]).filter(f"file_path = '{file_path}'").to_pl()
+            results = (
+                self.documents_table.output(["id"])
+                .filter(f"file_path = '{file_path}'")
+                .to_pl()
+            )
             count = len(results)
 
             # Delete all documents for this file
@@ -708,7 +726,9 @@ class InfinityVectorStore:
                         metadata = json.loads(row["metadata"])
                         files[file_path] = {
                             "file_path": file_path,
-                            "file_name": metadata.get("file_name", Path(file_path).name),
+                            "file_name": metadata.get(
+                                "file_name", Path(file_path).name
+                            ),
                             "file_size": metadata.get("file_size", 0),
                             "total_chunks": metadata.get("total_chunks", 1),
                         }

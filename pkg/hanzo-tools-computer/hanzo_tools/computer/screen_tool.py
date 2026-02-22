@@ -97,7 +97,9 @@ class ScreenConfig:
             ),
             max_size=max_size,
             jpeg_quality=int(os.environ.get("HANZO_SCREEN_QUALITY", "60")),
-            activity_threshold=float(os.environ.get("HANZO_SCREEN_ACTIVITY_THRESHOLD", "0.02")),
+            activity_threshold=float(
+                os.environ.get("HANZO_SCREEN_ACTIVITY_THRESHOLD", "0.02")
+            ),
         )
 
 
@@ -493,7 +495,7 @@ EXAMPLES:
                     return json.dumps({"error": "FFmpeg required"})
 
                 # Create output file
-                self._output_file = tempfile.mktemp(suffix=".mp4")
+                self._output_file = tempfile.mktemp(suffix=".mp4")  # noqa: S306
 
                 # Build command
                 quality_map = {"low": "28", "medium": "23", "high": "18"}
@@ -575,15 +577,17 @@ EXAMPLES:
                 # Process the recording
                 if video_path and os.path.exists(video_path):
                     try:
-                        frames_data, segments_data, metadata = await loop.run_in_executor(
-                            _EXECUTOR,
-                            _process_recording_for_claude,
-                            video_path,
-                            target_frames,
-                            max_size,
-                            jpeg_quality,
-                            activity_threshold,
-                            self.config.scene_threshold,
+                        frames_data, segments_data, metadata = (
+                            await loop.run_in_executor(
+                                _EXECUTOR,
+                                _process_recording_for_claude,
+                                video_path,
+                                target_frames,
+                                max_size,
+                                jpeg_quality,
+                                activity_threshold,
+                                self.config.scene_threshold,
+                            )
                         )
 
                         total_size = sum(f["size"] for f in frames_data)
@@ -610,7 +614,9 @@ EXAMPLES:
                     "recording": self._recording,
                 }
                 if self._recording:
-                    result["duration_seconds"] = round(time.time() - self._start_time, 2)
+                    result["duration_seconds"] = round(
+                        time.time() - self._start_time, 2
+                    )
                 return json.dumps(result)
 
             elif action == "analyze":
@@ -659,17 +665,41 @@ EXAMPLES:
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def screen(
-            action: Annotated[str, Field(description="Action: session, capture, record, stop, analyze, info")] = "info",
-            duration: Annotated[Optional[int], Field(description="Recording duration in seconds")] = None,
+            action: Annotated[
+                str,
+                Field(
+                    description="Action: session, capture, record, stop, analyze, info"
+                ),
+            ] = "info",
+            duration: Annotated[
+                Optional[int], Field(description="Recording duration in seconds")
+            ] = None,
             fps: Annotated[int, Field(description="Frame rate for recording")] = 30,
-            quality: Annotated[str, Field(description="Recording quality: low, medium, high")] = "medium",
-            region: Annotated[Optional[list[int]], Field(description="Screen region [x, y, width, height]")] = None,
-            target_frames: Annotated[Optional[int], Field(description="Target number of output frames")] = None,
-            max_size: Annotated[Optional[int], Field(description="Max frame dimension in pixels")] = None,
-            jpeg_quality: Annotated[Optional[int], Field(description="JPEG compression quality 1-100")] = None,
-            activity_threshold: Annotated[Optional[float], Field(description="Activity detection sensitivity")] = None,
-            path: Annotated[Optional[str], Field(description="Video file path for analyze action")] = None,
-            optimize: Annotated[bool, Field(description="Optimize capture for Claude")] = True,
+            quality: Annotated[
+                str, Field(description="Recording quality: low, medium, high")
+            ] = "medium",
+            region: Annotated[
+                Optional[list[int]],
+                Field(description="Screen region [x, y, width, height]"),
+            ] = None,
+            target_frames: Annotated[
+                Optional[int], Field(description="Target number of output frames")
+            ] = None,
+            max_size: Annotated[
+                Optional[int], Field(description="Max frame dimension in pixels")
+            ] = None,
+            jpeg_quality: Annotated[
+                Optional[int], Field(description="JPEG compression quality 1-100")
+            ] = None,
+            activity_threshold: Annotated[
+                Optional[float], Field(description="Activity detection sensitivity")
+            ] = None,
+            path: Annotated[
+                Optional[str], Field(description="Video file path for analyze action")
+            ] = None,
+            optimize: Annotated[
+                bool, Field(description="Optimize capture for Claude")
+            ] = True,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_self.call(

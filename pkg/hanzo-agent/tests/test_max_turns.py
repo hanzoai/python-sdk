@@ -24,11 +24,26 @@ async def test_non_streamed_max_turns():
 
     model.add_multiple_turn_outputs(
         [
-            [get_text_message("1"), get_function_tool_call("some_function", func_output)],
-            [get_text_message("2"), get_function_tool_call("some_function", func_output)],
-            [get_text_message("3"), get_function_tool_call("some_function", func_output)],
-            [get_text_message("4"), get_function_tool_call("some_function", func_output)],
-            [get_text_message("5"), get_function_tool_call("some_function", func_output)],
+            [
+                get_text_message("1"),
+                get_function_tool_call("some_function", func_output),
+            ],
+            [
+                get_text_message("2"),
+                get_function_tool_call("some_function", func_output),
+            ],
+            [
+                get_text_message("3"),
+                get_function_tool_call("some_function", func_output),
+            ],
+            [
+                get_text_message("4"),
+                get_function_tool_call("some_function", func_output),
+            ],
+            [
+                get_text_message("5"),
+                get_function_tool_call("some_function", func_output),
+            ],
         ]
     )
     with pytest.raises(MaxTurnsExceeded):

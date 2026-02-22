@@ -3,7 +3,17 @@
 Single tool with action parameter replaces 9 separate memory tools.
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Annotated, final, override
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    Annotated,
+    final,
+    override,
+)
 
 from pydantic import Field
 from mcp.server import FastMCP
@@ -37,7 +47,9 @@ def _get_lazy_memory_service() -> "MemoryService":
     global _memory_service
     if _memory_service is None:
         if not _check_memory_available():
-            raise ImportError("hanzo-memory required. Install: pip install hanzo-memory")
+            raise ImportError(
+                "hanzo-memory required. Install: pip install hanzo-memory"
+            )
         from hanzo_memory.services.memory import get_memory_service
 
         _memory_service = get_memory_service()
@@ -150,7 +162,9 @@ Examples:
 
         try:
             if action == "recall":
-                return await self._recall(queries or ([query] if query else []), scope, limit)
+                return await self._recall(
+                    queries or ([query] if query else []), scope, limit
+                )
             elif action == "create":
                 return await self._create(content, tags, metadata, scope)
             elif action == "update":
@@ -160,9 +174,13 @@ Examples:
             elif action == "manage":
                 return await self._manage(create_list, update_list, delete_ids)
             elif action == "facts":
-                return await self._recall_facts(queries or ([query] if query else []), kb, limit)
+                return await self._recall_facts(
+                    queries or ([query] if query else []), kb, limit
+                )
             elif action == "store":
-                return await self._store_facts(facts or ([fact] if fact else []), kb, metadata)
+                return await self._store_facts(
+                    facts or ([fact] if fact else []), kb, metadata
+                )
             elif action == "summarize":
                 return await self._summarize(content, tags, scope)
             elif action == "kb":
@@ -291,7 +309,9 @@ Examples:
             return "No operations specified. Provide create_list, update_list, or delete_ids."
         return "\n".join(results)
 
-    async def _recall_facts(self, queries: List[str], kb: Optional[str], limit: int) -> str:
+    async def _recall_facts(
+        self, queries: List[str], kb: Optional[str], limit: int
+    ) -> str:
         """Search knowledge bases."""
         if not queries:
             return "Error: query required for facts"
@@ -429,23 +449,45 @@ Examples:
         async def memory(
             action: Action = "list",
             query: Annotated[Optional[str], Field(description="Search query")] = None,
-            queries: Annotated[Optional[List[str]], Field(description="Multiple queries")] = None,
-            content: Annotated[Optional[str], Field(description="Memory content")] = None,
+            queries: Annotated[
+                Optional[List[str]], Field(description="Multiple queries")
+            ] = None,
+            content: Annotated[
+                Optional[str], Field(description="Memory content")
+            ] = None,
             id: Annotated[Optional[str], Field(description="Memory ID")] = None,
-            ids: Annotated[Optional[List[str]], Field(description="Multiple IDs")] = None,
+            ids: Annotated[
+                Optional[List[str]], Field(description="Multiple IDs")
+            ] = None,
             tags: Annotated[Optional[List[str]], Field(description="Tags")] = None,
             metadata: Annotated[Optional[Dict], Field(description="Metadata")] = None,
-            scope: Annotated[str, Field(description="Scope: session, project, global")] = "session",
+            scope: Annotated[
+                str, Field(description="Scope: session, project, global")
+            ] = "session",
             limit: Annotated[int, Field(description="Max results")] = 10,
-            kb: Annotated[Optional[str], Field(description="Knowledge base name")] = None,
+            kb: Annotated[
+                Optional[str], Field(description="Knowledge base name")
+            ] = None,
             fact: Annotated[Optional[str], Field(description="Fact to store")] = None,
-            facts: Annotated[Optional[List[str]], Field(description="Multiple facts")] = None,
-            create_list: Annotated[Optional[List[Dict]], Field(description="Items to create")] = None,
-            update_list: Annotated[Optional[List[Dict]], Field(description="Items to update")] = None,
-            delete_ids: Annotated[Optional[List[str]], Field(description="IDs to delete")] = None,
-            kb_action: Annotated[Optional[str], Field(description="KB action: list, create, delete")] = None,
+            facts: Annotated[
+                Optional[List[str]], Field(description="Multiple facts")
+            ] = None,
+            create_list: Annotated[
+                Optional[List[Dict]], Field(description="Items to create")
+            ] = None,
+            update_list: Annotated[
+                Optional[List[Dict]], Field(description="Items to update")
+            ] = None,
+            delete_ids: Annotated[
+                Optional[List[str]], Field(description="IDs to delete")
+            ] = None,
+            kb_action: Annotated[
+                Optional[str], Field(description="KB action: list, create, delete")
+            ] = None,
             name: Annotated[Optional[str], Field(description="KB name")] = None,
-            list_type: Annotated[str, Field(description="List type: memories, kb")] = "memories",
+            list_type: Annotated[
+                str, Field(description="List type: memories, kb")
+            ] = "memories",
             ctx: MCPContext = None,
         ) -> str:
             """Unified memory management: recall, create, update, delete, facts, kb."""

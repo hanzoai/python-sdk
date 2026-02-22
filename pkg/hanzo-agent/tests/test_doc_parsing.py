@@ -87,17 +87,26 @@ def test_auto_detection() -> None:
     doc = generate_func_documentation(func_foo_google)
     assert doc.name == "func_foo_google"
     assert doc.description == "This is func_foo."
-    assert doc.param_descriptions == {"a": "The first argument.", "b": "The second argument."}
+    assert doc.param_descriptions == {
+        "a": "The first argument.",
+        "b": "The second argument.",
+    }
 
     doc = generate_func_documentation(func_foo_numpy)
     assert doc.name == "func_foo_numpy"
     assert doc.description == "This is func_foo."
-    assert doc.param_descriptions == {"a": "The first argument.", "b": "The second argument."}
+    assert doc.param_descriptions == {
+        "a": "The first argument.",
+        "b": "The second argument.",
+    }
 
     doc = generate_func_documentation(func_foo_sphinx)
     assert doc.name == "func_foo_sphinx"
     assert doc.description == "This is func_foo."
-    assert doc.param_descriptions == {"a": "The first argument.", "b": "The second argument."}
+    assert doc.param_descriptions == {
+        "a": "The first argument.",
+        "b": "The second argument.",
+    }
 
 
 def test_instance_method() -> None:
@@ -105,11 +114,17 @@ def test_instance_method() -> None:
     doc = generate_func_documentation(bar.func_bar)
     assert doc.name == "func_bar"
     assert doc.description == "This is func_bar."
-    assert doc.param_descriptions == {"a": "The first argument.", "b": "The second argument."}
+    assert doc.param_descriptions == {
+        "a": "The first argument.",
+        "b": "The second argument.",
+    }
 
 
 def test_classmethod() -> None:
     doc = generate_func_documentation(Bar.func_baz)
     assert doc.name == "func_baz"
     assert doc.description == "This is func_baz."
-    assert doc.param_descriptions == {"a": "The first argument.", "b": "The second argument."}
+    assert doc.param_descriptions == {
+        "a": "The first argument.",
+        "b": "The second argument.",
+    }

@@ -26,7 +26,9 @@ from hanzo_tools.shell.truncate import truncate_response
 # Set via HANZO_AUTO_BACKGROUND_TIMEOUT env var
 # 0 or negative = disabled (never auto-background, use 24h timeout)
 _raw_timeout = float(os.getenv("HANZO_AUTO_BACKGROUND_TIMEOUT", "30"))
-AUTO_BACKGROUND_TIMEOUT = _raw_timeout if _raw_timeout > 0 else 86400.0  # 24 hours if disabled
+AUTO_BACKGROUND_TIMEOUT = (
+    _raw_timeout if _raw_timeout > 0 else 86400.0
+)  # 24 hours if disabled
 
 
 class ProcessManager:
@@ -52,7 +54,9 @@ class ProcessManager:
             await mkdir(self._log_dir, parents=True, exist_ok=True)
             self._initialized = True
 
-    def add_process(self, process_id: str, process: asyncio.subprocess.Process, log_file: str) -> None:
+    def add_process(
+        self, process_id: str, process: asyncio.subprocess.Process, log_file: str
+    ) -> None:
         """Add a process to track."""
         self._processes[process_id] = process
         self._logs[process_id] = log_file
@@ -130,7 +134,9 @@ class AutoBackgroundExecutor:
     DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
     MAX_FOREGROUND_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
 
-    def __init__(self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT):
+    def __init__(
+        self, process_manager: ProcessManager, timeout: float = DEFAULT_TIMEOUT
+    ):
         """Initialize the auto-background executor."""
         self.process_manager = process_manager
         self.default_timeout = timeout
@@ -254,7 +260,9 @@ class AutoBackgroundExecutor:
                 for task in pending:
                     task.cancel()
 
-                asyncio.create_task(self._background_reader(process, process_id, log_file))
+                asyncio.create_task(
+                    self._background_reader(process, process_id, log_file)
+                )
 
                 elapsed = time.time() - start_time
                 partial_output = "".join(output_lines[-50:])
@@ -284,10 +292,15 @@ class AutoBackgroundExecutor:
             return_code = await process.wait()
             self.process_manager.mark_completed(process_id, return_code)
 
-            await append_file(log_file, f"\n\n=== Process completed with exit code {return_code} ===\n")
+            await append_file(
+                log_file,
+                f"\n\n=== Process completed with exit code {return_code} ===\n",
+            )
 
         except Exception as e:
-            await append_file(log_file, f"\n\n=== Background reader error: {str(e)} ===\n")
+            await append_file(
+                log_file, f"\n\n=== Background reader error: {str(e)} ===\n"
+            )
             self.process_manager.mark_completed(process_id, -1)
 
 
@@ -330,12 +343,14 @@ class BaseProcessTool(BaseTool):
         if env:
             process_env.update(env)
 
-        output, was_backgrounded, process_id = await self.auto_background_executor.execute_with_auto_background(
-            cmd_args=cmd_args,
-            tool_name=self.get_tool_name(),
-            cwd=cwd,
-            env=process_env,
-            timeout=float(timeout) if timeout is not None else None,
+        output, was_backgrounded, process_id = (
+            await self.auto_background_executor.execute_with_auto_background(
+                cmd_args=cmd_args,
+                tool_name=self.get_tool_name(),
+                cwd=cwd,
+                env=process_env,
+                timeout=float(timeout) if timeout is not None else None,
+            )
         )
 
         if was_backgrounded:
@@ -389,7 +404,9 @@ class BaseProcessTool(BaseTool):
             "status": "started",
         }
 
-    async def _write_output_to_log(self, process: asyncio.subprocess.Process, log_file: Path, process_id: str) -> None:
+    async def _write_output_to_log(
+        self, process: asyncio.subprocess.Process, log_file: Path, process_id: str
+    ) -> None:
         """Write process output to log file in background."""
         try:
             # Clear log file
@@ -400,7 +417,9 @@ class BaseProcessTool(BaseTool):
 
             return_code = await process.wait()
 
-            await append_file(log_file, f"\n=== Process completed with exit code {return_code} ===\n")
+            await append_file(
+                log_file, f"\n=== Process completed with exit code {return_code} ===\n"
+            )
 
             self.process_manager.mark_completed(process_id, return_code)
 
@@ -571,7 +590,8 @@ class ShellExecutor:
             try:
                 # Read streams and wait for process with timeout
                 await asyncio.wait_for(
-                    asyncio.gather(read_stdout(), read_stderr(), proc.wait()), timeout=effective_timeout
+                    asyncio.gather(read_stdout(), read_stderr(), proc.wait()),
+                    timeout=effective_timeout,
                 )
 
                 exit_code = proc.returncode or 0
@@ -585,8 +605,12 @@ class ShellExecutor:
 
             except asyncio.TimeoutError:
                 # Background the process - don't kill it
-                partial_stdout = b"".join(stdout_chunks).decode("utf-8", errors="replace")
-                partial_stderr = b"".join(stderr_chunks).decode("utf-8", errors="replace")
+                partial_stdout = b"".join(stdout_chunks).decode(
+                    "utf-8", errors="replace"
+                )
+                partial_stderr = b"".join(stderr_chunks).decode(
+                    "utf-8", errors="replace"
+                )
 
                 await write_file(
                     log_file,
@@ -597,7 +621,9 @@ class ShellExecutor:
                 )
 
                 self._process_manager.add_process(process_id, proc, str(log_file))
-                asyncio.create_task(self._capture_background_output(proc, log_file, process_id))
+                asyncio.create_task(
+                    self._capture_background_output(proc, log_file, process_id)
+                )
 
                 return (
                     f"[backgrounded] Process {process_id} (PID {proc.pid}) running in background.\n"
@@ -640,7 +666,10 @@ class ShellExecutor:
                         line = await stream.readline()
                         if not line:
                             break
-                        await append_file(log_file, f"{prefix}{line.decode('utf-8', errors='replace')}")
+                        await append_file(
+                            log_file,
+                            f"{prefix}{line.decode('utf-8', errors='replace')}",
+                        )
 
             await asyncio.gather(
                 read_stream(proc.stdout, ""),
@@ -648,7 +677,9 @@ class ShellExecutor:
             )
 
             await proc.wait()
-            await append_file(log_file, f"\n[shell] Process exited with code {proc.returncode}\n")
+            await append_file(
+                log_file, f"\n[shell] Process exited with code {proc.returncode}\n"
+            )
 
             self._process_manager.mark_completed(process_id, proc.returncode or 0)
         except Exception:

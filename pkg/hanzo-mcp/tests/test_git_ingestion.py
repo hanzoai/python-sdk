@@ -42,8 +42,7 @@ class TestGitIngestion:
 
             # Add Python file
             main_py = repo_path / "main.py"
-            main_py.write_text(
-                '''#!/usr/bin/env python3
+            main_py.write_text('''#!/usr/bin/env python3
 """Main application file."""
 
 def main():
@@ -52,8 +51,7 @@ def main():
     
 if __name__ == "__main__":
     main()
-'''
-            )
+''')
             subprocess.run(["git", "add", "main.py"], cwd=repo_path, check=True)
             subprocess.run(
                 ["git", "commit", "-m", "Add main.py"], cwd=repo_path, check=True
@@ -61,8 +59,7 @@ if __name__ == "__main__":
 
             # Add more files and commits
             utils_py = repo_path / "utils.py"
-            utils_py.write_text(
-                '''"""Utility functions."""
+            utils_py.write_text('''"""Utility functions."""
 
 def format_string(s):
     """Format a string."""
@@ -71,8 +68,7 @@ def format_string(s):
 def calculate_sum(numbers):
     """Calculate sum of numbers."""
     return sum(numbers)
-'''
-            )
+''')
             subprocess.run(["git", "add", "utils.py"], cwd=repo_path, check=True)
             subprocess.run(
                 ["git", "commit", "-m", "Add utility functions"],
@@ -81,8 +77,7 @@ def calculate_sum(numbers):
             )
 
             # Modify existing file
-            main_py.write_text(
-                '''#!/usr/bin/env python3
+            main_py.write_text('''#!/usr/bin/env python3
 """Main application file."""
 
 from utils import format_string
@@ -98,8 +93,7 @@ def run():
     
 if __name__ == "__main__":
     run()
-'''
-            )
+''')
             subprocess.run(["git", "add", "main.py"], cwd=repo_path, check=True)
             subprocess.run(
                 ["git", "commit", "-m", "Update main.py to use utils"],
@@ -113,8 +107,7 @@ if __name__ == "__main__":
             )
 
             test_py = repo_path / "test_main.py"
-            test_py.write_text(
-                '''"""Tests for main module."""
+            test_py.write_text('''"""Tests for main module."""
 
 import unittest
 from main import main
@@ -124,8 +117,7 @@ class TestMain(unittest.TestCase):
         """Test main function."""
         # This is a simple test
         self.assertTrue(True)
-'''
-            )
+''')
             subprocess.run(["git", "add", "test_main.py"], cwd=repo_path, check=True)
             subprocess.run(
                 ["git", "commit", "-m", "Add tests"], cwd=repo_path, check=True

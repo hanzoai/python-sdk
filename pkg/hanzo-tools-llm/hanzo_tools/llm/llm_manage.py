@@ -193,7 +193,9 @@ Providers are automatically detected based on environment variables:
             for provider in available_but_disabled:
                 env_vars = available_providers.get(provider, [])
                 output.append(f"  - {provider}: {', '.join(env_vars)}")
-                output.append(f"    Use: llm_manage --action enable --provider {provider}")
+                output.append(
+                    f"    Use: llm_manage --action enable --provider {provider}"
+                )
             output.append("")
 
         # Show providers without API keys
@@ -355,7 +357,9 @@ Providers are automatically detected based on environment variables:
         except Exception as e:
             return f"Error listing models: {str(e)}"
 
-    async def _test_model(self, ctx: MCPContext, provider: Optional[str], model: Optional[str]) -> str:
+    async def _test_model(
+        self, ctx: MCPContext, provider: Optional[str], model: Optional[str]
+    ) -> str:
         """Test a model to verify it works."""
         if not model and not provider:
             return "Error: Either model or provider is required for test action"

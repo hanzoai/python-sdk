@@ -4,21 +4,38 @@ from openai.types.responses.response_computer_tool_call import (
     ActionScreenshot,
     ResponseComputerToolCall,
 )
-from openai.types.responses.response_computer_tool_call_param import ResponseComputerToolCallParam
-from openai.types.responses.response_file_search_tool_call import ResponseFileSearchToolCall
+from openai.types.responses.response_computer_tool_call_param import (
+    ResponseComputerToolCallParam,
+)
+from openai.types.responses.response_file_search_tool_call import (
+    ResponseFileSearchToolCall,
+)
 from openai.types.responses.response_file_search_tool_call_param import (
     ResponseFileSearchToolCallParam,
 )
 from openai.types.responses.response_function_tool_call import ResponseFunctionToolCall
-from openai.types.responses.response_function_tool_call_param import ResponseFunctionToolCallParam
-from openai.types.responses.response_function_web_search import ResponseFunctionWebSearch
-from openai.types.responses.response_function_web_search_param import ResponseFunctionWebSearchParam
+from openai.types.responses.response_function_tool_call_param import (
+    ResponseFunctionToolCallParam,
+)
+from openai.types.responses.response_function_web_search import (
+    ResponseFunctionWebSearch,
+)
+from openai.types.responses.response_function_web_search_param import (
+    ResponseFunctionWebSearchParam,
+)
 from openai.types.responses.response_output_message import ResponseOutputMessage
-from openai.types.responses.response_output_message_param import ResponseOutputMessageParam
+from openai.types.responses.response_output_message_param import (
+    ResponseOutputMessageParam,
+)
 from openai.types.responses.response_output_refusal import ResponseOutputRefusal
 from openai.types.responses.response_output_text import ResponseOutputText
-from openai.types.responses.response_reasoning_item import ResponseReasoningItem, Summary
-from openai.types.responses.response_reasoning_item_param import ResponseReasoningItemParam
+from openai.types.responses.response_reasoning_item import (
+    ResponseReasoningItem,
+    Summary,
+)
+from openai.types.responses.response_reasoning_item_param import (
+    ResponseReasoningItemParam,
+)
 
 from agents import (
     Agent,
@@ -59,7 +76,9 @@ def test_extract_last_content_of_text_message() -> None:
 
 def test_extract_last_content_of_refusal_message() -> None:
     # Build a message whose last content entry is a refusal.
-    content1 = ResponseOutputText(annotations=[], text="Before refusal", type="output_text")
+    content1 = ResponseOutputText(
+        annotations=[], text="Before refusal", type="output_text"
+    )
     refusal = ResponseOutputRefusal(refusal="I cannot do that", type="refusal")
     message = make_message([content1, refusal])
     # Helpers should extract the refusal string when last content is a refusal.
@@ -85,7 +104,9 @@ def test_extract_last_text_returns_text_only() -> None:
     message = make_message([first_text, second_text])
     assert ItemHelpers.extract_last_text(message) == "part2"
     # Whereas when last content is a refusal, extract_last_text returns None.
-    message2 = make_message([first_text, ResponseOutputRefusal(refusal="no", type="refusal")])
+    message2 = make_message(
+        [first_text, ResponseOutputRefusal(refusal="no", type="refusal")]
+    )
     assert ItemHelpers.extract_last_text(message2) is None
 
 
@@ -124,15 +145,23 @@ def test_text_message_outputs_across_list_of_runitems() -> None:
     that only MessageOutputItem instances contribute any text. The non-message
     (ReasoningItem) should be ignored by Helpers.text_message_outputs.
     """
-    message1 = make_message([ResponseOutputText(annotations=[], text="foo", type="output_text")])
-    message2 = make_message([ResponseOutputText(annotations=[], text="bar", type="output_text")])
+    message1 = make_message(
+        [ResponseOutputText(annotations=[], text="foo", type="output_text")]
+    )
+    message2 = make_message(
+        [ResponseOutputText(annotations=[], text="bar", type="output_text")]
+    )
     item1: RunItem = MessageOutputItem(agent=Agent(name="test"), raw_item=message1)
     item2: RunItem = MessageOutputItem(agent=Agent(name="test"), raw_item=message2)
     # Create a non-message run item of a different type, e.g., a reasoning trace.
     reasoning = ResponseReasoningItem(id="rid", summary=[], type="reasoning")
-    non_message_item: RunItem = ReasoningItem(agent=Agent(name="test"), raw_item=reasoning)
+    non_message_item: RunItem = ReasoningItem(
+        agent=Agent(name="test"), raw_item=reasoning
+    )
     # Confirm only the message outputs are concatenated.
-    assert ItemHelpers.text_message_outputs([item1, non_message_item, item2]) == "foobar"
+    assert (
+        ItemHelpers.text_message_outputs([item1, non_message_item, item2]) == "foobar"
+    )
 
 
 def test_tool_call_output_item_constructs_function_call_output_dict():
@@ -235,11 +264,11 @@ def test_to_input_items_for_web_search_call() -> None:
     input_items = resp.to_input_items()
     assert isinstance(input_items, list) and len(input_items) == 1
     expected: ResponseFunctionWebSearchParam = {
-            "id": "w1",
-            "status": "completed",
-            "type": "web_search_call",
-            "action": {"type": "search", "query": ""},
-        }
+        "id": "w1",
+        "status": "completed",
+        "type": "web_search_call",
+        "action": {"type": "search", "query": ""},
+    }
     assert input_items[0] == expected
 
 

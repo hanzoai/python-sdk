@@ -98,9 +98,9 @@ async def test_parent_disabled_trace_disabled_agent_trace():
     traces = fetch_traces()
     assert len(traces) == 0, f"Expected 0 traces, got {len(traces)}"
     spans = fetch_ordered_spans()
-    assert len(spans) == 0, (
-        f"Expected no spans, got {len(spans)}, with {[x.span_data for x in spans]}"
-    )
+    assert (
+        len(spans) == 0
+    ), f"Expected no spans, got {len(spans)}, with {[x.span_data for x in spans]}"
 
 
 @pytest.mark.asyncio
@@ -112,7 +112,9 @@ async def test_manual_disabling_works():
         ),
     )
 
-    await Runner.run(agent, input="first_test", run_config=RunConfig(tracing_disabled=True))
+    await Runner.run(
+        agent, input="first_test", run_config=RunConfig(tracing_disabled=True)
+    )
 
     traces = fetch_traces()
     assert len(traces) == 0, f"Expected 0 traces, got {len(traces)}"
@@ -314,7 +316,9 @@ async def test_manual_streaming_disabling_works():
         model=model,
     )
 
-    x = Runner.run_streamed(agent, input="first_test", run_config=RunConfig(tracing_disabled=True))
+    x = Runner.run_streamed(
+        agent, input="first_test", run_config=RunConfig(tracing_disabled=True)
+    )
     async for _ in x.stream_events():
         pass
 

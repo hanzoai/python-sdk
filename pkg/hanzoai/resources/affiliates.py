@@ -68,7 +68,10 @@ class AffiliatesResource(SyncAPIResource):
         return self._get(
             f"/marketing/affiliates/{affiliate_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -87,9 +90,16 @@ class AffiliatesResource(SyncAPIResource):
         """Create a new affiliate."""
         return self._post(
             "/marketing/affiliates",
-            body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata},
+            body={
+                "user_id": user_id,
+                "commission_rate": commission_rate,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -110,7 +120,10 @@ class AffiliatesResource(SyncAPIResource):
             f"/marketing/affiliates/{affiliate_id}",
             body={"commission_rate": commission_rate, "status": status},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -128,7 +141,10 @@ class AffiliatesResource(SyncAPIResource):
         return self._delete(
             f"/marketing/affiliates/{affiliate_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -170,7 +186,10 @@ class AffiliatesResource(SyncAPIResource):
         return self._get(
             f"/marketing/affiliates/{affiliate_id}/payouts",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -222,7 +241,10 @@ class AsyncAffiliatesResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/affiliates/{affiliate_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -240,9 +262,16 @@ class AsyncAffiliatesResource(AsyncAPIResource):
     ) -> object:
         return await self._post(
             "/marketing/affiliates",
-            body={"user_id": user_id, "commission_rate": commission_rate, "metadata": metadata},
+            body={
+                "user_id": user_id,
+                "commission_rate": commission_rate,
+                "metadata": metadata,
+            },
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -262,7 +291,10 @@ class AsyncAffiliatesResource(AsyncAPIResource):
             f"/marketing/affiliates/{affiliate_id}",
             body={"commission_rate": commission_rate, "status": status},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -279,7 +311,10 @@ class AsyncAffiliatesResource(AsyncAPIResource):
         return await self._delete(
             f"/marketing/affiliates/{affiliate_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -319,7 +354,10 @@ class AsyncAffiliatesResource(AsyncAPIResource):
         return await self._get(
             f"/marketing/affiliates/{affiliate_id}/payouts",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

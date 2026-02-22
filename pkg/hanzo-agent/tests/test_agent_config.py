@@ -20,7 +20,9 @@ async def test_system_instructions():
     agent = agent.clone(instructions=sync_instructions)
     assert await agent.get_system_prompt(context) == "sync_123"
 
-    async def async_instructions(agent: Agent[None], context: RunContextWrapper[None]) -> str:
+    async def async_instructions(
+        agent: Agent[None], context: RunContextWrapper[None]
+    ) -> str:
         return "async_123"
 
     agent = agent.clone(instructions=async_instructions)

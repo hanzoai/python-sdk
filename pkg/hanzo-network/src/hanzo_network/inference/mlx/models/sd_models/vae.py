@@ -28,7 +28,13 @@ class AutoencoderConfig:
 
     @classmethod
     def from_dict(cls, params):
-        return cls(**{k: v for k, v in params.items() if k in inspect.signature(cls).parameters})
+        return cls(
+            **{
+                k: v
+                for k, v in params.items()
+                if k in inspect.signature(cls).parameters
+            }
+        )
 
 
 @dataclass
@@ -40,7 +46,9 @@ class ModelArgs(AutoencoderConfig):
             self.shard = Shard(**self.shard)
 
         if not isinstance(self.shard, Shard):
-            raise TypeError(f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead")
+            raise TypeError(
+                f"Expected shard to be a Shard instance or a dict, got {type(self.shard)} instead"
+            )
 
         if not self.shard.is_first_layer():
             self.vision_config = None
@@ -102,11 +110,15 @@ class EncoderDecoderBlock2D(nn.Module):
 
         # Add an optional downsampling layer
         if add_downsample:
-            self.downsample = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=2, padding=0)
+            self.downsample = nn.Conv2d(
+                out_channels, out_channels, kernel_size=3, stride=2, padding=0
+            )
 
         # or upsampling layer
         if add_upsample:
-            self.upsample = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1)
+            self.upsample = nn.Conv2d(
+                out_channels, out_channels, kernel_size=3, stride=1, padding=1
+            )
 
     def __call__(self, x):
         for resnet in self.resnets:
@@ -137,7 +149,9 @@ class Encoder(nn.Module):
         self.layers_range = layers_range
         self.shard = shard
         if self.shard.is_first_layer():
-            self.conv_in = nn.Conv2d(in_channels, block_out_channels[0], kernel_size=3, stride=1, padding=1)
+            self.conv_in = nn.Conv2d(
+                in_channels, block_out_channels[0], kernel_size=3, stride=1, padding=1
+            )
 
         channels = [block_out_channels[0]] + list(block_out_channels)
         self.down_blocks = []
@@ -173,8 +187,12 @@ class Encoder(nn.Module):
                 ),
             ]
 
-            self.conv_norm_out = nn.GroupNorm(resnet_groups, block_out_channels[-1], pytorch_compatible=True)
-            self.conv_out = nn.Conv2d(block_out_channels[-1], latent_channels_out, 3, padding=1)
+            self.conv_norm_out = nn.GroupNorm(
+                resnet_groups, block_out_channels[-1], pytorch_compatible=True
+            )
+            self.conv_out = nn.Conv2d(
+                block_out_channels[-1], latent_channels_out, 3, padding=1
+            )
 
     def __call__(self, x):
         if self.shard.is_first_layer():
@@ -212,7 +230,9 @@ class Decoder(nn.Module):
         self.out_channels = out_channels
         self.layers_range = layer_range
         if 0 in layer_range:
-            self.conv_in = nn.Conv2d(in_channels, block_out_channels[-1], kernel_size=3, stride=1, padding=1)
+            self.conv_in = nn.Conv2d(
+                in_channels, block_out_channels[-1], kernel_size=3, stride=1, padding=1
+            )
 
         if 0 in layer_range:
             self.mid_blocks = [
@@ -251,8 +271,12 @@ class Decoder(nn.Module):
                 self.up_blocks.append(IdentityBlock())
             current_layer += 1
         if 4 in layer_range:
-            self.conv_norm_out = nn.GroupNorm(resnet_groups, block_out_channels[0], pytorch_compatible=True)
-            self.conv_out = nn.Conv2d(block_out_channels[0], self.out_channels, 3, padding=1)
+            self.conv_norm_out = nn.GroupNorm(
+                resnet_groups, block_out_channels[0], pytorch_compatible=True
+            )
+            self.conv_out = nn.Conv2d(
+                block_out_channels[0], self.out_channels, 3, padding=1
+            )
 
     def __call__(self, x):
         if 0 in self.layers_range:
@@ -293,7 +317,9 @@ class Autoencoder(nn.Module):
                 shard=shard,
             )
             if self.shard.is_last_layer():
-                self.quant_proj = nn.Linear(config.latent_channels_out, config.latent_channels_out)
+                self.quant_proj = nn.Linear(
+                    config.latent_channels_out, config.latent_channels_out
+                )
         if self.model_shard == "vae_decoder":
             self.decoder = Decoder(
                 config.latent_channels_in,
@@ -305,7 +331,9 @@ class Autoencoder(nn.Module):
                 resnet_groups=config.norm_num_groups,
             )
             if self.shard.is_first_layer():
-                self.post_quant_proj = nn.Linear(config.latent_channels_in, config.latent_channels_in)
+                self.post_quant_proj = nn.Linear(
+                    config.latent_channels_in, config.latent_channels_in
+                )
 
     def decode(self, z):
         if self.shard.is_first_layer():

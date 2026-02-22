@@ -116,7 +116,9 @@ def get_read_only_filesystem_tools(permission_manager) -> list:
     return tools
 
 
-def register_tools(mcp_server, permission_manager, enabled_tools: dict[str, bool] | None = None):
+def register_tools(
+    mcp_server, permission_manager, enabled_tools: dict[str, bool] | None = None
+):
     """Register all filesystem tools with the MCP server.
 
     Args:
@@ -133,7 +135,11 @@ def register_tools(mcp_server, permission_manager, enabled_tools: dict[str, bool
     registered = []
 
     for tool_class in TOOLS:
-        tool_name = tool_class.name if hasattr(tool_class, "name") else tool_class.__name__.lower()
+        tool_name = (
+            tool_class.name
+            if hasattr(tool_class, "name")
+            else tool_class.__name__.lower()
+        )
 
         if enabled.get(tool_name, True):  # Enabled by default
             try:

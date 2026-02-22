@@ -159,7 +159,9 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
                 "staged": staged,
                 "unstaged": unstaged,
                 "untracked": untracked,
-                "clean": len(staged) == 0 and len(unstaged) == 0 and len(untracked) == 0,
+                "clean": len(staged) == 0
+                and len(unstaged) == 0
+                and len(untracked) == 0,
             }
 
         @self.action("diff", "Show differences")

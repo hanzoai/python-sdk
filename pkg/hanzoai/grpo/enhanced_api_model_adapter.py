@@ -67,9 +67,15 @@ class EnhancedAPIModelConfig:
         Returns:
             EnhancedAPIModelConfig instance
         """
-        api_key = kwargs.get("api_key") or os.getenv("HANZO_GRPO_API_KEY") or os.getenv("DEEPSEEK_API_KEY")
+        api_key = (
+            kwargs.get("api_key")
+            or os.getenv("HANZO_GRPO_API_KEY")
+            or os.getenv("DEEPSEEK_API_KEY")
+        )
         if not api_key:
-            raise ValueError("API key required. Set HANZO_GRPO_API_KEY or DEEPSEEK_API_KEY env var")
+            raise ValueError(
+                "API key required. Set HANZO_GRPO_API_KEY or DEEPSEEK_API_KEY env var"
+            )
 
         defaults = {
             "api_key": api_key,
@@ -105,8 +111,12 @@ class EnhancedAPIModelAdapter:
         from openai import OpenAI, AsyncOpenAI
 
         self.config = config
-        self.client = OpenAI(api_key=config.api_key, base_url=config.base_url, timeout=config.timeout)
-        self.async_client = AsyncOpenAI(api_key=config.api_key, base_url=config.base_url, timeout=config.timeout)
+        self.client = OpenAI(
+            api_key=config.api_key, base_url=config.base_url, timeout=config.timeout
+        )
+        self.async_client = AsyncOpenAI(
+            api_key=config.api_key, base_url=config.base_url, timeout=config.timeout
+        )
 
     def generate(
         self,
@@ -142,7 +152,9 @@ class EnhancedAPIModelAdapter:
                 response_text = response.choices[0].message.content.strip()
 
                 if return_reasoning and self.config.support_reasoning:
-                    reasoning = getattr(response.choices[0].message, "reasoning_content", None)
+                    reasoning = getattr(
+                        response.choices[0].message, "reasoning_content", None
+                    )
                     return response_text, reasoning
 
                 return response_text
@@ -150,11 +162,15 @@ class EnhancedAPIModelAdapter:
             except Exception as e:
                 if attempt < self.config.max_retries - 1:
                     delay = self.config.retry_delay * (2**attempt)
-                    print(f"Generation failed (attempt {attempt + 1}/{self.config.max_retries}): {e}")
+                    print(
+                        f"Generation failed (attempt {attempt + 1}/{self.config.max_retries}): {e}"
+                    )
                     print(f"Retrying in {delay}s...")
                     time.sleep(delay)
                 else:
-                    raise Exception(f"Generation failed after {self.config.max_retries} attempts: {e}")
+                    raise Exception(
+                        f"Generation failed after {self.config.max_retries} attempts: {e}"
+                    )
 
     async def generate_async(
         self,
@@ -194,14 +210,18 @@ class EnhancedAPIModelAdapter:
                     return response
 
                 if request_timeout:
-                    response = await asyncio.wait_for(make_request(), timeout=request_timeout)
+                    response = await asyncio.wait_for(
+                        make_request(), timeout=request_timeout
+                    )
                 else:
                     response = await make_request()
 
                 response_text = response.choices[0].message.content.strip()
 
                 if return_reasoning and self.config.support_reasoning:
-                    reasoning = getattr(response.choices[0].message, "reasoning_content", None)
+                    reasoning = getattr(
+                        response.choices[0].message, "reasoning_content", None
+                    )
                     return response_text, reasoning
 
                 return response_text
@@ -209,19 +229,27 @@ class EnhancedAPIModelAdapter:
             except asyncio.TimeoutError:
                 if attempt < self.config.max_retries - 1:
                     delay = self.config.retry_delay * (2**attempt)
-                    print(f"Generation timeout (attempt {attempt + 1}/{self.config.max_retries})")
+                    print(
+                        f"Generation timeout (attempt {attempt + 1}/{self.config.max_retries})"
+                    )
                     print(f"Retrying in {delay}s...")
                     await asyncio.sleep(delay)
                 else:
-                    raise Exception(f"Generation timeout after {self.config.max_retries} attempts")
+                    raise Exception(
+                        f"Generation timeout after {self.config.max_retries} attempts"
+                    )
             except Exception as e:
                 if attempt < self.config.max_retries - 1:
                     delay = self.config.retry_delay * (2**attempt)
-                    print(f"Generation failed (attempt {attempt + 1}/{self.config.max_retries}): {e}")
+                    print(
+                        f"Generation failed (attempt {attempt + 1}/{self.config.max_retries}): {e}"
+                    )
                     print(f"Retrying in {delay}s...")
                     await asyncio.sleep(delay)
                 else:
-                    raise Exception(f"Generation failed after {self.config.max_retries} attempts: {e}")
+                    raise Exception(
+                        f"Generation failed after {self.config.max_retries} attempts: {e}"
+                    )
 
     def generate_with_experiences(
         self,
@@ -258,7 +286,10 @@ Now solve the problem step by step."""
 Solve the problem step by step."""
 
         return self.generate(
-            enhanced_prompt, temperature=temperature, max_tokens=max_tokens, return_reasoning=return_reasoning
+            enhanced_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            return_reasoning=return_reasoning,
         )
 
     async def generate_with_experiences_async(

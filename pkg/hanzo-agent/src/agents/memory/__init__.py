@@ -7,7 +7,12 @@ remember past interactions, learn from experience, and maintain context.
 from .types import MemoryEntry, MemoryType
 from .memory import Memory
 from .store import MemoryStore, InMemoryMemoryStore, VectorMemoryStore
-from .retriever import MemoryRetriever, SemanticRetriever, RecencyRetriever, HybridRetriever
+from .retriever import (
+    MemoryRetriever,
+    SemanticRetriever,
+    RecencyRetriever,
+    HybridRetriever,
+)
 
 __all__ = [
     "Memory",

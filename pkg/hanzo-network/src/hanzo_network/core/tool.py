@@ -17,7 +17,9 @@ class ToolContext(TypedDict):
 class ToolHandler(Protocol):
     """Protocol for tool handler functions."""
 
-    async def __call__(self, parameters: Dict[str, Any], context: ToolContext) -> Any: ...
+    async def __call__(
+        self, parameters: Dict[str, Any], context: ToolContext
+    ) -> Any: ...
 
 
 @dataclass
@@ -32,7 +34,9 @@ class Tool:
     parameters: type[BaseModel]
     handler: ToolHandler
 
-    async def call(self, parameters: Dict[str, Any], context: Optional[ToolContext] = None) -> Any:
+    async def call(
+        self, parameters: Dict[str, Any], context: Optional[ToolContext] = None
+    ) -> Any:
         """Call the tool with given parameters.
 
         Args:
@@ -126,8 +130,14 @@ def create_tool(
                     continue
 
                 # Get type annotation
-                param_type = param.annotation if param.annotation != inspect.Parameter.empty else Any
-                default = param.default if param.default != inspect.Parameter.empty else ...
+                param_type = (
+                    param.annotation
+                    if param.annotation != inspect.Parameter.empty
+                    else Any
+                )
+                default = (
+                    param.default if param.default != inspect.Parameter.empty else ...
+                )
 
                 param_fields[param_name] = (param_type, default)
 
@@ -137,7 +147,9 @@ def create_tool(
             else:
                 parameters = create_model(f"{name}_params")
 
-        return Tool(name=name, description=description, parameters=parameters, handler=func)
+        return Tool(
+            name=name, description=description, parameters=parameters, handler=func
+        )
 
     if handler is not None:
         # Direct call with handler

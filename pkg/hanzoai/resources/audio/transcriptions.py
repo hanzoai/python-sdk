@@ -80,7 +80,9 @@ class TranscriptionsResource(SyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/audio/transcriptions",
-            body=maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=maybe_transform(
+                body, transcription_create_params.TranscriptionCreateParams
+            ),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -147,7 +149,9 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/audio/transcriptions",
-            body=await async_maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
+            body=await async_maybe_transform(
+                body, transcription_create_params.TranscriptionCreateParams
+            ),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,

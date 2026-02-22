@@ -27,8 +27,7 @@ class TestSearchQuality:
 
             # Main application file
             main_py = test_dir / "main.py"
-            main_py.write_text(
-                '''
+            main_py.write_text('''
 """Main application with error handling."""
 
 import logging
@@ -67,13 +66,11 @@ def validate_input(data: List[str]) -> bool:
 
 if __name__ == "__main__":
     main()
-'''
-            )
+''')
 
             # Data processor module
             processor_py = test_dir / "data_processor.py"
-            processor_py.write_text(
-                '''
+            processor_py.write_text('''
 """Data processing module with error handling."""
 
 import logging
@@ -128,13 +125,11 @@ class DataProcessor:
                 results[batch_key] = []
         
         return results
-'''
-            )
+''')
 
             # Utility module
             utils_py = test_dir / "utils.py"
-            utils_py.write_text(
-                '''
+            utils_py.write_text('''
 """Utility functions with error handling."""
 
 import re
@@ -193,13 +188,11 @@ class ErrorHandler:
             print(f"Error #{self.error_count}: {message}")
         
         return message
-'''
-            )
+''')
 
             # Test file
             test_py = test_dir / "test_main.py"
-            test_py.write_text(
-                '''
+            test_py.write_text('''
 """Test file for the main application."""
 
 import unittest
@@ -265,8 +258,7 @@ class TestDataProcessor(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-'''
-            )
+''')
 
             yield {
                 "dir": test_dir,

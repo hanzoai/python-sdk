@@ -37,7 +37,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/lint",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -56,7 +59,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/validate",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -75,7 +81,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/format",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -95,7 +104,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/diff",
             body={"policy": policy, "dry_run": dry_run},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -115,7 +127,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/apply",
             body={"policy": policy, "dry_run": dry_run},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -136,7 +151,10 @@ class PolicyResource(SyncAPIResource):
             "/policy/explain",
             body={"principal": principal, "action": action, "resource": resource},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -176,7 +194,10 @@ class PolicyResource(SyncAPIResource):
         return self._get(
             "/policy",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -207,7 +228,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/lint",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -226,7 +250,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/validate",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -245,7 +272,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/format",
             body={"policy": policy},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -265,7 +295,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/diff",
             body={"policy": policy, "dry_run": dry_run},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -285,7 +318,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/apply",
             body={"policy": policy, "dry_run": dry_run},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -306,7 +342,10 @@ class AsyncPolicyResource(AsyncAPIResource):
             "/policy/explain",
             body={"principal": principal, "action": action, "resource": resource},
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )
@@ -346,7 +385,10 @@ class AsyncPolicyResource(AsyncAPIResource):
         return await self._get(
             "/policy",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
             ),
             cast_to=object,
         )

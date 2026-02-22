@@ -63,6 +63,7 @@ class AttestationReport:
             # SGX attestation uses EPID or DCAP
             # Signature should be base64-encoded quote
             import base64
+
             try:
                 quote = base64.b64decode(self.signature)
                 # SGX quote header is 48 bytes minimum
@@ -72,6 +73,7 @@ class AttestationReport:
         elif self.provider == TEEProvider.SEV:
             # AMD SEV uses attestation report
             import base64
+
             try:
                 report = base64.b64decode(self.signature)
                 # SEV report is 0x4A0 bytes
