@@ -150,9 +150,9 @@ class TestCLIPerformance:
         elapsed = time.time() - start
 
         assert result.returncode == 0, f"CLI help failed: {result.stderr}"
-        assert (
-            elapsed < MAX_CLI_STARTUP_TIME
-        ), f"CLI --help took {elapsed:.2f}s (max: {MAX_CLI_STARTUP_TIME}s). This is too slow for MCP connections."
+        assert elapsed < MAX_CLI_STARTUP_TIME, (
+            f"CLI --help took {elapsed:.2f}s (max: {MAX_CLI_STARTUP_TIME}s). This is too slow for MCP connections."
+        )
 
     def test_cli_does_not_hang(self):
         """Test that CLI starts without hanging.
