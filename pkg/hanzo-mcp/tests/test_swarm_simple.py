@@ -24,9 +24,9 @@ def test_defaults():
         or os.environ.get("CLAUDE_API_KEY")
     )
 
-    assert (
-        model == "anthropic/claude-3-5-sonnet-20241022"
-    ), f"Expected Claude Sonnet, got {model}"
+    assert model == "anthropic/claude-3-5-sonnet-20241022", (
+        f"Expected Claude Sonnet, got {model}"
+    )
     print("✓ Swarm defaults to Claude 3.5 Sonnet")
 
     # Check API key detection

@@ -440,9 +440,9 @@ def apply_transformations(record: Any, params: Dict[str, Any]) -> Any:
             )
 
             # 3. Benchmark search performance
-            size_results["search_performance"] = (
-                await self.benchmark_search_performance(test_project, test_queries)
-            )
+            size_results[
+                "search_performance"
+            ] = await self.benchmark_search_performance(test_project, test_queries)
 
             benchmark_results["results"][size] = size_results
 
