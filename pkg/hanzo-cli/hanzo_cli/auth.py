@@ -1,7 +1,7 @@
 """Authentication and token management for Hanzo CLI.
 
 Credential chain:
-1. HANZO_IAM_CLIENT_ID + HANZO_IAM_CLIENT_SECRET env vars
+1. IAM_CLIENT_ID + IAM_CLIENT_SECRET env vars
 2. ~/.hanzo/auth/token.json from `hanzo login`
 3. Exit with help message
 """
@@ -56,37 +56,36 @@ def _clear_token() -> None:
         TOKEN_FILE.unlink()
 
 
+def _env(name: str) -> str:
+    """Read env var, accepting both IAM_ and legacy HANZO_IAM_ prefixes."""
+    return os.getenv(name) or os.getenv(f"HANZO_{name}") or ""
+
+
 def _iam_url() -> str:
-    return os.getenv("HANZO_IAM_URL") or os.getenv("IAM_URL") or DEFAULT_IAM_URL
+    return _env("IAM_URL") or DEFAULT_IAM_URL
 
 
 def _iam_org() -> str:
-    return os.getenv("HANZO_IAM_ORG") or os.getenv("IAM_ORG") or DEFAULT_ORG
+    return _env("IAM_ORG") or DEFAULT_ORG
 
 
 def _iam_app() -> str:
-    return os.getenv("HANZO_IAM_APP") or os.getenv("IAM_APP") or DEFAULT_APP
+    return _env("IAM_APP") or DEFAULT_APP
 
 
 def _iam_client_id() -> str:
-    return (
-        os.getenv("IAM_CLIENT_ID")
-        or os.getenv("HANZO_IAM_CLIENT_ID")
-        or DEFAULT_CLIENT_ID
-    )
+    return _env("IAM_CLIENT_ID") or DEFAULT_CLIENT_ID
 
 
 def get_client(ctx: click.Context | None = None) -> IAMClient:
     """Build an IAMClient using the credential chain.
 
-    1. Env vars HANZO_IAM_CLIENT_ID + HANZO_IAM_CLIENT_SECRET
+    1. Env vars IAM_CLIENT_ID + IAM_CLIENT_SECRET
     2. Stored bearer token from `hanzo login`
     3. Exit with instructions
     """
-    client_id = os.getenv("IAM_CLIENT_ID") or os.getenv("HANZO_IAM_CLIENT_ID") or ""
-    client_secret = (
-        os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
-    )
+    client_id = _env("IAM_CLIENT_ID")
+    client_secret = _env("IAM_CLIENT_SECRET")
 
     if client_id and client_secret:
         config = IAMConfig(
@@ -114,8 +113,8 @@ def get_client(ctx: click.Context | None = None) -> IAMClient:
         )
 
     click.echo(
-        "Not authenticated. Run 'hanzo login' or set HANZO_IAM_CLIENT_ID"
-        " + HANZO_IAM_CLIENT_SECRET environment variables.",
+        "Not authenticated. Run 'hanzo login' or set IAM_CLIENT_ID"
+        " + IAM_CLIENT_SECRET environment variables.",
         err=True,
     )
     sys.exit(1)
@@ -310,9 +309,7 @@ def password_login(
     org = _iam_org()
     app = _iam_app()
     client_id = _iam_client_id()
-    client_secret = (
-        os.getenv("IAM_CLIENT_SECRET") or os.getenv("HANZO_IAM_CLIENT_SECRET") or ""
-    )
+    client_secret = _env("IAM_CLIENT_SECRET")
 
     if not username:
         username = click.prompt("Username or email")
