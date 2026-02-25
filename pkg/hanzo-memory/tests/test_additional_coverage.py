@@ -139,7 +139,7 @@ class TestAdditionalCoverage:
         from hanzo_memory.services.llm import LLMService
 
         with patch("hanzo_memory.services.llm.settings") as mock_settings:
-            with patch("hanzo_memory.services.llm.litellm") as mock_litellm:
+            with patch("hanzo_memory.services.llm.llm") as mock_llm:
                 # Test with llm_api_key
                 mock_settings.llm_model = "test"
                 mock_settings.llm_api_base = None
@@ -150,21 +150,21 @@ class TestAdditionalCoverage:
                 mock_settings.anthropic_api_key = None
 
                 LLMService()
-                assert mock_litellm.api_key == "test-llm-key"
+                assert mock_llm.api_key == "test-llm-key"
 
                 # Test with openai_api_key
                 mock_settings.llm_api_key = None
                 mock_settings.openai_api_key = "test-openai-key"
 
                 LLMService()
-                assert mock_litellm.openai_key == "test-openai-key"
+                assert mock_llm.openai_key == "test-openai-key"
 
                 # Test with anthropic_api_key
                 mock_settings.openai_api_key = None
                 mock_settings.anthropic_api_key = "test-anthropic-key"
 
                 LLMService()
-                assert mock_litellm.anthropic_key == "test-anthropic-key"
+                assert mock_llm.anthropic_key == "test-anthropic-key"
 
     def test_embedding_service_empty_list(self):
         """Test embedding service with empty list."""

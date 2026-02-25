@@ -55,8 +55,8 @@ async def test_agent_clarification_flow(test_project, mock_context):
         permission_manager=permission_manager, model="test-model", max_iterations=5
     )
 
-    # Mock the litellm completion to simulate agent requesting clarification
-    with patch("litellm.completion") as mock_completion:
+    # Mock the llm completion to simulate agent requesting clarification
+    with patch("llm.completion") as mock_completion:
         # First call - agent reads file and asks for clarification
         mock_completion.side_effect = [
             # First iteration - read file and request clarification
@@ -187,8 +187,8 @@ async def test_agent_critic_flow(test_project, mock_context):
         permission_manager=permission_manager, model="test-model", max_iterations=5
     )
 
-    # Mock the litellm completion to simulate agent requesting critic review
-    with patch("litellm.completion") as mock_completion:
+    # Mock the llm completion to simulate agent requesting critic review
+    with patch("llm.completion") as mock_completion:
         mock_completion.side_effect = [
             # First iteration - read file
             Mock(
@@ -307,7 +307,7 @@ async def test_clarification_limits(test_project, mock_context):
     )
 
     # Test that only one clarification is allowed
-    with patch("litellm.completion") as mock_completion:
+    with patch("llm.completion") as mock_completion:
         mock_completion.side_effect = [
             # First clarification request
             Mock(
@@ -388,7 +388,7 @@ async def test_critic_limits(test_project, mock_context):
     )
 
     # Test that only two critic reviews are allowed
-    with patch("litellm.completion") as mock_completion:
+    with patch("llm.completion") as mock_completion:
         review_args = json.dumps(
             {
                 "review_type": "GENERAL",

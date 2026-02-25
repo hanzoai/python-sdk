@@ -7,7 +7,7 @@ existing tools without requiring networked services:
 - Linear MCP server registration via mcp_add + visibility in mcp_stats
 - Per-task git worktree creation via bash
 
-Network calls are not performed. LLM calls are mocked via litellm patching.
+Network calls are not performed. LLM calls are mocked via llm patching.
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ from test_utils import PermissionManager
 
 
 def _mock_acompletion_factory(responses: Dict[str, str]):
-    """Create a litellm.acompletion mock that returns responses by keyword.
+    """Create a llm.acompletion mock that returns responses by keyword.
 
     The first matching keyword in the prompt determines the returned text.
     Defaults to a simple echo if nothing matches.
@@ -77,7 +77,7 @@ def _mock_acompletion_factory(responses: Dict[str, str]):
 async def test_architecture_and_task_gen_with_consensus_mock(
     monkeypatch, tmp_path: Path
 ):
-    """Architecture → tasks flow using LLMTool with litellm mocked.
+    """Architecture → tasks flow using LLMTool with llm mocked.
 
     - Generates an architecture.md file
     - Generates JSON tasks from the architecture

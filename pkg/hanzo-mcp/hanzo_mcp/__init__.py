@@ -15,7 +15,7 @@ except Exception:  # pragma: no cover
 import os
 import warnings
 
-# Suppress litellm deprecation warnings about event loop
+# Suppress llm deprecation warnings about event loop
 warnings.filterwarnings(
     "ignore", message="There is no current event loop", category=DeprecationWarning
 )

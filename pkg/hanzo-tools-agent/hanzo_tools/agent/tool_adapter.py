@@ -5,7 +5,7 @@ formats, making MCP tools available to the OpenAI API, and processing tool input
 and outputs for agent execution.
 """
 
-# Import litellm with warnings suppressed
+# Import llm with warnings suppressed
 import warnings
 
 from openai.types import FunctionParameters
@@ -71,12 +71,12 @@ def supports_parallel_function_calling(model: str) -> bool:
     """Check if a model supports parallel function calling.
 
     Args:
-        model: Model identifier in LiteLLM format (e.g., "openai/gpt-4-turbo-preview")
+        model: Model identifier in LLM format (e.g., "openai/gpt-4-turbo-preview")
 
     Returns:
         True if the model supports parallel function calling, False otherwise
     """
-    # Since litellm doesn't have this function, we'll implement a simple check
+    # Since llm doesn't have this function, we'll implement a simple check
     # based on known models that support parallel function calling
     parallel_capable_models = {
         # OpenAI models that support parallel function calling

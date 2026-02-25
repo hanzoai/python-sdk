@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from mcp.server import FastMCP
 
 
-# Suppress litellm deprecation warnings about event loop
+# Suppress llm deprecation warnings about event loop
 warnings.filterwarnings(
     "ignore", message="There is no current event loop", category=DeprecationWarning
 )
@@ -146,7 +146,7 @@ class HanzoMCPServer:
             project_paths: list of project paths to generate prompts for
             project_dir: single project directory (added to allowed_paths and project_paths)
             mcp_instance: Optional FastMCP instance for testing
-            agent_model: Optional model name for agent tool in LiteLLM format
+            agent_model: Optional model name for agent tool in LLM format
             agent_max_tokens: Optional maximum tokens for agent responses
             agent_api_key: Optional API key for the LLM provider
             agent_base_url: Optional base URL for the LLM provider API endpoint
