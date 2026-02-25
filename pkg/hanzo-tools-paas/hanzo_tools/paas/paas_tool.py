@@ -1,4 +1,4 @@
-"""MCP tool for Hanzo platform services — PaaS, IAM, and cloud.
+"""MCP tool for Hanzo PaaS — deployments, IAM, and cloud services.
 
 Combines PaaS deployments, IAM user/org management, and cloud services
 into a single MCP tool to avoid tool proliferation.
@@ -21,7 +21,7 @@ from hanzo_tools.core.base import BaseTool
 
 logger = logging.getLogger(__name__)
 
-DESCRIPTION = """Hanzo platform management — PaaS deployments, IAM, and cloud services.
+DESCRIPTION = """Hanzo PaaS — deployments, IAM, and cloud services.
 
 Requires authentication via `hanzo login` (stored at ~/.hanzo/auth/token.json).
 
@@ -51,12 +51,12 @@ def _get_session():
 
 
 @final
-class PlatformTool(BaseTool):
-    """MCP tool for Hanzo platform operations."""
+class PaaSTool(BaseTool):
+    """MCP tool for Hanzo PaaS operations."""
 
     @property
     def name(self) -> str:
-        return "platform"
+        return "paas"
 
     @property
     def description(self) -> str:
@@ -110,8 +110,8 @@ class PlatformTool(BaseTool):
         except RuntimeError as e:
             return json.dumps({"error": str(e)})
         except Exception as e:
-            logger.exception(f"Platform tool error: {e}")
-            return json.dumps({"error": f"Platform error: {e}"})
+            logger.exception(f"PaaS tool error: {e}")
+            return json.dumps({"error": f"PaaS error: {e}"})
 
     # -- IAM actions ---------------------------------------------------------
 
@@ -267,14 +267,14 @@ class PlatformTool(BaseTool):
     # -- Registration --------------------------------------------------------
 
     def register(self, mcp_server: FastMCP) -> None:
-        """Register platform tool with explicit parameters."""
+        """Register PaaS tool with explicit parameters."""
         tool_instance = self
 
         @mcp_server.tool(
-            name="platform",
+            name="paas",
             description=DESCRIPTION,
         )
-        async def platform(
+        async def paas(
             action: Annotated[
                 str,
                 Field(
