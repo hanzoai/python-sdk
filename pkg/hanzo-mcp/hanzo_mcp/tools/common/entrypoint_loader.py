@@ -58,7 +58,7 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "api": ["api"],
     "auth": ["auth"],
     "kms": ["kms"],
-    "platform": ["platform"],
+    "paas": ["paas"],
 }
 
 
