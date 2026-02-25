@@ -150,7 +150,7 @@ pip install hanzo-mcp[tools-all]
 
 # Or specific tools
 pip install hanzo-mcp[browser]  # Playwright
-pip install hanzo-mcp[llm]      # LiteLLM
+pip install hanzo-mcp[llm]      # LLM
 ```
 
 ### Logs and Debugging

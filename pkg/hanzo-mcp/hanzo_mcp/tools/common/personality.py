@@ -99,7 +99,7 @@ class PersonalityRegistry:
 
 
 # Essential tools that are always available in every mode
-# NOTE: llm/consensus are NOT essential (heavy litellm dependency - opt-in only)
+# NOTE: llm/consensus are NOT essential (heavy llm dependency - opt-in only)
 ESSENTIAL_TOOLS = [
     # File operations
     "read",
@@ -124,11 +124,11 @@ ESSENTIAL_TOOLS = [
     "tool",
 ]
 
-# Heavy tools (require large dependencies like litellm)
+# Heavy tools (require large dependencies like llm)
 # These are opt-in only, not included by default
 HEAVY_TOOLS = [
-    "llm",  # Requires litellm (~100MB deps)
-    "consensus",  # Requires litellm
+    "llm",  # Requires llm (~100MB deps)
+    "consensus",  # Requires llm
 ]
 
 # Common tool sets for reuse

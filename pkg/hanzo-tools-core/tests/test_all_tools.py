@@ -178,10 +178,10 @@ class TestToolPackages:
         reason="hanzo-tools-llm not installed",
     )
     def test_llm_tools(self):
-        """Test hanzo-tools-llm imports (tools depend on litellm)."""
+        """Test hanzo-tools-llm imports (tools depend on llm)."""
         from hanzo_tools.llm import TOOLS, LLM_AVAILABLE
 
-        # LLM tools are optional, depend on litellm
+        # LLM tools are optional, depend on llm
         if LLM_AVAILABLE:
             assert len(TOOLS) >= 1
         else:
@@ -214,7 +214,7 @@ REQUIRED_IMPORT_MODULES = [
     ("hanzo_tools.refactor", 1.0),
     ("hanzo_tools.jupyter", 1.0),
     ("hanzo_tools.browser", 1.0),
-    ("hanzo_tools.agent", 2.0),  # Agent has litellm, allow more time
+    ("hanzo_tools.agent", 2.0),  # Agent has llm, allow more time
 ]
 
 # Optional packages that may not be installed
@@ -223,7 +223,7 @@ OPTIONAL_IMPORT_MODULES = [
     ("hanzo_tools.mcp_tools", 1.0),
     ("hanzo_tools.database", 1.0),
     ("hanzo_tools.editor", 1.0),
-    ("hanzo_tools.llm", 2.0),  # LLM has litellm, allow more time
+    ("hanzo_tools.llm", 2.0),  # LLM has llm, allow more time
     ("hanzo_tools.vector", 2.0),  # Vector has heavy deps
 ]
 

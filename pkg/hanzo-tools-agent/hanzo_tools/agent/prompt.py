@@ -114,7 +114,7 @@ def get_default_model(model_override: str | None = None) -> str:
     """Get the default model for agent execution.
 
     Args:
-        model_override: Optional model override string in LiteLLM format (e.g., "openai/gpt-4o")
+        model_override: Optional model override string in LLM format (e.g., "openai/gpt-4o")
 
     Returns:
         Model identifier string with provider prefix

@@ -42,9 +42,9 @@ class Settings(BaseSettings):
         Path("data/lancedb"), description="Path to LanceDB data directory"
     )
 
-    # LLM Settings (LiteLLM compatible)
+    # LLM Settings (LLM compatible)
     llm_model: str = Field(
-        "gpt-4o-mini", description="LLM model to use (LiteLLM format)"
+        "gpt-4o-mini", description="LLM model to use (LLM format)"
     )
     llm_api_base: str | None = Field(None, description="API base URL for local models")
     llm_api_key: str | None = Field(None, description="API key for LLM provider")

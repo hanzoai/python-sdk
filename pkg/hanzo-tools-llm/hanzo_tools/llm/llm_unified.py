@@ -21,13 +21,13 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, ToolContext, auto_timeout, create_tool_context
 
-# Check if litellm is available
+# Check if llm is available
 try:
-    import litellm
+    import llm
 
-    LITELLM_AVAILABLE = True
+    LLM_AVAILABLE = True
 except ImportError:
-    LITELLM_AVAILABLE = False
+    LLM_AVAILABLE = False
 
 
 # Parameter types
@@ -280,9 +280,9 @@ Available: {", ".join(available) if available else "None"}"""
             # Running in test mode without MCP context
             pass
 
-        if not LITELLM_AVAILABLE:
+        if not LLM_AVAILABLE:
             return (
-                "Error: LiteLLM is not installed. Install it with: pip install litellm"
+                "Error: LLM is not installed. Install it with: pip install llm"
             )
 
         # Extract action
@@ -368,13 +368,13 @@ Available: {", ".join(available) if available else "None"}"""
             if kwargs.get("stream"):
                 # Handle streaming response
                 response_text = ""
-                async for chunk in await litellm.acompletion(**kwargs):
+                async for chunk in await llm.acompletion(**kwargs):
                     if chunk.choices[0].delta.content:
                         response_text += chunk.choices[0].delta.content
                 return response_text
             else:
                 # Regular response
-                response = await litellm.acompletion(**kwargs)
+                response = await llm.acompletion(**kwargs)
                 return response.choices[0].message.content
 
         except Exception as e:
@@ -517,7 +517,7 @@ Provide your critical analysis:"""
             all_models = self._get_all_models()
 
             if not all_models:
-                return "No models available or LiteLLM not properly initialized"
+                return "No models available or LLM not properly initialized"
 
             output = ["=== Available LLM Models ==="]
 
@@ -623,7 +623,7 @@ Provide your critical analysis:"""
             if tool_ctx:
                 await tool_ctx.info(f"Testing {model}...")
 
-            response = await litellm.acompletion(
+            response = await llm.acompletion(
                 model=model,
                 messages=[{"role": "user", "content": test_prompt}],
                 temperature=0,
@@ -739,7 +739,7 @@ Provide your critical analysis:"""
             if max_tokens:
                 kwargs["max_tokens"] = max_tokens
 
-            response = await litellm.acompletion(**kwargs)
+            response = await llm.acompletion(**kwargs)
 
             return {
                 "success": True,
@@ -869,12 +869,12 @@ Be concise and highlight the most important findings."""
         return "openai"
 
     def _get_all_models(self) -> Dict[str, List[str]]:
-        """Get all available models from LiteLLM."""
+        """Get all available models from LLM."""
         try:
-            import litellm
+            import llm
 
             # Get all models
-            all_models = litellm.model_list
+            all_models = llm.model_list
 
             # Organize by provider
             providers = {}
