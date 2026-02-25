@@ -56,6 +56,9 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "config": ["config", "mode"],
     "mcp_tools": ["mcp"],
     "api": ["api"],
+    "auth": ["auth"],
+    "kms": ["kms"],
+    "platform": ["platform"],
 }
 
 

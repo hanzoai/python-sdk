@@ -1,0 +1,31 @@
+[project]
+name = "hanzo-tools-kms"
+version = "0.1.0"
+description = "KMS secret management MCP tool — list, get, set, delete, inject secrets via Hanzo KMS"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "mcp", "kms", "secrets", "tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "hanzo-kms>=0.1.0",
+]
+
+[project.entry-points."hanzo.tools"]
+kms = "hanzo_tools.kms:TOOLS"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]
