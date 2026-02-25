@@ -34,7 +34,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-litellm = ["litellm>=1.0.0"]
+litellm = ["hanzo-llm>=1.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/hanzoai/python-sdk"
