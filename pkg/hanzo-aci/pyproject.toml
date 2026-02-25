@@ -13,7 +13,7 @@ dependencies = [
   "pandas",
   "scipy",
   "networkx",
-  "litellm",
+  "hanzo-llm>=1.0.0",
   "gitpython",
   "tree-sitter>=0.24.0",
   "tree-sitter-python>=0.23.6",
