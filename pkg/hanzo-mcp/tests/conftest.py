@@ -235,12 +235,12 @@ def mock_memory_service():
 
 
 @pytest.fixture
-def mock_litellm():
-    """Create a mock litellm module."""
+def mock_llm():
+    """Create a mock llm module."""
     from test_utils import MockServiceHelper
 
-    with pytest.mock.patch("hanzo_tools.agent.agent_tool.litellm") as mock:
-        mock.completion = MockServiceHelper.mock_litellm_completion()
+    with pytest.mock.patch("hanzo_tools.agent.agent_tool.llm") as mock:
+        mock.completion = MockServiceHelper.mock_llm_completion()
         yield mock
 
 

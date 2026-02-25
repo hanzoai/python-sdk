@@ -46,8 +46,8 @@ async def test_agent_uses_all_tools(test_project, mock_context):
         max_iterations=10,  # Allow more iterations for all tools
     )
 
-    # Mock the litellm completion to simulate agent using all tools
-    with patch("litellm.completion") as mock_completion:
+    # Mock the llm completion to simulate agent using all tools
+    with patch("llm.completion") as mock_completion:
         mock_completion.side_effect = [
             # 1. Read the file
             Mock(

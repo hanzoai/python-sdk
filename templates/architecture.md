@@ -150,7 +150,7 @@ Modular tool package system with entry-point based discovery:
 ### Phase 3: Migration from existing memory system
 - [ ] Import important memories from hanzo-memory package
 - [ ] Provide migration tools for existing vector data
-- [ ] Deprecate complex LiteLLM/InfinityDB system
+- [ ] Deprecate complex LLM/InfinityDB system
 
 ### Phase 4: Full optimization
 - [ ] Keep SQLite for structured data (file metadata, symbols, graph)

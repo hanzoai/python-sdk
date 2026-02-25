@@ -120,7 +120,7 @@ jobs:
           # Run all working tests with strict mode
           # Note: Some async tests require specific pytest-asyncio configuration
           # The core test suite validates CI requirements
-          python -m pytest tests/test_agent_tools_ci.py tests/test_litellm_warnings.py \
+          python -m pytest tests/test_agent_tools_ci.py tests/test_llm_warnings.py \
             -v \
             --strict-markers \
             --tb=short \

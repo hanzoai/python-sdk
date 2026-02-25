@@ -135,8 +135,8 @@ async def ask_once(
                     try:
                         from pkg.hanzoai import completion
                     except ImportError:
-                        # Fallback to using litellm directly
-                        import litellm
+                        # Fallback to using llm directly
+                        import llm
 
                         def completion(**kwargs):
                             import os
@@ -145,7 +145,7 @@ async def ask_once(
                             if api_key:
                                 kwargs["api_key"] = api_key
                             kwargs["api_base"] = "https://api.hanzo.ai/v1"
-                            return litellm.completion(**kwargs)
+                            return llm.completion(**kwargs)
 
                 result = completion(
                     model=f"anthropic/{model}" if "claude" in model else model,
@@ -154,7 +154,7 @@ async def ask_once(
                 content = result.choices[0].message.content
             except ImportError as e:
                 console.print(f"[red]Error:[/red] Missing dependencies: {e}")
-                console.print("Install with: pip install litellm")
+                console.print("Install with: pip install llm")
                 return
 
         # Display response
@@ -219,8 +219,8 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
                         try:
                             from pkg.hanzoai import completion
                         except ImportError:
-                            # Fallback to using litellm directly
-                            import litellm
+                            # Fallback to using llm directly
+                            import llm
 
                             def completion(**kwargs):
                                 import os
@@ -229,7 +229,7 @@ async def interactive_chat(ctx, model: str, local: bool, system: Optional[str]):
                                 if api_key:
                                     kwargs["api_key"] = api_key
                                 kwargs["api_base"] = "https://api.hanzo.ai/v1"
-                                return litellm.completion(**kwargs)
+                                return llm.completion(**kwargs)
 
                     result = completion(
                         model=f"anthropic/{model}" if "claude" in model else model,

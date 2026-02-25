@@ -3,7 +3,7 @@
 import os
 from typing import Any, Dict, List, Optional, Set
 
-from litellm import acompletion, completion
+from llm import acompletion, completion
 
 
 class LLMClient:
