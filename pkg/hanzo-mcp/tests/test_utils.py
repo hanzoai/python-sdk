@@ -226,8 +226,8 @@ class MockServiceHelper:
         return mock_service
 
     @staticmethod
-    def mock_litellm_completion(response: str = "Test response"):
-        """Create a mock litellm completion."""
+    def mock_llm_completion(response: str = "Test response"):
+        """Create a mock llm completion."""
         mock_response = Mock()
         mock_response.choices = [Mock(message=Mock(content=response))]
         return Mock(return_value=mock_response)

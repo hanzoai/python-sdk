@@ -107,7 +107,7 @@ TOOLS = {
     # Go tools (go install)
     "router": {
         "name": "Hanzo Router",
-        "description": "LLM Gateway/Router (LiteLLM proxy)",
+        "description": "LLM Gateway/Router (LLM proxy)",
         "source": "docker",
         "image": "ghcr.io/hanzoai/llm:latest",
         "binary": None,
