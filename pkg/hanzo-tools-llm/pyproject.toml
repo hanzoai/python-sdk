@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-full = ["litellm>=1.0.0", "openai>=1.0.0", "anthropic>=0.40.0"]
+full = ["hanzo-llm>=1.0.0", "openai>=1.0.0", "anthropic>=0.40.0"]
 
 [project.entry-points."hanzo.tools"]
 llm = "hanzo_tools.llm:TOOLS"
