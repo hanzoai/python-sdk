@@ -57,9 +57,9 @@ def mock_embedding_model():
 
 
 @pytest.fixture(autouse=True)
-def mock_litellm_completion():
-    """Mock LiteLLM completion to avoid API calls during tests."""
-    with patch("litellm.completion") as mock_completion:
+def mock_llm_completion():
+    """Mock LLM completion to avoid API calls during tests."""
+    with patch("llm.completion") as mock_completion:
         # Create mock response
         mock_response = MagicMock()
         mock_response.choices = [

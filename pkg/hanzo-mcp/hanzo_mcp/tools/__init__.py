@@ -46,7 +46,7 @@ def register_all_tools(
     Args:
         mcp_server: The FastMCP server instance
         permission_manager: Permission manager for access control
-        agent_model: Optional model name for agent tool in LiteLLM format
+        agent_model: Optional model name for agent tool in LLM format
         agent_max_tokens: Optional maximum tokens for agent responses
         agent_api_key: Optional API key for the LLM provider
         agent_base_url: Optional base URL for the LLM provider API endpoint

@@ -153,8 +153,8 @@ class TestAgentTool:
         tool_ctx.error.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_call_with_litellm_error(self, tool_helper, agent_tool, mcp_context):
-        """Test agent tool call when litellm raises an error."""
+    async def test_call_with_llm_error(self, tool_helper, agent_tool, mcp_context):
+        """Test agent tool call when llm raises an error."""
         # Mock the tool context
         tool_ctx = MagicMock()
         tool_ctx.error = AsyncMock()

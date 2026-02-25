@@ -319,7 +319,7 @@ class HanzoDevBackend(Backend):
 
 
 class EmbeddedBackend(Backend):
-    """Embedded LLM backend using litellm."""
+    """Embedded LLM backend using llm."""
 
     def __init__(self, llm_client):
         self.llm_client = llm_client
