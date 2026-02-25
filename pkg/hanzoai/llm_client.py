@@ -8,14 +8,14 @@ complementing the full-featured auto-generated client.
 import os
 from typing import Optional
 
-# We can import and use litellm as a dependency
+# We can import and use llm as a dependency
 try:
-    import litellm
+    import llm
 
-    LITELLM_AVAILABLE = True
+    LLM_AVAILABLE = True
 except ImportError:
-    LITELLM_AVAILABLE = False
-    litellm = None
+    LLM_AVAILABLE = False
+    llm = None
 
 from ._client import Hanzo
 
@@ -29,7 +29,7 @@ HANZO_API_KEY = os.getenv("HANZO_API_KEY")
 
 class SimpleLLMClient:
     """
-    Simple LLM client for Hanzo AI with litellm compatibility.
+    Simple LLM client for Hanzo AI with llm compatibility.
 
     This provides a simpler interface that's compatible with the
     patterns from the llm/hanzoai package, while using the
@@ -72,12 +72,12 @@ class SimpleLLMClient:
         # Create the underlying Hanzo client
         self._client = Hanzo(api_key=self.api_key, base_url=self.api_base)
 
-        # Configure litellm if available
-        if LITELLM_AVAILABLE and litellm:
-            litellm.api_base = self.api_base
-            litellm.drop_params = True  # Be permissive with params
+        # Configure llm if available
+        if LLM_AVAILABLE and llm:
+            llm.api_base = self.api_base
+            llm.drop_params = True  # Be permissive with params
             if self.api_key:
-                litellm.api_key = self.api_key
+                llm.api_key = self.api_key
                 os.environ["OPENAI_API_KEY"] = self.api_key  # For OpenAI compatibility
 
     def _iam_login(self):
@@ -129,38 +129,38 @@ class SimpleLLMClient:
         """
         Create a completion using Hanzo AI.
 
-        If litellm is available, uses litellm for compatibility.
+        If llm is available, uses llm for compatibility.
         Otherwise uses the native client.
         """
-        if LITELLM_AVAILABLE and litellm:
-            # Use litellm for maximum compatibility
+        if LLM_AVAILABLE and llm:
+            # Use llm for maximum compatibility
             kwargs.setdefault("api_base", self.api_base)
             if self.iam_token:
                 kwargs.setdefault("api_key", f"Bearer iam_{self.iam_token}")
             elif self.api_key:
                 kwargs.setdefault("api_key", self.api_key)
-            return litellm.completion(**kwargs)
+            return llm.completion(**kwargs)
         else:
             # Use native client
             return self._client.chat.completions.create(**kwargs)
 
     def embedding(self, **kwargs):
         """Create embeddings using Hanzo AI."""
-        if LITELLM_AVAILABLE and litellm:
+        if LLM_AVAILABLE and llm:
             kwargs.setdefault("api_base", self.api_base)
             if self.api_key:
                 kwargs.setdefault("api_key", self.api_key)
-            return litellm.embedding(**kwargs)
+            return llm.embedding(**kwargs)
         else:
             return self._client.embeddings.create(**kwargs)
 
     def image_generation(self, **kwargs):
         """Generate images using Hanzo AI."""
-        if LITELLM_AVAILABLE and litellm:
+        if LLM_AVAILABLE and llm:
             kwargs.setdefault("api_base", self.api_base)
             if self.api_key:
                 kwargs.setdefault("api_key", self.api_key)
-            return litellm.image_generation(**kwargs)
+            return llm.image_generation(**kwargs)
         else:
             return self._client.images.generations.create(**kwargs)
 
@@ -218,8 +218,8 @@ def completion(**kwargs):
     if HANZO_API_KEY:
         kwargs.setdefault("api_key", HANZO_API_KEY)
 
-    if LITELLM_AVAILABLE and litellm:
-        return litellm.completion(**kwargs)
+    if LLM_AVAILABLE and llm:
+        return llm.completion(**kwargs)
     else:
         client = SimpleLLMClient()
         return client.completion(**kwargs)
@@ -230,8 +230,8 @@ def set_api_key(api_key: str):
     global HANZO_API_KEY
     HANZO_API_KEY = api_key
     os.environ["HANZO_API_KEY"] = api_key
-    if LITELLM_AVAILABLE and litellm:
-        litellm.api_key = api_key
+    if LLM_AVAILABLE and llm:
+        llm.api_key = api_key
     os.environ["OPENAI_API_KEY"] = api_key
 
 

@@ -10,7 +10,7 @@ not at module load time.
 
 Common culprits for slow imports:
 - sentence_transformers (2.5+ seconds)
-- litellm (1+ second)
+- llm (1+ second)
 - hanzo_memory embedding services (3+ seconds)
 """
 
@@ -63,7 +63,7 @@ print(f"ELAPSED:{elapsed:.3f}")
         assert elapsed < MAX_MODULE_IMPORT_TIME, (
             f"hanzo_mcp.tools import took {elapsed:.2f}s (max: {MAX_MODULE_IMPORT_TIME}s). "
             "This is too slow! Check for heavy imports at module load time. "
-            "Common culprits: sentence_transformers, litellm, hanzo_memory"
+            "Common culprits: sentence_transformers, llm, hanzo_memory"
         )
 
     def test_no_heavy_imports_at_module_level(self):
@@ -72,7 +72,7 @@ print(f"ELAPSED:{elapsed:.3f}")
 import sys
 # Clear any cached modules
 for mod in list(sys.modules.keys()):
-    if any(x in mod for x in ['hanzo', 'sentence', 'litellm']):
+    if any(x in mod for x in ['hanzo', 'sentence', 'llm']):
         del sys.modules[mod]
 
 # Import the tools module
@@ -80,7 +80,7 @@ import hanzo_mcp.tools
 
 # Check what got imported
 heavy_modules = []
-for name in ['sentence_transformers', 'litellm', 'hanzo_memory']:
+for name in ['sentence_transformers', 'llm', 'hanzo_memory']:
     if name in sys.modules:
         heavy_modules.append(name)
 
