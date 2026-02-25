@@ -1,4 +1,4 @@
-"""LLM service for AI operations using LiteLLM."""
+"""LLM service for AI operations using LLM."""
 
 import json
 from typing import Any
@@ -9,22 +9,22 @@ from ..config import settings
 
 logger = get_logger()
 
-# Try to import LiteLLM, but make it optional
+# Try to import LLM, but make it optional
 try:
-    import litellm
+    import llm
 
-    LITELLM_AVAILABLE = True
-    # Configure LiteLLM
-    litellm.drop_params = True  # Drop unsupported params instead of failing
-    litellm.set_verbose = False  # Disable verbose logging
+    LLM_AVAILABLE = True
+    # Configure LLM
+    llm.drop_params = True  # Drop unsupported params instead of failing
+    llm.set_verbose = False  # Disable verbose logging
 except ImportError:
-    LITELLM_AVAILABLE = False
-    litellm = None
-    logger.warning("LiteLLM not available, LLM features will be limited")
+    LLM_AVAILABLE = False
+    llm = None
+    logger.warning("LLM not available, LLM features will be limited")
 
 
 class LLMService:
-    """Service for LLM operations using LiteLLM."""
+    """Service for LLM operations using LLM."""
 
     def __init__(self) -> None:
         """Initialize LLM service."""
@@ -33,15 +33,15 @@ class LLMService:
         self.temperature = settings.llm_temperature
         self.max_tokens = settings.llm_max_tokens
 
-        # Set up API keys if LiteLLM is available
-        if LITELLM_AVAILABLE:
+        # Set up API keys if LLM is available
+        if LLM_AVAILABLE:
             # Set up API keys
             if settings.llm_api_key:
-                litellm.api_key = settings.llm_api_key
+                llm.api_key = settings.llm_api_key
             if settings.openai_api_key:
-                litellm.openai_key = settings.openai_api_key
+                llm.openai_key = settings.openai_api_key
             if settings.anthropic_api_key:
-                litellm.anthropic_key = settings.anthropic_api_key
+                llm.anthropic_key = settings.anthropic_api_key
 
     def complete(
         self,
@@ -52,7 +52,7 @@ class LLMService:
         response_format: str | None = None,
     ) -> str:
         """
-        Complete a prompt using LiteLLM.
+        Complete a prompt using LLM.
 
         Args:
             prompt: The prompt to complete
@@ -64,8 +64,8 @@ class LLMService:
         Returns:
             Generated text
         """
-        if not LITELLM_AVAILABLE:
-            logger.warning("LiteLLM not available, returning empty response")
+        if not LLM_AVAILABLE:
+            logger.warning("LLM not available, returning empty response")
             return ""
 
         model = model or self.default_model
@@ -88,7 +88,7 @@ class LLMService:
             if response_format == "json":
                 kwargs["response_format"] = {"type": "json_object"}
 
-            response = litellm.completion(**kwargs)
+            response = llm.completion(**kwargs)
             return response.choices[0].message.content or ""
         except Exception as e:
             logger.error(f"LLM completion error: {e}")
@@ -103,7 +103,7 @@ class LLMService:
         response_format: str | None = None,
     ) -> str:
         """
-        Chat with the LLM using LiteLLM.
+        Chat with the LLM using LLM.
 
         Args:
             messages: List of message dicts with "role" and "content"
@@ -115,8 +115,8 @@ class LLMService:
         Returns:
             Generated response
         """
-        if not LITELLM_AVAILABLE:
-            logger.warning("LiteLLM not available, returning empty response")
+        if not LLM_AVAILABLE:
+            logger.warning("LLM not available, returning empty response")
             return ""
 
         model = model or self.default_model
@@ -139,7 +139,7 @@ class LLMService:
             if response_format == "json":
                 kwargs["response_format"] = {"type": "json_object"}
 
-            response = litellm.completion(**kwargs)
+            response = llm.completion(**kwargs)
             return response.choices[0].message.content or ""
         except Exception as e:
             logger.error(f"LLM chat error: {e}")
@@ -188,7 +188,7 @@ Content: {content}"""
             summary = self.complete(summary_prompt, temperature=0.3)
 
         # Generate knowledge instructions
-        if LITELLM_AVAILABLE:
+        if LLM_AVAILABLE:
             instruction_prompt = f"""Based on this summary, generate instructions for updating a knowledge base.
 Return a JSON object with the following structure:
 {{

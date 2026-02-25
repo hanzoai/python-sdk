@@ -33,7 +33,7 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
 
     router_dir = None
     for path in router_paths:
-        if path.exists() and (path / "litellm" / "proxy" / "proxy_server.py").exists():
+        if path.exists() and (path / "llm" / "proxy" / "proxy_server.py").exists():
             router_dir = path
             break
 
@@ -55,7 +55,7 @@ def start_router(ctx, port: int, config: Optional[str], detach: bool):
     cmd = [
         sys.executable,
         "-m",
-        "litellm.proxy.proxy_server",
+        "llm.proxy.proxy_server",
         "--port",
         str(port),
     ]

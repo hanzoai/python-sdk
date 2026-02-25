@@ -1,6 +1,6 @@
 # LLM Tools
 
-Unified LLM interface via LiteLLM.
+Unified LLM interface via LLM.
 
 → **Full documentation: [../../tools/llm-tools.md](../../tools/llm-tools.md)**
 

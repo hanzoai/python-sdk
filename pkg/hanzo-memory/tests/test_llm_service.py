@@ -11,7 +11,7 @@ class TestLLMService:
     """Test LLM service."""
 
     @pytest.fixture
-    def llm_service(self, mock_litellm_completion):
+    def llm_service(self, mock_llm_completion):
         """Create LLM service."""
 
         # Configure mock to return appropriate responses
@@ -36,7 +36,7 @@ class TestLLMService:
             mock_response.choices = [mock_choice]
             return mock_response
 
-        mock_litellm_completion.side_effect = side_effect
+        mock_llm_completion.side_effect = side_effect
         return LLMService()
 
     def test_complete(self, llm_service):

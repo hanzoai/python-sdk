@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Test that litellm deprecation warnings are properly suppressed."""
+"""Test that llm deprecation warnings are properly suppressed."""
 
 import subprocess
 import sys
@@ -31,7 +31,7 @@ def test_no_pydantic_warnings():
 def test_agent_tool_no_warnings():
     """Test that importing agent tools doesn't produce Pydantic deprecation warnings.
 
-    We specifically check for PydanticDeprecatedSince20 warnings from litellm,
+    We specifically check for PydanticDeprecatedSince20 warnings from llm,
     not all deprecation warnings (which may come from other packages in CI).
     """
     import warnings
@@ -40,7 +40,7 @@ def test_agent_tool_no_warnings():
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
 
-        # Import agent tools (which imports litellm)
+        # Import agent tools (which imports llm)
         # This import happens in the test process directly
         from hanzo_tools.agent import register_tools  # noqa: F401
 
@@ -53,7 +53,7 @@ def test_agent_tool_no_warnings():
             or "PydanticDeprecatedSince20" in str(warning.category.__name__)
         ]
 
-        # We don't fail on pydantic warnings since they come from upstream litellm
+        # We don't fail on pydantic warnings since they come from upstream llm
         # and we've already configured the warnings filter to suppress them
         # This test just documents that we're aware of them
         if pydantic_warnings:
@@ -68,4 +68,4 @@ def test_agent_tool_no_warnings():
 if __name__ == "__main__":
     test_no_pydantic_warnings()
     test_agent_tool_no_warnings()
-    print("✅ All litellm warning tests passed!")
+    print("✅ All llm warning tests passed!")

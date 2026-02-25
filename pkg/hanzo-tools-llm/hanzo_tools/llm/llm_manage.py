@@ -275,14 +275,14 @@ Providers are automatically detected based on environment variables:
             return f"{provider} is already disabled"
 
     def _list_all_models(self, provider: Optional[str] = None) -> str:
-        """List all available models from LiteLLM."""
+        """List all available models from LLM."""
         try:
             from .llm_unified import LLMTool
 
             all_models = LLMTool.get_all_models()
 
             if not all_models:
-                return "No models available or LiteLLM not installed"
+                return "No models available or LLM not installed"
 
             output = ["=== Available LLM Models ==="]
 

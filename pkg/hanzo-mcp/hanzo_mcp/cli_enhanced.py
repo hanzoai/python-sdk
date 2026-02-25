@@ -156,7 +156,7 @@ Examples:
     agent_group = parser.add_argument_group("Agent Tool Configuration")
     agent_group.add_argument(
         "--agent-model",
-        help="Model name in LiteLLM format (e.g., 'openai/gpt-4o', 'anthropic/claude-3-sonnet')",
+        help="Model name in LLM format (e.g., 'openai/gpt-4o', 'anthropic/claude-3-sonnet')",
     )
     agent_group.add_argument(
         "--agent-max-tokens",

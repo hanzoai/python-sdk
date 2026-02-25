@@ -116,7 +116,7 @@ hanzo-aci includes these dependencies:
 
 - **numpy, pandas, scipy** - Data processing
 - **networkx** - Graph analysis
-- **litellm** - LLM integration
+- **llm** - LLM integration
 - **gitpython** - Git operations
 - **tree-sitter** - AST parsing
 - **grep-ast** - Code search

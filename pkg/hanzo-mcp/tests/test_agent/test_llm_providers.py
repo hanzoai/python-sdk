@@ -1,6 +1,6 @@
-"""Test LiteLLM with different providers."""
+"""Test LLM with different providers."""
 
-import litellm
+import llm
 import pytest
 from hanzo_tools.agent.tool_adapter import convert_tools_to_openai_functions
 
@@ -69,8 +69,8 @@ def test_convert_echo_tool_to_openai_functions(echo_tool):
     assert "parameters" in openai_functions[0]["function"]
 
 
-def test_litellm_openai_provider_mocked():
-    """Test LiteLLM with OpenAI provider using mocks."""
+def test_llm_openai_provider_mocked():
+    """Test LLM with OpenAI provider using mocks."""
     from unittest.mock import MagicMock, patch
 
     messages = [{"role": "user", "content": "Hello, how are you?"}]
@@ -86,9 +86,9 @@ def test_litellm_openai_provider_mocked():
     mock_response.choices = [mock_choice]
 
     with patch.object(
-        litellm, "completion", return_value=mock_response
+        llm, "completion", return_value=mock_response
     ) as mock_completion:
-        response = litellm.completion(
+        response = llm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
         )
@@ -100,8 +100,8 @@ def test_litellm_openai_provider_mocked():
         )
 
 
-def test_litellm_anthropic_provider_mocked():
-    """Test LiteLLM with Anthropic provider using mocks."""
+def test_llm_anthropic_provider_mocked():
+    """Test LLM with Anthropic provider using mocks."""
     from unittest.mock import MagicMock, patch
 
     messages = [{"role": "user", "content": "Hello, how are you?"}]
@@ -117,9 +117,9 @@ def test_litellm_anthropic_provider_mocked():
     mock_response.choices = [mock_choice]
 
     with patch.object(
-        litellm, "completion", return_value=mock_response
+        llm, "completion", return_value=mock_response
     ) as mock_completion:
-        response = litellm.completion(
+        response = llm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,
         )
@@ -131,10 +131,10 @@ def test_litellm_anthropic_provider_mocked():
         )
 
 
-# Integration tests moved to tests/e2e/test_litellm_integration.py
+# Integration tests moved to tests/e2e/test_llm_integration.py
 # They require real API keys and only run in CI
 
 
-# Only run this test if explicitly requested with pytest -xvs tests/test_agent/test_litellm_providers.py
+# Only run this test if explicitly requested with pytest -xvs tests/test_agent/test_llm_providers.py
 if __name__ == "__main__":
     pytest.main(["-xvs", __file__])

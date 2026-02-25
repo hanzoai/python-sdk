@@ -1,4 +1,4 @@
-"""E2E integration tests for LiteLLM providers.
+"""E2E integration tests for LLM providers.
 
 These tests require real API keys and make actual API calls.
 Only run in CI with proper secrets configured.
@@ -6,7 +6,7 @@ Only run in CI with proper secrets configured.
 
 import os
 
-import litellm
+import llm
 import pytest
 
 
@@ -15,12 +15,12 @@ import pytest
     reason="OPENAI_API_KEY environment variable not set",
 )
 @pytest.mark.asyncio
-async def test_litellm_openai_provider_integration():
-    """Integration test: LiteLLM with real OpenAI provider."""
+async def test_llm_openai_provider_integration():
+    """Integration test: LLM with real OpenAI provider."""
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 
     try:
-        response = litellm.completion(
+        response = llm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
         )
@@ -34,12 +34,12 @@ async def test_litellm_openai_provider_integration():
     reason="ANTHROPIC_API_KEY environment variable not set",
 )
 @pytest.mark.asyncio
-async def test_litellm_anthropic_provider_integration():
-    """Integration test: LiteLLM with real Anthropic provider."""
+async def test_llm_anthropic_provider_integration():
+    """Integration test: LLM with real Anthropic provider."""
     messages = [{"role": "user", "content": "Hello, how are you?"}]
 
     try:
-        response = litellm.completion(
+        response = llm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,
         )

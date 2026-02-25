@@ -8,7 +8,7 @@ Unified LLM interface with multi-model consensus. Access 100+ models through a s
 pip install hanzo-tools-llm[full]
 ```
 
-Note: This package requires `litellm` which is a heavy dependency. It's disabled by default in hanzo-mcp.
+Note: This package requires `llm` which is a heavy dependency. It's disabled by default in hanzo-mcp.
 
 ## Overview
 
@@ -173,7 +173,7 @@ llm(action="test", model="gpt-4")
 
 ## Supported Providers
 
-The LLM tool uses [LiteLLM](https://github.com/BerriAI/litellm) to support 100+ models:
+The LLM tool uses [LLM](https://github.com/BerriAI/llm) to support 100+ models:
 
 | Provider | Models | API Key Env |
 |----------|--------|-------------|
@@ -317,5 +317,5 @@ Configure model aliases in `~/.hanzo/llm/aliases.json`:
 1. **Set appropriate temperature** - Low for factual, high for creative
 2. **Use system prompts** - Provide context for better responses
 3. **Validate JSON output** - Even with json_mode, validate responses
-4. **Handle rate limits** - LiteLLM handles retries automatically
+4. **Handle rate limits** - LLM handles retries automatically
 5. **Monitor costs** - Different models have different pricing
