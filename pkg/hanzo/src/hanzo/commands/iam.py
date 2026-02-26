@@ -1016,7 +1016,13 @@ def set_password(username: str, password: str, org: str):
 
 @iam_group.command(name="enforce-hashing")
 @click.option("--org", "-o", default="hanzo", help="Organization to enforce on")
-@click.option("--algorithm", "-a", default="argon2id", type=click.Choice(["argon2id", "bcrypt"]), help="Hash algorithm")
+@click.option(
+    "--algorithm",
+    "-a",
+    default="argon2id",
+    type=click.Choice(["argon2id", "bcrypt"]),
+    help="Hash algorithm",
+)
 @click.option("--all-orgs", is_flag=True, help="Enforce on all organizations")
 def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
     """Enforce password hashing on IAM organizations.
@@ -1039,7 +1045,9 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
         _check_response(data, "list organizations")
         orgs_to_update = data.get("data", [])
     else:
-        data = _iam_request("GET", "/api/get-organization", params={"id": f"admin/{org}"})
+        data = _iam_request(
+            "GET", "/api/get-organization", params={"id": f"admin/{org}"}
+        )
         _check_response(data, "get organization")
         org_obj = data.get("data", data) if isinstance(data, dict) else data
         if org_obj:
@@ -1066,9 +1074,13 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
             json_body=org_obj,
         )
         if update_data.get("status") == "error":
-            console.print(f"  [red]✗ {org_name}: {update_data.get('msg', 'failed')}[/red]")
+            console.print(
+                f"  [red]✗ {org_name}: {update_data.get('msg', 'failed')}[/red]"
+            )
         else:
-            console.print(f"  [green]✓ {org_name}: {current_type or 'plain'} → {algorithm}[/green]")
+            console.print(
+                f"  [green]✓ {org_name}: {current_type or 'plain'} → {algorithm}[/green]"
+            )
             updated += 1
 
     console.print(f"\n[bold]{updated} organization(s) updated to {algorithm}[/bold]")
@@ -1083,13 +1095,17 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
         for user in users_list:
             pw_type = user.get("passwordType", "")
             if pw_type == "plain" or (pw_type == "" and user.get("password", "")):
-                console.print(f"  [yellow]⚠ {org_name}/{user.get('name', '?')}: password_type='{pw_type}' — needs rehash[/yellow]")
+                console.print(
+                    f"  [yellow]⚠ {org_name}/{user.get('name', '?')}: password_type='{pw_type}' — needs rehash[/yellow]"
+                )
                 plaintext_count += 1
 
     if plaintext_count == 0:
         console.print("  [green]✓ No plaintext passwords found[/green]")
     else:
-        console.print(f"\n  [yellow]⚠ {plaintext_count} user(s) have plaintext passwords[/yellow]")
+        console.print(
+            f"\n  [yellow]⚠ {plaintext_count} user(s) have plaintext passwords[/yellow]"
+        )
         console.print("  Reset them with: hanzo iam set-password USERNAME")
 
 
