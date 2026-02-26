@@ -138,6 +138,11 @@ def iam_group():
       hanzo iam roles list         # List roles
 
     \b
+    Password:
+      hanzo iam set-password USER  # Set/reset user password
+      hanzo iam enforce-hashing    # Enforce argon2id hashing org-wide
+
+    \b
     Admin:
       hanzo iam login              # Login as user (masquerade)
     """
@@ -931,6 +936,161 @@ def roles_get(name: str, org: str):
             lines.append(f"  - {sr}")
 
     console.print(Panel("\n".join(lines), title=f"Role: {name}", border_style="cyan"))
+
+
+# ============================================================================
+# Password Management
+# ============================================================================
+
+
+@iam_group.command(name="set-password")
+@click.argument("username")
+@click.option("--password", "-p", help="New password (prompted if not provided)")
+@click.option("--org", "-o", default="hanzo", help="Organization")
+def set_password(username: str, password: str, org: str):
+    """Set or reset a user's password.
+
+    \b
+    Uses the IAM /api/set-password endpoint which handles
+    server-side hashing (argon2id). Passwords are NEVER stored
+    in plaintext.
+
+    \b
+    Examples:
+      hanzo iam set-password alice
+      hanzo iam set-password alice -p 'NewSecurePass123!'
+      hanzo iam set-password admin -o built-in
+    """
+    from rich.prompt import Prompt
+
+    if not password:
+        password = Prompt.ask("New password", password=True)
+        confirm = Prompt.ask("Confirm password", password=True)
+        if password != confirm:
+            console.print("[red]Error:[/red] Passwords do not match")
+            raise SystemExit(1)
+
+    if len(password) < 8:
+        console.print("[red]Error:[/red] Password must be at least 8 characters")
+        raise SystemExit(1)
+
+    client_id, client_secret = _get_iam_credentials()
+    if not client_id or not client_secret:
+        console.print("[red]Error:[/red] IAM credentials not configured")
+        console.print("Run: hanzo iam configure")
+        raise SystemExit(1)
+
+    url = _get_iam_url().rstrip("/")
+    try:
+        with httpx.Client(timeout=30.0) as http:
+            resp = http.post(
+                f"{url}/api/set-password",
+                params={"clientId": client_id, "clientSecret": client_secret},
+                data={
+                    "userOwner": org,
+                    "userName": username,
+                    "oldPassword": "",
+                    "newPassword": password,
+                },
+            )
+            resp.raise_for_status()
+            data = resp.json()
+    except httpx.ConnectError:
+        console.print(f"[red]Error:[/red] Cannot connect to IAM at {url}")
+        raise SystemExit(1)
+    except httpx.HTTPStatusError as e:
+        console.print(f"[red]Error:[/red] IAM returned {e.response.status_code}")
+        try:
+            detail = e.response.json()
+            console.print(f"  {detail.get('msg', detail)}")
+        except Exception:
+            console.print(f"  {e.response.text[:200]}")
+        raise SystemExit(1)
+
+    if data.get("status") == "ok":
+        console.print(f"[green]✓[/green] Password set for '{username}' in org '{org}'")
+    else:
+        console.print(f"[red]Error:[/red] {data.get('msg', 'Failed to set password')}")
+        raise SystemExit(1)
+
+
+@iam_group.command(name="enforce-hashing")
+@click.option("--org", "-o", default="hanzo", help="Organization to enforce on")
+@click.option("--algorithm", "-a", default="argon2id", type=click.Choice(["argon2id", "bcrypt"]), help="Hash algorithm")
+@click.option("--all-orgs", is_flag=True, help="Enforce on all organizations")
+def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
+    """Enforce password hashing on IAM organizations.
+
+    \b
+    Sets the organization passwordType to argon2id (default) or bcrypt,
+    preventing any plaintext password storage. Also audits existing users
+    and reports any with plaintext passwords.
+
+    \b
+    Examples:
+      hanzo iam enforce-hashing
+      hanzo iam enforce-hashing --all-orgs
+      hanzo iam enforce-hashing -o built-in -a bcrypt
+    """
+    orgs_to_update = []
+
+    if all_orgs:
+        data = _iam_request("GET", "/api/get-organizations", params={"owner": "admin"})
+        _check_response(data, "list organizations")
+        orgs_to_update = data.get("data", [])
+    else:
+        data = _iam_request("GET", "/api/get-organization", params={"id": f"admin/{org}"})
+        _check_response(data, "get organization")
+        org_obj = data.get("data", data) if isinstance(data, dict) else data
+        if org_obj:
+            orgs_to_update = [org_obj]
+
+    if not orgs_to_update:
+        console.print("[red]No organizations found[/red]")
+        raise SystemExit(1)
+
+    updated = 0
+    for org_obj in orgs_to_update:
+        org_name = org_obj.get("name", "")
+        current_type = org_obj.get("passwordType", "")
+
+        if current_type == algorithm:
+            console.print(f"  [dim]{org_name}: already using {algorithm}[/dim]")
+            continue
+
+        org_obj["passwordType"] = algorithm
+        update_data = _iam_request(
+            "POST",
+            "/api/update-organization",
+            params={"id": f"admin/{org_name}"},
+            json_body=org_obj,
+        )
+        if update_data.get("status") == "error":
+            console.print(f"  [red]✗ {org_name}: {update_data.get('msg', 'failed')}[/red]")
+        else:
+            console.print(f"  [green]✓ {org_name}: {current_type or 'plain'} → {algorithm}[/green]")
+            updated += 1
+
+    console.print(f"\n[bold]{updated} organization(s) updated to {algorithm}[/bold]")
+
+    # Audit users for plaintext passwords
+    console.print("\n[bold]Auditing users for plaintext passwords...[/bold]")
+    plaintext_count = 0
+    for org_obj in orgs_to_update:
+        org_name = org_obj.get("name", "")
+        users_data = _iam_request("GET", "/api/get-users", params={"owner": org_name})
+        users_list = users_data.get("data", []) if isinstance(users_data, dict) else []
+        for user in users_list:
+            pw_type = user.get("passwordType", "")
+            if pw_type == "plain" or (pw_type == "" and user.get("password", "")):
+                console.print(f"  [yellow]⚠ {org_name}/{user.get('name', '?')}: password_type='{pw_type}' — needs rehash[/yellow]")
+                plaintext_count += 1
+
+    if plaintext_count == 0:
+        console.print("  [green]✓ No plaintext passwords found[/green]")
+    else:
+        console.print(f"\n  [yellow]⚠ {plaintext_count} user(s) have plaintext passwords[/yellow]")
+        console.print("  Reset them with: hanzo iam set-password USERNAME")
 
 
 # ============================================================================
