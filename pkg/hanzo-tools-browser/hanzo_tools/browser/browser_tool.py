@@ -744,14 +744,15 @@ CATEGORIES:
         sel = selector or ref
 
         # === TRY EXTENSION FIRST ===
+        # All actions supported by the CDP bridge server
         extension_actions = {
-            "navigate",
-            "screenshot",
-            "click",
-            "fill",
-            "evaluate",
-            "tabs",
-            "status",
+            "navigate", "navigate_back", "reload", "url", "title", "content",
+            "screenshot", "snapshot", "click", "dblclick", "hover",
+            "type", "fill", "clear", "press_key", "press",
+            "select_option", "check", "uncheck",
+            "evaluate", "wait", "wait_for_load",
+            "tabs", "new_tab", "close_tab", "select_tab",
+            "console", "network_requests", "status",
         }
         if action in extension_actions:
             ext_result = await _extension_command(
@@ -763,6 +764,12 @@ CATEGORIES:
                 code=code,
                 expression=code,
                 full_page=full_page,
+                key=key,
+                index=index,
+                tab_index=tab_index,
+                timeout=timeout,
+                state=state,
+                level=level,
             )
             if ext_result is not None and "error" not in ext_result:
                 # Normalize response
@@ -772,12 +779,16 @@ CATEGORIES:
 
         # === FALL BACK TO PLAYWRIGHT ===
         if not PLAYWRIGHT_AVAILABLE:
-            return {
-                "error": "Browser extension not connected and Playwright not installed. "
-                "Either connect the Hanzo browser extension or install Playwright: "
-                "pip install playwright && playwright install chromium",
-                "action": action,
-            }
+            ext_connected = await _check_extension()
+            if ext_connected:
+                msg = (f"Action '{action}' is not supported by the browser extension "
+                       f"and Playwright is not installed for fallback. "
+                       f"Install Playwright: pip install playwright && playwright install chromium")
+            else:
+                msg = ("Browser extension not connected and Playwright not installed. "
+                       "Either connect the Hanzo browser extension (start CDP bridge server) "
+                       "or install Playwright: pip install playwright && playwright install chromium")
+            return {"error": msg, "action": action}
 
         pool = await BrowserPool.get_instance()
 
