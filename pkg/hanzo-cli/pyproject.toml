@@ -4,7 +4,7 @@ version = "0.2.1"
 description = "Hanzo unified CLI — IAM, KMS, Deploy"
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.9"
+requires-python = ">=3.14"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "cli", "iam", "devops"]
 classifiers = [

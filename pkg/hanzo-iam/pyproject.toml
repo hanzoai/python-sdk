@@ -4,7 +4,7 @@ version = "1.1.0"
 description = "Hanzo IAM SDK - Identity and Access Management for Python"
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.9"
+requires-python = ">=3.14"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 keywords = ["oauth2", "oidc", "iam", "hanzo", "authentication", "identity", "access-management"]
 classifiers = [
