@@ -7,7 +7,7 @@ name = "hanzo-tools-agent"
 version = "0.3.1"
 description = "Agent tools for Hanzo AI - multi-agent orchestration, CLI agents, swarms"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 classifiers = [
