@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "hanzo-tools-mcp"
 version = "0.3.0"
 description = "MCP management tools for Hanzo AI - server management, dynamic proxy for external MCPs"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "mcp", "ai", "proxy", "platform"]
