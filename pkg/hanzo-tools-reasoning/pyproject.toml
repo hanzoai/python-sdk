@@ -7,7 +7,7 @@ name = "hanzo-tools-reasoning"
 version = "0.2.0"
 description = "Reasoning and critical analysis tools for Hanzo MCP"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "reasoning", "thinking", "critic", "mcp", "ai"]
