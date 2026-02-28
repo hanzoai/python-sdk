@@ -18,7 +18,7 @@ dependencies = [
     "h11>=0.16.0",
     "urllib3>=2.6.0",
 ]
-requires-python = ">= 3.12"
+requires-python = ">=3.14"
 classifiers = [
   "Typing :: Typed",
   "Intended Audience :: Developers",

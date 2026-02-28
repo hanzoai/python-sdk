@@ -7,7 +7,7 @@ name = "hanzo-tools-shell"
 version = "0.6.1"
 description = "Shell/command execution tools with auto-detection - only exposes your active shell (zsh, bash, fish, dash, ksh, tcsh, csh)"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "shell", "mcp", "ai", "dag", "zsh"]
