@@ -11,7 +11,7 @@ dependencies = [
     "click>=8.1.0",
 ]
 readme = "README.md"
-requires-python = ">= 3.10"
+requires-python = ">=3.14"
 keywords = ["hanzo", "node", "ai", "blockchain", "p2p"]
 classifiers = [
     "Development Status :: 3 - Alpha",

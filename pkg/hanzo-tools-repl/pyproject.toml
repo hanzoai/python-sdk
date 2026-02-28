@@ -7,7 +7,7 @@ name = "hanzo-tools-repl"
 version = "0.1.0"
 description = "Multi-language REPL tool with Jupyter kernel backend for interactive code evaluation"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 classifiers = [
