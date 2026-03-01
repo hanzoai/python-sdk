@@ -1,22 +1,20 @@
 """Memory and knowledge tools for Hanzo MCP.
 
-Provides a unified `memory` tool for all memory and knowledge operations:
-- recall: Search and retrieve memories
-- create: Store new memories
-- update: Update existing memories
-- delete: Remove memories
-- manage: Atomic operations
-- facts: Recall from knowledge bases
-- store: Store facts
-- summarize: Summarize and store
-- kb: Manage knowledge bases
+Works out of the box with NO backend — reads from local .md files
+(MEMORY.md, LLM.md, CLAUDE.md, etc.) and stores memories to MEMORY.md.
+
+Install hanzo-memory for full vector search and persistent storage:
+    pip install hanzo-tools-memory[full]
+
+Tool list (registered individually as MCP tools):
+  recall_memories, create_memories, update_memories, delete_memories, manage_memories
+  recall_facts, store_facts, summarize_to_memory, manage_knowledge_bases
 """
 
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
 
-# Legacy imports for backwards compatibility
 from hanzo_tools.memory.memory_tools import (
     MEMORY_TOOL_CLASSES,
     CreateMemoriesTool,
@@ -34,10 +32,10 @@ from hanzo_tools.memory.knowledge_tools import (
 )
 from hanzo_tools.memory.unified_memory_tool import UnifiedMemoryTool
 
+ALL_TOOL_CLASSES = MEMORY_TOOL_CLASSES + KNOWLEDGE_TOOL_CLASSES
+
 __all__ = [
-    # Primary unified tool
-    "UnifiedMemoryTool",
-    # Legacy tools (for backwards compatibility)
+    # Individual tools
     "RecallMemoriesTool",
     "CreateMemoriesTool",
     "UpdateMemoriesTool",
@@ -47,9 +45,12 @@ __all__ = [
     "StoreFactsTool",
     "SummarizeToMemoryTool",
     "ManageKnowledgeBasesTool",
+    # Unified tool
+    "UnifiedMemoryTool",
     # Registration helpers
     "get_memory_tools",
     "register_memory_tools",
+    "ALL_TOOL_CLASSES",
     "TOOLS",
 ]
 
@@ -59,8 +60,8 @@ def get_memory_tools(
     project_id: str = "default",
     **kwargs,
 ) -> list[BaseTool]:
-    """Create unified memory tool instance."""
-    return [UnifiedMemoryTool(user_id=user_id, project_id=project_id, **kwargs)]
+    """Create all memory tool instances."""
+    return [cls(user_id=user_id, project_id=project_id, **kwargs) for cls in ALL_TOOL_CLASSES]
 
 
 def register_memory_tools(
@@ -69,11 +70,11 @@ def register_memory_tools(
     project_id: str = "default",
     **kwargs,
 ) -> list[BaseTool]:
-    """Register unified memory tool with the MCP server."""
+    """Register all memory tools with the MCP server."""
     tools = get_memory_tools(user_id=user_id, project_id=project_id, **kwargs)
     ToolRegistry.register_tools(mcp_server, tools)
     return tools
 
 
-# TOOLS list for entry point discovery - single unified tool
-TOOLS = [UnifiedMemoryTool]
+# TOOLS list for entry point discovery — individual tools so each gets its own MCP tool name
+TOOLS = ALL_TOOL_CLASSES

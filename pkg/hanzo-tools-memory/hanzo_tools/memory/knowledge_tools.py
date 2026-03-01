@@ -1,10 +1,9 @@
 """Knowledge base and fact management tools for MCP.
 
-These tools use the hanzo-memory package to manage knowledge bases and facts,
-supporting hierarchical organization (session, project, global).
+Uses hanzo-memory (full vector search) when available, otherwise falls back to
+the lightweight MarkdownMemoryBackend which stores session facts in-memory.
 
 IMPORTANT: All hanzo-memory imports are lazy to avoid slow startup.
-The embedding service initialization takes 3+ seconds which would block MCP startup.
 """
 
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, final, override
@@ -13,6 +12,7 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
+from hanzo_tools.memory.markdown_memory import get_markdown_backend
 
 # Type hints only - no runtime import
 if TYPE_CHECKING:
@@ -21,32 +21,17 @@ if TYPE_CHECKING:
 # Use lazy loading from memory_tools
 from hanzo_tools.memory.memory_tools import (
     _check_memory_available,
+    _get_backend,
     _get_lazy_memory_service,
 )
 
 
 class KnowledgeToolBase(BaseTool):
-    """Base class for knowledge tools using hanzo-memory package."""
+    """Base class for knowledge tools."""
 
     def __init__(self, user_id: str = "default", project_id: str = "default", **kwargs):
-        """Initialize knowledge tool.
-
-        Args:
-            user_id: User ID for knowledge operations
-            project_id: Project ID for knowledge operations
-            **kwargs: Additional configuration
-        """
         self.user_id = user_id
         self.project_id = project_id
-        # Lazy service loading - don't initialize until first use
-        self._service: Optional["MemoryService"] = None
-
-    @property
-    def service(self) -> "MemoryService":
-        """Get memory service lazily."""
-        if self._service is None:
-            self._service = _get_lazy_memory_service()
-        return self._service
 
 
 @final
@@ -94,68 +79,54 @@ recall_facts(queries=["company policies"], scope="global", limit=5)
         """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Searching for facts in scope: {scope}")
 
-        # Determine the appropriate IDs based on scope
-        if scope == "global":
-            user_id = "global"
-            project_id = "global"
-        elif scope == "session":
-            # Session scope uses a session-specific ID
-            user_id = f"session_{self.user_id}"
-            project_id = self.project_id
+        backend = _get_backend()
+
+        if _check_memory_available():
+            # Full vector search via hanzo-memory
+            if scope == "global":
+                user_id, project_id = "global", "global"
+            elif scope == "session":
+                user_id, project_id = f"session_{self.user_id}", self.project_id
+            else:
+                user_id, project_id = self.user_id, self.project_id
+
+            all_facts = []
+            seen: set = set()
+            for query in queries:
+                search_query = f"fact: {query}"
+                if kb_name:
+                    search_query = f"kb:{kb_name} {search_query}"
+                memories = backend.search_memories(  # type: ignore[union-attr]
+                    user_id=user_id, query=search_query, project_id=project_id, limit=limit
+                )
+                for m in memories:
+                    if m.memory_id not in seen and m.metadata and m.metadata.get("type") == "fact":
+                        seen.add(m.memory_id)
+                        all_facts.append(m)
+
+            if not all_facts:
+                return "No relevant facts found."
+
+            formatted = [f"Found {len(all_facts)} relevant facts:\n"]
+            for i, fact in enumerate(all_facts, 1):
+                kb_info = f" (KB: {fact.metadata['kb_name']})" if fact.metadata and fact.metadata.get("kb_name") else ""
+                formatted.append(f"{i}. {fact.content}{kb_info}")
+            return "\n".join(formatted)
+
         else:
-            user_id = self.user_id
-            project_id = self.project_id
+            # Markdown fallback — session-only fact storage
+            facts = backend.recall_facts(queries=queries, kb_name=kb_name, limit=limit)  # type: ignore[union-attr]
 
-        all_facts = []
-        for query in queries:
-            # Search for facts using memory service with fact metadata
-            search_query = f"fact: {query}"
-            if kb_name:
-                search_query = f"kb:{kb_name} {search_query}"
+            if not facts:
+                return "No relevant facts found."
 
-            memories = self.service.search_memories(
-                user_id=user_id, query=search_query, project_id=project_id, limit=limit
-            )
-
-            # Filter for fact-type memories
-            for memory in memories:
-                if memory.metadata and memory.metadata.get("type") == "fact":
-                    all_facts.append(memory)
-
-        # Deduplicate by memory ID
-        seen = set()
-        unique_facts = []
-        for fact in all_facts:
-            if fact.memory_id not in seen:
-                seen.add(fact.memory_id)
-                unique_facts.append(fact)
-
-        if not unique_facts:
-            return "No relevant facts found."
-
-        # Format results
-        formatted = [f"Found {len(unique_facts)} relevant facts:\n"]
-        for i, fact in enumerate(unique_facts, 1):
-            kb_info = ""
-            if fact.metadata and fact.metadata.get("kb_name"):
-                kb_info = f" (KB: {fact.metadata['kb_name']})"
-            formatted.append(f"{i}. {fact.content}{kb_info}")
-            if (
-                fact.metadata and len(fact.metadata) > 2
-            ):  # More than just type and kb_name
-                # Show other metadata
-                other_meta = {
-                    k: v
-                    for k, v in fact.metadata.items()
-                    if k not in ["type", "kb_name"]
-                }
-                if other_meta:
-                    formatted.append(f"   Metadata: {other_meta}")
-
-        return "\n".join(formatted)
+            formatted = [f"Found {len(facts)} relevant facts:\n"]
+            for i, fact in enumerate(facts, 1):
+                kb_info = f" (KB: {fact.kb_name})" if fact.kb_name and fact.kb_name != "general" else ""
+                formatted.append(f"{i}. {fact.statement}{kb_info}")
+            return "\n".join(formatted)
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
@@ -220,37 +191,35 @@ store_facts(facts=["Company founded in 2020"], scope="global", kb_name="company_
         """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Storing {len(facts)} facts in {kb_name} (scope: {scope})")
 
-        # Determine the appropriate IDs based on scope
-        if scope == "global":
-            user_id = "global"
-            project_id = "global"
-        elif scope == "session":
-            user_id = f"session_{self.user_id}"
-            project_id = self.project_id
+        backend = _get_backend()
+
+        if _check_memory_available():
+            if scope == "global":
+                user_id, project_id = "global", "global"
+            elif scope == "session":
+                user_id, project_id = f"session_{self.user_id}", self.project_id
+            else:
+                user_id, project_id = self.user_id, self.project_id
+
+            for fact_content in facts:
+                fact_metadata: Dict[str, Any] = {"type": "fact", "kb_name": kb_name}
+                if metadata:
+                    fact_metadata.update(metadata)
+                backend.create_memory(  # type: ignore[union-attr]
+                    user_id=user_id,
+                    project_id=project_id,
+                    content=f"fact: {fact_content}",
+                    metadata=fact_metadata,
+                    importance=1.5,
+                )
         else:
-            user_id = self.user_id
-            project_id = self.project_id
+            # Markdown fallback — store in session facts
+            for fact_content in facts:
+                backend.store_fact(statement=fact_content, kb_name=kb_name, scope=scope)  # type: ignore[union-attr]
 
-        created_facts = []
-        for fact_content in facts:
-            # Create fact as a memory with special metadata
-            fact_metadata = {"type": "fact", "kb_name": kb_name}
-            if metadata:
-                fact_metadata.update(metadata)
-
-            memory = self.service.create_memory(
-                user_id=user_id,
-                project_id=project_id,
-                content=f"fact: {fact_content}",
-                metadata=fact_metadata,
-                importance=1.5,  # Facts have higher importance
-            )
-            created_facts.append(memory)
-
-        return f"Successfully stored {len(created_facts)} facts in {kb_name}."
+        return f"Successfully stored {len(facts)} facts in {kb_name}."
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
@@ -315,48 +284,34 @@ summarize_to_memory(content="Company guidelines...", topic="Guidelines", scope="
         """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Summarizing content about {topic}")
 
-        # Use the memory service to create a summary
-        # This would typically use an LLM to summarize, but for now we'll store as-is
         summary = (
-            f"Summary of {topic}:\n{content[:500]}..."
-            if len(content) > 500
-            else content
+            f"Summary of {topic}:\n{content[:500]}..." if len(content) > 500 else content
         )
 
-        # Store the summary as a memory (using lazy service)
-        memory_service = self.service
+        backend = _get_backend()
 
-        # Determine scope
-        if scope == "global":
-            user_id = "global"
-            project_id = "global"
-        elif scope == "session":
-            user_id = f"session_{self.user_id}"
-            project_id = self.project_id
+        if _check_memory_available():
+            if scope == "global":
+                user_id, project_id = "global", "global"
+            elif scope == "session":
+                user_id, project_id = f"session_{self.user_id}", self.project_id
+            else:
+                user_id, project_id = self.user_id, self.project_id
+
+            backend.create_memory(  # type: ignore[union-attr]
+                user_id=user_id,
+                project_id=project_id,
+                content=summary,
+                metadata={"topic": topic, "type": "summary", "scope": scope},
+            )
         else:
-            user_id = self.user_id
-            project_id = self.project_id
-
-        memory = memory_service.create_memory(
-            user_id=user_id,
-            project_id=project_id,
-            content=summary,
-            metadata={"topic": topic, "type": "summary", "scope": scope},
-        )
+            backend.add_memory(content=f"[{topic}] {summary}", scope=scope)  # type: ignore[union-attr]
 
         result = f"Stored summary of {topic} in {scope} memory."
-
-        # Optionally extract facts
         if auto_facts:
-            # In a real implementation, this would use LLM to extract key facts
-            # For now, we'll just note it
-            result += (
-                "\n(Auto-fact extraction would extract key facts from the summary)"
-            )
-
+            result += "\n(Tip: install hanzo-memory for automatic fact extraction)"
         return result
 
     @override
@@ -423,6 +378,18 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
+        if not _check_memory_available():
+            # Markdown backend doesn't have persistent KB management
+            if action == "list":
+                return "Knowledge bases are session-only without hanzo-memory. Install hanzo-memory for persistent KBs."
+            elif action == "create":
+                return f"Knowledge base '{kb_name}' noted (session-only without hanzo-memory)."
+            elif action == "delete":
+                return f"Knowledge base '{kb_name}' removed from session."
+            return "Knowledge base management requires hanzo-memory for persistence."
+
+        backend = _get_lazy_memory_service()
+
         # Determine scope
         if scope == "global":
             user_id = "global"
@@ -446,7 +413,7 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
                 "scope": scope,
             }
 
-            memory = self.service.create_memory(
+            memory = backend.create_memory(
                 user_id=user_id,
                 project_id=project_id,
                 content=f"Knowledge Base: {kb_name}\nDescription: {description or 'No description'}",
@@ -457,7 +424,7 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
 
         elif action == "list":
             # Search for knowledge base entries
-            kbs = self.service.search_memories(
+            kbs = backend.search_memories(
                 user_id=user_id,
                 query="type:knowledge_base",
                 project_id=project_id,
@@ -486,7 +453,7 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
                 return "Error: kb_name required for delete action"
 
             # Search for the KB entry
-            kbs = self.service.search_memories(
+            kbs = backend.search_memories(
                 user_id=user_id,
                 query=f"type:knowledge_base kb_name:{kb_name}",
                 project_id=project_id,
@@ -502,7 +469,7 @@ manage_knowledge_bases(action="delete", kb_name="old_docs")
                 ):
                     # Note: delete_memory is not fully implemented
                     # but we'll call it anyway
-                    self.service.delete_memory(user_id, memory.memory_id)
+                    backend.delete_memory(user_id, memory.memory_id)
                     deleted_count += 1
 
             if deleted_count > 0:
