@@ -76,5 +76,5 @@ def register_memory_tools(
     return tools
 
 
-# TOOLS list for entry point discovery — individual tools so each gets its own MCP tool name
-TOOLS = ALL_TOOL_CLASSES
+# TOOLS list for entry point discovery — single unified memory tool
+TOOLS = [UnifiedMemoryTool]
