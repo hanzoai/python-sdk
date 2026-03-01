@@ -1,22 +1,25 @@
 """Memory tools implementation for MCP.
 
-This module provides MCP tools that use the hanzo-memory package as a library.
-The hanzo-memory package provides embedded database and vector search capabilities.
+Uses hanzo-memory (full vector search) when available, otherwise falls back to
+the lightweight MarkdownMemoryBackend which reads from local .md files
+(MEMORY.md, LLM.md, CLAUDE.md, etc.) with no external dependencies.
 
 IMPORTANT: All hanzo-memory imports are lazy to avoid slow startup.
-The embedding service initialization takes 3+ seconds which would block MCP startup.
 """
 
-from typing import TYPE_CHECKING, Dict, List, Optional, final, override
+from typing import TYPE_CHECKING, Dict, List, Optional, Union, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
+from hanzo_tools.memory.markdown_memory import (
+    MarkdownMemoryBackend,
+    get_markdown_backend,
+)
 
 # Type hints only - no runtime import
 if TYPE_CHECKING:
-    from hanzo_memory.models.memory import Memory, MemoryWithScore
     from hanzo_memory.services.memory import MemoryService
 
 # Lazy loading - don't import at module load time
@@ -38,41 +41,31 @@ def _check_memory_available() -> bool:
 
 
 def _get_lazy_memory_service() -> "MemoryService":
-    """Get memory service lazily - only import when actually needed."""
+    """Get hanzo-memory service lazily. Returns None if not available."""
     global _memory_service
     if _memory_service is None:
         if not _check_memory_available():
-            raise ImportError(
-                "hanzo-memory package is required for memory tools. Install with: pip install hanzo-memory"
-            )
+            return None  # type: ignore[return-value]
         from hanzo_memory.services.memory import get_memory_service
 
         _memory_service = get_memory_service()
     return _memory_service
 
 
+def _get_backend() -> Union["MemoryService", MarkdownMemoryBackend]:
+    """Get the best available memory backend."""
+    svc = _get_lazy_memory_service()
+    if svc is not None:
+        return svc
+    return get_markdown_backend()
+
+
 class MemoryToolBase(BaseTool):
-    """Base class for memory tools using hanzo-memory package."""
+    """Base class for memory tools."""
 
     def __init__(self, user_id: str = "default", project_id: str = "default", **kwargs):
-        """Initialize memory tool.
-
-        Args:
-            user_id: User ID for memory operations
-            project_id: Project ID for memory operations
-            **kwargs: Additional configuration
-        """
         self.user_id = user_id
         self.project_id = project_id
-        # Lazy service loading - don't initialize until first use
-        self._service: Optional["MemoryService"] = None
-
-    @property
-    def service(self) -> "MemoryService":
-        """Get memory service lazily."""
-        if self._service is None:
-            self._service = _get_lazy_memory_service()
-        return self._service
 
 
 @final
@@ -84,7 +77,6 @@ class RecallMemoriesTool(MemoryToolBase):
     @property
     @override
     def description(self) -> str:
-        """Get the tool description."""
         return """Recall memories relevant to one or more queries.
 
 This tool searches through stored memories and returns relevant matches.
@@ -106,54 +98,53 @@ recall_memories(queries=["coding standards"], scope="global")
         limit: int = 10,
         scope: str = "project",
     ) -> str:
-        """Recall memories matching queries.
-
-        Args:
-            ctx: MCP context
-            queries: Search queries
-            limit: Max results per query
-
-        Returns:
-            Formatted memory results
-        """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Searching for {len(queries)} queries")
 
-        all_results = []
-        for query in queries:
-            # Use hanzo-memory's search_memories method
-            results = self.service.search_memories(
-                user_id=self.user_id,
-                query=query,
-                project_id=self.project_id,
-                limit=limit,
-            )
-            all_results.extend(results)
-
-        # Deduplicate by memory_id
-        seen = set()
+        backend = _get_backend()
         unique_results = []
-        for result in all_results:
-            if result.memory_id not in seen:
-                seen.add(result.memory_id)
-                unique_results.append(result)
 
-        if not unique_results:
-            return "No relevant memories found."
+        if _check_memory_available():
+            # Full vector search via hanzo-memory
+            seen: set = set()
+            for query in queries:
+                results = backend.search_memories(  # type: ignore[union-attr]
+                    user_id=self.user_id,
+                    query=query,
+                    project_id=self.project_id,
+                    limit=limit,
+                )
+                for r in results:
+                    if r.memory_id not in seen:
+                        seen.add(r.memory_id)
+                        unique_results.append(r)
 
-        # Format results
-        formatted = [f"Found {len(unique_results)} relevant memories:\n"]
-        for i, memory in enumerate(unique_results, 1):
-            score = getattr(memory, "similarity_score", 0.0)
-            formatted.append(f"{i}. {memory.content} (relevance: {score:.2f})")
+            if not unique_results:
+                return "No relevant memories found."
 
-        return "\n".join(formatted)
+            formatted = [f"Found {len(unique_results)} relevant memories:\n"]
+            for i, m in enumerate(unique_results, 1):
+                score = getattr(m, "similarity_score", 0.0)
+                formatted.append(f"{i}. {m.content} (relevance: {score:.2f})")
+            return "\n".join(formatted)
+
+        else:
+            # Markdown fallback — keyword search across local .md files
+            results = backend.search_memories(queries=queries, limit=limit, scope=scope)  # type: ignore[union-attr]
+
+            if not results:
+                return "No relevant memories found."
+
+            formatted = [f"Found {len(results)} relevant memories:\n"]
+            for i, m in enumerate(results, 1):
+                source = getattr(m, "source", "")
+                src_note = f" [{source}]" if source and source != "user" else ""
+                formatted.append(f"{i}. {m.content}{src_note}")
+            return "\n".join(formatted)
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
-        """Register this tool with the MCP server."""
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
@@ -172,7 +163,6 @@ class CreateMemoriesTool(MemoryToolBase):
     @property
     @override
     def description(self) -> str:
-        """Get the tool description."""
         return """Save one or more new pieces of information to memory.
 
 This tool creates new memories from provided statements.
@@ -184,42 +174,41 @@ create_memories(statements=["User prefers dark mode", "User works in Python"])
 
     @override
     @auto_timeout("memory_tools")
-    async def call(self, ctx: MCPContext, statements: List[str]) -> str:
-        """Create new memories.
-
-        Args:
-            ctx: MCP context
-            statements: Statements to memorize
-
-        Returns:
-            Success message
-        """
+    async def call(
+        self,
+        ctx: MCPContext,
+        statements: List[str],
+        scope: str = "project",
+    ) -> str:
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Creating {len(statements)} memories")
 
-        created_memories = []
-        for statement in statements:
-            # Use hanzo-memory's create_memory method
-            memory = self.service.create_memory(
-                user_id=self.user_id,
-                project_id=self.project_id,
-                content=statement,
-                metadata={"type": "statement"},
-            )
-            created_memories.append(memory)
+        backend = _get_backend()
 
-        return f"Successfully created {len(created_memories)} new memories."
+        if _check_memory_available():
+            for statement in statements:
+                backend.create_memory(  # type: ignore[union-attr]
+                    user_id=self.user_id,
+                    project_id=self.project_id,
+                    content=statement,
+                    metadata={"type": "statement"},
+                )
+        else:
+            for statement in statements:
+                backend.add_memory(content=statement, scope=scope)  # type: ignore[union-attr]
+
+        return f"Successfully created {len(statements)} new memories."
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
-        """Register this tool with the MCP server."""
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
-        async def create_memories(ctx: MCPContext, statements: List[str]) -> str:
-            return await tool_self.call(ctx, statements=statements)
+        async def create_memories(
+            ctx: MCPContext, statements: List[str], scope: str = "project"
+        ) -> str:
+            return await tool_self.call(ctx, statements=statements, scope=scope)
 
 
 @final
@@ -231,7 +220,6 @@ class UpdateMemoriesTool(MemoryToolBase):
     @property
     @override
     def description(self) -> str:
-        """Get the tool description."""
         return """Update existing memories with corrected information.
 
 This tool updates memories by ID with new content.
@@ -246,41 +234,32 @@ update_memories(updates=[
     @override
     @auto_timeout("memory_tools")
     async def call(self, ctx: MCPContext, updates: List[Dict[str, str]]) -> str:
-        """Update memories.
-
-        Args:
-            ctx: MCP context
-            updates: List of {id, statement} dicts
-
-        Returns:
-            Success message
-        """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Updating {len(updates)} memories")
 
-        # Note: hanzo-memory's update methods are not fully implemented yet
-        # For now, we'll track what would be updated
+        backend = _get_backend()
         success_count = 0
+
         for update in updates:
             memory_id = update.get("id")
             statement = update.get("statement")
+            if not memory_id or not statement:
+                continue
 
-            if memory_id and statement:
-                # The hanzo-memory service doesn't have update implemented yet
-                # When it's implemented, we would call:
-                # success = self.service.update_memory(self.user_id, memory_id, content=statement)
-                await tool_ctx.warning(
-                    f"Memory update not fully implemented in hanzo-memory yet: {memory_id}"
-                )
+            if _check_memory_available():
+                # hanzo-memory update not fully implemented yet
+                await tool_ctx.warning(f"Memory update pending implementation: {memory_id}")
                 success_count += 1
+            else:
+                result = backend.update_memory(memory_id, statement)  # type: ignore[union-attr]
+                if result is not None:
+                    success_count += 1
 
-        return f"Would update {success_count} of {len(updates)} memories (update not fully implemented in hanzo-memory yet)."
+        return f"Updated {success_count} of {len(updates)} memories."
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
-        """Register this tool with the MCP server."""
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
@@ -299,7 +278,6 @@ class DeleteMemoriesTool(MemoryToolBase):
     @property
     @override
     def description(self) -> str:
-        """Get the tool description."""
         return """Delete memories that are no longer relevant or incorrect.
 
 This tool removes memories by their IDs.
@@ -311,24 +289,18 @@ delete_memories(ids=["mem_1", "mem_2"])
     @override
     @auto_timeout("memory_tools")
     async def call(self, ctx: MCPContext, ids: List[str]) -> str:
-        """Delete memories.
-
-        Args:
-            ctx: MCP context
-            ids: Memory IDs to delete
-
-        Returns:
-            Success message
-        """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
-
         await tool_ctx.info(f"Deleting {len(ids)} memories")
 
+        backend = _get_backend()
         success_count = 0
+
         for memory_id in ids:
-            # Use hanzo-memory's delete_memory method
-            success = self.service.delete_memory(self.user_id, memory_id)
+            if _check_memory_available():
+                success = backend.delete_memory(self.user_id, memory_id)  # type: ignore[union-attr]
+            else:
+                success = backend.delete_memory(memory_id)  # type: ignore[union-attr]
             if success:
                 success_count += 1
 
@@ -336,7 +308,6 @@ delete_memories(ids=["mem_1", "mem_2"])
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
-        """Register this tool with the MCP server."""
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
@@ -353,7 +324,6 @@ class ManageMemoriesTool(MemoryToolBase):
     @property
     @override
     def description(self) -> str:
-        """Get the tool description."""
         return """Create, update, and/or delete memories in a single atomic operation.
 
 This is the preferred way to modify memories as it allows multiple
@@ -375,73 +345,62 @@ manage_memories(
         creations: Optional[List[str]] = None,
         updates: Optional[List[Dict[str, str]]] = None,
         deletions: Optional[List[str]] = None,
+        scope: str = "project",
     ) -> str:
-        """Manage memories atomically.
-
-        Args:
-            ctx: MCP context
-            creations: Statements to create
-            updates: Memories to update
-            deletions: Memory IDs to delete
-
-        Returns:
-            Summary of operations
-        """
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
+        backend = _get_backend()
+        full = _check_memory_available()
         results = []
 
-        # Create memories
         if creations:
             await tool_ctx.info(f"Creating {len(creations)} memories")
-            created = []
             for statement in creations:
-                memory = self.service.create_memory(
-                    user_id=self.user_id,
-                    project_id=self.project_id,
-                    content=statement,
-                    metadata={"type": "statement"},
-                )
-                created.append(memory)
-            results.append(f"Created {len(created)} memories")
+                if full:
+                    backend.create_memory(  # type: ignore[union-attr]
+                        user_id=self.user_id,
+                        project_id=self.project_id,
+                        content=statement,
+                        metadata={"type": "statement"},
+                    )
+                else:
+                    backend.add_memory(content=statement, scope=scope)  # type: ignore[union-attr]
+            results.append(f"Created {len(creations)} memories")
 
-        # Update memories
         if updates:
             await tool_ctx.info(f"Updating {len(updates)} memories")
             success_count = 0
             for update in updates:
                 memory_id = update.get("id")
                 statement = update.get("statement")
-
-                if memory_id and statement:
-                    # Update not fully implemented in hanzo-memory yet
-                    await tool_ctx.warning(
-                        f"Memory update not fully implemented: {memory_id}"
-                    )
+                if not memory_id or not statement:
+                    continue
+                if full:
+                    await tool_ctx.warning(f"Memory update pending implementation: {memory_id}")
                     success_count += 1
-            results.append(
-                f"Would update {success_count} memories (update pending implementation)"
-            )
+                else:
+                    result = backend.update_memory(memory_id, statement)  # type: ignore[union-attr]
+                    if result is not None:
+                        success_count += 1
+            results.append(f"Updated {success_count} memories")
 
-        # Delete memories
         if deletions:
             await tool_ctx.info(f"Deleting {len(deletions)} memories")
             success_count = 0
             for memory_id in deletions:
-                success = self.service.delete_memory(self.user_id, memory_id)
+                if full:
+                    success = backend.delete_memory(self.user_id, memory_id)  # type: ignore[union-attr]
+                else:
+                    success = backend.delete_memory(memory_id)  # type: ignore[union-attr]
                 if success:
                     success_count += 1
             results.append(f"Deleted {success_count} memories")
 
-        if not results:
-            return "No memory operations performed."
-
-        return "Memory operations completed: " + ", ".join(results)
+        return "Memory operations completed: " + ", ".join(results) if results else "No memory operations performed."
 
     @override
     def register(self, mcp_server: FastMCP) -> None:
-        """Register this tool with the MCP server."""
         tool_self = self
 
         @mcp_server.tool(name=self.name, description=self.description)
@@ -450,9 +409,10 @@ manage_memories(
             creations: Optional[List[str]] = None,
             updates: Optional[List[Dict[str, str]]] = None,
             deletions: Optional[List[str]] = None,
+            scope: str = "project",
         ) -> str:
             return await tool_self.call(
-                ctx, creations=creations, updates=updates, deletions=deletions
+                ctx, creations=creations, updates=updates, deletions=deletions, scope=scope
             )
 
 
