@@ -43,13 +43,11 @@ def _check_memory_available() -> bool:
 
 
 def _get_lazy_memory_service() -> "MemoryService":
-    """Get memory service lazily."""
+    """Get memory service lazily. Returns None if hanzo-memory is not available."""
     global _memory_service
     if _memory_service is None:
         if not _check_memory_available():
-            raise ImportError(
-                "hanzo-memory required. Install: pip install hanzo-memory"
-            )
+            return None  # type: ignore[return-value]
         from hanzo_memory.services.memory import get_memory_service
 
         _memory_service = get_memory_service()
@@ -88,14 +86,6 @@ class UnifiedMemoryTool(BaseTool):
         """Initialize memory tool."""
         self.user_id = user_id
         self.project_id = project_id
-        self._service: Optional["MemoryService"] = None
-
-    @property
-    def service(self) -> "MemoryService":
-        """Get memory service lazily."""
-        if self._service is None:
-            self._service = _get_lazy_memory_service()
-        return self._service
 
     @property
     @override
@@ -160,6 +150,8 @@ Examples:
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+
         try:
             if action == "recall":
                 return await self._recall(
@@ -200,25 +192,18 @@ Examples:
         if not queries:
             return "Error: query or queries required for recall"
 
-        results = []
-        for q in queries:
-            memories = await self.service.recall(
-                query=q,
-                user_id=self.user_id,
-                project_id=self.project_id,
-                scope=scope,
-                limit=limit,
-            )
-            results.extend(memories)
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        results = backend.search_memories(queries=queries, limit=limit, scope=scope)
 
         if not results:
             return "No memories found matching the query."
 
         lines = [f"Found {len(results)} memories:"]
         for mem in results[:limit]:
-            lines.append(f"  [{mem.id}] {mem.content[:100]}...")
-            if mem.tags:
-                lines.append(f"    Tags: {', '.join(mem.tags)}")
+            src = getattr(mem, "source", "")
+            src_note = f" [{src}]" if src and src != "user" else ""
+            lines.append(f"  [{mem.memory_id[:8]}] {mem.content[:100]}{src_note}")
         return "\n".join(lines)
 
     async def _create(
@@ -232,15 +217,10 @@ Examples:
         if not content:
             return "Error: content required for create"
 
-        memory = await self.service.create(
-            content=content,
-            user_id=self.user_id,
-            project_id=self.project_id,
-            tags=tags or [],
-            metadata=metadata or {},
-            scope=scope,
-        )
-        return f"Created memory: {memory.id}"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        mem = backend.add_memory(content=content, scope=scope)
+        return f"Created memory: {mem.memory_id}"
 
     async def _update(
         self,
@@ -253,22 +233,19 @@ Examples:
         if not id:
             return "Error: id required for update"
 
-        await self.service.update(
-            memory_id=id,
-            content=content,
-            tags=tags,
-            metadata=metadata,
-        )
-        return f"Updated memory: {id}"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        result = get_markdown_backend().update_memory(id, content or "")
+        return f"Updated memory: {id}" if result else f"Memory {id} not found"
 
     async def _delete(self, ids: List[str]) -> str:
         """Delete memories."""
         if not ids:
             return "Error: id or ids required for delete"
 
-        for mid in ids:
-            await self.service.delete(memory_id=mid)
-        return f"Deleted {len(ids)} memories"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        count = sum(1 for mid in ids if backend.delete_memory(mid))
+        return f"Deleted {count} of {len(ids)} memories"
 
     async def _manage(
         self,
@@ -277,32 +254,23 @@ Examples:
         delete_ids: Optional[List[str]],
     ) -> str:
         """Atomic memory operations."""
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
         results = []
 
         if create_list:
             for item in create_list:
-                mem = await self.service.create(
-                    content=item["content"],
-                    user_id=self.user_id,
-                    project_id=self.project_id,
-                    tags=item.get("tags", []),
-                    metadata=item.get("metadata", {}),
-                )
-                results.append(f"Created: {mem.id}")
+                mem = backend.add_memory(content=item["content"], scope="project")
+                results.append(f"Created: {mem.memory_id}")
 
         if update_list:
             for item in update_list:
-                await self.service.update(
-                    memory_id=item["id"],
-                    content=item.get("content"),
-                    tags=item.get("tags"),
-                    metadata=item.get("metadata"),
-                )
-                results.append(f"Updated: {item['id']}")
+                result = backend.update_memory(item["id"], item.get("statement", item.get("content", "")))
+                results.append(f"Updated: {item['id']}" if result else f"Not found: {item['id']}")
 
         if delete_ids:
             for mid in delete_ids:
-                await self.service.delete(memory_id=mid)
+                backend.delete_memory(mid)
                 results.append(f"Deleted: {mid}")
 
         if not results:
@@ -376,15 +344,9 @@ Examples:
         if not content:
             return "Error: content required for summarize"
 
-        # For now, just store as-is; could integrate with LLM for actual summarization
-        memory = await self.service.create(
-            content=f"[Summary] {content}",
-            user_id=self.user_id,
-            project_id=self.project_id,
-            tags=(tags or []) + ["summary"],
-            scope=scope,
-        )
-        return f"Stored summary: {memory.id}"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        mem = get_markdown_backend().add_memory(content=f"[Summary] {content}", scope=scope)
+        return f"Stored summary: {mem.memory_id}"
 
     async def _manage_kb(self, action: str, name: Optional[str]) -> str:
         """Manage knowledge bases."""
@@ -425,20 +387,16 @@ Examples:
         if list_type == "kb":
             return await self._manage_kb("list", None)
 
-        # List memories
-        memories = await self.service.list(
-            user_id=self.user_id,
-            project_id=self.project_id,
-            scope=scope,
-            limit=limit,
-        )
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        memories = backend.search_memories(queries=[""], limit=limit, scope=scope)
 
         if not memories:
             return "No memories found."
 
         lines = [f"Memories ({len(memories)}):"]
         for mem in memories:
-            lines.append(f"  [{mem.id}] {mem.content[:60]}...")
+            lines.append(f"  [{mem.memory_id[:8]}] {mem.content[:60]}...")
         return "\n".join(lines)
 
     def register(self, mcp_server: FastMCP) -> None:
