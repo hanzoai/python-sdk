@@ -89,7 +89,7 @@ def format_timeout(seconds: float) -> str:
 
 # Test the parser
 if __name__ == "__main__":
-    test_cases = [
+    test_cases: list[Union[str, int, float]] = [
         "2min",
         "5m",
         "120s",
