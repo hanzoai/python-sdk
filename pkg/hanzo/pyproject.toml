@@ -15,7 +15,7 @@ dependencies = [
     "hanzo-kms>=1.1.0",
 ]
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 keywords = ["ai", "cli", "hanzo", "agents", "llm", "mcp", "local-ai", "private-ai"]
 classifiers = [
     "Development Status :: 4 - Beta",
