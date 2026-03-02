@@ -1,5 +1,11 @@
-"""Analytics module for Hanzo MCP using PostHog."""
+"""Analytics module for Hanzo MCP."""
 
-from .posthog_analytics import Analytics, track_error, track_event, track_tool_usage
+from .insights_analytics import (
+    Analytics,
+    InsightsAnalytics,
+    track_error,
+    track_event,
+    track_tool_usage,
+)
 
-__all__ = ["Analytics", "track_event", "track_tool_usage", "track_error"]
+__all__ = ["Analytics", "InsightsAnalytics", "track_event", "track_tool_usage", "track_error"]
