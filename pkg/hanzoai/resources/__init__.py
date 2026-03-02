@@ -793,6 +793,48 @@ from .observability import (
     ObservabilityResourceWithStreamingResponse,
     AsyncObservabilityResourceWithStreamingResponse,
 )
+
+# New Platform Resources
+from .mpc import (
+    MPCResource,
+    AsyncMPCResource,
+    MPCResourceWithRawResponse,
+    AsyncMPCResourceWithRawResponse,
+    MPCResourceWithStreamingResponse,
+    AsyncMPCResourceWithStreamingResponse,
+)
+from .paas import (
+    PaaSResource,
+    AsyncPaaSResource,
+    PaaSResourceWithRawResponse,
+    AsyncPaaSResourceWithRawResponse,
+    PaaSResourceWithStreamingResponse,
+    AsyncPaaSResourceWithStreamingResponse,
+)
+from .docdb import (
+    DocDBResource,
+    AsyncDocDBResource,
+    DocDBResourceWithRawResponse,
+    AsyncDocDBResourceWithRawResponse,
+    DocDBResourceWithStreamingResponse,
+    AsyncDocDBResourceWithStreamingResponse,
+)
+from .ingress import (
+    IngressResource,
+    AsyncIngressResource,
+    IngressResourceWithRawResponse,
+    AsyncIngressResourceWithRawResponse,
+    IngressResourceWithStreamingResponse,
+    AsyncIngressResourceWithStreamingResponse,
+)
+from .datastore import (
+    DatastoreResource,
+    AsyncDatastoreResource,
+    DatastoreResourceWithRawResponse,
+    AsyncDatastoreResourceWithRawResponse,
+    DatastoreResourceWithStreamingResponse,
+    AsyncDatastoreResourceWithStreamingResponse,
+)
 from .subscriptions import (
     SubscriptionsResource,
     AsyncSubscriptionsResource,
@@ -1398,4 +1440,35 @@ __all__ = [
     "AsyncMinerResourceWithRawResponse",
     "MinerResourceWithStreamingResponse",
     "AsyncMinerResourceWithStreamingResponse",
+    # New Platform Resources
+    "MPCResource",
+    "AsyncMPCResource",
+    "MPCResourceWithRawResponse",
+    "AsyncMPCResourceWithRawResponse",
+    "MPCResourceWithStreamingResponse",
+    "AsyncMPCResourceWithStreamingResponse",
+    "PaaSResource",
+    "AsyncPaaSResource",
+    "PaaSResourceWithRawResponse",
+    "AsyncPaaSResourceWithRawResponse",
+    "PaaSResourceWithStreamingResponse",
+    "AsyncPaaSResourceWithStreamingResponse",
+    "DocDBResource",
+    "AsyncDocDBResource",
+    "DocDBResourceWithRawResponse",
+    "AsyncDocDBResourceWithRawResponse",
+    "DocDBResourceWithStreamingResponse",
+    "AsyncDocDBResourceWithStreamingResponse",
+    "IngressResource",
+    "AsyncIngressResource",
+    "IngressResourceWithRawResponse",
+    "AsyncIngressResourceWithRawResponse",
+    "IngressResourceWithStreamingResponse",
+    "AsyncIngressResourceWithStreamingResponse",
+    "DatastoreResource",
+    "AsyncDatastoreResource",
+    "DatastoreResourceWithRawResponse",
+    "AsyncDatastoreResourceWithRawResponse",
+    "DatastoreResourceWithStreamingResponse",
+    "AsyncDatastoreResourceWithStreamingResponse",
 ]
