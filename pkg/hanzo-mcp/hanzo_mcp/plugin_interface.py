@@ -79,12 +79,12 @@ class MemoryBackendPlugin(Protocol):
 class PluginRegistry:
     """Registry for memory backend plugins."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._plugins: Dict[str, MemoryBackendPlugin] = {}
         self._active_plugins: List[str] = []
-        self._initialized = False
+        self._initialized: bool = False
 
-    def register_plugin(self, plugin: MemoryBackendPlugin):
+    def register_plugin(self, plugin: MemoryBackendPlugin) -> None:
         """Register a new plugin."""
         self._plugins[plugin.name] = plugin
 
@@ -136,14 +136,14 @@ class PluginRegistry:
                 result.append(name)
         return result
 
-    async def initialize_all_active(self):
+    async def initialize_all_active(self) -> None:
         """Initialize all active plugins."""
         if not self._initialized:
             for plugin in self.get_active_plugins():
                 await plugin.initialize()
             self._initialized = True
 
-    async def shutdown_all_active(self):
+    async def shutdown_all_active(self) -> None:
         """Shutdown all active plugins."""
         for plugin in self.get_active_plugins():
             await plugin.shutdown()
