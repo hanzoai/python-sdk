@@ -3,7 +3,7 @@ name = "hanzo-consensus"
 version = "0.1.0"
 description = "Metastable consensus protocol for multi-agent agreement"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 keywords = ["consensus", "metastable", "multi-agent", "distributed"]
