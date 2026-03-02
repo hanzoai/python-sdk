@@ -7,7 +7,7 @@ name = "hanzo-tools-database"
 version = "0.2.0"
 description = "Hybrid memory management for Hanzo AI - Markdown files, SQLite FTS, Vector search"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 classifiers = [
