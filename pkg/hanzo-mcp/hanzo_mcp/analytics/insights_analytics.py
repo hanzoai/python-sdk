@@ -1,4 +1,4 @@
-"""PostHog analytics integration for Hanzo MCP.
+"""Insights analytics integration for Hanzo MCP.
 
 This module provides analytics tracking for:
 - Tool usage and performance
@@ -18,13 +18,13 @@ from datetime import datetime
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Callable, Dict, Optional, TypeVar
 
-# Try to import PostHog, but make it optional
+# Try to import PostHog client (used as backend), but make it optional
 try:
     from posthog import Posthog
 
-    POSTHOG_AVAILABLE = True
+    INSIGHTS_AVAILABLE = True
 except ImportError:
-    POSTHOG_AVAILABLE = False
+    INSIGHTS_AVAILABLE = False
     Posthog = None
 
 
@@ -44,7 +44,7 @@ class AnalyticsConfig:
     distinct_id: Optional[str] = None
 
 
-class Analytics:
+class InsightsAnalytics:
     """Main analytics class for Hanzo MCP."""
 
     def __init__(self, config: Optional[AnalyticsConfig] = None):
@@ -52,16 +52,19 @@ class Analytics:
         self.config = config or AnalyticsConfig()
         self._client = None
 
-        # Load from environment if not provided
+        # Load from environment if not provided (INSIGHTS_API_KEY preferred, POSTHOG_API_KEY fallback)
         if not self.config.api_key:
-            self.config.api_key = os.environ.get("POSTHOG_API_KEY")
+            self.config.api_key = (
+                os.environ.get("INSIGHTS_API_KEY")
+                or os.environ.get("POSTHOG_API_KEY")
+            )
 
         if not self.config.distinct_id:
             # Use machine ID or generate one
             self.config.distinct_id = self._get_distinct_id()
 
-        # Initialize PostHog if available and configured
-        if POSTHOG_AVAILABLE and self.config.api_key and self.config.enabled:
+        # Initialize backend if available and configured
+        if INSIGHTS_AVAILABLE and self.config.api_key and self.config.enabled:
             self._client = Posthog(
                 self.config.api_key,
                 host=self.config.host,
@@ -208,15 +211,18 @@ class Analytics:
                 pass
 
 
+# Backward-compatible alias
+Analytics = InsightsAnalytics
+
 # Global analytics instance
 _analytics = None
 
 
-def get_analytics() -> Analytics:
+def get_analytics() -> InsightsAnalytics:
     """Get or create the global analytics instance."""
     global _analytics
     if _analytics is None:
-        _analytics = Analytics()
+        _analytics = InsightsAnalytics()
     return _analytics
 
 
