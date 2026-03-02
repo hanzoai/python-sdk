@@ -35,25 +35,79 @@ from ._response import (
 )
 from .resources import (
     add,
+    db,
+    dns,
+    kms,
+    kv,
+    mpc,
     test,
     user,
     azure,
     spend,
     utils,
     active,
+    access,
+    agents,
+    audit,
     budget,
+    build,
+    cart,
+    chain,
     cohere,
+    coupons,
     delete,
+    device,
+    docdb,
+    edge,
     gemini,
+    graphs,
     health,
+    ingress,
+    jobs,
     models,
+    miner,
+    nodes,
+    orders,
+    paas,
+    pods,
+    policy,
+    pubsub,
+    queues,
     rerank,
     routes,
+    stores,
+    tasks,
+    tokens,
+    tunnel,
     bedrock,
+    campaigns,
+    checkout,
+    containers,
     customer,
+    datastore,
+    deployments,
+    gateway,
+    identity,
+    inference,
     langfuse,
+    machines,
+    mcp_servers,
+    network,
+    observability,
+    products,
     provider,
+    providers,
+    referrals,
+    registry,
+    release,
+    secrets,
     settings,
+    storage,
+    subscriptions,
+    vectors,
+    wallets,
+    workflows,
+    affiliates,
     anthropic,
     vertex_ai,
     assemblyai,
@@ -159,6 +213,62 @@ class Hanzo(SyncAPIClient):
     delete: delete.DeleteResource
     files: files.FilesResource
     budget: budget.BudgetResource
+    # Data/Infrastructure resources
+    db: db.DBResource
+    kv: kv.KVResource
+    dns: dns.DNSResource
+    kms: kms.KMSResource
+    cart: cart.CartResource
+    edge: edge.EdgeResource
+    jobs: jobs.JobsResource
+    pods: pods.PodsResource
+    audit: audit.AuditResource
+    build: build.BuildResource
+    chain: chain.ChainResource
+    miner: miner.MinerResource
+    nodes: nodes.NodesResource
+    tasks: tasks.TasksResource
+    access: access.AccessResource
+    agents: agents.AgentsResource
+    device: device.DeviceResource
+    graphs: graphs.GraphsResource
+    orders: orders.OrdersResource
+    policy: policy.PolicyResource
+    pubsub: pubsub.PubSubResource
+    queues: queues.QueuesResource
+    stores: stores.StoresResource
+    tokens: tokens.TokensResource
+    tunnel: tunnel.TunnelResource
+    coupons: coupons.CouponsResource
+    gateway: gateway.GatewayResource
+    network: network.NetworkResource
+    release: release.ReleaseResource
+    secrets: secrets.SecretsResource
+    storage: storage.StorageResource
+    vectors: vectors.VectorsResource
+    wallets: wallets.WalletsResource
+    checkout: checkout.CheckoutResource
+    identity: identity.IdentityResource
+    machines: machines.MachinesResource
+    products: products.ProductsResource
+    registry: registry.RegistryResource
+    campaigns: campaigns.CampaignsResource
+    inference: inference.InferenceResource
+    providers: providers.ProvidersResource
+    referrals: referrals.ReferralsResource
+    workflows: workflows.WorkflowsResource
+    affiliates: affiliates.AffiliatesResource
+    containers: containers.ContainersResource
+    deployments: deployments.DeploymentsResource
+    mcp_servers: mcp_servers.MCPServersResource
+    observability: observability.ObservabilityResource
+    subscriptions: subscriptions.SubscriptionsResource
+    # New platform resources
+    mpc: mpc.MPCResource
+    paas: paas.PaaSResource
+    docdb: docdb.DocDBResource
+    ingress: ingress.IngressResource
+    datastore: datastore.DatastoreResource
     with_raw_response: HanzoWithRawResponse
     with_streaming_response: HanzoWithStreamedResponse
 
@@ -290,6 +400,60 @@ class Hanzo(SyncAPIClient):
         self.delete = delete.DeleteResource(self)
         self.files = files.FilesResource(self)
         self.budget = budget.BudgetResource(self)
+        self.db = db.DBResource(self)
+        self.kv = kv.KVResource(self)
+        self.dns = dns.DNSResource(self)
+        self.kms = kms.KMSResource(self)
+        self.cart = cart.CartResource(self)
+        self.edge = edge.EdgeResource(self)
+        self.jobs = jobs.JobsResource(self)
+        self.pods = pods.PodsResource(self)
+        self.audit = audit.AuditResource(self)
+        self.build = build.BuildResource(self)
+        self.chain = chain.ChainResource(self)
+        self.miner = miner.MinerResource(self)
+        self.nodes = nodes.NodesResource(self)
+        self.tasks = tasks.TasksResource(self)
+        self.access = access.AccessResource(self)
+        self.agents = agents.AgentsResource(self)
+        self.device = device.DeviceResource(self)
+        self.graphs = graphs.GraphsResource(self)
+        self.orders = orders.OrdersResource(self)
+        self.policy = policy.PolicyResource(self)
+        self.pubsub = pubsub.PubSubResource(self)
+        self.queues = queues.QueuesResource(self)
+        self.stores = stores.StoresResource(self)
+        self.tokens = tokens.TokensResource(self)
+        self.tunnel = tunnel.TunnelResource(self)
+        self.coupons = coupons.CouponsResource(self)
+        self.gateway = gateway.GatewayResource(self)
+        self.network = network.NetworkResource(self)
+        self.release = release.ReleaseResource(self)
+        self.secrets = secrets.SecretsResource(self)
+        self.storage = storage.StorageResource(self)
+        self.vectors = vectors.VectorsResource(self)
+        self.wallets = wallets.WalletsResource(self)
+        self.checkout = checkout.CheckoutResource(self)
+        self.identity = identity.IdentityResource(self)
+        self.machines = machines.MachinesResource(self)
+        self.products = products.ProductsResource(self)
+        self.registry = registry.RegistryResource(self)
+        self.campaigns = campaigns.CampaignsResource(self)
+        self.inference = inference.InferenceResource(self)
+        self.providers = providers.ProvidersResource(self)
+        self.referrals = referrals.ReferralsResource(self)
+        self.workflows = workflows.WorkflowsResource(self)
+        self.affiliates = affiliates.AffiliatesResource(self)
+        self.containers = containers.ContainersResource(self)
+        self.deployments = deployments.DeploymentsResource(self)
+        self.mcp_servers = mcp_servers.MCPServersResource(self)
+        self.observability = observability.ObservabilityResource(self)
+        self.subscriptions = subscriptions.SubscriptionsResource(self)
+        self.mpc = mpc.MPCResource(self)
+        self.paas = paas.PaaSResource(self)
+        self.docdb = docdb.DocDBResource(self)
+        self.ingress = ingress.IngressResource(self)
+        self.datastore = datastore.DatastoreResource(self)
         self.with_raw_response = HanzoWithRawResponse(self)
         self.with_streaming_response = HanzoWithStreamedResponse(self)
 
@@ -483,6 +647,62 @@ class AsyncHanzo(AsyncAPIClient):
     delete: delete.AsyncDeleteResource
     files: files.AsyncFilesResource
     budget: budget.AsyncBudgetResource
+    # Data/Infrastructure resources
+    db: db.AsyncDBResource
+    kv: kv.AsyncKVResource
+    dns: dns.AsyncDNSResource
+    kms: kms.AsyncKMSResource
+    cart: cart.AsyncCartResource
+    edge: edge.AsyncEdgeResource
+    jobs: jobs.AsyncJobsResource
+    pods: pods.AsyncPodsResource
+    audit: audit.AsyncAuditResource
+    build: build.AsyncBuildResource
+    chain: chain.AsyncChainResource
+    miner: miner.AsyncMinerResource
+    nodes: nodes.AsyncNodesResource
+    tasks: tasks.AsyncTasksResource
+    access: access.AsyncAccessResource
+    agents: agents.AsyncAgentsResource
+    device: device.AsyncDeviceResource
+    graphs: graphs.AsyncGraphsResource
+    orders: orders.AsyncOrdersResource
+    policy: policy.AsyncPolicyResource
+    pubsub: pubsub.AsyncPubSubResource
+    queues: queues.AsyncQueuesResource
+    stores: stores.AsyncStoresResource
+    tokens: tokens.AsyncTokensResource
+    tunnel: tunnel.AsyncTunnelResource
+    coupons: coupons.AsyncCouponsResource
+    gateway: gateway.AsyncGatewayResource
+    network: network.AsyncNetworkResource
+    release: release.AsyncReleaseResource
+    secrets: secrets.AsyncSecretsResource
+    storage: storage.AsyncStorageResource
+    vectors: vectors.AsyncVectorsResource
+    wallets: wallets.AsyncWalletsResource
+    checkout: checkout.AsyncCheckoutResource
+    identity: identity.AsyncIdentityResource
+    machines: machines.AsyncMachinesResource
+    products: products.AsyncProductsResource
+    registry: registry.AsyncRegistryResource
+    campaigns: campaigns.AsyncCampaignsResource
+    inference: inference.AsyncInferenceResource
+    providers: providers.AsyncProvidersResource
+    referrals: referrals.AsyncReferralsResource
+    workflows: workflows.AsyncWorkflowsResource
+    affiliates: affiliates.AsyncAffiliatesResource
+    containers: containers.AsyncContainersResource
+    deployments: deployments.AsyncDeploymentsResource
+    mcp_servers: mcp_servers.AsyncMCPServersResource
+    observability: observability.AsyncObservabilityResource
+    subscriptions: subscriptions.AsyncSubscriptionsResource
+    # New platform resources
+    mpc: mpc.AsyncMPCResource
+    paas: paas.AsyncPaaSResource
+    docdb: docdb.AsyncDocDBResource
+    ingress: ingress.AsyncIngressResource
+    datastore: datastore.AsyncDatastoreResource
     with_raw_response: AsyncHanzoWithRawResponse
     with_streaming_response: AsyncHanzoWithStreamedResponse
 
@@ -614,6 +834,60 @@ class AsyncHanzo(AsyncAPIClient):
         self.delete = delete.AsyncDeleteResource(self)
         self.files = files.AsyncFilesResource(self)
         self.budget = budget.AsyncBudgetResource(self)
+        self.db = db.AsyncDBResource(self)
+        self.kv = kv.AsyncKVResource(self)
+        self.dns = dns.AsyncDNSResource(self)
+        self.kms = kms.AsyncKMSResource(self)
+        self.cart = cart.AsyncCartResource(self)
+        self.edge = edge.AsyncEdgeResource(self)
+        self.jobs = jobs.AsyncJobsResource(self)
+        self.pods = pods.AsyncPodsResource(self)
+        self.audit = audit.AsyncAuditResource(self)
+        self.build = build.AsyncBuildResource(self)
+        self.chain = chain.AsyncChainResource(self)
+        self.miner = miner.AsyncMinerResource(self)
+        self.nodes = nodes.AsyncNodesResource(self)
+        self.tasks = tasks.AsyncTasksResource(self)
+        self.access = access.AsyncAccessResource(self)
+        self.agents = agents.AsyncAgentsResource(self)
+        self.device = device.AsyncDeviceResource(self)
+        self.graphs = graphs.AsyncGraphsResource(self)
+        self.orders = orders.AsyncOrdersResource(self)
+        self.policy = policy.AsyncPolicyResource(self)
+        self.pubsub = pubsub.AsyncPubSubResource(self)
+        self.queues = queues.AsyncQueuesResource(self)
+        self.stores = stores.AsyncStoresResource(self)
+        self.tokens = tokens.AsyncTokensResource(self)
+        self.tunnel = tunnel.AsyncTunnelResource(self)
+        self.coupons = coupons.AsyncCouponsResource(self)
+        self.gateway = gateway.AsyncGatewayResource(self)
+        self.network = network.AsyncNetworkResource(self)
+        self.release = release.AsyncReleaseResource(self)
+        self.secrets = secrets.AsyncSecretsResource(self)
+        self.storage = storage.AsyncStorageResource(self)
+        self.vectors = vectors.AsyncVectorsResource(self)
+        self.wallets = wallets.AsyncWalletsResource(self)
+        self.checkout = checkout.AsyncCheckoutResource(self)
+        self.identity = identity.AsyncIdentityResource(self)
+        self.machines = machines.AsyncMachinesResource(self)
+        self.products = products.AsyncProductsResource(self)
+        self.registry = registry.AsyncRegistryResource(self)
+        self.campaigns = campaigns.AsyncCampaignsResource(self)
+        self.inference = inference.AsyncInferenceResource(self)
+        self.providers = providers.AsyncProvidersResource(self)
+        self.referrals = referrals.AsyncReferralsResource(self)
+        self.workflows = workflows.AsyncWorkflowsResource(self)
+        self.affiliates = affiliates.AsyncAffiliatesResource(self)
+        self.containers = containers.AsyncContainersResource(self)
+        self.deployments = deployments.AsyncDeploymentsResource(self)
+        self.mcp_servers = mcp_servers.AsyncMCPServersResource(self)
+        self.observability = observability.AsyncObservabilityResource(self)
+        self.subscriptions = subscriptions.AsyncSubscriptionsResource(self)
+        self.mpc = mpc.AsyncMPCResource(self)
+        self.paas = paas.AsyncPaaSResource(self)
+        self.docdb = docdb.AsyncDocDBResource(self)
+        self.ingress = ingress.AsyncIngressResource(self)
+        self.datastore = datastore.AsyncDatastoreResource(self)
         self.with_raw_response = AsyncHanzoWithRawResponse(self)
         self.with_streaming_response = AsyncHanzoWithStreamedResponse(self)
 
@@ -830,6 +1104,72 @@ class HanzoWithRawResponse:
         self.delete = delete.DeleteResourceWithRawResponse(client.delete)
         self.files = files.FilesResourceWithRawResponse(client.files)
         self.budget = budget.BudgetResourceWithRawResponse(client.budget)
+        self.db = db.DBResourceWithRawResponse(client.db)
+        self.kv = kv.KVResourceWithRawResponse(client.kv)
+        self.dns = dns.DNSResourceWithRawResponse(client.dns)
+        self.kms = kms.KMSResourceWithRawResponse(client.kms)
+        self.cart = cart.CartResourceWithRawResponse(client.cart)
+        self.edge = edge.EdgeResourceWithRawResponse(client.edge)
+        self.jobs = jobs.JobsResourceWithRawResponse(client.jobs)
+        self.pods = pods.PodsResourceWithRawResponse(client.pods)
+        self.audit = audit.AuditResourceWithRawResponse(client.audit)
+        self.build = build.BuildResourceWithRawResponse(client.build)
+        self.chain = chain.ChainResourceWithRawResponse(client.chain)
+        self.miner = miner.MinerResourceWithRawResponse(client.miner)
+        self.nodes = nodes.NodesResourceWithRawResponse(client.nodes)
+        self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
+        self.access = access.AccessResourceWithRawResponse(client.access)
+        self.agents = agents.AgentsResourceWithRawResponse(client.agents)
+        self.device = device.DeviceResourceWithRawResponse(client.device)
+        self.graphs = graphs.GraphsResourceWithRawResponse(client.graphs)
+        self.orders = orders.OrdersResourceWithRawResponse(client.orders)
+        self.policy = policy.PolicyResourceWithRawResponse(client.policy)
+        self.pubsub = pubsub.PubSubResourceWithRawResponse(client.pubsub)
+        self.queues = queues.QueuesResourceWithRawResponse(client.queues)
+        self.stores = stores.StoresResourceWithRawResponse(client.stores)
+        self.tokens = tokens.TokensResourceWithRawResponse(client.tokens)
+        self.tunnel = tunnel.TunnelResourceWithRawResponse(client.tunnel)
+        self.coupons = coupons.CouponsResourceWithRawResponse(client.coupons)
+        self.gateway = gateway.GatewayResourceWithRawResponse(client.gateway)
+        self.network = network.NetworkResourceWithRawResponse(client.network)
+        self.release = release.ReleaseResourceWithRawResponse(client.release)
+        self.secrets = secrets.SecretsResourceWithRawResponse(client.secrets)
+        self.storage = storage.StorageResourceWithRawResponse(client.storage)
+        self.vectors = vectors.VectorsResourceWithRawResponse(client.vectors)
+        self.wallets = wallets.WalletsResourceWithRawResponse(client.wallets)
+        self.checkout = checkout.CheckoutResourceWithRawResponse(client.checkout)
+        self.identity = identity.IdentityResourceWithRawResponse(client.identity)
+        self.machines = machines.MachinesResourceWithRawResponse(client.machines)
+        self.products = products.ProductsResourceWithRawResponse(client.products)
+        self.registry = registry.RegistryResourceWithRawResponse(client.registry)
+        self.campaigns = campaigns.CampaignsResourceWithRawResponse(client.campaigns)
+        self.inference = inference.InferenceResourceWithRawResponse(client.inference)
+        self.providers = providers.ProvidersResourceWithRawResponse(client.providers)
+        self.referrals = referrals.ReferralsResourceWithRawResponse(client.referrals)
+        self.workflows = workflows.WorkflowsResourceWithRawResponse(client.workflows)
+        self.affiliates = affiliates.AffiliatesResourceWithRawResponse(
+            client.affiliates
+        )
+        self.containers = containers.ContainersResourceWithRawResponse(
+            client.containers
+        )
+        self.deployments = deployments.DeploymentsResourceWithRawResponse(
+            client.deployments
+        )
+        self.mcp_servers = mcp_servers.MCPServersResourceWithRawResponse(
+            client.mcp_servers
+        )
+        self.observability = observability.ObservabilityResourceWithRawResponse(
+            client.observability
+        )
+        self.subscriptions = subscriptions.SubscriptionsResourceWithRawResponse(
+            client.subscriptions
+        )
+        self.mpc = mpc.MPCResourceWithRawResponse(client.mpc)
+        self.paas = paas.PaaSResourceWithRawResponse(client.paas)
+        self.docdb = docdb.DocDBResourceWithRawResponse(client.docdb)
+        self.ingress = ingress.IngressResourceWithRawResponse(client.ingress)
+        self.datastore = datastore.DatastoreResourceWithRawResponse(client.datastore)
 
         self.get_home = to_raw_response_wrapper(
             client.get_home,
@@ -914,6 +1254,84 @@ class AsyncHanzoWithRawResponse:
         self.delete = delete.AsyncDeleteResourceWithRawResponse(client.delete)
         self.files = files.AsyncFilesResourceWithRawResponse(client.files)
         self.budget = budget.AsyncBudgetResourceWithRawResponse(client.budget)
+        self.db = db.AsyncDBResourceWithRawResponse(client.db)
+        self.kv = kv.AsyncKVResourceWithRawResponse(client.kv)
+        self.dns = dns.AsyncDNSResourceWithRawResponse(client.dns)
+        self.kms = kms.AsyncKMSResourceWithRawResponse(client.kms)
+        self.cart = cart.AsyncCartResourceWithRawResponse(client.cart)
+        self.edge = edge.AsyncEdgeResourceWithRawResponse(client.edge)
+        self.jobs = jobs.AsyncJobsResourceWithRawResponse(client.jobs)
+        self.pods = pods.AsyncPodsResourceWithRawResponse(client.pods)
+        self.audit = audit.AsyncAuditResourceWithRawResponse(client.audit)
+        self.build = build.AsyncBuildResourceWithRawResponse(client.build)
+        self.chain = chain.AsyncChainResourceWithRawResponse(client.chain)
+        self.miner = miner.AsyncMinerResourceWithRawResponse(client.miner)
+        self.nodes = nodes.AsyncNodesResourceWithRawResponse(client.nodes)
+        self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
+        self.access = access.AsyncAccessResourceWithRawResponse(client.access)
+        self.agents = agents.AsyncAgentsResourceWithRawResponse(client.agents)
+        self.device = device.AsyncDeviceResourceWithRawResponse(client.device)
+        self.graphs = graphs.AsyncGraphsResourceWithRawResponse(client.graphs)
+        self.orders = orders.AsyncOrdersResourceWithRawResponse(client.orders)
+        self.policy = policy.AsyncPolicyResourceWithRawResponse(client.policy)
+        self.pubsub = pubsub.AsyncPubSubResourceWithRawResponse(client.pubsub)
+        self.queues = queues.AsyncQueuesResourceWithRawResponse(client.queues)
+        self.stores = stores.AsyncStoresResourceWithRawResponse(client.stores)
+        self.tokens = tokens.AsyncTokensResourceWithRawResponse(client.tokens)
+        self.tunnel = tunnel.AsyncTunnelResourceWithRawResponse(client.tunnel)
+        self.coupons = coupons.AsyncCouponsResourceWithRawResponse(client.coupons)
+        self.gateway = gateway.AsyncGatewayResourceWithRawResponse(client.gateway)
+        self.network = network.AsyncNetworkResourceWithRawResponse(client.network)
+        self.release = release.AsyncReleaseResourceWithRawResponse(client.release)
+        self.secrets = secrets.AsyncSecretsResourceWithRawResponse(client.secrets)
+        self.storage = storage.AsyncStorageResourceWithRawResponse(client.storage)
+        self.vectors = vectors.AsyncVectorsResourceWithRawResponse(client.vectors)
+        self.wallets = wallets.AsyncWalletsResourceWithRawResponse(client.wallets)
+        self.checkout = checkout.AsyncCheckoutResourceWithRawResponse(client.checkout)
+        self.identity = identity.AsyncIdentityResourceWithRawResponse(client.identity)
+        self.machines = machines.AsyncMachinesResourceWithRawResponse(client.machines)
+        self.products = products.AsyncProductsResourceWithRawResponse(client.products)
+        self.registry = registry.AsyncRegistryResourceWithRawResponse(client.registry)
+        self.campaigns = campaigns.AsyncCampaignsResourceWithRawResponse(
+            client.campaigns
+        )
+        self.inference = inference.AsyncInferenceResourceWithRawResponse(
+            client.inference
+        )
+        self.providers = providers.AsyncProvidersResourceWithRawResponse(
+            client.providers
+        )
+        self.referrals = referrals.AsyncReferralsResourceWithRawResponse(
+            client.referrals
+        )
+        self.workflows = workflows.AsyncWorkflowsResourceWithRawResponse(
+            client.workflows
+        )
+        self.affiliates = affiliates.AsyncAffiliatesResourceWithRawResponse(
+            client.affiliates
+        )
+        self.containers = containers.AsyncContainersResourceWithRawResponse(
+            client.containers
+        )
+        self.deployments = deployments.AsyncDeploymentsResourceWithRawResponse(
+            client.deployments
+        )
+        self.mcp_servers = mcp_servers.AsyncMCPServersResourceWithRawResponse(
+            client.mcp_servers
+        )
+        self.observability = observability.AsyncObservabilityResourceWithRawResponse(
+            client.observability
+        )
+        self.subscriptions = subscriptions.AsyncSubscriptionsResourceWithRawResponse(
+            client.subscriptions
+        )
+        self.mpc = mpc.AsyncMPCResourceWithRawResponse(client.mpc)
+        self.paas = paas.AsyncPaaSResourceWithRawResponse(client.paas)
+        self.docdb = docdb.AsyncDocDBResourceWithRawResponse(client.docdb)
+        self.ingress = ingress.AsyncIngressResourceWithRawResponse(client.ingress)
+        self.datastore = datastore.AsyncDatastoreResourceWithRawResponse(
+            client.datastore
+        )
 
         self.get_home = async_to_raw_response_wrapper(
             client.get_home,
@@ -998,6 +1416,84 @@ class HanzoWithStreamedResponse:
         self.delete = delete.DeleteResourceWithStreamingResponse(client.delete)
         self.files = files.FilesResourceWithStreamingResponse(client.files)
         self.budget = budget.BudgetResourceWithStreamingResponse(client.budget)
+        self.db = db.DBResourceWithStreamingResponse(client.db)
+        self.kv = kv.KVResourceWithStreamingResponse(client.kv)
+        self.dns = dns.DNSResourceWithStreamingResponse(client.dns)
+        self.kms = kms.KMSResourceWithStreamingResponse(client.kms)
+        self.cart = cart.CartResourceWithStreamingResponse(client.cart)
+        self.edge = edge.EdgeResourceWithStreamingResponse(client.edge)
+        self.jobs = jobs.JobsResourceWithStreamingResponse(client.jobs)
+        self.pods = pods.PodsResourceWithStreamingResponse(client.pods)
+        self.audit = audit.AuditResourceWithStreamingResponse(client.audit)
+        self.build = build.BuildResourceWithStreamingResponse(client.build)
+        self.chain = chain.ChainResourceWithStreamingResponse(client.chain)
+        self.miner = miner.MinerResourceWithStreamingResponse(client.miner)
+        self.nodes = nodes.NodesResourceWithStreamingResponse(client.nodes)
+        self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
+        self.access = access.AccessResourceWithStreamingResponse(client.access)
+        self.agents = agents.AgentsResourceWithStreamingResponse(client.agents)
+        self.device = device.DeviceResourceWithStreamingResponse(client.device)
+        self.graphs = graphs.GraphsResourceWithStreamingResponse(client.graphs)
+        self.orders = orders.OrdersResourceWithStreamingResponse(client.orders)
+        self.policy = policy.PolicyResourceWithStreamingResponse(client.policy)
+        self.pubsub = pubsub.PubSubResourceWithStreamingResponse(client.pubsub)
+        self.queues = queues.QueuesResourceWithStreamingResponse(client.queues)
+        self.stores = stores.StoresResourceWithStreamingResponse(client.stores)
+        self.tokens = tokens.TokensResourceWithStreamingResponse(client.tokens)
+        self.tunnel = tunnel.TunnelResourceWithStreamingResponse(client.tunnel)
+        self.coupons = coupons.CouponsResourceWithStreamingResponse(client.coupons)
+        self.gateway = gateway.GatewayResourceWithStreamingResponse(client.gateway)
+        self.network = network.NetworkResourceWithStreamingResponse(client.network)
+        self.release = release.ReleaseResourceWithStreamingResponse(client.release)
+        self.secrets = secrets.SecretsResourceWithStreamingResponse(client.secrets)
+        self.storage = storage.StorageResourceWithStreamingResponse(client.storage)
+        self.vectors = vectors.VectorsResourceWithStreamingResponse(client.vectors)
+        self.wallets = wallets.WalletsResourceWithStreamingResponse(client.wallets)
+        self.checkout = checkout.CheckoutResourceWithStreamingResponse(client.checkout)
+        self.identity = identity.IdentityResourceWithStreamingResponse(client.identity)
+        self.machines = machines.MachinesResourceWithStreamingResponse(client.machines)
+        self.products = products.ProductsResourceWithStreamingResponse(client.products)
+        self.registry = registry.RegistryResourceWithStreamingResponse(client.registry)
+        self.campaigns = campaigns.CampaignsResourceWithStreamingResponse(
+            client.campaigns
+        )
+        self.inference = inference.InferenceResourceWithStreamingResponse(
+            client.inference
+        )
+        self.providers = providers.ProvidersResourceWithStreamingResponse(
+            client.providers
+        )
+        self.referrals = referrals.ReferralsResourceWithStreamingResponse(
+            client.referrals
+        )
+        self.workflows = workflows.WorkflowsResourceWithStreamingResponse(
+            client.workflows
+        )
+        self.affiliates = affiliates.AffiliatesResourceWithStreamingResponse(
+            client.affiliates
+        )
+        self.containers = containers.ContainersResourceWithStreamingResponse(
+            client.containers
+        )
+        self.deployments = deployments.DeploymentsResourceWithStreamingResponse(
+            client.deployments
+        )
+        self.mcp_servers = mcp_servers.MCPServersResourceWithStreamingResponse(
+            client.mcp_servers
+        )
+        self.observability = observability.ObservabilityResourceWithStreamingResponse(
+            client.observability
+        )
+        self.subscriptions = subscriptions.SubscriptionsResourceWithStreamingResponse(
+            client.subscriptions
+        )
+        self.mpc = mpc.MPCResourceWithStreamingResponse(client.mpc)
+        self.paas = paas.PaaSResourceWithStreamingResponse(client.paas)
+        self.docdb = docdb.DocDBResourceWithStreamingResponse(client.docdb)
+        self.ingress = ingress.IngressResourceWithStreamingResponse(client.ingress)
+        self.datastore = datastore.DatastoreResourceWithStreamingResponse(
+            client.datastore
+        )
 
         self.get_home = to_streamed_response_wrapper(
             client.get_home,
@@ -1092,6 +1588,116 @@ class AsyncHanzoWithStreamedResponse:
         self.delete = delete.AsyncDeleteResourceWithStreamingResponse(client.delete)
         self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
         self.budget = budget.AsyncBudgetResourceWithStreamingResponse(client.budget)
+        self.db = db.AsyncDBResourceWithStreamingResponse(client.db)
+        self.kv = kv.AsyncKVResourceWithStreamingResponse(client.kv)
+        self.dns = dns.AsyncDNSResourceWithStreamingResponse(client.dns)
+        self.kms = kms.AsyncKMSResourceWithStreamingResponse(client.kms)
+        self.cart = cart.AsyncCartResourceWithStreamingResponse(client.cart)
+        self.edge = edge.AsyncEdgeResourceWithStreamingResponse(client.edge)
+        self.jobs = jobs.AsyncJobsResourceWithStreamingResponse(client.jobs)
+        self.pods = pods.AsyncPodsResourceWithStreamingResponse(client.pods)
+        self.audit = audit.AsyncAuditResourceWithStreamingResponse(client.audit)
+        self.build = build.AsyncBuildResourceWithStreamingResponse(client.build)
+        self.chain = chain.AsyncChainResourceWithStreamingResponse(client.chain)
+        self.miner = miner.AsyncMinerResourceWithStreamingResponse(client.miner)
+        self.nodes = nodes.AsyncNodesResourceWithStreamingResponse(client.nodes)
+        self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
+        self.access = access.AsyncAccessResourceWithStreamingResponse(client.access)
+        self.agents = agents.AsyncAgentsResourceWithStreamingResponse(client.agents)
+        self.device = device.AsyncDeviceResourceWithStreamingResponse(client.device)
+        self.graphs = graphs.AsyncGraphsResourceWithStreamingResponse(client.graphs)
+        self.orders = orders.AsyncOrdersResourceWithStreamingResponse(client.orders)
+        self.policy = policy.AsyncPolicyResourceWithStreamingResponse(client.policy)
+        self.pubsub = pubsub.AsyncPubSubResourceWithStreamingResponse(client.pubsub)
+        self.queues = queues.AsyncQueuesResourceWithStreamingResponse(client.queues)
+        self.stores = stores.AsyncStoresResourceWithStreamingResponse(client.stores)
+        self.tokens = tokens.AsyncTokensResourceWithStreamingResponse(client.tokens)
+        self.tunnel = tunnel.AsyncTunnelResourceWithStreamingResponse(client.tunnel)
+        self.coupons = coupons.AsyncCouponsResourceWithStreamingResponse(
+            client.coupons
+        )
+        self.gateway = gateway.AsyncGatewayResourceWithStreamingResponse(
+            client.gateway
+        )
+        self.network = network.AsyncNetworkResourceWithStreamingResponse(
+            client.network
+        )
+        self.release = release.AsyncReleaseResourceWithStreamingResponse(
+            client.release
+        )
+        self.secrets = secrets.AsyncSecretsResourceWithStreamingResponse(
+            client.secrets
+        )
+        self.storage = storage.AsyncStorageResourceWithStreamingResponse(
+            client.storage
+        )
+        self.vectors = vectors.AsyncVectorsResourceWithStreamingResponse(
+            client.vectors
+        )
+        self.wallets = wallets.AsyncWalletsResourceWithStreamingResponse(
+            client.wallets
+        )
+        self.checkout = checkout.AsyncCheckoutResourceWithStreamingResponse(
+            client.checkout
+        )
+        self.identity = identity.AsyncIdentityResourceWithStreamingResponse(
+            client.identity
+        )
+        self.machines = machines.AsyncMachinesResourceWithStreamingResponse(
+            client.machines
+        )
+        self.products = products.AsyncProductsResourceWithStreamingResponse(
+            client.products
+        )
+        self.registry = registry.AsyncRegistryResourceWithStreamingResponse(
+            client.registry
+        )
+        self.campaigns = campaigns.AsyncCampaignsResourceWithStreamingResponse(
+            client.campaigns
+        )
+        self.inference = inference.AsyncInferenceResourceWithStreamingResponse(
+            client.inference
+        )
+        self.providers = providers.AsyncProvidersResourceWithStreamingResponse(
+            client.providers
+        )
+        self.referrals = referrals.AsyncReferralsResourceWithStreamingResponse(
+            client.referrals
+        )
+        self.workflows = workflows.AsyncWorkflowsResourceWithStreamingResponse(
+            client.workflows
+        )
+        self.affiliates = affiliates.AsyncAffiliatesResourceWithStreamingResponse(
+            client.affiliates
+        )
+        self.containers = containers.AsyncContainersResourceWithStreamingResponse(
+            client.containers
+        )
+        self.deployments = deployments.AsyncDeploymentsResourceWithStreamingResponse(
+            client.deployments
+        )
+        self.mcp_servers = mcp_servers.AsyncMCPServersResourceWithStreamingResponse(
+            client.mcp_servers
+        )
+        self.observability = (
+            observability.AsyncObservabilityResourceWithStreamingResponse(
+                client.observability
+            )
+        )
+        self.subscriptions = (
+            subscriptions.AsyncSubscriptionsResourceWithStreamingResponse(
+                client.subscriptions
+            )
+        )
+        self.mpc = mpc.AsyncMPCResourceWithStreamingResponse(client.mpc)
+        self.paas = paas.AsyncPaaSResourceWithStreamingResponse(client.paas)
+        self.docdb = docdb.AsyncDocDBResourceWithStreamingResponse(client.docdb)
+        self.ingress = ingress.AsyncIngressResourceWithStreamingResponse(
+            client.ingress
+        )
+        self.datastore = datastore.AsyncDatastoreResourceWithStreamingResponse(
+            client.datastore
+        )
 
         self.get_home = async_to_streamed_response_wrapper(
             client.get_home,
