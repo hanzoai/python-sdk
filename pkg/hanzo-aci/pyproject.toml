@@ -7,7 +7,7 @@ authors = [
   { name = "Hanzo Industries Inc" }
 ]
 license = { text = "MIT" }
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
   "numpy",
   "pandas",

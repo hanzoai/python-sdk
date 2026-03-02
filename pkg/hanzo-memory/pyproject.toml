@@ -7,7 +7,7 @@ name = "hanzo-memory"
 version = "1.0.1"
 description = "AI memory service with FastAPI and MCP support"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 license = {text = "BSD"}
 authors = [
     {name = "Hanzo Industries Inc.", email = "dev@hanzo.ai"}
