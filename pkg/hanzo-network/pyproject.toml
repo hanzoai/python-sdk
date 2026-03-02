@@ -7,7 +7,7 @@ authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
 ]
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "hanzo-agents>=0.1.0",
     "httpx>=0.23.0",
