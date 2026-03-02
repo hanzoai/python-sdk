@@ -3,7 +3,7 @@ name = "hanzo-tools-paas"
 version = "0.1.0"
 description = "Hanzo PaaS MCP tool — deployments, environments, logs, IAM, and cloud services"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "mcp", "paas", "iam", "deploy", "tools"]
