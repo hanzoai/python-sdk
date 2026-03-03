@@ -12,32 +12,73 @@ from .._resource import SyncAPIResource, AsyncAPIResource
 from .._base_client import make_request_options
 
 
-class DNSResource(SyncAPIResource):
-    """DNS management service."""
+class PagesResource(SyncAPIResource):
+    """Cloudflare Pages project management service."""
 
     @cached_property
-    def with_raw_response(self) -> DNSResourceWithRawResponse:
-        return DNSResourceWithRawResponse(self)
+    def with_raw_response(self) -> PagesResourceWithRawResponse:
+        return PagesResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> DNSResourceWithStreamingResponse:
-        return DNSResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> PagesResourceWithStreamingResponse:
+        return PagesResourceWithStreamingResponse(self)
 
-    # Zone management
-    def create_zone(
+    # Project management
+    def list_projects(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """List all Pages projects."""
+        return self._get(
+            "/pages/projects",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=object,
+        )
+
+    def get_project(
+        self,
+        project_name: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """Get a Pages project by name."""
+        return self._get(
+            f"/pages/projects/{project_name}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=object,
+        )
+
+    def create_project(
         self,
         *,
         name: str,
-        description: str | NotGiven = NOT_GIVEN,
+        production_branch: str | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Create a DNS zone."""
+        """Create a new Pages project."""
         return self._post(
-            "/dns/zones",
-            body={"name": name, "description": description},
+            "/pages/projects",
+            body={"name": name, "production_branch": production_branch},
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -47,38 +88,18 @@ class DNSResource(SyncAPIResource):
             cast_to=object,
         )
 
-    def list_zones(
+    def delete_project(
         self,
+        project_name: str,
         *,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """List DNS zones."""
-        return self._get(
-            "/dns/zones",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    def delete_zone(
-        self,
-        zone_id: str,
-        *,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Delete a DNS zone."""
+        """Delete a Pages project."""
         return self._delete(
-            f"/dns/zones/{zone_id}",
+            f"/pages/projects/{project_name}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -88,45 +109,19 @@ class DNSResource(SyncAPIResource):
             cast_to=object,
         )
 
-    # Record management
-    def set_record(
+    # Deployment management
+    def list_deployments(
         self,
-        zone_id: str,
-        *,
-        name: str,
-        type: str,
-        value: str,
-        ttl: int | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Set a DNS record."""
-        return self._post(
-            f"/dns/zones/{zone_id}/records",
-            body={"name": name, "type": type, "value": value, "ttl": ttl},
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    def list_records(
-        self,
-        zone_id: str,
+        project_name: str,
         *,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """List DNS records in a zone."""
+        """List deployments for a Pages project."""
         return self._get(
-            f"/dns/zones/{zone_id}/records",
+            f"/pages/projects/{project_name}/deployments",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -136,31 +131,20 @@ class DNSResource(SyncAPIResource):
             cast_to=object,
         )
 
-    def update_record(
+    def trigger_deploy(
         self,
-        zone_id: str,
-        record_id: str,
+        project_name: str,
         *,
-        type: str,
-        name: str,
-        content: str,
-        proxied: bool | NotGiven = NOT_GIVEN,
-        ttl: int | NotGiven = NOT_GIVEN,
+        branch: str | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Update a DNS record."""
-        return self._put(
-            f"/dns/zones/{zone_id}/records/{record_id}",
-            body={
-                "type": type,
-                "name": name,
-                "content": content,
-                "proxied": proxied,
-                "ttl": ttl,
-            },
+        """Trigger a new deployment for a Pages project."""
+        return self._post(
+            f"/pages/projects/{project_name}/deployments",
+            body={"branch": branch},
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -170,19 +154,43 @@ class DNSResource(SyncAPIResource):
             cast_to=object,
         )
 
-    def delete_record(
+    # Domain management
+    def add_domain(
         self,
-        zone_id: str,
-        record_id: str,
+        project_name: str,
+        *,
+        domain: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """Add a custom domain to a Pages project."""
+        return self._post(
+            f"/pages/projects/{project_name}/domains",
+            body={"domain": domain},
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=object,
+        )
+
+    def remove_domain(
+        self,
+        project_name: str,
+        domain_id: str,
         *,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Delete a DNS record."""
+        """Remove a custom domain from a Pages project."""
         return self._delete(
-            f"/dns/zones/{zone_id}/records/{record_id}",
+            f"/pages/projects/{project_name}/domains/{domain_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -192,114 +200,20 @@ class DNSResource(SyncAPIResource):
             cast_to=object,
         )
 
-    # Domain verification
-    def verify_domain(
-        self,
-        domain: str,
-        *,
-        expected_ip: str | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Verify DNS configuration for a domain."""
-        return self._post(
-            "/dns/verify",
-            body={"domain": domain, "expectedIp": expected_ip},
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
 
-    # Service linking
-    def link(
-        self,
-        *,
-        service: str,
-        hostname: str,
-        zone_id: str | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Link a service to a hostname."""
-        return self._post(
-            "/dns/link",
-            body={"service": service, "hostname": hostname, "zone_id": zone_id},
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    # Health checks
-    def health(
-        self,
-        *,
-        hostname: str | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Check DNS resolution and propagation health."""
-        return self._get(
-            "/dns/health",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query={"hostname": hostname},
-            ),
-            cast_to=object,
-        )
-
-
-class AsyncDNSResource(AsyncAPIResource):
-    """DNS management service."""
+class AsyncPagesResource(AsyncAPIResource):
+    """Cloudflare Pages project management service."""
 
     @cached_property
-    def with_raw_response(self) -> AsyncDNSResourceWithRawResponse:
-        return AsyncDNSResourceWithRawResponse(self)
+    def with_raw_response(self) -> AsyncPagesResourceWithRawResponse:
+        return AsyncPagesResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncDNSResourceWithStreamingResponse:
-        return AsyncDNSResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncPagesResourceWithStreamingResponse:
+        return AsyncPagesResourceWithStreamingResponse(self)
 
-    async def create_zone(
-        self,
-        *,
-        name: str,
-        description: str | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Create a DNS zone."""
-        return await self._post(
-            "/dns/zones",
-            body={"name": name, "description": description},
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    async def list_zones(
+    # Project management
+    async def list_projects(
         self,
         *,
         extra_headers: Headers | None = None,
@@ -307,9 +221,9 @@ class AsyncDNSResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """List DNS zones."""
+        """List all Pages projects."""
         return await self._get(
-            "/dns/zones",
+            "/pages/projects",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -319,65 +233,18 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def delete_zone(
+    async def get_project(
         self,
-        zone_id: str,
+        project_name: str,
         *,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Delete a DNS zone."""
-        return await self._delete(
-            f"/dns/zones/{zone_id}",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    async def set_record(
-        self,
-        zone_id: str,
-        *,
-        name: str,
-        type: str,
-        value: str,
-        ttl: int | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Set a DNS record."""
-        return await self._post(
-            f"/dns/zones/{zone_id}/records",
-            body={"name": name, "type": type, "value": value, "ttl": ttl},
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=object,
-        )
-
-    async def list_records(
-        self,
-        zone_id: str,
-        *,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """List DNS records in a zone."""
+        """Get a Pages project by name."""
         return await self._get(
-            f"/dns/zones/{zone_id}/records",
+            f"/pages/projects/{project_name}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -387,31 +254,20 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def update_record(
+    async def create_project(
         self,
-        zone_id: str,
-        record_id: str,
         *,
-        type: str,
         name: str,
-        content: str,
-        proxied: bool | NotGiven = NOT_GIVEN,
-        ttl: int | NotGiven = NOT_GIVEN,
+        production_branch: str | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Update a DNS record."""
-        return await self._put(
-            f"/dns/zones/{zone_id}/records/{record_id}",
-            body={
-                "type": type,
-                "name": name,
-                "content": content,
-                "proxied": proxied,
-                "ttl": ttl,
-            },
+        """Create a new Pages project."""
+        return await self._post(
+            "/pages/projects",
+            body={"name": name, "production_branch": production_branch},
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -421,19 +277,18 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def delete_record(
+    async def delete_project(
         self,
-        zone_id: str,
-        record_id: str,
+        project_name: str,
         *,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Delete a DNS record."""
+        """Delete a Pages project."""
         return await self._delete(
-            f"/dns/zones/{zone_id}/records/{record_id}",
+            f"/pages/projects/{project_name}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -443,21 +298,66 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    # Domain verification
-    async def verify_domain(
+    # Deployment management
+    async def list_deployments(
         self,
+        project_name: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """List deployments for a Pages project."""
+        return await self._get(
+            f"/pages/projects/{project_name}/deployments",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=object,
+        )
+
+    async def trigger_deploy(
+        self,
+        project_name: str,
+        *,
+        branch: str | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """Trigger a new deployment for a Pages project."""
+        return await self._post(
+            f"/pages/projects/{project_name}/deployments",
+            body={"branch": branch},
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=object,
+        )
+
+    # Domain management
+    async def add_domain(
+        self,
+        project_name: str,
+        *,
         domain: str,
-        *,
-        expected_ip: str | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Verify DNS configuration for a domain."""
+        """Add a custom domain to a Pages project."""
         return await self._post(
-            "/dns/verify",
-            body={"domain": domain, "expectedIp": expected_ip},
+            f"/pages/projects/{project_name}/domains",
+            body={"domain": domain},
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -467,21 +367,19 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def link(
+    async def remove_domain(
         self,
+        project_name: str,
+        domain_id: str,
         *,
-        service: str,
-        hostname: str,
-        zone_id: str | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """Link a service to a hostname."""
-        return await self._post(
-            "/dns/link",
-            body={"service": service, "hostname": hostname, "zone_id": zone_id},
+        """Remove a custom domain from a Pages project."""
+        return await self._delete(
+            f"/pages/projects/{project_name}/domains/{domain_id}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -491,44 +389,22 @@ class AsyncDNSResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def health(
-        self,
-        *,
-        hostname: str | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Check DNS resolution and propagation health."""
-        return await self._get(
-            "/dns/health",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query={"hostname": hostname},
-            ),
-            cast_to=object,
-        )
+
+class PagesResourceWithRawResponse:
+    def __init__(self, pages: PagesResource) -> None:
+        self._pages = pages
 
 
-class DNSResourceWithRawResponse:
-    def __init__(self, dns: DNSResource) -> None:
-        self._dns = dns
+class AsyncPagesResourceWithRawResponse:
+    def __init__(self, pages: AsyncPagesResource) -> None:
+        self._pages = pages
 
 
-class AsyncDNSResourceWithRawResponse:
-    def __init__(self, dns: AsyncDNSResource) -> None:
-        self._dns = dns
+class PagesResourceWithStreamingResponse:
+    def __init__(self, pages: PagesResource) -> None:
+        self._pages = pages
 
 
-class DNSResourceWithStreamingResponse:
-    def __init__(self, dns: DNSResource) -> None:
-        self._dns = dns
-
-
-class AsyncDNSResourceWithStreamingResponse:
-    def __init__(self, dns: AsyncDNSResource) -> None:
-        self._dns = dns
+class AsyncPagesResourceWithStreamingResponse:
+    def __init__(self, pages: AsyncPagesResource) -> None:
+        self._pages = pages
