@@ -37,6 +37,7 @@ from .resources import (
     add,
     db,
     dns,
+    pages,
     kms,
     kv,
     mpc,
@@ -217,6 +218,7 @@ class Hanzo(SyncAPIClient):
     db: db.DBResource
     kv: kv.KVResource
     dns: dns.DNSResource
+    pages: pages.PagesResource
     kms: kms.KMSResource
     cart: cart.CartResource
     edge: edge.EdgeResource
@@ -403,6 +405,7 @@ class Hanzo(SyncAPIClient):
         self.db = db.DBResource(self)
         self.kv = kv.KVResource(self)
         self.dns = dns.DNSResource(self)
+        self.pages = pages.PagesResource(self)
         self.kms = kms.KMSResource(self)
         self.cart = cart.CartResource(self)
         self.edge = edge.EdgeResource(self)
@@ -651,6 +654,7 @@ class AsyncHanzo(AsyncAPIClient):
     db: db.AsyncDBResource
     kv: kv.AsyncKVResource
     dns: dns.AsyncDNSResource
+    pages: pages.AsyncPagesResource
     kms: kms.AsyncKMSResource
     cart: cart.AsyncCartResource
     edge: edge.AsyncEdgeResource
@@ -837,6 +841,7 @@ class AsyncHanzo(AsyncAPIClient):
         self.db = db.AsyncDBResource(self)
         self.kv = kv.AsyncKVResource(self)
         self.dns = dns.AsyncDNSResource(self)
+        self.pages = pages.AsyncPagesResource(self)
         self.kms = kms.AsyncKMSResource(self)
         self.cart = cart.AsyncCartResource(self)
         self.edge = edge.AsyncEdgeResource(self)
@@ -1107,6 +1112,7 @@ class HanzoWithRawResponse:
         self.db = db.DBResourceWithRawResponse(client.db)
         self.kv = kv.KVResourceWithRawResponse(client.kv)
         self.dns = dns.DNSResourceWithRawResponse(client.dns)
+        self.pages = pages.PagesResourceWithRawResponse(client.pages)
         self.kms = kms.KMSResourceWithRawResponse(client.kms)
         self.cart = cart.CartResourceWithRawResponse(client.cart)
         self.edge = edge.EdgeResourceWithRawResponse(client.edge)
@@ -1257,6 +1263,7 @@ class AsyncHanzoWithRawResponse:
         self.db = db.AsyncDBResourceWithRawResponse(client.db)
         self.kv = kv.AsyncKVResourceWithRawResponse(client.kv)
         self.dns = dns.AsyncDNSResourceWithRawResponse(client.dns)
+        self.pages = pages.AsyncPagesResourceWithRawResponse(client.pages)
         self.kms = kms.AsyncKMSResourceWithRawResponse(client.kms)
         self.cart = cart.AsyncCartResourceWithRawResponse(client.cart)
         self.edge = edge.AsyncEdgeResourceWithRawResponse(client.edge)
@@ -1419,6 +1426,7 @@ class HanzoWithStreamedResponse:
         self.db = db.DBResourceWithStreamingResponse(client.db)
         self.kv = kv.KVResourceWithStreamingResponse(client.kv)
         self.dns = dns.DNSResourceWithStreamingResponse(client.dns)
+        self.pages = pages.PagesResourceWithStreamingResponse(client.pages)
         self.kms = kms.KMSResourceWithStreamingResponse(client.kms)
         self.cart = cart.CartResourceWithStreamingResponse(client.cart)
         self.edge = edge.EdgeResourceWithStreamingResponse(client.edge)
@@ -1591,6 +1599,7 @@ class AsyncHanzoWithStreamedResponse:
         self.db = db.AsyncDBResourceWithStreamingResponse(client.db)
         self.kv = kv.AsyncKVResourceWithStreamingResponse(client.kv)
         self.dns = dns.AsyncDNSResourceWithStreamingResponse(client.dns)
+        self.pages = pages.AsyncPagesResourceWithStreamingResponse(client.pages)
         self.kms = kms.AsyncKMSResourceWithStreamingResponse(client.kms)
         self.cart = cart.AsyncCartResourceWithStreamingResponse(client.cart)
         self.edge = edge.AsyncEdgeResourceWithStreamingResponse(client.edge)
