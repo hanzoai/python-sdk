@@ -33,6 +33,14 @@ from .dns import (
     DNSResourceWithStreamingResponse,
     AsyncDNSResourceWithStreamingResponse,
 )
+from .pages import (
+    PagesResource,
+    AsyncPagesResource,
+    PagesResourceWithRawResponse,
+    AsyncPagesResourceWithRawResponse,
+    PagesResourceWithStreamingResponse,
+    AsyncPagesResourceWithStreamingResponse,
+)
 from .key import (
     KeyResource,
     AsyncKeyResource,
@@ -1394,6 +1402,12 @@ __all__ = [
     "AsyncDNSResourceWithRawResponse",
     "DNSResourceWithStreamingResponse",
     "AsyncDNSResourceWithStreamingResponse",
+    "PagesResource",
+    "AsyncPagesResource",
+    "PagesResourceWithRawResponse",
+    "AsyncPagesResourceWithRawResponse",
+    "PagesResourceWithStreamingResponse",
+    "AsyncPagesResourceWithStreamingResponse",
     # Build/Release Resources
     "BuildResource",
     "AsyncBuildResource",
