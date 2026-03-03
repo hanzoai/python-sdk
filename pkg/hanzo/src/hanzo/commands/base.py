@@ -261,19 +261,22 @@ enabled = false
     (project_dir / "config.toml").write_text(config)
 
     # Create seed.sql
-    (project_dir / "seed" / "seed.sql").write_text("""-- Seed data for development
+    (project_dir / "seed" / "seed.sql").write_text(
+        """-- Seed data for development
 -- Add your seed data here
 
 -- Example:
 -- INSERT INTO public.profiles (id, username) VALUES
 --   ('00000000-0000-0000-0000-000000000001', 'alice'),
 --   ('00000000-0000-0000-0000-000000000002', 'bob');
-""")
+"""
+    )
 
     # Create initial migration
     migration_dir = project_dir / "migrations" / "00000000000000_init"
     migration_dir.mkdir(exist_ok=True)
-    (migration_dir / "up.sql").write_text("""-- Initial schema
+    (migration_dir / "up.sql").write_text(
+        """-- Initial schema
 -- Enable extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -300,7 +303,8 @@ CREATE POLICY "Public profiles are viewable by everyone"
 CREATE POLICY "Users can update own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = id);
-""")
+"""
+    )
 
     # Create example function
     func_dir = project_dir / "functions" / "hello"
