@@ -367,9 +367,7 @@ class EnhancedHanzoREPL:
         # Node status
         try:
             response = httpx.get("http://localhost:3690/health", timeout=1)
-            node_status = (
-                "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
-            )
+            node_status = "✅ Running" if response.status_code == 200 else "⚠️ Unhealthy"
             node_details = "Port 3690"
         except Exception:
             node_status = "❌ Offline"
