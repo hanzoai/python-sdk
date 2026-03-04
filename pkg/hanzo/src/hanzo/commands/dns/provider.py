@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import json
 import sys
+import json
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
+from pathlib import Path
+from dataclasses import field, dataclass
 
 CREDENTIALS_FILE = Path.home() / ".hanzo" / "credentials.json"
 

@@ -12,10 +12,10 @@ from rich.console import Console
 
 from .commands import (
     cx,
-    dns,
     fn,
     kv,
     ml,
+    dns,
     doc,
     env,
     iam,

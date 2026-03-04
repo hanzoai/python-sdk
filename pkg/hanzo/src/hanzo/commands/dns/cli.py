@@ -15,22 +15,24 @@ Usage:
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import click
 
 # Import providers to trigger registration
-from . import cloudflare as _cf  # noqa: F401
-from . import coredns as _cd  # noqa: F401
+from . import (
+    coredns as _cd,  # noqa: F401
+    cloudflare as _cf,  # noqa: F401
+)
 from .provider import (
-    DNSRecord,
     DNSZone,
-    get_active_providers,
+    DNSRecord,
+    get_provider,
     list_providers as _list_provider_names,
     load_dns_config,
     require_providers,
-    get_provider,
+    get_active_providers,
 )
 
 
@@ -116,6 +118,7 @@ def dns_group() -> None:
 def dns_providers() -> None:
     """Show configured DNS providers and their status."""
     from rich.table import Table
+
     from ...utils.output import console
 
     configs = load_dns_config()
@@ -156,6 +159,7 @@ def dns_providers() -> None:
 def dns_zones(provider: str | None) -> None:
     """List all DNS zones across all providers."""
     from rich.table import Table
+
     from ...utils.output import console
 
     providers = require_providers()
@@ -200,6 +204,7 @@ def dns_zones(provider: str | None) -> None:
 def dns_list(zone: str, record_type: str | None, provider: str | None) -> None:
     """List DNS records for a zone (queries all providers in parallel)."""
     from rich.table import Table
+
     from ...utils.output import console
 
     providers = require_providers()
@@ -358,6 +363,7 @@ def dns_update(
       hanzo dns update hanzo.ai 1.2.3.4 5.6.7.8 -p cloudflare
     """
     from rich.table import Table
+
     from ...utils.output import console
 
     providers = require_providers()
