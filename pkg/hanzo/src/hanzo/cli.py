@@ -12,6 +12,7 @@ from rich.console import Console
 
 from .commands import (
     cx,
+    dns,
     fn,
     kv,
     ml,
@@ -141,6 +142,7 @@ cli.add_command(node.cluster)
 cli.add_command(cloud.cloud_group)
 cli.add_command(config.config_group)
 cli.add_command(cx.cx_group)
+cli.add_command(dns.dns_group)
 cli.add_command(doc.doc_group)
 cli.add_command(env.env_group)
 cli.add_command(events.events_group)

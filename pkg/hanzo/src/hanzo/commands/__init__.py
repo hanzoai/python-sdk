@@ -12,6 +12,7 @@ __all__ = [
     "cloud",
     "config",
     "cx",
+    "dns",
     "doc",
     "env",
     "events",
