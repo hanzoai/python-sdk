@@ -5,6 +5,12 @@ Unrecognized subcommands pass directly through to kubectl.
 
 Usage:
     hanzo k8s auth                    # Fetch kubeconfig from Hanzo PaaS
+    hanzo k8s clusters                # List known clusters
+    hanzo k8s use <name>              # Switch active cluster
+    hanzo k8s services                # Show service status
+    hanzo k8s health                  # Run health checks
+    hanzo k8s dns zones               # List Cloudflare zones
+    hanzo k8s rollout <deploy>        # Restart a deployment
     hanzo k8s get pods                # kubectl get pods -n hanzo
     hanzo k8s logs <pod>              # kubectl logs <pod> -n hanzo
     hanzo k8s apply -f file.yaml      # kubectl apply -f file.yaml -n hanzo
@@ -294,3 +300,18 @@ def k8s_context() -> None:
             console.print(f"\nCurrent context: [green]{result.stdout.strip()}[/green]")
         else:
             console.print("\n[yellow]No current context set.[/yellow]")
+
+
+# ── register subcommands ──────────────────────────────────────────────
+
+from hanzo_cli.k8s.clusters import clusters, use  # noqa: E402
+from hanzo_cli.k8s.dns import dns  # noqa: E402
+from hanzo_cli.k8s.health import health  # noqa: E402
+from hanzo_cli.k8s.services import rollout, services  # noqa: E402
+
+k8s.add_command(clusters)
+k8s.add_command(use)
+k8s.add_command(health)
+k8s.add_command(dns)
+k8s.add_command(services)
+k8s.add_command(rollout)
