@@ -17,6 +17,8 @@ classifiers = [
 ]
 keywords = ["mcp", "claude", "hanzo", "code", "agent"]
 dependencies = [
+    # ZAP native protocol
+    "zap-protocol>=0.3.0",
     # Core MCP dependencies
     "mcp>=1.25.0",
     "fastmcp>=2.14.4",
