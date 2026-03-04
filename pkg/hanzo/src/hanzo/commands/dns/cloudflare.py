@@ -6,7 +6,7 @@ from typing import Any
 
 import click
 
-from .provider import DNSProvider, DNSRecord, DNSZone, register_provider
+from .provider import DNSZone, DNSRecord, DNSProvider, register_provider
 
 CF_API = "https://api.cloudflare.com/client/v4"
 
