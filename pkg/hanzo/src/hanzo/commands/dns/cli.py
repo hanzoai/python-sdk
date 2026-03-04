@@ -171,7 +171,9 @@ def dns_zones(provider: str | None) -> None:
     results = _run_parallel(providers, "list_zones")
 
     zones: list[DNSZone] = [r for r in results if isinstance(r, DNSZone)]
-    errors = [r for r in results if isinstance(r, tuple) and isinstance(r[1], Exception)]
+    errors = [
+        r for r in results if isinstance(r, tuple) and isinstance(r[1], Exception)
+    ]
 
     if not zones and not errors:
         console.print("[yellow]No zones found.[/yellow]")
@@ -199,7 +201,9 @@ def dns_zones(provider: str | None) -> None:
 
 @dns_group.command("list")
 @click.option("--zone", "-z", required=True, help="Zone name (e.g. hanzo.ai).")
-@click.option("--type", "record_type", default=None, help="Record type filter (A, CNAME, etc.).")
+@click.option(
+    "--type", "record_type", default=None, help="Record type filter (A, CNAME, etc.)."
+)
 @click.option("--provider", "-p", default=None, help="Filter by provider.")
 def dns_list(zone: str, record_type: str | None, provider: str | None) -> None:
     """List DNS records for a zone (queries all providers in parallel)."""
@@ -216,7 +220,9 @@ def dns_list(zone: str, record_type: str | None, provider: str | None) -> None:
     results = _run_parallel(providers, "list_records", zone, record_type)
 
     records: list[DNSRecord] = [r for r in results if isinstance(r, DNSRecord)]
-    errors = [r for r in results if isinstance(r, tuple) and isinstance(r[1], Exception)]
+    errors = [
+        r for r in results if isinstance(r, tuple) and isinstance(r[1], Exception)
+    ]
 
     if not records:
         label = f" {record_type}" if record_type else ""
@@ -237,8 +243,13 @@ def dns_list(zone: str, record_type: str | None, provider: str | None) -> None:
     for r in sorted(records, key=lambda x: (x.provider, x.type, x.name)):
         proxied = "[green]yes[/green]" if r.proxied else "no"
         table.add_row(
-            r.type, r.name, r.content, r.ttl_display,
-            proxied, r.provider, r.id[:12],
+            r.type,
+            r.name,
+            r.content,
+            r.ttl_display,
+            proxied,
+            r.provider,
+            r.id[:12],
         )
 
     console.print(table)
@@ -256,12 +267,21 @@ def dns_list(zone: str, record_type: str | None, provider: str | None) -> None:
 @click.argument("name")
 @click.argument("content")
 @click.option("--type", "record_type", default="A", help="Record type (default: A).")
-@click.option("--proxied/--no-proxy", default=True, help="Proxy (default: on, CF only).")
+@click.option(
+    "--proxied/--no-proxy", default=True, help="Proxy (default: on, CF only)."
+)
 @click.option("--ttl", default=1, help="TTL (1 = auto).")
-@click.option("--provider", "-p", default=None, help="Target provider (default: first active).")
+@click.option(
+    "--provider", "-p", default=None, help="Target provider (default: first active)."
+)
 def dns_add(
-    zone: str, name: str, content: str,
-    record_type: str, proxied: bool, ttl: int, provider: str | None
+    zone: str,
+    name: str,
+    content: str,
+    record_type: str,
+    proxied: bool,
+    ttl: int,
+    provider: str | None,
 ) -> None:
     """Add a DNS record.
 
@@ -279,7 +299,9 @@ def dns_add(
 
     rec = target.add_record(zone, name, content, record_type, proxied, ttl)
     if rec:
-        console.print(f"[green]✓[/green] Created {record_type.upper()} record via [magenta]{target.name}[/magenta]")
+        console.print(
+            f"[green]✓[/green] Created {record_type.upper()} record via [magenta]{target.name}[/magenta]"
+        )
         console.print(f"  Name:     {rec.name}")
         console.print(f"  Content:  {content}")
         console.print(f"  Proxied:  {'yes' if rec.proxied else 'no'}")
@@ -295,7 +317,9 @@ def dns_add(
 @click.option("--type", "record_type", default=None, help="Record type filter.")
 @click.option("--force", "-f", is_flag=True, help="Skip confirmation.")
 @click.option("--provider", "-p", default=None, help="Target provider (default: all).")
-def dns_rm(zone: str, name: str, record_type: str | None, force: bool, provider: str | None) -> None:
+def dns_rm(
+    zone: str, name: str, record_type: str | None, force: bool, provider: str | None
+) -> None:
     """Remove DNS record(s) matching NAME.
 
     \b
@@ -351,8 +375,12 @@ def dns_rm(zone: str, name: str, record_type: str | None, force: bool, provider:
 @click.option("--dry-run", is_flag=True, help="Show changes without applying.")
 @click.option("--provider", "-p", default=None, help="Target provider (default: all).")
 def dns_update(
-    zone: str, old_ip: str, new_ip: str,
-    record_type: str, dry_run: bool, provider: str | None
+    zone: str,
+    old_ip: str,
+    new_ip: str,
+    record_type: str,
+    dry_run: bool,
+    provider: str | None,
 ) -> None:
     """Batch update records: replace OLD_IP with NEW_IP across all providers.
 
@@ -374,10 +402,7 @@ def dns_update(
 
     # Preview: find matching records across all providers
     results = _run_parallel(providers, "list_records", zone, record_type)
-    matching = [
-        r for r in results
-        if isinstance(r, DNSRecord) and r.content == old_ip
-    ]
+    matching = [r for r in results if isinstance(r, DNSRecord) and r.content == old_ip]
 
     if not matching:
         console.print(
