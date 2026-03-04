@@ -12,9 +12,9 @@ Usage::
     info = admin.info()
 """
 
-from minio.minioadmin import MinioAdmin as S3Admin
-from minio.minioadmin import MinioAdmin  # backward compat
 from minio.error import MinioAdminException as S3AdminException
+from minio.minioadmin import MinioAdmin  # backward compat
+from minio.minioadmin import MinioAdmin as S3Admin
 
 # Convenience alias
 Admin = S3Admin

@@ -11,11 +11,11 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Annotated, Any, final
+from typing import Any, Annotated, final
 
+from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
-from pydantic import Field
 
 from hanzo_tools.core.base import BaseTool
 
