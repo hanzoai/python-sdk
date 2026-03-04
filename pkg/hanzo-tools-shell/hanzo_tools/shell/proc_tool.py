@@ -21,8 +21,13 @@ from datetime import datetime
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
+# Compatibility: some older hanzo-tools.core builds don't re-export Paging.
+try:
+    from hanzo_tools.core import Paging
+except ImportError:
+    from hanzo_tools.core.unified import Paging
+
 from hanzo_tools.core import (
-    Paging,
     BaseTool,
     ToolError,
     NotFoundError,
