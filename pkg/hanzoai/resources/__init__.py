@@ -802,6 +802,46 @@ from .observability import (
     AsyncObservabilityResourceWithStreamingResponse,
 )
 
+# Billing Resources
+from .billing import (
+    BillingResource,
+    AsyncBillingResource,
+    BillingResourceWithRawResponse,
+    AsyncBillingResourceWithRawResponse,
+    BillingResourceWithStreamingResponse,
+    AsyncBillingResourceWithStreamingResponse,
+)
+
+# IAM Resources
+from .iam import (
+    IAMResource,
+    AsyncIAMResource,
+    IAMResourceWithRawResponse,
+    AsyncIAMResourceWithRawResponse,
+    IAMResourceWithStreamingResponse,
+    AsyncIAMResourceWithStreamingResponse,
+)
+
+# Commerce Resources (unified)
+from .commerce import (
+    CommerceResource,
+    AsyncCommerceResource,
+    CommerceResourceWithRawResponse,
+    AsyncCommerceResourceWithRawResponse,
+    CommerceResourceWithStreamingResponse,
+    AsyncCommerceResourceWithStreamingResponse,
+)
+
+# Team Workspace Resources
+from .team_workspace import (
+    TeamWorkspaceResource,
+    AsyncTeamWorkspaceResource,
+    TeamWorkspaceResourceWithRawResponse,
+    AsyncTeamWorkspaceResourceWithRawResponse,
+    TeamWorkspaceResourceWithStreamingResponse,
+    AsyncTeamWorkspaceResourceWithStreamingResponse,
+)
+
 # New Platform Resources
 from .mpc import (
     MPCResource,
@@ -1485,4 +1525,32 @@ __all__ = [
     "AsyncDatastoreResourceWithRawResponse",
     "DatastoreResourceWithStreamingResponse",
     "AsyncDatastoreResourceWithStreamingResponse",
+    # Billing Resources
+    "BillingResource",
+    "AsyncBillingResource",
+    "BillingResourceWithRawResponse",
+    "AsyncBillingResourceWithRawResponse",
+    "BillingResourceWithStreamingResponse",
+    "AsyncBillingResourceWithStreamingResponse",
+    # IAM Resources
+    "IAMResource",
+    "AsyncIAMResource",
+    "IAMResourceWithRawResponse",
+    "AsyncIAMResourceWithRawResponse",
+    "IAMResourceWithStreamingResponse",
+    "AsyncIAMResourceWithStreamingResponse",
+    # Commerce Resources (unified)
+    "CommerceResource",
+    "AsyncCommerceResource",
+    "CommerceResourceWithRawResponse",
+    "AsyncCommerceResourceWithRawResponse",
+    "CommerceResourceWithStreamingResponse",
+    "AsyncCommerceResourceWithStreamingResponse",
+    # Team Workspace Resources
+    "TeamWorkspaceResource",
+    "AsyncTeamWorkspaceResource",
+    "TeamWorkspaceResourceWithRawResponse",
+    "AsyncTeamWorkspaceResourceWithRawResponse",
+    "TeamWorkspaceResourceWithStreamingResponse",
+    "AsyncTeamWorkspaceResourceWithStreamingResponse",
 ]
