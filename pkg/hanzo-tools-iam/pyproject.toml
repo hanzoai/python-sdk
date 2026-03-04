@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hanzo-tools-iam"
+version = "0.1.0"
+description = "Hanzo MCP tool for IAM — identity, access management, users, orgs, roles, and permissions"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "mcp", "iam", "identity", "access", "tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "hanzo-tools-core>=0.1.0",
+    "hanzo-tools-auth>=0.1.0",
+    "httpx>=0.27.0",
+]
+
+[project.entry-points."hanzo.tools"]
+iam = "hanzo_tools.iam:TOOLS"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]
