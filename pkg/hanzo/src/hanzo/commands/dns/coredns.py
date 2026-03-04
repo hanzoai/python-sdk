@@ -33,6 +33,7 @@ class CoreDNSProvider(DNSProvider):
 
     def _client(self):
         import httpx
+
         return httpx.Client(headers=self._headers(), timeout=30.0)
 
     def _get(self, client, path: str, params: dict[str, Any] | None = None) -> Any:
@@ -46,7 +47,11 @@ class CoreDNSProvider(DNSProvider):
         with self._client() as client:
             data = self._get(client, "/zones")
 
-        zones = data if isinstance(data, list) else data.get("zones", data.get("result", []))
+        zones = (
+            data
+            if isinstance(data, list)
+            else data.get("zones", data.get("result", []))
+        )
         return [
             DNSZone(
                 id=z.get("id", z.get("name", "")),
@@ -69,7 +74,11 @@ class CoreDNSProvider(DNSProvider):
 
             data = self._get(client, f"/zones/{zone}/records", params=params)
 
-        records = data if isinstance(data, list) else data.get("records", data.get("result", []))
+        records = (
+            data
+            if isinstance(data, list)
+            else data.get("records", data.get("result", []))
+        )
         return [
             DNSRecord(
                 id=r.get("id", ""),
@@ -104,9 +113,7 @@ class CoreDNSProvider(DNSProvider):
                 "ttl": ttl,
             }
 
-            resp = client.post(
-                f"{self.endpoint}/zones/{zone}/records", json=payload
-            )
+            resp = client.post(f"{self.endpoint}/zones/{zone}/records", json=payload)
             resp.raise_for_status()
             rec = resp.json()
 
@@ -134,9 +141,7 @@ class CoreDNSProvider(DNSProvider):
             deleted = 0
             for r in matching:
                 try:
-                    resp = client.delete(
-                        f"{self.endpoint}/zones/{zone}/records/{r.id}"
-                    )
+                    resp = client.delete(f"{self.endpoint}/zones/{zone}/records/{r.id}")
                     resp.raise_for_status()
                     deleted += 1
                 except Exception:
