@@ -31,55 +31,26 @@ class TestToolPackages:
         assert auto_timeout is not None
 
     def test_fs_tools(self):
-        """Test hanzo-tools-fs has 7 tools."""
+        """Test hanzo-tools-fs exports unified HIP-0300 tool."""
         from hanzo_tools.fs import TOOLS
 
-        assert len(TOOLS) == 7
-        names = {t.name for t in TOOLS}
-        expected = {"read", "write", "edit", "tree", "find", "search", "ast"}
-        assert names == expected
+        assert len(TOOLS) == 1
 
     def test_shell_tools(self):
-        """Test hanzo-tools-shell has 12 tools."""
+        """Test hanzo-tools-shell exports detected shell + core shell tools."""
         from hanzo_tools.shell import TOOLS
 
-        assert len(TOOLS) == 12
+        # First tool is detected shell (environment-dependent), then fixed base tools.
+        assert len(TOOLS) >= 8
         names = {t.name for t in TOOLS}
-        expected = {
-            "cmd",
-            "ps",
-            "zsh",
-            "bash",
-            "fish",
-            "dash",
-            "npx",
-            "uvx",
-            "open",
-            "curl",
-            "jq",
-            "wget",
-        }
-        assert names == expected
+        required = {"ps", "npx", "uvx", "open", "curl", "jq", "wget"}
+        assert required.issubset(names)
 
     def test_memory_tools(self):
-        """Test hanzo-tools-memory has 9 tools."""
+        """Test hanzo-tools-memory exports unified memory tool."""
         from hanzo_tools.memory import TOOLS
 
-        # Memory has 9 tools for different operations
-        assert len(TOOLS) == 9
-        names = {t.name for t in TOOLS}
-        expected = {
-            "recall_memories",
-            "create_memories",
-            "update_memories",
-            "delete_memories",
-            "manage_memories",
-            "recall_facts",
-            "store_facts",
-            "summarize_to_memory",
-            "manage_knowledge_bases",
-        }
-        assert names == expected
+        assert len(TOOLS) == 1
 
     def test_todo_tools(self):
         """Test hanzo-tools-todo has 1 tool."""
@@ -115,10 +86,10 @@ class TestToolPackages:
         reason="hanzo-tools-database not installed",
     )
     def test_database_tools(self):
-        """Test hanzo-tools-database has 8 tools."""
+        """Test hanzo-tools-database has 9 tools."""
         from hanzo_tools.database import TOOLS
 
-        assert len(TOOLS) == 8
+        assert len(TOOLS) == 9
 
     def test_agent_tools(self):
         """Test hanzo-tools-agent has 3 tools.
@@ -310,10 +281,10 @@ class TestTotalToolCount:
         """
         # Required packages with exact counts
         required_packages = [
-            ("hanzo_tools.fs", 7),
-            ("hanzo_tools.shell", 12),
+            ("hanzo_tools.fs", 1),
+            ("hanzo_tools.shell", 8),
             ("hanzo_tools.browser", 1),
-            ("hanzo_tools.memory", 9),  # 9 separate memory tools
+            ("hanzo_tools.memory", 1),  # unified memory tool
             ("hanzo_tools.todo", 1),
             ("hanzo_tools.reasoning", 2),
             ("hanzo_tools.lsp", 1),
@@ -335,5 +306,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Required tools: 38 (7+12+1+9+1+2+1+1+1+3)
-        assert total == 38, f"Expected 38 required tools, got {total}"
+        # Required tools: 20 (1+8+1+1+1+2+1+1+1+3)
+        assert total == 20, f"Expected 20 required tools, got {total}"
