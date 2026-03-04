@@ -59,6 +59,12 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "auth": ["auth"],
     "kms": ["kms"],
     "paas": ["paas"],
+    "billing": ["billing"],
+    "commerce": ["commerce"],
+    "iam_tools": ["iam"],
+    "ingress": ["ingress"],
+    "mpc": ["mpc"],
+    "team": ["team"],
 }
 
 

@@ -163,6 +163,30 @@ def register_all_tools(
     # MCP tools
     resolved_enabled_tools["mcp"] = is_tool_enabled("mcp", True)
 
+    # Billing tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("billing", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # Commerce tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("commerce", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # IAM tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("iam_tools", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # Ingress tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("ingress", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # MPC tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("mpc", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # Team tools
+    for tool in PACKAGE_TOOL_PREFIXES.get("team", []):
+        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
     # Jupyter tools
     for tool in PACKAGE_TOOL_PREFIXES.get("jupyter", []):
         resolved_enabled_tools[tool] = is_tool_enabled(tool, True)

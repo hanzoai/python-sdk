@@ -35,6 +35,7 @@ from ._response import (
 )
 from .resources import (
     add,
+    billing,
     db,
     dns,
     pages,
@@ -55,6 +56,7 @@ from .resources import (
     cart,
     chain,
     cohere,
+    commerce,
     coupons,
     delete,
     device,
@@ -63,6 +65,7 @@ from .resources import (
     gemini,
     graphs,
     health,
+    iam,
     ingress,
     jobs,
     models,
@@ -105,6 +108,7 @@ from .resources import (
     settings,
     storage,
     subscriptions,
+    team_workspace,
     vectors,
     wallets,
     workflows,
@@ -271,6 +275,10 @@ class Hanzo(SyncAPIClient):
     docdb: docdb.DocDBResource
     ingress: ingress.IngressResource
     datastore: datastore.DatastoreResource
+    billing: billing.BillingResource
+    iam: iam.IAMResource
+    commerce: commerce.CommerceResource
+    team_workspace: team_workspace.TeamWorkspaceResource
     with_raw_response: HanzoWithRawResponse
     with_streaming_response: HanzoWithStreamedResponse
 
@@ -457,6 +465,10 @@ class Hanzo(SyncAPIClient):
         self.docdb = docdb.DocDBResource(self)
         self.ingress = ingress.IngressResource(self)
         self.datastore = datastore.DatastoreResource(self)
+        self.billing = billing.BillingResource(self)
+        self.iam = iam.IAMResource(self)
+        self.commerce = commerce.CommerceResource(self)
+        self.team_workspace = team_workspace.TeamWorkspaceResource(self)
         self.with_raw_response = HanzoWithRawResponse(self)
         self.with_streaming_response = HanzoWithStreamedResponse(self)
 
@@ -707,6 +719,10 @@ class AsyncHanzo(AsyncAPIClient):
     docdb: docdb.AsyncDocDBResource
     ingress: ingress.AsyncIngressResource
     datastore: datastore.AsyncDatastoreResource
+    billing: billing.AsyncBillingResource
+    iam: iam.AsyncIAMResource
+    commerce: commerce.AsyncCommerceResource
+    team_workspace: team_workspace.AsyncTeamWorkspaceResource
     with_raw_response: AsyncHanzoWithRawResponse
     with_streaming_response: AsyncHanzoWithStreamedResponse
 
@@ -893,6 +909,10 @@ class AsyncHanzo(AsyncAPIClient):
         self.docdb = docdb.AsyncDocDBResource(self)
         self.ingress = ingress.AsyncIngressResource(self)
         self.datastore = datastore.AsyncDatastoreResource(self)
+        self.billing = billing.AsyncBillingResource(self)
+        self.iam = iam.AsyncIAMResource(self)
+        self.commerce = commerce.AsyncCommerceResource(self)
+        self.team_workspace = team_workspace.AsyncTeamWorkspaceResource(self)
         self.with_raw_response = AsyncHanzoWithRawResponse(self)
         self.with_streaming_response = AsyncHanzoWithStreamedResponse(self)
 
@@ -1176,6 +1196,12 @@ class HanzoWithRawResponse:
         self.docdb = docdb.DocDBResourceWithRawResponse(client.docdb)
         self.ingress = ingress.IngressResourceWithRawResponse(client.ingress)
         self.datastore = datastore.DatastoreResourceWithRawResponse(client.datastore)
+        self.billing = billing.BillingResourceWithRawResponse(client.billing)
+        self.iam = iam.IAMResourceWithRawResponse(client.iam)
+        self.commerce = commerce.CommerceResourceWithRawResponse(client.commerce)
+        self.team_workspace = team_workspace.TeamWorkspaceResourceWithRawResponse(
+            client.team_workspace
+        )
 
         self.get_home = to_raw_response_wrapper(
             client.get_home,
@@ -1339,6 +1365,12 @@ class AsyncHanzoWithRawResponse:
         self.datastore = datastore.AsyncDatastoreResourceWithRawResponse(
             client.datastore
         )
+        self.billing = billing.AsyncBillingResourceWithRawResponse(client.billing)
+        self.iam = iam.AsyncIAMResourceWithRawResponse(client.iam)
+        self.commerce = commerce.AsyncCommerceResourceWithRawResponse(client.commerce)
+        self.team_workspace = team_workspace.AsyncTeamWorkspaceResourceWithRawResponse(
+            client.team_workspace
+        )
 
         self.get_home = async_to_raw_response_wrapper(
             client.get_home,
@@ -1501,6 +1533,12 @@ class HanzoWithStreamedResponse:
         self.ingress = ingress.IngressResourceWithStreamingResponse(client.ingress)
         self.datastore = datastore.DatastoreResourceWithStreamingResponse(
             client.datastore
+        )
+        self.billing = billing.BillingResourceWithStreamingResponse(client.billing)
+        self.iam = iam.IAMResourceWithStreamingResponse(client.iam)
+        self.commerce = commerce.CommerceResourceWithStreamingResponse(client.commerce)
+        self.team_workspace = team_workspace.TeamWorkspaceResourceWithStreamingResponse(
+            client.team_workspace
         )
 
         self.get_home = to_streamed_response_wrapper(
@@ -1706,6 +1744,16 @@ class AsyncHanzoWithStreamedResponse:
         )
         self.datastore = datastore.AsyncDatastoreResourceWithStreamingResponse(
             client.datastore
+        )
+        self.billing = billing.AsyncBillingResourceWithStreamingResponse(client.billing)
+        self.iam = iam.AsyncIAMResourceWithStreamingResponse(client.iam)
+        self.commerce = commerce.AsyncCommerceResourceWithStreamingResponse(
+            client.commerce
+        )
+        self.team_workspace = (
+            team_workspace.AsyncTeamWorkspaceResourceWithStreamingResponse(
+                client.team_workspace
+            )
         )
 
         self.get_home = async_to_streamed_response_wrapper(
