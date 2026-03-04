@@ -11,12 +11,12 @@ Token resolution order:
 
 from __future__ import annotations
 
-import json
-import logging
 import os
+import json
 import time
-from pathlib import Path
+import logging
 from typing import Any
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -244,14 +244,14 @@ class HanzoSession:
         if self._kms_client:
             return self._kms_client
 
-        from hanzo_kms import ClientSettings, KMSClient
+        from hanzo_kms import KMSClient, ClientSettings
 
         kms_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
         client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
         client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
 
         if client_id and client_secret:
-            from hanzo_kms import AuthenticationOptions, UniversalAuthMethod
+            from hanzo_kms import UniversalAuthMethod, AuthenticationOptions
 
             settings = ClientSettings(
                 site_url=kms_url,
