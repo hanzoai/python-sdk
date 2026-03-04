@@ -63,19 +63,21 @@ jobs:
         python -c "
         # Packages with exact expected counts
         exact_packages = [
-            ('hanzo_tools.fs', 7),           # read, write, edit, tree, find, search, ast
-            ('hanzo_tools.shell', 11),       # dag, ps, zsh, bash, shell, npx, uvx, open, curl, jq, wget
+            ('hanzo_tools.fs', 1),           # unified fs tool
             ('hanzo_tools.browser', 1),
             ('hanzo_tools.memory', 1),       # unified memory tool with actions
             ('hanzo_tools.todo', 1),
             ('hanzo_tools.reasoning', 2),    # think, critic
             ('hanzo_tools.lsp', 1),
             ('hanzo_tools.refactor', 1),
-            ('hanzo_tools.database', 8),
+            ('hanzo_tools.database', 9),
             ('hanzo_tools.jupyter', 1),
             ('hanzo_tools.editor', 3),
             ('hanzo_tools.agent', 3),        # agent, iching, review
         ]
+
+        # Shell tool count depends on detected shell, but core tools are fixed.
+        shell_required = {'ps', 'npx', 'uvx', 'open', 'curl', 'jq', 'wget'}
 
         total = 0
         import importlib
@@ -90,8 +92,19 @@ jobs:
             assert actual == expected, f'{pkg_name}: expected {expected}, got {actual}'
             total += actual
 
+        # Check shell package (detected-shell mode)
+        shell_pkg = importlib.import_module('hanzo_tools.shell')
+        shell_tools = getattr(shell_pkg, 'TOOLS', [])
+        shell_names = {t.name for t in shell_tools}
+        print(f'✓ hanzo_tools.shell: {len(shell_tools)} tools (detected-shell mode)')
+        assert len(shell_tools) >= 8, f'hanzo_tools.shell: expected >=8, got {len(shell_tools)}'
+        assert shell_required.issubset(shell_names), (
+            f'hanzo_tools.shell: missing required tools: {shell_required - shell_names}'
+        )
+        total += len(shell_tools)
+
         print(f'\\nTotal: {total} tools')
-        # Total: 7+11+1+1+1+2+1+1+8+1+3+3 = 40
-        assert total == 40, f'Expected 40 tools, got {total}'
+        # Minimum total: exact packages (23) + shell minimum (8) = 31
+        assert total >= 31, f'Expected at least 31 tools, got {total}'
         print('✓ All tool packages verified')
         "

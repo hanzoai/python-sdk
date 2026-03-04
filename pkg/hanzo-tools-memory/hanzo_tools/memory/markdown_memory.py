@@ -8,26 +8,40 @@ This is the default backend when hanzo-memory is not installed.
 
 from __future__ import annotations
 
-import os
 import re
-import json
 from uuid import uuid4
 from typing import Dict, List, Optional
 from pathlib import Path
 from datetime import datetime
 from dataclasses import field, dataclass
 
-# Files to scan for context
-CONTEXT_MD_FILES = [
-    "MEMORY.md",
-    "LLM.md",
-    "CLAUDE.md",
+# Priority instruction files (highest to lowest precedence within each directory)
+PRIMARY_CONTEXT_FILES = [
     "AGENTS.md",
+    "CLAUDE.md",
     "GEMINI.md",
+    "LLM.md",
+]
+
+# Additional markdown context files
+ADDITIONAL_CONTEXT_FILES = [
+    "MEMORY.md",
     "QWEN.md",
     "AI.md",
     "CONTEXT.md",
     "INSTRUCTIONS.md",
+]
+
+# Editor/assistant rule files
+STATIC_RULE_FILES = [
+    ".cursorrules",
+    ".github/copilot-instructions.md",
+]
+
+RULE_GLOBS = [
+    ".cursor/rules/*.md",
+    ".cursor/rules/*.mdc",
+    ".github/instructions/*.instructions.md",
 ]
 
 # Per-scope memory files we write to
@@ -64,7 +78,8 @@ class MarkdownFact:
 class MarkdownMemoryBackend:
     """Lightweight memory backend using local markdown files.
 
-    - Reads context from LLM.md, CLAUDE.md, MEMORY.md, etc.
+    - Reads local-first context from AGENTS.md, CLAUDE.md, GEMINI.md, LLM.md, etc.
+    - Detects Cursor/Copilot rule files (.cursorrules, .cursor/rules/*, .github/copilot-instructions.md)
     - Stores new memories in MEMORY.md files (per scope)
     - Session memories are in-process only
     - No embedding search — uses simple keyword matching
@@ -83,27 +98,60 @@ class MarkdownMemoryBackend:
         self._loaded = True
         self._file_memories = []
 
-        # Scan current directory chain for context files
+        # Scan current directory chain for context files (local-first)
         scan_dirs = self._get_scan_dirs()
         for d in scan_dirs:
-            for fname in CONTEXT_MD_FILES:
-                fpath = d / fname
-                if fpath.exists() and fpath.stat().st_size > 0:
-                    try:
-                        content = fpath.read_text(encoding="utf-8", errors="ignore")
-                        # Split into sections/chunks
-                        chunks = self._chunk_markdown(content)
-                        for chunk in chunks:
-                            if chunk.strip():
-                                self._file_memories.append(MarkdownMemory(
+            for fpath in self._iter_context_files(d):
+                try:
+                    content = fpath.read_text(encoding="utf-8", errors="ignore")
+                    # Split into sections/chunks
+                    chunks = self._chunk_markdown(content)
+                    for chunk in chunks:
+                        if chunk.strip():
+                            self._file_memories.append(
+                                MarkdownMemory(
                                     memory_id=str(uuid4()),
                                     content=chunk.strip(),
                                     scope="global",
                                     created_at=datetime.now().isoformat(),
                                     source=str(fpath),
-                                ))
-                    except Exception:
-                        pass
+                                )
+                            )
+                except Exception:
+                    pass
+
+    def _iter_context_files(self, directory: Path) -> List[Path]:
+        """Collect context and rule files in deterministic priority order."""
+        ordered: List[Path] = []
+        seen: set[Path] = set()
+
+        def add_if_valid(path: Path) -> None:
+            if path in seen:
+                return
+            if not path.exists() or not path.is_file():
+                return
+            try:
+                if path.stat().st_size <= 0:
+                    return
+            except OSError:
+                return
+            seen.add(path)
+            ordered.append(path)
+
+        for fname in PRIMARY_CONTEXT_FILES:
+            add_if_valid(directory / fname)
+
+        for fname in ADDITIONAL_CONTEXT_FILES:
+            add_if_valid(directory / fname)
+
+        for fname in STATIC_RULE_FILES:
+            add_if_valid(directory / fname)
+
+        for pattern in RULE_GLOBS:
+            for rule_path in sorted(directory.glob(pattern)):
+                add_if_valid(rule_path)
+
+        return ordered
 
     def _get_scan_dirs(self) -> List[Path]:
         """Get directories to scan for context files."""

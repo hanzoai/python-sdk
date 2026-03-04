@@ -1,6 +1,6 @@
-"""Unified memory tool - consolidates all memory operations.
+"""Memory tool for Hanzo MCP.
 
-Single tool with action parameter replaces 9 separate memory tools.
+Single `memory` tool with action parameter for all memory operations.
 """
 
 from typing import (
@@ -70,14 +70,22 @@ Action = Annotated[
     Field(description="Memory action to perform"),
 ]
 
+BackendMode = Annotated[
+    Literal["auto", "local", "cloud", "hybrid"],
+    Field(
+        description=(
+            "Backend mode: auto/local-first (default), local-only, "
+            "cloud-only, or hybrid(local+cloud)"
+        )
+    ),
+]
+
 
 @final
-class UnifiedMemoryTool(BaseTool):
-    """Unified memory tool for all memory operations.
+class MemoryTool(BaseTool):
+    """Memory tool for all memory operations.
 
-    Consolidates: recall_memories, create_memories, update_memories,
-    delete_memories, manage_memories, recall_facts, store_facts,
-    summarize_to_memory, manage_knowledge_bases
+    Consolidates legacy memory/facts/knowledge tool variants behind one surface.
     """
 
     name = "memory"
@@ -90,7 +98,7 @@ class UnifiedMemoryTool(BaseTool):
     @property
     @override
     def description(self) -> str:
-        return """Unified memory management tool.
+        return """Memory management tool.
 
 Actions:
 - recall: Search and retrieve memories
@@ -103,6 +111,7 @@ Actions:
 - summarize: Summarize information and store
 - kb: Create/list/manage knowledge bases
 - list: List all memories or knowledge bases
+- backend: Defaults to local-first markdown (`auto`), with optional cloud/vector backend
 
 Examples:
   memory recall --query "user preferences"
@@ -122,6 +131,7 @@ Examples:
         ctx: MCPContext,
         action: str = "list",
         # Common params
+        backend: str = "auto",
         query: Optional[str] = None,
         queries: Optional[List[str]] = None,
         content: Optional[str] = None,
@@ -150,15 +160,13 @@ Examples:
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
-        from hanzo_tools.memory.markdown_memory import get_markdown_backend
-
         try:
             if action == "recall":
                 return await self._recall(
-                    queries or ([query] if query else []), scope, limit
+                    queries or ([query] if query else []), scope, limit, backend
                 )
             elif action == "create":
-                return await self._create(content, tags, metadata, scope)
+                return await self._create(content, tags, metadata, scope, backend)
             elif action == "update":
                 return await self._update(id, content, tags, metadata)
             elif action == "delete":
@@ -187,23 +195,82 @@ Examples:
         except Exception as e:
             return f"Memory operation failed: {e}"
 
-    async def _recall(self, queries: List[str], scope: str, limit: int) -> str:
+    async def _recall(
+        self,
+        queries: List[str],
+        scope: str,
+        limit: int,
+        backend_mode: str,
+    ) -> str:
         """Search and retrieve memories."""
         if not queries:
             return "Error: query or queries required for recall"
 
         from hanzo_tools.memory.markdown_memory import get_markdown_backend
-        backend = get_markdown_backend()
-        results = backend.search_memories(queries=queries, limit=limit, scope=scope)
 
-        if not results:
+        mode = (backend_mode or "auto").lower()
+        use_local = mode in ("auto", "local", "hybrid")
+        use_cloud = mode in ("auto", "cloud", "hybrid") and _check_memory_available()
+
+        combined: List[tuple[str, str, str, str]] = []
+        seen_ids: set[str] = set()
+        seen_content: set[str] = set()
+
+        if use_local:
+            local_backend = get_markdown_backend()
+            local_results = local_backend.search_memories(
+                queries=queries, limit=limit, scope=scope
+            )
+            for mem in local_results:
+                mem_id = str(getattr(mem, "memory_id", ""))
+                content = str(getattr(mem, "content", ""))
+                source = str(getattr(mem, "source", "local"))
+                if mem_id and mem_id in seen_ids:
+                    continue
+                if content and content in seen_content:
+                    continue
+                if mem_id:
+                    seen_ids.add(mem_id)
+                if content:
+                    seen_content.add(content)
+                combined.append(("local", mem_id, content, source))
+
+        if use_cloud:
+            cloud_backend = _get_lazy_memory_service()
+            if cloud_backend is not None:
+                for q in queries:
+                    cloud_results = cloud_backend.search_memories(
+                        user_id=self.user_id,
+                        query=q,
+                        project_id=self.project_id,
+                        limit=limit,
+                    )
+                    for mem in cloud_results:
+                        mem_id = str(getattr(mem, "memory_id", ""))
+                        content = str(getattr(mem, "content", ""))
+                        if mem_id and mem_id in seen_ids:
+                            continue
+                        if content and content in seen_content:
+                            continue
+                        if mem_id:
+                            seen_ids.add(mem_id)
+                        if content:
+                            seen_content.add(content)
+                        score = getattr(mem, "similarity_score", None)
+                        score_text = f" score={score:.3f}" if isinstance(score, (int, float)) else ""
+                        combined.append(("cloud", mem_id, content, f"vector{score_text}"))
+
+        if not combined:
+            if mode in ("cloud", "hybrid") and not _check_memory_available():
+                return "No memories found. Cloud backend unavailable; using local markdown only."
             return "No memories found matching the query."
 
-        lines = [f"Found {len(results)} memories:"]
-        for mem in results[:limit]:
-            src = getattr(mem, "source", "")
-            src_note = f" [{src}]" if src and src != "user" else ""
-            lines.append(f"  [{mem.memory_id[:8]}] {mem.content[:100]}{src_note}")
+        lines = [f"Found {min(len(combined), limit)} memories (mode={mode}):"]
+        for source_kind, mem_id, content, source in combined[:limit]:
+            tag = f"{source_kind}:{source}" if source else source_kind
+            id_text = mem_id[:8] if mem_id else "no-id"
+            preview = content[:100] if content else "(empty)"
+            lines.append(f"  [{id_text}] {preview} [{tag}]")
         return "\n".join(lines)
 
     async def _create(
@@ -212,15 +279,42 @@ Examples:
         tags: Optional[List[str]],
         metadata: Optional[Dict],
         scope: str,
+        backend_mode: str,
     ) -> str:
         """Store new memory."""
         if not content:
             return "Error: content required for create"
 
+        mode = (backend_mode or "auto").lower()
+        use_local = mode in ("auto", "local", "hybrid")
+        use_cloud = mode in ("auto", "cloud", "hybrid") and _check_memory_available()
+
+        results: List[str] = []
+
         from hanzo_tools.memory.markdown_memory import get_markdown_backend
-        backend = get_markdown_backend()
-        mem = backend.add_memory(content=content, scope=scope)
-        return f"Created memory: {mem.memory_id}"
+
+        if use_local:
+            local_backend = get_markdown_backend()
+            mem = local_backend.add_memory(content=content, scope=scope)
+            results.append(f"local:{mem.memory_id}")
+
+        if use_cloud:
+            cloud_backend = _get_lazy_memory_service()
+            if cloud_backend is not None:
+                cloud_memory = cloud_backend.create_memory(
+                    user_id=self.user_id,
+                    project_id=self.project_id,
+                    content=content,
+                    metadata=metadata or {"scope": scope, "source": "memory_tool"},
+                )
+                results.append(f"cloud:{cloud_memory.memory_id}")
+
+        if not results:
+            if mode in ("cloud", "hybrid"):
+                return "Memory not created: cloud backend unavailable."
+            return "Memory not created."
+
+        return f"Created memory ({mode}): " + ", ".join(results)
 
     async def _update(
         self,
@@ -389,13 +483,16 @@ Examples:
 
         from hanzo_tools.memory.markdown_memory import get_markdown_backend
         backend = get_markdown_backend()
-        memories = backend.search_memories(queries=[""], limit=limit, scope=scope)
+        backend._ensure_loaded()
+        memories = list(backend._file_memories) + list(backend._session_memories)
+        if scope != "global":
+            memories = [m for m in memories if getattr(m, "scope", "global") == scope]
 
         if not memories:
             return "No memories found."
 
-        lines = [f"Memories ({len(memories)}):"]
-        for mem in memories:
+        lines = [f"Memories ({min(len(memories), limit)} of {len(memories)}):"]
+        for mem in memories[:limit]:
             lines.append(f"  [{mem.memory_id[:8]}] {mem.content[:60]}...")
         return "\n".join(lines)
 
@@ -406,6 +503,7 @@ Examples:
         @mcp_server.tool()
         async def memory(
             action: Action = "list",
+            backend: BackendMode = "auto",
             query: Annotated[Optional[str], Field(description="Search query")] = None,
             queries: Annotated[
                 Optional[List[str]], Field(description="Multiple queries")
@@ -448,10 +546,11 @@ Examples:
             ] = "memories",
             ctx: MCPContext = None,
         ) -> str:
-            """Unified memory management: recall, create, update, delete, facts, kb."""
+            """Memory management: recall, create, update, delete, facts, kb."""
             return await tool_instance.call(
                 ctx,
                 action=action,
+                backend=backend,
                 query=query,
                 queries=queries,
                 content=content,
