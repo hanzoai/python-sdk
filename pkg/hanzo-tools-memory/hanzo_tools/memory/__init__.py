@@ -14,7 +14,6 @@ Tool list (registered individually as MCP tools):
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
-
 from hanzo_tools.memory.memory_tools import (
     MEMORY_TOOL_CLASSES,
     CreateMemoriesTool,

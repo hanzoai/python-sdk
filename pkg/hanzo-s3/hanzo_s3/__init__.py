@@ -17,14 +17,14 @@ Usage::
         print(bucket.name, bucket.creation_date)
 """
 
+from minio import Minio, credentials, sse  # backward compat
 from minio import Minio as S3Client
-from minio import Minio  # backward compat
+from minio.datatypes import Object
 from minio.error import (
     InvalidResponseError,
     S3Error,
     ServerError,
 )
-from minio.datatypes import Object
 from minio.helpers import ObjectWriteResult
 
 # Convenience aliases
@@ -32,10 +32,6 @@ Client = S3Client
 Error = S3Error
 S3Exception = S3Error
 ObjectWriteResponse = ObjectWriteResult
-
-# Re-export useful sub-modules
-from minio import credentials  # noqa: F401
-from minio import sse  # noqa: F401
 
 __version__ = "1.0.0"
 

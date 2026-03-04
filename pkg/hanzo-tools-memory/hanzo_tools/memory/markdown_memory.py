@@ -8,15 +8,14 @@ This is the default backend when hanzo-memory is not installed.
 
 from __future__ import annotations
 
-import json
 import os
 import re
-from dataclasses import dataclass, field
-from datetime import datetime
-from pathlib import Path
-from typing import Dict, List, Optional
+import json
 from uuid import uuid4
-
+from typing import Dict, List, Optional
+from pathlib import Path
+from datetime import datetime
+from dataclasses import field, dataclass
 
 # Files to scan for context
 CONTEXT_MD_FILES = [
