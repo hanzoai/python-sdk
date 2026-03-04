@@ -36,7 +36,14 @@ from dataclasses import field, dataclass
 
 try:
     import websockets
-    from websockets.server import WebSocketServerProtocol, serve as ws_serve
+
+    # Prefer modern asyncio API on websockets>=14 to avoid deprecation warnings.
+    try:
+        from websockets.asyncio.server import serve as ws_serve
+        WebSocketServerProtocol = Any
+    except ImportError:
+        from websockets.server import serve as ws_serve
+        WebSocketServerProtocol = Any
 
     WEBSOCKETS_AVAILABLE = True
 except ImportError:
