@@ -869,6 +869,28 @@ wheels = [
 ]
 
 [[package]]
+name = "hanzo-llm"
+version = "1.81.15"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "click" },
+    { name = "fastuuid" },
+    { name = "httpx" },
+    { name = "importlib-metadata" },
+    { name = "jinja2" },
+    { name = "jsonschema" },
+    { name = "openai" },
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "tiktoken" },
+    { name = "tokenizers" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/37/15/3cd25b2908b6ec404d073ca57bbe1580e332a0ee094d0a33c36cd32d2e22/hanzo_llm-1.81.15-py3-none-any.whl", hash = "sha256:be3849567dc6a59b711a34f85bff1a74ad417df322cc38f3aebd16f9fa29823c", size = 14677430, upload-time = "2026-02-26T04:25:46.164Z" },
+]
+
+[[package]]
 name = "hanzo-memory"
 version = "1.0.1"
 source = { editable = "pkg/hanzo-memory" }
@@ -976,7 +998,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "hanzoai"
-version = "2.1.2"
+version = "2.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },
@@ -990,8 +1012,8 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-litellm = [
-    { name = "litellm" },
+llm = [
+    { name = "hanzo-llm" },
 ]
 
 [package.dev-dependencies]
@@ -1011,14 +1033,14 @@ requires-dist = [
     { name = "anyio", specifier = ">=3.5.0,<5" },
     { name = "distro", specifier = ">=1.7.0,<2" },
     { name = "h11", specifier = ">=0.16.0" },
+    { name = "hanzo-llm", marker = "extra == 'llm'", specifier = ">=1.0.0" },
     { name = "httpx", specifier = ">=0.23.0,<1" },
-    { name = "litellm", marker = "extra == 'litellm'", specifier = ">=1.0.0" },
     { name = "pydantic", specifier = ">=1.9.0,<3" },
     { name = "sniffio" },
     { name = "typing-extensions", specifier = ">=4.10,<5" },
     { name = "urllib3", specifier = ">=2.6.0" },
 ]
-provides-extras = ["litellm"]
+provides-extras = ["llm"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -1456,29 +1478,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/22/f0/07fb6ab5c39a4ca9af3e37554f9d42f25c464829254d72e4ebbd81da351c/librt-0.7.8-cp314-cp314t-win32.whl", hash = "sha256:171ca3a0a06c643bd0a2f62a8944e1902c94aa8e5da4db1ea9a8daf872685365", size = 41173, upload-time = "2026-01-14T12:55:59.315Z" },
     { url = "https://files.pythonhosted.org/packages/24/d4/7e4be20993dc6a782639625bd2f97f3c66125c7aa80c82426956811cfccf/librt-0.7.8-cp314-cp314t-win_amd64.whl", hash = "sha256:445b7304145e24c60288a2f172b5ce2ca35c0f81605f5299f3fa567e189d2e32", size = 47668, upload-time = "2026-01-14T12:56:00.261Z" },
     { url = "https://files.pythonhosted.org/packages/fc/85/69f92b2a7b3c0f88ffe107c86b952b397004b5b8ea5a81da3d9c04c04422/librt-0.7.8-cp314-cp314t-win_arm64.whl", hash = "sha256:8766ece9de08527deabcd7cb1b4f1a967a385d26e33e536d6d8913db6ef74f06", size = 40550, upload-time = "2026-01-14T12:56:01.542Z" },
-]
-
-[[package]]
-name = "litellm"
-version = "1.81.6"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "aiohttp" },
-    { name = "click" },
-    { name = "fastuuid" },
-    { name = "httpx" },
-    { name = "importlib-metadata" },
-    { name = "jinja2" },
-    { name = "jsonschema" },
-    { name = "openai" },
-    { name = "pydantic" },
-    { name = "python-dotenv" },
-    { name = "tiktoken" },
-    { name = "tokenizers" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/2e/f3/194a2dca6cb3eddb89f4bc2920cf5e27542256af907c23be13c61fe7e021/litellm-1.81.6.tar.gz", hash = "sha256:f02b503dfb7d66d1c939f82e4db21aeec1d6e2ed1fe3f5cd02aaec3f792bc4ae", size = 13878107, upload-time = "2026-02-01T04:02:27.36Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e6/05/3516cc7386b220d388aa0bd833308c677e94eceb82b2756dd95e06f6a13f/litellm-1.81.6-py3-none-any.whl", hash = "sha256:573206ba194d49a1691370ba33f781671609ac77c35347f8a0411d852cf6341a", size = 12224343, upload-time = "2026-02-01T04:02:23.704Z" },
 ]
 
 [[package]]
