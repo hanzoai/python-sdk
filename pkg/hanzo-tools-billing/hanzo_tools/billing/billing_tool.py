@@ -6,14 +6,14 @@ Auth: Uses HanzoSession from hanzo-tools-auth for bearer tokens.
 
 from __future__ import annotations
 
+import os
 import json
 import logging
-import os
-from typing import Annotated, Any, final
+from typing import Any, Annotated, final
 
+from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
-from pydantic import Field
 
 from hanzo_tools.core.base import BaseTool
 

@@ -7,7 +7,7 @@ the lightweight MarkdownMemoryBackend which reads from local .md files
 IMPORTANT: All hanzo-memory imports are lazy to avoid slow startup.
 """
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Union, final, override
+from typing import TYPE_CHECKING, Dict, List, Union, Optional, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext

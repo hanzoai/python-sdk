@@ -7,14 +7,14 @@ environment variables (same pattern as hanzo-cli).
 
 from __future__ import annotations
 
+import os
 import json
 import logging
-import os
-from typing import Annotated, Any, final
+from typing import Any, Annotated, final
 
+from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
-from pydantic import Field
 
 from hanzo_tools.core.base import BaseTool
 
@@ -35,14 +35,14 @@ Actions:
 
 def _get_kms_client() -> Any:
     """Build a KMS client from environment."""
-    from hanzo_kms import ClientSettings, KMSClient
+    from hanzo_kms import KMSClient, ClientSettings
 
     kms_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
     client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
     client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
 
     if client_id and client_secret:
-        from hanzo_kms import AuthenticationOptions, UniversalAuthMethod
+        from hanzo_kms import UniversalAuthMethod, AuthenticationOptions
 
         settings = ClientSettings(
             site_url=kms_url,

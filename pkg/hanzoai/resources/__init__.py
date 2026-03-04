@@ -33,13 +33,15 @@ from .dns import (
     DNSResourceWithStreamingResponse,
     AsyncDNSResourceWithStreamingResponse,
 )
-from .pages import (
-    PagesResource,
-    AsyncPagesResource,
-    PagesResourceWithRawResponse,
-    AsyncPagesResourceWithRawResponse,
-    PagesResourceWithStreamingResponse,
-    AsyncPagesResourceWithStreamingResponse,
+
+# IAM Resources
+from .iam import (
+    IAMResource,
+    AsyncIAMResource,
+    IAMResourceWithRawResponse,
+    AsyncIAMResourceWithRawResponse,
+    IAMResourceWithStreamingResponse,
+    AsyncIAMResourceWithStreamingResponse,
 )
 from .key import (
     KeyResource,
@@ -56,6 +58,16 @@ from .kms import (
     AsyncKMSResourceWithRawResponse,
     KMSResourceWithStreamingResponse,
     AsyncKMSResourceWithStreamingResponse,
+)
+
+# New Platform Resources
+from .mpc import (
+    MPCResource,
+    AsyncMPCResource,
+    MPCResourceWithRawResponse,
+    AsyncMPCResourceWithRawResponse,
+    MPCResourceWithStreamingResponse,
+    AsyncMPCResourceWithStreamingResponse,
 )
 from .cart import (
     CartResource,
@@ -90,6 +102,14 @@ from .jobs import (
     AsyncJobsResourceWithRawResponse,
     JobsResourceWithStreamingResponse,
     AsyncJobsResourceWithStreamingResponse,
+)
+from .paas import (
+    PaaSResource,
+    AsyncPaaSResource,
+    PaaSResourceWithRawResponse,
+    AsyncPaaSResourceWithRawResponse,
+    PaaSResourceWithStreamingResponse,
+    AsyncPaaSResourceWithStreamingResponse,
 )
 from .pods import (
     PodsResource,
@@ -175,6 +195,14 @@ from .chain import (
     ChainResourceWithStreamingResponse,
     AsyncChainResourceWithStreamingResponse,
 )
+from .docdb import (
+    DocDBResource,
+    AsyncDocDBResource,
+    DocDBResourceWithRawResponse,
+    AsyncDocDBResourceWithRawResponse,
+    DocDBResourceWithStreamingResponse,
+    AsyncDocDBResourceWithStreamingResponse,
+)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -206,6 +234,14 @@ from .nodes import (
     AsyncNodesResourceWithRawResponse,
     NodesResourceWithStreamingResponse,
     AsyncNodesResourceWithStreamingResponse,
+)
+from .pages import (
+    PagesResource,
+    AsyncPagesResource,
+    PagesResourceWithRawResponse,
+    AsyncPagesResourceWithRawResponse,
+    PagesResourceWithStreamingResponse,
+    AsyncPagesResourceWithStreamingResponse,
 )
 from .spend import (
     SpendResource,
@@ -433,6 +469,16 @@ from .bedrock import (
     BedrockResourceWithStreamingResponse,
     AsyncBedrockResourceWithStreamingResponse,
 )
+
+# Billing Resources
+from .billing import (
+    BillingResource,
+    AsyncBillingResource,
+    BillingResourceWithRawResponse,
+    AsyncBillingResourceWithRawResponse,
+    BillingResourceWithStreamingResponse,
+    AsyncBillingResourceWithStreamingResponse,
+)
 from .coupons import (
     CouponsResource,
     AsyncCouponsResource,
@@ -464,6 +510,14 @@ from .global_ import (
     AsyncGlobalResourceWithRawResponse,
     GlobalResourceWithStreamingResponse,
     AsyncGlobalResourceWithStreamingResponse,
+)
+from .ingress import (
+    IngressResource,
+    AsyncIngressResource,
+    IngressResourceWithRawResponse,
+    AsyncIngressResourceWithRawResponse,
+    IngressResourceWithStreamingResponse,
+    AsyncIngressResourceWithStreamingResponse,
 )
 
 # Network/Blockchain Resources
@@ -532,6 +586,16 @@ from .checkout import (
     AsyncCheckoutResourceWithRawResponse,
     CheckoutResourceWithStreamingResponse,
     AsyncCheckoutResourceWithStreamingResponse,
+)
+
+# Commerce Resources (unified)
+from .commerce import (
+    CommerceResource,
+    AsyncCommerceResource,
+    CommerceResourceWithRawResponse,
+    AsyncCommerceResourceWithRawResponse,
+    CommerceResourceWithStreamingResponse,
+    AsyncCommerceResourceWithStreamingResponse,
 )
 from .customer import (
     CustomerResource,
@@ -618,6 +682,14 @@ from .campaigns import (
     AsyncCampaignsResourceWithRawResponse,
     CampaignsResourceWithStreamingResponse,
     AsyncCampaignsResourceWithStreamingResponse,
+)
+from .datastore import (
+    DatastoreResource,
+    AsyncDatastoreResource,
+    DatastoreResourceWithRawResponse,
+    AsyncDatastoreResourceWithRawResponse,
+    DatastoreResourceWithStreamingResponse,
+    AsyncDatastoreResourceWithStreamingResponse,
 )
 
 # AI Runtime Resources
@@ -801,35 +873,13 @@ from .observability import (
     ObservabilityResourceWithStreamingResponse,
     AsyncObservabilityResourceWithStreamingResponse,
 )
-
-# Billing Resources
-from .billing import (
-    BillingResource,
-    AsyncBillingResource,
-    BillingResourceWithRawResponse,
-    AsyncBillingResourceWithRawResponse,
-    BillingResourceWithStreamingResponse,
-    AsyncBillingResourceWithStreamingResponse,
-)
-
-# IAM Resources
-from .iam import (
-    IAMResource,
-    AsyncIAMResource,
-    IAMResourceWithRawResponse,
-    AsyncIAMResourceWithRawResponse,
-    IAMResourceWithStreamingResponse,
-    AsyncIAMResourceWithStreamingResponse,
-)
-
-# Commerce Resources (unified)
-from .commerce import (
-    CommerceResource,
-    AsyncCommerceResource,
-    CommerceResourceWithRawResponse,
-    AsyncCommerceResourceWithRawResponse,
-    CommerceResourceWithStreamingResponse,
-    AsyncCommerceResourceWithStreamingResponse,
+from .subscriptions import (
+    SubscriptionsResource,
+    AsyncSubscriptionsResource,
+    SubscriptionsResourceWithRawResponse,
+    AsyncSubscriptionsResourceWithRawResponse,
+    SubscriptionsResourceWithStreamingResponse,
+    AsyncSubscriptionsResourceWithStreamingResponse,
 )
 
 # Team Workspace Resources
@@ -840,56 +890,6 @@ from .team_workspace import (
     AsyncTeamWorkspaceResourceWithRawResponse,
     TeamWorkspaceResourceWithStreamingResponse,
     AsyncTeamWorkspaceResourceWithStreamingResponse,
-)
-
-# New Platform Resources
-from .mpc import (
-    MPCResource,
-    AsyncMPCResource,
-    MPCResourceWithRawResponse,
-    AsyncMPCResourceWithRawResponse,
-    MPCResourceWithStreamingResponse,
-    AsyncMPCResourceWithStreamingResponse,
-)
-from .paas import (
-    PaaSResource,
-    AsyncPaaSResource,
-    PaaSResourceWithRawResponse,
-    AsyncPaaSResourceWithRawResponse,
-    PaaSResourceWithStreamingResponse,
-    AsyncPaaSResourceWithStreamingResponse,
-)
-from .docdb import (
-    DocDBResource,
-    AsyncDocDBResource,
-    DocDBResourceWithRawResponse,
-    AsyncDocDBResourceWithRawResponse,
-    DocDBResourceWithStreamingResponse,
-    AsyncDocDBResourceWithStreamingResponse,
-)
-from .ingress import (
-    IngressResource,
-    AsyncIngressResource,
-    IngressResourceWithRawResponse,
-    AsyncIngressResourceWithRawResponse,
-    IngressResourceWithStreamingResponse,
-    AsyncIngressResourceWithStreamingResponse,
-)
-from .datastore import (
-    DatastoreResource,
-    AsyncDatastoreResource,
-    DatastoreResourceWithRawResponse,
-    AsyncDatastoreResourceWithRawResponse,
-    DatastoreResourceWithStreamingResponse,
-    AsyncDatastoreResourceWithStreamingResponse,
-)
-from .subscriptions import (
-    SubscriptionsResource,
-    AsyncSubscriptionsResource,
-    SubscriptionsResourceWithRawResponse,
-    AsyncSubscriptionsResourceWithRawResponse,
-    SubscriptionsResourceWithStreamingResponse,
-    AsyncSubscriptionsResourceWithStreamingResponse,
 )
 
 __all__ = [
