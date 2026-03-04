@@ -3,71 +3,33 @@
 Allows Hanzo browser extensions and agents to discover this MCP server
 and call tools directly over the native ZAP binary protocol.
 
-Wire format: 9-byte header + payload
-  [0x5A 0x41 0x50 0x01] magic  "ZAP\x01"
-  [type]                 1 byte message type
-  [length]               4 bytes big-endian payload length
-  [payload]              UTF-8 JSON (Cap'n Proto in future)
-
-Transport: Raw TCP on ports 9999-9995 (first available).
+Uses the ``zap-protocol`` package for wire format and transport,
+adding hanzo-mcp-specific request routing on top.
 """
 
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
-import struct
 import time
 from typing import Any, Awaitable, Callable
 
+from zap.protocol import (
+    MSG_HANDSHAKE,
+    MSG_HANDSHAKE_OK,
+    MSG_PING,
+    MSG_PONG,
+    MSG_REQUEST,
+    MSG_RESPONSE,
+    ZAP_PORTS,
+    HEADER_SIZE,
+    MAX_MESSAGE_SIZE,
+    ZAP_MAGIC,
+    encode,
+    decode,
+)
+
 logger = logging.getLogger(__name__)
-
-# ── Protocol Constants ──────────────────────────────────────────────────
-ZAP_MAGIC = b"\x5a\x41\x50\x01"  # "ZAP\x01"
-MSG_HANDSHAKE = 0x01
-MSG_HANDSHAKE_OK = 0x02
-MSG_REQUEST = 0x10
-MSG_RESPONSE = 0x11
-MSG_STREAM = 0x20
-MSG_PING = 0xFE
-MSG_PONG = 0xFF
-
-ZAP_PORTS = [9999, 9998, 9997, 9996, 9995]
-HEADER_SIZE = 9  # 4 (magic) + 1 (type) + 4 (length)
-MAX_MESSAGE_SIZE = 16 * 1024 * 1024  # 16 MB
-
-
-# ── Encode / Decode ─────────────────────────────────────────────────────
-
-
-def encode(msg_type: int, payload: Any) -> bytes:
-    """Encode a ZAP message: magic + type + length + JSON payload."""
-    data = json.dumps(payload).encode("utf-8")
-    header = ZAP_MAGIC + struct.pack("!BL", msg_type, len(data))
-    return header + data
-
-
-def decode(buf: bytes) -> tuple[int, Any] | None:
-    """Decode a ZAP message from a complete frame.
-
-    Expects exactly one ZAP frame: [magic:4][type:1][length:4 BE][JSON].
-    """
-    if len(buf) < HEADER_SIZE:
-        return None
-
-    if buf[:4] != ZAP_MAGIC:
-        return None
-
-    msg_type = buf[4]
-    length = struct.unpack("!L", buf[5:9])[0]
-    if len(buf) < HEADER_SIZE + length:
-        return None
-    try:
-        payload = json.loads(buf[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8"))
-        return (msg_type, payload)
-    except (json.JSONDecodeError, UnicodeDecodeError):
-        return None
 
 
 # ── Client tracking ─────────────────────────────────────────────────────
@@ -139,6 +101,7 @@ class ZapServer:
             return None
 
         msg_type = header[4]
+        import struct
         length = struct.unpack("!L", header[5:9])[0]
 
         if length > MAX_MESSAGE_SIZE:
@@ -149,6 +112,7 @@ class ZapServer:
         except (asyncio.IncompleteReadError, ConnectionError):
             return None
 
+        import json
         try:
             payload = json.loads(payload_bytes.decode("utf-8"))
             return (msg_type, payload)
@@ -240,12 +204,9 @@ class ZapServer:
                 result = await self.call_tool(tool_name, args)
 
             elif method.startswith("notifications/"):
-                # Client -> server notifications (fire-and-forget)
                 result = {"acknowledged": True}
 
             else:
-                # Pass-through to MCP server for full protocol parity
-                # (resources/list, resources/read, prompts/list, prompts/get, etc.)
                 if self.handle_method:
                     result = await self.handle_method(method, params)
                 else:
@@ -270,7 +231,7 @@ class ZapServer:
         ports = (
             [preferred_port, *[p for p in ZAP_PORTS if p != preferred_port]]
             if preferred_port
-            else ZAP_PORTS
+            else list(ZAP_PORTS)
         )
 
         for port in ports:
