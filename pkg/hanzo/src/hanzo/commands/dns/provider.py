@@ -142,7 +142,11 @@ def load_dns_config() -> dict[str, dict[str, Any]]:
 
     # Legacy: top-level cloudflare key
     cf_legacy = data.get("cloudflare", {})
-    if isinstance(cf_legacy, dict) and cf_legacy.get("email") and cf_legacy.get("api_key"):
+    if (
+        isinstance(cf_legacy, dict)
+        and cf_legacy.get("email")
+        and cf_legacy.get("api_key")
+    ):
         providers.setdefault("cloudflare", {}).update(cf_legacy)
 
     return providers
