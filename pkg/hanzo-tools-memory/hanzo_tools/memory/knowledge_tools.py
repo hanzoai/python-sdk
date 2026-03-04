@@ -20,8 +20,8 @@ if TYPE_CHECKING:
 
 # Use lazy loading from memory_tools
 from hanzo_tools.memory.memory_tools import (
-    _check_memory_available,
     _get_backend,
+    _check_memory_available,
     _get_lazy_memory_service,
 )
 

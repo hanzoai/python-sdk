@@ -22,7 +22,6 @@ import os
 import shutil
 import signal
 import subprocess
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -436,7 +435,7 @@ def _install_bot() -> bool:
         return False
     try:
         console.print(f"[cyan]Installing {NPM_PACKAGE}...[/cyan]")
-        result = subprocess.run(
+        subprocess.run(
             [npm, "install", "-g", NPM_PACKAGE],
             check=True,
             capture_output=True,
@@ -674,8 +673,9 @@ def _bot_password_login(
     username: str | None = None, password: str | None = None
 ) -> str:
     """Login via password grant using the hanzobot client. Returns access_token."""
-    import httpx
     import time
+
+    import httpx
 
     if not username:
         username = click.prompt("Email")
