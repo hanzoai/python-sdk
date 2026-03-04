@@ -54,9 +54,8 @@ class InsightsAnalytics:
 
         # Load from environment if not provided (INSIGHTS_API_KEY preferred, POSTHOG_API_KEY fallback)
         if not self.config.api_key:
-            self.config.api_key = (
-                os.environ.get("INSIGHTS_API_KEY")
-                or os.environ.get("POSTHOG_API_KEY")
+            self.config.api_key = os.environ.get("INSIGHTS_API_KEY") or os.environ.get(
+                "POSTHOG_API_KEY"
             )
 
         if not self.config.distinct_id:

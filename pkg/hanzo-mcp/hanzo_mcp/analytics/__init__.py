@@ -8,4 +8,10 @@ from .insights_analytics import (
     track_tool_usage,
 )
 
-__all__ = ["Analytics", "InsightsAnalytics", "track_event", "track_tool_usage", "track_error"]
+__all__ = [
+    "Analytics",
+    "InsightsAnalytics",
+    "track_event",
+    "track_tool_usage",
+    "track_error",
+]

@@ -85,9 +85,7 @@ def test_llm_openai_provider_mocked():
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
-    with patch.object(
-        llm, "completion", return_value=mock_response
-    ) as mock_completion:
+    with patch.object(llm, "completion", return_value=mock_response) as mock_completion:
         response = llm.completion(
             model="openai/gpt-3.5-turbo",
             messages=messages,
@@ -116,9 +114,7 @@ def test_llm_anthropic_provider_mocked():
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
-    with patch.object(
-        llm, "completion", return_value=mock_response
-    ) as mock_completion:
+    with patch.object(llm, "completion", return_value=mock_response) as mock_completion:
         response = llm.completion(
             model="anthropic/claude-3-haiku-20240307",
             messages=messages,
