@@ -29,6 +29,7 @@ class CloudflareProvider(DNSProvider):
 
     def _client(self):
         import httpx
+
         return httpx.Client(headers=self._headers(), timeout=30.0)
 
     def _get(self, client, path: str, params: dict[str, Any] | None = None) -> Any:
@@ -116,9 +117,7 @@ class CloudflareProvider(DNSProvider):
                 "proxied": proxied,
             }
 
-            resp = client.post(
-                f"{CF_API}/zones/{zone_id}/dns_records", json=payload
-            )
+            resp = client.post(f"{CF_API}/zones/{zone_id}/dns_records", json=payload)
             result = resp.json()
 
             if result.get("success"):
@@ -156,9 +155,7 @@ class CloudflareProvider(DNSProvider):
 
             deleted = 0
             for r in records:
-                resp = client.delete(
-                    f"{CF_API}/zones/{zone_id}/dns_records/{r['id']}"
-                )
+                resp = client.delete(f"{CF_API}/zones/{zone_id}/dns_records/{r['id']}")
                 if resp.json().get("success"):
                     deleted += 1
             return deleted
