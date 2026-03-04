@@ -161,9 +161,9 @@ Returns formatted response with status, headers (if verbose), and body.
         async def curl(
             url: Annotated[str, Field(description="Request URL")],
             method: Method = "GET",
-            json_body: Annotated[
+            json: Annotated[
                 Optional[str],
-                Field(description="JSON body (will be properly escaped)", alias="json"),
+                Field(description="JSON body (will be properly escaped)"),
             ] = None,
             data: Annotated[Optional[str], Field(description="Raw body data")] = None,
             headers: Annotated[
@@ -187,7 +187,7 @@ Returns formatted response with status, headers (if verbose), and body.
                 ctx,
                 url=url,
                 method=method,
-                json_body=json_body,
+                json_body=json,
                 data=data,
                 headers=headers,
                 timeout=timeout,
