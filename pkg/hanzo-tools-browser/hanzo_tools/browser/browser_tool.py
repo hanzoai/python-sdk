@@ -59,8 +59,55 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-async def _check_extension() -> bool:
-    """Check if Hanzo browser extension is connected."""
+def _load_config() -> dict:
+    """Load browser config from ~/.hanzo/extension/config.json."""
+    config_path = Path.home() / ".hanzo" / "extension" / "config.json"
+    try:
+        if config_path.exists():
+            return json.loads(config_path.read_text())
+    except Exception:
+        pass
+    return {}
+
+
+def _save_config(config: dict) -> None:
+    """Save browser config to ~/.hanzo/extension/config.json."""
+    config_dir = Path.home() / ".hanzo" / "extension"
+    config_dir.mkdir(parents=True, exist_ok=True)
+    config_path = config_dir / "config.json"
+    try:
+        config_path.write_text(json.dumps(config, indent=2))
+    except Exception as e:
+        logger.warning(f"Failed to save config: {e}")
+
+
+def get_backend() -> str:
+    """Get configured browser backend.
+
+    Priority: BROWSER_BACKEND env var > ~/.hanzo/extension/config.json > "auto"
+
+    Values: firefox | chrome | extension | playwright | auto
+    """
+    # Env var takes precedence
+    env_val = os.environ.get("BROWSER_BACKEND", "").strip().lower()
+    if env_val in ("firefox", "chrome", "extension", "playwright", "auto"):
+        return env_val
+
+    # Then config file
+    config = _load_config()
+    file_val = config.get("backend", "").strip().lower()
+    if file_val in ("firefox", "chrome", "extension", "playwright", "auto"):
+        return file_val
+
+    return "auto"
+
+
+async def _check_extension(browser: Optional[str] = None) -> bool:
+    """Check if Hanzo browser extension is connected.
+
+    Args:
+        browser: Optional browser filter ("firefox", "chrome").
+    """
     try:
         import aiohttp
 
@@ -70,19 +117,36 @@ async def _check_extension() -> bool:
             ) as resp:
                 if resp.status == 200:
                     data = await resp.json()
-                    return data.get("connected", False)
+                    if not data.get("connected", False):
+                        return False
+                    if browser:
+                        # Check if requested browser is among connected clients
+                        clients = data.get("client_list", [])
+                        return any(
+                            browser.lower() in c.get("browser", "").lower()
+                            for c in clients
+                        )
+                    return True
     except Exception:
         pass
     return False
 
 
-async def _extension_command(action: str, **kwargs) -> Optional[dict]:
-    """Send command to Hanzo browser extension."""
+async def _extension_command(action: str, browser: Optional[str] = None, **kwargs) -> Optional[dict]:
+    """Send command to Hanzo browser extension.
+
+    Args:
+        action: The action to perform.
+        browser: Optional browser preference ("firefox", "chrome").
+        **kwargs: Additional parameters.
+    """
     try:
         import aiohttp
 
         # Filter out None values
         payload = {"action": action}
+        if browser:
+            payload["browser"] = browser
         payload.update({k: v for k, v in kwargs.items() if v is not None})
 
         async with aiohttp.ClientSession() as session:
@@ -93,6 +157,10 @@ async def _extension_command(action: str, **kwargs) -> Optional[dict]:
             ) as resp:
                 if resp.status == 200:
                     return await resp.json()
+                else:
+                    body = await resp.text()
+                    logger.debug(f"Extension command {action} returned {resp.status}: {body}")
+                    return {"error": body, "status": resp.status}
     except Exception as e:
         logger.debug(f"Extension command failed: {e}")
     return None
@@ -593,9 +661,15 @@ class BrowserTool(BaseTool):
 
     name = "browser"
 
-    def __init__(self, headless: bool = True, cdp_endpoint: Optional[str] = None):
+    def __init__(
+        self,
+        headless: bool = True,
+        cdp_endpoint: Optional[str] = None,
+        backend: Optional[str] = None,
+    ):
         self.headless = headless
         self.cdp_endpoint = cdp_endpoint or os.environ.get("BROWSER_CDP_ENDPOINT")
+        self.backend = backend or get_backend()
         self.timeout = 30000
 
     @property
@@ -743,8 +817,8 @@ CATEGORIES:
         timeout = timeout or self.timeout
         sel = selector or ref
 
-        # === TRY EXTENSION FIRST ===
-        # All actions supported by the CDP bridge server
+        # === BACKEND-AWARE ROUTING ===
+        # Actions supported by the CDP bridge / browser extension
         extension_actions = {
             "navigate", "navigate_back", "reload", "url", "title", "content",
             "screenshot", "snapshot", "click", "dblclick", "hover",
@@ -753,10 +827,21 @@ CATEGORIES:
             "evaluate", "wait", "wait_for_load",
             "tabs", "new_tab", "close_tab", "select_tab",
             "console", "network_requests", "status",
+            # Takeover actions (Phase 3)
+            "takeover", "release",
         }
-        if action in extension_actions:
+
+        backend = self.backend
+        # Resolve browser filter from backend preference
+        browser_filter = backend if backend in ("firefox", "chrome") else None
+
+        # Skip extension entirely for "playwright" backend
+        use_extension = backend != "playwright" and action in extension_actions
+
+        if use_extension:
             ext_result = await _extension_command(
                 action,
+                browser=browser_filter,
                 url=url,
                 selector=sel,
                 text=text,
@@ -777,9 +862,21 @@ CATEGORIES:
                     ext_result = ext_result["result"]
                 return {"success": True, "source": "extension", **ext_result}
 
+            # For explicit backends (firefox/chrome/extension), don't fall back to Playwright
+            if backend in ("firefox", "chrome", "extension"):
+                error_detail = ""
+                if ext_result and "error" in ext_result:
+                    error_detail = f": {ext_result['error']}"
+                return {
+                    "error": (f"Browser backend '{backend}' not available{error_detail}. "
+                              f"Ensure the Hanzo extension is installed and connected."),
+                    "action": action,
+                    "backend": backend,
+                }
+
         # === FALL BACK TO PLAYWRIGHT ===
         if not PLAYWRIGHT_AVAILABLE:
-            ext_connected = await _check_extension()
+            ext_connected = await _check_extension(browser=browser_filter)
             if ext_connected:
                 msg = (f"Action '{action}' is not supported by the browser extension "
                        f"and Playwright is not installed for fallback. "
@@ -2028,10 +2125,12 @@ CATEGORIES:
 
 
 def create_browser_tool(
-    headless: bool = True, cdp_endpoint: Optional[str] = None
+    headless: bool = True,
+    cdp_endpoint: Optional[str] = None,
+    backend: Optional[str] = None,
 ) -> BrowserTool:
     """Create a browser tool instance."""
-    return BrowserTool(headless=headless, cdp_endpoint=cdp_endpoint)
+    return BrowserTool(headless=headless, cdp_endpoint=cdp_endpoint, backend=backend)
 
 
 async def launch_browser_server(port: int = 9222, headless: bool = False) -> str:
