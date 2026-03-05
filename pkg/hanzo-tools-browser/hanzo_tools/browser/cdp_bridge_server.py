@@ -31,23 +31,29 @@ import time
 import uuid
 import asyncio
 import logging
+from pathlib import Path
 from typing import Any, Callable, Optional
 from dataclasses import field, dataclass
 
 try:
     import websockets
 
-    # Prefer modern asyncio API on websockets>=14 to avoid deprecation warnings.
+    # Detect websockets API version.
+    # >= 13: new asyncio API, handler(websocket) — no path parameter.
+    # <  13: legacy API, handler(websocket, path).
+    _WS_LEGACY = False
     try:
         from websockets.asyncio.server import serve as ws_serve
         WebSocketServerProtocol = Any
     except ImportError:
         from websockets.server import serve as ws_serve
         WebSocketServerProtocol = Any
+        _WS_LEGACY = True
 
     WEBSOCKETS_AVAILABLE = True
 except ImportError:
     WEBSOCKETS_AVAILABLE = False
+    _WS_LEGACY = False
     WebSocketServerProtocol = Any
 
 # Try to import aiohttp for HTTP API server
@@ -142,9 +148,19 @@ class CDPBridgeServer:
                 "websockets package required for CDP bridge. Install with: pip install websockets"
             )
 
+        # Build handler compatible with installed websockets version.
+        # Modern API (>= 13): handler(websocket) — one positional arg.
+        # Legacy API (< 13): handler(websocket, path) — two positional args.
+        if _WS_LEGACY:
+            handler = self._handle_connection  # already accepts (ws, path)
+        else:
+            # Wrap so the modern serve() can call handler(websocket) with one arg.
+            async def handler(websocket: WebSocketServerProtocol) -> None:
+                await self._handle_connection(websocket)
+
         # Start WebSocket server for browser extensions
         self._server = await ws_serve(
-            self._handle_connection,
+            handler,
             self.host,
             self.port,
         )
@@ -162,8 +178,11 @@ class CDPBridgeServer:
         """Start the HTTP API server."""
         app = web.Application()
         app.router.add_get("/status", self._http_status)
+        app.router.add_get("/config", self._http_get_config)
+        app.router.add_post("/config", self._http_save_config)
         app.router.add_post("/", self._http_command)
         app.router.add_options("/", self._http_cors)  # CORS preflight
+        app.router.add_options("/config", self._http_cors)  # CORS preflight
 
         self._http_runner = web.AppRunner(app)
         await self._http_runner.setup()
@@ -191,8 +210,56 @@ class CDPBridgeServer:
             {
                 "connected": connected,
                 "clients": len(self.extension_clients),
+                "client_list": [c.to_dict() for c in self.extension_clients.values()],
                 "default_client_id": self.default_client_id,
             },
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    @staticmethod
+    def _config_path() -> Path:
+        """Path to ~/.hanzo/extension/config.json."""
+        return Path.home() / ".hanzo" / "extension" / "config.json"
+
+    async def _http_get_config(self, request: "web.Request") -> "web.Response":
+        """GET /config — read ~/.hanzo/extension/config.json."""
+        config_path = self._config_path()
+        try:
+            if config_path.exists():
+                config = json.loads(config_path.read_text())
+            else:
+                config = {"backend": "auto"}
+        except Exception:
+            config = {"backend": "auto"}
+        return web.json_response(
+            config,
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
+
+    async def _http_save_config(self, request: "web.Request") -> "web.Response":
+        """POST /config — save to ~/.hanzo/extension/config.json."""
+        try:
+            data = await request.json()
+        except Exception as e:
+            return web.json_response(
+                {"error": f"Invalid JSON: {e}"},
+                status=400,
+                headers={"Access-Control-Allow-Origin": "*"},
+            )
+        config_path = self._config_path()
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Merge with existing config
+        try:
+            existing = json.loads(config_path.read_text()) if config_path.exists() else {}
+        except Exception:
+            existing = {}
+        existing.update(data)
+
+        config_path.write_text(json.dumps(existing, indent=2))
+        logger.info(f"Config saved to {config_path}: {existing}")
+        return web.json_response(
+            {"success": True, "config": existing},
             headers={"Access-Control-Allow-Origin": "*"},
         )
 
@@ -207,21 +274,26 @@ class CDPBridgeServer:
                 headers={"Access-Control-Allow-Origin": "*"},
             )
 
-        # Resolve target client
+        # Resolve target client — supports client_id, target_id, or browser preference
         target_client = self._resolve_client(
             client_id=data.get("client_id"),
             target_id=data.get("target_id"),
+            browser=data.get("browser"),
         )
 
         if not target_client:
+            browser_hint = data.get("browser")
+            if not self.extension_clients:
+                error_msg = "No browser extension connected"
+            elif browser_hint:
+                available = [c.browser for c in self.extension_clients.values()]
+                error_msg = (f"No {browser_hint} extension connected. "
+                             f"Connected browsers: {available}")
+            else:
+                error_msg = (f"Client not found: "
+                             f"{data.get('client_id') or data.get('target_id')}")
             return web.json_response(
-                {
-                    "error": (
-                        "No browser extension connected"
-                        if not self.extension_clients
-                        else f"Client not found: {data.get('client_id') or data.get('target_id')}"
-                    )
-                },
+                {"error": error_msg},
                 status=503,
                 headers={"Access-Control-Allow-Origin": "*"},
             )
@@ -334,10 +406,19 @@ class CDPBridgeServer:
     async def _handle_connection(
         self,
         websocket: WebSocketServerProtocol,
-        path: str,
+        path: str = "/",
     ) -> None:
-        """Handle incoming WebSocket connections."""
-        logger.info(f"New connection from {websocket.remote_address} on {path}")
+        """Handle incoming WebSocket connections.
+
+        Compatible with both legacy (websockets < 13) and modern (>= 13) APIs.
+        Legacy API passes (websocket, path); modern API passes only (websocket)
+        and path is available via websocket.request.path.
+        """
+        # Modern websockets >= 13: path comes from websocket object, not parameter.
+        if hasattr(websocket, "request") and hasattr(websocket.request, "path"):
+            path = websocket.request.path or "/"
+        remote = getattr(websocket, "remote_address", None)
+        logger.info(f"New connection from {remote} on {path}")
 
         try:
             # First message identifies the client type
@@ -447,12 +528,20 @@ class CDPBridgeServer:
         self,
         client_id: Optional[str] = None,
         target_id: Optional[str] = None,
+        browser: Optional[str] = None,
     ) -> Optional[ExtensionClient]:
         """Resolve which client to route to.
+
+        Priority order:
+        1. Explicit client_id
+        2. Namespaced target_id ("client_id:tab_id")
+        3. Browser preference ("firefox", "chrome", etc.)
+        4. Default (most recently active)
 
         Args:
             client_id: Explicit client ID
             target_id: Namespaced target like "clientid:tabid"
+            browser: Preferred browser name ("firefox", "chrome")
 
         Returns:
             ExtensionClient or None
@@ -466,6 +555,19 @@ class CDPBridgeServer:
         # Use explicit client_id
         if client_id and client_id in self.extension_clients:
             return self.extension_clients[client_id]
+
+        # Use browser preference — match by browser name (case-insensitive)
+        if browser:
+            browser_lower = browser.lower()
+            matches = [
+                c for c in self.extension_clients.values()
+                if browser_lower in c.browser.lower()
+            ]
+            if matches:
+                # Return most recently active matching client
+                return max(matches, key=lambda c: c.last_active)
+            # No match for requested browser
+            return None
 
         # Fall back to default (most recently active)
         return self.default_client
