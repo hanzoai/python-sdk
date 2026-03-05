@@ -24,7 +24,10 @@ from hanzo_tools.browser.browser_tool import (
     BrowserTool,
     browser_tool,
     create_browser_tool,
+    get_backend,
     launch_browser_server,
+    _load_config,
+    _save_config,
 )
 
 logger = logging.getLogger(__name__)
@@ -89,8 +92,8 @@ def _run_cdp_bridge_server(host: str, port: int) -> None:
 
     try:
         _cdp_bridge_loop.run_until_complete(run())
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"CDP bridge server crashed: {e}", exc_info=True)
 
 
 def start_cdp_bridge(
@@ -180,13 +183,15 @@ def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """
     headless = kwargs.get("headless", True)
     cdp_endpoint = kwargs.get("cdp_endpoint")
+    backend = kwargs.get("backend")
 
     # Auto-start CDP bridge for browser extension integration
+    # (not needed when backend is explicitly "playwright")
     auto_cdp_bridge = kwargs.get("cdp_bridge", True)
-    if auto_cdp_bridge and CDP_BRIDGE_AVAILABLE:
+    if auto_cdp_bridge and CDP_BRIDGE_AVAILABLE and backend != "playwright":
         start_cdp_bridge()
 
-    tool = create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint)
+    tool = create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint, backend=backend)
     ToolRegistry.register_tool(mcp_server, tool)
     return [tool]
 
