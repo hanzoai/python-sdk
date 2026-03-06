@@ -17,7 +17,7 @@ on:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     permissions:
       contents: write
       pull-requests: write

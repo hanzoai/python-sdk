@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     strategy:
       matrix:
         python-version: ["3.12", "3.13"]
@@ -40,7 +40,7 @@ jobs:
         hanzo node --help
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     
     steps:
     - uses: actions/checkout@v4
