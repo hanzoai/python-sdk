@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     timeout-minutes: 10
     strategy:
       matrix:
@@ -73,7 +73,7 @@ jobs:
             ('hanzo_tools.database', 9),
             ('hanzo_tools.jupyter', 1),
             ('hanzo_tools.editor', 3),
-            ('hanzo_tools.agent', 3),        # agent, iching, review
+            ('hanzo_tools.agent', 3),        # agent, zen, review
         ]
 
         # Shell tool count depends on detected shell, but core tools are fixed.
