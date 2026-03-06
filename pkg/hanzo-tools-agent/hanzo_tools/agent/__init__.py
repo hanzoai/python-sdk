@@ -2,7 +2,7 @@
 
 Provides consolidated agent tools:
 - agent: Multi-agent orchestration (run, dag, swarm, consensus, dispatch)
-- iching: I Ching wisdom for decisions
+- zen: Hanzo Zen guidance for decisions
 - review: Code review tool
 
 Install:
@@ -26,7 +26,7 @@ from .agent_tool import AgentTool
 
 # Legacy imports for backwards compatibility
 from .critic_tool import CriticTool  # Legacy - use reasoning.critic instead
-from .iching_tool import IChingTool
+from .zen_tool import ZenTool
 from .review_tool import ReviewTool
 from .grok_cli_tool import GrokCLITool
 from .cli_agent_base import CLIAgentBase
@@ -37,7 +37,7 @@ from .gemini_cli_tool import GeminiCLITool
 # Export list for tool discovery
 TOOLS = [
     AgentTool,  # Multi-agent orchestration
-    IChingTool,  # I Ching wisdom
+    ZenTool,  # Hanzo Zen guidance
     ReviewTool,  # Code review
 ]
 
@@ -46,7 +46,7 @@ __all__ = [
     "TOOLS",
     # Primary tools
     "AgentTool",
-    "IChingTool",
+    "ZenTool",
     "ReviewTool",
     # Legacy (for backwards compatibility)
     "CriticTool",

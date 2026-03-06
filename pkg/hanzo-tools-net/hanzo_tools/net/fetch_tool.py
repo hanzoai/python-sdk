@@ -1,6 +1,6 @@
 """Network tool for HIP-0300 architecture.
 
-This module provides the 'net' tool for network operations:
+This module provides the 'fetch' tool for network operations:
 - search: Query → [URL, title, snippet]
 - fetch: URL → {text, mime, status}
 - download: URL → Path (with assets)
@@ -28,7 +28,7 @@ from hanzo_tools.core import (
 )
 
 
-class NetTool(BaseTool):
+class FetchTool(BaseTool):
     """Network operations tool (HIP-0300).
 
     Handles all network operations:
@@ -40,7 +40,7 @@ class NetTool(BaseTool):
     Effect: NONDETERMINISTIC_EFFECT
     """
 
-    name: ClassVar[str] = "net"
+    name: ClassVar[str] = "fetch"
     VERSION: ClassVar[str] = "0.1.0"
 
     def __init__(self, cwd: str | None = None):
@@ -478,4 +478,4 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
 
 
 # Singleton
-net_tool = NetTool
+fetch_tool = FetchTool

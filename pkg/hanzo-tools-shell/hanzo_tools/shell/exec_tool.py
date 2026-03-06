@@ -1,6 +1,6 @@
 """Unified process tool for HIP-0300 architecture.
 
-This module provides a single unified 'proc' tool that handles all process operations:
+This module provides a single unified 'exec' tool that handles all process operations:
 - exec: Execute commands (the ONE execution primitive)
 - ps: List processes
 - kill: Kill processes
@@ -21,12 +21,6 @@ from datetime import datetime
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-# Compatibility: some older hanzo-tools.core builds don't re-export Paging.
-try:
-    from hanzo_tools.core import Paging
-except ImportError:
-    from hanzo_tools.core.unified import Paging
-
 from hanzo_tools.core import (
     BaseTool,
     ToolError,
@@ -40,7 +34,7 @@ from hanzo_tools.shell.base_process import (
 )
 
 
-class ProcTool(BaseTool):
+class ExecTool(BaseTool):
     """Unified process execution tool (HIP-0300).
 
     Handles all process operations on a single axis:
@@ -53,7 +47,7 @@ class ProcTool(BaseTool):
     All command execution goes through proc.exec.
     """
 
-    name: ClassVar[str] = "proc"
+    name: ClassVar[str] = "exec"
     VERSION: ClassVar[str] = "0.12.0"
 
     def __init__(self, tools: Optional[Dict[str, Any]] = None):
@@ -486,4 +480,4 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
 
 
 # Backward compatibility
-proc_tool = ProcTool
+exec_tool = ExecTool

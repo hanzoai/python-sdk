@@ -75,12 +75,12 @@ class IAMConfig(BaseModel):
     @property
     def token_endpoint(self) -> str:
         """OAuth2 token endpoint URL."""
-        return f"{self.server_url}/api/login/oauth/access_token"
+        return f"{self.server_url}/oauth/token"
 
     @property
     def authorize_endpoint(self) -> str:
         """OAuth2 authorization endpoint URL."""
-        return f"{self.server_url}/login/oauth/authorize"
+        return f"{self.server_url}/oauth/authorize"
 
     @property
     def userinfo_endpoint(self) -> str:

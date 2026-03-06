@@ -118,8 +118,8 @@ def register_all_tools(
     for tool in PACKAGE_TOOL_PREFIXES.get("memory", []):
         resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
 
-    # Todo tools
-    resolved_enabled_tools["todo"] = is_tool_enabled("todo", True)
+    # Tasks tools
+    resolved_enabled_tools["tasks"] = is_tool_enabled("tasks", True)
 
     # Reasoning tools
     resolved_enabled_tools["think"] = is_tool_enabled("think", True)
@@ -137,7 +137,7 @@ def register_all_tools(
 
     # Agent tools
     resolved_enabled_tools["agent"] = enable_agent_tool or is_tool_enabled(
-        "agent", False
+        "agent", True
     )
     resolved_enabled_tools["swarm"] = is_tool_enabled("swarm", False)
     for tool in ["claude", "codex", "gemini", "grok", "code_auth"]:
@@ -159,33 +159,27 @@ def register_all_tools(
     # Config tools
     resolved_enabled_tools["config"] = is_tool_enabled("config", True)
     resolved_enabled_tools["mode"] = is_tool_enabled("mode", True)
+    resolved_enabled_tools["workspace"] = is_tool_enabled("workspace", True)
 
     # MCP tools
     resolved_enabled_tools["mcp"] = is_tool_enabled("mcp", True)
 
-    # Billing tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("billing", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
-
-    # Commerce tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("commerce", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
-
-    # IAM tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("iam_tools", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
-
-    # Ingress tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("ingress", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
-
-    # MPC tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("mpc", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
-
-    # Team tools
-    for tool in PACKAGE_TOOL_PREFIXES.get("team", []):
-        resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+    # Unified Hanzo platform surface.
+    # No backwards compatibility: expose only `hanzo` and hide legacy per-service tools.
+    resolved_enabled_tools["hanzo"] = is_tool_enabled("hanzo", True)
+    for legacy_tool in [
+        "api",
+        "auth",
+        "billing",
+        "commerce",
+        "iam",
+        "ingress",
+        "kms",
+        "mpc",
+        "paas",
+        "team",
+    ]:
+        resolved_enabled_tools[legacy_tool] = False
 
     # Jupyter tools
     for tool in PACKAGE_TOOL_PREFIXES.get("jupyter", []):
@@ -194,6 +188,9 @@ def register_all_tools(
     # Computer tools (screen capture, recording, native control)
     for tool in PACKAGE_TOOL_PREFIXES.get("computer", []):
         resolved_enabled_tools[tool] = is_tool_enabled(tool, True)
+
+    # UI component registry tool
+    resolved_enabled_tools["ui"] = is_tool_enabled("ui", True)
 
     # Create loader and discover packages
     loader = EntryPointToolLoader(permission_manager=permission_manager)
@@ -208,6 +205,9 @@ def register_all_tools(
         loaded = loader.load_all(
             mcp_server,
             enabled_tools=resolved_enabled_tools,
+            # Database package tools currently require explicit db_manager wiring.
+            # Keep disabled by default unless explicitly enabled.
+            enabled_packages={"database": is_tool_enabled("database", False)},
         )
         all_tools.update(loaded)
         logger.info(f"Loaded {len(loaded)} tools from entry points")

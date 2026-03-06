@@ -1,6 +1,8 @@
 # hanzo-tools-api
 
-Generic API tool for calling any REST API via OpenAPI specs.
+Generic API tools for Hanzo MCP:
+- `api`: OpenAPI-first generic REST tool
+- `hanzo`: Unified Hanzo platform router (`auth`, `billing`, `commerce`, `iam`, `ingress`, `kms`, `mpc`, `paas`, `team`, `api`)
 
 ## Features
 
@@ -66,6 +68,27 @@ await tool.call(ctx,
     provider="github",
     method="GET",
     path="/user/repos"
+)
+```
+
+### Unified Hanzo Platform Tool
+
+```python
+from hanzo_tools.api import HanzoTool
+
+tool = HanzoTool()
+
+# Discover available services
+await tool.call(ctx, service="services")
+
+# Route to service tools through one MCP surface
+await tool.call(ctx, service="auth", action="status")
+await tool.call(ctx, service="commerce", action="orders")
+await tool.call(
+    ctx,
+    service="iam",
+    action="enforce",
+    args='{"owner":"hanzo","model":"rbac","resource":"/api/users","permission_action":"read"}',
 )
 ```
 

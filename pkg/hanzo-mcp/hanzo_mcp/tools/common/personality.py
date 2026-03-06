@@ -184,7 +184,7 @@ def _register_builtin_personalities() -> None:
                     ESSENTIAL_TOOLS
                     + [
                         "agent",
-                        "todo",
+                        "tasks",
                         "browser",
                         "computer",
                         "search",
@@ -193,7 +193,7 @@ def _register_builtin_personalities() -> None:
                         "jupyter",
                         "refactor",
                         "lsp",
-                        "iching",
+                        "zen",
                         "review",  # Agent sub-tools
                     ]
                     + BUILD_TOOLS
@@ -224,7 +224,7 @@ def _register_builtin_personalities() -> None:
                     + UNIX_TOOLS
                     + VECTOR_TOOLS
                     + [
-                        "todo",
+                        "tasks",
                         "rules",
                         "browser",
                         "jupyter",
@@ -243,7 +243,7 @@ def _register_builtin_personalities() -> None:
             description="Automate everything",
             philosophy="You build it, you run it.",
             tools=list(
-                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["todo", "browser"])
+                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["tasks", "browser"])
             ),
             environment={"CI_CD": "enabled"},
             cli_tools=[

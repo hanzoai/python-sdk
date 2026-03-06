@@ -1198,7 +1198,7 @@ def iam_login(username: str, password: str, org: str, app: str):
         try:
             with httpx.Client(timeout=30.0) as http:
                 token_resp = http.post(
-                    f"{url}/api/login/oauth/access_token",
+                    f"{url}/oauth/token",
                     data={
                         "grant_type": "password",
                         "client_id": client_id,
@@ -1346,7 +1346,7 @@ def tokens_exchange(code: str, redirect_uri: str):
     try:
         with httpx.Client(timeout=30.0) as http:
             resp = http.post(
-                f"{url}/api/login/oauth/access_token",
+                f"{url}/oauth/token",
                 data={
                     "grant_type": "authorization_code",
                     "client_id": client_id,
