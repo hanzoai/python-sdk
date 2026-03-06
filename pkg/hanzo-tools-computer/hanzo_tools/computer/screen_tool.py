@@ -193,15 +193,25 @@ def _process_recording_for_claude(
         quality=quality,
     )
 
-    # Convert to serializable format
+    # Write frames to files instead of returning inline base64
+    frames_dir = os.path.join(
+        os.environ.get("HOME", "/tmp"),
+        ".hanzo", "screen", "frames",
+    )
+    os.makedirs(frames_dir, exist_ok=True)
+    session_id = int(time.time())
+
     frames_data = []
-    for data, info in frames:
+    for i, (data, info) in enumerate(frames):
+        frame_path = os.path.join(frames_dir, f"session_{session_id}_f{i:03d}.jpg")
+        with open(frame_path, "wb") as f:
+            f.write(data)
         frames_data.append(
             {
                 "timestamp_sec": info["timestamp_sec"],
                 "timestamp_ms": info["timestamp_ms"],
                 "size": len(data),
-                "base64": base64.b64encode(data).decode(),
+                "path": frame_path,
             }
         )
 
@@ -301,7 +311,7 @@ OTHER ACTIONS:
 capture: Single screenshot
   - region: [x, y, width, height] (optional)
   - optimize: Compress for Claude (default: true)
-  - Returns base64 image
+  - Returns file path (image saved to ~/.hanzo/screen/)
 
 record: Start background recording
   - duration: Recording duration in seconds (max {self.config.max_duration})
@@ -417,13 +427,26 @@ EXAMPLES:
                     format_type = "png"
                     info = {}
 
+                # Write to file instead of returning inline base64
+                capture_dir = os.path.join(
+                    os.environ.get("HOME", "/tmp"),
+                    ".hanzo", "screen",
+                )
+                os.makedirs(capture_dir, exist_ok=True)
+                capture_path = os.path.join(
+                    capture_dir,
+                    f"capture_{int(time.time())}.{format_type}",
+                )
+                with open(capture_path, "wb") as f:
+                    f.write(data)
+
                 return json.dumps(
                     {
                         "success": True,
                         "format": format_type,
                         "size": len(data),
                         "dimensions": info.get("new_dimensions"),
-                        "base64": base64.b64encode(data).decode(),
+                        "path": capture_path,
                     }
                 )
 
