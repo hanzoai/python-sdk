@@ -683,7 +683,7 @@ def _bot_password_login(
         password = click.prompt("Password", hide_input=True)
 
     resp = httpx.post(
-        f"{BOT_IAM_SERVER_URL}/api/login/oauth/access_token",
+        f"{BOT_IAM_SERVER_URL}/oauth/token",
         data={
             "grant_type": "password",
             "client_id": BOT_IAM_CLIENT_ID,
@@ -743,7 +743,7 @@ def _get_iam_token() -> str:
             import httpx
 
             resp = httpx.post(
-                f"{BOT_IAM_SERVER_URL}/api/login/oauth/access_token",
+                f"{BOT_IAM_SERVER_URL}/oauth/token",
                 data={
                     "grant_type": "client_credentials",
                     "client_id": client_id,

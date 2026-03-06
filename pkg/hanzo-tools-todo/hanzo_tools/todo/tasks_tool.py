@@ -86,10 +86,10 @@ class TodoParams(TypedDict, total=False):
 
 
 @final
-class TodoTool(TodoBaseTool):
+class TasksTool(TodoBaseTool):
     """Unified todo management tool."""
 
-    name = "todo"
+    name = "tasks"
 
     def read_todos(self) -> list[Dict[str, Any]]:
         """Read todos from storage using default session."""

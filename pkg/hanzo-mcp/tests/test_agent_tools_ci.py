@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 from hanzo_tools.agent import TOOLS, register_tools
 from hanzo_tools.agent.agent_tool import AgentTool
-from hanzo_tools.agent.iching_tool import IChingTool
+from hanzo_tools.agent.zen_tool import ZenTool
 from hanzo_tools.agent.review_tool import ReviewTool
 
 
@@ -24,7 +24,7 @@ class TestAgentTools:
         """Test TOOLS exports the correct tools."""
         tool_classes = [t.__name__ for t in TOOLS]
         assert "AgentTool" in tool_classes
-        assert "IChingTool" in tool_classes
+        assert "ZenTool" in tool_classes
         assert "ReviewTool" in tool_classes
         assert len(TOOLS) == 3
 
@@ -35,16 +35,12 @@ class TestAgentTools:
         assert tool.description is not None
         assert len(tool.description) > 0
 
-    def test_iching_tool_creation(self):
-        """Test IChingTool can be created."""
-        tool = IChingTool()
-        assert tool.name == "iching"
+    def test_zen_tool_creation(self):
+        """Test ZenTool can be created."""
+        tool = ZenTool()
+        assert tool.name == "zen"
         desc_lower = tool.description.lower()
-        assert (
-            "i ching" in desc_lower
-            or "wisdom" in desc_lower
-            or "hexagram" in desc_lower
-        )
+        assert "zen" in desc_lower or "64" in desc_lower or "guidance" in desc_lower
 
     def test_review_tool_creation(self):
         """Test ReviewTool can be created."""
@@ -62,17 +58,17 @@ class TestAgentTools:
         # Check tool names
         tool_names = [t.name for t in tools]
         assert "agent" in tool_names
-        assert "iching" in tool_names
+        assert "zen" in tool_names
         assert "review" in tool_names
 
     def test_tool_naming_consistency(self):
         """Ensure tool naming is consistent."""
         agent = AgentTool()
-        iching = IChingTool()
+        zen = ZenTool()
         review = ReviewTool()
 
         assert agent.name == "agent"
-        assert iching.name == "iching"
+        assert zen.name == "zen"
         assert review.name == "review"
 
 

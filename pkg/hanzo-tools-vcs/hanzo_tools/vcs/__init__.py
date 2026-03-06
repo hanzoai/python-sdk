@@ -27,12 +27,18 @@ Usage:
 
 from hanzo_tools.core import BaseTool, ToolRegistry
 
-from .vcs_tool import VcsTool, vcs_tool
+from .git_tool import GitTool, git_tool
+
+# Backward compat
+VcsTool = GitTool
+vcs_tool = git_tool
 
 # Export list for tool discovery - HIP-0300 unified tool
-TOOLS = [VcsTool]
+TOOLS = [GitTool]
 
 __all__ = [
+    "GitTool",
+    "git_tool",
     "VcsTool",
     "vcs_tool",
     "register_tools",

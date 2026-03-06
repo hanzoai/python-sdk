@@ -224,7 +224,7 @@ class HanzoAuth:
             "state": state,
         }
 
-        sso_url = f"{self.base_url}/login/oauth/authorize?{urlencode(params)}"
+        sso_url = f"{self.base_url}/oauth/authorize?{urlencode(params)}"
 
         # Open browser
         webbrowser.open(sso_url)
@@ -265,7 +265,7 @@ class HanzoAuth:
         # Exchange code for token
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{self.base_url}/api/login/oauth/access_token",
+                f"{self.base_url}/oauth/token",
                 json={
                     "client_id": "app-hanzo",
                     "client_secret": "hanzo-cli-secret",  # Public client
