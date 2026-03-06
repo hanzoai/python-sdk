@@ -168,6 +168,7 @@ class HanzoMCPServer:
         # Set hanzo-mcp version on the low-level server (FastMCP doesn't expose this)
         try:
             from importlib.metadata import version as pkg_version
+
             self.mcp._mcp_server.version = pkg_version("hanzo-mcp")
         except Exception:
             self.mcp._mcp_server.version = "0.12.5"

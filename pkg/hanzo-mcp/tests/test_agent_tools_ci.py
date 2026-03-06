@@ -5,8 +5,8 @@ from unittest.mock import Mock
 import pytest
 from hanzo_tools.agent import TOOLS, register_tools
 from hanzo_tools.agent.agent_tool import AgentTool
-from hanzo_tools.agent.zen_tool import ZenTool
 from hanzo_tools.agent.review_tool import ReviewTool
+from hanzo_tools.agent.zen_tool import ZenTool
 
 
 @pytest.fixture
