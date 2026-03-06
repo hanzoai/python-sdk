@@ -13,6 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
+
 from hanzo_mcp import __version__
 from hanzo_mcp.server import create_server
 
