@@ -37,25 +37,25 @@ Screen Limits (configurable via env vars):
 
 from hanzo_tools.core import BaseTool, ToolRegistry, PermissionManager
 
-# HIP-0300: Single unified 'ui' tool
-from .ui_tool import UiTool, ui_tool
+# HIP-0300: Single unified 'computer' tool
+from .computer_tool import ComputerTool
 
 # Internal utilities (used by screen_tool)
 from .media_tool import MediaLimits, MediaResult, ActivitySegment, media_tool
 from .screen_tool import ScreenTool, ScreenConfig, screen_tool
 
-# Backward compatibility (deprecated)
-from .computer_tool import ComputerTool
+# Backward compat
+from .ui_tool import UiTool, ui_tool
 
-# Export list for tool discovery - single ui tool (HIP-0300)
-TOOLS = [UiTool]
+# Export list for tool discovery - single computer tool (HIP-0300)
+TOOLS = [ComputerTool]
 
 __all__ = [
     # HIP-0300 unified tool
+    "ComputerTool",
+    # Backward compat
     "UiTool",
     "ui_tool",
-    # Backward compatibility (deprecated)
-    "ComputerTool",
     "ScreenTool",
     "ScreenConfig",
     "screen_tool",

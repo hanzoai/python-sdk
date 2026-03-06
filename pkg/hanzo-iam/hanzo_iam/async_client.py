@@ -201,7 +201,7 @@ class AsyncIAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/login/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}/oauth/authorize?{urlencode(params)}"
 
     async def exchange_code(
         self,
@@ -232,7 +232,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/login/oauth/access_token",
+            "/oauth/token",
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -257,7 +257,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/login/oauth/refresh_token",
+            "/oauth/token",
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -286,7 +286,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/login/oauth/access_token",
+            "/oauth/token",
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -393,7 +393,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/login/oauth/introspect",
+            "/oauth/introspect",
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
