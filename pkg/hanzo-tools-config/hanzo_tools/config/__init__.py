@@ -3,6 +3,7 @@
 Tools:
 - config: Configuration management
 - mode: Development mode switching
+- workspace: Workspace context detection
 
 Install:
     pip install hanzo-tools-config
@@ -30,12 +31,21 @@ except ImportError as e:
     logger.debug(f"ModeTool not available: {e}")
     ModeTool = None
 
+try:
+    from .workspace_tool import WorkspaceTool
+
+    _tools.append(WorkspaceTool)
+except ImportError as e:
+    logger.debug(f"WorkspaceTool not available: {e}")
+    WorkspaceTool = None
+
 TOOLS = _tools
 
 __all__ = [
     "TOOLS",
     "ConfigTool",
     "ModeTool",
+    "WorkspaceTool",
     "register_tools",
 ]
 

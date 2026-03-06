@@ -13,7 +13,7 @@ Tools for delegating tasks to specialized AI agents:
 - **claude_cli**: Interact with Claude via CLI
 - **critic**: Critical analysis and review
 - **review**: Code review and feedback
-- **iching**: Decision-making guidance using I Ching
+- **zen**: Decision-making guidance using Hanzo Zen
 
 ### 📁 Filesystem Tools
 Tools for file and directory operations:
@@ -350,11 +350,11 @@ review(
 )
 ```
 
-#### I Ching Guidance
+#### Zen Guidance
 ```python
 # Get decision-making guidance
-iching(
-    question="Should we refactor the authentication system now or after the release?"
+zen(
+    challenge="Should we refactor the authentication system now or after the release?"
 )
 ```
 

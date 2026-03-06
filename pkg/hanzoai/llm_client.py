@@ -21,7 +21,7 @@ from ._client import Hanzo
 
 # Hanzo AI specific configuration
 HANZO_API_BASE = "https://api.hanzo.ai/v1"
-HANZO_IAM_BASE = "https://iam.hanzo.ai"
+HANZO_IAM_BASE = "https://hanzo.id"
 
 # Check for Hanzo API key
 HANZO_API_KEY = os.getenv("HANZO_API_KEY")
@@ -99,7 +99,7 @@ class SimpleLLMClient:
                 "state": "hanzoai-login",
             }
             auth_url = (
-                f"{HANZO_IAM_BASE}/login/oauth/authorize?{urlencode(auth_params)}"
+                f"{HANZO_IAM_BASE}/oauth/authorize?{urlencode(auth_params)}"
             )
 
             print(f"Opening browser for Hanzo AI login...")
