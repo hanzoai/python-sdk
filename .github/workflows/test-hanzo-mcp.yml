@@ -179,8 +179,11 @@ jobs:
         uv venv test-env
         source test-env/bin/activate
         uv pip install $GITHUB_WORKSPACE/pkg/hanzo-mcp/dist/*.whl
+        # Override with local tool packages (not yet published to PyPI)
+        uv pip install -e $GITHUB_WORKSPACE/pkg/hanzo-tools -e $GITHUB_WORKSPACE/pkg/hanzo-tools-core \
+          -e $GITHUB_WORKSPACE/pkg/hanzo-tools-agent 2>/dev/null || true
         python -c "import hanzo_mcp; print(f'Hanzo MCP version: {hanzo_mcp.__version__}')"
-        
+
         # Test that agent tools can be imported from hanzo_tools.agent
         python -c "
         from hanzo_tools.agent import AgentTool, ZenTool, ReviewTool, TOOLS
