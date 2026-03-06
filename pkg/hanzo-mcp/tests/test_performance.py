@@ -23,9 +23,10 @@ except ImportError:
     RecallMemoriesTool = None
     CreateMemoriesTool = None
 
-from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_tools.agent.swarm_tool import SwarmTool
 from hanzo_tools.filesystem.search_tool import SearchTool as UnifiedSearchTool
+
+from hanzo_mcp.tools.common.batch_tool import BatchTool
 
 
 class TestMemoryPerformance:
