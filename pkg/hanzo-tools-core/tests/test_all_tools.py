@@ -57,7 +57,7 @@ class TestToolPackages:
         from hanzo_tools.todo import TOOLS
 
         assert len(TOOLS) == 1
-        assert TOOLS[0].name == "todo"
+        assert TOOLS[0].name == "tasks"
 
     def test_reasoning_tools(self):
         """Test hanzo-tools-reasoning has 2 tools."""
@@ -94,13 +94,13 @@ class TestToolPackages:
     def test_agent_tools(self):
         """Test hanzo-tools-agent has 3 tools.
 
-        Core tools: AgentTool, IChingTool, ReviewTool
+        Core tools: AgentTool, ZenTool, ReviewTool
         """
         from hanzo_tools.agent import TOOLS
 
         assert len(TOOLS) == 3, f"Expected 3 agent tools, got {len(TOOLS)}"
         names = {t.name for t in TOOLS}
-        assert names == {"agent", "iching", "review"}
+        assert names == {"agent", "zen", "review"}
 
     def test_jupyter_tools(self):
         """Test hanzo-tools-jupyter has 1 tool."""
