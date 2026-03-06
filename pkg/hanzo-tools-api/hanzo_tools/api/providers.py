@@ -321,7 +321,7 @@ PROVIDER_CONFIGS: dict[str, ProviderConfig] = {
     "hanzo-iam": ProviderConfig(
         name="hanzo-iam",
         display_name="Hanzo IAM",
-        base_url="https://iam.hanzo.ai",
+        base_url="https://hanzo.id",
         auth_type=AuthType.BEARER,
         spec_url="file:///Users/z/work/hanzo/openapi/iam/openapi.yaml",
         env_vars=["HANZO_API_KEY", "HANZO_TOKEN"],

@@ -318,7 +318,7 @@ def password_login(
 
     # Use ROPC grant to get tokens directly
     resp = httpx.post(
-        f"{server_url}/api/login/oauth/access_token",
+        f"{server_url}/oauth/token",
         data={
             "grant_type": "password",
             "client_id": client_id,
