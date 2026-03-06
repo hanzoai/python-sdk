@@ -112,6 +112,14 @@ jobs:
           # Install sibling packages for integration tests
           uv pip install -e ./pkg/hanzo-memory || true
           uv pip install -e ./pkg/hanzo-network || true
+          # Override PyPI versions with local tool packages (monorepo)
+          uv pip install --no-deps -e ./pkg/hanzo-tools -e ./pkg/hanzo-tools-core \
+            -e ./pkg/hanzo-tools-agent -e ./pkg/hanzo-tools-shell -e ./pkg/hanzo-tools-fs \
+            -e ./pkg/hanzo-tools-memory -e ./pkg/hanzo-tools-todo -e ./pkg/hanzo-tools-reasoning \
+            -e ./pkg/hanzo-tools-browser -e ./pkg/hanzo-tools-lsp -e ./pkg/hanzo-tools-refactor \
+            -e ./pkg/hanzo-tools-computer -e ./pkg/hanzo-tools-config -e ./pkg/hanzo-tools-api \
+            -e ./pkg/hanzo-tools-vcs -e ./pkg/hanzo-tools-net -e ./pkg/hanzo-tools-plan \
+            -e ./pkg/hanzo-tools-jupyter -e ./pkg/hanzo-tools-llm 2>/dev/null || true
 
       - name: "🧪 Run ALL tests"
         run: |
