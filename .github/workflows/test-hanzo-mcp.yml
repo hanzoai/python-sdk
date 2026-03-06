@@ -21,7 +21,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     env:
       PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
     strategy:
@@ -77,7 +77,7 @@ jobs:
     
 
   integration-tests:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     if: |
       github.event_name == 'workflow_dispatch' && 
       github.event.inputs.run_integration_tests == 'true'
@@ -118,27 +118,27 @@ jobs:
         # Test agent tool import and basic functionality
         echo "Testing Agent tools..."
         uv run python -c "
-        from hanzo_tools.agent import AgentTool, IChingTool, ReviewTool, TOOLS
-        
+        from hanzo_tools.agent import AgentTool, ZenTool, ReviewTool, TOOLS
+
         # Verify all tools are available
         tool_names = [t.__name__ for t in TOOLS]
         assert 'AgentTool' in tool_names
-        assert 'IChingTool' in tool_names
+        assert 'ZenTool' in tool_names
         assert 'ReviewTool' in tool_names
-        
+
         # Create tool instances
         agent = AgentTool()
-        iching = IChingTool()
+        zen = ZenTool()
         review = ReviewTool()
-        
+
         print(f'Agent tool name: {agent.name}')
-        print(f'IChing tool name: {iching.name}')
+        print(f'Zen tool name: {zen.name}')
         print(f'Review tool name: {review.name}')
         print('All agent tools created successfully!')
         "
 
   release-check:
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     needs: [test]
     if: github.ref == 'refs/heads/main'
 
@@ -175,7 +175,7 @@ jobs:
         
         # Test that agent tools can be imported from hanzo_tools.agent
         python -c "
-        from hanzo_tools.agent import AgentTool, IChingTool, ReviewTool, TOOLS
+        from hanzo_tools.agent import AgentTool, ZenTool, ReviewTool, TOOLS
         print(f'Agent tools available: {[t.__name__ for t in TOOLS]}')
         print('All agent tools importable!')
         "
