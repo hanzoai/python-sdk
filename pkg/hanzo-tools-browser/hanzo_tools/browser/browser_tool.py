@@ -672,6 +672,17 @@ class BrowserTool(BaseTool):
         self.backend = backend or get_backend()
         self.timeout = 30000
 
+        # Auto-start CDP bridge for browser extension integration.
+        # This enables the extension (Chrome/Firefox/Safari) to connect
+        # and be preferred over Playwright when backend != "playwright".
+        if self.backend != "playwright":
+            try:
+                from hanzo_tools.browser import start_cdp_bridge, CDP_BRIDGE_AVAILABLE
+                if CDP_BRIDGE_AVAILABLE:
+                    start_cdp_bridge()
+            except Exception:
+                pass
+
     @property
     def description(self) -> str:
         return """Complete browser automation with full Playwright API.
