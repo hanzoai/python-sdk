@@ -81,8 +81,8 @@ BALANCED REVIEW:
 - Use for regular code review and feedback
 
 CREATIVE GUIDANCE:
-- Use the iching tool when you need creative problem-solving approaches
-- Combines ancient I Ching wisdom with Hanzo engineering principles
+- Use the zen tool when you need creative problem-solving approaches
+- Rolls one of 64 Hanzo Zen philosophies with engineering principles
 - Provides unique perspectives and actionable guidance
 - Use when stuck, need fresh ideas, or want philosophical alignment
 

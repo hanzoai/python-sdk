@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.12.4"
+version = "0.12.5"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -30,7 +30,7 @@ dependencies = [
     "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.6.1",
     "hanzo-tools-browser[playwright]>=0.4.2",  # Extension-first routing, Playwright fallback
-    "hanzo-tools-memory>=0.2.2",
+    "hanzo-tools-memory>=0.2.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
     "hanzo-tools-lsp>=0.1.0",
@@ -112,7 +112,7 @@ test = [
     "pytest>=7.0.0",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.10.0",
-    "pytest-asyncio>=0.26.0",
+    "pytest-asyncio>=0.26.0,<1.0.0",
 ]
 performance = ["ujson>=5.7.0", "orjson>=3.9.0"]  # uvloop now standard
 publish = ["twine>=4.0.2", "build>=1.0.3"]
@@ -136,7 +136,7 @@ include = ["hanzo_mcp"]
 
 [tool.pytest.ini_options]
 # Configuration for pytest
-addopts = "--no-header --no-summary -p pytest_asyncio.plugin"
+addopts = "--no-header --no-summary -p asyncio"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 # Note: --cov-fail-under=96.3 will be added after achieving target coverage

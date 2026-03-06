@@ -1,5 +1,6 @@
 """Tests for hanzo-tools-api v0.2.0."""
 
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -12,6 +13,7 @@ from hanzo_tools.api import (
     PROVIDER_CONFIGS,
     APIClient,
     APITool,
+    HanzoTool,
     Credential,
     CredentialManager,
     OpenAPIClient,
@@ -410,6 +412,37 @@ class TestAPITool:
         assert "API" in desc
         assert "OpenAPI" in desc
         assert "credential" in desc.lower()
+
+
+class TestHanzoTool:
+    """Tests for unified HanzoTool surface."""
+
+    @pytest.mark.asyncio
+    async def test_services_listing(self):
+        """Service discovery should return consolidated service list."""
+        tool = HanzoTool()
+        ctx = AsyncMock()
+        result = await tool.call(ctx, service="services")
+        payload = json.loads(result)
+        assert "services" in payload
+        assert "hanzo" not in payload["services"]  # service router, not a nested service
+        assert "commerce" in payload["services"]
+        assert "iam" in payload["services"]
+
+    @pytest.mark.asyncio
+    async def test_invalid_args_json(self):
+        """Invalid JSON args should return structured error."""
+        tool = HanzoTool()
+        ctx = AsyncMock()
+        result = await tool.call(
+            ctx,
+            service="iam",
+            action="users",
+            args="{invalid-json",
+        )
+        payload = json.loads(result)
+        assert "error" in payload
+        assert payload["service"] == "iam"
 
 
 class TestIntegration:

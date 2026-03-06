@@ -8,9 +8,13 @@ from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolRegistry
 from hanzo_tools.todo.base import TodoStorage, TodoBaseTool
-from hanzo_tools.todo.todo_tool import TodoTool
+from hanzo_tools.todo.tasks_tool import TasksTool
+
+# Backward compat
+TodoTool = TasksTool
 
 __all__ = [
+    "TasksTool",
     "TodoTool",
     "TodoStorage",
     "TodoBaseTool",
@@ -26,7 +30,7 @@ def get_todo_tools() -> list[BaseTool]:
     Returns:
         List of todo tool instances
     """
-    return [TodoTool()]
+    return [TasksTool()]
 
 
 def register_todo_tools(
@@ -48,4 +52,4 @@ def register_todo_tools(
 
 
 # TOOLS list for entry point discovery
-TOOLS = [TodoTool]
+TOOLS = [TasksTool]

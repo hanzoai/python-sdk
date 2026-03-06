@@ -93,9 +93,10 @@ class ToolListTool(BaseTool):
             ("tool_list", "List all tools (this tool)"),
         ],
         "productivity": [
-            ("todo", "Todo management (list/add/update/remove/clear)"),
+            ("tasks", "Task management (list/add/update/remove/clear)"),
             ("jupyter", "Jupyter notebooks (read/edit/create/delete/execute)"),
             ("think", "Structured thinking space"),
+            ("ui", "UI component registry (browse/search/install components)"),
         ],
         "system": [
             ("stats", "System and resource statistics"),

@@ -33,29 +33,30 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "filesystem": ["fs"],  # Bytes + Paths axis
     "core": ["id"],  # Identity axis (hash, uri, ref, verify)
     "code": ["code"],  # Symbols + Structure axis (parse, transform, summarize)
-    "shell": ["proc"],  # Execution axis
-    "vcs": ["vcs"],  # History + Diffs axis
+    "shell": ["exec"],  # Execution axis
+    "vcs": ["git"],  # History + Diffs axis
     "test": ["test"],  # Validation axis (check, build, test)
-    "net": ["net"],  # Network axis (search, fetch, download, crawl)
+    "net": ["fetch"],  # Network axis (search, fetch, download, crawl)
     "plan": ["plan"],  # Orchestration axis (intent, route, compose)
     # Control surfaces
     "browser": ["browser"],  # Web content control (Playwright/extension)
     "computer": ["computer"],  # OS/desktop control (computer use)
+    "ui": ["ui"],  # UI component registry (browse, search, install)
     # Extended operators
     "lsp": ["lsp"],  # Semantic stream (diagnostics, code_actions)
     "memory": ["memory"],  # Knowledge persistence
-    "todo": ["todo"],  # Task tracking
+    "todo": ["tasks"],  # Task tracking
     "reasoning": ["think", "critic"],
     "refactor": ["refactor"],
     "database": ["sql", "graph"],
-    "agent": ["agent", "iching", "review"],
+    "agent": ["agent", "zen", "review"],
     "jupyter": ["jupyter"],
     "editor": ["neovim_edit", "neovim_command", "neovim_session"],
     "llm": ["llm", "consensus"],
     "vector": ["index", "vector_index", "vector_search"],
-    "config": ["config", "mode"],
+    "config": ["config", "mode", "workspace"],
     "mcp_tools": ["mcp"],
-    "api": ["api"],
+    "api": ["api", "hanzo"],
     "auth": ["auth"],
     "kms": ["kms"],
     "paas": ["paas"],
@@ -250,16 +251,12 @@ class EntryPointToolLoader:
                 logger.debug(f"Skipping disabled package: {package_name}")
                 continue
 
-            # Build package-specific enabled_tools
-            package_tool_names = PACKAGE_TOOL_PREFIXES.get(package_name, [])
-            package_enabled = {
-                name: enabled_tools.get(name, True) for name in package_tool_names
-            }
-
             self.load_package(
                 package_name,
                 mcp_server,
-                enabled_tools=package_enabled,
+                # Apply global resolved tool state directly. Package-prefix mapping is
+                # advisory for UX/grouping but not authoritative for runtime gating.
+                enabled_tools=enabled_tools,
                 **kwargs,
             )
 

@@ -174,11 +174,11 @@ Examples:
             elif action == "manage":
                 return await self._manage(create_list, update_list, delete_ids)
             elif action == "facts":
-                return await self._recall_facts(
+                return await self._facts_lookup(
                     queries or ([query] if query else []), kb, limit
                 )
             elif action == "store":
-                return await self._store_facts(
+                return await self._facts_store(
                     facts or ([fact] if fact else []), kb, metadata
                 )
             elif action == "summarize":
@@ -371,7 +371,7 @@ Examples:
             return "No operations specified. Provide create_list, update_list, or delete_ids."
         return "\n".join(results)
 
-    async def _recall_facts(
+    async def _facts_lookup(
         self, queries: List[str], kb: Optional[str], limit: int
     ) -> str:
         """Search knowledge bases."""
@@ -399,7 +399,7 @@ Examples:
         except ImportError:
             return "Knowledge service not available"
 
-    async def _store_facts(
+    async def _facts_store(
         self,
         facts: List[str],
         kb: Optional[str],

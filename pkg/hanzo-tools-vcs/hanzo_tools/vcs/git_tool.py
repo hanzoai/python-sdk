@@ -1,6 +1,6 @@
 """Unified version control tool for HIP-0300 architecture.
 
-This module provides a single unified 'vcs' tool that handles all version control operations:
+This module provides a single unified 'git' tool that handles all version control operations:
 - status: Working tree status
 - diff: Show differences
 - apply: Apply patch
@@ -28,7 +28,7 @@ from hanzo_tools.core import (
 )
 
 
-class VcsTool(BaseTool):
+class GitTool(BaseTool):
     """Unified version control tool (HIP-0300).
 
     Handles all VCS operations on a single axis:
@@ -43,7 +43,7 @@ class VcsTool(BaseTool):
     Outputs diffs in unified patch format.
     """
 
-    name: ClassVar[str] = "vcs"
+    name: ClassVar[str] = "git"
     VERSION: ClassVar[str] = "0.12.0"
 
     def __init__(self, cwd: str | None = None):
@@ -463,4 +463,4 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
 
 # Backward compatibility
-vcs_tool = VcsTool
+git_tool = GitTool
