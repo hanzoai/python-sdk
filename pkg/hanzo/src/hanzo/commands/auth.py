@@ -230,7 +230,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
         "scope": "openid profile email",
         "state": state,
     }
-    authorize_url = f"{iam_url}/login/oauth/authorize?{urlencode(params)}"
+    authorize_url = f"{iam_url}/oauth/authorize?{urlencode(params)}"
 
     console.print("Your browser has been opened to visit:\n")
     console.print(f"    {authorize_url}\n")
@@ -250,7 +250,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
         return
 
     # Exchange authorization code for tokens
-    token_url = f"{iam_url}/api/login/oauth/access_token"
+    token_url = f"{iam_url}/oauth/token"
     token_data = urlencode(
         {
             "client_id": HANZO_CLIENT_ID,
@@ -364,7 +364,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
         ).encode()
 
         poll_req = urllib.request.Request(  # noqa: S310
-            f"{iam_url}/api/login/oauth/access_token",
+            f"{iam_url}/oauth/token",
             data=poll_data,
             headers={"Content-Type": "application/json"},
             method="POST",

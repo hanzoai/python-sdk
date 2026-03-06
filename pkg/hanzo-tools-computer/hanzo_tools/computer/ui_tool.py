@@ -37,7 +37,7 @@ class UiTool(ComputerTool):
     """
 
     # Override name to 'ui' for HIP-0300
-    name: ClassVar[str] = "ui"
+    name: ClassVar[str] = "computer"
 
     @property
     def description(self) -> str:

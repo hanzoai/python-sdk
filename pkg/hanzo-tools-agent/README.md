@@ -56,9 +56,9 @@ Configure agents for direct API calls without CLI:
 }
 ```
 
-### iching - I Ching Wisdom
+### zen - Hanzo Zen Guidance
 ```python
-iching(challenge="How should I approach this refactoring?")
+zen(challenge="How should I approach this refactoring?")
 ```
 
 ### review - Code Review

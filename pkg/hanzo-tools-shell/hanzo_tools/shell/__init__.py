@@ -79,8 +79,8 @@ from hanzo_tools.shell.curl_tool import CurlTool
 # Convenience tools
 from hanzo_tools.shell.open_tool import OpenTool, open_tool
 
-# HIP-0300: Unified proc tool
-from hanzo_tools.shell.proc_tool import ProcTool, proc_tool
+# HIP-0300: Unified exec tool
+from hanzo_tools.shell.exec_tool import ExecTool, exec_tool
 from hanzo_tools.shell.shellflow import (
     parse as parse_shellflow,
     compile as compile_shellflow,
@@ -195,9 +195,9 @@ TOOLS = _get_detected_shell_tools()
 __all__ = [
     # uvloop status
     "_using_uvloop",
-    # HIP-0300: Unified proc tool
-    "ProcTool",
-    "proc_tool",
+    # HIP-0300: Unified exec tool
+    "ExecTool",
+    "exec_tool",
     # Base classes
     "ProcessManager",
     "AutoBackgroundExecutor",

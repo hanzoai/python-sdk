@@ -33,20 +33,20 @@ CATEGORY_TOOL_MAPPINGS = {
     "scientist": ESSENTIAL_TOOLS + ["jupyter", "critic"] + AI_TOOLS + VECTOR_TOOLS,
     "philosopher": ESSENTIAL_TOOLS + ["critic", "think", "search"],
     "artist": ESSENTIAL_TOOLS + ["watch", "jupyter"] + AI_TOOLS,
-    "leader": ESSENTIAL_TOOLS + ["todo", "rules", "agent"] + AI_TOOLS,
-    "writer": ESSENTIAL_TOOLS + ["search", "critic", "todo"],
+    "leader": ESSENTIAL_TOOLS + ["tasks", "rules", "agent"] + AI_TOOLS,
+    "writer": ESSENTIAL_TOOLS + ["search", "critic", "tasks"],
     "mathematician": ESSENTIAL_TOOLS + ["jupyter", "symbols", "critic"],
-    "musician": ESSENTIAL_TOOLS + ["watch", "todo"],
-    "athlete": ESSENTIAL_TOOLS + ["todo", "watch", "process"],
+    "musician": ESSENTIAL_TOOLS + ["watch", "tasks"],
+    "athlete": ESSENTIAL_TOOLS + ["tasks", "watch", "process"],
     "entrepreneur": ESSENTIAL_TOOLS
-    + ["todo", "agent", "consensus"]
+    + ["tasks", "agent", "consensus"]
     + BUILD_TOOLS
     + DATABASE_TOOLS,
-    "activist": ESSENTIAL_TOOLS + ["search", "todo", "rules"],
+    "activist": ESSENTIAL_TOOLS + ["search", "tasks", "rules"],
     "religious_leader": ESSENTIAL_TOOLS + ["search", "critic", "think"],
-    "military_leader": ESSENTIAL_TOOLS + ["todo", "process", "critic"] + UNIX_TOOLS,
-    "explorer": ESSENTIAL_TOOLS + ["search", "watch", "todo"],
-    "comedian": ESSENTIAL_TOOLS + ["todo", "watch", "critic"],
+    "military_leader": ESSENTIAL_TOOLS + ["tasks", "process", "critic"] + UNIX_TOOLS,
+    "explorer": ESSENTIAL_TOOLS + ["search", "watch", "tasks"],
+    "comedian": ESSENTIAL_TOOLS + ["tasks", "watch", "critic"],
     "default": ESSENTIAL_TOOLS + AI_TOOLS,
 }
 

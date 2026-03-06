@@ -18,9 +18,9 @@ from datetime import datetime
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Callable, Dict, Optional, TypeVar
 
-# Try to import PostHog client (used as backend), but make it optional
+# Try to import Insights client (used as backend), but make it optional
 try:
-    from posthog import Posthog
+    from insights import Posthog
 
     INSIGHTS_AVAILABLE = True
 except ImportError:
@@ -36,7 +36,7 @@ class AnalyticsConfig:
     """Configuration for analytics."""
 
     api_key: Optional[str] = None
-    host: str = "https://us.i.posthog.com"
+    host: str = "https://us.i.insights.com"
     enabled: bool = True
     debug: bool = False
     capture_errors: bool = True
@@ -52,10 +52,10 @@ class InsightsAnalytics:
         self.config = config or AnalyticsConfig()
         self._client = None
 
-        # Load from environment if not provided (INSIGHTS_API_KEY preferred, POSTHOG_API_KEY fallback)
+        # Load from environment if not provided (INSIGHTS_API_KEY preferred, INSIGHTS_API_KEY fallback)
         if not self.config.api_key:
             self.config.api_key = os.environ.get("INSIGHTS_API_KEY") or os.environ.get(
-                "POSTHOG_API_KEY"
+                "INSIGHTS_API_KEY"
             )
 
         if not self.config.distinct_id:

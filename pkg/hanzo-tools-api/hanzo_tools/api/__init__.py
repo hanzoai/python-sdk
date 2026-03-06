@@ -36,6 +36,7 @@ MCP Tool Usage:
 # Models (structured data types)
 # MCP Tool
 from .api_tool import APITool
+from .hanzo_tool import HanzoTool
 
 # Main client (typed interface)
 from .client import (
@@ -107,7 +108,7 @@ from .storage import (
 )
 
 # Tools list for entry point discovery - must be classes, not instances
-TOOLS = [APITool]
+TOOLS = [HanzoTool, APITool]
 
 __all__ = [
     # Models
@@ -159,6 +160,7 @@ __all__ = [
     "get_api_client",
     "reset_api_client",
     # Tool
+    "HanzoTool",
     "APITool",
     "TOOLS",
 ]

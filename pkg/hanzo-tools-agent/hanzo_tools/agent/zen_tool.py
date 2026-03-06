@@ -1,4 +1,4 @@
-"""I Ching tool for creative problem solving using Hanzo principles."""
+"""Zen guidance tool for creative problem solving using Hanzo principles."""
 
 import random
 from enum import Enum
@@ -102,7 +102,7 @@ class HanzoPrinciple(Enum):
 
 
 class Hexagram:
-    """I Ching hexagram with interpretation."""
+    """64-path oracle hexagram with interpretation."""
 
     HEXAGRAMS = {
         "111111": (
@@ -405,7 +405,7 @@ class Hexagram:
 
 
 class IChing:
-    """I Ching oracle for engineering guidance."""
+    """Zen oracle for engineering guidance."""
 
     def __init__(self):
         self.principles = list(HanzoPrinciple)
@@ -476,8 +476,8 @@ class IChing:
     def generate_guidance(
         self, hexagram: Hexagram, principles: List[HanzoPrinciple], challenge: str
     ) -> str:
-        """Generate creative guidance combining I Ching wisdom and Hanzo principles."""
-        guidance = f"☯️ I CHING GUIDANCE FOR ENGINEERING CHALLENGE ☯️\n\n"
+        """Generate creative guidance combining Hanzo Zen and engineering principles."""
+        guidance = f"☯️ ZEN GUIDANCE FOR ENGINEERING CHALLENGE ☯️\n\n"
         guidance += f"**Your Challenge:** {challenge}\n\n"
 
         guidance += f"**Hexagram Cast:** {hexagram.name} - {hexagram.title}\n"
@@ -542,7 +542,7 @@ class IChing:
         guidance += "\n**The Way Forward:**\n"
         guidance += self._synthesize_action_plan(hexagram, principles, challenge)
 
-        guidance += "\n\n*Remember: The I Ching reveals patterns, not prescriptions. "
+        guidance += "\n\n*Remember: Zen guidance reveals patterns, not prescriptions. "
         guidance += "Let this wisdom guide your intuition as you craft your solution.*"
 
         return guidance
@@ -584,31 +584,31 @@ class IChing:
         return plan
 
 
-class IChingTool(BaseTool):
-    """Tool for applying I Ching wisdom to engineering challenges."""
+class ZenTool(BaseTool):
+    """Tool for applying Hanzo Zen guidance to engineering challenges."""
 
-    name = "iching"
+    name = "zen"
 
     @property
     @override
     def description(self) -> str:
         """Get the tool description."""
-        return """Apply I Ching wisdom and Hanzo principles to engineering challenges.
+        return """Apply Hanzo Zen guidance to engineering challenges.
 
-This tool casts an I Ching hexagram and selects relevant Hanzo principles
-to provide creative guidance for your engineering challenge.
+This tool rolls a 64-path Zen oracle and selects relevant Hanzo principles
+to provide creative, actionable guidance for your engineering challenge.
 
 Parameters:
 - challenge: Description of the engineering challenge or question
 
 The oracle will:
-1. Cast a hexagram representing the current situation
+1. Roll one of 64 Zen philosophies for the current situation
 2. Select relevant Hanzo principles
 3. Synthesize actionable guidance
 4. Provide specific recommendations
 
 Example:
-iching(
+zen(
     challenge="How should I approach refactoring this legacy codebase?"
 )
 
@@ -619,13 +619,13 @@ Use this when you need:
 - Alignment with Hanzo principles"""
 
     def __init__(self):
-        """Initialize the I Ching tool."""
+        """Initialize the Zen tool."""
         super().__init__()
         self.oracle = IChing()
 
-    @auto_timeout("iching")
+    @auto_timeout("zen")
     async def call(self, ctx: MCPContext, challenge: str) -> str:
-        """Cast I Ching and provide guidance."""
+        """Roll zen oracle and provide guidance."""
         # Cast hexagram
         hexagram = self.oracle.cast_hexagram()
 
@@ -642,5 +642,5 @@ Use this when you need:
         tool_self = self
 
         @server.tool(name=self.name, description=self.description)
-        async def iching(ctx: MCPContext, challenge: str) -> str:
+        async def zen(ctx: MCPContext, challenge: str) -> str:
             return await tool_self.call(ctx, challenge)
