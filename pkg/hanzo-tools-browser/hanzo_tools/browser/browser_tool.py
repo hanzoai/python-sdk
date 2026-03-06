@@ -843,6 +843,8 @@ CATEGORIES:
             "get_attribute", "set_attribute", "remove_attribute",
             "set_style", "add_class", "remove_class",
             "insert_element", "remove_element",
+            "wait_for_selector", "query_selector_all",
+            "get_element_info", "get_page_info",
             "observe_mutations", "computed_styles", "bounding_rects",
             "inject_script", "inject_css",
             "local_storage", "cookies",
