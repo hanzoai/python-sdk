@@ -48,7 +48,7 @@ jobs:
         uv pip install -e ".[test,performance,analytics,dev]"
         uv pip install pytest-cov
         # Override PyPI versions with local tool packages (monorepo)
-        uv pip install --no-deps -e ../hanzo-tools -e ../hanzo-tools-core \
+        uv pip install -e ../hanzo-tools -e ../hanzo-tools-core \
           -e ../hanzo-tools-agent -e ../hanzo-tools-shell -e ../hanzo-tools-fs \
           -e ../hanzo-tools-memory -e ../hanzo-tools-todo -e ../hanzo-tools-reasoning \
           -e ../hanzo-tools-browser -e ../hanzo-tools-lsp -e ../hanzo-tools-refactor \
