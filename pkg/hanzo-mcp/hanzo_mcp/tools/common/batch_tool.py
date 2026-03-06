@@ -60,7 +60,9 @@ class BatchTool:
 
             tool = self.tools.get(tool_name)
             if tool is None:
-                return _BatchResult(index, tool_name, f"Error: Tool '{tool_name}' not found")
+                return _BatchResult(
+                    index, tool_name, f"Error: Tool '{tool_name}' not found"
+                )
 
             async with semaphore:
                 try:
@@ -74,7 +76,9 @@ class BatchTool:
 
             return _BatchResult(index, tool_name, str(result))
 
-        tasks = [_run(i, invocation) for i, invocation in enumerate(invocations, start=1)]
+        tasks = [
+            _run(i, invocation) for i, invocation in enumerate(invocations, start=1)
+        ]
         results = await asyncio.gather(*tasks)
         results.sort(key=lambda item: item.index)
 
