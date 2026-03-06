@@ -113,7 +113,7 @@ jobs:
           uv pip install -e ./pkg/hanzo-memory || true
           uv pip install -e ./pkg/hanzo-network || true
           # Override PyPI versions with local tool packages (monorepo)
-          uv pip install --no-deps -e ./pkg/hanzo-tools -e ./pkg/hanzo-tools-core \
+          uv pip install -e ./pkg/hanzo-tools -e ./pkg/hanzo-tools-core \
             -e ./pkg/hanzo-tools-agent -e ./pkg/hanzo-tools-shell -e ./pkg/hanzo-tools-fs \
             -e ./pkg/hanzo-tools-memory -e ./pkg/hanzo-tools-todo -e ./pkg/hanzo-tools-reasoning \
             -e ./pkg/hanzo-tools-browser -e ./pkg/hanzo-tools-lsp -e ./pkg/hanzo-tools-refactor \
