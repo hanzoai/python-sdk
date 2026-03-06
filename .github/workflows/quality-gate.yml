@@ -16,7 +16,7 @@ concurrency:
 jobs:
   block-todo-stub-code:
     name: "🚫 Block TODO/STUB/FAKE Code"
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     steps:
       - uses: actions/checkout@v4
 
@@ -57,7 +57,7 @@ jobs:
 
   test-no-stubs:
     name: "🧪 Anti-Stub Tests"
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     steps:
       - uses: actions/checkout@v4
 
@@ -87,7 +87,7 @@ jobs:
 
   all-tests-must-pass:
     name: "✅ ALL Tests Must Pass"
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     strategy:
       fail-fast: true  # Stop immediately if any test fails
       matrix:
@@ -142,7 +142,7 @@ jobs:
 
   code-quality:
     name: "🎯 Code Quality Check"
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     steps:
       - uses: actions/checkout@v4
 
@@ -174,7 +174,7 @@ jobs:
 
   function-implementation-check:
     name: "🔨 Verify Functions Are Implemented"
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     steps:
       - uses: actions/checkout@v4
 
@@ -213,7 +213,7 @@ jobs:
       - all-tests-must-pass
       - code-quality
       - function-implementation-check
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
     if: github.event_name == 'release' || github.ref == 'refs/heads/main'
 
     steps:
@@ -235,7 +235,7 @@ jobs:
     name: "📦 Publish to PyPI"
     needs: [block-deployment]
     if: github.event_name == 'release'
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build
 
     steps:
       - uses: actions/checkout@v4
