@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - 'pkg/hanzo-mcp/**'
+      - 'pkg/hanzo-tools-*/**'
       - '.github/workflows/test-hanzo-mcp.yml'
   pull_request:
     branches: [main]
     paths:
       - 'pkg/hanzo-mcp/**'
+      - 'pkg/hanzo-tools-*/**'
       - '.github/workflows/test-hanzo-mcp.yml'
   workflow_dispatch:
     inputs:
@@ -47,7 +49,15 @@ jobs:
         source .venv/bin/activate
         uv pip install -e ".[test,performance,analytics,dev]"
         uv pip install pytest-cov
-    
+        # Override PyPI versions with local tool packages (monorepo)
+        uv pip install --no-deps -e ../hanzo-tools -e ../hanzo-tools-core \
+          -e ../hanzo-tools-agent -e ../hanzo-tools-shell -e ../hanzo-tools-fs \
+          -e ../hanzo-tools-memory -e ../hanzo-tools-todo -e ../hanzo-tools-reasoning \
+          -e ../hanzo-tools-browser -e ../hanzo-tools-lsp -e ../hanzo-tools-refactor \
+          -e ../hanzo-tools-computer -e ../hanzo-tools-config -e ../hanzo-tools-api \
+          -e ../hanzo-tools-vcs -e ../hanzo-tools-net -e ../hanzo-tools-plan \
+          -e ../hanzo-tools-jupyter -e ../hanzo-tools-llm 2>/dev/null || true
+
     - name: Run type checking with mypy
       run: |
         cd pkg/hanzo-mcp
