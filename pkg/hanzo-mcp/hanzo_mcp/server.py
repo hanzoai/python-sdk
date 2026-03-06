@@ -165,6 +165,13 @@ class HanzoMCPServer:
         EnhancedFastMCP = _get_enhanced_fast_mcp()
         self.mcp = mcp_instance if mcp_instance is not None else EnhancedFastMCP(name)
 
+        # Set hanzo-mcp version on the low-level server (FastMCP doesn't expose this)
+        try:
+            from importlib.metadata import version as pkg_version
+            self.mcp._mcp_server.version = pkg_version("hanzo-mcp")
+        except Exception:
+            self.mcp._mcp_server.version = "0.12.5"
+
         # Initialize authentication token
         self.auth_token = auth_token or os.environ.get("HANZO_MCP_TOKEN")
         if not self.auth_token:
