@@ -4,8 +4,9 @@ import asyncio
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-from hanzo_mcp.tools.common.batch_tool import BatchTool
 from mcp.server.fastmcp import Context as MCPContext
+
+from hanzo_mcp.tools.common.batch_tool import BatchTool
 
 
 class TestBatchToolEdgeCases:
