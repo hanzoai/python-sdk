@@ -5,7 +5,6 @@ import time
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import pytest
-from hanzo_mcp.tools.common.batch_tool import BatchTool
 from hanzo_tools.agent.cli_tools import (
     AiderCLITool,
     ClaudeCLITool,
@@ -18,6 +17,8 @@ from hanzo_tools.agent.cli_tools import (
     OpenHandsCLITool,
     OpenHandsShortCLITool,
 )
+
+from hanzo_mcp.tools.common.batch_tool import BatchTool
 
 
 class TestCLITools:
