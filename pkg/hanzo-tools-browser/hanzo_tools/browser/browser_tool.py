@@ -836,6 +836,13 @@ CATEGORIES:
             "type", "fill", "clear", "press_key", "press",
             "select_option", "check", "uncheck",
             "evaluate", "wait", "wait_for_load",
+            "get_html", "set_html", "get_text", "set_text",
+            "get_attribute", "set_attribute", "remove_attribute",
+            "set_style", "add_class", "remove_class",
+            "insert_element", "remove_element",
+            "observe_mutations", "computed_styles", "bounding_rects",
+            "inject_script", "inject_css",
+            "local_storage", "cookies",
             "tabs", "new_tab", "close_tab", "select_tab",
             "console", "network_requests", "status",
             # Takeover actions (Phase 3)
@@ -868,10 +875,13 @@ CATEGORIES:
                 level=level,
             )
             if ext_result is not None and "error" not in ext_result:
-                # Normalize response
-                if "result" in ext_result:
-                    ext_result = ext_result["result"]
-                return {"success": True, "source": "extension", **ext_result}
+                # Build normalized response from extension bridge result
+                resp: dict[str, Any] = {"success": True, "source": "extension"}
+                if isinstance(ext_result, dict):
+                    resp.update(ext_result)
+                else:
+                    resp["result"] = ext_result
+                return resp
 
             # For explicit backends (firefox/chrome/extension), don't fall back to Playwright
             if backend in ("firefox", "chrome", "extension"):
