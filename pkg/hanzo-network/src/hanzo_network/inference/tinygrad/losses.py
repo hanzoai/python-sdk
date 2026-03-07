@@ -1,5 +1,5 @@
-from tinygrad import Tensor, dtypes
 import numpy as np
+from tinygrad import Tensor, dtypes
 
 
 def length_masked_ce_loss(model, inputs, targets, lengths):

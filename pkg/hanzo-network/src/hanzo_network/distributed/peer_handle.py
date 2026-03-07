@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import List, Optional
+
 import numpy as np
+
 from ..inference.shard import Shard
 from ..topology.device_capabilities import DeviceCapabilities
 from ..topology.topology import Topology
