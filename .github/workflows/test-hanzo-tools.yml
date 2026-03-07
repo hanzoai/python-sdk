@@ -36,8 +36,10 @@ jobs:
       run: |
         uv venv
         source .venv/bin/activate
-        # Install all tool packages
+        # Install base shim first (provides hanzo_tools.core.unified)
+        uv pip install -e pkg/hanzo-tools
         uv pip install -e pkg/hanzo-tools-core
+        # Install all tool packages
         uv pip install -e pkg/hanzo-tools-fs
         uv pip install -e pkg/hanzo-tools-shell
         uv pip install -e pkg/hanzo-tools-browser
@@ -50,6 +52,8 @@ jobs:
         uv pip install -e pkg/hanzo-tools-agent
         uv pip install -e pkg/hanzo-tools-jupyter
         uv pip install -e pkg/hanzo-tools-editor
+        uv pip install -e pkg/hanzo-tools-config
+        uv pip install -e pkg/hanzo-tools-computer
         uv pip install pytest pytest-asyncio
 
     - name: Run tests
