@@ -1,9 +1,10 @@
 """Device capabilities for distributed Hanzo networks."""
 
-from typing import Any
-from pydantic import BaseModel
 import platform
+from typing import Any
+
 import psutil
+from pydantic import BaseModel
 
 DEBUG = 0  # Default debug level
 TFLOPS = 1.00

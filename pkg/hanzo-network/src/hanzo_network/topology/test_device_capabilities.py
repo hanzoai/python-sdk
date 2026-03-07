@@ -1,11 +1,13 @@
+from unittest.mock import Mock, patch
+
 import pytest
-from unittest.mock import patch, Mock
+
 from .topology.device_capabilities import (
-    mac_device_capabilities,
+    TFLOPS,
     DeviceCapabilities,
     DeviceFlops,
-    TFLOPS,
     device_capabilities,
+    mac_device_capabilities,
 )
 
 

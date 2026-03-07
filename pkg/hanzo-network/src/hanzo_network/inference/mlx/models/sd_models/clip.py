@@ -1,14 +1,14 @@
 # Adapted from https://github.com/ml-explore/mlx-examples/blob/main/stable_diffusion/stable_diffusion/clip.py
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 import mlx.core as mx
 import mlx.nn as nn
-from dataclasses import field
-from .inference.shard import Shard
+
 from .inference.mlx.models.base import IdentityBlock
+from .inference.shard import Shard
 
 _ACTIVATIONS = {"quick_gelu": nn.gelu_fast_approx, "gelu": nn.gelu}
 

@@ -1,10 +1,11 @@
 import asyncio
 import time
-from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
+from collections import deque
+
 from .download.new_shard_download import NewShardDownloader
+from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
 from .inference.shard import Shard
 from .models import build_base_shard
-from collections import deque
 
 
 async def test_non_blocking():

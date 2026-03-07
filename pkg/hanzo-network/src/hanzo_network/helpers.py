@@ -1,14 +1,15 @@
 """Helper functions for distributed Hanzo networks."""
 
-import os
 import asyncio
-import socket
-import random
+import os
 import platform
-import psutil
+import random
+import socket
 import subprocess
-from typing import Tuple, List
 from concurrent.futures import ThreadPoolExecutor
+from typing import List, Tuple
+
+import psutil
 
 DEBUG = int(os.getenv("DEBUG", default="0"))
 DEBUG_DISCOVERY = int(os.getenv("DEBUG_DISCOVERY", default="0"))

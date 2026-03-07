@@ -1,11 +1,12 @@
-import numpy as np
 import os
-from .helpers import DEBUG  # Make sure to import DEBUG
-
-from typing import Optional
 from abc import ABC, abstractmethod
-from .shard import Shard
+from typing import Optional
+
+import numpy as np
+
 from .download.shard_download import ShardDownloader
+from .helpers import DEBUG  # Make sure to import DEBUG
+from .shard import Shard
 
 
 class InferenceEngine(ABC):
@@ -82,8 +83,9 @@ def get_inference_engine(inference_engine_name: str, shard_downloader: ShardDown
 
         return MLXDynamicShardInferenceEngine(shard_downloader)
     elif inference_engine_name == "tinygrad":
-        from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
         import tinygrad.helpers
+
+        from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
 
         tinygrad.helpers.DEBUG.value = int(os.getenv("TINYGRAD_DEBUG", default="0"))
 

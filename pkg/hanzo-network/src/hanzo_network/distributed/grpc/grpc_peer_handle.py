@@ -1,18 +1,17 @@
-import grpc
-import numpy as np
 import asyncio
-from typing import Optional, List
-
-from . import node_service_pb2
-from . import node_service_pb2_grpc
-
-from ..peer_handle import PeerHandle
-from .inference.shard import Shard
-from .topology.topology import Topology
-from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
-from .helpers import DEBUG
 import json
 import platform
+from typing import List, Optional
+
+import grpc
+import numpy as np
+
+from ..peer_handle import PeerHandle
+from . import node_service_pb2, node_service_pb2_grpc
+from .helpers import DEBUG
+from .inference.shard import Shard
+from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
+from .topology.topology import Topology
 
 if platform.system().lower() == "darwin" and platform.machine().lower() == "arm64":
     import mlx.core as mx

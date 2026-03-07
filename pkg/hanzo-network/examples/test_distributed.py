@@ -2,7 +2,8 @@
 """Test distributed network functionality."""
 
 import asyncio
-from hanzo_network import create_distributed_network, create_agent, create_tool
+
+from hanzo_network import create_agent, create_distributed_network, create_tool
 
 
 async def echo_tool(message: str) -> str:
