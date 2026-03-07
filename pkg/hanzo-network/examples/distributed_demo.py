@@ -9,10 +9,11 @@ This example shows how to:
 
 import asyncio
 import sys
+
 from hanzo_network import (
     create_agent,
-    create_tool,
     create_distributed_network,
+    create_tool,
 )
 
 

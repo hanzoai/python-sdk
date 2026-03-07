@@ -1,21 +1,22 @@
 import asyncio
 import time
 import traceback
-from typing import List, Dict, Callable, Tuple
+from typing import Callable, Dict, List, Tuple
+
+from .helpers import DEBUG, DEBUG_DISCOVERY
 from .networking.discovery import Discovery
 from .networking.peer_handle import PeerHandle
+from .tailscale_helpers import (
+    Device,
+    get_device_attributes,
+    get_device_id,
+    get_tailscale_devices,
+    update_device_attributes,
+)
 from .topology.device_capabilities import (
+    UNKNOWN_DEVICE_CAPABILITIES,
     DeviceCapabilities,
     device_capabilities,
-    UNKNOWN_DEVICE_CAPABILITIES,
-)
-from .helpers import DEBUG, DEBUG_DISCOVERY
-from .tailscale_helpers import (
-    get_device_id,
-    update_device_attributes,
-    get_device_attributes,
-    get_tailscale_devices,
-    Device,
 )
 
 

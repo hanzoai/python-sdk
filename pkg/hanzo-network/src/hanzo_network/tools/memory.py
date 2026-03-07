@@ -1,9 +1,9 @@
 """Memory tools for agents using the hanzo-memory package."""
 
-from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
-from .core.tool import Tool, create_tool, ToolContext
+from .core.tool import Tool, ToolContext, create_tool
 
 # Import from hanzo-memory package when available
 try:

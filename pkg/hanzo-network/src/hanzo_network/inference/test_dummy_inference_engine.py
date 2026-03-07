@@ -1,5 +1,6 @@
-import pytest
 import numpy as np
+import pytest
+
 from .inference.dummy_inference_engine import DummyInferenceEngine
 from .inference.shard import Shard
 

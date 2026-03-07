@@ -1,10 +1,12 @@
-from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
-from .inference.inference_engine import InferenceEngine
-from .download.new_shard_download import NewShardDownloader
-from .inference.shard import Shard
-import os
 import asyncio
+import os
+
 import numpy as np
+
+from .download.new_shard_download import NewShardDownloader
+from .inference.inference_engine import InferenceEngine
+from .inference.mlx.sharded_inference_engine import MLXDynamicShardInferenceEngine
+from .inference.shard import Shard
 
 
 # An inference engine should work the same for any number of Shards, as long as the Shards are continuous.
@@ -80,8 +82,10 @@ asyncio.run(
 )
 
 if os.getenv("RUN_TINYGRAD", default="0") == "1":
-    import tinygrad
     import os
+
+    import tinygrad
+
     from .inference.tinygrad.inference import TinygradDynamicShardInferenceEngine
 
     tinygrad.helpers.DEBUG.value = int(os.getenv("TINYGRAD_DEBUG", default="0"))

@@ -2,11 +2,12 @@
 """Demo of hanzo-network with local LLM (Ollama)."""
 
 import asyncio
+
 from hanzo_network import (
+    check_local_llm_status,
     create_local_agent,
     create_local_distributed_network,
     create_tool,
-    check_local_llm_status,
 )
 
 

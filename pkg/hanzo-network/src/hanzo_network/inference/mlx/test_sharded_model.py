@@ -1,8 +1,10 @@
-from .inference.shard import Shard
+from typing import Optional
+
 import mlx.core as mx
 import mlx.nn as nn
-from typing import Optional
 import numpy as np
+
+from .inference.shard import Shard
 
 
 class DummyModel(nn.Module):

@@ -1,7 +1,8 @@
 import unittest
 from typing import List
-from .topology.partitioning_strategy import Partition, map_partitions_to_shards
+
 from .inference.shard import Shard
+from .topology.partitioning_strategy import Partition, map_partitions_to_shards
 
 
 class TestRingMemoryWeightedPartitioningStrategy(unittest.TestCase):

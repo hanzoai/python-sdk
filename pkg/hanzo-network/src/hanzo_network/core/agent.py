@@ -1,11 +1,11 @@
 """Agent implementation for Hanzo Network."""
 
-from typing import Any, Dict, List, Optional, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Union
 
+from .state import Message, NetworkState
 from .tool import Tool
-from .state import NetworkState, Message
 
 
 class ModelProvider(Enum):
