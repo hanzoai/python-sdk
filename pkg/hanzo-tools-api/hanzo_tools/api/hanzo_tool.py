@@ -10,7 +10,7 @@ from __future__ import annotations
 import importlib
 import inspect
 import json
-from typing import Any, Annotated, final, override
+from typing import Annotated, Any, final, override
 
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
