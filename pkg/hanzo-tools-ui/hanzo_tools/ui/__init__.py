@@ -26,12 +26,12 @@ Usage:
 
 from hanzo_tools.core import BaseTool, ToolRegistry
 
-from .ui_tool import UiTool, ui_tool
 from .github_api import (
     FRAMEWORK_CONFIGS,
     FRAMEWORK_NAMES,
     GitHubAPIClient,
 )
+from .ui_tool import UiTool, ui_tool
 
 TOOLS = [UiTool]
 
