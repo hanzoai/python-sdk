@@ -1,4 +1,5 @@
 from typing import Dict
+
 from pydantic import BaseModel, ValidationError
 
 from .topology.device_capabilities import DeviceCapabilities

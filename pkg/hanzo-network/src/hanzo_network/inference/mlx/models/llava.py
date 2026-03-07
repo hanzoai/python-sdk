@@ -1,16 +1,17 @@
 # Copyright © 2024 Apple Inc.
 
-import math
 import inspect
+import math
 from dataclasses import dataclass, field
-from typing import Optional, Dict, Union
+from typing import Dict, Optional, Union
 
 import mlx.core as mx
 import mlx.nn as nn
-from mlx_lm.models.base import BaseModelArgs, KVCache
-from .inference.shard import Shard
-from .base import IdentityBlock
 import numpy as np
+from mlx_lm.models.base import BaseModelArgs, KVCache
+
+from .base import IdentityBlock
+from .inference.shard import Shard
 
 
 @dataclass

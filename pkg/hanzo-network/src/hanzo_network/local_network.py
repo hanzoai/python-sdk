@@ -1,9 +1,10 @@
 """Helper functions for creating local networks with local LLMs."""
 
 from typing import List, Optional
+
 from .core.agent import Agent, ModelConfig, ModelProvider, create_agent
 from .core.tool import Tool
-from .distributed_network import create_distributed_network, DistributedNetwork
+from .distributed_network import DistributedNetwork, create_distributed_network
 
 
 def create_local_agent(

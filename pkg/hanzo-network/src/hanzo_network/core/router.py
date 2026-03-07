@@ -1,8 +1,8 @@
 """Router system for agent networks in Hanzo Network."""
 
-from typing import Any, Callable, Dict, Optional, Union, Protocol
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Callable, Dict, Optional, Protocol, Union
 
 from .agent import Agent, ModelConfig
 from .state import NetworkState

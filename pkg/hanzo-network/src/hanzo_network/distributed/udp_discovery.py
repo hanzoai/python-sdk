@@ -4,11 +4,11 @@ import asyncio
 import json
 import socket
 import time
-from typing import List, Dict, Tuple
+from typing import Dict, List, Tuple
 
+from ..device_capabilities import DeviceCapabilities
 from .discovery import Discovery
 from .minimal_discovery import MinimalPeerHandle
-from ..device_capabilities import DeviceCapabilities
 
 
 def get_broadcast_address(ip_addr: str) -> str:
