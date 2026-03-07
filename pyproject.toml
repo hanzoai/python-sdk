@@ -222,6 +222,7 @@ exclude = [
     "pkg/hanzo-tools-shell",
     "pkg/hanzo-tools-test",
     "pkg/hanzo-tools-todo",
+    "pkg/hanzo-tools-ui",
     "pkg/hanzo-tools-vcs",
     "pkg/hanzo-tools-vector",
     "pkg/hanzo-web3",
