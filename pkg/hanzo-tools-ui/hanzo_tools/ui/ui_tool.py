@@ -19,7 +19,7 @@ Actions:
 """
 
 import asyncio
-from typing import Any, ClassVar
+from typing import ClassVar
 
 from mcp.server.fastmcp import Context as MCPContext
 
@@ -321,12 +321,12 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
             fw = framework or _current_framework
             comps = components or []
 
-            lines = [f"/**", f" * {name}"]
+            lines = ["/**", f" * {name}"]
             if description:
                 lines.append(f" * {description}")
             lines.append(f" * Framework: {self._fw_name(fw)}")
             lines.append(f" * Components: {', '.join(comps)}")
-            lines.append(f" */")
+            lines.append(" */")
             lines.append("")
 
             def pascal(s: str) -> str:
@@ -341,13 +341,13 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
 
             lines.append("")
             lines.append(f"export function {name}() {{")
-            lines.append(f"  return (")
-            lines.append(f'    <div className="container mx-auto p-6">')
+            lines.append("  return (")
+            lines.append('    <div className="container mx-auto p-6">')
             for comp in comps:
                 lines.append(f"      <{pascal(comp)} />")
-            lines.append(f"    </div>")
-            lines.append(f"  )")
-            lines.append(f"}}")
+            lines.append("    </div>")
+            lines.append("  )")
+            lines.append("}")
 
             code = "\n".join(lines) + "\n"
 

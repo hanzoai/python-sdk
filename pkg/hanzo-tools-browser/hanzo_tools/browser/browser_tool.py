@@ -677,7 +677,7 @@ class BrowserTool(BaseTool):
         # and be preferred over Playwright when backend != "playwright".
         if self.backend != "playwright":
             try:
-                from hanzo_tools.browser import start_cdp_bridge, CDP_BRIDGE_AVAILABLE
+                from hanzo_tools.browser import CDP_BRIDGE_AVAILABLE, start_cdp_bridge
                 if CDP_BRIDGE_AVAILABLE:
                     start_cdp_bridge()
             except Exception:
@@ -848,7 +848,7 @@ CATEGORIES:
             "observe_mutations", "computed_styles", "bounding_rects",
             "inject_script", "inject_css",
             "local_storage", "cookies",
-            "tabs", "new_tab", "close_tab", "select_tab",
+            "tabs", "new_tab", "select_tab",
             "console", "network_requests", "status",
             # Takeover actions (Phase 3)
             "takeover", "release",
