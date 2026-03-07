@@ -1,7 +1,9 @@
 import traceback
 from os import PathLike
 from typing import Union
+
 import numpy as np
+
 from .helpers import DEBUG
 
 # Lazy imports to avoid dependencies when not needed
@@ -11,7 +13,7 @@ except ImportError:
     aios = None
 
 try:
-    from transformers import AutoTokenizer, AutoProcessor
+    from transformers import AutoProcessor, AutoTokenizer
 except ImportError:
     AutoTokenizer = None
     AutoProcessor = None

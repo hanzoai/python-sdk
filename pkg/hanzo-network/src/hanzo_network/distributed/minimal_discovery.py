@@ -1,9 +1,10 @@
 """Minimal discovery implementation for testing."""
 
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
+from ..device_capabilities import DeviceCapabilities
 from .discovery import Discovery
 from .simplified_peer_handle import SimplifiedPeerHandle
-from ..device_capabilities import DeviceCapabilities
 
 
 class MinimalPeerHandle(SimplifiedPeerHandle):

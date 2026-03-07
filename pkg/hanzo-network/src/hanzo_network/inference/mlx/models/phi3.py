@@ -2,9 +2,8 @@ from dataclasses import dataclass, field
 
 import mlx.core as mx
 import mlx.nn as nn
-
 from mlx_lm.models.base import create_attention_mask
-from mlx_lm.models.phi3 import TransformerBlock, ModelArgs
+from mlx_lm.models.phi3 import ModelArgs, TransformerBlock
 
 from ...shard import Shard
 from .base import IdentityBlock

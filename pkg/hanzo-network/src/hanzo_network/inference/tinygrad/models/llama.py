@@ -1,5 +1,6 @@
-from typing import Tuple, Union, Optional, Dict, Any, List
-from tinygrad import Tensor, Variable, TinyJit, dtypes, nn, Device
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from tinygrad import Device, Tensor, TinyJit, Variable, dtypes, nn
 from tinygrad.helpers import getenv
 
 from .inference.shard import Shard

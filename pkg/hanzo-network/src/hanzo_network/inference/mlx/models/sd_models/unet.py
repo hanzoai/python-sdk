@@ -1,13 +1,12 @@
 # Adapted from https://github.com/ml-explore/mlx-examples/blob/main/stable_diffusion/stable_diffusion/unet.py
 
 import math
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import List, Optional, Tuple
 
 import mlx.core as mx
 import mlx.nn as nn
 
-from dataclasses import dataclass, field
-from typing import Tuple, List
 from .inference.shard import Shard
 
 

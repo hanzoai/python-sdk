@@ -1,17 +1,16 @@
 # Adapted from https://github.com/ml-explore/mlx-examples/blob/main/stable_diffusion/stable_diffusion/vae.py
 
+import inspect
 import math
-from typing import List
+from dataclasses import dataclass, field
+from typing import List, Tuple
 
 import mlx.core as mx
 import mlx.nn as nn
 
-from .unet import ResnetBlock2D, upsample_nearest
-from dataclasses import dataclass, field
-from .inference.shard import Shard
-from typing import Tuple
-import inspect
 from ..base import IdentityBlock
+from .inference.shard import Shard
+from .unet import ResnetBlock2D, upsample_nearest
 
 
 @dataclass

@@ -1,7 +1,9 @@
 """Tests for distributed network functionality."""
 
 import asyncio
+
 import pytest
+
 from hanzo_network import create_agent, create_distributed_network, create_tool
 
 

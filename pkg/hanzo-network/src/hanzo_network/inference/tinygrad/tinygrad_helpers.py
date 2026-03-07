@@ -1,13 +1,15 @@
-from tinygrad.nn.state import safe_load, torch_load
-from tinygrad import Tensor
-from pathlib import Path
 import json
-from typing import List
-from .inference.shard import Shard
-from .helpers import DEBUG
-from .download.hf.hf_helpers import get_allow_patterns
-from fnmatch import fnmatch
 import re
+from fnmatch import fnmatch
+from pathlib import Path
+from typing import List
+
+from tinygrad import Tensor
+from tinygrad.nn.state import safe_load, torch_load
+
+from .download.hf.hf_helpers import get_allow_patterns
+from .helpers import DEBUG
+from .inference.shard import Shard
 
 
 # **** helper functions ****

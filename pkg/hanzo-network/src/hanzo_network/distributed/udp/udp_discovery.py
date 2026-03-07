@@ -3,19 +3,20 @@ import json
 import socket
 import time
 import traceback
-from typing import List, Dict, Callable, Tuple, Coroutine, Optional
-from .networking.discovery import Discovery
-from .networking.peer_handle import PeerHandle
-from .topology.device_capabilities import (
-    DeviceCapabilities,
-    device_capabilities,
-    UNKNOWN_DEVICE_CAPABILITIES,
-)
+from typing import Callable, Coroutine, Dict, List, Optional, Tuple
+
 from .helpers import (
     DEBUG,
     DEBUG_DISCOVERY,
     get_all_ip_addresses_and_interfaces,
     get_interface_priority_and_type,
+)
+from .networking.discovery import Discovery
+from .networking.peer_handle import PeerHandle
+from .topology.device_capabilities import (
+    UNKNOWN_DEVICE_CAPABILITIES,
+    DeviceCapabilities,
+    device_capabilities,
 )
 
 

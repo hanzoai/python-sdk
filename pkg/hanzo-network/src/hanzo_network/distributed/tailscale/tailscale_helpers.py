@@ -1,11 +1,13 @@
-import json
 import asyncio
-import aiohttp
+import json
 import re
-from typing import Dict, Any, Tuple, List, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple
+
+import aiohttp
+
 from .helpers import DEBUG_DISCOVERY
 from .topology.device_capabilities import DeviceCapabilities, DeviceFlops
-from datetime import datetime, timezone
 
 
 class Device:
