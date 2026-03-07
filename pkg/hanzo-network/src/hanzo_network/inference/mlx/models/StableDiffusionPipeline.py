@@ -1,23 +1,21 @@
 # Adapted from https://github.com/ml-explore/mlx-examples/blob/main/stable_diffusion/stable_diffusion/__init__.py
 
-import time
 import inspect
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
 
 import mlx.core as mx
 import mlx.nn as nn
-from pathlib import Path
-
 from tqdm import tqdm
 
-from .sd_models.vae import ModelArgs as VAEArgs
-from .sd_models.vae import Autoencoder
-from .sd_models.tokenizer import load_tokenizer
+from .inference.shard import Shard
 from .sd_models.clip import CLIPTextModel
 from .sd_models.clip import ModelArgs as CLIPArgs
+from .sd_models.tokenizer import load_tokenizer
 from .sd_models.unet import UNetConfig, UNetModel
-
-from dataclasses import dataclass, field
-from .inference.shard import Shard
+from .sd_models.vae import Autoencoder
+from .sd_models.vae import ModelArgs as VAEArgs
 
 
 @dataclass

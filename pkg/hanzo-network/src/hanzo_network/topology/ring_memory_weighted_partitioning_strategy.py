@@ -1,7 +1,7 @@
 from typing import List
-from .partitioning_strategy import PartitioningStrategy
+
+from .partitioning_strategy import Partition, PartitioningStrategy
 from .topology import Topology
-from .partitioning_strategy import Partition
 
 
 class RingMemoryWeightedPartitioningStrategy(PartitioningStrategy):

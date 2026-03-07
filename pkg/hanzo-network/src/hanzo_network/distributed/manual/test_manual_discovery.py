@@ -1,11 +1,12 @@
-import json
 import asyncio
+import json
 import unittest
 from unittest import mock
-from .networking.manual.manual_discovery import ManualDiscovery
-from .networking.manual.network_topology_config import NetworkTopology
+
 from .networking.grpc.grpc_peer_handle import GRPCPeerHandle
 from .networking.grpc.grpc_server import GRPCServer
+from .networking.manual.manual_discovery import ManualDiscovery
+from .networking.manual.network_topology_config import NetworkTopology
 from .orchestration.node import Node
 
 root_path = "./exo/networking/manual/test_data/test_config.json"

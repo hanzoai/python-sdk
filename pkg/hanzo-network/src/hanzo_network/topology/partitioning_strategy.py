@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import List
 from dataclasses import dataclass
-from .topology import Topology
+from typing import List
+
 from .inference.shard import Shard
+from .topology import Topology
 
 
 # Partitions shard-space into pieces of contiguous shards, represented by floating point range [start, end) between 0 and 1

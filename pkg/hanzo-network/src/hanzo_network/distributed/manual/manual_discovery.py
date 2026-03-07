@@ -1,13 +1,13 @@
-import os
 import asyncio
-from typing import Dict, List, Callable, Optional
+import os
 from concurrent.futures import ThreadPoolExecutor
+from typing import Callable, Dict, List, Optional
 
-from .networking.discovery import Discovery
-from .topology.device_capabilities import DeviceCapabilities
-from .networking.manual.network_topology_config import NetworkTopology, PeerConfig
 from .helpers import DEBUG_DISCOVERY
+from .networking.discovery import Discovery
+from .networking.manual.network_topology_config import NetworkTopology, PeerConfig
 from .networking.peer_handle import PeerHandle
+from .topology.device_capabilities import DeviceCapabilities
 
 
 class ManualDiscovery(Discovery):

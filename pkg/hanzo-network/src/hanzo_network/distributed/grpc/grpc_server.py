@@ -1,16 +1,15 @@
-import grpc
-from concurrent import futures
-import numpy as np
-from asyncio import CancelledError
-
+import json
 import platform
+from asyncio import CancelledError
+from concurrent import futures
 
-from . import node_service_pb2
-from . import node_service_pb2_grpc
+import grpc
+import numpy as np
 from net import DEBUG
+
+from . import node_service_pb2, node_service_pb2_grpc
 from .inference.shard import Shard
 from .orchestration import Node
-import json
 
 if platform.system().lower() == "darwin" and platform.machine().lower() == "arm64":
     import mlx.core as mx

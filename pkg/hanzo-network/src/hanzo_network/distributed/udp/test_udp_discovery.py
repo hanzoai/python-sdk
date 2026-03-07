@@ -1,9 +1,10 @@
 import asyncio
 import unittest
 from unittest import mock
-from .networking.udp.udp_discovery import UDPDiscovery
+
 from .networking.grpc.grpc_peer_handle import GRPCPeerHandle
 from .networking.grpc.grpc_server import GRPCServer
+from .networking.udp.udp_discovery import UDPDiscovery
 from .orchestration.node import Node
 
 

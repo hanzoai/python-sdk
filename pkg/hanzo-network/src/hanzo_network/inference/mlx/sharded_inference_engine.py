@@ -1,18 +1,20 @@
-import numpy as np
-import mlx.core as mx
-import mlx.nn as nn
-from mlx_lm.sample_utils import make_sampler
-import mlx.optimizers as optim
-from ..inference_engine import InferenceEngine
-from .sharded_utils import load_model_shard, resolve_tokenizer
-from .losses import loss_fns
-from ..shard import Shard
-from typing import Optional
-from .download.shard_download import ShardDownloader
 import asyncio
 from collections import OrderedDict
-from mlx_lm.models.cache import make_prompt_cache
 from concurrent.futures import ThreadPoolExecutor
+from typing import Optional
+
+import mlx.core as mx
+import mlx.nn as nn
+import mlx.optimizers as optim
+import numpy as np
+from mlx_lm.models.cache import make_prompt_cache
+from mlx_lm.sample_utils import make_sampler
+
+from ..inference_engine import InferenceEngine
+from ..shard import Shard
+from .download.shard_download import ShardDownloader
+from .losses import loss_fns
+from .sharded_utils import load_model_shard, resolve_tokenizer
 
 
 class MLXDynamicShardInferenceEngine(InferenceEngine):

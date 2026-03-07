@@ -1,7 +1,8 @@
 """Simplified peer handle for distributed networking without full inference support."""
 
 from abc import ABC, abstractmethod
-from typing import Optional, Any, Dict
+from typing import Any, Dict, Optional
+
 from ..topology.device_capabilities import DeviceCapabilities
 
 

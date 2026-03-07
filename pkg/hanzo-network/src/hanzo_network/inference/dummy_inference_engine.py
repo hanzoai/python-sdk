@@ -1,5 +1,7 @@
 from typing import Optional
+
 import numpy as np
+
 from .inference.inference_engine import InferenceEngine
 from .inference.shard import Shard
 from .inference.tokenizers import DummyTokenizer

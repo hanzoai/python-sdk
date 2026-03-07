@@ -1,14 +1,14 @@
 """Network implementation for orchestrating multiple agents."""
 
-from typing import Any, Dict, List, Optional, Union, TypeVar, Generic
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
 from .agent import Agent
 from .router import (
     Router,
-    RouterFunction,
     RouterArgs,
+    RouterFunction,
     RoutingAgent,
     get_default_routing_agent,
 )

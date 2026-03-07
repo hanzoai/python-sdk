@@ -3,12 +3,14 @@ from typing import Optional
 
 import mlx.core as mx
 import mlx.nn as nn
-
 from mlx_lm.models.cache import KVCache
 from mlx_lm.models.deepseek_v3 import (
-    ModelArgs as V3ModelArgs,
     DeepseekV3DecoderLayer,
 )
+from mlx_lm.models.deepseek_v3 import (
+    ModelArgs as V3ModelArgs,
+)
+
 from .base import IdentityBlock
 from .inference.shard import Shard
 

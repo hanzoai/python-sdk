@@ -1,5 +1,17 @@
-from pathlib import Path
+import asyncio
 import os
+from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+from typing import Optional
+
+import numpy as np
+from tinygrad import Context, Tensor, nn
+from tinygrad.nn.state import get_state_dict, load_state_dict, safe_load, safe_save
+
+from .download.shard_download import ShardDownloader
+from .inference.inference_engine import InferenceEngine
+from .inference.shard import Shard
 from .inference.tinygrad.models.llama import (
     Transformer,
     TransformerShard,
@@ -7,20 +19,10 @@ from .inference.tinygrad.models.llama import (
     fix_bf16,
     sample_logits,
 )
-from .inference.shard import Shard
-from .inference.tokenizers import resolve_tokenizer
-from tinygrad.nn.state import safe_save, safe_load, get_state_dict, load_state_dict
-from tinygrad import Tensor, nn, Context
-from .inference.inference_engine import InferenceEngine
-import numpy as np
 from .inference.tinygrad.tinygrad_helpers import concat_weights, load
-from .download.shard_download import ShardDownloader
-from concurrent.futures import ThreadPoolExecutor
-from .stateful_model import make_prompt_state
+from .inference.tokenizers import resolve_tokenizer
 from .losses import length_masked_ce_loss
-from collections import OrderedDict
-import asyncio
-from typing import Optional
+from .stateful_model import make_prompt_state
 
 Tensor.no_grad = True
 # default settings

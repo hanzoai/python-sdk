@@ -1,8 +1,9 @@
 """Tool system for agents in Hanzo Network."""
 
-from typing import Any, Callable, Dict, Optional, Protocol, TypedDict
-from dataclasses import dataclass
 import inspect
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, Optional, Protocol, TypedDict
+
 from pydantic import BaseModel, create_model
 
 

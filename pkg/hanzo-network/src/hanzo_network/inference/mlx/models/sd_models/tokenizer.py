@@ -1,8 +1,9 @@
 # adapted from https://github.com/ml-explore/mlx-examples/blob/main/stable_diffusion/stable_diffusion/tokenizer.py
 
-import regex
-import json
 import glob
+import json
+
+import regex
 
 
 class Tokenizer:
