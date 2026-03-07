@@ -76,11 +76,11 @@ from hanzo_tools.shell.uvx_tool import UvxTool, uvx_tool
 # HTTP/Data tools (no shell escaping issues)
 from hanzo_tools.shell.curl_tool import CurlTool
 
-# Convenience tools
-from hanzo_tools.shell.open_tool import OpenTool, open_tool
-
 # HIP-0300: Unified exec tool
 from hanzo_tools.shell.exec_tool import ExecTool, exec_tool
+
+# Convenience tools
+from hanzo_tools.shell.open_tool import OpenTool, open_tool
 from hanzo_tools.shell.shellflow import (
     parse as parse_shellflow,
     compile as compile_shellflow,

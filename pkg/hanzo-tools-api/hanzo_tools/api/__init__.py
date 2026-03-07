@@ -36,7 +36,6 @@ MCP Tool Usage:
 # Models (structured data types)
 # MCP Tool
 from .api_tool import APITool
-from .hanzo_tool import HanzoTool
 
 # Main client (typed interface)
 from .client import (
@@ -64,6 +63,7 @@ from .errors import (
     SpecNotLoadedError,
     ValidationError,
 )
+from .hanzo_tool import HanzoTool
 from .models import (
     APICallResult,
     AuthType,
