@@ -1,16 +1,14 @@
 """Local LLM providers using hanzo/net distributed inference."""
 
 import asyncio
-from typing import Any, Dict, List, Optional
 from abc import ABC, abstractmethod
 
 # Commenting out missing imports - need to implement these
 # from .inference.inference_engine import get_inference_engine
 # from .inference.shard import Shard
 # from .download.shard_download import ShardDownloader
-
 # Define Message locally for now
-from typing import TypedDict
+from typing import Any, Dict, List, Optional, TypedDict
 
 
 class Message(TypedDict):

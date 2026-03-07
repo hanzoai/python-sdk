@@ -1,7 +1,7 @@
 """Shard downloader for distributed model loading."""
 
-from typing import Optional, Dict, Any
 from pathlib import Path
+from typing import Any, Dict, Optional
 
 
 class ShardDownloader:

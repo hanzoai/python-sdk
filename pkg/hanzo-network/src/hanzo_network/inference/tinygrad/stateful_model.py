@@ -1,6 +1,7 @@
-from tinygrad import Tensor
-from typing import List
 from os import getenv
+from typing import List
+
+from tinygrad import Tensor
 
 
 def create_kv_cache(x: Tensor, layer):

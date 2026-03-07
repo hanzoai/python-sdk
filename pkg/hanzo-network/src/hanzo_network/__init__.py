@@ -18,25 +18,26 @@ from .distributed_network import (
     create_distributed_network,
 )
 
+# Import LLM providers
+from .llm import HanzoNetProvider, LocalLLMProvider, MLXProvider, OllamaProvider
 from .local_network import (
+    check_local_llm_status,
     create_local_agent,
     create_local_distributed_network,
-    check_local_llm_status,
 )
-
-# Import LLM providers
-from .llm import HanzoNetProvider, LocalLLMProvider, OllamaProvider, MLXProvider
 
 # Local compute capabilities
 try:
     from .local_compute import (
+        InferenceRequest,
         LocalComputeNode,
         LocalComputeOrchestrator,
-        InferenceRequest,
-        InferenceResult as LocalInferenceResult,
         ModelConfig,
         ModelProvider,
         orchestrator,
+    )
+    from .local_compute import (
+        InferenceResult as LocalInferenceResult,
     )
 
     LOCAL_COMPUTE_AVAILABLE = True

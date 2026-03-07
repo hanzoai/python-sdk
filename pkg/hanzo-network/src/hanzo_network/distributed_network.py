@@ -1,17 +1,17 @@
 """Distributed Network implementation using Hanzo Net infrastructure."""
 
 import asyncio
-from typing import Any, Dict, List, Optional, Union, TypeVar
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, TypeVar, Union
 
-from .core.network import Network, NetworkConfig
 from .core.agent import Agent
+from .core.network import Network, NetworkConfig
 from .core.router import Router, RouterFunction, RoutingAgent
 from .core.state import NetworkState
 from .distributed.discovery import Discovery
+from .distributed.grpc_server import GRPCServer
 from .distributed.simplified_peer_handle import SimplifiedPeerHandle as PeerHandle
 from .distributed.udp_discovery import UDPDiscovery
-from .distributed.grpc_server import GRPCServer
 from .topology.device_capabilities import DeviceCapabilities, device_capabilities
 
 T = TypeVar("T")

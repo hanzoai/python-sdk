@@ -1,8 +1,8 @@
 """Network state management for agent networks."""
 
-from typing import Any, Dict, List, Optional, TypeVar, Generic
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 T = TypeVar("T")
 

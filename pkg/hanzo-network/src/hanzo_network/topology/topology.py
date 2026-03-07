@@ -1,6 +1,7 @@
-from .device_capabilities import DeviceCapabilities
-from typing import Dict, Set, Optional
 from dataclasses import dataclass
+from typing import Dict, Optional, Set
+
+from .device_capabilities import DeviceCapabilities
 
 
 @dataclass

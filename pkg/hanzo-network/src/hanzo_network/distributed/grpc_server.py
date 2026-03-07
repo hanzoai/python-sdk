@@ -1,6 +1,6 @@
 """Simplified gRPC server for distributed Hanzo networks."""
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 class GRPCServer:

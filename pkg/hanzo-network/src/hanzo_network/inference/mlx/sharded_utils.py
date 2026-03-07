@@ -1,26 +1,25 @@
 # Adapted from https://github.com/ml-explore/mlx-examples/blob/main/llms/mlx_lm/utils.py
 
+import base64
 import glob
 import importlib
 import json
 import logging
-import aiohttp
+import traceback
+from io import BytesIO
 from pathlib import Path
 from typing import Optional, Tuple
-from PIL import Image
-from io import BytesIO
-import base64
-import traceback
 
+import aiohttp
 import mlx.core as mx
 import mlx.nn as nn
+from mlx_lm.tokenizer_utils import TokenizerWrapper
+from net import DEBUG
+from PIL import Image
 from transformers import AutoProcessor
 
-from mlx_lm.tokenizer_utils import TokenizerWrapper
-
-from net import DEBUG
-from .inference.tokenizers import resolve_tokenizer
 from ..shard import Shard
+from .inference.tokenizers import resolve_tokenizer
 
 
 class ModelNotFoundError(Exception):
