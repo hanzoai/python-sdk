@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libatomic1 2>/dev/null || true
+
       - name: Install Rye
         run: |
           curl -sSf https://rye.astral.sh/get | bash
