@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
+from typing import Union, Optional
 from datetime import datetime
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
 __all__ = ["ModelInfoParam"]
 
 
-class ModelInfoParamTyped(TypedDict, total=False):
+class ModelInfoParam(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
     id: Required[Optional[str]]
 
     base_model: Optional[str]
@@ -31,6 +31,3 @@ class ModelInfoParamTyped(TypedDict, total=False):
     updated_at: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]
 
     updated_by: Optional[str]
-
-
-ModelInfoParam: TypeAlias = Union[ModelInfoParamTyped, Dict[str, object]]
