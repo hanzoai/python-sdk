@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
+from typing import Union, Optional
 from typing_extensions import TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
@@ -23,7 +23,7 @@ class UpdatePartialParams(TypedDict, total=False):
 LlmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
 
 
-class LlmParamsTyped(TypedDict, total=False):
+class LlmParams(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
     api_base: Optional[str]
 
     api_key: Optional[str]
@@ -85,6 +85,3 @@ class LlmParamsTyped(TypedDict, total=False):
     vertex_project: Optional[str]
 
     watsonx_region_name: Optional[str]
-
-
-LlmParams: TypeAlias = Union[LlmParamsTyped, Dict[str, object]]

@@ -20,7 +20,7 @@ class TestTranscriptions:
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         transcription = client.audio.transcriptions.create(
-            file=b"raw file contents",
+            file=b"Example data",
         )
         assert_matches_type(object, transcription, path=["response"])
 
@@ -28,7 +28,7 @@ class TestTranscriptions:
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.audio.transcriptions.with_raw_response.create(
-            file=b"raw file contents",
+            file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -40,7 +40,7 @@ class TestTranscriptions:
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.audio.transcriptions.with_streaming_response.create(
-            file=b"raw file contents",
+            file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -60,7 +60,7 @@ class TestAsyncTranscriptions:
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         transcription = await async_client.audio.transcriptions.create(
-            file=b"raw file contents",
+            file=b"Example data",
         )
         assert_matches_type(object, transcription, path=["response"])
 
@@ -68,7 +68,7 @@ class TestAsyncTranscriptions:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.audio.transcriptions.with_raw_response.create(
-            file=b"raw file contents",
+            file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -80,7 +80,7 @@ class TestAsyncTranscriptions:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.audio.transcriptions.with_streaming_response.create(
-            file=b"raw file contents",
+            file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
