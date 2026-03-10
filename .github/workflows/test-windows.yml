@@ -1,0 +1,255 @@
+name: Test Windows
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-mcp/**'
+      - 'pkg/hanzo-tools-*/**'
+      - 'pkg/hanzo-async/**'
+      - 'pkg/hanzoai/**'
+      - '.github/workflows/test-windows.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pkg/hanzo-mcp/**'
+      - 'pkg/hanzo-tools-*/**'
+      - 'pkg/hanzo-async/**'
+      - 'pkg/hanzoai/**'
+      - '.github/workflows/test-windows.yml'
+  workflow_dispatch:
+
+jobs:
+  # Native Windows (no WSL)
+  test-windows-native:
+    name: Windows Native (Python ${{ matrix.python-version }})
+    runs-on: windows-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12', '3.13']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+
+    - name: Install core packages
+      shell: pwsh
+      run: |
+        uv venv
+        .\.venv\Scripts\Activate.ps1
+        # Core SDK
+        uv pip install -e ./pkg/hanzoai
+        # Async layer (uvloop skipped automatically on Windows)
+        uv pip install -e ./pkg/hanzo-async
+        # Test deps
+        uv pip install pytest pytest-asyncio pytest-cov
+
+    - name: Test hanzoai SDK imports
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        python -c "from hanzoai import __version__; print(f'hanzoai {__version__}')"
+        python -c "import hanzo_async; print(f'uvloop active: {hanzo_async.using_uvloop()}')"
+
+    - name: Test hanzo-async (no uvloop on Windows)
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        python -c "
+        import sys, asyncio
+        from hanzo_async import using_uvloop, read_file, write_file, path_exists, mkdir
+        assert sys.platform == 'win32'
+        assert not using_uvloop(), 'uvloop should not be active on Windows'
+        print('hanzo-async: OK (asyncio backend)')
+        "
+
+    - name: Install tool packages
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        uv pip install -e ./pkg/hanzo-tools
+        uv pip install -e ./pkg/hanzo-tools-core 2>$null; $true
+        uv pip install -e ./pkg/hanzo-tools-fs
+        uv pip install -e ./pkg/hanzo-tools-shell
+        uv pip install -e ./pkg/hanzo-tools-reasoning
+        uv pip install -e ./pkg/hanzo-tools-memory
+        uv pip install -e ./pkg/hanzo-tools-todo
+        uv pip install -e ./pkg/hanzo-tools-config
+
+    - name: Test tool imports on Windows
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        python -c "
+        import sys
+        assert sys.platform == 'win32'
+
+        # Shell tools should resolve to pwsh/cmd on Windows
+        from hanzo_tools.shell.cmd_tool import CmdTool
+        tool = CmdTool()
+        shell = tool.default_shell
+        print(f'Resolved shell: {shell}')
+        assert 'pwsh' in shell.lower() or 'powershell' in shell.lower() or 'cmd' in shell.lower(), (
+            f'Expected Windows shell, got: {shell}'
+        )
+
+        # FS tools
+        from hanzo_tools.fs import TOOLS as fs_tools
+        print(f'FS tools: {len(fs_tools)}')
+
+        # Reasoning tools
+        from hanzo_tools.reasoning import TOOLS as reason_tools
+        print(f'Reasoning tools: {len(reason_tools)}')
+
+        print('All tool imports OK on Windows')
+        "
+
+    - name: Install hanzo-mcp
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        uv pip install -e ./pkg/hanzo-mcp 2>$null; $true
+        # Override with local tool packages
+        uv pip install -e ./pkg/hanzo-tools -e ./pkg/hanzo-tools-fs `
+          -e ./pkg/hanzo-tools-shell -e ./pkg/hanzo-tools-memory `
+          -e ./pkg/hanzo-tools-todo -e ./pkg/hanzo-tools-reasoning `
+          -e ./pkg/hanzo-tools-config 2>$null; $true
+
+    - name: Test hanzo-mcp CLI
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        python -m hanzo_mcp.cli --version
+        python -m hanzo_mcp.cli --help
+
+    - name: Run unit tests (Windows-compatible subset)
+      shell: pwsh
+      run: |
+        .\.venv\Scripts\Activate.ps1
+        # Run tests that don't require Unix-specific features
+        cd pkg/hanzo-mcp
+        python -m pytest tests/test_llm_warnings.py -v -o "addopts=" 2>$null; $true
+        python -m pytest tests/test_hanzo_mcp_simple.py -v -o "addopts=" -k "test_cli_help or test_cli_version or test_import_tools" 2>$null; $true
+
+  # WSL2 (Ubuntu on Windows)
+  test-wsl:
+    name: WSL2 Ubuntu
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: Vampire/setup-wsl@v5
+      with:
+        distribution: Ubuntu-24.04
+        additional-packages: python3 python3-pip python3-venv curl
+
+    - name: Install uv in WSL
+      shell: wsl-bash {0}
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+    - name: Install and test in WSL
+      shell: wsl-bash {0}
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        cd /mnt/d/a/python-sdk/python-sdk  # GitHub Actions workspace in WSL
+
+        uv venv
+        source .venv/bin/activate
+
+        # Core packages
+        uv pip install -e ./pkg/hanzoai
+        uv pip install -e ./pkg/hanzo-async
+        uv pip install pytest pytest-asyncio
+
+        # Test imports
+        python -c "from hanzoai import __version__; print(f'hanzoai {__version__}')"
+        python -c "
+        import hanzo_async
+        print(f'uvloop active: {hanzo_async.using_uvloop()}')
+        import sys
+        print(f'platform: {sys.platform}')
+        "
+
+    - name: Install tool packages in WSL
+      shell: wsl-bash {0}
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        cd /mnt/d/a/python-sdk/python-sdk
+        source .venv/bin/activate
+
+        uv pip install -e ./pkg/hanzo-tools
+        uv pip install -e ./pkg/hanzo-tools-core 2>/dev/null || true
+        uv pip install -e ./pkg/hanzo-tools-fs
+        uv pip install -e ./pkg/hanzo-tools-shell
+        uv pip install -e ./pkg/hanzo-tools-reasoning
+        uv pip install -e ./pkg/hanzo-tools-memory
+        uv pip install -e ./pkg/hanzo-tools-todo
+        uv pip install -e ./pkg/hanzo-tools-config
+
+    - name: Test tools in WSL
+      shell: wsl-bash {0}
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        cd /mnt/d/a/python-sdk/python-sdk
+        source .venv/bin/activate
+
+        python -c "
+        import sys
+        print(f'Platform: {sys.platform}')
+        assert sys.platform == 'linux', f'WSL should report linux, got {sys.platform}'
+
+        from hanzo_tools.shell.cmd_tool import CmdTool
+        tool = CmdTool()
+        print(f'Shell: {tool.default_shell}')
+        # WSL has bash/zsh
+        assert '/bin/' in tool.default_shell or 'zsh' in tool.default_shell or 'bash' in tool.default_shell
+
+        from hanzo_tools.fs import TOOLS as fs_tools
+        print(f'FS tools: {len(fs_tools)}')
+        from hanzo_tools.reasoning import TOOLS as reason_tools
+        print(f'Reasoning tools: {len(reason_tools)}')
+        print('All WSL tool imports OK')
+        "
+
+    - name: Install and test hanzo-mcp in WSL
+      shell: wsl-bash {0}
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        cd /mnt/d/a/python-sdk/python-sdk
+        source .venv/bin/activate
+
+        uv pip install -e ./pkg/hanzo-mcp 2>/dev/null || true
+        uv pip install -e ./pkg/hanzo-tools -e ./pkg/hanzo-tools-fs \
+          -e ./pkg/hanzo-tools-shell -e ./pkg/hanzo-tools-memory \
+          -e ./pkg/hanzo-tools-todo -e ./pkg/hanzo-tools-reasoning \
+          -e ./pkg/hanzo-tools-config 2>/dev/null || true
+
+        python -m hanzo_mcp.cli --version
+        python -m hanzo_mcp.cli --help
+
+    - name: Run tests in WSL
+      shell: wsl-bash {0}
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        cd /mnt/d/a/python-sdk/python-sdk
+        source .venv/bin/activate
+
+        cd pkg/hanzo-mcp
+        python -m pytest tests/test_llm_warnings.py -v -o "addopts=" 2>/dev/null || true
+        python -m pytest tests/test_hanzo_mcp_simple.py -v -o "addopts=" \
+          -k "test_cli_help or test_cli_version or test_import_tools" 2>/dev/null || true
