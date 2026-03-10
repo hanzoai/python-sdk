@@ -326,12 +326,22 @@ class CDPBridgeServer:
             # Wait for response with timeout
             response = await asyncio.wait_for(future, timeout=30.0)
 
+            # Unwrap CDP-specific result formats for consistency with Playwright
+            raw_result = response.get("result", {})
+            if method == "Runtime.evaluate" and isinstance(raw_result, dict):
+                # CDP returns {result: {type, value}} — extract the value
+                cdp_result = raw_result.get("result", {})
+                if isinstance(cdp_result, dict) and "value" in cdp_result:
+                    raw_result = cdp_result["value"]
+                elif isinstance(cdp_result, dict) and cdp_result.get("type") == "undefined":
+                    raw_result = None
+
             # Return result
             return web.json_response(
                 {
                     "success": True,
                     "client_id": target_client.client_id,
-                    "result": response.get("result", {}),
+                    "result": raw_result,
                 },
                 headers={"Access-Control-Allow-Origin": "*"},
             )
