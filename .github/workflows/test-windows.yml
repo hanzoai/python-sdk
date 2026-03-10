@@ -7,7 +7,7 @@ on:
       - 'pkg/hanzo-mcp/**'
       - 'pkg/hanzo-tools-*/**'
       - 'pkg/hanzo-async/**'
-      - 'pkg/hanzoai/**'
+      - 'hanzoai/**'
       - '.github/workflows/test-windows.yml'
   pull_request:
     branches: [main]
@@ -15,7 +15,7 @@ on:
       - 'pkg/hanzo-mcp/**'
       - 'pkg/hanzo-tools-*/**'
       - 'pkg/hanzo-async/**'
-      - 'pkg/hanzoai/**'
+      - 'hanzoai/**'
       - '.github/workflows/test-windows.yml'
   workflow_dispatch:
 
@@ -48,8 +48,8 @@ jobs:
       run: |
         uv venv
         .\.venv\Scripts\Activate.ps1
-        # Core SDK
-        uv pip install -e ./pkg/hanzoai
+        # hanzoai is the root workspace package
+        uv pip install -e .
         # Async layer (uvloop skipped automatically on Windows)
         uv pip install -e ./pkg/hanzo-async
         # Test deps
@@ -137,7 +137,6 @@ jobs:
       shell: pwsh
       run: |
         .\.venv\Scripts\Activate.ps1
-        # Run tests that don't require Unix-specific features
         cd pkg/hanzo-mcp
         python -m pytest tests/test_llm_warnings.py -v -o "addopts=" 2>$null; $true
         python -m pytest tests/test_hanzo_mcp_simple.py -v -o "addopts=" -k "test_cli_help or test_cli_version or test_import_tools" 2>$null; $true
@@ -166,13 +165,14 @@ jobs:
       shell: wsl-bash {0}
       run: |
         export PATH="$HOME/.local/bin:$PATH"
-        cd /mnt/d/a/python-sdk/python-sdk  # GitHub Actions workspace in WSL
+        WORKSPACE=$(wslpath "$(powershell.exe -Command 'Write-Host -NoNewline $env:GITHUB_WORKSPACE')")
+        cd "$WORKSPACE"
 
         uv venv
         source .venv/bin/activate
 
-        # Core packages
-        uv pip install -e ./pkg/hanzoai
+        # hanzoai is the root workspace package
+        uv pip install -e .
         uv pip install -e ./pkg/hanzo-async
         uv pip install pytest pytest-asyncio
 
@@ -189,7 +189,8 @@ jobs:
       shell: wsl-bash {0}
       run: |
         export PATH="$HOME/.local/bin:$PATH"
-        cd /mnt/d/a/python-sdk/python-sdk
+        WORKSPACE=$(wslpath "$(powershell.exe -Command 'Write-Host -NoNewline $env:GITHUB_WORKSPACE')")
+        cd "$WORKSPACE"
         source .venv/bin/activate
 
         uv pip install -e ./pkg/hanzo-tools
@@ -205,7 +206,8 @@ jobs:
       shell: wsl-bash {0}
       run: |
         export PATH="$HOME/.local/bin:$PATH"
-        cd /mnt/d/a/python-sdk/python-sdk
+        WORKSPACE=$(wslpath "$(powershell.exe -Command 'Write-Host -NoNewline $env:GITHUB_WORKSPACE')")
+        cd "$WORKSPACE"
         source .venv/bin/activate
 
         python -c "
@@ -230,7 +232,8 @@ jobs:
       shell: wsl-bash {0}
       run: |
         export PATH="$HOME/.local/bin:$PATH"
-        cd /mnt/d/a/python-sdk/python-sdk
+        WORKSPACE=$(wslpath "$(powershell.exe -Command 'Write-Host -NoNewline $env:GITHUB_WORKSPACE')")
+        cd "$WORKSPACE"
         source .venv/bin/activate
 
         uv pip install -e ./pkg/hanzo-mcp 2>/dev/null || true
@@ -246,7 +249,8 @@ jobs:
       shell: wsl-bash {0}
       run: |
         export PATH="$HOME/.local/bin:$PATH"
-        cd /mnt/d/a/python-sdk/python-sdk
+        WORKSPACE=$(wslpath "$(powershell.exe -Command 'Write-Host -NoNewline $env:GITHUB_WORKSPACE')")
+        cd "$WORKSPACE"
         source .venv/bin/activate
 
         cd pkg/hanzo-mcp
