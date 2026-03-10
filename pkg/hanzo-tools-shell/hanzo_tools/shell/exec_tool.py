@@ -58,12 +58,21 @@ class ExecTool(BaseTool):
         self._register_proc_actions()
 
     def _resolve_shell(self) -> str:
-        """Resolve shell - prefer zsh, fallback to bash/sh."""
+        """Resolve shell - prefer zsh, fallback to bash/sh. On Windows: pwsh/cmd."""
+        import sys
         import shutil
 
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
+
+        # On Windows, prefer PowerShell/cmd
+        if sys.platform == "win32":
+            for shell in ("pwsh", "powershell", "cmd"):
+                found = shutil.which(shell)
+                if found:
+                    return found
+            return "cmd.exe"
 
         for shell in ["zsh", "bash", "fish", "dash", "sh"]:
             for prefix in ["/opt/homebrew/bin", "/usr/local/bin", "/bin", "/usr/bin"]:
@@ -372,6 +381,8 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                 )
 
             # Resolve signal
+            import sys as _sys
+
             if isinstance(signal, str):
                 signal_map = {
                     "TERM": 15,
@@ -385,7 +396,17 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                 sig_num = signal
 
             try:
-                os.kill(pid, sig_num)
+                if _sys.platform == "win32":
+                    # On Windows, os.kill() only supports SIGTERM (terminate)
+                    # and signal 0 (existence check). Use terminate semantics.
+                    import subprocess
+                    subprocess.call(
+                        ["taskkill", "/F", "/PID", str(pid)],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                    )
+                else:
+                    os.kill(pid, sig_num)
                 return {
                     "proc_id": proc_id,
                     "pid": pid,
