@@ -7,6 +7,7 @@ Tests all orchestrator modes and ensures everything works.
 import os
 import sys
 import time
+import shutil
 import asyncio
 import subprocess
 from pathlib import Path
@@ -24,11 +25,7 @@ def print_test(name):
 
 def check_command_exists(cmd):
     """Check if a command exists."""
-    try:
-        result = subprocess.run(["which", cmd], capture_output=True, text=True)
-        return result.returncode == 0
-    except Exception:
-        return False
+    return shutil.which(cmd) is not None
 
 
 async def test_imports():
