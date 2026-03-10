@@ -45,6 +45,9 @@ config = ["hanzo-tools-config>=0.1.0"]
 mcp_tools = ["hanzo-tools-mcp>=0.1.0"]
 reasoning = ["hanzo-tools-reasoning>=0.1.0"]
 computer = ["hanzo-tools-computer>=0.1.0"]
+code = ["hanzo-tools-code>=0.1.0"]
+vcs = ["hanzo-tools-vcs>=0.1.0"]
+net = ["hanzo-tools-net>=0.1.0"]
 
 # Bundles
 dev = [
@@ -80,6 +83,9 @@ all = [
     "hanzo-tools-config>=0.1.0",
     "hanzo-tools-mcp>=0.1.0",
     "hanzo-tools-computer>=0.1.0",
+    "hanzo-tools-code>=0.1.0",
+    "hanzo-tools-vcs>=0.1.0",
+    "hanzo-tools-net>=0.1.0",
 ]
 
 [project.urls]
