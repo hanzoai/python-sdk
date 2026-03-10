@@ -285,8 +285,9 @@ class HanzoMCPServer:
                 self._shutdown_event.set()
                 sys.exit(0)
 
-            signal.signal(signal.SIGTERM, signal_handler)
             signal.signal(signal.SIGINT, signal_handler)
+            # SIGTERM works on Windows too (calls TerminateProcess)
+            signal.signal(signal.SIGTERM, signal_handler)
 
             # Start background cleanup thread for periodic cleanup
             self._cleanup_thread = threading.Thread(

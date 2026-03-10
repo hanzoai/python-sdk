@@ -8,6 +8,7 @@ Supports multiple authentication methods:
 """
 
 import os
+import sys
 import json
 import asyncio
 import webbrowser
@@ -388,8 +389,9 @@ class HanzoAuth:
         with open(path, "w") as f:
             json.dump(creds, f, indent=2)
 
-        # Set restrictive permissions
-        os.chmod(path, 0o600)
+        # Set restrictive permissions (no-op on Windows, but harmless)
+        if sys.platform != "win32":
+            os.chmod(path, 0o600)
 
     async def load_credentials(self, path: Path) -> Dict[str, Any]:
         """Load credentials from file.

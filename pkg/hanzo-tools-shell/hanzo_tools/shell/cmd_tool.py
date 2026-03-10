@@ -9,6 +9,7 @@ The primary command execution tool for hanzo-mcp. Run commands with:
 """
 
 import os
+import sys
 import shutil
 import asyncio
 from enum import Enum
@@ -92,11 +93,20 @@ class CmdTool(BaseTool):
         """Resolve shell - prefer zsh, fallback to bash/fish/sh.
 
         Supports: zsh, bash, fish, sh, dash, ksh, tcsh, csh
+        On Windows: pwsh > powershell > cmd.exe
         """
         # Allow override via environment
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
+
+        # On Windows, prefer PowerShell/cmd
+        if sys.platform == "win32":
+            for shell in ("pwsh", "powershell", "cmd"):
+                found = shutil.which(shell)
+                if found:
+                    return found
+            return "cmd.exe"
 
         # Shell priority: modern shells first
         shell_priority = ["zsh", "bash", "fish", "dash", "sh"]
