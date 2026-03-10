@@ -280,6 +280,10 @@ def resolve_shell_path(shell_name: str) -> Optional[str]:
         if os.path.isfile(force_shell) and os.access(force_shell, os.X_OK):
             return force_shell
 
+    # On Windows, skip Unix-specific paths and use shutil.which directly
+    if os.name == "nt":
+        return shutil.which(shell_name)
+
     # Priority paths - Homebrew first on macOS
     search_paths = [
         f"/opt/homebrew/bin/{shell_name}",  # Apple Silicon Homebrew
@@ -337,7 +341,14 @@ def get_active_shell() -> Tuple[str, str]:
         best_path = resolve_shell_path(chosen_name)
         return chosen_name, best_path or chosen_path
 
-    # Fallback: if detected shell isn't supported, default to zsh
+    # Fallback: if detected shell isn't supported, default to zsh (or pwsh on Windows)
+    if os.name == "nt":
+        for fallback in ["pwsh", "powershell", "cmd"]:
+            path = shutil.which(fallback)
+            if path:
+                return fallback, path
+        return "cmd", "cmd.exe"
+
     for fallback in ["zsh", "bash", "fish", "dash"]:
         path = resolve_shell_path(fallback)
         if path:
