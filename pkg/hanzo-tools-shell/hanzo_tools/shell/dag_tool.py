@@ -5,6 +5,7 @@ Supports serial (default), parallel, and complex mixed execution graphs.
 """
 
 import os
+import sys
 import uuid
 import shutil
 import asyncio
@@ -112,7 +113,14 @@ class DagTool(BaseTool):
         self.default_shell = self._resolve_shell(default_shell)
 
     def _resolve_shell(self, preferred: str) -> str:
-        """Resolve shell - prefer zsh, fallback to bash."""
+        """Resolve shell - prefer zsh, fallback to bash. On Windows, use pwsh/cmd."""
+        if sys.platform == "win32":
+            for shell in ("pwsh", "powershell", "cmd"):
+                found = shutil.which(shell)
+                if found:
+                    return found
+            return "cmd.exe"
+
         shell_priority = ["zsh", "bash"]
         search_paths = [
             "/opt/homebrew/bin",

@@ -195,7 +195,7 @@ def _process_recording_for_claude(
 
     # Write frames to files instead of returning inline base64
     frames_dir = os.path.join(
-        os.environ.get("HOME", "/tmp"),
+        str(Path.home()),
         ".hanzo", "screen", "frames",
     )
     os.makedirs(frames_dir, exist_ok=True)
@@ -429,7 +429,7 @@ EXAMPLES:
 
                 # Write to file instead of returning inline base64
                 capture_dir = os.path.join(
-                    os.environ.get("HOME", "/tmp"),
+                    str(Path.home()),
                     ".hanzo", "screen",
                 )
                 os.makedirs(capture_dir, exist_ok=True)

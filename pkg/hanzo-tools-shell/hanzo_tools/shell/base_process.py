@@ -556,15 +556,22 @@ class ShellExecutor:
         log_file = await self._process_manager.create_log_file(process_id)
 
         try:
+            # Build shell invocation args per platform
+            shell_lower = os.path.basename(shell).lower()
+            if shell_lower in ("cmd", "cmd.exe"):
+                shell_args = [shell, "/c", command]
+            elif shell_lower in ("powershell", "powershell.exe", "pwsh", "pwsh.exe"):
+                shell_args = [shell, "-Command", command]
+            else:
+                shell_args = [shell, "-c", command]
+
             proc = await asyncio.create_subprocess_exec(
-                shell,
-                "-c",
-                command,
+                *shell_args,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=cwd,
                 env=run_env,
-                # Prevent zombie processes - use start_new_session on Unix
+                # Maps to CREATE_NEW_PROCESS_GROUP on Windows
                 start_new_session=True,
             )
 

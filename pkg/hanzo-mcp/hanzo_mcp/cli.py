@@ -334,11 +334,16 @@ def main() -> None:
         help="Run as daemon process for multiple agent connections",
     )
 
+    _default_socket = (
+        os.path.join(os.environ.get("TEMP", ""), "hanzo-mcp.sock")
+        if sys.platform == "win32"
+        else "/tmp/hanzo-mcp.sock"
+    )
     _ = parser.add_argument(
         "--socket-path",
         dest="socket_path",
-        default="/tmp/hanzo-mcp.sock",
-        help="Unix socket path for daemon mode (default: /tmp/hanzo-mcp.sock)",
+        default=_default_socket,
+        help=f"Unix socket path for daemon mode (default: {_default_socket})",
     )
 
     _ = parser.add_argument(

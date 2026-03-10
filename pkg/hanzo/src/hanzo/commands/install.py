@@ -466,14 +466,16 @@ def _install_github_release(tool: dict, version: str, force: bool):
         else:
             # Assume it's a raw binary
             shutil.copy(archive_path, install_dir / binary)
-            os.chmod(install_dir / binary, 0o755)  # noqa: S103
+            if sys.platform != "win32":
+                os.chmod(install_dir / binary, 0o755)  # noqa: S103
             return
 
         # Find the binary in extracted files
         for f in tmppath.rglob("*"):
             if f.is_file() and f.name == binary:
                 shutil.copy(f, install_dir / binary)
-                os.chmod(install_dir / binary, 0o755)  # noqa: S103
+                if sys.platform != "win32":
+                    os.chmod(install_dir / binary, 0o755)  # noqa: S103
                 break
 
     ensure_path_configured()
@@ -757,7 +759,8 @@ main "$@"
     if output:
         with open(output, "w") as f:
             f.write(script)
-        os.chmod(output, 0o755)  # noqa: S103
+        if sys.platform != "win32":
+            os.chmod(output, 0o755)  # noqa: S103
         console.print(f"[green]✓[/green] Install script written to {output}")
     else:
         console.print(script)

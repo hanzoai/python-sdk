@@ -223,7 +223,12 @@ class SessionStorage:
             # Force kill if still running
             try:
                 os.kill(session.pid, 0)  # Check if process exists
-                os.kill(session.pid, signal.SIGKILL)
+                # SIGKILL doesn't exist on Windows; SIGTERM already calls
+                # TerminateProcess there, so only force-kill on Unix
+                if hasattr(signal, "SIGKILL"):
+                    os.kill(session.pid, signal.SIGKILL)
+                else:
+                    os.kill(session.pid, signal.SIGTERM)
             except OSError:
                 pass  # Process already terminated
 
