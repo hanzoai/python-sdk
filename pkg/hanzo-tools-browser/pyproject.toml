@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.4.3"
+version = "0.4.4"
 description = "Browser automation tools with extension-first routing - uses Hanzo browser extension when available, Playwright as fallback"
 readme = "README.md"
 requires-python = ">=3.12"
