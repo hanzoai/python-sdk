@@ -367,6 +367,12 @@ class CDPBridgeServer:
             "evaluate": "Runtime.evaluate",
             "tabs": "Target.getTargets",
             "status": "Browser.getVersion",
+            "url": "hanzo.url",
+            "title": "hanzo.title",
+            "reload": "Page.reload",
+            "go_back": "Page.goBack",
+            "go_forward": "Page.goForward",
+            "tab_info": "hanzo.tabInfo",
         }
         return action_map.get(action, action)
 
