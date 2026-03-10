@@ -12,6 +12,7 @@ import os
 import sys
 import json
 import time
+import shutil
 import signal
 import asyncio
 import logging
@@ -244,6 +245,8 @@ class HanzoDevOrchestrator:
 
     def _find_claude_code(self) -> str:
         """Find Claude Code executable."""
+        import shutil
+
         # Check common locations
         possible_paths = [
             "/usr/local/bin/claude",
@@ -255,7 +258,7 @@ class HanzoDevOrchestrator:
         for path in possible_paths:
             expanded = Path(path).expanduser()
             if expanded.exists() or (
-                path == "claude" and os.system(f"which {path} >/dev/null 2>&1") == 0
+                path == "claude" and shutil.which(path) is not None
             ):
                 return str(expanded) if expanded.exists() else path
 
@@ -1472,13 +1475,13 @@ Examples:
         """Use OpenAI CLI (Codex) - the official OpenAI CLI tool."""
         try:
             import json
+            import shutil
             import subprocess
 
             console.print("[dim]Using OpenAI CLI (Codex)...[/dim]")
 
             # Check if openai CLI is installed
-            result = subprocess.run(["which", "openai"], capture_output=True, text=True)
-            if result.returncode != 0:
+            if not shutil.which("openai"):
                 console.print("[red]OpenAI CLI not installed![/red]")
                 console.print("[yellow]To install:[/yellow]")
                 console.print("  • pip install openai-cli")
@@ -1517,6 +1520,7 @@ Examples:
         """Use Claude Desktop/Code CLI."""
         try:
             import os
+            import shutil
             import subprocess
 
             console.print("[dim]Using Claude Desktop...[/dim]")
@@ -1531,11 +1535,7 @@ Examples:
 
             claude_path = None
             for path in claude_paths:
-                if (
-                    os.path.exists(path)
-                    or subprocess.run(["which", path], capture_output=True).returncode
-                    == 0
-                ):
+                if os.path.exists(path) or shutil.which(path) is not None:
                     claude_path = path
                     break
 
@@ -1587,13 +1587,13 @@ Examples:
     async def _use_gemini_cli(self, message: str):
         """Use Gemini CLI."""
         try:
+            import shutil
             import subprocess
 
             console.print("[dim]Using Gemini CLI...[/dim]")
 
             # Check if gemini CLI is installed
-            result = subprocess.run(["which", "gemini"], capture_output=True, text=True)
-            if result.returncode != 0:
+            if not shutil.which("gemini"):
                 console.print("[red]Gemini CLI not installed![/red]")
                 console.print("[yellow]To install:[/yellow]")
                 console.print("  • pip install google-generativeai-cli")
