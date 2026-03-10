@@ -15,6 +15,7 @@ Supported shells:
 """
 
 import os
+import sys
 import shutil
 from typing import Any, Dict, List, Optional, Annotated, override
 
@@ -42,10 +43,18 @@ class ZshTool(CmdTool):
         super().__init__(tools=tools, default_shell="zsh")
 
     def _resolve_shell(self, preferred: str) -> str:
-        """Resolve zsh shell path."""
+        """Resolve zsh shell path. Falls back to bash, then platform default."""
         force_shell = os.environ.get("HANZO_MCP_FORCE_SHELL")
         if force_shell:
             return force_shell
+
+        # On Windows, prefer powershell/cmd over Unix shells
+        if sys.platform == "win32":
+            for shell in ("pwsh", "powershell", "cmd"):
+                found = shutil.which(shell)
+                if found:
+                    return found
+            return "cmd.exe"
 
         search_paths = [
             "/opt/homebrew/bin/zsh",
