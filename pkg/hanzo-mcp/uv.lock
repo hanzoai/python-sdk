@@ -1290,7 +1290,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.12.5"
+version = "0.12.6"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
@@ -1323,7 +1323,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "typing-extensions" },
-    { name = "uvloop" },
+    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
 
 [package.optional-dependencies]
@@ -1441,7 +1441,7 @@ requires-dist = [
     { name = "types-setuptools", marker = "extra == 'dev'", specifier = ">=69.5.0" },
     { name = "typing-extensions", specifier = ">=4.13.0" },
     { name = "ujson", marker = "extra == 'performance'", specifier = ">=5.7.0" },
-    { name = "uvloop", specifier = ">=0.22.1" },
+    { name = "uvloop", marker = "sys_platform != 'win32'", specifier = ">=0.22.1" },
     { name = "websockets", marker = "extra == 'ide'", specifier = ">=12.0" },
 ]
 provides-extras = ["memory", "repl", "ide", "interactive", "dev", "docs", "test", "performance", "publish"]
