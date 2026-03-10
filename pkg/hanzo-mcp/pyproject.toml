@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.12.7"
+version = "0.12.8"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -23,8 +23,9 @@ dependencies = [
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "typing-extensions>=4.13.0",
-    # Unified async I/O (aiofiles; uvloop opt-in via performance extra)
-    "hanzo-async>=0.1.0",
+    # Unified async I/O (aiofiles + uvloop auto-installed on Linux/macOS, graceful fallback)
+    "hanzo-async>=0.1.3",
+    "uvloop>=0.22.1; sys_platform != 'win32'",
     # Hanzo tool infrastructure (all tools)
     "hanzo-tools>=0.3.0",
     "hanzo-tools-fs>=0.1.0",
@@ -116,7 +117,6 @@ test = [
 performance = [
     "ujson>=5.7.0",
     "orjson>=3.9.0",
-    "uvloop>=0.22.1; sys_platform != 'win32'",
 ]
 publish = ["twine>=4.0.2", "build>=1.0.3"]
 
