@@ -219,12 +219,16 @@ class PlanTool(BaseTool):
     name: ClassVar[str] = "plan"
     VERSION: ClassVar[str] = "0.2.0"
 
-    # In-memory tracked plan (matches Rust update_plan behavior)
+    # In-memory tracked plans (supports multiple named plans)
     _tracked_plan: TrackedPlan | None = None
+    _plans: dict[str, TrackedPlan] = {}
+    _plan_counter: int = 0
 
     def __init__(self):
         super().__init__()
         self._tracked_plan = None
+        self._plans = {}
+        self._plan_counter = 0
         self._register_plan_actions()
 
     @property
@@ -232,11 +236,26 @@ class PlanTool(BaseTool):
         return """Unified plan orchestration tool (HIP-0300).
 
 Actions:
-- update: Track plan with step status (Rust parity - name, steps with status)
+- create: Create a new plan with name and steps
+- show: Show a plan by name
+- update: Track plan with step status
 - get: Get current tracked plan
+- list: List all plans
+- next: Get next pending step
+- archive: Archive a plan
+- add_step: Add a step to existing plan
+- remove_step: Remove a step from plan
+- estimate: Estimate plan completion
+- visualize: Text visualization of plan progress
+- clone: Clone an existing plan
+- cancel: Cancel a plan
+- notes: Add/view plan notes
+- progress: Get progress percentage
+- clear: Clear tracked plan
 - intent: Parse natural language → IntentIR
-- route: Map IntentIR → Plan (canonical operator chain)
-- compose: Plan → ExecGraph (execution-ready DAG)
+- route: Map IntentIR → Plan
+- compose: Plan → ExecGraph
+- chains: List canonical chains
 
 Turns permissive natural language input into strict canonical operator chains.
 """
@@ -618,14 +637,7 @@ Turns permissive natural language input into strict canonical operator chains.
             ctx: MCPContext,
             category: str | None = None,
         ) -> dict:
-            """List available canonical operator chains.
-
-            Args:
-                category: Filter by category (optional)
-
-            Returns:
-                Dictionary of available chains
-            """
+            """List available canonical operator chains."""
             result = {}
             for (cat, action), chain in CANONICAL_CHAINS.items():
                 if category and cat != category:
@@ -636,10 +648,217 @@ Turns permissive natural language input into strict canonical operator chains.
                     "tools": [s["tool"] for s in chain],
                     "has_policy_gate": any(s.get("policy_gate") for s in chain),
                 }
+            return {"chains": result, "total": len(result)}
 
+        # --- TS parity actions below ---
+
+        def _get_plan(self, name: str | None = None) -> TrackedPlan | None:
+            if name and name in self._plans:
+                return self._plans[name]
+            return self._tracked_plan
+
+        def _save_plan(self, plan: TrackedPlan):
+            now = datetime.now(timezone.utc).isoformat()
+            plan.updated_at = now
+            if plan.name:
+                self._plans[plan.name] = plan
+            self._tracked_plan = plan
+
+        def _plan_to_dict(self, plan: TrackedPlan) -> dict:
             return {
-                "chains": result,
-                "total": len(result),
+                "name": plan.name,
+                "steps": [{"step": s.step, "status": s.status.value} for s in plan.steps],
+                "created_at": plan.created_at,
+                "updated_at": plan.updated_at,
+            }
+
+        @self.action("create", "Create a new plan")
+        async def create(
+            ctx: MCPContext,
+            name: str = "",
+            steps: list[str] | None = None,
+            **kwargs,
+        ) -> dict:
+            """Create a new named plan with steps."""
+            if not name:
+                self._plan_counter += 1
+                name = f"plan-{self._plan_counter}"
+            now = datetime.now(timezone.utc).isoformat()
+            tracked_steps = [TrackedStep(step=s) for s in (steps or [])]
+            plan = TrackedPlan(name=name, steps=tracked_steps, created_at=now, updated_at=now)
+            _save_plan(plan)
+            return {"message": f"Created plan '{name}'", "plan": _plan_to_dict(plan)}
+
+        @self.action("show", "Show a plan by name")
+        async def show(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Show plan details."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": f"Plan '{name}' not found" if name else "No active plan"}
+            return {"plan": _plan_to_dict(plan)}
+
+        @self.action("list", "List all plans")
+        async def list_plans(ctx: MCPContext, **kwargs) -> dict:
+            """List all tracked plans."""
+            plans = []
+            for n, p in self._plans.items():
+                completed = sum(1 for s in p.steps if s.status == StepStatus.COMPLETED)
+                plans.append({"name": n, "steps": len(p.steps), "completed": completed})
+            return {"plans": plans, "total": len(plans)}
+
+        @self.action("next", "Get next pending step")
+        async def next_step(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Get the next pending step from a plan."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            for i, s in enumerate(plan.steps):
+                if s.status == StepStatus.PENDING:
+                    return {"index": i, "step": s.step, "status": s.status.value}
+            return {"message": "All steps completed"}
+
+        @self.action("archive", "Archive a plan")
+        async def archive(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Archive (remove) a plan."""
+            target = name or (self._tracked_plan.name if self._tracked_plan else None)
+            if target and target in self._plans:
+                del self._plans[target]
+                if self._tracked_plan and self._tracked_plan.name == target:
+                    self._tracked_plan = None
+                return {"message": f"Archived plan '{target}'"}
+            return {"error": f"Plan '{target}' not found"}
+
+        @self.action("add_step", "Add a step to a plan")
+        async def add_step(
+            ctx: MCPContext,
+            step: str = "",
+            name: str = "",
+            position: int = -1,
+            **kwargs,
+        ) -> dict:
+            """Add a step to an existing plan."""
+            if not step:
+                return {"error": "step text required"}
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            new_step = TrackedStep(step=step)
+            if position >= 0 and position <= len(plan.steps):
+                plan.steps.insert(position, new_step)
+            else:
+                plan.steps.append(new_step)
+            _save_plan(plan)
+            return {"message": f"Added step to '{plan.name}'", "plan": _plan_to_dict(plan)}
+
+        @self.action("remove_step", "Remove a step from a plan")
+        async def remove_step(
+            ctx: MCPContext,
+            index: int = -1,
+            name: str = "",
+            **kwargs,
+        ) -> dict:
+            """Remove a step by index."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            if index < 0 or index >= len(plan.steps):
+                return {"error": f"Invalid index {index}, plan has {len(plan.steps)} steps"}
+            removed = plan.steps.pop(index)
+            _save_plan(plan)
+            return {"message": f"Removed step: {removed.step}", "plan": _plan_to_dict(plan)}
+
+        @self.action("estimate", "Estimate plan completion")
+        async def estimate(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Estimate plan completion based on step progress."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            total = len(plan.steps)
+            if total == 0:
+                return {"progress": 0, "remaining": 0, "total": 0}
+            completed = sum(1 for s in plan.steps if s.status == StepStatus.COMPLETED)
+            in_progress = sum(1 for s in plan.steps if s.status == StepStatus.IN_PROGRESS)
+            pct = round((completed + in_progress * 0.5) / total * 100, 1)
+            return {
+                "total": total,
+                "completed": completed,
+                "in_progress": in_progress,
+                "pending": total - completed - in_progress,
+                "progress_pct": pct,
+            }
+
+        @self.action("visualize", "Text visualization of plan progress")
+        async def visualize(ctx: MCPContext, name: str = "", **kwargs) -> str:
+            """Render a text progress bar for the plan."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return "No active plan"
+            lines = [f"Plan: {plan.name or '(unnamed)'}"]
+            for i, s in enumerate(plan.steps):
+                icon = {"completed": "[x]", "in_progress": "[~]", "pending": "[ ]"}.get(s.status.value, "[ ]")
+                lines.append(f"  {i+1}. {icon} {s.step}")
+            total = len(plan.steps)
+            done = sum(1 for s in plan.steps if s.status == StepStatus.COMPLETED)
+            bar_len = 20
+            filled = int(bar_len * done / total) if total else 0
+            bar = "█" * filled + "░" * (bar_len - filled)
+            lines.append(f"\n  [{bar}] {done}/{total}")
+            return "\n".join(lines)
+
+        @self.action("clone", "Clone an existing plan")
+        async def clone_plan(ctx: MCPContext, name: str = "", new_name: str = "", **kwargs) -> dict:
+            """Clone a plan with a new name, resetting step status."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan to clone"}
+            if not new_name:
+                self._plan_counter += 1
+                new_name = f"{plan.name or 'plan'}-copy-{self._plan_counter}"
+            now = datetime.now(timezone.utc).isoformat()
+            new_steps = [TrackedStep(step=s.step) for s in plan.steps]
+            new_plan = TrackedPlan(name=new_name, steps=new_steps, created_at=now, updated_at=now)
+            _save_plan(new_plan)
+            return {"message": f"Cloned to '{new_name}'", "plan": _plan_to_dict(new_plan)}
+
+        @self.action("cancel", "Cancel a plan")
+        async def cancel(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Cancel a plan (archive with cancelled status)."""
+            target = name or (self._tracked_plan.name if self._tracked_plan else None)
+            if target and target in self._plans:
+                del self._plans[target]
+                if self._tracked_plan and self._tracked_plan.name == target:
+                    self._tracked_plan = None
+                return {"message": f"Cancelled plan '{target}'"}
+            return {"error": f"Plan '{target}' not found"}
+
+        @self.action("notes", "Add or view plan notes")
+        async def notes(ctx: MCPContext, name: str = "", note: str = "", **kwargs) -> dict:
+            """Add a note to a plan or view existing notes."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            if not hasattr(plan, '_notes'):
+                plan._notes = []
+            if note:
+                plan._notes.append({"text": note, "at": datetime.now(timezone.utc).isoformat()})
+                _save_plan(plan)
+                return {"message": "Note added", "notes": plan._notes}
+            return {"notes": getattr(plan, '_notes', [])}
+
+        @self.action("progress", "Get progress percentage")
+        async def progress(ctx: MCPContext, name: str = "", **kwargs) -> dict:
+            """Get plan progress as percentage."""
+            plan = _get_plan(name or None)
+            if not plan:
+                return {"error": "No active plan"}
+            total = len(plan.steps)
+            if total == 0:
+                return {"progress": 100, "message": "Empty plan"}
+            completed = sum(1 for s in plan.steps if s.status == StepStatus.COMPLETED)
+            return {
+                "progress": round(completed / total * 100, 1),
+                "completed": completed,
+                "total": total,
             }
 
 # Singleton
