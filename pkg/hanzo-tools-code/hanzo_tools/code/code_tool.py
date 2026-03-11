@@ -154,15 +154,19 @@ All operations are PURE - safe to cache and parallelize.
     def _get_tree_sitter(self):
         """Lazy-load tree-sitter."""
         if self._tree_sitter is None:
+            # Try tree-sitter-language-pack first (works with tree-sitter 0.24+)
             try:
-                import tree_sitter_languages
-
-                self._tree_sitter = tree_sitter_languages
+                import tree_sitter_language_pack
+                self._tree_sitter = tree_sitter_language_pack
             except ImportError:
-                raise ToolError(
-                    code="INTERNAL_ERROR",
-                    message="tree-sitter-languages not installed. Run: pip install tree-sitter-languages",
-                )
+                try:
+                    import tree_sitter_languages
+                    self._tree_sitter = tree_sitter_languages
+                except ImportError:
+                    raise ToolError(
+                        code="INTERNAL_ERROR",
+                        message="tree-sitter-languages not installed. Run: pip install tree-sitter-language-pack",
+                    )
         return self._tree_sitter
 
     def _parse_with_tree_sitter(self, text: str, lang: str) -> dict:
@@ -635,21 +639,6 @@ All operations are PURE - safe to cache and parallelize.
                 "risks": risks,
                 "next_actions": next_actions,
             }
-
-    def register(self, mcp_server: FastMCP) -> None:
-        """Register as 'code' tool with MCP server."""
-        tool_name = self.name
-        tool_description = self.description
-
-        @mcp_server.tool(name=tool_name, description=tool_description)
-        async def handler(
-            ctx: MCPContext,
-            action: str = "help",
-            **kwargs: Any,
-        ) -> str:
-            result = await self.call(ctx, action=action, **kwargs)
-            return json.dumps(result, indent=2, default=str)
-
 
 # Singleton instance
 code_tool = CodeTool

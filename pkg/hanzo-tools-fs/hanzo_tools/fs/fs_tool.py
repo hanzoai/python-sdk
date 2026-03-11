@@ -173,6 +173,8 @@ class FsTool(BaseTool):
 
     name: ClassVar[str] = "fs"
     VERSION: ClassVar[str] = "0.12.0"
+    # Accept "path" as alias for "uri" (TS parity)
+    PARAM_ALIASES: ClassVar[dict[str, str]] = {"path": "uri"}
 
     def __init__(self, permission_manager: Optional[PermissionManager] = None):
         super().__init__()
@@ -808,21 +810,6 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 shutil.rmtree(path)
 
             return {"uri": file_uri(str(path)), "removed": True}
-
-    def register(self, mcp_server: FastMCP) -> None:
-        """Register as 'fs' tool with MCP server."""
-        tool_name = self.name
-        tool_description = self.description
-
-        @mcp_server.tool(name=tool_name, description=tool_description)
-        async def handler(
-            ctx: MCPContext,
-            action: str = "help",
-            **kwargs: Any,
-        ) -> str:
-            result = await self.call(ctx, action=action, **kwargs)
-            return json.dumps(result, indent=2, default=str)
-
 
 # Backward compatibility
 fs_tool = FsTool
