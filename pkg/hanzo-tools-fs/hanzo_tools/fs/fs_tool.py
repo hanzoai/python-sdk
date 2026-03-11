@@ -766,6 +766,35 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
                 },
             }
 
+        @self.action("mv", "Move or rename file/directory")
+        async def mv(ctx: MCPContext, uri: str, destination: str) -> dict:
+            """Move or rename a file or directory.
+
+            Args:
+                uri: Source path
+                destination: Destination path
+            """
+            import shutil
+
+            src_str = uri.replace("file://", "") if uri.startswith("file://") else uri
+            dst_str = destination.replace("file://", "") if destination.startswith("file://") else destination
+            src_path = self._validate_path(src_str)
+            dst_path = self._validate_path(dst_str)
+            self._check_permission(str(src_path))
+            self._check_permission(str(dst_path))
+
+            if not src_path.exists():
+                raise NotFoundError(f"Source not found: {src_path}", uri=uri)
+
+            dst_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(src_path), str(dst_path))
+
+            return {
+                "source": file_uri(str(src_path)),
+                "destination": file_uri(str(dst_path)),
+                "moved": True,
+            }
+
         @self.action("mkdir", "Create directory")
         async def mkdir(ctx: MCPContext, uri: str) -> dict:
             """Create directory and parent directories."""

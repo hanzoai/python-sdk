@@ -1,139 +1,226 @@
-"""Thinking tool implementation.
+"""Unified thinking tool implementation (HIP-0300).
 
-This module provides the ThinkingTool for Claude to engage in structured thinking.
+This module provides the ThinkTool with action-based dispatch for
+all reasoning operations: think, critic, review, consensus, summarize,
+classify, explain, translate, compare, chain, agent, embed.
 """
 
-from typing import Unpack, Annotated, TypedDict, final, override
+from typing import ClassVar
 
-from pydantic import Field
-from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
-
-Thought = Annotated[
-    str,
-    Field(
-        description="The detailed thought process to record",
-        min_length=1,
-    ),
-]
+from hanzo_tools.core import BaseTool
 
 
-class ThinkingToolParams(TypedDict):
-    """Parameters for the ThinkingTool.
+class ThinkTool(BaseTool):
+    """Unified thinking and reasoning tool (HIP-0300).
 
-    Attributes:
-        thought: The detailed thought process to record
+    Actions:
+    - think: Structured thinking and brainstorming (default)
+    - critic: Critical analysis and devil's advocate
+    - review: Code review and quality analysis
+    - consensus: Multi-perspective consensus reasoning
+    - agent: Agent-style step-by-step reasoning
+    - summarize: Summarize content concisely
+    - classify: Classify content into categories
+    - explain: Explain a concept clearly
+    - translate: Translate between formats/languages
+    - compare: Compare multiple items
+    - chain: Chain-of-thought multi-step reasoning
+    - embed: Generate embedding representation (placeholder)
     """
 
-    thought: Thought
-
-
-@final
-class ThinkTool(BaseTool):
-    """Tool for Claude to engage in structured thinking."""
-
-    name = "think"
-
-    @property
-    @override
-    def description(self) -> str:
-        """Get the tool description.
-
-        Returns:
-            Tool description
-        """
-        return """Use the tool to think about something. It will not obtain new information or make any changes to the repository, but just log the thought. Use it when complex reasoning or brainstorming is needed.
-Ensure thinking content is concise and accurate, without needing to include code details
-
-Common use cases:
-1. When exploring a repository and discovering the source of a bug, call this tool to brainstorm several unique ways of fixing the bug, and assess which change(s) are likely to be simplest and most effective
-2. After receiving test results, use this tool to brainstorm ways to fix failing tests
-3. When planning a complex refactoring, use this tool to outline different approaches and their tradeoffs
-4. When designing a new feature, use this tool to think through architecture decisions and implementation details
-5. When debugging a complex issue, use this tool to organize your thoughts and hypotheses
-6. When considering changes to the plan or shifts in thinking that the user has not previously mentioned, consider whether it is necessary to confirm with the user.
-
-<think_example>
-Feature Implementation Planning
-- New code search feature requirements:
-* Search for code patterns across multiple files
-* Identify function usages and references
-* Analyze import relationships
-* Generate summary of matching patterns
-- Implementation considerations:
-* Need to leverage existing search mechanisms
-* Should use regex for pattern matching
-* Results need consistent format with other search methods
-* Must handle large codebases efficiently
-- Design approach:
-1. Create new CodeSearcher class that follows existing search patterns
-2. Implement core pattern matching algorithm
-3. Add result formatting methods
-4. Integrate with file traversal system
-5. Add caching for performance optimization
-- Testing strategy:
-* Unit tests for search accuracy
-* Integration tests with existing components
-* Performance tests with large codebases
-</think_example>"""
+    name: ClassVar[str] = "think"
+    VERSION: ClassVar[str] = "0.3.0"
 
     def __init__(self) -> None:
-        """Initialize the thinking tool."""
-        pass
+        super().__init__()
+        self._register_think_actions()
 
-    @override
-    @auto_timeout("thinking")
-    async def call(
-        self,
-        ctx: MCPContext,
-        **params: Unpack[ThinkingToolParams],
-    ) -> str:
-        """Execute the tool with the given parameters.
+    @property
+    def description(self) -> str:
+        return """Unified reasoning tool (HIP-0300).
 
-        Args:
-            ctx: MCP context
-            **params: Tool parameters
+Actions:
+- think: Structured thinking and brainstorming (default)
+- critic: Critical analysis, devil's advocate
+- review: Code review and quality check
+- consensus: Multi-perspective reasoning
+- agent: Step-by-step agent reasoning
+- summarize: Summarize content
+- classify: Classify into categories
+- explain: Explain a concept
+- translate: Translate between formats
+- compare: Compare items
+- chain: Chain-of-thought reasoning
+- embed: Embedding representation (placeholder)
+"""
 
-        Returns:
-            Tool result
-        """
-        tool_ctx = create_tool_context(ctx)
-        await tool_ctx.set_tool_info(self.name)
+    def _register_think_actions(self):
+        """Register all thinking actions."""
 
-        # Extract parameters
-        thought = params.get("thought")
+        @self.action("think", "Structured thinking and brainstorming")
+        async def think(ctx: MCPContext, thought: str = "", **kwargs) -> str:
+            """Record a structured thought process.
 
-        # Validate required thought parameter
-        if not thought:
-            await tool_ctx.error(
-                "Parameter 'thought' is required but was None or empty"
-            )
-            return "Error: Parameter 'thought' is required but was None or empty"
+            Args:
+                thought: The thought to record
+            """
+            if not thought or not thought.strip():
+                return "Error: 'thought' parameter is required"
+            return "Thinking recorded. Continue with your next action based on this analysis."
 
-        if thought.strip() == "":
-            await tool_ctx.error("Parameter 'thought' cannot be empty")
-            return "Error: Parameter 'thought' cannot be empty"
+        @self.action("critic", "Critical analysis and devil's advocate")
+        async def critic(ctx: MCPContext, analysis: str = "", thought: str = "", **kwargs) -> str:
+            """Perform critical analysis.
 
-        # Log the thought but don't take action
-        await tool_ctx.info("Thinking process recorded")
+            Args:
+                analysis: The critical analysis to perform
+                thought: Alternative param name for the analysis
+            """
+            text = analysis or thought
+            if not text or not text.strip():
+                return "Error: 'analysis' or 'thought' parameter is required"
+            return """Critical analysis complete. Remember to:
+1. Address all identified issues before proceeding
+2. Run comprehensive tests to verify fixes
+3. Ensure all tests pass with proper coverage
+4. Document any design decisions or trade-offs
+5. Consider the analysis points in your implementation"""
 
-        # Return confirmation
-        return "I've recorded your thinking process. You can continue with your next action based on this analysis."
+        @self.action("review", "Code review and quality analysis")
+        async def review(ctx: MCPContext, code: str = "", thought: str = "", **kwargs) -> str:
+            """Perform code review.
 
-    @override
-    def register(self, mcp_server: FastMCP) -> None:
-        """Register this thinking tool with the MCP server.
+            Args:
+                code: Code or description to review
+                thought: Alternative param name
+            """
+            text = code or thought
+            if not text or not text.strip():
+                return "Error: 'code' or 'thought' parameter is required"
+            return "Code review recorded. Apply findings to improve quality, correctness, and maintainability."
 
-        Creates a wrapper function with explicitly defined parameters that match
-        the tool's parameter schema and registers it with the MCP server.
+        @self.action("consensus", "Multi-perspective consensus reasoning")
+        async def consensus(ctx: MCPContext, topic: str = "", perspectives: int = 3, thought: str = "", **kwargs) -> str:
+            """Reason from multiple perspectives to reach consensus.
 
-        Args:
-            mcp_server: The FastMCP server instance
-        """
-        tool_self = self  # Create a reference to self for use in the closure
+            Args:
+                topic: The topic to reason about
+                perspectives: Number of perspectives to consider
+                thought: Alternative param name
+            """
+            text = topic or thought
+            if not text or not text.strip():
+                return "Error: 'topic' or 'thought' parameter is required"
+            return f"Consensus reasoning recorded ({perspectives} perspectives). Use the synthesized viewpoint to guide decisions."
 
-        @mcp_server.tool(name=self.name, description=self.description)
-        async def think(thought: Thought, ctx: MCPContext) -> str:
-            return await tool_self.call(ctx, thought=thought)
+        @self.action("agent", "Agent-style step-by-step reasoning")
+        async def agent(ctx: MCPContext, goal: str = "", thought: str = "", **kwargs) -> str:
+            """Perform agent-style reasoning with goal decomposition.
+
+            Args:
+                goal: The goal to reason about
+                thought: Alternative param name
+            """
+            text = goal or thought
+            if not text or not text.strip():
+                return "Error: 'goal' or 'thought' parameter is required"
+            return "Agent reasoning recorded. Execute the planned steps sequentially."
+
+        @self.action("summarize", "Summarize content concisely")
+        async def summarize(ctx: MCPContext, content: str = "", thought: str = "", max_length: int = 0, **kwargs) -> str:
+            """Summarize content.
+
+            Args:
+                content: Content to summarize
+                thought: Alternative param name
+                max_length: Optional max length hint
+            """
+            text = content or thought
+            if not text or not text.strip():
+                return "Error: 'content' or 'thought' parameter is required"
+            return "Summary recorded. Use the condensed version for communication or documentation."
+
+        @self.action("classify", "Classify content into categories")
+        async def classify(ctx: MCPContext, content: str = "", categories: str = "", thought: str = "", **kwargs) -> str:
+            """Classify content into categories.
+
+            Args:
+                content: Content to classify
+                categories: Comma-separated category options
+                thought: Alternative param name
+            """
+            text = content or thought
+            if not text or not text.strip():
+                return "Error: 'content' or 'thought' parameter is required"
+            return "Classification recorded. Apply the categorization to guide next steps."
+
+        @self.action("explain", "Explain a concept clearly")
+        async def explain(ctx: MCPContext, concept: str = "", audience: str = "developer", thought: str = "", **kwargs) -> str:
+            """Explain a concept.
+
+            Args:
+                concept: Concept to explain
+                audience: Target audience (developer, beginner, expert)
+                thought: Alternative param name
+            """
+            text = concept or thought
+            if not text or not text.strip():
+                return "Error: 'concept' or 'thought' parameter is required"
+            return f"Explanation recorded (audience: {audience}). Use for documentation or communication."
+
+        @self.action("translate", "Translate between formats or languages")
+        async def translate(ctx: MCPContext, content: str = "", target: str = "", thought: str = "", **kwargs) -> str:
+            """Translate content between formats or languages.
+
+            Args:
+                content: Content to translate
+                target: Target format or language
+                thought: Alternative param name
+            """
+            text = content or thought
+            if not text or not text.strip():
+                return "Error: 'content' or 'thought' parameter is required"
+            target_desc = f" to {target}" if target else ""
+            return f"Translation{target_desc} recorded. Apply the translated version."
+
+        @self.action("compare", "Compare multiple items")
+        async def compare(ctx: MCPContext, items: str = "", criteria: str = "", thought: str = "", **kwargs) -> str:
+            """Compare items against criteria.
+
+            Args:
+                items: Items to compare (comma-separated or description)
+                criteria: Comparison criteria
+                thought: Alternative param name
+            """
+            text = items or thought
+            if not text or not text.strip():
+                return "Error: 'items' or 'thought' parameter is required"
+            return "Comparison recorded. Use the analysis to make an informed decision."
+
+        @self.action("chain", "Chain-of-thought multi-step reasoning")
+        async def chain(ctx: MCPContext, steps: str = "", thought: str = "", **kwargs) -> str:
+            """Perform chain-of-thought reasoning.
+
+            Args:
+                steps: The reasoning steps
+                thought: Alternative param name
+            """
+            text = steps or thought
+            if not text or not text.strip():
+                return "Error: 'steps' or 'thought' parameter is required"
+            return "Chain-of-thought reasoning recorded. Follow the logical progression to reach the conclusion."
+
+        @self.action("embed", "Generate embedding representation (placeholder)")
+        async def embed(ctx: MCPContext, content: str = "", thought: str = "", **kwargs) -> str:
+            """Placeholder for embedding generation.
+
+            Args:
+                content: Content to embed
+                thought: Alternative param name
+            """
+            text = content or thought
+            if not text or not text.strip():
+                return "Error: 'content' or 'thought' parameter is required"
+            return "Embedding placeholder recorded. Use a dedicated embedding service for production vectors."

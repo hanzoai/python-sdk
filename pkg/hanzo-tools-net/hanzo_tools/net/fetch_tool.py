@@ -10,6 +10,7 @@ Effect lattice position: NONDETERMINISTIC_EFFECT
 Network operations are inherently non-deterministic.
 """
 
+import asyncio
 import json
 import os
 import re
@@ -461,6 +462,88 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                 result["mime"] = headers["content-type"].split(";")[0].strip()
 
             return result
+
+        @self.action("request", "Full HTTP request with method/headers/body")
+        async def request(
+            ctx: MCPContext,
+            url: str,
+            method: str = "GET",
+            headers: dict | None = None,
+            body: str | None = None,
+            timeout: int = 30,
+        ) -> dict:
+            """HTTP request with full control over method, headers, body.
+
+            Unlike 'fetch' which focuses on text extraction, 'request' returns
+            the raw response with status, headers, and body.
+
+            Effect: NONDETERMINISTIC_EFFECT
+            """
+            client = await self._get_client()
+
+            try:
+                response = await client.request(
+                    method,
+                    url,
+                    headers=headers,
+                    content=body,
+                    timeout=timeout,
+                )
+            except Exception as e:
+                raise ToolError(
+                    code="INTERNAL_ERROR",
+                    message=f"Request failed: {e}",
+                    details={"url": url, "method": method},
+                )
+
+            content_type = response.headers.get("content-type", "")
+            resp_headers = dict(response.headers)
+
+            if "json" in content_type:
+                try:
+                    body_data = response.json()
+                except Exception:
+                    body_data = response.text
+            else:
+                body_data = response.text[:50000] if len(response.text) > 50000 else response.text
+
+            return {
+                "status": response.status_code,
+                "headers": resp_headers,
+                "body": body_data,
+            }
+
+        @self.action("open", "Open URL in browser")
+        async def open_url(
+            ctx: MCPContext,
+            url: str,
+        ) -> dict:
+            """Open URL in the system default browser.
+
+            Effect: NONDETERMINISTIC_EFFECT
+            """
+            import platform
+            import subprocess
+
+            system = platform.system().lower()
+            if system == "darwin":
+                cmd = ["open", url]
+            elif system == "linux":
+                cmd = ["xdg-open", url]
+            elif system == "windows":
+                cmd = ["start", url]
+            else:
+                cmd = ["xdg-open", url]
+
+            proc = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            await proc.communicate()
+
+            return {"url": url, "opened": True}
+
 
 # Singleton
 fetch_tool = FetchTool
