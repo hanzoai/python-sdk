@@ -66,6 +66,16 @@ Action = Annotated[
         "summarize",  # Summarize and store
         "kb",  # Manage knowledge bases
         "list",  # List memories/knowledge bases
+        "search",  # Search memories (alias for recall)
+        "stats",  # Memory statistics
+        "clear",  # Clear all memories
+        "export",  # Export memories as JSON
+        "import",  # Import memories from JSON
+        "merge",  # Merge duplicate memories
+        "tag",  # Add tags to memory
+        "untag",  # Remove tags from memory
+        "namespaces",  # List namespaces/scopes
+        "history",  # Memory change history
     ],
     Field(description="Memory action to perform"),
 ]
@@ -187,8 +197,30 @@ Examples:
                 return await self._manage_kb(kb_action or "list", name)
             elif action == "list":
                 return await self._list(list_type, scope, limit)
+            elif action == "search":
+                return await self._recall(
+                    queries or ([query] if query else []), scope, limit, backend
+                )
+            elif action == "stats":
+                return await self._stats(scope)
+            elif action == "clear":
+                return await self._clear(scope)
+            elif action == "export":
+                return await self._export(scope, limit)
+            elif action == "import":
+                return await self._import(content)
+            elif action == "merge":
+                return await self._merge(ids or [])
+            elif action == "tag":
+                return await self._tag(id, tags or [])
+            elif action == "untag":
+                return await self._untag(id, tags or [])
+            elif action == "namespaces":
+                return await self._namespaces()
+            elif action == "history":
+                return await self._history(id, limit)
             else:
-                return f"Unknown action: {action}. Use: recall, create, update, delete, manage, facts, store, summarize, kb, list"
+                return f"Unknown action: {action}. Use: recall, create, update, delete, manage, facts, store, summarize, kb, list, search, stats, clear, export, import, merge, tag, untag, namespaces, history"
 
         except ImportError as e:
             return f"Memory service not available: {e}"
@@ -516,6 +548,139 @@ Examples:
         for mem in memories[:limit]:
             lines.append(f"  [{mem.memory_id[:8]}] {mem.content[:60]}...")
         return "\n".join(lines)
+
+    async def _stats(self, scope: str) -> str:
+        """Get memory statistics."""
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        file_count = len(backend._file_memories)
+        session_count = len(backend._session_memories)
+        total = file_count + session_count
+        return f"Memory stats:\n  Total: {total}\n  File-backed: {file_count}\n  Session: {session_count}\n  Scope: {scope}"
+
+    async def _clear(self, scope: str) -> str:
+        """Clear all memories in scope."""
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        if scope == "session":
+            count = len(backend._session_memories)
+            backend._session_memories.clear()
+            return f"Cleared {count} session memories"
+        return "Clear only supported for session scope. File-backed memories must be deleted individually."
+
+    async def _export(self, scope: str, limit: int) -> str:
+        """Export memories as JSON."""
+        import json as json_mod
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        memories = list(backend._file_memories) + list(backend._session_memories)
+        items = []
+        for mem in memories[:limit]:
+            items.append({
+                "id": mem.memory_id,
+                "content": mem.content,
+                "scope": getattr(mem, "scope", "global"),
+                "source": getattr(mem, "source", "local"),
+            })
+        return json_mod.dumps({"memories": items, "count": len(items)}, indent=2, default=str)
+
+    async def _import(self, content: Optional[str]) -> str:
+        """Import memories from JSON."""
+        import json as json_mod
+        if not content:
+            return "Error: content (JSON) required for import"
+        try:
+            data = json_mod.loads(content)
+            items = data if isinstance(data, list) else data.get("memories", [])
+            from hanzo_tools.memory.markdown_memory import get_markdown_backend
+            backend = get_markdown_backend()
+            count = 0
+            for item in items:
+                if isinstance(item, dict) and "content" in item:
+                    backend.add_memory(content=item["content"], scope=item.get("scope", "session"))
+                    count += 1
+            return f"Imported {count} memories"
+        except Exception as e:
+            return f"Import error: {e}"
+
+    async def _merge(self, ids: List[str]) -> str:
+        """Merge duplicate memories."""
+        if len(ids) < 2:
+            return "Error: at least 2 IDs required for merge"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        contents = []
+        for mid in ids:
+            for mem in list(backend._file_memories) + list(backend._session_memories):
+                if mem.memory_id == mid or mem.memory_id.startswith(mid):
+                    contents.append(mem.content)
+                    break
+        if len(contents) < 2:
+            return "Error: could not find enough memories to merge"
+        merged = "\n---\n".join(contents)
+        mem = backend.add_memory(content=f"[Merged] {merged}", scope="session")
+        # Delete originals
+        for mid in ids:
+            backend.delete_memory(mid)
+        return f"Merged {len(ids)} memories into {mem.memory_id}"
+
+    async def _tag(self, id: Optional[str], tags: List[str]) -> str:
+        """Add tags to a memory."""
+        if not id:
+            return "Error: id required for tag"
+        if not tags:
+            return "Error: tags list required"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        for mem in list(backend._file_memories) + list(backend._session_memories):
+            if mem.memory_id == id or mem.memory_id.startswith(id):
+                existing = getattr(mem, 'tags', []) or []
+                mem.tags = list(set(existing + tags))
+                return f"Tagged {id}: {mem.tags}"
+        return f"Memory {id} not found"
+
+    async def _untag(self, id: Optional[str], tags: List[str]) -> str:
+        """Remove tags from a memory."""
+        if not id:
+            return "Error: id required for untag"
+        if not tags:
+            return "Error: tags list required"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        for mem in list(backend._file_memories) + list(backend._session_memories):
+            if mem.memory_id == id or mem.memory_id.startswith(id):
+                existing = getattr(mem, 'tags', []) or []
+                mem.tags = [t for t in existing if t not in tags]
+                return f"Untagged {id}: removed {tags}"
+        return f"Memory {id} not found"
+
+    async def _namespaces(self) -> str:
+        """List available namespaces/scopes."""
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        scopes = set()
+        for mem in list(backend._file_memories) + list(backend._session_memories):
+            scopes.add(getattr(mem, 'scope', 'global'))
+        return f"Namespaces: {', '.join(sorted(scopes)) or 'none'}"
+
+    async def _history(self, id: Optional[str], limit: int) -> str:
+        """Get memory change history (limited - returns current state)."""
+        if not id:
+            return "Error: id required for history"
+        from hanzo_tools.memory.markdown_memory import get_markdown_backend
+        backend = get_markdown_backend()
+        backend._ensure_loaded()
+        for mem in list(backend._file_memories) + list(backend._session_memories):
+            if mem.memory_id == id or mem.memory_id.startswith(id):
+                return f"Memory {id}:\n  Content: {mem.content[:200]}\n  Created: {getattr(mem, 'created_at', 'unknown')}\n  (Full history tracking requires cloud backend)"
+        return f"Memory {id} not found"
 
     def register(self, mcp_server: FastMCP) -> None:
         """Register with MCP server."""

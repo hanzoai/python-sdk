@@ -640,5 +640,178 @@ All operations are PURE - safe to cache and parallelize.
                 "next_actions": next_actions,
             }
 
+        # ── TS-parity actions ──────────────────────────────────────────
+
+        @self.action("search_symbol", "Find symbols across project")
+        async def search_symbol(
+            ctx: MCPContext,
+            query: str,
+            path: str | None = None,
+            max_results: int = 20,
+        ) -> dict:
+            import re
+            search_dir = Path(path) if path else Path(self.cwd)
+            results = []
+            skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+            for p in search_dir.rglob("*"):
+                if len(results) >= max_results:
+                    break
+                if any(sd in p.parts for sd in skip_dirs) or not p.is_file() or p.suffix not in LANG_MAP:
+                    continue
+                try:
+                    text = p.read_text(errors="ignore")
+                    for i, line in enumerate(text.splitlines(), 1):
+                        if query in line and re.search(r'\b(def|class|function|fn|struct|enum|interface|type|const|let|var|pub)\b', line):
+                            results.append({"uri": str(p), "line": i, "text": line.strip(), "type": "definition"})
+                            if len(results) >= max_results:
+                                break
+                except (OSError, UnicodeDecodeError):
+                    continue
+            return {"query": query, "results": results, "count": len(results)}
+
+        @self.action("outline", "List symbols with import count and export flag")
+        async def outline(ctx: MCPContext, path: str, text: str | None = None) -> dict:
+            import re
+            full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            if text is None:
+                if not full_path.exists():
+                    raise NotFoundError(f"File not found: {path}")
+                text = full_path.read_text()
+            lines = text.splitlines()
+            syms = []
+            imports = 0
+            sym_re = re.compile(r'(?:export\s+)?(?:async\s+)?(?:function|class|interface|type|enum|const|let|var|def|fn|pub\s+fn|pub\s+struct|struct|impl)\s+(\w+)')
+            imp_re = re.compile(r'^(?:import|from|require|use)\b')
+            for i, line in enumerate(lines, 1):
+                if imp_re.match(line.strip()):
+                    imports += 1
+                m = sym_re.search(line)
+                if m:
+                    kind_m = re.search(r'\b(class|interface|type|enum|function|const|struct|impl|fn|def)\b', line)
+                    syms.append({"name": m.group(1), "kind": kind_m.group(1) if kind_m else "symbol", "line": i, "exported": line.strip().startswith(("export ", "pub "))})
+            return {"uri": str(full_path), "symbols": syms, "imports": imports, "lines": len(lines)}
+
+        @self.action("metrics", "Count files and lines by extension")
+        async def metrics(ctx: MCPContext, path: str | None = None) -> dict:
+            search_dir = Path(path) if path else Path(self.cwd)
+            skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+            by_ext: dict[str, dict[str, int]] = {}
+            total_files = 0
+            total_lines = 0
+            for p in search_dir.rglob("*"):
+                if any(sd in p.parts for sd in skip_dirs) or not p.is_file():
+                    continue
+                ext = p.suffix or "other"
+                try:
+                    lines = len(p.read_text(errors="ignore").splitlines())
+                    if ext not in by_ext:
+                        by_ext[ext] = {"files": 0, "lines": 0}
+                    by_ext[ext]["files"] += 1
+                    by_ext[ext]["lines"] += lines
+                    total_files += 1
+                    total_lines += lines
+                except (OSError, UnicodeDecodeError):
+                    continue
+            return {"total_files": total_files, "total_lines": total_lines, "by_extension": by_ext}
+
+        @self.action("exports", "Extract public exports from file")
+        async def exports(ctx: MCPContext, path: str) -> dict:
+            full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            if not full_path.exists():
+                raise NotFoundError(f"File not found: {path}")
+            text = full_path.read_text()
+            export_lines = [l.strip() for l in text.splitlines() if l.strip().startswith(("export ", "pub ", "__all__"))]
+            return {"uri": str(full_path), "exports": export_lines, "count": len(export_lines)}
+
+        @self.action("types", "Find type definitions in file")
+        async def types(ctx: MCPContext, path: str) -> dict:
+            import re
+            full_path = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+            if not full_path.exists():
+                raise NotFoundError(f"File not found: {path}")
+            text = full_path.read_text()
+            type_defs = []
+            type_re = re.compile(r'(?:interface|type|enum|struct|class)\s+(\w+)')
+            for i, line in enumerate(text.splitlines(), 1):
+                m = type_re.search(line)
+                if m:
+                    type_defs.append({"name": m.group(1), "line": i, "text": line.strip()})
+            return {"uri": str(full_path), "types": type_defs, "count": len(type_defs)}
+
+        @self.action("hierarchy", "Build class inheritance tree")
+        async def hierarchy(ctx: MCPContext, query: str, path: str | None = None) -> dict:
+            import re
+            search_dir = Path(path) if path else Path(self.cwd)
+            skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+            classes: dict[str, list[str]] = {}
+            class_re = re.compile(r'class\s+(\w+)(?:\s*\(([^)]+)\)|\s+extends\s+(\w+))?')
+            for p in search_dir.rglob("*"):
+                if any(sd in p.parts for sd in skip_dirs) or not p.is_file() or p.suffix not in LANG_MAP:
+                    continue
+                try:
+                    for m in class_re.finditer(p.read_text(errors="ignore")):
+                        name = m.group(1)
+                        parent = m.group(3) or (m.group(2).split(",")[0].strip() if m.group(2) else None)
+                        if name not in classes:
+                            classes[name] = []
+                        if parent and parent not in ("object", "Object"):
+                            classes.setdefault(parent, []).append(name)
+                except (OSError, UnicodeDecodeError):
+                    continue
+            def build(n: str, d: int = 0) -> str:
+                out = "  " * d + n + "\n"
+                for c in classes.get(n, []):
+                    out += build(c, d + 1)
+                return out
+            return {"root": query, "tree": build(query), "children": classes.get(query, [])}
+
+        @self.action("rename", "Rename symbol across files")
+        async def rename(ctx: MCPContext, query: str, new_name: str, path: str | None = None) -> dict:
+            import re
+            search_dir = Path(path) if path else Path(self.cwd)
+            skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+            total_changes = 0
+            changed = []
+            word_re = re.compile(rf'\b{re.escape(query)}\b')
+            for p in search_dir.rglob("*"):
+                if any(sd in p.parts for sd in skip_dirs) or not p.is_file() or p.suffix not in LANG_MAP:
+                    continue
+                try:
+                    text = p.read_text(errors="ignore")
+                    if word_re.search(text):
+                        count = len(word_re.findall(text))
+                        p.write_text(word_re.sub(new_name, text))
+                        total_changes += count
+                        changed.append(f"{p}: {count} replacements")
+                except (OSError, UnicodeDecodeError):
+                    continue
+            return {"old_name": query, "new_name": new_name, "files_changed": len(changed), "total_replacements": total_changes, "changed": changed}
+
+        @self.action("grep_replace", "Pattern replacement across codebase")
+        async def grep_replace(ctx: MCPContext, query: str, replacement: str, path: str | None = None) -> dict:
+            import re as re_mod
+            search_dir = Path(path) if path else Path(self.cwd)
+            skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+            total_changes = 0
+            changed = []
+            try:
+                regex = re_mod.compile(query)
+            except re_mod.error as e:
+                raise InvalidParamsError(f"Invalid regex: {e}", param="query")
+            for p in search_dir.rglob("*"):
+                if any(sd in p.parts for sd in skip_dirs) or not p.is_file() or p.suffix not in LANG_MAP:
+                    continue
+                try:
+                    text = p.read_text(errors="ignore")
+                    if regex.search(text):
+                        count = len(regex.findall(text))
+                        p.write_text(regex.sub(replacement, text))
+                        total_changes += count
+                        changed.append(f"{p}: {count}")
+                except (OSError, UnicodeDecodeError):
+                    continue
+            return {"pattern": query, "replacement": replacement, "files_changed": len(changed), "total_replacements": total_changes, "changed": changed}
+
+
 # Singleton instance
 code_tool = CodeTool
