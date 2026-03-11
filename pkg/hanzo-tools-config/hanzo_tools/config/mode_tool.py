@@ -24,14 +24,17 @@ class ModeTool(BaseTool):
     @override
     def description(self) -> str:
         """Get the tool description."""
-        return """Manage development modes (programmer personalities). Actions: list (default), activate, show, current.
+        return """Manage development modes (programmer personalities). Actions: list (default), activate, switch, show, current, list_presets, select_preset.
 
 Usage:
 mode
 mode --action list
 mode --action activate guido
+mode --action switch guido
 mode --action show linus
-mode --action current"""
+mode --action current
+mode --action list_presets
+mode --action select_preset --name fullstack"""
 
     @override
     async def run(
@@ -198,7 +201,7 @@ mode --action current"""
 
             return "\n".join(output)
 
-        elif action == "activate":
+        elif action in ("activate", "switch"):
             if not name:
                 return "Error: Mode name required for activate action"
 
@@ -304,8 +307,40 @@ mode --action current"""
 
             return "\n".join(output)
 
+        elif action == "list_presets":
+            modes = ModeRegistry.list()
+            presets = [m for m in modes if m.name in [
+                "fullstack", "minimal", "data_scientist", "devops",
+                "security", "academic", "startup", "enterprise",
+                "creative", "hanzo",
+            ]]
+            if not presets:
+                return "No presets available"
+            output = ["Available presets:"]
+            for p in presets:
+                output.append(f"  {p.name}: {p.programmer} - {p.description}")
+            return "\n".join(output)
+
+        elif action == "select_preset":
+            if not name:
+                return "Error: Preset name required"
+            # select_preset is same as activate but only for preset modes
+            preset_names = [
+                "fullstack", "minimal", "data_scientist", "devops",
+                "security", "academic", "startup", "enterprise",
+                "creative", "hanzo",
+            ]
+            if name not in preset_names:
+                return f"Error: '{name}' is not a preset. Use list_presets to see available presets."
+            try:
+                ModeRegistry.set_active(name)
+                mode = ModeRegistry.get(name)
+                return f"Selected preset: {mode.name} ({mode.programmer})"
+            except ValueError as e:
+                return str(e)
+
         else:
-            return f"Unknown action: {action}. Use 'list', 'activate', 'show', or 'current'"
+            return f"Unknown action: {action}. Use 'list', 'activate', 'switch', 'show', 'current', 'list_presets', or 'select_preset'"
 
     def register(self, server: FastMCP) -> None:
         """Register the tool with the MCP server."""
