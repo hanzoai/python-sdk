@@ -332,6 +332,78 @@ class HanzoMCPServer:
             # Ignore cleanup errors during shutdown
             pass
 
+    def _start_zap_server(self) -> None:
+        """Start ZAP server in a background thread for browser extension discovery."""
+        if os.environ.get("HANZO_NO_ZAP"):
+            return
+
+        try:
+            from hanzo_mcp.zap_server import ZapServer
+        except ImportError:
+            return
+
+        # Collect tool manifest from registered MCP tools
+        tool_list: list[dict] = []
+        try:
+            # FastMCP stores tools internally — extract names and schemas
+            for name, tool in getattr(self.mcp, "_tool_manager", {}).items():
+                tool_list.append({
+                    "name": name,
+                    "description": getattr(tool, "description", ""),
+                    "inputSchema": getattr(tool, "parameters", {}),
+                })
+        except Exception:
+            pass
+
+        if not tool_list:
+            # Fallback: try listing via the tool registry
+            try:
+                tools = self.mcp.list_tools()
+                for t in tools:
+                    tool_list.append({
+                        "name": t.name,
+                        "description": t.description or "",
+                        "inputSchema": getattr(t, "inputSchema", {}),
+                    })
+            except Exception:
+                pass
+
+        async def call_tool(name: str, args: dict) -> any:
+            """Route ZAP tool calls to the MCP server."""
+            try:
+                result = await self.mcp.call_tool(name, args)
+                return result
+            except Exception as e:
+                return {"error": str(e)}
+
+        def _run_zap_loop():
+            import asyncio as _asyncio
+
+            loop = _asyncio.new_event_loop()
+            _asyncio.set_event_loop(loop)
+            try:
+                from hanzo_mcp.zap_server import start_zap_server
+
+                server = loop.run_until_complete(
+                    start_zap_server(
+                        tools=tool_list,
+                        call_tool=call_tool,
+                        name=self.mcp.name if hasattr(self.mcp, "name") else "hanzo-mcp",
+                    )
+                )
+                if server:
+                    self._zap_server = server
+                    loop.run_forever()
+            except Exception as e:
+                log = logging.getLogger(__name__)
+                log.debug(f"[ZAP] Failed to start: {e}")
+            finally:
+                loop.close()
+
+        self._zap_server = None
+        zap_thread = threading.Thread(target=_run_zap_loop, daemon=True)
+        zap_thread.start()
+
     def run(self, transport: str = "stdio", allowed_paths: list[str] | None = None):
         """Run the MCP server.
 
@@ -362,6 +434,9 @@ class HanzoMCPServer:
 
         # Set up cleanup handlers before running
         self._setup_cleanup_handlers()
+
+        # Start ZAP server for browser extension discovery (background thread)
+        self._start_zap_server()
 
         # Run the server
         transport_type = cast(Literal["stdio", "sse"], transport)
