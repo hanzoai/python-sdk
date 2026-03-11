@@ -111,16 +111,22 @@ class ZapClient:
 
 
 class ZapServer:
-    """ZAP WebSocket server for browser extension discovery."""
+    """ZAP WebSocket server for browser extension discovery.
+
+    Provides full MCP protocol parity — any MCP method (tools/*, resources/*, prompts/*)
+    can be called over the ZAP binary transport via the handle_method pass-through.
+    """
 
     def __init__(
         self,
         tools: list[dict[str, Any]],
         call_tool: Callable[[str, dict[str, Any]], Awaitable[Any]],
+        handle_method: Callable[[str, Any], Awaitable[Any]] | None = None,
         name: str = "hanzo-mcp",
     ):
         self.tools = tools
         self.call_tool = call_tool
+        self.handle_method = handle_method
         self.name = name
         self.server_id = f"mcp-{int(time.time()):x}"
         self.clients: dict[Any, ZapClient] = {}
@@ -206,11 +212,17 @@ class ZapServer:
                     raise ValueError("Missing tool name")
                 result = await self.call_tool(tool_name, args)
 
-            elif method == "notifications/elementSelected":
+            elif method.startswith("notifications/"):
+                # Client→server notifications (fire-and-forget)
                 result = {"acknowledged": True}
 
             else:
-                raise ValueError(f"Unknown method: {method}")
+                # Pass-through to MCP server for full protocol parity
+                # (resources/list, resources/read, prompts/list, prompts/get, etc.)
+                if self.handle_method:
+                    result = await self.handle_method(method, params)
+                else:
+                    raise ValueError(f"Unsupported method: {method}")
 
             await websocket.send(encode(MSG_RESPONSE, {"id": req_id, "result": result}))
 
@@ -280,6 +292,7 @@ class ZapServer:
 async def start_zap_server(
     tools: list[dict[str, Any]],
     call_tool: Callable[[str, dict[str, Any]], Awaitable[Any]],
+    handle_method: Callable[[str, Any], Awaitable[Any]] | None = None,
     name: str = "hanzo-mcp",
     preferred_port: int | None = None,
 ) -> ZapServer | None:
@@ -288,12 +301,13 @@ async def start_zap_server(
     Args:
         tools: List of tool dicts with name, description, inputSchema.
         call_tool: Async callable (name, args) -> result to route tool calls.
+        handle_method: Optional async callable (method, params) -> result for full MCP parity.
         name: Server name for handshake.
         preferred_port: Preferred port to try first.
 
     Returns:
         ZapServer instance if started, None otherwise.
     """
-    server = ZapServer(tools=tools, call_tool=call_tool, name=name)
+    server = ZapServer(tools=tools, call_tool=call_tool, handle_method=handle_method, name=name)
     ok = await server.start(preferred_port=preferred_port)
     return server if ok else None
