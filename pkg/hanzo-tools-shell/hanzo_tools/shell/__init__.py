@@ -176,7 +176,8 @@ def _get_detected_shell_tools() -> list:
     shell_tool_class = get_shell_tool_class(shell_name)
 
     # Base tools (always included) - no cmd, just the detected shell
-    tools = [PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
+    # ExecTool = HIP-0300 unified exec tool (action-routed: exec, ps, kill, logs)
+    tools = [ExecTool, PsTool, NpxTool, UvxTool, OpenTool, CurlTool, JqTool, WgetTool]
 
     # Add detected shell tool, or fall back to ShellTool (smart auto-detect)
     if shell_tool_class:

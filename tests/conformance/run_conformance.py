@@ -94,12 +94,16 @@ def resolve_tool_call(
     category: str,
     action: str,
     params: dict[str, Any],
+    tool_schemas: dict[str, dict] | None = None,
 ) -> tuple[str, dict[str, Any]] | None:
     """Resolve a logical test action to the correct tool name + args for an implementation.
 
     Returns (tool_name, arguments) or None if the tool isn't available.
     """
-    # Unified names (TS default, Python future)
+    tool_schemas = tool_schemas or {}
+    # Unified names (TS default, Python HIP-0300)
+    # Note: Python's BaseTool-derived tools (fs, git, code, fetch) require a `kwargs` wrapper
+    # while think/memory/tasks/browser use flat params. We detect which format via tool_names.
     unified_map: dict[tuple[str, str], tuple[str, dict]] = {
         ("filesystem", "read"):      ("fs", {"action": "read", **params}),
         ("filesystem", "write"):     ("fs", {"action": "write", **params}),
@@ -119,13 +123,35 @@ def resolve_tool_call(
         ("network", "fetch"):        ("fetch", {"action": "fetch", **params}),
         ("network", "head"):         ("fetch", {"action": "head", **params}),
         ("reasoning", "think"):      ("think", {"action": "think", **params}),
+        ("browser", "status"):       ("browser", {"action": "status"}),
         ("memory", "store"):         ("memory", {"action": "store", **params}),
         ("memory", "recall"):        ("memory", {"action": "recall", **params}),
-        ("memory", "list"):          ("memory", {"action": "list", **params}),
-        ("memory", "forget"):        ("memory", {"action": "forget", **params}),
+        ("memory", "delete"):        ("memory", {"action": "delete", **params}),
         ("tasks", "add"):            ("tasks", {"action": "add", **params}),
         ("tasks", "list"):           ("tasks", {"action": "list", **params}),
         ("mode", "list"):            ("mode", {"action": "list"}),
+    }
+
+    # Python's HIP-0300 BaseTool uses kwargs wrapper for fs/git/code/fetch/exec
+    # These tools require: {"action": "...", "kwargs": {...params}}
+    py_kwargs_map: dict[tuple[str, str], tuple[str, dict]] = {
+        ("filesystem", "read"):      ("fs", {"action": "read", "kwargs": params}),
+        ("filesystem", "write"):     ("fs", {"action": "write", "kwargs": params}),
+        ("filesystem", "stat"):      ("fs", {"action": "stat", "kwargs": params}),
+        ("filesystem", "list"):      ("fs", {"action": "list", "kwargs": params}),
+        ("filesystem", "search"):    ("fs", {"action": "search_text", "kwargs": params}),
+        ("filesystem", "mkdir"):     ("fs", {"action": "mkdir", "kwargs": params}),
+        ("filesystem", "rm"):        ("fs", {"action": "rm", "kwargs": params}),
+        ("shell", "exec"):           ("exec", {"action": "exec", "kwargs": params}),
+        ("shell", "ps"):             ("exec", {"action": "ps", "kwargs": {}}),
+        ("vcs", "status"):           ("git", {"action": "status", "kwargs": params}),
+        ("vcs", "branch"):           ("git", {"action": "branch", "kwargs": params}),
+        ("vcs", "log"):              ("git", {"action": "log", "kwargs": params}),
+        ("vcs", "diff"):             ("git", {"action": "diff", "kwargs": params}),
+        ("code", "symbols"):         ("code", {"action": "symbols", "kwargs": params}),
+        ("code", "summarize"):       ("code", {"action": "summarize", "kwargs": params}),
+        ("network", "fetch"):        ("fetch", {"action": "fetch", "kwargs": params}),
+        ("network", "head"):         ("fetch", {"action": "head", "kwargs": params}),
     }
 
     # Legacy names (Python current)
@@ -143,12 +169,24 @@ def resolve_tool_call(
         ("vcs", "branch"):           ("run_command", {"command": "git branch"}),
         ("vcs", "log"):              ("run_command", {"command": f"git log --oneline -n {params.get('limit', 5)}"}),
         ("vcs", "diff"):             ("run_command", {"command": "git diff"}),
-        ("reasoning", "think"):      ("critic_agent", params),
+        ("reasoning", "think"):      ("critic", {"analysis": params.get("thought", params.get("analysis", ""))}),
+        ("browser", "status"):       ("browser", {"action": "status"}),
     }
 
     key = (category, action)
 
-    # Try unified name first
+    # Check if tool uses kwargs wrapper (Python BaseTool pattern)
+    def _needs_kwargs(tool_name: str) -> bool:
+        schema = tool_schemas.get(tool_name, {})
+        return "kwargs" in schema.get("required", []) or "kwargs" in schema.get("properties", {})
+
+    # Try kwargs-wrapped unified names (Python BaseTool pattern)
+    if key in py_kwargs_map:
+        tool, args = py_kwargs_map[key]
+        if tool in tool_names and _needs_kwargs(tool):
+            return tool, args
+
+    # Try flat unified names (TS pattern)
     if key in unified_map:
         tool, args = unified_map[key]
         if tool in tool_names:
@@ -342,11 +380,92 @@ def build_test_cases() -> list[TestCase]:
         ),
     ])
 
+    # ── Code ──────────────────────────────────────────────────────────────
+    code_file = tmp / "sample.py"
+    def setup_code():
+        tmp.mkdir(parents=True, exist_ok=True)
+        code_file.write_text('def greet(name):\n    return f"hello {name}"\n\nclass Greeter:\n    pass\n')
+
+    cases.extend([
+        TestCase(
+            category="code", action="symbols", name="code.symbols lists symbols",
+            params={"path": str(code_file)},
+            expect_pattern="(?i)greet|hello|Greeter|function|class|def",
+            setup=setup_code,
+        ),
+        TestCase(
+            category="code", action="summarize", name="code.summarize diff text",
+            params={"text": "--- a/foo.py\n+++ b/foo.py\n@@ -1 +1 @@\n-old\n+new\n"},
+        ),
+    ])
+
+    # ── Network / Fetch ───────────────────────────────────────────────────
+    cases.extend([
+        TestCase(
+            category="network", action="fetch", name="fetch.fetch retrieves URL",
+            params={"url": "https://httpbin.org/get"},
+            expect_pattern="(?i)origin|headers|url",
+        ),
+        TestCase(
+            category="network", action="head", name="fetch.head gets headers",
+            params={"url": "https://httpbin.org/get"},
+            expect_pattern="(?i)content-type|200|headers|status",
+        ),
+    ])
+
     # ── Reasoning ─────────────────────────────────────────────────────────
     cases.append(
         TestCase(
             category="reasoning", action="think", name="think accepts thought",
             params={"action": "think", "thought": "Testing conformance across implementations."},
+        ),
+    )
+
+    # ── Browser (non-browser-requiring tests) ─────────────────────────────
+    cases.extend([
+        TestCase(
+            category="browser", action="status", name="browser status check",
+            params={"action": "status"},
+        ),
+    ])
+
+    # ── Memory ────────────────────────────────────────────────────────────
+    # TS memory uses: key/value. Python memory uses: fact/query.
+    cases.extend([
+        TestCase(
+            category="memory", action="store", name="memory store",
+            params={"key": "conformance-test", "value": "HIP-0300 value", "fact": "conformance-test: HIP-0300 value"},
+            expect_pattern="(?i)stored|saved|ok|success|written|remembered|added",
+        ),
+        TestCase(
+            category="memory", action="recall", name="memory recall",
+            params={"key": "conformance-test", "query": "conformance-test"},
+            expect_pattern="(?i)HIP-0300|conformance",
+        ),
+        TestCase(
+            category="memory", action="delete", name="memory delete",
+            params={"key": "conformance-test", "query": "conformance-test"},
+        ),
+    ])
+
+    # ── Tasks ─────────────────────────────────────────────────────────────
+    cases.extend([
+        TestCase(
+            category="tasks", action="add", name="tasks add",
+            params={"content": "Conformance test task"},
+            expect_pattern="(?i)added|created|task|ok",
+        ),
+        TestCase(
+            category="tasks", action="list", name="tasks list",
+            params={},
+        ),
+    ])
+
+    # ── Mode ──────────────────────────────────────────────────────────────
+    cases.append(
+        TestCase(
+            category="mode", action="list", name="mode.list shows modes",
+            params={},
         ),
     )
 
@@ -416,6 +535,7 @@ async def run_tests(
 
             tools = await client.list_tools()
             tool_names = set(t["name"] for t in tools)
+            tool_schemas = {t["name"]: t.get("inputSchema", {}) for t in tools}
             print(f"  Tools registered: {len(tools)}")
 
             if verbose:
@@ -426,7 +546,7 @@ async def run_tests(
                 if categories_filter and tc.category not in categories_filter:
                     continue
 
-                resolved = resolve_tool_call(impl.id, tool_names, tc.category, tc.action, tc.params)
+                resolved = resolve_tool_call(impl.id, tool_names, tc.category, tc.action, tc.params, tool_schemas)
                 if resolved is None:
                     print(f"  SKIP {tc.name} (no matching tool for {tc.category}.{tc.action})")
                     results.append(TestResult(

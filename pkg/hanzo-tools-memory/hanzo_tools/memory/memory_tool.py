@@ -374,7 +374,7 @@ Examples:
     async def _facts_lookup(
         self, queries: List[str], kb: Optional[str], limit: int
     ) -> str:
-        """Search knowledge bases."""
+        """Search knowledge bases (falls back to local markdown)."""
         if not queries:
             return "Error: query required for facts"
 
@@ -397,7 +397,20 @@ Examples:
             return "\n".join(lines)
 
         except ImportError:
-            return "Knowledge service not available"
+            # Fall back to local markdown backend
+            from hanzo_tools.memory.markdown_memory import get_markdown_backend
+
+            backend = get_markdown_backend()
+            results = backend.search_memories(
+                queries=queries, limit=limit, scope="project"
+            )
+            if not results:
+                return "No facts found."
+
+            lines = [f"Found {len(results)} facts:"]
+            for mem in results[:limit]:
+                lines.append(f"  • {mem.content[:100]}...")
+            return "\n".join(lines)
 
     async def _facts_store(
         self,
@@ -405,7 +418,7 @@ Examples:
         kb: Optional[str],
         metadata: Optional[Dict],
     ) -> str:
-        """Store facts in knowledge base."""
+        """Store facts in knowledge base (falls back to local markdown)."""
         if not facts:
             return "Error: fact or facts required"
 
@@ -426,7 +439,15 @@ Examples:
             return f"Stored {len(stored)} facts in '{kb or 'default'}'"
 
         except ImportError:
-            return "Knowledge service not available"
+            # Fall back to local markdown backend
+            from hanzo_tools.memory.markdown_memory import get_markdown_backend
+
+            backend = get_markdown_backend()
+            stored = []
+            for fact in facts:
+                mem = backend.add_memory(content=fact, scope="session")
+                stored.append(mem.memory_id)
+            return f"Stored {len(stored)} fact(s) locally"
 
     async def _summarize(
         self,
