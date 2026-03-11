@@ -391,6 +391,49 @@ class HanzoMCPServer:
             except Exception as e:
                 return {"error": str(e)}
 
+        async def handle_method(method: str, params: any) -> any:
+            """Pass-through for ALL MCP methods — full protocol parity over ZAP.
+
+            Routes resources/*, prompts/*, and any other MCP method to the
+            underlying FastMCP server, so ZAP clients get the same capabilities
+            as stdio/SSE MCP clients.
+            """
+            # resources/list
+            if method == "resources/list":
+                try:
+                    resources = self.mcp.list_resources()
+                    return {"resources": [{"uri": r.uri, "name": r.name, "mimeType": getattr(r, "mimeType", "text/plain")} for r in resources]}
+                except Exception:
+                    return {"resources": []}
+
+            # resources/read
+            if method == "resources/read":
+                uri = (params or {}).get("uri", "")
+                try:
+                    content = await self.mcp.read_resource(uri)
+                    return {"contents": [{"uri": uri, "mimeType": "text/plain", "text": str(content)}]}
+                except Exception as e:
+                    return {"contents": [{"uri": uri, "mimeType": "text/plain", "text": f"Error: {e}"}]}
+
+            # prompts/list
+            if method == "prompts/list":
+                try:
+                    prompts = self.mcp.list_prompts()
+                    return {"prompts": [{"name": p.name, "description": getattr(p, "description", "")} for p in prompts]}
+                except Exception:
+                    return {"prompts": []}
+
+            # prompts/get
+            if method == "prompts/get":
+                name = (params or {}).get("name", "")
+                try:
+                    prompt = await self.mcp.get_prompt(name, params.get("arguments", {}))
+                    return prompt
+                except Exception as e:
+                    raise ValueError(f"Prompt error: {e}")
+
+            raise ValueError(f"Unsupported method: {method}")
+
         def _run_zap_loop():
             import asyncio as _asyncio
 
@@ -403,6 +446,7 @@ class HanzoMCPServer:
                     start_zap_server(
                         tools=tool_list,
                         call_tool=call_tool,
+                        handle_method=handle_method,
                         name=self.mcp.name if hasattr(self.mcp, "name") else "hanzo-mcp",
                     )
                 )
