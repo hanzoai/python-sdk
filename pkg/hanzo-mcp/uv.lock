@@ -1250,14 +1250,15 @@ wheels = [
 
 [[package]]
 name = "hanzo-async"
-version = "0.1.1"
+version = "0.1.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
+    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/be/1b/dcd448eac4461973442bc20dd25189360e85ed7ae1c78fafbfce6d88ffc2/hanzo_async-0.1.1.tar.gz", hash = "sha256:05d41974823d27d3557db791705095a49f1cefc901c6ec686120bb9bbd85f0ee", size = 8619, upload-time = "2026-01-05T01:19:19.37Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/2c/fd628adf5bce8a36559f8b867f35876d3938b9869b9c5e410072f36d09ae/hanzo_async-0.1.3.tar.gz", hash = "sha256:47180370268cd1f3be3f3b8f20f4de38f3123c5031f1dcdba114a610c4fb8840", size = 8634, upload-time = "2026-03-10T04:12:17.093Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/91/70/363dac59048d70653ce0d07ff37d5521f49b5b6ce30d6aba8c31bf31154f/hanzo_async-0.1.1-py3-none-any.whl", hash = "sha256:8f551b7b57e96b4f4c5b7e05d7781eb154a7a788c824c7a36bd69f607532cda2", size = 8649, upload-time = "2026-01-05T01:19:18.268Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/dc/6f30fdefa0ef99b89d8edb7c1af3f1d480d2c4dbaffd705235de1105547d/hanzo_async-0.1.3-py3-none-any.whl", hash = "sha256:1c5b17469b612b9994a04d986295600b8cc7b22ea3e7fc9ff34107a20ba1f0c1", size = 8675, upload-time = "2026-03-10T04:12:15.914Z" },
 ]
 
 [[package]]
@@ -1290,7 +1291,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-mcp"
-version = "0.12.7"
+version = "0.13.1"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
@@ -1302,6 +1303,7 @@ dependencies = [
     { name = "hanzo-tools-auth" },
     { name = "hanzo-tools-billing" },
     { name = "hanzo-tools-browser", extra = ["playwright"] },
+    { name = "hanzo-tools-code" },
     { name = "hanzo-tools-commerce" },
     { name = "hanzo-tools-computer" },
     { name = "hanzo-tools-config" },
@@ -1313,16 +1315,19 @@ dependencies = [
     { name = "hanzo-tools-lsp" },
     { name = "hanzo-tools-memory" },
     { name = "hanzo-tools-mpc" },
+    { name = "hanzo-tools-net" },
     { name = "hanzo-tools-paas" },
     { name = "hanzo-tools-reasoning" },
     { name = "hanzo-tools-refactor" },
     { name = "hanzo-tools-shell" },
     { name = "hanzo-tools-team" },
     { name = "hanzo-tools-todo" },
+    { name = "hanzo-tools-vcs" },
     { name = "mcp" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "typing-extensions" },
+    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
 
 [package.optional-dependencies]
@@ -1362,7 +1367,6 @@ memory = [
 performance = [
     { name = "orjson" },
     { name = "ujson" },
-    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
 publish = [
     { name = "build" },
@@ -1386,7 +1390,7 @@ requires-dist = [
     { name = "build", marker = "extra == 'publish'", specifier = ">=1.0.3" },
     { name = "fastembed", marker = "extra == 'memory'", specifier = ">=0.4.0" },
     { name = "fastmcp", specifier = ">=2.14.4" },
-    { name = "hanzo-async", specifier = ">=0.1.0" },
+    { name = "hanzo-async", specifier = ">=0.1.3" },
     { name = "hanzo-mcp", extras = ["repl", "ide"], marker = "extra == 'interactive'" },
     { name = "hanzo-persona", specifier = ">=1.0.0" },
     { name = "hanzo-tools", specifier = ">=0.3.0" },
@@ -1395,7 +1399,8 @@ requires-dist = [
     { name = "hanzo-tools-auth", specifier = ">=0.1.0" },
     { name = "hanzo-tools-billing", specifier = ">=0.1.0" },
     { name = "hanzo-tools-browser", marker = "extra == 'interactive'", specifier = ">=0.2.1" },
-    { name = "hanzo-tools-browser", extras = ["playwright"], specifier = ">=0.4.2" },
+    { name = "hanzo-tools-browser", extras = ["playwright"], specifier = ">=0.4.5" },
+    { name = "hanzo-tools-code", specifier = ">=0.1.0" },
     { name = "hanzo-tools-commerce", specifier = ">=0.1.0" },
     { name = "hanzo-tools-computer", specifier = ">=0.1.0" },
     { name = "hanzo-tools-config", specifier = ">=0.1.0" },
@@ -1409,6 +1414,7 @@ requires-dist = [
     { name = "hanzo-tools-memory", specifier = ">=0.2.0" },
     { name = "hanzo-tools-memory", extras = ["full"], marker = "extra == 'memory'", specifier = ">=0.2.2" },
     { name = "hanzo-tools-mpc", specifier = ">=0.1.0" },
+    { name = "hanzo-tools-net", specifier = ">=0.1.0" },
     { name = "hanzo-tools-paas", specifier = ">=0.1.0" },
     { name = "hanzo-tools-reasoning", specifier = ">=0.1.0" },
     { name = "hanzo-tools-refactor", specifier = ">=0.1.0" },
@@ -1416,6 +1422,7 @@ requires-dist = [
     { name = "hanzo-tools-shell", specifier = ">=0.6.1" },
     { name = "hanzo-tools-team", specifier = ">=0.1.0" },
     { name = "hanzo-tools-todo", specifier = ">=0.1.0" },
+    { name = "hanzo-tools-vcs", specifier = ">=0.1.0" },
     { name = "ipykernel", marker = "extra == 'repl'", specifier = ">=6.29.0" },
     { name = "jupyter-client", marker = "extra == 'repl'", specifier = ">=8.6.0" },
     { name = "mcp", specifier = ">=1.25.0" },
@@ -1441,7 +1448,7 @@ requires-dist = [
     { name = "types-setuptools", marker = "extra == 'dev'", specifier = ">=69.5.0" },
     { name = "typing-extensions", specifier = ">=4.13.0" },
     { name = "ujson", marker = "extra == 'performance'", specifier = ">=5.7.0" },
-    { name = "uvloop", marker = "sys_platform != 'win32' and extra == 'performance'", specifier = ">=0.22.1" },
+    { name = "uvloop", marker = "sys_platform != 'win32'", specifier = ">=0.22.1" },
     { name = "websockets", marker = "extra == 'ide'", specifier = ">=12.0" },
 ]
 provides-extras = ["memory", "repl", "ide", "interactive", "dev", "docs", "test", "performance", "publish"]
@@ -1569,7 +1576,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-tools-browser"
-version = "0.4.2"
+version = "0.4.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -1578,14 +1585,27 @@ dependencies = [
     { name = "pydantic" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/38/04/e61263085bbae5eb880c532b06021bca79b6178640590925167888789fc1/hanzo_tools_browser-0.4.2.tar.gz", hash = "sha256:5806550cb2e43304a4579f5c2e40a55be6eed5c8ed233011965c3762b851f102", size = 29037, upload-time = "2026-03-06T08:55:16.847Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/28/9ff0fb5b2ca66e2d92f1ca8648dd620d78846a5562f771a29b3ad63924b1/hanzo_tools_browser-0.4.5.tar.gz", hash = "sha256:768d8e0a53d5a57b05a65f4994b0ef3778b93dc061b3945575f1f4881eb64279", size = 29440, upload-time = "2026-03-10T17:37:39.185Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/70/5a/ece213056c5eea78e92a7300cabc1237f79c2190a2be7674ca8e543650c8/hanzo_tools_browser-0.4.2-py3-none-any.whl", hash = "sha256:6815312b28d80fd654b31636ede2ece70441a1abdc1154d30de478efc1c480b0", size = 29384, upload-time = "2026-03-06T08:55:15.663Z" },
+    { url = "https://files.pythonhosted.org/packages/4b/4a/f792e0ae823f1e84328db635510790e9272711d513ff1cc4c0eb7033abb0/hanzo_tools_browser-0.4.5-py3-none-any.whl", hash = "sha256:2bf0344bb54301629d542217c949f740afb75f8bb7e891b822bb833f21d1d07b", size = 29862, upload-time = "2026-03-10T17:37:37.262Z" },
 ]
 
 [package.optional-dependencies]
 playwright = [
     { name = "playwright" },
+]
+
+[[package]]
+name = "hanzo-tools-code"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hanzo-tools-core" },
+    { name = "mcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/25/e5/2c9ec04d3e7d8382649dd89d81888cc2fbd3f2b06ad37d47198bae3891af/hanzo_tools_code-0.1.0.tar.gz", hash = "sha256:88e51b7448d556ddb02df5aaca76d61f42730c6567383dc8a6e5f8578684e646", size = 7703, upload-time = "2026-03-10T00:40:52.504Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1c/fc/407d3b57491f7e1349da47ca636d03933448b8983d9ecc71a9c02f13bf7e/hanzo_tools_code-0.1.0-py3-none-any.whl", hash = "sha256:34a2a40f3d23e663c948e4abad307402ec84a5422f3c8a133d0a74366b052d1f", size = 8405, upload-time = "2026-03-10T00:40:51.369Z" },
 ]
 
 [[package]]
@@ -1785,6 +1805,20 @@ wheels = [
 ]
 
 [[package]]
+name = "hanzo-tools-net"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hanzo-tools-core" },
+    { name = "httpx" },
+    { name = "mcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/20/ab/840bb2ac99af207c85fbb7621a91ac9d1b359a3104d5fb8d8faddd1bf3a9/hanzo_tools_net-0.1.0.tar.gz", hash = "sha256:e34aeb74ad5d37a4c2b00bd882f0dfc3f7d38ad8f53883da7981da12c1c17952", size = 6042, upload-time = "2026-03-10T00:40:41.178Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/77/f051ec31c7e96c05ef09a6c215ec0c590755c82228f323e78ccd74be8a65/hanzo_tools_net-0.1.0-py3-none-any.whl", hash = "sha256:714124b149d6c5ebad08875461c5d37a89b6e0f6be618d34cb17f159f68bdc92", size = 6755, upload-time = "2026-03-10T00:40:39.718Z" },
+]
+
+[[package]]
 name = "hanzo-tools-paas"
 version = "0.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1884,6 +1918,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d0/ca/81e888e55326c218863290e9c9b4a52b2f3512aefe2e38e89595f58c45e4/hanzo_tools_todo-0.2.0.tar.gz", hash = "sha256:85cfca809bb12bb9b6f7c913888acc5d6e9d5e1891aac1b26ef7c5679f160d03", size = 7180, upload-time = "2025-12-26T14:46:38.189Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/dc/3a34128bddba3ad5a0bae1824d123d9d64f3aba305d1637a6c89e230dd1b/hanzo_tools_todo-0.2.0-py3-none-any.whl", hash = "sha256:6a6a47decef663f1737cc447454da560212bdc3c4a9b7e331b9961f32f96a572", size = 8086, upload-time = "2025-12-26T14:46:36.459Z" },
+]
+
+[[package]]
+name = "hanzo-tools-vcs"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hanzo-tools-core" },
+    { name = "mcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/41/7d/a1243bb8a18314e42b7e492662de2c9c988eacb8c4955ea400912e36076f/hanzo_tools_vcs-0.1.0.tar.gz", hash = "sha256:adb657fd9eeb496e1131c1f646e4fba458b50886a27d3b5a272dfba76ef38f4b", size = 5241, upload-time = "2026-03-10T00:40:48.704Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cd/42/c029f04ee81c09fe390b47170448b08c563252611a6ab7eff92dd87bd53f/hanzo_tools_vcs-0.1.0-py3-none-any.whl", hash = "sha256:991bda97b058e3fc00fc95bee8140557cc3356f1d007fdd7107478bf2c37e2e0", size = 5904, upload-time = "2026-03-10T00:40:49.835Z" },
 ]
 
 [[package]]
@@ -5523,6 +5570,11 @@ dependencies = [
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d3/54/a2ba279afcca44bbd320d4e73675b282fcee3d81400ea1b53934efca6462/torch-2.10.0-2-cp312-none-macosx_11_0_arm64.whl", hash = "sha256:13ec4add8c3faaed8d13e0574f5cd4a323c11655546f91fbe6afa77b57423574", size = 79498202, upload-time = "2026-02-10T21:44:52.603Z" },
     { url = "https://files.pythonhosted.org/packages/ec/23/2c9fe0c9c27f7f6cb865abcea8a4568f29f00acaeadfc6a37f6801f84cb4/torch-2.10.0-2-cp313-none-macosx_11_0_arm64.whl", hash = "sha256:e521c9f030a3774ed770a9c011751fb47c4d12029a3d6522116e48431f2ff89e", size = 79498254, upload-time = "2026-02-10T21:44:44.095Z" },
+    { url = "https://files.pythonhosted.org/packages/b3/7a/abada41517ce0011775f0f4eacc79659bc9bc6c361e6bfe6f7052a6b9363/torch-2.10.0-3-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:98c01b8bb5e3240426dcde1446eed6f40c778091c8544767ef1168fc663a05a6", size = 915622781, upload-time = "2026-03-11T14:17:11.354Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/c6/4dfe238342ffdcec5aef1c96c457548762d33c40b45a1ab7033bb26d2ff2/torch-2.10.0-3-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:80b1b5bfe38eb0e9f5ff09f206dcac0a87aadd084230d4a36eea5ec5232c115b", size = 915627275, upload-time = "2026-03-11T14:16:11.325Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/f0/72bf18847f58f877a6a8acf60614b14935e2f156d942483af1ffc081aea0/torch-2.10.0-3-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:46b3574d93a2a8134b3f5475cfb98e2eb46771794c57015f6ad1fb795ec25e49", size = 915523474, upload-time = "2026-03-11T14:17:44.422Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/39/590742415c3030551944edc2ddc273ea1fdfe8ffb2780992e824f1ebee98/torch-2.10.0-3-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:b1d5e2aba4eb7f8e87fbe04f86442887f9167a35f092afe4c237dfcaaef6e328", size = 915632474, upload-time = "2026-03-11T14:15:13.666Z" },
+    { url = "https://files.pythonhosted.org/packages/b6/8e/34949484f764dde5b222b7fe3fede43e4a6f0da9d7f8c370bb617d629ee2/torch-2.10.0-3-cp314-cp314t-manylinux_2_28_x86_64.whl", hash = "sha256:0228d20b06701c05a8f978357f657817a4a63984b0c90745def81c18aedfa591", size = 915523882, upload-time = "2026-03-11T14:14:46.311Z" },
     { url = "https://files.pythonhosted.org/packages/cc/af/758e242e9102e9988969b5e621d41f36b8f258bb4a099109b7a4b4b50ea4/torch-2.10.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:5fd4117d89ffd47e3dcc71e71a22efac24828ad781c7e46aaaf56bf7f2796acf", size = 145996088, upload-time = "2026-01-21T16:24:44.171Z" },
     { url = "https://files.pythonhosted.org/packages/23/8e/3c74db5e53bff7ed9e34c8123e6a8bfef718b2450c35eefab85bb4a7e270/torch-2.10.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:787124e7db3b379d4f1ed54dd12ae7c741c16a4d29b49c0226a89bea50923ffb", size = 915711952, upload-time = "2026-01-21T16:23:53.503Z" },
     { url = "https://files.pythonhosted.org/packages/6e/01/624c4324ca01f66ae4c7cd1b74eb16fb52596dce66dbe51eff95ef9e7a4c/torch-2.10.0-cp312-cp312-win_amd64.whl", hash = "sha256:2c66c61f44c5f903046cc696d088e21062644cbe541c7f1c4eaae88b2ad23547", size = 113757972, upload-time = "2026-01-21T16:24:39.516Z" },
