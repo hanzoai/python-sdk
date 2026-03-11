@@ -173,18 +173,30 @@ class HanzoMCPServer:
         except Exception:
             self.mcp._mcp_server.version = "0.12.5"
 
-        # Initialize authentication token
+        # Initialize authentication token — check env, then ~/.hanzo/mcp_token
         self.auth_token = auth_token or os.environ.get("HANZO_MCP_TOKEN")
         if not self.auth_token:
-            # Generate a secure random token if none provided
+            token_path = os.path.expanduser("~/.hanzo/mcp_token")
+            try:
+                if os.path.exists(token_path):
+                    with open(token_path) as f:
+                        self.auth_token = f.read().strip()
+            except OSError:
+                pass
+
+        if not self.auth_token:
+            # Generate and persist to ~/.hanzo/mcp_token
             self.auth_token = secrets.token_urlsafe(32)
+            token_path = os.path.expanduser("~/.hanzo/mcp_token")
+            try:
+                os.makedirs(os.path.dirname(token_path), exist_ok=True)
+                with open(token_path, "w") as f:
+                    f.write(self.auth_token)
+                os.chmod(token_path, 0o600)
+            except OSError:
+                pass
             logger = logging.getLogger(__name__)
-            logger.warning(
-                f"No auth token provided. Generated token: {self.auth_token}"
-            )
-            logger.warning(
-                "Set HANZO_MCP_TOKEN environment variable for persistent auth"
-            )
+            logger.info(f"Auth token persisted to {token_path}")
 
         # Initialize permissions and command executor
         PermissionManager = _get_permission_manager()
@@ -345,13 +357,16 @@ class HanzoMCPServer:
         # Collect tool manifest from registered MCP tools
         tool_list: list[dict] = []
         try:
-            # FastMCP stores tools internally — extract names and schemas
-            for name, tool in getattr(self.mcp, "_tool_manager", {}).items():
-                tool_list.append({
-                    "name": name,
-                    "description": getattr(tool, "description", ""),
-                    "inputSchema": getattr(tool, "parameters", {}),
-                })
+            # FastMCP _tool_manager._tools is a dict[str, Tool]
+            tm = getattr(self.mcp, "_tool_manager", None)
+            if tm is not None:
+                tools_dict = getattr(tm, "_tools", {})
+                for name, tool in tools_dict.items():
+                    tool_list.append({
+                        "name": name,
+                        "description": getattr(tool, "description", ""),
+                        "inputSchema": getattr(tool, "parameters", {}),
+                    })
         except Exception:
             pass
 
@@ -363,7 +378,7 @@ class HanzoMCPServer:
                     tool_list.append({
                         "name": t.name,
                         "description": t.description or "",
-                        "inputSchema": getattr(t, "inputSchema", {}),
+                        "inputSchema": getattr(t, "parameters", {}),
                     })
             except Exception:
                 pass
