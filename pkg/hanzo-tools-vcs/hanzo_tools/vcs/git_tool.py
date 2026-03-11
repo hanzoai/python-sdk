@@ -447,20 +447,5 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
                 "total": len(commits),
             }
 
-    def register(self, mcp_server: FastMCP) -> None:
-        """Register as 'vcs' tool with MCP server."""
-        tool_name = self.name
-        tool_description = self.description
-
-        @mcp_server.tool(name=tool_name, description=tool_description)
-        async def handler(
-            ctx: MCPContext,
-            action: str = "help",
-            **kwargs: Any,
-        ) -> str:
-            result = await self.call(ctx, action=action, **kwargs)
-            return json.dumps(result, indent=2, default=str)
-
-
 # Backward compatibility
 git_tool = GitTool
