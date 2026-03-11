@@ -155,38 +155,35 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
             executor = get_shell_executor()
 
             try:
-                # Execute with auto-background support
-                result = await executor.execute(
-                    command,
-                    shell=shell_path,
-                    cwd=cwd,
-                    env=process_env,
-                    timeout=timeout or AUTO_BACKGROUND_TIMEOUT,
+                # Execute with auto-background support via run_shell
+                stdout_str, stderr_str, exit_code, was_bg, proc_id = (
+                    await executor.run_shell(
+                        command,
+                        shell=shell_path,
+                        cwd=cwd,
+                        env=process_env,
+                        timeout=float(timeout or AUTO_BACKGROUND_TIMEOUT),
+                        tool_name="exec",
+                    )
                 )
 
                 # Check if backgrounded
-                if result.get("backgrounded"):
-                    proc_id = result.get("proc_id", "unknown")
+                if was_bg:
                     return {
-                        "proc_id": proc_id,
+                        "proc_id": proc_id or "unknown",
                         "exit_code": None,
                         "stdout_ref": f"proc:{proc_id}:stdout",
                         "stderr_ref": f"proc:{proc_id}:stderr",
                         "status": "running",
-                        "message": f"Command backgrounded after {timeout or AUTO_BACKGROUND_TIMEOUT}s. Use proc(action='logs', proc_id='{proc_id}') to view output.",
+                        "message": f"Command backgrounded after {timeout or AUTO_BACKGROUND_TIMEOUT}s. Use exec(action='logs', proc_id='{proc_id}') to view output.",
                     }
 
                 # Command completed
-                exit_code = result.get("return_code", result.get("exit_code", 0))
-                stdout = result.get("stdout", "")
-                stderr = result.get("stderr", "")
-
                 return {
-                    "proc_id": result.get("proc_id"),
+                    "proc_id": proc_id,
                     "exit_code": exit_code,
-                    "stdout": stdout,
-                    "stderr": stderr,
-                    "duration_ms": result.get("duration_ms"),
+                    "stdout": stdout_str,
+                    "stderr": stderr_str,
                     "status": "success" if exit_code == 0 else "failed",
                 }
 
@@ -484,21 +481,6 @@ Auto-backgrounds commands after {AUTO_BACKGROUND_TIMEOUT}s.
                     code="INTERNAL_ERROR",
                     message=f"Failed to read logs: {e}",
                 )
-
-    def register(self, mcp_server: FastMCP) -> None:
-        """Register as 'proc' tool with MCP server."""
-        tool_name = self.name
-        tool_description = self.description
-
-        @mcp_server.tool(name=tool_name, description=tool_description)
-        async def handler(
-            ctx: MCPContext,
-            action: str = "help",
-            **kwargs: Any,
-        ) -> str:
-            result = await self.call(ctx, action=action, **kwargs)
-            return json.dumps(result, indent=2, default=str)
-
 
 # Backward compatibility
 exec_tool = ExecTool

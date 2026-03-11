@@ -145,6 +145,9 @@ class BaseTool(_BaseToolABC):
     # Version for meta envelope
     VERSION: ClassVar[str] = "0.12.0"
 
+    # Param aliases for cross-implementation parity (e.g., {"path": "uri"})
+    PARAM_ALIASES: ClassVar[dict[str, str]] = {}
+
     def __init__(self):
         self._handlers: dict[str, ActionHandler] = {}
         self._register_builtin_actions()
@@ -350,11 +353,20 @@ class BaseTool(_BaseToolABC):
         Args:
             ctx: MCP context
             action: Action to execute (default: "help")
-            **kwargs: Action parameters
+            **kwargs: Action parameters (flat, matching TS wire format)
 
         Returns:
             Unified response envelope
         """
+        # Unwrap kwargs wrapping from legacy clients: {"kwargs": {...}} → flat
+        if "kwargs" in kwargs and isinstance(kwargs["kwargs"], dict) and len(kwargs) == 1:
+            kwargs = kwargs["kwargs"]
+
+        # Apply param aliases for cross-implementation parity
+        for alias, canonical in self.PARAM_ALIASES.items():
+            if alias in kwargs and canonical not in kwargs:
+                kwargs[canonical] = kwargs.pop(alias)
+
         if action not in self._handlers:
             return self._error(
                 "UNKNOWN_ACTION",
@@ -375,21 +387,77 @@ class BaseTool(_BaseToolABC):
     def register(self, mcp_server: FastMCP) -> None:
         """Register this tool with the MCP server.
 
-        Creates a single MCP tool with action parameter for routing.
+        Creates a single MCP tool with flat params matching TS wire format.
+        Bypasses FastMCP's function introspection to support arbitrary extra
+        parameters (action-specific params) as top-level fields.
+
+        Wire format: {"action": "read", "path": "/tmp/foo"} (flat, same as TS)
         """
+        from pydantic import ConfigDict
+        from mcp.server.fastmcp.tools.base import Tool as FastMCPTool
+        from mcp.server.fastmcp.utilities.func_metadata import (
+            FuncMetadata,
+            ArgModelBase,
+        )
+
         tool_name = self.name
         tool_description = (
             f"{self.description}\n\nActions: {', '.join(self._handlers.keys())}"
         )
 
-        @mcp_server.tool(name=tool_name, description=tool_description)
-        async def handler(
-            ctx: MCPContext,
-            action: str = "help",
-            **kwargs: Any,
-        ) -> str:
-            result = await self.call(ctx, action=action, **kwargs)
+        # Build combined JSON schema from all action handlers
+        all_properties: dict[str, Any] = {
+            "action": {
+                "type": "string",
+                "description": "Action to perform",
+                "default": "help",
+            }
+        }
+        for ah in self._handlers.values():
+            if ah.schema and "properties" in ah.schema:
+                for k, v in ah.schema["properties"].items():
+                    if k not in all_properties and k != "ctx":
+                        all_properties[k] = v
+
+        parameters_schema = {
+            "type": "object",
+            "properties": all_properties,
+            "required": ["action"],
+            "additionalProperties": True,
+        }
+
+        # Permissive Pydantic model that accepts any extra fields
+        class _FlexArgs(ArgModelBase):
+            model_config = ConfigDict(extra="allow", arbitrary_types_allowed=True)
+            action: str = "help"
+
+            def model_dump_one_level(self) -> dict[str, Any]:
+                result = super().model_dump_one_level()
+                if self.model_extra:
+                    result.update(self.model_extra)
+                return result
+
+        # Handler function — receives flat validated args
+        tool_ref = self
+
+        async def _handler(ctx: MCPContext, action: str = "help", **kwargs: Any) -> str:
+            result = await tool_ref.call(ctx, action=action, **kwargs)
             return json.dumps(result, indent=2, default=str)
+
+        metadata = FuncMetadata(arg_model=_FlexArgs)
+
+        tool = FastMCPTool(
+            fn=_handler,
+            name=tool_name,
+            description=tool_description,
+            parameters=parameters_schema,
+            fn_metadata=metadata,
+            is_async=True,
+            context_kwarg="ctx",
+        )
+
+        # Register directly, bypassing Tool.from_function() introspection
+        mcp_server._tool_manager._tools[tool_name] = tool
 
 
 # Utility functions for composability
