@@ -101,6 +101,7 @@ interactive = [
 
 # Development
 dev = [
+    "watchdog>=3.0.0",
     "pytest>=7.0.0",
     "pytest-cov>=4.1.0",
     "ruff>=0.14.0",
