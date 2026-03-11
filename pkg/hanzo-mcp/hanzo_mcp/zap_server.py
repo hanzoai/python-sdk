@@ -44,26 +44,45 @@ def encode(msg_type: int, payload: Any) -> bytes:
 
 
 def decode(buf: bytes) -> tuple[int, Any] | None:
-    """Decode a ZAP message. Returns (type, payload) or None."""
-    if len(buf) < HEADER_SIZE:
+    """Decode a ZAP message. Supports both MCP ZAP and hanzo/dev wire formats.
+
+    Format 1 (MCP ZAP): [magic:4 "ZAP\\x01"][type:1][length:4 BE][JSON]
+    Format 2 (hanzo/dev): [length:4 LE][type:1][payload]
+    Format 3: Plain JSON fallback
+    """
+    if len(buf) < 5:
         return None
 
-    if buf[:4] != ZAP_MAGIC:
-        # Not ZAP binary — try plain JSON fallback
+    # Format 1: MCP ZAP — magic header + big-endian length
+    if buf[:4] == ZAP_MAGIC:
+        if len(buf) < HEADER_SIZE:
+            return None
+        msg_type = buf[4]
+        length = struct.unpack("!L", buf[5:9])[0]
+        if len(buf) < HEADER_SIZE + length:
+            return None
         try:
-            payload = json.loads(buf.decode("utf-8"))
-            return (MSG_REQUEST, payload)
+            payload = json.loads(buf[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8"))
+            return (msg_type, payload)
         except (json.JSONDecodeError, UnicodeDecodeError):
             return None
 
-    msg_type = buf[4]
-    length = struct.unpack("!L", buf[5:9])[0]
-    if len(buf) < HEADER_SIZE + length:
-        return None
+    # Format 2: hanzo/dev ZAP — little-endian length, no magic
+    le_length = struct.unpack("<L", buf[:4])[0]
+    if 0 < le_length <= 16 * 1024 * 1024 and len(buf) >= 5 + le_length:
+        msg_type = buf[4]
+        if msg_type <= 0x45 or msg_type >= 0xFE:
+            payload_buf = buf[5 : 5 + le_length]
+            try:
+                payload = json.loads(payload_buf.decode("utf-8"))
+                return (msg_type, payload)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                return (msg_type, {"raw": payload_buf})
 
+    # Format 3: Plain JSON fallback
     try:
-        payload = json.loads(buf[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8"))
-        return (msg_type, payload)
+        payload = json.loads(buf.decode("utf-8"))
+        return (MSG_REQUEST, payload)
     except (json.JSONDecodeError, UnicodeDecodeError):
         return None
 
