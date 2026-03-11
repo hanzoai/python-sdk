@@ -447,5 +447,269 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
                 "total": len(commits),
             }
 
+        # ── Advanced actions (TS parity) ──────────────────────────────────
+
+        @self.action("blame", "Show line-by-line authorship")
+        async def blame(ctx: MCPContext, path: str, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("blame", "--porcelain", path, cwd=work_dir)
+            return {"blame": stdout, "path": path}
+
+        @self.action("show", "Show commit or object")
+        async def show(ctx: MCPContext, ref: str = "HEAD", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("show", "--stat", ref, cwd=work_dir)
+            return {"output": stdout, "ref": ref}
+
+        @self.action("stash", "Stash operations")
+        async def stash(ctx: MCPContext, op: str = "list", message: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "push":
+                args = ["stash", "push"]
+                if message:
+                    args.extend(["-m", message])
+                stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            elif op == "pop":
+                stdout, _, _ = await self._run_git("stash", "pop", cwd=work_dir)
+            elif op == "drop":
+                stdout, _, _ = await self._run_git("stash", "drop", cwd=work_dir)
+            else:
+                stdout, _, _ = await self._run_git("stash", "list", cwd=work_dir)
+            return {"output": stdout, "op": op}
+
+        @self.action("tag", "Tag operations")
+        async def tag(ctx: MCPContext, op: str = "list", name: str | None = None, message: str | None = None, ref: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "create":
+                if not name:
+                    raise InvalidParamsError("Tag name required", param="name")
+                args = ["tag"]
+                if message:
+                    args.extend(["-a", name, "-m", message])
+                else:
+                    args.append(name)
+                if ref:
+                    args.append(ref)
+                stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+                return {"created": name}
+            elif op == "delete":
+                if not name:
+                    raise InvalidParamsError("Tag name required", param="name")
+                stdout, _, _ = await self._run_git("tag", "-d", name, cwd=work_dir)
+                return {"deleted": name}
+            else:
+                stdout, _, _ = await self._run_git("tag", "-l", cwd=work_dir)
+                return {"tags": stdout.splitlines()}
+
+        @self.action("remote", "Remote operations")
+        async def remote(ctx: MCPContext, op: str = "list", name: str | None = None, url: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "add":
+                if not name or not url:
+                    raise InvalidParamsError("name and url required", param="name")
+                stdout, _, _ = await self._run_git("remote", "add", name, url, cwd=work_dir)
+                return {"added": name, "url": url}
+            elif op == "remove":
+                if not name:
+                    raise InvalidParamsError("Remote name required", param="name")
+                stdout, _, _ = await self._run_git("remote", "remove", name, cwd=work_dir)
+                return {"removed": name}
+            else:
+                stdout, _, _ = await self._run_git("remote", "-v", cwd=work_dir)
+                return {"remotes": stdout}
+
+        @self.action("merge", "Merge branches")
+        async def merge(ctx: MCPContext, ref: str, message: str | None = None, no_ff: bool = False, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["merge"]
+            if no_ff:
+                args.append("--no-ff")
+            if message:
+                args.extend(["-m", message])
+            args.append(ref)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir, check=False)
+            return {"output": stdout, "ref": ref}
+
+        @self.action("rebase", "Rebase commits")
+        async def rebase(ctx: MCPContext, ref: str | None = None, op: str = "start", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "abort":
+                stdout, _, _ = await self._run_git("rebase", "--abort", cwd=work_dir)
+            elif op == "continue":
+                stdout, _, _ = await self._run_git("rebase", "--continue", cwd=work_dir)
+            else:
+                if not ref:
+                    raise InvalidParamsError("ref required for rebase", param="ref")
+                stdout, _, _ = await self._run_git("rebase", ref, cwd=work_dir)
+            return {"output": stdout, "op": op}
+
+        @self.action("cherry_pick", "Cherry-pick commits")
+        async def cherry_pick(ctx: MCPContext, ref: str, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("cherry-pick", ref, cwd=work_dir)
+            return {"output": stdout, "ref": ref}
+
+        @self.action("reset", "Reset HEAD")
+        async def reset(ctx: MCPContext, ref: str = "HEAD", mode: str = "mixed", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("reset", f"--{mode}", ref, cwd=work_dir)
+            return {"output": stdout, "ref": ref, "mode": mode}
+
+        @self.action("clean", "Remove untracked files")
+        async def clean(ctx: MCPContext, force: bool = False, directories: bool = False, dry_run: bool = True, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["clean"]
+            if dry_run:
+                args.append("-n")
+            if force:
+                args.append("-f")
+            if directories:
+                args.append("-d")
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout, "dry_run": dry_run}
+
+        @self.action("init", "Initialize repository")
+        async def init(ctx: MCPContext, path: str | None = None, bare: bool = False, cwd: str | None = None) -> dict:
+            work_dir = path or cwd or self.cwd
+            args = ["init"]
+            if bare:
+                args.append("--bare")
+            if path:
+                args.append(path)
+            stdout, _, _ = await self._run_git(*args, cwd=cwd or self.cwd)
+            return {"output": stdout}
+
+        @self.action("clone", "Clone repository")
+        async def clone(ctx: MCPContext, url: str, path: str | None = None, depth: int | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["clone"]
+            if depth:
+                args.extend(["--depth", str(depth)])
+            args.append(url)
+            if path:
+                args.append(path)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout, "url": url}
+
+        @self.action("fetch", "Fetch from remote")
+        async def fetch(ctx: MCPContext, remote: str = "origin", prune: bool = False, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["fetch", remote]
+            if prune:
+                args.append("--prune")
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout, "remote": remote}
+
+        @self.action("pull", "Pull from remote")
+        async def pull(ctx: MCPContext, remote: str = "origin", branch: str | None = None, rebase: bool = False, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["pull"]
+            if rebase:
+                args.append("--rebase")
+            args.append(remote)
+            if branch:
+                args.append(branch)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout}
+
+        @self.action("push", "Push to remote")
+        async def push(ctx: MCPContext, remote: str = "origin", branch: str | None = None, force: bool = False, tags: bool = False, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["push"]
+            if force:
+                args.append("--force-with-lease")
+            if tags:
+                args.append("--tags")
+            args.append(remote)
+            if branch:
+                args.append(branch)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout}
+
+        @self.action("config", "Get/set config")
+        async def config(ctx: MCPContext, key: str | None = None, value: str | None = None, scope: str = "local", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if key and value:
+                stdout, _, _ = await self._run_git("config", f"--{scope}", key, value, cwd=work_dir)
+                return {"set": key, "value": value}
+            elif key:
+                stdout, _, _ = await self._run_git("config", "--get", key, cwd=work_dir, check=False)
+                return {"key": key, "value": stdout.strip()}
+            else:
+                stdout, _, _ = await self._run_git("config", "--list", f"--{scope}", cwd=work_dir)
+                return {"config": stdout}
+
+        @self.action("worktree", "Worktree operations")
+        async def worktree(ctx: MCPContext, op: str = "list", path: str | None = None, branch: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "add":
+                if not path:
+                    raise InvalidParamsError("path required", param="path")
+                args = ["worktree", "add", path]
+                if branch:
+                    args.extend(["-b", branch])
+                stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            elif op == "remove":
+                if not path:
+                    raise InvalidParamsError("path required", param="path")
+                stdout, _, _ = await self._run_git("worktree", "remove", path, cwd=work_dir)
+            else:
+                stdout, _, _ = await self._run_git("worktree", "list", cwd=work_dir)
+            return {"output": stdout, "op": op}
+
+        @self.action("reflog", "Show reflog")
+        async def reflog(ctx: MCPContext, limit: int = 20, ref: str = "HEAD", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("reflog", f"-{limit}", ref, cwd=work_dir)
+            return {"output": stdout}
+
+        @self.action("shortlog", "Summarize commits by author")
+        async def shortlog(ctx: MCPContext, ref: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["shortlog", "-sne"]
+            if ref:
+                args.append(ref)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            return {"output": stdout}
+
+        @self.action("rev_parse", "Parse revision")
+        async def rev_parse(ctx: MCPContext, ref: str = "HEAD", cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            stdout, _, _ = await self._run_git("rev-parse", ref, cwd=work_dir)
+            return {"sha": stdout.strip(), "ref": ref}
+
+        @self.action("describe", "Describe commit with tags")
+        async def describe(ctx: MCPContext, ref: str | None = None, tags: bool = True, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            args = ["describe"]
+            if tags:
+                args.append("--tags")
+            args.append("--always")
+            if ref:
+                args.append(ref)
+            stdout, _, _ = await self._run_git(*args, cwd=work_dir, check=False)
+            return {"description": stdout.strip()}
+
+        @self.action("bisect", "Binary search for bugs")
+        async def bisect(ctx: MCPContext, op: str = "start", ref: str | None = None, cwd: str | None = None) -> dict:
+            work_dir = cwd or self.cwd
+            if op == "start":
+                stdout, _, _ = await self._run_git("bisect", "start", cwd=work_dir)
+            elif op == "good":
+                args = ["bisect", "good"]
+                if ref:
+                    args.append(ref)
+                stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            elif op == "bad":
+                args = ["bisect", "bad"]
+                if ref:
+                    args.append(ref)
+                stdout, _, _ = await self._run_git(*args, cwd=work_dir)
+            elif op == "reset":
+                stdout, _, _ = await self._run_git("bisect", "reset", cwd=work_dir)
+            else:
+                stdout, _, _ = await self._run_git("bisect", "log", cwd=work_dir, check=False)
+            return {"output": stdout, "op": op}
+
 # Backward compatibility
 git_tool = GitTool
