@@ -82,7 +82,8 @@ class ForgivingEditHelper:
             # Find end position by counting lines in needle
             needle_line_count = norm_needle.count("\n") + 1
             end_pos = sum(
-                len(line) + 1 for line in original_lines[: lines_before + needle_line_count]
+                len(line) + 1
+                for line in original_lines[: lines_before + needle_line_count]
             )
 
             matched = "\n".join(
