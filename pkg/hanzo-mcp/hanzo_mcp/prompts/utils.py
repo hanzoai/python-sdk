@@ -109,7 +109,10 @@ def get_directory_structure(
 
                 for entry in entries:
                     if entry.is_dir():
-                        entry_data: dict[str, Any] = {"name": entry.name, "type": "directory"}
+                        entry_data: dict[str, Any] = {
+                            "name": entry.name,
+                            "type": "directory",
+                        }
 
                         # Check if we should filter this directory
                         if should_filter(entry):
@@ -267,7 +270,9 @@ def get_git_info(path: str) -> dict[str, str | None]:
             for commit in repo.iter_commits(max_count=5):
                 short_hash = commit.hexsha[:7]
                 msg = commit.message
-                first_line = (msg.decode() if isinstance(msg, bytes) else str(msg)).split("\n")[0]
+                first_line = (
+                    msg.decode() if isinstance(msg, bytes) else str(msg)
+                ).split("\n")[0]
                 commits.append(f"{short_hash} {first_line}")
             recent_commits = "\n".join(commits)
         except Exception:
