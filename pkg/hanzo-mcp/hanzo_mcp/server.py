@@ -362,11 +362,13 @@ class HanzoMCPServer:
             if tm is not None:
                 tools_dict = getattr(tm, "_tools", {})
                 for name, tool in tools_dict.items():
-                    tool_list.append({
-                        "name": name,
-                        "description": getattr(tool, "description", ""),
-                        "inputSchema": getattr(tool, "parameters", {}),
-                    })
+                    tool_list.append(
+                        {
+                            "name": name,
+                            "description": getattr(tool, "description", ""),
+                            "inputSchema": getattr(tool, "parameters", {}),
+                        }
+                    )
         except Exception:
             pass
 
@@ -375,11 +377,13 @@ class HanzoMCPServer:
             try:
                 tools = self.mcp.list_tools()
                 for t in tools:
-                    tool_list.append({
-                        "name": t.name,
-                        "description": t.description or "",
-                        "inputSchema": getattr(t, "parameters", {}),
-                    })
+                    tool_list.append(
+                        {
+                            "name": t.name,
+                            "description": t.description or "",
+                            "inputSchema": getattr(t, "parameters", {}),
+                        }
+                    )
             except Exception:
                 pass
 
@@ -402,7 +406,16 @@ class HanzoMCPServer:
             if method == "resources/list":
                 try:
                     resources = self.mcp.list_resources()
-                    return {"resources": [{"uri": r.uri, "name": r.name, "mimeType": getattr(r, "mimeType", "text/plain")} for r in resources]}
+                    return {
+                        "resources": [
+                            {
+                                "uri": r.uri,
+                                "name": r.name,
+                                "mimeType": getattr(r, "mimeType", "text/plain"),
+                            }
+                            for r in resources
+                        ]
+                    }
                 except Exception:
                     return {"resources": []}
 
@@ -411,15 +424,35 @@ class HanzoMCPServer:
                 uri = (params or {}).get("uri", "")
                 try:
                     content = await self.mcp.read_resource(uri)
-                    return {"contents": [{"uri": uri, "mimeType": "text/plain", "text": str(content)}]}
+                    return {
+                        "contents": [
+                            {"uri": uri, "mimeType": "text/plain", "text": str(content)}
+                        ]
+                    }
                 except Exception as e:
-                    return {"contents": [{"uri": uri, "mimeType": "text/plain", "text": f"Error: {e}"}]}
+                    return {
+                        "contents": [
+                            {
+                                "uri": uri,
+                                "mimeType": "text/plain",
+                                "text": f"Error: {e}",
+                            }
+                        ]
+                    }
 
             # prompts/list
             if method == "prompts/list":
                 try:
                     prompts = self.mcp.list_prompts()
-                    return {"prompts": [{"name": p.name, "description": getattr(p, "description", "")} for p in prompts]}
+                    return {
+                        "prompts": [
+                            {
+                                "name": p.name,
+                                "description": getattr(p, "description", ""),
+                            }
+                            for p in prompts
+                        ]
+                    }
                 except Exception:
                     return {"prompts": []}
 
@@ -427,7 +460,9 @@ class HanzoMCPServer:
             if method == "prompts/get":
                 name = (params or {}).get("name", "")
                 try:
-                    prompt = await self.mcp.get_prompt(name, params.get("arguments", {}))
+                    prompt = await self.mcp.get_prompt(
+                        name, params.get("arguments", {})
+                    )
                     return prompt
                 except Exception as e:
                     raise ValueError(f"Prompt error: {e}")
@@ -447,7 +482,9 @@ class HanzoMCPServer:
                         tools=tool_list,
                         call_tool=call_tool,
                         handle_method=handle_method,
-                        name=self.mcp.name if hasattr(self.mcp, "name") else "hanzo-mcp",
+                        name=self.mcp.name
+                        if hasattr(self.mcp, "name")
+                        else "hanzo-mcp",
                     )
                 )
                 if server:
