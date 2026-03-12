@@ -306,5 +306,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Required tools: 20 (1+8+1+1+1+2+1+1+1+3)
-        assert total == 20, f"Expected 20 required tools, got {total}"
+        # Required tools: 21 (1+9+1+1+1+2+1+1+1+3)
+        assert total == 21, f"Expected 21 required tools, got {total}"
