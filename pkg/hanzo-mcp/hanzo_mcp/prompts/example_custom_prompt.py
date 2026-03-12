@@ -16,7 +16,7 @@ Be constructive and specific in your feedback."""
 
 
 # You can also create dynamic prompts that take parameters
-def create_custom_analysis_prompt(file_path: str, analysis_type: str = "general"):
+def create_custom_analysis_prompt(file_path: str, analysis_type: str = "general") -> str:
     """Create a dynamic analysis prompt for a specific file."""
 
     analysis_types = {
