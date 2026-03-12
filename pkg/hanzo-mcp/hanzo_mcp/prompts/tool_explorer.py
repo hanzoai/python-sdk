@@ -584,7 +584,7 @@ Tools NOT available in batch (require state/session):
 - todo_write"""
 
 
-def create_tool_category_prompt(category: str, tools: list[str]):
+def create_tool_category_prompt(category: str, tools: list[str]) -> str:
     """Create a dynamic prompt for a specific tool category."""
 
     tool_descriptions = {

@@ -80,13 +80,13 @@ class ForgivingEditHelper:
             start_pos = sum(len(line) + 1 for line in original_lines[:lines_before])
 
             # Find end position by counting lines in needle
-            needle_lines = norm_needle.count("\n") + 1
+            needle_line_count = norm_needle.count("\n") + 1
             end_pos = sum(
-                len(line) + 1 for line in original_lines[: lines_before + needle_lines]
+                len(line) + 1 for line in original_lines[: lines_before + needle_line_count]
             )
 
             matched = "\n".join(
-                original_lines[lines_before : lines_before + needle_lines]
+                original_lines[lines_before : lines_before + needle_line_count]
             )
             return (start_pos, end_pos - 1, matched)
 
@@ -97,7 +97,7 @@ class ForgivingEditHelper:
         if len(needle_lines) == 1:
             # Single line - find best match
             needle_norm = ForgivingEditHelper.normalize_whitespace(needle)
-            best_ratio = 0
+            best_ratio: float = 0.0
             best_match = None
 
             for i, line in enumerate(haystack_lines):

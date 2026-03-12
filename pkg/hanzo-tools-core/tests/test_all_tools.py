@@ -282,7 +282,7 @@ class TestTotalToolCount:
         # Required packages with exact counts
         required_packages = [
             ("hanzo_tools.fs", 1),
-            ("hanzo_tools.shell", 8),
+            ("hanzo_tools.shell", 9),
             ("hanzo_tools.browser", 1),
             ("hanzo_tools.memory", 1),  # unified memory tool
             ("hanzo_tools.todo", 1),
