@@ -171,7 +171,7 @@ class HanzoMCPServer:
 
             self.mcp._mcp_server.version = pkg_version("hanzo-mcp")
         except Exception:
-            self.mcp._mcp_server.version = "0.14.0"
+            self.mcp._mcp_server.version = "0.15.0"
 
         # Initialize authentication token — check env, then ~/.hanzo/mcp_token
         self.auth_token = auth_token or os.environ.get("HANZO_MCP_TOKEN")
