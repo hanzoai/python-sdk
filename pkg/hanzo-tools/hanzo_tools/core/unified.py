@@ -396,8 +396,8 @@ class BaseTool(_BaseToolABC):
         from pydantic import ConfigDict
         from mcp.server.fastmcp.tools.base import Tool as FastMCPTool
         from mcp.server.fastmcp.utilities.func_metadata import (
-            FuncMetadata,
             ArgModelBase,
+            FuncMetadata,
         )
 
         tool_name = self.name
