@@ -90,7 +90,6 @@ repl = [
 # IDE integration (VS Code, Cursor, JetBrains)
 ide = [
     "hanzo-tools-ide>=0.1.0",
-    "websockets>=12.0",
 ]
 
 # Full interactive suite (REPL + IDE + Browser)
