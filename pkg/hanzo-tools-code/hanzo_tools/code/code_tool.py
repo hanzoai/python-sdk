@@ -18,13 +18,11 @@ Scope: File → Package → Repo
 """
 
 import difflib
-import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, ClassVar, Literal
 
-from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
@@ -720,7 +718,7 @@ All operations are PURE - safe to cache and parallelize.
             if not full_path.exists():
                 raise NotFoundError(f"File not found: {path}")
             text = full_path.read_text()
-            export_lines = [l.strip() for l in text.splitlines() if l.strip().startswith(("export ", "pub ", "__all__"))]
+            export_lines = [line.strip() for line in text.splitlines() if line.strip().startswith(("export ", "pub ", "__all__"))]
             return {"uri": str(full_path), "exports": export_lines, "count": len(export_lines)}
 
         @self.action("types", "Find type definitions in file")

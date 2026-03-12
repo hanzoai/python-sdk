@@ -14,14 +14,12 @@ Effect lattice:
 - execute: NONDETERMINISTIC (audit-friendly)
 """
 
-import json
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, ClassVar
 
-from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
