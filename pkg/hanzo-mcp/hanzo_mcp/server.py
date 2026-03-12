@@ -13,7 +13,7 @@ import secrets
 import signal
 import threading
 import warnings
-from typing import TYPE_CHECKING, Literal, cast, final
+from typing import TYPE_CHECKING, Any, Literal, cast, final
 
 # Type-only imports - don't execute at runtime
 if TYPE_CHECKING:
@@ -355,7 +355,7 @@ class HanzoMCPServer:
             return
 
         # Collect tool manifest from registered MCP tools
-        tool_list: list[dict] = []
+        tool_list: list[dict[str, Any]] = []
         try:
             # FastMCP _tool_manager._tools is a dict[str, Tool]
             tm = getattr(self.mcp, "_tool_manager", None)
@@ -387,7 +387,7 @@ class HanzoMCPServer:
             except Exception:
                 pass
 
-        async def call_tool(name: str, args: dict) -> any:
+        async def call_tool(name: str, args: dict) -> Any:  # type: ignore[type-arg]
             """Route ZAP tool calls to the MCP server."""
             try:
                 result = await self.mcp.call_tool(name, args)
@@ -395,7 +395,7 @@ class HanzoMCPServer:
             except Exception as e:
                 return {"error": str(e)}
 
-        async def handle_method(method: str, params: any) -> any:
+        async def handle_method(method: str, params: Any) -> Any:
             """Pass-through for ALL MCP methods — full protocol parity over ZAP.
 
             Routes resources/*, prompts/*, and any other MCP method to the
