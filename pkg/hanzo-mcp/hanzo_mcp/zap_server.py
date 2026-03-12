@@ -36,6 +36,7 @@ HEADER_SIZE = 9  # 4 (magic) + 1 (type) + 4 (length)
 
 # ── Encode / Decode ─────────────────────────────────────────────────────
 
+
 def encode(msg_type: int, payload: Any) -> bytes:
     """Encode a ZAP message: magic + type + length + JSON payload."""
     data = json.dumps(payload).encode("utf-8")
@@ -62,7 +63,9 @@ def decode(buf: bytes) -> tuple[int, Any] | None:
         if len(buf) < HEADER_SIZE + length:
             return None
         try:
-            payload = json.loads(buf[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8"))
+            payload = json.loads(
+                buf[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8")
+            )
             return (msg_type, payload)
         except (json.JSONDecodeError, UnicodeDecodeError):
             return None
@@ -88,6 +91,7 @@ def decode(buf: bytes) -> tuple[int, Any] | None:
 
 
 # ── Client tracking ─────────────────────────────────────────────────────
+
 
 class ZapClient:
     __slots__ = ("writer", "client_id", "browser", "version", "connected_at")
@@ -308,6 +312,8 @@ async def start_zap_server(
     Returns:
         ZapServer instance if started, None otherwise.
     """
-    server = ZapServer(tools=tools, call_tool=call_tool, handle_method=handle_method, name=name)
+    server = ZapServer(
+        tools=tools, call_tool=call_tool, handle_method=handle_method, name=name
+    )
     ok = await server.start(preferred_port=preferred_port)
     return server if ok else None
