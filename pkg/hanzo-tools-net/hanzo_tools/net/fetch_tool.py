@@ -11,14 +11,12 @@ Network operations are inherently non-deterministic.
 """
 
 import asyncio
-import json
 import os
 import re
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import ClassVar
 from urllib.parse import urljoin, urlparse
 
-from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
@@ -523,7 +521,6 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
             Effect: NONDETERMINISTIC_EFFECT
             """
             import platform
-            import subprocess
 
             system = platform.system().lower()
             if system == "darwin":

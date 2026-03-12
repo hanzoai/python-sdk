@@ -14,11 +14,9 @@ Outputs diffs in unified patch format; integrates with fs.apply_patch.
 """
 
 import asyncio
-import json
 import os
-from typing import Any, ClassVar
+from typing import ClassVar
 
-from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
@@ -570,7 +568,6 @@ Outputs diffs in unified patch format for use with fs.apply_patch.
 
         @self.action("init", "Initialize repository")
         async def init(ctx: MCPContext, path: str | None = None, bare: bool = False, cwd: str | None = None) -> dict:
-            work_dir = path or cwd or self.cwd
             args = ["init"]
             if bare:
                 args.append("--bare")
