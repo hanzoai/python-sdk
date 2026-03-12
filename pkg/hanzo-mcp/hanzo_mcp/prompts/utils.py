@@ -1,5 +1,6 @@
 import platform
 from pathlib import Path
+from typing import Any
 
 try:
     from git import Repo
@@ -108,7 +109,7 @@ def get_directory_structure(
 
                 for entry in entries:
                     if entry.is_dir():
-                        entry_data = {"name": entry.name, "type": "directory"}
+                        entry_data: dict[str, Any] = {"name": entry.name, "type": "directory"}
 
                         # Check if we should filter this directory
                         if should_filter(entry):
@@ -226,7 +227,8 @@ def get_git_info(path: str) -> dict[str, str | None]:
             if staged_files:
                 for item in staged_files[:25]:  # Limit to first 25
                     change_type = item.change_type
-                    status_lines.append(f"{change_type[0].upper()} {item.a_path}")
+                    ct = str(change_type)[0].upper() if change_type else "?"
+                    status_lines.append(f"{ct} {item.a_path}")
                 if len(staged_files) > 25:
                     status_lines.append(
                         f"... and {len(staged_files) - 25} more staged files"
@@ -264,8 +266,9 @@ def get_git_info(path: str) -> dict[str, str | None]:
             commits = []
             for commit in repo.iter_commits(max_count=5):
                 short_hash = commit.hexsha[:7]
-                message = commit.message.split("\n")[0]  # First line only
-                commits.append(f"{short_hash} {message}")
+                msg = commit.message
+                first_line = (msg.decode() if isinstance(msg, bytes) else str(msg)).split("\n")[0]
+                commits.append(f"{short_hash} {first_line}")
             recent_commits = "\n".join(commits)
         except Exception:
             recent_commits = "Unable to get recent commits"
