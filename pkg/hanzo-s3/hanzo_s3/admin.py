@@ -5,7 +5,7 @@ Usage::
     from hanzo_s3.admin import S3Admin
 
     admin = S3Admin(
-        "s3.hanzo.space",
+        "s3-api.hanzo.ai",
         credentials=provider,
     )
 

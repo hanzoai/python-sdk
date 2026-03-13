@@ -34,7 +34,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://hanzo.space"
+Homepage = "https://s3.hanzo.ai"
 Documentation = "https://docs.hanzo.ai/s3"
 Repository = "https://github.com/hanzos3/py-sdk"
 Source = "https://github.com/hanzoai/python-sdk"
