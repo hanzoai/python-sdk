@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
         with:
@@ -56,7 +56,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     needs: build
     steps:
       - name: Deploy to GitHub Pages

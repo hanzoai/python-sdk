@@ -28,7 +28,7 @@ jobs:
 
   publish-all-packages:
     name: Publish All Python Packages
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     needs: test  # Only publish if tests pass
     if: always() && !cancelled()
 
