@@ -16,7 +16,7 @@ concurrency:
 jobs:
   block-todo-stub-code:
     name: "🚫 Block TODO/STUB/FAKE Code"
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -57,7 +57,7 @@ jobs:
 
   test-no-stubs:
     name: "🧪 Anti-Stub Tests"
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -87,7 +87,7 @@ jobs:
 
   all-tests-must-pass:
     name: "✅ ALL Tests Must Pass"
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     strategy:
       fail-fast: true  # Stop immediately if any test fails
       matrix:
@@ -150,7 +150,7 @@ jobs:
 
   code-quality:
     name: "🎯 Code Quality Check"
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -182,7 +182,7 @@ jobs:
 
   function-implementation-check:
     name: "🔨 Verify Functions Are Implemented"
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -221,7 +221,7 @@ jobs:
       - all-tests-must-pass
       - code-quality
       - function-implementation-check
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     if: github.event_name == 'release' || github.ref == 'refs/heads/main'
 
     steps:
@@ -243,7 +243,7 @@ jobs:
     name: "📦 Publish to PyPI"
     needs: [block-deployment]
     if: github.event_name == 'release'
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
 
     steps:
       - uses: actions/checkout@v4
