@@ -72,6 +72,7 @@ members = [
   "pkg/hanzo-network",
   "pkg/hanzo-repl",
   "pkg/hanzo-s3",
+  "pkg/hanzo-zap",
   "pkg/hanzoai",
 ]
 
