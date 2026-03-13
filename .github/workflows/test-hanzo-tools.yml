@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     timeout-minutes: 10
     strategy:
       matrix:
