@@ -16,7 +16,7 @@ on:
 jobs:
   test-version-check:
     name: Test Version Check
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
 
     steps:
       - uses: actions/checkout@v4
