@@ -20,12 +20,12 @@ from typing import Any, Callable, Dict, Optional, TypeVar
 
 # Try to import Insights client (used as backend), but make it optional
 try:
-    from insights import Posthog
+    from insights import Insights
 
     INSIGHTS_AVAILABLE = True
 except ImportError:
     INSIGHTS_AVAILABLE = False
-    Posthog = None
+    Insights = None
 
 
 F = TypeVar("F", bound=Callable[..., Any])
@@ -64,7 +64,7 @@ class InsightsAnalytics:
 
         # Initialize backend if available and configured
         if INSIGHTS_AVAILABLE and self.config.api_key and self.config.enabled:
-            self._client = Posthog(
+            self._client = Insights(
                 self.config.api_key,
                 host=self.config.host,
                 debug=self.config.debug,
