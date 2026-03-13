@@ -90,7 +90,7 @@ def _parse_s3_path(path: str) -> tuple[str, str]:
 
 @click.group(name="s3")
 def storage_group():
-    """Hanzo S3 — S3-compatible object storage (hanzo.space / s3.hanzo.ai).
+    """Hanzo S3 — S3-compatible object storage (s3.hanzo.ai).
 
     \b
     Buckets:
