@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-zap"
+version = "0.6.1"
+description = "Zero-copy Agent Protocol (ZAP) SDK - 1000x faster than MCP"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["agent", "ai", "hanzo", "mcp", "protocol", "zap", "zero-copy"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/python-sdk"
+Repository = "https://github.com/hanzoai/python-sdk/tree/main/pkg/hanzo-zap"
+Documentation = "https://hanzo.ai/docs/zap"
+
+[project.optional-dependencies]
+crypto = ["luxcrypto>=0.1.0"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.26.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_zap*"]
+
+[tool.setuptools.package-data]
+hanzo_zap = ["py.typed"]
