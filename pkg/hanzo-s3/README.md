@@ -20,7 +20,7 @@ uv add hanzo-s3
 from hanzo_s3 import S3Client
 
 client = S3Client(
-    "s3.hanzo.space",
+    "s3-api.hanzo.ai",
     access_key="YOUR-ACCESS-KEY",
     secret_key="YOUR-SECRET-KEY",
 )
@@ -41,7 +41,7 @@ client.fget_object("my-bucket", "remote/path.txt", "/local/download.txt")
 ```python
 from hanzo_s3.admin import S3Admin
 
-admin = S3Admin("s3.hanzo.space", credentials=provider)
+admin = S3Admin("s3-api.hanzo.ai", credentials=provider)
 info = admin.info()
 ```
 
@@ -60,6 +60,6 @@ All original `minio` names are also re-exported for backward compatibility.
 ## Links
 
 - Documentation: https://docs.hanzo.ai/s3
-- Hanzo Space: https://hanzo.space
+- Hanzo Storage: https://s3.hanzo.ai
 - Source (upstream): https://github.com/hanzos3/py-sdk
 - Source (SDK): https://github.com/hanzoai/python-sdk
