@@ -8,7 +8,7 @@ Usage::
     from hanzo_s3 import S3Client
 
     client = S3Client(
-        "s3.hanzo.space",
+        "s3-api.hanzo.ai",
         access_key="YOUR-ACCESS-KEY",
         secret_key="YOUR-SECRET-KEY",
     )

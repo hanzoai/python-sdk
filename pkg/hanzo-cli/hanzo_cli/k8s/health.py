@@ -41,7 +41,7 @@ CLUSTER_DOMAINS: dict[str, list[str]] = {
         "s3.hanzo.ai",
         "search.hanzo.ai",
         "gateway.hanzo.ai",
-        "hanzo.space",
+        "s3.hanzo.ai",
     ],
     "adnexus": [
         "ad.nexus",
