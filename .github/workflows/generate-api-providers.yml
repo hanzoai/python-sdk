@@ -17,7 +17,7 @@ on:
 
 jobs:
   generate:
-    runs-on: hanzo-build
+    runs-on: hanzo-build-linux-amd64
     permissions:
       contents: write
       pull-requests: write
