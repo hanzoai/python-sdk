@@ -36,7 +36,7 @@ class AnalyticsConfig:
     """Configuration for analytics."""
 
     api_key: Optional[str] = None
-    host: str = "https://us.i.insights.com"
+    host: str = "https://insights.hanzo.ai"
     enabled: bool = True
     debug: bool = False
     capture_errors: bool = True
@@ -52,11 +52,9 @@ class InsightsAnalytics:
         self.config = config or AnalyticsConfig()
         self._client = None
 
-        # Load from environment if not provided (INSIGHTS_API_KEY preferred, INSIGHTS_API_KEY fallback)
+        # Load from environment if not provided
         if not self.config.api_key:
-            self.config.api_key = os.environ.get("INSIGHTS_API_KEY") or os.environ.get(
-                "INSIGHTS_API_KEY"
-            )
+            self.config.api_key = os.environ.get("INSIGHTS_API_KEY")
 
         if not self.config.distinct_id:
             # Use machine ID or generate one
