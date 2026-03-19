@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-tasks"
+version = "0.1.0"
+description = "Hanzo Tasks SDK — Durable workflow execution for AI agents (powered by Temporal)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["hanzo", "temporal", "tasks", "workflow", "durable", "agents"]
+dependencies = [
+    "temporalio>=1.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/python-sdk"
+Repository = "https://github.com/hanzoai/python-sdk/tree/main/pkg/hanzo-tasks"
+Documentation = "https://hanzo.ai/docs/tasks"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.26.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_tasks*"]
+
+[tool.setuptools.package-data]
+hanzo_tasks = ["py.typed"]
