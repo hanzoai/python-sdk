@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -87,7 +87,7 @@ class CallbackResource(SyncAPIResource):
         if not team_id:
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return self._get(
-            f"/team/{team_id}/callback",
+            path_template("/team/{team_id}/callback", team_id=team_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -167,7 +167,7 @@ class CallbackResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
-            f"/team/{team_id}/callback",
+            path_template("/team/{team_id}/callback", team_id=team_id),
             body=maybe_transform(
                 {
                     "callback_name": callback_name,
@@ -247,7 +247,7 @@ class AsyncCallbackResource(AsyncAPIResource):
         if not team_id:
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         return await self._get(
-            f"/team/{team_id}/callback",
+            path_template("/team/{team_id}/callback", team_id=team_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -327,7 +327,7 @@ class AsyncCallbackResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `team_id` but received {team_id!r}")
         extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
-            f"/team/{team_id}/callback",
+            path_template("/team/{team_id}/callback", team_id=team_id),
             body=await async_maybe_transform(
                 {
                     "callback_name": callback_name,

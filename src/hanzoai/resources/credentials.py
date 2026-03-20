@@ -8,7 +8,7 @@ import httpx
 
 from ..types import credential_create_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -133,7 +133,7 @@ class CredentialsResource(SyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return self._delete(
-            f"/credentials/{credential_name}",
+            path_template("/credentials/{credential_name}", credential_name=credential_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -252,7 +252,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not credential_name:
             raise ValueError(f"Expected a non-empty value for `credential_name` but received {credential_name!r}")
         return await self._delete(
-            f"/credentials/{credential_name}",
+            path_template("/credentials/{credential_name}", credential_name=credential_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

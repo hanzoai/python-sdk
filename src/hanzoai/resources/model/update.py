@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -124,7 +124,7 @@ class UpdateResource(SyncAPIResource):
         if not model_id:
             raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
         return self._patch(
-            f"/model/{model_id}/update",
+            path_template("/model/{model_id}/update", model_id=model_id),
             body=maybe_transform(
                 {
                     "llm_params": llm_params,
@@ -241,7 +241,7 @@ class AsyncUpdateResource(AsyncAPIResource):
         if not model_id:
             raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
         return await self._patch(
-            f"/model/{model_id}/update",
+            path_template("/model/{model_id}/update", model_id=model_id),
             body=await async_maybe_transform(
                 {
                     "llm_params": llm_params,

@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -81,7 +81,7 @@ class CancelResource(SyncAPIResource):
         if not batch_id:
             raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
         return self._post(
-            f"/batches/{batch_id}/cancel",
+            path_template("/batches/{batch_id}/cancel", batch_id=batch_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -152,7 +152,7 @@ class AsyncCancelResource(AsyncAPIResource):
         if not batch_id:
             raise ValueError(f"Expected a non-empty value for `batch_id` but received {batch_id!r}")
         return await self._post(
-            f"/batches/{batch_id}/cancel",
+            path_template("/batches/{batch_id}/cancel", batch_id=batch_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
