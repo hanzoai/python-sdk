@@ -13,6 +13,7 @@ from .runs import (
     AsyncRunsResourceWithStreamingResponse,
 )
 from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._utils import path_template
 from .messages import (
     MessagesResource,
     AsyncMessagesResource,
@@ -114,7 +115,7 @@ class ThreadsResource(SyncAPIResource):
         if not thread_id:
             raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
         return self._get(
-            f"/v1/threads/{thread_id}",
+            path_template("/v1/threads/{thread_id}", thread_id=thread_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -202,7 +203,7 @@ class AsyncThreadsResource(AsyncAPIResource):
         if not thread_id:
             raise ValueError(f"Expected a non-empty value for `thread_id` but received {thread_id!r}")
         return await self._get(
-            f"/v1/threads/{thread_id}",
+            path_template("/v1/threads/{thread_id}", thread_id=thread_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

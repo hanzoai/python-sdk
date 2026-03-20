@@ -13,6 +13,7 @@ from .chat import (
     AsyncChatResourceWithStreamingResponse,
 )
 from ..._types import Body, Query, Headers, NotGiven, not_given
+from ..._utils import path_template
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -89,7 +90,7 @@ class EnginesResource(SyncAPIResource):
         if not model:
             raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
-            f"/engines/{model}/completions",
+            path_template("/engines/{model}/completions", model=model),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -133,7 +134,7 @@ class EnginesResource(SyncAPIResource):
         if not model:
             raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return self._post(
-            f"/engines/{model}/embeddings",
+            path_template("/engines/{model}/embeddings", model=model),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -204,7 +205,7 @@ class AsyncEnginesResource(AsyncAPIResource):
         if not model:
             raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
-            f"/engines/{model}/completions",
+            path_template("/engines/{model}/completions", model=model),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -248,7 +249,7 @@ class AsyncEnginesResource(AsyncAPIResource):
         if not model:
             raise ValueError(f"Expected a non-empty value for `model` but received {model!r}")
         return await self._post(
-            f"/engines/{model}/embeddings",
+            path_template("/engines/{model}/embeddings", model=model),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

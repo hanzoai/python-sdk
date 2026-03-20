@@ -18,7 +18,7 @@ from ..types import (
     key_regenerate_by_key_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform, strip_not_given, async_maybe_transform
+from .._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -742,7 +742,7 @@ class KeyResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
         extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return self._post(
-            f"/key/{path_key}/regenerate",
+            path_template("/key/{path_key}/regenerate", path_key=path_key),
             body=maybe_transform(
                 {
                     "aliases": aliases,
@@ -1595,7 +1595,7 @@ class AsyncKeyResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `path_key` but received {path_key!r}")
         extra_headers = {**strip_not_given({"llm-changed-by": llm_changed_by}), **(extra_headers or {})}
         return await self._post(
-            f"/key/{path_key}/regenerate",
+            path_template("/key/{path_key}/regenerate", path_key=path_key),
             body=await async_maybe_transform(
                 {
                     "aliases": aliases,
