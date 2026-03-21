@@ -2,6 +2,7 @@
 hanzo-zap - Zero-copy Agent Protocol SDK for Python
 
 1000x faster than MCP/JSON-RPC through binary wire protocol.
+Includes PlaygroundClient for the Hanzo Playground control plane.
 
 Example:
     >>> from hanzo_zap import ZapClient
@@ -11,28 +12,48 @@ Example:
 """
 
 from .types import (
+    AgentEvent,
+    AgentInfo,
     ApprovalPolicy,
-    SandboxPolicy,
+    ClientInfo,
+    CommitInfo,
+    EventMsg,
+    FileChange,
     MessageType,
+    RealtimeAudioFrame,
+    SandboxPolicy,
+    ServerInfo,
+    Submission,
     Tool,
     ToolCall,
     ToolResult,
-    ServerInfo,
-    ClientInfo,
 )
 from .client import ZapClient
 from .server import ZapServer
+from .playground import PlaygroundClient
 
-__version__ = "0.6.1"
+__version__ = "0.7.0"
 __all__ = [
+    # Wire protocol
     "ZapClient",
     "ZapServer",
+    # Playground
+    "PlaygroundClient",
+    # Core types
     "ApprovalPolicy",
-    "SandboxPolicy",
+    "ClientInfo",
     "MessageType",
+    "SandboxPolicy",
+    "ServerInfo",
     "Tool",
     "ToolCall",
     "ToolResult",
-    "ServerInfo",
-    "ClientInfo",
+    # Playground types
+    "AgentEvent",
+    "AgentInfo",
+    "CommitInfo",
+    "EventMsg",
+    "FileChange",
+    "RealtimeAudioFrame",
+    "Submission",
 ]
