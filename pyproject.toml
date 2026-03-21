@@ -112,13 +112,23 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "build>=1.2.2.post1",
+    "dirty-equals>=0.6.0",
     "fastapi>=0.128.0",
     "fastembed>=0.7.4",
     "hanzo-memory",
     "httpx>=0.28.1",
+    "importlib-metadata>=6.7.0",
+    "mypy",
+    "nest-asyncio==1.6.0",
+    "nox",
     "polars>=1.36.1",
+    "pyright>=1.1.359",
     "pytest>=8.4.2",
     "pytest-asyncio>=0.26.0,<1.0.0",
+    "respx",
+    "rich>=13.7.1",
+    "ruff",
+    "time-machine",
 ]
 
 [tool.hatch.build]
