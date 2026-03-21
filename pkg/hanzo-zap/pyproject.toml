@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-zap"
-version = "0.6.1"
+version = "0.7.0"
 description = "Zero-copy Agent Protocol (ZAP) SDK - 1000x faster than MCP"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,7 +22,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 keywords = ["agent", "ai", "hanzo", "mcp", "protocol", "zap", "zero-copy"]
-dependencies = []
+dependencies = [
+    "httpx>=0.23.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/hanzoai/python-sdk"
