@@ -144,3 +144,77 @@ class Prompt:
     name: str
     description: str | None = None
     arguments: list[dict[str, Any]] | None = None
+
+
+# --- Playground Protocol Types (SQ/EQ pattern from hanzo/dev) ---
+
+
+@dataclass
+class Submission:
+    """Submission Queue entry -- request from user/agent."""
+
+    id: str
+    op: dict[str, Any]  # Op variant as dict with "type" discriminator
+    trace: dict[str, str] | None = None
+
+
+@dataclass
+class EventMsg:
+    """Event Queue entry -- response from agent runtime."""
+
+    type: str  # "turn_started", "turn_completed", "agent_message", etc.
+    data: dict[str, Any] = field(default_factory=dict)
+    raw: bytes | None = None
+
+
+@dataclass
+class AgentEvent:
+    """Real-time event from an agent in a space."""
+
+    type: str
+    space_id: str
+    agent_id: str
+    agent_name: str = ""
+    timestamp: str = ""
+    data: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class AgentInfo:
+    """Agent discovery info from gossip tracker."""
+
+    agent_id: str
+    did: str = ""
+    space_id: str = ""
+    display_name: str = ""
+    status: str = "offline"
+    capabilities: list[dict[str, Any]] = field(default_factory=list)
+    model: str = ""
+
+
+@dataclass
+class RealtimeAudioFrame:
+    """Audio frame for realtime conversation."""
+
+    data: str  # base64
+    sample_rate: int = 16000
+    num_channels: int = 1
+
+
+@dataclass
+class FileChange:
+    """Git file change."""
+
+    path: str
+    status: str  # "added", "modified", "deleted"
+
+
+@dataclass
+class CommitInfo:
+    """Git commit info."""
+
+    hash: str
+    message: str
+    author: str
+    email: str
+    timestamp: str
