@@ -60,10 +60,25 @@ class KubernetesAuthMethod(BaseModel):
     )
 
 
+class UserPasswordAuthMethod(BaseModel):
+    """User email/password authentication (SRP)."""
+
+    email: str = Field(..., description="User email")
+    password: str = Field(..., description="User password")
+
+
+class TokenAuthMethod(BaseModel):
+    """Direct token authentication (pre-authenticated)."""
+
+    access_token: str = Field(..., description="Pre-authenticated access token")
+
+
 class AuthenticationOptions(BaseModel):
     """Authentication configuration - use one method."""
 
     universal_auth: Optional[UniversalAuthMethod] = None
+    user_password: Optional[UserPasswordAuthMethod] = None
+    token: Optional[TokenAuthMethod] = None
     aws_iam: Optional[AWSIamAuthMethod] = None
     azure: Optional[AzureAuthMethod] = None
     gcp_iam: Optional[GCPIamAuthMethod] = None
