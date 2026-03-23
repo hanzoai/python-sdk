@@ -48,8 +48,10 @@ from .models import (
     KubernetesAuthMethod,
     ListSecretsOptions,
     SecretElement,
+    TokenAuthMethod,
     UniversalAuthMethod,
     UpdateSecretOptions,
+    UserPasswordAuthMethod,
 )
 
 # Aliases for compatibility with infisical-python
