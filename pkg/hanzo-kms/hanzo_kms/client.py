@@ -68,7 +68,7 @@ class KMSClient:
 
     def _settings_from_env(self) -> ClientSettings:
         """Create settings from environment variables."""
-        from .models import UniversalAuthMethod
+        from .models import TokenAuthMethod, UniversalAuthMethod, UserPasswordAuthMethod
 
         site_url = os.getenv(
             "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
@@ -80,13 +80,27 @@ class KMSClient:
         client_secret = os.getenv(
             "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
         )
+        email = os.getenv("HANZO_KMS_EMAIL", "")
+        password = os.getenv("HANZO_KMS_PASSWORD", "")
+        token = os.getenv("HANZO_KMS_TOKEN", os.getenv("INFISICAL_TOKEN", ""))
 
         auth = None
-        if client_id and client_secret:
+        if token:
+            auth = AuthenticationOptions(
+                token=TokenAuthMethod(access_token=token)
+            )
+        elif client_id and client_secret:
             auth = AuthenticationOptions(
                 universal_auth=UniversalAuthMethod(
                     client_id=client_id,
                     client_secret=client_secret,
+                )
+            )
+        elif email and password:
+            auth = AuthenticationOptions(
+                user_password=UserPasswordAuthMethod(
+                    email=email,
+                    password=password,
                 )
             )
 
@@ -106,6 +120,16 @@ class KMSClient:
             )
         return self._http_client
 
+    def _user_login(self, email: str, password: str) -> str:
+        """Login with email/password via v3 non-SRP endpoint."""
+        response = self.http.post(
+            "/api/v3/auth/login",
+            json={"email": email, "password": password},
+        )
+        response.raise_for_status()
+        data = response.json()
+        return data.get("accessToken", data.get("access_token", ""))
+
     def _get_access_token(self) -> str:
         """Get valid access token, refreshing if needed."""
         if self._access_token and time.time() < self._token_expires_at - 60:
@@ -114,6 +138,19 @@ class KMSClient:
         auth = self.settings.auth
         if not auth:
             raise ValueError("No authentication configured")
+
+        # Direct token auth
+        if auth.token:
+            self._access_token = auth.token.access_token
+            self._token_expires_at = time.time() + 86400  # assume 24h
+            return self._access_token
+
+        # User/password auth (v3 non-SRP)
+        if auth.user_password:
+            token = self._user_login(auth.user_password.email, auth.user_password.password)
+            self._access_token = token
+            self._token_expires_at = time.time() + 7200  # 2h
+            return self._access_token
 
         # Universal Auth
         if auth.universal_auth:
