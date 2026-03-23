@@ -251,7 +251,8 @@ def fetch_oapis_slop(name: str) -> dict | None:
 def fetch_apis_guru() -> dict:
     """Fetch API list from APIs.guru."""
     url = "https://api.apis.guru/v2/list.json"
-    with urllib.request.urlopen(url, timeout=60) as response:
+    req = urllib.request.Request(url, headers={"User-Agent": "hanzo-tools-api/0.2"})
+    with urllib.request.urlopen(req, timeout=60) as response:
         return json.loads(response.read().decode())
 
 
