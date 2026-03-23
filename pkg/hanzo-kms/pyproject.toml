@@ -36,6 +36,9 @@ dev = [
     "mypy>=1.10.0",
 ]
 
+[project.scripts]
+hanzo-kms = "hanzo_kms.cli:main"
+
 [project.urls]
 Homepage = "https://kms.hanzo.ai"
 Documentation = "https://docs.hanzo.ai/kms"
