@@ -17,7 +17,7 @@ def get_api_key(
 
     Checks in order:
     1. Authorization header (Bearer token)
-    2. x-hanzo-api-key header
+    2. x-api-key header
     3. x-api-key header
     4. apikey in JSON body
 
@@ -33,7 +33,7 @@ def get_api_key(
         return credentials.credentials
 
     # Check custom headers
-    api_key = request.headers.get("x-hanzo-api-key")
+    api_key = request.headers.get("x-api-key")
     if api_key:
         return api_key
 
