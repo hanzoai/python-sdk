@@ -6,7 +6,7 @@ license = "MIT"
 authors = [{ name = "Hanzo AI", email = "oss@hanzo.ai" }]
 requires-python = ">=3.12"
 dependencies = [
-    "hanzoflow>=1.8.0",
+    "hanzo-flow>=1.8.0",
 ]
 
 [project.scripts]
