@@ -12,7 +12,7 @@ These capabilities support more personalized, contextually aware, and human-like
 
 ### Authentication
 
-* **Production**: All endpoints require an API key provided via the `x-hanzo-api-key` HTTP header or set in the `HANZO_API_KEY` environment variable.
+* **Production**: All endpoints require an API key provided via the `x-api-key` HTTP header or set in the `HANZO_API_KEY` environment variable.
 * **Local Development**: Authentication can be disabled when running locally by setting `DISABLE_AUTH=true` or omitting the header.
 
 > **Note:** All endpoints are RESTful and expect JSON request bodies with **lowercase** key names (e.g., `userid`, `messagecontent`). The `userid` parameter is **mandatory** for most endpoints; it partitions data per user to ensure multi-tenancy and security.
@@ -294,7 +294,7 @@ CREATE TABLE fact_relations (
 
 ### Endpoints
 
-All endpoints require `userid` and either the `x-hanzo-api-key` header or `HANZO_API_KEY` environment variable (unless `DISABLE_AUTH=true`).
+All endpoints require `userid` and either the `x-api-key` header or `HANZO_API_KEY` environment variable (unless `DISABLE_AUTH=true`).
 
 #### 1. POST /v1/knowledge/bases/create
 

@@ -27,7 +27,7 @@ class TestProvider:
         response = client.provider.with_raw_response.list_budgets()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         provider = response.parse()
         assert_matches_type(ProviderListBudgetsResponse, provider, path=["response"])
 
@@ -35,7 +35,7 @@ class TestProvider:
     def test_streaming_response_list_budgets(self, client: Hanzo) -> None:
         with client.provider.with_streaming_response.list_budgets() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             provider = response.parse()
             assert_matches_type(ProviderListBudgetsResponse, provider, path=["response"])
@@ -56,7 +56,7 @@ class TestAsyncProvider:
         response = await async_client.provider.with_raw_response.list_budgets()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         provider = await response.parse()
         assert_matches_type(ProviderListBudgetsResponse, provider, path=["response"])
 
@@ -64,7 +64,7 @@ class TestAsyncProvider:
     async def test_streaming_response_list_budgets(self, async_client: AsyncHanzo) -> None:
         async with async_client.provider.with_streaming_response.list_budgets() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             provider = await response.parse()
             assert_matches_type(ProviderListBudgetsResponse, provider, path=["response"])
