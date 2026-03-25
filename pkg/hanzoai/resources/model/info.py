@@ -61,7 +61,7 @@ class InfoResource(SyncAPIResource):
         descriptions (except api key and api base)
 
         Parameters: hanzo_model_id: Optional[str] = None (this is the value of
-        `x-hanzo-model-id` returned in response headers)
+        `x-model-id` returned in response headers)
 
             - When hanzo_model_id is passed, it will return the info for that specific model
             - When hanzo_model_id is not passed, it will return the info for all models
@@ -148,7 +148,7 @@ class AsyncInfoResource(AsyncAPIResource):
         descriptions (except api key and api base)
 
         Parameters: hanzo_model_id: Optional[str] = None (this is the value of
-        `x-hanzo-model-id` returned in response headers)
+        `x-model-id` returned in response headers)
 
             - When hanzo_model_id is passed, it will return the info for that specific model
             - When hanzo_model_id is not passed, it will return the info for all models

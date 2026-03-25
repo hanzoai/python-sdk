@@ -30,7 +30,7 @@ class TestDeployments:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         deployment = response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
@@ -40,7 +40,7 @@ class TestDeployments:
             "model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             deployment = response.parse()
             assert_matches_type(object, deployment, path=["response"])
@@ -68,7 +68,7 @@ class TestDeployments:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         deployment = response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
@@ -78,7 +78,7 @@ class TestDeployments:
             "model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             deployment = response.parse()
             assert_matches_type(object, deployment, path=["response"])
@@ -110,7 +110,7 @@ class TestAsyncDeployments:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         deployment = await response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
@@ -120,7 +120,7 @@ class TestAsyncDeployments:
             "model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             deployment = await response.parse()
             assert_matches_type(object, deployment, path=["response"])
@@ -148,7 +148,7 @@ class TestAsyncDeployments:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         deployment = await response.parse()
         assert_matches_type(object, deployment, path=["response"])
 
@@ -158,7 +158,7 @@ class TestAsyncDeployments:
             "model",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             deployment = await response.parse()
             assert_matches_type(object, deployment, path=["response"])

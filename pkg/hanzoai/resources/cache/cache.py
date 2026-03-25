@@ -64,7 +64,7 @@ class CacheResource(SyncAPIResource):
         """Endpoint for deleting a key from the cache.
 
         All responses from hanzo proxy
-        have `x-hanzo-cache-key` in the headers
+        have `x-cache-key` in the headers
 
         Parameters:
 
@@ -180,7 +180,7 @@ class AsyncCacheResource(AsyncAPIResource):
         """Endpoint for deleting a key from the cache.
 
         All responses from hanzo proxy
-        have `x-hanzo-cache-key` in the headers
+        have `x-cache-key` in the headers
 
         Parameters:
 

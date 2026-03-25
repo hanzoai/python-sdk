@@ -426,9 +426,9 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         # Don't set these headers if they were already set or removed by the caller. We check
         # `custom_headers`, which can contain `Omit()`, instead of `headers` to account for the removal case.
         lower_custom_headers = [header.lower() for header in custom_headers]
-        if "x-hanzo-retry-count" not in lower_custom_headers:
-            headers["x-hanzo-retry-count"] = str(retries_taken)
-        if "x-hanzo-read-timeout" not in lower_custom_headers:
+        if "x-sdk-retry-count" not in lower_custom_headers:
+            headers["x-sdk-retry-count"] = str(retries_taken)
+        if "x-sdk-read-timeout" not in lower_custom_headers:
             timeout = (
                 self.timeout
                 if isinstance(options.timeout, NotGiven)
@@ -437,7 +437,7 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
             if isinstance(timeout, Timeout):
                 timeout = timeout.read
             if timeout is not None:
-                headers["x-hanzo-read-timeout"] = str(timeout)
+                headers["x-sdk-read-timeout"] = str(timeout)
 
         return headers
 
@@ -1984,12 +1984,12 @@ def get_platform() -> Platform:
 @lru_cache(maxsize=None)
 def platform_headers(version: str, *, platform: Platform | None) -> Dict[str, str]:
     return {
-        "X-Hanzo-Lang": "python",
-        "X-Hanzo-Package-Version": version,
-        "X-Hanzo-OS": str(platform or get_platform()),
-        "X-Hanzo-Arch": str(get_architecture()),
-        "X-Hanzo-Runtime": get_python_runtime(),
-        "X-Hanzo-Runtime-Version": get_python_version(),
+        "X-SDK-Lang": "python",
+        "X-SDK-Package-Version": version,
+        "X-SDK-OS": str(platform or get_platform()),
+        "X-SDK-Arch": str(get_architecture()),
+        "X-SDK-Runtime": get_python_runtime(),
+        "X-SDK-Runtime-Version": get_python_version(),
     }
 
 

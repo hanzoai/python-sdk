@@ -488,7 +488,7 @@ class Hanzo(SyncAPIClient):
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
-            "X-Hanzo-Async": "false",
+            "X-SDK-Async": "false",
             **self._custom_headers,
         }
 
@@ -932,7 +932,7 @@ class AsyncHanzo(AsyncAPIClient):
     def default_headers(self) -> dict[str, str | Omit]:
         return {
             **super().default_headers,
-            "X-Hanzo-Async": f"async:{get_async_library()}",
+            "X-SDK-Async": f"async:{get_async_library()}",
             **self._custom_headers,
         }
 
