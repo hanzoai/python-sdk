@@ -1,0 +1,20 @@
+[project]
+name = "hanzo-flow"
+version = "1.8.0"
+description = "Hanzo Flow — visual workflow builder for AI applications"
+license = "MIT"
+authors = [{ name = "Hanzo AI", email = "oss@hanzo.ai" }]
+requires-python = ">=3.12"
+dependencies = [
+    "hanzoflow>=1.8.0",
+]
+
+[project.scripts]
+hanzo-flow = "langflow.langflow_launcher:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hanzo_flow"]
