@@ -26,7 +26,7 @@ class TestClient:
         response = client.with_raw_response.get_home()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         client_ = response.parse()
         assert_matches_type(object, client_, path=["response"])
 
@@ -34,7 +34,7 @@ class TestClient:
     def test_streaming_response_get_home(self, client: Hanzo) -> None:
         with client.with_streaming_response.get_home() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             client_ = response.parse()
             assert_matches_type(object, client_, path=["response"])
@@ -55,7 +55,7 @@ class TestAsyncClient:
         response = await async_client.with_raw_response.get_home()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         client = await response.parse()
         assert_matches_type(object, client, path=["response"])
 
@@ -63,7 +63,7 @@ class TestAsyncClient:
     async def test_streaming_response_get_home(self, async_client: AsyncHanzo) -> None:
         async with async_client.with_streaming_response.get_home() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             client = await response.parse()
             assert_matches_type(object, client, path=["response"])

@@ -2,7 +2,7 @@
 
 import httpx
 
-RAW_RESPONSE_HEADER = "X-Hanzo-Raw-Response"
+RAW_RESPONSE_HEADER = "X-SDK-Raw-Response"
 OVERRIDE_CAST_TO_HEADER = "____hanzo_override_cast_to"
 
 # default timeout is 1 minute
