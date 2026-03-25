@@ -30,7 +30,7 @@ class TestDelete:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         delete = response.parse()
         assert_matches_type(object, delete, path=["response"])
 
@@ -40,7 +40,7 @@ class TestDelete:
             ip="ip",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             delete = response.parse()
             assert_matches_type(object, delete, path=["response"])
@@ -65,7 +65,7 @@ class TestAsyncDelete:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         delete = await response.parse()
         assert_matches_type(object, delete, path=["response"])
 
@@ -75,7 +75,7 @@ class TestAsyncDelete:
             ip="ip",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             delete = await response.parse()
             assert_matches_type(object, delete, path=["response"])
