@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-hanzo-flow = "langflow.langflow_launcher:main"
+hanzo-flow = "flow.launcher:main"
 
 [build-system]
 requires = ["hatchling"]
