@@ -30,7 +30,7 @@ class TestRuns:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         run = response.parse()
         assert_matches_type(object, run, path=["response"])
 
@@ -40,7 +40,7 @@ class TestRuns:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             run = response.parse()
             assert_matches_type(object, run, path=["response"])
@@ -75,7 +75,7 @@ class TestAsyncRuns:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+        assert response.http_request.headers.get("X-SDK-Lang") == "python"
         run = await response.parse()
         assert_matches_type(object, run, path=["response"])
 
@@ -85,7 +85,7 @@ class TestAsyncRuns:
             "thread_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Hanzo-Lang") == "python"
+            assert response.http_request.headers.get("X-SDK-Lang") == "python"
 
             run = await response.parse()
             assert_matches_type(object, run, path=["response"])

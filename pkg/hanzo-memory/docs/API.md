@@ -30,7 +30,7 @@ Authorization: Bearer YOUR_API_KEY
 ```
 
 Alternative authentication methods:
-- `x-hanzo-api-key` header
+- `x-api-key` header
 - `x-api-key` header
 - `apikey` in request body (for backwards compatibility)
 
