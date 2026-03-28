@@ -11,8 +11,8 @@ import pytest
 @pytest.fixture
 async def memory_service():
     """Create a PluginMemoryService with in-memory SQLite for testing."""
-    from hanzo_mcp.memory_service import PluginMemoryService
     from hanzo_mcp.backends.sqlite_plugin import SQLiteBackendPlugin
+    from hanzo_mcp.memory_service import PluginMemoryService
 
     svc = PluginMemoryService()
     # Use true in-memory db — each test gets a fresh database
@@ -152,7 +152,11 @@ class TestKeyBasedRetrieval:
             content="line1", metadata={}, key="append-key", namespace="test"
         )
         await memory_service.store_memory(
-            content="\nline2", metadata={}, key="append-key", namespace="test", append=True
+            content="\nline2",
+            metadata={},
+            key="append-key",
+            namespace="test",
+            append=True,
         )
 
         result = await memory_service.get_by_key(key="append-key", namespace="test")
@@ -176,7 +180,9 @@ class TestTagsSupport:
     async def test_list_memories_filter_by_tag(self, memory_service):
         await memory_service.store_memory(content="a", metadata={}, tags=["blue"])
         await memory_service.store_memory(content="b", metadata={}, tags=["red"])
-        await memory_service.store_memory(content="c", metadata={}, tags=["blue", "red"])
+        await memory_service.store_memory(
+            content="c", metadata={}, tags=["blue", "red"]
+        )
 
         results = await memory_service.list_memories(tag="blue")
         assert len(results) == 2
