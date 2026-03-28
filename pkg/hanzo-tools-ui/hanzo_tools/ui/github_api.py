@@ -184,9 +184,7 @@ class GitHubAPIClient:
         else:
             raise RuntimeError(f"GitHub API error: {resp.status_code}")
 
-    async def get_raw_content(
-        self, owner: str, repo: str, path: str, branch: str
-    ) -> str:
+    async def get_raw_content(self, owner: str, repo: str, path: str, branch: str) -> str:
         url = f"{GITHUB_RAW_BASE}/{owner}/{repo}/{branch}/{path}"
         cached = self._cache_get(url)
         if cached is not None:
@@ -220,9 +218,7 @@ class GitHubAPIClient:
                     config.owner, config.repo, index_path, config.branch
                 )
             except FileNotFoundError:
-                raise FileNotFoundError(
-                    f"Component '{name}' not found in {framework} repository"
-                )
+                raise FileNotFoundError(f"Component '{name}' not found in {framework} repository")
 
     async def fetch_component_demo(self, name: str, framework: str = "hanzo") -> str:
         config = FRAMEWORK_CONFIGS[framework]
@@ -246,6 +242,7 @@ class GitHubAPIClient:
         path = f"{config.components_path}/{name}/metadata.json"
         try:
             import json
+
             content = await self.get_raw_content(config.owner, config.repo, path, config.branch)
             return json.loads(content)
         except (FileNotFoundError, Exception):
@@ -271,9 +268,7 @@ class GitHubAPIClient:
                     config.owner, config.repo, index_path, config.branch
                 )
             except FileNotFoundError:
-                raise FileNotFoundError(
-                    f"Block '{name}' not found in {framework} repository"
-                )
+                raise FileNotFoundError(f"Block '{name}' not found in {framework} repository")
 
     async def list_components(self, framework: str = "hanzo") -> list[dict]:
         config = FRAMEWORK_CONFIGS[framework]
@@ -306,9 +301,7 @@ class GitHubAPIClient:
 
     async def get_directory_structure(self, path: str, framework: str = "hanzo") -> dict:
         config = FRAMEWORK_CONFIGS[framework]
-        contents = await self.get_directory_contents(
-            config.owner, config.repo, path, config.branch
-        )
+        contents = await self.get_directory_contents(config.owner, config.repo, path, config.branch)
         children = []
         for item in contents:
             entry = {"name": item["name"], "type": item["type"], "path": item["path"]}
