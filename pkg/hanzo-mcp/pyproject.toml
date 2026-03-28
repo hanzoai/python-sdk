@@ -55,6 +55,7 @@ dependencies = [
     "hanzo-tools-ingress>=0.1.0",
     "hanzo-tools-mpc>=0.1.0",
     "hanzo-tools-team>=0.1.0",
+    "hanzo-tools-ui>=0.1.0",
     "hanzo-persona>=1.0.0",
 ]
 

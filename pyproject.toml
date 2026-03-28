@@ -72,6 +72,7 @@ members = [
   "pkg/hanzo-network",
   "pkg/hanzo-repl",
   "pkg/hanzo-s3",
+  "pkg/hanzo-tools-ui",
   "pkg/hanzo-zap",
   "pkg/hanzoai",
 ]
@@ -481,10 +482,12 @@ exclude = [
 members = [
     "pkg/hanzo-memory",
     "pkg/hanzo-s3",
+    "pkg/hanzo-tools-ui",
 ]
 
 [tool.uv.sources]
 hanzo-memory = { workspace = true }
+hanzo-tools-ui = { workspace = true }
 
 [tool.ruff.lint.extend-per-file-ignores]
 # Allow print statements in scripts and examples

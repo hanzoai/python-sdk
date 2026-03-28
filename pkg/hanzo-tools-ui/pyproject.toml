@@ -32,6 +32,7 @@ dependencies = [
     "hanzo-tools-core>=0.1.0",
     "mcp>=1.0.0",
     "httpx>=0.25.0",
+    "aiofiles>=24.0.0",
 ]
 
 [project.optional-dependencies]
