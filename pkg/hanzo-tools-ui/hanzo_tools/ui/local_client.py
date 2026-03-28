@@ -80,17 +80,21 @@ class LocalUIClient:
             if entry.name.startswith("index"):
                 continue
             if entry.is_dir():
-                components.append({
-                    "name": entry.name,
-                    "type": "dir",
-                    "path": str(entry.relative_to(self._ui_path)),
-                })
+                components.append(
+                    {
+                        "name": entry.name,
+                        "type": "dir",
+                        "path": str(entry.relative_to(self._ui_path)),
+                    }
+                )
             elif entry.is_file() and entry.suffix in COMPONENT_EXTENSIONS:
-                components.append({
-                    "name": entry.stem,
-                    "type": "file",
-                    "path": str(entry.relative_to(self._ui_path)),
-                })
+                components.append(
+                    {
+                        "name": entry.stem,
+                        "type": "file",
+                        "path": str(entry.relative_to(self._ui_path)),
+                    }
+                )
         return components
 
     async def fetch_component(self, name: str, framework: str = "hanzo") -> str:
@@ -279,12 +283,14 @@ class LocalUIClient:
 
             name = entry.stem if entry.is_file() else entry.name
             if query_lower in name.lower():
-                results.append({
-                    "name": name,
-                    "type": "dir" if entry.is_dir() else "file",
-                    "path": str(entry.relative_to(self._ui_path)),
-                    "match": "name",
-                })
+                results.append(
+                    {
+                        "name": name,
+                        "type": "dir" if entry.is_dir() else "file",
+                        "path": str(entry.relative_to(self._ui_path)),
+                        "match": "name",
+                    }
+                )
 
         # Also search src modules
         src_dir = self._ui_path / "pkg" / "ui" / "src"
@@ -294,11 +300,13 @@ class LocalUIClient:
                     continue
                 name = entry.stem if entry.is_file() else entry.name
                 if query_lower in name.lower() and name not in [r["name"] for r in results]:
-                    results.append({
-                        "name": name,
-                        "type": "dir" if entry.is_dir() else "file",
-                        "path": str(entry.relative_to(self._ui_path)),
-                        "match": "name",
-                    })
+                    results.append(
+                        {
+                            "name": name,
+                            "type": "dir" if entry.is_dir() else "file",
+                            "path": str(entry.relative_to(self._ui_path)),
+                            "match": "name",
+                        }
+                    )
 
         return results

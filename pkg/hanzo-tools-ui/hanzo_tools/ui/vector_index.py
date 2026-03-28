@@ -8,7 +8,6 @@ Uses the Hanzo Cloud RAG pipeline:
 Authentication: publishable key (pk-*) for read, API key (hk-*) for write.
 """
 
-import json
 import logging
 import os
 from typing import Any
@@ -146,15 +145,17 @@ async def index_components(
         if source:
             content_parts.append(f"\nSource code:\n{source}")
 
-        documents.append({
-            "id": f"component-{name}",
-            "page_id": name,
-            "title": name.replace("-", " ").title(),
-            "url": f"https://ui.hanzo.ai/components/{name}",
-            "content": "\n".join(content_parts),
-            "section": comp_type.split(":")[-1] if ":" in comp_type else "ui",
-            "tag": comp_type,
-        })
+        documents.append(
+            {
+                "id": f"component-{name}",
+                "page_id": name,
+                "title": name.replace("-", " ").title(),
+                "url": f"https://ui.hanzo.ai/components/{name}",
+                "content": "\n".join(content_parts),
+                "section": comp_type.split(":")[-1] if ":" in comp_type else "ui",
+                "tag": comp_type,
+            }
+        )
 
     admin_key = ADMIN_KEY or os.environ.get("HANZO_API_KEY", "")
     if not admin_key:
@@ -204,11 +205,13 @@ async def index_from_local(ui_path: str | None = None) -> dict:
         name = comp["name"]
         try:
             source = await local.fetch_component(name)
-            components.append({
-                "name": name,
-                "type": comp.get("type", "file"),
-                "source": source,
-            })
+            components.append(
+                {
+                    "name": name,
+                    "type": comp.get("type", "file"),
+                    "source": source,
+                }
+            )
         except Exception as e:
             logger.debug("Skipping %s: %s", name, e)
 
@@ -244,13 +247,15 @@ async def index_from_registry(registry_url: str | None = None) -> dict:
             if isinstance(first, dict):
                 source = first.get("content", "")
 
-        components.append({
-            "name": name,
-            "type": data.get("type", ""),
-            "source": source,
-            "dependencies": data.get("dependencies", []),
-            "registryDependencies": data.get("registryDependencies", []),
-        })
+        components.append(
+            {
+                "name": name,
+                "type": data.get("type", ""),
+                "source": source,
+                "dependencies": data.get("dependencies", []),
+                "registryDependencies": data.get("registryDependencies", []),
+            }
+        )
 
     await client.close()
 

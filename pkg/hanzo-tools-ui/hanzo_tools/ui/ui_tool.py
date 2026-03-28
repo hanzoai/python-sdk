@@ -24,7 +24,6 @@ Actions:
 
 import asyncio
 import logging
-import os
 from typing import ClassVar
 
 from mcp.server.fastmcp import Context as MCPContext
@@ -131,7 +130,9 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
         ) -> dict:
             fw = framework or _current_framework
             if fw not in FRAMEWORK_CONFIGS:
-                return {"error": f"Unknown framework: {fw}. Available: {', '.join(FRAMEWORK_CONFIGS)}"}
+                return {
+                    "error": f"Unknown framework: {fw}. Available: {', '.join(FRAMEWORK_CONFIGS)}"
+                }
 
             if self._use_local(fw):
                 components = await self._local.list_components(fw)
@@ -491,7 +492,9 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
         @self.action("list_packages", "List all UI packages (local only)")
         async def list_packages(ctx: MCPContext) -> dict:
             if not self._local.available:
-                return {"error": "Local hanzo/ui repo not found. Set HANZO_UI_PATH or clone to ~/work/hanzo/ui"}
+                return {
+                    "error": "Local hanzo/ui repo not found. Set HANZO_UI_PATH or clone to ~/work/hanzo/ui"
+                }
 
             packages = await self._local.list_packages()
             return {
@@ -511,7 +514,9 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 return {"error": "File path is required (relative to hanzo/ui root)"}
 
             if not self._local.available:
-                return {"error": "Local hanzo/ui repo not found. Set HANZO_UI_PATH or clone to ~/work/hanzo/ui"}
+                return {
+                    "error": "Local hanzo/ui repo not found. Set HANZO_UI_PATH or clone to ~/work/hanzo/ui"
+                }
 
             content = await self._local.read_file(file_path)
             return {
@@ -533,6 +538,7 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 return {"error": "Question is required"}
 
             from .vector_index import chat_about_components
+
             return await chat_about_components(q)
 
         @self.action("semantic_search", "Semantic search over UI components (Hanzo Cloud)")
@@ -548,17 +554,20 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 return {"error": "Query is required"}
 
             from .vector_index import search_components
+
             results = await search_components(q, limit=limit, tags=tags)
             return {"query": q, "results": results}
 
         @self.action("index_status", "Check search index status")
         async def index_status(ctx: MCPContext) -> dict:
             from .vector_index import get_index_stats
+
             return await get_index_stats()
 
         @self.action("rebuild_index", "Re-index UI components into Hanzo Cloud search")
         async def rebuild_index(ctx: MCPContext) -> dict:
             from .vector_index import index_from_local, index_from_registry
+
             if self._local.available:
                 return await index_from_local()
             return await index_from_registry()

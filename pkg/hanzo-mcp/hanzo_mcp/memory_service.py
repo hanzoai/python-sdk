@@ -226,7 +226,9 @@ class PluginMemoryService:
         plugin = self._get_plugin()
         return await plugin.namespaces()
 
-    async def history(self, key: str, namespace: str = "default") -> List[Dict[str, Any]]:
+    async def history(
+        self, key: str, namespace: str = "default"
+    ) -> List[Dict[str, Any]]:
         """Show all versions of a key."""
         await self._ensure_init()
         plugin = self._get_plugin()
