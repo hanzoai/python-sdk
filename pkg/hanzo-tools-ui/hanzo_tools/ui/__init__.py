@@ -1,5 +1,8 @@
 """UI component registry tools for Hanzo AI (HIP-0300).
 
+Local-first: when ~/work/hanzo/ui exists, reads directly from disk.
+Falls back to GitHub API for remote registries.
+
 Tools:
 - ui: Unified UI component tool
   - list_components: List available components
@@ -14,6 +17,8 @@ Tools:
   - set_framework: Switch active framework
   - get_framework: Show current and available frameworks
   - create_composition: Scaffold from components
+  - list_packages: List all local UI packages
+  - read_file: Read any file from the UI repo
 
 Frameworks: hanzo (default), shadcn, react, svelte, vue, react-native
 
@@ -31,6 +36,7 @@ from .github_api import (
     FRAMEWORK_NAMES,
     GitHubAPIClient,
 )
+from .local_client import LocalUIClient
 from .ui_tool import UiTool, ui_tool
 
 TOOLS = [UiTool]
@@ -41,6 +47,7 @@ __all__ = [
     "FRAMEWORK_CONFIGS",
     "FRAMEWORK_NAMES",
     "GitHubAPIClient",
+    "LocalUIClient",
     "register_tools",
     "TOOLS",
 ]
