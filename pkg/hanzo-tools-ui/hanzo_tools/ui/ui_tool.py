@@ -108,6 +108,10 @@ Actions:
 - create_composition: Scaffold from components (name, components)
 - list_packages: List all UI packages (hanzo local only)
 - read_file: Read any file from the UI repo by path (hanzo local only)
+- ask: Ask a question about UI components (RAG via Hanzo Cloud)
+- semantic_search: Semantic search over components (Hanzo Cloud)
+- index_status: Check search index status
+- rebuild_index: Re-index components into Hanzo Cloud search
 
 Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
             shadcn, react, svelte, vue, react-native
@@ -515,6 +519,49 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 "source": "local",
                 "content": content,
             }
+
+        # --- Search / RAG actions (Hanzo Cloud backend) ---
+
+        @self.action("ask", "Ask a question about UI components (RAG-powered via Hanzo Cloud)")
+        async def ask(
+            ctx: MCPContext,
+            question: str | None = None,
+            query: str | None = None,
+        ) -> dict:
+            q = question or query
+            if not q:
+                return {"error": "Question is required"}
+
+            from .vector_index import chat_about_components
+            return await chat_about_components(q)
+
+        @self.action("semantic_search", "Semantic search over UI components (Hanzo Cloud)")
+        async def semantic_search(
+            ctx: MCPContext,
+            query: str | None = None,
+            question: str | None = None,
+            limit: int = 10,
+            tags: list[str] | None = None,
+        ) -> dict:
+            q = query or question
+            if not q:
+                return {"error": "Query is required"}
+
+            from .vector_index import search_components
+            results = await search_components(q, limit=limit, tags=tags)
+            return {"query": q, "results": results}
+
+        @self.action("index_status", "Check search index status")
+        async def index_status(ctx: MCPContext) -> dict:
+            from .vector_index import get_index_stats
+            return await get_index_stats()
+
+        @self.action("rebuild_index", "Re-index UI components into Hanzo Cloud search")
+        async def rebuild_index(ctx: MCPContext) -> dict:
+            from .vector_index import index_from_local, index_from_registry
+            if self._local.available:
+                return await index_from_local()
+            return await index_from_registry()
 
     # Inherits call() and register() from BaseTool — action routing is automatic
 
