@@ -116,9 +116,7 @@ class SQLiteBackendPlugin:
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_memories_namespace ON memories(namespace);"
         )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_memories_key ON memories(key);"
-        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_memories_key ON memories(key);")
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_memories_ns_key ON memories(namespace, key);"
         )
@@ -473,7 +471,9 @@ class SQLiteBackendPlugin:
         self._conn.commit()
         return True
 
-    async def history(self, key: str, namespace: str = "default") -> List[Dict[str, Any]]:
+    async def history(
+        self, key: str, namespace: str = "default"
+    ) -> List[Dict[str, Any]]:
         """Show all versions/entries for a key within a namespace, ordered by creation time."""
         if not self._conn:
             raise RuntimeError("Plugin not initialized")

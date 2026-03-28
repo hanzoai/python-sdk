@@ -140,17 +140,13 @@ class RegistryCache:
 
                 # Metadata
                 try:
-                    entry.metadata = await self._github.fetch_component_metadata(
-                        name, framework
-                    )
+                    entry.metadata = await self._github.fetch_component_metadata(name, framework)
                 except Exception:
                     pass
 
                 # Demo
                 try:
-                    entry.demo = await self._github.fetch_component_demo(
-                        name, framework
-                    )
+                    entry.demo = await self._github.fetch_component_demo(name, framework)
                 except Exception:
                     pass
 
@@ -175,9 +171,7 @@ class RegistryCache:
                 b_entry = ComponentEntry(name=name, type=block.get("type", "file"))
                 try:
                     async with sem:
-                        b_entry.source = await self._github.fetch_block(
-                            name, framework
-                        )
+                        b_entry.source = await self._github.fetch_block(name, framework)
                 except Exception:
                     pass
                 fw_data.blocks[name] = b_entry
@@ -260,9 +254,7 @@ class RegistryCache:
         entry = self._fw(framework).components.get(name)
         return entry.demo if entry else None
 
-    def get_component_metadata(
-        self, name: str, framework: str = "hanzo"
-    ) -> dict | None:
+    def get_component_metadata(self, name: str, framework: str = "hanzo") -> dict | None:
         entry = self._fw(framework).components.get(name)
         return entry.metadata if entry else None
 
@@ -287,14 +279,10 @@ class RegistryCache:
                 or q in entry.description.lower()
                 or q in entry.category.lower()
             ):
-                results.append(
-                    {"name": entry.name, "type": entry.type, "match": "name"}
-                )
+                results.append({"name": entry.name, "type": entry.type, "match": "name"})
         return results
 
-    def get_structure(
-        self, path: str, framework: str = "hanzo"
-    ) -> dict[str, Any] | None:
+    def get_structure(self, path: str, framework: str = "hanzo") -> dict[str, Any] | None:
         return self._fw(framework).directory_cache.get(path)
 
     def build_index(self, framework: str = "hanzo") -> dict:

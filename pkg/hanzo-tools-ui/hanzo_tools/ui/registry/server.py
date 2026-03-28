@@ -9,14 +9,13 @@ Run:
     uvicorn hanzo_tools.ui.registry.server:app --port 8787
 """
 
-import asyncio
 import logging
 import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, ORJSONResponse
+from fastapi.responses import JSONResponse
 
 from .cache import RegistryCache
 
@@ -105,9 +104,7 @@ async def get_component_demo(name: str, framework: str = Query(default="hanzo"))
     cache = get_cache()
     demo = cache.get_component_demo(name, framework)
     if demo is None:
-        raise HTTPException(
-            404, detail={"error": "Demo not found", "name": name}
-        )
+        raise HTTPException(404, detail={"error": "Demo not found", "name": name})
     return {"name": name, "demo": demo}
 
 
@@ -146,15 +143,11 @@ async def search_components(
 
 
 @app.get("/api/structure")
-async def get_structure(
-    path: str = Query(default=""), framework: str = Query(default="hanzo")
-):
+async def get_structure(path: str = Query(default=""), framework: str = Query(default="hanzo")):
     cache = get_cache()
     structure = cache.get_structure(path, framework)
     if structure is None:
-        raise HTTPException(
-            404, detail={"error": "Path not found in cache", "path": path}
-        )
+        raise HTTPException(404, detail={"error": "Path not found in cache", "path": path})
     return structure
 
 
