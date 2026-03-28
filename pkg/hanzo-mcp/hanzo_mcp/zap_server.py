@@ -15,18 +15,18 @@ import time
 from typing import Any, Awaitable, Callable
 
 from zap.protocol import (
+    HEADER_SIZE,
+    MAX_MESSAGE_SIZE,
     MSG_HANDSHAKE,
     MSG_HANDSHAKE_OK,
     MSG_PING,
     MSG_PONG,
     MSG_REQUEST,
     MSG_RESPONSE,
-    ZAP_PORTS,
-    HEADER_SIZE,
-    MAX_MESSAGE_SIZE,
     ZAP_MAGIC,
-    encode,
+    ZAP_PORTS,
     decode,
+    encode,
 )
 
 logger = logging.getLogger(__name__)
@@ -88,9 +88,7 @@ class ZapServer:
             for t in self.tools
         ]
 
-    async def _read_frame(
-        self, reader: asyncio.StreamReader
-    ) -> tuple[int, Any] | None:
+    async def _read_frame(self, reader: asyncio.StreamReader) -> tuple[int, Any] | None:
         """Read a single ZAP frame from the stream."""
         try:
             header = await reader.readexactly(HEADER_SIZE)
@@ -102,6 +100,7 @@ class ZapServer:
 
         msg_type = header[4]
         import struct
+
         length = struct.unpack("!L", header[5:9])[0]
 
         if length > MAX_MESSAGE_SIZE:
@@ -113,6 +112,7 @@ class ZapServer:
             return None
 
         import json
+
         try:
             payload = json.loads(payload_bytes.decode("utf-8"))
             return (msg_type, payload)

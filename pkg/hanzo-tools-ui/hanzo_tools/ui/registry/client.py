@@ -29,9 +29,7 @@ class RegistryClient:
 
     def __init__(self, base_url: str | None = None):
         self._base_url = (
-            base_url
-            or os.environ.get("HANZO_UI_REGISTRY_URL")
-            or DEFAULT_REGISTRY_URL
+            base_url or os.environ.get("HANZO_UI_REGISTRY_URL") or DEFAULT_REGISTRY_URL
         ).rstrip("/")
         self._client: httpx.AsyncClient | None = None
         self._cache: dict[str, tuple[Any, float]] = {}
@@ -130,7 +128,7 @@ class RegistryClient:
         try:
             data = await self._get("/api/registry/components.json")
         except Exception:
-            data = await self._get("/api/registry", {"type": f"components:ui"})
+            data = await self._get("/api/registry", {"type": "components:ui"})
         return data.get("components", [])
 
     async def fetch_component(self, name: str, framework: str = "hanzo") -> str:
@@ -160,9 +158,7 @@ class RegistryClient:
             raise FileNotFoundError(f"Demo for '{name}' not available")
         return source
 
-    async def fetch_component_metadata(
-        self, name: str, framework: str = "hanzo"
-    ) -> dict:
+    async def fetch_component_metadata(self, name: str, framework: str = "hanzo") -> dict:
         try:
             data = await self._get(f"/api/registry/components/{name}.json")
         except Exception:
@@ -183,9 +179,7 @@ class RegistryClient:
     async def fetch_block(self, name: str, framework: str = "hanzo") -> str:
         return await self.fetch_component(name, framework)
 
-    async def search_components(
-        self, query: str, framework: str = "hanzo"
-    ) -> list[dict]:
+    async def search_components(self, query: str, framework: str = "hanzo") -> list[dict]:
         try:
             # Try server-mode search
             data = await self._get("/api/registry/search", {"q": query})
@@ -208,16 +202,12 @@ class RegistryClient:
             if q in item.get("n", "").lower()
         ]
 
-    async def get_directory_structure(
-        self, path: str, framework: str = "hanzo"
-    ) -> dict:
+    async def get_directory_structure(self, path: str, framework: str = "hanzo") -> dict:
         # Not available as static — return component list as structure
         comps = await self.list_components(framework)
         return {
             "path": path or "/",
-            "children": [
-                {"name": c["name"], "type": "file"} for c in comps
-            ],
+            "children": [{"name": c["name"], "type": "file"} for c in comps],
         }
 
     async def fetch_full_index(self, framework: str = "hanzo") -> dict:
