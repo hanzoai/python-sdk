@@ -37,8 +37,8 @@ FRAMEWORK_CONFIGS: dict[str, FrameworkConfig] = {
         owner="hanzoai",
         repo="ui",
         branch="main",
-        components_path="packages/ui/src/components",
-        blocks_path="packages/ui/src/blocks",
+        components_path="pkg/ui/primitives",
+        blocks_path="pkg/ui/primitives",
         extension=".tsx",
     ),
     "hanzo-native": FrameworkConfig(
