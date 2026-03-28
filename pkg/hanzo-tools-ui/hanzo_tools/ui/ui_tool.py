@@ -3,8 +3,7 @@
 Single 'ui' tool for browsing, searching, installing, and managing
 UI components from Hanzo and other registries.
 
-Local-first: when ~/work/hanzo/ui exists, reads directly from disk
-for the hanzo framework. Falls back to GitHub API otherwise.
+Backend priority: local disk → registry server → GitHub API
 
 Actions:
 - list_components: List available components for a framework
@@ -25,6 +24,7 @@ Actions:
 
 import asyncio
 import logging
+import os
 from typing import ClassVar
 
 from mcp.server.fastmcp import Context as MCPContext
@@ -37,6 +37,7 @@ from .github_api import (
     GitHubAPIClient,
 )
 from .local_client import LocalUIClient
+from .registry.client import RegistryClient
 
 logger = logging.getLogger(__name__)
 
@@ -50,16 +51,20 @@ class UiTool(BaseTool):
     Browse, search, install, and manage UI components from
     Hanzo and other registries (shadcn/ui, Vue, Svelte, React Native).
 
-    Local-first: prefers ~/work/hanzo/ui when available for hanzo framework.
+    Backend priority: local → registry → GitHub API
     """
 
     name: ClassVar[str] = "ui"
-    VERSION: ClassVar[str] = "0.2.0"
+    VERSION: ClassVar[str] = "0.3.0"
 
     def __init__(self):
         super().__init__()
         self._github = GitHubAPIClient()
         self._local = LocalUIClient()
+        self._registry = RegistryClient()
+        self._registry_checked = False
+        self._registry_available = False
+
         if self._local.available:
             logger.info("UI tool: local hanzo/ui repo detected, using local-first mode")
         self._register_ui_actions()
@@ -67,6 +72,21 @@ class UiTool(BaseTool):
     def _use_local(self, framework: str) -> bool:
         """Use local client for hanzo frameworks when repo is available."""
         return framework.startswith("hanzo") and self._local.available
+
+    async def _use_registry(self) -> bool:
+        """Check if the registry server is available (cached after first check)."""
+        if not self._registry_checked:
+            self._registry_checked = True
+            self._registry_available = await self._registry.check_available()
+            if self._registry_available:
+                logger.info("UI tool: registry server available at %s", self._registry._base_url)
+        return self._registry_available
+
+    async def _remote_client(self):
+        """Return registry client if available, else GitHub client."""
+        if await self._use_registry():
+            return self._registry, "registry"
+        return self._github, "github"
 
     @property
     def description(self) -> str:
@@ -113,8 +133,8 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 components = await self._local.list_components(fw)
                 source = "local"
             else:
-                components = await self._github.list_components(fw)
-                source = "github"
+                client, source = await self._remote_client()
+                components = await client.list_components(fw)
 
             if category:
                 components = [c for c in components if c.get("category") == category]
@@ -149,14 +169,15 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                         "backend": "local",
                     }
                 except FileNotFoundError:
-                    pass  # Fall through to GitHub
+                    pass  # Fall through to remote
 
-            source = await self._github.fetch_component(comp_name, fw)
+            client, backend = await self._remote_client()
+            source = await client.fetch_component(comp_name, fw)
             return {
                 "framework": self._fw_name(fw),
                 "component": comp_name,
                 "source": source,
-                "backend": "github",
+                "backend": backend,
             }
 
         @self.action("get_demo", "Get component demo/example")
@@ -184,12 +205,13 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 except FileNotFoundError:
                     pass
 
-            demo = await self._github.fetch_component_demo(comp_name, fw)
+            client, backend = await self._remote_client()
+            demo = await client.fetch_component_demo(comp_name, fw)
             return {
                 "framework": self._fw_name(fw),
                 "component": comp_name,
                 "demo": demo,
-                "backend": "github",
+                "backend": backend,
             }
 
         @self.action("get_metadata", "Get component metadata")
@@ -213,7 +235,8 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                     "metadata": metadata,
                 }
 
-            metadata = await self._github.fetch_component_metadata(comp_name, fw)
+            client, _ = await self._remote_client()
+            metadata = await client.fetch_component_metadata(comp_name, fw)
             return {
                 "framework": self._fw_name(fw),
                 "component": comp_name,
@@ -232,8 +255,8 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 blocks = await self._local.list_blocks(fw)
                 source = "local"
             else:
-                blocks = await self._github.list_blocks(fw)
-                source = "github"
+                client, source = await self._remote_client()
+                blocks = await client.list_blocks(fw)
 
             if category:
                 blocks = [b for b in blocks if b.get("category") == category]
@@ -270,12 +293,13 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                 except FileNotFoundError:
                     pass
 
-            content = await self._github.fetch_block(block_name, fw)
+            client, backend = await self._remote_client()
+            content = await client.fetch_block(block_name, fw)
             return {
                 "framework": self._fw_name(fw),
                 "block": block_name,
                 "implementation": content,
-                "backend": "github",
+                "backend": backend,
             }
 
         @self.action("search", "Search components")
@@ -300,21 +324,12 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                     "results": matches,
                 }
 
-            components = await self._github.list_components(fw)
-            q_lower = q.lower()
-
-            matches = [
-                c
-                for c in components
-                if q_lower in c.get("name", "").lower()
-                or q_lower in c.get("description", "").lower()
-                or q_lower in c.get("category", "").lower()
-            ]
-
+            client, source = await self._remote_client()
+            matches = await client.search_components(q, fw)
             return {
                 "framework": self._fw_name(fw),
                 "query": q,
-                "source": "github",
+                "source": source,
                 "results": matches,
             }
 
@@ -336,11 +351,12 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
                     "structure": structure,
                 }
 
-            structure = await self._github.get_directory_structure(path, fw)
+            client, source = await self._remote_client()
+            structure = await client.get_directory_structure(path, fw)
             return {
                 "framework": self._fw_name(fw),
                 "path": path or "/",
-                "source": "github",
+                "source": source,
                 "structure": structure,
             }
 
@@ -401,10 +417,12 @@ Frameworks: hanzo (default), hanzo-native, hanzo-vue, hanzo-svelte,
 
         @self.action("get_framework", "Show current and available frameworks")
         async def get_framework(ctx: MCPContext) -> dict:
+            registry_up = await self._use_registry()
             return {
                 "current": self._fw_name(_current_framework),
                 "framework": _current_framework,
                 "local_available": self._local.available,
+                "registry_available": registry_up,
                 "available": [
                     {
                         "key": key,
