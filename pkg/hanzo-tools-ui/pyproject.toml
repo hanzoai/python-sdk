@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-ui"
-version = "0.1.0"
-description = "UI component registry tools for Hanzo AI (HIP-0300)"
+version = "0.2.0"
+description = "UI component registry tools and server for Hanzo AI (HIP-0300)"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.12"
@@ -36,11 +36,18 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+server = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+]
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "ruff>=0.1.0",
 ]
+
+[project.scripts]
+hanzo-ui-registry = "hanzo_tools.ui.registry.__main__:main"
 
 [project.entry-points."hanzo.tools"]
 ui = "hanzo_tools.ui:TOOLS"
