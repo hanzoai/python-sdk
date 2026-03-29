@@ -30,6 +30,7 @@ from .types import (
 )
 from .client import ZapClient
 from .server import ZapServer
+from .cloud import CloudClient
 from .playground import PlaygroundClient
 
 __version__ = "0.7.0"
@@ -37,6 +38,8 @@ __all__ = [
     # Wire protocol
     "ZapClient",
     "ZapServer",
+    # Cloud (luxfi/zap binary protocol — compatible with Rust hanzo-zap)
+    "CloudClient",
     # Playground
     "PlaygroundClient",
     # Core types
