@@ -16,7 +16,7 @@ class SlashCommand:
 
     command: str
     description: str
-    aliases: List[str] = None
+    aliases: Optional[List[str]] = None
 
     def matches(self, query: str) -> bool:
         """Check if command matches query."""
@@ -75,12 +75,16 @@ class CommandSuggestions(Vertical):
         SlashCommand("/auth", "Authenticate with Claude personal account"),
         SlashCommand("/auto", "Execute prompt autonomously with tools"),
         SlashCommand("/backend", "Switch AI backend (claude/openai/embedded)"),
-        SlashCommand("/bug", "Submit feedback about Hanzo REPL"),
+        SlashCommand("/branch", "List or create git branches"),
+        SlashCommand("/bug", "Submit feedback about Hanzo Dev"),
         SlashCommand("/clear", "Clear session history and start fresh"),
         SlashCommand("/code", "Implement with consensus from multiple review passes"),
+        SlashCommand("/commit", "Commit staged changes"),
+        SlashCommand("/commit-push-pr", "Commit, push, and create PR"),
         SlashCommand("/compact", "Compact session keeping a summary in context"),
         SlashCommand("/config", "Show loaded configuration files", ["theme"]),
         SlashCommand("/cost", "Show total cost and duration of current session"),
+        SlashCommand("/diff", "Show working tree diff"),
         SlashCommand("/doctor", "Check the health of your Hanzo installation"),
         SlashCommand("/exit", "Exit the REPL", ["quit"]),
         SlashCommand("/export", "Export conversation to file"),
@@ -104,12 +108,14 @@ class CommandSuggestions(Vertical):
         SlashCommand("/resume", "Load saved session from JSON file"),
         SlashCommand("/run", "Run a shell command"),
         SlashCommand("/search", "Search for content using MCP tools"),
+        SlashCommand("/stash", "Manage git stash (pop/list)"),
         SlashCommand("/session", "List or switch saved sessions"),
         SlashCommand("/solve", "Race multiple approaches, present best solution"),
         SlashCommand("/status", "Model, session info, token usage"),
         SlashCommand("/tools", "Show available MCP tools"),
         SlashCommand("/version", "Show version info"),
         SlashCommand("/voice", "Enable voice mode for bidirectional communication"),
+        SlashCommand("/worktree", "Manage git worktrees"),
     ]
 
     selected_index = reactive(0)
