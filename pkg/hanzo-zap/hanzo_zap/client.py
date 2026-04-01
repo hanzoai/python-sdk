@@ -61,9 +61,6 @@ class ZapClient:
         port = parsed.port or 9999
 
         ssl_ctx = ssl.create_default_context() if use_tls else None
-        if ssl_ctx:
-            ssl_ctx.check_hostname = False
-            ssl_ctx.verify_mode = ssl.CERT_NONE
 
         reader, writer = await asyncio.open_connection(host, port, ssl=ssl_ctx)
         client = cls(reader, writer)
