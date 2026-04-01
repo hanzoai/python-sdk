@@ -1,10 +1,26 @@
 """Beautiful Textual-based REPL interface for Hanzo."""
 
 import contextlib
+import json
 import time
-from typing import Dict, Optional
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 from hanzo_mcp.server import HanzoMCPServer
+from hanzoai.config import ConfigLoader, RuntimeConfig
+from hanzoai.protocols import (
+    ModelPricing,
+    PermissionMode,
+    PermissionPolicy,
+    UsageTracker,
+)
+from hanzoai.session import (
+    CompactionConfig,
+    Session as HanzoSession,
+    compact_session,
+    estimate_session_tokens,
+)
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.text import Text
@@ -19,6 +35,14 @@ from .command_palette import CommandPalette, CommandSelected
 from .command_suggestions import CommandSuggestions
 from .llm_client import LLMClient
 from .tool_executor import ToolExecutor
+
+# Default pricing for cost display (Claude 3.5 Sonnet tier)
+_DEFAULT_PRICING = ModelPricing(
+    input_price_per_token=3.0e-6,
+    output_price_per_token=15.0e-6,
+    cache_creation_price_per_token=3.75e-6,
+    cache_read_price_per_token=0.3e-6,
+)
 
 
 class StatusBar(Static):
@@ -74,12 +98,19 @@ class StatusBar(Static):
 
 
 class ContextIndicator(Static):
-    """Shows context usage."""
+    """Shows context usage based on estimate_session_tokens()."""
 
-    context_percent = reactive(10)
+    context_percent = reactive(100)
 
-    def __init__(self, **kwargs):
+    def __init__(self, max_tokens: int = 200_000, **kwargs):
         super().__init__(**kwargs)
+        self.max_tokens = max_tokens
+
+    def update_from_session(self, session: HanzoSession) -> None:
+        """Recompute percentage from live session token estimate."""
+        used = estimate_session_tokens(session)
+        remaining = max(0, self.max_tokens - used)
+        self.context_percent = int((remaining / self.max_tokens) * 100)
 
     def render(self) -> Text:
         """Render context indicator."""
@@ -182,6 +213,16 @@ class HanzoTextualREPL(App):
         self.verbose_mode = False
         self.memory = {}  # For memorized snippets
         self.command_suggestions = None
+        self.fast_mode = False
+        self.permission_mode = PermissionMode.Allow
+
+        # hanzoai core wiring
+        loader = ConfigLoader.default_for(Path.cwd())
+        self.runtime_config: RuntimeConfig = loader.load()
+        self.hanzo_session = HanzoSession()
+        self.compaction_config = CompactionConfig()
+        self._session_path = Path.home() / ".hanzo" / "session.json"
+        self._sessions_dir = Path.home() / ".hanzo" / "sessions"
 
     def compose(self) -> ComposeResult:
         """Create child widgets."""
@@ -226,6 +267,14 @@ class HanzoTextualREPL(App):
             # Initialize LLM client (for embedded backend)
             self.llm_client = LLMClient()
 
+            # Apply model from config if present
+            cfg_model = self.runtime_config.get("model")
+            if cfg_model and isinstance(cfg_model, str):
+                try:
+                    self.llm_client.set_model(cfg_model)
+                except ValueError:
+                    pass
+
             # Initialize backend manager
             self.backend_manager = BackendManager(self.llm_client)
 
@@ -254,8 +303,38 @@ class HanzoTextualREPL(App):
                     Text(f"● Model: {self.llm_client.current_model}", style="green")
                 )
 
-            # Initialize tool executor with backend
-            self.tool_executor = ToolExecutor(self.mcp_server, self.backend_manager)
+            # Initialize tool executor with backend + permission policy
+            self.tool_executor = ToolExecutor(
+                self.mcp_server,
+                self.backend_manager,
+                permission_policy=PermissionPolicy(default_mode=PermissionMode.Allow),
+            )
+
+            # Connect to MCP servers from config
+            mcp_servers = self.runtime_config.mcp_servers()
+            for name, cfg in mcp_servers.items():
+                if hasattr(cfg, "command"):
+                    cmd = [cfg.command] + list(cfg.args)
+                    count = await self.tool_executor.register_mcp_server(
+                        name, cmd, env=cfg.env or None,
+                    )
+                    if count:
+                        messages.write(Text(f"● MCP {name}: {count} tools", style="green"))
+
+            # Load persisted session
+            if self._session_path.is_file():
+                try:
+                    self.hanzo_session = HanzoSession.load(self._session_path)
+                    est = estimate_session_tokens(self.hanzo_session)
+                    messages.write(
+                        Text(f"● Restored session: {len(self.hanzo_session.messages)} msgs, ~{est:,} tokens", style="dim")
+                    )
+                except Exception:
+                    self.hanzo_session = HanzoSession()
+
+            # Update context indicator from session
+            context_indicator = self.query_one("#permissions", ContextIndicator)
+            context_indicator.update_from_session(self.hanzo_session)
 
             # List available backends
             backends = self.backend_manager.list_backends()
@@ -324,20 +403,35 @@ class HanzoTextualREPL(App):
 
     async def process_chat(self, message: str) -> None:
         """Process a chat message."""
+        from hanzoai.session import ConversationMessage, TextBlock
+
         # Start thinking animation
         status = self.query_one("#status-bar", StatusBar)
         status.start_thinking()
 
         try:
+            # Track user message in session
+            self.hanzo_session.messages.append(ConversationMessage.user_text(message))
+
             # Execute with tools
             response = await self.tool_executor.execute_with_tools(message)
+
+            # Track assistant response in session
+            self.hanzo_session.messages.append(
+                ConversationMessage.assistant([TextBlock(text=response or "")])
+            )
 
             # Stop animation
             status.stop_thinking()
 
+            # Update token count on status bar
+            if self.tool_executor:
+                cum = self.tool_executor.usage_tracker.cumulative_usage()
+                status.update_tokens(cum.total_tokens())
+
             # Show response
-            messages = self.query_one("#messages", RichLog)
-            messages.write("")
+            msgs_widget = self.query_one("#messages", RichLog)
+            msgs_widget.write("")
 
             # Format as markdown
             console = Console()
@@ -346,14 +440,13 @@ class HanzoTextualREPL(App):
 
             for line in capture.get().split("\n"):
                 if line.strip():
-                    messages.write(f"● {line}")
+                    msgs_widget.write(f"● {line}")
 
-            messages.write("")
+            msgs_widget.write("")
 
-            # Update context usage indicator (estimated - real tracking pending)
-            self.context_usage = max(5, self.context_usage - 2)
+            # Update context indicator from real session token estimate
             context_indicator = self.query_one("#permissions", ContextIndicator)
-            context_indicator.context_percent = self.context_usage
+            context_indicator.update_from_session(self.hanzo_session)
 
         except Exception as e:
             status.stop_thinking()
@@ -556,11 +649,31 @@ class HanzoTextualREPL(App):
         """Show slash commands menu."""
         self.show_message("/ commands:", "cyan")
         commands = [
-            "/search <query> - Search for content",
-            "/file <path> - Open file",
-            "/run <command> - Run shell command",
-            "/voice - Enable voice mode",
-            "/model <name> - Change AI model",
+            "/help              Show shortcuts",
+            "/status            Model, session info, token usage",
+            "/cost              Accumulated cost estimate",
+            "/clear             Clear session history",
+            "/compact           Compact session, keep summary",
+            "/model [name]      Show or switch AI model",
+            "/permissions [m]   Show/switch permission mode",
+            "/fast              Toggle fast/standard mode",
+            "/config            Show loaded config files",
+            "/memory            Show loaded instruction files",
+            "/init              Create starter CLAUDE.md",
+            "/resume [path]     Load saved session",
+            "/export [file]     Export conversation",
+            "/session [list|..]  Manage saved sessions",
+            "/plan <prompt>     Planning agent",
+            "/solve <prompt>    Multi-approach solver",
+            "/code <prompt>     Consensus code review",
+            "/auto <prompt>     Autonomous execution",
+            "/login             Authenticate via PKCE",
+            "/loop <s> <msg>    Run prompt on interval",
+            "/backend <name>    Switch backend",
+            "/tools             List MCP tools",
+            "/remote-control    WebSocket remote bridge",
+            "/version           Show version info",
+            "/exit              Quit",
         ]
         messages = self.query_one("#messages", RichLog)
         for cmd in commands:
@@ -640,6 +753,9 @@ class HanzoTextualREPL(App):
                         "Model selection only available for embedded backend", "yellow"
                     )
                 return True
+            if command == "model" and not arg:
+                await self.show_model_selector()
+                return True
             if command == "auth":
                 await self.handle_auth_command()
                 return True
@@ -650,13 +766,76 @@ class HanzoTextualREPL(App):
                 await self.handle_logout_command()
                 return True
             if command == "status":
-                await self.show_backend_status()
+                await self.handle_status_command()
+                return True
+            if command == "cost":
+                await self.handle_cost_command()
+                return True
+            if command == "compact":
+                await self.handle_compact_command()
+                return True
+            if command == "config":
+                await self.handle_config_command()
+                return True
+            if command == "version":
+                await self.handle_version_command()
+                return True
+            if command == "login":
+                await self.handle_login_command()
+                return True
+            if command == "loop":
+                await self.handle_loop_command(arg)
+                return True
+            if command == "permissions":
+                await self.handle_permissions_command(arg)
+                return True
+            if command == "resume":
+                await self.handle_resume_command(arg)
+                return True
+            if command == "memory":
+                await self.handle_memory_command()
+                return True
+            if command == "init":
+                await self.handle_init_command()
+                return True
+            if command == "export":
+                await self.handle_export_command(arg)
+                return True
+            if command == "session":
+                await self.handle_session_command(arg)
+                return True
+            if command == "plan":
+                await self.handle_agent_command("You are a planning agent. Create a detailed plan.", arg, "plan")
+                return True
+            if command == "solve":
+                await self.handle_agent_command("Race multiple approaches. Present the best solution.", arg, "solve")
+                return True
+            if command == "code":
+                await self.handle_agent_command("Implement this with consensus from multiple review passes.", arg, "code")
+                return True
+            if command == "auto":
+                await self.handle_agent_command("Execute this task autonomously. Use tools as needed.", arg, "auto")
+                return True
+            if command == "fast":
+                self.fast_mode = not self.fast_mode
+                self.show_message(f"Mode: {'fast' if self.fast_mode else 'standard'}", "cyan")
+                return True
+            if command == "remote-control":
+                self.show_message("Remote control: ws://localhost:9229", "cyan")
+                self.show_message("Install websockets and run from CLI REPL for full support.", "yellow")
                 return True
             if command == "exit" or command == "quit":
+                # Save session before exit
+                self._session_path.parent.mkdir(parents=True, exist_ok=True)
+                self.hanzo_session.save(self._session_path)
                 self.exit()
                 return True
             if command == "clear":
+                self.hanzo_session = HanzoSession()
+                if self.tool_executor:
+                    self.tool_executor.reset_context()
                 self.action_clear()
+                self.show_message("Session cleared.", "green")
                 return True
             if command == "help":
                 self.action_shortcuts()
@@ -848,6 +1027,214 @@ class HanzoTextualREPL(App):
             self.show_message("Logged out from Claude account", "yellow")
         else:
             self.show_message("No active authentication session", "dim")
+
+    async def handle_status_command(self) -> None:
+        """Show model, session info, token usage."""
+        messages = self.query_one("#messages", RichLog)
+        tracker = self.tool_executor.usage_tracker if self.tool_executor else UsageTracker()
+        cum = tracker.cumulative_usage()
+        est = estimate_session_tokens(self.hanzo_session)
+        model = self.llm_client.current_model if self.llm_client else "n/a"
+        provider = self.llm_client.current_provider if self.llm_client else "n/a"
+        backend = self.backend_manager.current_backend if self.backend_manager else "n/a"
+
+        messages.write(Text("Status:", style="cyan"))
+        messages.write(f"  Backend:            {backend}")
+        messages.write(f"  Model:              {model}")
+        messages.write(f"  Provider:           {provider}")
+        messages.write(f"  Turns:              {tracker.turns}")
+        messages.write(f"  Input tokens:       {cum.input_tokens:,}")
+        messages.write(f"  Output tokens:      {cum.output_tokens:,}")
+        messages.write(f"  Session tokens:     ~{est:,}")
+        messages.write(f"  Session messages:   {len(self.hanzo_session.messages)}")
+        messages.write(f"  Config files:       {len(self.runtime_config.loaded_entries)}")
+        messages.write("")
+
+    async def handle_cost_command(self) -> None:
+        """Show accumulated cost estimate."""
+        tracker = self.tool_executor.usage_tracker if self.tool_executor else UsageTracker()
+        cum = tracker.cumulative_usage()
+        cost = _DEFAULT_PRICING.cost(cum)
+        self.show_message(
+            f"Cost: ${cost:.6f} ({cum.input_tokens:,} in / {cum.output_tokens:,} out, {tracker.turns} turns)",
+            "cyan",
+        )
+
+    async def handle_compact_command(self) -> None:
+        """Compact the session to reclaim context."""
+        est_before = estimate_session_tokens(self.hanzo_session)
+        result = compact_session(self.hanzo_session, self.compaction_config)
+        if result.removed_message_count == 0:
+            self.show_message("Session too small to compact.", "yellow")
+            return
+        self.hanzo_session = result.compacted_session
+        est_after = estimate_session_tokens(self.hanzo_session)
+        self.show_message(
+            f"Compacted: removed {result.removed_message_count} messages, "
+            f"{est_before:,} -> {est_after:,} est tokens.",
+            "green",
+        )
+        # Update context indicator
+        context_indicator = self.query_one("#permissions", ContextIndicator)
+        context_indicator.update_from_session(self.hanzo_session)
+
+    async def handle_config_command(self) -> None:
+        """Show loaded configuration files."""
+        messages = self.query_one("#messages", RichLog)
+        if not self.runtime_config.loaded_entries:
+            self.show_message("No config files loaded.", "yellow")
+            return
+        messages.write(Text("Config:", style="cyan"))
+        for entry in self.runtime_config.loaded_entries:
+            messages.write(f"  [{entry.source.name}] {entry.path}")
+        mcp_servers = self.runtime_config.mcp_servers()
+        if mcp_servers:
+            messages.write(f"  MCP servers: {', '.join(mcp_servers.keys())}")
+        messages.write("")
+
+    async def handle_version_command(self) -> None:
+        """Show version info."""
+        from hanzoai._version import __version__ as hanzoai_version
+        from hanzo_dev import __version__ as dev_version
+        messages = self.query_one("#messages", RichLog)
+        messages.write(Text("Version:", style="cyan"))
+        messages.write(f"  hanzo-dev  {dev_version}")
+        messages.write(f"  hanzoai     {hanzoai_version}")
+        messages.write("")
+
+    async def handle_login_command(self) -> None:
+        """Login via PKCE flow."""
+        from hanzoai.auth import HanzoAuth
+
+        auth = HanzoAuth()
+        oauth_cfg = self.runtime_config.oauth()
+
+        kwargs: Dict[str, Any] = {}
+        if oauth_cfg:
+            kwargs["authorize_url"] = oauth_cfg.authorize_url
+            kwargs["token_url"] = oauth_cfg.token_url
+            kwargs["client_id"] = oauth_cfg.client_id
+            if oauth_cfg.scopes:
+                kwargs["scopes"] = oauth_cfg.scopes
+            if oauth_cfg.callback_port:
+                kwargs["redirect_port"] = oauth_cfg.callback_port
+
+        self.show_message("Starting PKCE login flow...", "yellow")
+        try:
+            token_set = await auth.login_with_pkce(**kwargs)
+            self.show_message(f"Logged in. Scopes: {', '.join(token_set.scopes)}", "green")
+        except Exception as e:
+            self.show_error(f"Login failed: {e}")
+
+    async def handle_loop_command(self, arg: str) -> None:
+        """Run a prompt on a recurring interval. Usage: /loop <seconds> <prompt>"""
+        import asyncio
+
+        parts = arg.split(maxsplit=1)
+        if len(parts) < 2:
+            self.show_error("Usage: /loop <seconds> <prompt>")
+            return
+        try:
+            interval = int(parts[0])
+        except ValueError:
+            self.show_error("Interval must be an integer (seconds).")
+            return
+        prompt = parts[1]
+        self.show_message(f"Looping every {interval}s: {prompt}", "yellow")
+        try:
+            while True:
+                await self.process_chat(prompt)
+                await asyncio.sleep(interval)
+        except asyncio.CancelledError:
+            self.show_message("Loop stopped.", "yellow")
+
+    async def handle_permissions_command(self, arg: str) -> None:
+        """Show or switch permission mode."""
+        modes = {"read-only": PermissionMode.Deny, "workspace-write": PermissionMode.Ask, "full-access": PermissionMode.Allow}
+        if not arg:
+            current = {v: k for k, v in modes.items()}.get(self.permission_mode, "full-access")
+            self.show_message(f"Permission mode: {current}", "cyan")
+            self.show_message(f"Options: {', '.join(modes.keys())}", "dim")
+            return
+        if arg not in modes:
+            self.show_error(f"Unknown mode. Use: {', '.join(modes.keys())}")
+            return
+        self.permission_mode = modes[arg]
+        if self.tool_executor:
+            self.tool_executor.permission_policy = PermissionPolicy(default_mode=self.permission_mode)
+        self.show_message(f"Permission mode: {arg}", "green")
+
+    async def handle_resume_command(self, arg: str) -> None:
+        """Load saved session from JSON file."""
+        path = Path(arg.strip()) if arg else self._session_path
+        if not path.is_file():
+            self.show_error(f"No session file at {path}")
+            return
+        self.hanzo_session = HanzoSession.load(path)
+        est = estimate_session_tokens(self.hanzo_session)
+        self.show_message(f"Loaded: {len(self.hanzo_session.messages)} messages, ~{est:,} tokens", "green")
+
+    async def handle_memory_command(self) -> None:
+        """Show loaded instruction files."""
+        messages = self.query_one("#messages", RichLog)
+        messages.write(Text("Loaded instruction files:", style="cyan"))
+        for entry in self.runtime_config.loaded_entries:
+            messages.write(f"  [{entry.source.name}] {entry.path}")
+        if not self.runtime_config.loaded_entries:
+            messages.write("  (none)")
+        messages.write("")
+
+    async def handle_init_command(self) -> None:
+        """Create starter CLAUDE.md in cwd."""
+        target = Path.cwd() / "CLAUDE.md"
+        if target.exists():
+            self.show_message(f"Already exists: {target}", "yellow")
+            return
+        target.write_text("# Project Instructions\n\nAdd project-specific instructions here.\n")
+        self.show_message(f"Created {target}", "green")
+
+    async def handle_export_command(self, arg: str) -> None:
+        """Export conversation to file."""
+        outpath = Path(arg.strip()) if arg else Path("hanzo-export.md")
+        lines = [f"# Hanzo Session Export ({datetime.now().isoformat()})\n"]
+        for msg in self.hanzo_session.messages:
+            role = msg.role.value if hasattr(msg.role, "value") else str(msg.role)
+            text = "".join(b.text for b in msg.content if hasattr(b, "text"))
+            lines.append(f"## {role}\n\n{text}\n")
+        outpath.write_text("\n".join(lines))
+        self.show_message(f"Exported {len(self.hanzo_session.messages)} messages to {outpath}", "green")
+
+    async def handle_session_command(self, arg: str) -> None:
+        """List or switch saved sessions."""
+        self._sessions_dir.mkdir(parents=True, exist_ok=True)
+        parts = arg.split(maxsplit=1) if arg else []
+        if not parts or parts[0] == "list":
+            sessions = sorted(self._sessions_dir.glob("*.json"))
+            if not sessions:
+                self.show_message("No saved sessions.", "yellow")
+                return
+            messages = self.query_one("#messages", RichLog)
+            for s in sessions:
+                messages.write(f"  {s.stem}")
+            messages.write("")
+            return
+        if parts[0] == "switch" and len(parts) > 1:
+            target = self._sessions_dir / f"{parts[1]}.json"
+            if not target.is_file():
+                self.show_error(f"Session not found: {parts[1]}")
+                return
+            self.hanzo_session = HanzoSession.load(target)
+            self.show_message(f"Switched to session: {parts[1]}", "green")
+            return
+        self.show_error("Usage: /session [list|switch <id>]")
+
+    async def handle_agent_command(self, system_prefix: str, arg: str, label: str) -> None:
+        """Send a prompt with a system prefix for agent commands."""
+        if not arg:
+            self.show_error(f"Usage: /{label} <prompt>")
+            return
+        prompt = f"{system_prefix}\n\nUser request: {arg}"
+        await self.process_chat(prompt)
 
     async def show_backend_status(self) -> None:
         """Show current backend status."""
