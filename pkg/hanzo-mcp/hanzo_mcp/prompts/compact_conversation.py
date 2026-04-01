@@ -1,3 +1,42 @@
+from __future__ import annotations
+
+from hanzoai.session import (
+    CompactionConfig,
+    CompactionResult,
+    Session,
+    compact_session,
+    should_compact,
+)
+
+# Re-export for convenience
+__all__ = [
+    "COMPACT_CONVERSATION_PROMPT",
+    "compact_or_prompt",
+    "compact_session",
+    "should_compact",
+    "CompactionConfig",
+    "CompactionResult",
+    "Session",
+]
+
+
+def compact_or_prompt(
+    session: Session,
+    config: CompactionConfig | None = None,
+) -> CompactionResult | None:
+    """Try fast local compaction on a session.
+
+    Returns a CompactionResult if the session was compacted, or None if the
+    session did not exceed the compaction threshold.  This is the cheap,
+    no-LLM-call path.  For richer LLM-driven summarization, use
+    COMPACT_CONVERSATION_PROMPT as an MCP prompt instead.
+    """
+    cfg = config or CompactionConfig()
+    if not should_compact(session, cfg):
+        return None
+    return compact_session(session, cfg)
+
+
 COMPACT_CONVERSATION_PROMPT = """Your task is to create a detailed summary of the conversation so far, paying close attention to the user's explicit requests and your previous actions.
 This summary should be thorough in capturing technical details, code patterns, and architectural decisions that would be essential for continuing development work without losing context.
 
