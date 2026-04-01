@@ -1,7 +1,9 @@
 # Hanzo AI SDK
 
 # Import new modules
-from . import mcp, auth, grpo, types, agents, cluster
+from . import mcp, auth, grpo, types, agents, cluster, config, protocols, session
+from .config import ConfigLoader, RuntimeConfig
+from .session import Session, CompactionConfig, compact_session
 from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
 from ._client import (
@@ -38,6 +40,22 @@ from ._exceptions import (
 )
 from ._base_client import DefaultHttpxClient, DefaultAsyncHttpxClient
 from ._utils._logs import setup_logging as _setup_logging
+from .protocols import (
+    ApiClient,
+    ApiRequest,
+    AssistantEvent,
+    ConversationRuntime,
+    PermissionMode,
+    PermissionOutcome,
+    PermissionPolicy,
+    PermissionPrompter,
+    PermissionRequest,
+    StaticToolExecutor,
+    TokenUsage,
+    ToolExecutor,
+    TurnSummary,
+    UsageTracker,
+)
 
 __all__ = [
     "types",
@@ -89,6 +107,30 @@ __all__ = [
     "cluster",
     "auth",
     "grpo",
+    "protocols",
+    "config",
+    "ConfigLoader",
+    "RuntimeConfig",
+    # Protocol abstractions
+    "ToolExecutor",
+    "StaticToolExecutor",
+    "PermissionMode",
+    "PermissionRequest",
+    "PermissionOutcome",
+    "PermissionPrompter",
+    "PermissionPolicy",
+    "ApiClient",
+    "ApiRequest",
+    "AssistantEvent",
+    "TokenUsage",
+    "UsageTracker",
+    "ConversationRuntime",
+    "TurnSummary",
+    # Session management
+    "session",
+    "Session",
+    "CompactionConfig",
+    "compact_session",
 ]
 
 _setup_logging()

@@ -105,6 +105,8 @@ class ZapServer:
                 total_len, msg_type_byte = struct.unpack("<IB", header)
 
                 # Read payload
+                if total_len > 10 * 1024 * 1024:
+                    raise ValueError(f"Message too large: {total_len}")
                 payload_len = total_len - 1
                 if payload_len > 0:
                     payload_bytes = await reader.readexactly(payload_len)
@@ -116,9 +118,10 @@ class ZapServer:
                 await self._handle_message(writer, msg_type, payload)
 
         except asyncio.IncompleteReadError:
-            pass  # Connection closed
+            pass  # Connection closed cleanly
         except Exception:
-            pass  # Connection error
+            import logging
+            logging.getLogger(__name__).warning("ZAP connection error", exc_info=True)
         finally:
             writer.close()
             await writer.wait_closed()

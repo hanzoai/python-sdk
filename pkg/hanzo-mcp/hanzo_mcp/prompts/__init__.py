@@ -2,7 +2,11 @@ import os
 
 from mcp.server import FastMCP
 
-from hanzo_mcp.prompts.compact_conversation import COMPACT_CONVERSATION_PROMPT
+from hanzo_mcp.prompts.compact_conversation import (
+    COMPACT_CONVERSATION_PROMPT,
+    compact_or_prompt,
+)
+from hanzoai.session import CompactionConfig, CompactionResult, Session, compact_session
 from hanzo_mcp.prompts.create_release import CREATE_RELEASE_PROMPT
 from hanzo_mcp.prompts.enhanced_prompts import (
     CONFIGURATION_GUIDE_PROMPT,
@@ -239,4 +243,9 @@ __all__ = [
     "register_all_prompts",
     "get_project_todo_reminder",
     "PROJECT_TODO_EMPTY_REMINDER",
+    "compact_or_prompt",
+    "compact_session",
+    "CompactionConfig",
+    "CompactionResult",
+    "Session",
 ]
