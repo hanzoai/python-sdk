@@ -21,7 +21,7 @@ if [ $# -eq 0 ]; then
     echo "  • hanzo-memory (memory systems)"
     echo "  • hanzo-network (distributed compute)"
     echo "  • hanzo-agents (multi-agent workflows)"
-    echo "  • hanzo-repl (interactive REPL)"
+    echo "  • hanzo-dev (interactive dev environment)"
     exit 1
 fi
 

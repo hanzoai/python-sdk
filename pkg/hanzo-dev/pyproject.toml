@@ -1,7 +1,7 @@
 [project]
-name = "hanzo-repl"
+name = "hanzo-dev"
 version = "0.1.0"
-description = "Interactive REPL for Hanzo AI - Like Claude Code in your terminal"
+description = "Interactive dev environment for Hanzo AI - Like Claude Code in your terminal"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
 ]
@@ -22,10 +22,11 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
-keywords = ["repl", "mcp", "ai", "llm", "hanzo", "claude", "interactive"]
+keywords = ["dev", "mcp", "ai", "llm", "hanzo", "claude", "interactive"]
 requires-python = ">=3.12"
 
 dependencies = [
+    "hanzoai>=2.2.0",
     "hanzo-mcp>=0.1.0",
     "rich>=13.0.0",
     "prompt-toolkit>=3.0.0",
@@ -40,11 +41,14 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://hanzo.ai"
-Documentation = "https://docs.hanzo.ai/repl"
+Documentation = "https://docs.hanzo.ai/dev"
 Repository = "https://github.com/hanzoai/python-sdk"
 Issues = "https://github.com/hanzoai/python-sdk/issues"
 
 [project.optional-dependencies]
+lsp = ["hanzo-lsp>=0.1.0"]
+hooks = ["hanzo-hooks>=0.1.0"]
+sandbox = ["hanzo-sandbox>=0.1.0"]
 voice = [
     "speechrecognition>=3.10.0",
     "pyttsx3>=2.90",
@@ -63,9 +67,9 @@ dev = [
 ]
 
 [project.scripts]
-hanzo-repl = "hanzo_repl.cli:main"
-hanzo-repl-ipython = "hanzo_repl.ipython_repl:main"
-hanzo-repl-tui = "hanzo_repl.textual_repl:main"
+hanzo-dev = "hanzo_dev.cli:main"
+hanzo-dev-ipython = "hanzo_dev.ipython_repl:main"
+hanzo-dev-tui = "hanzo_dev.textual_repl:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -73,12 +77,12 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include = [
-    "src/hanzo_repl",
+    "src/hanzo_dev",
     "README.md",
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hanzo_repl"]
+packages = ["src/hanzo_dev"]
 
 [tool.ruff]
 line-length = 120

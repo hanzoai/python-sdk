@@ -91,7 +91,7 @@ class HanzoMagics(Magics):
             # Reload the module
             import importlib
 
-            module_name = f"hanzo_repl.{line.replace('.py', '')}"
+            module_name = f"hanzo_dev.{line.replace('.py', '')}"
             if module_name in sys.modules:
                 importlib.reload(sys.modules[module_name])
         else:

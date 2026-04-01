@@ -41,7 +41,7 @@ class TestContentBlocks:
         assert TextBlock.from_dict(d) == b
 
     def test_tool_use_block_roundtrip(self):
-        b = ToolUseBlock(id="t1", name="bash", input={"command": "ls"})
+        b = ToolUseBlock(id="t1", name="bash", input='{"command":"ls"}')
         d = b.to_dict()
         assert d["type"] == "tool_use"
         assert ToolUseBlock.from_dict(d) == b
@@ -100,7 +100,7 @@ class TestSession:
             ConversationMessage.assistant_with_usage(
                 [
                     TextBlock(text="thinking"),
-                    ToolUseBlock(id="t1", name="bash", input={"cmd": "echo hi"}),
+                    ToolUseBlock(id="t1", name="bash", input='{"cmd":"echo hi"}'),
                 ],
                 TokenUsage(input_tokens=10, output_tokens=4, cache_creation_input_tokens=1, cache_read_input_tokens=2),
             )
@@ -169,7 +169,7 @@ class TestCompaction:
             s.messages.append(ConversationMessage.user_text("x " * 200))
             s.messages.append(
                 ConversationMessage.assistant(
-                    [TextBlock(text="ok"), ToolUseBlock(id="t1", name="bash", input={"cmd": "ls"})]
+                    [TextBlock(text="ok"), ToolUseBlock(id="t1", name="bash", input='{"cmd":"ls"}')]
                 )
             )
             s.messages.append(ConversationMessage.tool_result("t1", "bash", "output " * 50, False))
