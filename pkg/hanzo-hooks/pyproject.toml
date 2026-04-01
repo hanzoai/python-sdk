@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-hooks"
+version = "0.1.0"
+description = "Shell hook runner for pre/post tool-use lifecycle events."
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "hooks", "tools", "ai"]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+"Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_hooks*"]

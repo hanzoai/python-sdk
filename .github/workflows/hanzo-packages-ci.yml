@@ -11,7 +11,7 @@ on:
       # hanzo-agent is now a git submodule - not tested here
       - 'pkg/hanzo-memory/**'
       - 'pkg/hanzo-aci/**'
-      - 'pkg/hanzo-repl/**'
+      - 'pkg/hanzo-dev/**'
       - 'pkg/hanzoai/**'
       - '.github/workflows/hanzo-packages-ci.yml'
     tags:
@@ -22,7 +22,7 @@ on:
       # hanzo-agents is now a git submodule
       - 'hanzo-memory-*'
       - 'hanzo-aci-*'
-      - 'hanzo-repl-*'
+      - 'hanzo-dev-*'
   pull_request:
     branches:
       - main
@@ -33,7 +33,7 @@ on:
       # hanzo-agent is now a git submodule - not tested here
       - 'pkg/hanzo-memory/**'
       - 'pkg/hanzo-aci/**'
-      - 'pkg/hanzo-repl/**'
+      - 'pkg/hanzo-dev/**'
       - 'pkg/hanzoai/**'
       - '.github/workflows/hanzo-packages-ci.yml'
 
@@ -152,7 +152,7 @@ jobs:
   
   integration-test:
     name: Integration Test
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-dev]
     runs-on: hanzo-build-linux-amd64
     
     steps:
@@ -174,7 +174,7 @@ jobs:
           pip install hanzo-agents || true
           cd pkg/hanzo-memory && pip install -e . && cd ../..
           cd pkg/hanzo-aci && pip install -e . && cd ../..
-          cd pkg/hanzo-repl && pip install -e . && cd ../..
+          cd pkg/hanzo-dev && pip install -e . && cd ../..
 
       - name: Run integration tests
         run: |
@@ -229,9 +229,9 @@ jobs:
           ruff check . || true
           mypy . --ignore-missing-imports || true
       
-      - name: Lint hanzo-repl
+      - name: Lint hanzo-dev
         run: |
-          cd pkg/hanzo-repl
+          cd pkg/hanzo-dev
           ruff check . || true
           mypy . --ignore-missing-imports || true
   
@@ -265,13 +265,13 @@ jobs:
             echo "No tests directory found, skipping tests"
           fi
   
-  test-hanzo-repl:
-    name: Test hanzo-repl
+  test-hanzo-dev:
+    name: Test hanzo-dev
     runs-on: hanzo-build-linux-amd64
     timeout-minutes: 5
     defaults:
       run:
-        working-directory: pkg/hanzo-repl
+        working-directory: pkg/hanzo-dev
     
     steps:
       - uses: actions/checkout@v4
@@ -295,14 +295,14 @@ jobs:
             timeout 120 python -m pytest tests/ -v --tb=short -n 4 --maxfail=5 || true
           else
             echo "No tests directory found, checking for test module"
-            python -c "from hanzo_repl import tests; print('Test module found')" || echo "No test module"
+            python -c "from hanzo_dev import tests; print('Test module found')" || echo "No test module"
           fi
 
   # Auto-publish packages with new versions on push to main
   auto-publish-new-versions:
     name: Auto-Publish New Versions
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-dev, integration-test]
     runs-on: hanzo-build-linux-amd64
 
     steps:
@@ -325,7 +325,7 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPI (Tag)
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-repl, integration-test]
+    needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-dev, integration-test]
     runs-on: hanzo-build-linux-amd64
 
     steps:
@@ -363,13 +363,13 @@ jobs:
             PACKAGES="hanzo-memory"
           elif [[ $TAG == hanzo-aci-* ]]; then
             PACKAGES="hanzo-aci"
-          elif [[ $TAG == hanzo-repl-* ]]; then
-            PACKAGES="hanzo-repl"
+          elif [[ $TAG == hanzo-dev-* ]]; then
+            PACKAGES="hanzo-dev"
           elif [[ $TAG == hanzo-* ]]; then
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
             # For general version tags, publish all packages (except hanzo-agents which is a submodule)
-            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
+            PACKAGES="hanzo hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-dev"
           fi
 
           echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT

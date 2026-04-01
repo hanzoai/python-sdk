@@ -52,7 +52,7 @@ jobs:
           packages = [
               'hanzo', 'hanzo-network', 'hanzo-mcp',
               # hanzo-agents is now a git submodule
-              'hanzo-memory', 'hanzo-aci', 'hanzo-repl'
+              'hanzo-memory', 'hanzo-aci', 'hanzo-dev'
           ]
           
           print('📦 Package Version Status:')

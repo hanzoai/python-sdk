@@ -17,7 +17,7 @@ class HanzoREPL:
     def __init__(self, console: Optional[Console] = None):
         self.console = console or Console()
         self.session = PromptSession(
-            history=FileHistory(".hanzo_repl_history"),
+            history=FileHistory(".hanzo_dev_history"),
             auto_suggest=AutoSuggestFromHistory(),
         )
         self.commands = {

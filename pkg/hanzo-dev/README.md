@@ -1,6 +1,6 @@
-# Hanzo REPL
+# Hanzo Dev
 
-Interactive REPL for Hanzo AI - Like Claude Code in your terminal.
+Interactive dev environment for Hanzo AI - Like Claude Code in your terminal.
 
 ## Features
 
@@ -15,16 +15,16 @@ Interactive REPL for Hanzo AI - Like Claude Code in your terminal.
 
 ```bash
 # Install
-pip install hanzo-repl
+pip install hanzo-dev
 
-# Start interactive REPL (recommended)
-hanzo-repl
+# Start interactive dev environment (recommended)
+hanzo-dev
 
-# Start IPython REPL (advanced)
-hanzo-repl-ipython
+# Start IPython mode (advanced)
+hanzo-dev-ipython
 
 # Start TUI mode (beautiful interface)
-hanzo-repl-tui
+hanzo-dev-tui
 ```
 
 ## Usage
@@ -105,7 +105,7 @@ export HANZO_API_KEY=your-key      # For Hanzo AI
 Install voice dependencies:
 
 ```bash
-pip install hanzo-repl[voice]
+pip install hanzo-dev[voice]
 ```
 
 Enable in REPL:
@@ -134,7 +134,7 @@ def my_tool(param: str) -> str:
 Use the REPL in scripts:
 
 ```python
-from hanzo_repl import create_repl
+from hanzo_dev import create_repl
 
 async def main():
     repl = create_repl()
