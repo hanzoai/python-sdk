@@ -61,6 +61,9 @@ class Message:
             raise ValueError(f"ZAP message too short: {len(data)} < {HEADER_SIZE}")
         if data[:4] != ZAP_MAGIC:
             raise ValueError(f"Bad ZAP magic: {data[:4]!r}")
+        ver = struct.unpack_from("<H", data, 4)[0]
+        if ver != VERSION:
+            raise ValueError(f"Unsupported ZAP version: {ver} (expected {VERSION})")
         return cls(data)
 
     @property
@@ -109,7 +112,7 @@ def obj_bytes(data: bytes, obj_offset: int, field_offset: int) -> bytes:
     if length == 0 or rel_off == 0:
         return b""
     abs_off = pos + rel_off
-    if abs_off + length > len(data):
+    if abs_off < 0 or abs_off + length > len(data):
         return b""
     return data[abs_off:abs_off + length]
 

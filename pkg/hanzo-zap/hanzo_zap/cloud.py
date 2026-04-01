@@ -109,7 +109,7 @@ class CloudClient:
         """
         Send a MsgType 100 cloud service request and return (status, body, error).
         """
-        self._req_id += 1
+        self._req_id = (self._req_id + 1) & 0xFFFFFFFF
         req_id = self._req_id
 
         # Build ZAP message

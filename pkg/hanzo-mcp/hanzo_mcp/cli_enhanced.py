@@ -25,8 +25,9 @@ Tool Configuration:
   Use --list-tools to see all available tools and their current status.
   
 Configuration Files:
-  Global: ~/.config/hanzo/mcp-settings.json
-  Project: ./.hanzo-mcp.json or ./.hanzo/mcp-settings.json
+  User:    ~/.hanzo/settings.json
+  Project: .hanzo/settings.json
+  Local:   .hanzo/settings.local.json
   
 Examples:
   # Start server with only read tools

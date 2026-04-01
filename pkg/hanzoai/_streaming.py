@@ -215,17 +215,61 @@ class SSEDecoder:
                 if sse:
                     yield sse
 
+    @staticmethod
+    def _find_separator(buf: bytes, start: int = 0) -> tuple[int, int] | None:
+        """Scan buf for an SSE frame separator starting at `start`.
+
+        Returns (end_of_frame, resume_pos) where end_of_frame is the index
+        just past the separator and resume_pos is where the next frame begins
+        (same value — the separator is included in the yielded frame).
+
+        Recognized separators: \\n\\n, \\r\\r, \\r\\n\\r\\n.
+        """
+        i = start
+        length = len(buf)
+        while i < length:
+            c = buf[i]
+            if c == ord(b"\n"):
+                # Check for \n\n
+                if i + 1 < length and buf[i + 1] == ord(b"\n"):
+                    pos = i + 2
+                    return (pos, pos)
+            elif c == ord(b"\r"):
+                # Check for \r\r
+                if i + 1 < length and buf[i + 1] == ord(b"\r"):
+                    pos = i + 2
+                    return (pos, pos)
+                # Check for \r\n\r\n
+                if (
+                    i + 3 < length
+                    and buf[i + 1] == ord(b"\n")
+                    and buf[i + 2] == ord(b"\r")
+                    and buf[i + 3] == ord(b"\n")
+                ):
+                    pos = i + 4
+                    return (pos, pos)
+            i += 1
+        return None
+
     def _iter_chunks(self, iterator: Iterator[bytes]) -> Iterator[bytes]:
-        """Given an iterator that yields raw binary data, iterate over it and yield individual SSE chunks"""
-        data = b""
+        """Given an iterator that yields raw binary data, iterate over it and yield individual SSE chunks.
+
+        Uses a stateful buffer with separator scanning instead of splitlines()
+        to avoid issues with cross-chunk \\r\\n splitting.
+        """
+        buf = b""
         for chunk in iterator:
-            for line in chunk.splitlines(keepends=True):
-                data += line
-                if data.endswith((b"\r\r", b"\n\n", b"\r\n\r\n")):
-                    yield data
-                    data = b""
-        if data:
-            yield data
+            buf += chunk
+            # Drain all complete frames from the buffer
+            while True:
+                sep = self._find_separator(buf)
+                if sep is None:
+                    break
+                end, resume = sep
+                yield buf[:end]
+                buf = buf[resume:]
+        if buf:
+            yield buf
 
     async def aiter_bytes(
         self, iterator: AsyncIterator[bytes]
@@ -242,16 +286,24 @@ class SSEDecoder:
     async def _aiter_chunks(
         self, iterator: AsyncIterator[bytes]
     ) -> AsyncIterator[bytes]:
-        """Given an iterator that yields raw binary data, iterate over it and yield individual SSE chunks"""
-        data = b""
+        """Given an iterator that yields raw binary data, iterate over it and yield individual SSE chunks.
+
+        Uses a stateful buffer with separator scanning instead of splitlines()
+        to avoid issues with cross-chunk \\r\\n splitting.
+        """
+        buf = b""
         async for chunk in iterator:
-            for line in chunk.splitlines(keepends=True):
-                data += line
-                if data.endswith((b"\r\r", b"\n\n", b"\r\n\r\n")):
-                    yield data
-                    data = b""
-        if data:
-            yield data
+            buf += chunk
+            # Drain all complete frames from the buffer
+            while True:
+                sep = self._find_separator(buf)
+                if sep is None:
+                    break
+                end, resume = sep
+                yield buf[:end]
+                buf = buf[resume:]
+        if buf:
+            yield buf
 
     def decode(self, line: str) -> ServerSentEvent | None:
         # See: https://html.spec.whatwg.org/multipage/server-sent-events.html#event-stream-interpretation  # noqa: E501
@@ -276,6 +328,11 @@ class SSEDecoder:
             self._event = None
             self._data = []
             self._retry = None
+
+            # Skip [DONE] sentinel and ping events — don't surface them
+            # as they are control signals, not parseable data.
+            if sse.data == "[DONE]" or sse.event == "ping":
+                return None
 
             return sse
 
