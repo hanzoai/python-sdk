@@ -1,10 +1,13 @@
 """Authentication module for Hanzo AI.
 
 Supports multiple authentication methods:
-1. API Key (HANZO_API_KEY environment variable)
+1. API Key (HANZO_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY)
 2. Email/Password via IAM (iam.hanzo.ai - Casdoor)
 3. SSO authentication
-4. MCP flow authentication
+4. Anthropic OAuth (PKCE via console.anthropic.com)
+5. OpenAI/ChatGPT OAuth (device code via auth.openai.com)
+6. MCP flow authentication
+7. Auto-detect (login_auto)
 """
 
 import base64
@@ -118,7 +121,20 @@ class OAuthCredentialStore:
 
     Respects HANZO_CONFIG_HOME env var. Uses atomic writes.
     Preserves other keys in the credentials file.
+
+    Supports multiple providers via the `provider` parameter:
+      - "hanzo"     -> stored under "oauth" key (backwards compatible)
+      - "anthropic" -> stored under "oauth_anthropic" key
+      - "openai"    -> stored under "oauth_openai" key
     """
+
+    # Map provider names to JSON keys. Default "hanzo" uses "oauth"
+    # for backwards compatibility with existing credentials files.
+    _PROVIDER_KEYS = {
+        "hanzo": "oauth",
+        "anthropic": "oauth_anthropic",
+        "openai": "oauth_openai",
+    }
 
     def __init__(self, config_home: Optional[str] = None):
         self._config_home = config_home
@@ -131,51 +147,51 @@ class OAuthCredentialStore:
             return Path(env)
         return Path.home() / ".hanzo"
 
+    def _key_for(self, provider: str) -> str:
+        key = self._PROVIDER_KEYS.get(provider)
+        if key is None:
+            raise ValueError(f"unknown provider: {provider!r}")
+        return key
+
     def credentials_path(self) -> Path:
         return self._get_config_home() / "credentials.json"
 
-    def save(self, token_set: OAuthTokenSet) -> None:
-        """Save OAuth token set. Atomic write, preserves other keys."""
+    def _read_file(self) -> Dict[str, Any]:
+        path = self.credentials_path()
+        if not path.exists():
+            return {}
+        with open(path, "r") as f:
+            return json.load(f)
+
+    def _write_file(self, data: Dict[str, Any]) -> None:
         path = self.credentials_path()
         path.parent.mkdir(parents=True, exist_ok=True)
+        tmp_path = path.with_suffix(".json.tmp")
+        with open(tmp_path, "w") as f:
+            json.dump(data, f, indent=2)
+        os.replace(tmp_path, path)
+        if sys.platform != "win32":
+            os.chmod(path, 0o600)
 
-        # Read existing data
-        existing: Dict[str, Any] = {}
-        if path.exists():
-            with open(path, "r") as f:
-                existing = json.load(f)
-
-        existing["oauth"] = {
+    def save(self, token_set: OAuthTokenSet, provider: str = "hanzo") -> None:
+        """Save OAuth token set. Atomic write, preserves other keys."""
+        key = self._key_for(provider)
+        existing = self._read_file()
+        existing[key] = {
             "access_token": token_set.access_token,
             "refresh_token": token_set.refresh_token,
             "expires_at": token_set.expires_at,
             "scopes": token_set.scopes,
         }
+        self._write_file(existing)
 
-        # Atomic write: write to .tmp then rename
-        tmp_path = path.with_suffix(".json.tmp")
-        with open(tmp_path, "w") as f:
-            json.dump(existing, f, indent=2)
-
-        os.replace(tmp_path, path)
-
-        # Restrictive permissions
-        if sys.platform != "win32":
-            os.chmod(path, 0o600)
-
-    def load(self) -> Optional[OAuthTokenSet]:
+    def load(self, provider: str = "hanzo") -> Optional[OAuthTokenSet]:
         """Load OAuth token set from credentials file. Returns None if absent."""
-        path = self.credentials_path()
-        if not path.exists():
-            return None
-
-        with open(path, "r") as f:
-            data = json.load(f)
-
-        oauth = data.get("oauth")
+        key = self._key_for(provider)
+        data = self._read_file()
+        oauth = data.get(key)
         if not oauth:
             return None
-
         return OAuthTokenSet(
             access_token=oauth["access_token"],
             refresh_token=oauth.get("refresh_token"),
@@ -183,25 +199,33 @@ class OAuthCredentialStore:
             scopes=oauth.get("scopes", []),
         )
 
-    def clear(self) -> None:
-        """Remove oauth key from credentials, preserving other keys."""
+    def clear(self, provider: str = "hanzo") -> None:
+        """Remove provider's oauth key from credentials, preserving other keys."""
+        key = self._key_for(provider)
         path = self.credentials_path()
         if not path.exists():
             return
+        data = self._read_file()
+        data.pop(key, None)
+        self._write_file(data)
 
-        with open(path, "r") as f:
-            data = json.load(f)
 
-        data.pop("oauth", None)
+# ---------------------------------------------------------------------------
+# Provider constants (matching codex-rs/login/src/auth/manager.rs)
+# ---------------------------------------------------------------------------
 
-        tmp_path = path.with_suffix(".json.tmp")
-        with open(tmp_path, "w") as f:
-            json.dump(data, f, indent=2)
+# OpenAI / ChatGPT
+OPENAI_ISSUER = "https://auth.openai.com"
+OPENAI_CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann"
 
-        os.replace(tmp_path, path)
+# Anthropic / Claude
+ANTHROPIC_CLIENT_ID = "9d1c250a-e61b-44d9-88ed-5944d1962f5e"
+ANTHROPIC_ISSUER = "https://claude.ai"
+ANTHROPIC_TOKEN_URL = "https://platform.claude.com/v1/oauth/token"
+ANTHROPIC_AUTHORIZE_URL = "https://claude.ai/oauth/authorize"
 
-        if sys.platform != "win32":
-            os.chmod(path, 0o600)
+# Hanzo IAM
+HANZO_CLIENT_ID = "hanzo-dev"
 
 
 class HanzoAuth:
@@ -535,6 +559,199 @@ class HanzoAuth:
         store.save(token_set)
 
         return token_set
+
+    async def login_with_anthropic(
+        self,
+        redirect_port: int = 4545,
+    ) -> OAuthTokenSet:
+        """Login with Anthropic console OAuth (PKCE flow).
+
+        Opens browser to claude.ai/oauth/authorize, catches callback,
+        exchanges code for tokens via platform.claude.com.
+
+        Args:
+            redirect_port: Local port for redirect callback (default 4545)
+
+        Returns:
+            OAuthTokenSet with access token
+        """
+        token_set = await self.login_with_pkce(
+            authorize_url=ANTHROPIC_AUTHORIZE_URL,
+            token_url=ANTHROPIC_TOKEN_URL,
+            client_id=ANTHROPIC_CLIENT_ID,
+            scopes=["openid", "profile", "email"],
+            redirect_port=redirect_port,
+        )
+
+        # Also save under anthropic provider key
+        store = OAuthCredentialStore()
+        store.save(token_set, provider="anthropic")
+
+        return token_set
+
+    async def login_with_openai(
+        self,
+        open_browser: bool = True,
+        poll_interval: float = 5.0,
+        timeout: float = 900.0,
+    ) -> OAuthTokenSet:
+        """Login with OpenAI/ChatGPT device code flow.
+
+        Requests a device code from auth.openai.com, displays a user code,
+        and polls until the user completes authentication.
+
+        Args:
+            open_browser: Whether to open browser automatically
+            poll_interval: Seconds between poll attempts (default 5)
+            timeout: Max seconds to wait (default 900 / 15 min)
+
+        Returns:
+            OAuthTokenSet with access token
+        """
+        import time
+
+        base_url = OPENAI_ISSUER.rstrip("/")
+        api_url = f"{base_url}/api/accounts"
+
+        async with httpx.AsyncClient() as client:
+            # Step 1: Request device code
+            response = await client.post(
+                f"{api_url}/deviceauth/usercode",
+                json={"client_id": OPENAI_CLIENT_ID},
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            device_auth_id = data["device_auth_id"]
+            user_code = data["user_code"]
+            interval = float(data.get("interval", poll_interval))
+            verification_url = f"{base_url}/codex/device"
+
+            # Step 2: Display instructions
+            print(f"\nTo sign in with ChatGPT, visit:")
+            print(f"  {verification_url}")
+            print(f"\nEnter code: {user_code}")
+            print(f"(expires in 15 minutes)\n")
+
+            if open_browser:
+                try:
+                    webbrowser.open(verification_url)
+                except Exception:
+                    pass
+
+            # Step 3: Poll for completion
+            start_time = time.time()
+            while time.time() - start_time < timeout:
+                await asyncio.sleep(interval)
+
+                poll_resp = await client.post(
+                    f"{api_url}/deviceauth/token",
+                    json={
+                        "device_auth_id": device_auth_id,
+                        "user_code": user_code,
+                    },
+                )
+
+                if poll_resp.status_code == 200:
+                    code_data = poll_resp.json()
+
+                    # Exchange the authorization code for tokens
+                    pkce = PkceCodePair(
+                        verifier=code_data["code_verifier"],
+                        challenge=code_data["code_challenge"],
+                    )
+                    redirect_uri = f"{base_url}/deviceauth/callback"
+
+                    exchange_resp = await client.post(
+                        f"{base_url}/oauth/token",
+                        data={
+                            "grant_type": "authorization_code",
+                            "code": code_data["authorization_code"],
+                            "redirect_uri": redirect_uri,
+                            "client_id": OPENAI_CLIENT_ID,
+                            "code_verifier": pkce.verifier,
+                        },
+                    )
+                    exchange_resp.raise_for_status()
+                    token_data = exchange_resp.json()
+
+                    token_set = OAuthTokenSet(
+                        access_token=token_data["access_token"],
+                        refresh_token=token_data.get("refresh_token"),
+                        expires_at=token_data.get("expires_at"),
+                        scopes=token_data.get("scope", "openid profile email").split(),
+                    )
+
+                    self._token = token_set.access_token
+
+                    store = OAuthCredentialStore()
+                    store.save(token_set, provider="openai")
+
+                    print("Authentication successful.\n")
+                    return token_set
+
+                if poll_resp.status_code in (403, 404):
+                    # User hasn't completed auth yet
+                    continue
+
+                # Unexpected error
+                poll_resp.raise_for_status()
+
+            raise RuntimeError("OpenAI device code authentication timed out.")
+
+    async def login_auto(self) -> Dict[str, Any]:
+        """Auto-detect authentication provider.
+
+        Priority:
+        1. HANZO_API_KEY env var
+        2. ANTHROPIC_API_KEY env var
+        3. OPENAI_API_KEY env var
+        4. Interactive prompt to choose provider
+
+        Returns:
+            Dict with auth info (token or api_key, and provider name)
+        """
+        # Check env vars in priority order
+        if api_key := os.environ.get("HANZO_API_KEY"):
+            self.api_key = api_key
+            return {"provider": "hanzo", "api_key": api_key}
+
+        if api_key := os.environ.get("ANTHROPIC_API_KEY"):
+            self.api_key = api_key
+            return {"provider": "anthropic", "api_key": api_key}
+
+        if api_key := os.environ.get("OPENAI_API_KEY"):
+            self.api_key = api_key
+            return {"provider": "openai", "api_key": api_key}
+
+        # Check saved credentials
+        store = OAuthCredentialStore()
+        for provider in ("hanzo", "anthropic", "openai"):
+            token_set = store.load(provider=provider)
+            if token_set:
+                self._token = token_set.access_token
+                return {"provider": provider, "token": token_set.access_token}
+
+        # Interactive: prompt user to choose
+        print("\nNo API key or saved credentials found.")
+        print("Choose authentication provider:")
+        print("  1. Hanzo (hanzo.id)")
+        print("  2. Anthropic (console.anthropic.com)")
+        print("  3. OpenAI (ChatGPT)")
+
+        choice = input("\nEnter choice [1/2/3]: ").strip()
+
+        if choice == "1":
+            token_set = await self.login_with_pkce()
+            return {"provider": "hanzo", "token": token_set.access_token}
+        elif choice == "2":
+            token_set = await self.login_with_anthropic()
+            return {"provider": "anthropic", "token": token_set.access_token}
+        elif choice == "3":
+            token_set = await self.login_with_openai()
+            return {"provider": "openai", "token": token_set.access_token}
+        else:
+            raise ValueError(f"invalid choice: {choice!r}")
 
     async def logout(self):
         """Logout and clear credentials."""
