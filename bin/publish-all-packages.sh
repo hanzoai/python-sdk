@@ -41,7 +41,7 @@ PACKAGES=(
     "hanzo-agents"
     "hanzo-aci"
     "hanzo-mcp"
-    "hanzo-repl"
+    "hanzo-dev"
     "hanzo"
 )
 

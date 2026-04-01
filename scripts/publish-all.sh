@@ -31,7 +31,7 @@ if [ -z "$PYPI_TOKEN" ]; then
 fi
 
 # Packages to publish (in order)
-PACKAGES=("hanzoai" "hanzo" "hanzo-mcp" "hanzo-memory" "hanzo-network" "hanzo-agents" "hanzo-repl")
+PACKAGES=("hanzoai" "hanzo" "hanzo-mcp" "hanzo-memory" "hanzo-network" "hanzo-agents" "hanzo-dev")
 
 echo -e "${YELLOW}Packages to publish:${NC}"
 for pkg in "${PACKAGES[@]}"; do

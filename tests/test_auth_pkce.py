@@ -11,14 +11,21 @@ import stat
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 from urllib.parse import parse_qs, urlparse
 
 from hanzoai.auth import (
+    ANTHROPIC_AUTHORIZE_URL,
+    ANTHROPIC_CLIENT_ID,
+    ANTHROPIC_TOKEN_URL,
+    HANZO_CLIENT_ID,
+    HanzoAuth,
     OAuthAuthorizationRequest,
     OAuthCredentialStore,
     OAuthTokenExchangeRequest,
     OAuthTokenSet,
+    OPENAI_CLIENT_ID,
+    OPENAI_ISSUER,
     PkceCodePair,
     generate_pkce_pair,
     generate_state,
@@ -307,6 +314,197 @@ class TestOAuthCredentialStore(unittest.TestCase):
         token_set = OAuthTokenSet(access_token="tok", scopes=["openid"])
         store.save(token_set)
         self.assertTrue(store.credentials_path().exists())
+
+
+class TestOAuthCredentialStoreMultiProvider(unittest.TestCase):
+    """Tests for multi-provider credential storage."""
+
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+        self.store = OAuthCredentialStore(config_home=self.tmpdir)
+
+    def test_save_load_anthropic_provider(self):
+        token_set = OAuthTokenSet(
+            access_token="anth-tok", scopes=["openid"], refresh_token="anth-ref"
+        )
+        self.store.save(token_set, provider="anthropic")
+        loaded = self.store.load(provider="anthropic")
+        self.assertIsNotNone(loaded)
+        self.assertEqual(loaded.access_token, "anth-tok")
+        self.assertEqual(loaded.refresh_token, "anth-ref")
+
+    def test_save_load_openai_provider(self):
+        token_set = OAuthTokenSet(
+            access_token="oai-tok", scopes=["openid"], expires_at=123456
+        )
+        self.store.save(token_set, provider="openai")
+        loaded = self.store.load(provider="openai")
+        self.assertIsNotNone(loaded)
+        self.assertEqual(loaded.access_token, "oai-tok")
+        self.assertEqual(loaded.expires_at, 123456)
+
+    def test_default_provider_is_hanzo(self):
+        token_set = OAuthTokenSet(access_token="hz-tok", scopes=["openid"])
+        self.store.save(token_set)  # no provider arg
+        loaded = self.store.load()  # no provider arg
+        self.assertIsNotNone(loaded)
+        self.assertEqual(loaded.access_token, "hz-tok")
+
+    def test_providers_are_independent(self):
+        """Saving to one provider does not affect another."""
+        self.store.save(
+            OAuthTokenSet(access_token="hz", scopes=["a"]), provider="hanzo"
+        )
+        self.store.save(
+            OAuthTokenSet(access_token="anth", scopes=["b"]), provider="anthropic"
+        )
+        self.store.save(
+            OAuthTokenSet(access_token="oai", scopes=["c"]), provider="openai"
+        )
+
+        self.assertEqual(self.store.load(provider="hanzo").access_token, "hz")
+        self.assertEqual(self.store.load(provider="anthropic").access_token, "anth")
+        self.assertEqual(self.store.load(provider="openai").access_token, "oai")
+
+    def test_clear_only_affects_target_provider(self):
+        self.store.save(
+            OAuthTokenSet(access_token="hz", scopes=["a"]), provider="hanzo"
+        )
+        self.store.save(
+            OAuthTokenSet(access_token="anth", scopes=["b"]), provider="anthropic"
+        )
+
+        self.store.clear(provider="hanzo")
+
+        self.assertIsNone(self.store.load(provider="hanzo"))
+        self.assertEqual(self.store.load(provider="anthropic").access_token, "anth")
+
+    def test_backwards_compatible_json_key(self):
+        """Default hanzo provider uses 'oauth' key in JSON for backwards compat."""
+        self.store.save(
+            OAuthTokenSet(access_token="hz", scopes=["a"]), provider="hanzo"
+        )
+        with open(self.store.credentials_path()) as f:
+            data = json.load(f)
+        self.assertIn("oauth", data)
+        self.assertEqual(data["oauth"]["access_token"], "hz")
+
+    def test_anthropic_uses_distinct_json_key(self):
+        self.store.save(
+            OAuthTokenSet(access_token="anth", scopes=["a"]), provider="anthropic"
+        )
+        with open(self.store.credentials_path()) as f:
+            data = json.load(f)
+        self.assertIn("oauth_anthropic", data)
+        self.assertNotIn("oauth", data)
+
+    def test_openai_uses_distinct_json_key(self):
+        self.store.save(
+            OAuthTokenSet(access_token="oai", scopes=["a"]), provider="openai"
+        )
+        with open(self.store.credentials_path()) as f:
+            data = json.load(f)
+        self.assertIn("oauth_openai", data)
+        self.assertNotIn("oauth", data)
+
+    def test_unknown_provider_raises(self):
+        with self.assertRaises(ValueError):
+            self.store.save(
+                OAuthTokenSet(access_token="x", scopes=["a"]), provider="github"
+            )
+        with self.assertRaises(ValueError):
+            self.store.load(provider="github")
+        with self.assertRaises(ValueError):
+            self.store.clear(provider="github")
+
+    def test_load_returns_none_for_missing_provider(self):
+        self.store.save(
+            OAuthTokenSet(access_token="hz", scopes=["a"]), provider="hanzo"
+        )
+        self.assertIsNone(self.store.load(provider="anthropic"))
+        self.assertIsNone(self.store.load(provider="openai"))
+
+
+class TestProviderConstants(unittest.TestCase):
+    """Verify provider constants match the Rust codex-rs values."""
+
+    def test_openai_client_id(self):
+        self.assertEqual(OPENAI_CLIENT_ID, "app_EMoamEEZ73f0CkXaXp7hrann")
+
+    def test_openai_issuer(self):
+        self.assertEqual(OPENAI_ISSUER, "https://auth.openai.com")
+
+    def test_anthropic_client_id(self):
+        self.assertEqual(ANTHROPIC_CLIENT_ID, "9d1c250a-e61b-44d9-88ed-5944d1962f5e")
+
+    def test_anthropic_authorize_url(self):
+        self.assertEqual(ANTHROPIC_AUTHORIZE_URL, "https://claude.ai/oauth/authorize")
+
+    def test_anthropic_token_url(self):
+        self.assertEqual(ANTHROPIC_TOKEN_URL, "https://platform.claude.com/v1/oauth/token")
+
+    def test_hanzo_client_id(self):
+        self.assertEqual(HANZO_CLIENT_ID, "hanzo-dev")
+
+
+class TestLoginAuto(unittest.TestCase):
+    """Tests for HanzoAuth.login_auto() env var detection."""
+
+    def test_hanzo_api_key_takes_priority(self):
+        import asyncio
+        auth = HanzoAuth()
+        env = {
+            "HANZO_API_KEY": "hk-test",
+            "ANTHROPIC_API_KEY": "sk-ant-test",
+            "OPENAI_API_KEY": "sk-test",
+        }
+        with patch.dict(os.environ, env):
+            result = asyncio.run(auth.login_auto())
+        self.assertEqual(result["provider"], "hanzo")
+        self.assertEqual(result["api_key"], "hk-test")
+        self.assertEqual(auth.api_key, "hk-test")
+
+    def test_anthropic_api_key_second_priority(self):
+        import asyncio
+        auth = HanzoAuth()
+        env = {"ANTHROPIC_API_KEY": "sk-ant-test"}
+        with patch.dict(os.environ, env, clear=False):
+            # Ensure HANZO_API_KEY is not set
+            os.environ.pop("HANZO_API_KEY", None)
+            os.environ.pop("OPENAI_API_KEY", None)
+            result = asyncio.run(auth.login_auto())
+        self.assertEqual(result["provider"], "anthropic")
+        self.assertEqual(result["api_key"], "sk-ant-test")
+
+    def test_openai_api_key_third_priority(self):
+        import asyncio
+        auth = HanzoAuth()
+        env = {"OPENAI_API_KEY": "sk-test"}
+        with patch.dict(os.environ, env, clear=False):
+            os.environ.pop("HANZO_API_KEY", None)
+            os.environ.pop("ANTHROPIC_API_KEY", None)
+            result = asyncio.run(auth.login_auto())
+        self.assertEqual(result["provider"], "openai")
+        self.assertEqual(result["api_key"], "sk-test")
+
+    def test_saved_credentials_used_when_no_env(self):
+        import asyncio
+        tmpdir = tempfile.mkdtemp()
+        store = OAuthCredentialStore(config_home=tmpdir)
+        store.save(
+            OAuthTokenSet(access_token="saved-anth", scopes=["openid"]),
+            provider="anthropic",
+        )
+        auth = HanzoAuth()
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("HANZO_API_KEY", None)
+            os.environ.pop("ANTHROPIC_API_KEY", None)
+            os.environ.pop("OPENAI_API_KEY", None)
+            # Patch the OAuthCredentialStore used inside login_auto
+            with patch("hanzoai.auth.OAuthCredentialStore", return_value=store):
+                result = asyncio.run(auth.login_auto())
+        self.assertEqual(result["provider"], "anthropic")
+        self.assertEqual(result["token"], "saved-anth")
 
 
 if __name__ == "__main__":

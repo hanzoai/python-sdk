@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-lsp"
+version = "0.1.0"
+description = "Async LSP client for managing language server subprocesses"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "lsp", "language-server", "code-intelligence"]
+dependencies = [
+    "hanzoai>=2.2.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.26.0,<1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_lsp*"]
+
+[tool.setuptools.package-data]
+hanzo_lsp = ["py.typed"]
+
+[tool.pytest.ini_options]
+addopts = "--no-header --no-summary -p asyncio"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
