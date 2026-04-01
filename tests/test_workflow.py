@@ -62,12 +62,12 @@ class TestImports:
 
         assert hanzo_agents is not None
 
-    @pytest.mark.skip(reason="hanzo_repl may not be installed in test environment")
-    def test_hanzo_repl_import(self):
-        """Test hanzo_repl package import."""
-        import hanzo_repl
+    @pytest.mark.skip(reason="hanzo_dev may not be installed in test environment")
+    def test_hanzo_dev_import(self):
+        """Test hanzo_dev package import."""
+        import hanzo_dev
 
-        assert hanzo_repl is not None
+        assert hanzo_dev is not None
 
 
 class TestBasicClient:

@@ -162,7 +162,7 @@ class TestLoad:
                 "gamma": {"command": "g", "transport": "stdio"},
             }
         })
-        cfg = ConfigLoader(cwd=tmp_path, config_home=home).load()
+        cfg = ConfigLoader(cwd=tmp_path, config_home=home).load(trust_project_mcp=True)
         servers = cfg.mcp_servers()
         assert set(servers.keys()) == {"gamma"}
 

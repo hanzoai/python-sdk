@@ -24,7 +24,7 @@ if [ ! -f "pyproject.toml" ] || [ ! -d "pkg" ]; then
 fi
 
 # Packages to build
-PACKAGES=("hanzoai" "hanzo" "hanzo-mcp" "hanzo-memory" "hanzo-network" "hanzo-agents" "hanzo-repl")
+PACKAGES=("hanzoai" "hanzo" "hanzo-mcp" "hanzo-memory" "hanzo-network" "hanzo-agents" "hanzo-dev")
 
 echo -e "${YELLOW}Packages to build:${NC}"
 for pkg in "${PACKAGES[@]}"; do

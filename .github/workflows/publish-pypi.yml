@@ -62,7 +62,7 @@ jobs:
           TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-fs hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools-computer hanzo-tools"
 
           # Main packages
-          MAIN_PACKAGES="hanzoai hanzo hanzo-cli hanzo-kms hanzo-iam hanzo-consensus hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-repl"
+          MAIN_PACKAGES="hanzoai hanzo hanzo-cli hanzo-kms hanzo-iam hanzo-consensus hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-dev"
 
           # Handle manual workflow dispatch
           if [ -n "$MANUAL_INPUT" ]; then
@@ -127,8 +127,8 @@ jobs:
             PACKAGES="hanzo-memory"
           elif [[ $TAG == hanzo-aci-* ]]; then
             PACKAGES="hanzo-aci"
-          elif [[ $TAG == hanzo-repl-* ]]; then
-            PACKAGES="hanzo-repl"
+          elif [[ $TAG == hanzo-dev-* ]]; then
+            PACKAGES="hanzo-dev"
           elif [[ $TAG == hanzoai-* ]]; then
             PACKAGES="hanzoai"
           elif [[ $TAG == hanzo-* ]]; then
