@@ -35,3 +35,13 @@ try:
     __version__ = _get_version("hanzo-mcp")
 except Exception:
     __version__ = "0.10.24"  # fallback
+
+# Re-export canonical types from hanzoai core.
+# hanzo-mcp works standalone but prefers hanzoai when available.
+try:
+    from hanzoai.protocols import PermissionPolicy, PermissionMode, PermissionOutcome
+    from hanzoai.config import ConfigLoader, RuntimeConfig
+    from hanzoai.session import Session, compact_session, CompactionConfig
+    from hanzoai.mcp import normalize_mcp_name, mcp_tool_name, MCPClient
+except ImportError:
+    pass  # hanzoai not installed, MCP server still works standalone

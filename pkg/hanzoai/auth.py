@@ -7,16 +7,201 @@ Supports multiple authentication methods:
 4. MCP flow authentication
 """
 
+import base64
+import hashlib
 import os
 import sys
 import json
 import asyncio
 import webbrowser
+from dataclasses import dataclass
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from threading import Thread
 from typing import Any, Dict, List, Optional
 from pathlib import Path
-from urllib.parse import urlencode
+from urllib.parse import urlencode, parse_qs, urlparse
 
 import httpx
+
+
+# ---------------------------------------------------------------------------
+# PKCE (Proof Key for Code Exchange) with S256
+# ---------------------------------------------------------------------------
+
+def _base64url_encode(data: bytes) -> str:
+    """Base64url encode with no padding."""
+    return base64.urlsafe_b64encode(data).rstrip(b"=").decode("ascii")
+
+
+@dataclass(frozen=True)
+class PkceCodePair:
+    """PKCE verifier/challenge pair."""
+    verifier: str
+    challenge: str
+    challenge_method: str = "S256"
+
+
+def generate_pkce_pair() -> PkceCodePair:
+    """Generate a PKCE code verifier and S256 challenge.
+
+    Uses 32 bytes of os.urandom for the verifier, SHA-256 for the challenge.
+    Both are base64url encoded with no padding.
+    """
+    verifier = _base64url_encode(os.urandom(32))
+    challenge = _base64url_encode(hashlib.sha256(verifier.encode("ascii")).digest())
+    return PkceCodePair(verifier=verifier, challenge=challenge)
+
+
+def generate_state() -> str:
+    """Generate a random state token (32 bytes, base64url, no padding)."""
+    return _base64url_encode(os.urandom(32))
+
+
+@dataclass(frozen=True)
+class OAuthAuthorizationRequest:
+    """OAuth authorization request with PKCE parameters."""
+    authorize_url: str
+    client_id: str
+    redirect_uri: str
+    scopes: List[str]
+    state: str
+    code_challenge: str
+    code_challenge_method: str
+
+    def build_url(self) -> str:
+        """Build the full authorization URL with query parameters."""
+        params = {
+            "client_id": self.client_id,
+            "redirect_uri": self.redirect_uri,
+            "response_type": "code",
+            "scope": " ".join(self.scopes),
+            "state": self.state,
+            "code_challenge": self.code_challenge,
+            "code_challenge_method": self.code_challenge_method,
+        }
+        return f"{self.authorize_url}?{urlencode(params)}"
+
+
+@dataclass(frozen=True)
+class OAuthTokenExchangeRequest:
+    """OAuth token exchange request with PKCE code_verifier."""
+    code: str
+    redirect_uri: str
+    client_id: str
+    code_verifier: str
+    state: str
+    grant_type: str = "authorization_code"
+
+    def form_params(self) -> Dict[str, str]:
+        """Return parameters for the token exchange POST body."""
+        return {
+            "grant_type": self.grant_type,
+            "code": self.code,
+            "redirect_uri": self.redirect_uri,
+            "client_id": self.client_id,
+            "code_verifier": self.code_verifier,
+            "state": self.state,
+        }
+
+
+@dataclass
+class OAuthTokenSet:
+    """OAuth token set returned from token exchange."""
+    access_token: str
+    scopes: List[str]
+    refresh_token: Optional[str] = None
+    expires_at: Optional[int] = None
+
+
+class OAuthCredentialStore:
+    """Manages OAuth credentials in ~/.hanzo/credentials.json.
+
+    Respects HANZO_CONFIG_HOME env var. Uses atomic writes.
+    Preserves other keys in the credentials file.
+    """
+
+    def __init__(self, config_home: Optional[str] = None):
+        self._config_home = config_home
+
+    def _get_config_home(self) -> Path:
+        if self._config_home:
+            return Path(self._config_home)
+        env = os.environ.get("HANZO_CONFIG_HOME")
+        if env:
+            return Path(env)
+        return Path.home() / ".hanzo"
+
+    def credentials_path(self) -> Path:
+        return self._get_config_home() / "credentials.json"
+
+    def save(self, token_set: OAuthTokenSet) -> None:
+        """Save OAuth token set. Atomic write, preserves other keys."""
+        path = self.credentials_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Read existing data
+        existing: Dict[str, Any] = {}
+        if path.exists():
+            with open(path, "r") as f:
+                existing = json.load(f)
+
+        existing["oauth"] = {
+            "access_token": token_set.access_token,
+            "refresh_token": token_set.refresh_token,
+            "expires_at": token_set.expires_at,
+            "scopes": token_set.scopes,
+        }
+
+        # Atomic write: write to .tmp then rename
+        tmp_path = path.with_suffix(".json.tmp")
+        with open(tmp_path, "w") as f:
+            json.dump(existing, f, indent=2)
+
+        os.replace(tmp_path, path)
+
+        # Restrictive permissions
+        if sys.platform != "win32":
+            os.chmod(path, 0o600)
+
+    def load(self) -> Optional[OAuthTokenSet]:
+        """Load OAuth token set from credentials file. Returns None if absent."""
+        path = self.credentials_path()
+        if not path.exists():
+            return None
+
+        with open(path, "r") as f:
+            data = json.load(f)
+
+        oauth = data.get("oauth")
+        if not oauth:
+            return None
+
+        return OAuthTokenSet(
+            access_token=oauth["access_token"],
+            refresh_token=oauth.get("refresh_token"),
+            expires_at=oauth.get("expires_at"),
+            scopes=oauth.get("scopes", []),
+        )
+
+    def clear(self) -> None:
+        """Remove oauth key from credentials, preserving other keys."""
+        path = self.credentials_path()
+        if not path.exists():
+            return
+
+        with open(path, "r") as f:
+            data = json.load(f)
+
+        data.pop("oauth", None)
+
+        tmp_path = path.with_suffix(".json.tmp")
+        with open(tmp_path, "w") as f:
+            json.dump(data, f, indent=2)
+
+        os.replace(tmp_path, path)
+
+        if sys.platform != "win32":
+            os.chmod(path, 0o600)
 
 
 class HanzoAuth:
@@ -205,85 +390,151 @@ class HanzoAuth:
 
             raise RuntimeError("Authentication timed out. Please try again.")
 
-    async def login_with_sso(self) -> Dict[str, Any]:
+    async def login_with_sso(self) -> OAuthTokenSet:
         """Login with SSO (browser-based).
 
+        Delegates to login_with_pkce with the SSO redirect port.
+
         Returns:
-            User information and tokens
+            OAuthTokenSet with access token and metadata
         """
-        # Generate state for security
-        import secrets
+        return await self.login_with_pkce(redirect_port=8899)
 
-        state = secrets.token_urlsafe(32)
+    async def login_with_pkce(
+        self,
+        authorize_url: Optional[str] = None,
+        token_url: Optional[str] = None,
+        client_id: str = "app-hanzo",
+        scopes: Optional[List[str]] = None,
+        redirect_port: int = 4545,
+    ) -> OAuthTokenSet:
+        """Login with PKCE (Proof Key for Code Exchange) flow.
 
-        # Build SSO URL
-        params = {
-            "client_id": "app-hanzo",
-            "redirect_uri": "http://localhost:8899/callback",
-            "response_type": "code",
-            "scope": "openid profile email",
-            "state": state,
-        }
+        Generates a PKCE pair, opens the browser, catches the callback
+        on a local HTTP server, exchanges the code for tokens, and saves
+        credentials.
 
-        sso_url = f"{self.base_url}/oauth/authorize?{urlencode(params)}"
+        Args:
+            authorize_url: Authorization endpoint (default: {base_url}/oauth/authorize)
+            token_url: Token endpoint (default: {base_url}/oauth/token)
+            client_id: OAuth client ID
+            scopes: OAuth scopes
+            redirect_port: Local port for the redirect callback server
+
+        Returns:
+            OAuthTokenSet with access token and metadata
+        """
+        if authorize_url is None:
+            authorize_url = f"{self.base_url}/oauth/authorize"
+        if token_url is None:
+            token_url = f"{self.base_url}/oauth/token"
+        if scopes is None:
+            scopes = ["openid", "profile", "email"]
+
+        pkce = generate_pkce_pair()
+        state = generate_state()
+        redirect_uri = f"http://localhost:{redirect_port}/callback"
+
+        auth_req = OAuthAuthorizationRequest(
+            authorize_url=authorize_url,
+            client_id=client_id,
+            redirect_uri=redirect_uri,
+            scopes=scopes,
+            state=state,
+            code_challenge=pkce.challenge,
+            code_challenge_method=pkce.challenge_method,
+        )
+
+        # Capture the auth code from the callback
+        result: Dict[str, Optional[str]] = {"code": None, "error": None}
+
+        class CallbackHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                qs = parse_qs(urlparse(self.path).query)
+
+                cb_state = qs.get("state", [None])[0]
+                if cb_state != state:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "text/plain")
+                    self.end_headers()
+                    self.wfile.write(b"Invalid state parameter.")
+                    result["error"] = "state mismatch"
+                    return
+
+                if "error" in qs:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "text/plain")
+                    self.end_headers()
+                    msg = qs["error"][0]
+                    self.wfile.write(f"Authorization error: {msg}".encode())
+                    result["error"] = msg
+                    return
+
+                result["code"] = qs.get("code", [None])[0]
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                self.end_headers()
+                self.wfile.write(b"Authentication successful. You can close this window.")
+
+            def log_message(self, format, *args):
+                pass  # Silence request logs
+
+        server = HTTPServer(("127.0.0.1", redirect_port), CallbackHandler)
 
         # Open browser
-        webbrowser.open(sso_url)
+        url = auth_req.build_url()
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+        print(f"\nOpen this URL to authenticate:\n  {url}\n")
 
-        # Start local server to receive callback
-        from aiohttp import web
+        # Serve one request to catch the callback
+        def serve_once():
+            server.handle_request()
+            server.server_close()
 
-        auth_code = None
+        thread = Thread(target=serve_once, daemon=True)
+        thread.start()
+        # Wait for the callback (runs in background thread)
+        await asyncio.get_event_loop().run_in_executor(None, thread.join, 300)
 
-        async def callback_handler(request):
-            nonlocal auth_code
+        if result["error"]:
+            raise RuntimeError(f"PKCE authorization failed: {result['error']}")
+        if not result["code"]:
+            raise RuntimeError("No authorization code received.")
 
-            # Verify state
-            if request.query.get("state") != state:
-                return web.Response(text="Invalid state", status=400)
+        # Exchange code for tokens
+        exchange_req = OAuthTokenExchangeRequest(
+            code=result["code"],
+            redirect_uri=redirect_uri,
+            client_id=client_id,
+            code_verifier=pkce.verifier,
+            state=state,
+        )
 
-            auth_code = request.query.get("code")
-
-            return web.Response(
-                text="Authentication successful! You can close this window.",
-                content_type="text/html",
-            )
-
-        app = web.Application()
-        app.router.add_get("/callback", callback_handler)
-
-        runner = web.AppRunner(app)
-        await runner.setup()
-        site = web.TCPSite(runner, "localhost", 8899)
-        await site.start()
-
-        # Wait for callback
-        while auth_code is None:
-            await asyncio.sleep(0.1)
-
-        await runner.cleanup()
-
-        # Exchange code for token
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{self.base_url}/oauth/token",
-                json={
-                    "client_id": "app-hanzo",
-                    "client_secret": "hanzo-cli-secret",  # Public client
-                    "code": auth_code,
-                    "grant_type": "authorization_code",
-                    "redirect_uri": "http://localhost:8899/callback",
-                },
+                token_url,
+                data=exchange_req.form_params(),
             )
             response.raise_for_status()
-
             data = response.json()
-            self._token = data.get("access_token")
 
-            # Get user info
-            user_info = await self.get_user_info()
+        token_set = OAuthTokenSet(
+            access_token=data["access_token"],
+            refresh_token=data.get("refresh_token"),
+            expires_at=data.get("expires_at"),
+            scopes=data.get("scope", " ".join(scopes)).split(),
+        )
 
-            return {"token": self._token, **user_info}
+        self._token = token_set.access_token
+
+        # Save credentials
+        store = OAuthCredentialStore()
+        store.save(token_set)
+
+        return token_set
 
     async def logout(self):
         """Logout and clear credentials."""
