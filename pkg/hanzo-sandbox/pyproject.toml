@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hanzo-sandbox"
+version = "0.1.0"
+description = "Linux sandbox isolation for Hanzo agent runtimes (unshare, namespace, network, filesystem)."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["hanzo", "sandbox", "isolation", "unshare"]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/hanzoai/python-sdk"
+"Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hanzo_sandbox*"]

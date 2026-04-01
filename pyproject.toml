@@ -70,7 +70,7 @@ members = [
   "pkg/hanzo-mcp",
   "pkg/hanzo-memory",
   "pkg/hanzo-network",
-  "pkg/hanzo-repl",
+  "pkg/hanzo-dev-py",
   "pkg/hanzo-s3",
   "pkg/hanzo-tools-ui",
   "pkg/hanzo-zap",
@@ -208,7 +208,7 @@ exclude = [
     "pkg/hanzo-memory",
     "pkg/hanzo-network",
     "pkg/hanzo-node",
-    "pkg/hanzo-repl",
+    "pkg/hanzo-dev-py",
     "pkg/hanzo-tools",
     "pkg/hanzo-tools-agent",
     "pkg/hanzo-tools-api",
@@ -469,7 +469,7 @@ exclude = [
     "pkg/hanzo-mcp/",
     "pkg/hanzo-memory/",
     "pkg/hanzo-network/",
-    "pkg/hanzo-repl/",
+    "pkg/hanzo-dev-py/",
     "pkg/hanzo/",
     # Non-production code
     "bin/",
@@ -502,10 +502,10 @@ hanzo-tools-ui = { workspace = true }
 "**/__main__.py" = ["T201", "T203"]
 # Specific file ignores
 "pkg/hanzo-memory/src/hanzo_memory/db/base.py" = ["B027"]
-"pkg/hanzo-repl/src/hanzo_repl/backends.py" = ["S603"]
-"pkg/hanzo-repl/src/hanzo_repl/repl.py" = ["S605"]
-"pkg/hanzo-repl/src/hanzo_repl/tests.py" = ["ARG001"]
-"pkg/hanzo-repl/src/hanzo_repl/ipython_repl.py" = ["ARG002"]
+"pkg/hanzo-dev-py/src/hanzo_dev/backends.py" = ["S603"]
+"pkg/hanzo-dev-py/src/hanzo_dev/repl.py" = ["S605"]
+"pkg/hanzo-dev-py/src/hanzo_dev/tests.py" = ["ARG001"]
+"pkg/hanzo-dev-py/src/hanzo_dev/ipython_repl.py" = ["ARG002"]
 "**/cli.py" = ["T201", "T203"]
 # Test files
 "**/test_*.py" = ["F401", "F841"]

@@ -52,22 +52,20 @@ def chat_command(
                 os.environ["HANZO_SYSTEM_PROMPT"] = system
 
             if ipython:
-                from hanzo_repl.ipython_repl import main
+                from hanzo_dev.ipython_repl import main
 
                 sys.exit(main())
             elif tui:
-                from hanzo_repl.textual_repl import main
+                from hanzo_dev.textual_repl import main
 
                 sys.exit(main())
             else:
-                from hanzo_repl.cli import main
+                from hanzo_dev.cli import main
 
                 sys.exit(main())
         except ImportError:
-            console.print("[red]Error:[/red] hanzo-repl not installed")
-            console.print("Install with: pip install hanzo[repl]")
-            console.print("\nAlternatively:")
-            console.print("  pip install hanzo-repl")
+            console.print("[red]Error:[/red] hanzo-dev not installed")
+            console.print("Install with: pip install hanzo-dev")
             return
 
     prompt_text = " ".join(prompt) if prompt else None

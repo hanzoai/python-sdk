@@ -33,11 +33,11 @@ def start(ctx, model: str, local: bool, ipython: bool, tui: bool, voice: bool):
             os.environ["HANZO_ENABLE_VOICE"] = "true"
 
         if ipython:
-            from hanzo_repl.ipython_repl import main
+            from hanzo_dev.ipython_repl import main
         elif tui:
-            from hanzo_repl.textual_repl import main
+            from hanzo_dev.textual_repl import main
         else:
-            from hanzo_repl.cli import main
+            from hanzo_dev.cli import main
 
         console.print("[cyan]Starting Hanzo REPL...[/cyan]")
         console.print("All MCP tools available. Type 'help' for commands.\n")
@@ -45,8 +45,8 @@ def start(ctx, model: str, local: bool, ipython: bool, tui: bool, voice: bool):
         sys.exit(main())
 
     except ImportError:
-        console.print("[red]Error:[/red] hanzo-repl not installed")
-        console.print("Install with: pip install hanzo[repl]")
+        console.print("[red]Error:[/red] hanzo-dev not installed")
+        console.print("Install with: pip install hanzo-dev")
         console.print("\nFeatures:")
         console.print("  • Direct access to 70+ MCP tools")
         console.print("  • Chat with AI that can use tools")
@@ -61,9 +61,9 @@ def info(ctx):
     """Show REPL information and status."""
     try:
         import hanzo_mcp
-        from hanzo_repl import __version__
+        from hanzo_dev import __version__
 
-        console.print("[cyan]Hanzo REPL[/cyan]")
+        console.print("[cyan]Hanzo Dev[/cyan]")
         console.print(f"  Version: {__version__}")
         console.print(f"  MCP Tools: {len(hanzo_mcp.get_all_tools())}")
 
@@ -110,7 +110,7 @@ def info(ctx):
             )
 
     except ImportError:
-        console.print("[red]Error:[/red] hanzo-repl not installed")
+        console.print("[red]Error:[/red] hanzo-dev not installed")
 
 
 @repl_group.command()
@@ -144,7 +144,7 @@ def install_extras(ctx, interface: str):
             console.print(f"[green]✓[/green] Installed {interface} components")
         except subprocess.CalledProcessError:
             console.print(f"[red]Failed to install components[/red]")
-            console.print("Try manually: pip install hanzo-repl[voice]")
+            console.print("Try manually: pip install hanzo-dev[voice]")
 
 
 @repl_group.command()
@@ -156,7 +156,7 @@ def exec(ctx, command: tuple, model: str):
     try:
         import asyncio
 
-        from hanzo_repl import create_repl
+        from hanzo_dev import create_repl
 
         repl = create_repl(model=model)
         command_str = " ".join(command)
@@ -170,7 +170,7 @@ def exec(ctx, command: tuple, model: str):
     except ImportError as e:
         console.print(f"[red]Import Error:[/red] {e}")
         console.print(
-            "[yellow]Note:[/yellow] hanzo-repl may not be installed correctly"
+            "[yellow]Note:[/yellow] hanzo-dev may not be installed correctly"
         )
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
@@ -181,13 +181,13 @@ def exec(ctx, command: tuple, model: str):
 def demo(ctx):
     """Run REPL demo showcasing features."""
     try:
-        from hanzo_repl.demos import run_demo
+        from hanzo_dev.demos import run_demo
 
-        console.print("[cyan]Running Hanzo REPL demo...[/cyan]\n")
+        console.print("[cyan]Running Hanzo Dev demo...[/cyan]\n")
         run_demo()
 
     except ImportError:
-        console.print("[red]Error:[/red] hanzo-repl not installed")
+        console.print("[red]Error:[/red] hanzo-dev not installed")
         console.print("\nThe demo would show:")
         console.print("  • File operations with MCP tools")
         console.print("  • Code search and analysis")

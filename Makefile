@@ -96,7 +96,7 @@ deps: ## Install all dependencies for all packages
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-agents
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-mcp
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo
-	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-repl
+	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-dev
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-memory
 	@source .venv/bin/activate && uv pip install -e ./pkg/hanzo-network
 	
@@ -135,7 +135,7 @@ build: ## Build all packages
 	@cd pkg/hanzo-agents && uv build
 	@cd pkg/hanzo-mcp && uv build
 	@cd pkg/hanzo && uv build
-	@cd pkg/hanzo-repl && uv build
+	@cd pkg/hanzo-dev && uv build
 	@cd pkg/hanzo-memory && uv build
 	@cd pkg/hanzo-network && uv build
 	@cd pkg/hanzo-aci && uv build
@@ -169,7 +169,7 @@ publish-all: build ## Publish all packages to PyPI
 		$(MAKE) publish-hanzo-agents; \
 		$(MAKE) publish-hanzo-mcp; \
 		$(MAKE) publish-hanzo; \
-		$(MAKE) publish-hanzo-repl; \
+		$(MAKE) publish-hanzo-dev; \
 		$(MAKE) publish-hanzo-memory; \
 		$(MAKE) publish-hanzo-network; \
 		$(MAKE) publish-hanzo-aci; \
@@ -194,9 +194,9 @@ publish-hanzo: ## Publish hanzo package
 	@echo -e "$(CYAN)Publishing hanzo...$(NC)"
 	@cd pkg/hanzo && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
-publish-hanzo-repl: ## Publish hanzo-repl package
-	@echo -e "$(CYAN)Publishing hanzo-repl...$(NC)"
-	@cd pkg/hanzo-repl && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
+publish-hanzo-dev: ## Publish hanzo-dev package
+	@echo -e "$(CYAN)Publishing hanzo-dev...$(NC)"
+	@cd pkg/hanzo-dev && TWINE_USERNAME=__token__ TWINE_PASSWORD=$${PYPI_TOKEN} twine upload dist/* --skip-existing
 
 publish-hanzo-memory: ## Publish hanzo-memory package
 	@echo -e "$(CYAN)Publishing hanzo-memory...$(NC)"

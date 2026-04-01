@@ -187,7 +187,7 @@ def main():
         "hanzo-agents",
         "hanzo-aci",
         "hanzo-mcp",
-        "hanzo-repl",
+        "hanzo-dev",
         "hanzo",
     ]
 
