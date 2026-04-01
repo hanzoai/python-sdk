@@ -2,6 +2,13 @@
 
 Extends the base PermissionManager from hanzo-tools-core with additional
 security features and MCP-specific functionality.
+
+Two complementary layers:
+- **Tool-level**: PermissionPolicy from hanzoai.protocols (should I run bash at all?)
+- **Path-level**: PermissionManager (can bash access this file?)
+
+Downstream code should import everything from here -- no need to touch
+hanzoai.protocols directly.
 """
 
 import json
@@ -15,6 +22,16 @@ from typing import Any, TypeVar, final
 
 # Import base from hanzo-tools-core
 from hanzo_tools.core.permissions import PermissionManager as BasePermissionManager
+
+# Canonical tool-level permission types from hanzoai core SDK.
+# Re-exported so downstream only imports from this module.
+from hanzoai.protocols import (
+    PermissionMode,
+    PermissionOutcome,
+    PermissionPolicy,
+    PermissionPrompter,
+    PermissionRequest,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -34,10 +51,21 @@ class PermissionManager(BasePermissionManager):
     - JSON serialization for config persistence
     """
 
-    def __init__(self) -> None:
-        """Initialize the permission manager with secure defaults."""
+    def __init__(
+        self,
+        tool_policy: PermissionPolicy | None = None,
+    ) -> None:
+        """Initialize the permission manager with secure defaults.
+
+        Args:
+            tool_policy: Optional tool-level permission policy.  When *None*
+                a default policy is created that prompts for every tool.
+        """
         # Initialize with empty allowed paths - we'll add our own
         super().__init__(allowed_paths=[], deny_patterns=[])
+
+        # Tool-level policy (Allow/Deny/Prompt per tool name).
+        self.tool_policy: PermissionPolicy = tool_policy or PermissionPolicy()
 
         # Convert to set for O(1) lookups
         self.allowed_paths: set[Path] = set()
@@ -193,6 +221,48 @@ class PermissionManager(BasePermissionManager):
         except ValueError:
             return False
 
+    # ------------------------------------------------------------------
+    # Tool-level authorization (delegates to hanzoai PermissionPolicy)
+    # ------------------------------------------------------------------
+
+    def authorize_tool(
+        self,
+        tool_name: str,
+        input: str,
+        prompter: PermissionPrompter | None = None,
+    ) -> PermissionOutcome:
+        """Check whether *tool_name* is allowed by the tool-level policy.
+
+        This is purely tool-level -- it does NOT check file paths.
+        Use :meth:`check` when you need both layers.
+        """
+        return self.tool_policy.authorize(tool_name, input, prompter)
+
+    def check(
+        self,
+        tool_name: str,
+        input: str,
+        path: str | None = None,
+        prompter: PermissionPrompter | None = None,
+    ) -> PermissionOutcome:
+        """Authorize a tool invocation checking BOTH tool-level and path-level.
+
+        1. Ask the tool_policy whether *tool_name* is allowed at all.
+        2. If a *path* is supplied, verify it passes path-based security.
+
+        Returns the first denial, or ``PermissionOutcome.allow()``.
+        """
+        outcome = self.tool_policy.authorize(tool_name, input, prompter)
+        if not outcome.allowed:
+            return outcome
+
+        if path is not None and not self.is_path_allowed(path):
+            return PermissionOutcome.deny(
+                f"path not allowed: {path}"
+            )
+
+        return PermissionOutcome.allow()
+
     def _is_path_excluded(self, path: Path) -> bool:
         """Check if a path is excluded.
 
@@ -320,3 +390,16 @@ class PermissibleOperation:
             return await func(*args, **kwargs)
 
         return wrapper
+
+
+__all__ = [
+    # This module's own types
+    "PermissionManager",
+    "PermissibleOperation",
+    # Re-exported from hanzoai.protocols so downstream only imports from here
+    "PermissionMode",
+    "PermissionOutcome",
+    "PermissionPolicy",
+    "PermissionPrompter",
+    "PermissionRequest",
+]
