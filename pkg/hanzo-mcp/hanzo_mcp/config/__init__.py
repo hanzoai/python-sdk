@@ -16,8 +16,6 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field
-
 # --- Re-export canonical config types from hanzoai ---
 from hanzoai.config import (
     ConfigEntry,
@@ -35,6 +33,7 @@ from hanzoai.config import (
     OAuthConfig,
     RuntimeConfig,
 )
+from pydantic import BaseModel, Field
 
 # --- Re-export tool config ---
 from .tool_config import (
