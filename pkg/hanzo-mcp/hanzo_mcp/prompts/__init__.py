@@ -1,12 +1,12 @@
 import os
 
+from hanzoai.session import CompactionConfig, CompactionResult, Session, compact_session
 from mcp.server import FastMCP
 
 from hanzo_mcp.prompts.compact_conversation import (
     COMPACT_CONVERSATION_PROMPT,
     compact_or_prompt,
 )
-from hanzoai.session import CompactionConfig, CompactionResult, Session, compact_session
 from hanzo_mcp.prompts.create_release import CREATE_RELEASE_PROMPT
 from hanzo_mcp.prompts.enhanced_prompts import (
     CONFIGURATION_GUIDE_PROMPT,
