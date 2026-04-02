@@ -39,9 +39,9 @@ except Exception:
 # Re-export canonical types from hanzoai core.
 # hanzo-mcp works standalone but prefers hanzoai when available.
 try:
-    from hanzoai.protocols import PermissionPolicy, PermissionMode, PermissionOutcome
     from hanzoai.config import ConfigLoader, RuntimeConfig
-    from hanzoai.session import Session, compact_session, CompactionConfig
-    from hanzoai.mcp import normalize_mcp_name, mcp_tool_name, MCPClient
+    from hanzoai.mcp import MCPClient, mcp_tool_name, normalize_mcp_name
+    from hanzoai.protocols import PermissionMode, PermissionOutcome, PermissionPolicy
+    from hanzoai.session import CompactionConfig, Session, compact_session
 except ImportError:
     pass  # hanzoai not installed, MCP server still works standalone

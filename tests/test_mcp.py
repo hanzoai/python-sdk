@@ -1,23 +1,22 @@
 """Tests for MCP client implementation."""
 
-import asyncio
-import json
 import sys
+import json
+import asyncio
 import textwrap
 
 import pytest
 
 from hanzoai.mcp import (
-    JsonRpcError,
-    JsonRpcRequest,
-    JsonRpcResponse,
     MCPClient,
-    MCPClientError,
+    JsonRpcError,
     MCPHttpClient,
+    JsonRpcRequest,
+    MCPClientError,
+    JsonRpcResponse,
     mcp_tool_name,
     normalize_mcp_name,
 )
-
 
 # --- Name normalization tests ---
 

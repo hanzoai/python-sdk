@@ -7,19 +7,19 @@ from pathlib import Path
 import pytest
 
 from hanzoai.session import (
-    CompactionConfig,
-    CompactionResult,
-    ConversationMessage,
-    MessageRole,
     Session,
     TextBlock,
     TokenUsage,
-    ToolResultBlock,
+    MessageRole,
     ToolUseBlock,
-    compact_session,
-    estimate_session_tokens,
-    format_compact_summary,
+    ToolResultBlock,
+    CompactionConfig,
+    CompactionResult,
+    ConversationMessage,
     should_compact,
+    compact_session,
+    format_compact_summary,
+    estimate_session_tokens,
 )
 
 

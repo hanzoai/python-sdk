@@ -6,14 +6,12 @@ source file and test name it mirrors.
 """
 from __future__ import annotations
 
-import hashlib
 import json
+import hashlib
 import tempfile
 from pathlib import Path
 
-
 # ── 1. SSE Parser ────────────────────────────────────────────────────────────
-
 from hanzoai._streaming import SSEDecoder, ServerSentEvent
 
 
@@ -117,7 +115,7 @@ def test_sse_comment_only():
 
 # ── 2. MCP Name Normalization ────────────────────────────────────────────────
 
-from hanzoai.mcp import normalize_mcp_name, mcp_tool_name
+from hanzoai.mcp import mcp_tool_name, normalize_mcp_name
 
 
 # Parity: claw-code/rust/crates/runtime/src/mcp.rs:normalizes_server_names_for_mcp_tooling
@@ -147,8 +145,8 @@ def test_mcp_hyphens_kept():
 
 from hanzoai.protocols import (
     PermissionMode,
-    PermissionOutcome,
     PermissionPolicy,
+    PermissionOutcome,
     PermissionRequest,
 )
 
@@ -189,12 +187,12 @@ def test_permission_tool_override():
 # ── 4. Session Compaction ────────────────────────────────────────────────────
 
 from hanzoai.session import (
-    CompactionConfig,
-    ConversationMessage,
-    MessageRole,
     Session,
     TextBlock,
+    MessageRole,
     ToolResultBlock,
+    CompactionConfig,
+    ConversationMessage,
     compact_session,
     format_compact_summary,
 )
@@ -302,14 +300,14 @@ def test_pkce_s256_rfc_vector():
 
 from hanzoai.config import (
     ConfigEntry,
+    McpWsConfig,
     ConfigLoader,
     ConfigSource,
+    McpSdkConfig,
+    McpTransport,
     McpStdioConfig,
     McpRemoteConfig,
-    McpWsConfig,
-    McpSdkConfig,
     McpClaudeAiProxyConfig,
-    McpTransport,
     _parse_mcp_server,
     _sanitize_project_config,
 )
