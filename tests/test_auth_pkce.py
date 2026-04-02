@@ -3,32 +3,32 @@
 Run: .venv/bin/python -m pytest tests/test_auth_pkce.py -v
 """
 
+import os
+import json
+import stat
 import base64
 import hashlib
-import json
-import os
-import stat
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
 from urllib.parse import parse_qs, urlparse
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from hanzoai.auth import (
-    ANTHROPIC_AUTHORIZE_URL,
+    OPENAI_ISSUER,
+    HANZO_CLIENT_ID,
+    OPENAI_CLIENT_ID,
     ANTHROPIC_CLIENT_ID,
     ANTHROPIC_TOKEN_URL,
-    HANZO_CLIENT_ID,
+    ANTHROPIC_AUTHORIZE_URL,
     HanzoAuth,
-    OAuthAuthorizationRequest,
-    OAuthCredentialStore,
-    OAuthTokenExchangeRequest,
-    OAuthTokenSet,
-    OPENAI_CLIENT_ID,
-    OPENAI_ISSUER,
     PkceCodePair,
-    generate_pkce_pair,
+    OAuthTokenSet,
+    OAuthCredentialStore,
+    OAuthAuthorizationRequest,
+    OAuthTokenExchangeRequest,
     generate_state,
+    generate_pkce_pair,
 )
 
 

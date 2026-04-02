@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import os
+import json
 from pathlib import Path
 
 import pytest
@@ -11,20 +11,19 @@ import pytest
 from hanzoai.config import (
     ConfigEntry,
     ConfigError,
-    ConfigLoader,
-    ConfigSource,
-    McpClaudeAiProxyConfig,
-    McpOAuthConfig,
-    McpRemoteConfig,
-    McpSdkConfig,
-    McpStdioConfig,
-    McpTransport,
     McpWsConfig,
     OAuthConfig,
+    ConfigLoader,
+    ConfigSource,
+    McpSdkConfig,
+    McpTransport,
     RuntimeConfig,
+    McpOAuthConfig,
+    McpStdioConfig,
+    McpRemoteConfig,
+    McpClaudeAiProxyConfig,
     _deep_merge,
 )
-
 
 # ---------------------------------------------------------------------------
 # Deep merge
