@@ -8,6 +8,7 @@ Regenerate with: python scripts/generate_providers.py > hanzo_tools/api/apis_gur
 
 from typing import Any
 
+
 # =============================================================================
 # APIs.guru Provider Configurations (with oapis.org enhancements)
 # =============================================================================
@@ -32,20 +33,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "REST API interface for 1Password Connect.",
         "spec_url": "https://api.apis.guru/v2/specs/1password.local/connect/1.5.7/openapi.json",
         "base_url": "https://i.1password.com/media/1password-connect/1password-connect-api.yaml",
-        "env_vars": [
-            "1PASSWORD_LOCAL_CONNECT_API_KEY",
-            "1PASSWORD_LOCAL_CONNECT_TOKEN",
-        ],
+        "env_vars": ["1PASSWORD_LOCAL_CONNECT_API_KEY", "1PASSWORD_LOCAL_CONNECT_TOKEN"],
     },
     "6-dot-authentiqio-appspot": {
         "display_name": "Authentiq API",
         "description": "Strong authentication, without the passwords.",
         "spec_url": "https://api.apis.guru/v2/specs/6-dot-authentiqio.appspot.com/6/openapi.json",
         "base_url": "https://raw.githubusercontent.com/AuthentiqID/authentiq-docs/master/docs/swagger/issuer.yaml",
-        "env_vars": [
-            "6_DOT_AUTHENTIQIO_APPSPOT_API_KEY",
-            "6_DOT_AUTHENTIQIO_APPSPOT_TOKEN",
-        ],
+        "env_vars": ["6_DOT_AUTHENTIQIO_APPSPOT_API_KEY", "6_DOT_AUTHENTIQIO_APPSPOT_TOKEN"],
     },
     "ably-io-platform": {
         "display_name": "Platform API",
@@ -66,10 +61,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Abstract IP geolocation API allows developers to retrieve the region, country and city behind any IP worldwide. The API covers the geolocation of IPv4",
         "spec_url": "https://api.apis.guru/v2/specs/abstractapi.com/geolocation/1.0.0/openapi.json",
         "base_url": "https://documentation.abstractapi.com/ip-geolocation-openapi.json",
-        "env_vars": [
-            "ABSTRACTAPI_COM_GEOLOCATION_API_KEY",
-            "ABSTRACTAPI_COM_GEOLOCATION_TOKEN",
-        ],
+        "env_vars": ["ABSTRACTAPI_COM_GEOLOCATION_API_KEY", "ABSTRACTAPI_COM_GEOLOCATION_TOKEN"],
     },
     "adafruit": {
         "display_name": "Adafruit IO REST API",
@@ -302,7 +294,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "alertersystem": {
         "display_name": "Alerter System API",
-        "description": '<p>This is the <a href="/">Alerter System</a> API playground. More documentation is available at the <a href="/help/developers/">API Help Center</',
+        "description": "<p>This is the <a href=\"/\">Alerter System</a> API playground. More documentation is available at the <a href=\"/help/developers/\">API Help Center</",
         "spec_url": "https://api.apis.guru/v2/specs/alertersystem.com/1.6.0/openapi.json",
         "base_url": "https://www.alertersystem.com/api/docs.json",
         "env_vars": ["ALERTERSYSTEM_API_KEY", "ALERTERSYSTEM_TOKEN"],
@@ -543,20 +535,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Our atmosphere protects us from a hostile space radiation environment comprising high energy particles of solar and intergalactic origin. Solar radiat",
         "spec_url": "https://api.apis.guru/v2/specs/amentum.space/aviation_radiation/1.5.0/openapi.json",
         "base_url": "https://cosmicrays.amentum.space//openapi.json",
-        "env_vars": [
-            "AMENTUM_SPACE_AVIATIONRADIATION_API_KEY",
-            "AMENTUM_SPACE_AVIATIONRADIATION_TOKEN",
-        ],
+        "env_vars": ["AMENTUM_SPACE_AVIATIONRADIATION_API_KEY", "AMENTUM_SPACE_AVIATIONRADIATION_TOKEN"],
     },
     "amentum-space-global-magnet": {
         "display_name": "Geomag API",
         "description": "The World Magnetic Model calculates the intensity and direction of the Earth's magnetic field on a specific date-time, geodetic altitude, latitude, an",
         "spec_url": "https://api.apis.guru/v2/specs/amentum.space/global-magnet/1.3.0/openapi.json",
         "base_url": "https://globalmagnet.amentum.space/wmm/openapi.json",
-        "env_vars": [
-            "AMENTUM_SPACE_GLOBAL_MAGNET_API_KEY",
-            "AMENTUM_SPACE_GLOBAL_MAGNET_TOKEN",
-        ],
+        "env_vars": ["AMENTUM_SPACE_GLOBAL_MAGNET_API_KEY", "AMENTUM_SPACE_GLOBAL_MAGNET_TOKEN"],
     },
     "amentum-space-gravity": {
         "display_name": "Gravity API",
@@ -570,10 +556,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Space has a hostile radiation environment that increases the risk of cancers in humans and malfunctions in spacecraft electronics. The types of space ",
         "spec_url": "https://api.apis.guru/v2/specs/amentum.space/space_radiation/1.1.2/openapi.json",
         "base_url": "https://spaceradiation.amentum.space/openapi.json",
-        "env_vars": [
-            "AMENTUM_SPACE_SPACERADIATION_API_KEY",
-            "AMENTUM_SPACE_SPACERADIATION_TOKEN",
-        ],
+        "env_vars": ["AMENTUM_SPACE_SPACERADIATION_API_KEY", "AMENTUM_SPACE_SPACERADIATION_TOKEN"],
     },
     "anchore": {
         "display_name": "Anchore Engine API Server",
@@ -636,10 +619,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Interface specification for the DVLA Vehicle Enquiry API",
         "spec_url": "https://api.apis.guru/v2/specs/api.gov.uk/vehicle-enquiry/1.1.0/openapi.json",
         "base_url": "https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/vehicle-enquiry-service/v1.1.0-vehicle-enquiry-service.json",
-        "env_vars": [
-            "API_GOV_UK_VEHICLE_ENQUIRY_API_KEY",
-            "API_GOV_UK_VEHICLE_ENQUIRY_TOKEN",
-        ],
+        "env_vars": ["API_GOV_UK_VEHICLE_ENQUIRY_API_KEY", "API_GOV_UK_VEHICLE_ENQUIRY_TOKEN"],
     },
     "api-video": {
         "display_name": "api.video",
@@ -667,10 +647,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Apicurio Registry is a datastore for standard event schemas and API designs. Apicurio Registry enables developers to manage and share the structure of",
         "spec_url": "https://api.apis.guru/v2/specs/apicurio.local/registry/2.4.x/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Apicurio/apicurio-registry/master/app/src/main/resources-unfiltered/META-INF/resources/api-specifications/registry/v2/openapi.json",
-        "env_vars": [
-            "APICURIO_LOCAL_REGISTRY_API_KEY",
-            "APICURIO_LOCAL_REGISTRY_TOKEN",
-        ],
+        "env_vars": ["APICURIO_LOCAL_REGISTRY_API_KEY", "APICURIO_LOCAL_REGISTRY_TOKEN"],
     },
     "apidapp": {
         "display_name": "ApiDapp",
@@ -802,10 +779,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "One API serving data spanned across multiple verticals",
         "spec_url": "https://api.apis.guru/v2/specs/apigee.net/marketcheck-cars/2.01/openapi.json",
         "base_url": "https://new-verticals-dot-marketcheck-gcp.uc.r.appspot.com/api-docs",
-        "env_vars": [
-            "APIGEE_NET_MARKETCHECK_CARS_API_KEY",
-            "APIGEE_NET_MARKETCHECK_CARS_TOKEN",
-        ],
+        "env_vars": ["APIGEE_NET_MARKETCHECK_CARS_API_KEY", "APIGEE_NET_MARKETCHECK_CARS_TOKEN"],
     },
     "apimatic": {
         "display_name": "APIMATIC API Transformer",
@@ -830,7 +804,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "apiz-ebay-com-commerce-identity": {
         "display_name": "Identity API",
-        "description": '<span class="tablenote"><b>Note:</b> Not all the account related fields are returned for an authenticated user. The fields returned in the response ',
+        "description": "<span class=\"tablenote\"><b>Note:</b> Not all the account related fields are returned for an authenticated user. The fields returned in the response ",
         "spec_url": "https://api.apis.guru/v2/specs/apiz.ebay.com/commerce-identity/v1.1.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/commerce/identity/openapi/3/commerce_identity_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -853,19 +827,13 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "App Store Connect API",
         "spec_url": "https://api.apis.guru/v2/specs/apple.com/app-store-connect/1.4.1/openapi.json",
         "base_url": "app-store-connect-openapi-specification.json",
-        "env_vars": [
-            "APPLE_COM_APP_STORE_CONNECT_API_KEY",
-            "APPLE_COM_APP_STORE_CONNECT_TOKEN",
-        ],
+        "env_vars": ["APPLE_COM_APP_STORE_CONNECT_API_KEY", "APPLE_COM_APP_STORE_CONNECT_TOKEN"],
     },
     "apple-com-sirikit-cloud-media": {
         "display_name": "SiriKit Cloud Media",
         "spec_url": "https://api.apis.guru/v2/specs/apple.com/sirikit-cloud-media/1.0.2/openapi.json",
         "base_url": "sirikit-cloud-media.json",
-        "env_vars": [
-            "APPLE_COM_SIRIKIT_CLOUD_MEDIA_API_KEY",
-            "APPLE_COM_SIRIKIT_CLOUD_MEDIA_TOKEN",
-        ],
+        "env_vars": ["APPLE_COM_SIRIKIT_CLOUD_MEDIA_API_KEY", "APPLE_COM_SIRIKIT_CLOUD_MEDIA_TOKEN"],
     },
     "apptigent": {
         "display_name": "PowerTools Developer",
@@ -967,7 +935,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "autodealerdata": {
         "display_name": "CIS Automotive API",
-        "description": '<div style="">This API provides access to our Automotive Data. Use of this API is subject to our <a href="https://autodealerdata.com/tos">Terms of',
+        "description": "<div style=\"\">This API provides access to our Automotive Data. Use of this API is subject to our <a href=\"https://autodealerdata.com/tos\">Terms of",
         "spec_url": "https://api.apis.guru/v2/specs/autodealerdata.com/1.0/openapi.json",
         "base_url": "https://api.autodealerdata.com/openapi.json",
         "env_vars": ["AUTODEALERDATA_API_KEY", "AUTODEALERDATA_TOKEN"],
@@ -1103,7 +1071,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "bikewise": {
         "display_name": "BikeWise API v2",
-        "description": '<p>This is an API for accessing information about bicycling related incidents. You can find the source code on <a href="https://github.com/bikeindex/',
+        "description": "<p>This is an API for accessing information about bicycling related incidents. You can find the source code on <a href=\"https://github.com/bikeindex/",
         "spec_url": "https://api.apis.guru/v2/specs/bikewise.org/v2/openapi.json",
         "base_url": "https://bikewise.org/api/v2/swagger_doc",
         "env_vars": ["BIKEWISE_API_KEY", "BIKEWISE_TOKEN"],
@@ -1314,10 +1282,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "A router of public health data from multiple senders and receivers",
         "spec_url": "https://api.apis.guru/v2/specs/cdcgov.local/prime-data-hub/0.2.0-oas3/openapi.json",
         "base_url": "https://raw.githubusercontent.com/CDCgov/prime-reportstream/master/prime-router/docs/openapi.yml",
-        "env_vars": [
-            "CDCGOV_LOCAL_PRIME_DATA_HUB_API_KEY",
-            "CDCGOV_LOCAL_PRIME_DATA_HUB_TOKEN",
-        ],
+        "env_vars": ["CDCGOV_LOCAL_PRIME_DATA_HUB_API_KEY", "CDCGOV_LOCAL_PRIME_DATA_HUB_TOKEN"],
     },
     "cenit": {
         "display_name": "Cenit IO - REST API Specification",
@@ -1386,10 +1351,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "<br>The GoToMeeting API provides seamless integration of GoToMeeting provisioning and meeting management into your existing infrastructure or third pa",
         "spec_url": "https://api.apis.guru/v2/specs/citrixonline.com/gotomeeting/1.0.0/swagger.json",
         "base_url": "https://developer.citrixonline.com/sites/default/files/citrix/citrix-apis/gotomeeting.json",
-        "env_vars": [
-            "CITRIXONLINE_COM_GOTOMEETING_API_KEY",
-            "CITRIXONLINE_COM_GOTOMEETING_TOKEN",
-        ],
+        "env_vars": ["CITRIXONLINE_COM_GOTOMEETING_API_KEY", "CITRIXONLINE_COM_GOTOMEETING_TOKEN"],
     },
     "citrixonline-com-scim": {
         "display_name": "SCIM",
@@ -1471,10 +1433,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "ecwid",
         "spec_url": "https://api.apis.guru/v2/specs/cloud-elements.com/ecwid/api-v2/swagger.json",
         "base_url": "https://api.cloud-elements.com/elements/api-v2/elements/52/docs?version=-1",
-        "env_vars": [
-            "CLOUD_ELEMENTS_COM_ECWID_API_KEY",
-            "CLOUD_ELEMENTS_COM_ECWID_TOKEN",
-        ],
+        "env_vars": ["CLOUD_ELEMENTS_COM_ECWID_API_KEY", "CLOUD_ELEMENTS_COM_ECWID_TOKEN"],
     },
     "cloudmersive-com-ocr": {
         "display_name": "ocrapi",
@@ -1569,7 +1528,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "collegefootballdata": {
         "display_name": "College Football Data API",
-        "description": 'This is an API for accessing all sorts of college football data. Please note that API keys should be supplied with "Bearer " prepended (e.g. "Beare',
+        "description": "This is an API for accessing all sorts of college football data. Please note that API keys should be supplied with \"Bearer \" prepended (e.g. \"Beare",
         "spec_url": "https://api.apis.guru/v2/specs/collegefootballdata.com/4.4.12/openapi.json",
         "base_url": "https://api.collegefootballdata.com/api-docs.json",
         "env_vars": ["COLLEGEFOOTBALLDATA_API_KEY", "COLLEGEFOOTBALLDATA_TOKEN"],
@@ -1631,7 +1590,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "core-ac-uk": {
         "display_name": "CORE API v2",
-        "description": '<p style="text-align: justify;">You can use the CORE API to access the resources harvested and enriched by CORE. If you encounter any problems with ',
+        "description": "<p style=\"text-align: justify;\">You can use the CORE API to access the resources harvested and enriched by CORE. If you encounter any problems with ",
         "spec_url": "https://api.apis.guru/v2/specs/core.ac.uk/2.0/swagger.json",
         "base_url": "http://core.ac.uk/api-v2/doc",
         "env_vars": ["CORE_AC_UK_API_KEY", "CORE_AC_UK_TOKEN"],
@@ -1654,10 +1613,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "API to get Co-WIN vaccination certificate.",
         "spec_url": "https://api.apis.guru/v2/specs/cowin.gov.cin/cowincert/1.0.0/openapi.json",
         "base_url": "https://apisetu.gov.in/api_specification_v8/cowincert.yaml",
-        "env_vars": [
-            "COWIN_GOV_CIN_COWINCERT_API_KEY",
-            "COWIN_GOV_CIN_COWINCERT_TOKEN",
-        ],
+        "env_vars": ["COWIN_GOV_CIN_COWINCERT_API_KEY", "COWIN_GOV_CIN_COWINCERT_TOKEN"],
     },
     "cpy-re-peertube": {
         "display_name": "PeerTube",
@@ -1836,10 +1792,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "To access files in user’s DigiLocker account from your application, you must first obtain user’s authorization.",
         "spec_url": "https://api.apis.guru/v2/specs/digitallocker.gov.in/authpartner/1.0.0/openapi.json",
         "base_url": "https://apisetu.gov.in/api_specification_v8/authpartner.yaml",
-        "env_vars": [
-            "DIGITALLOCKER_GOV_IN_AUTHPARTNER_API_KEY",
-            "DIGITALLOCKER_GOV_IN_AUTHPARTNER_TOKEN",
-        ],
+        "env_vars": ["DIGITALLOCKER_GOV_IN_AUTHPARTNER_API_KEY", "DIGITALLOCKER_GOV_IN_AUTHPARTNER_TOKEN"],
     },
     "digitalnz": {
         "display_name": "DigitalNZ API",
@@ -1961,14 +1914,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-buy-deal": {
         "display_name": "Deal API",
-        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
+        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/buy-deal/v1.3.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/buy/deal/openapi/3/buy_deal_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
     },
     "ebay-com-buy-feed": {
         "display_name": "Item Feed Service",
-        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited " target="_blank"> <i',
+        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited \" target=\"_blank\"> <i",
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/buy-feed/v1_beta.34.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/buy/feed/openapi/2/buy_feed_v1_beta_oas2.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2052,14 +2005,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-sell-listing": {
         "display_name": "Listing API",
-        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
+        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-listing/v1_beta.3.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/listing/openapi/3/sell_listing_v1_beta_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
     },
     "ebay-com-sell-logistics": {
         "display_name": "Logistics API",
-        "description": '<span class="tablenote"><b>Note:</b> This is a <a href="https://developer.ebay.com/api-docs/static/versioning.html#limited" target="_blank"> <im',
+        "description": "<span class=\"tablenote\"><b>Note:</b> This is a <a href=\"https://developer.ebay.com/api-docs/static/versioning.html#limited\" target=\"_blank\"> <im",
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-logistics/v1_beta.0.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/logistics/openapi/3/sell_logistics_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2080,7 +2033,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "ebay-com-sell-negotiation": {
         "display_name": "Negotiation API",
-        "description": 'The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an "interest" in their listings. ',
+        "description": "The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an \"interest\" in their listings. ",
         "spec_url": "https://api.apis.guru/v2/specs/ebay.com/sell-negotiation/v1.1.0/openapi.json",
         "base_url": "https://developer.ebay.com/api-docs/master/sell/negotiation/openapi/3/sell_negotiation_v1_oas3.json",
         "env_vars": ["EBAY_APP_ID", "EBAY_DEV_ID"],
@@ -2221,10 +2174,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "ETSI GS MEC 010-2 - Part 2: Application lifecycle, rules and requirements management described using OpenAPI.",
         "spec_url": "https://api.apis.guru/v2/specs/etsi.local/MEC010-2_AppPkgMgmt/2.1.1/openapi.json",
         "base_url": "https://forge.etsi.org/rep/mec/gs010-2-app-pkg-lcm-api/raw/v2.1.1/MEC010-2_AppPkgMgmt.yaml",
-        "env_vars": [
-            "ETSI_LOCAL_MEC010_2APPPKGMGMT_API_KEY",
-            "ETSI_LOCAL_MEC010_2APPPKGMGMT_TOKEN",
-        ],
+        "env_vars": ["ETSI_LOCAL_MEC010_2APPPKGMGMT_API_KEY", "ETSI_LOCAL_MEC010_2APPPKGMGMT_TOKEN"],
     },
     "europeana-eu": {
         "display_name": "Europeana Search & Record API",
@@ -2266,20 +2216,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "For more information on how to use these APIs, including how to create an API key required for authentication, see [Alma REST APIs](https://developers",
         "spec_url": "https://api.apis.guru/v2/specs/exlibrisgroup.com/tasklists/1.0/openapi.json",
         "base_url": "https://developers.exlibrisgroup.com/wp-content/uploads/alma/openapi/tasklists.yaml",
-        "env_vars": [
-            "EXLIBRISGROUP_COM_TASKLISTS_API_KEY",
-            "EXLIBRISGROUP_COM_TASKLISTS_TOKEN",
-        ],
+        "env_vars": ["EXLIBRISGROUP_COM_TASKLISTS_API_KEY", "EXLIBRISGROUP_COM_TASKLISTS_TOKEN"],
     },
     "extendsclass-com-json-storage": {
         "display_name": "JSON storage",
         "description": "JSON storage API",
         "spec_url": "https://api.apis.guru/v2/specs/extendsclass.com/json-storage/0.1/openapi.json",
         "base_url": "https://extendsclass.com/json-storage.openapi.json",
-        "env_vars": [
-            "EXTENDSCLASS_COM_JSON_STORAGE_API_KEY",
-            "EXTENDSCLASS_COM_JSON_STORAGE_TOKEN",
-        ],
+        "env_vars": ["EXTENDSCLASS_COM_JSON_STORAGE_API_KEY", "EXTENDSCLASS_COM_JSON_STORAGE_TOKEN"],
     },
     "extpose": {
         "display_name": "Extpose",
@@ -2307,10 +2251,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Api Documentation",
         "spec_url": "https://api.apis.guru/v2/specs/faceidentity-beta.azurewebsites.net/1.0/swagger.json",
         "base_url": "https://faceidentity-beta.azurewebsites.net/api/v1.0.0/v2/api-docs?group=authentication-api",
-        "env_vars": [
-            "FACEIDENTITY_BETA_AZUREWEBSITES_API_KEY",
-            "FACEIDENTITY_BETA_AZUREWEBSITES_TOKEN",
-        ],
+        "env_vars": ["FACEIDENTITY_BETA_AZUREWEBSITES_API_KEY", "FACEIDENTITY_BETA_AZUREWEBSITES_TOKEN"],
     },
     "faretrotter": {
         "display_name": "Faretrotter Travel API",
@@ -2368,7 +2309,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "firstinspires": {
         "display_name": "FRC Events",
-        "description": '<html><head></head><body><h1 id="overview">Overview</h1> <p><em>FIRST</em>/FMS FRC Events API is a service to return relevant information about the ',
+        "description": "<html><head></head><body><h1 id=\"overview\">Overview</h1> <p><em>FIRST</em>/FMS FRC Events API is a service to return relevant information about the ",
         "spec_url": "https://api.apis.guru/v2/specs/firstinspires.org/1.0.0/openapi.json",
         "base_url": "https://frc-api-docs.firstinspires.org/api/collections/13920602/TW6zHTEi?segregateAuth=true&versionTag=latest",
         "env_vars": ["FIRSTINSPIRES_API_KEY", "FIRSTINSPIRES_TOKEN"],
@@ -2412,20 +2353,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Online payment fraud detection service. It helps merchants to minimize chargebacks and therefore maximize the revenue. It can be used to detect fraud ",
         "spec_url": "https://api.apis.guru/v2/specs/fraudlabspro.com/fraud-detection/1.1/openapi.json",
         "base_url": "https://app.swaggerhub.com/apiproxy/schema/file/fraudlabspro/fraudlabspro-fraud-detection/1.1/swagger.json",
-        "env_vars": [
-            "FRAUDLABSPRO_COM_FRAUD_DETECTION_API_KEY",
-            "FRAUDLABSPRO_COM_FRAUD_DETECTION_TOKEN",
-        ],
+        "env_vars": ["FRAUDLABSPRO_COM_FRAUD_DETECTION_API_KEY", "FRAUDLABSPRO_COM_FRAUD_DETECTION_TOKEN"],
     },
     "fraudlabspro-com-sms-verification": {
         "display_name": "FraudLabs Pro SMS Verification",
         "description": "Send an SMS with verification code and a custom message for authentication purpose. It helps merchants to minimize chargebacks and fraud for various k",
         "spec_url": "https://api.apis.guru/v2/specs/fraudlabspro.com/sms-verification/1.0/openapi.json",
         "base_url": "https://api.swaggerhub.com/apis/fraudlabs-pro/fraudlabspro-sms-verification/1.0",
-        "env_vars": [
-            "FRAUDLABSPRO_COM_SMS_VERIFICATION_API_KEY",
-            "FRAUDLABSPRO_COM_SMS_VERIFICATION_TOKEN",
-        ],
+        "env_vars": ["FRAUDLABSPRO_COM_SMS_VERIFICATION_API_KEY", "FRAUDLABSPRO_COM_SMS_VERIFICATION_TOKEN"],
     },
     "freesound": {
         "display_name": "Freesound",
@@ -2453,110 +2388,77 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Generate Barcode images for a given barcode number. You can decode Barcode images and get the barcodes in a numberic form as well. Many industry stand",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/barcode/1.5/openapi.json",
         "base_url": "https://fungenerators.com/yaml/barcode.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_BARCODE_API_KEY",
-            "FUNGENERATORS_COM_BARCODE_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_BARCODE_API_KEY", "FUNGENERATORS_COM_BARCODE_TOKEN"],
     },
     "fungenerators-com-fake-identity": {
         "display_name": "Fake identity generation API",
         "description": "Generate random fake identities (name, address, email, phone , credit card info etc). [Click here to subscribe](http://fungenerators.com/api/fakeident",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/fake-identity/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/fake-identity.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_FAKE_IDENTITY_API_KEY",
-            "FUNGENERATORS_COM_FAKE_IDENTITY_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_FAKE_IDENTITY_API_KEY", "FUNGENERATORS_COM_FAKE_IDENTITY_TOKEN"],
     },
     "fungenerators-com-lottery": {
         "display_name": "Random Lottery Number generator API",
         "description": "Below is the documentation for the API calls. You can try them out right here.",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/lottery/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/lottery.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_LOTTERY_API_KEY",
-            "FUNGENERATORS_COM_LOTTERY_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_LOTTERY_API_KEY", "FUNGENERATORS_COM_LOTTERY_TOKEN"],
     },
     "fungenerators-com-namegen": {
         "display_name": "Name Generation API",
         "description": "Fungenerators name generation API generates random names relevant to the given category. Lots of categories are supported with many variations support",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/namegen/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/namegen.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_NAMEGEN_API_KEY",
-            "FUNGENERATORS_COM_NAMEGEN_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_NAMEGEN_API_KEY", "FUNGENERATORS_COM_NAMEGEN_TOKEN"],
     },
     "fungenerators-com-pirate": {
         "display_name": "Pirates API",
         "description": "Ahoy matey! We help the landlubbers to get to know about the seamen way! You can generate pirate names, get some real pirate insults and pirate filler",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/pirate/1.5/openapi.json",
         "base_url": "https://fungenerators.com/yaml/pirate.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_PIRATE_API_KEY",
-            "FUNGENERATORS_COM_PIRATE_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_PIRATE_API_KEY", "FUNGENERATORS_COM_PIRATE_TOKEN"],
     },
     "fungenerators-com-qrcode": {
         "display_name": "Fun Generators API",
         "description": "Fungenerators API gives access to the full set of generators available at fungenerators.com so that you can integrate them in your workflow or an app.",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/qrcode/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/qrcode.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_QRCODE_API_KEY",
-            "FUNGENERATORS_COM_QRCODE_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_QRCODE_API_KEY", "FUNGENERATORS_COM_QRCODE_TOKEN"],
     },
     "fungenerators-com-random-facts": {
         "display_name": "Facts API",
         "description": "A full featured Facts API. REST access with json/xml/jsonp result support. On this day birth and death support, random fact, keyword search support et",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/random-facts/1.5/openapi.json",
         "base_url": "https://fungenerators.com/yaml/facts.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_RANDOM_FACTS_API_KEY",
-            "FUNGENERATORS_COM_RANDOM_FACTS_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_RANDOM_FACTS_API_KEY", "FUNGENERATORS_COM_RANDOM_FACTS_TOKEN"],
     },
     "fungenerators-com-riddle": {
         "display_name": "Fun Generators API",
         "description": "Below is the documentation for the API calls. You can try them out right here.",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/riddle/1.5/openapi.json",
         "base_url": "https://fungenerators.com/yaml/riddle.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_RIDDLE_API_KEY",
-            "FUNGENERATORS_COM_RIDDLE_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_RIDDLE_API_KEY", "FUNGENERATORS_COM_RIDDLE_TOKEN"],
     },
     "fungenerators-com-shakespeare": {
         "display_name": "Shakespeare API",
         "description": "Shakespeare API. Generate random Shakespeare quotes, names, insults, lorem ipsum etc. Translate normal English to Shakespeare English. [Click here to ",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/shakespeare/1.5/openapi.json",
         "base_url": "https://fungenerators.com/yaml/shakespeare.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_SHAKESPEARE_API_KEY",
-            "FUNGENERATORS_COM_SHAKESPEARE_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_SHAKESPEARE_API_KEY", "FUNGENERATORS_COM_SHAKESPEARE_TOKEN"],
     },
     "fungenerators-com-taunt": {
         "display_name": "Taunt as a service",
         "description": "Fungenerators taunt generation API generates random taunts / insults, relevant to the given category. Many categories are supported and new ones are a",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/taunt/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/taunt.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_TAUNT_API_KEY",
-            "FUNGENERATORS_COM_TAUNT_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_TAUNT_API_KEY", "FUNGENERATORS_COM_TAUNT_TOKEN"],
     },
     "fungenerators-com-trivia": {
         "display_name": "Fun Generators API",
         "description": "Below is the documentation for the API calls. You can try them out right here.",
         "spec_url": "https://api.apis.guru/v2/specs/fungenerators.com/trivia/1.5/swagger.json",
         "base_url": "https://fungenerators.com/yaml/trivia.yaml",
-        "env_vars": [
-            "FUNGENERATORS_COM_TRIVIA_API_KEY",
-            "FUNGENERATORS_COM_TRIVIA_TOKEN",
-        ],
+        "env_vars": ["FUNGENERATORS_COM_TRIVIA_API_KEY", "FUNGENERATORS_COM_TRIVIA_TOKEN"],
     },
     "fungenerators-com-uuid": {
         "display_name": "UUID Generation API",
@@ -2570,30 +2472,21 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Braille conversion API on the cloud. Translate from English text to Braille and get Braille results suitable for many display types.[Click here to sub",
         "spec_url": "https://api.apis.guru/v2/specs/funtranslations.com/braile/2.3/swagger.json",
         "base_url": "https://funtranslations.com/yaml/funtranslations.braille.yaml",
-        "env_vars": [
-            "FUNTRANSLATIONS_COM_BRAILE_API_KEY",
-            "FUNTRANSLATIONS_COM_BRAILE_TOKEN",
-        ],
+        "env_vars": ["FUNTRANSLATIONS_COM_BRAILE_API_KEY", "FUNTRANSLATIONS_COM_BRAILE_TOKEN"],
     },
     "funtranslations-com-index": {
         "display_name": "FunTranslations API",
         "description": "Funtranslations API gives access to the full set of translations available at funtranslations.com so that you can integrate them in your workflow or a",
         "spec_url": "https://api.apis.guru/v2/specs/funtranslations.com/index/2.3/swagger.json",
         "base_url": "http://api.funtranslations.com/yaml/funtranslations.yaml",
-        "env_vars": [
-            "FUNTRANSLATIONS_COM_INDEX_API_KEY",
-            "FUNTRANSLATIONS_COM_INDEX_TOKEN",
-        ],
+        "env_vars": ["FUNTRANSLATIONS_COM_INDEX_API_KEY", "FUNTRANSLATIONS_COM_INDEX_TOKEN"],
     },
     "funtranslations-com-starwars": {
         "display_name": "Starwars Translations API",
         "description": "Funtranslations Starwars API gives access to the full set of starwars language translations available at funtranslations.com so that you can integrate",
         "spec_url": "https://api.apis.guru/v2/specs/funtranslations.com/starwars/2.3/swagger.json",
         "base_url": "https://funtranslations.com/yaml/funtranslations.starwars.yaml",
-        "env_vars": [
-            "FUNTRANSLATIONS_COM_STARWARS_API_KEY",
-            "FUNTRANSLATIONS_COM_STARWARS_TOKEN",
-        ],
+        "env_vars": ["FUNTRANSLATIONS_COM_STARWARS_API_KEY", "FUNTRANSLATIONS_COM_STARWARS_TOKEN"],
     },
     "furkot": {
         "display_name": "Furkot Trips",
@@ -2614,14 +2507,11 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "The API to manage the GameSparks game details",
         "spec_url": "https://api.apis.guru/v2/specs/gamesparks.net/game-details/v2/openapi.json",
         "base_url": "https://config2.gamesparks.net/restv2/admin/api/schema",
-        "env_vars": [
-            "GAMESPARKS_NET_GAME_DETAILS_API_KEY",
-            "GAMESPARKS_NET_GAME_DETAILS_TOKEN",
-        ],
+        "env_vars": ["GAMESPARKS_NET_GAME_DETAILS_API_KEY", "GAMESPARKS_NET_GAME_DETAILS_TOKEN"],
     },
     "geneea": {
         "display_name": "Geneea Natural Language Processing",
-        "description": '<div class="api-description"> <h2>Authentication</h2> <p>For all calls, supply your API key. <a href="https://www.geneea.com/pricing">Sign up to <',
+        "description": "<div class=\"api-description\"> <h2>Authentication</h2> <p>For all calls, supply your API key. <a href=\"https://www.geneea.com/pricing\">Sign up to <",
         "spec_url": "https://api.apis.guru/v2/specs/geneea.com/1.0/swagger.json",
         "base_url": "https://api.geneea.com/api-docs?group=s1",
         "env_vars": ["GENEEA_API_KEY", "GENEEA_TOKEN"],
@@ -2680,10 +2570,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Convert an OSGB36 easting and northing (British National Grid) to WGS84 latitude and longitude.",
         "spec_url": "https://api.apis.guru/v2/specs/getthedata.com/bng2latlong/1.0/openapi.json",
         "base_url": "https://www.getthedata.com/bng2latlong/openapi",
-        "env_vars": [
-            "GETTHEDATA_COM_BNG2LATLONG_API_KEY",
-            "GETTHEDATA_COM_BNG2LATLONG_TOKEN",
-        ],
+        "env_vars": ["GETTHEDATA_COM_BNG2LATLONG_API_KEY", "GETTHEDATA_COM_BNG2LATLONG_TOKEN"],
     },
     "gettyimages": {
         "display_name": "Getty Images",
@@ -2714,163 +2601,163 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "github": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-api-github": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/api.github.com/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-api-github-com-2022-11-28": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/api.github.com.2022-11-28/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.2022-11-28.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghec": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghec/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghec/ghec.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghec-2022-11-28": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghec.2022-11-28/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghec/ghec.2022-11-28.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-2-18": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-2.18/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-2.18/ghes-2.18.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-2-19": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-2.19/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-2.19/ghes-2.19.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-2-20": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-2.20/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-2.20/ghes-2.20.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-2-21": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-2.21/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-2.21/ghes-2.21.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-2-22": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-2.22/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-2.22/ghes-2.22.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-0": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.0/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.0/ghes-3.0.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-1": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.1/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.1/ghes-3.1.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-2": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.2/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.2/ghes-3.2.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-3": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.3/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.3/ghes-3.3.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-4": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.4/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.4/ghes-3.4.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-5": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.5/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.5/ghes-3.5.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-6": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.6/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.6/ghes-3.6.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-7": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.7/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.7/ghes-3.7.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-ghes-3-8": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/ghes-3.8/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghes-3.8/ghes-3.8.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "github-com-github-ae": {
         "display_name": "GitHub v3 REST API",
-        "description": "GitHub's v3 REST API.",
+        "description": "> Below is an overview of the github openapi in simple language. This API contains 1117 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/github.com/github.ae/1.1.4/openapi.json",
         "base_url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/github.ae/github.ae.json",
         "env_vars": ["GITHUB_TOKEN", "GH_TOKEN"],
-        "endpoints_count": 1078,
+        "endpoints_count": 1117,
     },
     "gitlab": {
         "display_name": "Gitlab",
@@ -2930,7 +2817,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "gsa-gov": {
         "display_name": "Discovery Market Research",
-        "description": '<p>This API drives the <a href="https://discovery.gsa.gov">Discovery Market Research Tool</a>. It contains information on the vendors that are part ',
+        "description": "<p>This API drives the <a href=\"https://discovery.gsa.gov\">Discovery Market Research Tool</a>. It contains information on the vendors that are part ",
         "spec_url": "https://api.apis.guru/v2/specs/gsa.gov/0.1/swagger.json",
         "base_url": "https://discovery.gsa.gov/docs/api-docs/",
         "env_vars": ["GSA_GOV_API_KEY", "GSA_GOV_TOKEN"],
@@ -3007,19 +2894,13 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "hetras Booking API Version 0",
         "spec_url": "https://api.apis.guru/v2/specs/hetras-certification.net/booking/v0/swagger.json",
         "base_url": "https://developer.hetras.com/swagger/spec/BookingAPIv0.json",
-        "env_vars": [
-            "HETRAS_CERTIFICATION_NET_BOOKING_API_KEY",
-            "HETRAS_CERTIFICATION_NET_BOOKING_TOKEN",
-        ],
+        "env_vars": ["HETRAS_CERTIFICATION_NET_BOOKING_API_KEY", "HETRAS_CERTIFICATION_NET_BOOKING_TOKEN"],
     },
     "hetras-certification-net-hotel": {
         "display_name": "hetras Hotel API Version 0",
         "spec_url": "https://api.apis.guru/v2/specs/hetras-certification.net/hotel/v0/swagger.json",
         "base_url": "https://developer.hetras.com/swagger/spec/HotelAPIv0.json",
-        "env_vars": [
-            "HETRAS_CERTIFICATION_NET_HOTEL_API_KEY",
-            "HETRAS_CERTIFICATION_NET_HOTEL_TOKEN",
-        ],
+        "env_vars": ["HETRAS_CERTIFICATION_NET_HOTEL_API_KEY", "HETRAS_CERTIFICATION_NET_HOTEL_TOKEN"],
     },
     "hetzner-cloud": {
         "display_name": "Hetzner Cloud API",
@@ -3030,7 +2911,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "hhs-gov": {
         "display_name": "HHS Media Services API",
-        "description": '<div class="swagger-ui-wrap extraFooter"><h3>Common Features / Behaviors</h3> <div class="features"> <ul> <li><strong>* "sort" param:</strong> s',
+        "description": "<div class=\"swagger-ui-wrap extraFooter\"><h3>Common Features / Behaviors</h3> <div class=\"features\"> <ul> <li><strong>* \"sort\" param:</strong> s",
         "spec_url": "https://api.apis.guru/v2/specs/hhs.gov/2/openapi.json",
         "base_url": "https://api.digitalmedia.hhs.gov/swagger",
         "env_vars": ["HHS_GOV_API_KEY", "HHS_GOV_TOKEN"],
@@ -3045,10 +2926,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "shinobiapi",
         "spec_url": "https://api.apis.guru/v2/specs/hillbillysoftware.com/shinobi/v1/swagger.json",
         "base_url": "https://api.hillbillysoftware.com/swagger/docs/v1",
-        "env_vars": [
-            "HILLBILLYSOFTWARE_COM_SHINOBI_API_KEY",
-            "HILLBILLYSOFTWARE_COM_SHINOBI_TOKEN",
-        ],
+        "env_vars": ["HILLBILLYSOFTWARE_COM_SHINOBI_API_KEY", "HILLBILLYSOFTWARE_COM_SHINOBI_TOKEN"],
     },
     "hsbc-com-atm": {
         "display_name": "ATM Locator API",
@@ -3203,20 +3081,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "AMBIT REST web services [eNanoMapper profile] with free text & faceted search",
         "spec_url": "https://api.apis.guru/v2/specs/ideaconsult.net/enanomapper/4.0.0/openapi.json",
         "base_url": "https://api.ideaconsult.net/management/apis/b5e2f290-5673-49da-a2f2-90567359da82/pages/ee38f795-655c-40b7-b8f7-95655cc0b7a1/content",
-        "env_vars": [
-            "IDEACONSULT_NET_ENANOMAPPER_API_KEY",
-            "IDEACONSULT_NET_ENANOMAPPER_TOKEN",
-        ],
+        "env_vars": ["IDEACONSULT_NET_ENANOMAPPER_API_KEY", "IDEACONSULT_NET_ENANOMAPPER_TOKEN"],
     },
     "ideaconsult-net-nanoreg": {
         "display_name": "eNanoMapper database",
         "description": "AMBIT REST web services [eNanoMapper profile] with free text & faceted search",
         "spec_url": "https://api.apis.guru/v2/specs/ideaconsult.net/nanoreg/4.0.0/openapi.json",
         "base_url": "https://api.ideaconsult.net/management/apis/7d2c3a0e-ddc5-4553-ac3a-0eddc5e5532a/pages/161df366-7bae-410c-9df3-667bae510c7c/content",
-        "env_vars": [
-            "IDEACONSULT_NET_NANOREG_API_KEY",
-            "IDEACONSULT_NET_NANOREG_TOKEN",
-        ],
+        "env_vars": ["IDEACONSULT_NET_NANOREG_API_KEY", "IDEACONSULT_NET_NANOREG_TOKEN"],
     },
     "ideal-postcodes-co-uk": {
         "display_name": "API Reference - Ideal Postcodes",
@@ -3334,10 +3206,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "This is the documentation for PIM Micro services. In order to use this tool you need to have Basic Auth credentials and a client id. If you dont have ",
         "spec_url": "https://api.apis.guru/v2/specs/intel.com/product-catalogue/0.1.0/swagger.json",
         "base_url": "https://productapi.intel.com/swagger.json",
-        "env_vars": [
-            "INTEL_COM_PRODUCT_CATALOGUE_API_KEY",
-            "INTEL_COM_PRODUCT_CATALOGUE_TOKEN",
-        ],
+        "env_vars": ["INTEL_COM_PRODUCT_CATALOGUE_API_KEY", "INTEL_COM_PRODUCT_CATALOGUE_TOKEN"],
     },
     "intellifi-nl": {
         "display_name": "Brain Web API",
@@ -3505,10 +3374,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "IP2Location web service providing a service to do a reverse lookup of an IP address to an ISO3166 country code, region or state, city, latitude and lo",
         "spec_url": "https://api.apis.guru/v2/specs/ip2location.com/geolocation/1.0/openapi.json",
         "base_url": "https://api.swaggerhub.com/apis/ip2location/ip2location-ip-geolocation/1.0",
-        "env_vars": [
-            "IP2LOCATION_COM_GEOLOCATION_API_KEY",
-            "IP2LOCATION_COM_GEOLOCATION_TOKEN",
-        ],
+        "env_vars": ["IP2LOCATION_COM_GEOLOCATION_API_KEY", "IP2LOCATION_COM_GEOLOCATION_TOKEN"],
     },
     "ip2proxy": {
         "display_name": "IP2Proxy Proxy Detection",
@@ -3662,10 +3528,11 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "klarna-com-openai": {
         "display_name": "Open AI Klarna product Api",
+        "description": "> Below is an overview of the openai openapi in simple language. This API contains 241 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/klarna.com/openai/v0/openapi.json",
         "base_url": "https://www.klarna.com/us/shopping/public/openai/v0/api-docs/",
         "env_vars": ["OPENAI_API_KEY"],
-        "endpoints_count": 226,
+        "endpoints_count": 241,
     },
     "klarna-com-payments": {
         "display_name": "Klarna Payments API V1",
@@ -3705,10 +3572,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Land Registry Deed API",
         "spec_url": "https://api.apis.guru/v2/specs/landregistry.gov.uk/deed/1.0.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/LandRegistry/dm-deed-api/master/application/deed/schemas/deed-api.json",
-        "env_vars": [
-            "LANDREGISTRY_GOV_UK_DEED_API_KEY",
-            "LANDREGISTRY_GOV_UK_DEED_TOKEN",
-        ],
+        "env_vars": ["LANDREGISTRY_GOV_UK_DEED_API_KEY", "LANDREGISTRY_GOV_UK_DEED_TOKEN"],
     },
     "languagetool": {
         "display_name": "LanguageTool API",
@@ -3804,10 +3668,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "Reimbursements API",
         "spec_url": "https://api.apis.guru/v2/specs/linuxfoundation.org/reimbursement/1.0/swagger.json",
         "base_url": "https://api-gw.dev.platform.linuxfoundation.org/reimbursement-service/swagger.json",
-        "env_vars": [
-            "LINUXFOUNDATION_ORG_REIMBURSEMENT_API_KEY",
-            "LINUXFOUNDATION_ORG_REIMBURSEMENT_TOKEN",
-        ],
+        "env_vars": ["LINUXFOUNDATION_ORG_REIMBURSEMENT_API_KEY", "LINUXFOUNDATION_ORG_REIMBURSEMENT_TOKEN"],
     },
     "listennotes": {
         "display_name": "Listen API: Podcast Search, Directory, and Insights API",
@@ -3825,14 +3686,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "logoraisr": {
         "display_name": "API docs | logoraisr.com",
-        "description": '<p style="font-size:110%;">Dig into our logoraisr API reference documentation. We also offer an OpenAPI specification to allow easy integration into',
+        "description": "<p style=\"font-size:110%;\">Dig into our logoraisr API reference documentation. We also offer an OpenAPI specification to allow easy integration into",
         "spec_url": "https://api.apis.guru/v2/specs/logoraisr.com/v1/openapi.json",
         "base_url": "https://docs.logoraisr.com/swagger.json",
         "env_vars": ["LOGORAISR_API_KEY", "LOGORAISR_TOKEN"],
     },
     "loket-nl": {
         "display_name": "Loket.nl API",
-        "description": '<span style="color:green">**Is this your first time here? Please check out our [introduction to Loket (API)](./Introduction)**</span> **The initial ',
+        "description": "<span style=\"color:green\">**Is this your first time here? Please check out our [introduction to Loket (API)](./Introduction)**</span> **The initial ",
         "spec_url": "https://api.apis.guru/v2/specs/loket.nl/V2/openapi.json",
         "base_url": "https://developer.loket.nl/swagger.json",
         "env_vars": ["LOKET_NL_API_KEY", "LOKET_NL_TOKEN"],
@@ -4086,40 +3947,28 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "The Car Configurator API offers access to the Mercedes-Benz car configuration functions. It provides required reference data such as the masterdata of",
         "spec_url": "https://api.apis.guru/v2/specs/mercedes-benz.com/configurator/1.0/swagger.json",
         "base_url": "https://developer.mercedes-benz.com/content/sites/default/files/2018-08/swagger_car_configurator_api.json",
-        "env_vars": [
-            "MERCEDES_BENZ_COM_CONFIGURATOR_API_KEY",
-            "MERCEDES_BENZ_COM_CONFIGURATOR_TOKEN",
-        ],
+        "env_vars": ["MERCEDES_BENZ_COM_CONFIGURATOR_API_KEY", "MERCEDES_BENZ_COM_CONFIGURATOR_TOKEN"],
     },
     "mercedes-benz-com-dealer": {
         "display_name": "Dealer",
         "description": "The Dealer API provides Dealer search functions.",
         "spec_url": "https://api.apis.guru/v2/specs/mercedes-benz.com/dealer/1.0/swagger.json",
         "base_url": "https://developer.mercedes-benz.com/content/sites/default/files/2018-07/swagger_dealer_api_0.yaml",
-        "env_vars": [
-            "MERCEDES_BENZ_COM_DEALER_API_KEY",
-            "MERCEDES_BENZ_COM_DEALER_TOKEN",
-        ],
+        "env_vars": ["MERCEDES_BENZ_COM_DEALER_API_KEY", "MERCEDES_BENZ_COM_DEALER_TOKEN"],
     },
     "mercedes-benz-com-diagnostics": {
         "display_name": "Remote Diagnostic Support",
         "description": "The Remote Diagnostic Support API will provide the possibility for 3rd party applications (e.g. ADAC, ATU, etc.) to access vehicle diagnostics data re",
         "spec_url": "https://api.apis.guru/v2/specs/mercedes-benz.com/diagnostics/1.0/swagger.json",
         "base_url": "https://developer.mercedes-benz.com/content/sites/default/files/2018-10/swagger_remote_diagnostics_api_2.yaml",
-        "env_vars": [
-            "MERCEDES_BENZ_COM_DIAGNOSTICS_API_KEY",
-            "MERCEDES_BENZ_COM_DIAGNOSTICS_TOKEN",
-        ],
+        "env_vars": ["MERCEDES_BENZ_COM_DIAGNOSTICS_API_KEY", "MERCEDES_BENZ_COM_DIAGNOSTICS_TOKEN"],
     },
     "mercedes-benz-com-image": {
         "display_name": "Vehicle Image",
         "description": "The vehicle images API offers access to original Mercedes-Benz vehicle images. It provides access to exterior and interior images with parameters e.g.",
         "spec_url": "https://api.apis.guru/v2/specs/mercedes-benz.com/image/1.0/swagger.json",
         "base_url": "https://developer.mercedes-benz.com/content/sites/default/files/2018-05/swagger_vehicleimage_api.json",
-        "env_vars": [
-            "MERCEDES_BENZ_COM_IMAGE_API_KEY",
-            "MERCEDES_BENZ_COM_IMAGE_TOKEN",
-        ],
+        "env_vars": ["MERCEDES_BENZ_COM_IMAGE_API_KEY", "MERCEDES_BENZ_COM_IMAGE_TOKEN"],
     },
     "mercure": {
         "display_name": "The Mercure protocol",
@@ -4133,10 +3982,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Converter and validator for Swagger 2.0 to OpenAPI 3.0.x definitions",
         "spec_url": "https://api.apis.guru/v2/specs/mermade.org.uk/openapi-converter/1.0.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Mermade/openapi-webconverter/master/contract/openapi.json",
-        "env_vars": [
-            "MERMADE_ORG_UK_OPENAPI_CONVERTER_API_KEY",
-            "MERMADE_ORG_UK_OPENAPI_CONVERTER_TOKEN",
-        ],
+        "env_vars": ["MERMADE_ORG_UK_OPENAPI_CONVERTER_API_KEY", "MERMADE_ORG_UK_OPENAPI_CONVERTER_TOKEN"],
     },
     "meshery": {
         "display_name": "Meshery API.",
@@ -4171,148 +4017,103 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Autosuggest supplies search terms derived from a root text sent to the service. The terms Autosuggest supplies are related to the root text based on s",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-AutoSuggest/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/AutoSuggest/stable/v1.0/AutoSuggest.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_AUTOSUGGEST_TOKEN"],
     },
     "microsoft-com-cognitiveservices-computervision": {
         "display_name": "Computer Vision Client",
         "description": "The Computer Vision API provides state-of-the-art algorithms to process images and return information. For example, it can be used to determine if an ",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-ComputerVision/2.1/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/ComputerVision/stable/v2.1/ComputerVision.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_COMPUTERVISION_TOKEN"],
     },
     "microsoft-com-cognitiveservices-customimagesearch": {
         "display_name": "Custom Image Search Client",
         "description": "The Bing Custom Image Search API lets you send an image search query to Bing and get back image search results customized to meet your custom search d",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-CustomImageSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomImageSearch/stable/v1.0/CustomImageSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMIMAGESEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-customsearch": {
         "display_name": "Custom Search Client",
         "description": "The Bing Custom Search API lets you send a search query to Bing and get back search results customized to meet your custom search definition.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-CustomSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomWebSearch/stable/v1.0/CustomSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_CUSTOMSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-entitysearch": {
         "display_name": "Entity Search Client",
         "description": "The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaur",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-EntitySearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/EntitySearch/stable/v1.0/EntitySearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_ENTITYSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-imagesearch": {
         "display_name": "Image Search Client",
         "description": "The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the qu",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-ImageSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/ImageSearch/stable/v1.0/ImageSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_IMAGESEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-localsearch": {
         "display_name": "Local Search Client",
         "description": "The Local Search client lets you send a search query to Bing and get back search results that include local businesses such as restaurants, hotels, re",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-LocalSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/LocalSearch/stable/v1.0/LocalSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_LOCALSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-newssearch": {
         "display_name": "News Search Client",
         "description": "The News Search API lets you send a search query to Bing and get back a list of news that are relevant to the search query. This section provides tech",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-NewsSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/NewsSearch/stable/v1.0/NewsSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_NEWSSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-ocr": {
         "display_name": "Computer Vision Client",
         "description": "The Computer Vision API provides state-of-the-art algorithms to process images and return information. For example, it can be used to determine if an ",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-Ocr/2.1/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/ComputerVision/stable/v2.1/Ocr.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_OCR_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_OCR_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_OCR_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_OCR_TOKEN"],
     },
     "microsoft-com-cognitiveservices-prediction": {
         "display_name": "Custom Vision Prediction Client",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-Prediction/3.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomVision/Prediction/stable/v3.0/Prediction.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_PREDICTION_TOKEN"],
     },
     "microsoft-com-cognitiveservices-spellcheck": {
         "display_name": "Spell Check Client",
         "description": "The Spell Check API - V7 lets you check a text string for spelling and grammar errors.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-SpellCheck/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/SpellCheck/stable/v1.0/SpellCheck.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_SPELLCHECK_TOKEN"],
     },
     "microsoft-com-cognitiveservices-training": {
         "display_name": "Custom Vision Training Client",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-Training/3.2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/CustomVision/Training/stable/v3.2/Training.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_TRAINING_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_TRAINING_TOKEN"],
     },
     "microsoft-com-cognitiveservices-videosearch": {
         "display_name": "Video Search Client",
         "description": "The Video Search API lets you search on Bing for video that are relevant to the user's search query, for insights about a video or for videos that are",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-VideoSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/VideoSearch/stable/v1.0/VideoSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_VIDEOSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-visualsearch": {
         "display_name": "Visual Search Client",
         "description": "Visual Search API lets you discover insights about an image such as visually similar images, shopping sources, and related searches. The API can also ",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-VisualSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/VisualSearch/preview/v1.0/VisualSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_VISUALSEARCH_TOKEN"],
     },
     "microsoft-com-cognitiveservices-websearch": {
         "display_name": "Web Search Client",
         "description": "The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more.",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/cognitiveservices-WebSearch/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/WebSearch/stable/v1.0/WebSearch.json",
-        "env_vars": [
-            "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_API_KEY",
-            "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_API_KEY", "MICROSOFT_COM_COGNITIVESERVICES_WEBSEARCH_TOKEN"],
     },
     "microsoft-com-graph": {
         "display_name": "OData Service for namespace microsoft.graph",
@@ -4326,10 +4127,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "This OData service is located at https://graph.microsoft.com/beta",
         "spec_url": "https://api.apis.guru/v2/specs/microsoft.com/graph-beta/1.0.1/openapi.json",
         "base_url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/master/openapi/beta/openapi.yaml",
-        "env_vars": [
-            "MICROSOFT_COM_GRAPH_BETA_API_KEY",
-            "MICROSOFT_COM_GRAPH_BETA_TOKEN",
-        ],
+        "env_vars": ["MICROSOFT_COM_GRAPH_BETA_API_KEY", "MICROSOFT_COM_GRAPH_BETA_TOKEN"],
     },
     "mineskin": {
         "display_name": "MineSkin API",
@@ -4425,10 +4223,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "TechPort RESTful API",
         "spec_url": "https://api.apis.guru/v2/specs/nasa.gov/asteroids neows/3.4.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/nasa/api-docs/gh-pages/assets/json/Asteroids%20NeoWs",
-        "env_vars": [
-            "NASA_GOV_ASTEROIDSNEOWS_API_KEY",
-            "NASA_GOV_ASTEROIDSNEOWS_TOKEN",
-        ],
+        "env_vars": ["NASA_GOV_ASTEROIDSNEOWS_API_KEY", "NASA_GOV_ASTEROIDSNEOWS_TOKEN"],
     },
     "nativeads": {
         "display_name": "Native Ads Publisher API",
@@ -4442,20 +4237,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "An API for accessing the NaviPlan Fact Finder.",
         "spec_url": "https://api.apis.guru/v2/specs/naviplancentral.com/factfinder/v1/swagger.json",
         "base_url": "https://demo.uat.naviplancentral.com/factfinder/swagger/docs/v1",
-        "env_vars": [
-            "NAVIPLANCENTRAL_COM_FACTFINDER_API_KEY",
-            "NAVIPLANCENTRAL_COM_FACTFINDER_TOKEN",
-        ],
+        "env_vars": ["NAVIPLANCENTRAL_COM_FACTFINDER_API_KEY", "NAVIPLANCENTRAL_COM_FACTFINDER_TOKEN"],
     },
     "naviplancentral-com-plan": {
         "display_name": "NaviPlan API",
         "description": "An API for accessing NaviPlan plan data for a client.",
         "spec_url": "https://api.apis.guru/v2/specs/naviplancentral.com/plan/v1/swagger.json",
         "base_url": "https://demo.uat.naviplancentral.com/plan/swagger/docs/v1",
-        "env_vars": [
-            "NAVIPLANCENTRAL_COM_PLAN_API_KEY",
-            "NAVIPLANCENTRAL_COM_PLAN_TOKEN",
-        ],
+        "env_vars": ["NAVIPLANCENTRAL_COM_PLAN_API_KEY", "NAVIPLANCENTRAL_COM_PLAN_TOKEN"],
     },
     "nba": {
         "display_name": "NBA Stats API",
@@ -4466,7 +4255,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "nbg-gr": {
         "display_name": "Account and Transaction API Specification - UK",
-        "description": '## Functionality at a glance The NBG "UK OPB - Account and Transaction v3.1.5" API follows the [UK Open Banking Specification v3.1.5](https://openba',
+        "description": "## Functionality at a glance The NBG \"UK OPB - Account and Transaction v3.1.5\" API follows the [UK Open Banking Specification v3.1.5](https://openba",
         "spec_url": "https://api.apis.guru/v2/specs/nbg.gr/v3.1.5/openapi.json",
         "base_url": "https://developer.nbg.gr/api.gateway/publicportal/sites/default/files/2020-09/NBGSwagger-account-and_transaction_api_specification_uk-v3.1.5-swagger%20%284%29.yaml",
         "env_vars": ["NBG_GR_API_KEY", "NBG_GR_TOKEN"],
@@ -4483,20 +4272,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Gateway is the hub that routes/orchestrates the interaction between consent managers and API bridges. There are 5 categories of APIs; discovery, link,",
         "spec_url": "https://api.apis.guru/v2/specs/ndhm.gov.in/ndhm-gateway/0.5/openapi.json",
         "base_url": "https://apisetu.gov.in/api_specification_v8/ndhm-gateway.yaml",
-        "env_vars": [
-            "NDHM_GOV_IN_NDHM_GATEWAY_API_KEY",
-            "NDHM_GOV_IN_NDHM_GATEWAY_TOKEN",
-        ],
+        "env_vars": ["NDHM_GOV_IN_NDHM_GATEWAY_API_KEY", "NDHM_GOV_IN_NDHM_GATEWAY_TOKEN"],
     },
     "ndhm-gov-in-ndhm-healthid": {
         "display_name": "Health ID Service",
         "description": "It is important to standardize the process of identification of an individual across healthcare providers, to ensure that the created medical records ",
         "spec_url": "https://api.apis.guru/v2/specs/ndhm.gov.in/ndhm-healthid/1.0/openapi.json",
         "base_url": "https://apisetu.gov.in/api_specification_v8/ndhm-healthid.yaml",
-        "env_vars": [
-            "NDHM_GOV_IN_NDHM_HEALTHID_API_KEY",
-            "NDHM_GOV_IN_NDHM_HEALTHID_TOKEN",
-        ],
+        "env_vars": ["NDHM_GOV_IN_NDHM_HEALTHID_API_KEY", "NDHM_GOV_IN_NDHM_HEALTHID_TOKEN"],
     },
     "ndhm-gov-in-ndhm-hip": {
         "display_name": "Health Repository Provider Specifications for HIP",
@@ -4521,14 +4304,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "neowsapp": {
         "display_name": "NeoWs - (Near Earth Object Web Service)",
-        "description": 'A web service for near earth objects. All the data is from the <a href="http://neo.jpl.nasa.gov/" target="_blank">NASA JPL Asteroid team</a>. NeoW',
+        "description": "A web service for near earth objects. All the data is from the <a href=\"http://neo.jpl.nasa.gov/\" target=\"_blank\">NASA JPL Asteroid team</a>. NeoW",
         "spec_url": "https://api.apis.guru/v2/specs/neowsapp.com/1.0/openapi.json",
         "base_url": "http://www.neowsapp.com/api-docs",
         "env_vars": ["NEOWSAPP_API_KEY", "NEOWSAPP_TOKEN"],
     },
     "netatmo": {
         "display_name": "Netatmo",
-        "description": '<h3>Welcome to the Netatmo swagger on-line documentation !</h3> This site is a complement to the official <a href="https://dev.netatmo.com/">Netatmo',
+        "description": "<h3>Welcome to the Netatmo swagger on-line documentation !</h3> This site is a complement to the official <a href=\"https://dev.netatmo.com/\">Netatmo",
         "spec_url": "https://api.apis.guru/v2/specs/netatmo.net/1.1.5/openapi.json",
         "base_url": "https://raw.githubusercontent.com/cbornet/netatmo-swagger-decl/master/spec/swagger.yaml",
         "env_vars": ["NETATMO_API_KEY", "NETATMO_TOKEN"],
@@ -4577,7 +4360,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "nexmo-com-application": {
         "display_name": "Nexmo Application API",
-        "description": '<div class="Vlt-callout Vlt-callout--critical"> <i></i> <div class="Vlt-callout__content"> <h4>Applications V1 is deprecated</h4> This version of ',
+        "description": "<div class=\"Vlt-callout Vlt-callout--critical\"> <i></i> <div class=\"Vlt-callout__content\"> <h4>Applications V1 is deprecated</h4> This version of ",
         "spec_url": "https://api.apis.guru/v2/specs/nexmo.com/application/1.0.2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/nexmo/api-specification/master/definitions/application.yml",
         "env_vars": ["NEXMO_API_KEY", "NEXMO_API_SECRET"],
@@ -4794,20 +4577,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "The Buildings Database is a shared resource for the building industry. The Database, developed by the U.S. Department of Energy and the National Renew",
         "spec_url": "https://api.apis.guru/v2/specs/nrel.gov/building-case-studies/1.0/swagger.json",
         "base_url": "http://developer.nrel.gov/docs/buildings/building-case-studies/spec.yml",
-        "env_vars": [
-            "NREL_GOV_BUILDING_CASE_STUDIES_API_KEY",
-            "NREL_GOV_BUILDING_CASE_STUDIES_TOKEN",
-        ],
+        "env_vars": ["NREL_GOV_BUILDING_CASE_STUDIES_API_KEY", "NREL_GOV_BUILDING_CASE_STUDIES_TOKEN"],
     },
     "nrel-gov-transportation-incentives-laws": {
         "display_name": "Transportation Laws and Incentives",
         "description": "Query our database of federal and state laws and incentives for alternative fuels and vehicles, air quality, fuel efficiency, and other transportation",
         "spec_url": "https://api.apis.guru/v2/specs/nrel.gov/transportation-incentives-laws/0.1.0/openapi.json",
         "base_url": "http://developer.nrel.gov/docs/transportation/transportation-incentives-laws-v1/spec.yml",
-        "env_vars": [
-            "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_API_KEY",
-            "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_TOKEN",
-        ],
+        "env_vars": ["NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_API_KEY", "NREL_GOV_TRANSPORTATION_INCENTIVES_LAWS_TOKEN"],
     },
     "nrm-se-georg": {
         "display_name": "Georg API",
@@ -4971,11 +4748,11 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "openai": {
         "display_name": "OpenAI API",
-        "description": "APIs for sampling from and fine-tuning language models",
+        "description": "> Below is an overview of the openai openapi in simple language. This API contains 241 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/openai.com/1.2.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml",
         "env_vars": ["OPENAI_API_KEY"],
-        "endpoints_count": 226,
+        "endpoints_count": 241,
     },
     "openalpr": {
         "display_name": "OpenALPR CarCheck API",
@@ -5017,40 +4794,28 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Swagger for Account and Transaction API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/account-info-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/account-info-openapi.yaml",
-        "env_vars": [
-            "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_API_KEY",
-            "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_TOKEN",
-        ],
+        "env_vars": ["OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_ACCOUNT_INFO_OPENAPI_TOKEN"],
     },
     "openbanking-org-uk-confirmation-funds-openapi": {
         "display_name": "Confirmation of Funds API Specification",
         "description": "Swagger for Confirmation of Funds API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/confirmation-funds-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/confirmation-funds-openapi.yaml",
-        "env_vars": [
-            "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_API_KEY",
-            "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_TOKEN",
-        ],
+        "env_vars": ["OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_CONFIRMATION_FUNDS_OPENAPI_TOKEN"],
     },
     "openbanking-org-uk-event-notifications-openapi": {
         "display_name": "Event Notification API Specification - TPP Endpoints",
         "description": "Swagger for Event Notification API Specification - TPP Endpoints",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/event-notifications-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/event-notifications-openapi.yaml",
-        "env_vars": [
-            "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_API_KEY",
-            "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_TOKEN",
-        ],
+        "env_vars": ["OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_EVENT_NOTIFICATIONS_OPENAPI_TOKEN"],
     },
     "openbanking-org-uk-payment-initiation-openapi": {
         "display_name": "Payment Initiation API",
         "description": "Swagger for Payment Initiation API Specification",
         "spec_url": "https://api.apis.guru/v2/specs/openbanking.org.uk/payment-initiation-openapi/3.1.7/openapi.json",
         "base_url": "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/master/dist/openapi/payment-initiation-openapi.yaml",
-        "env_vars": [
-            "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_API_KEY",
-            "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_TOKEN",
-        ],
+        "env_vars": ["OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_API_KEY", "OPENBANKING_ORG_UK_PAYMENT_INITIATION_OPENAPI_TOKEN"],
     },
     "openbankingproject-ch": {
         "display_name": "Swiss NextGen Banking API-Framework",
@@ -5220,46 +4985,31 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/aftermarket/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_aftermarket.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_AFTERMARKET_API_KEY",
-            "OTE_GODADDY_COM_AFTERMARKET_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_AFTERMARKET_API_KEY", "OTE_GODADDY_COM_AFTERMARKET_TOKEN"],
     },
     "ote-godaddy-com-agreements": {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/agreements/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_agreements.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_AGREEMENTS_API_KEY",
-            "OTE_GODADDY_COM_AGREEMENTS_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_AGREEMENTS_API_KEY", "OTE_GODADDY_COM_AGREEMENTS_TOKEN"],
     },
     "ote-godaddy-com-certificates": {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/certificates/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_certificates.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_CERTIFICATES_API_KEY",
-            "OTE_GODADDY_COM_CERTIFICATES_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_CERTIFICATES_API_KEY", "OTE_GODADDY_COM_CERTIFICATES_TOKEN"],
     },
     "ote-godaddy-com-countries": {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/countries/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_countries.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_COUNTRIES_API_KEY",
-            "OTE_GODADDY_COM_COUNTRIES_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_COUNTRIES_API_KEY", "OTE_GODADDY_COM_COUNTRIES_TOKEN"],
     },
     "ote-godaddy-com-domains": {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/domains/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_domains.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_DOMAINS_API_KEY",
-            "OTE_GODADDY_COM_DOMAINS_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_DOMAINS_API_KEY", "OTE_GODADDY_COM_DOMAINS_TOKEN"],
     },
     "ote-godaddy-com-orders": {
         "display_name": "",
@@ -5271,19 +5021,13 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/shoppers/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_shoppers.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_SHOPPERS_API_KEY",
-            "OTE_GODADDY_COM_SHOPPERS_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_SHOPPERS_API_KEY", "OTE_GODADDY_COM_SHOPPERS_TOKEN"],
     },
     "ote-godaddy-com-subscriptions": {
         "display_name": "",
         "spec_url": "https://api.apis.guru/v2/specs/ote-godaddy.com/subscriptions/1.0.0/openapi.json",
         "base_url": "https://developer.godaddy.com/swagger/swagger_subscriptions.json",
-        "env_vars": [
-            "OTE_GODADDY_COM_SUBSCRIPTIONS_API_KEY",
-            "OTE_GODADDY_COM_SUBSCRIPTIONS_TOKEN",
-        ],
+        "env_vars": ["OTE_GODADDY_COM_SUBSCRIPTIONS_API_KEY", "OTE_GODADDY_COM_SUBSCRIPTIONS_TOKEN"],
     },
     "owler": {
         "display_name": "Owler",
@@ -5364,10 +5108,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "GOV.UK Pay API (This version is no longer maintained. See openapi/publicapi_spec.json for latest API specification)",
         "spec_url": "https://api.apis.guru/v2/specs/payments.service.gov.uk/payments/1.0.3/swagger.json",
         "base_url": "https://raw.githubusercontent.com/alphagov/pay-publicapi/master/swagger/swagger.json",
-        "env_vars": [
-            "PAYMENTS_SERVICE_GOV_UK_PAYMENTS_API_KEY",
-            "PAYMENTS_SERVICE_GOV_UK_PAYMENTS_TOKEN",
-        ],
+        "env_vars": ["PAYMENTS_SERVICE_GOV_UK_PAYMENTS_API_KEY", "PAYMENTS_SERVICE_GOV_UK_PAYMENTS_TOKEN"],
     },
     "paypi-dev": {
         "display_name": "EmailVerify",
@@ -5429,20 +5170,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "OpenAPI definition",
         "spec_url": "https://api.apis.guru/v2/specs/peoplegeneratorapi.live/v0/openapi.json",
         "base_url": "https://peoplegeneratorapi.live/v3/api-docs",
-        "env_vars": [
-            "PEOPLEGENERATORAPI_LIVE_API_KEY",
-            "PEOPLEGENERATORAPI_LIVE_TOKEN",
-        ],
+        "env_vars": ["PEOPLEGENERATORAPI_LIVE_API_KEY", "PEOPLEGENERATORAPI_LIVE_TOKEN"],
     },
     "personio-de-authentication": {
         "display_name": "Authentication",
         "description": "Personio Authentication API",
         "spec_url": "https://api.apis.guru/v2/specs/personio.de/authentication/1.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/personio/api-docs/master/personio-auth-api.yaml",
-        "env_vars": [
-            "PERSONIO_DE_AUTHENTICATION_API_KEY",
-            "PERSONIO_DE_AUTHENTICATION_TOKEN",
-        ],
+        "env_vars": ["PERSONIO_DE_AUTHENTICATION_API_KEY", "PERSONIO_DE_AUTHENTICATION_TOKEN"],
     },
     "personio-de-personnel": {
         "display_name": "Personnel Data",
@@ -5463,10 +5198,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "This data set contains the list of polling places. It can be organized by ward/division, accessibility rating, or type of building. This list is used ",
         "spec_url": "https://api.apis.guru/v2/specs/phila.gov/pollingplaces/1.0/swagger.json",
         "base_url": "https://raw.githubusercontent.com/CityOfPhiladelphia/phlapi/gh-pages/pollingplaces/swagger.json",
-        "env_vars": [
-            "PHILA_GOV_POLLINGPLACES_API_KEY",
-            "PHILA_GOV_POLLINGPLACES_TOKEN",
-        ],
+        "env_vars": ["PHILA_GOV_POLLINGPLACES_API_KEY", "PHILA_GOV_POLLINGPLACES_TOKEN"],
     },
     "pims": {
         "display_name": "Pims",
@@ -5521,10 +5253,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Postmark makes sending and receiving email incredibly easy. The Account-level API allows users to configure all Servers, Domains, and Sender Signature",
         "spec_url": "https://api.apis.guru/v2/specs/postmarkapp.com/account/0.9.0/swagger.json",
         "base_url": "https://postmarkapp.com/swagger/account.yml",
-        "env_vars": [
-            "POSTMARKAPP_COM_ACCOUNT_API_KEY",
-            "POSTMARKAPP_COM_ACCOUNT_TOKEN",
-        ],
+        "env_vars": ["POSTMARKAPP_COM_ACCOUNT_API_KEY", "POSTMARKAPP_COM_ACCOUNT_TOKEN"],
     },
     "postmarkapp-com-server": {
         "display_name": "Postmark API",
@@ -5544,10 +5273,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "This api converts file formats of OpenXml and OpenOffice documents formats to vector files (e.g., svg)",
         "spec_url": "https://api.apis.guru/v2/specs/presalytics.io/converter/0.1/openapi.json",
         "base_url": "https://api.presalytics.io/doc-converter/openapi.json",
-        "env_vars": [
-            "PRESALYTICS_IO_CONVERTER_API_KEY",
-            "PRESALYTICS_IO_CONVERTER_TOKEN",
-        ],
+        "env_vars": ["PRESALYTICS_IO_CONVERTER_API_KEY", "PRESALYTICS_IO_CONVERTER_TOKEN"],
     },
     "presalytics-io-ooxml": {
         "display_name": "OOXML Automation",
@@ -5629,10 +5355,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "display_name": "Quicksold REST API",
         "spec_url": "https://api.apis.guru/v2/specs/quicksold.co.uk/location/1.0/swagger.json",
         "base_url": "https://quicksold.co.uk/v2/api-docs",
-        "env_vars": [
-            "QUICKSOLD_CO_UK_LOCATION_API_KEY",
-            "QUICKSOLD_CO_UK_LOCATION_TOKEN",
-        ],
+        "env_vars": ["QUICKSOLD_CO_UK_LOCATION_API_KEY", "QUICKSOLD_CO_UK_LOCATION_TOKEN"],
     },
     "quotes-rest": {
         "display_name": "They Said So Quotes API",
@@ -5742,20 +5465,14 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Catalog Inventory",
         "spec_url": "https://api.apis.guru/v2/specs/redhat.com/catalog_inventory/1.0.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/RedHatInsights/catalog_inventory-api/master/public/doc/openapi-3-v1.0.json",
-        "env_vars": [
-            "REDHAT_COM_CATALOGINVENTORY_API_KEY",
-            "REDHAT_COM_CATALOGINVENTORY_TOKEN",
-        ],
+        "env_vars": ["REDHAT_COM_CATALOGINVENTORY_API_KEY", "REDHAT_COM_CATALOGINVENTORY_TOKEN"],
     },
     "redhat-local-patchman-engine": {
         "display_name": "Patchman-engine API",
         "description": "API of the Patch application on [cloud.redhat.com](cloud.redhat.com) Syntax of the `filter[name]` query parameters is described in [Filters documentat",
         "spec_url": "https://api.apis.guru/v2/specs/redhat.local/patchman-engine/v1.15.3/openapi.json",
         "base_url": "https://raw.githubusercontent.com/RedHatInsights/patchman-engine/master/docs/openapi.json",
-        "env_vars": [
-            "REDHAT_LOCAL_PATCHMAN_ENGINE_API_KEY",
-            "REDHAT_LOCAL_PATCHMAN_ENGINE_TOKEN",
-        ],
+        "env_vars": ["REDHAT_LOCAL_PATCHMAN_ENGINE_API_KEY", "REDHAT_LOCAL_PATCHMAN_ENGINE_TOKEN"],
     },
     "redirection": {
         "display_name": "redirection.io",
@@ -5845,10 +5562,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Import your orders, retrieve your orders and generate labels.",
         "spec_url": "https://api.apis.guru/v2/specs/royalmail.com/click-and-drop/1.0.0/swagger.json",
         "base_url": "https://api.parcel.royalmail.com/doc/v1/click-and-drop-api-v1.yaml",
-        "env_vars": [
-            "ROYALMAIL_COM_CLICK_AND_DROP_API_KEY",
-            "ROYALMAIL_COM_CLICK_AND_DROP_TOKEN",
-        ],
+        "env_vars": ["ROYALMAIL_COM_CLICK_AND_DROP_API_KEY", "ROYALMAIL_COM_CLICK_AND_DROP_TOKEN"],
     },
     "rudder-example": {
         "display_name": "Rudder API",
@@ -5859,7 +5573,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "rumble-run": {
         "display_name": "Rumble API (deprecated)",
-        "description": '<p><b><i>Rumble Network Discovery is now runZero. <a href="https://www.runzero.com/blog/introducing-runzero/">Read the announcement</a></i></b>.</p>',
+        "description": "<p><b><i>Rumble Network Discovery is now runZero. <a href=\"https://www.runzero.com/blog/introducing-runzero/\">Read the announcement</a></i></b>.</p>",
         "spec_url": "https://api.apis.guru/v2/specs/rumble.run/2.15.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/RumbleDiscovery/rumble-api/main/rumble-api.yml",
         "env_vars": ["RUMBLE_RUN_API_KEY", "RUMBLE_RUN_TOKEN"],
@@ -5985,10 +5699,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "# Introduction This API returns data regarding almost all nouns in vedic literature. The results are JSON objects that contain the word transliterated",
         "spec_url": "https://api.apis.guru/v2/specs/sheetlabs.com/vedic-society/1.2/swagger.json",
         "base_url": "https://raw.githubusercontent.com/AninditaBasu/indica/master/vs_SDKs/vs.yaml",
-        "env_vars": [
-            "SHEETLABS_COM_VEDIC_SOCIETY_API_KEY",
-            "SHEETLABS_COM_VEDIC_SOCIETY_TOKEN",
-        ],
+        "env_vars": ["SHEETLABS_COM_VEDIC_SOCIETY_API_KEY", "SHEETLABS_COM_VEDIC_SOCIETY_TOKEN"],
     },
     "shipengine": {
         "display_name": "ShipEngine API",
@@ -6075,19 +5786,19 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "slack": {
         "display_name": "Slack Web API",
-        "description": "One way to interact with the Slack platform is its HTTP RPC-based Web API, a collection of methods requiring OAuth 2.0-based user, bot, or workspace t",
+        "description": "> Below is an overview of the slack openapi in simple language. This API contains 253 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/slack.com/1.7.0/openapi.json",
         "base_url": "https://raw.githubusercontent.com/slackapi/slack-api-specs/master/web-api/slack_web_openapi_v2.json",
         "env_vars": ["SLACK_TOKEN", "SLACK_BOT_TOKEN"],
-        "endpoints_count": 174,
+        "endpoints_count": 253,
     },
     "slack-com-openai": {
         "display_name": "Slack AI Plugin",
-        "description": "A plugin that allows users to interact with Slack using ChatGPT",
+        "description": "> Below is an overview of the slack openapi in simple language. This API contains 253 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/slack.com/openai/v1/openapi.json",
         "base_url": "https://api.slack.com/specs/openapi/ai-plugin.yaml",
         "env_vars": ["SLACK_TOKEN", "SLACK_BOT_TOKEN"],
-        "endpoints_count": 174,
+        "endpoints_count": 253,
     },
     "slicebox": {
         "display_name": "Slicebox API",
@@ -6475,7 +6186,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "stripe": {
         "display_name": "Stripe API",
-        "description": "The Stripe REST API. Please see https://stripe.com/docs/api for more details.",
+        "description": "> Below is an overview of the stripe openapi in simple language. This API contains 446 endpoints.",
         "spec_url": "https://api.apis.guru/v2/specs/stripe.com/2022-11-15/openapi.json",
         "base_url": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.yaml",
         "env_vars": ["STRIPE_API_KEY", "STRIPE_SECRET_KEY"],
@@ -6486,10 +6197,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Superset",
         "spec_url": "https://api.apis.guru/v2/specs/superset.apache.local/superset/v1/openapi.json",
         "base_url": "https://raw.githubusercontent.com/apache/superset/master/docs/src/resources/openapi.json",
-        "env_vars": [
-            "SUPERSET_APACHE_LOCAL_SUPERSET_API_KEY",
-            "SUPERSET_APACHE_LOCAL_SUPERSET_TOKEN",
-        ],
+        "env_vars": ["SUPERSET_APACHE_LOCAL_SUPERSET_API_KEY", "SUPERSET_APACHE_LOCAL_SUPERSET_TOKEN"],
     },
     "surevoip-co-uk": {
         "display_name": "The SureVoIP RESTful API",
@@ -6663,30 +6371,21 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Use the Ticketmaster Commerce API to look up available offers and products on various Ticketmaster platforms for North America markets. For formal par",
         "spec_url": "https://api.apis.guru/v2/specs/ticketmaster.com/commerce/v2/swagger.json",
         "base_url": "https://raw.githubusercontent.com/ticketmaster-api/ticketmaster-api.github.io/dev/_data/orgs/commerce-api/v2/api.json",
-        "env_vars": [
-            "TICKETMASTER_COM_COMMERCE_API_KEY",
-            "TICKETMASTER_COM_COMMERCE_TOKEN",
-        ],
+        "env_vars": ["TICKETMASTER_COM_COMMERCE_API_KEY", "TICKETMASTER_COM_COMMERCE_TOKEN"],
     },
     "ticketmaster-com-discovery": {
         "display_name": "Discovery API",
         "description": "The Ticketmaster Discovery API allows you to search for events, attractions, or venues.",
         "spec_url": "https://api.apis.guru/v2/specs/ticketmaster.com/discovery/v2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/ticketmaster-api/ticketmaster-api.github.io/dev/_data/orgs/discovery-api/v2/api.json",
-        "env_vars": [
-            "TICKETMASTER_COM_DISCOVERY_API_KEY",
-            "TICKETMASTER_COM_DISCOVERY_TOKEN",
-        ],
+        "env_vars": ["TICKETMASTER_COM_DISCOVERY_API_KEY", "TICKETMASTER_COM_DISCOVERY_TOKEN"],
     },
     "ticketmaster-com-publish": {
         "display_name": "ticketmaster publish api",
         "description": "Publish API",
         "spec_url": "https://api.apis.guru/v2/specs/ticketmaster.com/publish/v2/openapi.json",
         "base_url": "https://raw.githubusercontent.com/ticketmaster-api/ticketmaster-api.github.io/dev/_data/orgs/publish-api/v1/api.json",
-        "env_vars": [
-            "TICKETMASTER_COM_PUBLISH_API_KEY",
-            "TICKETMASTER_COM_PUBLISH_TOKEN",
-        ],
+        "env_vars": ["TICKETMASTER_COM_PUBLISH_API_KEY", "TICKETMASTER_COM_PUBLISH_TOKEN"],
     },
     "tinyuid": {
         "display_name": "TinyUID.com",
@@ -7183,7 +6882,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "unicourt": {
         "display_name": "UniCourt Enterprise APIs",
-        "description": '<button><a href="/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml" >Download UniCourt Enterprise APIs Specification</a></button>',
+        "description": "<button><a href=\"/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml\" >Download UniCourt Enterprise APIs Specification</a></button>",
         "spec_url": "https://api.apis.guru/v2/specs/unicourt.com/1.0.0/openapi.json",
         "base_url": "https://docs.unicourt.com/enterpriseapi/download/UniCourt-Enterprise-API-Spec.yaml",
         "env_vars": ["UNICOURT_API_KEY", "UNICOURT_TOKEN"],
@@ -7325,10 +7024,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Weather Forecast and Historical Weather Data via RESTful API.",
         "spec_url": "https://api.apis.guru/v2/specs/visualcrossing.com/weather/4.6/openapi.json",
         "base_url": "https://www.visualcrossing.com/weather/specs/visualcrossing-weather-api-openapi.json",
-        "env_vars": [
-            "VISUALCROSSING_COM_WEATHER_API_KEY",
-            "VISUALCROSSING_COM_WEATHER_TOKEN",
-        ],
+        "env_vars": ["VISUALCROSSING_COM_WEATHER_API_KEY", "VISUALCROSSING_COM_WEATHER_TOKEN"],
     },
     "visualstudio": {
         "display_name": "VSOnline",
@@ -7623,10 +7319,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "API for issuers to save and manage Google Wallet Objects.",
         "spec_url": "https://api.apis.guru/v2/specs/walletobjects.googleapis.com/pay-passes/v1/openapi.json",
         "base_url": "https://walletobjects.googleapis.com/$discovery/rest?version=v1",
-        "env_vars": [
-            "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_API_KEY",
-            "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_TOKEN",
-        ],
+        "env_vars": ["WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_API_KEY", "WALLETOBJECTS_GOOGLEAPIS_COM_PAY_PASSES_TOKEN"],
     },
     "walmart-com-inventory": {
         "display_name": "Inventory Management",
@@ -7661,10 +7354,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "API for EnteroBase (https://enterobase.warwick.ac.uk) EnteroBase is a user-friendly online resource, where users can upload their own sequencing data ",
         "spec_url": "https://api.apis.guru/v2/specs/warwick.ac.uk/enterobase/v2.0/openapi.json",
         "base_url": "http://enterobase.warwick.ac.uk/api/v2.0/swagger",
-        "env_vars": [
-            "WARWICK_AC_UK_ENTEROBASE_API_KEY",
-            "WARWICK_AC_UK_ENTEROBASE_TOKEN",
-        ],
+        "env_vars": ["WARWICK_AC_UK_ENTEROBASE_API_KEY", "WARWICK_AC_UK_ENTEROBASE_TOKEN"],
     },
     "watchful-li": {
         "display_name": "watchful.li",
@@ -7835,10 +7525,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "Real-time rail prediction methods.",
         "spec_url": "https://api.apis.guru/v2/specs/wmata.com/rail-realtime/1.0/swagger.json",
         "base_url": "https://developer.wmata.com/docs/services/547636a6f9182302184cda78/export?DocumentFormat=Swagger",
-        "env_vars": [
-            "WMATA_COM_RAIL_REALTIME_API_KEY",
-            "WMATA_COM_RAIL_REALTIME_TOKEN",
-        ],
+        "env_vars": ["WMATA_COM_RAIL_REALTIME_API_KEY", "WMATA_COM_RAIL_REALTIME_TOKEN"],
     },
     "wmata-com-rail-station": {
         "display_name": "Rail Station Information",
@@ -7886,10 +7573,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
         "description": "This API provides XML to JSON, JSON to XML transformations.",
         "spec_url": "https://api.apis.guru/v2/specs/wso2apistore.com/transform/1.0.0/openapi.json",
         "base_url": "https://developers.wso2apistore.com/api-docs/manjular-AT-wso2.com-AT-developer/Transform/1.0.0",
-        "env_vars": [
-            "WSO2APISTORE_COM_TRANSFORM_API_KEY",
-            "WSO2APISTORE_COM_TRANSFORM_TOKEN",
-        ],
+        "env_vars": ["WSO2APISTORE_COM_TRANSFORM_API_KEY", "WSO2APISTORE_COM_TRANSFORM_TOKEN"],
     },
     "xero-com-xero-identity": {
         "display_name": "Xero OAuth 2 Identity Service API",
@@ -7969,7 +7653,7 @@ APIS_GURU_PROVIDERS: dict[str, dict[str, Any]] = {
     },
     "zapier-com-nla": {
         "display_name": "Zapier Natural Language Actions (NLA) API - Beta",
-        "description": '<img src="https://cdn.zappy.app/945f9bf9e44126873952ec5113949c3f.png" width="100" /> ## Hi, there! Welcome to the **Zapier Natural Language Action',
+        "description": "<img src=\"https://cdn.zappy.app/945f9bf9e44126873952ec5113949c3f.png\" width=\"100\" /> ## Hi, there! Welcome to the **Zapier Natural Language Action",
         "spec_url": "https://api.apis.guru/v2/specs/zapier.com/nla/1.0.0/openapi.json",
         "base_url": "https://nla.zapier.com/api/v1/openapi.json",
         "env_vars": ["ZAPIER_COM_NLA_API_KEY", "ZAPIER_COM_NLA_TOKEN"],
