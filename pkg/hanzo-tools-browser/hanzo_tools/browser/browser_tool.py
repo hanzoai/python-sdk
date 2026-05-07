@@ -132,13 +132,31 @@ async def _check_extension(browser: Optional[str] = None) -> bool:
     return False
 
 
-async def _extension_command(action: str, browser: Optional[str] = None, **kwargs) -> Optional[dict]:
+async def _extension_command(
+    action: str,
+    browser: Optional[str] = None,
+    tab_id: Optional[Union[str, int]] = None,
+    client_id: Optional[str] = None,
+    **kwargs,
+) -> Optional[dict]:
     """Send command to Hanzo browser extension.
 
     Args:
         action: The action to perform.
-        browser: Optional browser preference ("firefox", "chrome").
-        **kwargs: Additional parameters.
+        browser: Optional browser preference ("firefox", "chrome"). Picks which
+            connected provider to dispatch the command to. With multiple
+            browsers logged in via the extension this is how you target a
+            specific one. ``None`` lets the bridge pick the active provider.
+        tab_id: Optional tab identifier. Accepts the ``targetId`` returned by
+            the ``tabs`` action (e.g. ``"tab-1888868904"``) or a raw numeric
+            tab id. Forwarded as ``tabId`` to the bridge so subsequent
+            navigate/click/screenshot/etc operate on that tab specifically
+            rather than the OS-active tab. Critical when the user has many
+            browser windows open and the wrong one is in focus.
+        client_id: Optional bridge client_id (returned in ``status``). Lets you
+            address one specific connected extension instance when the same
+            user has both Chrome and Firefox bridged to the same bridge.
+        **kwargs: Additional parameters forwarded as JSON body fields.
     """
     try:
         import aiohttp
@@ -147,6 +165,18 @@ async def _extension_command(action: str, browser: Optional[str] = None, **kwarg
         payload = {"action": action}
         if browser:
             payload["browser"] = browser
+        if tab_id is not None:
+            # Bridge accepts numeric tabId or string targetId. Strip the
+            # "tab-" prefix so the extension's chrome.tabs.get() finds it.
+            t = tab_id
+            if isinstance(t, str) and t.startswith("tab-"):
+                t = t[4:]
+            try:
+                payload["tabId"] = int(t)
+            except (TypeError, ValueError):
+                payload["tabId"] = t
+        if client_id:
+            payload["clientId"] = client_id
         payload.update({k: v for k, v in kwargs.items() if v is not None})
 
         async with aiohttp.ClientSession() as session:
@@ -362,6 +392,8 @@ Action = Annotated[
         "new_tab",  # alias for new_page
         "close_tab",  # close current page
         "tabs",  # list/switch tabs
+        "select_tab",  # bring a specific tab to focus (Target.activateTarget)
+        "list_browsers",  # list every connected extension provider
         "connect",  # connect via CDP
         "set_headless",  # toggle headless/headed
         "status",  # get browser status
@@ -802,6 +834,9 @@ CATEGORIES:
         timeout: Optional[int] = None,
         full_page: bool = False,
         tab_index: Optional[int] = None,
+        tab_id: Optional[Union[str, int]] = None,
+        client_id: Optional[str] = None,
+        target_browser: Optional[str] = None,
         cdp_endpoint: Optional[str] = None,
         headless: Optional[bool] = None,
         # Storage
@@ -855,8 +890,11 @@ CATEGORIES:
         }
 
         backend = self.backend
-        # Resolve browser filter from backend preference
-        browser_filter = backend if backend in ("firefox", "chrome") else None
+        # Resolve browser filter from backend preference. Per-call override
+        # (target_browser) wins over global backend so a single MCP session
+        # can address Chrome and Firefox at different moments.
+        browser_filter = (target_browser or
+                          (backend if backend in ("firefox", "chrome") else None))
 
         # Skip extension entirely for "playwright" backend
         use_extension = backend != "playwright" and action in extension_actions
@@ -865,6 +903,8 @@ CATEGORIES:
             ext_result = await _extension_command(
                 action,
                 browser=browser_filter,
+                tab_id=tab_id,
+                client_id=client_id,
                 url=url,
                 selector=sel,
                 text=text,
@@ -2061,7 +2101,32 @@ CATEGORIES:
             full_page: Annotated[
                 bool, Field(description="Full page screenshot")
             ] = False,
-            tab_index: Annotated[Optional[int], Field(description="Tab index")] = None,
+            tab_index: Annotated[Optional[int], Field(description="Tab index in current window")] = None,
+            tab_id: Annotated[
+                Optional[str],
+                Field(
+                    description=(
+                        "Target tab id. Accepts the targetId returned by the "
+                        "'tabs' action (e.g. 'tab-1888868904') or a numeric tab "
+                        "id. Required when many windows are open and the OS-active "
+                        "tab is not the one you want — without this every action "
+                        "is dispatched to whatever tab is currently focused."
+                    )
+                ),
+            ] = None,
+            client_id: Annotated[
+                Optional[str],
+                Field(
+                    description=(
+                        "Target a specific extension client (e.g. one Firefox "
+                        "instance vs another). Use the client_id returned by 'status'."
+                    )
+                ),
+            ] = None,
+            target_browser: Annotated[
+                Optional[str],
+                Field(description="Browser provider to dispatch to: 'chrome' | 'firefox'"),
+            ] = None,
             cdp_endpoint: Annotated[
                 Optional[str], Field(description="CDP endpoint")
             ] = None,
@@ -2136,6 +2201,9 @@ CATEGORIES:
                 timeout=timeout,
                 full_page=full_page,
                 tab_index=tab_index,
+                tab_id=tab_id,
+                client_id=client_id,
+                target_browser=target_browser,
                 cdp_endpoint=cdp_endpoint,
                 headless=headless,
                 cookies=cookies,
