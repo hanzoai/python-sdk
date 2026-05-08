@@ -1,12 +1,16 @@
 """Browser automation tools for Hanzo AI.
 
-High-performance async browser automation using Playwright.
-Supports shared browser instance for low latency and cross-MCP sharing via CDP.
+Two-process architecture (since 0.5.0):
 
-Integration with Hanzo Browser Extension:
-    The CDP bridge server starts automatically when browser tools are registered.
-    The browser extension connects to ws://localhost:9223/cdp automatically.
-    No manual setup required - just install the extension and use hanzo-mcp.
+    [Browser ext] --ZAP/WS--> [hanzo-mcp (this Python pkg)] --stdio--> [Agent]
+
+The hanzo-mcp process hosts a ZAP server on the lowest free port in
+[9999, 9998, 9997, 9996, 9995]. Browser extensions discover and connect to
+it directly. No node bridge is in the critical path.
+
+Legacy HTTP bridge (cdp_bridge_server.py on :9223/9224) is retained as an
+opt-in fallback for non-ZAP MCP clients. Enable with
+``HANZO_CDP_BRIDGE_ENABLED=1``.
 """
 
 import os
@@ -29,10 +33,18 @@ from hanzo_tools.browser.browser_tool import (
     create_browser_tool,
     launch_browser_server,
 )
+from hanzo_tools.browser.zap_server import (
+    DEFAULT_ZAP_PORTS,
+    ZapClient,
+    ZapServer,
+    get_or_start_server,
+    get_server,
+    shutdown_server,
+)
 
 logger = logging.getLogger(__name__)
 
-# CDP Bridge for browser extension integration
+# CDP Bridge for browser extension integration (legacy, opt-in)
 try:
     from hanzo_tools.browser.cdp_bridge_server import (
         WEBSOCKETS_AVAILABLE as CDP_BRIDGE_AVAILABLE,
@@ -44,10 +56,15 @@ except ImportError:
     CDPBridgeServer = None
     CDPBridgeClient = None
 
-# Global CDP bridge server instance (singleton)
+# Global CDP bridge server instance (singleton, legacy path)
 _cdp_bridge_server: Optional["CDPBridgeServer"] = None
 _cdp_bridge_thread: Optional[threading.Thread] = None
 _cdp_bridge_loop: Optional[asyncio.AbstractEventLoop] = None
+
+# Global ZAP server lifecycle (canonical path)
+_zap_thread: Optional[threading.Thread] = None
+_zap_loop: Optional[asyncio.AbstractEventLoop] = None
+_zap_started_event: Optional[threading.Event] = None
 
 # Tools list for entry point discovery
 TOOLS = [BrowserTool]
@@ -60,7 +77,14 @@ __all__ = [
     # Browser pool
     "BrowserPool",
     "launch_browser_server",
-    # CDP Bridge (for browser extension integration)
+    # ZAP (canonical, since 0.5.0)
+    "ZapServer",
+    "ZapClient",
+    "DEFAULT_ZAP_PORTS",
+    "get_or_start_server",
+    "get_server",
+    "shutdown_server",
+    # CDP Bridge (legacy fallback)
     "CDPBridgeServer",
     "CDPBridgeClient",
     "CDP_BRIDGE_AVAILABLE",
@@ -73,6 +97,86 @@ __all__ = [
     "register_browser_tools",
     "register_tools",
 ]
+
+
+def _run_zap_server(host: str, ports: list[int]) -> None:
+    """Run the ZAP server in a dedicated background thread.
+
+    The MCP's main loop is owned by FastMCP/stdio; we keep ZAP isolated so
+    its websockets server has its own asyncio event loop and never fights
+    with stdio for cycles. The thread lives for the MCP's lifetime.
+    """
+    global _zap_loop, _zap_started_event
+
+    _zap_loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(_zap_loop)
+
+    async def _bootstrap() -> None:
+        srv = await get_or_start_server(
+            host=host,
+            ports=ports,
+            agent_label=os.environ.get("HANZO_AGENT_LABEL"),
+        )
+        if _zap_started_event is not None:
+            _zap_started_event.set()
+        if srv is None:
+            return
+        # Idle forever; the websockets server owns its own tasks.
+        while True:
+            await asyncio.sleep(3600)
+
+    try:
+        _zap_loop.run_until_complete(_bootstrap())
+    except Exception as e:
+        logger.error("ZAP server thread crashed: %s", e, exc_info=True)
+
+
+def _ensure_zap_server() -> bool:
+    """Start the in-process ZAP server if not already running.
+
+    Returns True if the server is alive after this call.
+    """
+    global _zap_thread, _zap_started_event
+
+    if _zap_thread is not None and _zap_thread.is_alive():
+        return get_server() is not None
+
+    if os.environ.get("HANZO_ZAP_DISABLED", "").lower() in ("1", "true", "yes"):
+        return False
+
+    host = os.environ.get("HANZO_ZAP_HOST", "127.0.0.1")
+    ports_env = os.environ.get("HANZO_ZAP_PORTS")
+    if ports_env:
+        ports = [int(p) for p in ports_env.split(",") if p.strip().isdigit()]
+    else:
+        ports = list(DEFAULT_ZAP_PORTS)
+
+    _zap_started_event = threading.Event()
+    _zap_thread = threading.Thread(
+        target=_run_zap_server,
+        args=(host, ports),
+        daemon=True,
+        name="hanzo-zap-server",
+    )
+    _zap_thread.start()
+
+    # Wait for bind result so callers see a determinate state.
+    _zap_started_event.wait(timeout=2.0)
+    return get_server() is not None
+
+
+def stop_zap_server() -> None:
+    """Stop the in-process ZAP server (best-effort, non-blocking)."""
+    global _zap_thread, _zap_loop, _zap_started_event
+
+    if _zap_loop is not None:
+        try:
+            asyncio.run_coroutine_threadsafe(shutdown_server(), _zap_loop)
+        except Exception:
+            pass
+    _zap_loop = None
+    _zap_thread = None
+    _zap_started_event = None
 
 
 def _run_cdp_bridge_server(host: str, port: int) -> None:
@@ -170,13 +274,14 @@ def stop_cdp_bridge() -> None:
 def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """Register browser tools with the MCP server.
 
-    This also auto-starts the CDP bridge server for browser extension
-    integration. The extension can connect to ws://localhost:9223/cdp
-    and control browser tabs.
+    Auto-starts the ZAP server (canonical path) so the Hanzo browser
+    extension can discover this MCP and dispatch actions to it directly.
+    The legacy CDP bridge (port 9223/9224) is opt-in via
+    ``HANZO_CDP_BRIDGE_ENABLED=1`` or ``cdp_bridge=True`` kwarg.
 
     Args:
         mcp_server: The FastMCP server instance
-        **kwargs: Additional arguments (headless, cdp_endpoint, cdp_bridge)
+        **kwargs: Additional arguments (headless, cdp_endpoint, backend, cdp_bridge)
 
     Returns:
         List of registered tools
@@ -185,10 +290,16 @@ def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     cdp_endpoint = kwargs.get("cdp_endpoint")
     backend = kwargs.get("backend")
 
-    # Auto-start CDP bridge for browser extension integration
-    # (not needed when backend is explicitly "playwright")
-    auto_cdp_bridge = kwargs.get("cdp_bridge", True)
-    if auto_cdp_bridge and CDP_BRIDGE_AVAILABLE and backend != "playwright":
+    # Canonical path: in-process ZAP server.
+    if backend != "playwright":
+        _ensure_zap_server()
+
+    # Legacy CDP bridge (opt-in only).
+    enable_cdp_bridge = kwargs.get(
+        "cdp_bridge",
+        os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower() in ("1", "true", "yes"),
+    )
+    if enable_cdp_bridge and CDP_BRIDGE_AVAILABLE and backend != "playwright":
         start_cdp_bridge()
 
     tool = create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint, backend=backend)

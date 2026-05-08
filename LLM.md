@@ -95,6 +95,49 @@ SQLite-based with optional vector search (sqlite-vec).
 
 **Backends:** local (default), sqlite, lancedb (optional), kuzudb (optional)
 
+## Browser Tool (hanzo-tools-browser)
+
+Two-process architecture (since 0.5.0): `hanzo-tools-browser` hosts the
+ZAP server directly inside the MCP process. Browser extensions discover
+it on the lowest free port from `[9999, 9998, 9997, 9996, 9995]` (POSIX
+flock ensures multi-MCP coexistence under one ext).
+
+```python
+from hanzo_tools.browser import (
+    BrowserTool,            # the MCP tool
+    ZapServer,              # raw server (for advanced use)
+    get_or_start_server,    # bootstrap + return singleton
+    get_server,             # return current singleton or None
+)
+```
+
+Key files:
+- `hanzo_tools/browser/zap_server.py` — wire format, server, leases,
+  cluster registry (`~/.hanzo/extension/config.json:mcp_instances`).
+- `hanzo_tools/browser/browser_tool.py` — `_extension_command` tries
+  ZAP first, falls back to legacy HTTP bridge on `:9224`. New actions
+  `list_mcp_instances`, `claim_browser`, `release_browser`.
+- `hanzo_tools/browser/cdp_bridge_server.py` — legacy node-bridge
+  replacement (kept for non-ZAP callers).
+
+Env vars:
+- `BROWSER_TRANSPORT=zap|http|auto` — pin transport (default auto).
+- `HANZO_ZAP_DISABLED=1` — don't auto-start the ZAP server.
+- `HANZO_ZAP_PORTS=9999,9998` — override the candidate port list.
+- `HANZO_AGENT_LABEL=...` — attach to the cluster registry entry.
+- `HANZO_CDP_BRIDGE_ENABLED=1` — opt back into the legacy HTTP bridge.
+
+Tests live in `pkg/hanzo-tools-browser/tests/test_zap_server.py` (30
+cases: wire format, lifecycle, RPC, leases, multi-MCP). Latency bench
+in `test_zap_bench.py`. The full suite runs with:
+
+```bash
+cd pkg/hanzo-tools-browser
+uv venv .venv --python 3.12
+.venv/bin/python -m pip install -e .
+.venv/bin/python -m pytest tests/ -v
+```
+
 ## API Tool
 
 Generic REST API tool with OpenAPI specs.
