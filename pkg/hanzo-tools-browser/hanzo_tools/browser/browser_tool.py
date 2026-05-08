@@ -102,12 +102,36 @@ def get_backend() -> str:
     return "auto"
 
 
+def _normalize_tab_id(tab_id: Union[str, int, None]) -> Union[str, int, None]:
+    """Strip ``tab-`` prefix and coerce to int when possible."""
+    if tab_id is None:
+        return None
+    t = tab_id
+    if isinstance(t, str) and t.startswith("tab-"):
+        t = t[4:]
+    try:
+        return int(t)
+    except (TypeError, ValueError):
+        return t
+
+
 async def _check_extension(browser: Optional[str] = None) -> bool:
     """Check if Hanzo browser extension is connected.
 
-    Args:
-        browser: Optional browser filter ("firefox", "chrome").
+    Tries the local ZAP server first (in-process, microseconds), falls back
+    to the legacy HTTP bridge on :9224.
     """
+    # 1) ZAP — if our own MCP holds an extension client locally
+    try:
+        from hanzo_tools.browser.zap_server import get_server
+
+        srv = get_server()
+        if srv is not None and srv.has_client(browser=browser):
+            return True
+    except Exception:
+        pass
+
+    # 2) Legacy HTTP bridge
     try:
         import aiohttp
 
@@ -120,7 +144,6 @@ async def _check_extension(browser: Optional[str] = None) -> bool:
                     if not data.get("connected", False):
                         return False
                     if browser:
-                        # Check if requested browser is among connected clients
                         clients = data.get("client_list", [])
                         return any(
                             browser.lower() in c.get("browser", "").lower()
@@ -132,6 +155,79 @@ async def _check_extension(browser: Optional[str] = None) -> bool:
     return False
 
 
+def _zap_method_for(action: str) -> str:
+    """Map a browser-tool action onto the wire method the extension expects.
+
+    The Firefox/Chrome backgrounds dispatch CDP-style methods (``Page.navigate``,
+    ``Runtime.evaluate``, ``hanzo.click`` …) when the field is ``method`` on
+    the JSON it receives. Over ZAP we send the same method name so the
+    extension handler is shared.
+    """
+    return {
+        "navigate": "Page.navigate",
+        "screenshot": "hanzo.screenshot",
+        "click": "hanzo.click",
+        "fill": "hanzo.fill",
+        "evaluate": "Runtime.evaluate",
+        "tabs": "Target.getTargets",
+        "status": "Browser.getVersion",
+        "url": "hanzo.url",
+        "title": "hanzo.title",
+        "reload": "Page.reload",
+        "go_back": "Page.goBack",
+        "go_forward": "Page.goForward",
+        "tab_info": "hanzo.tabInfo",
+    }.get(action, action)
+
+
+def _zap_params(
+    action: str,
+    *,
+    tab_id: Union[str, int, None] = None,
+    url: Optional[str] = None,
+    selector: Optional[str] = None,
+    text: Optional[str] = None,
+    value: Optional[str] = None,
+    code: Optional[str] = None,
+    expression: Optional[str] = None,
+    full_page: Optional[bool] = None,
+    **rest,
+) -> dict:
+    """Translate the extension-tool kwargs into wire params."""
+    params: dict[str, Any] = {}
+    if url is not None:
+        params["url"] = url
+    if selector is not None:
+        params["selector"] = selector
+    if value is not None:
+        params["value"] = value
+    if text is not None:
+        params["text"] = text
+    expr = code or expression
+    if expr is not None:
+        params["expression"] = expr
+    if full_page is not None:
+        params["fullPage"] = full_page
+    norm_tab = _normalize_tab_id(tab_id)
+    if norm_tab is not None:
+        params["tabId"] = norm_tab
+    # Forward any extra kwargs the caller passed (action-specific fields).
+    for k, v in rest.items():
+        if v is None:
+            continue
+        if k in {
+            "key",
+            "index",
+            "tab_index",
+            "timeout",
+            "state",
+            "level",
+            "expression",
+        }:
+            params[k] = v
+    return params
+
+
 async def _extension_command(
     action: str,
     browser: Optional[str] = None,
@@ -141,40 +237,73 @@ async def _extension_command(
 ) -> Optional[dict]:
     """Send command to Hanzo browser extension.
 
-    Args:
-        action: The action to perform.
-        browser: Optional browser preference ("firefox", "chrome"). Picks which
-            connected provider to dispatch the command to. With multiple
-            browsers logged in via the extension this is how you target a
-            specific one. ``None`` lets the bridge pick the active provider.
-        tab_id: Optional tab identifier. Accepts the ``targetId`` returned by
-            the ``tabs`` action (e.g. ``"tab-1888868904"``) or a raw numeric
-            tab id. Forwarded as ``tabId`` to the bridge so subsequent
-            navigate/click/screenshot/etc operate on that tab specifically
-            rather than the OS-active tab. Critical when the user has many
-            browser windows open and the wrong one is in focus.
-        client_id: Optional bridge client_id (returned in ``status``). Lets you
-            address one specific connected extension instance when the same
-            user has both Chrome and Firefox bridged to the same bridge.
-        **kwargs: Additional parameters forwarded as JSON body fields.
+    Path order:
+    1. Local in-process ZAP server (microsecond round-trip; preferred).
+    2. Legacy HTTP bridge on :9224 (kept as fallback for non-ZAP MCP clients).
+
+    The transport can be pinned with ``BROWSER_TRANSPORT=zap|http|auto`` —
+    default is ``auto`` which means "ZAP if a connected extension matches,
+    else HTTP".
     """
+    transport = os.environ.get("BROWSER_TRANSPORT", "auto").strip().lower()
+    if transport not in {"zap", "http", "auto"}:
+        transport = "auto"
+
+    # ---- 1) ZAP path ---------------------------------------------------
+    if transport in {"zap", "auto"}:
+        try:
+            from hanzo_tools.browser.zap_server import get_server
+
+            srv = get_server()
+            if srv is not None and srv.has_client(browser=browser):
+                method = _zap_method_for(action)
+                params = _zap_params(action, tab_id=tab_id, **kwargs)
+                try:
+                    raw = await srv.send(
+                        method,
+                        params,
+                        browser=browser,
+                        client_id=client_id,
+                    )
+                except Exception as e:
+                    if transport == "zap":
+                        return {"error": str(e), "transport": "zap"}
+                    logger.debug("zap dispatch failed, falling back to http: %s", e)
+                else:
+                    # CDP Runtime.evaluate returns {result: {type, value}};
+                    # unwrap so the caller sees the value directly.
+                    result = raw
+                    if method == "Runtime.evaluate" and isinstance(raw, dict):
+                        cdp = raw.get("result", raw)
+                        if isinstance(cdp, dict) and "value" in cdp:
+                            result = cdp["value"]
+                        elif isinstance(cdp, dict) and cdp.get("type") == "undefined":
+                            result = None
+                    return {
+                        "success": True,
+                        "transport": "zap",
+                        "result": result,
+                    }
+        except ImportError:
+            # zap_server module unavailable — only HTTP path remains.
+            pass
+
+        if transport == "zap":
+            return {
+                "error": "ZAP transport selected but no extension client matched",
+                "transport": "zap",
+            }
+
+    # ---- 2) HTTP fallback ---------------------------------------------
     try:
         import aiohttp
 
-        # Filter out None values
-        payload = {"action": action}
+        payload: dict[str, Any] = {"action": action}
         if browser:
             payload["browser"] = browser
-        if tab_id is not None:
-            # Bridge accepts numeric tabId or string targetId. Strip the
-            # "tab-" prefix so the extension's chrome.tabs.get() finds it.
-            t = tab_id
-            if isinstance(t, str) and t.startswith("tab-"):
-                t = t[4:]
-            try:
-                payload["tabId"] = int(t)
-            except (TypeError, ValueError):
-                payload["tabId"] = t
+        norm_tab = _normalize_tab_id(tab_id)
+        if norm_tab is not None:
+            payload["tabId"] = norm_tab
         if client_id:
             payload["clientId"] = client_id
         payload.update({k: v for k, v in kwargs.items() if v is not None})
@@ -186,11 +315,13 @@ async def _extension_command(
                 timeout=aiohttp.ClientTimeout(total=30),
             ) as resp:
                 if resp.status == 200:
-                    return await resp.json()
+                    body = await resp.json()
+                    body.setdefault("transport", "http")
+                    return body
                 else:
-                    body = await resp.text()
-                    logger.debug(f"Extension command {action} returned {resp.status}: {body}")
-                    return {"error": body, "status": resp.status}
+                    text = await resp.text()
+                    logger.debug(f"Extension command {action} returned {resp.status}: {text}")
+                    return {"error": text, "status": resp.status, "transport": "http"}
     except Exception as e:
         logger.debug(f"Extension command failed: {e}")
     return None
@@ -396,6 +527,9 @@ Action = Annotated[
         "list_browsers",  # list every connected extension provider
         "set_default_browser",  # persist the bridge's default browser pick
         "use_browser",  # alias of set_default_browser
+        "list_mcp_instances",  # list all hanzo-mcps registered with the extension
+        "claim_browser",  # take an exclusive lease on a browser for N seconds
+        "release_browser",  # drop a previously-claimed lease
         "connect",  # connect via CDP
         "set_headless",  # toggle headless/headed
         "status",  # get browser status
@@ -706,10 +840,32 @@ class BrowserTool(BaseTool):
         self.backend = backend or get_backend()
         self.timeout = 30000
 
-        # Auto-start CDP bridge for browser extension integration.
-        # This enables the extension (Chrome/Firefox/Safari) to connect
-        # and be preferred over Playwright when backend != "playwright".
-        if self.backend != "playwright":
+        # Auto-start the in-process ZAP server (canonical, since 0.5.0). One
+        # MCP = one ZAP server bound to the lowest free port from
+        # 9999..9995. The browser extension discovers it directly — no node
+        # bridge needed in the critical path.
+        if self.backend != "playwright" and os.environ.get("HANZO_ZAP_DISABLED", "").lower() not in ("1", "true", "yes"):
+            try:
+                # Resolve lazily via importlib to avoid circular import on
+                # package load (hanzo_tools.browser imports BrowserTool at
+                # top level, but this constructor needs the bootstrap helper
+                # defined later in that same package).
+                import importlib
+
+                pkg = importlib.import_module("hanzo_tools.browser")
+                ensure = getattr(pkg, "_ensure_zap_server", None)
+                if ensure is not None:
+                    ensure()
+            except Exception as e:
+                logger.debug("zap server bootstrap failed: %s", e)
+
+        # Legacy HTTP bridge (CDP bridge): kept as fallback transport for
+        # non-ZAP MCP clients. Not auto-started anymore — ZAP is canonical.
+        # Set HANZO_CDP_BRIDGE_ENABLED=1 to opt back in.
+        if (
+            self.backend != "playwright"
+            and os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower() in ("1", "true", "yes")
+        ):
             try:
                 from hanzo_tools.browser import CDP_BRIDGE_AVAILABLE, start_cdp_bridge
                 if CDP_BRIDGE_AVAILABLE:
@@ -864,6 +1020,65 @@ CATEGORIES:
         """
         timeout = timeout or self.timeout
         sel = selector or ref
+
+        # === LOCAL ACTIONS (handled in-process, no extension/Playwright) ===
+        if action == "list_mcp_instances":
+            try:
+                from hanzo_tools.browser.zap_server import ZapServer
+
+                instances = ZapServer.list_mcp_instances()
+                return {
+                    "success": True,
+                    "mcp_instances": instances,
+                    "count": len(instances),
+                }
+            except Exception as e:
+                return {"error": f"failed to list mcp instances: {e}"}
+
+        if action == "claim_browser":
+            try:
+                from hanzo_tools.browser.zap_server import (
+                    DEFAULT_LEASE_TTL,
+                    get_server,
+                )
+
+                srv = get_server()
+                if srv is None:
+                    return {"error": "zap server not running"}
+                client = srv.resolve_client(
+                    client_id=client_id, browser=target_browser
+                )
+                if client is None:
+                    return {"error": "no matching extension client"}
+                ttl = float(timeout) / 1000 if timeout else DEFAULT_LEASE_TTL
+                lease = srv.claim(client.client_id, ttl=ttl)
+                return {
+                    "success": True,
+                    "client_id": lease.client_id,
+                    "holder": lease.holder,
+                    "expires_at": lease.expires_at,
+                }
+            except Exception as e:
+                return {"error": str(e)}
+
+        if action == "release_browser":
+            try:
+                from hanzo_tools.browser.zap_server import get_server
+
+                srv = get_server()
+                if srv is None:
+                    return {"error": "zap server not running"}
+                # Without an explicit client_id, drop every lease this MCP holds.
+                if client_id:
+                    released = srv.release(client_id)
+                    return {"success": released, "client_id": client_id}
+                released_all = []
+                for c in list(srv.clients):
+                    if srv.release(c.client_id):
+                        released_all.append(c.client_id)
+                return {"success": True, "released": released_all}
+            except Exception as e:
+                return {"error": str(e)}
 
         # === BACKEND-AWARE ROUTING ===
         # Actions supported by the CDP bridge / browser extension
