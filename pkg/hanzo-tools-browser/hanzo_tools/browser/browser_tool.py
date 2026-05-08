@@ -394,6 +394,8 @@ Action = Annotated[
         "tabs",  # list/switch tabs
         "select_tab",  # bring a specific tab to focus (Target.activateTarget)
         "list_browsers",  # list every connected extension provider
+        "set_default_browser",  # persist the bridge's default browser pick
+        "use_browser",  # alias of set_default_browser
         "connect",  # connect via CDP
         "set_headless",  # toggle headless/headed
         "status",  # get browser status
@@ -884,6 +886,10 @@ CATEGORIES:
             "inject_script", "inject_css",
             "local_storage", "cookies",
             "tabs", "new_tab", "select_tab",
+            # Multi-browser routing (bridge v1.9.0+) — list connected
+            # providers and persist a default-browser pick. Without one
+            # the bridge auto-prefers firefox > safari > edge > chrome.
+            "list_browsers", "browsers", "set_default_browser", "use_browser",
             "console", "network_requests", "status",
             # Takeover actions (Phase 3)
             "takeover", "release",
