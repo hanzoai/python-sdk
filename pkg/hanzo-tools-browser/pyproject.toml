@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.4.6"
-description = "Browser automation tools with extension-first routing - uses Hanzo browser extension when available, Playwright as fallback"
+version = "0.5.0"
+description = "Browser automation tools with ZAP-native extension routing — Python MCP hosts the ZAP server directly, no node bridge in the critical path. Playwright remains as offline fallback."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
