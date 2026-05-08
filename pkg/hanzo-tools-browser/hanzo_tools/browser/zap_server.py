@@ -550,9 +550,17 @@ class ZapServer:
         finally:
             cid = self._ws_to_id.pop(websocket, None)
             if cid:
-                self._clients.pop(cid, None)
-                self._leases.pop(cid, None)
-                logger.info("zap: client disconnected %s", cid)
+                existing = self._clients.get(cid)
+                if existing is not None and existing.ws is websocket:
+                    self._clients.pop(cid, None)
+                    self._leases.pop(cid, None)
+                    logger.info("zap: client disconnected %s", cid)
+                else:
+                    logger.debug(
+                        "zap: stale ws %s for client %s — newer connection holds the slot",
+                        websocket,
+                        cid,
+                    )
 
     async def _dispatch(self, websocket: Any, msg_type: int, payload: dict) -> None:
         if msg_type == MSG_HANDSHAKE:
