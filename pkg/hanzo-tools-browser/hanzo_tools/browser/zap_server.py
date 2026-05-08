@@ -327,6 +327,29 @@ class ZapServer:
                 self.server_id,
                 self.agent_label or "?",
             )
+            # Best-effort mDNS publish so LAN-wide consumers can find us
+            # without hard-coded ports. No-op if `hanzo-zap-mdns` (which
+            # owns the zeroconf dep) isn't installed.
+            self._mdns_handle = None
+            try:
+                import hanzo_zap_mdns
+                # zeroconf's register_service blocks the event loop briefly
+                # while it sets up the multicast socket; from inside an
+                # asyncio coroutine that triggers EventLoopBlocked. Run on
+                # a worker thread so it never sees our loop.
+                self._mdns_handle = await asyncio.to_thread(
+                    hanzo_zap_mdns.publish,
+                    port=port,
+                    server_id=self.server_id,
+                    agent_label=self.agent_label or "",
+                    version="zap/1",
+                    capabilities=["mcp", "browser-bridge"],
+                )
+                logger.info("mDNS published _hanzo-zap._tcp.local. on :%d", port)
+            except ImportError:
+                logger.debug("hanzo-zap-mdns not installed; mDNS publish skipped")
+            except Exception as _e:
+                logger.warning("mDNS publish failed: %s: %s", type(_e).__name__, _e)
             return port
 
         logger.warning("ZAP: no free port in %s", self.ports)
@@ -334,6 +357,13 @@ class ZapServer:
 
     async def stop(self) -> None:
         """Gracefully shut down: close clients, release lock, drop registry entry."""
+        # Retract mDNS announcement first so consumers see us go away.
+        try:
+            if getattr(self, "_mdns_handle", None) is not None:
+                self._mdns_handle.close()
+                self._mdns_handle = None
+        except Exception:
+            pass
         if self._server is not None:
             self._server.close()
             try:
