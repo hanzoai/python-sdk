@@ -40,19 +40,21 @@ from typing import Any, Awaitable, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
-# Wire format constants (canonical: shared/zap.ts)
-ZAP_MAGIC = b"\x5a\x41\x50\x01"
-HEADER_SIZE = 9  # 4 magic + 1 type + 4 length
-
-MSG_HANDSHAKE = 0x01
-MSG_HANDSHAKE_OK = 0x02
-MSG_REQUEST = 0x10
-MSG_RESPONSE = 0x11
-MSG_PING = 0xFE
-MSG_PONG = 0xFF
-
-# Port preference (lowest first; matches DEFAULT_ZAP_PORTS in shared/zap.ts)
-DEFAULT_ZAP_PORTS: list[int] = [9999, 9998, 9997, 9996, 9995]
+# Wire format — single source of truth is the `zap-protocol` package
+# (~/work/zap/zap-py). Import the constants instead of redefining them so
+# any future change (e.g. MSG_STREAM, MAX_MESSAGE_SIZE) lands here for free.
+from zap.protocol import (
+    ZAP_MAGIC,
+    HEADER_SIZE,
+    MAX_MESSAGE_SIZE,
+    MSG_HANDSHAKE,
+    MSG_HANDSHAKE_OK,
+    MSG_REQUEST,
+    MSG_RESPONSE,
+    MSG_PING,
+    MSG_PONG,
+    ZAP_PORTS as DEFAULT_ZAP_PORTS,
+)
 
 # Browser-resolution preference (mirror cdp-bridge-server.ts)
 DEFAULT_BROWSER_PREFERENCE: list[str] = ["firefox", "safari", "edge", "chrome"]
@@ -61,37 +63,8 @@ DEFAULT_BROWSER_PREFERENCE: list[str] = ["firefox", "safari", "edge", "chrome"]
 DEFAULT_LEASE_TTL = 60.0
 
 
-# ---------------------------------------------------------------------------
-# Wire format
-# ---------------------------------------------------------------------------
-
-
-def encode(msg_type: int, payload: Any) -> bytes:
-    """Encode a ZAP frame.
-
-    JSON-encoded payload, length-prefixed, big-endian.
-    """
-    body = json.dumps(payload, separators=(",", ":")).encode("utf-8")
-    return ZAP_MAGIC + bytes([msg_type]) + struct.pack(">I", len(body)) + body
-
-
-def decode(data: bytes) -> Optional[tuple[int, Any]]:
-    """Decode a single ZAP frame. Returns ``None`` for malformed input.
-
-    Caller must hand a complete frame (websockets.recv() guarantees this for
-    binary messages — frame == one ws message).
-    """
-    if len(data) < HEADER_SIZE:
-        return None
-    if data[0:4] != ZAP_MAGIC:
-        return None
-    msg_type = data[4]
-    (length,) = struct.unpack(">I", data[5:9])
-    if len(data) < HEADER_SIZE + length:
-        return None
-    body = data[HEADER_SIZE : HEADER_SIZE + length]
-    payload = json.loads(body.decode("utf-8")) if length else None
-    return msg_type, payload
+# Wire encode/decode are imported from zap-protocol — see header import block.
+from zap.protocol import encode, decode  # noqa: F401  (re-exported for callers)
 
 
 # ---------------------------------------------------------------------------
@@ -277,6 +250,10 @@ class ZapServer:
                 "inputSchema": {"type": "object"},
             }
         ]
+        # Inbound RPC handler — set by hanzo-mcp at startup to expose its
+        # full tool surface to extensions over the same socket. Without it,
+        # incoming MSG_REQUEST calls get a noop ack (legacy behaviour).
+        self._request_handler: Optional[Callable[[str, dict], Awaitable[Any]]] = None
 
     # ---- lifecycle ------------------------------------------------------
 
@@ -332,20 +309,20 @@ class ZapServer:
             # owns the zeroconf dep) isn't installed.
             self._mdns_handle = None
             try:
-                import hanzo_zap_mdns
+                import zap_mdns
                 # zeroconf's register_service blocks the event loop briefly
                 # while it sets up the multicast socket; from inside an
                 # asyncio coroutine that triggers EventLoopBlocked. Run on
                 # a worker thread so it never sees our loop.
                 self._mdns_handle = await asyncio.to_thread(
-                    hanzo_zap_mdns.publish,
+                    zap_mdns.publish,
                     port=port,
                     server_id=self.server_id,
                     agent_label=self.agent_label or "",
                     version="zap/1",
                     capabilities=["mcp", "browser-bridge"],
                 )
-                logger.info("mDNS published _hanzo-zap._tcp.local. on :%d", port)
+                logger.info("mDNS published %s on :%d", hanzo_zap_mdns.SERVICE_TYPE, port)
             except ImportError:
                 logger.debug("hanzo-zap-mdns not installed; mDNS publish skipped")
             except Exception as _e:
@@ -386,6 +363,18 @@ class ZapServer:
         self._port = None
 
     # ---- public API -----------------------------------------------------
+
+    def set_tools(self, tools: list[dict]) -> None:
+        """Replace the advertised tool manifest (sent to clients on handshake)."""
+        self._tools_manifest = list(tools)
+
+    def set_request_handler(
+        self, handler: Optional[Callable[[str, dict], Awaitable[Any]]]
+    ) -> None:
+        """Register / replace the inbound RPC handler. Receives (method, params),
+        returns a JSON-serialisable result. Used by hanzo-mcp to expose its
+        full tool surface to extensions over the same socket."""
+        self._request_handler = handler
 
     @property
     def port(self) -> Optional[int]:
@@ -645,20 +634,32 @@ class ZapServer:
                 future.set_result(payload.get("result"))
             return
 
-        # MSG_REQUEST: extension is calling US (notifications/elementSelected,
-        # etc.). Acknowledge so the protocol doesn't block.
+        # MSG_REQUEST: extension is calling US — most commonly because the
+        # extension wants to invoke an MCP tool exposed by this server. Route
+        # via the registered request_handler (set by hanzo-mcp at startup).
+        # Without a handler, fall back to noop ack (legacy notifications).
         if msg_type == MSG_REQUEST:
             req_id = payload.get("id")
             method = payload.get("method", "")
-            # Update last_active
+            params = payload.get("params") or {}
             cid = self._ws_to_id.get(websocket)
             if cid and cid in self._clients:
                 self._clients[cid].last_active = time.time()
-            # Notifications are fire-and-forget; everything else gets a stub
-            # acknowledgement (caller can still install custom handlers via
-            # ``on_request`` if needed).
-            if req_id is not None:
+            if req_id is None:
+                # Notification — no response expected.
+                return
+            handler = self._request_handler
+            if handler is None:
                 await websocket.send(encode(MSG_RESPONSE, {"id": req_id, "result": {"ack": True, "method": method}}))
+                return
+            try:
+                result = await handler(method, params)
+                await websocket.send(encode(MSG_RESPONSE, {"id": req_id, "result": result}))
+            except Exception as e:
+                await websocket.send(encode(
+                    MSG_RESPONSE,
+                    {"id": req_id, "error": {"code": -1, "message": f"{type(e).__name__}: {e}"}},
+                ))
             return
 
         logger.debug("zap: unknown msg type 0x%02x", msg_type)
