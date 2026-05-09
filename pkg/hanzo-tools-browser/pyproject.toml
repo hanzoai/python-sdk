@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.5.0"
+version = "0.5.2"
 description = "Browser automation tools with ZAP-native extension routing — Python MCP hosts the ZAP server directly, no node bridge in the critical path. Playwright remains as offline fallback."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,6 +17,8 @@ dependencies = [
     "pydantic>=2.12.5",
     "aiohttp>=3.9.0",
     "websockets>=12.0",
+    "zap-mdns>=0.1.0",
+    "zap-protocol>=0.2.1",
 ]
 
 [project.optional-dependencies]
