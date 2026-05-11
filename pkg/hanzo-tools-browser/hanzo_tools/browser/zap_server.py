@@ -1,41 +1,25 @@
 """ZAP (Zero-latency Agent Protocol) server for hanzo-tools-browser.
 
-Wire format (compatible with @hanzo/browser-extension/src/shared/zap.ts):
-    [0x5A 0x41 0x50 0x01][type:1][length:4 BE][JSON payload]
+Wire format and constants come from the canonical ``zap-protocol`` package
+so every implementation in the stack stays byte-identical.
 
-Message types:
-    MSG_HANDSHAKE    = 0x01  client -> server
-    MSG_HANDSHAKE_OK = 0x02  server -> client
-    MSG_REQUEST      = 0x10  bidirectional
-    MSG_RESPONSE     = 0x11  bidirectional
-    MSG_PING         = 0xFE
-    MSG_PONG         = 0xFF
+Discovery is mDNS-only per HIP-0069: the server binds an OS-assigned
+ephemeral port and advertises it under ``_hanzo._tcp.local.`` via
+``zap-mdns``. There is no well-known port pool, no lockfile arbitration,
+and no shared config registry — clients (browser extensions, sibling
+MCPs, agents) browse mDNS to find every live ZAP service on the LAN.
 
-Each hanzo-mcp process runs ONE ZapServer that:
-1. Claims the lowest free port from [9999, 9998, 9997, 9996, 9995] using a
-   POSIX flock at ~/.hanzo/extension/zap-{port}.lock so multiple MCPs don't
-   collide.
-2. Accepts WebSocket connections from browser extensions, registers them by
-   {client_id, browser, version, capabilities, ws}.
-3. Exposes ``send(method, params, browser=None, client_id=None)`` for the
-   browser tool to dispatch RPC calls into a connected extension.
-4. Persists its presence to ~/.hanzo/extension/config.json:mcp_instances so
-   sibling MCPs can introspect the cluster.
+One ZapServer per hanzo-mcp process. Lifetime = MCP lifetime.
 """
 
 from __future__ import annotations
 
 import asyncio
-import errno
-import fcntl
-import json
 import logging
 import os
-import socket
-import struct
 import time
+import uuid
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, Awaitable, Callable, Optional
 
 logger = logging.getLogger(__name__)
@@ -53,7 +37,8 @@ from zap.protocol import (
     MSG_RESPONSE,
     MSG_PING,
     MSG_PONG,
-    ZAP_PORTS as DEFAULT_ZAP_PORTS,
+    encode,
+    decode,
 )
 
 # Browser-resolution preference (mirror cdp-bridge-server.ts)
@@ -61,111 +46,6 @@ DEFAULT_BROWSER_PREFERENCE: list[str] = ["firefox", "safari", "edge", "chrome"]
 
 # How long an exclusive browser lease lasts unless explicitly extended.
 DEFAULT_LEASE_TTL = 60.0
-
-
-# Wire encode/decode are imported from zap-protocol — see header import block.
-from zap.protocol import encode, decode  # noqa: F401  (re-exported for callers)
-
-
-# ---------------------------------------------------------------------------
-# Lock file (cross-MCP port arbitration)
-# ---------------------------------------------------------------------------
-
-
-def _lock_dir() -> Path:
-    d = Path.home() / ".hanzo" / "extension"
-    d.mkdir(parents=True, exist_ok=True)
-    return d
-
-
-def _claim_port_lock(port: int) -> Optional[int]:
-    """Try to acquire an exclusive flock on ``zap-{port}.lock``.
-
-    Returns the open file descriptor on success, ``None`` if another
-    process already holds it. The fd must be kept open for the lifetime
-    of the server (closing releases the lock).
-    """
-    lock_path = _lock_dir() / f"zap-{port}.lock"
-    fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except OSError as e:
-        os.close(fd)
-        if e.errno in (errno.EWOULDBLOCK, errno.EACCES):
-            return None
-        raise
-    # Write our pid so the file is informative
-    os.ftruncate(fd, 0)
-    os.write(fd, f"{os.getpid()}\n".encode("utf-8"))
-    return fd
-
-
-def _release_port_lock(fd: Optional[int]) -> None:
-    if fd is not None:
-        try:
-            fcntl.flock(fd, fcntl.LOCK_UN)
-        except OSError:
-            pass
-        try:
-            os.close(fd)
-        except OSError:
-            pass
-
-
-def _port_is_free(port: int, host: str = "127.0.0.1") -> bool:
-    """Best-effort TCP probe — does a bind succeed?"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    try:
-        s.bind((host, port))
-        s.close()
-        return True
-    except OSError:
-        s.close()
-        return False
-
-
-# ---------------------------------------------------------------------------
-# Shared config (~/.hanzo/extension/config.json)
-# ---------------------------------------------------------------------------
-
-
-def _config_path() -> Path:
-    return _lock_dir() / "config.json"
-
-
-def _config_lock_path() -> Path:
-    return _lock_dir() / "config.json.lock"
-
-
-def _read_config() -> dict:
-    p = _config_path()
-    if not p.exists():
-        return {}
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return {}
-
-
-def _atomic_update_config(mutate: Callable[[dict], None]) -> dict:
-    """Read-modify-write ~/.hanzo/extension/config.json under fcntl flock."""
-    lock_path = _config_lock_path()
-    lock_fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        fcntl.flock(lock_fd, fcntl.LOCK_EX)
-        cfg = _read_config()
-        mutate(cfg)
-        tmp = _config_path().with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(cfg, indent=2))
-        os.replace(tmp, _config_path())
-        return cfg
-    finally:
-        try:
-            fcntl.flock(lock_fd, fcntl.LOCK_UN)
-        except OSError:
-            pass
-        os.close(lock_fd)
 
 
 # ---------------------------------------------------------------------------
@@ -224,20 +104,21 @@ class ZapServer:
     def __init__(
         self,
         host: str = "127.0.0.1",
-        ports: Optional[list[int]] = None,
         agent_label: Optional[str] = None,
         server_id: Optional[str] = None,
         request_timeout: float = 30.0,
     ):
         self.host = host
-        self.ports = list(ports or DEFAULT_ZAP_PORTS)
         self.agent_label = agent_label or os.environ.get("HANZO_AGENT_LABEL", "")
-        self.server_id = server_id or f"mcp-py-{os.getpid()}"
+        # server_id is `mcp-py-<pid>-<4hex>`. PID alone collides across hosts on
+        # the same LAN; the random suffix makes the name globally unique so
+        # zeroconf never has to auto-rename to "(2)".
+        self.server_id = server_id or f"mcp-py-{os.getpid()}-{uuid.uuid4().hex[:4]}"
         self.request_timeout = request_timeout
 
         self._port: Optional[int] = None
-        self._lock_fd: Optional[int] = None
         self._server: Any = None  # websockets server
+        self._mdns_handle: Any = None
         self._clients: dict[str, ZapClient] = {}
         self._ws_to_id: dict[Any, str] = {}
         self._pending: dict[str, asyncio.Future] = {}
@@ -258,89 +139,77 @@ class ZapServer:
     # ---- lifecycle ------------------------------------------------------
 
     async def start(self) -> Optional[int]:
-        """Bind to the lowest-numbered free port. Returns port or None."""
+        """Bind to an OS-assigned port and advertise it via mDNS.
+
+        Discovery is mDNS-only (HIP-0069); the OS picks the port, mDNS
+        carries it. No well-known port pool, no lockfile arbitration —
+        every MCP gets its own ephemeral port and is found by browsing
+        ``_hanzo._tcp.local.``.
+
+        Returns the bound port, or ``None`` if either ``websockets`` or
+        ``zap-mdns`` is missing.
+        """
         try:
             import websockets  # noqa: F401
         except ImportError:
             logger.warning("websockets not installed; ZAP server disabled")
             return None
-
-        for port in self.ports:
-            fd = _claim_port_lock(port)
-            if fd is None:
-                logger.debug("zap port %d already locked by another mcp", port)
-                continue
-            if not _port_is_free(port, self.host):
-                _release_port_lock(fd)
-                logger.debug("zap port %d in use (no lock but socket bound)", port)
-                continue
-            try:
-                from websockets.asyncio.server import serve as _serve
-
-                async def _handler(websocket):
-                    await self._handle_connection(websocket)
-
-                self._server = await _serve(_handler, self.host, port)
-            except ImportError:
-                # Older websockets API (< 13)
-                from websockets.server import serve as _serve  # type: ignore
-
-                async def _handler_legacy(websocket, _path):
-                    await self._handle_connection(websocket)
-
-                self._server = await _serve(_handler_legacy, self.host, port)  # type: ignore
-            except OSError as e:
-                _release_port_lock(fd)
-                logger.debug("zap bind on %d failed: %s", port, e)
-                continue
-
-            self._port = port
-            self._lock_fd = fd
-            self._register_in_config()
-            logger.info(
-                "ZAP server listening on ws://%s:%d (mcp=%s, agent=%s)",
-                self.host,
-                port,
-                self.server_id,
-                self.agent_label or "?",
+        try:
+            import zap_mdns
+        except ImportError:
+            logger.error(
+                "zap-mdns not installed; the server is unreachable without it. "
+                "`pip install zap-mdns`."
             )
-            # Best-effort mDNS publish so LAN-wide consumers can find us
-            # without hard-coded ports. No-op if `hanzo-zap-mdns` (which
-            # owns the zeroconf dep) isn't installed.
-            self._mdns_handle = None
-            try:
-                import zap_mdns
-                # zeroconf's register_service blocks the event loop briefly
-                # while it sets up the multicast socket; from inside an
-                # asyncio coroutine that triggers EventLoopBlocked. Run on
-                # a worker thread so it never sees our loop.
-                self._mdns_handle = await asyncio.to_thread(
-                    zap_mdns.publish,
-                    port=port,
-                    server_id=self.server_id,
-                    agent_label=self.agent_label or "",
-                    version="zap/1",
-                    capabilities=["mcp", "browser-bridge"],
-                )
-                logger.info("mDNS published %s on :%d", hanzo_zap_mdns.SERVICE_TYPE, port)
-            except ImportError:
-                logger.debug("hanzo-zap-mdns not installed; mDNS publish skipped")
-            except Exception as _e:
-                logger.warning("mDNS publish failed: %s: %s", type(_e).__name__, _e)
-            return port
+            return None
 
-        logger.warning("ZAP: no free port in %s", self.ports)
-        return None
+        from websockets.asyncio.server import serve as _serve
+
+        async def _handler(websocket):
+            await self._handle_connection(websocket)
+
+        # Bind to port 0 → OS picks an ephemeral port. The actual port
+        # comes back via the server's sockets attribute.
+        self._server = await _serve(_handler, self.host, 0)
+        sockets = getattr(self._server, "sockets", None) or []
+        if not sockets:
+            logger.error("zap: server has no sockets after start()")
+            return None
+        self._port = sockets[0].getsockname()[1]
+        logger.info(
+            "ZAP server listening on ws://%s:%d (mcp=%s, agent=%s)",
+            self.host, self._port, self.server_id, self.agent_label or "?",
+        )
+
+        # mDNS publish — the only way clients find this server.
+        # zeroconf.register_service blocks briefly setting up multicast,
+        # so run it on a worker thread to avoid asyncio EventLoopBlocked.
+        try:
+            self._mdns_handle = await asyncio.to_thread(
+                zap_mdns.publish,
+                port=self._port,
+                server_id=self.server_id,
+                agent_label=self.agent_label or "",
+                version="zap/1",
+                capabilities=["mcp", "browser-bridge"],
+            )
+            logger.info("mDNS published %s on :%d", zap_mdns.SERVICE_TYPE, self._port)
+        except Exception as e:
+            logger.warning("mDNS publish failed: %s: %s", type(e).__name__, e)
+            self._mdns_handle = None
+
+        return self._port
 
     async def stop(self) -> None:
-        """Gracefully shut down: close clients, release lock, drop registry entry."""
+        """Gracefully shut down: retract mDNS, close clients, drop sockets."""
         # Retract mDNS announcement first so consumers see us go away.
-        try:
-            if getattr(self, "_mdns_handle", None) is not None:
+        if self._mdns_handle is not None:
+            try:
                 self._mdns_handle.close()
-                self._mdns_handle = None
-        except Exception:
-            pass
+            except Exception:
+                pass
+            self._mdns_handle = None
+
         if self._server is not None:
             self._server.close()
             try:
@@ -356,10 +225,6 @@ class ZapServer:
                 pass
         self._clients.clear()
         self._ws_to_id.clear()
-
-        self._unregister_from_config()
-        _release_port_lock(self._lock_fd)
-        self._lock_fd = None
         self._port = None
 
     # ---- public API -----------------------------------------------------
@@ -493,60 +358,29 @@ class ZapServer:
             return True
         return False
 
-    # ---- registry (cross-MCP visibility) -------------------------------
-
-    def _register_in_config(self) -> None:
-        def mut(cfg: dict) -> None:
-            instances = cfg.setdefault("mcp_instances", [])
-            # purge stale (dead pids) and any prior entry for our own
-            # (pid, port). In production each MCP is its own process so
-            # de-dup by pid alone would suffice; we key on (pid, port) so
-            # tests and edge cases that bring up two ZAP servers under one
-            # pid both stay visible.
-            instances[:] = [
-                i
-                for i in instances
-                if _pid_alive(i.get("pid"))
-                and not (i.get("pid") == os.getpid() and i.get("port") == self._port)
-            ]
-            instances.append(
-                {
-                    "port": self._port,
-                    "pid": os.getpid(),
-                    "started_at": time.time(),
-                    "agent_label": self.agent_label,
-                    "server_id": self.server_id,
-                }
-            )
-
-        try:
-            _atomic_update_config(mut)
-        except Exception as e:
-            logger.warning("config registry write failed: %s", e)
-
-    def _unregister_from_config(self) -> None:
-        target_pid = os.getpid()
-        target_port = self._port
-
-        def mut(cfg: dict) -> None:
-            instances = cfg.get("mcp_instances", [])
-            cfg["mcp_instances"] = [
-                i
-                for i in instances
-                if not (i.get("pid") == target_pid and i.get("port") == target_port)
-            ]
-
-        try:
-            _atomic_update_config(mut)
-        except Exception:
-            pass
+    # ---- cluster discovery ---------------------------------------------
+    # Cross-MCP visibility comes from mDNS, not a shared file. Use
+    # ``zap_mdns.browse()`` to enumerate live MCPs on the LAN.
 
     @staticmethod
-    def list_mcp_instances() -> list[dict]:
-        """Read the cluster registry (filters dead pids)."""
-        cfg = _read_config()
-        instances = cfg.get("mcp_instances", [])
-        return [i for i in instances if _pid_alive(i.get("pid"))]
+    def list_mcp_instances(timeout: float = 1.5) -> list[dict]:
+        """Browse ``_hanzo._tcp.local.`` for every live ZAP service."""
+        try:
+            import zap_mdns
+        except ImportError:
+            return []
+        return [
+            {
+                "server_id": s.server_id,
+                "host": s.host,
+                "port": s.port,
+                "url": s.url,
+                "agent_label": s.agent_label,
+                "version": s.version,
+                "capabilities": list(s.capabilities or []),
+            }
+            for s in zap_mdns.browse(timeout=timeout)
+        ]
 
     # ---- ws handler -----------------------------------------------------
 
@@ -670,22 +504,6 @@ class ZapServer:
 
 
 # ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-
-def _pid_alive(pid: Optional[int]) -> bool:
-    if not pid:
-        return False
-    try:
-        os.kill(pid, 0)
-        return True
-    except OSError as e:
-        # ESRCH = no such process; EPERM = exists but not ours
-        return e.errno == errno.EPERM
-
-
-# ---------------------------------------------------------------------------
 # Process-wide singleton (one ZAP server per hanzo-mcp)
 # ---------------------------------------------------------------------------
 
@@ -697,18 +515,17 @@ _singleton_lock = asyncio.Lock()
 async def get_or_start_server(
     *,
     host: str = "127.0.0.1",
-    ports: Optional[list[int]] = None,
     agent_label: Optional[str] = None,
 ) -> Optional[ZapServer]:
     """Return the process-wide ZAP server, starting it if needed.
 
-    Returns ``None`` if no port could be bound (other MCPs hold all 5).
+    Returns ``None`` if either ``websockets`` or ``zap-mdns`` is missing.
     """
     global _singleton
     async with _singleton_lock:
         if _singleton is not None and _singleton.port is not None:
             return _singleton
-        srv = ZapServer(host=host, ports=ports, agent_label=agent_label)
+        srv = ZapServer(host=host, agent_label=agent_label)
         port = await srv.start()
         if port is None:
             return None
@@ -733,7 +550,6 @@ __all__ = [
     "ZapClient",
     "ZapServer",
     "BrowserLease",
-    "DEFAULT_ZAP_PORTS",
     "DEFAULT_BROWSER_PREFERENCE",
     "DEFAULT_LEASE_TTL",
     "MSG_HANDSHAKE",
