@@ -295,7 +295,9 @@ def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     if enable_cdp_bridge and CDP_BRIDGE_AVAILABLE and backend != "playwright":
         start_cdp_bridge()
 
-    tool = create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint, backend=backend)
+    tool = create_browser_tool(
+        headless=headless, cdp_endpoint=cdp_endpoint, backend=backend
+    )
     ToolRegistry.register_tool(mcp_server, tool)
     return [tool]
 
