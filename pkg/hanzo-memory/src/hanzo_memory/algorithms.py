@@ -470,23 +470,27 @@ class CaptionSegment:
 
 
 def render_vtt(segs: list[CaptionSegment]) -> str:
-    lines = ["WEBVTT", ""]
+    out = "WEBVTT\n\n"
     for i, s in enumerate(segs):
-        lines.append(str(i + 1))
-        lines.append(f"{_vtt_time(s.start_secs)} --> {_vtt_time(s.end_secs)}")
-        lines.append(f"<v {s.speaker}>{s.text}</v>" if s.speaker else s.text)
-        lines.append("")
-    return "\n".join(lines)
+        out += f"{i + 1}\n"
+        out += f"{_vtt_time(s.start_secs)} --> {_vtt_time(s.end_secs)}\n"
+        if s.speaker:
+            out += f"<v {s.speaker}>{s.text}</v>\n\n"
+        else:
+            out += f"{s.text}\n\n"
+    return out
 
 
 def render_srt(segs: list[CaptionSegment]) -> str:
-    lines: list[str] = []
+    out = ""
     for i, s in enumerate(segs):
-        lines.append(str(i + 1))
-        lines.append(f"{_srt_time(s.start_secs)} --> {_srt_time(s.end_secs)}")
-        lines.append(f"{s.speaker}: {s.text}" if s.speaker else s.text)
-        lines.append("")
-    return "\n".join(lines)
+        out += f"{i + 1}\n"
+        out += f"{_srt_time(s.start_secs)} --> {_srt_time(s.end_secs)}\n"
+        if s.speaker:
+            out += f"{s.speaker}: {s.text}\n\n"
+        else:
+            out += f"{s.text}\n\n"
+    return out
 
 
 def render_rttm(segs: list[CaptionSegment], uri: str = "audio") -> str:
@@ -683,11 +687,19 @@ _VERSION_V1 = 0x01
 
 
 def _blake3(data: bytes) -> bytes:
-    """BLAKE3 via hashlib if available; falls back to blake2b for portability."""
+    """BLAKE3 — required. Wallet addresses depend on byte-equivalence across
+    every Hanzo runtime (TS @noble/hashes/blake3, Rust blake3 crate, Go
+    lukechampine.com/blake3, C++ vendored reference impl). The `blake3` pip
+    package is the only path here; do not fall back to anything else."""
     try:
-        return hashlib.blake2b(data, digest_size=32).digest() if not hasattr(hashlib, "blake3") else hashlib.blake3(data).digest()  # type: ignore[attr-defined]
-    except Exception:
-        return hashlib.blake2b(data, digest_size=32).digest()
+        from blake3 import blake3 as _blake3_impl  # type: ignore[import-not-found]
+    except ImportError as exc:  # pragma: no cover
+        raise RuntimeError(
+            "hanzo_memory.algorithms requires the `blake3` package "
+            "(pip install blake3). Wallet addresses are content-addressable; "
+            "no other hash is acceptable."
+        ) from exc
+    return _blake3_impl(data).digest()
 
 
 def encode_address(public_key: bytes, prefix: str = "hanzo") -> str:
