@@ -4,9 +4,10 @@ Two-process architecture (since 0.5.0):
 
     [Browser ext] --ZAP/WS--> [hanzo-mcp (this Python pkg)] --stdio--> [Agent]
 
-The hanzo-mcp process hosts a ZAP server on the lowest free port in
-[9999, 9998, 9997, 9996, 9995]. Browser extensions discover and connect to
-it directly. No node bridge is in the critical path.
+The hanzo-mcp process hosts a ZAP server on an OS-assigned ephemeral port
+and advertises it via mDNS under ``_hanzo._tcp.local.`` (HIP-0069).
+Browser extensions browse mDNS and connect directly. No node bridge is
+in the critical path, no well-known port pool, no lockfile arbitration.
 
 Legacy HTTP bridge (cdp_bridge_server.py on :9223/9224) is retained as an
 opt-in fallback for non-ZAP MCP clients. Enable with
@@ -34,7 +35,6 @@ from hanzo_tools.browser.browser_tool import (
     launch_browser_server,
 )
 from hanzo_tools.browser.zap_server import (
-    DEFAULT_ZAP_PORTS,
     ZapClient,
     ZapServer,
     get_or_start_server,
@@ -80,7 +80,6 @@ __all__ = [
     # ZAP (canonical, since 0.5.0)
     "ZapServer",
     "ZapClient",
-    "DEFAULT_ZAP_PORTS",
     "get_or_start_server",
     "get_server",
     "shutdown_server",
@@ -99,7 +98,7 @@ __all__ = [
 ]
 
 
-def _run_zap_server(host: str, ports: list[int]) -> None:
+def _run_zap_server(host: str) -> None:
     """Run the ZAP server in a dedicated background thread.
 
     The MCP's main loop is owned by FastMCP/stdio; we keep ZAP isolated so
@@ -114,7 +113,6 @@ def _run_zap_server(host: str, ports: list[int]) -> None:
     async def _bootstrap() -> None:
         srv = await get_or_start_server(
             host=host,
-            ports=ports,
             agent_label=os.environ.get("HANZO_AGENT_LABEL"),
         )
         if _zap_started_event is not None:
@@ -145,16 +143,11 @@ def _ensure_zap_server() -> bool:
         return False
 
     host = os.environ.get("HANZO_ZAP_HOST", "127.0.0.1")
-    ports_env = os.environ.get("HANZO_ZAP_PORTS")
-    if ports_env:
-        ports = [int(p) for p in ports_env.split(",") if p.strip().isdigit()]
-    else:
-        ports = list(DEFAULT_ZAP_PORTS)
 
     _zap_started_event = threading.Event()
     _zap_thread = threading.Thread(
         target=_run_zap_server,
-        args=(host, ports),
+        args=(host,),
         daemon=True,
         name="hanzo-zap-server",
     )
