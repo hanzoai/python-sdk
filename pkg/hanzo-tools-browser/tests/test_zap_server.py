@@ -21,7 +21,6 @@ from websockets.asyncio.client import connect as ws_connect
 
 from hanzo_tools.browser import zap_server as zs
 
-
 # ---------------------------------------------------------------------------
 # Wire format
 # ---------------------------------------------------------------------------
@@ -91,7 +90,9 @@ class MockExtensionClient:
     to inbound MSG_REQUEST and reply with MSG_RESPONSE.
     """
 
-    def __init__(self, port: int, *, browser: str = "firefox", client_id: str | None = None):
+    def __init__(
+        self, port: int, *, browser: str = "firefox", client_id: str | None = None
+    ):
         self.port = port
         self.browser = browser
         self.client_id = client_id or f"ext-test-{int(time.time() * 1000)}"
@@ -141,10 +142,18 @@ class MockExtensionClient:
                         result = self.response_handler(method, params)
                         if asyncio.iscoroutine(result):
                             result = await result
-                        await self.ws.send(zs.encode(zs.MSG_RESPONSE, {"id": req_id, "result": result}))
+                        await self.ws.send(
+                            zs.encode(zs.MSG_RESPONSE, {"id": req_id, "result": result})
+                        )
                     except Exception as e:
                         await self.ws.send(
-                            zs.encode(zs.MSG_RESPONSE, {"id": req_id, "error": {"code": -1, "message": str(e)}})
+                            zs.encode(
+                                zs.MSG_RESPONSE,
+                                {
+                                    "id": req_id,
+                                    "error": {"code": -1, "message": str(e)},
+                                },
+                            )
                         )
                 elif msg_type == zs.MSG_PING:
                     await self.ws.send(zs.encode(zs.MSG_PONG, {}))
@@ -313,7 +322,16 @@ class TestRpcDispatch:
 
     async def test_extension_initiated_request_acked(self, server, client):
         # Extension sends MSG_REQUEST as a notification (server must ack)
-        await client.ws.send(zs.encode(zs.MSG_REQUEST, {"id": "evt-1", "method": "notifications/elementSelected", "params": {"x": 1}}))
+        await client.ws.send(
+            zs.encode(
+                zs.MSG_REQUEST,
+                {
+                    "id": "evt-1",
+                    "method": "notifications/elementSelected",
+                    "params": {"x": 1},
+                },
+            )
+        )
         await asyncio.sleep(0.1)
         # Find the response
         responses = [p for t, p in client.received if t == zs.MSG_RESPONSE]
