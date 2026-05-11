@@ -529,9 +529,9 @@ class HanzoMCPServer:
                         tools=tool_list,
                         call_tool=call_tool,
                         handle_method=handle_method,
-                        name=self.mcp.name
-                        if hasattr(self.mcp, "name")
-                        else "hanzo-mcp",
+                        name=(
+                            self.mcp.name if hasattr(self.mcp, "name") else "hanzo-mcp"
+                        ),
                     )
                 )
                 if server:
