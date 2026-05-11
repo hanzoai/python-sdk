@@ -17,7 +17,7 @@ Mirrors the TypeScript canonical surface in `@hanzo/bot-memory`:
   - Address: wallet-style content-addressable id
   - Captions: VTT/SRT/RTTM
 
-See ``hanzoai/brain/PARITY.md`` for the cross-runtime contract.
+Mirrors the algorithm surface in `hanzoai/brain` (Go) and `@hanzo/bot-memory` (TS).
 """
 
 from __future__ import annotations
@@ -1103,7 +1103,7 @@ __all__ = [
     # Resilience
     "CircuitBreaker", "CircuitOpenError", "retry",
     # Inference
-    "parse_slug", "format_slug", "RuntimeConfig",
+    "KNOWN_PROVIDERS", "parse_slug", "format_slug", "RuntimeConfig",
     # Link types
     "LINK_TYPES", "classify_link_rule",
 ]
