@@ -178,7 +178,10 @@ class ZapServer:
         self._port = sockets[0].getsockname()[1]
         logger.info(
             "ZAP server listening on ws://%s:%d (mcp=%s, agent=%s)",
-            self.host, self._port, self.server_id, self.agent_label or "?",
+            self.host,
+            self._port,
+            self.server_id,
+            self.agent_label or "?",
         )
 
         # mDNS publish — the only way clients find this server.
@@ -324,9 +327,14 @@ class ZapServer:
 
         try:
             await client.ws.send(
-                encode(MSG_REQUEST, {"id": req_id, "method": method, "params": params or {}})
+                encode(
+                    MSG_REQUEST,
+                    {"id": req_id, "method": method, "params": params or {}},
+                )
             )
-            return await asyncio.wait_for(future, timeout=timeout or self.request_timeout)
+            return await asyncio.wait_for(
+                future, timeout=timeout or self.request_timeout
+            )
         finally:
             self._pending.pop(req_id, None)
 
@@ -484,16 +492,31 @@ class ZapServer:
                 return
             handler = self._request_handler
             if handler is None:
-                await websocket.send(encode(MSG_RESPONSE, {"id": req_id, "result": {"ack": True, "method": method}}))
+                await websocket.send(
+                    encode(
+                        MSG_RESPONSE,
+                        {"id": req_id, "result": {"ack": True, "method": method}},
+                    )
+                )
                 return
             try:
                 result = await handler(method, params)
-                await websocket.send(encode(MSG_RESPONSE, {"id": req_id, "result": result}))
+                await websocket.send(
+                    encode(MSG_RESPONSE, {"id": req_id, "result": result})
+                )
             except Exception as e:
-                await websocket.send(encode(
-                    MSG_RESPONSE,
-                    {"id": req_id, "error": {"code": -1, "message": f"{type(e).__name__}: {e}"}},
-                ))
+                await websocket.send(
+                    encode(
+                        MSG_RESPONSE,
+                        {
+                            "id": req_id,
+                            "error": {
+                                "code": -1,
+                                "message": f"{type(e).__name__}: {e}",
+                            },
+                        },
+                    )
+                )
             return
 
         logger.debug("zap: unknown msg type 0x%02x", msg_type)
