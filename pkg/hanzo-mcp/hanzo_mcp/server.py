@@ -34,6 +34,48 @@ _register_all_tools = None
 _register_all_prompts = None
 
 
+def _normalize_mcp_result(result: Any) -> Any:
+    """Convert FastMCP tool results to JSON-serialisable primitives for ZAP.
+
+    FastMCP returns ``list[mcp.types.TextContent | ImageContent | ...]``.
+    Pydantic models in that list have ``model_dump()`` (v2) or ``dict()``
+    (v1). For TextContent specifically, the underlying text is often itself
+    a JSON document — collapse single-element TextContent lists to the
+    parsed JSON when possible to minimise wire shape juggling for clients.
+    """
+    import json as _json
+
+    def _one(item: Any) -> Any:
+        if isinstance(item, (str, int, float, bool)) or item is None:
+            return item
+        if isinstance(item, (list, tuple)):
+            return [_one(x) for x in item]
+        if isinstance(item, dict):
+            return {k: _one(v) for k, v in item.items()}
+        dump = getattr(item, "model_dump", None)
+        if callable(dump):
+            return dump(mode="json")
+        d = getattr(item, "dict", None)
+        if callable(d):
+            return d()
+        return str(item)
+
+    norm = _one(result)
+    if (
+        isinstance(norm, list)
+        and len(norm) == 1
+        and isinstance(norm[0], dict)
+        and norm[0].get("type") == "text"
+        and isinstance(norm[0].get("text"), str)
+    ):
+        text = norm[0]["text"]
+        try:
+            return _json.loads(text)
+        except Exception:
+            return {"type": "text", "text": text}
+    return norm
+
+
 def _get_fast_mcp():
     """Get FastMCP class lazily."""
     global _FastMCP
@@ -388,12 +430,17 @@ class HanzoMCPServer:
                 pass
 
         async def call_tool(name: str, args: dict) -> Any:  # type: ignore[type-arg]
-            """Route ZAP tool calls to the MCP server."""
+            """Route ZAP tool calls to the MCP server.
+
+            FastMCP returns a list of ``mcp.types.TextContent`` (or other
+            content) objects. Normalize to JSON-serialisable primitives so
+            ``zap.protocol.encode`` can serialize the MSG_RESPONSE body.
+            """
             try:
                 result = await self.mcp.call_tool(name, args)
-                return result
             except Exception as e:
                 return {"error": str(e)}
+            return _normalize_mcp_result(result)
 
         async def handle_method(method: str, params: Any) -> Any:
             """Pass-through for ALL MCP methods — full protocol parity over ZAP.
