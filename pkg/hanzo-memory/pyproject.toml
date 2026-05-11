@@ -31,6 +31,7 @@ dependencies = [
     "rich>=13.7.1",
     "numpy>=1.26.0",
     "sqlite-vec>=0.1.0",  # SQLite with vector search capabilities
+    "blake3>=0.4.0",  # Wallet-style content-addressable ids (byte-equivalent across all 5 brain runtimes)
 ]
 
 [project.optional-dependencies]
