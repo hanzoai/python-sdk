@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-code"
-version = "0.1.0"
+version = "0.1.1"
 description = "Code semantic tools for Hanzo AI (HIP-0300)"
 readme = "README.md"
 license = "MIT"
