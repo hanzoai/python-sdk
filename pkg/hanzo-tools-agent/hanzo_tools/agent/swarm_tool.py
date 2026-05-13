@@ -154,7 +154,7 @@ except ImportError:
         pass
 
 
-from hanzo_tools.fs import Edit, get_read_only_filesystem_tools
+from hanzo_tools.fs import EditTool, get_read_only_filesystem_tools
 from hanzo_tools.core import BaseTool, PermissionManager, create_tool_context
 from hanzo_tools.jupyter import get_read_only_jupyter_tools
 
@@ -518,8 +518,8 @@ Models can be specified as:
             get_read_only_jupyter_tools(self.permission_manager)
         )
 
-        # Add edit tools
-        self.available_tools.append(Edit(self.permission_manager))
+        # Add edit tool
+        self.available_tools.append(EditTool(self.permission_manager))
 
     @override
     @auto_timeout("swarm")
