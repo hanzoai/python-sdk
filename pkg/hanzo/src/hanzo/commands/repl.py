@@ -169,9 +169,7 @@ def exec(ctx, command: tuple, model: str):
 
     except ImportError as e:
         console.print(f"[red]Import Error:[/red] {e}")
-        console.print(
-            "[yellow]Note:[/yellow] hanzo-dev may not be installed correctly"
-        )
+        console.print("[yellow]Note:[/yellow] hanzo-dev may not be installed correctly")
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
 
