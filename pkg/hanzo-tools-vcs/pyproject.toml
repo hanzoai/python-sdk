@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-vcs"
-version = "0.1.1"
+"0.1.2"
 description = "Unified version control tool for Hanzo AI (HIP-0300)"
 readme = "README.md"
 license = "MIT"
