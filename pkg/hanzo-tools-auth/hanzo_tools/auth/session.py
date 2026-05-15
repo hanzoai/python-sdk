@@ -31,8 +31,8 @@ DEFAULT_CLIENT_ID = "hanzo-app-client-id"
 
 
 def _env(name: str) -> str:
-    """Read env var, accepting both IAM_ and HANZO_IAM_ prefixes."""
-    return os.getenv(name) or os.getenv(f"HANZO_{name}") or ""
+    """Read env var (IAM_*)."""
+    return os.getenv(name) or ""
 
 
 class HanzoSession:

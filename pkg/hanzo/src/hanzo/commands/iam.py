@@ -21,15 +21,13 @@ from ..utils.output import console
 
 
 def _get_iam_url() -> str:
-    return os.getenv("IAM_URL", os.getenv("HANZO_IAM_URL", "https://hanzo.id"))
+    return os.getenv("IAM_URL", "https://hanzo.id")
 
 
 def _get_iam_credentials() -> tuple[str, str]:
     """Get client_id and client_secret from env or defaults."""
-    client_id = os.getenv("IAM_CLIENT_ID", os.getenv("HANZO_IAM_CLIENT_ID", ""))
-    client_secret = os.getenv(
-        "IAM_CLIENT_SECRET", os.getenv("HANZO_IAM_CLIENT_SECRET", "")
-    )
+    client_id = os.getenv("IAM_CLIENT_ID", "")
+    client_secret = os.getenv("IAM_CLIENT_SECRET", "")
     if not client_id or not client_secret:
         # Try loading from auth file
         from pathlib import Path
