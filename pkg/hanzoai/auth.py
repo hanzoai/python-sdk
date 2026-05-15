@@ -225,7 +225,7 @@ ANTHROPIC_TOKEN_URL = "https://platform.claude.com/v1/oauth/token"
 ANTHROPIC_AUTHORIZE_URL = "https://claude.ai/oauth/authorize"
 
 # Hanzo IAM
-HANZO_CLIENT_ID = "hanzo-dev"
+IAM_CLIENT_ID = "hanzo-dev"
 
 
 class HanzoAuth:
@@ -245,9 +245,7 @@ class HanzoAuth:
             api_base_url: API service URL
         """
         self.api_key = api_key or os.environ.get("HANZO_API_KEY")
-        self.base_url = os.environ.get(
-            "HANZO_IAM_URL", os.environ.get("IAM_URL", base_url)
-        )
+        self.base_url = os.environ.get("IAM_URL", base_url)
         self.api_base_url = api_base_url
         self._token = None
         self._user_info = None
