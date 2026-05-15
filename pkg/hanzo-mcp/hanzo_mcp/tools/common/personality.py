@@ -98,45 +98,44 @@ class PersonalityRegistry:
         cls._active_personality = None
 
 
-# Essential tools that are always available in every mode
-# NOTE: llm/consensus are NOT essential (heavy llm dependency - opt-in only)
+# Essential tools — HIP-0300 axis surface, always available.
+# One tool per axis: bytes+paths, execution, symbols, history, network,
+# orchestration. Action-routed dispatch on top, not split tools.
 ESSENTIAL_TOOLS = [
-    # File operations
-    "read",
-    "write",
-    "edit",
-    "tree",
-    # Shell
-    "dag",
-    "zsh",
-    "shell",
-    "open",
-    # Memory
+    # HIP-0300 axes
+    "fs",      # Bytes + Paths (read, write, edit, list, stat, apply_patch, search_text)
+    "exec",    # Execution (run, background, ps, kill, logs)
+    "code",    # Symbols + Semantics (parse, search, transform, summarize)
+    "git",     # Diffs + History
+    "fetch",   # Network (get, post, download)
+    "plan",    # Orchestration / intent
+    # Knowledge persistence
     "memory",
     # Reasoning (lightweight)
     "think",
     "critic",
-    "agent",  # Lightweight agent spawning (claude, codex, etc.)
-    # Configuration
+    # Agent spawning
+    "agent",
+    # System / configuration
     "config",
     "mode",
-    # Tool management
     "tool",
 ]
 
 # Heavy tools (require large dependencies like llm)
 # These are opt-in only, not included by default
 HEAVY_TOOLS = [
-    "llm",  # Requires llm (~100MB deps)
-    "consensus",  # Requires llm
+    "llm",
+    "consensus",
 ]
 
-# Common tool sets for reuse
-UNIX_TOOLS = ["search", "find", "dag", "ps", "zsh"]
-BUILD_TOOLS = ["dag", "npx", "uvx", "ps"]
-VERSION_CONTROL = ["search", "git_search"]
+# Common tool sets — kept as aliases for backward compatibility, but each
+# now points at the HIP-0300 axis tool that absorbs the legacy split.
+UNIX_TOOLS = ["exec"]
+BUILD_TOOLS = ["exec"]
+VERSION_CONTROL = ["git"]
 AI_TOOLS = ["agent", "consensus", "critic", "think", "llm"]
-SEARCH_TOOLS = ["search", "ast", "find", "git_search"]
+SEARCH_TOOLS = ["code", "fs"]
 DATABASE_TOOLS = ["sql_query", "sql_search", "graph_add", "graph_query"]
 VECTOR_TOOLS = ["vector_index", "vector_search"]
 
