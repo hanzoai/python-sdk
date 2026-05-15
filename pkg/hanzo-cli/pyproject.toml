@@ -24,7 +24,7 @@ dependencies = [
     "rich>=13.0",
     "httpx>=0.25.0",
     "pyjwt>=2.8.0",
-    "hanzo-iam>=1.0.0",
+    "hanzo-iam>=1.30.0",
     "hanzo-kms>=1.0.0",
     "tomli>=2.0.0; python_version < '3.11'",
 ]

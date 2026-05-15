@@ -98,33 +98,28 @@ class IAMClient:
     def _config_from_env(org: Organization = Organization.HANZO) -> IAMConfig:
         """Read configuration from environment variables.
 
-        Checks for HANZO_IAM_* vars first, then {ORG}_IAM_* vars.
+        The canonical contract is ``IAM_*`` only — no upstream-brand
+        aliases, no per-org fallbacks (see ~/work/hanzo/iam/CLAUDE.md
+        "Configuration"). The ``org`` argument seeds the default server
+        URL when ``IAM_ENDPOINT`` is unset and the default organization
+        name when ``IAM_ORG`` is unset; it does not influence which env
+        vars are read.
 
         Environment variables:
-            HANZO_IAM_URL / {ORG}_IAM_URL - IAM server URL
-            HANZO_IAM_CLIENT_ID / {ORG}_IAM_CLIENT_ID - OAuth2 client ID
-            HANZO_IAM_CLIENT_SECRET / {ORG}_IAM_CLIENT_SECRET - OAuth2 client secret
-            HANZO_IAM_ORG / {ORG}_IAM_ORG - Organization name
-            HANZO_IAM_APP / {ORG}_IAM_APP - Application name
-            HANZO_IAM_CERT / {ORG}_IAM_CERT - JWT verification certificate
+            IAM_ENDPOINT - IAM server URL (defaults to ``org.iam_url``)
+            IAM_CLIENT_ID - OAuth2 client ID
+            IAM_CLIENT_SECRET - OAuth2 client secret
+            IAM_ORG - Organization name (defaults to ``org.value``)
+            IAM_APP - Application name (defaults to ``app``)
+            IAM_CERT - JWT verification certificate
         """
-        org_prefix = org.value.upper()
-
-        def get_env(key: str, default: str = "") -> str:
-            """Get env var with fallback chain: IAM_ -> HANZO_IAM_ -> {ORG}_IAM_."""
-            return (
-                os.getenv(f"IAM_{key}")
-                or os.getenv(f"HANZO_IAM_{key}")
-                or os.getenv(f"{org_prefix}_IAM_{key}", default)
-            )
-
         return IAMConfig(
-            server_url=get_env("URL", org.iam_url),
-            client_id=get_env("CLIENT_ID"),
-            client_secret=get_env("CLIENT_SECRET"),
-            organization=get_env("ORG", org.value),
-            application=get_env("APP", "app"),
-            certificate=get_env("CERT"),
+            server_url=os.getenv("IAM_ENDPOINT", org.iam_url),
+            client_id=os.getenv("IAM_CLIENT_ID", ""),
+            client_secret=os.getenv("IAM_CLIENT_SECRET", ""),
+            organization=os.getenv("IAM_ORG", org.value),
+            application=os.getenv("IAM_APP", "app"),
+            certificate=os.getenv("IAM_CERT", ""),
         )
 
     @property
