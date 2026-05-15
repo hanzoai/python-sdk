@@ -43,7 +43,7 @@ class TestConfigure:
         import os
 
         # Ensure env var is not set
-        os.environ.pop("HANZO_IAM_CLIENT_ID", None)
+        os.environ.pop("IAM_CLIENT_ID", None)
 
         with pytest.raises(ValueError, match="client_id required"):
             configure(client_id=None)

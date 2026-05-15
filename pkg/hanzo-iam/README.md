@@ -1,23 +1,25 @@
-# hanzo-iam
+# hanzoai-iam
 
 Identity and Access Management SDK for the Hanzo ecosystem. Built on Casdoor with organization-aware multi-tenancy.
+
+The PyPI distribution is `hanzoai-iam`; the import path is `hanzo_iam`.
 
 ## Installation
 
 ```bash
-pip install hanzo-iam
+pip install hanzoai-iam
 ```
 
 With FastAPI integration:
 
 ```bash
-pip install hanzo-iam[fastapi]
+pip install hanzoai-iam[fastapi]
 ```
 
 With KMS support for certificate management:
 
 ```bash
-pip install hanzo-iam[kms]
+pip install hanzoai-iam[kms]
 ```
 
 ## Quick Start
@@ -55,16 +57,18 @@ user = client.get_user_info(access_token=tokens.access_token)
 
 ## Environment Variables
 
+One canonical prefix — `IAM_*`. No upstream-brand aliases, no per-org variants.
+
 ```bash
 # Required
-HANZO_IAM_ENDPOINT=https://iam.hanzo.ai
-HANZO_IAM_CLIENT_ID=your-client-id
-HANZO_IAM_CLIENT_SECRET=your-client-secret
-HANZO_IAM_ORG_NAME=HANZO
+IAM_ENDPOINT=https://hanzo.id
+IAM_CLIENT_ID=your-client-id
+IAM_CLIENT_SECRET=your-client-secret
 
-# Optional
-HANZO_IAM_APP_NAME=your-app
-HANZO_IAM_CERTIFICATE=path/to/cert.pem
+# Optional (defaults shown)
+IAM_ORG=hanzo
+IAM_APP=app
+IAM_CERT=path/to/cert.pem    # PEM file or inline PEM content
 ```
 
 ## FastAPI Integration
