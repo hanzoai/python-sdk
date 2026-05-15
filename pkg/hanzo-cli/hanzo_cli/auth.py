@@ -57,8 +57,8 @@ def _clear_token() -> None:
 
 
 def _env(name: str) -> str:
-    """Read env var, accepting both IAM_ and legacy HANZO_IAM_ prefixes."""
-    return os.getenv(name) or os.getenv(f"HANZO_{name}") or ""
+    """Read env var (IAM_*)."""
+    return os.getenv(name) or ""
 
 
 def _iam_url() -> str:
