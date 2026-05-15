@@ -23,7 +23,7 @@ from hanzo_tools.core.base import BaseTool
 
 logger = logging.getLogger(__name__)
 
-IAM_BASE_URL = os.getenv("HANZO_IAM_URL", "https://hanzo.id")
+IAM_BASE_URL = os.getenv("IAM_URL", "https://hanzo.id")
 
 DESCRIPTION = """Hanzo IAM — identity and access management.
 
