@@ -16,8 +16,10 @@ class IAMConfig(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    # Environment variable prefix
-    ENV_PREFIX: ClassVar[str] = "HANZO_IAM_"
+    # Canonical environment variable prefix. There is exactly one prefix —
+    # no upstream-brand aliases, no per-org fallbacks. See
+    # ~/work/hanzo/iam/CLAUDE.md "Configuration" section.
+    ENV_PREFIX: ClassVar[str] = "IAM_"
 
     server_url: str = Field(description="IAM server URL (e.g., https://hanzo.id)")
     client_id: str = Field(description="OAuth2 client ID")
@@ -32,30 +34,29 @@ class IAMConfig(BaseModel):
     def from_env(cls, prefix: str | None = None) -> IAMConfig:
         """Create config from environment variables.
 
-        Environment variables:
-            {prefix}ENDPOINT or {prefix}SERVER_URL - IAM server URL
-            {prefix}CLIENT_ID - OAuth2 client ID
-            {prefix}CLIENT_SECRET - OAuth2 client secret
-            {prefix}ORG_NAME or {prefix}ORGANIZATION - Organization name
-            {prefix}APP_NAME or {prefix}APPLICATION - Application name
-            {prefix}CERTIFICATE - JWT certificate (PEM content or file path)
+        The canonical prefix is ``IAM_`` (no upstream-brand aliases, no
+        per-org variants). The ``prefix`` argument exists for advanced
+        callers that scope multiple IAM clients in a single process; new
+        code should leave it at the default.
+
+        Environment variables (with the default prefix):
+            IAM_ENDPOINT - IAM server URL (preferred)
+            IAM_CLIENT_ID - OAuth2 client ID
+            IAM_CLIENT_SECRET - OAuth2 client secret
+            IAM_ORG - Organization name
+            IAM_APP - Application name
+            IAM_CERT - JWT verification certificate (PEM content or file path)
         """
         p = prefix or cls.ENV_PREFIX
 
-        server_url = os.environ.get(f"{p}ENDPOINT") or os.environ.get(
-            f"{p}SERVER_URL", ""
-        )
+        server_url = os.environ.get(f"{p}ENDPOINT", "")
         client_id = os.environ.get(f"{p}CLIENT_ID", "")
         client_secret = os.environ.get(f"{p}CLIENT_SECRET", "")
-        organization = os.environ.get(f"{p}ORG_NAME") or os.environ.get(
-            f"{p}ORGANIZATION", "hanzo"
-        )
-        application = os.environ.get(f"{p}APP_NAME") or os.environ.get(
-            f"{p}APPLICATION", "app"
-        )
+        organization = os.environ.get(f"{p}ORG", "hanzo")
+        application = os.environ.get(f"{p}APP", "app")
 
         # Certificate can be content or file path
-        cert_val = os.environ.get(f"{p}CERTIFICATE", "")
+        cert_val = os.environ.get(f"{p}CERT", "")
         if cert_val and not cert_val.startswith("-----BEGIN"):
             # Treat as file path
             cert_path = os.path.expanduser(cert_val)
