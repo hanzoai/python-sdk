@@ -19,8 +19,8 @@ from rich.table import Table
 from ..utils.output import console
 
 # OAuth constants
-HANZO_IAM_URL = "https://hanzo.id"
-HANZO_CLIENT_ID = "app-hanzo"
+IAM_URL = "https://hanzo.id"
+IAM_CLIENT_ID = "app-hanzo"
 CALLBACK_PORT = 1456
 CALLBACK_PATH = "/callback"
 CALLBACK_URI = f"http://localhost:{CALLBACK_PORT}{CALLBACK_PATH}"
@@ -137,9 +137,7 @@ def login(ctx, api_key: str, device_code: bool, headless: bool):
 def _get_iam_url(auth_mgr: AuthManager) -> str:
     """Get the IAM URL from env or stored config."""
     existing = auth_mgr.load_auth()
-    return os.getenv(
-        "IAM_URL", os.getenv("HANZO_IAM_URL", existing.get("iam_url", HANZO_IAM_URL))
-    )
+    return os.getenv("IAM_URL", existing.get("iam_url", IAM_URL))
 
 
 def _decode_jwt_claims(token: str) -> dict:
@@ -224,7 +222,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
 
     # Build OAuth authorize URL
     params = {
-        "client_id": HANZO_CLIENT_ID,
+        "client_id": IAM_CLIENT_ID,
         "redirect_uri": CALLBACK_URI,
         "response_type": "code",
         "scope": "openid profile email",
@@ -253,7 +251,7 @@ def _login_browser_oauth(auth_mgr: AuthManager):
     token_url = f"{iam_url}/oauth/token"
     token_data = urlencode(
         {
-            "client_id": HANZO_CLIENT_ID,
+            "client_id": IAM_CLIENT_ID,
             "code": auth_result["code"],
             "grant_type": "authorization_code",
             "redirect_uri": CALLBACK_URI,
@@ -311,7 +309,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     # Step 1: Request device code
     device_req_data = json.dumps(
         {
-            "client_id": HANZO_CLIENT_ID,
+            "client_id": IAM_CLIENT_ID,
             "scope": "openid profile email",
         }
     ).encode()
@@ -357,7 +355,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
 
         poll_data = json.dumps(
             {
-                "client_id": HANZO_CLIENT_ID,
+                "client_id": IAM_CLIENT_ID,
                 "device_code": device_code,
                 "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
             }

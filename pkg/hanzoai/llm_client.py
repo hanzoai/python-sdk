@@ -21,7 +21,7 @@ from ._client import Hanzo
 
 # Hanzo AI specific configuration
 HANZO_API_BASE = "https://api.hanzo.ai/v1"
-HANZO_IAM_BASE = "https://hanzo.id"
+IAM_BASE = "https://hanzo.id"
 
 # Check for Hanzo API key
 HANZO_API_KEY = os.getenv("HANZO_API_KEY")
@@ -87,7 +87,7 @@ class SimpleLLMClient:
             from urllib.parse import urlencode
 
             # IAM OAuth2 flow
-            client_id = os.getenv("HANZO_CLIENT_ID", "hanzoai-sdk")
+            client_id = os.getenv("IAM_CLIENT_ID", "hanzoai-sdk")
             redirect_uri = "http://localhost:8080/callback"
 
             # Build authorization URL
@@ -99,7 +99,7 @@ class SimpleLLMClient:
                 "state": "hanzoai-login",
             }
             auth_url = (
-                f"{HANZO_IAM_BASE}/oauth/authorize?{urlencode(auth_params)}"
+                f"{IAM_BASE}/oauth/authorize?{urlencode(auth_params)}"
             )
 
             print(f"Opening browser for Hanzo AI login...")
