@@ -53,8 +53,8 @@ def configure(
     """Configure the global IAM client.
 
     Args:
-        client_id: OAuth2 client ID (or HANZO_IAM_CLIENT_ID env var)
-        client_secret: OAuth2 client secret (or HANZO_IAM_CLIENT_SECRET env var)
+        client_id: OAuth2 client ID (or IAM_CLIENT_ID env var)
+        client_secret: OAuth2 client secret (or IAM_CLIENT_SECRET env var)
         org: Organization (hanzo, zoo, lux, pars)
 
     Returns:
@@ -69,18 +69,18 @@ def configure(
     if isinstance(org, str):
         org = Organization(org)
 
-    # Get credentials from args or environment
-    resolved_client_id = client_id or os.getenv("HANZO_IAM_CLIENT_ID", "")
-    resolved_client_secret = client_secret or os.getenv("HANZO_IAM_CLIENT_SECRET", "")
+    # Get credentials from args or environment (canonical IAM_* only)
+    resolved_client_id = client_id or os.getenv("IAM_CLIENT_ID", "")
+    resolved_client_secret = client_secret or os.getenv("IAM_CLIENT_SECRET", "")
 
     if not resolved_client_id:
-        raise ValueError("client_id required (or set HANZO_IAM_CLIENT_ID)")
+        raise ValueError("client_id required (or set IAM_CLIENT_ID)")
 
     _config = IAMConfig(
-        server_url=org.iam_url,
+        server_url=os.getenv("IAM_ENDPOINT", org.iam_url),
         client_id=resolved_client_id,
         client_secret=resolved_client_secret,
-        organization=org.value,
+        organization=os.getenv("IAM_ORG", org.value),
     )
 
     # Reset JWKS client to pick up new config

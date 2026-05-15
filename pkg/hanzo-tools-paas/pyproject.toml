@@ -18,7 +18,7 @@ classifiers = [
 dependencies = [
     "hanzo-tools-core>=0.1.0",
     "hanzo-tools-auth>=0.1.0",
-    "hanzo-iam>=0.1.0",
+    "hanzo-iam>=1.30.0",
     "httpx>=0.27.0",
 ]
 
