@@ -470,8 +470,8 @@ def _ensure_bot_binary() -> str:
 
 
 def _env(name: str) -> str:
-    """Read env var, accepting both IAM_ and legacy HANZO_IAM_ prefixes."""
-    return os.environ.get(name, "") or os.environ.get(f"HANZO_{name}", "")
+    """Read env var (IAM_*)."""
+    return os.environ.get(name, "")
 
 
 def _save_bot_token(data: dict[str, Any]) -> None:

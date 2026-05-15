@@ -16,7 +16,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 from hanzoai.auth import (
     OPENAI_ISSUER,
-    HANZO_CLIENT_ID,
+    IAM_CLIENT_ID,
     OPENAI_CLIENT_ID,
     ANTHROPIC_CLIENT_ID,
     ANTHROPIC_TOKEN_URL,
@@ -444,7 +444,7 @@ class TestProviderConstants(unittest.TestCase):
         self.assertEqual(ANTHROPIC_TOKEN_URL, "https://platform.claude.com/v1/oauth/token")
 
     def test_hanzo_client_id(self):
-        self.assertEqual(HANZO_CLIENT_ID, "hanzo-dev")
+        self.assertEqual(IAM_CLIENT_ID, "hanzo-dev")
 
 
 class TestLoginAuto(unittest.TestCase):
