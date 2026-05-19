@@ -24,22 +24,48 @@ from typing import Any, Awaitable, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
-# Wire format — single source of truth is the `zap-protocol` package
-# (~/work/zap/zap-py). Import the constants instead of redefining them so
-# any future change (e.g. MSG_STREAM, MAX_MESSAGE_SIZE) lands here for free.
-from zap.protocol import (
-    ZAP_MAGIC,
-    HEADER_SIZE,
-    MAX_MESSAGE_SIZE,
-    MSG_HANDSHAKE,
-    MSG_HANDSHAKE_OK,
-    MSG_REQUEST,
-    MSG_RESPONSE,
-    MSG_PING,
-    MSG_PONG,
-    encode,
-    decode,
-)
+# Wire format — vendored here. Mirrors the TypeScript reference at
+# extension/packages/browser/src/shared/zap.ts. Kept self-contained so a
+# vanilla `pip install hanzo-tools-browser` works without external state
+# (an earlier `zap-protocol` PyPI package was a `zap-schema` stub that
+# doesn't expose `zap.protocol`; rather than chase that, the wire spec is
+# small enough to inline). If you change anything here, also update the
+# TS reference and `extension/packages/mcp/src/zap-server.ts`.
+import json as _json
+import struct as _struct
+from typing import Tuple as _Tuple
+
+ZAP_MAGIC = b"\x5a\x41\x50\x01"
+HEADER_SIZE = 9  # 4 magic + 1 type + 4 length BE
+MAX_MESSAGE_SIZE = 16 * 1024 * 1024  # 16 MiB
+
+MSG_HANDSHAKE = 0x01
+MSG_HANDSHAKE_OK = 0x02
+MSG_REQUEST = 0x10
+MSG_RESPONSE = 0x11
+MSG_PING = 0xFE
+MSG_PONG = 0xFF
+
+
+def encode(msg_type: int, payload) -> bytes:
+    body = _json.dumps(payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    if len(body) > MAX_MESSAGE_SIZE:
+        raise ValueError(f"ZAP payload exceeds MAX_MESSAGE_SIZE ({len(body)} > {MAX_MESSAGE_SIZE})")
+    return ZAP_MAGIC + _struct.pack("!BL", msg_type & 0xFF, len(body)) + body
+
+
+def decode(frame: bytes):
+    if len(frame) < HEADER_SIZE or frame[:4] != ZAP_MAGIC:
+        return None
+    msg_type = frame[4]
+    (length,) = _struct.unpack("!L", frame[5:9])
+    if length > MAX_MESSAGE_SIZE or len(frame) < HEADER_SIZE + length:
+        return None
+    try:
+        payload = _json.loads(frame[HEADER_SIZE : HEADER_SIZE + length].decode("utf-8"))
+    except (_json.JSONDecodeError, UnicodeDecodeError):
+        return None
+    return msg_type, payload
 
 # Browser-resolution preference (mirror cdp-bridge-server.ts)
 DEFAULT_BROWSER_PREFERENCE: list[str] = ["firefox", "safari", "edge", "chrome"]
@@ -195,6 +221,11 @@ class ZapServer:
                 agent_label=self.agent_label or "",
                 version="zap/1",
                 capabilities=["mcp", "browser-bridge"],
+                # Advertise the bind address so the URL clients receive
+                # actually reaches this server. zap-mdns defaults to the
+                # outbound LAN IP via _local_ip(), which is wrong when we
+                # bind loopback (browser extension dials LAN IP → ECONNREFUSED).
+                host=self.host,
             )
             logger.info("mDNS published %s on :%d", zap_mdns.SERVICE_TYPE, self._port)
         except Exception as e:

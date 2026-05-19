@@ -19,8 +19,6 @@ keywords = ["mcp", "claude", "hanzo", "code", "agent"]
 dependencies = [
     # Hanzo AI core SDK (canonical types, config, session, MCP client)
     "hanzoai>=2.2.0",
-    # ZAP native protocol
-    "zap-protocol>=0.2.1",
     # Core MCP dependencies
     "mcp>=1.25.0",
     "fastmcp>=2.14.4",
