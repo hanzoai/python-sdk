@@ -18,7 +18,6 @@ dependencies = [
     "aiohttp>=3.9.0",
     "websockets>=12.0",
     "zap-mdns>=0.1.0",
-    "zap-protocol>=0.2.1",
 ]
 
 [project.optional-dependencies]
