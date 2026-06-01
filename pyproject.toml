@@ -8,8 +8,10 @@ authors = [
 { name = "Hanzo", email = "dev@hanzo.ai" },
 ]
 dependencies = [
+    # All runtime deps below are pure-Python — fully compatible with free-threaded 3.13t.
     "httpx>=0.23.0, <1",
-    "pydantic>=1.9.0, <3",
+    # Bump pydantic floor so we land on a pydantic-core (≥2.27) that ships cp313t wheels.
+    "pydantic>=2.10, <3",
     "typing-extensions>=4.10, <5",
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
