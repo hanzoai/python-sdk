@@ -22,7 +22,11 @@ from ._types import (
     RequestOptions,
     not_given,
 )
-from ._utils import is_given, get_async_library
+from ._utils import (
+    is_given,
+    is_mapping_t,
+    get_async_library,
+)
 from ._compat import cached_property
 from ._version import __version__
 from ._response import (
@@ -225,6 +229,15 @@ class Hanzo(SyncAPIClient):
                 base_url = ENVIRONMENTS[environment]
             except KeyError as exc:
                 raise ValueError(f"Unknown environment: {environment}") from exc
+
+        custom_headers_env = os.environ.get("HANZO_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
 
         super().__init__(
             version=__version__,
@@ -726,6 +739,15 @@ class AsyncHanzo(AsyncAPIClient):
                 base_url = ENVIRONMENTS[environment]
             except KeyError as exc:
                 raise ValueError(f"Unknown environment: {environment}") from exc
+
+        custom_headers_env = os.environ.get("HANZO_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
 
         super().__init__(
             version=__version__,
