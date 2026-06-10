@@ -21,13 +21,23 @@ Example::
 
 from __future__ import annotations
 
+import json
 import logging
 import os
-from typing import Any, Optional, Union
+from typing import Any, Annotated, Literal, Optional, Union
+
+from pydantic import Field
+from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool
 
 logger = logging.getLogger(__name__)
+
+
+CdpAction = Annotated[
+    Literal["send", "tabs", "status", "list_browsers", "claim_browser", "release_browser"],
+    Field(description="CDP action"),
+]
 
 
 async def _dispatch_raw(
@@ -159,6 +169,49 @@ Use `playwright` for headless Playwright automation.
 
     async def call(self, ctx, action: str = "send", **kwargs) -> dict[str, Any]:
         return await self.execute(action=action, **kwargs)
+
+    def register(self, mcp_server: FastMCP) -> None:
+        """Register the cdp tool with an MCP server."""
+        tool_instance = self
+
+        @mcp_server.tool(name=self.name, description=self.description)
+        async def cdp(
+            action: CdpAction = "send",
+            method: Annotated[
+                Optional[str],
+                Field(description="CDP method name (e.g. 'Page.navigate', 'Runtime.evaluate')"),
+            ] = None,
+            params: Annotated[
+                Optional[dict],
+                Field(description="CDP method params"),
+            ] = None,
+            tab_id: Annotated[
+                Optional[Union[str, int]],
+                Field(description="Target tab id (string or int)"),
+            ] = None,
+            target_browser: Annotated[
+                Optional[str],
+                Field(description="Provider filter: firefox|chrome|safari|edge"),
+            ] = None,
+            client_id: Annotated[
+                Optional[str],
+                Field(description="Specific extension client id"),
+            ] = None,
+            timeout: Annotated[
+                Optional[float],
+                Field(description="Per-call timeout (seconds)"),
+            ] = None,
+        ) -> str:
+            result = await tool_instance.execute(
+                action=action,
+                method=method,
+                params=params,
+                tab_id=tab_id,
+                target_browser=target_browser,
+                client_id=client_id,
+                timeout=timeout,
+            )
+            return json.dumps(result, indent=2, default=str)
 
     async def execute(
         self,
