@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.5.5"
+version = "0.5.6"
 description = "Browser automation tools with ZAP-native extension routing — Python MCP hosts the ZAP server on an OS-assigned port and advertises via mDNS (HIP-0069). No node bridge, no port pool, no lockfile."
 readme = "README.md"
 requires-python = ">=3.12"

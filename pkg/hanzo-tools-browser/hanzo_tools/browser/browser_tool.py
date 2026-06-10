@@ -840,38 +840,27 @@ class BrowserTool(BaseTool):
         self.backend = backend or get_backend()
         self.timeout = 30000
 
-        # Auto-start the in-process ZAP server (canonical, since 0.5.0). One
-        # MCP = one ZAP server bound to the lowest free port from
-        # 9999..9995. The browser extension discovers it directly — no node
-        # bridge needed in the critical path.
-        if self.backend != "playwright" and os.environ.get("HANZO_ZAP_DISABLED", "").lower() not in ("1", "true", "yes"):
+        # Lifecycle (ZAP server, CDP bridge) lives in `lifecycle.py`.
+        # Import lazily to avoid a circular import on package load —
+        # __init__.py already pulls in this module before lifecycle.
+        if self.backend != "playwright":
             try:
-                # Resolve lazily via importlib to avoid circular import on
-                # package load (hanzo_tools.browser imports BrowserTool at
-                # top level, but this constructor needs the bootstrap helper
-                # defined later in that same package).
-                import importlib
+                from hanzo_tools.browser.lifecycle import (
+                    CDP_BRIDGE_AVAILABLE,
+                    ensure_zap_server,
+                    start_cdp_bridge,
+                )
 
-                pkg = importlib.import_module("hanzo_tools.browser")
-                ensure = getattr(pkg, "_ensure_zap_server", None)
-                if ensure is not None:
-                    ensure()
-            except Exception as e:
-                logger.debug("zap server bootstrap failed: %s", e)
+                ensure_zap_server()  # idempotent + respects HANZO_ZAP_DISABLED
 
-        # Legacy HTTP bridge (CDP bridge): kept as fallback transport for
-        # non-ZAP MCP clients. Not auto-started anymore — ZAP is canonical.
-        # Set HANZO_CDP_BRIDGE_ENABLED=1 to opt back in.
-        if (
-            self.backend != "playwright"
-            and os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower() in ("1", "true", "yes")
-        ):
-            try:
-                from hanzo_tools.browser import CDP_BRIDGE_AVAILABLE, start_cdp_bridge
-                if CDP_BRIDGE_AVAILABLE:
+                if (
+                    os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower()
+                    in ("1", "true", "yes")
+                    and CDP_BRIDGE_AVAILABLE
+                ):
                     start_cdp_bridge()
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug("browser lifecycle bootstrap failed: %s", e)
 
     @property
     def description(self) -> str:
