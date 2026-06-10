@@ -66,12 +66,27 @@ _zap_thread: Optional[threading.Thread] = None
 _zap_loop: Optional[asyncio.AbstractEventLoop] = None
 _zap_started_event: Optional[threading.Event] = None
 
+class CdpTool(BrowserTool):
+    """Alias of BrowserTool surfaced under the ``cdp`` name.
+
+    Same action surface and transport stack as ``browser`` — both call into
+    the in-process ZAP server (canonical) and fall back to the legacy CDP
+    HTTP bridge or Playwright. Exposed as a separate tool so callers that
+    think in terms of *Chrome DevTools Protocol* can reach the same control
+    surface under a recognizable name. There is one implementation; this
+    class only changes ``name``.
+    """
+
+    name = "cdp"
+
+
 # Tools list for entry point discovery
-TOOLS = [BrowserTool]
+TOOLS = [BrowserTool, CdpTool]
 
 __all__ = [
     # Main tool
     "BrowserTool",
+    "CdpTool",
     "browser_tool",
     "create_browser_tool",
     # Browser pool
