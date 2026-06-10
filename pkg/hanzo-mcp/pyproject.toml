@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.5"
+version = "0.15.6"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -32,7 +32,7 @@ dependencies = [
     "hanzo-tools>=0.3.0",
     "hanzo-tools-fs>=0.1.0",
     "hanzo-tools-shell>=0.6.1",
-    "hanzo-tools-browser[playwright]>=0.5.4",  # mDNS-only ZAP discovery, OS-assigned ports + uniqued server_id
+    "hanzo-tools-browser[playwright]>=0.5.5",  # CdpTool alias + mDNS-only ZAP discovery
     "hanzo-tools-memory>=0.2.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
@@ -129,9 +129,6 @@ publish = ["twine>=4.0.2", "build>=1.0.3"]
 [project.scripts]
 hanzo-mcp = "hanzo_mcp.cli:main"
 hanzo-mcp-dev = "hanzo_mcp.dev_server:run_dev_server"
-hanzo-plugin = "hanzo_mcp.cli_plugin:main"
-hanzo-dev = "hanzo_mcp.dev_tools:main"
-hanzo-unified = "hanzo_mcp.unified_backend:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
