@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.1 (2026-06-10)
+
+### Bug Fixes
+
+* ship `hanzoai.protocols` (in-tree since 2026-03-31 but never released) — `hanzo-mcp` imports it at startup, so installs resolving `hanzoai==2.2.0` crashed with `ModuleNotFoundError` before answering MCP `initialize`
+
+### Chores
+
+* remove dead release-please machinery (config, manifest, release-doctor workflow); releases are tag-driven via `publish-pypi.yml`
+
 ## 2.0.2 (2025-04-04)
 
 Full Changelog: [v2.0.1...v2.0.2](https://github.com/hanzoai/python-sdk/compare/v2.0.1...v2.0.2)
