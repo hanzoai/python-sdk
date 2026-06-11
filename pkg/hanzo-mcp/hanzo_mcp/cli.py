@@ -83,10 +83,9 @@ def main() -> None:
             handlers=[],  # No handlers for stdio to prevent protocol corruption
         )
 
-        # Redirect stderr to devnull for stdio transport to prevent any output
-        # Store handles for proper cleanup to avoid resource leaks
-        _stderr_devnull = open(os.devnull, "w")
-        sys.stderr = _stderr_devnull
+        # stderr stays attached: the stdio protocol rides stdout only, and MCP
+        # clients capture stderr for diagnostics. Silencing it hides startup
+        # tracebacks and turns any crash into an undiagnosable failure.
 
         # Suppress stdout during potentially noisy imports unless user requested help/version
         _stdout_devnull = None
@@ -371,8 +370,8 @@ def main() -> None:
             pass
         sys.stdout = original_stdout
 
-    # Note: We intentionally keep stderr redirected to devnull for stdio transport
-    # to prevent any library noise from corrupting the protocol
+    # stderr is never redirected: it cannot corrupt the stdio protocol and is
+    # the only channel where startup failures are visible to MCP clients
 
     # Parse timeout arguments with human-readable format support
     command_timeout = _parse_timeout_arg(str(args.command_timeout))
@@ -556,7 +555,7 @@ def main() -> None:
             logger.info("\nShutting down...")
         sys.exit(0)
     except Exception as e:
-        logger.error(f"Server error: {e}")
+        logger.error(f"Server error: {e}", exc_info=True)
         sys.exit(1)
 
 
