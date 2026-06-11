@@ -301,9 +301,25 @@ class CDPBridgeServer:
         # Update target client's last_active
         target_client.last_active = time.time()
 
-        # Map HTTP action to CDP method
+        # Map HTTP action to CDP method.
         action = data.get("action", "")
-        method = self._action_to_method(action)
+        # Raw passthrough: the `cdp` action carries the real wire method in the
+        # `method` field (this is what CdpTool's HTTP fallback sends). Without
+        # this, _action_to_method("cdp") falls through to the literal "cdp",
+        # which the extension rejects with "Unknown method: cdp".
+        if action == "cdp":
+            method = data.get("method") or ""
+            if not method:
+                return web.json_response(
+                    {
+                        "error": "cdp action requires a 'method' (e.g. 'Runtime.evaluate')",
+                        "client_id": target_client.client_id,
+                    },
+                    status=400,
+                    headers={"Access-Control-Allow-Origin": "*"},
+                )
+        else:
+            method = self._action_to_method(action)
         params = self._build_params(data)
 
         # Forward to extension and wait for response
@@ -329,6 +345,26 @@ class CDPBridgeServer:
             # Unwrap CDP-specific result formats for consistency with Playwright
             raw_result = response.get("result", {})
             if method == "Runtime.evaluate" and isinstance(raw_result, dict):
+                # An evaluation error (e.g. page CSP blocking Function()/eval)
+                # must NOT be flattened to a silent `null`. The extension
+                # surfaces it via `error` / `exceptionDetails`; propagate it so
+                # the caller sees *why* evaluate failed instead of a bare null.
+                err = raw_result.get("error")
+                exc = raw_result.get("exceptionDetails")
+                if err or exc:
+                    msg = err or (
+                        exc.get("text") if isinstance(exc, dict) else str(exc)
+                    )
+                    return web.json_response(
+                        {
+                            "success": False,
+                            "client_id": target_client.client_id,
+                            "error": msg,
+                            "exceptionDetails": exc,
+                            "result": None,
+                        },
+                        headers={"Access-Control-Allow-Origin": "*"},
+                    )
                 # CDP returns {result: {type, value}} — extract the value
                 cdp_result = raw_result.get("result", {})
                 if isinstance(cdp_result, dict) and "value" in cdp_result:
@@ -368,43 +404,145 @@ class CDPBridgeServer:
             )
 
     def _action_to_method(self, action: str) -> str:
-        """Map HTTP action to CDP method."""
+        """Map HTTP action to CDP/wire method.
+
+        Aligned with hanzo_tools.browser.browser_tool._zap_method_for(). Same
+        action namespace, same expectations. If an action is already a wire
+        method (contains "."), it is forwarded as-is to allow direct
+        Page.navigate / DOM.querySelector / etc. usage.
+        """
+        # Passthrough for already-qualified wire methods.
+        if "." in action:
+            return action
         action_map = {
+            # Navigation / lifecycle
             "navigate": "Page.navigate",
-            "screenshot": "hanzo.screenshot",
-            "click": "hanzo.click",
-            "fill": "hanzo.fill",
-            "evaluate": "Runtime.evaluate",
-            "tabs": "Target.getTargets",
-            "status": "Browser.getVersion",
-            "url": "hanzo.url",
-            "title": "hanzo.title",
             "reload": "Page.reload",
             "go_back": "Page.goBack",
             "go_forward": "Page.goForward",
+            "print_pdf": "Page.printToPDF",
+            "wait_for_navigation": "hanzo.waitForNavigation",
+            "wait_for_load_state": "Page.waitForLoadState",
+            # Tabs / targets
+            "tabs": "Target.getTargets",
+            "new_tab": "Target.createTarget",
+            "close_tab": "Target.closeTarget",
+            "activate_tab": "Target.activateTarget",
+            "url": "hanzo.url",
+            "title": "hanzo.title",
             "tab_info": "hanzo.tabInfo",
+            "list_tabs": "hanzo.listTabs",
+            "history": "hanzo.getHistory",
+            # Observation
+            "screenshot": "hanzo.screenshot",
+            "page_info": "hanzo.getPageInfo",
+            "ax_tree": "Accessibility.getFullAXTree",
+            "status": "Browser.getVersion",
+            # DOM read
+            "get_text": "hanzo.getText",
+            "get_html": "hanzo.getHTML",
+            "get_attribute": "hanzo.getAttribute",
+            "get_element_info": "hanzo.getElementInfo",
+            "query_one": "DOM.querySelector",
+            "query_all": "hanzo.querySelectorAll",
+            "list_form": "hanzo.listForm",
+            "computed_styles": "hanzo.getComputedStyles",
+            "bounding_rects": "hanzo.getBoundingRects",
+            # DOM write — selector-based
+            "click": "hanzo.click",
+            "dblclick": "hanzo.dblclick",
+            "hover": "hanzo.hover",
+            "fill": "hanzo.fill",
+            "check": "hanzo.check",
+            "uncheck": "hanzo.uncheck",
+            "select": "hanzo.select",
+            "type": "hanzo.type",
+            "clear": "hanzo.clear",
+            "focus": "DOM.focus",
+            "scroll_into_view": "DOM.scrollIntoView",
+            "set_text": "hanzo.setText",
+            "set_html": "hanzo.setHTML",
+            "set_attribute": "hanzo.setAttribute",
+            "remove_attribute": "hanzo.removeAttribute",
+            # DOM write — CSP-safe text/label-based (RECOMMENDED for forms)
+            "click_text": "hanzo.clickByText",
+            "fill_label": "hanzo.fillByLabel",
+            "find_by_text": "hanzo.findByText",
+            "submit_form": "hanzo.submitForm",
+            "upload_file": "hanzo.uploadFile",
+            # Keyboard / mouse
+            "press": "hanzo.press",
+            "press_key": "Input.dispatchKeyEvent",
+            "mouse_event": "Input.dispatchMouseEvent",
+            "scroll": "hanzo.scroll",
+            "scroll_wheel": "Input.scrollWheel",
+            # Wait / observe
+            "wait_for_text": "hanzo.waitForText",
+            "wait_for_mutation": "hanzo.waitForMutation",
+            "wait_for_selector": "hanzo.waitForSelector",
+            "observe_start": "hanzo.observe",
+            "observe_read": "hanzo.observeRead",
+            "observe_stop": "hanzo.observeStop",
+            # Dialog
+            "dialog_accept": "hanzo.dialogAccept",
+            # Scripting
+            "evaluate": "Runtime.evaluate",
+            "inject_script": "hanzo.injectScript",
+            "inject_css": "hanzo.injectCSS",
+            # Cookies / storage
+            "cookies": "hanzo.getCookies",
+            "local_storage_get": "hanzo.getLocalStorage",
+            "local_storage_set": "hanzo.setLocalStorage",
+            # HTTP fetch via browser
+            "fetch": "hanzo.fetch",
         }
         return action_map.get(action, action)
 
-    def _build_params(self, data: dict) -> dict:
-        """Build CDP params from HTTP request data."""
-        params = {}
+    # Keys the HTTP transport itself owns — never forward these as method params.
+    _ROUTING_KEYS = frozenset({
+        "action", "method", "client_id", "target_id", "browser", "params",
+    })
 
-        # Common params
-        if "url" in data:
-            params["url"] = data["url"]
-        if "selector" in data:
-            params["selector"] = data["selector"]
-        if "value" in data:
-            params["value"] = data["value"]
-        if "text" in data:
-            params["text"] = data["text"]
-        if "code" in data or "expression" in data:
-            params["expression"] = data.get("code") or data.get("expression")
-        if "full_page" in data or "fullPage" in data:
-            params["fullPage"] = data.get("full_page") or data.get("fullPage")
-        if "tabId" in data or "tab_id" in data:
-            params["tabId"] = data.get("tabId") or data.get("tab_id")
+    def _build_params(self, data: dict) -> dict:
+        """Build CDP params from HTTP request data.
+
+        Accepts BOTH:
+          - flat keys at top level:  {"action": "x", "tabId": 1, "target": "top"}
+          - nested params object:    {"action": "x", "params": {"tabId": 1, "target": "top"}}
+
+        Snake_case → camelCase normalisation handled inline for the four
+        keys (tab_id, full_page, code, expression) that have historic aliases.
+
+        Strategy: pass through every non-routing key. The extension's
+        canonical dispatcher (executeMethod) is the source of truth on what
+        each method accepts — we don't need a whitelist here, because
+        unknown keys are simply ignored downstream. A whitelist creates
+        silent drops which is what bit us with `target`, `label`, `key`,
+        `intent`, `name`, etc. on the 1.9.16+ methods.
+        """
+        params: dict = {}
+
+        # 1) Pull from nested "params" object first (per-MCP-style callers)
+        nested = data.get("params") if isinstance(data.get("params"), dict) else {}
+        for k, v in nested.items():
+            if k in self._ROUTING_KEYS:
+                continue
+            params[k] = v
+
+        # 2) Then overlay flat top-level keys (per-curl-style callers).
+        #    Top-level wins so explicit overrides are honoured.
+        for k, v in data.items():
+            if k in self._ROUTING_KEYS:
+                continue
+            params[k] = v
+
+        # 3) Snake_case aliases → camelCase (historical compatibility)
+        if "tab_id" in params and "tabId" not in params:
+            params["tabId"] = params.pop("tab_id")
+        if "full_page" in params and "fullPage" not in params:
+            params["fullPage"] = params.pop("full_page")
+        if "code" in params and "expression" not in params:
+            params["expression"] = params.pop("code")
 
         return params
 
