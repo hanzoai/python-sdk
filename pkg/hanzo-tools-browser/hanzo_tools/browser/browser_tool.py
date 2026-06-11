@@ -163,20 +163,116 @@ def _zap_method_for(action: str) -> str:
     the JSON it receives. Over ZAP we send the same method name so the
     extension handler is shared.
     """
+    # Decomplected API surface — three layers, orthogonal:
+    #   1) CDP-shape canonical names (Domain.method)
+    #   2) hanzo.* ergonomic aliases that compose CDP primitives
+    #   3) Python-side snake_case shortcuts that map to either
     return {
+        # ─── Page lifecycle / navigation ────────────────────────────────
         "navigate": "Page.navigate",
-        "screenshot": "hanzo.screenshot",
-        "click": "hanzo.click",
-        "fill": "hanzo.fill",
-        "evaluate": "Runtime.evaluate",
-        "tabs": "Target.getTargets",
-        "status": "Browser.getVersion",
-        "url": "hanzo.url",
-        "title": "hanzo.title",
         "reload": "Page.reload",
         "go_back": "Page.goBack",
         "go_forward": "Page.goForward",
+        "print_pdf": "Page.printToPDF",
+        "wait_for_navigation": "hanzo.waitForNavigation",
+        "wait_for_load_state": "Page.waitForLoadState",
+
+        # ─── Tabs / targets ─────────────────────────────────────────────
+        "tabs": "Target.getTargets",
+        "new_tab": "Target.createTarget",
+        "close_tab": "Target.closeTarget",
+        "activate_tab": "Target.activateTarget",
+        "url": "hanzo.url",
+        "title": "hanzo.title",
         "tab_info": "hanzo.tabInfo",
+        "list_tabs": "hanzo.listTabs",
+        "history": "hanzo.getHistory",
+
+        # ─── Observation ────────────────────────────────────────────────
+        "screenshot": "hanzo.screenshot",
+        "page_info": "hanzo.getPageInfo",
+        "ax_tree": "Accessibility.getFullAXTree",
+        "status": "Browser.getVersion",
+
+        # ─── DOM read ───────────────────────────────────────────────────
+        "get_text": "hanzo.getText",
+        "get_html": "hanzo.getHTML",
+        "get_attribute": "hanzo.getAttribute",
+        "get_element_info": "hanzo.getElementInfo",
+        "query_one": "DOM.querySelector",
+        "query_all": "hanzo.querySelectorAll",
+        "list_form": "hanzo.listForm",
+        "computed_styles": "hanzo.getComputedStyles",
+        "bounding_rects": "hanzo.getBoundingRects",
+
+        # ─── DOM write — selector-based ─────────────────────────────────
+        "click": "hanzo.click",
+        "dblclick": "hanzo.dblclick",
+        "hover": "hanzo.hover",
+        "fill": "hanzo.fill",
+        "check": "hanzo.check",
+        "uncheck": "hanzo.uncheck",
+        "select": "hanzo.select",
+        "type": "hanzo.type",
+        "clear": "hanzo.clear",
+        "focus": "DOM.focus",
+        "scroll_into_view": "DOM.scrollIntoView",
+        "set_text": "hanzo.setText",
+        "set_html": "hanzo.setHTML",
+        "set_attribute": "hanzo.setAttribute",
+        "remove_attribute": "hanzo.removeAttribute",
+
+        # ─── DOM write — CSP-safe text/label-based (RECOMMENDED) ─────────
+        "click_text": "hanzo.clickByText",
+        "fill_label": "hanzo.fillByLabel",
+        "find_by_text": "hanzo.findByText",
+        "submit_form": "hanzo.submitForm",
+        "upload_file": "hanzo.uploadFile",
+
+        # ─── Keyboard / Mouse ───────────────────────────────────────────
+        "press": "hanzo.press",
+        "press_key": "Input.dispatchKeyEvent",
+        "mouse_event": "Input.dispatchMouseEvent",
+        "scroll": "hanzo.scroll",
+        "scroll_wheel": "Input.scrollWheel",
+
+        # ─── Wait / Observe ─────────────────────────────────────────────
+        "wait_for_text": "hanzo.waitForText",
+        "wait_for_mutation": "hanzo.waitForMutation",
+        "wait_for_selector": "hanzo.waitForSelector",
+        "observe_start": "hanzo.observe",
+        "observe_read": "hanzo.observeRead",
+        "observe_stop": "hanzo.observeStop",
+
+        # ─── Dialog ─────────────────────────────────────────────────────
+        "dialog_accept": "hanzo.dialogAccept",
+
+        # ─── Scripting (works on non-CSP-strict pages only) ─────────────
+        "evaluate": "Runtime.evaluate",
+        "inject_script": "hanzo.injectScript",
+        "inject_css": "hanzo.injectCSS",
+
+        # ─── Cookies / Storage ──────────────────────────────────────────
+        "cookies": "hanzo.getCookies",
+        "local_storage_get": "hanzo.getLocalStorage",
+        "local_storage_set": "hanzo.setLocalStorage",
+
+        # ─── Network monitoring ─────────────────────────────────────────
+        "monitor_start": "monitor.start",
+        "monitor_stop": "monitor.stop",
+        "monitor_console_logs": "monitor.consoleLogs",
+        "monitor_console_errors": "monitor.consoleErrors",
+        "monitor_network_logs": "monitor.networkLogs",
+        "monitor_network_errors": "monitor.networkErrors",
+        "monitor_network_success": "monitor.networkSuccess",
+
+        # ─── Audit / Lighthouse-style ───────────────────────────────────
+        "audit_accessibility": "audit.accessibility",
+        "audit_performance": "audit.performance",
+        "audit_seo": "audit.seo",
+
+        # ─── HTTP fetch through the browser (uses page origin) ──────────
+        "fetch": "hanzo.fetch",
     }.get(action, action)
 
 
@@ -187,6 +283,7 @@ def _zap_params(
     url: Optional[str] = None,
     selector: Optional[str] = None,
     text: Optional[str] = None,
+    label: Optional[str] = None,
     value: Optional[str] = None,
     code: Optional[str] = None,
     expression: Optional[str] = None,
@@ -203,6 +300,8 @@ def _zap_params(
         params["value"] = value
     if text is not None:
         params["text"] = text
+    if label is not None:
+        params["label"] = label
     expr = code or expression
     if expr is not None:
         params["expression"] = expr
@@ -223,6 +322,9 @@ def _zap_params(
             "state",
             "level",
             "expression",
+            "scope",  # for click_text — "default" or "all"
+            "limit",  # for query_all
+            "outer",  # for get_html
         }:
             params[k] = v
     return params
@@ -274,6 +376,23 @@ async def _extension_command(
                     # unwrap so the caller sees the value directly.
                     result = raw
                     if method == "Runtime.evaluate" and isinstance(raw, dict):
+                        # Surface an evaluation error (commonly page CSP
+                        # blocking Function()/eval) instead of silently
+                        # flattening it to a null value — that null was
+                        # indistinguishable from a legitimate null result.
+                        err = raw.get("error")
+                        exc = raw.get("exceptionDetails")
+                        if err or exc:
+                            msg = err or (
+                                exc.get("text") if isinstance(exc, dict) else str(exc)
+                            )
+                            return {
+                                "success": False,
+                                "transport": "zap",
+                                "error": msg,
+                                "exceptionDetails": exc,
+                                "result": None,
+                            }
                         cdp = raw.get("result", raw)
                         if isinstance(cdp, dict) and "value" in cdp:
                             result = cdp["value"]
