@@ -39,7 +39,8 @@ dependencies = [
     "hanzo-tools-reasoning>=0.1.0",
     "hanzo-tools-lsp>=0.1.0",
     "hanzo-tools-computer>=0.1.0",
-    "hanzo-tools-config>=0.1.0",
+    # 0.2.1 fixes ConfigTool passing permission_manager positionally into BaseTool.__init__
+    "hanzo-tools-config>=0.2.1",
     "hanzo-tools-refactor>=0.1.0",
     "hanzo-tools-llm>=0.1.0",
     "hanzo-tools-code>=0.1.0",
