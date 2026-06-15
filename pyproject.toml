@@ -1,29 +1,28 @@
 [project]
 name = "hanzoai"
-version = "2.2.1"
+version = "2.0.2"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
-license = "BSD-3-Clause"
+license = "Apache-2.0"
 authors = [
 { name = "Hanzo", email = "dev@hanzo.ai" },
 ]
 dependencies = [
-    # All runtime deps below are pure-Python — fully compatible with free-threaded 3.13t.
     "httpx>=0.23.0, <1",
-    # Bump pydantic floor so we land on a pydantic-core (≥2.27) that ships cp313t wheels.
-    "pydantic>=2.10, <3",
+    "pydantic>=1.9.0, <3",
     "typing-extensions>=4.10, <5",
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
     "sniffio",
-    # Security: pin minimum versions to address vulnerabilities
-    "h11>=0.16.0",
-    "urllib3>=2.6.0",
 ]
-requires-python = ">=3.12"
+requires-python = ">= 3.8"
 classifiers = [
   "Typing :: Typed",
   "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent",
@@ -32,51 +31,32 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: Microsoft :: Windows",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: BSD License"
+  "License :: OSI Approved :: Apache Software License"
 ]
-
-[project.optional-dependencies]
-llm = ["hanzo-llm>=1.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/hanzoai/python-sdk"
 Repository = "https://github.com/hanzoai/python-sdk"
 
+[project.optional-dependencies]
+aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+
 [tool.rye]
 managed = true
 # version pins are in requirements-dev.lock
 dev-dependencies = [
-    "pyright>=1.1.359",
+    "pyright==1.1.399",
     "mypy",
     "respx",
     "pytest",
-    "pytest-asyncio>=0.26.0,<1.0.0",
+    "pytest-asyncio",
     "ruff",
     "time-machine",
     "nox",
     "dirty-equals>=0.6.0",
     "importlib-metadata>=6.7.0",
     "rich>=13.7.1",
-    "nest_asyncio==1.6.0",
-    # hanzo-memory test dependencies
-    "polars>=1.0.0",
-    "httpx>=0.27.0",
-    "fastapi>=0.115.0",
-    "fastembed>=0.4.0",
-]
-
-[tool.rye.workspace]
-members = [
-  "pkg/hanzo",
-  "pkg/hanzo-aci",
-  "pkg/hanzo-mcp",
-  "pkg/hanzo-memory",
-  "pkg/hanzo-network",
-  "pkg/hanzo-dev-py",
-  "pkg/hanzo-s3",
-  "pkg/hanzo-tools-ui",
-  "pkg/hanzo-zap",
-  "pkg/hanzoai",
+    "pytest-xdist>=3.6.1",
 ]
 
 [tool.rye.scripts]
@@ -106,41 +86,19 @@ typecheck = { chain = [
 ]}
 "typecheck:pyright" = "pyright"
 "typecheck:verify-types" = "pyright --verifytypes hanzoai --ignoreexternal"
-"typecheck:mypy" = "mypy pkg/hanzoai"
+"typecheck:mypy" = "mypy ."
 
 [build-system]
 requires = ["hatchling==1.26.3", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
 
-[dependency-groups]
-dev = [
-    "build>=1.2.2.post1",
-    "dirty-equals>=0.6.0",
-    "fastapi>=0.128.0",
-    "fastembed>=0.7.4",
-    "hanzo-memory",
-    "httpx>=0.28.1",
-    "importlib-metadata>=6.7.0",
-    "mypy",
-    "nest-asyncio==1.6.0",
-    "nox",
-    "polars>=1.36.1",
-    "pyright>=1.1.359",
-    "pytest>=8.4.2",
-    "pytest-asyncio>=0.26.0,<1.0.0",
-    "respx",
-    "rich>=13.7.1",
-    "ruff",
-    "time-machine",
-]
-
 [tool.hatch.build]
 include = [
-  "pkg/hanzoai"
+  "src/*"
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["pkg/hanzoai"]
+packages = ["src/hanzoai"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
@@ -153,7 +111,7 @@ include = [
   "/noxfile.py",
   "bin/*",
   "examples/*",
-  "pkg/hanzoai/*",
+  "src/*",
   "tests/*",
 ]
 
@@ -170,118 +128,90 @@ replacement = '[\1](https://github.com/hanzoai/python-sdk/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--tb=short"
+addopts = "--tb=short -n auto"
 xfail_strict = true
 asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
-markers = [
-  "integration: marks tests as integration tests (deselect with '-m \"not integration\"')"
-]
+asyncio_default_fixture_loop_scope = "session"
 filterwarnings = [
-  "error",
-  "ignore:OpenTelemetry configuration.*is not supported by Datadog:UserWarning",
-  "ignore::DeprecationWarning:ddtrace.*",
-  "ignore:Support for class-based `config` is deprecated:pydantic.warnings.PydanticDeprecatedSince20",
-  "ignore:hanzo-tools-core is deprecated:DeprecationWarning"
+  "error"
 ]
 
 [tool.pyright]
-# Use basic mode — strict mode with 22+ disabled checks is contradictory.
-# SDK has many optional dependencies and generated code that cannot be
-# fully type-checked in strict mode.
-typeCheckingMode = "basic"
-pythonVersion = "3.12"
+# this enables practically every flag given by pyright.
+# there are a couple of flags that are still disabled by
+# default in strict mode as they are experimental and niche.
+typeCheckingMode = "strict"
+pythonVersion = "3.8"
 
 exclude = [
     "_dev",
     ".venv",
     ".nox",
-    # All subpackages have their own linting/type checking
-    "pkg/hanzo",
-    "pkg/hanzo-aci",
-    "pkg/hanzo-agent",
-    "pkg/hanzo-agents",
-    "pkg/hanzo-async",
-    "pkg/hanzo-cli",
-    "pkg/hanzo-consensus",
-    "pkg/hanzo-iam",
-    "pkg/hanzo-kms",
-    "pkg/hanzo-mcp",
-    "pkg/hanzo-memory",
-    "pkg/hanzo-network",
-    "pkg/hanzo-node",
-    "pkg/hanzo-dev-py",
-    "pkg/hanzo-tools",
-    "pkg/hanzo-tools-agent",
-    "pkg/hanzo-tools-api",
-    "pkg/hanzo-tools-browser",
-    "pkg/hanzo-tools-code",
-    "pkg/hanzo-tools-computer",
-    "pkg/hanzo-tools-config",
-    "pkg/hanzo-tools-core",
-    "pkg/hanzo-tools-database",
-    "pkg/hanzo-tools-editor",
-    "pkg/hanzo-tools-fs",
-    "pkg/hanzo-tools-ide",
-    "pkg/hanzo-tools-jupyter",
-    "pkg/hanzo-tools-llm",
-    "pkg/hanzo-tools-lsp",
-    "pkg/hanzo-tools-mcp",
-    "pkg/hanzo-tools-memory",
-    "pkg/hanzo-tools-net",
-    "pkg/hanzo-tools-plan",
-    "pkg/hanzo-tools-reasoning",
-    "pkg/hanzo-tools-refactor",
-    "pkg/hanzo-tools-repl",
-    "pkg/hanzo-tools-shell",
-    "pkg/hanzo-tools-test",
-    "pkg/hanzo-tools-todo",
-    "pkg/hanzo-tools-ui",
-    "pkg/hanzo-tools-vcs",
-    "pkg/hanzo-tools-vector",
-    "pkg/hanzo-web3",
-    # Non-production code
-    "bin",
-    "examples",
-    "tests",
-    "scripts",
+    ".git",
 ]
+
+reportImplicitOverride = true
+reportOverlappingOverload = false
 
 reportImportCycles = false
 reportPrivateUsage = false
 
-# Relax strict checks for this SDK with many optional dependencies
-reportMissingTypeStubs = false
-reportUnknownVariableType = false
-reportUnknownMemberType = false
-reportUnknownParameterType = false
-reportUnknownArgumentType = false
-reportMissingParameterType = false
-reportUnusedImport = "warning"
-reportIncompatibleMethodOverride = false
-reportMissingImports = false
-reportConstantRedefinition = false
-reportMissingTypeArgument = false
-reportArgumentType = false
-reportReturnType = false
-reportIndexIssue = false
-reportUnnecessaryContains = false
-reportAttributeAccessIssue = false
-reportCallIssue = false
-reportOptionalMemberAccess = false
-reportGeneralTypeIssues = false
-reportImplicitOverride = false
-reportAssignmentType = false
-reportOptionalIterable = false
+[tool.mypy]
+pretty = true
+show_error_codes = true
+
+# Exclude _files.py because mypy isn't smart enough to apply
+# the correct type narrowing and as this is an internal module
+# it's fine to just use Pyright.
+#
+# We also exclude our `tests` as mypy doesn't always infer
+# types correctly and Pyright will still catch any type errors.
+exclude = ['src/hanzoai/_files.py', '_dev/.*.py', 'tests/.*']
+
+strict_equality = true
+implicit_reexport = true
+check_untyped_defs = true
+no_implicit_optional = true
+
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+
+# Turn these options off as it could cause conflicts
+# with the Pyright options.
+warn_unused_ignores = false
+warn_redundant_casts = false
+
+disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+cache_fine_grained = true
+
+# By default, mypy reports an error if you assign a value to the result
+# of a function call that doesn't return anything. We do this in our test
+# cases:
+# ```
+# result = ...
+# assert result is None
+# ```
+# Changing this codegen to make mypy happy would increase complexity
+# and would not be worth it.
+disable_error_code = "func-returns-value,overload-cannot-match"
+
+# https://github.com/python/mypy/issues/12162
+[[tool.mypy.overrides]]
+module = "black.files.*"
+ignore_errors = true
+ignore_missing_imports = true
+
 
 [tool.ruff]
 line-length = 120
 output-format = "grouped"
-target-version = "py312"
-exclude = [
-  "pkg/hanzo-agent",  # submodule - linted separately
-  "pkg/hanzo-memory",  # needs careful review - has complex redefinitions
-]
+target-version = "py38"
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -294,155 +224,31 @@ select = [
   "B",
   # remove unused imports
   "F401",
+  # check for missing future annotations
+  "FA102",
   # bare except statements
   "E722",
   # unused arguments
   "ARG",
+  # print statements
+  "T201",
+  "T203",
   # misuse of typing.TYPE_CHECKING
+  "TC004",
   # import rules
   "TID251",
-  # docstring issues
-  "D",
-  # logging format
-  "G",
-  # security
-  "S",
-  # module imports
-  "E402",
-  # star imports
-  "F403",
-  # undefined names
-  "F821",
 ]
 ignore = [
   # mutable defaults
   "B006",
-  # Unused function/method arguments - OK for protocol methods
-  "ARG001",
-  "ARG002",
-  "ARG003",
-  "ARG004",
-  "ARG005",
-  # Docstring formatting
-  "D205",
-  "D415",
-  # Line too long - handled by formatter
-  "E501",
-  # Ambiguous variable name
-  "E741",
-  # subprocess call - OK for CLI tools
-  "S603",
-  # Empty method in abstract base class
-  "B027",
-  # print statements - OK in examples and CLI tools
-  "T201",
-  "T203",
-  # Unused imports - we'll fix these manually
-  "F401",
-  # Undefined name - we'll fix these manually
-  "F821",
-  # raise without from inside except
-  "B904",
-  # logging format issues - OK for now
-  "G001",
-  "G002",
-  "G003",
-  # Unused loop control variable
-  "B007",
-  # subprocess without shell validation - OK for our use
-  "S605",
-  # try-except-pass - OK for optional imports
-  "S110",
-  # Missing docstrings - too many to fix now
-  "D100",
-  "D101",
-  "D102",
-  "D103",
-  "D104",
-  "D105",
-  "D106",
-  "D107",
-  # Other docstring issues
-  "D200",
-  "D201",
-  "D202",
-  "D203",
-  "D204",
-  "D206",
-  "D207",
-  "D208",
-  "D209",
-  "D210",
-  "D211",
-  "D212",
-  "D213",
-  "D214",
-  "D215",
-  "D300",
-  "D301",
-  "D400",
-  "D401",
-  "D402",
-  "D403",
-  "D404",
-  "D405",
-  "D406",
-  "D407",
-  "D408",
-  "D409",
-  "D410",
-  "D411",
-  "D412",
-  "D413",
-  "D414",
-  "D416",
-  "D417",
-  # Module level import not at top
-  "E402",
-  # Star imports
-  "F403",
-  # Loop variable binding
-  "B023",
-  # Use single if instead of nested - sometimes nested is clearer
-  "SIM102",
-  # Use of assert - OK in tests
-  "S101",
-  # Logging with f-string - performance is not critical
-  "G004",
-  # Starting process with partial path - OK for our use
-  "S607",
-  # Hardcoded temp directory - OK for tests
-  "S108",
-  # Popen without shell - OK
-  "S602",
-  # Starting process with shell - already handled
-  "S608",
-  # Use of random - OK for non-crypto use
-  "S311",
-  # Try-except-continue - OK
-  "S112",
-  # Insecure hash function - OK for non-crypto use
-  "S324",
-  # Request without timeout - OK for some cases
-  "S113",
-  # Hardcoded password - only in tests
-  "S106",
-  # os.system - OK for some CLI tools
-  "S606",
-  # eval - used safely in specific contexts
-  "S307",
-  # Hardcoded bind address - OK for examples
-  "S105",
-  # Use of exec - OK for specific use cases
-  "S102",
-  # Exception info in logging - OK
-  "G201",
 ]
 unfixable = [
   # disable auto fix for print statements
   "T201",
   "T203",
 ]
+
+extend-safe-fixes = ["FA102"]
 
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
 "functools.lru_cache".msg = "This function does not retain type information for the wrapped function's arguments; The `lru_cache` function from `_utils` should be used instead"
@@ -454,61 +260,8 @@ combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
 known-first-party = ["hanzoai", "tests"]
 
-[tool.mypy]
-python_version = "3.12"
-ignore_missing_imports = true
-# Relax type checking - SDK has many optional dependencies and dynamic imports
-check_untyped_defs = false
-disallow_untyped_defs = false
-disallow_untyped_calls = false
-disallow_incomplete_defs = false
-warn_return_any = false
-warn_unused_ignores = false
-exclude = [
-    # Subpackages - have their own linting/type checking
-    "pkg/hanzo-agent/",
-    "pkg/hanzo-aci/",
-    "pkg/hanzo-mcp/",
-    "pkg/hanzo-memory/",
-    "pkg/hanzo-network/",
-    "pkg/hanzo-dev-py/",
-    "pkg/hanzo/",
-    # Non-production code
-    "bin/",
-    "examples/",
-    "scripts/",
-    "tests/",
-]
-
-[tool.uv.workspace]
-members = [
-    "pkg/hanzo-memory",
-    "pkg/hanzo-s3",
-    "pkg/hanzo-tools-ui",
-]
-
-[tool.uv.sources]
-hanzo-memory = { workspace = true }
-hanzo-tools-ui = { workspace = true }
-
-[tool.ruff.lint.extend-per-file-ignores]
-# Allow print statements in scripts and examples
+[tool.ruff.lint.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]
-"scripts/**.py" = ["T201", "T203", "E722"]
-"tests/**.py" = ["T201", "T203", "F401", "F841"]
-"examples/**.py" = ["T201", "T203", "F841"]
-"**/examples/**.py" = ["T201", "T203", "F841"]
-"pkg/**/examples/**.py" = ["T201", "T203", "F841"]
-# CLI tools can use print
-"**/cli*.py" = ["T201", "T203"]
-"**/__main__.py" = ["T201", "T203"]
-# Specific file ignores
-"pkg/hanzo-memory/src/hanzo_memory/db/base.py" = ["B027"]
-"pkg/hanzo-dev-py/src/hanzo_dev/backends.py" = ["S603"]
-"pkg/hanzo-dev-py/src/hanzo_dev/repl.py" = ["S605"]
-"pkg/hanzo-dev-py/src/hanzo_dev/tests.py" = ["ARG001"]
-"pkg/hanzo-dev-py/src/hanzo_dev/ipython_repl.py" = ["ARG002"]
-"**/cli.py" = ["T201", "T203"]
-# Test files
-"**/test_*.py" = ["F401", "F841"]
-"**/tests/**.py" = ["F401", "F841"]
+"scripts/**.py" = ["T201", "T203"]
+"tests/**.py" = ["T201", "T203"]
+"examples/**.py" = ["T201", "T203"]

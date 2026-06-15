@@ -1,76 +1,15 @@
-# IDE and editor
-.vscode
-.idea
-
-# Python
-*.egg-info
-__pycache__
-.mypy_cache
-.pytest_cache
-*.pyc
-.venv
-
-# Build
-build/
-dist
+.prism.log
 _dev
 
-# Environment
+__pycache__
+.mypy_cache
+
+dist
+
+.venv
+.idea
+
 .env
 .envrc
-
-# Logs
-.prism.log
 codegen.log
-*.log
-
-# Package manager
 Brewfile.lock.json
-
-# Agent config files (symlinked from user home)
-LLM.md
-AGENTS.md
-CLAUDE.md
-GEMINI.md
-GROK.md
-QWEN.md
-
-# Local databases and state
-.hanzo/
-.grok/
-
-# Documentation build
-docs/.next/
-docs/out/
-docs/node_modules/
-
-# Training data and scripts (DO NOT COMMIT)
-training_dataset.jsonl
-scripts/full_extractor.py
-scripts/mega_extractor.py
-scripts/mega_full_extractor.py
-scripts/streaming_extractor.py
-scripts/supplement_extractor.py
-
-# Test files at root (experimental)
-test_post_quantum_*.py
-
-# Analysis documents (internal)
-HANZO_INNOVATION_OPPORTUNITIES.md
-POST_QUANTUM_CRYPTOGRAPHY_IMPLEMENTATION.md
-
-# Experimental cryptography (WIP)
-pkg/hanzo/src/hanzo/cryptography/
-site/
-
-# hygiene (untrack node_modules, block common build output)
-node_modules/
-**/node_modules/
-.pnpm-store/
-dist/
-.next/
-coverage/
-playwright-report/
-test-results/
-tmp/
-.DS_Store

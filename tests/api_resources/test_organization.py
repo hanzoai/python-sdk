@@ -1,4 +1,4 @@
-# # Hanzo AI SDK Tests
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestOrganization:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: Hanzo) -> None:
         organization = client.organization.create(
@@ -31,6 +32,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.create(
@@ -49,6 +51,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.create(
@@ -56,28 +59,31 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.create(
             organization_alias="organization_alias",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update(self, client: Hanzo) -> None:
         organization = client.organization.update()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.update(
@@ -91,51 +97,57 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: Hanzo) -> None:
         organization = client.organization.list()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: Hanzo) -> None:
         organization = client.organization.delete(
@@ -143,6 +155,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.delete(
@@ -150,23 +163,25 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.delete(
             organization_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_add_member(self, client: Hanzo) -> None:
         organization = client.organization.add_member(
@@ -175,6 +190,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_add_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.add_member(
@@ -190,6 +206,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_add_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.add_member(
@@ -198,10 +215,11 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_add_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.add_member(
@@ -209,13 +227,14 @@ class TestOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete_member(self, client: Hanzo) -> None:
         organization = client.organization.delete_member(
@@ -223,6 +242,7 @@ class TestOrganization:
         )
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.delete_member(
@@ -232,6 +252,7 @@ class TestOrganization:
         )
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.delete_member(
@@ -239,23 +260,25 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.delete_member(
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(object, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_member(self, client: Hanzo) -> None:
         organization = client.organization.update_member(
@@ -263,6 +286,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_member_with_all_params(self, client: Hanzo) -> None:
         organization = client.organization.update_member(
@@ -274,6 +298,7 @@ class TestOrganization:
         )
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update_member(self, client: Hanzo) -> None:
         response = client.organization.with_raw_response.update_member(
@@ -281,17 +306,18 @@ class TestOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = response.parse()
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update_member(self, client: Hanzo) -> None:
         with client.organization.with_streaming_response.update_member(
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = response.parse()
             assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
@@ -300,8 +326,11 @@ class TestOrganization:
 
 
 class TestAsyncOrganization:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.create(
@@ -309,6 +338,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.create(
@@ -327,6 +357,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.create(
@@ -334,28 +365,31 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.create(
             organization_alias="organization_alias",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationCreateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update(
@@ -369,51 +403,57 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.update()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationUpdateResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.list()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.list()
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.list() as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationListResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete(
@@ -421,6 +461,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.delete(
@@ -428,23 +469,25 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.delete(
             organization_ids=["string"],
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationDeleteResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_add_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.add_member(
@@ -453,6 +496,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_add_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.add_member(
@@ -468,6 +512,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_add_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.add_member(
@@ -476,10 +521,11 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_add_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.add_member(
@@ -487,13 +533,14 @@ class TestAsyncOrganization:
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationAddMemberResponse, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete_member(
@@ -501,6 +548,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.delete_member(
@@ -510,6 +558,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.delete_member(
@@ -517,23 +566,25 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(object, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.delete_member(
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(object, organization, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_member(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update_member(
@@ -541,6 +592,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_member_with_all_params(self, async_client: AsyncHanzo) -> None:
         organization = await async_client.organization.update_member(
@@ -552,6 +604,7 @@ class TestAsyncOrganization:
         )
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update_member(self, async_client: AsyncHanzo) -> None:
         response = await async_client.organization.with_raw_response.update_member(
@@ -559,17 +612,18 @@ class TestAsyncOrganization:
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-SDK-Lang") == "python"
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         organization = await response.parse()
         assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update_member(self, async_client: AsyncHanzo) -> None:
         async with async_client.organization.with_streaming_response.update_member(
             organization_id="organization_id",
         ) as response:
             assert not response.is_closed
-            assert response.http_request.headers.get("X-SDK-Lang") == "python"
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             organization = await response.parse()
             assert_matches_type(OrganizationUpdateMemberResponse, organization, path=["response"])

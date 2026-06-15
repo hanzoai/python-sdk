@@ -1,364 +1,396 @@
-# Hanzo Python SDK
+# Hanzo Python API library
 
-[![CI](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
-[![Python Version](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/hanzoai.svg?label=pypi%20(stable))](https://pypi.org/project/hanzoai/)
 
-The official Python SDK for the Hanzo AI platform, providing unified access to 100+ LLM providers through a single OpenAI-compatible API interface.
+The Hanzo Python library provides convenient access to the Hanzo REST API from any Python 3.8+
+application. The library includes type definitions for all request params and response fields,
+and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-## 🚀 Features
+## Documentation
 
-- **Unified API**: Single interface for 100+ LLM providers (OpenAI, Anthropic, Google, Meta, etc.)
-- **OpenAI Compatible**: Drop-in replacement for OpenAI SDK
-- **Enterprise Features**: Cost tracking, rate limiting, observability
-- **Local AI Support**: Run models locally with node infrastructure
-- **Model Context Protocol (MCP)**: Advanced tool use and context management
-- **Agent Framework**: Build and orchestrate AI agents
-- **Memory Management**: Persistent memory and RAG capabilities
-- **Network Orchestration**: Distributed AI compute capabilities
+The REST API documentation can be found on [docs.hanzo.ai](https://docs.hanzo.ai). The full API of this library can be found in [api.md](api.md).
 
-## 📦 Installation
+## Installation
 
-### Basic Installation
-
-```bash
+```sh
+# install from PyPI
 pip install hanzoai
 ```
 
-### Full Installation (All Features)
+## Usage
 
-```bash
-pip install "hanzoai[all]"
+The full API of this library can be found in [api.md](api.md).
+
+```python
+import os
+from hanzoai import Hanzo
+
+client = Hanzo(
+    api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
+    # defaults to "production".
+    environment="sandbox",
+)
+
+response = client.get_home()
 ```
 
-### Development Installation
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `HANZO_API_KEY="sk-xxxxxxx` to your `.env` file
+so that your API Key is not stored in source control.
 
-```bash
-git clone https://github.com/hanzoai/python-sdk.git
-cd python-sdk
-make setup
+## Async usage
+
+Simply import `AsyncHanzo` instead of `Hanzo` and use `await` with each API call:
+
+```python
+import os
+import asyncio
+from hanzoai import AsyncHanzo
+
+client = AsyncHanzo(
+    api_key=os.environ.get("HANZO_API_KEY"),  # This is the default and can be omitted
+    # defaults to "production".
+    environment="sandbox",
+)
+
+
+async def main() -> None:
+    response = await client.get_home()
+
+
+asyncio.run(main())
 ```
 
-## 🎯 Quick Start
+Functionality between the synchronous and asynchronous clients is otherwise identical.
 
-### Basic Usage
+### With aiohttp
+
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
+
+You can enable this by installing `aiohttp`:
+
+```sh
+# install from PyPI
+pip install hanzoai[aiohttp]
+```
+
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
+
+```python
+import asyncio
+from hanzoai import DefaultAioHttpClient
+from hanzoai import AsyncHanzo
+
+
+async def main() -> None:
+    async with AsyncHanzo(
+        api_key="My API Key",
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        response = await client.get_home()
+
+
+asyncio.run(main())
+```
+
+## Using types
+
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
+
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
+
+Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
 from hanzoai import Hanzo
 
-# Initialize client
-client = Hanzo(api_key="your-api-key")
+client = Hanzo()
 
-# Chat completion
-response = client.chat.completions.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello!"}]
+model = client.model.create(
+    llm_params={"model": "model"},
+    model_info={"id": "id"},
+    model_name="model_name",
 )
-print(response.choices[0].message.content)
+print(model.llm_params)
 ```
 
-### Using Different Providers
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
 
 ```python
-# Use Claude
-response = client.chat.completions.create(
-    model="claude-3-opus-20240229",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
+from pathlib import Path
+from hanzoai import Hanzo
 
-# Use local models
-response = client.chat.completions.create(
-    model="llama2:7b",
-    messages=[{"role": "user", "content": "Hello!"}]
+client = Hanzo()
+
+client.audio.transcriptions.create(
+    file=Path("/path/to/file"),
 )
 ```
 
-## 🏗️ Architecture
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
 
-### Package Structure
+## Handling errors
 
-```
-python-sdk/
-├── pkg/
-│   ├── hanzo/          # CLI and orchestration tools
-│   ├── hanzo-mcp/      # Model Context Protocol implementation
-│   ├── hanzo-agents/   # Agent framework
-│   ├── hanzo-network/  # Distributed network capabilities
-│   ├── hanzo-memory/   # Memory and RAG
-│   ├── hanzo-aci/      # AI code intelligence
-│   ├── hanzo-repl/     # Interactive REPL
-│   └── hanzoai/        # Core SDK
-```
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `hanzoai.APIConnectionError` is raised.
 
-### Core Components
+When the API returns a non-success status code (that is, 4xx or 5xx
+response), a subclass of `hanzoai.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-#### 1. **Hanzo CLI** (`hanzo`)
-Command-line interface for AI operations:
-
-```bash
-# Chat with AI
-hanzo chat
-
-# Start local node
-hanzo node start
-
-# Manage router
-hanzo router start
-
-# Interactive REPL
-hanzo repl
-```
-
-#### 2. **Model Context Protocol** (`hanzo-mcp`)
-Advanced tool use and context management:
+All errors inherit from `hanzoai.APIError`.
 
 ```python
-from hanzo_mcp import create_mcp_server
+import hanzoai
+from hanzoai import Hanzo
 
-server = create_mcp_server()
-server.register_tool(my_tool)
-server.start()
+client = Hanzo()
+
+try:
+    client.get_home()
+except hanzoai.APIConnectionError as e:
+    print("The server could not be reached")
+    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+except hanzoai.RateLimitError as e:
+    print("A 429 status code was received; we should back off a bit.")
+except hanzoai.APIStatusError as e:
+    print("Another non-200-range status code was received")
+    print(e.status_code)
+    print(e.response)
 ```
 
-#### 3. **Agent Framework** (`hanzo-agents`)
-Build and orchestrate AI agents:
+Error codes are as follows:
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
+
+### Retries
+
+Certain errors are automatically retried 2 times by default, with a short exponential backoff.
+Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
+429 Rate Limit, and >=500 Internal errors are all retried by default.
+
+You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from hanzo_agents import Agent, Swarm
+from hanzoai import Hanzo
 
-agent = Agent(
-    name="researcher",
-    model="gpt-4",
-    instructions="You are a research assistant"
+# Configure the default for all requests:
+client = Hanzo(
+    # default is 2
+    max_retries=0,
 )
 
-swarm = Swarm([agent])
-result = await swarm.run("Research quantum computing")
+# Or, configure per-request:
+client.with_options(max_retries=5).get_home()
 ```
 
-#### 4. **Network Orchestration** (`hanzo-network`)
-Distributed AI compute:
+### Timeouts
+
+By default requests time out after 1 minute. You can configure this with a `timeout` option,
+which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from hanzo_network import LocalComputeNode, DistributedNetwork
+from hanzoai import Hanzo
 
-node = LocalComputeNode(node_id="node-001")
-network = DistributedNetwork()
-network.register_node(node)
+# Configure the default for all requests:
+client = Hanzo(
+    # 20 seconds (default is 1 minute)
+    timeout=20.0,
+)
+
+# More granular control:
+client = Hanzo(
+    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
+)
+
+# Override per-request:
+client.with_options(timeout=5.0).get_home()
 ```
 
-#### 5. **Memory Management** (`hanzo-memory`)
-Persistent memory and RAG:
+On timeout, an `APITimeoutError` is thrown.
+
+Note that requests that time out are [retried twice by default](#retries).
+
+## Advanced
+
+### Logging
+
+We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
+
+You can enable logging by setting the environment variable `HANZO_LOG` to `info`.
+
+```shell
+$ export HANZO_LOG=info
+```
+
+Or to `debug` for more verbose logging.
+
+### How to tell whether `None` means `null` or missing
+
+In an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:
+
+```py
+if response.my_field is None:
+  if 'my_field' not in response.model_fields_set:
+    print('Got json like {}, without a "my_field" key present at all.')
+  else:
+    print('Got json like {"my_field": null}.')
+```
+
+### Accessing raw response data (e.g. headers)
+
+The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
+
+```py
+from hanzoai import Hanzo
+
+client = Hanzo()
+response = client.with_raw_response.get_home()
+print(response.headers.get('X-My-Header'))
+
+client = response.parse()  # get the object that `get_home()` would have returned
+print(client)
+```
+
+These methods return an [`APIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) object.
+
+The async client returns an [`AsyncAPIResponse`](https://github.com/hanzoai/python-sdk/tree/main/src/hanzoai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+
+#### `.with_streaming_response`
+
+The above interface eagerly reads the full response body when you make the request, which may not always be what you want.
+
+To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-from hanzo_memory import MemoryService
+with client.with_streaming_response.get_home() as response:
+    print(response.headers.get("X-My-Header"))
 
-memory = MemoryService()
-await memory.store("key", "value")
-result = await memory.retrieve("key")
+    for line in response.iter_lines():
+        print(line)
 ```
 
-## 🛠️ Development
+The context manager is required so that the response will reliably be closed.
 
-### Setup Development Environment
+### Making custom/undocumented requests
 
-```bash
-# Install Python 3.10+
-make install-python
+This library is typed for convenient access to the documented API.
 
-# Setup virtual environment
-make setup
+If you need to access undocumented endpoints, params, or response properties, the library can still be used.
 
-# Install development dependencies
-make dev
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other
+http verbs. Options on the client will be respected (such as retries) when making this request.
+
+```py
+import httpx
+
+response = client.post(
+    "/foo",
+    cast_to=httpx.Response,
+    body={"my_param": True},
+)
+
+print(response.headers.get("x-foo"))
 ```
 
-### Running Tests
+#### Undocumented request params
 
-```bash
-# Run all tests
-make test
+If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request
+options.
 
-# Run specific package tests
-make test-hanzo
-make test-mcp
-make test-agents
+#### Undocumented response properties
 
-# Run with coverage
-make test-coverage
+To access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You
+can also get all the extra fields on the Pydantic model as a dict with
+[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).
+
+### Configuring the HTTP client
+
+You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
+
+- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
+- Custom [transports](https://www.python-httpx.org/advanced/transports/)
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
+
+```python
+import httpx
+from hanzoai import Hanzo, DefaultHttpxClient
+
+client = Hanzo(
+    # Or use the `HANZO_BASE_URL` env var
+    base_url="http://my.test.server.example.com:8083",
+    http_client=DefaultHttpxClient(
+        proxy="http://my.test.proxy.example.com",
+        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
+    ),
+)
 ```
 
-### Code Quality
+You can also customize the client on a per-request basis by using `with_options()`:
 
-```bash
-# Format code
-make format
-
-# Run linting
-make lint
-
-# Type checking
-make type-check
+```python
+client.with_options(http_client=DefaultHttpxClient(...))
 ```
 
-### Building Packages
+### Managing HTTP resources
 
-```bash
-# Build all packages
-make build
+By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
-# Build specific package
-cd pkg/hanzo && uv build
+```py
+from hanzoai import Hanzo
+
+with Hanzo() as client:
+  # make requests here
+  ...
+
+# HTTP client is now closed
 ```
 
-## 📚 Documentation
+## Versioning
 
-### Package Documentation
+This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
-- [Hanzo CLI Documentation](pkg/hanzo/README.md)
-- [MCP Documentation](pkg/hanzo-mcp/README.md)
-- [Agents Documentation](pkg/hanzo-agents/README.md)
-- [Network Documentation](pkg/hanzo-network/README.md)
-- [Memory Documentation](pkg/hanzo-memory/README.md)
+1. Changes that only affect static types, without breaking runtime behavior.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
+3. Changes that we do not expect to impact the vast majority of users in practice.
 
-### API Reference
+We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-See the [API documentation](https://docs.hanzo.ai/python-sdk) for detailed API reference.
+We are keen for your feedback; please open an [issue](https://www.github.com/hanzoai/python-sdk/issues) with questions, bugs, or suggestions.
 
-## 🔧 Configuration
+### Determining the installed version
 
-### Environment Variables
+If you've upgraded to the latest version but aren't seeing any new features you were expecting then your python environment is likely still using an older version.
 
-```bash
-# API Configuration
-HANZO_API_KEY=your-api-key
-HANZO_BASE_URL=https://api.hanzo.ai
+You can determine the version that is being used at runtime with:
 
-# Router Configuration
-HANZO_ROUTER_URL=http://localhost:4000/v1
-
-# Node Configuration
-HANZO_NODE_URL=http://localhost:8000/v1
-
-# Logging
-HANZO_LOG_LEVEL=INFO
+```py
+import hanzoai
+print(hanzoai.__version__)
 ```
 
-### Configuration File
+## Requirements
 
-Create `~/.hanzo/config.yaml`:
+Python 3.8 or higher.
 
-```yaml
-api:
-  key: your-api-key
-  base_url: https://api.hanzo.ai
+## Contributing
 
-router:
-  url: http://localhost:4000/v1
-  
-node:
-  url: http://localhost:8000/v1
-  workers: 4
-  
-logging:
-  level: INFO
-```
-
-## 🚢 Deployment
-
-### Docker
-
-```bash
-# Build image
-docker build -t hanzo-sdk .
-
-# Run container
-docker run -p 8000:8000 hanzo-sdk
-```
-
-### Docker Compose
-
-```bash
-# Start all services
-docker-compose up
-
-# Start specific service
-docker-compose up router
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Make changes and test
-4. Commit changes (`git commit -m 'Add amazing feature'`)
-5. Push to branch (`git push origin feature/amazing-feature`)
-6. Open Pull Request
-
-### Code Standards
-
-- Follow PEP 8
-- Use type hints
-- Write tests for new features
-- Update documentation
-- Run `make lint` before committing
-
-## 📊 Performance
-
-### Benchmarks
-
-| Operation | Latency | Throughput |
-|-----------|---------|------------|
-| Chat Completion | 50ms | 20 req/s |
-| Embedding | 10ms | 100 req/s |
-| Local Inference | 200ms | 5 req/s |
-
-### Optimization Tips
-
-- Use streaming for long responses
-- Enable caching for repeated queries
-- Use batch operations when possible
-- Configure appropriate timeouts
-
-## 🔒 Security
-
-- API keys are encrypted at rest
-- All communications use TLS 1.3+
-- Regular security audits
-- SOC 2 Type II certified
-
-Report security issues to security@hanzo.ai
-
-## 📄 License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for the API specification
-- Anthropic for Claude integration
-- The open-source community
-
-## 📞 Support
-
-- Documentation: https://docs.hanzo.ai
-- Discord: https://discord.gg/hanzo
-- Email: support@hanzo.ai
-- GitHub Issues: https://github.com/hanzoai/python-sdk/issues
-
-## 🗺️ Roadmap
-
-- [ ] Multi-modal support (images, audio, video)
-- [ ] Enhanced caching strategies
-- [ ] WebSocket streaming
-- [ ] Browser SDK
-- [ ] Mobile SDKs (iOS, Android)
-
----
-
-Built with ❤️ by the Hanzo team
+See [the contributing documentation](./CONTRIBUTING.md).
