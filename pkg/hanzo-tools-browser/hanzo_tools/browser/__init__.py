@@ -1,36 +1,25 @@
-"""Browser automation tools — decomplected surface.
+"""Browser automation tools for Hanzo AI — zapd consumer model.
 
-Three orthogonal MCP tools, all default-enabled, all disable-able by env:
+    [Browser ext] --native host--> [zapd router] --unix sock--> [hanzo-mcp] --stdio--> [Agent]
 
-  * ``browser``    — high-level action surface. Auto-routes through the
-                     in-process ZAP server (browser extension), the legacy
-                     CDP HTTP bridge, or Playwright. Disable with
-                     ``HANZO_BROWSER_TOOL_DISABLED=1``.
+hanzo-mcp hosts NO server. It connects to the one shared local router at
+``~/.zap/run/zapd.sock`` as a *consumer*, lists providers, and routes opaque
+CDP commands to a ``browser:*`` provider (the real Chrome/Firefox extension,
+connected via its native-messaging host). No in-process server, no mDNS, no
+well-known port pool, no :9224 HTTP bridge, no Playwright fallback in
+native-browser mode. ``zapd`` is a separate always-on daemon (see ``~/work/zap``).
 
-  * ``cdp``        — raw Chrome DevTools Protocol method dispatch. Same
-                     transports as ``browser`` minus the Playwright fallback.
-                     Disable with ``HANZO_CDP_TOOL_DISABLED=1``.
-
-  * ``playwright`` — Playwright-pinned action surface. Same actions as
-                     ``browser`` but never touches the extension or CDP
-                     bridge. Disable with ``HANZO_PLAYWRIGHT_TOOL_DISABLED=1``.
-
-Independent transport knobs (orthogonal to which tools are surfaced):
-
-  * ``HANZO_ZAP_DISABLED=1``         — don't auto-start the ZAP server.
-  * ``HANZO_CDP_BRIDGE_ENABLED=1``   — opt back into the legacy HTTP bridge.
-  * ``BROWSER_TRANSPORT=zap|http|auto`` — pin transport (default ``auto``).
-  * ``BROWSER_BACKEND=firefox|chrome|extension|playwright|auto`` — backend
-                                          preference for ``browser``.
-
-Lifecycle (ZAP server, CDP bridge threads) lives in ``lifecycle.py``.
+Three peer tools are exposed, all sharing one transport (``zapd_consumer``):
+- ``browser``    — high-level, action-oriented (navigate/click/screenshot/tabs …).
+                   Auto-routes through the extension over zapd; falls back to
+                   Playwright only for actions the extension can't serve.
+- ``cdp``        — low-level, method-oriented (send any CDP method by name).
+- ``playwright`` — the same action surface as ``browser`` but pinned to the
+                   Playwright backend (never touches the extension).
 """
 
-from __future__ import annotations
-
 import logging
-import os
-from typing import TYPE_CHECKING
+from typing import Optional
 
 from mcp.server import FastMCP
 
@@ -48,117 +37,12 @@ from hanzo_tools.browser.browser_tool import (
 )
 from hanzo_tools.browser.cdp_tool import CdpTool
 from hanzo_tools.browser.playwright_tool import PlaywrightTool
-from hanzo_tools.browser.lifecycle import (
-    CDP_BRIDGE_AVAILABLE,
-    ensure_zap_server,
-    start_cdp_bridge,
-    stop_cdp_bridge,
-    stop_zap_server,
-)
-from hanzo_tools.browser.zap_server import (
-    ZapClient,
-    ZapServer,
-    get_or_start_server,
-    get_server,
-    shutdown_server,
-)
-
-if TYPE_CHECKING:
-    from hanzo_tools.browser.cdp_bridge_server import (
-        CDPBridgeClient,
-        CDPBridgeServer,
-    )
-
-# Re-export CDP-bridge classes when available (legacy callers).
-try:
-    from hanzo_tools.browser.cdp_bridge_server import (
-        CDPBridgeClient,
-        CDPBridgeServer,
-    )
-except ImportError:  # pragma: no cover
-    CDPBridgeClient = None  # type: ignore[assignment]
-    CDPBridgeServer = None  # type: ignore[assignment]
+from hanzo_tools.browser.zapd_consumer import ZapdConsumer, get_consumer
 
 logger = logging.getLogger(__name__)
 
-
-# === Tools registry — gated by env ====================================
-
-def _env_disabled(*names: str) -> bool:
-    return any(os.environ.get(n, "").lower() in ("1", "true", "yes") for n in names)
-
-
-def _resolve_tools() -> list[type[BaseTool]]:
-    """Build TOOLS list at import time based on env flags.
-
-    Each tool is independently disable-able. Default: all three on.
-    """
-    tools: list[type[BaseTool]] = []
-
-    if not _env_disabled("HANZO_BROWSER_TOOL_DISABLED"):
-        tools.append(BrowserTool)
-    if not _env_disabled("HANZO_CDP_TOOL_DISABLED"):
-        tools.append(CdpTool)
-    if not _env_disabled("HANZO_PLAYWRIGHT_TOOL_DISABLED"):
-        tools.append(PlaywrightTool)
-
-    return tools
-
-
-TOOLS: list[type[BaseTool]] = _resolve_tools()
-
-
-# === Registration entry point ==========================================
-
-def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
-    """Register browser tools with the MCP server.
-
-    Starts the in-process ZAP server (unless ``HANZO_ZAP_DISABLED=1``) so
-    the browser extension can discover this MCP via mDNS. The legacy CDP
-    HTTP bridge (port 9223/9224) stays off by default — opt in with
-    ``HANZO_CDP_BRIDGE_ENABLED=1`` or ``cdp_bridge=True`` kwarg.
-
-    Which tools get registered is controlled by env flags:
-      * HANZO_BROWSER_TOOL_DISABLED
-      * HANZO_CDP_TOOL_DISABLED
-      * HANZO_PLAYWRIGHT_TOOL_DISABLED
-    """
-    headless = kwargs.get("headless", True)
-    cdp_endpoint = kwargs.get("cdp_endpoint")
-    backend = kwargs.get("backend")
-
-    # Canonical lifecycle: in-process ZAP server.
-    if backend != "playwright":
-        ensure_zap_server()
-
-    # Optional legacy lifecycle: CDP HTTP bridge.
-    if kwargs.get(
-        "cdp_bridge",
-        os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower() in ("1", "true", "yes"),
-    ) and CDP_BRIDGE_AVAILABLE and backend != "playwright":
-        start_cdp_bridge()
-
-    registered: list[BaseTool] = []
-    for tool_class in TOOLS:
-        if tool_class is BrowserTool:
-            tool = create_browser_tool(
-                headless=headless, cdp_endpoint=cdp_endpoint, backend=backend
-            )
-        elif tool_class is PlaywrightTool:
-            # PlaywrightTool forces backend internally; respect headless+endpoint.
-            tool = PlaywrightTool(headless=headless, cdp_endpoint=cdp_endpoint)
-        else:
-            # CdpTool, future peers — no-arg constructor.
-            tool = tool_class()
-        ToolRegistry.register_tool(mcp_server, tool)
-        registered.append(tool)
-    return registered
-
-
-def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
-    """Standard entry point called by tool-discovery hosts."""
-    return register_browser_tools(mcp_server, **kwargs)
-
+# Tools list for entry point discovery (see pyproject [hanzo.tools]).
+TOOLS = [BrowserTool, CdpTool, PlaywrightTool]
 
 __all__ = [
     # Tools (the three peers)
@@ -168,24 +52,12 @@ __all__ = [
     # Factory + module-level instance (existing public API)
     "browser_tool",
     "create_browser_tool",
-    # Browser pool
+    # Browser pool / Playwright server
     "BrowserPool",
     "launch_browser_server",
-    # ZAP (canonical)
-    "ZapServer",
-    "ZapClient",
-    "get_or_start_server",
-    "get_server",
-    "shutdown_server",
-    # CDP Bridge (legacy fallback)
-    "CDPBridgeServer",
-    "CDPBridgeClient",
-    "CDP_BRIDGE_AVAILABLE",
-    "start_cdp_bridge",
-    "stop_cdp_bridge",
-    # Lifecycle (now in lifecycle.py)
-    "ensure_zap_server",
-    "stop_zap_server",
+    # zapd consumer (the one canonical transport)
+    "ZapdConsumer",
+    "get_consumer",
     # Availability check
     "PLAYWRIGHT_AVAILABLE",
     # Backend helper
@@ -195,3 +67,39 @@ __all__ = [
     "register_browser_tools",
     "register_tools",
 ]
+
+
+def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
+    """Register the browser tools with the MCP server.
+
+    hanzo-mcp is a zapd *consumer* — it connects to the shared local router at
+    ``~/.zap/run/zapd.sock`` on demand and hosts no in-process server. zapd is a
+    separate always-on daemon, so there is nothing to start here.
+
+    Args:
+        mcp_server: The FastMCP server instance
+        **kwargs: Forwarded to the browser tool (headless, cdp_endpoint, backend)
+
+    Returns:
+        List of registered tools
+    """
+    headless = kwargs.get("headless", True)
+    cdp_endpoint = kwargs.get("cdp_endpoint")
+    backend = kwargs.get("backend")
+
+    tools: list[BaseTool] = [
+        create_browser_tool(headless=headless, cdp_endpoint=cdp_endpoint, backend=backend),
+        CdpTool(),
+        PlaywrightTool(headless=headless, cdp_endpoint=cdp_endpoint),
+    ]
+    for tool in tools:
+        ToolRegistry.register_tool(mcp_server, tool)
+    return tools
+
+
+def register_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
+    """Register all browser tools with the MCP server.
+
+    Standard entry point called by the tool discovery system.
+    """
+    return register_browser_tools(mcp_server, **kwargs)

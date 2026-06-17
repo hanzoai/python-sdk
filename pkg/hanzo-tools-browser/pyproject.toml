@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.5.7"
-description = "Browser automation tools with ZAP-native extension routing — Python MCP hosts the ZAP server on an OS-assigned port and advertises via mDNS (HIP-0069). No node bridge, no port pool, no lockfile."
+version = "0.5.8"
+description = "Browser automation tools — zapd consumer. The MCP hosts no server; it routes CDP commands to the browser extension through the shared local zapd router (~/.zap/run/zapd.sock). No in-process server, no HTTP bridge, no mDNS, no port pool."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -15,9 +15,6 @@ dependencies = [
     "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "pydantic>=2.12.5",
-    "aiohttp>=3.9.0",
-    "websockets>=12.0",
-    "zap-mdns>=0.1.0",
 ]
 
 [project.optional-dependencies]
