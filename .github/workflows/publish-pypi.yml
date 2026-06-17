@@ -28,8 +28,7 @@ jobs:
 
   publish-all-packages:
     name: Publish All Python Packages
-    runs-on: [self-hosted, linux, amd64]
-    needs: test  # Only publish if tests pass
+    runs-on: hanzo-build-linux-amd64  # live in-cluster ARC fleet (evo/spark external fleet is offline)
     if: always() && !cancelled()
 
     steps:
