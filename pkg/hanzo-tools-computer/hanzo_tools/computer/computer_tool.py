@@ -94,6 +94,60 @@ if IS_WINDOWS:
 # Check if we have any native backend
 NATIVE_AVAILABLE = QUARTZ_AVAILABLE or XDOTOOL_AVAILABLE or WIN32_AVAILABLE
 
+# --- ydotool / uinput backend (Linux) ----------------------------------------
+# xdotool/XTEST synthetic button events CRASH Tauri/WebKitGTK apps with
+# `Gdk-CRITICAL gdk_event_set_source_device: assertion failed`. ydotool injects
+# real /dev/uinput events (via ydotoold) that don't crash and register in the
+# webview. Prefer ydotool over xdotool whenever the daemon socket is present.
+import os as _os
+YDOTOOL_BIN = shutil.which("ydotool")
+_YD_SOCK = "/run/ydotoold.sock"
+if not _os.path.exists(_YD_SOCK):
+    _alt = "/run/user/%d/.ydotool_socket" % _os.getuid()
+    if _os.path.exists(_alt):
+        _YD_SOCK = _alt
+YDOTOOL_AVAILABLE = bool(YDOTOOL_BIN) and _os.path.exists(_YD_SOCK)
+_YD_ENV = dict(_os.environ, YDOTOOL_SOCKET=_YD_SOCK)
+_YD_CLICK = {"left": "0xC0", "right": "0xC1", "middle": "0xC2"}
+_YD_DOWN = {"left": "0x40", "right": "0x41", "middle": "0x42"}
+_YD_UP = {"left": "0x80", "right": "0x81", "middle": "0x82"}
+_YD_KEYS = {
+    'a':30,'b':48,'c':46,'d':32,'e':18,'f':33,'g':34,'h':35,'i':23,'j':36,'k':37,
+    'l':38,'m':50,'n':49,'o':24,'p':25,'q':16,'r':19,'s':31,'t':20,'u':22,'v':47,
+    'w':17,'x':45,'y':21,'z':44,'1':2,'2':3,'3':4,'4':5,'5':6,'6':7,'7':8,'8':9,
+    '9':10,'0':11,'enter':28,'return':28,'\n':28,'tab':15,'space':57,' ':57,
+    'esc':1,'escape':1,'backspace':14,'delete':111,'del':111,'insert':110,
+    'home':102,'end':107,'pageup':104,'pagedown':109,'up':103,'down':108,
+    'left':105,'right':106,'ctrl':29,'control':29,'leftctrl':29,'shift':42,
+    'leftshift':42,'alt':56,'leftalt':56,'meta':125,'cmd':125,'command':125,
+    'win':125,'super':125,'minus':12,'-':12,'equal':13,'=':13,'comma':51,',':51,
+    'period':52,'dot':52,'.':52,'slash':53,'/':53,'semicolon':39,';':39,
+    'capslock':58,'f1':59,'f2':60,'f3':61,'f4':62,'f5':63,'f6':64,'f7':65,
+    'f8':66,'f9':67,'f10':68,'f11':87,'f12':88,
+}
+def _yd(*args, timeout=5):
+    subprocess.run([YDOTOOL_BIN, *[str(a) for a in args]],
+                   capture_output=True, timeout=timeout, env=_YD_ENV)
+def _yd_move(x, y):
+    _yd("mousemove", "-a", "-x", int(x), "-y", int(y))
+def _yd_click(x, y, button="left"):
+    _yd_move(x, y); time.sleep(0.02); _yd("click", _YD_CLICK.get(button, "0xC0"))
+def _yd_keycode(name):
+    return _YD_KEYS.get(str(name).lower())
+def _yd_press(key):
+    c = _yd_keycode(key)
+    if c is not None: _yd("key", "%d:1" % c, "%d:0" % c)
+def _yd_hotkey(*keys):
+    codes = [_yd_keycode(k) for k in keys]
+    if any(c is None for c in codes): return
+    _yd("key", *["%d:1" % c for c in codes], *["%d:0" % c for c in reversed(codes)])
+def _yd_type(text, interval=0):
+    if interval and interval > 0:
+        _yd("type", "--key-delay", int(interval * 1000), str(text), timeout=30)
+    else:
+        _yd("type", str(text), timeout=30)
+# --- end ydotool backend -----------------------------------------------------
+
 # Shared thread pool
 _EXECUTOR = ThreadPoolExecutor(max_workers=4, thread_name_prefix="computer_")
 
@@ -367,6 +421,8 @@ class NativeControl:
     @staticmethod
     def click(x: int, y: int, button: str = "left") -> None:
         """Click at position - native speed."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_click(x, y, button); return
         if IS_MACOS and QUARTZ_AVAILABLE:
             if button == "left":
                 NativeControl._send_mouse_event_macos(
@@ -422,6 +478,8 @@ class NativeControl:
     @staticmethod
     def double_click(x: int, y: int) -> None:
         """Double click."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_move(x, y); _yd("click", "0xC0"); _yd("click", "0xC0"); return
         if IS_LINUX and XDOTOOL_AVAILABLE:
             subprocess.run(
                 ["xdotool", "mousemove", str(x), str(y), "click", "--repeat", "2", "1"],
@@ -436,6 +494,8 @@ class NativeControl:
     @staticmethod
     def move(x: int, y: int) -> None:
         """Move mouse."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_move(x, y); return
         if IS_MACOS and QUARTZ_AVAILABLE:
             NativeControl._send_mouse_event_macos(kCGEventMouseMoved, x, y, 0)
         elif IS_LINUX and XDOTOOL_AVAILABLE:
@@ -454,6 +514,9 @@ class NativeControl:
         start_x: int, start_y: int, end_x: int, end_y: int, button: str = "left"
     ) -> None:
         """Drag from start to end."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_move(start_x, start_y); _yd("click", _YD_DOWN.get(button, "0x40"))
+            _yd_move(end_x, end_y); _yd("click", _YD_UP.get(button, "0x80")); return
         if IS_MACOS and QUARTZ_AVAILABLE:
             if button == "left":
                 NativeControl._send_mouse_event_macos(
@@ -552,6 +615,10 @@ class NativeControl:
     @staticmethod
     def key_down(key: str) -> None:
         """Press key down."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _c = _yd_keycode(key)
+            if _c is not None: _yd("key", "%d:1" % _c)
+            return
         key_lower = key.lower()
         if IS_MACOS and QUARTZ_AVAILABLE:
             if key_lower in KEY_CODES:
@@ -572,6 +639,10 @@ class NativeControl:
     @staticmethod
     def key_up(key: str) -> None:
         """Release key."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _c = _yd_keycode(key)
+            if _c is not None: _yd("key", "%d:0" % _c)
+            return
         key_lower = key.lower()
         if IS_MACOS and QUARTZ_AVAILABLE:
             if key_lower in KEY_CODES:
@@ -592,6 +663,8 @@ class NativeControl:
     @staticmethod
     def press(key: str) -> None:
         """Press and release key."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_press(key); return
         if IS_LINUX and XDOTOOL_AVAILABLE:
             subprocess.run(
                 ["xdotool", "key", key.lower()], capture_output=True, timeout=2
@@ -603,6 +676,8 @@ class NativeControl:
     @staticmethod
     def hotkey(*keys: str) -> None:
         """Press key combination."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_hotkey(*keys); return
         if IS_LINUX and XDOTOOL_AVAILABLE:
             combo = "+".join(keys)
             subprocess.run(["xdotool", "key", combo], capture_output=True, timeout=2)
@@ -615,6 +690,8 @@ class NativeControl:
     @staticmethod
     def type_char(char: str) -> None:
         """Type a single character."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_type(char); return
         if IS_LINUX and XDOTOOL_AVAILABLE:
             subprocess.run(
                 ["xdotool", "type", "--", char], capture_output=True, timeout=2
@@ -636,6 +713,8 @@ class NativeControl:
     @staticmethod
     def type_text(text: str, interval: float = 0) -> None:
         """Type text."""
+        if IS_LINUX and YDOTOOL_AVAILABLE:
+            _yd_type(text, interval); return
         if IS_LINUX and XDOTOOL_AVAILABLE:
             if interval > 0:
                 subprocess.run(
