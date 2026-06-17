@@ -1,148 +1,100 @@
-"""Raw Chrome DevTools Protocol method dispatch.
+"""Raw Chrome DevTools Protocol method dispatch — zapd-native.
 
-Decomplected from BrowserTool: `browser` is *action-oriented* (high-level
-verbs like `navigate`, `click`); `cdp` is *method-oriented* (sends a CDP
-method by name with raw params). Same backing transports (in-process ZAP
-server → legacy HTTP bridge), no Playwright fallback — for that, use
-`browser` or `playwright`.
+Peer of ``browser`` (action-oriented). ``cdp`` is *method-oriented*: it sends a
+CDP method by name with raw params straight to a connected browser provider over
+the shared local zapd router (``~/.zap/run/zapd.sock``). Same backing transport
+as ``browser`` — no in-process server, no :9224 HTTP bridge, no Playwright
+fallback. The method name goes on the wire verbatim (``Target.getTargets``,
+``Page.navigate`` …) so the extension's CDP dispatch handles it directly; there
+is no ``{"action": "cdp"}`` envelope to misroute.
 
-Use this tool when you need a CDP method the high-level surface doesn't
-expose, want to inspect raw protocol responses, or are wiring something
-to the protocol directly.
-
-Example::
-
-    cdp(action="send", method="Page.navigate", params={"url": "https://example.com"})
-    cdp(action="send", method="Runtime.evaluate", params={"expression": "1+1"})
-    cdp(action="tabs")          # list connected tabs (Target.getTargets)
-    cdp(action="status")        # connection status
-    cdp(action="list_browsers") # which providers (firefox/chrome/safari) are connected
+Use ``browser`` for high-level verbs (navigate, click, screenshot).
+Use ``cdp`` when you need a CDP method the high-level surface doesn't expose.
 """
-
 from __future__ import annotations
 
 import json
-import logging
-import os
-from typing import Any, Annotated, Literal, Optional, Union
+from typing import Any, Union, Optional, Annotated
 
 from pydantic import Field
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool
+from hanzo_tools.browser.zapd_consumer import get_consumer
 
-logger = logging.getLogger(__name__)
+
+# Sugared actions → the bare CDP method they map to.
+_SUGARED: dict[str, str] = {
+    "tabs": "Target.getTargets",
+    "status": "Browser.getVersion",
+    "list_browsers": "",  # handled locally via the zapd provider list
+}
+
+
+async def _route_cdp(
+    method: str,
+    params: Optional[dict],
+    *,
+    target_browser: Optional[str] = None,
+    tab_id: Union[str, int, None] = None,
+    client_id: Optional[str] = None,
+    timeout: float = 30.0,
+) -> dict[str, Any]:
+    """Route a raw CDP method to a browser provider via the local zapd router.
+
+    Mirrors ``browser_tool._extension_command`` but sends the method name
+    verbatim instead of mapping a high-level action. One transport, one codec.
+    """
+    import asyncio
+
+    consumer = get_consumer()
+    if consumer is None:
+        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap", "method": method}
+
+    try:
+        provider = await asyncio.to_thread(consumer.resolve_browser, target_browser, client_id)
+    except Exception as e:
+        return {"error": str(e), "transport": "native-zap", "method": method}
+    if not provider:
+        return {"error": "no browser provider connected over zapd", "transport": "native-zap", "method": method}
+
+    wire: dict[str, Any] = dict(params or {})
+    if tab_id is not None:
+        wire.setdefault("tabId", tab_id)
+    str_params = {k: (v if isinstance(v, str) else str(v)) for k, v in wire.items() if v is not None}
+
+    try:
+        raw = await asyncio.to_thread(consumer.route, provider, method, str_params, timeout)
+    except Exception as e:
+        return {"error": str(e), "transport": "native-zap", "method": method}
+
+    text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
+    return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "method": method, "result": text}
+
+
+async def _list_browsers() -> dict[str, Any]:
+    """List browser providers connected to the local zapd router."""
+    import asyncio
+
+    consumer = get_consumer()
+    if consumer is None:
+        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
+    try:
+        provs = await asyncio.to_thread(consumer.list_providers)
+    except Exception as e:
+        return {"error": str(e), "transport": "native-zap"}
+    browsers = [p for p in provs if p.get("id", "").startswith("browser:")]
+    return {"success": True, "transport": "native-zap", "browsers": browsers, "count": len(browsers)}
 
 
 CdpAction = Annotated[
-    Literal["send", "tabs", "status", "list_browsers", "claim_browser", "release_browser"],
-    Field(description="CDP action"),
+    str,
+    Field(description="CDP action: send | tabs | status | list_browsers"),
 ]
 
 
-async def _dispatch_raw(
-    method: str,
-    params: Optional[dict] = None,
-    *,
-    browser: Optional[str] = None,
-    tab_id: Optional[Union[str, int]] = None,
-    client_id: Optional[str] = None,
-    timeout: float = 30.0,
-) -> dict:
-    """Dispatch a raw CDP method to the connected browser provider.
-
-    Path order — same as BrowserTool:
-      1. In-process ZAP server (microsecond round-trip; preferred).
-      2. Legacy HTTP bridge on :9224 (kept as fallback for non-ZAP clients).
-
-    Pin transport via ``BROWSER_TRANSPORT=zap|http|auto`` (default ``auto``).
-    """
-    params = dict(params or {})
-
-    # Normalize tab id (accept "tab-123" or 123 or "123")
-    if tab_id is not None:
-        t = tab_id
-        if isinstance(t, str) and t.startswith("tab-"):
-            t = t[4:]
-        try:
-            t = int(t)
-        except (TypeError, ValueError):
-            pass
-        params.setdefault("tabId", t)
-
-    transport = os.environ.get("BROWSER_TRANSPORT", "auto").strip().lower()
-    if transport not in {"zap", "http", "auto"}:
-        transport = "auto"
-
-    # 1) ZAP path
-    if transport in {"zap", "auto"}:
-        try:
-            from hanzo_tools.browser.zap_server import get_server
-
-            srv = get_server()
-            if srv is not None and srv.has_client(browser=browser):
-                try:
-                    raw = await srv.send(
-                        method, params, browser=browser, client_id=client_id
-                    )
-                    return {"success": True, "transport": "zap", "method": method, "result": raw}
-                except Exception as e:
-                    if transport == "zap":
-                        return {"error": str(e), "transport": "zap", "method": method}
-                    logger.debug("zap dispatch failed, falling back to http: %s", e)
-        except ImportError:
-            pass
-
-        if transport == "zap":
-            return {
-                "error": "ZAP transport selected but no extension client matched",
-                "transport": "zap",
-                "method": method,
-            }
-
-    # 2) HTTP fallback — legacy CDP bridge speaks raw CDP via a `cdp` action
-    try:
-        import aiohttp
-
-        payload: dict[str, Any] = {"action": "cdp", "method": method, "params": params}
-        if browser:
-            payload["browser"] = browser
-        if client_id:
-            payload["clientId"] = client_id
-
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                "http://localhost:9224",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=timeout),
-            ) as resp:
-                body = await resp.text()
-                try:
-                    import json
-
-                    parsed = json.loads(body)
-                except Exception:
-                    parsed = {"raw": body}
-                parsed.setdefault("transport", "http")
-                parsed.setdefault("method", method)
-                if resp.status == 200:
-                    parsed.setdefault("success", True)
-                else:
-                    parsed.setdefault("status", resp.status)
-                    parsed.setdefault("error", parsed.get("error") or body[:200])
-                return parsed
-    except Exception as e:
-        logger.debug("CDP dispatch HTTP fallback failed: %s", e)
-        return {"error": str(e), "transport": "http", "method": method}
-
-
 class CdpTool(BaseTool):
-    """Raw Chrome DevTools Protocol method dispatch.
-
-    Peer of ``browser`` (action-oriented) and ``playwright`` (Playwright API).
-    Sends any CDP method directly to a connected browser via the ZAP server
-    (extension) or legacy CDP HTTP bridge. Does NOT fall back to Playwright.
-    """
+    """Raw Chrome DevTools Protocol method dispatch — peer of ``browser``."""
 
     name = "cdp"
 
@@ -155,7 +107,6 @@ ACTIONS:
 - tabs       : Target.getTargets — list connected tabs
 - status     : Browser.getVersion — connection + version
 - list_browsers : list extension providers (firefox/chrome/safari/edge) connected
-- claim_browser / release_browser : exclusive-lease management
 
 EXAMPLES:
 - cdp(action="send", method="Page.navigate", params={"url": "https://example.com"})
@@ -164,11 +115,41 @@ EXAMPLES:
 - cdp(action="status")
 
 Use `browser` for high-level verbs (navigate, click, screenshot).
-Use `playwright` for headless Playwright automation.
 """
 
     async def call(self, ctx, action: str = "send", **kwargs) -> dict[str, Any]:
         return await self.execute(action=action, **kwargs)
+
+    async def execute(
+        self,
+        action: str = "send",
+        method: Optional[str] = None,
+        params: Optional[dict] = None,
+        tab_id: Optional[Union[str, int]] = None,
+        target_browser: Optional[str] = None,
+        client_id: Optional[str] = None,
+        timeout: Optional[float] = None,
+    ) -> dict[str, Any]:
+        t = float(timeout) if timeout else 30.0
+
+        if action == "list_browsers":
+            return await _list_browsers()
+
+        if action in _SUGARED:
+            return await _route_cdp(
+                _SUGARED[action], {},
+                target_browser=target_browser, tab_id=tab_id, client_id=client_id, timeout=t,
+            )
+
+        if action == "send":
+            if not method:
+                return {"error": "method required for action=send (e.g. 'Page.navigate')", "action": "send"}
+            return await _route_cdp(
+                method, params,
+                target_browser=target_browser, tab_id=tab_id, client_id=client_id, timeout=t,
+            )
+
+        return {"error": f"unknown action '{action}'. Try: send, tabs, status, list_browsers"}
 
     def register(self, mcp_server: FastMCP) -> None:
         """Register the cdp tool with an MCP server."""
@@ -212,109 +193,3 @@ Use `playwright` for headless Playwright automation.
                 timeout=timeout,
             )
             return json.dumps(result, indent=2, default=str)
-
-    async def execute(
-        self,
-        action: str = "send",
-        # Raw CDP
-        method: Optional[str] = None,
-        params: Optional[dict] = None,
-        # Routing
-        tab_id: Optional[Union[str, int]] = None,
-        target_browser: Optional[str] = None,
-        client_id: Optional[str] = None,
-        # Timeout
-        timeout: Optional[float] = None,
-    ) -> dict[str, Any]:
-        t = float(timeout) if timeout else 30.0
-
-        # === Local actions (handled in-process) =====================
-        if action == "list_browsers":
-            try:
-                from hanzo_tools.browser.zap_server import get_server
-
-                srv = get_server()
-                if srv is None:
-                    return {"error": "zap server not running"}
-                clients = []
-                for c in srv.clients:
-                    clients.append(
-                        {
-                            "client_id": c.client_id,
-                            "browser": getattr(c, "browser", None),
-                            "label": getattr(c, "label", None),
-                        }
-                    )
-                return {"success": True, "browsers": clients, "count": len(clients)}
-            except Exception as e:
-                return {"error": str(e)}
-
-        if action == "claim_browser":
-            try:
-                from hanzo_tools.browser.zap_server import DEFAULT_LEASE_TTL, get_server
-
-                srv = get_server()
-                if srv is None:
-                    return {"error": "zap server not running"}
-                client = srv.resolve_client(client_id=client_id, browser=target_browser)
-                if client is None:
-                    return {"error": "no matching extension client"}
-                lease = srv.claim(client.client_id, ttl=t)
-                return {
-                    "success": True,
-                    "client_id": lease.client_id,
-                    "holder": lease.holder,
-                    "expires_at": lease.expires_at,
-                }
-            except Exception as e:
-                return {"error": str(e)}
-
-        if action == "release_browser":
-            try:
-                from hanzo_tools.browser.zap_server import get_server
-
-                srv = get_server()
-                if srv is None:
-                    return {"error": "zap server not running"}
-                if client_id:
-                    return {"success": srv.release(client_id), "client_id": client_id}
-                released = [c.client_id for c in list(srv.clients) if srv.release(c.client_id)]
-                return {"success": True, "released": released}
-            except Exception as e:
-                return {"error": str(e)}
-
-        # === Sugared CDP methods ==================================
-        sugared = {
-            "tabs": ("Target.getTargets", {}),
-            "status": ("Browser.getVersion", {}),
-        }
-        if action in sugared:
-            m, p = sugared[action]
-            return await _dispatch_raw(
-                m,
-                p,
-                browser=target_browser,
-                tab_id=tab_id,
-                client_id=client_id,
-                timeout=t,
-            )
-
-        # === Raw send ==============================================
-        if action == "send":
-            if not method:
-                return {
-                    "error": "method required for action=send (e.g. 'Page.navigate')",
-                    "action": "send",
-                }
-            return await _dispatch_raw(
-                method,
-                params,
-                browser=target_browser,
-                tab_id=tab_id,
-                client_id=client_id,
-                timeout=t,
-            )
-
-        return {
-            "error": f"unknown action '{action}'. Try: send, tabs, status, list_browsers, claim_browser, release_browser",
-        }

@@ -116,43 +116,18 @@ def _normalize_tab_id(tab_id: Union[str, int, None]) -> Union[str, int, None]:
 
 
 async def _check_extension(browser: Optional[str] = None) -> bool:
-    """Check if Hanzo browser extension is connected.
+    """Check if a browser provider is connected to the local zapd router."""
+    import asyncio
 
-    Tries the local ZAP server first (in-process, microseconds), falls back
-    to the legacy HTTP bridge on :9224.
-    """
-    # 1) ZAP — if our own MCP holds an extension client locally
+    from hanzo_tools.browser.zapd_consumer import get_consumer
+
+    consumer = get_consumer()
+    if consumer is None:
+        return False
     try:
-        from hanzo_tools.browser.zap_server import get_server
-
-        srv = get_server()
-        if srv is not None and srv.has_client(browser=browser):
-            return True
+        return await asyncio.to_thread(consumer.resolve_browser, browser, None) is not None
     except Exception:
-        pass
-
-    # 2) Legacy HTTP bridge
-    try:
-        import aiohttp
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                "http://localhost:9224/status", timeout=aiohttp.ClientTimeout(total=1)
-            ) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    if not data.get("connected", False):
-                        return False
-                    if browser:
-                        clients = data.get("client_list", [])
-                        return any(
-                            browser.lower() in c.get("browser", "").lower()
-                            for c in clients
-                        )
-                    return True
-    except Exception:
-        pass
-    return False
+        return False
 
 
 def _zap_method_for(action: str) -> str:
@@ -337,113 +312,37 @@ async def _extension_command(
     client_id: Optional[str] = None,
     **kwargs,
 ) -> Optional[dict]:
-    """Send command to Hanzo browser extension.
+    """Route a browser command to a provider via the local zapd router.
 
-    Path order:
-    1. Local in-process ZAP server (microsecond round-trip; preferred).
-    2. Legacy HTTP bridge on :9224 (kept as fallback for non-ZAP MCP clients).
-
-    The transport can be pinned with ``BROWSER_TRANSPORT=zap|http|auto`` —
-    default is ``auto`` which means "ZAP if a connected extension matches,
-    else HTTP".
+    hanzo-mcp is a zapd *consumer*: it connects to ``~/.zap/run/zapd.sock``,
+    lists providers, and routes opaque commands to a ``browser:*`` provider.
+    No in-process server, no HTTP bridge, no :9224, no Playwright fallback.
     """
-    transport = os.environ.get("BROWSER_TRANSPORT", "auto").strip().lower()
-    if transport not in {"zap", "http", "auto"}:
-        transport = "auto"
+    import asyncio
 
-    # ---- 1) ZAP path ---------------------------------------------------
-    if transport in {"zap", "auto"}:
-        try:
-            from hanzo_tools.browser.zap_server import get_server
+    from hanzo_tools.browser.zapd_consumer import get_consumer
 
-            srv = get_server()
-            if srv is not None and srv.has_client(browser=browser):
-                method = _zap_method_for(action)
-                params = _zap_params(action, tab_id=tab_id, **kwargs)
-                try:
-                    raw = await srv.send(
-                        method,
-                        params,
-                        browser=browser,
-                        client_id=client_id,
-                    )
-                except Exception as e:
-                    if transport == "zap":
-                        return {"error": str(e), "transport": "zap"}
-                    logger.debug("zap dispatch failed, falling back to http: %s", e)
-                else:
-                    # CDP Runtime.evaluate returns {result: {type, value}};
-                    # unwrap so the caller sees the value directly.
-                    result = raw
-                    if method == "Runtime.evaluate" and isinstance(raw, dict):
-                        # Surface an evaluation error (commonly page CSP
-                        # blocking Function()/eval) instead of silently
-                        # flattening it to a null value — that null was
-                        # indistinguishable from a legitimate null result.
-                        err = raw.get("error")
-                        exc = raw.get("exceptionDetails")
-                        if err or exc:
-                            msg = err or (
-                                exc.get("text") if isinstance(exc, dict) else str(exc)
-                            )
-                            return {
-                                "success": False,
-                                "transport": "zap",
-                                "error": msg,
-                                "exceptionDetails": exc,
-                                "result": None,
-                            }
-                        cdp = raw.get("result", raw)
-                        if isinstance(cdp, dict) and "value" in cdp:
-                            result = cdp["value"]
-                        elif isinstance(cdp, dict) and cdp.get("type") == "undefined":
-                            result = None
-                    return {
-                        "success": True,
-                        "transport": "zap",
-                        "result": result,
-                    }
-        except ImportError:
-            # zap_server module unavailable — only HTTP path remains.
-            pass
+    consumer = get_consumer()
+    if consumer is None:
+        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
 
-        if transport == "zap":
-            return {
-                "error": "ZAP transport selected but no extension client matched",
-                "transport": "zap",
-            }
-
-    # ---- 2) HTTP fallback ---------------------------------------------
     try:
-        import aiohttp
-
-        payload: dict[str, Any] = {"action": action}
-        if browser:
-            payload["browser"] = browser
-        norm_tab = _normalize_tab_id(tab_id)
-        if norm_tab is not None:
-            payload["tabId"] = norm_tab
-        if client_id:
-            payload["clientId"] = client_id
-        payload.update({k: v for k, v in kwargs.items() if v is not None})
-
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                "http://localhost:9224",
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=30),
-            ) as resp:
-                if resp.status == 200:
-                    body = await resp.json()
-                    body.setdefault("transport", "http")
-                    return body
-                else:
-                    text = await resp.text()
-                    logger.debug(f"Extension command {action} returned {resp.status}: {text}")
-                    return {"error": text, "status": resp.status, "transport": "http"}
+        provider = await asyncio.to_thread(consumer.resolve_browser, browser, client_id)
     except Exception as e:
-        logger.debug(f"Extension command failed: {e}")
-    return None
+        return {"error": str(e), "transport": "native-zap"}
+    if not provider:
+        return {"error": "no browser provider connected over zapd", "transport": "native-zap"}
+
+    method = _zap_method_for(action)
+    params = _zap_params(action, tab_id=tab_id, **kwargs) or {}
+    str_params = {k: (v if isinstance(v, str) else str(v)) for k, v in params.items() if v is not None}
+    try:
+        raw = await asyncio.to_thread(consumer.route, provider, method, str_params)
+    except Exception as e:
+        return {"error": str(e), "transport": "native-zap"}
+
+    text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
+    return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "result": text}
 
 
 # Device presets - user-friendly aliases + specific devices
@@ -958,28 +857,8 @@ class BrowserTool(BaseTool):
         self.cdp_endpoint = cdp_endpoint or os.environ.get("BROWSER_CDP_ENDPOINT")
         self.backend = backend or get_backend()
         self.timeout = 30000
-
-        # Lifecycle (ZAP server, CDP bridge) lives in `lifecycle.py`.
-        # Import lazily to avoid a circular import on package load —
-        # __init__.py already pulls in this module before lifecycle.
-        if self.backend != "playwright":
-            try:
-                from hanzo_tools.browser.lifecycle import (
-                    CDP_BRIDGE_AVAILABLE,
-                    ensure_zap_server,
-                    start_cdp_bridge,
-                )
-
-                ensure_zap_server()  # idempotent + respects HANZO_ZAP_DISABLED
-
-                if (
-                    os.environ.get("HANZO_CDP_BRIDGE_ENABLED", "").lower()
-                    in ("1", "true", "yes")
-                    and CDP_BRIDGE_AVAILABLE
-                ):
-                    start_cdp_bridge()
-            except Exception as e:
-                logger.debug("browser lifecycle bootstrap failed: %s", e)
+        # No server to start: native-browser commands route through the shared
+        # zapd router (~/.zap/run/zapd.sock) on demand via zapd_consumer.
 
     @property
     def description(self) -> str:
@@ -1129,64 +1008,29 @@ CATEGORIES:
         timeout = timeout or self.timeout
         sel = selector or ref
 
-        # === LOCAL ACTIONS (handled in-process, no extension/Playwright) ===
-        if action == "list_mcp_instances":
+        # === LOCAL ACTIONS (answered from the zapd provider list) ===
+        if action in ("list_mcp_instances", "list_browsers", "browsers"):
+            from hanzo_tools.browser.zapd_consumer import get_consumer
+
+            consumer = get_consumer()
+            if consumer is None:
+                return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
             try:
-                from hanzo_tools.browser.zap_server import ZapServer
-
-                instances = ZapServer.list_mcp_instances()
-                return {
-                    "success": True,
-                    "mcp_instances": instances,
-                    "count": len(instances),
-                }
+                provs = await asyncio.to_thread(consumer.list_providers)
             except Exception as e:
-                return {"error": f"failed to list mcp instances: {e}"}
+                return {"error": str(e), "transport": "native-zap"}
+            browsers = [p for p in provs if p.get("id", "").startswith("browser:")]
+            return {"success": True, "transport": "native-zap", "browsers": browsers, "count": len(browsers)}
 
-        if action == "claim_browser":
-            try:
-                from hanzo_tools.browser.zap_server import (
-                    DEFAULT_LEASE_TTL,
-                    get_server,
-                )
-
-                srv = get_server()
-                if srv is None:
-                    return {"error": "zap server not running"}
-                client = srv.resolve_client(
-                    client_id=client_id, browser=target_browser
-                )
-                if client is None:
-                    return {"error": "no matching extension client"}
-                ttl = float(timeout) / 1000 if timeout else DEFAULT_LEASE_TTL
-                lease = srv.claim(client.client_id, ttl=ttl)
-                return {
-                    "success": True,
-                    "client_id": lease.client_id,
-                    "holder": lease.holder,
-                    "expires_at": lease.expires_at,
-                }
-            except Exception as e:
-                return {"error": str(e)}
-
-        if action == "release_browser":
-            try:
-                from hanzo_tools.browser.zap_server import get_server
-
-                srv = get_server()
-                if srv is None:
-                    return {"error": "zap server not running"}
-                # Without an explicit client_id, drop every lease this MCP holds.
-                if client_id:
-                    released = srv.release(client_id)
-                    return {"success": released, "client_id": client_id}
-                released_all = []
-                for c in list(srv.clients):
-                    if srv.release(c.client_id):
-                        released_all.append(c.client_id)
-                return {"success": True, "released": released_all}
-            except Exception as e:
-                return {"error": str(e)}
+        if action in ("claim_browser", "release_browser"):
+            # Exclusive leases were an in-process-server concept. The shared
+            # zapd router has no lease frame — target a specific provider with
+            # `target_browser` ("chrome"|"firefox") or `client_id` instead.
+            return {
+                "success": True,
+                "transport": "native-zap",
+                "note": "zapd is a shared router with no exclusive lease; pass target_browser or client_id to address a specific provider.",
+            }
 
         # === BACKEND-AWARE ROUTING ===
         # Actions supported by the CDP bridge / browser extension
@@ -1209,10 +1053,11 @@ CATEGORIES:
             "inject_script", "inject_css",
             "local_storage", "cookies",
             "tabs", "new_tab", "select_tab",
-            # Multi-browser routing (bridge v1.9.0+) — list connected
-            # providers and persist a default-browser pick. Without one
-            # the bridge auto-prefers firefox > safari > edge > chrome.
-            "list_browsers", "browsers", "set_default_browser", "use_browser",
+            # Multi-browser routing — persist a default-browser pick. Without
+            # one the extension auto-prefers firefox > safari > edge > chrome.
+            # (list_browsers/browsers are answered locally from the zapd
+            # provider list above, not routed to a provider.)
+            "set_default_browser", "use_browser",
             "console", "network_requests", "status",
             # Takeover actions (Phase 3)
             "takeover", "release",
