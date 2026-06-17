@@ -485,11 +485,15 @@ members = [
     "pkg/hanzo-memory",
     "pkg/hanzo-s3",
     "pkg/hanzo-tools-ui",
+    "pkg/hanzo-tools-browser",
 ]
 
 [tool.uv.sources]
 hanzo-memory = { workspace = true }
 hanzo-tools-ui = { workspace = true }
+# Browser tool routes through the local zapd router; the on-disk source is the
+# single truth (not a published wheel) so the MCP and the repo never diverge.
+hanzo-tools-browser = { workspace = true }
 
 [tool.ruff.lint.extend-per-file-ignores]
 # Allow print statements in scripts and examples
