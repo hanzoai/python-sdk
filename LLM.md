@@ -97,46 +97,50 @@ SQLite-based with optional vector search (sqlite-vec).
 
 ## Browser Tool (hanzo-tools-browser)
 
-Two-process architecture (since 0.5.0): `hanzo-tools-browser` hosts the
-ZAP server directly inside the MCP process. Browser extensions discover
-it on the lowest free port from `[9999, 9998, 9997, 9996, 9995]` (POSIX
-flock ensures multi-MCP coexistence under one ext).
+**hanzo-mcp is a `zapd` *consumer*** — it hosts NO server. It connects to the
+one shared local router `~/.zap/run/zapd.sock` (see `~/work/zap`), lists
+providers, and routes opaque commands to a `browser:*` provider (the real Chrome/
+Firefox extension, connected via the native host). No in-process server, no mDNS,
+no `9999-9995`, no `:9224` HTTP bridge, no `BROWSER_TRANSPORT`, no Playwright
+fallback in native-browser mode. The old `zap_server.py`/`cdp_bridge_server.py`
+in-process model is removed.
 
 ```python
-from hanzo_tools.browser import (
-    BrowserTool,            # the MCP tool
-    ZapServer,              # raw server (for advanced use)
-    get_or_start_server,    # bootstrap + return singleton
-    get_server,             # return current singleton or None
-)
+from hanzo_tools.browser.zapd_consumer import ZapdConsumer, get_consumer
+c = get_consumer()                          # connects to ~/.zap/run/zapd.sock
+c.resolve_browser("chrome", None)           # -> "browser:chrome/<host>/default"
+c.route(provider, "Target.getTargets", {})  # opaque command, raw result bytes
 ```
 
 Key files:
-- `hanzo_tools/browser/zap_server.py` — wire format, server, leases,
-  cluster registry (`~/.hanzo/extension/config.json:mcp_instances`).
-- `hanzo_tools/browser/browser_tool.py` — `_extension_command` tries
-  ZAP first, falls back to legacy HTTP bridge on `:9224`. New actions
-  `list_mcp_instances`, `claim_browser`, `release_browser`.
-- `hanzo_tools/browser/cdp_bridge_server.py` — legacy node-bridge
-  replacement (kept for non-ZAP callers).
+- `hanzo_tools/browser/zapd_consumer.py` — the ZAP router-envelope codec +
+  consumer (connect / hello / providers.list / route). Mirrors `zapd/src/frame.rs`.
+- `hanzo_tools/browser/browser_tool.py` — `_extension_command` / `_check_extension`
+  route via `zapd_consumer`. `register_browser_tools` no longer starts a server.
+- `hanzo_tools/browser/cdp_tool.py` — the `cdp` tool, a method-oriented peer of
+  `browser`. Sends a raw CDP method by name (`Target.getTargets`, `Page.navigate`)
+  through the SAME `zapd_consumer` route — the method goes on the wire verbatim,
+  so there is no `{"action":"cdp"}` envelope for the extension to reject.
 
-Env vars:
-- `BROWSER_TRANSPORT=zap|http|auto` — pin transport (default auto).
-- `HANZO_ZAP_DISABLED=1` — don't auto-start the ZAP server.
-- `HANZO_ZAP_PORTS=9999,9998` — override the candidate port list.
-- `HANZO_AGENT_LABEL=...` — attach to the cluster registry entry.
-- `HANZO_CDP_BRIDGE_ENABLED=1` — opt back into the legacy HTTP bridge.
+Two tools, one transport: `browser` (high-level verbs) and `cdp` (raw methods).
+Both are in `TOOLS` and resolve to the same zapd provider.
 
-Tests live in `pkg/hanzo-tools-browser/tests/test_zap_server.py` (30
-cases: wire format, lifecycle, RPC, leases, multi-MCP). Latency bench
-in `test_zap_bench.py`. The full suite runs with:
+The router (`zapd`) is a separate always-on daemon — install/run it from
+`zap-proto/zapd` (`curl … | sh` or `@hanzo/zapd`).
 
-```bash
-cd pkg/hanzo-tools-browser
-uv venv .venv --python 3.12
-.venv/bin/python -m pip install -e .
-.venv/bin/python -m pytest tests/ -v
-```
+**MCP must be sourced from disk, not PyPI.** The published `hanzo-tools-browser`
+wheel (≤0.5.7) still ships the removed in-process HTTP-bridge model and breaks
+`cdp` with `Unknown method: cdp`. The Claude Code MCP entry in `~/.claude.json`
+therefore uses `uvx --from pkg/hanzo-mcp --with-editable pkg/hanzo-tools-browser`
+so the on-disk source (≥0.5.8) is authoritative. `--with <python-sdk root>` does
+NOT work — uv ignores the workspace sources for `--from` deps and pulls the buggy
+wheel from the index. `hanzo-mcp` pins `hanzo-tools-browser>=0.5.8` as a guard.
+
+Router/transport tests live with the router (`zap-proto/zapd`: `cargo test` +
+`tests/e2e.py`). The Python consumer + `cdp` routing are unit-tested in
+`tests/test_browser_tools.py` (zapd mocked) and verified end-to-end against a
+live `zapd`. The old `test_zap_server.py`/`zap_server.py` (in-process server,
+leases, multi-MCP) and `cdp_bridge_server.py` are removed.
 
 ## API Tool
 
