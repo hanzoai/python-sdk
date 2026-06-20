@@ -11,7 +11,7 @@ on:
 jobs:
   upload:
     name: Upload dist-external/* to PyPI
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
     steps:
       - uses: actions/checkout@v4
 
