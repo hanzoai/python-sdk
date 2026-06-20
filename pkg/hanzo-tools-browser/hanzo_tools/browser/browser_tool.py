@@ -305,6 +305,97 @@ def _zap_params(
     return params
 
 
+# Current BiDi browsing context (active tab) for the Firefox backend.
+_bidi_current_context: Optional[str] = None
+
+
+async def _bidi_dispatch(
+    action: str,
+    *,
+    url: Optional[str] = None,
+    selector: Optional[str] = None,
+    text: Optional[str] = None,
+    code: Optional[str] = None,
+    key: Optional[str] = None,
+) -> Optional[dict[str, Any]]:
+    """Drive Firefox via WebDriver BiDi (real navigation + trusted input).
+
+    Returns a normalized result dict, or ``None`` to fall through to the
+    extension / Playwright backends when BiDi isn't available (Firefox not
+    launched with --remote-debugging-port) or the action isn't BiDi-mapped.
+    """
+    global _bidi_current_context
+    try:
+        from hanzo_tools.browser.bidi_client import get_or_connect
+    except Exception:
+        return None
+    client = await get_or_connect(port=9222)
+    if client is None:
+        return None
+
+    async def _ctx() -> str:
+        global _bidi_current_context
+        ctxs = await client.list_contexts()
+        ids = [c.get("context") for c in ctxs if c.get("context")]
+        if _bidi_current_context in ids:
+            return _bidi_current_context
+        _bidi_current_context = ids[0] if ids else await client.create_context("tab")
+        return _bidi_current_context
+
+    def _val(ev: dict) -> Any:
+        return (ev or {}).get("result", {}).get("value")
+
+    try:
+        if action in ("navigate", "goto"):
+            c = await _ctx()
+            await client.navigate(c, url or "about:blank")
+            return {"success": True, "source": "bidi", "url": await client.get_url(c)}
+        if action in ("new_tab", "create_tab"):
+            _bidi_current_context = await client.create_context("tab")
+            if url:
+                await client.navigate(_bidi_current_context, url)
+            return {"success": True, "source": "bidi", "tab": _bidi_current_context}
+        if action in ("click", "tap"):
+            c = await _ctx()
+            r = await client.click_selector(c, selector or "")
+            return {"success": bool(r.get("clicked")), "source": "bidi", **r}
+        if action in ("type", "fill"):
+            c = await _ctx()
+            if selector:
+                await client.click_selector(c, selector)
+            await client.input_insert_text(c, text or "")
+            return {"success": True, "source": "bidi"}
+        if action in ("press", "press_key"):
+            c = await _ctx()
+            await client.input_key_press(c, key or "Enter")
+            return {"success": True, "source": "bidi"}
+        if action == "screenshot":
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "screenshot": await client.capture_screenshot(c)}
+        if action == "evaluate":
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "result": _val(await client.script_evaluate(c, code or ""))}
+        if action == "get_text":
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "text": _val(await client.script_evaluate(c, "document.body ? document.body.innerText : ''"))}
+        if action in ("get_html", "content"):
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "html": _val(await client.script_evaluate(c, "document.documentElement.outerHTML"))}
+        if action in ("url", "get_url"):
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "url": await client.get_url(c)}
+        if action in ("title", "get_title"):
+            c = await _ctx()
+            return {"success": True, "source": "bidi", "title": _val(await client.script_evaluate(c, "document.title"))}
+        if action == "tabs":
+            ctxs = await client.list_contexts()
+            return {"success": True, "source": "bidi",
+                    "tabs": [{"context": c.get("context"), "url": c.get("url")} for c in ctxs]}
+    except Exception as e:
+        return {"error": str(e), "source": "bidi"}
+    return None  # unmapped action → fall through to extension / Playwright
+
+
 async def _extension_command(
     action: str,
     browser: Optional[str] = None,
@@ -1031,6 +1122,20 @@ CATEGORIES:
                 "transport": "native-zap",
                 "note": "zapd is a shared router with no exclusive lease; pass target_browser or client_id to address a specific provider.",
             }
+
+        # === BiDi FAST-PATH (Firefox via WebDriver BiDi) ===
+        # When the firefox backend is targeted and Firefox exposes a BiDi remote
+        # agent (launched with --remote-debugging-port=9222), drive it directly:
+        # real navigation + TRUSTED input, no CDP (Firefox is BiDi-only). Falls
+        # through to the extension / Playwright paths when BiDi is unavailable or
+        # the action isn't BiDi-mapped.
+        bidi_target = target_browser or (self.backend if self.backend == "firefox" else None)
+        if bidi_target == "firefox":
+            bidi_res = await _bidi_dispatch(
+                action, url=url, selector=sel, text=text, code=code, key=key
+            )
+            if bidi_res is not None:
+                return bidi_res
 
         # === BACKEND-AWARE ROUTING ===
         # Actions supported by the CDP bridge / browser extension
