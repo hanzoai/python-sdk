@@ -49,6 +49,19 @@ import aiohttp
 logger = logging.getLogger(__name__)
 
 
+def _ws_open(ws: Any) -> bool:
+    """True if a websocket connection is open — robust across websockets
+    versions. <13 exposes `.closed` (bool); >=13 returns a `ClientConnection`
+    with no `.closed`, exposing `.state` (OPEN/CLOSED) or `.close_code`."""
+    closed = getattr(ws, "closed", None)
+    if isinstance(closed, bool):
+        return not closed
+    state = getattr(ws, "state", None)
+    if state is not None:
+        return getattr(state, "name", "") == "OPEN"
+    return getattr(ws, "close_code", None) is None
+
+
 @dataclass
 class BiDiSession:
     """One BiDi session against one browser.
@@ -95,7 +108,9 @@ class BiDiClient:
 
     @property
     def connected(self) -> bool:
-        return self.session is not None and self.session.ws is not None and not self.session.ws.closed
+        if self.session is None or self.session.ws is None:
+            return False
+        return _ws_open(self.session.ws)
 
     # ─────────────────────────────────────────────────────────────────
     # Discovery: probe whether the browser exposes a BiDi endpoint
@@ -104,23 +119,42 @@ class BiDiClient:
     async def probe(cls, host: str = "localhost", port: int = 9222, timeout: float = 1.5) -> str | None:
         """Return the BiDi WebSocket URL if available, else None.
 
-        Firefox 129+ exposes the BiDi endpoint at GET /json/version which
-        returns JSON containing 'webSocketDebuggerUrl'. Chrome 124+ exposes
-        a similar endpoint with both 'webSocketDebuggerUrl' (legacy CDP)
-        and (optionally) BiDi support via the same socket.
+        Two discovery modes:
+          1. CDP-style /json/version (Chrome 124+, and Firefox when CDP is
+             also enabled): returns JSON with 'webSocketDebuggerUrl'.
+          2. Firefox BiDi-only (the default for Firefox 129+, including
+             153): CDP is OFF, so /json/version 404s and there is NO
+             advertisement — the WebDriver BiDi socket is served DIRECTLY at
+             ws://host:port/session. We detect the remote agent by opening
+             that socket; if it accepts, that's the endpoint.
         """
         if websockets is None:
             return None
+        # 1) CDP-style discovery.
         url = f"http://{host}:{port}/json/version"
         try:
             async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=timeout)) as sess:
                 async with sess.get(url) as resp:
-                    if resp.status != 200:
-                        return None
-                    data = await resp.json()
-                    # Firefox: "webSocketDebuggerUrl": "ws://host:port/session"
-                    # Chrome: "webSocketDebuggerUrl": "ws://host:port/devtools/browser/<id>"
-                    return data.get("webSocketDebuggerUrl")
+                    if resp.status == 200:
+                        data = await resp.json()
+                        ws = data.get("webSocketDebuggerUrl")
+                        if ws:
+                            return ws
+        except Exception:
+            pass
+        # 2) Firefox BiDi-only: confirm the remote agent is listening with a
+        #    plain TCP check (NOT a WebSocket handshake — opening the /session
+        #    socket establishes BiDi session state in Firefox, which would
+        #    then conflict with the real connection's `session.new`). Return
+        #    the canonical BiDi endpoint for `connect()` to use exactly once.
+        try:
+            _, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=timeout)
+            writer.close()
+            try:
+                await writer.wait_closed()
+            except Exception:
+                pass
+            return f"ws://{host}:{port}/session"
         except Exception:
             return None
 
@@ -147,18 +181,50 @@ class BiDiClient:
         self.session = BiDiSession(ws=ws)
         self.session.reader_task = asyncio.create_task(self._reader_loop())
 
-        # Create a BiDi session
-        result = await self._send("session.new", {"capabilities": {}})
-        self.session.session_id = result.get("sessionId")
-        logger.info("BiDi session created: %s", self.session.session_id)
+        # Create a BiDi session. Firefox permits a single session at a time;
+        # if a prior session orphaned (a previous connection that didn't end
+        # cleanly), session.new is rejected. End any lingering session and
+        # retry once before giving up.
+        sid = await self._new_session()
+        if sid is None:
+            try:
+                await self._send("session.end", {})
+            except Exception:
+                pass
+            sid = await self._new_session()
+        if sid is None:
+            await self.close()
+            raise RuntimeError(
+                "BiDi: could not create a session (a session is held by another "
+                "client, or orphaned). Restart the browser's remote agent."
+            )
+        self.session.session_id = sid
+        logger.info("BiDi session created: %s", sid)
+
+    async def _new_session(self) -> str | None:
+        """Attempt session.new; return the sessionId, or None if rejected."""
+        try:
+            result = await self._send("session.new", {"capabilities": {}})
+            return result.get("sessionId") or "default"
+        except RuntimeError as e:
+            logger.info("BiDi session.new rejected: %s", e)
+            return None
 
     async def close(self) -> None:
         if not self.session:
             return
+        # End the BiDi session cleanly (while the reader is still running to
+        # collect the response) so it doesn't orphan and block the next
+        # session.new — Firefox keeps a single session at a time.
+        try:
+            if _ws_open(self.session.ws):
+                await asyncio.wait_for(self._send("session.end", {}), timeout=3)
+        except Exception:
+            pass
         if self.session.reader_task and not self.session.reader_task.done():
             self.session.reader_task.cancel()
         try:
-            if self.session.ws and not self.session.ws.closed:
+            if self.session.ws and _ws_open(self.session.ws):
                 await self.session.ws.close()
         except Exception:
             pass
@@ -219,6 +285,23 @@ class BiDiClient:
             if url_substring in (c.get("url") or ""):
                 return c.get("context")
         return None
+
+    async def create_context(self, context_type: str = "tab") -> str:
+        """Open a new browsing context (tab/window) and return its id. Lets an
+        automation run in a fresh tab without disturbing the user's open tabs."""
+        result = await self._send("browsingContext.create", {"type": context_type})
+        return result.get("context", "")
+
+    async def close_context(self, context_id: str) -> dict:
+        """Close a browsing context (tab) opened for automation."""
+        return await self._send("browsingContext.close", {"context": context_id})
+
+    async def get_url(self, context_id: str) -> str:
+        """Current URL of a context (via the context tree)."""
+        for c in await self.list_contexts():
+            if c.get("context") == context_id:
+                return c.get("url") or ""
+        return ""
 
     async def navigate(self, context_id: str, url: str, wait: str = "complete") -> dict:
         """Navigate a browsing context to a URL. wait ∈ {none, interactive, complete}."""
