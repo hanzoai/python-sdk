@@ -15,6 +15,9 @@ dependencies = [
     "hanzo-tools>=0.3.0",
     "mcp>=1.25.0",
     "pydantic>=2.12.5",
+    # Canonical ZAP router envelope (zap.frame + ZapClient). The zapd wire is
+    # imported from here, never reimplemented in this package.
+    "zap-proto>=1.2.0",
 ]
 
 [project.optional-dependencies]

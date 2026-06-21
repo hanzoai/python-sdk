@@ -1,27 +1,36 @@
-"""
-luxfi/zap binary wire protocol — Python implementation.
+"""ZAP binary wire protocol — the hanzo-zap service layer over canonical ``zap``.
 
-Compatible with the Rust `hanzo-zap` crate and Go `github.com/luxfi/zap` v0.2.0.
+The zero-copy codec is NOT reimplemented here. The object encode/decode, the
+deferred out-of-line layout, 8-byte alignment, and the 16-byte header all come
+from the canonical ``zap.wire`` package (the byte-faithful port of
+``zap-proto/go``), the one Python copy of the wire. This module is a thin layer
+that keeps hanzo-zap's small API surface (``set_u32``/``obj_uint32`` spellings,
+the ``Message`` header view) and adds the hanzo *cloud service* schema
+(``MsgType 100`` request/response, the handshake, and length-prefixed frame I/O)
+on top of those canonical primitives.
 
-Wire format:
+Wire format (defined and owned by ``zap.wire``):
   Frame: [4-byte LE length][message bytes]
   Message header (16 bytes): magic(4) + version(2) + flags(2) + root_offset(4) + size(4)
-  Object fields: inline primitives, (relOffset:i32 + length:u32) for text/bytes
-  relOffset is relative to the field's absolute position in the buffer.
+  Object fields: inline primitives; (relOffset:u32 + length:u32) for text/bytes,
+  the offset being relative to the field's absolute position in the buffer.
 """
 
 from __future__ import annotations
 
 import struct
 
-# ── Constants ────────────────────────────────────────────────────────────
+from zap import wire as _zw
 
-ZAP_MAGIC = b"ZAP\x00"
-HEADER_SIZE = 16
-VERSION = 1
-ALIGNMENT = 8
+# ── Constants ────────────────────────────────────────────────────────────
+# Codec constants are sourced from the canonical wire so they can never drift.
+ZAP_MAGIC = _zw.MAGIC          # b"ZAP\x00"
+HEADER_SIZE = _zw.HEADER_SIZE  # 16
+VERSION = _zw.VERSION          # 1
+ALIGNMENT = _zw.ALIGNMENT      # 8
 MAX_MESSAGE_SIZE = 10 * 1024 * 1024  # 10 MB
 
+# hanzo cloud-service schema (layered on the wire; not part of the codec).
 MSG_TYPE_CLOUD = 100
 
 # Cloud request field byte offsets (each Text/Bytes = 8 bytes: relOffset + length)
@@ -32,8 +41,8 @@ CLOUD_REQ_BODY = 16
 # Cloud response field byte offsets
 # Layout: status(0:u32, 4 bytes) + body(4:Bytes, 8 bytes) + error(12:Text, 8 bytes)
 CLOUD_RESP_STATUS = 0   # u32 inline (4 bytes)
-CLOUD_RESP_BODY = 4     # (relOffset:i32 + length:u32)
-CLOUD_RESP_ERROR = 12   # (relOffset:i32 + length:u32)
+CLOUD_RESP_BODY = 4     # (relOffset:u32 + length:u32)
+CLOUD_RESP_ERROR = 12   # (relOffset:u32 + length:u32)
 
 # Call correlation flags
 REQ_FLAG_REQ = 1
@@ -48,7 +57,12 @@ HANDSHAKE_ID_LEN_OFFSET = 60
 # ── Message ──────────────────────────────────────────────────────────────
 
 class Message:
-    """Parsed ZAP binary message (owns the full buffer including header)."""
+    """A parsed ZAP message — a header view over the full buffer.
+
+    The object body is read with the canonical :class:`zap.wire.Object` (via the
+    ``obj_*`` helpers below). This wrapper only exposes the 16-byte header fields
+    in hanzo-zap's vocabulary (``msg_type``, ``root_offset``, ``total_size``).
+    """
 
     __slots__ = ("_data",)
 
@@ -92,130 +106,70 @@ class Message:
         return struct.unpack_from("<I", self._data, 12)[0]
 
 
-# ── Object reader (works on full message buffer with absolute offsets) ──
+# ── Object reader (delegates field decode to canonical zap.wire.Object) ──
 
 def obj_uint32(data: bytes, obj_offset: int, field_offset: int) -> int:
-    """Read a u32 inline field from object at obj_offset."""
-    pos = obj_offset + field_offset
-    if pos + 4 > len(data):
-        return 0
-    return struct.unpack_from("<I", data, pos)[0]
+    """Read a u32 inline field from the object at ``obj_offset``."""
+    return _zw.Object(memoryview(data), obj_offset).uint32(field_offset)
 
 
 def obj_bytes(data: bytes, obj_offset: int, field_offset: int) -> bytes:
-    """Read a Bytes field (relOffset:i32 + length:u32) from object."""
-    pos = obj_offset + field_offset
-    if pos + 8 > len(data):
-        return b""
-    rel_off = struct.unpack_from("<i", data, pos)[0]  # signed i32
-    length = struct.unpack_from("<I", data, pos + 4)[0]
-    if length == 0 or rel_off == 0:
-        return b""
-    abs_off = pos + rel_off
-    if abs_off < 0 or abs_off + length > len(data):
-        return b""
-    return data[abs_off:abs_off + length]
+    """Read a Bytes field (relOffset + length) from the object."""
+    return _zw.Object(memoryview(data), obj_offset).bytes(field_offset)
 
 
 def obj_text(data: bytes, obj_offset: int, field_offset: int) -> str:
-    """Read a Text field from object."""
-    b = obj_bytes(data, obj_offset, field_offset)
-    return b.decode("utf-8", errors="replace") if b else ""
+    """Read a Text field from the object."""
+    return _zw.Object(memoryview(data), obj_offset).text(field_offset)
 
 
-# ── Builder (matches Rust Builder exactly) ───────────────────────────────
+# ── Builder (delegates the codec to canonical zap.wire.Builder) ──────────
 
-def _align(pos: int) -> int:
-    return (pos + ALIGNMENT - 1) & ~(ALIGNMENT - 1)
+class ObjectBuilder:
+    """hanzo-zap object builder — wraps :class:`zap.wire.ObjectBuilder`.
+
+    Keeps hanzo-zap's ``set_u32``/``set_u8`` spellings over the canonical
+    ``set_uint32``/``set_uint8`` so existing schema code is unchanged.
+    """
+
+    __slots__ = ("_ob",)
+
+    def __init__(self, ob: _zw.ObjectBuilder) -> None:
+        self._ob = ob
+
+    def set_u32(self, field_offset: int, v: int) -> None:
+        self._ob.set_uint32(field_offset, v)
+
+    def set_u8(self, field_offset: int, v: int) -> None:
+        self._ob.set_uint8(field_offset, v)
+
+    def set_bytes(self, field_offset: int, data: bytes) -> None:
+        self._ob.set_bytes(field_offset, data)
+
+    def set_text(self, field_offset: int, text: str) -> None:
+        self._ob.set_text(field_offset, text)
+
+    def finish_as_root(self) -> None:
+        self._ob.finish_as_root()
 
 
 class Builder:
-    """Builds a ZAP message in a single buffer, matching Rust Builder."""
+    """hanzo-zap message builder — wraps :class:`zap.wire.Builder`.
+
+    Adds the hanzo ``finish(flags)`` convenience (canonical splits this into
+    ``finish`` / ``finish_with_flags``).
+    """
+
+    __slots__ = ("_b",)
 
     def __init__(self, capacity: int = 256) -> None:
-        cap = max(capacity, 256)
-        self._buf = bytearray(cap)
-        self._buf[:4] = ZAP_MAGIC
-        struct.pack_into("<H", self._buf, 4, VERSION)
-        self._pos = HEADER_SIZE
-        self._root_offset = 0
+        self._b = _zw.Builder(max(capacity, 256))
 
-    def _grow(self, n: int) -> None:
-        needed = self._pos + n
-        if needed <= len(self._buf):
-            return
-        new_cap = max(len(self._buf) * 2, needed)
-        self._buf.extend(b"\x00" * (new_cap - len(self._buf)))
-
-    def _align_pos(self) -> None:
-        padding = (ALIGNMENT - (self._pos % ALIGNMENT)) % ALIGNMENT
-        self._grow(padding)
-        for _ in range(padding):
-            self._buf[self._pos] = 0
-            self._pos += 1
-
-    def start_object(self, data_size: int) -> "ObjectBuilder":
-        self._align_pos()
-        return ObjectBuilder(self, self._pos, data_size)
+    def start_object(self, data_size: int) -> ObjectBuilder:
+        return ObjectBuilder(self._b.start_object(data_size))
 
     def finish(self, flags: int = 0) -> bytes:
-        struct.pack_into("<H", self._buf, 6, flags)
-        struct.pack_into("<I", self._buf, 8, self._root_offset)
-        struct.pack_into("<I", self._buf, 12, self._pos)
-        return bytes(self._buf[:self._pos])
-
-
-class ObjectBuilder:
-    """Builds a single object within a Builder, matching Rust ObjectBuilder."""
-
-    def __init__(self, builder: Builder, start_pos: int, data_size: int) -> None:
-        self._builder = builder
-        self._start = start_pos
-        self._data_size = data_size
-        self._deferred: list[tuple[int, bytes]] = []  # (field_offset, data)
-
-    def _ensure_field(self, end_offset: int) -> None:
-        needed = self._start + end_offset
-        if needed > self._builder._pos:
-            self._builder._grow(needed - self._builder._pos)
-            for i in range(self._builder._pos, needed):
-                self._builder._buf[i] = 0
-            self._builder._pos = needed
-
-    def set_u32(self, field_offset: int, v: int) -> None:
-        self._ensure_field(field_offset + 4)
-        struct.pack_into("<I", self._builder._buf, self._start + field_offset, v)
-
-    def set_u8(self, field_offset: int, v: int) -> None:
-        self._ensure_field(field_offset + 1)
-        self._builder._buf[self._start + field_offset] = v & 0xFF
-
-    def set_bytes(self, field_offset: int, data: bytes) -> None:
-        self._ensure_field(field_offset + 8)
-        pos = self._start + field_offset
-        if not data:
-            struct.pack_into("<I", self._builder._buf, pos, 0)
-            struct.pack_into("<I", self._builder._buf, pos + 4, 0)
-            return
-        struct.pack_into("<I", self._builder._buf, pos + 4, len(data))
-        self._deferred.append((field_offset, data))
-
-    def set_text(self, field_offset: int, text: str) -> None:
-        self.set_bytes(field_offset, text.encode("utf-8"))
-
-    def finish_as_root(self) -> None:
-        """Finalize and set as root object."""
-        self._ensure_field(self._data_size)
-        for field_offset, data in self._deferred:
-            data_pos = self._builder._pos
-            self._builder._grow(len(data))
-            start = self._builder._pos
-            self._builder._buf[start:start + len(data)] = data
-            self._builder._pos += len(data)
-            field_abs = self._start + field_offset
-            rel_offset = data_pos - field_abs
-            struct.pack_into("<i", self._builder._buf, field_abs, rel_offset)  # signed i32
-        self._builder._root_offset = self._start
+        return self._b.finish_with_flags(flags) if flags else self._b.finish()
 
 
 # ── Cloud service helpers ────────────────────────────────────────────────
