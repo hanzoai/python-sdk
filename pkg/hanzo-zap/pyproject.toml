@@ -24,6 +24,9 @@ classifiers = [
 keywords = ["agent", "ai", "hanzo", "mcp", "protocol", "zap", "zero-copy"]
 dependencies = [
     "httpx>=0.23.0",
+    # Canonical zero-copy wire codec (zap.wire). hanzo-zap layers its cloud
+    # service schema on top of this; the codec is never reimplemented here.
+    "zap-proto>=1.2.0",
 ]
 
 [project.urls]
