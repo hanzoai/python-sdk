@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.9"
+version = "0.15.10"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -32,7 +32,8 @@ dependencies = [
     # Hanzo tool infrastructure (all tools)
     "hanzo-tools>=0.3.0",
     "hanzo-tools-fs>=0.1.0",
-    "hanzo-tools-shell>=0.6.1",
+    "hanzo-tools-shell>=0.6.5",  # 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError); older shadowed by legacy core<0.3.0
+    "hanzo-tools-core>=0.3.0",   # hard floor: legacy split package must carry ToolError (pre-0.3.0 breaks shell import)
     "hanzo-tools-browser[playwright]>=0.5.8",  # 3 peer tools (browser/cdp/playwright) over zapd consumer (~/.zap/run/zapd.sock)
     "hanzo-tools-memory>=0.2.0",
     "hanzo-tools-todo>=0.1.0",
