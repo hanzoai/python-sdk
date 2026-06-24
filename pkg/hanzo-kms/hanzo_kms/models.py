@@ -2,7 +2,6 @@
 Hanzo KMS - Data models for the SDK
 
 Pydantic models for API requests and responses.
-Compatible with Infisical API schema.
 """
 
 from datetime import datetime
