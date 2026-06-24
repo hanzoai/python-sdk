@@ -1,14 +1,15 @@
 """Hanzo S3 -- Python client for S3-compatible object storage.
 
-Thin wrapper around the ``minio`` package that re-exports its public API
-under the ``hanzo_s3`` namespace with Hanzo-flavoured aliases.
+Backed by hanzoai/s3 (a SeaweedFS fork with Hanzo consensus + ZAP). The S3
+wire protocol is standard, so this client is a thin, native adapter over
+``boto3`` exposing a small, stable surface.
 
 Usage::
 
     from hanzo_s3 import S3Client
 
     client = S3Client(
-        "s3-api.hanzo.ai",
+        "s3.hanzo.ai",
         access_key="YOUR-ACCESS-KEY",
         secret_key="YOUR-SECRET-KEY",
     )
@@ -17,40 +18,28 @@ Usage::
         print(bucket.name, bucket.creation_date)
 """
 
-from minio import Minio, credentials, sse  # backward compat
-from minio import Minio as S3Client
-from minio.datatypes import Object
-from minio.error import (
-    InvalidResponseError,
+from hanzo_s3.client import (
+    Bucket,
+    Object,
+    S3Client,
     S3Error,
-    ServerError,
+    Stat,
 )
-from minio.helpers import ObjectWriteResult
 
 # Convenience aliases
 Client = S3Client
 Error = S3Error
 S3Exception = S3Error
-ObjectWriteResponse = ObjectWriteResult
 
 __version__ = "1.0.0"
 
 __all__ = [
-    # Clients
     "S3Client",
     "Client",
-    "Minio",
-    # Errors
     "S3Error",
     "Error",
     "S3Exception",
-    "InvalidResponseError",
-    "ServerError",
-    # Data types
+    "Bucket",
     "Object",
-    "ObjectWriteResult",
-    "ObjectWriteResponse",
-    # Sub-modules
-    "credentials",
-    "sse",
+    "Stat",
 ]
