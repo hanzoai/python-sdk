@@ -8,6 +8,7 @@ Usage:
     hanzo iam <subcommand>
     hanzo kms <subcommand>
     hanzo paas <subcommand>
+    hanzo s3 <subcommand>
     hanzo k8s <subcommand | kubectl args>
 """
 
@@ -124,12 +125,14 @@ from hanzo_cli.iam.commands import iam  # noqa: E402
 from hanzo_cli.k8s.commands import k8s  # noqa: E402
 from hanzo_cli.kms.commands import kms  # noqa: E402
 from hanzo_cli.paas.commands import deploy, paas  # noqa: E402
+from hanzo_cli.s3.commands import s3  # noqa: E402
 
 main.add_command(bot)
 main.add_command(iam)
 main.add_command(k8s)
 main.add_command(kms)
 main.add_command(paas)
+main.add_command(s3)
 
 # Top-level aliases — `hanzo deploy` = `hanzo paas deploy`
 main.add_command(deploy)
