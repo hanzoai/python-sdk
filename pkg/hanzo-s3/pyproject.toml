@@ -6,7 +6,7 @@ readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.12"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
-keywords = ["s3", "minio", "hanzo", "object-storage", "cloud-storage"]
+keywords = ["s3", "hanzo", "seaweedfs", "object-storage", "cloud-storage"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -23,7 +23,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "minio>=7.2.0",
+    "boto3>=1.34.0",
 ]
 
 [project.optional-dependencies]
@@ -36,7 +36,7 @@ dev = [
 [project.urls]
 Homepage = "https://s3.hanzo.ai"
 Documentation = "https://docs.hanzo.ai/s3"
-Repository = "https://github.com/hanzos3/py-sdk"
+Backend = "https://github.com/hanzoai/s3"
 Source = "https://github.com/hanzoai/python-sdk"
 
 [build-system]
