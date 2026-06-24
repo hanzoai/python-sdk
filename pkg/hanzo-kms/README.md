@@ -139,13 +139,6 @@ client = KMSClient(ClientSettings(
 This SDK is compatible with:
 - Hanzo KMS (https://kms.hanzo.ai)
 - Lux KMS (https://kms.lux.network)
-- Infisical (https://infisical.com)
-
-The `InfisicalClient` alias is provided for drop-in compatibility:
-
-```python
-from hanzo_kms import InfisicalClient  # Same as KMSClient
-```
 
 ## License
 

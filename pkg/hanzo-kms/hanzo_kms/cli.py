@@ -37,7 +37,7 @@ def _build_client(args: argparse.Namespace) -> KMSClient:
     site_url = args.url or os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
 
     # Auth priority: token > universal-auth > user/password > env
-    token = args.token or os.getenv("HANZO_KMS_TOKEN", os.getenv("INFISICAL_TOKEN", ""))
+    token = args.token or os.getenv("HANZO_KMS_TOKEN", "")
     client_id = args.client_id or os.getenv("HANZO_KMS_CLIENT_ID", "")
     client_secret = args.client_secret or os.getenv("HANZO_KMS_CLIENT_SECRET", "")
     email = args.email or os.getenv("HANZO_KMS_EMAIL", "")

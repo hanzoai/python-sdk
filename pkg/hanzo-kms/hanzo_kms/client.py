@@ -1,7 +1,7 @@
 """
 Hanzo KMS Client - Pure Python implementation
 
-A full-featured KMS client compatible with Infisical API.
+A full-featured Hanzo KMS client.
 """
 
 import os
@@ -70,19 +70,13 @@ class KMSClient:
         """Create settings from environment variables."""
         from .models import TokenAuthMethod, UniversalAuthMethod, UserPasswordAuthMethod
 
-        site_url = os.getenv(
-            "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
-        )
+        site_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
         organization = os.getenv("HANZO_KMS_ORG", "hanzo")
-        client_id = os.getenv(
-            "HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", "")
-        )
-        client_secret = os.getenv(
-            "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
-        )
+        client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
+        client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
         email = os.getenv("HANZO_KMS_EMAIL", "")
         password = os.getenv("HANZO_KMS_PASSWORD", "")
-        token = os.getenv("HANZO_KMS_TOKEN", os.getenv("INFISICAL_TOKEN", ""))
+        token = os.getenv("HANZO_KMS_TOKEN", "")
 
         auth = None
         if token:
@@ -541,6 +535,3 @@ class KMSClient:
     def __exit__(self, *args) -> None:
         self.close()
 
-
-# Alias for compatibility
-InfisicalClient = KMSClient
