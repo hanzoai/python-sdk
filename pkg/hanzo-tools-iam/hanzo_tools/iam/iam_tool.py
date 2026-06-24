@@ -4,7 +4,7 @@ Full control over users, organizations, roles, permissions, providers,
 applications, tokens, sessions, invitations, and audit records.
 
 Auth: Uses HanzoSession from hanzo-tools-auth for Bearer JWT tokens.
-Backend: Casdoor IAM at hanzo.id/api/
+Backend: Hanzo IAM (HIP-0026) — canonical surface under iam.hanzo.ai/v1/iam/
 """
 
 from __future__ import annotations
@@ -72,8 +72,12 @@ def _get_session():
 
 
 def _iam_url(path: str) -> str:
-    """Build full IAM API URL."""
-    return f"{IAM_BASE_URL}/api/{path.lstrip('/')}"
+    """Build full IAM API URL.
+
+    The Hanzo IAM server (HIP-0026) registers its admin CRUD surface only
+    under /v1/iam/ — the upstream-shape /api/ path is not served. One way.
+    """
+    return f"{IAM_BASE_URL}/v1/iam/{path.lstrip('/')}"
 
 
 def _auth_headers(token: str) -> dict[str, str]:
@@ -520,13 +524,23 @@ class IAMTool(BaseTool):
         return json.dumps(data, indent=2)
 
     async def _health(self) -> str:
+        # Canonical health probe is /v1/iam/healthz. IAM serves a 200 text/html
+        # SPA catch-all for unregistered paths, so a 200 alone is not "healthy" —
+        # require a JSON body reporting status "ok" before claiming health.
+        url = f"{IAM_BASE_URL}/v1/iam/healthz"
         try:
             async with httpx.AsyncClient(timeout=10.0) as client:
-                resp = await client.get(f"{IAM_BASE_URL}/api/health")
+                resp = await client.get(url)
+                healthy = False
+                data: Any = None
+                if "application/json" in resp.headers.get("content-type", ""):
+                    data = resp.json()
+                    healthy = resp.status_code == 200 and isinstance(data, dict) and data.get("status") == "ok"
                 return json.dumps({
-                    "status": "ok" if resp.status_code == 200 else "error",
+                    "status": "ok" if healthy else "error",
                     "code": resp.status_code,
                     "url": IAM_BASE_URL,
+                    "data": data.get("data") if isinstance(data, dict) else None,
                 }, indent=2)
         except Exception as e:
             return json.dumps({"status": "error", "error": str(e), "url": IAM_BASE_URL})
