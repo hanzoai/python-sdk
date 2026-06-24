@@ -1,6 +1,7 @@
 """MCP tool for Hanzo S3 — S3-compatible object storage.
 
-Single tool over the ``hanzo_s3`` client (MinIO-compatible) at s3.hanzo.ai.
+Single tool over the ``hanzo_s3`` client (S3-compatible, backed by
+hanzoai/s3) at s3.hanzo.ai.
 Buckets and objects: list, create, remove, stat, and presign.
 
 Auth: credentials from the environment — inject them from KMS, never store
