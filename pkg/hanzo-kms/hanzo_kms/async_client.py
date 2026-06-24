@@ -1,7 +1,7 @@
 """
 Hanzo KMS Async Client - Async Python implementation
 
-An async-first KMS client compatible with Infisical API.
+An async-first Hanzo KMS client.
 """
 
 import os
@@ -48,16 +48,10 @@ class AsyncKMSClient:
         """Create settings from environment variables."""
         from .models import UniversalAuthMethod
 
-        site_url = os.getenv(
-            "HANZO_KMS_URL", os.getenv("INFISICAL_SITE_URL", "https://kms.hanzo.ai")
-        )
+        site_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
         organization = os.getenv("HANZO_KMS_ORG", "hanzo")
-        client_id = os.getenv(
-            "HANZO_KMS_CLIENT_ID", os.getenv("INFISICAL_CLIENT_ID", "")
-        )
-        client_secret = os.getenv(
-            "HANZO_KMS_CLIENT_SECRET", os.getenv("INFISICAL_CLIENT_SECRET", "")
-        )
+        client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
+        client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
 
         auth = None
         if client_id and client_secret:
@@ -345,7 +339,3 @@ class AsyncKMSClient:
 
     async def __aexit__(self, *args) -> None:
         await self.close()
-
-
-# Alias for compatibility
-AsyncInfisicalClient = AsyncKMSClient
