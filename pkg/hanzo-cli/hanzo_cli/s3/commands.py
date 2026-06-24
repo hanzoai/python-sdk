@@ -1,6 +1,7 @@
 """Hanzo CLI — S3 subcommands for object storage.
 
-Wraps the ``hanzo_s3`` client (S3-compatible / MinIO) at s3.hanzo.ai.
+Wraps the ``hanzo_s3`` client (S3-compatible, backed by hanzoai/s3) at
+s3.hanzo.ai.
 Credentials come from the environment — inject them from KMS, never store
 them in plaintext:
 
