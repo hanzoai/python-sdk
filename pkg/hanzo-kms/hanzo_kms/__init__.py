@@ -1,7 +1,7 @@
 """
 Hanzo KMS - Secret Management SDK for Python
 
-A pure Python SDK for Hanzo/Lux KMS (compatible with Infisical API).
+A pure Python SDK for Hanzo/Lux KMS.
 
 Usage:
     from hanzo_kms import KMSClient, ClientSettings, UniversalAuthMethod, AuthenticationOptions
@@ -54,16 +54,10 @@ from .models import (
     UserPasswordAuthMethod,
 )
 
-# Aliases for compatibility with infisical-python
-InfisicalClient = KMSClient
-AsyncInfisicalClient = AsyncKMSClient
-
 __all__ = [
     # Main clients
     "KMSClient",
     "AsyncKMSClient",
-    "InfisicalClient",  # Alias for compatibility
-    "AsyncInfisicalClient",  # Async alias
     # Settings
     "ClientSettings",
     "AuthenticationOptions",
