@@ -7,6 +7,8 @@ from typing import ClassVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from hanzo_iam.models import OIDC_USERINFO_PATH
+
 
 class IAMConfig(BaseModel):
     """Configuration for Hanzo IAM client.
@@ -85,8 +87,8 @@ class IAMConfig(BaseModel):
 
     @property
     def userinfo_endpoint(self) -> str:
-        """OIDC UserInfo endpoint URL."""
-        return f"{self.server_url}/api/userinfo"
+        """OIDC UserInfo endpoint URL (HIP-0111 canonical path)."""
+        return f"{self.server_url}{OIDC_USERINFO_PATH}"
 
     @property
     def api_base(self) -> str:
