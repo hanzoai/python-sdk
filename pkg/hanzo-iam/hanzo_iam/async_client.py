@@ -10,6 +10,7 @@ import httpx
 import jwt
 
 from hanzo_iam.models import (
+    OIDC_USERINFO_PATH,
     Application,
     JWTClaims,
     Organization,
@@ -415,7 +416,7 @@ class AsyncIAMClient:
         """
         http = await self._get_http()
         response = await http.get(
-            "/api/userinfo",
+            OIDC_USERINFO_PATH,
             headers={"Authorization": f"Bearer {access_token}"},
         )
         response.raise_for_status()
