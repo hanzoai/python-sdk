@@ -117,7 +117,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get the current authenticated account."""
         return self._get(
-            "/iam/api/get-account",
+            "/v1/iam/oauth/userinfo",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -137,7 +137,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get OIDC userinfo for the current session."""
         return self._get(
-            "/iam/api/userinfo",
+            "/v1/iam/oauth/userinfo",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1495,7 +1495,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get the current authenticated account."""
         return await self._get(
-            "/iam/api/get-account",
+            "/v1/iam/oauth/userinfo",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1515,7 +1515,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get OIDC userinfo for the current session."""
         return await self._get(
-            "/iam/api/userinfo",
+            "/v1/iam/oauth/userinfo",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

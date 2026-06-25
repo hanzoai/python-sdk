@@ -15,6 +15,7 @@ import httpx
 import jwt
 
 from .models import (
+    OIDC_USERINFO_PATH,
     Application,
     IAMConfig,
     JWTClaims,
@@ -423,7 +424,7 @@ class IAMClient:
             UserInfo with user profile data.
         """
         response = self.http.get(
-            "/api/userinfo",
+            OIDC_USERINFO_PATH,
             headers={"Authorization": f"Bearer {access_token}"},
         )
         response.raise_for_status()
@@ -1056,7 +1057,7 @@ class AsyncIAMClient:
         """Get user info from userinfo endpoint."""
         http = await self._get_http()
         response = await http.get(
-            "/api/userinfo",
+            OIDC_USERINFO_PATH,
             headers={"Authorization": f"Bearer {access_token}"},
         )
         response.raise_for_status()
