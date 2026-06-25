@@ -34,7 +34,13 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 
-from hanzo_iam.models import IAMConfig, JWTClaims, Organization, UserInfo
+from hanzo_iam.models import (
+    OIDC_USERINFO_PATH,
+    IAMConfig,
+    JWTClaims,
+    Organization,
+    UserInfo,
+)
 
 # Global state
 _config: IAMConfig | None = None
@@ -232,7 +238,7 @@ async def _fetch_user_info(token: str) -> UserInfo:
         HTTPException: If request fails
     """
     config = get_config()
-    userinfo_url = f"{config.server_url}/api/userinfo"
+    userinfo_url = f"{config.server_url}{OIDC_USERINFO_PATH}"
 
     async with httpx.AsyncClient() as client:
         response = await client.get(
