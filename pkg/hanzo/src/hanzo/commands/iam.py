@@ -201,13 +201,17 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
         os.environ["IAM_CLIENT_ID"] = client_id
         os.environ["IAM_CLIENT_SECRET"] = client_secret
         os.environ["IAM_URL"] = url
-        data = _iam_request("GET", "/api/get-account", auth_params=True)
-        if data.get("status") != "error":
+        # HIP-0111: canonical OIDC userinfo. Returns flat standard claims
+        # (sub/email/...) with no Casdoor {status,msg} envelope — a 200
+        # response is itself the success signal; any failure raises via
+        # raise_for_status in _iam_request.
+        data = _iam_request("GET", "/v1/iam/oauth/userinfo", auth_params=True)
+        if "error" not in data:
             console.print("[green]✓[/green] Connected to IAM successfully")
         else:
             console.print(
                 "[yellow]⚠[/yellow] Connected but got error: "
-                + data.get("msg", "unknown")
+                + data.get("error_description", data.get("error", "unknown"))
             )
     except SystemExit:
         console.print(
