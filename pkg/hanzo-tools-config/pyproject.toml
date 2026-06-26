@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "hanzo-tools-config"
 version = "0.2.1"
 description = "Configuration tools for Hanzo AI - mode, settings management"
+readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
