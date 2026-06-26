@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.2 (2026-06-26)
+
+### Bug Fixes
+
+* **iam:** migrate `userinfo`/`get-account` to the canonical `/v1/iam/oauth/userinfo` endpoint (HIP-0111), dropping the forbidden `/iam/api/*` paths in `hanzoai.resources.iam`
+
 ## 2.2.1 (2026-06-10)
 
 ### Bug Fixes
