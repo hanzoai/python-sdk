@@ -119,10 +119,10 @@ class TestToolPackages:
         assert len(TOOLS) == 3
 
     def test_browser_tools(self):
-        """Test hanzo-tools-browser has 1 tool."""
+        """Test hanzo-tools-browser has 3 tools (browser, cdp, playwright)."""
         from hanzo_tools.browser import TOOLS
 
-        assert len(TOOLS) == 1
+        assert len(TOOLS) == 3
 
     @pytest.mark.skipif(
         not _module_installed("hanzo_tools.config"),
@@ -139,10 +139,10 @@ class TestToolPackages:
         reason="hanzo-tools-mcp not installed",
     )
     def test_mcp_tools(self):
-        """Test hanzo-tools-mcp has 4 tools."""
+        """Test hanzo-tools-mcp has 5 tools."""
         from hanzo_tools.mcp_tools import TOOLS
 
-        assert len(TOOLS) == 4
+        assert len(TOOLS) == 5
 
     @pytest.mark.skipif(
         not _module_installed("hanzo_tools.llm"),
@@ -283,7 +283,7 @@ class TestTotalToolCount:
         required_packages = [
             ("hanzo_tools.fs", 1),
             ("hanzo_tools.shell", 9),
-            ("hanzo_tools.browser", 1),
+            ("hanzo_tools.browser", 3),
             ("hanzo_tools.memory", 1),  # unified memory tool
             ("hanzo_tools.todo", 1),
             ("hanzo_tools.reasoning", 2),
@@ -306,5 +306,5 @@ class TestTotalToolCount:
             ), f"{pkg_name}: expected {expected_count} tools, got {actual}"
             total += actual
 
-        # Required tools: 21 (1+9+1+1+1+2+1+1+1+3)
-        assert total == 21, f"Expected 21 required tools, got {total}"
+        # Required tools: 23 (1+9+3+1+1+2+1+1+1+3)
+        assert total == 23, f"Expected 23 required tools, got {total}"
