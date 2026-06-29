@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/hero.svg" alt="python-sdk" width="880"></p>
+
 # Hanzo Python SDK
 
 [![CI](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml)
