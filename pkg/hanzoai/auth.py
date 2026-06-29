@@ -225,7 +225,13 @@ ANTHROPIC_TOKEN_URL = "https://platform.claude.com/v1/oauth/token"
 ANTHROPIC_AUTHORIZE_URL = "https://claude.ai/oauth/authorize"
 
 # Hanzo IAM
-IAM_CLIENT_ID = "hanzo-dev"
+#
+# hanzo.id is the Hanzo ID SPA/proxy: it normalizes RFC OAuth paths
+# (/oauth/device, /oauth/token) onto the IAM backend (iam.hanzo.ai /v1/iam/*)
+# and hosts the human-facing device-approval page. `hanzo-app` is the canonical
+# brand CLI/desktop OAuth application seeded in IAM with the device_code grant
+# (iam/cmd/iam/cli/init_apps.go: AppName == ClientID == "<org>-app").
+IAM_CLIENT_ID = "hanzo-app"
 
 
 class HanzoAuth:
@@ -280,7 +286,7 @@ class HanzoAuth:
                 json={
                     "username": email,
                     "password": password,
-                    "application": "app-hanzo",
+                    "application": IAM_CLIENT_ID,
                 },
             )
             response.raise_for_status()
@@ -331,11 +337,15 @@ class HanzoAuth:
         import time
 
         async with httpx.AsyncClient() as client:
-            # Step 1: Request device code
+            # Step 1: Request device code. IAM reads device-grant parameters from
+            # the query/form body (controllers/token.go GetOAuthToken skips JSON
+            # for the device_code grant), so these MUST be form-encoded, and the
+            # endpoint is the RFC path hanzo.id proxies to IAM (/oauth/device →
+            # /v1/iam/login/oauth/device).
             response = await client.post(
-                f"{self.base_url}/api/device/code",
-                json={
-                    "client_id": "app-hanzo",
+                f"{self.base_url}/oauth/device",
+                data={
+                    "client_id": IAM_CLIENT_ID,
                     "scope": "openid profile email",
                 },
             )
@@ -344,7 +354,9 @@ class HanzoAuth:
             data = response.json()
             device_code = data["device_code"]
             user_code = data["user_code"]
-            verification_url = data.get("verification_uri", f"{self.base_url}/device")
+            verification_url = data.get(
+                "verification_uri", f"{self.base_url}/login/oauth/device"
+            )
             verification_url_complete = data.get(
                 "verification_uri_complete", f"{verification_url}?user_code={user_code}"
             )
@@ -368,47 +380,38 @@ class HanzoAuth:
             while time.time() - start_time < min(expires_in, timeout):
                 await asyncio.sleep(interval)
 
-                try:
-                    token_response = await client.post(
-                        f"{self.base_url}/api/device/token",
-                        json={
-                            "client_id": "app-hanzo",
-                            "device_code": device_code,
-                            "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
-                        },
-                    )
+                token_response = await client.post(
+                    f"{self.base_url}/oauth/token",
+                    data={
+                        "client_id": IAM_CLIENT_ID,
+                        "device_code": device_code,
+                        "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
+                    },
+                )
 
-                    if token_response.status_code == 200:
-                        token_data = token_response.json()
-                        self._token = token_data.get("access_token")
+                # IAM returns the OAuth body with a matching HTTP status (200 +
+                # {access_token} on approval, 400 + {error} while pending). We
+                # key off the body so a status-rewriting proxy can't desync us.
+                body = token_response.json()
 
-                        # Get user info
-                        user_info = await self.get_user_info()
-                        print("\033[1;32m✓ Authentication successful!\033[0m\n")
+                if body.get("access_token"):
+                    self._token = body["access_token"]
+                    user_info = await self.get_user_info()
+                    print("\033[1;32m✓ Authentication successful!\033[0m\n")
+                    return {"token": self._token, **user_info}
 
-                        return {"token": self._token, **user_info}
-
-                    elif token_response.status_code == 400:
-                        error_data = token_response.json()
-                        error = error_data.get("error")
-
-                        if error == "authorization_pending":
-                            # User hasn't completed auth yet, keep polling
-                            continue
-                        elif error == "slow_down":
-                            # Server asking us to slow down
-                            interval += 5
-                            continue
-                        elif error == "expired_token":
-                            raise RuntimeError("Device code expired. Please try again.")
-                        elif error == "access_denied":
-                            raise RuntimeError("Authentication denied by user.")
-                        else:
-                            raise RuntimeError(f"Authentication error: {error}")
-
-                except httpx.HTTPStatusError as e:
-                    if e.response.status_code != 400:
-                        raise
+                error = body.get("error")
+                if error == "authorization_pending":
+                    continue
+                elif error == "slow_down":
+                    interval += 5
+                    continue
+                elif error == "expired_token":
+                    raise RuntimeError("Device code expired. Please try again.")
+                elif error == "access_denied":
+                    raise RuntimeError("Authentication denied by user.")
+                elif error:
+                    raise RuntimeError(f"Authentication error: {error}")
 
             raise RuntimeError("Authentication timed out. Please try again.")
 
@@ -767,76 +770,83 @@ class HanzoAuth:
     async def get_user_info(self) -> Dict[str, Any]:
         """Get current user information.
 
+        The cloud API's ``/v1/get-account`` returns IAM Claims with the user
+        fields inlined (ai/controllers/account.go GetAccount) and accepts the
+        device-login bearer token via the auto-signin filter.
+
         Returns:
-            User details including permissions
+            User details including permissions and the ``accessKey`` (hk-) field
         """
         if self._user_info:
             return self._user_info
 
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{self.api_base_url}/v1/user", headers=self._get_headers()
+                f"{self.api_base_url}/v1/get-account", headers=self._get_headers()
             )
             response.raise_for_status()
 
             self._user_info = response.json()
             return self._user_info
 
-    async def create_api_key(
-        self,
-        name: str,
-        permissions: Optional[List[str]] = None,
-        expires: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        """Create a new API key.
+    async def get_api_key(self) -> Optional[str]:
+        """Read the signed-in user's current Cloud API key (``hk-``).
 
-        Args:
-            name: Key name
-            permissions: List of permissions
-            expires: Expiration (e.g., "30d", "1y", "never")
+        The key is the IAM user's ``accessKey`` (iam object/user.go), surfaced on
+        the ``/v1/get-account`` claims. Returns ``None`` if the account has no
+        key yet.
 
         Returns:
-            API key information
+            The ``hk-`` key, or ``None``.
+        """
+        info = await self.get_user_info()
+        key = info.get("accessKey") or info.get("data", {}).get("accessKey")
+        return key if key and key.startswith("hk-") else None
+
+    async def mint_api_key(self) -> str:
+        """Mint (rotate) the signed-in user's Cloud API key.
+
+        Hanzo issues ONE per-user ``hk-`` key, not a list of named keys. IAM
+        authorizes the caller as *self* from the bearer token — no ``id`` param
+        means "operate on me" (iam controllers/user.go resolveTargetUserForKeys:
+        admin OR self OR allowlisted app). Minting rotates, so the previous key
+        stops working.
+
+        Returns:
+            The new ``hk-`` key (shown once).
         """
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{self.api_base_url}/v1/api-keys",
-                headers=self._get_headers(),
-                json={
-                    "name": name,
-                    "permissions": permissions or ["read"],
-                    "expires": expires or "1y",
-                },
+                f"{self.base_url}/v1/iam/mint-user-keys", headers=self._get_headers()
             )
             response.raise_for_status()
+            body = response.json()
+            if body.get("status") != "ok":
+                raise RuntimeError(body.get("msg") or "Failed to mint API key")
+            key = (body.get("data") or {}).get("accessKey")
+            if not key:
+                raise RuntimeError("IAM did not return an access key")
+            # Refresh cached identity so a subsequent get_api_key sees the new key.
+            self._user_info = None
+            return key
 
-            return response.json()
+    async def get_or_create_api_key(self) -> str:
+        """Return a usable ``hk-`` key, minting one only if the account has none.
 
-    async def list_api_keys(self) -> List[Dict[str, Any]]:
-        """List user's API keys.
-
-        Returns:
-            List of API key information
+        Read-first means re-authenticating does not rotate (and break) a key
+        already wired into the user's coding tools.
         """
+        existing = await self.get_api_key()
+        return existing or await self.mint_api_key()
+
+    async def revoke_api_key(self):
+        """Revoke the signed-in user's Cloud API key (rotates to empty)."""
         async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{self.api_base_url}/v1/api-keys", headers=self._get_headers()
+            response = await client.post(
+                f"{self.base_url}/v1/iam/revoke-user-keys", headers=self._get_headers()
             )
             response.raise_for_status()
-
-            return response.json().get("keys", [])
-
-    async def revoke_api_key(self, name: str):
-        """Revoke an API key.
-
-        Args:
-            name: Key name to revoke
-        """
-        async with httpx.AsyncClient() as client:
-            response = await client.delete(
-                f"{self.api_base_url}/v1/api-keys/{name}", headers=self._get_headers()
-            )
-            response.raise_for_status()
+            self._user_info = None
 
     async def save_credentials(self, path: Path):
         """Save credentials to file.
