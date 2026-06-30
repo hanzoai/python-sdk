@@ -42,10 +42,10 @@ BOT_LOG_FILE = Path.home() / ".hanzo" / "bot" / "node.log"
 DEFAULT_GATEWAY_HOST = "gw.hanzo.bot"
 DEFAULT_GATEWAY_PORT = 443
 NPM_PACKAGE = "@hanzo/bot"
-BOT_IAM_CLIENT_ID = "hanzobot-client-id"
+BOT_IAM_CLIENT_ID = "hanzo-bot"
 BOT_IAM_SERVER_URL = "https://hanzo.id"
 BOT_IAM_ORG = "hanzo"
-BOT_IAM_APP = "app-hanzobot"
+BOT_IAM_APP = "hanzo-bot"
 BOT_CALLBACK_PORT = 8398
 BOT_CALLBACK_PATH = "/callback"
 BOT_TOKEN_FILE = Path.home() / ".hanzo" / "bot" / "token.json"
@@ -577,9 +577,9 @@ class _BotOAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
 def _bot_browser_login() -> str:
     """Run browser OAuth login flow for the bot gateway.
 
-    Opens the user's browser to the IAM login page (hanzobot application),
+    Opens the user's browser to the IAM login page (hanzo-bot application),
     starts a local HTTP server to receive the callback, exchanges the code
-    for tokens scoped to hanzobot-client-id.
+    for tokens scoped to the hanzo-bot client.
 
     Returns:
         Access token string.
@@ -672,7 +672,7 @@ def _bot_browser_login() -> str:
 def _bot_password_login(
     username: str | None = None, password: str | None = None
 ) -> str:
-    """Login via password grant using the hanzobot client. Returns access_token."""
+    """Login via password grant using the hanzo-bot client. Returns access_token."""
     import time
 
     import httpx
@@ -730,7 +730,7 @@ def _get_iam_token() -> str:
     if token:
         return token
 
-    # Try stored bot-specific token (issued by hanzobot-client-id)
+    # Try stored bot-specific token (issued by the hanzo-bot client)
     bot_data = _load_bot_token()
     if bot_data and bot_data.get("access_token"):
         return bot_data["access_token"]

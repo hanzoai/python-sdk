@@ -1120,7 +1120,7 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
 @click.option("--username", "-u", help="Username or email")
 @click.option("--password", "-p", help="Password")
 @click.option("--org", "-o", default="hanzo", help="Organization")
-@click.option("--app", "-a", default="app-hanzo", help="Application name")
+@click.option("--app", "-a", default="hanzo-app", help="Application name")
 def iam_login(username: str, password: str, org: str, app: str):
     """Login as a user via IAM (email/password).
 
@@ -1237,7 +1237,7 @@ def iam_api(endpoint: str, method: str, body: str, param: tuple):
     \b
     Examples:
       hanzo iam api /api/get-users --param owner=hanzo
-      hanzo iam api /api/get-application --param id=hanzo/app-hanzo
+      hanzo iam api /api/get-application --param id=hanzo/hanzo-app
       hanzo iam api /api/get-providers --param owner=admin
     """
     extra_params = {}

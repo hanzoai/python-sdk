@@ -27,8 +27,8 @@ TOKEN_FILE = TOKEN_DIR / "token.json"
 
 DEFAULT_IAM_URL = "https://hanzo.id"
 DEFAULT_ORG = "hanzo"
-DEFAULT_APP = "app-hanzo"
-DEFAULT_CLIENT_ID = "hanzo-app-client-id"
+DEFAULT_APP = "hanzo-app"
+DEFAULT_CLIENT_ID = "hanzo-app"
 CALLBACK_PORT = 8399
 CALLBACK_PATH = "/callback"
 
