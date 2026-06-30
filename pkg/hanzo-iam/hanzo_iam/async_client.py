@@ -1,4 +1,4 @@
-"""Asynchronous IAM client for Hanzo IAM (Casdoor-based)."""
+"""Asynchronous IAM client for Hanzo IAM."""
 
 from __future__ import annotations
 
@@ -423,7 +423,7 @@ class AsyncIAMClient:
         return UserInfo.model_validate(response.json())
 
     # =========================================================================
-    # User Management (Casdoor Admin API)
+    # User Management (IAM Admin API)
     # =========================================================================
 
     async def get_user(self, user_id: str) -> User:
@@ -1041,7 +1041,3 @@ class AsyncIAMClient:
 
     async def __aexit__(self, *args: Any) -> None:
         await self.close()
-
-
-# Alias for Casdoor SDK compatibility
-AsyncCasdoorSDK = AsyncIAMClient
