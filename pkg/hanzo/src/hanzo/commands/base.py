@@ -525,7 +525,7 @@ def status():
         ("Auth", "localhost:54321", "auth.hanzo.ai"),
         ("Storage", "localhost:54324", "storage.hanzo.ai"),
         ("Realtime", "localhost:54325", "realtime.hanzo.ai"),
-        ("Functions", "localhost:54326", "functions.hanzo.ai"),
+        ("Functions", "localhost:54326", "api.hanzo.ai/v1/functions"),
         ("Studio", "localhost:54323", "studio.hanzo.ai"),
     ]
 
