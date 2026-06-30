@@ -20,7 +20,7 @@ from ..utils.output import console
 
 # OAuth constants
 IAM_URL = "https://hanzo.id"
-IAM_CLIENT_ID = "app-hanzo"
+IAM_CLIENT_ID = "hanzo-app"
 CALLBACK_PORT = 1456
 CALLBACK_PATH = "/callback"
 CALLBACK_URI = f"http://localhost:{CALLBACK_PORT}{CALLBACK_PATH}"
