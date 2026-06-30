@@ -1,7 +1,7 @@
 """Hanzo IAM - Identity and Access Management SDK for Hanzo ecosystem."""
 
-from hanzo_iam.async_client import AsyncCasdoorSDK, AsyncIAMClient
-from hanzo_iam.client import CasdoorSDK, IAMClient
+from hanzo_iam.async_client import AsyncIAMClient
+from hanzo_iam.client import IAMClient
 from hanzo_iam.models import (
     Application,
     IAMConfig,
@@ -27,7 +27,4 @@ __all__ = [
     "TokenResponse",
     "User",
     "UserInfo",
-    # Aliases for Casdoor compatibility
-    "CasdoorSDK",
-    "AsyncCasdoorSDK",
 ]
