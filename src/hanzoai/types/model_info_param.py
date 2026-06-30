@@ -11,7 +11,11 @@ from .._utils import PropertyInfo
 __all__ = ["ModelInfoParam"]
 
 
-class ModelInfoParam(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
+class ModelInfoParam(  # type: ignore[call-arg]
+    TypedDict,
+    total=False,
+    extra_items=object,  # pyright: ignore[reportGeneralTypeIssues]
+):
     id: Required[Optional[str]]
 
     base_model: Optional[str]

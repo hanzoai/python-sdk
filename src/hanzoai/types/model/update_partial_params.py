@@ -23,7 +23,11 @@ class UpdatePartialParams(TypedDict, total=False):
 LlmParamsConfigurableClientsideAuthParam: TypeAlias = Union[str, ConfigurableClientsideParamsCustomAuthParam]
 
 
-class LlmParams(TypedDict, total=False, extra_items=object):  # type: ignore[call-arg]
+class LlmParams(  # type: ignore[call-arg]
+    TypedDict,
+    total=False,
+    extra_items=object,  # pyright: ignore[reportGeneralTypeIssues]
+):
     api_base: Optional[str]
 
     api_key: Optional[str]
