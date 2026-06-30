@@ -1,6 +1,6 @@
 """Hanzo IAM - Identity and Access Management CLI.
 
-Real API calls to Casdoor-based IAM at hanzo.id.
+Real API calls to Hanzo IAM at hanzo.id.
 Manages users, organizations, providers, roles, and applications.
 """
 
@@ -202,7 +202,7 @@ def configure(url: str, client_id: str, client_secret: str, org: str):
         os.environ["IAM_CLIENT_SECRET"] = client_secret
         os.environ["IAM_URL"] = url
         # HIP-0111: canonical OIDC userinfo. Returns flat standard claims
-        # (sub/email/...) with no Casdoor {status,msg} envelope — a 200
+        # (sub/email/...) with no {status,msg} envelope — a 200
         # response is itself the success signal; any failure raises via
         # raise_for_status in _iam_request.
         data = _iam_request("GET", "/v1/iam/oauth/userinfo", auth_params=True)
@@ -1125,7 +1125,7 @@ def iam_login(username: str, password: str, org: str, app: str):
     """Login as a user via IAM (email/password).
 
     \b
-    Uses the Casdoor /api/login endpoint directly.
+    Uses the IAM /api/login endpoint directly.
     Stores the resulting token in ~/.hanzo/auth.json.
 
     \b

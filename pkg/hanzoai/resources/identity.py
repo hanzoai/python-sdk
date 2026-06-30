@@ -13,7 +13,7 @@ from .._base_client import make_request_options
 
 
 class IdentityResource(SyncAPIResource):
-    """Identity and authentication management (Casdoor-backed)."""
+    """Identity and authentication management (Hanzo IAM-backed)."""
 
     @cached_property
     def with_raw_response(self) -> IdentityResourceWithRawResponse:
@@ -443,7 +443,7 @@ class IdentityResource(SyncAPIResource):
 
 
 class AsyncIdentityResource(AsyncAPIResource):
-    """Identity and authentication management (Casdoor-backed)."""
+    """Identity and authentication management (Hanzo IAM-backed)."""
 
     @cached_property
     def with_raw_response(self) -> AsyncIdentityResourceWithRawResponse:

@@ -23,10 +23,10 @@ __all__ = ["IAMResource", "AsyncIAMResource"]
 class IAMResource(SyncAPIResource):
     """Hanzo IAM — identity, access, and organization management.
 
-    Wraps the Casdoor-compatible API at hanzo.id/api/ behind the /iam/ gateway
+    Wraps the IAM API at hanzo.id/api/ behind the /iam/ gateway
     prefix.  Auth endpoints accept explicit params; CRUD endpoints for users,
     organizations, applications, roles, permissions, groups, tokens, sessions,
-    and invitations accept full object dicts matching the Casdoor schema.
+    and invitations accept full object dicts matching the IAM schema.
     """
 
     @cached_property
