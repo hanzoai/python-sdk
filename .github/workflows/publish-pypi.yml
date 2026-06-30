@@ -57,16 +57,19 @@ jobs:
           MANUAL_INPUT="${{ github.event.inputs.packages }}"
           PACKAGES=""
 
-          # All hanzo-tools packages
-          TOOLS_PACKAGES="hanzo-tools-core hanzo-tools-fs hanzo-tools-shell hanzo-tools-browser hanzo-tools-memory hanzo-tools-todo hanzo-tools-reasoning hanzo-tools-lsp hanzo-tools-refactor hanzo-tools-database hanzo-tools-agent hanzo-tools-jupyter hanzo-tools-editor hanzo-tools-llm hanzo-tools-vector hanzo-tools-config hanzo-tools-mcp hanzo-tools-computer hanzo-tools"
-
-          # Main packages
-          MAIN_PACKAGES="hanzoai hanzo hanzo-cli hanzo-kms hanzo-iam hanzo-consensus hanzo-network hanzo-mcp hanzo-memory hanzo-aci hanzo-dev"
+          # Auto-discover every publishable package so these lists can never go
+          # stale. The prior hardcoded lists silently dropped hanzo-zap and the new
+          # packages, so tag-triggered "publish all" never shipped them. hanzoai is
+          # the root package; all others live under pkg/. sort -u folds the
+          # pkg/hanzoai mirror into the single root entry.
+          ALL_PACKAGES="$( { echo hanzoai; ls -d pkg/*/ 2>/dev/null | xargs -n1 basename; } | sort -u | xargs)"
+          TOOLS_PACKAGES="$(ls -d pkg/hanzo-tools-*/ 2>/dev/null | xargs -n1 basename | sort | xargs)"
+          MAIN_PACKAGES="$ALL_PACKAGES"
 
           # Handle manual workflow dispatch
           if [ -n "$MANUAL_INPUT" ]; then
             if [ "$MANUAL_INPUT" = "all" ]; then
-              PACKAGES="$MAIN_PACKAGES $TOOLS_PACKAGES"
+              PACKAGES="$ALL_PACKAGES"
             else
               PACKAGES="$MANUAL_INPUT"
             fi
@@ -134,7 +137,7 @@ jobs:
             PACKAGES="hanzo"
           elif [[ $TAG == v* ]]; then
             # For general version tags, publish all packages
-            PACKAGES="$MAIN_PACKAGES $TOOLS_PACKAGES"
+            PACKAGES="$ALL_PACKAGES"
           fi
 
           echo "PACKAGES=$PACKAGES" >> $GITHUB_OUTPUT
@@ -173,8 +176,20 @@ jobs:
             # Build from repo root to avoid stdlib shadowing (hanzoai/types vs types)
             python -m build "$PKG_DIR" --outdir "$PKG_DIR/dist"
 
-            # Upload to PyPI
-            python -m twine upload "$PKG_DIR/dist/"* --skip-existing || echo "Warning: Failed to upload $package (may already exist)"
+            # Upload to PyPI with backoff. PyPI 429-rate-limits rapid bursts, which
+            # silently dropped the tail of large multi-package publishes. Retry
+            # transient failures so the whole set lands; --skip-existing keeps
+            # retries idempotent (already-uploaded files are skipped).
+            attempt=0
+            until python -m twine upload "$PKG_DIR/dist/"* --skip-existing; do
+              attempt=$((attempt + 1))
+              if [ "$attempt" -ge 5 ]; then
+                echo "Warning: giving up on $package after $attempt attempts (persistent error — e.g. 403 token scope)"
+                break
+              fi
+              echo "Upload of $package failed (attempt $attempt) — backing off $((attempt * 10))s (PyPI 429?)"
+              sleep "$((attempt * 10))"
+            done
           done
 
       - name: Create GitHub Release Notes
