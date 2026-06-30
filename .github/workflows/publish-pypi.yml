@@ -146,7 +146,13 @@ jobs:
       - name: Build and publish packages
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+          # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
+          # packages; HANZO_AI_PYPI_TOKEN owns the rest (e.g. hanzo-iam, published
+          # before consolidation under a different owner). Each upload tries the
+          # primary then falls back, so a 403 scope-miss on one token is covered by
+          # the other — no package is unpublishable for lack of the matching token.
+          PYPI_TOKEN_PRIMARY: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN_FALLBACK: ${{ secrets.HANZO_AI_PYPI_TOKEN }}
         run: |
           PACKAGES="${{ steps.determine_packages.outputs.PACKAGES }}"
 
@@ -176,15 +182,20 @@ jobs:
             # Build from repo root to avoid stdlib shadowing (hanzoai/types vs types)
             python -m build "$PKG_DIR" --outdir "$PKG_DIR/dist"
 
-            # Upload to PyPI with backoff. PyPI 429-rate-limits rapid bursts, which
-            # silently dropped the tail of large multi-package publishes. Retry
-            # transient failures so the whole set lands; --skip-existing keeps
-            # retries idempotent (already-uploaded files are skipped).
+            # Upload with token-fallback + 429 backoff. Try the primary token; on
+            # any failure try the fallback token once (covers per-project 403 scope,
+            # e.g. hanzo-iam owned by HANZO_AI_PYPI_TOKEN). --skip-existing keeps
+            # retries idempotent; backoff rides out PyPI's burst 429s. PyPI also
+            # rate-limits NEW-project creation per window — a brand-new name may need
+            # a later re-run once that window resets.
             attempt=0
-            until python -m twine upload "$PKG_DIR/dist/"* --skip-existing; do
+            until TWINE_PASSWORD="$PYPI_TOKEN_PRIMARY" python -m twine upload "$PKG_DIR/dist/"* --skip-existing; do
+              if [ -n "$PYPI_TOKEN_FALLBACK" ] && TWINE_PASSWORD="$PYPI_TOKEN_FALLBACK" python -m twine upload "$PKG_DIR/dist/"* --skip-existing; then
+                break
+              fi
               attempt=$((attempt + 1))
               if [ "$attempt" -ge 5 ]; then
-                echo "Warning: giving up on $package after $attempt attempts (persistent error — e.g. 403 token scope)"
+                echo "Warning: giving up on $package after $attempt attempts (403 on both tokens, or persistent error)"
                 break
               fi
               echo "Upload of $package failed (attempt $attempt) — backing off $((attempt * 10))s (PyPI 429?)"
