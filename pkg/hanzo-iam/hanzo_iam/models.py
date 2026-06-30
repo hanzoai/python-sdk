@@ -1,4 +1,4 @@
-"""Pydantic models for Hanzo IAM (Casdoor-based)."""
+"""Pydantic models for Hanzo IAM."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Canonical OIDC UserInfo path (HIP-0111). One way; no legacy /api/ prefix,
-# no Casdoor /api/get-account. Relative to the IAM server_url root.
+# Canonical OIDC UserInfo path (HIP-0111). One way; no legacy /api/ prefix.
+# Relative to the IAM server_url root.
 OIDC_USERINFO_PATH = "/v1/iam/oauth/userinfo"
 
 
