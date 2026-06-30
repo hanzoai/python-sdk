@@ -1,6 +1,6 @@
 # hanzoai-iam
 
-Identity and Access Management SDK for the Hanzo ecosystem. Built on Casdoor with organization-aware multi-tenancy.
+Identity and Access Management SDK for the Hanzo ecosystem. Organization-aware multi-tenant IAM for the Hanzo ecosystem.
 
 The PyPI distribution is `hanzoai-iam`; the import path is `hanzo_iam`.
 
