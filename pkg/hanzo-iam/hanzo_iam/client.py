@@ -1,7 +1,7 @@
 """
 Hanzo IAM Client - Sync OAuth2/OIDC client for Hanzo Identity.
 
-Compatible with Casdoor API. Supports multiple organizations.
+Supports multiple organizations.
 """
 
 from __future__ import annotations
@@ -450,7 +450,7 @@ class IAMClient:
         return {}
 
     # =========================================================================
-    # User Management (Casdoor Admin API)
+    # User Management (IAM Admin API)
     # =========================================================================
 
     def get_user(self, user_id: str) -> User:
@@ -567,7 +567,7 @@ class IAMClient:
         return self._modify_user("delete-user", user)
 
     def _modify_user(self, action: str, user: User) -> dict:
-        """Modify user via Casdoor admin API."""
+        """Modify user via IAM admin API."""
         response = self.http.post(
             f"/api/{action}",
             params=self._admin_params(),
@@ -1130,8 +1130,3 @@ class AsyncIAMClient:
 
     async def __aexit__(self, *args) -> None:
         await self.close()
-
-
-# Aliases for Casdoor SDK compatibility
-CasdoorSDK = IAMClient
-AsyncCasdoorSDK = AsyncIAMClient

@@ -2,7 +2,7 @@
 
 Supports multiple authentication methods:
 1. API Key (HANZO_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY)
-2. Email/Password via IAM (iam.hanzo.ai - Casdoor)
+2. Email/Password via Hanzo IAM (iam.hanzo.ai)
 3. SSO authentication
 4. Anthropic OAuth (PKCE via console.anthropic.com)
 5. OpenAI/ChatGPT OAuth (device code via auth.openai.com)

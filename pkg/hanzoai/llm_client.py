@@ -81,7 +81,7 @@ class SimpleLLMClient:
                 os.environ["OPENAI_API_KEY"] = self.api_key  # For OpenAI compatibility
 
     def _iam_login(self):
-        """Login using IAM (Casdoor) authentication."""
+        """Login using Hanzo IAM authentication."""
         try:
             import webbrowser
             from urllib.parse import urlencode

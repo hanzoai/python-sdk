@@ -1512,7 +1512,7 @@ def install_runtime(setup: bool, sdk: str, computer_use: bool):
 
 
 # ============================================================================
-# Cas Infrastructure (Casdoor, Casibase, Casvisor)
+# Cas Infrastructure (Hanzo IAM / Hanzo Cloud)
 # ============================================================================
 
 CAS_PATH = Path.home() / "work" / "cas"
@@ -1527,15 +1527,15 @@ def install_cas(component: str, setup: bool, start: bool):
 
     \b
     Components:
-      casdoor   - Authentication/IAM system (Single Sign-On)
+      hanzo-iam - Authentication/IAM system (Single Sign-On)
       casibase  - AI Cloud OS with MCP/A2A support
       casvisor  - Cloud operating system (VM/machine management)
 
     \b
     Examples:
-      hanzo install cas                   # Check status
-      hanzo install cas casdoor --setup   # Set up Casdoor
-      hanzo install cas casibase --start  # Start Casibase
+      hanzo install cas                    # Check status
+      hanzo install cas hanzo-iam --setup  # Set up Hanzo IAM
+      hanzo install cas casibase --start   # Start Casibase
 
     \b
     Casibase Features:
@@ -1547,18 +1547,20 @@ def install_cas(component: str, setup: bool, start: bool):
     cas_dir = CAS_PATH
 
     components_info = {
-        "casdoor": {
-            "name": "Casdoor",
+        "hanzo-iam": {
+            "name": "Hanzo IAM",
             "description": "Authentication/IAM - Single Sign-On",
-            "path": cas_dir / "casdoor",
+            "path": cas_dir / "hanzo-iam",
             "port": 8000,
-            "docs": "https://casdoor.org",
+            "repo": "https://github.com/hanzoai/iam",
+            "docs": "https://docs.hanzo.ai/iam",
         },
         "casibase": {
             "name": "Casibase",
             "description": "AI Cloud OS - Knowledge base + MCP/A2A",
             "path": cas_dir / "casibase",
             "port": 14000,
+            "repo": "https://github.com/casibase/casibase",
             "docs": "https://casibase.org",
         },
         "casvisor": {
@@ -1566,6 +1568,7 @@ def install_cas(component: str, setup: bool, start: bool):
             "description": "Cloud OS - VM/Machine management",
             "path": cas_dir / "casvisor",
             "port": 16001,
+            "repo": "https://github.com/casvisor/casvisor",
             "docs": "https://casvisor.org",
         },
     }
@@ -1581,9 +1584,7 @@ def install_cas(component: str, setup: bool, start: bool):
 
         if not comp_path.exists():
             console.print(f"[red]{info['name']} not found at: {comp_path}[/red]")
-            console.print(
-                f"Clone: git clone https://github.com/{component}/{component} {comp_path}"
-            )
+            console.print(f"Clone: git clone {info['repo']} {comp_path}")
             return
 
         if setup:
@@ -1637,7 +1638,7 @@ def install_cas(component: str, setup: bool, start: bool):
 
     else:
         # Status check
-        console.print("[bold]Cas Infrastructure[/bold]")
+        console.print("[bold]Cas Infrastructure (Hanzo IAM / Hanzo Cloud)[/bold]")
         console.print()
 
         for comp_id, info in components_info.items():
