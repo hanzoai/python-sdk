@@ -429,7 +429,7 @@ class HanzoAuth:
         self,
         authorize_url: Optional[str] = None,
         token_url: Optional[str] = None,
-        client_id: str = "app-hanzo",
+        client_id: str = IAM_CLIENT_ID,
         scopes: Optional[List[str]] = None,
         redirect_port: int = 4545,
     ) -> OAuthTokenSet:
