@@ -770,9 +770,11 @@ class HanzoAuth:
     async def get_user_info(self) -> Dict[str, Any]:
         """Get current user information.
 
-        The cloud API's ``/v1/get-account`` returns IAM Claims with the user
-        fields inlined (ai/controllers/account.go GetAccount) and accepts the
-        device-login bearer token via the auto-signin filter.
+        IAM's ``/v1/iam/get-account`` (iam controllers/account.go GetAccount)
+        returns a ``{status, sub, name, data, data2}`` envelope — the account
+        (email, owner, ``accessKey``, …) is under ``data``. It lives on the IAM
+        issuer, same base as mint/revoke — NOT a bare ``/v1/get-account`` on the
+        API host, which 404s. Accepts the device-login bearer via auto-signin.
 
         Returns:
             User details including permissions and the ``accessKey`` (hk-) field
@@ -782,7 +784,7 @@ class HanzoAuth:
 
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{self.api_base_url}/v1/get-account", headers=self._get_headers()
+                f"{self.base_url}/v1/iam/get-account", headers=self._get_headers()
             )
             response.raise_for_status()
 
@@ -792,9 +794,9 @@ class HanzoAuth:
     async def get_api_key(self) -> Optional[str]:
         """Read the signed-in user's current Cloud API key (``hk-``).
 
-        The key is the IAM user's ``accessKey`` (iam object/user.go), surfaced on
-        the ``/v1/get-account`` claims. Returns ``None`` if the account has no
-        key yet.
+        The key is the IAM user's ``accessKey`` (iam object/user.go), surfaced
+        under ``data`` on the ``/v1/iam/get-account`` response. Returns ``None``
+        if the account has no key yet.
 
         Returns:
             The ``hk-`` key, or ``None``.
