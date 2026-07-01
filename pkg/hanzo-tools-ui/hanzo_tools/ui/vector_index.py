@@ -1,9 +1,9 @@
 """UI component search via Hanzo Cloud search infrastructure.
 
 Uses the Hanzo Cloud RAG pipeline:
-- POST /api/search-docs — hybrid fulltext + vector search
-- POST /api/chat-docs  — RAG chat with component context
-- POST /api/index-docs — index components into the search backend
+- POST /v1/search-docs — hybrid fulltext + vector search
+- POST /v1/chat-docs  — RAG chat with component context
+- POST /v1/index-docs — index components into the search backend
 
 Authentication: publishable key (pk-*) for read, API key (hk-*) for write.
 """
@@ -18,10 +18,10 @@ logger = logging.getLogger(__name__)
 
 # Hanzo Cloud search endpoints (canonical front door: api.hanzo.ai)
 CLOUD_API = os.environ.get("HANZO_CLOUD_API", "https://api.hanzo.ai")
-SEARCH_ENDPOINT = f"{CLOUD_API}/api/search-docs"
-CHAT_ENDPOINT = f"{CLOUD_API}/api/chat-docs"
-INDEX_ENDPOINT = f"{CLOUD_API}/api/index-docs"
-STATS_ENDPOINT = f"{CLOUD_API}/api/search-docs/stats"
+SEARCH_ENDPOINT = f"{CLOUD_API}/v1/search-docs"
+CHAT_ENDPOINT = f"{CLOUD_API}/v1/chat-docs"
+INDEX_ENDPOINT = f"{CLOUD_API}/v1/index-docs"
+STATS_ENDPOINT = f"{CLOUD_API}/v1/search-docs/stats"
 
 # Search index for UI components
 SEARCH_INDEX = os.environ.get("HANZO_UI_SEARCH_INDEX", "app-ui-hanzo-ai")
@@ -76,7 +76,7 @@ async def chat_about_components(
 ) -> dict | Any:
     """RAG chat — ask questions about UI components.
 
-    Uses Hanzo Cloud's /api/chat-docs which:
+    Uses Hanzo Cloud's /v1/chat-docs which:
     1. Searches the component index for relevant context
     2. Passes context + question to the LLM
     3. Returns a grounded answer
