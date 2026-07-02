@@ -90,7 +90,7 @@ class AsyncKMSClient:
         # Universal Auth
         if auth.universal_auth:
             response = await self.http.post(
-                "/api/v1/auth/universal-auth/login",
+                "/v1/kms/auth/login",
                 json={
                     "clientId": auth.universal_auth.client_id,
                     "clientSecret": auth.universal_auth.client_secret,
