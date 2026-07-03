@@ -122,7 +122,7 @@ class DynamicToolRegistry:
                         continue
                     for tool_class in tools_list:
                         name = _extract_tool_name(tool_class)
-                        desc = getattr(tool_class, "description", "") or ""
+                        desc = _extract_tool_description(tool_class)
                         cls._entries[name] = ToolConfigEntry(
                             name=name,
                             description=desc,
@@ -172,6 +172,32 @@ def _extract_tool_name(tool_class: type) -> str:
     if isinstance(name, str):
         return name
     return tool_class.__name__.lower().replace("tool", "")
+
+
+def _extract_tool_description(tool_class: type) -> str:
+    """Get a tool class's description as a STRING, handling @property.
+
+    When a tool defines ``description`` as a ``@property`` (evaluated per
+    instance), ``getattr(tool_class, "description")`` returns the property
+    DESCRIPTOR object, not a string — storing that made ``list_all`` crash later
+    with ``object of type 'property' has no len()``. Mirror ``_extract_tool_name``:
+    if it's a property, instantiate to read the real value; otherwise coerce to
+    a plain string. Always returns a ``str`` (empty when unavailable).
+    """
+    for klass in tool_class.__mro__:
+        if "description" in getattr(klass, "__dict__", {}):
+            attr = klass.__dict__["description"]
+            if isinstance(attr, property):
+                try:
+                    val = getattr(tool_class(), "description", None)
+                    if isinstance(val, str):
+                        return val
+                except Exception:
+                    pass
+                return ""
+            break
+    desc = getattr(tool_class, "description", "")
+    return desc if isinstance(desc, str) else ""
 
 
 # Module-level convenience -- DynamicToolRegistry doubles as the dict-like TOOL_REGISTRY.
