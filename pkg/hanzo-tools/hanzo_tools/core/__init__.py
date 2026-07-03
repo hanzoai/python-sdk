@@ -20,6 +20,7 @@ from hanzo_tools.core.unified import (
     BaseTool,  # Unified HIP-0300 base class
     ErrorCode,
     ToolError,
+    ToolImage,
     ActionHandler,
     ConflictError,
     NotFoundError,
@@ -27,6 +28,7 @@ from hanzo_tools.core.unified import (
     file_uri,
     content_hash,
 )
+from hanzo_tools.core.id_tool import IdTool, id_tool
 from hanzo_tools.core.decorators import auto_timeout
 from hanzo_tools.core.validation import ValidationResult, validate_path_parameter
 from hanzo_tools.core.permissions import PermissionManager
@@ -41,6 +43,7 @@ __all__ = [
     "ActionHandler",
     "ErrorCode",
     "ToolError",
+    "ToolImage",
     "ConflictError",
     "NotFoundError",
     "InvalidParamsError",
@@ -48,6 +51,9 @@ __all__ = [
     "Range",
     "content_hash",
     "file_uri",
+    # Identity tool
+    "IdTool",
+    "id_tool",
     # Context
     "ToolContext",
     "create_tool_context",
