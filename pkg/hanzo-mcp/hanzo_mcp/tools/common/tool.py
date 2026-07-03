@@ -214,11 +214,11 @@ Examples:
             lines.append(f"[{cat}]")
             for tool_name, config, is_enabled in sorted(tools, key=lambda x: x[0]):
                 status = "✓" if is_enabled else "○"
-                desc = (
-                    config.description[:50] + "..."
-                    if len(config.description) > 50
-                    else config.description
-                )
+                # Coerce defensively: a tool whose `description` is a @property
+                # can leave a non-str here — never let a display path crash the
+                # whole `tool list`.
+                desc_str = config.description if isinstance(config.description, str) else ""
+                desc = desc_str[:50] + "..." if len(desc_str) > 50 else desc_str
                 lines.append(f"  {status} {tool_name}: {desc}")
             lines.append("")
 
