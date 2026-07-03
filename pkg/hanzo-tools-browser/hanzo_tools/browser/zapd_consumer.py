@@ -70,11 +70,21 @@ class ZapdConsumer:
             return False
 
     def list_providers(self, brand: str = "") -> list:
-        if not self.connect():
-            return []
-        assert self._client is not None
-        provs = self._client.providers_list(brand=brand)
-        return [{"id": p.id, "role": p.role, "brand": p.brand, "caps": p.caps} for p in provs]
+        # Self-heal: a cached client whose socket died (e.g. the router was
+        # restarted) raises BrokenPipeError/OSError on use. Drop it and
+        # reconnect ONCE rather than staying wedged forever.
+        for attempt in (1, 2):
+            if not self.connect():
+                return []
+            assert self._client is not None
+            try:
+                provs = self._client.providers_list(brand=brand)
+                return [{"id": p.id, "role": p.role, "brand": p.brand, "caps": p.caps} for p in provs]
+            except (BrokenPipeError, ConnectionError, OSError):
+                self.close()
+                if attempt == 2:
+                    return []
+        return []
 
     def resolve_browser(self, browser: Optional[str], client_id: Optional[str]) -> Optional[str]:
         provs = [p for p in self.list_providers() if p["id"].startswith("browser:")]
@@ -91,10 +101,18 @@ class ZapdConsumer:
         return provs[0]["id"] if provs else None
 
     def route(self, provider_id: str, method: str, params: dict, timeout: float = 30.0) -> bytes:
-        if not self.connect():
-            raise RuntimeError("zapd not reachable")
-        assert self._client is not None
-        return self._client.route(provider_id, _encode_cmd(method, params), timeout=timeout)
+        # Self-heal on a dead cached socket (see list_providers): reconnect once.
+        for attempt in (1, 2):
+            if not self.connect():
+                raise RuntimeError("zapd not reachable")
+            assert self._client is not None
+            try:
+                return self._client.route(provider_id, _encode_cmd(method, params), timeout=timeout)
+            except (BrokenPipeError, ConnectionError, OSError):
+                self.close()
+                if attempt == 2:
+                    raise
+        raise RuntimeError("zapd not reachable")
 
     def close(self):
         if self._client is not None:
