@@ -29,6 +29,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
+    ToolImage,
     ConflictError,
     NotFoundError,
     PermissionManager,
@@ -249,6 +250,22 @@ patch supports Rust grammar format: *** Begin Patch / *** Update File: / @@ / -o
 
             if not path.is_file():
                 raise InvalidParamsError(f"Not a file: {path}", param="uri")
+
+            # Images are returned as native MCP image content so a vision-capable
+            # client sees the pixels — reading them as text yields garbage.
+            import mimetypes
+
+            mime, _ = mimetypes.guess_type(str(path))
+            if mime and mime.startswith("image/"):
+                async with aiofiles.open(path, "rb") as f:
+                    raw = await f.read()
+                return {
+                    "uri": file_uri(str(path)),
+                    "hash": content_hash(raw),
+                    "mime": mime,
+                    "size": len(raw),
+                    "image": ToolImage.from_bytes(raw, mime, alt=path.name),
+                }
 
             try:
                 async with aiofiles.open(

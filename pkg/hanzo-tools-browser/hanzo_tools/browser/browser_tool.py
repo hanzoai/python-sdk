@@ -31,7 +31,7 @@ from dataclasses import field, dataclass
 from pydantic import Field
 from mcp.server import FastMCP
 
-from hanzo_tools.core import BaseTool
+from hanzo_tools.core import BaseTool, ToolImage
 
 # Playwright import with graceful fallback
 try:
@@ -371,7 +371,7 @@ async def _bidi_dispatch(
             return {"success": True, "source": "bidi"}
         if action == "screenshot":
             c = await _ctx()
-            return {"success": True, "source": "bidi", "screenshot": await client.capture_screenshot(c)}
+            return {"success": True, "source": "bidi", "image": ToolImage(data=await client.capture_screenshot(c), mime_type="image/png", alt="screenshot")}
         if action == "evaluate":
             c = await _ctx()
             return {"success": True, "source": "bidi", "result": _val(await client.script_evaluate(c, code or ""))}
@@ -1852,7 +1852,7 @@ CATEGORIES:
                     "success": True,
                     "format": "png",
                     "size": len(data),
-                    "base64": base64.b64encode(data).decode(),
+                    "image": ToolImage.from_bytes(data, "image/png", alt="screenshot"),
                 }
 
             elif action == "pdf":

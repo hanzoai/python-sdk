@@ -52,6 +52,39 @@ class Paging:
 
 
 @dataclass
+class ToolImage:
+    """A visual result a tool wants the *client* to see natively.
+
+    Any action handler may return a ``ToolImage`` (alone, or nested anywhere in
+    its result dict/list). ``BaseTool.register`` detects it and emits a real MCP
+    ``ImageContent`` block instead of flattening the bytes into JSON text — so an
+    agent with native vision (e.g. Claude) can look at the pixels directly. This
+    is the one canonical way to hand an image across the MCP boundary; tools that
+    return no image are serialized to JSON text exactly as before.
+
+    ``data`` is base64-encoded image bytes; ``mime_type`` is the IANA type.
+    """
+
+    data: str
+    mime_type: str = "image/png"
+    alt: str | None = None
+
+    @classmethod
+    def from_bytes(cls, raw: bytes, mime_type: str = "image/png", alt: str | None = None) -> "ToolImage":
+        """Build a ToolImage from raw bytes (base64-encodes them)."""
+        import base64
+
+        return cls(data=base64.b64encode(raw).decode("ascii"), mime_type=mime_type, alt=alt)
+
+    def _placeholder(self) -> dict[str, Any]:
+        """Compact stand-in kept in the JSON text so structure/metadata survive."""
+        p: dict[str, Any] = {"__image__": self.mime_type, "bytes": (len(self.data) * 3) // 4}
+        if self.alt:
+            p["alt"] = self.alt
+        return p
+
+
+@dataclass
 class ToolError(Exception):
     """Structured error for tool operations."""
 
@@ -440,9 +473,9 @@ class BaseTool(_BaseToolABC):
         # Handler function — receives flat validated args
         tool_ref = self
 
-        async def _handler(ctx: MCPContext, action: str = "help", **kwargs: Any) -> str:
+        async def _handler(ctx: MCPContext, action: str = "help", **kwargs: Any) -> Any:
             result = await tool_ref.call(ctx, action=action, **kwargs)
-            return json.dumps(result, indent=2, default=str)
+            return _result_to_mcp(result)
 
         metadata = FuncMetadata(arg_model=_FlexArgs)
 
@@ -461,6 +494,44 @@ class BaseTool(_BaseToolABC):
 
 
 # Utility functions for composability
+
+
+def _collect_images(node: Any, out: list["ToolImage"]) -> Any:
+    """Walk a result, swapping each ToolImage for a JSON-safe placeholder.
+
+    Returns a structure-preserving copy with ToolImages replaced by compact
+    placeholders, appending the originals to ``out`` in encounter order.
+    """
+    if isinstance(node, ToolImage):
+        out.append(node)
+        return node._placeholder()
+    if isinstance(node, dict):
+        return {k: _collect_images(v, out) for k, v in node.items()}
+    if isinstance(node, (list, tuple)):
+        return [_collect_images(v, out) for v in node]
+    return node
+
+
+def _result_to_mcp(result: Any) -> Any:
+    """Convert a tool result to an MCP tool return value.
+
+    No image → the JSON text string (unchanged from the text-only path). One or
+    more ``ToolImage`` anywhere in the result → a list of MCP content blocks:
+    the JSON text (with images replaced by placeholders) followed by one
+    ``ImageContent`` per image, so a vision-capable client renders the pixels.
+    """
+    images: list[ToolImage] = []
+    stripped = _collect_images(result, images)
+    text = json.dumps(stripped, indent=2, default=str)
+    if not images:
+        return text
+
+    from mcp.types import ImageContent, TextContent
+
+    blocks: list[Any] = [TextContent(type="text", text=text)]
+    for img in images:
+        blocks.append(ImageContent(type="image", data=img.data, mimeType=img.mime_type))
+    return blocks
 
 
 def content_hash(content: str | bytes, algorithm: str = "sha256") -> str:
