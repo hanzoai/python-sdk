@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-core"
-version = "0.3.0"
-description = "DEPRECATED: Use hanzo-tools instead. This package re-exports from hanzo-tools for backwards compatibility."
+version = "0.3.1"
+description = "DEPRECATED: Use hanzo-tools instead. Empty compatibility shim that installs hanzo-tools."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -16,15 +16,18 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 keywords = ["hanzo", "tools", "mcp", "ai"]
-# Just depends on hanzo-tools - re-exports everything
+# Pure metapackage: ships no modules, only pulls in canonical hanzo-tools.
+# It used to bundle a duplicate hanzo_tools/core/ that SHADOWED hanzo-tools
+# (nondeterministic collision → missing symbols like ToolImage). Canonical
+# hanzo-tools now owns hanzo_tools.core exclusively; this just redirects.
 dependencies = [
-    "hanzo-tools>=0.3.0",
+    "hanzo-tools>=0.3.2",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/hanzoai/python-sdk"
 "Bug Tracker" = "https://github.com/hanzoai/python-sdk/issues"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["hanzo_tools*"]
+[tool.setuptools]
+# Empty shim — no importable packages or modules of its own.
+py-modules = []
