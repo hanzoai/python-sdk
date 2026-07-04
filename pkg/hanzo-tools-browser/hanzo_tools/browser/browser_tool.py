@@ -81,6 +81,68 @@ def _save_config(config: dict) -> None:
         logger.warning(f"Failed to save config: {e}")
 
 
+def _save_capture(data: bytes, fmt: str, path: Optional[str] = None) -> dict:
+    """Persist a screenshot/pdf capture to disk and return a COMPACT result.
+
+    A full-page PNG inlined as base64 (100K+ chars) overflows an agent's context
+    window and wedges the whole run — the single biggest cause of "the browser
+    tool hangs". So captures ALWAYS go to a file and we return its ``path`` + byte
+    ``size``; ``base64`` is inlined ONLY for a small PNG (<= 40 KB raw) that a
+    caller can display without blowing the context. Honors a caller-supplied path.
+    """
+    import uuid
+
+    if path:
+        p = Path(path).expanduser()
+        if p.parent and not p.parent.exists():
+            p.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        d = Path.home() / ".hanzo" / "screenshots"
+        d.mkdir(parents=True, exist_ok=True)
+        p = d / f"capture-{uuid.uuid4().hex[:12]}.{fmt}"
+    try:
+        p.write_bytes(data)
+    except Exception as e:  # never let a save failure wedge the action
+        logger.warning(f"screenshot save failed ({e}); returning base64 inline")
+        return {"success": True, "format": fmt, "size": len(data), "base64": base64.b64encode(data).decode()}
+    out = {"success": True, "format": fmt, "size": len(data), "path": str(p)}
+    if fmt == "png" and len(data) <= 40000:
+        out["base64"] = base64.b64encode(data).decode()
+    return out
+
+
+def _extract_b64(text: str) -> Optional[str]:
+    """Pull the base64 payload out of a screenshot response — whether it's raw
+    base64, a data: URL, or JSON under data/base64/screenshot (incl. a nested
+    CDP ``{"result": {"data": ...}}``). Returns None when no payload is found."""
+    if not text:
+        return None
+    t = text.strip()
+    if t.startswith("{"):
+        try:
+            obj = json.loads(t)
+        except Exception:
+            return None
+        if isinstance(obj, dict):
+            for k in ("data", "base64", "screenshot"):
+                v = obj.get(k)
+                if isinstance(v, str) and v:
+                    return v.split(",", 1)[-1] if v.startswith("data:") else v
+            r = obj.get("result")
+            if isinstance(r, dict):
+                for k in ("data", "base64", "screenshot"):
+                    v = r.get(k)
+                    if isinstance(v, str) and v:
+                        return v.split(",", 1)[-1] if v.startswith("data:") else v
+        return None
+    if t.startswith("data:image"):
+        return t.split(",", 1)[-1]
+    _alpha = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r")
+    if len(t) > 100 and set(t[:256]) <= _alpha:
+        return t
+    return None
+
+
 def get_backend() -> str:
     """Get configured browser backend.
 
@@ -433,6 +495,23 @@ async def _extension_command(
         return {"error": str(e), "transport": "native-zap"}
 
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
+    # A screenshot/pdf comes back as (JSON-wrapped) base64. Inlining a full-page
+    # PNG (100K+ chars) as text overflows the agent's context and wedges the whole
+    # run — the #1 cause of "the browser tool hangs". One way for images: return a
+    # ToolImage → the register() converter turns it into native MCP ImageContent the
+    # client SEES (no base64-in-text). A PDF isn't an image → persist to disk, path.
+    if action in ("screenshot", "pdf") and isinstance(text, str) and len(text) > 20000:
+        b64 = _extract_b64(text)
+        if b64:
+            try:
+                data = base64.b64decode(b64)
+                meta = {"transport": "native-zap", "source": "zapd", "provider": provider}
+                if action == "pdf":
+                    return {**_save_capture(data, "pdf", kwargs.get("path")), **meta}
+                return {"success": True, "format": "png", "size": len(data),
+                        "image": ToolImage.from_bytes(data, "image/png", alt="screenshot"), **meta}
+            except Exception as e:  # fall back to raw on any decode failure
+                logger.warning(f"native-zap capture decode failed ({e}); returning raw")
     return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "result": text}
 
 
@@ -1857,12 +1936,8 @@ CATEGORIES:
 
             elif action == "pdf":
                 data = await page.pdf()
-                return {
-                    "success": True,
-                    "format": "pdf",
-                    "size": len(data),
-                    "base64": base64.b64encode(data).decode(),
-                }
+                out = _save_capture(data, "pdf", locals().get("path"))
+                return out
 
             elif action == "snapshot":
                 return {
