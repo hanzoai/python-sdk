@@ -32,6 +32,7 @@ from pydantic import Field
 from mcp.server import FastMCP
 
 from hanzo_tools.core import BaseTool, ToolImage
+from hanzo_tools.core.unified import _result_to_mcp
 
 # Playwright import with graceful fallback
 try:
@@ -2508,9 +2509,13 @@ CATEGORIES:
                 Optional[str], Field(description="Trace output")
             ] = None,
             level: Annotated[Optional[str], Field(description="Console level")] = None,
-        ) -> dict[str, Any]:
+        ) -> Any:
             """Complete browser automation with full Playwright API surface area."""
-            return await tool_instance.execute(
+            # One way for images: route through the SAME converter BaseTool.register
+            # uses, so a screenshot's ToolImage becomes a native MCP ImageContent
+            # block the client SEES — never a 250K-char base64 blob flattened into
+            # JSON text (which overflows the agent context and wedges the run).
+            result = await tool_instance.execute(
                 action=action,
                 url=url,
                 selector=selector,
@@ -2570,6 +2575,7 @@ CATEGORIES:
                 trace_path=trace_path,
                 level=level,
             )
+            return _result_to_mcp(result)
 
 
 def create_browser_tool(
