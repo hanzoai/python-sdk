@@ -1,6 +1,6 @@
 [project]
 name = "hanzoai"
-version = "2.2.3"
+version = "3.0.0"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
 license = "BSD-3-Clause"
@@ -8,17 +8,12 @@ authors = [
 { name = "Hanzo", email = "dev@hanzo.ai" },
 ]
 dependencies = [
-    # All runtime deps below are pure-Python — fully compatible with free-threaded 3.13t.
-    "httpx>=0.23.0, <1",
+    # Runtime deps for the openapi-generator urllib3 client. All pure-Python.
+    "urllib3>=2.1.0, <3",
+    "python-dateutil>=2.8.2",
     # Bump pydantic floor so we land on a pydantic-core (≥2.27) that ships cp313t wheels.
     "pydantic>=2.10, <3",
     "typing-extensions>=4.10, <5",
-    "anyio>=3.5.0, <5",
-    "distro>=1.7.0, <2",
-    "sniffio",
-    # Security: pin minimum versions to address vulnerabilities
-    "h11>=0.16.0",
-    "urllib3>=2.6.0",
 ]
 requires-python = ">=3.12"
 classifiers = [
