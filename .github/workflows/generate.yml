@@ -1,0 +1,37 @@
+name: Regenerate from OpenAPI spec
+# One spec, one way. hanzoai/openapi fires `spec-update` on every hanzo.yaml
+# change; this regenerates the `hanzoai` client and opens a PR. Never hand-edit
+# pkg/hanzoai — edit the per-service spec in hanzoai/openapi.
+on:
+  repository_dispatch:
+    types: [spec-update]
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: hanzo-build-linux-amd64
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate
+        run: ./scripts/generate.sh
+      - name: Verify it imports
+        run: |
+          python -m pip install -q urllib3 python-dateutil 'pydantic>=2' typing-extensions
+          PYTHONPATH=pkg python -c "import hanzoai; hanzoai.ApiClient(hanzoai.Configuration())"
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: codegen/spec-update
+          title: 'chore: regenerate hanzoai from openapi hanzo.yaml'
+          commit-message: 'chore: regenerate hanzoai from openapi hanzo.yaml'
+          body: Automated regeneration of pkg/hanzoai from hanzoai/openapi `hanzo.yaml`.
