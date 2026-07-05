@@ -479,6 +479,8 @@ exclude = [
 members = [
     "pkg/hanzo-memory",
     "pkg/hanzo-s3",
+    "pkg/hanzo-tools",
+    "pkg/hanzo-tools-core",
     "pkg/hanzo-tools-ui",
     "pkg/hanzo-tools-browser",
     "pkg/hanzo-cli",
@@ -489,6 +491,12 @@ members = [
 
 [tool.uv.sources]
 hanzo-memory = { workspace = true }
+# Canonical hanzo_tools.core (BaseTool, ToolImage, _result_to_mcp) lives in
+# hanzo-tools; hanzo-tools-core is the EMPTY shim (0.3.1+). Pin BOTH to the on-disk
+# source, never PyPI — the published hanzo-tools-core 0.3.0 still ships the duplicate
+# hanzo_tools/core/ that shadows ToolImage and breaks the browser tool.
+hanzo-tools = { workspace = true }
+hanzo-tools-core = { workspace = true }
 hanzo-tools-ui = { workspace = true }
 # Browser tool routes through the local zapd router; the on-disk source is the
 # single truth (not a published wheel) so the MCP and the repo never diverge.
