@@ -37,6 +37,9 @@ classifiers = [
 
 [project.optional-dependencies]
 llm = ["hanzo-llm>=1.0.0"]
+# Optional ZAP-native binary transport (hanzoai.zap). Off by default; opt in via
+# `hanzoai.zap_http_client(...)`. hanzo-zap pulls in zap-proto for the wire codec.
+zap = ["hanzo-zap>=0.7.0"]
 
 [project.urls]
 Homepage = "https://github.com/hanzoai/python-sdk"
