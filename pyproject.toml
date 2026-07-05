@@ -481,6 +481,18 @@ members = [
     "pkg/hanzo-s3",
     "pkg/hanzo-tools",
     "pkg/hanzo-tools-core",
+    # Required tool packages — the hanzo-tools-core integration suite asserts each
+    # imports with an exact TOOLS count; they must be workspace members so
+    # `uv sync` installs the real toolset (never a stale/absent wheel).
+    "pkg/hanzo-tools-fs",
+    "pkg/hanzo-tools-shell",
+    "pkg/hanzo-tools-agent",
+    "pkg/hanzo-tools-reasoning",
+    "pkg/hanzo-tools-lsp",
+    "pkg/hanzo-tools-refactor",
+    "pkg/hanzo-tools-todo",
+    "pkg/hanzo-tools-jupyter",
+    "pkg/hanzo-tools-memory",
     "pkg/hanzo-tools-ui",
     "pkg/hanzo-tools-browser",
     "pkg/hanzo-cli",
@@ -497,6 +509,17 @@ hanzo-memory = { workspace = true }
 # hanzo_tools/core/ that shadows ToolImage and breaks the browser tool.
 hanzo-tools = { workspace = true }
 hanzo-tools-core = { workspace = true }
+# Required tool packages — on-disk source so `uv sync` installs the real toolset
+# and the hanzo-tools-core integration suite validates against live code.
+hanzo-tools-fs = { workspace = true }
+hanzo-tools-shell = { workspace = true }
+hanzo-tools-agent = { workspace = true }
+hanzo-tools-reasoning = { workspace = true }
+hanzo-tools-lsp = { workspace = true }
+hanzo-tools-refactor = { workspace = true }
+hanzo-tools-todo = { workspace = true }
+hanzo-tools-jupyter = { workspace = true }
+hanzo-tools-memory = { workspace = true }
 hanzo-tools-ui = { workspace = true }
 # Browser tool routes through the local zapd router; the on-disk source is the
 # single truth (not a published wheel) so the MCP and the repo never diverge.
