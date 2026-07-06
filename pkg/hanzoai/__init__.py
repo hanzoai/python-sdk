@@ -18,16 +18,21 @@
 __version__ = "1.0.0"
 
 
-# Optional ZAP-native transport (opt-in). Imported lazily inside `zap` so that
-# `import hanzoai` still works when the optional `hanzo-zap` extra is not installed.
-# These names are additive and intentionally NOT part of the locked `__all__`.
-from . import zap as zap
-from .zap import (
-    ZapTransport as ZapTransport,
-    AsyncZapTransport as AsyncZapTransport,
-    zap_http_client as zap_http_client,
-    async_zap_http_client as async_zap_http_client,
-)
+# Optional ZAP-native transport (opt-in via the `zap` extra). The transport is an
+# httpx.BaseTransport, so `zap` requires httpx + hanzo-zap (neither is a base dep —
+# the client core is urllib3). Guard the import so `import hanzoai` still works when
+# the extra is absent; the names appear only when `pip install hanzoai[zap]` is used.
+# Additive and intentionally NOT part of the locked `__all__`.
+try:
+    from . import zap as zap
+    from .zap import (
+        ZapTransport as ZapTransport,
+        AsyncZapTransport as AsyncZapTransport,
+        zap_http_client as zap_http_client,
+        async_zap_http_client as async_zap_http_client,
+    )
+except ImportError:  # pragma: no cover - hanzoai[zap] not installed
+    pass
 
 # Define package exports
 __all__ = [
