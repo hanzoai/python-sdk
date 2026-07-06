@@ -17,6 +17,18 @@
 
 __version__ = "1.0.0"
 
+
+# Optional ZAP-native transport (opt-in). Imported lazily inside `zap` so that
+# `import hanzoai` still works when the optional `hanzo-zap` extra is not installed.
+# These names are additive and intentionally NOT part of the locked `__all__`.
+from . import zap as zap
+from .zap import (
+    ZapTransport as ZapTransport,
+    AsyncZapTransport as AsyncZapTransport,
+    zap_http_client as zap_http_client,
+    async_zap_http_client as async_zap_http_client,
+)
+
 # Define package exports
 __all__ = [
     "AdminAuditApi",
