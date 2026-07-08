@@ -22,7 +22,12 @@ param by one byte and corrupt the command, so this peer keeps the untagged form.
 """
 from __future__ import annotations
 
+import os
+import shutil
+import socket as _socket
 import struct
+import subprocess
+import time
 from typing import Optional
 
 from zap import frame
@@ -32,6 +37,83 @@ from zap.client import ZapClient
 def socket_path() -> str:
     """The brand-neutral zapd socket; delegates to the canonical resolver."""
     return frame.socket_path()
+
+
+def _socket_live(path: str) -> bool:
+    """True iff a listener currently accepts connections on the UDS at ``path``."""
+    if not path or not os.path.exists(path):
+        return False
+    s = _socket.socket(_socket.AF_UNIX, _socket.SOCK_STREAM)
+    try:
+        s.settimeout(0.5)
+        s.connect(path)
+        return True
+    except OSError:
+        return False
+    finally:
+        s.close()
+
+
+def _find_zapd() -> Optional[str]:
+    """Locate the one ``zapd`` binary. ``ZAP_ZAPD``/``ZAPD_BIN`` override, then
+    PATH, then the standard install prefixes (install.sh drops it in
+    ~/.local/bin), then a local source checkout's release build."""
+    for env in ("ZAP_ZAPD", "ZAPD_BIN"):
+        p = os.environ.get(env)
+        if p and os.path.exists(p):
+            return p
+    hit = shutil.which("zapd")
+    if hit:
+        return hit
+    for c in (
+        "~/.local/bin/zapd",
+        "~/.cargo/bin/zapd",
+        "/usr/local/bin/zapd",
+        "~/work/zapd/target/release/zapd",
+    ):
+        c = os.path.expanduser(c)
+        if os.path.exists(c):
+            return c
+    return None
+
+
+def ensure_zapd_running(timeout: float = 6.0) -> bool:
+    """Guarantee the shared zapd router is listening, auto-starting it if not.
+
+    This mirrors zapd's own host-mode connect-or-spawn (``host.rs``): a ZAP
+    consumer never needs a human to have started the daemon. The OS unit
+    (systemd/launchd, and socket-activation) is the primary auto-starter; this
+    is the no-service fallback so the tool self-heals on a bare machine.
+
+    Idempotent and race-safe by construction: the router is a *singleton* — it
+    binds the well-known socket behind an advisory lock (``broker.rs``), so any
+    number of processes may launch ``zapd`` concurrently and every loser exits
+    cleanly. There is therefore no consumer-side lock here — the one-and-only
+    singleton invariant lives in zapd, not in each SDK. Returns True once the
+    socket accepts connections, False if ``zapd`` can't be found or is slow.
+    """
+    sock = socket_path()
+    if _socket_live(sock):
+        return True
+    exe = _find_zapd()
+    if not exe:
+        return False
+    try:
+        subprocess.Popen(
+            [exe, "--log", "info"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,  # detach so the router outlives this process
+        )
+    except OSError:
+        return False
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if _socket_live(sock):
+            return True
+        time.sleep(0.1)
+    return False
 
 
 def _encode_cmd(method: str, params: dict) -> bytes:
@@ -52,14 +134,10 @@ class ZapdConsumer:
     """A persistent consumer connection to the local zapd router."""
 
     def __init__(self, agent_id: Optional[str] = None):
-        import os
-
         self.agent_id = agent_id or f"consumer:hanzo-mcp/{os.getpid()}"
         self._client: Optional[ZapClient] = None
 
-    def connect(self) -> bool:
-        if self._client is not None:
-            return True
+    def _dial(self) -> bool:
         try:
             self._client = ZapClient.connect(
                 id=self.agent_id, role="consumer", brand="hanzo", timeout=5.0
@@ -68,6 +146,20 @@ class ZapdConsumer:
         except OSError:
             self._client = None
             return False
+
+    def connect(self) -> bool:
+        if self._client is not None:
+            return True
+        if self._dial():
+            return True
+        # zapd wasn't listening. Auto-start the shared singleton router and dial
+        # once more, so the browser tool "just works" with no manual daemon and
+        # no knowledge that zapd exists. ensure_zapd_running is a no-op when the
+        # OS unit already has it up; the singleton invariant lives in zapd, so a
+        # spawn race is safe.
+        if not ensure_zapd_running():
+            return False
+        return self._dial()
 
     def list_providers(self, brand: str = "") -> list:
         # Self-heal: a cached client whose socket died (e.g. the router was
