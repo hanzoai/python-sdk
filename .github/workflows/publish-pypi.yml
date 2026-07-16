@@ -131,6 +131,8 @@ jobs:
             PACKAGES="hanzo-aci"
           elif [[ $TAG == hanzo-dev-* ]]; then
             PACKAGES="hanzo-dev"
+          elif [[ $TAG == hanzo-train-* ]]; then
+            PACKAGES="hanzo-train"
           elif [[ $TAG == hanzoai-* ]]; then
             PACKAGES="hanzoai"
           elif [[ $TAG == hanzo-* ]]; then
