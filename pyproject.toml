@@ -72,6 +72,7 @@ members = [
   "pkg/hanzo-network",
   "pkg/hanzo-dev-py",
   "pkg/hanzo-s3",
+  "pkg/hanzo-train",
   "pkg/hanzo-tools-ui",
   "pkg/hanzo-zap",
   "pkg/hanzoai",
@@ -209,6 +210,7 @@ exclude = [
     "pkg/hanzo-network",
     "pkg/hanzo-node",
     "pkg/hanzo-dev-py",
+    "pkg/hanzo-train",
     "pkg/hanzo-tools",
     "pkg/hanzo-tools-agent",
     "pkg/hanzo-tools-api",
@@ -482,6 +484,7 @@ exclude = [
 members = [
     "pkg/hanzo-memory",
     "pkg/hanzo-s3",
+    "pkg/hanzo-train",
     "pkg/hanzo-tools",
     "pkg/hanzo-tools-core",
     # Required tool packages — the hanzo-tools-core integration suite asserts each
@@ -533,6 +536,7 @@ hanzo-cli = { workspace = true }
 hanzo-iam = { workspace = true }
 hanzo-kms = { workspace = true }
 hanzo-s3 = { workspace = true }
+hanzo-train = { workspace = true }
 hanzo-tools-s3 = { workspace = true }
 
 [tool.ruff.lint.extend-per-file-ignores]
