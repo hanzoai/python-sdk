@@ -28,6 +28,7 @@ members = [
     "hanzo-tools-shell",
     "hanzo-tools-todo",
     "hanzo-tools-ui",
+    "hanzo-train",
     "hanzoai",
 ]
 
@@ -1766,7 +1767,7 @@ provides-extras = ["consensus", "api", "full", "dev"]
 
 [[package]]
 name = "hanzo-tools-browser"
-version = "0.5.9"
+version = "0.5.10"
 source = { editable = "pkg/hanzo-tools-browser" }
 dependencies = [
     { name = "hanzo-tools" },
@@ -2211,8 +2212,45 @@ wheels = [
 ]
 
 [[package]]
+name = "hanzo-train"
+version = "0.1.0"
+source = { editable = "pkg/hanzo-train" }
+dependencies = [
+    { name = "httpx" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.25.0" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5.0" },
+]
+provides-extras = ["dev"]
+
+[[package]]
+name = "hanzo-zap"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "zap-proto" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/72/fc/98b9fcbc0b104a25cc019d1ac5fe07270e16d4e8ea454a97ad86ab0ff903/hanzo_zap-0.7.0.tar.gz", hash = "sha256:74c5ce45b69c3fb7cb72a095f83434c0fa7706484e2fc2d96417ebc4300821e0", size = 19759, upload-time = "2026-06-30T20:57:16.522Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/24/b5/70a04edf50d80fc13c090da454bce7405e5563c0b640f6eb25a7ae20d51c/hanzo_zap-0.7.0-py3-none-any.whl", hash = "sha256:7590fc2785db10c2b727a14b8c8556c33e30c4d06af5bbb95cb43748395790fc", size = 14490, upload-time = "2026-06-30T20:57:15.629Z" },
+]
+
+[[package]]
 name = "hanzoai"
-version = "3.0.1"
+version = "3.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
@@ -2224,6 +2262,10 @@ dependencies = [
 [package.optional-dependencies]
 llm = [
     { name = "hanzo-llm" },
+]
+zap = [
+    { name = "hanzo-zap" },
+    { name = "httpx" },
 ]
 
 [package.dev-dependencies]
@@ -2251,12 +2293,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "hanzo-llm", marker = "extra == 'llm'", specifier = ">=1.0.0" },
+    { name = "hanzo-zap", marker = "extra == 'zap'", specifier = ">=0.7.0" },
+    { name = "httpx", marker = "extra == 'zap'", specifier = ">=0.27.0" },
     { name = "pydantic", specifier = ">=2.10,<3" },
     { name = "python-dateutil", specifier = ">=2.8.2" },
     { name = "typing-extensions", specifier = ">=4.10,<5" },
     { name = "urllib3", specifier = ">=2.1.0,<3" },
 ]
-provides-extras = ["llm"]
+provides-extras = ["llm", "zap"]
 
 [package.metadata.requires-dev]
 dev = [
