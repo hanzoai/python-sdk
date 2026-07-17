@@ -71,6 +71,7 @@ members = [
   "pkg/hanzo-memory",
   "pkg/hanzo-network",
   "pkg/hanzo-dev-py",
+  "pkg/hanzo-flags",
   "pkg/hanzo-s3",
   "pkg/hanzo-train",
   "pkg/hanzo-tools-ui",
