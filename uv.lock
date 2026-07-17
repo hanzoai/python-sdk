@@ -28,7 +28,6 @@ members = [
     "hanzo-tools-shell",
     "hanzo-tools-todo",
     "hanzo-tools-ui",
-    "hanzo-train",
     "hanzoai",
 ]
 
@@ -1545,7 +1544,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "hanzo-tools"
-version = "0.3.2"
+version = "0.3.3"
 source = { editable = "pkg/hanzo-tools" }
 dependencies = [
     { name = "aiofiles" },
@@ -2210,30 +2209,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/47/73/5d612164da595e080
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/ee/a6d265860d51a52a8ac931579f722a15173ca480bbcce233fd78505b491b/hanzo_tools_vector-0.2.0-py3-none-any.whl", hash = "sha256:2c5dca66e657bf1098d9ac4f8aff625addf4cb623387a1d2cb234a935ab4e7fc", size = 32480, upload-time = "2025-12-26T18:29:58.591Z" },
 ]
-
-[[package]]
-name = "hanzo-train"
-version = "0.1.0"
-source = { editable = "pkg/hanzo-train" }
-dependencies = [
-    { name = "httpx" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "mypy" },
-    { name = "pytest" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "httpx", specifier = ">=0.25.0" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5.0" },
-]
-provides-extras = ["dev"]
 
 [[package]]
 name = "hanzo-zap"
