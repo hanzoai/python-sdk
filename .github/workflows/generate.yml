@@ -24,6 +24,9 @@ jobs:
           python-version: '3.12'
       - name: Regenerate
         run: ./scripts/generate.sh
+        env:
+          # Read token for the private hanzoai/openapi (repo/contents:read).
+          SPEC_TOKEN: ${{ secrets.SPEC_TOKEN }}
       - name: Verify it imports
         run: |
           python -m pip install -q urllib3 python-dateutil 'pydantic>=2' typing-extensions
