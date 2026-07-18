@@ -13,12 +13,19 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 GENERATOR_VERSION="${GENERATOR_VERSION:-7.14.0}"
-SPEC_URL="${SPEC_URL:-https://raw.githubusercontent.com/hanzoai/openapi/main/hanzo.yaml}"
+# hanzoai/openapi is private — fetch hanzo.yaml through the GitHub API with a
+# token (SPEC_TOKEN). raw.githubusercontent.com only serves public repos (it
+# 404s on a private repo). Local override still honored: SPEC=/path/to/hanzo.yaml.
+SPEC_REPO="${SPEC_REPO:-hanzoai/openapi}"
+SPEC_REF="${SPEC_REF:-main}"
 SPEC="${SPEC:-}"
 JAR="${JAR:-/tmp/openapi-generator-cli-${GENERATOR_VERSION}.jar}"
 
 if [ -z "$SPEC" ]; then
-  SPEC="$(mktemp)"; curl -fsSL "$SPEC_URL" -o "$SPEC"
+  : "${SPEC_TOKEN:?SPEC_TOKEN required to read private $SPEC_REPO}"
+  SPEC="$(mktemp)"
+  curl -fsSL -H "Authorization: Bearer $SPEC_TOKEN" -H "Accept: application/vnd.github.raw" \
+    "https://api.github.com/repos/$SPEC_REPO/contents/hanzo.yaml?ref=$SPEC_REF" -o "$SPEC"
 fi
 if [ ! -f "$JAR" ]; then
   curl -fsSL -o "$JAR" \
