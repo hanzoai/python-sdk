@@ -14,17 +14,61 @@ import asyncio
 import os
 import re
 from pathlib import Path
-from typing import ClassVar
+from typing import Any, ClassVar
 from urllib.parse import urljoin, urlparse
 
 from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
-    InvalidParamsError,
+    CloudError,
+    HanzoCloud,
     ToolError,
     content_hash,
 )
+
+
+def _extract_markdown(resp: Any) -> str:
+    """Best-effort markdown out of a Hanzo Crawl / Firecrawl response.
+
+    The crawl `data` is shape-polymorphic across versions — a bare string, a
+    {markdown|fit_markdown|raw_markdown|content} object, or a list of those — so
+    this accepts any of them and returns the first non-empty markdown found.
+    """
+
+    def from_obj(obj: Any) -> str:
+        if isinstance(obj, str):
+            return obj.strip()
+        if isinstance(obj, dict):
+            for k in ("markdown", "fit_markdown", "raw_markdown", "content", "text"):
+                v = obj.get(k)
+                if isinstance(v, str) and v.strip():
+                    return v.strip()
+                if isinstance(v, dict):
+                    inner = from_obj(v)
+                    if inner:
+                        return inner
+        return ""
+
+    if not isinstance(resp, dict):
+        return from_obj(resp)
+    payload = resp.get("data", resp)  # {status,msg,data} or {success,data:{...}}
+    if isinstance(payload, list):
+        for item in payload:
+            md = from_obj(item)
+            if md:
+                return md
+        return ""
+    return from_obj(payload)
+
+
+def _crawl_metadata(resp: Any) -> dict:
+    """Pull a metadata dict out of a crawl response, if present."""
+    if isinstance(resp, dict):
+        payload = resp.get("data", resp)
+        if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict):
+            return payload["metadata"]
+    return {}
 
 
 class FetchTool(BaseTool):
@@ -46,14 +90,23 @@ class FetchTool(BaseTool):
         super().__init__()
         self.cwd = cwd or os.getcwd()
         self._client = None
+        self._cloud: HanzoCloud | None = None
         self._register_net_actions()
+
+    def _get_cloud(self) -> HanzoCloud | None:
+        """Shared Hanzo Cloud client, or None when no API key is configured."""
+        if self._cloud is None:
+            self._cloud = HanzoCloud()
+        return self._cloud if self._cloud.configured() else None
 
     @property
     def description(self) -> str:
         return """Network operations tool (HIP-0300).
 
 Actions:
-- search: Web search (Query → [URL, title, snippet])
+- search: Web search — cloud Bing meta-search (api.hanzo.ai) with a local
+  DuckDuckGo fallback (Query → [URL, title, snippet])
+- web_read: Fetch a URL → clean markdown (cloud Crawl4AI, local fallback)
 - fetch: Retrieve URL content (URL → {text, mime, status})
 - download: Save page with assets (URL → Path)
 - crawl: Recursive site mirror (URL, depth → [Path])
@@ -119,6 +172,39 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
             matches = re.findall(pattern, html)
             return [urljoin(base_url, m) for m in matches]
 
+    async def _duckduckgo_search(self, query: str, limit: int) -> list[dict]:
+        """Local DuckDuckGo HTML search (no API key). Used as a fallback."""
+        client = await self._get_client()
+        response = await client.get(f"https://html.duckduckgo.com/html/?q={query}")
+
+        results: list[dict] = []
+        try:
+            from bs4 import BeautifulSoup
+
+            soup = BeautifulSoup(response.text, "lxml")
+            for result in soup.select(".result")[:limit]:
+                title_el = result.select_one(".result__title")
+                snippet_el = result.select_one(".result__snippet")
+                link_el = result.select_one(".result__url")
+                if title_el and link_el:
+                    results.append(
+                        {
+                            "title": title_el.get_text(strip=True),
+                            "url": link_el.get("href", ""),
+                            "snippet": (
+                                snippet_el.get_text(strip=True) if snippet_el else ""
+                            ),
+                        }
+                    )
+        except ImportError:
+            results = [
+                {
+                    "note": "Install beautifulsoup4 for better parsing",
+                    "raw_length": len(response.text),
+                }
+            ]
+        return results
+
     def _register_net_actions(self):
         """Register all network actions."""
 
@@ -126,71 +212,100 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
         async def search(
             ctx: MCPContext,
             query: str,
-            engine: str = "duckduckgo",
+            engine: str = "hanzo",
             limit: int = 10,
         ) -> dict:
             """Perform web search.
 
+            Prefers the cloud Bing meta-search (api.hanzo.ai /v1/websearch/search)
+            and falls back to local DuckDuckGo when the cloud is unreachable or
+            no API key is configured.
+
             Args:
                 query: Search query
-                engine: Search engine (duckduckgo, google)
+                engine: hanzo (cloud, default) | duckduckgo (local)
                 limit: Max results
 
             Returns:
-                {results: [{url, title, snippet}]}
+                {results: [{url, title, snippet}], query, engine, count}
 
             Effect: NONDETERMINISTIC_EFFECT
             """
-            client = await self._get_client()
-
-            if engine == "duckduckgo":
-                # DuckDuckGo HTML search (no API key needed)
-                url = f"https://html.duckduckgo.com/html/?q={query}"
-                response = await client.get(url)
-
-                results = []
-                try:
-                    from bs4 import BeautifulSoup
-
-                    soup = BeautifulSoup(response.text, "lxml")
-                    for result in soup.select(".result")[:limit]:
-                        title_el = result.select_one(".result__title")
-                        snippet_el = result.select_one(".result__snippet")
-                        link_el = result.select_one(".result__url")
-
-                        if title_el and link_el:
-                            results.append(
-                                {
-                                    "title": title_el.get_text(strip=True),
-                                    "url": link_el.get("href", ""),
-                                    "snippet": (
-                                        snippet_el.get_text(strip=True)
-                                        if snippet_el
-                                        else ""
-                                    ),
-                                }
-                            )
-                except ImportError:
-                    # Fallback without beautifulsoup
-                    results = [
-                        {
-                            "note": "Install beautifulsoup4 for better parsing",
-                            "raw_length": len(response.text),
+            if engine in ("hanzo", "auto", "bing"):
+                cloud = self._get_cloud()
+                if cloud is not None:
+                    try:
+                        data = await cloud.get("/v1/websearch/search", {"q": query})
+                        results = [
+                            {
+                                "url": r.get("url", ""),
+                                "title": r.get("title", ""),
+                                "snippet": r.get("content") or r.get("snippet", ""),
+                            }
+                            for r in (data.get("results") or [])[:limit]
+                        ]
+                        return {
+                            "results": results,
+                            "query": query,
+                            "engine": "hanzo",
+                            "count": len(results),
                         }
-                    ]
+                    except CloudError:
+                        pass  # fall through to local DuckDuckGo
 
-            else:
-                raise InvalidParamsError(
-                    f"Unknown engine: {engine}",
-                    param="engine",
-                    expected="duckduckgo",
-                )
-
+            results = await self._duckduckgo_search(query, limit)
             return {
                 "results": results,
                 "query": query,
-                "engine": engine,
+                "engine": "duckduckgo",
                 "count": len(results),
+            }
+
+        @self.action("web_read", "Fetch a URL → clean markdown")
+        async def web_read(
+            ctx: MCPContext,
+            url: str,
+        ) -> dict:
+            """Read a web page as clean markdown.
+
+            Prefers the cloud reader (api.hanzo.ai /v1/crawl, Crawl4AI) and falls
+            back to a local fetch + text extraction when the cloud is unreachable.
+
+            Returns:
+                {url, markdown, source: "cloud" | "local", metadata?}
+
+            Effect: NONDETERMINISTIC_EFFECT
+            """
+            cloud = self._get_cloud()
+            if cloud is not None:
+                try:
+                    data = await cloud.post("/v1/crawl", {"url": url})
+                    markdown = _extract_markdown(data)
+                    if markdown:
+                        return {
+                            "url": url,
+                            "markdown": markdown,
+                            "source": "cloud",
+                            "metadata": _crawl_metadata(data),
+                        }
+                except CloudError:
+                    pass  # fall through to local fetch
+
+            client = await self._get_client()
+            try:
+                response = await client.get(url)
+            except Exception as e:
+                raise ToolError(
+                    code="INTERNAL_ERROR",
+                    message=f"web_read failed (cloud + local): {e}",
+                    details={"url": url},
+                )
+            text = self._extract_text(response.text)
+            return {
+                "url": str(response.url),
+                "markdown": text,
+                "source": "local",
+                "status": response.status_code,
             }
 
         @self.action("fetch", "Retrieve URL content")

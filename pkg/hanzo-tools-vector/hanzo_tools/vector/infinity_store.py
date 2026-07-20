@@ -1,6 +1,7 @@
 """Infinity vector database integration for Hanzo AI."""
 
 import json
+import os
 import hashlib
 from typing import Any, Dict, List, Tuple, Optional
 from pathlib import Path
@@ -11,10 +12,15 @@ try:
 
     INFINITY_AVAILABLE = True
 except ImportError:
-    # Use mock implementation when infinity_embedded is not available
-    from . import mock_infinity as infinity_embedded
+    # No silent mock: the random-vector mock makes search meaningless, so it is
+    # OPT-IN only (HANZO_VECTOR_ALLOW_MOCK=1) for tests. Otherwise the local store
+    # is simply unavailable — callers should use the cloud VectorTool (default).
+    infinity_embedded = None
+    INFINITY_AVAILABLE = False
+    if os.environ.get("HANZO_VECTOR_ALLOW_MOCK") == "1":
+        from . import mock_infinity as infinity_embedded
 
-    INFINITY_AVAILABLE = True  # Mock is always available
+        INFINITY_AVAILABLE = True
 
 from .ast_analyzer import Symbol, FileAST, ASTAnalyzer, create_symbol_embedding_text
 
@@ -772,16 +778,22 @@ class InfinityVectorStore:
         return chunks
 
     def _generate_embedding(self, text: str) -> List[float]:
-        """Generate embedding for text.
+        """Generate an embedding for text.
 
-        For now, this returns a dummy embedding. In a real implementation,
-        you would call an embedding API (OpenAI, Cohere, etc.) or use a local model.
+        The local Infinity store ships no embedder. Rather than return random
+        vectors (which make similarity search meaningless), this raises unless
+        the mock is explicitly enabled (HANZO_VECTOR_ALLOW_MOCK=1). For real
+        vectors, use the cloud VectorTool (api.hanzo.ai /v1/embeddings).
         """
-        # This is a placeholder - you would implement actual embedding generation here
-        # For now, return a random embedding of the correct dimension
-        import random
+        if os.environ.get("HANZO_VECTOR_ALLOW_MOCK") == "1":
+            import random
 
-        return [random.random() for _ in range(self.dimension)]
+            return [random.random() for _ in range(self.dimension)]
+        raise NotImplementedError(
+            "Local Infinity store has no embedder; use the cloud VectorTool "
+            "(default) for real embeddings, or set HANZO_VECTOR_ALLOW_MOCK=1 "
+            "for random test vectors."
+        )
 
     async def get_stats(self) -> Dict[str, Any]:
         """Get statistics about the vector store.
