@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-vector"
-version = "0.2.0"
+version = "0.2.1"
 description = "Vector/embedding tools for Hanzo AI - indexing, search, RAG"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -16,10 +16,12 @@ dependencies = [
     "mcp>=1.25.0",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",
+    "httpx>=0.25.0",
 ]
 
 [project.optional-dependencies]
 full = ["sentence-transformers>=2.0.0", "faiss-cpu>=1.7.0"]
+infinity = ["infinity-embedded>=0.5.0"]
 
 [project.entry-points."hanzo.tools"]
 vector = "hanzo_tools.vector:TOOLS"

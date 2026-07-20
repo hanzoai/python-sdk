@@ -27,6 +27,7 @@ from mcp.server.fastmcp import Context as MCPContext
 
 from hanzo_tools.core import (
     BaseTool,
+    HanzoCloud,
     InvalidParamsError,
     NotFoundError,
     ToolError,
@@ -111,22 +112,29 @@ class CodeTool(BaseTool):
         self.cwd = cwd or os.getcwd()
         self._tree_sitter = None
         self._lsp_clients: dict[str, Any] = {}
+        self._cloud: HanzoCloud | None = None
         self._register_code_actions()
+        self._register_cloud_actions()
 
     @property
     def description(self) -> str:
-        return """Unified code semantics tool (HIP-0300).
+        return """Unified code semantics tool (HIP-0300). Hybrid: local AST + cloud index.
 
-Actions:
-- parse: Parse source code to AST (tree-sitter)
+Local (tree-sitter/LSP, instant, single-file — PURE):
+- parse: Parse source code to AST
 - serialize: Convert AST back to text
 - symbols: List symbols in file/scope
 - definition: Go to symbol definition (LSP)
 - references: Find all references to symbol (LSP)
 - transform: Pure codemod producing Patch (no side effects)
 - summarize: Compress Diff/Log/Report to summary
+- search_symbol/outline/metrics/exports/types/hierarchy/rename/grep_replace
 
-All operations are PURE - safe to cache and parallelize.
+Cloud (api.hanzo.ai /v1/code, cross-repo semantic index over real Qdrant):
+- search: Cross-repo code search (type: symbol|text|semantic|hybrid)
+- context: Budget-packed context bundle for a query
+- ask: Cited RAG answer over indexed code
+- index: (Re)index files/dirs into the cloud code index
 """
 
     def _detect_lang(self, path: str | None, text: str | None = None) -> str:
@@ -309,6 +317,148 @@ All operations are PURE - safe to cache and parallelize.
         except re.error as e:
             raise InvalidParamsError(
                 f"Invalid regex pattern: {e}", param="match_pattern"
+            )
+
+    def _get_cloud(self) -> HanzoCloud:
+        """Lazily build the shared Hanzo Cloud client for /v1/code/*."""
+        if self._cloud is None:
+            self._cloud = HanzoCloud()
+        if not self._cloud.configured():
+            raise ToolError(
+                code="INVALID_PARAMS",
+                message="Hanzo Cloud not configured: set HANZO_API_KEY "
+                "or add .apiKey to ~/.hanzo/config.json",
+            )
+        return self._cloud
+
+    def _collect_index_files(
+        self, path: str, max_files: int, max_bytes: int
+    ) -> list[dict]:
+        """Read a file or walk a directory into index payload records."""
+        root = Path(path) if Path(path).is_absolute() else Path(self.cwd) / path
+        if not root.exists():
+            raise NotFoundError(f"Path not found: {path}", uri=str(root))
+
+        skip_dirs = {".git", "node_modules", "target", "dist", "__pycache__", ".venv"}
+        files: list[dict] = []
+
+        candidates = [root] if root.is_file() else sorted(root.rglob("*"))
+        for p in candidates:
+            if len(files) >= max_files:
+                break
+            if p.is_dir() or any(sd in p.parts for sd in skip_dirs):
+                continue
+            if p.suffix not in LANG_MAP:
+                continue
+            try:
+                if p.stat().st_size > max_bytes:
+                    continue
+                content = p.read_text(errors="ignore")
+            except (OSError, UnicodeDecodeError):
+                continue
+            rel = str(p.relative_to(root)) if root.is_dir() else p.name
+            files.append({"path": rel, "content": content})
+        return files
+
+    def _register_cloud_actions(self):
+        """Register cloud-backed actions calling api.hanzo.ai /v1/code/*.
+
+        The cloud index is the cross-repo, semantic half of the hybrid: local
+        AST answers single-file questions instantly; these answer questions that
+        span repos (real Qdrant vectors + zen embeddings, server-side).
+        """
+
+        @self.action("search", "Cross-repo code search via the cloud index")
+        async def search(
+            ctx: MCPContext,
+            query: str,
+            type: str = "hybrid",
+            repo: str | None = None,
+            limit: int = 20,
+        ) -> dict:
+            """Search indexed code across repos.
+
+            Args:
+                query: Search query
+                type: symbol | text | semantic | hybrid
+                repo: Restrict to a single repo (optional)
+                limit: Max results
+
+            Returns:
+                {query, type, results: [{repo, file, line, endLine, kind, symbol, snippet, score}]}
+
+            Effect: NONDETERMINISTIC_EFFECT (cloud I/O)
+            """
+            data = await self._get_cloud().get(
+                "/v1/code/search",
+                {"q": query, "type": type, "repo": repo, "limit": limit},
+            )
+            return data
+
+        @self.action("context", "Budget-packed context bundle for a query")
+        async def context(
+            ctx: MCPContext,
+            query: str,
+            budgetTokens: int = 4000,
+            repo: str | None = None,
+        ) -> dict:
+            """Get a token-budgeted bundle of the most relevant code spans.
+
+            Returns:
+                {query, budgetTokens, usedTokens, spans: [...]}
+            """
+            body: dict[str, Any] = {"query": query, "budgetTokens": budgetTokens}
+            if repo:
+                body["repo"] = repo
+            return await self._get_cloud().post("/v1/code/context", body)
+
+        @self.action("ask", "Cited RAG answer over indexed code")
+        async def ask(
+            ctx: MCPContext,
+            query: str,
+            repo: str | None = None,
+        ) -> dict:
+            """Ask a question over the code index; get a cited answer.
+
+            Returns:
+                {question, answer, citations: [{repo, file, line, endLine, symbol}]}
+            """
+            body: dict[str, Any] = {"query": query}
+            if repo:
+                body["repo"] = repo
+            return await self._get_cloud().post("/v1/code/ask", body)
+
+        @self.action("index", "Index files/dir into the cloud code index")
+        async def index(
+            ctx: MCPContext,
+            repo: str,
+            path: str | None = None,
+            files: list[dict] | None = None,
+            prune: bool = False,
+            max_files: int = 2000,
+            max_bytes: int = 1_000_000,
+        ) -> dict:
+            """(Re)index code into the cloud index (incremental, content-hashed).
+
+            Provide either an explicit `files` list ([{path, content}]) or a
+            `path` (file or directory) to read and index.
+
+            Returns:
+                {repo, indexed, skipped, pruned, files, symbols, chunks, vectors, semantic}
+            """
+            payload_files = files
+            if payload_files is None:
+                if not path:
+                    raise InvalidParamsError(
+                        "index requires either 'files' or 'path'", param="path"
+                    )
+                payload_files = self._collect_index_files(path, max_files, max_bytes)
+            if not payload_files:
+                raise InvalidParamsError("no indexable files found", param="path")
+
+            return await self._get_cloud().post(
+                "/v1/code/index",
+                {"repo": repo, "files": payload_files, "prune": prune},
             )
 
     def _register_code_actions(self):

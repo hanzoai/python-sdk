@@ -28,17 +28,20 @@ Usage:
 from hanzo_tools.core import BaseTool, ToolRegistry
 
 from .fetch_tool import FetchTool, fetch_tool
+from .vision_tool import VisionTool, vision_tool
 
 # Backward compat
 NetTool = FetchTool
 net_tool = fetch_tool
 
-# Export list for tool discovery - HIP-0300 unified tool
-TOOLS = [FetchTool]
+# Export list for tool discovery - HIP-0300 unified tools
+TOOLS = [FetchTool, VisionTool]
 
 __all__ = [
     "FetchTool",
     "fetch_tool",
+    "VisionTool",
+    "vision_tool",
     "NetTool",
     "net_tool",
     "register_tools",
@@ -57,6 +60,7 @@ def register_tools(mcp_server, **kwargs) -> list[BaseTool]:
         List of registered tool instances
     """
     cwd = kwargs.get("cwd")
-    tool = FetchTool(cwd=cwd)
-    ToolRegistry.register_tool(mcp_server, tool)
-    return [tool]
+    tools: list[BaseTool] = [FetchTool(cwd=cwd), VisionTool(cwd=cwd)]
+    for tool in tools:
+        ToolRegistry.register_tool(mcp_server, tool)
+    return tools
