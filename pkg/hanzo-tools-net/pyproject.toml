@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-net"
-version = "0.1.2"
+version = "0.1.3"
 description = "Network tools for Hanzo AI (HIP-0300)"
 readme = "README.md"
 license = "MIT"
