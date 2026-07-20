@@ -29,6 +29,12 @@ from hanzo_tools.core.unified import (
     content_hash,
 )
 from hanzo_tools.core.id_tool import IdTool, id_tool
+from hanzo_tools.core.cloud import (
+    HanzoCloud,
+    CloudError,
+    cloud_api_key,
+    cloud_api_base,
+)
 from hanzo_tools.core.decorators import auto_timeout
 from hanzo_tools.core.validation import ValidationResult, validate_path_parameter
 from hanzo_tools.core.permissions import PermissionManager
@@ -54,6 +60,11 @@ __all__ = [
     # Identity tool
     "IdTool",
     "id_tool",
+    # Cloud client (api.hanzo.ai)
+    "HanzoCloud",
+    "CloudError",
+    "cloud_api_key",
+    "cloud_api_base",
     # Context
     "ToolContext",
     "create_tool_context",
