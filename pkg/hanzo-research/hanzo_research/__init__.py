@@ -37,9 +37,12 @@ def client():
     return _default
 
 
-def experiment(kind, subject, task, metric="accuracy", n_total=0, note=""):
-    """Get/create an experiment handle on the default client."""
-    return client().experiment(kind, subject, task, metric=metric, n_total=n_total, note=note)
+def experiment(kind, subject, task, metric="accuracy", n_total=0, note="",
+               hypothesis="", predict=""):
+    """Get/create an experiment handle on the default client. Pass `hypothesis` + `predict`
+    to structure it as a falsifiable test that conclude(verdict) can prove or refute."""
+    return client().experiment(kind, subject, task, metric=metric, n_total=n_total, note=note,
+                               hypothesis=hypothesis, predict=predict)
 
 
 def query(project=None, kind=None, canonical=True):
