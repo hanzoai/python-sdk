@@ -22,6 +22,7 @@ Auth is the per-org key (private-by-default is enforced server-side). Records mi
 the cloud /v1/research surface (HIP-0512), which is versioned + append-only + idempotent
 by content, so re-recording the same result is a no-op.
 """
+import base64
 import hashlib
 import json
 import os
@@ -52,13 +53,13 @@ class Research:
 
     # ── transport ──────────────────────────────────────────────────────────────
     def _headers(self):
+        # Auth is ONLY the per-org key (the gateway mints the validated principal from it).
+        # The client NEVER mints X-User-Id/X-Org-Id — that is a cross-tenant forge the
+        # gateway strips anyway (SanitizeIdentity); any local/dev bypass belongs SERVER-side
+        # behind an explicit unsafe flag, never in the client.
         h = {"Content-Type": "application/json", "X-Project-Id": self.project}
         if self.api_key:
             h["Authorization"] = "Bearer " + self.api_key
-        elif os.environ.get("RESEARCH_ORG"):  # dev/local: raw principal for a gateway-less server
-            org = os.environ["RESEARCH_ORG"]
-            h["X-Org-Id"] = org
-            h["X-User-Id"] = "u-" + org
         return h
 
     def _req(self, method, path, payload=None):
@@ -167,25 +168,26 @@ class Experiment:
                 self._ok += 1
         return self.c.ingest(attempts=[a])
 
-    def snapshot(self, data, ref=None, run_id=None):
-        """File a board-snapshot artifact. `data` is the PNG bytes (or a path to the PNG);
-        the SDK content-addresses it by sha256. `ref` is the blob location (defaults to
-        the content address; the blob upload to object storage is the recorder's job)."""
+    def snapshot(self, data, run_id=None):
+        """File a board-snapshot artifact. `data` is the PNG bytes (or a path to the PNG).
+        The SDK submits the bytes; the SERVER content-addresses them by sha256."""
         raw = data if isinstance(data, (bytes, bytearray)) else _read_bytes(data)
-        return self._artifact("snapshot", raw, ref, run_id)
+        return self._artifact("snapshot", raw, run_id)
 
-    def report(self, data, ref=None, run_id=None):
+    def report(self, data, run_id=None):
         """File a generated-report artifact — HTML/Markdown TEXT (or bytes)."""
         raw = data if isinstance(data, (bytes, bytearray)) else str(data).encode()
-        return self._artifact("report", raw, ref, run_id)
+        return self._artifact("report", raw, run_id)
 
-    def _artifact(self, kind, raw, ref, run_id):
-        sha = hashlib.sha256(raw).hexdigest()
+    def _artifact(self, kind, raw, run_id):
+        # Submit the BYTES; the server hashes them and owns the sha256 + ref. The client
+        # sha256 travels only so the server can reject a mismatch (a mis-hash or tamper).
         return self.c.artifact({
-            "sha256": sha, "kind": kind, "ref": ref or f"sha256:{sha}",
-            "run_id": run_id or self.id, "git_sha": self.prov["git_sha"],
-            "git_branch": self.prov["git_branch"], "git_dirty": self.prov["git_dirty"],
-            "lib_versions": self.libs,
+            "content": base64.b64encode(raw).decode(),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "kind": kind, "run_id": run_id or self.id,
+            "git_sha": self.prov["git_sha"], "git_branch": self.prov["git_branch"],
+            "git_dirty": self.prov["git_dirty"], "lib_versions": self.libs,
         })
 
     def finish(self, value=None):
