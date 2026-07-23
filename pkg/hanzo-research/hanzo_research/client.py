@@ -17,7 +17,7 @@ ZERO-CONFIG surface so hand-rolling is obviously the worse choice:
                             metric="ratio_vs_hand",
                             hypothesis="the DSL f32-direct matvec beats the hand kernel",
                             predict="DSL/hand >= 1.0 cold in-engine at the dominant FFN shape")
-    k.note("cold in-engine A/B, evo gfx1151, quiet window, 3 runs, bit-exact 2.3e-6")
+    k.log("cold in-engine A/B, evo gfx1151, quiet window, 3 runs, bit-exact 2.3e-6")
     k.conclude("proven", because="1.022x at 6144 rows (loses small shapes → gate >=4096)",
                value=1.022)                                             # git sha + lib versions auto-stamped
 
@@ -168,9 +168,10 @@ class Experiment:
         # Post the run as in-flight so the ops board sees it immediately.
         self._post(status="running", value=0.0)
 
-    def note(self, text):
+    def log(self, text):
         """Append to the running log — the 'what I saw / thought' trail that travels with
-        the run into the record. Chainable."""
+        the run into the record. Chainable. (`note=` on experiment() is the one-shot note;
+        log() accumulates the ongoing entries.)"""
         self._log.append(text)
         return self
 
