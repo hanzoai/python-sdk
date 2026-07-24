@@ -1,119 +1,102 @@
-<p align="center"><img src=".github/hero.svg" alt="python-sdk" width="880"></p>
+<p align="center"><img src=".github/hero.svg" alt="Hanzo Python SDK" width="880"></p>
 
 # Hanzo Python SDK
+
+**The flagship Python SDK for the Open AI Cloud — models, agents, tools, memory, and MCP in one install.**
 
 [![CI](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 [![Python Version](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-The official Python SDK for the Hanzo AI platform, providing unified access to 100+ LLM providers through a single OpenAI-compatible API interface.
+This is the most complete Hanzo SDK — a `uv` workspace of 60+ composable packages
+covering the full AI surface: the typed cloud client, an agent framework, the
+Model Context Protocol server and tools, persistent memory + RAG, distributed
+compute, and a batteries-included CLI. If you build AI in Python, start here.
 
-## 🚀 Features
-
-- **Unified API**: Single interface for 100+ LLM providers (OpenAI, Anthropic, Google, Meta, etc.)
-- **OpenAI Compatible**: Drop-in replacement for OpenAI SDK
-- **Enterprise Features**: Cost tracking, rate limiting, observability
-- **Local AI Support**: Run models locally with node infrastructure
-- **Model Context Protocol (MCP)**: Advanced tool use and context management
-- **Agent Framework**: Build and orchestrate AI agents
-- **Memory Management**: Persistent memory and RAG capabilities
-- **Network Orchestration**: Distributed AI compute capabilities
-
-## 📦 Installation
-
-### Basic Installation
+## Install
 
 ```bash
-pip install hanzoai
+pip install hanzo          # flagship: CLI + agents + MCP + client
 ```
 
-### Full Installation (All Features)
+Or install exactly what you need:
 
 ```bash
-pip install "hanzoai[all]"
+pip install hanzoai        # just the typed cloud API client
+pip install "hanzo[all]"   # everything, including optional extras
 ```
 
-### Development Installation
-
-```bash
-git clone https://github.com/hanzoai/python-sdk.git
-cd python-sdk
-make setup
-```
-
-## 🎯 Quick Start
-
-### Basic Usage
+## Quickstart
 
 ```python
-from hanzoai import Hanzo
+from hanzoai import ApiClient, Configuration, AiOpenAICompatibleApi
+from hanzoai import AiChatCompletionRequest, AiChatMessage
 
-# Initialize client
-client = Hanzo(api_key="your-api-key")
+config = Configuration(host="https://api.hanzo.ai", access_token="sk-...")
 
-# Chat completion
-response = client.chat.completions.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
-print(response.choices[0].message.content)
+with ApiClient(config) as client:
+    ai = AiOpenAICompatibleApi(client)
+    resp = ai.ai_create_chat_completion(
+        AiChatCompletionRequest(
+            model="zen-coder",
+            messages=[AiChatMessage(role="user", content="Ship it.")],
+        )
+    )
+    print(resp.choices[0].message.content)
 ```
 
-### Using Different Providers
+Every route is `https://api.hanzo.ai/v1/<service>/*`. Models come from the **Zen**
+family (our own models) plus any provider you connect — one typed client, no proxy
+in the middle.
 
-```python
-# Use Claude
-response = client.chat.completions.create(
-    model="claude-3-opus-20240229",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
+## Packages
 
-# Use local models
-response = client.chat.completions.create(
-    model="llama2:7b",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
-```
+The workspace splits cleanly by concern. The headline packages:
 
-## 🏗️ Architecture
-
-### Package Structure
+| Package | Purpose |
+|---------|---------|
+| `hanzoai` | Typed cloud API client (generated from the Hanzo OpenAPI surface). |
+| `hanzo` | The `hanzo` CLI + runtime that ties everything together. |
+| `hanzo-mcp` | Model Context Protocol server — discovers tools via entry points. |
+| `hanzo-agents` / `hanzo-agent` | Agent framework — build and orchestrate agents and swarms. |
+| `hanzo-network` | Distributed AI compute and node orchestration. |
+| `hanzo-memory` | Persistent memory + RAG (SQLite, optional vector backends). |
+| `hanzo-tools-*` | 60+ single-concern tool packages (`shell`, `browser`, `fs`, `code`, `vector`, `iam`, …), each exposing a `TOOLS` list. |
 
 ```
 python-sdk/
-├── pkg/
-│   ├── hanzo/          # CLI and orchestration tools
-│   ├── hanzo-mcp/      # Model Context Protocol implementation
-│   ├── hanzo-agents/   # Agent framework
-│   ├── hanzo-network/  # Distributed network capabilities
-│   ├── hanzo-memory/   # Memory and RAG
-│   ├── hanzo-aci/      # AI code intelligence
-│   ├── hanzo-repl/     # Interactive REPL
-│   └── hanzoai/        # Core SDK
+└── pkg/
+    ├── hanzoai/          # typed cloud client (OpenAPI-generated)
+    ├── hanzo/            # CLI + runtime meta package
+    ├── hanzo-mcp/        # MCP server (entry-point tool discovery)
+    ├── hanzo-agents/     # agent framework
+    ├── hanzo-network/    # distributed compute
+    ├── hanzo-memory/     # memory + RAG
+    └── hanzo-tools-*/    # composable tool packages
 ```
 
-### Core Components
+## CLI
 
-#### 1. **Hanzo CLI** (`hanzo`)
-Command-line interface for AI operations:
+`pip install hanzo` gives you the `hanzo` command:
 
 ```bash
-# Chat with AI
-hanzo chat
-
-# Start local node
-hanzo node start
-
-# Manage router
-hanzo router start
-
-# Interactive REPL
-hanzo repl
+hanzo chat            # chat with the Zen models
+hanzo node            # start / manage a local compute node
+hanzo mcp             # run the MCP server for your editor or agent
+hanzo agent           # build and run agents
+hanzo run             # run a workflow
+hanzo cloud           # manage cloud resources
+hanzo search          # AI-powered search
 ```
 
-#### 2. **Model Context Protocol** (`hanzo-mcp`)
-Advanced tool use and context management:
+Run `hanzo --help` for the full command tree.
+
+## Model Context Protocol (`hanzo-mcp`)
+
+`hanzo-mcp` hosts the MCP server and discovers tools through
+`[project.entry-points."hanzo.tools"]`, so any installed `hanzo-tools-*` package
+lights up automatically.
 
 ```python
 from hanzo_mcp import create_mcp_server
@@ -123,24 +106,22 @@ server.register_tool(my_tool)
 server.start()
 ```
 
-#### 3. **Agent Framework** (`hanzo-agents`)
-Build and orchestrate AI agents:
+## Agents (`hanzo-agents`)
 
 ```python
 from hanzo_agents import Agent, Swarm
 
 agent = Agent(
     name="researcher",
-    model="gpt-4",
-    instructions="You are a research assistant"
+    model="zen-coder",
+    instructions="You are a research assistant.",
 )
 
 swarm = Swarm([agent])
-result = await swarm.run("Research quantum computing")
+result = await swarm.run("Research quantum computing.")
 ```
 
-#### 4. **Network Orchestration** (`hanzo-network`)
-Distributed AI compute:
+## Network (`hanzo-network`)
 
 ```python
 from hanzo_network import LocalComputeNode, DistributedNetwork
@@ -150,8 +131,11 @@ network = DistributedNetwork()
 network.register_node(node)
 ```
 
-#### 5. **Memory Management** (`hanzo-memory`)
-Persistent memory and RAG:
+## Memory (`hanzo-memory`)
+
+Persistent memory and RAG backed by SQLite, with optional vector search
+(`sqlite-vec`, `lancedb`, `kuzu`). Global state lives in `~/.hanzo/`; per-project
+state in `.hanzo/`.
 
 ```python
 from hanzo_memory import MemoryService
@@ -161,206 +145,70 @@ await memory.store("key", "value")
 result = await memory.retrieve("key")
 ```
 
-## 🛠️ Development
+## Development
 
-### Setup Development Environment
+This is a `uv` workspace.
 
 ```bash
-# Install Python 3.10+
-make install-python
+git clone https://github.com/hanzoai/python-sdk.git
+cd python-sdk
+uv sync --all-packages       # install the whole workspace
 
-# Setup virtual environment
-make setup
-
-# Install development dependencies
-make dev
+uv run pytest tests/ -v      # run tests
+make lint                    # ruff lint
+make format                  # ruff format
+make type-check              # mypy / pyright
 ```
 
-### Running Tests
+Per-package work:
 
 ```bash
-# Run all tests
-make test
-
-# Run specific package tests
-make test-hanzo
-make test-mcp
-make test-agents
-
-# Run with coverage
-make test-coverage
-```
-
-### Code Quality
-
-```bash
-# Format code
-make format
-
-# Run linting
-make lint
-
-# Type checking
-make type-check
-```
-
-### Building Packages
-
-```bash
-# Build all packages
-make build
-
-# Build specific package
+uv run pytest pkg/hanzo-mcp -v
 cd pkg/hanzo && uv build
 ```
 
-## 📚 Documentation
-
-### Package Documentation
-
-- [Hanzo CLI Documentation](pkg/hanzo/README.md)
-- [MCP Documentation](pkg/hanzo-mcp/README.md)
-- [Agents Documentation](pkg/hanzo-agents/README.md)
-- [Network Documentation](pkg/hanzo-network/README.md)
-- [Memory Documentation](pkg/hanzo-memory/README.md)
-
-### API Reference
-
-See the [API documentation](https://docs.hanzo.ai/python-sdk) for detailed API reference.
-
-## 🔧 Configuration
-
-### Environment Variables
+## Configuration
 
 ```bash
-# API Configuration
 HANZO_API_KEY=your-api-key
 HANZO_BASE_URL=https://api.hanzo.ai
-
-# Router Configuration
-HANZO_ROUTER_URL=http://localhost:4000/v1
-
-# Node Configuration
-HANZO_NODE_URL=http://localhost:8000/v1
-
-# Logging
 HANZO_LOG_LEVEL=INFO
 ```
 
-### Configuration File
-
-Create `~/.hanzo/config.yaml`:
+Or `~/.hanzo/config.yaml`:
 
 ```yaml
 api:
   key: your-api-key
   base_url: https://api.hanzo.ai
-
-router:
-  url: http://localhost:4000/v1
-  
-node:
-  url: http://localhost:8000/v1
-  workers: 4
-  
 logging:
   level: INFO
 ```
 
-## 🚢 Deployment
+## Security
 
-### Docker
+- Transport is TLS 1.3+. Secrets belong in a KMS, never in source or plaintext.
+- SOC 2 audit in progress; HIPAA BAA available.
 
-```bash
-# Build image
-docker build -t hanzo-sdk .
+Report vulnerabilities to **security@hanzo.ai**. See [SECURITY.md](SECURITY.md).
 
-# Run container
-docker run -p 8000:8000 hanzo-sdk
-```
+## Contributing
 
-### Docker Compose
+Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Use type hints,
+add tests for new behavior, and run `make lint` before opening a PR.
 
-```bash
-# Start all services
-docker-compose up
+## License
 
-# Start specific service
-docker-compose up router
-```
+Apache License 2.0 — see [LICENSE](LICENSE).
 
-## 🤝 Contributing
+## Support
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Make changes and test
-4. Commit changes (`git commit -m 'Add amazing feature'`)
-5. Push to branch (`git push origin feature/amazing-feature`)
-6. Open Pull Request
-
-### Code Standards
-
-- Follow PEP 8
-- Use type hints
-- Write tests for new features
-- Update documentation
-- Run `make lint` before committing
-
-## 📊 Performance
-
-### Benchmarks
-
-| Operation | Latency | Throughput |
-|-----------|---------|------------|
-| Chat Completion | 50ms | 20 req/s |
-| Embedding | 10ms | 100 req/s |
-| Local Inference | 200ms | 5 req/s |
-
-### Optimization Tips
-
-- Use streaming for long responses
-- Enable caching for repeated queries
-- Use batch operations when possible
-- Configure appropriate timeouts
-
-## 🔒 Security
-
-- API keys are encrypted at rest
-- All communications use TLS 1.3+
-- Regular security audits
-- SOC 2 Type II certified
-
-Report security issues to security@hanzo.ai
-
-## 📄 License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for the API specification
-- Anthropic for Claude integration
-- The open-source community
-
-## 📞 Support
-
-- Documentation: https://docs.hanzo.ai
-- Discord: https://discord.gg/hanzo
+- Docs: [docs.hanzo.ai](https://docs.hanzo.ai)
+- Issues: [github.com/hanzoai/python-sdk/issues](https://github.com/hanzoai/python-sdk/issues)
 - Email: support@hanzo.ai
-- GitHub Issues: https://github.com/hanzoai/python-sdk/issues
 
-## 🗺️ Roadmap
+## Hanzo — the Open AI Cloud
 
-- [ ] Multi-modal support (images, audio, video)
-- [ ] Enhanced caching strategies
-- [ ] WebSocket streaming
-- [ ] Browser SDK
-- [ ] Mobile SDKs (iOS, Android)
+Open source · every language · on-chain settlement. [hanzo.ai](https://hanzo.ai) · [docs.hanzo.ai](https://docs.hanzo.ai)
 
----
-
-Built with ❤️ by the Hanzo team
+**SDKs in every language** — [Python](https://github.com/hanzoai/python-sdk) (flagship) · [TypeScript](https://github.com/hanzo-js/sdk) · [Go](https://github.com/hanzo-go/sdk) · [Rust](https://github.com/hanzo-rs/sdk) · [C++](https://github.com/hanzo-cpp/sdk) · [Swift](https://github.com/hanzo-swift/sdk) · [Kotlin](https://github.com/hanzo-kt/sdk) · [umbrella](https://github.com/hanzoai/sdk)
