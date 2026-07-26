@@ -1,0 +1,118 @@
+name: Publish PyPI
+# NATIVE CI. git.hanzo.ai is canonical; this runs on the Hanzo git-runner fleet
+# (`hanzo-build-linux-amd64`). GitHub is a downstream mirror only.
+#
+# This replaces .github/workflows/publish-pypi.yml, which could not be run at
+# all: dispatching it returns
+#   HTTP 422: Actions has been disabled for this user
+# for the `hanzo-dev` account, and a tag push produced no run for the same
+# reason. So `hanzo` 0.4.4 sat tagged and unpublished while PyPI kept serving
+# 0.4.3, in which `hanzo auth login` cannot complete a login — Cloudflare
+# rejects urllib's default User-Agent with `error code: 1010`, so the token
+# exchange 403s AFTER the user has already signed in through the browser.
+# Depending on GitHub to ship a fix for our own CLI was the actual defect.
+#
+# Tag -> package mapping is unchanged from the retired workflow, including the
+# `hanzo-*` catch-all that maps `hanzo-v0.4.4` to the `hanzo` package.
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Packages to publish (space-separated, or "all")'
+        required: false
+        default: ''
+  push:
+    tags:
+      - 'v*'
+      - 'hanzo-*'
+      - 'hanzoai-*'
+
+concurrency:
+  group: publish-pypi-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: [hanzo-build-linux-amd64]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build tooling
+        run: python -m pip install --quiet --upgrade build twine
+
+      - name: Determine packages
+        id: pick
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF#refs/tags/}"
+          MANUAL="${{ github.event.inputs.packages }}"
+
+          # Auto-discovered so the list can never go stale — the retired
+          # workflow's hardcoded lists silently dropped newly added packages.
+          ALL="$( { echo hanzoai; ls -d pkg/*/ 2>/dev/null | xargs -n1 basename; } | sort -u | xargs)"
+
+          if [ -n "$MANUAL" ]; then
+            [ "$MANUAL" = "all" ] && PACKAGES="$ALL" || PACKAGES="$MANUAL"
+          elif [ "${GITHUB_REF}" != "${GITHUB_REF#refs/tags/}" ]; then
+            case "$TAG" in
+              hanzo-tools-*)  PACKAGES="$(ls -d pkg/hanzo-tools-*/ 2>/dev/null | xargs -n1 basename | xargs)" ;;
+              hanzoai-*)      PACKAGES="hanzoai" ;;
+              # Longest-match first, then the catch-all: `hanzo-v0.4.4` -> hanzo.
+              hanzo-*)
+                NAME="$(printf '%s' "$TAG" | sed -E 's/^(hanzo-[a-z0-9]+)-v?[0-9].*$/\1/')"
+                if [ "$NAME" != "$TAG" ] && [ -d "pkg/$NAME" ]; then PACKAGES="$NAME"; else PACKAGES="hanzo"; fi ;;
+              v*)             PACKAGES="$ALL" ;;
+              *)              PACKAGES="" ;;
+            esac
+          fi
+
+          echo "PACKAGES=$PACKAGES" >> "$GITHUB_OUTPUT"
+          echo "Publishing: ${PACKAGES:-<none>}"
+
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: __token__
+          # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
+          # packages, HANZO_AI_PYPI_TOKEN the rest. Each upload tries the primary
+          # then falls back, so a 403 scope-miss on one is covered by the other.
+          PYPI_TOKEN_PRIMARY: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN_FALLBACK: ${{ secrets.HANZO_AI_PYPI_TOKEN }}
+        run: |
+          set -uo pipefail
+          PACKAGES="${{ steps.pick.outputs.PACKAGES }}"
+          [ -z "$PACKAGES" ] && { echo "Nothing to publish."; exit 0; }
+
+          if [ -z "${PYPI_TOKEN_PRIMARY:-}" ] && [ -z "${PYPI_TOKEN_FALLBACK:-}" ]; then
+            echo "::error::No PyPI token on this forge. Add PYPI_TOKEN as a repo/org secret on git.hanzo.ai." >&2
+            exit 1
+          fi
+
+          rc=0
+          for package in $PACKAGES; do
+            if [ "$package" = "hanzoai" ]; then PKG_DIR="."
+            elif [ -d "pkg/$package" ]; then PKG_DIR="pkg/$package"
+            else echo "skip: no pkg/$package"; continue; fi
+
+            echo "── $package ($PKG_DIR)"
+            rm -rf "$PKG_DIR/dist" "$PKG_DIR/build"
+            python -m build "$PKG_DIR" --outdir "$PKG_DIR/dist" || { rc=1; continue; }
+
+            # --skip-existing keeps retries idempotent; try primary then fallback.
+            if ! TWINE_PASSWORD="$PYPI_TOKEN_PRIMARY" python -m twine upload "$PKG_DIR/dist/"* --skip-existing; then
+              if [ -n "${PYPI_TOKEN_FALLBACK:-}" ]; then
+                TWINE_PASSWORD="$PYPI_TOKEN_FALLBACK" python -m twine upload "$PKG_DIR/dist/"* --skip-existing || rc=1
+              else
+                rc=1
+              fi
+            fi
+          done
+          exit $rc

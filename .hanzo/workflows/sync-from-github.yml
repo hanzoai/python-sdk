@@ -1,0 +1,60 @@
+name: Sync from GitHub
+# git.hanzo.ai is CANONICAL and builds natively; development also lands on
+# github.com/hanzoai/python-sdk. Together with the push-mirror going the other way
+# (native -> GitHub, sync_on_commit) this is the full bidirectional loop.
+#
+# The two compose rather than fight: a native commit reaches GitHub via the
+# push-mirror, so this job then sees LOCAL == REMOTE and exits "in sync". A
+# GitHub commit fast-forwards native here, and the resulting push-mirror is a
+# no-op because GitHub already has it. No echo, no loop.
+#
+# ONE deterministic direction per job: an in-cluster PULL. The runner reaches
+# both ends (GitHub outbound, this forge via the instance URL actions/checkout
+# already uses), so the sync has no ingress dependency.
+#
+# Fast-forward ONLY. A divergence fails LOUDLY here rather than force-pushing
+# either side and destroying whichever history lost the race.
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+concurrency:
+  group: sync-from-github
+  cancel-in-progress: false
+jobs:
+  ff-main:
+    runs-on: [hanzo-build-linux-amd64]
+    steps:
+      - name: Checkout main (full history for the ancestry check)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Fast-forward main from github.com/hanzoai/python-sdk
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          set -euo pipefail
+          git fetch --quiet "https://x-access-token:${GH_PAT}@github.com/hanzoai/python-sdk.git" main
+          LOCAL="$(git rev-parse HEAD)"
+          REMOTE="$(git rev-parse FETCH_HEAD)"
+          if [ "$LOCAL" = "$REMOTE" ]; then
+            echo "in sync at $LOCAL"
+            exit 0
+          fi
+          if git merge-base --is-ancestor "$LOCAL" "$REMOTE"; then
+            echo "fast-forwarding $LOCAL -> $REMOTE"
+            git push origin "$REMOTE:refs/heads/main"
+            # A push made with the workflow token does NOT trigger other workflows
+            # (loop prevention), so synced commits would never build. Dispatch it
+            # explicitly — a real fast-forward means real commits arrived.
+            curl -fsS --max-time 20 -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              "${{ github.server_url }}/api/v1/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches" \
+              -d '{"ref":"main"}' || echo "build dispatch failed (non-fatal)"
+          else
+            echo "DIVERGED: native $LOCAL is not an ancestor of GitHub $REMOTE." >&2
+            echo "Resolve by hand; this job will not force-push either side." >&2
+            exit 1
+          fi
