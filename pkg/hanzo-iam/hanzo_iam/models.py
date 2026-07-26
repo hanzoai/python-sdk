@@ -8,9 +8,18 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Canonical OIDC UserInfo path (HIP-0111). One way; no legacy /api/ prefix.
-# Relative to the IAM server_url root.
+# Canonical IAM paths (HIP-0111), relative to the IAM server_url root. One way;
+# no legacy /api/ prefix and no bare /oauth/*. IAM answers an unrouted path with
+# a generic 401 (or, in a browser, a 200 SPA shell) rather than a 404 — so a
+# wrong path is silent breakage and every path must come from here.
+#
+# Only OIDC discovery lives at the root; everything else is under /v1/iam.
+OIDC_DISCOVERY_PATH = "/.well-known/openid-configuration"
+OIDC_JWKS_PATH = "/v1/iam/.well-known/jwks"
+OIDC_AUTHORIZE_PATH = "/v1/iam/oauth/authorize"
+OIDC_TOKEN_PATH = "/v1/iam/oauth/token"
 OIDC_USERINFO_PATH = "/v1/iam/oauth/userinfo"
+OIDC_INTROSPECT_PATH = "/v1/iam/oauth/introspect"
 
 
 class Organization(str, Enum):
