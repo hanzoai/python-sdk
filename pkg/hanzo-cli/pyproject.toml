@@ -36,8 +36,13 @@ dev = [
     "ruff>=0.5.0",
 ]
 
-[project.scripts]
-hanzo = "hanzo_cli.cli:main"
+# No [project.scripts]. The `hanzo` command belongs to the `hanzo` package and
+# to nothing else. Both packages used to declare `hanzo = ...`, and since
+# `hanzo` DEPENDS on this one, the winner was decided by pip install order —
+# a coin flip between a 56-command CLI and this 10-command one. hanzo-cli kept
+# winning, so `pip install hanzo` silently produced a CLI with no `auth`,
+# `chat`, `agent`, `cloud`, `dev` or `mcp` at all. This package remains
+# importable (`python -m hanzo_cli`) and its groups are mounted by `hanzo`.
 
 [project.urls]
 Homepage = "https://hanzo.ai"
