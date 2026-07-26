@@ -1,72 +1,49 @@
-"""
-Hanzo KMS Async Client - Async Python implementation
+"""Hanzo KMS client — asynchronous.
 
-An async-first Hanzo KMS client.
+Mirror image of :class:`hanzo_kms.client.KMSClient`: same methods, same
+arguments, same shared pure functions from :mod:`hanzo_kms.routes` — only the
+I/O differs.
 """
 
 import os
 import time
-from typing import Optional
+from typing import Any, Optional
 
 import httpx
 
-from .models import (
-    AuthenticationOptions,
-    ClientSettings,
-    CreateSecretOptions,
-    DeleteSecretOptions,
-    GetSecretOptions,
-    ListSecretsOptions,
-    SecretElement,
-    SecretsResponse,
-    TokenResponse,
-    UpdateSecretOptions,
-)
+from . import routes
+from .models import ClientSettings, TokenResponse, settings_from_env
 
 
 class AsyncKMSClient:
-    """
-    Async Hanzo KMS Client for secret management.
+    """Async Hanzo KMS client for secret management.
 
     Example:
-        async with AsyncKMSClient(settings) as client:
-            secrets = await client.list_secrets("myproject", "production")
+        async with AsyncKMSClient() as client:
+            names = await client.list_secrets("providers/lux", env="prod")
     """
 
     def __init__(
         self,
         settings: Optional[ClientSettings] = None,
+        *,
         debug: bool = False,
     ):
-        self.settings = settings or self._settings_from_env()
+        """Initialize the client.
+
+        Args:
+            settings: Configuration; read from the environment when omitted.
+            debug: Enable debug logging.
+        """
+        self.settings = settings or settings_from_env()
         self.debug = debug
-        self._access_token: Optional[str] = None
-        self._token_expires_at: float = 0
+        self._access_token = ""
+        self._token_expires_at = 0.0
         self._http_client: Optional[httpx.AsyncClient] = None
-
-    def _settings_from_env(self) -> ClientSettings:
-        """Create settings from environment variables."""
-        from .models import UniversalAuthMethod
-
-        site_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
-        organization = os.getenv("HANZO_KMS_ORG", "hanzo")
-        client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
-        client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
-
-        auth = None
-        if client_id and client_secret:
-            auth = AuthenticationOptions(
-                universal_auth=UniversalAuthMethod(
-                    client_id=client_id,
-                    client_secret=client_secret,
-                )
-            )
-
-        return ClientSettings(site_url=site_url, organization=organization, auth=auth)
 
     @property
     def http(self) -> httpx.AsyncClient:
-        """Get or create async HTTP client."""
+        """Get or create the async HTTP client."""
         if self._http_client is None:
             self._http_client = httpx.AsyncClient(
                 base_url=self.settings.site_url.rstrip("/"),
@@ -78,255 +55,145 @@ class AsyncKMSClient:
             )
         return self._http_client
 
-    async def _get_access_token(self) -> str:
-        """Get valid access token, refreshing if needed."""
+    # =========================================================================
+    # Auth
+    # =========================================================================
+
+    async def _token(self) -> str:
+        """Return a valid bearer token, logging in when needed."""
+        if self.settings.access_token:
+            return self.settings.access_token
+
         if self._access_token and time.time() < self._token_expires_at - 60:
             return self._access_token
 
-        auth = self.settings.auth
-        if not auth:
-            raise ValueError("No authentication configured")
-
-        # Universal Auth
-        if auth.universal_auth:
-            response = await self.http.post(
-                "/v1/kms/auth/login",
-                json={
-                    "clientId": auth.universal_auth.client_id,
-                    "clientSecret": auth.universal_auth.client_secret,
-                },
+        if not (self.settings.client_id and self.settings.client_secret):
+            raise ValueError(
+                "no KMS credentials: set access_token, or client_id and client_secret "
+                "(HANZO_KMS_TOKEN, or HANZO_KMS_CLIENT_ID and HANZO_KMS_CLIENT_SECRET)"
             )
-            response.raise_for_status()
-            data = response.json()
-            token_data = TokenResponse.model_validate(data)
-            self._access_token = token_data.access_token
-            self._token_expires_at = time.time() + token_data.expires_in
-            return self._access_token
 
-        # Kubernetes Auth
-        if auth.kubernetes:
-            token_path = auth.kubernetes.service_account_token_path
-            if os.path.exists(token_path):
-                with open(token_path) as f:
-                    k8s_token = f.read().strip()
+        response = await self.http.post(
+            routes.LOGIN,
+            json={
+                "clientId": self.settings.client_id,
+                "clientSecret": self.settings.client_secret,
+            },
+        )
+        response.raise_for_status()
+        token = TokenResponse.model_validate(response.json())
+        self._access_token = token.access_token
+        self._token_expires_at = time.time() + token.expires_in
+        return self._access_token
 
-                response = await self.http.post(
-                    "/api/v1/auth/kubernetes-auth/login",
-                    json={
-                        "identityId": auth.kubernetes.identity_id,
-                        "jwt": k8s_token,
-                    },
-                )
-                response.raise_for_status()
-                data = response.json()
-                token_data = TokenResponse.model_validate(data)
-                self._access_token = token_data.access_token
-                self._token_expires_at = time.time() + token_data.expires_in
-                return self._access_token
+    async def _headers(self) -> dict[str, str]:
+        """Bearer header. The org is carried by the URL and the JWT `owner`
+        claim — the server reads no org header."""
+        return {"Authorization": f"Bearer {await self._token()}"}
 
-        raise ValueError("No valid authentication method configured")
+    # =========================================================================
+    # Secrets
+    # =========================================================================
 
-    async def _auth_headers(self) -> dict[str, str]:
-        """Get authorization headers including organization context."""
-        token = await self._get_access_token()
-        return {
-            "Authorization": f"Bearer {token}",
-            "X-Org-Name": self.settings.organization,
-        }
+    async def list_secrets(
+        self, path: str = "", env: str = routes.DEFAULT_ENV
+    ) -> list[str]:
+        """List the secret names stored at ``path``.
+
+        Names only: the server's list route returns ``{"names": [...]}`` with
+        no values, so reading a value takes a :meth:`get_secret` per name.
+        """
+        response = await self.http.get(
+            routes.secrets_url(self.settings.org),
+            params=routes.list_params(path, env),
+            headers=await self._headers(),
+        )
+        response.raise_for_status()
+        return routes.names_of(response.json())
 
     async def get_secret(
         self,
-        project_id: str,
-        environment: str,
-        secret_name: str,
-        path: str = "/",
-        **kwargs,
-    ) -> SecretElement:
-        """Get a single secret by name."""
-        options = GetSecretOptions(
-            project_id=project_id,
-            environment=environment,
-            secret_name=secret_name,
-            path=path,
-            **kwargs,
-        )
+        path: str,
+        name: str,
+        env: str = routes.DEFAULT_ENV,
+        version: Optional[int] = None,
+    ) -> str:
+        """Read the value of one secret.
 
+        Args:
+            path: Secret path, e.g. ``"providers/lux"``.
+            name: Secret name, e.g. ``"deploy-mnemonic"``. May not contain ``/``.
+            env: Environment bucket.
+            version: Must be None — see :class:`~hanzo_kms.routes.VersionUnsupportedError`.
+        """
+        routes.check_version(version)
         response = await self.http.get(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "type": options.type,
-            },
-            headers=await self._auth_headers(),
+            routes.secret_url(self.settings.org, path, name),
+            params=routes.env_params(env),
+            headers=await self._headers(),
         )
         response.raise_for_status()
-        data = response.json()
-        return SecretElement.model_validate(data.get("secret", data))
+        return routes.value_of(response.json())
 
-    async def list_secrets(
+    async def put_secret(
         self,
-        project_id: str,
-        environment: str,
-        path: str = "/",
-        attach_to_process_env: bool = False,
-        **kwargs,
-    ) -> list[SecretElement]:
-        """List all secrets in a project/environment."""
-        options = ListSecretsOptions(
-            project_id=project_id,
-            environment=environment,
-            path=path,
-            attach_to_process_env=attach_to_process_env,
-            **kwargs,
-        )
+        path: str,
+        name: str,
+        value: str,
+        env: str = routes.DEFAULT_ENV,
+    ) -> None:
+        """Create or replace a secret.
 
-        response = await self.http.get(
-            "/api/v3/secrets/raw",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "include_imports": str(options.include_imports).lower(),
-                "recursive": str(options.recursive).lower(),
-                "expandSecretReferences": str(options.expand_secret_references).lower(),
-            },
-            headers=await self._auth_headers(),
-        )
-        response.raise_for_status()
-        data = response.json()
-        secrets_data = SecretsResponse.model_validate(data)
-
-        if options.attach_to_process_env:
-            for secret in secrets_data.secrets:
-                if secret.secret_key not in os.environ:
-                    os.environ[secret.secret_key] = secret.secret_value
-
-        return secrets_data.secrets
-
-    async def create_secret(
-        self,
-        project_id: str,
-        environment: str,
-        secret_name: str,
-        secret_value: str,
-        **kwargs,
-    ) -> SecretElement:
-        """Create a new secret."""
-        options = CreateSecretOptions(
-            project_id=project_id,
-            environment=environment,
-            secret_name=secret_name,
-            secret_value=secret_value,
-            **kwargs,
-        )
-
+        One upsert, not a create/update pair: luxfi/kms holds exactly one
+        value per (path, name, env) and a write replaces it in place.
+        """
         response = await self.http.post(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
-                "secretComment": options.secret_comment,
-                "type": options.type,
-            },
-            headers=await self._auth_headers(),
+            routes.secrets_url(self.settings.org),
+            json=routes.upsert_body(path, name, value, env),
+            headers=await self._headers(),
         )
         response.raise_for_status()
-        data = response.json()
-        return SecretElement.model_validate(data.get("secret", data))
-
-    async def update_secret(
-        self,
-        project_id: str,
-        environment: str,
-        secret_name: str,
-        secret_value: str,
-        **kwargs,
-    ) -> SecretElement:
-        """Update an existing secret."""
-        options = UpdateSecretOptions(
-            project_id=project_id,
-            environment=environment,
-            secret_name=secret_name,
-            secret_value=secret_value,
-            **kwargs,
-        )
-
-        response = await self.http.patch(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
-            },
-            headers=await self._auth_headers(),
-        )
-        response.raise_for_status()
-        data = response.json()
-        return SecretElement.model_validate(data.get("secret", data))
 
     async def delete_secret(
         self,
-        project_id: str,
-        environment: str,
-        secret_name: str,
-        **kwargs,
-    ) -> SecretElement:
+        path: str,
+        name: str,
+        env: str = routes.DEFAULT_ENV,
+    ) -> None:
         """Delete a secret."""
-        options = DeleteSecretOptions(
-            project_id=project_id,
-            environment=environment,
-            secret_name=secret_name,
-            **kwargs,
-        )
-
-        response = await self.http.request(
-            "DELETE",
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-            },
-            headers=await self._auth_headers(),
+        response = await self.http.delete(
+            routes.secret_url(self.settings.org, path, name),
+            params=routes.env_params(env),
+            headers=await self._headers(),
         )
         response.raise_for_status()
-        data = response.json()
-        return SecretElement.model_validate(data.get("secret", data))
+
+    async def health(self) -> dict[str, Any]:
+        """Probe the server: ``{"service": "kms", "status": "ok"}``. No auth."""
+        response = await self.http.get(routes.HEALTH)
+        response.raise_for_status()
+        return response.json()
 
     async def inject_env(
         self,
-        project_id: str,
-        environment: str,
-        path: str = "/",
+        path: str = "",
+        env: str = routes.DEFAULT_ENV,
         overwrite: bool = False,
     ) -> int:
-        """Inject all secrets into environment variables."""
-        secrets = await self.list_secrets(project_id, environment, path)
+        """Load every secret at ``path`` into ``os.environ``, keyed by name.
+
+        Costs one list request plus one read per secret — the list route
+        returns names, not values.
+
+        Returns:
+            The number of variables set.
+        """
         count = 0
-        for secret in secrets:
-            if overwrite or secret.secret_key not in os.environ:
-                os.environ[secret.secret_key] = secret.secret_value
+        for name in await self.list_secrets(path, env):
+            if overwrite or name not in os.environ:
+                os.environ[name] = await self.get_secret(path, name, env)
                 count += 1
         return count
-
-    async def get_value(
-        self,
-        project_id: str,
-        environment: str,
-        secret_name: str,
-        default: Optional[str] = None,
-    ) -> Optional[str]:
-        """Get just the value of a secret."""
-        try:
-            secret = await self.get_secret(project_id, environment, secret_name)
-            return secret.secret_value
-        except httpx.HTTPStatusError:
-            return default
 
     async def close(self) -> None:
         """Close the HTTP client."""
@@ -337,5 +204,5 @@ class AsyncKMSClient:
     async def __aenter__(self) -> "AsyncKMSClient":
         return self
 
-    async def __aexit__(self, *args) -> None:
+    async def __aexit__(self, *args: Any) -> None:
         await self.close()

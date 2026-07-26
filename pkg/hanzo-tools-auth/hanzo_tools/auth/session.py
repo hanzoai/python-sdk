@@ -244,29 +244,11 @@ class HanzoSession:
         if self._kms_client:
             return self._kms_client
 
-        from hanzo_kms import KMSClient, ClientSettings
+        from hanzo_kms import KMSClient
 
-        kms_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
-        client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
-        client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
-
-        if client_id and client_secret:
-            from hanzo_kms import UniversalAuthMethod, AuthenticationOptions
-
-            settings = ClientSettings(
-                site_url=kms_url,
-                auth=AuthenticationOptions(
-                    universal_auth=UniversalAuthMethod(
-                        client_id=client_id,
-                        client_secret=client_secret,
-                    )
-                ),
-            )
-            self._kms_client = KMSClient(settings=settings)
-        else:
-            # Fall back to default env-based construction
-            self._kms_client = KMSClient()
-
+        # KMSClient() reads HANZO_KMS_URL / _ORG / _CLIENT_ID / _CLIENT_SECRET
+        # / _TOKEN itself — see hanzo_kms.settings_from_env.
+        self._kms_client = KMSClient()
         return self._kms_client
 
     def get_paas_client(self) -> Any:

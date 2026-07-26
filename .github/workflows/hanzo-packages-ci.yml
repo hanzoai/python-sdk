@@ -13,6 +13,7 @@ on:
       - 'pkg/hanzo-aci/**'
       - 'pkg/hanzo-dev/**'
       - 'pkg/hanzoai/**'
+      - 'pkg/hanzo-kms/**'
       - '.github/workflows/hanzo-packages-ci.yml'
     tags:
       - 'v*'
@@ -35,6 +36,7 @@ on:
       - 'pkg/hanzo-aci/**'
       - 'pkg/hanzo-dev/**'
       - 'pkg/hanzoai/**'
+      - 'pkg/hanzo-kms/**'
       - '.github/workflows/hanzo-packages-ci.yml'
 
 jobs:
@@ -149,7 +151,36 @@ jobs:
       - name: Run ALL tests
         run: |
           timeout 120 python -m pytest tests/ -v --tb=short --cov=hanzo_memory --cov-report=term-missing -n 4 --maxfail=5 -k "not TestInfinityClient" || true  # Parallel with 2min timeout
-  
+
+  test-hanzo-kms:
+    name: Test hanzo-kms
+    runs-on: hanzo-build-linux-amd64
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: pkg/hanzo-kms
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      # No `|| true`: these tests pin the canonical luxfi/kms path shape. A
+      # regression back onto Infisical's /api/* surface has to turn CI red —
+      # in production it was invisible, because the console SPA behind the
+      # server's old root catch-all answered every wrong path with 200 HTML.
+      - name: Run tests
+        run: |
+          timeout 120 python -m pytest tests/ -v --tb=short
+
   integration-test:
     name: Integration Test
     needs: [test-hanzo-network, test-hanzo-mcp, test-hanzo-aci, test-hanzo-memory, test-hanzo, test-hanzo-dev]

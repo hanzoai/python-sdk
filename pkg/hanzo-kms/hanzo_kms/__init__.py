@@ -1,79 +1,46 @@
-"""
-Hanzo KMS - Secret Management SDK for Python
+"""Hanzo KMS - Secret Management SDK for Python
 
-A pure Python SDK for Hanzo/Lux KMS.
+A pure Python SDK for the canonical luxfi/kms surface (kms.hanzo.ai,
+kms.lux.network). A secret is identified by (org, path, name, env).
 
 Usage:
-    from hanzo_kms import KMSClient, ClientSettings, UniversalAuthMethod, AuthenticationOptions
+    from hanzo_kms import KMSClient, ClientSettings
 
     client = KMSClient(ClientSettings(
-        site_url="https://kms.hanzo.ai",
-        auth=AuthenticationOptions(
-            universal_auth=UniversalAuthMethod(
-                client_id="your-client-id",
-                client_secret="your-client-secret",
-            )
-        )
+        org="lux",
+        client_id="your-client-id",
+        client_secret="your-client-secret",
     ))
 
-    # List all secrets
-    secrets = client.list_secrets(project_id="my-project", environment="production")
+    # List the secret names at a path
+    names = client.list_secrets("providers/lux", env="prod")
 
-    # Get a specific secret
-    secret = client.get_secret(
-        project_id="my-project",
-        environment="production",
-        secret_name="DATABASE_URL"
-    )
-    print(secret.secret_value)
+    # Read one value
+    mnemonic = client.get_secret("providers/lux", "deploy-mnemonic", env="prod")
 
-    # Inject secrets into environment
-    client.inject_env(project_id="my-project", environment="production")
+    # Create or replace (one upsert — KMS holds one value per path/name/env)
+    client.put_secret("providers/lux", "deploy-mnemonic", mnemonic, env="prod")
+
+    # Load a whole path into os.environ
+    client.inject_env("providers/lux", env="prod")
+
+With HANZO_KMS_ORG / HANZO_KMS_CLIENT_ID / HANZO_KMS_CLIENT_SECRET set,
+`KMSClient()` configures itself.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.1"
 
 from .async_client import AsyncKMSClient
 from .client import KMSClient
-from .models import (
-    AuthenticationOptions,
-    AWSIamAuthMethod,
-    AzureAuthMethod,
-    ClientSettings,
-    CreateSecretOptions,
-    DeleteSecretOptions,
-    GCPIamAuthMethod,
-    GCPIDTokenAuthMethod,
-    GetSecretOptions,
-    KubernetesAuthMethod,
-    ListSecretsOptions,
-    SecretElement,
-    TokenAuthMethod,
-    UniversalAuthMethod,
-    UpdateSecretOptions,
-    UserPasswordAuthMethod,
-)
+from .models import ClientSettings, TokenResponse, settings_from_env
+from .routes import DEFAULT_ENV, VersionUnsupportedError
 
 __all__ = [
-    # Main clients
     "KMSClient",
     "AsyncKMSClient",
-    # Settings
     "ClientSettings",
-    "AuthenticationOptions",
-    # Auth methods
-    "UniversalAuthMethod",
-    "AWSIamAuthMethod",
-    "AzureAuthMethod",
-    "GCPIamAuthMethod",
-    "GCPIDTokenAuthMethod",
-    "KubernetesAuthMethod",
-    # Options
-    "GetSecretOptions",
-    "ListSecretsOptions",
-    "CreateSecretOptions",
-    "UpdateSecretOptions",
-    "DeleteSecretOptions",
-    # Response types
-    "SecretElement",
+    "settings_from_env",
+    "TokenResponse",
+    "DEFAULT_ENV",
+    "VersionUnsupportedError",
 ]
