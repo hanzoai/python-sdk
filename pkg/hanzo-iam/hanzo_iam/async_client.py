@@ -10,6 +10,10 @@ import httpx
 import jwt
 
 from hanzo_iam.models import (
+    OIDC_DISCOVERY_PATH,
+    OIDC_INTROSPECT_PATH,
+    OIDC_JWKS_PATH,
+    OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
     Application,
     JWTClaims,
@@ -138,7 +142,7 @@ class AsyncIAMClient:
         """
         if self._openid_config is None:
             http = await self._get_http()
-            response = await http.get("/.well-known/openid-configuration")
+            response = await http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
             self._openid_config = response.json()
         return self._openid_config
@@ -150,7 +154,7 @@ class AsyncIAMClient:
             JWKS with public keys for JWT verification.
         """
         http = await self._get_http()
-        response = await http.get("/.well-known/jwks")
+        response = await http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
         return response.json()
 
@@ -202,7 +206,7 @@ class AsyncIAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}/v1/iam/oauth/authorize?{urlencode(params)}"
 
     async def exchange_code(
         self,
@@ -233,7 +237,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -258,7 +262,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -287,7 +291,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -321,7 +325,7 @@ class AsyncIAMClient:
             jwt.InvalidTokenError: If token is invalid or expired.
         """
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/.well-known/jwks"
+            jwks_url = f"{self._config.server_url.rstrip('/')}/v1/iam/.well-known/jwks"
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         signing_key = self._jwks_client.get_signing_key_from_jwt(token)
@@ -394,7 +398,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/introspect",
+            OIDC_INTROSPECT_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -442,7 +446,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user",
+            "/v1/iam/get-user",
             params=params,
             headers=self._admin_headers(),
         )
@@ -467,7 +471,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-users",
+            "/v1/iam/get-users",
             params=params,
             headers=self._admin_headers(),
         )
@@ -504,7 +508,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-count",
+            "/v1/iam/get-user-count",
             params=params,
             headers=self._admin_headers(),
         )
@@ -579,7 +583,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-application",
+            "/v1/iam/get-application",
             params=params,
             headers=self._admin_headers(),
         )
@@ -608,7 +612,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organizations",
+            "/v1/iam/get-organizations",
             params=params,
             headers=self._admin_headers(),
         )
@@ -636,7 +640,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organization",
+            "/v1/iam/get-organization",
             params=params,
             headers=self._admin_headers(),
         )
@@ -688,7 +692,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/enforce",
+            "/v1/iam/enforce",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -733,7 +737,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/batch-enforce",
+            "/v1/iam/batch-enforce",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -766,7 +770,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-roles",
+            "/v1/iam/get-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -801,7 +805,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-role",
+            "/v1/iam/get-role",
             params=params,
             headers=self._admin_headers(),
         )
@@ -836,7 +840,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-roles",
+            "/v1/iam/get-user-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -874,7 +878,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/add-user-role",
+            "/v1/iam/add-user-role",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -912,7 +916,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/delete-user-role",
+            "/v1/iam/delete-user-role",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -955,7 +959,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/set-password",
+            "/v1/iam/set-password",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
@@ -988,7 +992,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-applications",
+            "/v1/iam/get-applications",
             params=params,
             headers=self._admin_headers(),
         )
@@ -1012,7 +1016,7 @@ class AsyncIAMClient:
         """
         http = await self._get_http()
         response = await http.post(
-            "/api/update-application",
+            "/v1/iam/update-application",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
