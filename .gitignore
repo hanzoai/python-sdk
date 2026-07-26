@@ -37,6 +37,13 @@ QWEN.md
 
 # Local databases and state
 .hanzo/
+# …except the native CI/CD workflows, which are source of truth on
+# git.hanzo.ai. `.hanzo/` is ignored because it also holds local agent
+# scratch; the workflows are not scratch. Without this negation a repo can
+# delete its GitHub workflows and land NO replacement — which is exactly
+# what happened here on the first attempt.
+!.hanzo/workflows/
+!.hanzo/workflows/**
 .grok/
 
 # Documentation build
