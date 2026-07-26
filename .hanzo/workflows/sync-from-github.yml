@@ -51,7 +51,7 @@ jobs:
             curl -fsS --max-time 20 -X POST \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              "${{ github.server_url }}/api/v1/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches" \
+              "${{ github.server_url }}/v1/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches" \
               -d '{"ref":"main"}' || echo "build dispatch failed (non-fatal)"
           else
             echo "DIVERGED: native $LOCAL is not an ancestor of GitHub $REMOTE." >&2
