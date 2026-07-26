@@ -30,6 +30,14 @@ uv run pytest tests/ -v      # tests
 - `pkg/hanzo-mcp/` — MCP server; tools via `[project.entry-points."hanzo.tools"]`.
 - `pkg/hanzo-tools-*/` — one concern each, exports a `TOOLS` list.
 - `pkg/hanzo-{agents,agent,network,memory}/` — agent/compute/memory libraries.
+- `pkg/hanzo-kms/` — KMS client. The server is **luxfi/kms** (`kms.hanzo.ai`,
+  `kms.lux.network`) and its whole surface is `/v1/kms/auth/login` plus
+  `/v1/kms/orgs/{org}/secrets[/{path}/{name}]`. `/api/*` is Infisical's and was
+  never served — it looked like a decode error rather than a 404 only because old
+  builds answered every unmatched path with the console SPA (200 text/html).
+  A secret is (org, path, name, env), one value each — no versions. The server
+  splits the trailing URL at its LAST slash into (path, name), so escape each
+  segment individually. `pkg/hanzo-kms/tests/` pins all of it.
 
 **Rules for agents:** update THIS file with significant discoveries; never write
 random summary files; keep the README cross-link block intact.

@@ -1,11 +1,14 @@
 """Hanzo CLI — KMS subcommands for secret management.
 
+A secret is (org, path, name, env). The org comes from HANZO_KMS_ORG
+(default: hanzo); env defaults to "default".
+
 Usage:
-    hanzo kms list <project> <env>                — List secrets
-    hanzo kms get <project> <env> <name>          — Get secret value
-    hanzo kms set <project> <env> <name> <value>  — Create or update secret
-    hanzo kms delete <project> <env> <name>       — Delete a secret
-    hanzo kms inject <project> <env>              — Print export statements
+    hanzo kms list --path providers/lux --env prod     — List secret names
+    hanzo kms get providers/lux deploy-mnemonic        — Get a secret value
+    hanzo kms set providers/lux deploy-mnemonic VALUE  — Create or replace
+    hanzo kms delete providers/lux deploy-mnemonic     — Delete a secret
+    hanzo kms inject --path providers/lux              — Print export statements
 """
 
 from __future__ import annotations
@@ -16,35 +19,22 @@ from rich.table import Table
 
 console = Console()
 
+DEFAULT_ENV = "default"
+
 
 def _get_kms_client():
-    """Build a KMS client from environment or stored auth."""
-    import os
+    """Build a KMS client from the environment.
 
-    from hanzo_kms import ClientSettings, KMSClient
+    KMSClient() reads HANZO_KMS_URL / _ORG / _CLIENT_ID / _CLIENT_SECRET /
+    _TOKEN itself — see hanzo_kms.settings_from_env.
+    """
+    from hanzo_kms import KMSClient
 
-    # KMS has its own auth (Universal Auth with client_id/secret)
-    # Check for dedicated KMS env vars first
-    kms_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
-    client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
-    client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
-
-    if client_id and client_secret:
-        from hanzo_kms import AuthenticationOptions, UniversalAuthMethod
-
-        settings = ClientSettings(
-            site_url=kms_url,
-            auth=AuthenticationOptions(
-                universal_auth=UniversalAuthMethod(
-                    client_id=client_id,
-                    client_secret=client_secret,
-                )
-            ),
-        )
-        return KMSClient(settings=settings)
-
-    # Fall back to default env-based construction
     return KMSClient()
+
+
+def _masked(value: str) -> str:
+    return f"{value[:4]}***" if len(value) > 4 else "***"
 
 
 @click.group()
@@ -53,187 +43,125 @@ def kms() -> None:
 
 
 @kms.command("list")
-@click.argument("project")
-@click.argument("env")
-@click.option("--path", default="/", help="Secret path prefix.")
-def list_secrets(project: str, env: str, path: str) -> None:
-    """List all secrets in a project environment."""
+@click.option("--path", default="", help="Secret path, e.g. providers/lux.")
+@click.option("--env", default=DEFAULT_ENV, help="Environment bucket.")
+def list_secrets(path: str, env: str) -> None:
+    """List the secret names at a path.
+
+    Names only — the server's list route returns names, not values.
+    """
     client = _get_kms_client()
     try:
-        secrets = client.list_secrets(
-            project_id=project,
-            environment=env,
-            path=path,
-        )
+        names = client.list_secrets(path, env)
     finally:
         client.close()
 
-    if not secrets:
+    if not names:
         console.print("[yellow]No secrets found.[/yellow]")
         return
 
-    table = Table(title=f"Secrets: {project} / {env} ({path})")
-    table.add_column("Key", style="cyan")
-    table.add_column("Value", style="dim")
-    table.add_column("Version", style="white", justify="right")
-    table.add_column("Updated", style="white")
-
-    for s in secrets:
-        # Mask the value — show first 4 chars then ***
-        val = s.secret_value
-        masked = f"{val[:4]}***" if len(val) > 4 else "***"
-        updated = str(s.updated_at)[:19] if s.updated_at else "—"
-        table.add_row(s.secret_key, masked, str(s.version), updated)
-
+    table = Table(title=f"Secrets: {path or '/'} ({env})")
+    table.add_column("Name", style="cyan")
+    for name in names:
+        table.add_row(name)
     console.print(table)
 
 
 @kms.command("get")
-@click.argument("project")
-@click.argument("env")
+@click.argument("path")
 @click.argument("name")
-@click.option("--path", default="/", help="Secret path prefix.")
+@click.option("--env", default=DEFAULT_ENV, help="Environment bucket.")
 @click.option("--reveal", is_flag=True, help="Show full value (default: masked).")
-def get_secret(project: str, env: str, name: str, path: str, reveal: bool) -> None:
+def get_secret(path: str, name: str, env: str, reveal: bool) -> None:
     """Get a single secret's value."""
     client = _get_kms_client()
     try:
-        secret = client.get_secret(
-            project_id=project,
-            environment=env,
-            secret_name=name,
-            path=path,
-        )
+        value = client.get_secret(path, name, env)
     finally:
         client.close()
 
-    if reveal:
-        console.print(secret.secret_value)
-    else:
-        val = secret.secret_value
-        masked = f"{val[:4]}***" if len(val) > 4 else "***"
-        table = Table(title=f"{name}")
-        table.add_column("Field", style="cyan")
-        table.add_column("Value", style="white")
-        table.add_row("Key", secret.secret_key)
-        table.add_row("Value", masked)
-        table.add_row("Version", str(secret.version))
-        table.add_row("Type", secret.type)
-        table.add_row("Environment", secret.environment)
-        if secret.secret_comment:
-            table.add_row("Comment", secret.secret_comment)
-        console.print(table)
+    console.print(value if reveal else _masked(value))
 
 
 @kms.command("set")
-@click.argument("project")
-@click.argument("env")
+@click.argument("path")
 @click.argument("name")
 @click.argument("value", required=False)
-@click.option("--path", default="/", help="Secret path prefix.")
-@click.option("--comment", default=None, help="Secret comment.")
-def set_secret(
-    project: str,
-    env: str,
-    name: str,
-    value: str | None,
-    path: str,
-    comment: str | None,
-) -> None:
-    """Create or update a secret. Prompts for value if not given."""
+@click.option("--env", default=DEFAULT_ENV, help="Environment bucket.")
+def set_secret(path: str, name: str, value: str | None, env: str) -> None:
+    """Create or replace a secret. Prompts for the value if not given.
+
+    One upsert — KMS holds exactly one value per (path, name, env).
+    """
     if not value:
         value = click.prompt("Secret value", hide_input=True)
 
     client = _get_kms_client()
     try:
-        # Try update first, create if it doesn't exist
-        try:
-            secret = client.update_secret(
-                project_id=project,
-                environment=env,
-                secret_name=name,
-                secret_value=value,
-            )
-            console.print(f"[green]Updated[/green] {name} (v{secret.version})")
-        except Exception:
-            kwargs = {}
-            if comment:
-                kwargs["secret_comment"] = comment
-            secret = client.create_secret(
-                project_id=project,
-                environment=env,
-                secret_name=name,
-                secret_value=value,
-                **kwargs,
-            )
-            console.print(f"[green]Created[/green] {name}")
+        client.put_secret(path, name, value, env)
     finally:
         client.close()
+
+    console.print(f"[green]Set[/green] {path}/{name} ({env})")
 
 
 @kms.command("delete")
-@click.argument("project")
-@click.argument("env")
+@click.argument("path")
 @click.argument("name")
-@click.option("--path", default="/", help="Secret path prefix.")
+@click.option("--env", default=DEFAULT_ENV, help="Environment bucket.")
 @click.option("--yes", "-y", is_flag=True, help="Skip confirmation.")
-def delete_secret(project: str, env: str, name: str, path: str, yes: bool) -> None:
+def delete_secret(path: str, name: str, env: str, yes: bool) -> None:
     """Delete a secret."""
     if not yes:
-        click.confirm(f"Delete secret '{name}' from {project}/{env}?", abort=True)
+        click.confirm(f"Delete secret '{path}/{name}' from {env}?", abort=True)
 
     client = _get_kms_client()
     try:
-        client.delete_secret(
-            project_id=project,
-            environment=env,
-            secret_name=name,
-            path=path,
-        )
+        client.delete_secret(path, name, env)
     finally:
         client.close()
 
-    console.print(f"[green]Deleted[/green] {name}")
+    console.print(f"[green]Deleted[/green] {path}/{name} ({env})")
 
 
 @kms.command("inject")
-@click.argument("project")
-@click.argument("env")
-@click.option("--path", default="/", help="Secret path prefix.")
+@click.option("--path", default="", help="Secret path.")
+@click.option("--env", default=DEFAULT_ENV, help="Environment bucket.")
 @click.option(
     "--format", "fmt", type=click.Choice(["export", "dotenv", "json"]), default="export"
 )
-def inject_secrets(project: str, env: str, path: str, fmt: str) -> None:
+def inject_secrets(path: str, env: str, fmt: str) -> None:
     """Print secrets as export statements, dotenv, or JSON.
 
-    Pipe to `eval` or redirect to .env file:
-        hanzo kms inject myproject production | source /dev/stdin
-        hanzo kms inject myproject production --format dotenv > .env
+    Pipe to `eval` or redirect to a .env file:
+        hanzo kms inject --path providers/lux | source /dev/stdin
+        hanzo kms inject --path providers/lux --format dotenv > .env
+
+    Costs one list request plus one read per secret — the server's list
+    route returns names, not values.
     """
     import json
 
     client = _get_kms_client()
     try:
-        secrets = client.list_secrets(
-            project_id=project,
-            environment=env,
-            path=path,
-        )
+        values = {
+            name: client.get_secret(path, name, env)
+            for name in client.list_secrets(path, env)
+        }
     finally:
         client.close()
 
-    if not secrets:
+    if not values:
         return
 
-    if fmt == "export":
-        for s in secrets:
-            # Shell-safe quoting
-            val = s.secret_value.replace("'", "'\\''")
-            click.echo(f"export {s.secret_key}='{val}'")
-    elif fmt == "dotenv":
-        for s in secrets:
-            val = s.secret_value.replace('"', '\\"')
-            click.echo(f'{s.secret_key}="{val}"')
-    elif fmt == "json":
-        data = {s.secret_key: s.secret_value for s in secrets}
-        click.echo(json.dumps(data, indent=2))
+    if fmt == "json":
+        click.echo(json.dumps(values, indent=2))
+        return
+
+    for name, value in values.items():
+        if fmt == "export":
+            shell_safe = value.replace("'", "'\\''")
+            click.echo(f"export {name}='{shell_safe}'")
+        else:  # dotenv
+            dotenv_safe = value.replace('"', '\\"')
+            click.echo(f'{name}="{dotenv_safe}"')
