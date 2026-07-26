@@ -12,7 +12,14 @@ from hanzo_iam.models import (
     UserInfo,
 )
 
-__version__ = "1.1.1"
+from importlib.metadata import PackageNotFoundError, version as _version
+
+try:
+    # Single-sourced from the installed distribution. This said "1.1.1" while
+    # pyproject said 1.30.0 — 29 minor versions of drift.
+    __version__ = _version("hanzo-iam")
+except PackageNotFoundError:  # source tree, not installed
+    __version__ = "0.0.0+dev"
 
 __all__ = [
     # Clients
