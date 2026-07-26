@@ -15,6 +15,10 @@ import httpx
 import jwt
 
 from .models import (
+    OIDC_DISCOVERY_PATH,
+    OIDC_INTROSPECT_PATH,
+    OIDC_JWKS_PATH,
+    OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
     Application,
     IAMConfig,
@@ -153,7 +157,7 @@ class IAMClient:
             OIDC configuration with endpoints, supported features, etc.
         """
         if self._openid_config is None:
-            response = self.http.get("/.well-known/openid-configuration")
+            response = self.http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
             self._openid_config = response.json()
         return self._openid_config
@@ -164,7 +168,7 @@ class IAMClient:
         Returns:
             JWKS with public keys for JWT verification.
         """
-        response = self.http.get("/.well-known/jwks")
+        response = self.http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
         return response.json()
 
@@ -214,7 +218,7 @@ class IAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}/v1/iam/oauth/authorize?{urlencode(params)}"
 
     def exchange_code(
         self,
@@ -244,7 +248,7 @@ class IAMClient:
             data["code_verifier"] = code_verifier
 
         response = self.http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -268,7 +272,7 @@ class IAMClient:
         }
 
         response = self.http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -296,7 +300,7 @@ class IAMClient:
         }
 
         response = self.http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -328,7 +332,7 @@ class IAMClient:
         """
         # Initialize JWKS client if needed
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/.well-known/jwks"
+            jwks_url = f"{self._config.server_url.rstrip('/')}/v1/iam/.well-known/jwks"
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         # Get signing key from JWKS
@@ -403,7 +407,7 @@ class IAMClient:
         }
 
         response = self.http.post(
-            "/oauth/introspect",
+            OIDC_INTROSPECT_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -468,7 +472,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-user",
+            "/v1/iam/get-user",
             params=params,
             headers=self._admin_headers(),
         )
@@ -492,7 +496,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-users",
+            "/v1/iam/get-users",
             params=params,
             headers=self._admin_headers(),
         )
@@ -517,7 +521,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-application",
+            "/v1/iam/get-application",
             params=params,
             headers=self._admin_headers(),
         )
@@ -598,7 +602,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-organizations",
+            "/v1/iam/get-organizations",
             params=params,
             headers=self._admin_headers(),
         )
@@ -625,7 +629,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-organization",
+            "/v1/iam/get-organization",
             params=params,
             headers=self._admin_headers(),
         )
@@ -656,7 +660,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-providers",
+            "/v1/iam/get-providers",
             params=params,
             headers=self._admin_headers(),
         )
@@ -687,7 +691,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-roles",
+            "/v1/iam/get-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -729,7 +733,7 @@ class IAMClient:
         }
 
         response = self.http.post(
-            "/api/set-password",
+            "/v1/iam/set-password",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
@@ -761,7 +765,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/api/get-applications",
+            "/v1/iam/get-applications",
             params=params,
             headers=self._admin_headers(),
         )
@@ -784,7 +788,7 @@ class IAMClient:
             API response data.
         """
         response = self.http.post(
-            "/api/update-application",
+            "/v1/iam/update-application",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
@@ -819,7 +823,7 @@ class IAMClient:
             "application": self._config.application,
         }
 
-        response = self.http.post("/api/login", json=payload)
+        response = self.http.post("/v1/iam/login", json=payload)
         response.raise_for_status()
         data = response.json()
 
@@ -900,7 +904,7 @@ class AsyncIAMClient:
         """Get OpenID Connect discovery document."""
         if self._openid_config is None:
             http = await self._get_http()
-            response = await http.get("/.well-known/openid-configuration")
+            response = await http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
             self._openid_config = response.json()
         return self._openid_config
@@ -908,7 +912,7 @@ class AsyncIAMClient:
     async def get_jwks(self) -> dict:
         """Get JSON Web Key Set."""
         http = await self._get_http()
-        response = await http.get("/.well-known/jwks")
+        response = await http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
         return response.json()
 
@@ -941,7 +945,7 @@ class AsyncIAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}/v1/iam/oauth/authorize?{urlencode(params)}"
 
     async def exchange_code(
         self,
@@ -963,7 +967,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -981,7 +985,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -999,7 +1003,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -1014,7 +1018,7 @@ class AsyncIAMClient:
     ) -> JWTClaims:
         """Validate JWT token using JWKS (sync operation)."""
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/.well-known/jwks"
+            jwks_url = f"{self._config.server_url.rstrip('/')}/v1/iam/.well-known/jwks"
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         signing_key = self._jwks_client.get_signing_key_from_jwt(token)
@@ -1046,7 +1050,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/introspect",
+            OIDC_INTROSPECT_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -1072,7 +1076,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-user", params=params)
+        response = await http.get("/v1/iam/get-user", params=params)
         response.raise_for_status()
         data = response.json()
 
@@ -1090,7 +1094,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-users", params=params)
+        response = await http.get("/v1/iam/get-users", params=params)
         response.raise_for_status()
         data = response.json()
 
@@ -1109,7 +1113,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/api/get-application", params=params)
+        response = await http.get("/v1/iam/get-application", params=params)
         response.raise_for_status()
         data = response.json()
 
