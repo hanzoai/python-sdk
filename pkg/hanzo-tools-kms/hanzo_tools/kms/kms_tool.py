@@ -1,13 +1,13 @@
 """MCP tool for Hanzo KMS secret management.
 
-Wraps the hanzo-kms client to provide secret CRUD operations
-via MCP. Auth uses HANZO_KMS_CLIENT_ID / HANZO_KMS_CLIENT_SECRET
-environment variables (same pattern as hanzo-cli).
+Wraps the hanzo-kms client to provide secret CRUD operations via MCP. A
+secret is (org, path, name, env): the org comes from HANZO_KMS_ORG, and auth
+from HANZO_KMS_CLIENT_ID / HANZO_KMS_CLIENT_SECRET (or HANZO_KMS_TOKEN) —
+the same pattern as hanzo-cli.
 """
 
 from __future__ import annotations
 
-import os
 import json
 import logging
 from typing import Any, Annotated, final
@@ -20,43 +20,38 @@ from hanzo_tools.core.base import BaseTool
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_ENV = "default"
+
 DESCRIPTION = """Manage secrets via Hanzo KMS.
 
-Requires HANZO_KMS_CLIENT_ID and HANZO_KMS_CLIENT_SECRET environment variables.
+Requires HANZO_KMS_CLIENT_ID and HANZO_KMS_CLIENT_SECRET (or HANZO_KMS_TOKEN)
+environment variables. HANZO_KMS_ORG selects the organization (default: hanzo).
+
+A secret is identified by path + name + env, e.g. path="providers/lux",
+name="deploy-mnemonic", env="prod".
 
 Actions:
-- list: List all secrets in a project/environment (values masked)
-- get: Get a single secret value
-- set: Create or update a secret
+- list: List the secret names at a path
+- get: Get a single secret value (masked unless reveal=true)
+- set: Create or replace a secret
 - delete: Remove a secret
-- inject: Output secrets as export/dotenv/json format
+- inject: Output every secret at a path as export/dotenv/json
 """
 
 
 def _get_kms_client() -> Any:
-    """Build a KMS client from environment."""
-    from hanzo_kms import KMSClient, ClientSettings
+    """Build a KMS client from the environment.
 
-    kms_url = os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
-    client_id = os.getenv("HANZO_KMS_CLIENT_ID", "")
-    client_secret = os.getenv("HANZO_KMS_CLIENT_SECRET", "")
+    KMSClient() reads HANZO_KMS_URL / _ORG / _CLIENT_ID / _CLIENT_SECRET /
+    _TOKEN itself — see hanzo_kms.settings_from_env.
+    """
+    from hanzo_kms import KMSClient
 
-    if client_id and client_secret:
-        from hanzo_kms import UniversalAuthMethod, AuthenticationOptions
-
-        settings = ClientSettings(
-            site_url=kms_url,
-            auth=AuthenticationOptions(
-                universal_auth=UniversalAuthMethod(
-                    client_id=client_id,
-                    client_secret=client_secret,
-                )
-            ),
-        )
-        return KMSClient(settings=settings)
-
-    # Fall back to default env-based construction
     return KMSClient()
+
+
+def _masked(value: str) -> str:
+    return f"{value[:4]}***" if len(value) > 4 else "***"
 
 
 @final
@@ -75,170 +70,111 @@ class KMSTool(BaseTool):
         self,
         ctx: MCPContext,
         action: str = "list",
-        project: str | None = None,
-        environment: str | None = None,
-        secret_name: str | None = None,
-        secret_value: str | None = None,
-        path: str = "/",
+        path: str = "",
+        name: str | None = None,
+        value: str | None = None,
+        env: str = DEFAULT_ENV,
         format: str = "export",
         reveal: bool = False,
         **kwargs: Any,
     ) -> str:
         if action == "list":
-            return await self._list(project, environment, path)
+            return await self._list(path, env)
         elif action == "get":
-            return await self._get(project, environment, secret_name, path, reveal)
+            return await self._get(path, name, env, reveal)
         elif action == "set":
-            return await self._set(project, environment, secret_name, secret_value, path)
+            return await self._set(path, name, value, env)
         elif action == "delete":
-            return await self._delete(project, environment, secret_name, path)
+            return await self._delete(path, name, env)
         elif action == "inject":
-            return await self._inject(project, environment, path, format)
-        else:
-            return json.dumps({"error": f"Unknown action: {action}. Use: list, get, set, delete, inject"})
+            return await self._inject(path, env, format)
+        return json.dumps(
+            {"error": f"Unknown action: {action}. Use: list, get, set, delete, inject"}
+        )
 
-    async def _list(self, project: str | None, env: str | None, path: str) -> str:
-        if not project or not env:
-            return json.dumps({"error": "Required: project and environment"})
-
+    async def _list(self, path: str, env: str) -> str:
         client = _get_kms_client()
         try:
-            secrets = client.list_secrets(project_id=project, environment=env, path=path)
+            names = client.list_secrets(path, env)
         finally:
             client.close()
 
-        if not secrets:
-            return json.dumps({"message": f"No secrets found in {project}/{env}", "secrets": []})
+        return json.dumps(
+            {"path": path, "env": env, "count": len(names), "names": names}, indent=2
+        )
 
-        rows = []
-        for s in secrets:
-            val = s.secret_value
-            masked = f"{val[:4]}***" if len(val) > 4 else "***"
-            rows.append({
-                "key": s.secret_key,
-                "value": masked,
-                "version": s.version,
-                "updated": str(s.updated_at)[:19] if s.updated_at else None,
-            })
-
-        return json.dumps({
-            "project": project,
-            "environment": env,
-            "path": path,
-            "count": len(rows),
-            "secrets": rows,
-        }, indent=2)
-
-    async def _get(
-        self, project: str | None, env: str | None, name: str | None, path: str, reveal: bool
-    ) -> str:
-        if not project or not env or not name:
-            return json.dumps({"error": "Required: project, environment, and secret_name"})
+    async def _get(self, path: str, name: str | None, env: str, reveal: bool) -> str:
+        if not name:
+            return json.dumps({"error": "Required: name"})
 
         client = _get_kms_client()
         try:
-            secret = client.get_secret(
-                project_id=project, environment=env, secret_name=name, path=path
-            )
+            value = client.get_secret(path, name, env)
         finally:
             client.close()
 
-        val = secret.secret_value
-        if not reveal:
-            val = f"{val[:4]}***" if len(val) > 4 else "***"
+        return json.dumps(
+            {
+                "path": path,
+                "name": name,
+                "env": env,
+                "value": value if reveal else _masked(value),
+                "revealed": reveal,
+            },
+            indent=2,
+        )
 
-        return json.dumps({
-            "key": secret.secret_key,
-            "value": val,
-            "version": secret.version,
-            "type": secret.type,
-            "environment": secret.environment,
-            "comment": secret.secret_comment or None,
-            "revealed": reveal,
-        }, indent=2)
-
-    async def _set(
-        self, project: str | None, env: str | None, name: str | None, value: str | None, path: str
-    ) -> str:
-        if not project or not env or not name or not value:
-            return json.dumps({"error": "Required: project, environment, secret_name, and secret_value"})
+    async def _set(self, path: str, name: str | None, value: str | None, env: str) -> str:
+        if not name or value is None:
+            return json.dumps({"error": "Required: name and value"})
 
         client = _get_kms_client()
         try:
-            # Try update first, create if it doesn't exist
-            try:
-                secret = client.update_secret(
-                    project_id=project,
-                    environment=env,
-                    secret_name=name,
-                    secret_value=value,
-                )
-                return json.dumps({
-                    "action": "updated",
-                    "key": name,
-                    "version": secret.version,
-                })
-            except Exception:
-                secret = client.create_secret(
-                    project_id=project,
-                    environment=env,
-                    secret_name=name,
-                    secret_value=value,
-                )
-                return json.dumps({
-                    "action": "created",
-                    "key": name,
-                })
+            # One upsert — KMS holds exactly one value per (path, name, env).
+            client.put_secret(path, name, value, env)
         finally:
             client.close()
 
-    async def _delete(
-        self, project: str | None, env: str | None, name: str | None, path: str
-    ) -> str:
-        if not project or not env or not name:
-            return json.dumps({"error": "Required: project, environment, and secret_name"})
+        return json.dumps({"action": "set", "path": path, "name": name, "env": env})
+
+    async def _delete(self, path: str, name: str | None, env: str) -> str:
+        if not name:
+            return json.dumps({"error": "Required: name"})
 
         client = _get_kms_client()
         try:
-            client.delete_secret(
-                project_id=project,
-                environment=env,
-                secret_name=name,
-                path=path,
-            )
+            client.delete_secret(path, name, env)
         finally:
             client.close()
 
-        return json.dumps({"action": "deleted", "key": name})
+        return json.dumps({"action": "deleted", "path": path, "name": name, "env": env})
 
-    async def _inject(self, project: str | None, env: str | None, path: str, fmt: str) -> str:
-        if not project or not env:
-            return json.dumps({"error": "Required: project and environment"})
-
+    async def _inject(self, path: str, env: str, fmt: str) -> str:
         client = _get_kms_client()
         try:
-            secrets = client.list_secrets(project_id=project, environment=env, path=path)
+            # One list plus one read per name — the list route returns names.
+            values = {
+                name: client.get_secret(path, name, env)
+                for name in client.list_secrets(path, env)
+            }
         finally:
             client.close()
 
-        if not secrets:
+        if not values:
             return json.dumps({"message": "No secrets found", "output": ""})
 
         if fmt == "json":
-            data = {s.secret_key: s.secret_value for s in secrets}
-            return json.dumps(data, indent=2)
-        elif fmt == "dotenv":
-            lines = []
-            for s in secrets:
-                val = s.secret_value.replace('"', '\\"')
-                lines.append(f'{s.secret_key}="{val}"')
-            return "\n".join(lines)
-        else:  # export
-            lines = []
-            for s in secrets:
-                val = s.secret_value.replace("'", "'\\''")
-                lines.append(f"export {s.secret_key}='{val}'")
-            return "\n".join(lines)
+            return json.dumps(values, indent=2)
+
+        lines = []
+        for name, value in values.items():
+            if fmt == "dotenv":
+                dotenv_safe = value.replace('"', '\\"')
+                lines.append(f'{name}="{dotenv_safe}"')
+            else:  # export
+                shell_safe = value.replace("'", "'\\''")
+                lines.append(f"export {name}='{shell_safe}'")
+        return "\n".join(lines)
 
     def register(self, mcp_server: FastMCP) -> None:
         """Register KMS tool with explicit parameters."""
@@ -253,26 +189,22 @@ class KMSTool(BaseTool):
                 str,
                 Field(description="Action: list, get, set, delete, inject"),
             ] = "list",
-            project: Annotated[
+            path: Annotated[
+                str,
+                Field(description="Secret path, e.g. providers/lux"),
+            ] = "",
+            name: Annotated[
                 str | None,
-                Field(description="KMS project ID or slug"),
+                Field(description="Secret name (for get/set/delete). No slashes."),
             ] = None,
-            environment: Annotated[
-                str | None,
-                Field(description="Environment: dev, staging, production"),
-            ] = None,
-            secret_name: Annotated[
-                str | None,
-                Field(description="Secret key name (for get/set/delete)"),
-            ] = None,
-            secret_value: Annotated[
+            value: Annotated[
                 str | None,
                 Field(description="Secret value (for set)"),
             ] = None,
-            path: Annotated[
+            env: Annotated[
                 str,
-                Field(description="Secret path prefix (default: /)"),
-            ] = "/",
+                Field(description="Environment bucket, e.g. dev, prod"),
+            ] = DEFAULT_ENV,
             format: Annotated[
                 str,
                 Field(description="Output format for inject: export, dotenv, json"),
@@ -286,11 +218,10 @@ class KMSTool(BaseTool):
             return await tool_instance.call(
                 ctx,
                 action=action,
-                project=project,
-                environment=environment,
-                secret_name=secret_name,
-                secret_value=secret_value,
                 path=path,
+                name=name,
+                value=value,
+                env=env,
                 format=format,
                 reveal=reveal,
             )

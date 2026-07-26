@@ -1,103 +1,89 @@
-"""
-Hanzo KMS CLI — fetch secrets non-interactively.
+"""Hanzo KMS CLI — read and write secrets non-interactively.
+
+A secret is (org, path, name, env). The org comes from ``--org`` /
+``HANZO_KMS_ORG`` (default ``hanzo``); path and name are positional.
 
 Usage:
-    # Via env vars
-    HANZO_KMS_EMAIL=z@hanzo.ai HANZO_KMS_PASSWORD=... python -m hanzo_kms get SECRET_NAME --project ID --env prod
+    # Machine identity from the environment
+    export HANZO_KMS_CLIENT_ID=... HANZO_KMS_CLIENT_SECRET=...
+    python -m hanzo_kms get providers/lux deploy-mnemonic --env prod
 
-    # Via flags
-    python -m hanzo_kms get SECRET_NAME --email z@hanzo.ai --password ... --project ID --env prod
+    # Or a pre-issued IAM bearer token
+    HANZO_KMS_TOKEN=... python -m hanzo_kms list --path providers/lux --env prod
 
-    # List secrets
-    python -m hanzo_kms list --project ID --env prod
-
-    # With universal auth
-    HANZO_KMS_CLIENT_ID=... HANZO_KMS_CLIENT_SECRET=... python -m hanzo_kms get SECRET_NAME --project ID --env prod
-
-    # With pre-authenticated token
-    HANZO_KMS_TOKEN=... python -m hanzo_kms get SECRET_NAME --project ID --env prod
+    python -m hanzo_kms set providers/lux deploy-mnemonic "word word ..." --env prod
+    python -m hanzo_kms delete providers/lux deploy-mnemonic --env prod
+    python -m hanzo_kms export --path providers/lux --env prod --format json
 """
 
 import argparse
-import os
+import json
 import sys
 
 from .client import KMSClient
-from .models import (
-    AuthenticationOptions,
-    ClientSettings,
-    TokenAuthMethod,
-    UniversalAuthMethod,
-    UserPasswordAuthMethod,
-)
+from .models import settings_from_env
+from .routes import DEFAULT_ENV
 
 
-def _build_client(args: argparse.Namespace) -> KMSClient:
-    """Build KMS client from CLI args + env vars."""
-    site_url = args.url or os.getenv("HANZO_KMS_URL", "https://kms.hanzo.ai")
+def _client(args: argparse.Namespace) -> KMSClient:
+    """Build a client from the environment, overlaid with CLI flags."""
+    settings = settings_from_env()
+    if args.url:
+        settings.site_url = args.url
+    if args.org:
+        settings.org = args.org
+    if args.token:
+        settings.access_token = args.token
+    if args.client_id:
+        settings.client_id = args.client_id
+    if args.client_secret:
+        settings.client_secret = args.client_secret
 
-    # Auth priority: token > universal-auth > user/password > env
-    token = args.token or os.getenv("HANZO_KMS_TOKEN", "")
-    client_id = args.client_id or os.getenv("HANZO_KMS_CLIENT_ID", "")
-    client_secret = args.client_secret or os.getenv("HANZO_KMS_CLIENT_SECRET", "")
-    email = args.email or os.getenv("HANZO_KMS_EMAIL", "")
-    password = args.password or os.getenv("HANZO_KMS_PASSWORD", "")
-
-    auth = None
-    if token:
-        auth = AuthenticationOptions(token=TokenAuthMethod(access_token=token))
-    elif client_id and client_secret:
-        auth = AuthenticationOptions(
-            universal_auth=UniversalAuthMethod(client_id=client_id, client_secret=client_secret)
+    if not (settings.access_token or (settings.client_id and settings.client_secret)):
+        print(
+            "Error: no auth configured. Set HANZO_KMS_TOKEN, or "
+            "HANZO_KMS_CLIENT_ID and HANZO_KMS_CLIENT_SECRET.",
+            file=sys.stderr,
         )
-    elif email and password:
-        auth = AuthenticationOptions(
-            user_password=UserPasswordAuthMethod(email=email, password=password)
-        )
-
-    if not auth:
-        # Try env fallback
-        client = KMSClient(debug=getattr(args, "debug", False))
-        if client.settings.auth:
-            return client
-        print("Error: No auth configured. Set HANZO_KMS_TOKEN, HANZO_KMS_CLIENT_ID/SECRET, or HANZO_KMS_EMAIL/PASSWORD", file=sys.stderr)
         sys.exit(1)
 
-    settings = ClientSettings(site_url=site_url, auth=auth)
-    return KMSClient(settings=settings, debug=getattr(args, "debug", False))
+    return KMSClient(settings, debug=args.debug)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="hanzo-kms", description="Hanzo KMS CLI")
     parser.add_argument("--url", help="KMS URL (default: https://kms.hanzo.ai)")
-    parser.add_argument("--token", help="Pre-authenticated access token")
-    parser.add_argument("--client-id", help="Universal auth client ID")
-    parser.add_argument("--client-secret", help="Universal auth client secret")
-    parser.add_argument("--email", help="User email for SRP auth")
-    parser.add_argument("--password", help="User password for SRP auth")
+    parser.add_argument("--org", help="Organization (default: hanzo)")
+    parser.add_argument("--token", help="Pre-issued IAM bearer token")
+    parser.add_argument("--client-id", help="Machine identity client ID")
+    parser.add_argument("--client-secret", help="Machine identity client secret")
     parser.add_argument("--debug", action="store_true")
 
     sub = parser.add_subparsers(dest="command")
 
-    # get command
-    get_p = sub.add_parser("get", help="Get a secret value")
+    list_p = sub.add_parser("list", help="List secret names at a path")
+    list_p.add_argument("--path", default="", help="Secret path")
+    list_p.add_argument("--env", default=DEFAULT_ENV, help=f"Environment (default: {DEFAULT_ENV})")
+
+    get_p = sub.add_parser("get", help="Print a secret value")
+    get_p.add_argument("path", help="Secret path, e.g. providers/lux")
     get_p.add_argument("name", help="Secret name")
-    get_p.add_argument("--project", required=True, help="Project ID")
-    get_p.add_argument("--env", default="prod", help="Environment (default: prod)")
-    get_p.add_argument("--path", default="/", help="Secret path")
+    get_p.add_argument("--env", default=DEFAULT_ENV, help=f"Environment (default: {DEFAULT_ENV})")
 
-    # list command
-    list_p = sub.add_parser("list", help="List secrets")
-    list_p.add_argument("--project", required=True, help="Project ID")
-    list_p.add_argument("--env", default="prod", help="Environment (default: prod)")
-    list_p.add_argument("--path", default="/", help="Secret path")
-    list_p.add_argument("--keys-only", action="store_true", help="Only print keys")
+    set_p = sub.add_parser("set", help="Create or replace a secret")
+    set_p.add_argument("path", help="Secret path")
+    set_p.add_argument("name", help="Secret name")
+    set_p.add_argument("value", help="Secret value")
+    set_p.add_argument("--env", default=DEFAULT_ENV, help=f"Environment (default: {DEFAULT_ENV})")
 
-    # export command
-    export_p = sub.add_parser("export", help="Export secrets as env vars")
-    export_p.add_argument("--project", required=True, help="Project ID")
-    export_p.add_argument("--env", default="prod", help="Environment (default: prod)")
-    export_p.add_argument("--path", default="/", help="Secret path")
+    del_p = sub.add_parser("delete", help="Delete a secret")
+    del_p.add_argument("path", help="Secret path")
+    del_p.add_argument("name", help="Secret name")
+    del_p.add_argument("--env", default=DEFAULT_ENV, help=f"Environment (default: {DEFAULT_ENV})")
+
+    export_p = sub.add_parser("export", help="Export every secret at a path")
+    export_p.add_argument("--path", default="", help="Secret path")
+    export_p.add_argument("--env", default=DEFAULT_ENV, help=f"Environment (default: {DEFAULT_ENV})")
     export_p.add_argument("--format", choices=["env", "json"], default="env")
 
     args = parser.parse_args()
@@ -105,44 +91,33 @@ def main() -> None:
         parser.print_help()
         sys.exit(1)
 
-    client = _build_client(args)
+    client = _client(args)
+    try:
+        if args.command == "list":
+            for name in client.list_secrets(args.path, args.env):
+                print(name)
 
-    if args.command == "get":
-        secret = client.get_secret(
-            project_id=args.project,
-            environment=args.env,
-            secret_name=args.name,
-            path=args.path,
-        )
-        print(secret.secret_value)
+        elif args.command == "get":
+            print(client.get_secret(args.path, args.name, args.env))
 
-    elif args.command == "list":
-        secrets = client.list_secrets(
-            project_id=args.project,
-            environment=args.env,
-            path=args.path,
-        )
-        for s in secrets:
-            if args.keys_only:
-                print(s.secret_key)
+        elif args.command == "set":
+            client.put_secret(args.path, args.name, args.value, args.env)
+            print(f"set {args.path}/{args.name} ({args.env})")
+
+        elif args.command == "delete":
+            client.delete_secret(args.path, args.name, args.env)
+            print(f"deleted {args.path}/{args.name} ({args.env})")
+
+        elif args.command == "export":
+            names = client.list_secrets(args.path, args.env)
+            values = {name: client.get_secret(args.path, name, args.env) for name in names}
+            if args.format == "json":
+                print(json.dumps(values, indent=2))
             else:
-                print(f"{s.secret_key}={s.secret_value}")
-
-    elif args.command == "export":
-        import json as _json
-
-        secrets = client.list_secrets(
-            project_id=args.project,
-            environment=args.env,
-            path=args.path,
-        )
-        if args.format == "json":
-            print(_json.dumps({s.secret_key: s.secret_value for s in secrets}, indent=2))
-        else:
-            for s in secrets:
-                print(f"{s.secret_key}={s.secret_value}")
-
-    client.close()
+                for name, value in values.items():
+                    print(f"{name}={value}")
+    finally:
+        client.close()
 
 
 if __name__ == "__main__":
