@@ -2,6 +2,8 @@
 
 import os
 import json
+import base64
+import hashlib
 import secrets
 import threading
 import webbrowser
@@ -24,6 +26,23 @@ IAM_CLIENT_ID = "hanzo-app"
 CALLBACK_PORT = 1456
 CALLBACK_PATH = "/callback"
 CALLBACK_URI = f"http://localhost:{CALLBACK_PORT}{CALLBACK_PATH}"
+
+# Canonical IAM OIDC paths (HIP-0111 §1), in ONE place so no call site spells a
+# path itself. These match what hanzo.id advertises in
+# /.well-known/openid-configuration. The legacy `/oauth/*` and `/api/*` spellings
+# this file used are forbidden by §4.4 — IAM answers any unregistered path with a
+# 200 text/html SPA catch-all, so a wrong path is silent breakage, not a 404.
+OIDC_AUTHORIZE = "/v1/iam/oauth/authorize"
+OIDC_TOKEN = "/v1/iam/oauth/token"
+OIDC_DEVICE = "/v1/iam/oauth/device"
+
+# Every request MUST identify itself. urllib defaults to `Python-urllib/3.x`,
+# which Cloudflare refuses in front of hanzo.id with `error code: 1010` — a 403
+# that never reaches IAM. The browser leg looked fine and then the token
+# exchange died, so login failed AFTER the user had already signed in. Verified:
+# POST /v1/iam/oauth/token answers 403 with the urllib UA and 400 with any real
+# one. Applies to the device legs identically.
+USER_AGENT = "hanzo-cli/python"
 
 
 class AuthManager:
@@ -142,8 +161,6 @@ def _get_iam_url(auth_mgr: AuthManager) -> str:
 
 def _decode_jwt_claims(token: str) -> dict:
     """Decode JWT payload without verification (for extracting email/name)."""
-    import base64
-
     try:
         parts = token.split(".")
         if len(parts) < 2:
@@ -220,6 +237,18 @@ def _login_browser_oauth(auth_mgr: AuthManager):
     server_thread.start()
     server_ready.wait()
 
+    # PKCE S256 (RFC 7636). Mandatory per HIP-0111 Security Considerations, and
+    # RFC 8252 §8.1 requires it for native apps specifically: this flow redirects
+    # to a loopback port any local process can also bind or race, so without a
+    # code_verifier an intercepted authorization code is directly redeemable.
+    # `state` alone is CSRF protection, not interception protection.
+    code_verifier = secrets.token_urlsafe(64)[:128]
+    code_challenge = (
+        base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode()).digest())
+        .decode()
+        .rstrip("=")
+    )
+
     # Build OAuth authorize URL
     params = {
         "client_id": IAM_CLIENT_ID,
@@ -227,8 +256,10 @@ def _login_browser_oauth(auth_mgr: AuthManager):
         "response_type": "code",
         "scope": "openid profile email",
         "state": state,
+        "code_challenge": code_challenge,
+        "code_challenge_method": "S256",
     }
-    authorize_url = f"{iam_url}/oauth/authorize?{urlencode(params)}"
+    authorize_url = f"{iam_url}{OIDC_AUTHORIZE}?{urlencode(params)}"
 
     console.print("Your browser has been opened to visit:\n")
     console.print(f"    {authorize_url}\n")
@@ -248,20 +279,26 @@ def _login_browser_oauth(auth_mgr: AuthManager):
         return
 
     # Exchange authorization code for tokens
-    token_url = f"{iam_url}/oauth/token"
+    token_url = f"{iam_url}{OIDC_TOKEN}"
     token_data = urlencode(
         {
             "client_id": IAM_CLIENT_ID,
             "code": auth_result["code"],
             "grant_type": "authorization_code",
             "redirect_uri": CALLBACK_URI,
+            # Binds this exchange to the challenge sent on the authorize leg —
+            # without it an intercepted code is redeemable by anyone.
+            "code_verifier": code_verifier,
         }
     ).encode()
 
     req = urllib.request.Request(  # noqa: S310
         token_url,
         data=token_data,
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "User-Agent": USER_AGENT,
+        },
         method="POST",
     )
 
@@ -315,9 +352,9 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     ).encode()
 
     req = urllib.request.Request(  # noqa: S310
-        f"{iam_url}/api/device/code",
+        f"{iam_url}{OIDC_DEVICE}",
         data=device_req_data,
-        headers={"Content-Type": "application/json"},
+        headers={"Content-Type": "application/json", "User-Agent": USER_AGENT},
         method="POST",
     )
 
@@ -362,9 +399,9 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
         ).encode()
 
         poll_req = urllib.request.Request(  # noqa: S310
-            f"{iam_url}/oauth/token",
+            f"{iam_url}{OIDC_TOKEN}",
             data=poll_data,
-            headers={"Content-Type": "application/json"},
+            headers={"Content-Type": "application/json", "User-Agent": USER_AGENT},
             method="POST",
         )
 
