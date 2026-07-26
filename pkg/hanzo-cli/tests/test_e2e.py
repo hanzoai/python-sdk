@@ -49,8 +49,14 @@ def run(args: list[str], check: bool = True) -> subprocess.CompletedProcess:
 
 class TestAuth:
     def test_version(self):
+        # Assert against the package's own version, never a literal. This line
+        # used to read `assert "0.1.0" in r.stdout` and passed only because
+        # hanzo_cli.__version__ was stale at 0.1.0 while pyproject said 0.2.2 —
+        # the test was enshrining the drift it should have caught.
+        from hanzo_cli import __version__
+
         r = run(["--version"])
-        assert "0.1.0" in r.stdout
+        assert __version__ in r.stdout
 
     def test_help(self):
         r = run(["--help"])
