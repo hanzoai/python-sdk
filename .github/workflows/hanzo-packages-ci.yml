@@ -1,6 +1,10 @@
 name: Hanzo Packages CI
 
 on:
+  # Manual runs: push-event dispatch in this repo is intermittent, and the
+  # publish jobs below are gated on `github.event_name == 'push'` / a tag ref,
+  # so a manual run tests without any chance of publishing.
+  workflow_dispatch:
   push:
     branches:
       - main
