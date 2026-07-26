@@ -50,6 +50,30 @@ class IAMConfig(BaseModel):
         default="", description="JWT verification certificate (PEM)"
     )
 
+    # HIP-0111 endpoints, derived from the constants above so a caller can never
+    # hand-assemble a path. This is the IAMConfig the package exports, so these
+    # have to live here: callers doing `from hanzo_iam import IAMConfig` get
+    # this class, not the one in config.py.
+    @property
+    def authorize_endpoint(self) -> str:
+        """OAuth2 authorization endpoint URL."""
+        return f"{self.server_url.rstrip('/')}{OIDC_AUTHORIZE_PATH}"
+
+    @property
+    def token_endpoint(self) -> str:
+        """OAuth2 token endpoint URL."""
+        return f"{self.server_url.rstrip('/')}{OIDC_TOKEN_PATH}"
+
+    @property
+    def userinfo_endpoint(self) -> str:
+        """OIDC UserInfo endpoint URL."""
+        return f"{self.server_url.rstrip('/')}{OIDC_USERINFO_PATH}"
+
+    @property
+    def jwks_endpoint(self) -> str:
+        """OIDC JWKS endpoint URL."""
+        return f"{self.server_url.rstrip('/')}{OIDC_JWKS_PATH}"
+
 
 class TokenResponse(BaseModel):
     """OAuth2 token response."""
