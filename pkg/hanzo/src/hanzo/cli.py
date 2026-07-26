@@ -52,8 +52,8 @@ from .commands import (
 )
 from .utils.output import console
 
-# Version
-__version__ = "0.3.48"
+# Version — resolved from the installed distribution, never restated here.
+from hanzo import __version__
 
 HANZO_BIN = Path.home() / ".hanzo" / "bin"
 
@@ -173,6 +173,24 @@ cli.add_command(storage.storage_group, name="storage")  # alias: hanzo storage
 cli.add_command(tasks.tasks_group)
 cli.add_command(tools.tools_group)
 cli.add_command(vector.vector_group)
+
+# Groups owned by the hanzo_cli package. `hanzo` is the ONE command, so
+# anything hanzo_cli implements has to be reachable from here — it no longer
+# ships a competing console script. Only the two groups with no equivalent are
+# mounted: `hanzo-cli kms` is not, because `hanzo secrets` is a strict superset
+# of it (audit/grant/revoke/rollback/rotate/versions on top of the same
+# get/list/set/delete), and two commands for one concern is the thing we are
+# removing, not adding.
+try:  # pragma: no cover - optional dependency
+    from hanzo_cli.cli import main as _hanzo_cli
+
+    for _name in ("paas", "bot"):
+        _group = _hanzo_cli.commands.get(_name)
+        if _group is not None:
+            cli.add_command(_group, name=_name)
+except ImportError:
+    pass
+
 
 # Aliases
 cli.add_command(doc.doc_group, name="docdb")  # docdb alias for doc

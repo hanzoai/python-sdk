@@ -12,18 +12,23 @@ Run:
 from __future__ import annotations
 
 import subprocess
+import sys
 import time
 
 import pytest
 
-HANZO = "hanzo"
+# Invoke THIS package's command tree, not whatever `hanzo` resolves to on PATH.
+# hanzo_cli no longer installs a `hanzo` script (that name belongs to the
+# `hanzo` package), so a bare "hanzo" here would silently exercise a different
+# CLI than the one these tests are written against.
+HANZO_CMD = [sys.executable, "-m", "hanzo_cli"]
 TIMEOUT = 30
 
 
 def run(args: list[str], check: bool = True) -> subprocess.CompletedProcess:
     """Run a hanzo CLI command and return the result."""
     result = subprocess.run(
-        [HANZO] + args,
+        HANZO_CMD + args,
         capture_output=True,
         text=True,
         timeout=TIMEOUT,

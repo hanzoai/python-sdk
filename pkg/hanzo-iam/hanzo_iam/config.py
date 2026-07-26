@@ -7,7 +7,11 @@ from typing import ClassVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from hanzo_iam.models import OIDC_USERINFO_PATH
+from hanzo_iam.models import (
+    OIDC_AUTHORIZE_PATH,
+    OIDC_TOKEN_PATH,
+    OIDC_USERINFO_PATH,
+)
 
 
 class IAMConfig(BaseModel):
@@ -77,13 +81,13 @@ class IAMConfig(BaseModel):
 
     @property
     def token_endpoint(self) -> str:
-        """OAuth2 token endpoint URL."""
-        return f"{self.server_url}/oauth/token"
+        """OAuth2 token endpoint URL (HIP-0111 canonical path)."""
+        return f"{self.server_url}{OIDC_TOKEN_PATH}"
 
     @property
     def authorize_endpoint(self) -> str:
-        """OAuth2 authorization endpoint URL."""
-        return f"{self.server_url}/oauth/authorize"
+        """OAuth2 authorization endpoint URL (HIP-0111 canonical path)."""
+        return f"{self.server_url}{OIDC_AUTHORIZE_PATH}"
 
     @property
     def userinfo_endpoint(self) -> str:

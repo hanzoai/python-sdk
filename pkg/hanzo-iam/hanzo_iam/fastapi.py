@@ -35,6 +35,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 
 from hanzo_iam.models import (
+    OIDC_JWKS_PATH,
     OIDC_USERINFO_PATH,
     IAMConfig,
     JWTClaims,
@@ -115,7 +116,7 @@ def _get_jwks_client() -> PyJWKClient:
 
     if _jwks_client is None:
         config = get_config()
-        jwks_url = f"{config.server_url}/.well-known/jwks.json"
+        jwks_url = f"{config.server_url}{OIDC_JWKS_PATH}"
         _jwks_client = PyJWKClient(jwks_url)
 
     return _jwks_client

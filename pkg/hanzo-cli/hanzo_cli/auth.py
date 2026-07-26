@@ -8,6 +8,8 @@ Credential chain:
 
 from __future__ import annotations
 
+import base64
+import hashlib
 import http.server
 import json
 import os
@@ -231,10 +233,24 @@ def browser_login(port: int = CALLBACK_PORT) -> dict[str, Any]:
     redirect_uri = f"http://localhost:{port}{CALLBACK_PATH}"
     state = secrets.token_urlsafe(32)
 
+    # PKCE is not optional here. This is a native app with a public client
+    # (client_secret=""), so the authorization code is the ONLY secret in the
+    # flow and it arrives over a plaintext loopback redirect that any other
+    # local process can race. RFC 8252 §8.1 requires PKCE for exactly this
+    # shape; without a verifier an intercepted code is directly redeemable.
+    code_verifier = secrets.token_urlsafe(64)[:128]
+    code_challenge = (
+        base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode()).digest())
+        .decode()
+        .rstrip("=")
+    )
+
     auth_url = client.get_authorization_url(
         redirect_uri=redirect_uri,
         state=state,
         scope="openid profile email",
+        code_challenge=code_challenge,
+        code_challenge_method="S256",
     )
 
     # Reset handler state
@@ -266,7 +282,9 @@ def browser_login(port: int = CALLBACK_PORT) -> dict[str, Any]:
         raise click.ClickException("No authorization code received.")
 
     # Exchange code for tokens
-    tokens = client.exchange_code(code=code, redirect_uri=redirect_uri)
+    tokens = client.exchange_code(
+        code=code, redirect_uri=redirect_uri, code_verifier=code_verifier
+    )
     client.close()
 
     token_data = {
@@ -316,9 +334,20 @@ def password_login(
     if not password:
         password = click.prompt("Password", hide_input=True)
 
-    # Use ROPC grant to get tokens directly
+    # The endpoint comes from IAMConfig, never a literal. The hardcoded
+    # "/oauth/token" that used to be here is not a 404 — IAM serves a
+    # 200 text/html SPA catch-all for any unregistered path, so this call
+    # returned a login PAGE and resp.json() blew up on HTML. A wrong path
+    # here is silent breakage, which is why there is exactly one definition.
+    config = IAMConfig(
+        server_url=server_url,
+        client_id=client_id,
+        client_secret=client_secret,
+        organization=org,
+        application=app,
+    )
     resp = httpx.post(
-        f"{server_url}/oauth/token",
+        config.token_endpoint,
         data={
             "grant_type": "password",
             "client_id": client_id,
