@@ -282,7 +282,7 @@ class HanzoAuth:
         """
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{self.base_url}/api/login",
+                f"{self.base_url}/v1/iam/login",
                 json={
                     "username": email,
                     "password": password,
@@ -612,7 +612,7 @@ class HanzoAuth:
         import time
 
         base_url = OPENAI_ISSUER.rstrip("/")
-        api_url = f"{base_url}/api/accounts"
+        api_url = f"{base_url}/api/accounts"  # foreign-api: OpenAI's device-auth surface, not a Hanzo route
 
         async with httpx.AsyncClient() as client:
             # Step 1: Request device code
@@ -760,7 +760,7 @@ class HanzoAuth:
             # Revoke token
             async with httpx.AsyncClient() as client:
                 await client.post(
-                    f"{self.base_url}/api/logout", headers=self._get_headers()
+                    f"{self.base_url}/v1/iam/logout", headers=self._get_headers()
                 )
 
         self._token = None

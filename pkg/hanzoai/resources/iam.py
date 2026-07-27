@@ -23,7 +23,7 @@ __all__ = ["IAMResource", "AsyncIAMResource"]
 class IAMResource(SyncAPIResource):
     """Hanzo IAM — identity, access, and organization management.
 
-    Wraps the IAM API at hanzo.id/api/ behind the /iam/ gateway
+    Wraps the IAM API at hanzo.id under the standard /v1/iam route
     prefix.  Auth endpoints accept explicit params; CRUD endpoints for users,
     organizations, applications, roles, permissions, groups, tokens, sessions,
     and invitations accept full object dicts matching the IAM schema.
@@ -56,7 +56,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Sign up a new user."""
         return self._post(
-            "/iam/api/signup",
+            "/v1/iam/signup",
             body={
                 "application": application,
                 "organization": organization,
@@ -90,7 +90,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Log in and obtain a session token."""
         return self._post(
-            "/iam/api/login",
+            "/v1/iam/login",
             body={
                 "application": application,
                 "organization": organization,
@@ -161,7 +161,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Set or change a user's password."""
         return self._post(
-            "/iam/api/set-password",
+            "/v1/iam/set-password",
             body={
                 "userOwner": user_owner,
                 "userName": user_name,
@@ -192,7 +192,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Send an email or SMS verification code."""
         return self._post(
-            "/iam/api/send-verification-code",
+            "/v1/iam/send-verification-code",
             body={
                 "dest": dest,
                 "type": type,
@@ -223,7 +223,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Verify an email or SMS code."""
         return self._post(
-            "/iam/api/verify-code",
+            "/v1/iam/verify-code",
             body={
                 "dest": dest,
                 "type": type,
@@ -252,7 +252,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all users in an organization."""
         return self._get(
-            "/iam/api/get-users",
+            "/v1/iam/get-users",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -274,7 +274,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get a user by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-user",
+            "/v1/iam/get-user",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -297,7 +297,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get the count of users in an organization."""
         return self._get(
-            "/iam/api/get-user-count",
+            "/v1/iam/get-user-count",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -319,7 +319,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new user."""
         return self._post(
-            "/iam/api/add-user",
+            "/v1/iam/add-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -341,7 +341,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing user."""
         return self._post(
-            "/iam/api/update-user",
+            "/v1/iam/update-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -363,7 +363,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a user."""
         return self._post(
-            "/iam/api/delete-user",
+            "/v1/iam/delete-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -387,7 +387,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all organizations."""
         return self._get(
-            "/iam/api/get-organizations",
+            "/v1/iam/get-organizations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -409,7 +409,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get an organization by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-organization",
+            "/v1/iam/get-organization",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -431,7 +431,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new organization."""
         return self._post(
-            "/iam/api/add-organization",
+            "/v1/iam/add-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -453,7 +453,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing organization."""
         return self._post(
-            "/iam/api/update-organization",
+            "/v1/iam/update-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -475,7 +475,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete an organization."""
         return self._post(
-            "/iam/api/delete-organization",
+            "/v1/iam/delete-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -499,7 +499,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all applications."""
         return self._get(
-            "/iam/api/get-applications",
+            "/v1/iam/get-applications",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -521,7 +521,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get an application by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-application",
+            "/v1/iam/get-application",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -543,7 +543,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new application."""
         return self._post(
-            "/iam/api/add-application",
+            "/v1/iam/add-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -565,7 +565,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing application."""
         return self._post(
-            "/iam/api/update-application",
+            "/v1/iam/update-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -587,7 +587,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete an application."""
         return self._post(
-            "/iam/api/delete-application",
+            "/v1/iam/delete-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -611,7 +611,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all roles."""
         return self._get(
-            "/iam/api/get-roles",
+            "/v1/iam/get-roles",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -633,7 +633,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get a role by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-role",
+            "/v1/iam/get-role",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -655,7 +655,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new role."""
         return self._post(
-            "/iam/api/add-role",
+            "/v1/iam/add-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -677,7 +677,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing role."""
         return self._post(
-            "/iam/api/update-role",
+            "/v1/iam/update-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -699,7 +699,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a role."""
         return self._post(
-            "/iam/api/delete-role",
+            "/v1/iam/delete-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -723,7 +723,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all permissions."""
         return self._get(
-            "/iam/api/get-permissions",
+            "/v1/iam/get-permissions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -745,7 +745,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get a permission by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-permission",
+            "/v1/iam/get-permission",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -767,7 +767,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new permission."""
         return self._post(
-            "/iam/api/add-permission",
+            "/v1/iam/add-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -789,7 +789,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing permission."""
         return self._post(
-            "/iam/api/update-permission",
+            "/v1/iam/update-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -811,7 +811,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a permission."""
         return self._post(
-            "/iam/api/delete-permission",
+            "/v1/iam/delete-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -836,7 +836,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Check if a permission is allowed (Casbin enforce)."""
         return self._post(
-            "/iam/api/enforce",
+            "/v1/iam/enforce",
             body={
                 "id": permission_id,
                 "v0": model_name,
@@ -864,7 +864,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Batch check multiple permission rules."""
         return self._post(
-            "/iam/api/batch-enforce",
+            "/v1/iam/batch-enforce",
             body={
                 "id": permission_id,
                 "requests": requests,
@@ -891,7 +891,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all groups."""
         return self._get(
-            "/iam/api/get-groups",
+            "/v1/iam/get-groups",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -913,7 +913,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get a group by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-group",
+            "/v1/iam/get-group",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -935,7 +935,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new group."""
         return self._post(
-            "/iam/api/add-group",
+            "/v1/iam/add-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -957,7 +957,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Update an existing group."""
         return self._post(
-            "/iam/api/update-group",
+            "/v1/iam/update-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -979,7 +979,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a group."""
         return self._post(
-            "/iam/api/delete-group",
+            "/v1/iam/delete-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1003,7 +1003,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all identity providers."""
         return self._get(
-            "/iam/api/get-providers",
+            "/v1/iam/get-providers",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1025,7 +1025,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get an identity provider by id (format: ``owner/name``)."""
         return self._get(
-            "/iam/api/get-provider",
+            "/v1/iam/get-provider",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1049,7 +1049,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all tokens."""
         return self._get(
-            "/iam/api/get-tokens",
+            "/v1/iam/get-tokens",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1071,7 +1071,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new token."""
         return self._post(
-            "/iam/api/add-token",
+            "/v1/iam/add-token",
             body=token,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1093,7 +1093,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a token."""
         return self._post(
-            "/iam/api/delete-token",
+            "/v1/iam/delete-token",
             body=token,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1117,7 +1117,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all sessions."""
         return self._get(
-            "/iam/api/get-sessions",
+            "/v1/iam/get-sessions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1139,7 +1139,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete a session."""
         return self._post(
-            "/iam/api/delete-session",
+            "/v1/iam/delete-session",
             body=session,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1163,7 +1163,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List all invitations."""
         return self._get(
-            "/iam/api/get-invitations",
+            "/v1/iam/get-invitations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1185,7 +1185,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Add a new invitation."""
         return self._post(
-            "/iam/api/add-invitation",
+            "/v1/iam/add-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1207,7 +1207,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Send an invitation email."""
         return self._post(
-            "/iam/api/send-invitation",
+            "/v1/iam/send-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1229,7 +1229,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete an invitation."""
         return self._post(
-            "/iam/api/delete-invitation",
+            "/v1/iam/delete-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1253,7 +1253,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """List audit records."""
         return self._get(
-            "/iam/api/get-records",
+            "/v1/iam/get-records",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1276,7 +1276,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Get IAM system information."""
         return self._get(
-            "/iam/api/get-system-info",
+            "/v1/iam/get-system-info",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1296,7 +1296,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Health check."""
         return self._get(
-            "/iam/api/health",
+            "/v1/iam/health",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1319,7 +1319,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Initiate MFA setup (returns secret/QR code)."""
         return self._post(
-            "/iam/api/mfa/setup/initiate",
+            "/v1/iam/mfa/setup/initiate",
             body={"mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1342,7 +1342,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Verify an MFA passcode during setup."""
         return self._post(
-            "/iam/api/mfa/setup/verify",
+            "/v1/iam/mfa/setup/verify",
             body={"passcode": passcode, "mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1364,7 +1364,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Enable MFA for the current user."""
         return self._post(
-            "/iam/api/mfa/setup/enable",
+            "/v1/iam/mfa/setup/enable",
             body={"mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1387,7 +1387,7 @@ class IAMResource(SyncAPIResource):
     ) -> object:
         """Delete MFA configuration for a user."""
         return self._post(
-            "/iam/api/delete-mfa",
+            "/v1/iam/delete-mfa",
             body={"owner": owner, "name": name},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1434,7 +1434,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Sign up a new user."""
         return await self._post(
-            "/iam/api/signup",
+            "/v1/iam/signup",
             body={
                 "application": application,
                 "organization": organization,
@@ -1468,7 +1468,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Log in and obtain a session token."""
         return await self._post(
-            "/iam/api/login",
+            "/v1/iam/login",
             body={
                 "application": application,
                 "organization": organization,
@@ -1539,7 +1539,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Set or change a user's password."""
         return await self._post(
-            "/iam/api/set-password",
+            "/v1/iam/set-password",
             body={
                 "userOwner": user_owner,
                 "userName": user_name,
@@ -1570,7 +1570,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Send an email or SMS verification code."""
         return await self._post(
-            "/iam/api/send-verification-code",
+            "/v1/iam/send-verification-code",
             body={
                 "dest": dest,
                 "type": type,
@@ -1601,7 +1601,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Verify an email or SMS code."""
         return await self._post(
-            "/iam/api/verify-code",
+            "/v1/iam/verify-code",
             body={
                 "dest": dest,
                 "type": type,
@@ -1630,7 +1630,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all users in an organization."""
         return await self._get(
-            "/iam/api/get-users",
+            "/v1/iam/get-users",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1652,7 +1652,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get a user by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-user",
+            "/v1/iam/get-user",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1675,7 +1675,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get the count of users in an organization."""
         return await self._get(
-            "/iam/api/get-user-count",
+            "/v1/iam/get-user-count",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1697,7 +1697,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new user."""
         return await self._post(
-            "/iam/api/add-user",
+            "/v1/iam/add-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1719,7 +1719,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing user."""
         return await self._post(
-            "/iam/api/update-user",
+            "/v1/iam/update-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1741,7 +1741,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a user."""
         return await self._post(
-            "/iam/api/delete-user",
+            "/v1/iam/delete-user",
             body=user,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1765,7 +1765,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all organizations."""
         return await self._get(
-            "/iam/api/get-organizations",
+            "/v1/iam/get-organizations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1787,7 +1787,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get an organization by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-organization",
+            "/v1/iam/get-organization",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1809,7 +1809,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new organization."""
         return await self._post(
-            "/iam/api/add-organization",
+            "/v1/iam/add-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1831,7 +1831,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing organization."""
         return await self._post(
-            "/iam/api/update-organization",
+            "/v1/iam/update-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1853,7 +1853,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete an organization."""
         return await self._post(
-            "/iam/api/delete-organization",
+            "/v1/iam/delete-organization",
             body=organization,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1877,7 +1877,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all applications."""
         return await self._get(
-            "/iam/api/get-applications",
+            "/v1/iam/get-applications",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1899,7 +1899,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get an application by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-application",
+            "/v1/iam/get-application",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1921,7 +1921,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new application."""
         return await self._post(
-            "/iam/api/add-application",
+            "/v1/iam/add-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1943,7 +1943,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing application."""
         return await self._post(
-            "/iam/api/update-application",
+            "/v1/iam/update-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1965,7 +1965,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete an application."""
         return await self._post(
-            "/iam/api/delete-application",
+            "/v1/iam/delete-application",
             body=application,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1989,7 +1989,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all roles."""
         return await self._get(
-            "/iam/api/get-roles",
+            "/v1/iam/get-roles",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2011,7 +2011,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get a role by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-role",
+            "/v1/iam/get-role",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2033,7 +2033,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new role."""
         return await self._post(
-            "/iam/api/add-role",
+            "/v1/iam/add-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2055,7 +2055,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing role."""
         return await self._post(
-            "/iam/api/update-role",
+            "/v1/iam/update-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2077,7 +2077,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a role."""
         return await self._post(
-            "/iam/api/delete-role",
+            "/v1/iam/delete-role",
             body=role,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2101,7 +2101,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all permissions."""
         return await self._get(
-            "/iam/api/get-permissions",
+            "/v1/iam/get-permissions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2123,7 +2123,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get a permission by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-permission",
+            "/v1/iam/get-permission",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2145,7 +2145,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new permission."""
         return await self._post(
-            "/iam/api/add-permission",
+            "/v1/iam/add-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2167,7 +2167,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing permission."""
         return await self._post(
-            "/iam/api/update-permission",
+            "/v1/iam/update-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2189,7 +2189,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a permission."""
         return await self._post(
-            "/iam/api/delete-permission",
+            "/v1/iam/delete-permission",
             body=permission,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2214,7 +2214,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Check if a permission is allowed (Casbin enforce)."""
         return await self._post(
-            "/iam/api/enforce",
+            "/v1/iam/enforce",
             body={
                 "id": permission_id,
                 "v0": model_name,
@@ -2242,7 +2242,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Batch check multiple permission rules."""
         return await self._post(
-            "/iam/api/batch-enforce",
+            "/v1/iam/batch-enforce",
             body={
                 "id": permission_id,
                 "requests": requests,
@@ -2269,7 +2269,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all groups."""
         return await self._get(
-            "/iam/api/get-groups",
+            "/v1/iam/get-groups",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2291,7 +2291,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get a group by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-group",
+            "/v1/iam/get-group",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2313,7 +2313,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new group."""
         return await self._post(
-            "/iam/api/add-group",
+            "/v1/iam/add-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2335,7 +2335,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Update an existing group."""
         return await self._post(
-            "/iam/api/update-group",
+            "/v1/iam/update-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2357,7 +2357,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a group."""
         return await self._post(
-            "/iam/api/delete-group",
+            "/v1/iam/delete-group",
             body=group,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2381,7 +2381,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all identity providers."""
         return await self._get(
-            "/iam/api/get-providers",
+            "/v1/iam/get-providers",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2403,7 +2403,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get an identity provider by id (format: ``owner/name``)."""
         return await self._get(
-            "/iam/api/get-provider",
+            "/v1/iam/get-provider",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2427,7 +2427,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all tokens."""
         return await self._get(
-            "/iam/api/get-tokens",
+            "/v1/iam/get-tokens",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2449,7 +2449,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new token."""
         return await self._post(
-            "/iam/api/add-token",
+            "/v1/iam/add-token",
             body=token,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2471,7 +2471,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a token."""
         return await self._post(
-            "/iam/api/delete-token",
+            "/v1/iam/delete-token",
             body=token,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2495,7 +2495,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all sessions."""
         return await self._get(
-            "/iam/api/get-sessions",
+            "/v1/iam/get-sessions",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2517,7 +2517,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete a session."""
         return await self._post(
-            "/iam/api/delete-session",
+            "/v1/iam/delete-session",
             body=session,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2541,7 +2541,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List all invitations."""
         return await self._get(
-            "/iam/api/get-invitations",
+            "/v1/iam/get-invitations",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2563,7 +2563,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Add a new invitation."""
         return await self._post(
-            "/iam/api/add-invitation",
+            "/v1/iam/add-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2585,7 +2585,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Send an invitation email."""
         return await self._post(
-            "/iam/api/send-invitation",
+            "/v1/iam/send-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2607,7 +2607,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete an invitation."""
         return await self._post(
-            "/iam/api/delete-invitation",
+            "/v1/iam/delete-invitation",
             body=invitation,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2631,7 +2631,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """List audit records."""
         return await self._get(
-            "/iam/api/get-records",
+            "/v1/iam/get-records",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2654,7 +2654,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Get IAM system information."""
         return await self._get(
-            "/iam/api/get-system-info",
+            "/v1/iam/get-system-info",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2674,7 +2674,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Health check."""
         return await self._get(
-            "/iam/api/health",
+            "/v1/iam/health",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -2697,7 +2697,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Initiate MFA setup (returns secret/QR code)."""
         return await self._post(
-            "/iam/api/mfa/setup/initiate",
+            "/v1/iam/mfa/setup/initiate",
             body={"mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2720,7 +2720,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Verify an MFA passcode during setup."""
         return await self._post(
-            "/iam/api/mfa/setup/verify",
+            "/v1/iam/mfa/setup/verify",
             body={"passcode": passcode, "mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2742,7 +2742,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Enable MFA for the current user."""
         return await self._post(
-            "/iam/api/mfa/setup/enable",
+            "/v1/iam/mfa/setup/enable",
             body={"mfaType": mfa_type},
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2765,7 +2765,7 @@ class AsyncIAMResource(AsyncAPIResource):
     ) -> object:
         """Delete MFA configuration for a user."""
         return await self._post(
-            "/iam/api/delete-mfa",
+            "/v1/iam/delete-mfa",
             body={"owner": owner, "name": name},
             options=make_request_options(
                 extra_headers=extra_headers,

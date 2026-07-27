@@ -646,7 +646,7 @@ class TeamWorkspaceResource(SyncAPIResource):
     ) -> object:
         """Get Team platform server statistics.
 
-        Maps to ``GET /api/v1/statistics`` on the account service.
+        Maps to the upstream account service statistics call (foreign-api: Huly).
 
         Args:
           extra_headers: Send extra headers.
@@ -1288,7 +1288,7 @@ class AsyncTeamWorkspaceResource(AsyncAPIResource):
     ) -> object:
         """Get Team platform server statistics.
 
-        Maps to ``GET /api/v1/statistics`` on the account service.
+        Maps to the upstream account service statistics call (foreign-api: Huly).
 
         Args:
           extra_headers: Send extra headers.
