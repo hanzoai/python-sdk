@@ -10,6 +10,7 @@ import httpx
 import jwt
 
 from hanzo_iam.models import (
+    IAM_ROUTE_PREFIX,
     OIDC_USERINFO_PATH,
     Application,
     JWTClaims,
@@ -442,7 +443,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user",
+            f"{IAM_ROUTE_PREFIX}/get-user",
             params=params,
             headers=self._admin_headers(),
         )
@@ -467,7 +468,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-users",
+            f"{IAM_ROUTE_PREFIX}/get-users",
             params=params,
             headers=self._admin_headers(),
         )
@@ -504,7 +505,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-count",
+            f"{IAM_ROUTE_PREFIX}/get-user-count",
             params=params,
             headers=self._admin_headers(),
         )
@@ -553,7 +554,7 @@ class AsyncIAMClient:
         """Modify user via API."""
         http = await self._get_http()
         response = await http.post(
-            f"/api/{action}",
+            f"{IAM_ROUTE_PREFIX}/{action}",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
@@ -579,7 +580,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-application",
+            f"{IAM_ROUTE_PREFIX}/get-application",
             params=params,
             headers=self._admin_headers(),
         )
@@ -608,7 +609,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organizations",
+            f"{IAM_ROUTE_PREFIX}/get-organizations",
             params=params,
             headers=self._admin_headers(),
         )
@@ -636,7 +637,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-organization",
+            f"{IAM_ROUTE_PREFIX}/get-organization",
             params=params,
             headers=self._admin_headers(),
         )
@@ -688,7 +689,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/enforce",
+            f"{IAM_ROUTE_PREFIX}/enforce",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -733,7 +734,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/batch-enforce",
+            f"{IAM_ROUTE_PREFIX}/batch-enforce",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -766,7 +767,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-roles",
+            f"{IAM_ROUTE_PREFIX}/get-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -801,7 +802,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-role",
+            f"{IAM_ROUTE_PREFIX}/get-role",
             params=params,
             headers=self._admin_headers(),
         )
@@ -836,7 +837,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-user-roles",
+            f"{IAM_ROUTE_PREFIX}/get-user-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -874,7 +875,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/add-user-role",
+            f"{IAM_ROUTE_PREFIX}/add-user-role",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -912,7 +913,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/delete-user-role",
+            f"{IAM_ROUTE_PREFIX}/delete-user-role",
             json=payload,
             headers=self._admin_headers(),
         )
@@ -955,7 +956,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/api/set-password",
+            f"{IAM_ROUTE_PREFIX}/set-password",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
@@ -988,7 +989,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            "/api/get-applications",
+            f"{IAM_ROUTE_PREFIX}/get-applications",
             params=params,
             headers=self._admin_headers(),
         )
@@ -1012,7 +1013,7 @@ class AsyncIAMClient:
         """
         http = await self._get_http()
         response = await http.post(
-            "/api/update-application",
+            f"{IAM_ROUTE_PREFIX}/update-application",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
