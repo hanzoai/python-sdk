@@ -12,6 +12,12 @@ from pydantic import BaseModel, ConfigDict, Field
 # Relative to the IAM server_url root.
 OIDC_USERINFO_PATH = "/v1/iam/oauth/userinfo"
 
+# The ONE place this package spells IAM's route prefix. Every admin action is a
+# verb-noun beneath it. The prefix this replaced is unreachable, not merely
+# non-standard: the edge refuses it on iam.hanzo.ai with 403 and the gateway
+# 404s it.
+IAM_ROUTE_PREFIX = "/v1/iam"
+
 
 class Organization(str, Enum):
     """Hanzo IAM organizations with their identity domains."""
