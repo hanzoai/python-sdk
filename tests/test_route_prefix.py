@@ -17,8 +17,17 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-# Every package here that speaks to a Hanzo service.
-PKGS = [ROOT / "pkg" / "hanzoai", ROOT / "pkg" / "hanzo-iam"]
+# The trees swept clean and verified against the deployed IAM route table.
+# `pkg/hanzo` is listed per-module, not wholesale: its CLI IAM commands are
+# clean, while `infra/functions.py` still addresses the dashboard service under
+# the banned prefix. Guarding a tree nobody has cleaned would mean a standing
+# allow-list, and an allow-list is how a guard becomes decoration.
+PKGS = [
+    ROOT / "pkg" / "hanzoai",
+    ROOT / "pkg" / "hanzo-iam",
+    ROOT / "pkg" / "hanzo" / "src" / "hanzo" / "commands" / "iam.py",
+    ROOT / "pkg" / "hanzo" / "src" / "hanzo" / "commands" / "auth.py",
+]
 
 # An `/api/` PATH segment. Deliberately does NOT match the `api.hanzo.ai`
 # HOSTNAME — the standard bans the path segment, not the api.* subdomain.
@@ -32,7 +41,7 @@ FOREIGN = re.compile(r"foreign-api:")
 
 def _offenders(root: Path) -> list[str]:
     out: list[str] = []
-    for path in sorted(root.rglob("*.py")):
+    for path in [root] if root.is_file() else sorted(root.rglob("*.py")):
         if "__pycache__" in path.parts:
             continue
         src = path.read_text(encoding="utf-8", errors="replace")

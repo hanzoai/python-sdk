@@ -24,6 +24,16 @@ def _get_iam_url() -> str:
     return os.getenv("IAM_URL", "https://hanzo.id")
 
 
+# The ONE place this CLI spells IAM's route prefix. Every action is a
+# verb-noun beneath it; the prefix this replaced is refused at the edge.
+IAM_ROUTE_PREFIX = "/v1/iam"
+
+
+def _iam_action_url(action: str) -> str:
+    """Absolute URL for an IAM action, e.g. ``get-users``."""
+    return f"{_get_iam_url().rstrip('/')}{IAM_ROUTE_PREFIX}/{action}"
+
+
 def _get_iam_credentials() -> tuple[str, str]:
     """Get client_id and client_secret from env or defaults."""
     client_id = os.getenv("IAM_CLIENT_ID", "")
@@ -45,13 +55,13 @@ def _get_iam_credentials() -> tuple[str, str]:
 
 def _iam_request(
     method: str,
-    path: str,
+    action: str,
     params: dict | None = None,
     json_body: dict | None = None,
     auth_params: bool = True,
 ) -> dict:
     """Make authenticated request to IAM API."""
-    url = _get_iam_url().rstrip("/") + path
+    url = _iam_action_url(action)
     client_id, client_secret = _get_iam_credentials()
 
     if not client_id or not client_secret:
@@ -266,7 +276,7 @@ def users():
 @click.option("--org", "-o", default="hanzo", help="Organization name")
 def users_list(org: str):
     """List users in organization."""
-    data = _iam_request("GET", "/api/get-users", params={"owner": org})
+    data = _iam_request("GET", "get-users", params={"owner": org})
     _check_response(data, "list users")
 
     users_data = data.get("data") if isinstance(data, dict) else data
@@ -303,7 +313,7 @@ def users_list(org: str):
 @click.option("--org", "-o", default="hanzo", help="Organization name")
 def users_get(username: str, org: str):
     """Get user details."""
-    data = _iam_request("GET", "/api/get-user", params={"id": f"{org}/{username}"})
+    data = _iam_request("GET", "get-user", params={"id": f"{org}/{username}"})
     _check_response(data, "get user")
 
     user = data.get("data") if isinstance(data, dict) else data
@@ -367,7 +377,7 @@ def users_create(
         "type": "normal-user",
     }
 
-    data = _iam_request("POST", "/api/add-user", json_body=user_obj)
+    data = _iam_request("POST", "add-user", json_body=user_obj)
     _check_response(data, "create user")
 
     console.print(f"[green]✓[/green] User '{username}' created in org '{org}'")
@@ -380,7 +390,7 @@ def users_create(
         try:
             with httpx.Client(timeout=30.0) as http:
                 resp = http.post(
-                    f"{_get_iam_url().rstrip('/')}/api/set-password",
+                    _iam_action_url("set-password"),
                     params={"clientId": client_id, "clientSecret": client_secret},
                     data={
                         "userOwner": org,
@@ -420,7 +430,7 @@ def users_update(
 ):
     """Update user fields."""
     # First get existing user
-    get_data = _iam_request("GET", "/api/get-user", params={"id": f"{org}/{username}"})
+    get_data = _iam_request("GET", "get-user", params={"id": f"{org}/{username}"})
     _check_response(get_data, "get user")
     user_obj = get_data.get("data", get_data)
     if not user_obj:
@@ -442,7 +452,7 @@ def users_update(
 
     data = _iam_request(
         "POST",
-        "/api/update-user",
+        "update-user",
         params={"id": f"{org}/{username}"},
         json_body=user_obj,
     )
@@ -456,7 +466,7 @@ def users_update(
         try:
             with httpx.Client(timeout=30.0) as http:
                 resp = http.post(
-                    f"{_get_iam_url().rstrip('/')}/api/set-password",
+                    _iam_action_url("set-password"),
                     params={"clientId": client_id, "clientSecret": client_secret},
                     data={
                         "userOwner": org,
@@ -488,7 +498,7 @@ def users_delete(username: str, org: str, yes: bool):
             return
 
     user_obj = {"owner": org, "name": username}
-    data = _iam_request("POST", "/api/delete-user", json_body=user_obj)
+    data = _iam_request("POST", "delete-user", json_body=user_obj)
     _check_response(data, "delete user")
 
     console.print(f"[green]✓[/green] User '{username}' deleted")
@@ -498,7 +508,7 @@ def users_delete(username: str, org: str, yes: bool):
 @click.option("--org", "-o", default="hanzo", help="Organization name")
 def users_count(org: str):
     """Get user count in organization."""
-    data = _iam_request("GET", "/api/get-user-count", params={"owner": org})
+    data = _iam_request("GET", "get-user-count", params={"owner": org})
     _check_response(data, "count users")
 
     count = data.get("data", data) if isinstance(data, dict) else data
@@ -519,7 +529,7 @@ def orgs():
 @orgs.command(name="list")
 def orgs_list():
     """List all organizations."""
-    data = _iam_request("GET", "/api/get-organizations", params={"owner": "admin"})
+    data = _iam_request("GET", "get-organizations", params={"owner": "admin"})
     _check_response(data, "list organizations")
 
     orgs_data = data.get("data") if isinstance(data, dict) else data
@@ -550,7 +560,7 @@ def orgs_list():
 @click.argument("name")
 def orgs_get(name: str):
     """Get organization details."""
-    data = _iam_request("GET", "/api/get-organization", params={"id": f"admin/{name}"})
+    data = _iam_request("GET", "get-organization", params={"id": f"admin/{name}"})
     _check_response(data, "get organization")
 
     org = data.get("data") if isinstance(data, dict) else data
@@ -591,7 +601,7 @@ def orgs_create(name: str, display_name: str, website: str):
         "passwordType": "bcrypt",
     }
 
-    data = _iam_request("POST", "/api/add-organization", json_body=org_obj)
+    data = _iam_request("POST", "add-organization", json_body=org_obj)
     _check_response(data, "create organization")
 
     console.print(f"[green]✓[/green] Organization '{name}' created")
@@ -611,7 +621,7 @@ def orgs_delete(name: str, yes: bool):
             return
 
     org_obj = {"owner": "admin", "name": name}
-    data = _iam_request("POST", "/api/delete-organization", json_body=org_obj)
+    data = _iam_request("POST", "delete-organization", json_body=org_obj)
     _check_response(data, "delete organization")
 
     console.print(f"[green]✓[/green] Organization '{name}' deleted")
@@ -632,7 +642,7 @@ def providers():
 @click.option("--owner", default="admin", help="Provider owner")
 def providers_list(owner: str):
     """List authentication providers."""
-    data = _iam_request("GET", "/api/get-providers", params={"owner": owner})
+    data = _iam_request("GET", "get-providers", params={"owner": owner})
     _check_response(data, "list providers")
 
     provs = data.get("data") if isinstance(data, dict) else data
@@ -664,7 +674,7 @@ def providers_list(owner: str):
 @click.option("--owner", default="admin", help="Provider owner")
 def providers_get(name: str, owner: str):
     """Get provider details."""
-    data = _iam_request("GET", "/api/get-provider", params={"id": f"{owner}/{name}"})
+    data = _iam_request("GET", "get-provider", params={"id": f"{owner}/{name}"})
     _check_response(data, "get provider")
 
     prov = data.get("data") if isinstance(data, dict) else data
@@ -741,7 +751,7 @@ def providers_create(
         "scopes": scopes or "",
     }
 
-    data = _iam_request("POST", "/api/add-provider", json_body=prov_obj)
+    data = _iam_request("POST", "add-provider", json_body=prov_obj)
     _check_response(data, "create provider")
 
     console.print(f"[green]✓[/green] Provider '{name}' ({ptype}) created")
@@ -760,7 +770,7 @@ def providers_delete(name: str, owner: str, yes: bool):
             return
 
     prov_obj = {"owner": owner, "name": name}
-    data = _iam_request("POST", "/api/delete-provider", json_body=prov_obj)
+    data = _iam_request("POST", "delete-provider", json_body=prov_obj)
     _check_response(data, "delete provider")
 
     console.print(f"[green]✓[/green] Provider '{name}' deleted")
@@ -781,7 +791,7 @@ def apps():
 @click.option("--org", "-o", default="admin", help="Organization/owner")
 def apps_list(org: str):
     """List applications."""
-    data = _iam_request("GET", "/api/get-applications", params={"owner": org})
+    data = _iam_request("GET", "get-applications", params={"owner": org})
     _check_response(data, "list applications")
 
     apps_data = data.get("data") if isinstance(data, dict) else data
@@ -818,7 +828,7 @@ def apps_list(org: str):
 @click.option("--org", "-o", default="admin", help="Organization/owner")
 def apps_get(name: str, org: str):
     """Get application details."""
-    data = _iam_request("GET", "/api/get-application", params={"id": f"{org}/{name}"})
+    data = _iam_request("GET", "get-application", params={"id": f"{org}/{name}"})
     _check_response(data, "get application")
 
     app = data.get("data") if isinstance(data, dict) else data
@@ -877,7 +887,7 @@ def roles():
 @click.option("--org", "-o", default="hanzo", help="Organization")
 def roles_list(org: str):
     """List roles in organization."""
-    data = _iam_request("GET", "/api/get-roles", params={"owner": org})
+    data = _iam_request("GET", "get-roles", params={"owner": org})
     _check_response(data, "list roles")
 
     roles_data = data.get("data") if isinstance(data, dict) else data
@@ -911,7 +921,7 @@ def roles_list(org: str):
 @click.option("--org", "-o", default="hanzo", help="Organization")
 def roles_get(name: str, org: str):
     """Get role details."""
-    data = _iam_request("GET", "/api/get-role", params={"id": f"{org}/{name}"})
+    data = _iam_request("GET", "get-role", params={"id": f"{org}/{name}"})
     _check_response(data, "get role")
 
     role = data.get("data") if isinstance(data, dict) else data
@@ -953,7 +963,7 @@ def set_password(username: str, password: str, org: str):
     """Set or reset a user's password.
 
     \b
-    Uses the IAM /api/set-password endpoint which handles
+    Uses the IAM set-password endpoint which handles
     server-side hashing (argon2id). Passwords are NEVER stored
     in plaintext.
 
@@ -986,7 +996,7 @@ def set_password(username: str, password: str, org: str):
     try:
         with httpx.Client(timeout=30.0) as http:
             resp = http.post(
-                f"{url}/api/set-password",
+                _iam_action_url("set-password"),
                 params={"clientId": client_id, "clientSecret": client_secret},
                 data={
                     "userOwner": org,
@@ -1043,12 +1053,12 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
     orgs_to_update = []
 
     if all_orgs:
-        data = _iam_request("GET", "/api/get-organizations", params={"owner": "admin"})
+        data = _iam_request("GET", "get-organizations", params={"owner": "admin"})
         _check_response(data, "list organizations")
         orgs_to_update = data.get("data", [])
     else:
         data = _iam_request(
-            "GET", "/api/get-organization", params={"id": f"admin/{org}"}
+            "GET", "get-organization", params={"id": f"admin/{org}"}
         )
         _check_response(data, "get organization")
         org_obj = data.get("data", data) if isinstance(data, dict) else data
@@ -1071,7 +1081,7 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
         org_obj["passwordType"] = algorithm
         update_data = _iam_request(
             "POST",
-            "/api/update-organization",
+            "update-organization",
             params={"id": f"admin/{org_name}"},
             json_body=org_obj,
         )
@@ -1092,7 +1102,7 @@ def enforce_hashing(org: str, algorithm: str, all_orgs: bool):
     plaintext_count = 0
     for org_obj in orgs_to_update:
         org_name = org_obj.get("name", "")
-        users_data = _iam_request("GET", "/api/get-users", params={"owner": org_name})
+        users_data = _iam_request("GET", "get-users", params={"owner": org_name})
         users_list = users_data.get("data", []) if isinstance(users_data, dict) else []
         for user in users_list:
             pw_type = user.get("passwordType", "")
@@ -1125,7 +1135,7 @@ def iam_login(username: str, password: str, org: str, app: str):
     """Login as a user via IAM (email/password).
 
     \b
-    Uses the IAM /api/login endpoint directly.
+    Uses the IAM login endpoint directly.
     Stores the resulting token in ~/.hanzo/auth.json.
 
     \b
@@ -1148,7 +1158,7 @@ def iam_login(username: str, password: str, org: str, app: str):
     try:
         with httpx.Client(timeout=30.0) as http:
             resp = http.post(
-                f"{url}/api/login",
+                _iam_action_url("login"),
                 json={
                     "type": "token",
                     "username": username,
@@ -1236,9 +1246,9 @@ def iam_api(endpoint: str, method: str, body: str, param: tuple):
 
     \b
     Examples:
-      hanzo iam api /api/get-users --param owner=hanzo
-      hanzo iam api /api/get-application --param id=hanzo/hanzo-app
-      hanzo iam api /api/get-providers --param owner=admin
+      hanzo iam api get-users --param owner=hanzo
+      hanzo iam api get-application --param id=hanzo/hanzo-app
+      hanzo iam api get-providers --param owner=admin
     """
     extra_params = {}
     for p in param:
@@ -1254,10 +1264,8 @@ def iam_api(endpoint: str, method: str, body: str, param: tuple):
             console.print("[red]Error:[/red] Invalid JSON body")
             return
 
-    if not endpoint.startswith("/"):
-        endpoint = "/" + endpoint
-
-    data = _iam_request(method, endpoint, params=extra_params, json_body=json_body)
+    # `endpoint` is a bare action; tolerate a leading slash typed out of habit.
+    data = _iam_request(method, endpoint.lstrip("/"), params=extra_params, json_body=json_body)
 
     # Pretty print the response
     console.print_json(json.dumps(data, indent=2, default=str))

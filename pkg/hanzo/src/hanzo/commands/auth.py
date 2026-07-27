@@ -315,7 +315,7 @@ def _login_device_code(auth_mgr: AuthManager, headless: bool):
     ).encode()
 
     req = urllib.request.Request(  # noqa: S310
-        f"{iam_url}/api/device/code",
+        f"{iam_url}/v1/iam/device/code",
         data=device_req_data,
         headers={"Content-Type": "application/json"},
         method="POST",
