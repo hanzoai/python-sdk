@@ -15,7 +15,15 @@
 """  # noqa: E501
 
 
-__version__ = "1.0.0"
+from importlib.metadata import PackageNotFoundError, version as _version
+
+try:
+    # Single-sourced from the installed distribution, never a literal. This said
+    # "1.0.0" — the openapi-generator default — while pyproject said 3.1.x, so
+    # `hanzoai.__version__` reported a release that never existed.
+    __version__ = _version("hanzoai")
+except PackageNotFoundError:  # source tree, not installed
+    __version__ = "0.0.0+dev"
 
 
 # Optional ZAP-native transport (opt-in via the `zap` extra). The transport is an
