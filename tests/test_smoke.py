@@ -34,3 +34,41 @@ def test_full_surface_breadth():
     # The full unified surface is hundreds of API groups, not the ~40 of the
     # legacy LLM-gateway-only client.
     assert len(modules) > 300, f"only {len(modules)} api modules — surface too small"
+
+
+def test_version_is_single_sourced():
+    """`hanzoai.__version__` must be the installed distribution, never a literal.
+
+    The generator writes `__version__ = "1.0.0"` (its default) into the package
+    __init__; that literal disagreed with pyproject for every release.
+    """
+    from importlib.metadata import version
+
+    assert hanzoai.__version__ == version("hanzoai")
+
+
+def test_cloud_package_imports():
+    """`hanzoai.cloud` is the generated client — it must import cleanly.
+
+    Guards the upstream tag-casing collision in hanzo.yaml: tags that differ only
+    by case (`AI`/`ai`, `API Keys`/`api-keys`, `MCP`/`mcp`) make openapi-generator
+    emit imports for classes it never wrote, so `import hanzoai.cloud` raised
+    ImportError. Regenerating over an unfixed spec brings it straight back.
+    """
+    import hanzoai.cloud
+
+    for name in ("AIApi", "APIKeysApi", "MCPApi", "AdminApi"):
+        assert hasattr(hanzoai.cloud, name), f"hanzoai.cloud.{name} missing"
+
+
+def test_admin_plugin_operator_surface():
+    """The /v1/admin/plugins operator surface must be reachable from the SDK."""
+    from hanzoai.cloud.api.admin_api import AdminApi
+
+    for op in (
+        "plugin_admin_plugins",
+        "plugin_admin_enable_plugin",
+        "plugin_admin_disable_plugin",
+        "plugin_admin_reload_plugin",
+    ):
+        assert callable(getattr(AdminApi, op, None)), f"AdminApi.{op} missing"
