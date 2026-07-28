@@ -116,6 +116,12 @@ ESSENTIAL_TOOLS = [
     "critic",
     # Agent spawning
     "agent",
+    # Hanzo cloud — one tool projecting every service from the OpenAPI registry.
+    # It is an axis like the rest: the single seam to the platform, and the tool
+    # the per-service cloud tools are retired in favour of. A mode omitting it
+    # does not merely lose `hanzo`, it un-retires those ten legacy tools, because
+    # register_all_tools() only hides them once `hanzo` is enabled.
+    "hanzo",
     # System / configuration
     "config",
     "mode",
