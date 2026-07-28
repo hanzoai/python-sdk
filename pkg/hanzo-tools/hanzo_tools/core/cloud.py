@@ -5,23 +5,61 @@ search, web search, vision — talks to it through this single seam. There is
 exactly one place that knows the base URL, the auth header, and how to turn a
 non-2xx into a typed error; tools compose it, never re-implement it.
 
-Auth resolves in order: ``HANZO_API_KEY`` env, then the ``apiKey`` (hk- key) in
-``~/.hanzo/config.json``. Base URL is ``https://api.hanzo.ai``, overridable via
-``HANZO_API_BASE``.
+Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` (hk- key) in
+``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session. Base URL is
+``https://api.hanzo.ai``, overridable via ``HANZO_API_BASE``.
 
 Reference: HIP-0300 unified tools; api.hanzo.ai /v1 surface.
 """
 
 import os
 import json
+import subprocess
 from typing import Any, ClassVar
 from pathlib import Path
 
 DEFAULT_BASE = "https://api.hanzo.ai"
 
 
+# Memo for cli_session_token: shelling out costs ~100ms and the token is stable
+# for the session, so resolve it at most once per process. `False` means "asked
+# and there was none", which is distinct from "not asked yet" (None).
+_cli_token: str | None | bool = None
+
+
+def cli_session_token() -> str | None:
+    """The bearer token held by the ``hanzo`` CLI's IAM session.
+
+    The CLI already owns interactive login against hanzo.id, so asking it for a
+    token means tools never prompt, never keep a second copy of the credential,
+    and never parse a secret out of a file themselves.
+    """
+    global _cli_token
+    if _cli_token is not None:
+        return _cli_token or None
+
+    try:
+        out = subprocess.run(
+            ["hanzo", "auth", "token"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+    except (OSError, subprocess.SubprocessError):
+        _cli_token = False  # no CLI on PATH: do not retry on every call
+        return None
+
+    token = (out.stdout or "").strip()
+    _cli_token = token if out.returncode == 0 and token else False
+    return _cli_token or None
+
+
 def cloud_api_key() -> str | None:
-    """Resolve the hk- API key: env first, then ~/.hanzo/config.json."""
+    """Resolve the bearer credential.
+
+    Order: ``HANZO_API_KEY`` env, then the hk- key in ~/.hanzo/config.json,
+    then the CLI's live IAM session.
+    """
     env = os.environ.get("HANZO_API_KEY") or os.environ.get("HANZO_KEY")
     if env and env.strip():
         return env.strip()
@@ -33,8 +71,9 @@ def cloud_api_key() -> str | None:
             if key and str(key).strip():
                 return str(key).strip()
         except (OSError, ValueError):
-            return None
-    return None
+            pass
+
+    return cli_session_token()
 
 
 def cloud_api_base() -> str:
@@ -135,6 +174,26 @@ class HanzoCloud:
     async def post(self, path: str, json_body: dict[str, Any] | None = None) -> Any:
         """POST json_body to path, returning parsed JSON. Raises on failure."""
         return await self._request("POST", path, json=json_body or {})
+
+    async def call(
+        self,
+        method: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        json_body: dict[str, Any] | None = None,
+    ) -> Any:
+        """Any-method call, for callers driving routes from the OpenAPI spec.
+
+        The spec names methods this client has no bespoke helper for (PUT,
+        PATCH, DELETE), so it needs one generic seam rather than a helper per
+        verb — the auth header and error mapping stay in this one place.
+        """
+        kw: dict[str, Any] = {}
+        if params:
+            kw["params"] = {k: v for k, v in params.items() if v is not None}
+        if json_body is not None:
+            kw["json"] = json_body
+        return await self._request(method.upper(), path, **kw)
 
     async def aclose(self) -> None:
         if self._client is not None:

@@ -8,6 +8,21 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
+# A miniature of what cloud publishes: product tags as services, paths as
+# actions, one templated path. Enough to pin the whole projection.
+SPEC_FIXTURE = {
+    "paths": {
+        "/v1/billing/plans": {"get": {"tags": ["billing"]}},
+        "/v1/billing/balance": {"get": {"tags": ["billing"]}},
+        "/v1/kb/search": {"post": {"tags": ["kb"]}},
+        "/v1/iam/{user}": {"get": {"tags": ["iam"]}},
+        "/v1/iam/keys": {
+            "get": {"tags": ["iam"]},
+            "post": {"tags": ["iam"], "requestBody": {}},
+        },
+    }
+}
+
 from hanzo_tools.api import (
     ENV_VAR_MAPPINGS,
     PROVIDER_CONFIGS,
@@ -415,34 +430,85 @@ class TestAPITool:
 
 
 class TestHanzoTool:
-    """Tests for unified HanzoTool surface."""
+    """Tests for the unified HanzoTool surface.
+
+    The surface comes from the OpenAPI registry, so these drive a stub catalog
+    rather than the network: the mapping is what is under test.
+    """
+
+    @staticmethod
+    def _tool():
+        from hanzo_tools.api import spec as openapi
+
+        tool = HanzoTool()
+        tool._catalog = openapi.Catalog(SPEC_FIXTURE)
+        tool._source = "test"
+        return tool
 
     @pytest.mark.asyncio
-    async def test_services_listing(self):
-        """Service discovery should return consolidated service list."""
-        tool = HanzoTool()
-        ctx = AsyncMock()
-        result = await tool.call(ctx, service="services")
-        payload = json.loads(result)
-        assert "services" in payload
-        assert "hanzo" not in payload["services"]  # service router, not a nested service
-        assert "commerce" in payload["services"]
-        assert "iam" in payload["services"]
+    async def test_services_listing_comes_from_spec(self):
+        tool = self._tool()
+        payload = json.loads(await tool.call(AsyncMock(), service="services"))
+        assert payload["count"] == 3
+        assert set(payload["services"]) == {"billing", "iam", "kb"}
+        assert payload["services"]["billing"]["operations"] == 2
 
     @pytest.mark.asyncio
-    async def test_invalid_args_json(self):
-        """Invalid JSON args should return structured error."""
-        tool = HanzoTool()
-        ctx = AsyncMock()
-        result = await tool.call(
-            ctx,
-            service="iam",
-            action="users",
-            args="{invalid-json",
+    async def test_empty_action_lists_service_actions(self):
+        tool = self._tool()
+        payload = json.loads(await tool.call(AsyncMock(), service="billing"))
+        assert sorted(payload["actions"]) == ["balance", "plans"]
+
+    @pytest.mark.asyncio
+    async def test_invalid_params_json(self):
+        tool = self._tool()
+        payload = json.loads(
+            await tool.call(AsyncMock(), service="kb", action="search", params="{bad")
         )
-        payload = json.loads(result)
+        assert "error" in payload and payload["service"] == "kb"
+
+    @pytest.mark.asyncio
+    async def test_unknown_service_hints_at_listing(self):
+        tool = self._tool()
+        payload = json.loads(await tool.call(AsyncMock(), service="nope", action="x"))
         assert "error" in payload
-        assert payload["service"] == "iam"
+        assert payload["hint"] == 'call hanzo(service="services") to list services'
+
+    @pytest.mark.asyncio
+    async def test_call_dispatches_to_resolved_route(self):
+        """A named action must reach exactly the route the spec declares."""
+        tool = self._tool()
+        seen = {}
+
+        class FakeCloud:
+            async def call(self, method, path, params=None, json_body=None):
+                seen.update(method=method, path=path, params=params, body=json_body)
+                return {"ok": True}
+
+        tool._cloud = FakeCloud()
+        payload = json.loads(
+            await tool.call(
+                AsyncMock(), service="kb", action="search", params='{"query":"oauth"}'
+            )
+        )
+        assert seen["method"] == "POST" and seen["path"] == "/v1/kb/search"
+        assert seen["body"] == {"query": "oauth"}  # POST carries params as a body
+        assert payload["data"] == {"ok": True}
+
+    @pytest.mark.asyncio
+    async def test_path_template_is_filled_from_the_action(self):
+        tool = self._tool()
+        seen = {}
+
+        class FakeCloud:
+            async def call(self, method, path, params=None, json_body=None):
+                seen.update(path=path, params=params)
+                return {}
+
+        tool._cloud = FakeCloud()
+        await tool.call(AsyncMock(), service="iam", action="alice")
+        assert seen["path"] == "/v1/iam/alice"
+        assert not seen["params"]  # the bound param is not resent as a query
 
 
 class TestIntegration:

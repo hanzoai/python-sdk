@@ -1,14 +1,16 @@
-"""Unified Hanzo platform tool.
+"""Unified Hanzo platform tool, projected from cloud's OpenAPI registry.
 
-Provides a compact `hanzo` surface that routes to Hanzo service tools
-(`auth`, `billing`, `commerce`, `iam`, `ingress`, `kms`, `mpc`, `paas`,
-`team`, and generic `api`).
+One MCP tool reaches every service cloud serves. The service/action surface is
+derived from ``/v1/openapi.json`` at runtime rather than hand-listed here, so a
+newly mounted app is callable the moment cloud serves it — no Python release,
+and no list that silently drifts behind the platform.
+
+One tool, not one per service: agents degrade badly with hundreds of tools, and
+the spec already carries the routing information a dispatcher needs.
 """
 
 from __future__ import annotations
 
-import importlib
-import inspect
 import json
 from typing import Annotated, Any, final, override
 
@@ -16,168 +18,154 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 from pydantic import Field
 
-from hanzo_tools.core import BaseTool, auto_timeout, create_tool_context
+from hanzo_tools.core import BaseTool, HanzoCloud, auto_timeout, create_tool_context
 
-SERVICE_TOOL_PATHS: dict[str, str] = {
-    "api": "hanzo_tools.api.api_tool:APITool",
-    "auth": "hanzo_tools.auth.login_tool:LoginTool",
-    "billing": "hanzo_tools.billing.billing_tool:BillingTool",
-    "commerce": "hanzo_tools.commerce.commerce_tool:CommerceTool",
-    "iam": "hanzo_tools.iam.iam_tool:IAMTool",
-    "ingress": "hanzo_tools.ingress.ingress_tool:IngressTool",
-    "kms": "hanzo_tools.kms.kms_tool:KMSTool",
-    "mpc": "hanzo_tools.mpc.mpc_tool:MPCTool",
-    "paas": "hanzo_tools.paas.paas_tool:PaaSTool",
-    "team": "hanzo_tools.team.team_tool:TeamTool",
-}
+from . import spec as openapi
 
+# Names that address the catalog itself rather than a cloud service.
+CATALOG_SERVICES = frozenset({"services", "list"})
+REFRESH_SERVICES = frozenset({"refresh", "reload"})
+
+# Convenience synonyms for services whose product tag is not the obvious word.
 SERVICE_ALIASES: dict[str, str] = {
-    "platform": "paas",
     "identity": "iam",
     "payments": "billing",
-    "store": "commerce",
+    "knowledge": "kb",
+    "platform": "paas",
+    "rag": "kb",
 }
 
 
 @final
 class HanzoTool(BaseTool):
-    """Unified tool for Hanzo platform services."""
+    """Unified tool for every Hanzo cloud service."""
 
     name = "hanzo"
 
     def __init__(self) -> None:
-        self._delegates: dict[str, BaseTool] = {}
+        self._catalog: openapi.Catalog | None = None
+        self._source: str = ""
+        self._cloud: HanzoCloud | None = None
 
     @property
     @override
     def description(self) -> str:
-        return """Unified Hanzo platform tool.
+        return """Unified Hanzo platform tool — every service cloud serves.
 
-Use one `hanzo` tool surface for service operations across:
-- auth
-- billing
-- commerce
-- iam
-- ingress
-- kms
-- mpc
-- paas
-- team
-- api (generic OpenAPI bridge)
+The service/action surface is generated from cloud's live OpenAPI registry, so
+it always matches what the platform actually serves.
 
 Parameters:
-- service: Target Hanzo service
-- action: Service-specific action
-- args: JSON object string for service-specific parameters
+- service: Product tag (the first path segment after /v1/). "services" lists them.
+- action: Path within the service ("plans" -> /v1/billing/plans). Omit to list
+  a service's actions.
+- params: JSON object string; sent as the body for POST/PUT/PATCH, else as the
+  query string. Values also fill {templated} path segments.
+- method: Override the HTTP method when an action serves several.
 
 Examples:
-  hanzo(service="auth", action="status")
-  hanzo(service="commerce", action="orders")
-  hanzo(service="iam", action="users", args='{"owner":"hanzo"}')
-  hanzo(service="api", action="list")
+  hanzo(service="services")
+  hanzo(service="billing")
+  hanzo(service="billing", action="plans")
+  hanzo(service="kb", action="search", params='{"query":"authentication oauth jwt"}')
+  hanzo(service="refresh")
 """
 
-    def _normalize_service(self, service: str) -> str:
-        key = (service or "").strip().lower().replace("-", "_")
-        key = SERVICE_ALIASES.get(key, key)
-        return key
+    def _get_catalog(self, refresh: bool = False) -> openapi.Catalog:
+        if self._catalog is None or refresh:
+            document, source = openapi.load(refresh=refresh)
+            self._catalog = openapi.Catalog(document)
+            self._source = source
+        return self._catalog
 
-    def _load_delegate(self, service: str) -> BaseTool:
-        if service in self._delegates:
-            return self._delegates[service]
+    def _get_cloud(self) -> HanzoCloud:
+        if self._cloud is None:
+            self._cloud = HanzoCloud()
+        return self._cloud
 
-        path = SERVICE_TOOL_PATHS.get(service)
-        if not path:
-            available = ", ".join(sorted(SERVICE_TOOL_PATHS.keys()))
-            raise ValueError(
-                f"Unknown service '{service}'. Available services: {available}"
-            )
+    @staticmethod
+    def _normalize(service: str) -> str:
+        key = (service or "").strip().lower()
+        return SERVICE_ALIASES.get(key, key)
 
-        module_name, class_name = path.split(":")
-        module = importlib.import_module(module_name)
-        cls = getattr(module, class_name)
-        tool = cls()
-        self._delegates[service] = tool
-        return tool
-
-    def _parse_args(self, args: str | None) -> dict[str, Any]:
-        if not args:
+    @staticmethod
+    def _parse_params(params: str | None) -> dict[str, Any]:
+        if not params:
             return {}
         try:
-            parsed = json.loads(args)
+            parsed = json.loads(params)
         except json.JSONDecodeError as exc:
-            raise ValueError(f"args must be valid JSON object string: {exc}") from exc
-
+            raise ValueError(f"params must be a JSON object string: {exc}") from exc
         if not isinstance(parsed, dict):
-            raise ValueError("args must decode to a JSON object")
+            raise ValueError("params must decode to a JSON object")
         return parsed
-
-    async def _delegate_call(
-        self,
-        tool: BaseTool,
-        ctx: MCPContext,
-        payload: dict[str, Any],
-    ) -> str:
-        sig = inspect.signature(tool.call)
-        params = sig.parameters
-        accepts_kwargs = any(
-            p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values()
-        )
-
-        if accepts_kwargs:
-            return await tool.call(ctx, **payload)
-
-        allowed = {
-            name
-            for name, param in params.items()
-            if name not in {"self", "ctx"}
-            and param.kind in (inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.KEYWORD_ONLY)
-        }
-        filtered = {k: v for k, v in payload.items() if k in allowed}
-        return await tool.call(ctx, **filtered)
 
     @override
     @auto_timeout("hanzo")
     async def call(
         self,
         ctx: MCPContext,
-        service: str = "api",
-        action: str = "list",
-        args: str | None = None,
+        service: str = "services",
+        action: str = "",
+        params: str | dict[str, Any] | None = None,
+        method: str | None = None,
         **kwargs: Any,
     ) -> str:
         tool_ctx = create_tool_context(ctx)
         await tool_ctx.set_tool_info(self.name)
 
-        service_key = self._normalize_service(service)
-        if service_key in {"services", "list"}:
-            return json.dumps(
-                {
-                    "services": sorted(SERVICE_TOOL_PATHS.keys()),
-                    "aliases": SERVICE_ALIASES,
-                    "usage": 'hanzo(service="commerce", action="orders", args="{\\"query\\":\\"...\\\"}")',
-                },
-                indent=2,
-            )
-
+        key = self._normalize(service)
         try:
-            delegate = self._load_delegate(service_key)
-            payload = {"action": action}
-            payload.update(self._parse_args(args))
-            payload.update({k: v for k, v in kwargs.items() if v is not None})
-            return await self._delegate_call(delegate, ctx, payload)
-        except Exception as exc:
-            return json.dumps(
-                {
-                    "error": str(exc),
-                    "service": service_key,
-                    "available_services": sorted(SERVICE_TOOL_PATHS.keys()),
-                },
-                indent=2,
+            if key in REFRESH_SERVICES:
+                catalog = self._get_catalog(refresh=True)
+                return self._dump(
+                    {
+                        "refreshed": True,
+                        "source": self._source,
+                        "services": len(catalog.services),
+                    }
+                )
+
+            catalog = self._get_catalog()
+
+            if key in CATALOG_SERVICES:
+                summary = catalog.summary()
+                return self._dump(
+                    {
+                        "source": self._source,
+                        "count": len(summary),
+                        "services": summary,
+                        "usage": 'hanzo(service="billing", action="plans")',
+                    }
+                )
+
+            supplied = params if isinstance(params, dict) else self._parse_params(params)
+            supplied = {**supplied, **{k: v for k, v in kwargs.items() if v is not None}}
+
+            if not action:
+                return self._dump(catalog.describe(key))
+
+            route = catalog.resolve(key, action, method, has_params=bool(supplied))
+            query, body = openapi.split_params(route, supplied)
+            data = await self._get_cloud().call(route.method, route.path, query, body)
+            return self._dump(
+                {"service": key, "request": f"{route.method} {route.path}", "data": data}
             )
+        except Exception as exc:
+            return self._dump(self._error(key, exc))
+
+    def _error(self, service: str, exc: Exception) -> dict[str, Any]:
+        out: dict[str, Any] = {"error": str(exc), "service": service}
+        if self._catalog is not None and service not in self._catalog.services:
+            out["hint"] = 'call hanzo(service="services") to list services'
+        return out
+
+    @staticmethod
+    def _dump(payload: dict[str, Any]) -> str:
+        return json.dumps(payload, indent=2, default=str)
 
     def register(self, mcp_server: FastMCP) -> None:
-        """Register unified hanzo tool with explicit compact params."""
+        """Register the single unified hanzo tool."""
         tool_instance = self
 
         @mcp_server.tool(name=self.name, description=self.description)
@@ -186,24 +174,35 @@ Examples:
                 str,
                 Field(
                     description=(
-                        "Target service: api, auth, billing, commerce, iam, ingress, "
-                        "kms, mpc, paas, team. Use 'services' to list."
+                        "Product tag, e.g. billing, iam, kb, paas, git. "
+                        'Use "services" to list them, "refresh" to refetch the spec.'
                     )
                 ),
-            ] = "api",
+            ] = "services",
             action: Annotated[
                 str,
-                Field(description="Service action to execute (service-specific)."),
-            ] = "list",
-            args: Annotated[
+                Field(
+                    description=(
+                        "Path within the service, e.g. 'plans' for "
+                        "/v1/billing/plans. Omit to list the service's actions."
+                    )
+                ),
+            ] = "",
+            params: Annotated[
                 str | None,
                 Field(
                     description=(
-                        "JSON object string with service-specific parameters. "
-                        'Example: "{\\"query\\":\\"foo\\",\\"owner\\":\\"hanzo\\"}"'
+                        "JSON object string. Body for POST/PUT/PATCH, else query "
+                        'string. Example: "{\\"query\\":\\"oauth jwt\\"}"'
                     )
                 ),
             ] = None,
+            method: Annotated[
+                str | None,
+                Field(description="Override HTTP method (GET/POST/PUT/PATCH/DELETE)."),
+            ] = None,
             ctx: MCPContext = None,  # type: ignore[assignment]
         ) -> str:
-            return await tool_instance.call(ctx, service=service, action=action, args=args)
+            return await tool_instance.call(
+                ctx, service=service, action=action, params=params, method=method
+            )

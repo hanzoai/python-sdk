@@ -9,9 +9,9 @@ Backend map (all verified on api.hanzo.ai /v1):
 - index  → POST /v1/code/index     ({repo, files:[{path,content}]})
 - embed  → POST /v1/embeddings     ({model, input} → 1024-dim vectors)
 
-A `collection` names the index namespace (the backend's `repo`). The local
-Infinity store remains available behind an explicit opt-in (see infinity_store);
-this tool never falls back to a mock silently.
+A `collection` names the index namespace (the backend's `repo`). There is no
+local store and no fallback: if the service is unreachable this fails loudly
+rather than returning vectors it made up.
 """
 
 import os
@@ -66,7 +66,7 @@ class VectorTool(BaseTool):
     """Unified cloud vector tool: semantic search, index, embed (HIP-0300)."""
 
     name: ClassVar[str] = "vector"
-    VERSION: ClassVar[str] = "0.2.0"
+    VERSION: ClassVar[str] = "0.2.2"
 
     def __init__(self, cwd: str | None = None):
         super().__init__()
