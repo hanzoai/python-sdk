@@ -253,8 +253,16 @@ class IAMTool(BaseTool):
 
     async def _users(self, owner: str | None) -> str:
         owner = owner or "hanzo"
-        data = await _iam_get("get-users", params={"owner": owner})
-        users = data if isinstance(data, list) else []
+        # Native noun route, not the legacy get-users verb — the server is
+        # removing those. It answers {"users": [...]}, where the verb answered a
+        # bare list, so BOTH halves change together: swapping only the path would
+        # leave isinstance(data, list) False and report zero users for a healthy
+        # org, which reads as "no users" rather than as an error.
+        data = await _iam_get("users", params={"owner": owner})
+        if isinstance(data, dict):
+            users = data.get("users") or data.get("data") or []
+        else:
+            users = data if isinstance(data, list) else []
         result = []
         for u in users:
             result.append({
