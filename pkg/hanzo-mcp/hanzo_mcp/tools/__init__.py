@@ -21,6 +21,21 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+# Hanzo cloud services the unified `hanzo` tool dispatches to. Kept here because
+# this is the only place that decides whether they are exposed individually.
+HANZO_SERVICE_TOOLS = (
+    "api",
+    "auth",
+    "billing",
+    "commerce",
+    "iam",
+    "ingress",
+    "kms",
+    "mpc",
+    "paas",
+    "team",
+)
+
 
 def register_all_tools(
     mcp_server: "FastMCP",
@@ -164,22 +179,35 @@ def register_all_tools(
     # MCP tools
     resolved_enabled_tools["mcp"] = is_tool_enabled("mcp", True)
 
-    # Unified Hanzo platform surface.
-    # No backwards compatibility: expose only `hanzo` and hide legacy per-service tools.
-    resolved_enabled_tools["hanzo"] = is_tool_enabled("hanzo", True)
-    for legacy_tool in [
-        "api",
-        "auth",
-        "billing",
-        "commerce",
-        "iam",
-        "ingress",
-        "kms",
-        "mpc",
-        "paas",
-        "team",
-    ]:
-        resolved_enabled_tools[legacy_tool] = False
+    # Discover before gating: whether the unified surface exists is a fact about
+    # what is installed, not an assumption the gate is allowed to make.
+    loader = EntryPointToolLoader(permission_manager=permission_manager)
+    discovered = loader.discover_packages()
+
+    # Unified Hanzo platform surface: one `hanzo` tool supersedes the per-service
+    # tools it dispatches to. Only hide them once the replacement is really
+    # registered -- switching off the old way before the new way exists takes
+    # cloud control offline with no signal, which is exactly what happened.
+    hanzo_installed = any("hanzo" in names for names in discovered.values())
+    hanzo_enabled = is_tool_enabled("hanzo", True)
+    resolved_enabled_tools["hanzo"] = hanzo_enabled
+
+    # Both must hold: a mode that drops `hanzo` from its allowlist is just as
+    # capable of taking cloud control offline as a missing package.
+    unified_surface = hanzo_installed and hanzo_enabled
+    for service_tool in HANZO_SERVICE_TOOLS:
+        resolved_enabled_tools[service_tool] = is_tool_enabled(
+            service_tool, not unified_surface
+        )
+    if not unified_surface:
+        logger.warning(
+            "Unified `hanzo` tool unavailable (installed=%s, enabled=%s; needs "
+            "hanzo-tools-api>=0.3.2 and `hanzo` in the active mode). Keeping "
+            "per-service tools enabled: %s",
+            hanzo_installed,
+            hanzo_enabled,
+            ", ".join(HANZO_SERVICE_TOOLS),
+        )
 
     # Jupyter tools
     for tool in PACKAGE_TOOL_PREFIXES.get("jupyter", []):
@@ -191,10 +219,6 @@ def register_all_tools(
 
     # UI component registry tool
     resolved_enabled_tools["ui"] = is_tool_enabled("ui", True)
-
-    # Create loader and discover packages
-    loader = EntryPointToolLoader(permission_manager=permission_manager)
-    discovered = loader.discover_packages()
 
     if discovered:
         logger.info(

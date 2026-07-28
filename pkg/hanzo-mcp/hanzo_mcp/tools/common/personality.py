@@ -138,6 +138,8 @@ AI_TOOLS = ["agent", "consensus", "critic", "think", "llm"]
 SEARCH_TOOLS = ["code", "fs"]
 DATABASE_TOOLS = ["sql_query", "sql_search", "graph_add", "graph_query"]
 VECTOR_TOOLS = ["vector_index", "vector_search"]
+# Hanzo cloud control, reached through the one unified `hanzo` tool.
+PLATFORM_TOOLS = ["hanzo"]
 
 
 def register_default_personalities() -> None:
@@ -196,6 +198,7 @@ def _register_builtin_personalities() -> None:
                         "review",  # Agent sub-tools
                     ]
                     + BUILD_TOOLS
+                    + PLATFORM_TOOLS
                 )
             ),
             environment={"HANZO_MODE": "zen"},
@@ -222,6 +225,7 @@ def _register_builtin_personalities() -> None:
                     + BUILD_TOOLS
                     + UNIX_TOOLS
                     + VECTOR_TOOLS
+                    + PLATFORM_TOOLS
                     + [
                         "tasks",
                         "rules",
@@ -242,7 +246,13 @@ def _register_builtin_personalities() -> None:
             description="Automate everything",
             philosophy="You build it, you run it.",
             tools=list(
-                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["tasks", "browser"])
+                set(
+                    ESSENTIAL_TOOLS
+                    + BUILD_TOOLS
+                    + UNIX_TOOLS
+                    + PLATFORM_TOOLS
+                    + ["tasks", "browser"]
+                )
             ),
             environment={"CI_CD": "enabled"},
             cli_tools=[

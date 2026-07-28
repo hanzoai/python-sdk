@@ -207,3 +207,8 @@ Examples:
             ctx: MCPContext = None,  # type: ignore[assignment]
         ) -> str:
             return await tool_instance.call(ctx, service=service, action=action, args=args)
+
+
+# Own entry point, separate from `api`: the unified surface is not one of the
+# services it dispatches to, and the loader's gate keys on this being present.
+TOOLS = [HanzoTool]

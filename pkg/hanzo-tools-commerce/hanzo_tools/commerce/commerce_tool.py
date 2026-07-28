@@ -1,6 +1,6 @@
 """MCP tool for Hanzo Commerce -- orders, products, collections, stores.
 
-Wraps the Hanzo Commerce API at api.hanzo.ai/api/v1/.
+Wraps the Hanzo Commerce API at api.hanzo.ai/v1/commerce/.
 Auth: Uses HanzoSession from hanzo-tools-auth for bearer tokens.
 """
 
@@ -36,7 +36,7 @@ Actions:
 - webhooks: List configured webhooks
 """
 
-API_BASE = "https://api.hanzo.ai/api/v1"
+API_BASE = "https://api.hanzo.ai/v1/commerce"
 
 
 def _get_session():
