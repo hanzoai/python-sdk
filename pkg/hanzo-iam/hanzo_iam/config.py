@@ -9,6 +9,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from hanzo_iam.models import (
     OIDC_AUTHORIZE_PATH,
+    OIDC_DEVICE_PATH,
+    OIDC_JWKS_PATH,
     OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
 )
@@ -80,21 +82,31 @@ class IAMConfig(BaseModel):
         )
 
     @property
+    def base_url(self) -> str:
+        """Server URL with any trailing slash removed."""
+        return self.server_url.rstrip("/")
+
+    @property
     def token_endpoint(self) -> str:
-        """OAuth2 token endpoint URL (HIP-0111 canonical path)."""
-        return f"{self.server_url}{OIDC_TOKEN_PATH}"
+        """OAuth2 token endpoint URL."""
+        return f"{self.base_url}{OIDC_TOKEN_PATH}"
 
     @property
     def authorize_endpoint(self) -> str:
-        """OAuth2 authorization endpoint URL (HIP-0111 canonical path)."""
-        return f"{self.server_url}{OIDC_AUTHORIZE_PATH}"
+        """OAuth2 authorization endpoint URL."""
+        return f"{self.base_url}{OIDC_AUTHORIZE_PATH}"
+
+    @property
+    def device_endpoint(self) -> str:
+        """RFC 8628 device authorization endpoint URL."""
+        return f"{self.base_url}{OIDC_DEVICE_PATH}"
+
+    @property
+    def jwks_uri(self) -> str:
+        """JWKS URL used to verify tokens this issuer signed."""
+        return f"{self.base_url}{OIDC_JWKS_PATH}"
 
     @property
     def userinfo_endpoint(self) -> str:
         """OIDC UserInfo endpoint URL (HIP-0111 canonical path)."""
-        return f"{self.server_url}{OIDC_USERINFO_PATH}"
-
-    @property
-    def api_base(self) -> str:
-        """Base URL for API calls."""
-        return f"{self.server_url}/api"
+        return f"{self.base_url}{OIDC_USERINFO_PATH}"

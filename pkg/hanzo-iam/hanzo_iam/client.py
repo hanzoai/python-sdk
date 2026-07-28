@@ -14,14 +14,16 @@ from urllib.parse import urlencode
 import httpx
 import jwt
 
+from .config import IAMConfig
 from .models import (
+    IAM_ROUTE_PREFIX,
+    OIDC_AUTHORIZE_PATH,
     OIDC_DISCOVERY_PATH,
     OIDC_INTROSPECT_PATH,
     OIDC_JWKS_PATH,
     OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
     Application,
-    IAMConfig,
     JWTClaims,
     Organization,
     TokenResponse,
@@ -218,7 +220,7 @@ class IAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/v1/iam/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}{OIDC_AUTHORIZE_PATH}?{urlencode(params)}"
 
     def exchange_code(
         self,
@@ -332,7 +334,7 @@ class IAMClient:
         """
         # Initialize JWKS client if needed
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/v1/iam/.well-known/jwks"
+            jwks_url = self._config.jwks_uri
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         # Get signing key from JWKS
@@ -472,7 +474,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-user",
+            f"{IAM_ROUTE_PREFIX}/get-user",
             params=params,
             headers=self._admin_headers(),
         )
@@ -496,7 +498,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-users",
+            f"{IAM_ROUTE_PREFIX}/get-users",
             params=params,
             headers=self._admin_headers(),
         )
@@ -521,7 +523,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-application",
+            f"{IAM_ROUTE_PREFIX}/get-application",
             params=params,
             headers=self._admin_headers(),
         )
@@ -573,7 +575,7 @@ class IAMClient:
     def _modify_user(self, action: str, user: User) -> dict:
         """Modify user via IAM admin API."""
         response = self.http.post(
-            f"/api/{action}",
+            f"{IAM_ROUTE_PREFIX}/{action}",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
@@ -602,7 +604,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-organizations",
+            f"{IAM_ROUTE_PREFIX}/get-organizations",
             params=params,
             headers=self._admin_headers(),
         )
@@ -629,7 +631,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-organization",
+            f"{IAM_ROUTE_PREFIX}/get-organization",
             params=params,
             headers=self._admin_headers(),
         )
@@ -660,7 +662,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-providers",
+            f"{IAM_ROUTE_PREFIX}/get-providers",
             params=params,
             headers=self._admin_headers(),
         )
@@ -691,7 +693,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-roles",
+            f"{IAM_ROUTE_PREFIX}/get-roles",
             params=params,
             headers=self._admin_headers(),
         )
@@ -733,7 +735,7 @@ class IAMClient:
         }
 
         response = self.http.post(
-            "/v1/iam/set-password",
+            f"{IAM_ROUTE_PREFIX}/set-password",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
@@ -765,7 +767,7 @@ class IAMClient:
         }
 
         response = self.http.get(
-            "/v1/iam/get-applications",
+            f"{IAM_ROUTE_PREFIX}/get-applications",
             params=params,
             headers=self._admin_headers(),
         )
@@ -788,7 +790,7 @@ class IAMClient:
             API response data.
         """
         response = self.http.post(
-            "/v1/iam/update-application",
+            f"{IAM_ROUTE_PREFIX}/update-application",
             params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
@@ -823,7 +825,7 @@ class IAMClient:
             "application": self._config.application,
         }
 
-        response = self.http.post("/v1/iam/login", json=payload)
+        response = self.http.post(f"{IAM_ROUTE_PREFIX}/login", json=payload)
         response.raise_for_status()
         data = response.json()
 
@@ -945,7 +947,7 @@ class AsyncIAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/v1/iam/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}{OIDC_AUTHORIZE_PATH}?{urlencode(params)}"
 
     async def exchange_code(
         self,
@@ -1018,7 +1020,7 @@ class AsyncIAMClient:
     ) -> JWTClaims:
         """Validate JWT token using JWKS (sync operation)."""
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/v1/iam/.well-known/jwks"
+            jwks_url = self._config.jwks_uri
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         signing_key = self._jwks_client.get_signing_key_from_jwt(token)
@@ -1076,7 +1078,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/v1/iam/get-user", params=params)
+        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-user", params=params)
         response.raise_for_status()
         data = response.json()
 
@@ -1094,7 +1096,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/v1/iam/get-users", params=params)
+        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-users", params=params)
         response.raise_for_status()
         data = response.json()
 
@@ -1113,7 +1115,7 @@ class AsyncIAMClient:
         }
 
         http = await self._get_http()
-        response = await http.get("/v1/iam/get-application", params=params)
+        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-application", params=params)
         response.raise_for_status()
         data = response.json()
 
