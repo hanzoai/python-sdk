@@ -23,7 +23,22 @@ from hanzo_tools.core.base import BaseTool
 
 logger = logging.getLogger(__name__)
 
-TEAM_BASE_URL = os.getenv("HANZO_TEAM_URL", "https://api.hanzo.ai/team")
+# There is no Hanzo Team API. MEASURED against the live edge:
+#   GET https://api.hanzo.ai/team/...      -> 200 text/html  (the marketing SPA)
+#   GET https://api.hanzo.ai/v1/team/...   -> 404
+#   GET https://api.hanzo.ai/v1/workspaces -> 404
+#   GET https://team.hanzo.ai/...          -> 200 text/html  (a different SPA)
+# The old default pointed at the first of those, so every call here sailed
+# through raise_for_status() on a 200 and then died inside .json() — a missing
+# service reported as a parse error.
+#
+# What DOES exist and is auth-gated is IAM's tenancy surface:
+# /v1/iam/get-organizations and /v1/iam/get-groups. Mapping "workspace" onto
+# org-or-group is a product decision, not something to guess at here.
+#
+# HANZO_TEAM_URL stays as the seam: set it and this tool works the day the
+# service ships. Unset, it refuses rather than inventing an answer.
+TEAM_BASE_URL = os.getenv("HANZO_TEAM_URL", "")
 
 DESCRIPTION = """Hanzo Team — workspace and member management.
 
@@ -47,8 +62,16 @@ def _get_session():
 
 
 def _team_url(path: str) -> str:
-    """Build full Team API URL."""
-    return f"{TEAM_BASE_URL}/{path.lstrip('/')}"
+    """Build the full Team API URL, or refuse because there is no Team API."""
+    if not TEAM_BASE_URL:
+        raise RuntimeError(
+            "No Hanzo Team API exists. api.hanzo.ai/team serves the marketing"
+            " site (200 text/html) and /v1/team 404s. For org and group"
+            " membership use the `iam` tool (/v1/iam/get-organizations,"
+            " /v1/iam/get-groups). Set HANZO_TEAM_URL to point this tool at a"
+            " real Team service once one is deployed."
+        )
+    return f"{TEAM_BASE_URL.rstrip('/')}/{path.lstrip('/')}"
 
 
 def _auth_headers(token: str) -> dict[str, str]:

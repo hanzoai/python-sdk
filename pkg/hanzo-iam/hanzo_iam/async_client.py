@@ -9,8 +9,14 @@ from urllib.parse import urlencode
 import httpx
 import jwt
 
+from hanzo_iam.config import IAMConfig
 from hanzo_iam.models import (
     IAM_ROUTE_PREFIX,
+    OIDC_AUTHORIZE_PATH,
+    OIDC_DISCOVERY_PATH,
+    OIDC_INTROSPECT_PATH,
+    OIDC_JWKS_PATH,
+    OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
     Application,
     JWTClaims,
@@ -23,7 +29,6 @@ from hanzo_iam.models import (
 if TYPE_CHECKING:
     from jwt import PyJWKClient
 
-    from hanzo_iam.config import IAMConfig
 
 
 class AsyncIAMClient:
@@ -70,13 +75,12 @@ class AsyncIAMClient:
         """
         # Avoid circular import
         from hanzo_iam.client import IAMClient
-        from hanzo_iam.models import IAMConfig as ModelConfig
 
         if config:
             self._config = config
         else:
             env_config = IAMClient._config_from_env(org)
-            self._config = ModelConfig(
+            self._config = IAMConfig(
                 server_url=env_config.server_url,
                 client_id=client_id or env_config.client_id,
                 client_secret=client_secret or env_config.client_secret,
@@ -93,7 +97,7 @@ class AsyncIAMClient:
     @property
     def config(self) -> IAMConfig:
         """Get client configuration."""
-        return self._config  # type: ignore[return-value]
+        return self._config
 
     async def _get_http(self) -> httpx.AsyncClient:
         """Get or create async HTTP client."""
@@ -139,7 +143,7 @@ class AsyncIAMClient:
         """
         if self._openid_config is None:
             http = await self._get_http()
-            response = await http.get("/.well-known/openid-configuration")
+            response = await http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
             self._openid_config = response.json()
         return self._openid_config
@@ -151,7 +155,7 @@ class AsyncIAMClient:
             JWKS with public keys for JWT verification.
         """
         http = await self._get_http()
-        response = await http.get("/.well-known/jwks")
+        response = await http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
         return response.json()
 
@@ -203,7 +207,7 @@ class AsyncIAMClient:
             params["code_challenge_method"] = code_challenge_method or "S256"
 
         base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}/oauth/authorize?{urlencode(params)}"
+        return f"{base_url}{OIDC_AUTHORIZE_PATH}?{urlencode(params)}"
 
     async def exchange_code(
         self,
@@ -234,7 +238,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -259,7 +263,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -288,7 +292,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/token",
+            OIDC_TOKEN_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -322,7 +326,7 @@ class AsyncIAMClient:
             jwt.InvalidTokenError: If token is invalid or expired.
         """
         if self._jwks_client is None:
-            jwks_url = f"{self._config.server_url.rstrip('/')}/.well-known/jwks"
+            jwks_url = self._config.jwks_uri
             self._jwks_client = jwt.PyJWKClient(jwks_url)
 
         signing_key = self._jwks_client.get_signing_key_from_jwt(token)
@@ -395,7 +399,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.post(
-            "/oauth/introspect",
+            OIDC_INTROSPECT_PATH,
             data=data,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )

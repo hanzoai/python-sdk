@@ -10,6 +10,7 @@ from typing import Optional
 
 import httpx
 
+from . import routes
 from .models import (
     AuthenticationOptions,
     ClientSettings,
@@ -90,7 +91,7 @@ class AsyncKMSClient:
         # Universal Auth
         if auth.universal_auth:
             response = await self.http.post(
-                "/v1/kms/auth/login",
+                routes.AUTH_LOGIN_PATH,
                 json={
                     "clientId": auth.universal_auth.client_id,
                     "clientSecret": auth.universal_auth.client_secret,
@@ -126,6 +127,13 @@ class AsyncKMSClient:
 
         raise ValueError("No valid authentication method configured")
 
+    def _resolve_project_id(self, project_id: str) -> tuple[str, str]:
+        """Resolve org-scoped project ID: "project" or "org/project"."""
+        if "/" in project_id:
+            org, proj = project_id.split("/", 1)
+            return (org, proj)
+        return (self.settings.organization, project_id)
+
     async def _auth_headers(self) -> dict[str, str]:
         """Get authorization headers including organization context."""
         token = await self._get_access_token()
@@ -151,14 +159,10 @@ class AsyncKMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = await self.http.get(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "type": options.type,
-            },
+            routes.secret(org, options.path, options.secret_name),
+            params={"env": options.environment},
             headers=await self._auth_headers(),
         )
         response.raise_for_status()
@@ -182,16 +186,10 @@ class AsyncKMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = await self.http.get(
-            "/api/v3/secrets/raw",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "include_imports": str(options.include_imports).lower(),
-                "recursive": str(options.recursive).lower(),
-                "expandSecretReferences": str(options.expand_secret_references).lower(),
-            },
+            routes.secrets_collection(org),
+            params={"env": options.environment, "prefix": options.path.strip("/")},
             headers=await self._auth_headers(),
         )
         response.raise_for_status()
@@ -222,15 +220,14 @@ class AsyncKMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = await self.http.post(
-            f"/api/v3/secrets/raw/{options.secret_name}",
+            routes.secrets_collection(org),
             json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
-                "secretComment": options.secret_comment,
-                "type": options.type,
+                "path": options.path,
+                "name": options.secret_name,
+                "env": options.environment,
+                "value": options.secret_value,
             },
             headers=await self._auth_headers(),
         )
@@ -255,13 +252,14 @@ class AsyncKMSClient:
             **kwargs,
         )
 
-        response = await self.http.patch(
-            f"/api/v3/secrets/raw/{options.secret_name}",
+        org, _ = self._resolve_project_id(options.project_id)
+        response = await self.http.post(
+            routes.secrets_collection(org),
             json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
+                "path": options.path,
+                "name": options.secret_name,
+                "env": options.environment,
+                "value": options.secret_value,
             },
             headers=await self._auth_headers(),
         )
@@ -284,14 +282,11 @@ class AsyncKMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = await self.http.request(
             "DELETE",
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-            },
+            routes.secret(org, options.path, options.secret_name),
+            params={"env": options.environment},
             headers=await self._auth_headers(),
         )
         response.raise_for_status()

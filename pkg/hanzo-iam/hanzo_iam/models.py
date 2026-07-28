@@ -1,4 +1,10 @@
-"""Pydantic models for Hanzo IAM."""
+"""Wire-shape models and protocol constants for Hanzo IAM.
+
+Client CONFIGURATION lives in hanzo_iam.config. There used to be a second,
+near-identical IAMConfig here, and it was the one every client actually
+imported -- so the endpoint properties on the other one were dead code and
+fixing them changed nothing.
+"""
 
 from __future__ import annotations
 
@@ -8,15 +14,25 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Canonical OIDC UserInfo path (HIP-0111). One way; no legacy /api/ prefix.
-# Relative to the IAM server_url root.
-OIDC_USERINFO_PATH = "/v1/iam/oauth/userinfo"
-
-# The ONE place this package spells IAM's route prefix. Every admin action is a
-# verb-noun beneath it. The prefix this replaced is unreachable, not merely
-# non-standard: the edge refuses it on iam.hanzo.ai with 403 and the gateway
-# 404s it.
+# The ONE place this package spells IAM's route prefix. Every admin action and
+# every OIDC endpoint is composed beneath it. The prefix this replaced is
+# unreachable, not merely non-standard: the edge refuses it on iam.hanzo.ai with
+# 403 and the gateway 404s it.
 IAM_ROUTE_PREFIX = "/v1/iam"
+
+# OIDC endpoints, composed from the one prefix. These are NOT root-relative:
+# hanzo.id serves its sign-in SPA on every unmatched path, so an unprefixed
+# /oauth/token or /.well-known/jwks answers 200 text/html — a client that trusts
+# the status code then dies inside .json(). Prefixing is what makes a wrong path
+# fail like a wrong path.
+OIDC_AUTHORIZE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/authorize"
+OIDC_TOKEN_PATH = f"{IAM_ROUTE_PREFIX}/oauth/token"
+OIDC_USERINFO_PATH = f"{IAM_ROUTE_PREFIX}/oauth/userinfo"
+OIDC_INTROSPECT_PATH = f"{IAM_ROUTE_PREFIX}/oauth/introspect"
+OIDC_REVOKE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/revoke"
+OIDC_DEVICE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/device"
+OIDC_JWKS_PATH = f"{IAM_ROUTE_PREFIX}/.well-known/jwks"
+OIDC_DISCOVERY_PATH = "/.well-known/openid-configuration"
 
 
 class Organization(str, Enum):
@@ -31,21 +47,6 @@ class Organization(str, Enum):
     def iam_url(self) -> str:
         """Return the IAM URL for this organization."""
         return f"https://{self.value}.id"
-
-
-class IAMConfig(BaseModel):
-    """Configuration for Hanzo IAM client."""
-
-    model_config = ConfigDict(frozen=True)
-
-    server_url: str = Field(description="IAM server URL (e.g., https://hanzo.id)")
-    client_id: str = Field(description="OAuth2 client ID")
-    client_secret: str = Field(default="", description="OAuth2 client secret")
-    organization: str = Field(default="hanzo", description="IAM organization name")
-    application: str = Field(default="app", description="IAM application name")
-    certificate: str = Field(
-        default="", description="JWT verification certificate (PEM)"
-    )
 
 
 class TokenResponse(BaseModel):

@@ -10,6 +10,7 @@ from typing import Optional
 
 import httpx
 
+from . import routes
 from .models import (
     AuthenticationOptions,
     ClientSettings,
@@ -115,14 +116,18 @@ class KMSClient:
         return self._http_client
 
     def _user_login(self, email: str, password: str) -> str:
-        """Login with email/password via v3 non-SRP endpoint."""
-        response = self.http.post(
-            "/api/v3/auth/login",
-            json={"email": email, "password": password},
+        """Email/password login — NOT SUPPORTED by Hanzo KMS.
+
+        The endpoint this used to call is Infisical's; kms.hanzo.ai answers it
+        404. Hanzo KMS authenticates a machine with universal auth
+        (clientId/clientSecret) or a human with an IAM bearer token, and holds
+        no password of its own to check.
+        """
+        raise NotImplementedError(
+            "Hanzo KMS has no email/password login. Use universal auth"
+            " (HANZO_KMS_CLIENT_ID + HANZO_KMS_CLIENT_SECRET) or pass an IAM"
+            " bearer token."
         )
-        response.raise_for_status()
-        data = response.json()
-        return data.get("accessToken", data.get("access_token", ""))
 
     def _get_access_token(self) -> str:
         """Get valid access token, refreshing if needed."""
@@ -149,7 +154,7 @@ class KMSClient:
         # Universal Auth
         if auth.universal_auth:
             response = self.http.post(
-                "/v1/kms/auth/login",
+                routes.AUTH_LOGIN_PATH,
                 json={
                     "clientId": auth.universal_auth.client_id,
                     "clientSecret": auth.universal_auth.client_secret,
@@ -275,15 +280,10 @@ class KMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = self.http.get(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "type": options.type,
-                "include_imports": str(options.include_imports).lower(),
-            },
+            routes.secret(org, options.path, options.secret_name),
+            params={"env": options.environment},
             headers=self._auth_headers(),
         )
         response.raise_for_status()
@@ -317,16 +317,10 @@ class KMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = self.http.get(
-            "/api/v3/secrets/raw",
-            params={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "include_imports": str(options.include_imports).lower(),
-                "recursive": str(options.recursive).lower(),
-                "expandSecretReferences": str(options.expand_secret_references).lower(),
-            },
+            routes.secrets_collection(org),
+            params={"env": options.environment, "prefix": options.path.strip("/")},
             headers=self._auth_headers(),
         )
         response.raise_for_status()
@@ -368,19 +362,15 @@ class KMSClient:
             **kwargs,
         )
 
-        payload: dict = {
-            "workspaceId": options.project_id,
-            "environment": options.environment,
-            "secretPath": options.path,
-            "secretValue": options.secret_value,
-            "type": options.type,
-        }
-        if options.secret_comment is not None:
-            payload["secretComment"] = options.secret_comment
-
+        org, _ = self._resolve_project_id(options.project_id)
         response = self.http.post(
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json=payload,
+            routes.secrets_collection(org),
+            json={
+                "path": options.path,
+                "name": options.secret_name,
+                "env": options.environment,
+                "value": options.secret_value,
+            },
             headers=self._auth_headers(),
         )
         response.raise_for_status()
@@ -414,15 +404,14 @@ class KMSClient:
             **kwargs,
         )
 
-        response = self.http.patch(
-            f"/api/v3/secrets/raw/{options.secret_name}",
+        org, _ = self._resolve_project_id(options.project_id)
+        response = self.http.post(
+            routes.secrets_collection(org),
             json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "secretValue": options.secret_value,
-                "secretComment": options.secret_comment,
-                "type": options.type,
+                "path": options.path,
+                "name": options.secret_name,
+                "env": options.environment,
+                "value": options.secret_value,
             },
             headers=self._auth_headers(),
         )
@@ -454,15 +443,11 @@ class KMSClient:
             **kwargs,
         )
 
+        org, _ = self._resolve_project_id(options.project_id)
         response = self.http.request(
             "DELETE",
-            f"/api/v3/secrets/raw/{options.secret_name}",
-            json={
-                "workspaceId": options.project_id,
-                "environment": options.environment,
-                "secretPath": options.path,
-                "type": options.type,
-            },
+            routes.secret(org, options.path, options.secret_name),
+            params={"env": options.environment},
             headers=self._auth_headers(),
         )
         response.raise_for_status()
