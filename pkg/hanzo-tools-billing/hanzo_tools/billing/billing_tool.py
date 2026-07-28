@@ -1,6 +1,6 @@
 """MCP tool for Hanzo Billing -- balance, usage, plans, subscriptions, invoices.
 
-Wraps the Hanzo Commerce billing API at api.hanzo.ai/api/v1/billing/.
+Wraps the Hanzo Billing API at api.hanzo.ai/v1/billing/.
 Auth: Uses HanzoSession from hanzo-tools-auth for bearer tokens.
 """
 
@@ -39,7 +39,7 @@ Actions:
 - credit: Grant starter credit to account
 """
 
-API_BASE = "https://api.hanzo.ai/api/v1/billing"
+API_BASE = "https://api.hanzo.ai/v1/billing"
 
 
 def _get_session():

@@ -1,6 +1,6 @@
 [project]
 name = "hanzo-tools-api"
-version = "0.3.1"
+version = "0.3.2"
 description = "Generic API tool for calling any REST API via OpenAPI specs - search, explore, and dynamically use ANY API"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -32,6 +32,7 @@ dev = [
 
 [project.entry-points."hanzo.tools"]
 api = "hanzo_tools.api:TOOLS"
+hanzo = "hanzo_tools.api.hanzo_tool:TOOLS"
 
 [build-system]
 requires = ["hatchling"]

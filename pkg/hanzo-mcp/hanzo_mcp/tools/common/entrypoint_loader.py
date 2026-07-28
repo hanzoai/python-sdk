@@ -56,7 +56,8 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "vector": ["index", "vector_index", "vector_search"],
     "config": ["config", "mode", "workspace"],
     "mcp_tools": ["mcp"],
-    "api": ["api", "hanzo"],
+    "api": ["api"],
+    "hanzo": ["hanzo"],  # unified platform surface, its own entry point
     "auth": ["auth"],
     "kms": ["kms"],
     "paas": ["paas"],
@@ -68,6 +69,34 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "mpc": ["mpc"],
     "team": ["team"],
 }
+
+
+def tool_identity(tool_class: type) -> tuple[str, str]:
+    """Resolve ``(name, description)`` declared by a tool class.
+
+    BaseTool declares both as abstract @property, so most tools supply them as
+    properties while a few use plain class attributes. Read off the class a
+    property yields the descriptor object, not the string -- the value only
+    exists on an instance. Callers that skipped this got a `property` where they
+    expected `str`, which is what made `tool list` crash on ``len()``.
+    Instantiates at most once, and only when a descriptor is actually found.
+    """
+    resolved: dict[str, str] = {}
+    instance: Any = None
+    for attr in ("name", "description"):
+        value = getattr(tool_class, attr, None)
+        if not isinstance(value, str):
+            if instance is None:
+                try:
+                    instance = tool_class()
+                except Exception:
+                    # Tools needing constructor args can't be introspected; fall back.
+                    instance = False
+            value = getattr(instance, attr, None) if instance else None
+        resolved[attr] = value if isinstance(value, str) else ""
+
+    name = resolved["name"] or tool_class.__name__.lower().replace("tool", "")
+    return name, resolved["description"]
 
 
 class EntryPointToolLoader:
@@ -88,35 +117,8 @@ class EntryPointToolLoader:
         self._loaded_tools: dict[str, "BaseTool"] = {}
 
     def _get_tool_name(self, tool_class: type) -> str:
-        """Extract tool name from class, handling @property decorators.
-
-        When 'name' is defined as a @property, we need to instantiate
-        the class to get the actual value.
-        """
-        # Check if name is a property in the class hierarchy
-        for klass in tool_class.__mro__:
-            if "name" in getattr(klass, "__dict__", {}):
-                attr = klass.__dict__["name"]
-                if isinstance(attr, property):
-                    # Need to instantiate to get property value
-                    try:
-                        instance = tool_class()
-                        name = getattr(instance, "name", None)
-                        if isinstance(name, str):
-                            return name
-                    except Exception:
-                        pass
-                    # Fall back to class name
-                    return tool_class.__name__.lower().replace("tool", "")
-                break
-
-        # Try class-level attribute
-        name = getattr(tool_class, "name", None)
-        if isinstance(name, str):
-            return name
-
-        # Fall back to class name
-        return tool_class.__name__.lower().replace("tool", "")
+        """Name a tool class declares, resolving @property against an instance."""
+        return tool_identity(tool_class)[0]
 
     def discover_packages(self) -> dict[str, list[str]]:
         """Discover installed hanzo-tools-* packages.

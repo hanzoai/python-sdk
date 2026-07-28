@@ -12,9 +12,12 @@ from enum import Enum
 from importlib.metadata import entry_points
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+from hanzo_mcp.tools.common.entrypoint_loader import (
+    TOOLS_ENTRY_POINT_GROUP,
+    tool_identity,
+)
 
-TOOLS_ENTRY_POINT_GROUP = "hanzo.tools"
+logger = logging.getLogger(__name__)
 
 
 class ToolCategory(Enum):
@@ -121,8 +124,7 @@ class DynamicToolRegistry:
                     if not isinstance(tools_list, list):
                         continue
                     for tool_class in tools_list:
-                        name = _extract_tool_name(tool_class)
-                        desc = getattr(tool_class, "description", "") or ""
+                        name, desc = tool_identity(tool_class)
                         cls._entries[name] = ToolConfigEntry(
                             name=name,
                             description=desc,
@@ -151,27 +153,6 @@ class DynamicToolRegistry:
         """Reset for testing."""
         cls._entries = {}
         cls._initialized = False
-
-
-def _extract_tool_name(tool_class: type) -> str:
-    """Get name from a tool class, handling @property."""
-    for klass in tool_class.__mro__:
-        if "name" in getattr(klass, "__dict__", {}):
-            attr = klass.__dict__["name"]
-            if isinstance(attr, property):
-                try:
-                    inst = tool_class()
-                    val = getattr(inst, "name", None)
-                    if isinstance(val, str):
-                        return val
-                except Exception:
-                    pass
-                return tool_class.__name__.lower().replace("tool", "")
-            break
-    name = getattr(tool_class, "name", None)
-    if isinstance(name, str):
-        return name
-    return tool_class.__name__.lower().replace("tool", "")
 
 
 # Module-level convenience -- DynamicToolRegistry doubles as the dict-like TOOL_REGISTRY.

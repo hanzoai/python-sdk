@@ -48,6 +48,49 @@ Generic REST over OpenAPI specs (`~/work/hanzo/openapi/`). Auto-detects `GITHUB_
 providers: `hanzo`, `hanzo-iam`, `hanzo-gateway`, `hanzo-commerce`, `hanzo-vector`,
 `hanzo-cloud`, `hanzo-nexus`.
 
+## Unified cloud surface (`hanzo` tool)
+One `hanzo` tool fronts all Hanzo cloud services; the per-service tools (`api`, `auth`,
+`billing`, `commerce`, `iam`, `ingress`, `kms`, `mpc`, `paas`, `team`) are hidden behind
+it. `hanzo(service=…, action=…, args='{json}')`; `service="services"` lists them.
+It is a pure dispatcher — `SERVICE_TOOL_PATHS` in `hanzo-tools-api/hanzo_tools/api/
+hanzo_tool.py` maps a service to the tool class that already implements it. Adding a
+service is one line there; never reimplement a service tool inside it.
+
+It ships from `hanzo-tools-api` under its **own** `hanzo` entry point, separate from
+`api` — the unified surface is not one of the services it dispatches to.
+
+**The gate is conditional, deliberately.** `register_all_tools` hides the ten only when
+`hanzo` is both installed and enabled by the active mode; otherwise the ten stay on and
+the server logs a warning. Hiding them unconditionally is what took cloud control
+offline once already: the gate shipped before any package provided `hanzo`, so ten tools
+vanished and nothing replaced them. Keep both halves — presence *and* enablement.
+
+Mode allowlists are a second, independent gate: a tool absent from the active
+personality's `tools` list is off no matter what the loader says. New platform tools
+belong in `PLATFORM_TOOLS` in `tools/common/personality.py`.
+
+## Auth — loads, does not work
+The tool surface is restored; the backends are mostly not reachable. `LoginTool` has no
+login action (status/whoami/logout/refresh only) — real login lives in `hanzo-cli`, and
+it targets `hanzo.id/oauth/*` while the IdP serves `/v1/iam/oauth/*`, so the loopback
+flow hangs and token exchange parses an HTML SPA as JSON. `hanzo_iam/models.py` already
+declares `IAM_ROUTE_PREFIX = "/v1/iam"`; it is simply not applied to token/authorize.
+`iam` is the only service on a correct path, and only with `HANZO_AUTH_TOKEN` obtained
+elsewhere. `HanzoSession.is_authenticated()` is a string-presence check — it reports
+authenticated for any garbage token. PaaS moved to Better Auth (`/v1/auth`), so
+`session.py`'s `POST /v1/auth/login` 404s, which also strands `mpc` and `ingress`. KMS
+still calls Infisical-legacy `/api/v3/secrets/raw` instead of
+`/v1/kms/orgs/{org}/secrets/…`. Tokens land plaintext in `~/.hanzo/auth/token.json`
+(0600, but written then chmodded — briefly umask-wide); they belong in KMS.
+
+## Vector search — not wired, on purpose
+`hanzo-tools-vector` is not installed and must not be. `TOOLS` is empty (a relative
+import of `index_config` that only exists in `hanzo-tools-config`), `_generate_embedding`
+returns `random.random()` values, and the store silently falls back to `mock_infinity`,
+which discards the query vector and scores with `random.uniform`. It returns confident
+nonsense rather than failing. Full-text already ships: `fs`/`search` is ripgrep-backed.
+
 ## Common issues
 Import error → `uv sync --all-packages`. Missing tool → check the entry point in the
-package's `pyproject.toml`. Backend unavailable → install the optional dep.
+package's `pyproject.toml`, **then** check the active mode's allowlist. Backend
+unavailable → install the optional dep.

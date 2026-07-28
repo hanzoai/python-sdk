@@ -107,8 +107,9 @@ from .storage import (
     MemoryCredentialStorage,
 )
 
-# Tools list for entry point discovery - must be classes, not instances
-TOOLS = [HanzoTool, APITool]
+# Tools list for entry point discovery - must be classes, not instances.
+# HanzoTool ships under its own `hanzo` entry point (see hanzo_tool.py).
+TOOLS = [APITool]
 
 __all__ = [
     # Models

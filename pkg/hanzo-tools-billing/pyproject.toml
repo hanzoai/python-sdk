@@ -1,6 +1,6 @@
 [project]
 name = "hanzo-tools-billing"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hanzo Billing MCP tool — balance, usage, plans, subscriptions, invoices, and payments"
 readme = "README.md"
 requires-python = ">=3.12"
