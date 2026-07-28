@@ -5310,7 +5310,7 @@ class AuthApi:
     ) -> KmsPostV1KmsAuthLogin200Response:
         """Exchange machine identity for a bearer token
 
-        The only auth route. The token is org-scoped: it reaches /v1/kms/orgs/<its own org>/* and nothing else.
+        The only auth route. The token is org-scoped, and the org is read from it: a token reaches its own org's secrets and nothing else.
 
         :param kms_post_v1_kms_auth_login_request: (required)
         :type kms_post_v1_kms_auth_login_request: KmsPostV1KmsAuthLoginRequest
@@ -5379,7 +5379,7 @@ class AuthApi:
     ) -> ApiResponse[KmsPostV1KmsAuthLogin200Response]:
         """Exchange machine identity for a bearer token
 
-        The only auth route. The token is org-scoped: it reaches /v1/kms/orgs/<its own org>/* and nothing else.
+        The only auth route. The token is org-scoped, and the org is read from it: a token reaches its own org's secrets and nothing else.
 
         :param kms_post_v1_kms_auth_login_request: (required)
         :type kms_post_v1_kms_auth_login_request: KmsPostV1KmsAuthLoginRequest
@@ -5448,7 +5448,7 @@ class AuthApi:
     ) -> RESTResponseType:
         """Exchange machine identity for a bearer token
 
-        The only auth route. The token is org-scoped: it reaches /v1/kms/orgs/<its own org>/* and nothing else.
+        The only auth route. The token is org-scoped, and the org is read from it: a token reaches its own org's secrets and nothing else.
 
         :param kms_post_v1_kms_auth_login_request: (required)
         :type kms_post_v1_kms_auth_login_request: KmsPostV1KmsAuthLoginRequest

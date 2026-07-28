@@ -18,20 +18,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, SecretStr, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class KmsPostV1KmsOrgsOrgSecretsRequest(BaseModel):
+class KmsGetV1KmsSecretsRest200ResponseSecret(BaseModel):
     """
-    KmsPostV1KmsOrgsOrgSecretsRequest
+    KmsGetV1KmsSecretsRest200ResponseSecret
     """ # noqa: E501
-    path: Optional[StrictStr] = None
-    name: StrictStr
-    env: StrictStr
-    value: SecretStr = Field(description="The secret value. `format: password` is the ONE marker that makes a client read it from stdin instead of offering a flag, so it can never land in argv, `ps` or shell history.")
-    __properties: ClassVar[List[str]] = ["path", "name", "env", "value"]
+    value: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["value"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +48,7 @@ class KmsPostV1KmsOrgsOrgSecretsRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of KmsPostV1KmsOrgsOrgSecretsRequest from a JSON string"""
+        """Create an instance of KmsGetV1KmsSecretsRest200ResponseSecret from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +73,7 @@ class KmsPostV1KmsOrgsOrgSecretsRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of KmsPostV1KmsOrgsOrgSecretsRequest from a dict"""
+        """Create an instance of KmsGetV1KmsSecretsRest200ResponseSecret from a dict"""
         if obj is None:
             return None
 
@@ -84,9 +81,6 @@ class KmsPostV1KmsOrgsOrgSecretsRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "path": obj.get("path"),
-            "name": obj.get("name"),
-            "env": obj.get("env"),
             "value": obj.get("value")
         })
         return _obj
