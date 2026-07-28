@@ -23,12 +23,12 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret(BaseModel):
+class KmsGetV1KmsSecrets200Response(BaseModel):
     """
-    KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret
+    KmsGetV1KmsSecrets200Response
     """ # noqa: E501
-    value: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["value"]
+    names: Optional[List[StrictStr]] = None
+    __properties: ClassVar[List[str]] = ["names"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret from a JSON string"""
+        """Create an instance of KmsGetV1KmsSecrets200Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +73,7 @@ class KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret from a dict"""
+        """Create an instance of KmsGetV1KmsSecrets200Response from a dict"""
         if obj is None:
             return None
 
@@ -81,7 +81,7 @@ class KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "value": obj.get("value")
+            "names": obj.get("names")
         })
         return _obj
 

@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 
 from pydantic import StrictStr
 from typing import Any, Dict, Optional
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets_rest200_response_secret import KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret
+from hanzoai.cloud.models.kms_get_v1_kms_secrets_rest200_response_secret import KmsGetV1KmsSecretsRest200ResponseSecret
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -622,7 +622,7 @@ class HashApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret:
+    ) -> KmsGetV1KmsSecretsRest200ResponseSecret:
         """Get hash field
 
 
@@ -665,7 +665,7 @@ class HashApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret",
+            '200': "KmsGetV1KmsSecretsRest200ResponseSecret",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -696,7 +696,7 @@ class HashApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret]:
+    ) -> ApiResponse[KmsGetV1KmsSecretsRest200ResponseSecret]:
         """Get hash field
 
 
@@ -739,7 +739,7 @@ class HashApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret",
+            '200': "KmsGetV1KmsSecretsRest200ResponseSecret",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -813,7 +813,7 @@ class HashApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret",
+            '200': "KmsGetV1KmsSecretsRest200ResponseSecret",
         }
         response_data = self.api_client.call_api(
             *_param,

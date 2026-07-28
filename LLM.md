@@ -36,7 +36,10 @@ this repo        owns its test + PATCH bump + release
 only from hanzoai/openapi (`python3 generate.py python`) — never from here. The old
 `scripts/generate.sh` was a second, destructive driver (`rm -rf pkg/hanzoai`, which would
 have eaten the hand-written `config/mcp/protocols/session/zap` modules); it is deleted.
-Consumed at 3.1.2: cloud `8143fc0e`, openapi `f581a0e`.
+Consumed at 3.1.3: cloud `8143fc0e`, openapi `2861089`. Regenerate whenever either moves —
+openapi `3300cda` dropped `{org}` from the KMS secrets routes (`/v1/kms/orgs/{org}/secrets`
+-> `/v1/kms/secrets`; the org is read from the token), which silently stranded 3.1.2 on a
+path the server no longer serves.
 
 **Upstream spec defect — open, fix in the per-service specs.** `hanzo.yaml` carries 23 tag
 groups that differ only by case (`AI`/`ai`, `Users`/`users`, `flows`/`Flows`, …).
