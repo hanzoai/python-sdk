@@ -21,6 +21,35 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+# Per-service tools the unified `hanzo` tool replaces, each now reachable as
+# hanzo(service=...) straight from cloud's OpenAPI registry.
+SUPERSEDED_BY_HANZO = (
+    "api",
+    "auth",
+    "billing",
+    "commerce",
+    "iam",
+    "ingress",
+    "kms",
+    "mpc",
+    "paas",
+    "team",
+)
+
+
+def _unified_hanzo_available() -> bool:
+    """Whether the unified `hanzo` tool can actually be constructed.
+
+    Importing is the honest test: it is what the loader will do, so a success
+    here means the replacement really is there to take over.
+    """
+    try:
+        from hanzo_tools.api.hanzo_tool import HanzoTool  # noqa: F401
+    except Exception as exc:  # ImportError, or a broken dependency
+        logger.warning(f"unified hanzo tool not importable: {exc}")
+        return False
+    return True
+
 
 def register_all_tools(
     mcp_server: "FastMCP",
@@ -164,22 +193,19 @@ def register_all_tools(
     # MCP tools
     resolved_enabled_tools["mcp"] = is_tool_enabled("mcp", True)
 
-    # Unified Hanzo platform surface.
-    # No backwards compatibility: expose only `hanzo` and hide legacy per-service tools.
+    # Unified Hanzo platform surface: `hanzo` covers every cloud service by
+    # projecting them from the OpenAPI registry, so the per-service tools are
+    # redundant. Hide them only once the replacement genuinely exists —
+    # unconditionally disabling them would strand the user with no cloud tools
+    # at all on any import error in the unified surface.
     resolved_enabled_tools["hanzo"] = is_tool_enabled("hanzo", True)
-    for legacy_tool in [
-        "api",
-        "auth",
-        "billing",
-        "commerce",
-        "iam",
-        "ingress",
-        "kms",
-        "mpc",
-        "paas",
-        "team",
-    ]:
-        resolved_enabled_tools[legacy_tool] = False
+    if resolved_enabled_tools["hanzo"] and _unified_hanzo_available():
+        for legacy_tool in SUPERSEDED_BY_HANZO:
+            resolved_enabled_tools[legacy_tool] = False
+    else:
+        logger.warning(
+            "unified `hanzo` tool unavailable — keeping per-service tools enabled"
+        )
 
     # Jupyter tools
     for tool in PACKAGE_TOOL_PREFIXES.get("jupyter", []):
