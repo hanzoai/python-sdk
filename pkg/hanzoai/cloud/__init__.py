@@ -148,7 +148,6 @@ __all__ = [
     "JobsApi",
     "K8sStatusApi",
     "KeyValueApi",
-    "KeyValueApi",
     "KeysApi",
     "LifecycleApi",
     "ListApi",
@@ -181,7 +180,6 @@ __all__ = [
     "NodesApi",
     "O11yApi",
     "OAuthApi",
-    "ObjectStoreApi",
     "ObjectStoreApi",
     "ObjectsApi",
     "ObservabilityApi",
@@ -319,12 +317,8 @@ __all__ = [
     "AppConnectionsApi",
     "ApplicationApi",
     "AuditEventsApi",
-    "AuthApi",
-    "AuthenticationApi",
     "BackupApi",
-    "BillingApi",
     "CertificateApi",
-    "ClusterApi",
     "ComposeApi",
     "CustomDomainsApi",
     "DatastoreApi",
@@ -338,13 +332,11 @@ __all__ = [
     "FieldsApi",
     "FlagsApi",
     "FlowRunsApi",
-    "FlowsApi",
     "FoldersApi",
     "GitProviderApi",
     "GitReposApi",
     "GithubApi",
     "GlobalConnectionsApi",
-    "HealthApi",
     "IntegrationsApi",
     "KvApi",
     "MariadbApi",
@@ -354,24 +346,19 @@ __all__ = [
     "OauthAppsApi",
     "OrganizationApi",
     "PersonasApi",
-    "PiecesApi",
     "PlatformApi",
     "PostgresApi",
     "ProjectApi",
     "ProjectMembersApi",
     "ProjectReleasesApi",
     "ProjectRolesApi",
-    "ProjectsApi",
-    "RecordsApi",
     "RedisApi",
     "RegistryApi",
     "RollbackApi",
     "S3Api",
     "SampleDataApi",
     "ScheduleApi",
-    "SearchApi",
     "ServerApi",
-    "SettingsApi",
     "SigningKeysApi",
     "SkillsApi",
     "SolutionsApi",
@@ -379,17 +366,10 @@ __all__ = [
     "SshKeyApi",
     "StoreEntriesApi",
     "TablesApi",
-    "TagsApi",
-    "TemplatesApi",
     "TodosApi",
-    "TokensApi",
     "TriggersApi",
     "UploadApi",
-    "UserApi",
     "UserInvitationsApi",
-    "UsersApi",
-    "VectorApi",
-    "WebhooksApi",
     "ApiResponse",
     "ApiClient",
     "Configuration",
@@ -2314,7 +2294,6 @@ from hanzoai.cloud.api.issues_api import IssuesApi as IssuesApi
 from hanzoai.cloud.api.jobs_api import JobsApi as JobsApi
 from hanzoai.cloud.api.k8s_status_api import K8sStatusApi as K8sStatusApi
 from hanzoai.cloud.api.key_value_api import KeyValueApi as KeyValueApi
-from hanzoai.cloud.api.key_value_api import KeyValueApi as KeyValueApi
 from hanzoai.cloud.api.keys_api import KeysApi as KeysApi
 from hanzoai.cloud.api.lifecycle_api import LifecycleApi as LifecycleApi
 from hanzoai.cloud.api.list_api import ListApi as ListApi
@@ -2347,7 +2326,6 @@ from hanzoai.cloud.api.node_api_api import NodeAPIApi as NodeAPIApi
 from hanzoai.cloud.api.nodes_api import NodesApi as NodesApi
 from hanzoai.cloud.api.o11y_api import O11yApi as O11yApi
 from hanzoai.cloud.api.o_auth_api import OAuthApi as OAuthApi
-from hanzoai.cloud.api.object_store_api import ObjectStoreApi as ObjectStoreApi
 from hanzoai.cloud.api.object_store_api import ObjectStoreApi as ObjectStoreApi
 from hanzoai.cloud.api.objects_api import ObjectsApi as ObjectsApi
 from hanzoai.cloud.api.observability_api import ObservabilityApi as ObservabilityApi
@@ -2485,12 +2463,8 @@ from hanzoai.cloud.api.alerts_api import AlertsApi as AlertsApi
 from hanzoai.cloud.api.app_connections_api import AppConnectionsApi as AppConnectionsApi
 from hanzoai.cloud.api.application_api import ApplicationApi as ApplicationApi
 from hanzoai.cloud.api.audit_events_api import AuditEventsApi as AuditEventsApi
-from hanzoai.cloud.api.auth_api import AuthApi as AuthApi
-from hanzoai.cloud.api.authentication_api import AuthenticationApi as AuthenticationApi
 from hanzoai.cloud.api.backup_api import BackupApi as BackupApi
-from hanzoai.cloud.api.billing_api import BillingApi as BillingApi
 from hanzoai.cloud.api.certificate_api import CertificateApi as CertificateApi
-from hanzoai.cloud.api.cluster_api import ClusterApi as ClusterApi
 from hanzoai.cloud.api.compose_api import ComposeApi as ComposeApi
 from hanzoai.cloud.api.custom_domains_api import CustomDomainsApi as CustomDomainsApi
 from hanzoai.cloud.api.datastore_api import DatastoreApi as DatastoreApi
@@ -2504,13 +2478,11 @@ from hanzoai.cloud.api.environment_api import EnvironmentApi as EnvironmentApi
 from hanzoai.cloud.api.fields_api import FieldsApi as FieldsApi
 from hanzoai.cloud.api.flags_api import FlagsApi as FlagsApi
 from hanzoai.cloud.api.flow_runs_api import FlowRunsApi as FlowRunsApi
-from hanzoai.cloud.api.flows_api import FlowsApi as FlowsApi
 from hanzoai.cloud.api.folders_api import FoldersApi as FoldersApi
 from hanzoai.cloud.api.git_provider_api import GitProviderApi as GitProviderApi
 from hanzoai.cloud.api.git_repos_api import GitReposApi as GitReposApi
 from hanzoai.cloud.api.github_api import GithubApi as GithubApi
 from hanzoai.cloud.api.global_connections_api import GlobalConnectionsApi as GlobalConnectionsApi
-from hanzoai.cloud.api.health_api import HealthApi as HealthApi
 from hanzoai.cloud.api.integrations_api import IntegrationsApi as IntegrationsApi
 from hanzoai.cloud.api.kv_api import KvApi as KvApi
 from hanzoai.cloud.api.mariadb_api import MariadbApi as MariadbApi
@@ -2520,24 +2492,19 @@ from hanzoai.cloud.api.notification_api import NotificationApi as NotificationAp
 from hanzoai.cloud.api.oauth_apps_api import OauthAppsApi as OauthAppsApi
 from hanzoai.cloud.api.organization_api import OrganizationApi as OrganizationApi
 from hanzoai.cloud.api.personas_api import PersonasApi as PersonasApi
-from hanzoai.cloud.api.pieces_api import PiecesApi as PiecesApi
 from hanzoai.cloud.api.platform_api import PlatformApi as PlatformApi
 from hanzoai.cloud.api.postgres_api import PostgresApi as PostgresApi
 from hanzoai.cloud.api.project_api import ProjectApi as ProjectApi
 from hanzoai.cloud.api.project_members_api import ProjectMembersApi as ProjectMembersApi
 from hanzoai.cloud.api.project_releases_api import ProjectReleasesApi as ProjectReleasesApi
 from hanzoai.cloud.api.project_roles_api import ProjectRolesApi as ProjectRolesApi
-from hanzoai.cloud.api.projects_api import ProjectsApi as ProjectsApi
-from hanzoai.cloud.api.records_api import RecordsApi as RecordsApi
 from hanzoai.cloud.api.redis_api import RedisApi as RedisApi
 from hanzoai.cloud.api.registry_api import RegistryApi as RegistryApi
 from hanzoai.cloud.api.rollback_api import RollbackApi as RollbackApi
 from hanzoai.cloud.api.s3_api import S3Api as S3Api
 from hanzoai.cloud.api.sample_data_api import SampleDataApi as SampleDataApi
 from hanzoai.cloud.api.schedule_api import ScheduleApi as ScheduleApi
-from hanzoai.cloud.api.search_api import SearchApi as SearchApi
 from hanzoai.cloud.api.server_api import ServerApi as ServerApi
-from hanzoai.cloud.api.settings_api import SettingsApi as SettingsApi
 from hanzoai.cloud.api.signing_keys_api import SigningKeysApi as SigningKeysApi
 from hanzoai.cloud.api.skills_api import SkillsApi as SkillsApi
 from hanzoai.cloud.api.solutions_api import SolutionsApi as SolutionsApi
@@ -2545,17 +2512,10 @@ from hanzoai.cloud.api.sql_api import SqlApi as SqlApi
 from hanzoai.cloud.api.ssh_key_api import SshKeyApi as SshKeyApi
 from hanzoai.cloud.api.store_entries_api import StoreEntriesApi as StoreEntriesApi
 from hanzoai.cloud.api.tables_api import TablesApi as TablesApi
-from hanzoai.cloud.api.tags_api import TagsApi as TagsApi
-from hanzoai.cloud.api.templates_api import TemplatesApi as TemplatesApi
 from hanzoai.cloud.api.todos_api import TodosApi as TodosApi
-from hanzoai.cloud.api.tokens_api import TokensApi as TokensApi
 from hanzoai.cloud.api.triggers_api import TriggersApi as TriggersApi
 from hanzoai.cloud.api.upload_api import UploadApi as UploadApi
-from hanzoai.cloud.api.user_api import UserApi as UserApi
 from hanzoai.cloud.api.user_invitations_api import UserInvitationsApi as UserInvitationsApi
-from hanzoai.cloud.api.users_api import UsersApi as UsersApi
-from hanzoai.cloud.api.vector_api import VectorApi as VectorApi
-from hanzoai.cloud.api.webhooks_api import WebhooksApi as WebhooksApi
 
 # import ApiClient
 from hanzoai.cloud.api_response import ApiResponse as ApiResponse
