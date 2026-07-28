@@ -18,18 +18,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets_rest200_response_secret import KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret
 from typing import Optional, Set
 from typing_extensions import Self
 
-class KmsGetV1KmsOrgsOrgSecretsRest200Response(BaseModel):
+class KmsGetV1KmsSecrets401Response(BaseModel):
     """
-    KmsGetV1KmsOrgsOrgSecretsRest200Response
+    KmsGetV1KmsSecrets401Response
     """ # noqa: E501
-    secret: Optional[KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret] = None
-    __properties: ClassVar[List[str]] = ["secret"]
+    message: Optional[StrictStr] = None
+    status_code: Optional[StrictInt] = Field(default=None, alias="statusCode")
+    __properties: ClassVar[List[str]] = ["message", "statusCode"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +49,7 @@ class KmsGetV1KmsOrgsOrgSecretsRest200Response(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of KmsGetV1KmsOrgsOrgSecretsRest200Response from a JSON string"""
+        """Create an instance of KmsGetV1KmsSecrets401Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,14 +70,11 @@ class KmsGetV1KmsOrgsOrgSecretsRest200Response(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of secret
-        if self.secret:
-            _dict['secret'] = self.secret.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of KmsGetV1KmsOrgsOrgSecretsRest200Response from a dict"""
+        """Create an instance of KmsGetV1KmsSecrets401Response from a dict"""
         if obj is None:
             return None
 
@@ -85,7 +82,8 @@ class KmsGetV1KmsOrgsOrgSecretsRest200Response(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "secret": KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret.from_dict(obj["secret"]) if obj.get("secret") is not None else None
+            "message": obj.get("message"),
+            "statusCode": obj.get("statusCode")
         })
         return _obj
 

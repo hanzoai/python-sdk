@@ -1461,13 +1461,13 @@ __all__ = [
     "KmsError",
     "KmsGetV1KmsHealth200Response",
     "KmsGetV1KmsKeysId404Response",
-    "KmsGetV1KmsOrgsOrgSecrets200Response",
-    "KmsGetV1KmsOrgsOrgSecrets401Response",
-    "KmsGetV1KmsOrgsOrgSecretsRest200Response",
-    "KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret",
+    "KmsGetV1KmsSecrets200Response",
+    "KmsGetV1KmsSecrets401Response",
+    "KmsGetV1KmsSecretsRest200Response",
+    "KmsGetV1KmsSecretsRest200ResponseSecret",
     "KmsPostV1KmsAuthLogin200Response",
     "KmsPostV1KmsAuthLoginRequest",
-    "KmsPostV1KmsOrgsOrgSecretsRequest",
+    "KmsPostV1KmsSecretsRequest",
     "KmsSdkEnvelope",
     "KmsSdkEnvelopeIdentity",
     "KvBatchOperation200Response",
@@ -3631,13 +3631,13 @@ from hanzoai.cloud.models.kb_sync_connector200_response import KbSyncConnector20
 from hanzoai.cloud.models.kms_error import KmsError as KmsError
 from hanzoai.cloud.models.kms_get_v1_kms_health200_response import KmsGetV1KmsHealth200Response as KmsGetV1KmsHealth200Response
 from hanzoai.cloud.models.kms_get_v1_kms_keys_id404_response import KmsGetV1KmsKeysId404Response as KmsGetV1KmsKeysId404Response
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets200_response import KmsGetV1KmsOrgsOrgSecrets200Response as KmsGetV1KmsOrgsOrgSecrets200Response
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets401_response import KmsGetV1KmsOrgsOrgSecrets401Response as KmsGetV1KmsOrgsOrgSecrets401Response
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets_rest200_response import KmsGetV1KmsOrgsOrgSecretsRest200Response as KmsGetV1KmsOrgsOrgSecretsRest200Response
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets_rest200_response_secret import KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret as KmsGetV1KmsOrgsOrgSecretsRest200ResponseSecret
+from hanzoai.cloud.models.kms_get_v1_kms_secrets200_response import KmsGetV1KmsSecrets200Response as KmsGetV1KmsSecrets200Response
+from hanzoai.cloud.models.kms_get_v1_kms_secrets401_response import KmsGetV1KmsSecrets401Response as KmsGetV1KmsSecrets401Response
+from hanzoai.cloud.models.kms_get_v1_kms_secrets_rest200_response import KmsGetV1KmsSecretsRest200Response as KmsGetV1KmsSecretsRest200Response
+from hanzoai.cloud.models.kms_get_v1_kms_secrets_rest200_response_secret import KmsGetV1KmsSecretsRest200ResponseSecret as KmsGetV1KmsSecretsRest200ResponseSecret
 from hanzoai.cloud.models.kms_post_v1_kms_auth_login200_response import KmsPostV1KmsAuthLogin200Response as KmsPostV1KmsAuthLogin200Response
 from hanzoai.cloud.models.kms_post_v1_kms_auth_login_request import KmsPostV1KmsAuthLoginRequest as KmsPostV1KmsAuthLoginRequest
-from hanzoai.cloud.models.kms_post_v1_kms_orgs_org_secrets_request import KmsPostV1KmsOrgsOrgSecretsRequest as KmsPostV1KmsOrgsOrgSecretsRequest
+from hanzoai.cloud.models.kms_post_v1_kms_secrets_request import KmsPostV1KmsSecretsRequest as KmsPostV1KmsSecretsRequest
 from hanzoai.cloud.models.kms_sdk_envelope import KmsSdkEnvelope as KmsSdkEnvelope
 from hanzoai.cloud.models.kms_sdk_envelope_identity import KmsSdkEnvelopeIdentity as KmsSdkEnvelopeIdentity
 from hanzoai.cloud.models.kv_batch_operation200_response import KvBatchOperation200Response as KvBatchOperation200Response

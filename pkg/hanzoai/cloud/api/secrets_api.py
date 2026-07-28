@@ -25,9 +25,9 @@ from hanzoai.cloud.models.edge_list_secrets200_response_inner import EdgeListSec
 from hanzoai.cloud.models.edge_secret import EdgeSecret
 from hanzoai.cloud.models.edge_secret_create import EdgeSecretCreate
 from hanzoai.cloud.models.edge_update_secret_request import EdgeUpdateSecretRequest
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets200_response import KmsGetV1KmsOrgsOrgSecrets200Response
-from hanzoai.cloud.models.kms_get_v1_kms_orgs_org_secrets_rest200_response import KmsGetV1KmsOrgsOrgSecretsRest200Response
-from hanzoai.cloud.models.kms_post_v1_kms_orgs_org_secrets_request import KmsPostV1KmsOrgsOrgSecretsRequest
+from hanzoai.cloud.models.kms_get_v1_kms_secrets200_response import KmsGetV1KmsSecrets200Response
+from hanzoai.cloud.models.kms_get_v1_kms_secrets_rest200_response import KmsGetV1KmsSecretsRest200Response
+from hanzoai.cloud.models.kms_post_v1_kms_secrets_request import KmsPostV1KmsSecretsRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -1121,9 +1121,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_delete_v1_kms_orgs_org_secrets_rest(
+    def kms_delete_v1_kms_secrets_rest(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1142,8 +1141,6 @@ class SecretsApi:
         """Delete a secret
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1170,8 +1167,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_delete_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_delete_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1182,7 +1178,7 @@ class SecretsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1197,9 +1193,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_delete_v1_kms_orgs_org_secrets_rest_with_http_info(
+    def kms_delete_v1_kms_secrets_rest_with_http_info(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1218,8 +1213,6 @@ class SecretsApi:
         """Delete a secret
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1246,8 +1239,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_delete_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_delete_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1258,7 +1250,7 @@ class SecretsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1273,9 +1265,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_delete_v1_kms_orgs_org_secrets_rest_without_preload_content(
+    def kms_delete_v1_kms_secrets_rest_without_preload_content(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1294,8 +1285,6 @@ class SecretsApi:
         """Delete a secret
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1322,8 +1311,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_delete_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_delete_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1334,7 +1322,7 @@ class SecretsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1344,9 +1332,8 @@ class SecretsApi:
         return response_data.response
 
 
-    def _kms_delete_v1_kms_orgs_org_secrets_rest_serialize(
+    def _kms_delete_v1_kms_secrets_rest_serialize(
         self,
-        org,
         rest,
         env,
         _request_auth,
@@ -1370,8 +1357,6 @@ class SecretsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
         if rest is not None:
             _path_params['rest'] = rest
         # process the query parameters
@@ -1400,7 +1385,7 @@ class SecretsApi:
 
         return self.api_client.param_serialize(
             method='DELETE',
-            resource_path='/v1/kms/orgs/{org}/secrets/{rest}',
+            resource_path='/v1/kms/secrets/{rest}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1417,9 +1402,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets(
+    def kms_get_v1_kms_secrets(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         path: Annotated[Optional[StrictStr], Field(description="Grouping path, e.g. gateway")] = None,
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1434,13 +1418,11 @@ class SecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsGetV1KmsOrgsOrgSecrets200Response:
+    ) -> KmsGetV1KmsSecrets200Response:
         """List secret names under a path
 
         Mirrors the ZAP wire op OpSecretList (0x0042). Returns names only, never values.
 
-        :param org: Org scope (required)
-        :type org: str
         :param path: Grouping path, e.g. gateway
         :type path: str
         :param env: Environment slug; defaults to `default`
@@ -1467,8 +1449,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_serialize(
             path=path,
             env=env,
             _request_auth=_request_auth,
@@ -1478,8 +1459,8 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecrets200Response",
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '200': "KmsGetV1KmsSecrets200Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1493,9 +1474,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets_with_http_info(
+    def kms_get_v1_kms_secrets_with_http_info(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         path: Annotated[Optional[StrictStr], Field(description="Grouping path, e.g. gateway")] = None,
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1510,13 +1490,11 @@ class SecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsGetV1KmsOrgsOrgSecrets200Response]:
+    ) -> ApiResponse[KmsGetV1KmsSecrets200Response]:
         """List secret names under a path
 
         Mirrors the ZAP wire op OpSecretList (0x0042). Returns names only, never values.
 
-        :param org: Org scope (required)
-        :type org: str
         :param path: Grouping path, e.g. gateway
         :type path: str
         :param env: Environment slug; defaults to `default`
@@ -1543,8 +1521,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_serialize(
             path=path,
             env=env,
             _request_auth=_request_auth,
@@ -1554,8 +1531,8 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecrets200Response",
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '200': "KmsGetV1KmsSecrets200Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1569,9 +1546,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets_without_preload_content(
+    def kms_get_v1_kms_secrets_without_preload_content(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         path: Annotated[Optional[StrictStr], Field(description="Grouping path, e.g. gateway")] = None,
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1591,8 +1567,6 @@ class SecretsApi:
 
         Mirrors the ZAP wire op OpSecretList (0x0042). Returns names only, never values.
 
-        :param org: Org scope (required)
-        :type org: str
         :param path: Grouping path, e.g. gateway
         :type path: str
         :param env: Environment slug; defaults to `default`
@@ -1619,8 +1593,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_serialize(
             path=path,
             env=env,
             _request_auth=_request_auth,
@@ -1630,8 +1603,8 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecrets200Response",
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '200': "KmsGetV1KmsSecrets200Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1640,9 +1613,8 @@ class SecretsApi:
         return response_data.response
 
 
-    def _kms_get_v1_kms_orgs_org_secrets_serialize(
+    def _kms_get_v1_kms_secrets_serialize(
         self,
-        org,
         path,
         env,
         _request_auth,
@@ -1666,8 +1638,6 @@ class SecretsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
         # process the query parameters
         if path is not None:
             
@@ -1698,7 +1668,7 @@ class SecretsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/kms/orgs/{org}/secrets',
+            resource_path='/v1/kms/secrets',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1715,9 +1685,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets_rest(
+    def kms_get_v1_kms_secrets_rest(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1732,12 +1701,10 @@ class SecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsGetV1KmsOrgsOrgSecretsRest200Response:
+    ) -> KmsGetV1KmsSecretsRest200Response:
         """Read one secret value
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1764,8 +1731,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1775,9 +1741,9 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200Response",
+            '200': "KmsGetV1KmsSecretsRest200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1792,9 +1758,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets_rest_with_http_info(
+    def kms_get_v1_kms_secrets_rest_with_http_info(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1809,12 +1774,10 @@ class SecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsGetV1KmsOrgsOrgSecretsRest200Response]:
+    ) -> ApiResponse[KmsGetV1KmsSecretsRest200Response]:
         """Read one secret value
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1841,8 +1804,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1852,9 +1814,9 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200Response",
+            '200': "KmsGetV1KmsSecretsRest200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1869,9 +1831,8 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_get_v1_kms_orgs_org_secrets_rest_without_preload_content(
+    def kms_get_v1_kms_secrets_rest_without_preload_content(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
         rest: Annotated[StrictStr, Field(description="Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually.")],
         env: Annotated[Optional[StrictStr], Field(description="Environment slug; defaults to `default`")] = None,
         _request_timeout: Union[
@@ -1890,8 +1851,6 @@ class SecretsApi:
         """Read one secret value
 
 
-        :param org: Org scope (required)
-        :type org: str
         :param rest: Path and name joined. Split at the LAST slash: `a/b/C` is path `a/b`, name `C`. Escape each segment individually. (required)
         :type rest: str
         :param env: Environment slug; defaults to `default`
@@ -1918,8 +1877,7 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_get_v1_kms_orgs_org_secrets_rest_serialize(
-            org=org,
+        _param = self._kms_get_v1_kms_secrets_rest_serialize(
             rest=rest,
             env=env,
             _request_auth=_request_auth,
@@ -1929,9 +1887,9 @@ class SecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsGetV1KmsOrgsOrgSecretsRest200Response",
+            '200': "KmsGetV1KmsSecretsRest200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
             '404': "KmsGetV1KmsKeysId404Response",
         }
         response_data = self.api_client.call_api(
@@ -1941,9 +1899,8 @@ class SecretsApi:
         return response_data.response
 
 
-    def _kms_get_v1_kms_orgs_org_secrets_rest_serialize(
+    def _kms_get_v1_kms_secrets_rest_serialize(
         self,
-        org,
         rest,
         env,
         _request_auth,
@@ -1967,8 +1924,6 @@ class SecretsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
         if rest is not None:
             _path_params['rest'] = rest
         # process the query parameters
@@ -1997,7 +1952,7 @@ class SecretsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/kms/orgs/{org}/secrets/{rest}',
+            resource_path='/v1/kms/secrets/{rest}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2014,10 +1969,9 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_post_v1_kms_orgs_org_secrets(
+    def kms_post_v1_kms_secrets(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
-        kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest,
+        kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2035,10 +1989,8 @@ class SecretsApi:
 
         ONE upsert. There is no separate update endpoint and no PATCH.
 
-        :param org: Org scope (required)
-        :type org: str
-        :param kms_post_v1_kms_orgs_org_secrets_request: (required)
-        :type kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest
+        :param kms_post_v1_kms_secrets_request: (required)
+        :type kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2061,9 +2013,8 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_post_v1_kms_orgs_org_secrets_serialize(
-            org=org,
-            kms_post_v1_kms_orgs_org_secrets_request=kms_post_v1_kms_orgs_org_secrets_request,
+        _param = self._kms_post_v1_kms_secrets_serialize(
+            kms_post_v1_kms_secrets_request=kms_post_v1_kms_secrets_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2073,7 +2024,7 @@ class SecretsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AnalyticsHeartbeat200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2087,10 +2038,9 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_post_v1_kms_orgs_org_secrets_with_http_info(
+    def kms_post_v1_kms_secrets_with_http_info(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
-        kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest,
+        kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2108,10 +2058,8 @@ class SecretsApi:
 
         ONE upsert. There is no separate update endpoint and no PATCH.
 
-        :param org: Org scope (required)
-        :type org: str
-        :param kms_post_v1_kms_orgs_org_secrets_request: (required)
-        :type kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest
+        :param kms_post_v1_kms_secrets_request: (required)
+        :type kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2134,9 +2082,8 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_post_v1_kms_orgs_org_secrets_serialize(
-            org=org,
-            kms_post_v1_kms_orgs_org_secrets_request=kms_post_v1_kms_orgs_org_secrets_request,
+        _param = self._kms_post_v1_kms_secrets_serialize(
+            kms_post_v1_kms_secrets_request=kms_post_v1_kms_secrets_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2146,7 +2093,7 @@ class SecretsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AnalyticsHeartbeat200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2160,10 +2107,9 @@ class SecretsApi:
 
 
     @validate_call
-    def kms_post_v1_kms_orgs_org_secrets_without_preload_content(
+    def kms_post_v1_kms_secrets_without_preload_content(
         self,
-        org: Annotated[StrictStr, Field(description="Org scope")],
-        kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest,
+        kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2181,10 +2127,8 @@ class SecretsApi:
 
         ONE upsert. There is no separate update endpoint and no PATCH.
 
-        :param org: Org scope (required)
-        :type org: str
-        :param kms_post_v1_kms_orgs_org_secrets_request: (required)
-        :type kms_post_v1_kms_orgs_org_secrets_request: KmsPostV1KmsOrgsOrgSecretsRequest
+        :param kms_post_v1_kms_secrets_request: (required)
+        :type kms_post_v1_kms_secrets_request: KmsPostV1KmsSecretsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2207,9 +2151,8 @@ class SecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._kms_post_v1_kms_orgs_org_secrets_serialize(
-            org=org,
-            kms_post_v1_kms_orgs_org_secrets_request=kms_post_v1_kms_orgs_org_secrets_request,
+        _param = self._kms_post_v1_kms_secrets_serialize(
+            kms_post_v1_kms_secrets_request=kms_post_v1_kms_secrets_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2219,7 +2162,7 @@ class SecretsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AnalyticsHeartbeat200Response",
             '400': None,
-            '401': "KmsGetV1KmsOrgsOrgSecrets401Response",
+            '401': "KmsGetV1KmsSecrets401Response",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2228,10 +2171,9 @@ class SecretsApi:
         return response_data.response
 
 
-    def _kms_post_v1_kms_orgs_org_secrets_serialize(
+    def _kms_post_v1_kms_secrets_serialize(
         self,
-        org,
-        kms_post_v1_kms_orgs_org_secrets_request,
+        kms_post_v1_kms_secrets_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2253,14 +2195,12 @@ class SecretsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if org is not None:
-            _path_params['org'] = org
         # process the query parameters
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if kms_post_v1_kms_orgs_org_secrets_request is not None:
-            _body_params = kms_post_v1_kms_orgs_org_secrets_request
+        if kms_post_v1_kms_secrets_request is not None:
+            _body_params = kms_post_v1_kms_secrets_request
 
 
         # set the HTTP header `Accept`
@@ -2292,7 +2232,7 @@ class SecretsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/kms/orgs/{org}/secrets',
+            resource_path='/v1/kms/secrets',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
