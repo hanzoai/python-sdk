@@ -1,4 +1,10 @@
-"""Pydantic models for Hanzo IAM."""
+"""Wire-shape models and protocol constants for Hanzo IAM.
+
+Client CONFIGURATION lives in hanzo_iam.config. There used to be a second,
+near-identical IAMConfig here, and it was the one every client actually
+imported -- so the endpoint properties on the other one were dead code and
+fixing them changed nothing.
+"""
 
 from __future__ import annotations
 
@@ -8,18 +14,25 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Canonical IAM paths (HIP-0111), relative to the IAM server_url root. One way;
-# no legacy /api/ prefix and no bare /oauth/*. IAM answers an unrouted path with
-# a generic 401 (or, in a browser, a 200 SPA shell) rather than a 404 — so a
-# wrong path is silent breakage and every path must come from here.
-#
-# Only OIDC discovery lives at the root; everything else is under /v1/iam.
+# The ONE place this package spells IAM's route prefix. Every admin action and
+# every OIDC endpoint is composed beneath it. The prefix this replaced is
+# unreachable, not merely non-standard: the edge refuses it on iam.hanzo.ai with
+# 403 and the gateway 404s it.
+IAM_ROUTE_PREFIX = "/v1/iam"
+
+# OIDC endpoints, composed from the one prefix. These are NOT root-relative:
+# hanzo.id serves its sign-in SPA on every unmatched path, so an unprefixed
+# /oauth/token or /.well-known/jwks answers 200 text/html — a client that trusts
+# the status code then dies inside .json(). Prefixing is what makes a wrong path
+# fail like a wrong path.
+OIDC_AUTHORIZE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/authorize"
+OIDC_TOKEN_PATH = f"{IAM_ROUTE_PREFIX}/oauth/token"
+OIDC_USERINFO_PATH = f"{IAM_ROUTE_PREFIX}/oauth/userinfo"
+OIDC_INTROSPECT_PATH = f"{IAM_ROUTE_PREFIX}/oauth/introspect"
+OIDC_REVOKE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/revoke"
+OIDC_DEVICE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/device"
+OIDC_JWKS_PATH = f"{IAM_ROUTE_PREFIX}/.well-known/jwks"
 OIDC_DISCOVERY_PATH = "/.well-known/openid-configuration"
-OIDC_JWKS_PATH = "/v1/iam/.well-known/jwks"
-OIDC_AUTHORIZE_PATH = "/v1/iam/oauth/authorize"
-OIDC_TOKEN_PATH = "/v1/iam/oauth/token"
-OIDC_USERINFO_PATH = "/v1/iam/oauth/userinfo"
-OIDC_INTROSPECT_PATH = "/v1/iam/oauth/introspect"
 
 
 class Organization(str, Enum):
@@ -34,45 +47,6 @@ class Organization(str, Enum):
     def iam_url(self) -> str:
         """Return the IAM URL for this organization."""
         return f"https://{self.value}.id"
-
-
-class IAMConfig(BaseModel):
-    """Configuration for Hanzo IAM client."""
-
-    model_config = ConfigDict(frozen=True)
-
-    server_url: str = Field(description="IAM server URL (e.g., https://hanzo.id)")
-    client_id: str = Field(description="OAuth2 client ID")
-    client_secret: str = Field(default="", description="OAuth2 client secret")
-    organization: str = Field(default="hanzo", description="IAM organization name")
-    application: str = Field(default="app", description="IAM application name")
-    certificate: str = Field(
-        default="", description="JWT verification certificate (PEM)"
-    )
-
-    # HIP-0111 endpoints, derived from the constants above so a caller can never
-    # hand-assemble a path. This is the IAMConfig the package exports, so these
-    # have to live here: callers doing `from hanzo_iam import IAMConfig` get
-    # this class, not the one in config.py.
-    @property
-    def authorize_endpoint(self) -> str:
-        """OAuth2 authorization endpoint URL."""
-        return f"{self.server_url.rstrip('/')}{OIDC_AUTHORIZE_PATH}"
-
-    @property
-    def token_endpoint(self) -> str:
-        """OAuth2 token endpoint URL."""
-        return f"{self.server_url.rstrip('/')}{OIDC_TOKEN_PATH}"
-
-    @property
-    def userinfo_endpoint(self) -> str:
-        """OIDC UserInfo endpoint URL."""
-        return f"{self.server_url.rstrip('/')}{OIDC_USERINFO_PATH}"
-
-    @property
-    def jwks_endpoint(self) -> str:
-        """OIDC JWKS endpoint URL."""
-        return f"{self.server_url.rstrip('/')}{OIDC_JWKS_PATH}"
 
 
 class TokenResponse(BaseModel):
