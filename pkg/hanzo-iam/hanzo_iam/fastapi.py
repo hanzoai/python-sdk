@@ -114,9 +114,7 @@ def _get_jwks_client() -> PyJWKClient:
     global _jwks_client
 
     if _jwks_client is None:
-        config = get_config()
-        jwks_url = f"{config.server_url}/.well-known/jwks.json"
-        _jwks_client = PyJWKClient(jwks_url)
+        _jwks_client = PyJWKClient(get_config().jwks_uri)
 
     return _jwks_client
 

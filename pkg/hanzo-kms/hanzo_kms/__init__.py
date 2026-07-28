@@ -31,7 +31,12 @@ Usage:
     client.inject_env(project_id="my-project", environment="production")
 """
 
-__version__ = "1.0.0"
+import importlib.metadata as _md
+
+try:
+    __version__ = _md.version("hanzo-kms")
+except _md.PackageNotFoundError:  # running from a source tree
+    __version__ = "1.1.1"
 
 from .async_client import AsyncKMSClient
 from .client import KMSClient
