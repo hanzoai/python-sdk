@@ -16,7 +16,6 @@ Usage:
 
 from __future__ import annotations
 
-import http.server
 import json
 import os
 import shutil
@@ -498,222 +497,45 @@ def _load_bot_token() -> dict[str, Any] | None:
         return None
 
 
-class _BotOAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
-    """HTTP handler that captures the bot OAuth callback code."""
-
-    code: str | None = None
-    state: str | None = None
-    error: str | None = None
-
-    def do_GET(self) -> None:  # noqa: N802
-        from urllib.parse import parse_qs, urlparse
-
-        parsed = urlparse(self.path)
-        if parsed.path != BOT_CALLBACK_PATH:
-            self.send_response(404)
-            self.end_headers()
-            return
-
-        qs = parse_qs(parsed.query)
-        if "error" in qs:
-            _BotOAuthCallbackHandler.error = qs["error"][0]
-            self._respond("Login failed. You can close this window.", success=False)
-            return
-
-        _BotOAuthCallbackHandler.code = qs.get("code", [None])[0]
-        _BotOAuthCallbackHandler.state = qs.get("state", [None])[0]
-        self._respond("Bot login successful! You can close this window.")
-
-    def _respond(self, message: str, success: bool = True) -> None:
-        self.send_response(200)
-        self.send_header("Content-Type", "text/html")
-        self.end_headers()
-        accent = "#6C5CE7" if success else "#e74c3c"
-        body = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hanzo Bot</title>
-<style>
-  *{{margin:0;padding:0;box-sizing:border-box}}
-  body{{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    background:#0a0a0a;color:#fafafa;
-    display:flex;align-items:center;justify-content:center;
-    min-height:100vh;
-  }}
-  .card{{
-    text-align:center;max-width:420px;padding:48px 32px;
-    background:#111;border:1px solid #222;border-radius:16px;
-  }}
-  .logo{{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:32px;color:#fff}}
-  .logo span{{color:{accent}}}
-  .icon{{font-size:48px;margin-bottom:20px}}
-  h2{{font-size:20px;font-weight:600;margin-bottom:8px;color:#fff}}
-  .sub{{color:#888;font-size:14px;line-height:1.5;margin-bottom:28px}}
-  .tagline{{
-    font-size:13px;color:#555;border-top:1px solid #222;
-    padding-top:20px;margin-top:8px;
-  }}
-</style>
-</head>
-<body>
-<div class="card">
-  <div class="logo"><span>&#x25B2;</span> hanzo bot</div>
-  <div class="icon">{"&#x2705;" if success else "&#x274C;"}</div>
-  <h2>{message}</h2>
-  <p class="sub">You can close this window and return to your terminal.</p>
-  <p class="tagline">Build something you love.</p>
-</div>
-</body>
-</html>"""
-        self.wfile.write(body.encode())
-
-    def log_message(self, format: str, *args: Any) -> None:
-        """Suppress default request logging."""
-
-
 def _bot_browser_login() -> str:
-    """Run browser OAuth login flow for the bot gateway.
+    """Sign the bot gateway in through the browser (auth code + PKCE).
 
-    Opens the user's browser to the IAM login page (hanzo-bot application),
-    starts a local HTTP server to receive the callback, exchanges the code
-    for tokens scoped to the hanzo-bot client.
-
-    Returns:
-        Access token string.
+    Delegates to hanzo_iam.oauth — the ONE login flow. This used to be a third
+    hand-rolled copy that posted to the unprefixed /oauth/token, sent no PKCE,
+    bound port 8398 (which is NOT a registered redirect_uri for hanzo-bot, so
+    /authorize refused it with a bare 400), and waited for its callback in an
+    unbounded handle_request() loop.
     """
-    import secrets
-    import time
-    import webbrowser
-
-    from hanzo_iam import IAMClient, IAMConfig
-
-    config = IAMConfig(
-        server_url=BOT_IAM_SERVER_URL,
-        client_id=BOT_IAM_CLIENT_ID,
-        client_secret="",
-        organization=BOT_IAM_ORG,
-        application=BOT_IAM_APP,
-    )
-    client = IAMClient(config=config)
-
-    redirect_uri = f"http://localhost:{BOT_CALLBACK_PORT}{BOT_CALLBACK_PATH}"
-    state = secrets.token_urlsafe(32)
-
-    auth_url = client.get_authorization_url(
-        redirect_uri=redirect_uri,
-        state=state,
-        scope="openid profile email",
-    )
-
-    # Reset handler state
-    _BotOAuthCallbackHandler.code = None
-    _BotOAuthCallbackHandler.state = None
-    _BotOAuthCallbackHandler.error = None
-
-    server = http.server.HTTPServer(
-        ("127.0.0.1", BOT_CALLBACK_PORT), _BotOAuthCallbackHandler
-    )
-    server.timeout = 120
-
-    console.print(f"[cyan]Opening browser to login at {BOT_IAM_SERVER_URL}...[/cyan]")
-    webbrowser.open(auth_url)
-    console.print(
-        f"Waiting for callback on http://localhost:{BOT_CALLBACK_PORT}{BOT_CALLBACK_PATH}"
-    )
-
-    while (
-        _BotOAuthCallbackHandler.code is None
-        and _BotOAuthCallbackHandler.error is None
-    ):
-        server.handle_request()
-
-    server.server_close()
-
-    if _BotOAuthCallbackHandler.error:
-        console.print(f"[red]Login failed:[/red] {_BotOAuthCallbackHandler.error}")
-        raise SystemExit(1)
-
-    if _BotOAuthCallbackHandler.state != state:
-        console.print("[red]State mismatch — possible CSRF attack.[/red]")
-        raise SystemExit(1)
-
-    code = _BotOAuthCallbackHandler.code
-    if not code:
-        console.print("[red]No authorization code received.[/red]")
-        raise SystemExit(1)
-
-    tokens = client.exchange_code(code=code, redirect_uri=redirect_uri)
-    client.close()
-
-    access_token = tokens.access_token
-    if not access_token:
-        console.print("[red]No access token in response.[/red]")
-        raise SystemExit(1)
-
-    _save_bot_token({
-        "access_token": access_token,
-        "refresh_token": tokens.refresh_token or "",
-        "id_token": tokens.id_token or "",
-        "expires_at": time.time() + (tokens.expires_in or 604800),
-        "client_id": BOT_IAM_CLIENT_ID,
-        "server_url": BOT_IAM_SERVER_URL,
-        "organization": BOT_IAM_ORG,
-        "application": BOT_IAM_APP,
-        "login_time": int(time.time()),
-    })
-
-    console.print("[green]Bot login successful.[/green]")
-    return access_token
-
-
-def _bot_password_login(
-    username: str | None = None, password: str | None = None
-) -> str:
-    """Login via password grant using the hanzo-bot client. Returns access_token."""
     import time
 
-    import httpx
+    from hanzo_iam import oauth
 
-    if not username:
-        username = click.prompt("Email")
-    if not password:
-        password = click.prompt("Password", hide_input=True)
+    redirect_uris = tuple(
+        u for u in (_env("BOT_REDIRECT_URI"),) if u
+    ) or oauth.LOOPBACK_REDIRECTS
 
-    resp = httpx.post(
-        f"{BOT_IAM_SERVER_URL}/oauth/token",
-        data={
-            "grant_type": "password",
-            "client_id": BOT_IAM_CLIENT_ID,
-            "username": username,
-            "password": password,
-            "scope": "openid profile email",
-        },
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
-        timeout=30.0,
-    )
-    data = resp.json()
-    access_token = data.get("access_token", "")
-    if not access_token:
-        err = (
-            data.get("error_description")
-            or data.get("msg")
-            or data.get("error", "unknown error")
+    try:
+        data = oauth.login(
+            server_url=BOT_IAM_SERVER_URL,
+            client_id=BOT_IAM_CLIENT_ID,
+            organization=BOT_IAM_ORG,
+            redirect_uris=redirect_uris,
+            on_url=lambda u: console.print(f"[cyan]Open this URL to sign in:[/cyan]\n\n  {u}\n"),
         )
-        console.print(f"[red]Login failed:[/red] {err}")
-        raise SystemExit(1)
+    except oauth.LoginError as e:
+        console.print(f"[red]Bot login failed:[/red] {e}")
+        console.print(
+            "[yellow]Note:[/yellow] the hanzo-bot IAM application has no loopback"
+            " redirect_uri registered. Register one (or set BOT_REDIRECT_URI to a"
+            " registered value) before browser login can complete."
+        )
+        raise SystemExit(1) from e
 
-    _save_bot_token({
-        "access_token": access_token,
-        "refresh_token": data.get("refresh_token", ""),
-        "expires_at": time.time() + data.get("expires_in", 604800),
-        "client_id": BOT_IAM_CLIENT_ID,
-        "username": username,
-        "login_time": int(time.time()),
-    })
-    return access_token
+    data["application"] = BOT_IAM_APP
+    data["expires_at"] = time.time() + (data.get("expires_in") or 604800)
+    _save_bot_token(data)
+    console.print("[green]Bot login successful.[/green]")
+    return data["access_token"]
 
 
 def _get_iam_token() -> str:
@@ -822,38 +644,33 @@ def bot_install() -> None:
 
 
 @bot.command("login")
-@click.option(
-    "--no-browser",
-    is_flag=True,
-    help="Use password login instead of browser OAuth.",
-)
-def bot_login_cmd(no_browser: bool) -> None:
-    """Authenticate with the bot gateway.
+def bot_login_cmd() -> None:
+    """Authenticate with the bot gateway (OAuth2 authorization code + PKCE).
 
-    Opens your browser to log in via Hanzo IAM. The token is stored
-    at ~/.hanzo/bot/token.json and used for subsequent bot commands.
-
-    \b
-    Examples:
-        hanzo bot login                    Browser OAuth login
-        hanzo bot login --no-browser       Password login
+    The token is stored at ~/.hanzo/bot/token.json and used for subsequent bot
+    commands. Password login is gone: iam's password grant requires client
+    authentication (401 invalid_client without a secret), which a CLI cannot
+    supply, so `--no-browser` never worked.
     """
-    if no_browser:
-        token = _bot_password_login()
-    else:
-        token = _bot_browser_login()
+    from hanzo_iam import tokens
+    from hanzo_iam.models import OIDC_JWKS_PATH
 
-    # Decode and show who we logged in as
-    try:
-        import base64
+    token = _bot_browser_login()
 
-        parts = token.split(".")
-        payload = json.loads(base64.urlsafe_b64decode(parts[1] + "=="))
-        name = payload.get("name", "unknown")
-        email = payload.get("email", "")
-        console.print(f"[green]Logged in as:[/green] {name} ({email})")
-    except Exception:
-        console.print("[green]Login stored.[/green]")
+    # Identity from a VERIFIED token. This used to base64-decode the payload
+    # and print whatever it said, with no signature check at all.
+    result = tokens.verify(
+        token,
+        jwks_uri=f"{BOT_IAM_SERVER_URL}{OIDC_JWKS_PATH}",
+        issuer=BOT_IAM_SERVER_URL,
+    )
+    if not result.valid:
+        console.print(f"[red]Token did not verify:[/red] {result.reason}: {result.detail}")
+        raise SystemExit(1)
+    console.print(
+        f"[green]Logged in as:[/green] {result.claims.get('name', 'unknown')}"
+        f" ({result.claims.get('email', '')})"
+    )
 
 
 @bot.command("logout")

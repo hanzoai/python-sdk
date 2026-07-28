@@ -22,7 +22,7 @@ from hanzo_cli import __version__
 from hanzo_cli.auth import (
     browser_login,
     get_token_info,
-    password_login,
+    verify_token,
 )
 from hanzo_cli.auth import (
     logout as do_logout,
@@ -46,26 +46,41 @@ def main(ctx: click.Context) -> None:
 
 @main.command()
 @click.option(
-    "--no-browser", is_flag=True, help="Use password login instead of browser OAuth."
+    "--no-browser",
+    is_flag=True,
+    help="Print the sign-in URL instead of opening a browser.",
 )
-@click.option("--port", default=8399, help="Local callback port for browser login.")
+@click.option(
+    "--port",
+    default=None,
+    type=int,
+    help=(
+        "Loopback callback port. Must be one registered on the IAM application"
+        " — iam matches redirect_uri by exact string."
+    ),
+)
 @click.pass_context
-def login(ctx: click.Context, no_browser: bool, port: int) -> None:
-    """Authenticate with Hanzo IAM."""
-    try:
-        if no_browser:
-            token_data = password_login()
-        else:
-            token_data = browser_login(port=port)
+def login(ctx: click.Context, no_browser: bool, port: int | None) -> None:
+    """Authenticate with Hanzo IAM (OAuth2 authorization code + PKCE).
 
-        console.print("[green]Logged in successfully.[/green]")
-        if token_data.get("access_token"):
-            # Decode the token subject for display
-            _at = token_data["access_token"]
-            console.print("Token stored at ~/.hanzo/auth/token.json")
+    Password login is deliberately absent: iam's password grant requires client
+    authentication (it answers 401 invalid_client without a secret), and a CLI
+    cannot hold a secret. The device-code grant would be the right answer for a
+    headless box, but no PUBLIC client is registered, so it 401s for every
+    client_id today. --no-browser prints the URL for you to open elsewhere.
+    """
+    try:
+        token_data = browser_login(port=port, open_browser=not no_browser)
     except Exception as e:
         console.print(f"[red]Login failed:[/red] {e}")
         raise SystemExit(1) from e
+
+    result = verify_token()
+    claims = result.claims
+    console.print("[green]Logged in.[/green]")
+    console.print(f"  user:  {claims.get('email') or claims.get('sub')}")
+    console.print(f"  org:   {claims.get('owner') or token_data.get('organization')}")
+    console.print(f"  token: verified, stored in {token_data.get('stored_in')}")
 
 
 @main.command()
@@ -92,19 +107,17 @@ def whoami() -> None:
     table.add_row("Application", token_data.get("application", "—"))
     table.add_row("Client ID", token_data.get("client_id", "—"))
 
-    # Try to decode the token for user info
-    access_token = token_data.get("access_token", "")
-    if access_token:
-        try:
-            import jwt
-
-            # Decode without verification just to show user info
-            claims = jwt.decode(access_token, options={"verify_signature": False})
-            table.add_row("User", claims.get("name", claims.get("sub", "—")))
-            table.add_row("Email", claims.get("email", "—"))
-            table.add_row("Owner", claims.get("owner", "—"))
-        except Exception:
-            table.add_row("Token", f"{access_token[:20]}...")
+    # Identity comes from a VERIFIED token. The previous version decoded with
+    # verify_signature=False and printed whatever the token claimed, so a
+    # forged file made `whoami` report an attacker-chosen identity as fact.
+    result = verify_token()
+    table.add_row("Token", "[green]verified[/green]" if result.valid
+                  else f"[red]INVALID[/red] ({result.reason}: {result.detail})")
+    if result.valid:
+        claims = result.claims
+        table.add_row("User", claims.get("name") or claims.get("sub", "—"))
+        table.add_row("Email", claims.get("email", "—"))
+        table.add_row("Owner", claims.get("owner", "—"))
 
     login_time = token_data.get("login_time")
     if login_time:

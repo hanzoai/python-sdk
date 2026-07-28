@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-team"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hanzo MCP tool for Team — workspaces, members, and invitations"
 readme = "README.md"
 requires-python = ">=3.12"
