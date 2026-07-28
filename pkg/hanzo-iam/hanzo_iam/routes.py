@@ -1,0 +1,88 @@
+"""Hanzo IAM endpoint paths — the one place this SDK names an admin route.
+
+Every path here is the NATIVE surface. The legacy "verb" spellings this SDK used
+to call (`get-user`, `get-users`, `get-organizations`, …) are being removed from
+the server: they are an upstream shape, HIP-0111 forbids them, and a capability
+that has an RFC uses its RFC.
+
+Two things changed together, which is why this module exists rather than 22
+inline literals:
+
+    path      the verb URL became a noun URL
+    envelope  the verb surface answered {status, msg, data} at HTTP 200 even for
+              a miss. The native surface returns the object at the TOP LEVEL and
+              uses real status codes, and it NAMES its lists — {"users": [...]},
+              not {"data": [...]}.
+
+Swapping only the path is the dangerous half. A caller that does
+`x if isinstance(x, list) else []` against a native response gets `[]` — it
+reports "none" for a healthy org instead of failing.
+
+`unwrap` reads both shapes so a fleet mid-rollout keeps working. That is
+deliberately temporary: once every server serves native only, the envelope branch
+is dead code and should be deleted with it.
+
+OIDC/OAuth paths are NOT here — they live in models.py (OIDC_TOKEN_PATH and
+friends) and are pinned by tests/test_endpoints.py. This module is the admin
+surface only.
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+# --- native admin routes -----------------------------------------------------
+
+USER = "/v1/iam/users/get"
+USERS = "/v1/iam/users"
+APPLICATION = "/v1/iam/application"
+APPLICATIONS = "/v1/iam/applications"
+ORGANIZATION = "/v1/iam/organizations/get"
+ORGANIZATIONS = "/v1/iam/organizations"
+PROVIDERS = "/v1/iam/providers"
+ROLE = "/v1/iam/roles/get"
+ROLES = "/v1/iam/roles"
+
+#: OAuth 2.0 token endpoint (RFC 6749 §3.2). The `oauth/access_token` spelling
+#: this SDK used is a legacy alias the server still answers but never advertises
+#: — OIDC discovery names only this one.
+TOKEN = "/v1/iam/oauth/token"
+
+#: The key the native surface wraps a LIST in, per route. The verb surface put
+#: every list under "data"; the native one names what it returns. A list route
+#: missing from this table unwraps to [] and reads as "empty".
+LIST_KEY = {
+    USERS: "users",
+    APPLICATIONS: "applications",
+    ORGANIZATIONS: "organizations",
+    PROVIDERS: "providers",
+    ROLES: "roles",
+}
+
+
+def unwrap(body: Any, list_key: str | None = None) -> Any:
+    """Return the payload from either the native or the legacy envelope.
+
+    Raises ValueError when the legacy envelope carries an error, because that
+    surface reported failures INSIDE a 200 and callers relied on this raising
+    rather than on a falsy return. The native surface signals with the status
+    code, which the caller has already checked via raise_for_status().
+    """
+    if not isinstance(body, dict):
+        return body
+
+    if body.get("status") == "error":
+        raise ValueError(body.get("msg") or "IAM request failed")
+
+    if list_key is not None:
+        if list_key in body:  # native: {"users": [...]}
+            return body[list_key] or []
+        if "data" in body:  # legacy: {"status", "msg", "data": [...]}
+            return body["data"] or []
+        return []
+
+    # Only a body whose keys are EXACTLY the envelope's is unwrapped, so a native
+    # row that legitimately carries a `data` column survives intact.
+    if "data" in body and set(body) <= {"status", "msg", "data", "data2"}:
+        return body["data"]
+    return body

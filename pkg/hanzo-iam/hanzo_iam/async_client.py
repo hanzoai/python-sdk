@@ -10,6 +10,7 @@ import httpx
 import jwt
 
 from hanzo_iam.config import IAMConfig
+from hanzo_iam import routes
 from hanzo_iam.models import (
     IAM_ROUTE_PREFIX,
     OIDC_AUTHORIZE_PATH,
@@ -447,7 +448,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-user",
+            routes.USER,
             params=params,
             headers=self._admin_headers(),
         )
@@ -457,7 +458,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user"))
 
-        return User.model_validate(data.get("data", data))
+        return User.model_validate(routes.unwrap(data))
 
     async def get_users(self) -> list[User]:
         """Get all users in organization.
@@ -472,7 +473,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-users",
+            routes.USERS,
             params=params,
             headers=self._admin_headers(),
         )
@@ -482,7 +483,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get users"))
 
-        users_data = data.get("data", data) or []
+        users_data = routes.unwrap(data, "users")
         return [User.model_validate(u) for u in users_data]
 
     async def get_user_count(
@@ -509,7 +510,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-user-count",
+            routes.USERS,
             params=params,
             headers=self._admin_headers(),
         )
@@ -519,7 +520,7 @@ class AsyncIAMClient:
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user count"))
 
-        return int(data.get("data", data) if isinstance(data, dict) else data)
+        return int(routes.unwrap(data) if isinstance(data, dict) else data)
 
     async def create_user(self, user: User) -> User:
         """Create new user.
@@ -569,7 +570,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", f"Failed to {action}"))
 
-        return User.model_validate(data.get("data", data))
+        return User.model_validate(routes.unwrap(data))
 
     async def get_application(self) -> Application:
         """Get current application configuration.
@@ -584,7 +585,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-application",
+            routes.APPLICATION,
             params=params,
             headers=self._admin_headers(),
         )
@@ -594,7 +595,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get application"))
 
-        return Application.model_validate(data.get("data", data))
+        return Application.model_validate(routes.unwrap(data))
 
     # =========================================================================
     # Organization
@@ -613,7 +614,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-organizations",
+            routes.ORGANIZATIONS,
             params=params,
             headers=self._admin_headers(),
         )
@@ -623,7 +624,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organizations"))
 
-        return data.get("data", data) or []
+        return routes.unwrap(data, "organizations")
 
     async def get_organization(self, name: str) -> dict[str, Any]:
         """Get organization by name.
@@ -641,7 +642,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-organization",
+            routes.ORGANIZATION,
             params=params,
             headers=self._admin_headers(),
         )
@@ -651,7 +652,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organization"))
 
-        return data.get("data", data)
+        return routes.unwrap(data)
 
     # =========================================================================
     # Permissions / Enforcement
@@ -703,7 +704,7 @@ class AsyncIAMClient:
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Enforcement failed"))
 
-        return bool(data.get("data", data) if isinstance(data, dict) else data)
+        return bool(routes.unwrap(data) if isinstance(data, dict) else data)
 
     async def batch_enforce(
         self,
@@ -748,7 +749,7 @@ class AsyncIAMClient:
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Batch enforcement failed"))
 
-        results = data.get("data", data) if isinstance(data, dict) else data
+        results = routes.unwrap(data) if isinstance(data, dict) else data
         return [bool(r) for r in results]
 
     # =========================================================================
@@ -771,7 +772,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-roles",
+            routes.ROLES,
             params=params,
             headers=self._admin_headers(),
         )
@@ -781,7 +782,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get roles"))
 
-        return data.get("data", data) or []
+        return routes.unwrap(data, "roles")
 
     async def get_role(
         self,
@@ -806,7 +807,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-role",
+            routes.ROLE,
             params=params,
             headers=self._admin_headers(),
         )
@@ -816,7 +817,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get role"))
 
-        return data.get("data", data)
+        return routes.unwrap(data)
 
     async def get_user_roles(
         self,
@@ -841,7 +842,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-user-roles",
+            routes.ROLES,
             params=params,
             headers=self._admin_headers(),
         )
@@ -851,7 +852,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user roles"))
 
-        return data.get("data", data) or []
+        return routes.unwrap(data, "roles")
 
     async def add_role_for_user(
         self,
@@ -993,7 +994,7 @@ class AsyncIAMClient:
 
         http = await self._get_http()
         response = await http.get(
-            f"{IAM_ROUTE_PREFIX}/get-applications",
+            routes.APPLICATIONS,
             params=params,
             headers=self._admin_headers(),
         )
@@ -1003,7 +1004,7 @@ class AsyncIAMClient:
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get applications"))
 
-        apps_data = data.get("data", data) or []
+        apps_data = routes.unwrap(data, "applications")
         return [Application.model_validate(a) for a in apps_data]
 
     async def update_application(self, application: Application) -> dict[str, Any]:
