@@ -4,7 +4,10 @@ Import/registration checks plus offline tests of the cloud-backed VectorTool
 wiring (/v1/code/search, /v1/code/index, /v1/embeddings) and the mock-kill.
 """
 
+import re
 import asyncio
+import importlib
+from pathlib import Path
 
 import pytest
 
@@ -118,22 +121,35 @@ class TestCloudVectorTool:
         assert env["error"]["code"] == "INVALID_PARAMS"
 
 
-class TestNoSilentMock:
-    def test_infinity_mock_is_opt_in(self):
-        """When infinity_embedded is absent, the store is UNAVAILABLE (no mock)."""
-        from hanzo_tools.vector import infinity_store as ins
+class TestNoFake:
+    """The random-vector local store is deleted, not flag-guarded.
 
-        if ins.infinity_embedded is None:
-            assert ins.INFINITY_AVAILABLE is False
-        else:
-            pytest.skip("infinity_embedded is installed in this environment")
+    Regression guard: an importable local store means an embedder-less path
+    exists again, and the only vectors it can produce are noise.
+    """
 
-    def test_local_embedding_raises_without_mock(self, monkeypatch):
-        """The local store must not silently return random vectors."""
-        from hanzo_tools.vector.infinity_store import InfinityVectorStore
+    @pytest.mark.parametrize(
+        "gone",
+        [
+            "infinity_store",
+            "mock_infinity",
+            "vector_search",
+            "vector_index",
+            "index_tool",
+            "git_ingester",
+            "project_manager",
+        ],
+    )
+    def test_local_store_modules_are_gone(self, gone):
+        with pytest.raises(ImportError):
+            importlib.import_module(f"hanzo_tools.vector.{gone}")
 
-        monkeypatch.delenv("HANZO_VECTOR_ALLOW_MOCK", raising=False)
-        store = InfinityVectorStore.__new__(InfinityVectorStore)  # no __init__/DB
-        store.dimension = 8
-        with pytest.raises(NotImplementedError):
-            store._generate_embedding("hello")
+    def test_no_random_in_package(self):
+        """No module in the package may import `random` — vectors come from the service."""
+        pkg = Path(importlib.import_module("hanzo_tools.vector").__file__).parent
+        offenders = [
+            p.name
+            for p in pkg.glob("*.py")
+            if re.search(r"^\s*(import random|from random import)", p.read_text(), re.M)
+        ]
+        assert offenders == []

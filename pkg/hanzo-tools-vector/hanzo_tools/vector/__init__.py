@@ -1,15 +1,12 @@
 """Vector/embedding tools for Hanzo AI.
 
-Default surface is the cloud-backed `VectorTool` (real Qdrant + zen embeddings
-via api.hanzo.ai). Actions: search, index, embed.
+The only surface is the cloud-backed `VectorTool`: real zen embeddings into the
+in-cluster Qdrant via api.hanzo.ai. Actions: search, index, embed.
 
-The local Infinity store (infinity_store / vector_search / vector_index) remains
-importable for offline use but is NOT the default and never substitutes a mock
-silently — the random-vector mock is opt-in via HANZO_VECTOR_ALLOW_MOCK=1.
-
-Install:
-    pip install hanzo-tools-vector          # cloud (default)
-    pip install hanzo-tools-vector[full]    # + local Infinity store
+There is no local store. The former embedded-Infinity path shipped no embedder,
+so it could only ever produce random vectors — which rank by noise and silently
+lie to the caller. A tool that lies is worse than a missing tool, so it is gone
+rather than flag-guarded: every vector here is computed by the real service.
 """
 
 import logging
