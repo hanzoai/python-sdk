@@ -15,8 +15,8 @@ from hanzo_tools.iam.iam_tool import IAMTool, _iam_url, IAM_BASE_URL
 
 
 def test_iam_url_uses_v1_iam_not_api():
-    url = _iam_url("get-users")
-    assert url == f"{IAM_BASE_URL}/v1/iam/get-users"
+    url = _iam_url("users")
+    assert url == f"{IAM_BASE_URL}/v1/iam/users"
     assert "/api/" not in url
 
 
