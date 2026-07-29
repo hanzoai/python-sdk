@@ -2,7 +2,13 @@
 
 from hanzo_iam import store
 from hanzo_iam.config import IAMConfig
-from hanzo_iam.async_client import AsyncIAMClient
+
+# One IAM HTTP client. There were two — a sync `IAMClient` and an async
+# `AsyncIAMClient` mirroring its whole surface, with no consumer, no test and
+# no export used anywhere in the fleet. Worse, `AsyncIAMClient` was DEFINED
+# TWICE (client.py and async_client.py) and the two copies had drifted, so the
+# name resolved to whichever module won the import. Re-add async when
+# something needs it, generated from the spec, not hand-mirrored.
 from hanzo_iam.client import IAMClient
 
 # Modules are nouns (`oauth`, `tokens`, `store`); package exports are the verbs
@@ -37,9 +43,8 @@ except PackageNotFoundError:  # source tree, not installed
     __version__ = "0.0.0+dev"
 
 __all__ = [
-    # Clients
+    # Client
     "IAMClient",
-    "AsyncIAMClient",
     # Config
     "IAMConfig",
     # Models

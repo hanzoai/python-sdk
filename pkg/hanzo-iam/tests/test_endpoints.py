@@ -55,14 +55,14 @@ def test_discovery_is_the_one_root_relative_path():
     ],
 )
 def test_config_endpoints(attr, expected):
-    config = IAMConfig(server_url=SERVER, client_id="hanzo-app")
+    config = IAMConfig(server_url=SERVER, client_id="hanzo-app", organization="hanzo")
     assert getattr(config, attr) == SERVER + expected
 
 
 def test_config_tolerates_a_trailing_slash():
     """A doubled slash is a different path, and hanzo.id would answer it with
     the SPA rather than a 404."""
-    config = IAMConfig(server_url=SERVER + "/", client_id="hanzo-app")
+    config = IAMConfig(server_url=SERVER + "/", client_id="hanzo-app", organization="hanzo")
     assert config.token_endpoint == f"{SERVER}/v1/iam/oauth/token"
     assert "//v1" not in config.token_endpoint
 
@@ -70,7 +70,7 @@ def test_config_tolerates_a_trailing_slash():
 def test_jwks_uri_is_not_the_unprefixed_well_known_path():
     """The exact trap: https://hanzo.id/.well-known/jwks returns 200 text/html,
     so a JWKS client pointed there fetches a web page and verifies nothing."""
-    config = IAMConfig(server_url=SERVER, client_id="hanzo-app")
+    config = IAMConfig(server_url=SERVER, client_id="hanzo-app", organization="hanzo")
     assert config.jwks_uri != f"{SERVER}/.well-known/jwks"
     assert config.jwks_uri != f"{SERVER}/.well-known/jwks.json"
 
