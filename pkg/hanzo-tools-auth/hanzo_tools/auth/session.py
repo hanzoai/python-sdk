@@ -235,26 +235,24 @@ class HanzoSession:
             return False
 
         try:
-            from hanzo_iam import IAMClient, IAMConfig
+            # The token endpoint has ONE owner: hanzo_iam.oauth. This used to
+            # build a whole IAMConfig and an admin IAMClient to reach a second
+            # copy of the refresh grant — an org, an application and a
+            # client_secret named, none of which a refresh needs.
+            from hanzo_iam import oauth
 
-            config = IAMConfig(
+            tokens = oauth.refresh(
                 server_url=token_data.get("server_url", DEFAULT_IAM_URL),
                 client_id=token_data.get("client_id", DEFAULT_CLIENT_ID),
-                client_secret="",
-                organization=token_data.get("organization", DEFAULT_ORG),
-                application=token_data.get("application", DEFAULT_APP),
+                refresh_token=token_data["refresh_token"],
             )
-            client = IAMClient(config=config)
-
-            tokens = client.refresh_token(token_data["refresh_token"])
-            client.close()
 
             new_data = {
                 **token_data,
-                "access_token": tokens.access_token,
-                "refresh_token": tokens.refresh_token or token_data["refresh_token"],
-                "id_token": getattr(tokens, "id_token", ""),
-                "expires_in": tokens.expires_in,
+                "access_token": tokens["access_token"],
+                "refresh_token": tokens.get("refresh_token") or token_data["refresh_token"],
+                "id_token": tokens.get("id_token", ""),
+                "expires_in": tokens.get("expires_in"),
                 "login_time": int(time.time()),
             }
 

@@ -34,11 +34,12 @@ import time
 import urllib.parse
 import webbrowser
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 
 import httpx
 
 from hanzo_iam.models import OIDC_AUTHORIZE_PATH, OIDC_TOKEN_PATH
+from hanzo_iam.response import IAMError, decode
 
 DEFAULT_IAM_URL = "https://hanzo.id"
 DEFAULT_CLIENT_ID = "hanzo-app"
@@ -56,10 +57,6 @@ LOOPBACK_REDIRECTS = (
 )
 
 DEFAULT_TIMEOUT = 300.0
-
-
-class LoginError(RuntimeError):
-    """Login could not complete. The message is meant for the end user."""
 
 
 @dataclass(frozen=True)
@@ -111,46 +108,64 @@ def exchange_code(
 ) -> dict[str, Any]:
     """Redeem an authorization code. No client secret: PKCE is the proof.
 
-    Raises LoginError with the server's own words on failure. It never calls
-    .json() on a response it has not established is JSON — hanzo.id serves its
-    sign-in SPA (200 text/html) on any unmatched path, so a wrong path used to
-    surface as an inscrutable JSONDecodeError instead of "wrong path".
+    Raises IAMError with the server's own words on failure — including when the
+    response is not JSON at all, which is what a wrong path looks like here.
+    That gate is `hanzo_iam.response.decode`, applied by every surface now; it
+    used to live only in this module.
     """
-    resp = httpx.post(
-        f"{server_url.rstrip('/')}{OIDC_TOKEN_PATH}",
-        data={
+    payload = _token_grant(
+        server_url,
+        {
             "grant_type": "authorization_code",
             "client_id": client_id,
             "code": code,
             "redirect_uri": redirect_uri,
             "code_verifier": verifier,
         },
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
-        timeout=timeout,
+        timeout,
     )
-    payload = _json_or_raise(resp, "token endpoint")
-    if "error" in payload:
-        raise LoginError(
-            f"token exchange rejected: {payload['error']}"
-            f" — {payload.get('error_description', 'no description')}"
-        )
     if not payload.get("access_token"):
-        raise LoginError("token endpoint returned no access_token")
+        raise IAMError("token endpoint returned no access_token")
     return payload
 
 
-def _json_or_raise(resp: httpx.Response, what: str) -> dict[str, Any]:
-    ctype = resp.headers.get("content-type", "")
-    if "json" not in ctype:
-        raise LoginError(
-            f"{what} answered {resp.status_code} {ctype or 'no content-type'}"
-            f" instead of JSON at {resp.request.url} — this is the wrong path,"
-            " not a rejected login"
-        )
-    try:
-        return resp.json()
-    except ValueError as e:
-        raise LoginError(f"{what} returned unparseable JSON: {e}") from e
+def refresh(
+    server_url: str,
+    client_id: str,
+    refresh_token: str,
+    client_secret: str = "",
+    timeout: float = 30.0,
+) -> dict[str, Any]:
+    """Exchange a refresh token for a fresh access token.
+
+    Lives here, with the rest of the token endpoint. `IAMClient.refresh_token`
+    was the second implementation — same endpoint, different module, and it
+    always sent `client_secret` even for the public client the loopback flow
+    logs in as. A public client has no secret to send; `""` in the form is
+    noise that invites someone to "fix" it by embedding one.
+    """
+    form = {
+        "grant_type": "refresh_token",
+        "client_id": client_id,
+        "refresh_token": refresh_token,
+    }
+    if client_secret:
+        form["client_secret"] = client_secret
+    payload = _token_grant(server_url, form, timeout)
+    if not payload.get("access_token"):
+        raise IAMError("token endpoint returned no access_token")
+    return payload
+
+
+def _token_grant(server_url: str, form: dict[str, str], timeout: float) -> dict[str, Any]:
+    """POST one grant to the ONE token endpoint and decode the reply."""
+    resp = httpx.post(
+        f"{server_url.rstrip('/')}{OIDC_TOKEN_PATH}",
+        data=form,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        timeout=timeout,
+    )
+    return cast("dict[str, Any]", decode(resp, "token endpoint"))
 
 
 def login(
@@ -173,7 +188,7 @@ def login(
             print it for a user whose browser is elsewhere.
 
     Raises:
-        LoginError: with an actionable message on every failure path. It always
+        IAMError: with an actionable message on every failure path. It always
             terminates — the flow this replaces looped on `handle_request()`
             with no deadline and hung forever.
     """
@@ -193,15 +208,15 @@ def login(
         server.close()
 
     if result.error:
-        raise LoginError(f"authorization failed: {result.error} — {result.error_description}")
+        raise IAMError(f"authorization failed: {result.error} — {result.error_description}")
     if not result.code:
-        raise LoginError(
+        raise IAMError(
             f"no authorization code received within {timeout:.0f}s at {redirect_uri}"
         )
     # Constant-time-ish state compare. A mismatch means the code arrived from a
     # request this process did not start (RFC 6749 §10.12).
     if not secrets.compare_digest(result.state or "", state):
-        raise LoginError("state mismatch — discarding the response (possible CSRF)")
+        raise IAMError("state mismatch — discarding the response (possible CSRF)")
 
     tokens = exchange_code(server_url, client_id, result.code, redirect_uri, pkce.verifier)
     now = int(time.time())
@@ -250,7 +265,7 @@ def _bind_registered(uris: tuple[str, ...]) -> tuple[_Listener, str]:
             return _Listener(port, parsed.path or "/"), uri
         except OSError as e:
             busy.append(f"{uri} ({e.strerror or e})")
-    raise LoginError(
+    raise IAMError(
         "no registered loopback redirect URI could be bound: "
         + "; ".join(busy)
         + ". Free one of those ports, or register another loopback redirect_uri"

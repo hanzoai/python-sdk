@@ -5,12 +5,19 @@ from importlib.metadata import version as _version
 
 from hanzo_iam import store
 
-# One IAM HTTP client. There were two — a sync `IAMClient` and an async
-# `AsyncIAMClient` mirroring its whole surface, with no consumer, no test and
-# no export used anywhere in the fleet. Worse, `AsyncIAMClient` was DEFINED
-# TWICE (client.py and async_client.py) and the two copies had drifted, so the
-# name resolved to whichever module won the import. Re-add async when
-# something needs it, generated from the spec, not hand-mirrored.
+# ONE surface per concern, and no concern served twice:
+#
+#   client    the ADMIN entity verbs, against the issuer
+#   oauth     the OIDC protocol surface (authorize, exchange, refresh, login)
+#   tokens    judging a credential
+#   store     persisting one
+#   response  turning any IAM reply into a value or an IAMError
+#
+# `IAMClient` used to own an OIDC surface as well — get_authorization_url,
+# exchange_code, refresh_token, get_user_info, and a password-grant `login`
+# that collided by name with the `login` exported below. Two owners of the
+# token endpoint is two answers to "what authenticates this exchange": oauth
+# proves possession with PKCE, the client posted a client_secret.
 from hanzo_iam.client import IAMClient
 from hanzo_iam.config import IAMConfig
 from hanzo_iam.models import (
@@ -34,7 +41,13 @@ from hanzo_iam.models import (
 # (`login`, `verify`). No export shadows the module it came from — an earlier
 # layout had `hanzo_iam.verify` mean both a module and a function, and
 # `import hanzo_iam.verify` silently handed back the function.
-from hanzo_iam.oauth import LoginError, login
+from hanzo_iam.oauth import login
+
+# ONE failure type for every IAM call. It replaced three that meant the same
+# thing in different modules: `LoginError` (oauth), `ValueError` (client) and a
+# bare `HTTPException` (fastapi) — so "the call failed" was three different
+# excepts depending on which surface you happened to be holding.
+from hanzo_iam.response import IAMError
 from hanzo_iam.tokens import Verification, unverified_claims, verify
 
 try:
@@ -69,7 +82,7 @@ __all__ = [
     "OIDC_USERINFO_PATH",
     # Auth
     "login",
-    "LoginError",
+    "IAMError",
     "store",
     "verify",
     "Verification",

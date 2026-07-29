@@ -118,22 +118,17 @@ def set_password(user: str, password: str | None) -> None:
     client = get_client()
     org = client.config.organization
 
+    # The envelope's `status` field is NOT read here. It is the error channel,
+    # and the error channel has one reader: hanzo_iam.response.unwrap, which
+    # raises IAMError. A second reader is a second place that decision lives —
+    # and this one used to swallow a refusal into a printed line plus exit 1,
+    # losing the server's own words in the process.
     try:
-        result = client.set_password(
-            user_owner=org,
-            user_name=user,
-            new_password=password,
-        )
+        client.set_password(user_owner=org, user_name=user, new_password=password)
     finally:
         client.close()
 
-    status = result.get("status", "unknown")
-    if status == "ok":
-        console.print(f"[green]Password set for {org}/{user}.[/green]")
-    else:
-        msg = result.get("msg", "Unknown error")
-        console.print(f"[red]Failed:[/red] {msg}")
-        raise SystemExit(1)
+    console.print(f"[green]Password set for {org}/{user}.[/green]")
 
 
 # =========================================================================
