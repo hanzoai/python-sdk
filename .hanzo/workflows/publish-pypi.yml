@@ -12,10 +12,15 @@ name: Publish PyPI
 # exchange 403s AFTER the user has already signed in through the browser.
 # Depending on GitHub to ship a fix for our own CLI was the actual defect.
 #
-# That 422 no longer reproduces — Actions are enabled on hanzoai/python-sdk again
-# and ran green on 2026-07-28. The migration stands on its own terms regardless:
-# releases run on our runners, and GitHub is a mirror. Do not restore the .github
-# job on the strength of the 422 having lifted.
+# That 422 is still live, and it is ACCOUNT-scoped, not repo-scoped. Checking
+# `gh api repos/hanzoai/python-sdk/actions/permissions` reports enabled=true, and
+# GitHub's own Dependency Graph runs go green — neither tells you anything about
+# dispatch. Dispatching as `hanzo-dev` returns the 422 to this day; dispatching the
+# same workflow as `zooqueen` works. So "Actions are enabled" and "we can trigger a
+# workflow" are different questions, and the repo-level check answers the wrong one.
+#
+# The migration stands on its own terms regardless: releases run on our runners and
+# GitHub is a mirror. Do not restore a tag-triggered .github job.
 #
 # Tag -> package mapping is unchanged from the retired workflow, including the
 # `hanzo-*` catch-all that maps `hanzo-v0.4.4` to the `hanzo` package.
