@@ -81,7 +81,7 @@ class LoginTool(BaseTool):
         import asyncio
         from functools import partial
 
-        from hanzo_iam.oauth import LoginError
+        from hanzo_iam import IAMError
 
         allowed = {"server_url", "client_id", "organization", "scope", "timeout", "open_browser"}
         opts = {k: v for k, v in kwargs.items() if k in allowed and v is not None}
@@ -91,7 +91,7 @@ class LoginTool(BaseTool):
             result = await asyncio.to_thread(
                 partial(session.login, on_url=urls.append, **opts)
             )
-        except LoginError as e:
+        except IAMError as e:
             return json.dumps(
                 {"authenticated": False, "error": str(e), "authorize_url": urls[0] if urls else None},
                 indent=2,

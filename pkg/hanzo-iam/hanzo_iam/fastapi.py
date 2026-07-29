@@ -42,6 +42,7 @@ from hanzo_iam.models import (
     Organization,
     UserInfo,
 )
+from hanzo_iam.response import IAMError, decode
 
 # Global state
 _config: IAMConfig | None = None
@@ -221,7 +222,14 @@ async def _fetch_user_info(token: str) -> UserInfo:
         UserInfo from the IAM userinfo endpoint
 
     Raises:
-        HTTPException: If request fails
+        HTTPException: If the request fails.
+
+    The decision "is this response a value or an error" is
+    `hanzo_iam.response.decode`, not a status-code check written here. A status
+    check alone is not enough against this host: hanzo.id answers an unmatched
+    path with 200 text/html, which passed `!= 200` and then died inside
+    `.json()`. Translating IAMError to a 401 is this module's own concern — a
+    FastAPI dependency must answer the client, not propagate a 500.
     """
     config = get_config()
     userinfo_url = f"{config.server_url}{OIDC_USERINFO_PATH}"
@@ -232,14 +240,14 @@ async def _fetch_user_info(token: str) -> UserInfo:
             headers={"Authorization": f"Bearer {token}"},
         )
 
-        if response.status_code != 200:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to fetch user info",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        return UserInfo.model_validate(response.json())
+    try:
+        return UserInfo.model_validate(decode(response, "userinfo"))
+    except IAMError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Failed to fetch user info: {e}",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from e
 
 
 async def get_current_user(

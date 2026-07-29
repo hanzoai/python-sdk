@@ -508,7 +508,7 @@ def _bot_browser_login() -> str:
     """
     import time
 
-    from hanzo_iam import oauth
+    from hanzo_iam import IAMError, oauth
 
     redirect_uris = tuple(
         u for u in (_env("BOT_REDIRECT_URI"),) if u
@@ -522,7 +522,7 @@ def _bot_browser_login() -> str:
             redirect_uris=redirect_uris,
             on_url=lambda u: console.print(f"[cyan]Open this URL to sign in:[/cyan]\n\n  {u}\n"),
         )
-    except oauth.LoginError as e:
+    except IAMError as e:
         console.print(f"[red]Bot login failed:[/red] {e}")
         console.print(
             "[yellow]Note:[/yellow] the hanzo-bot IAM application has no loopback"

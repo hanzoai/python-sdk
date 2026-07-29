@@ -20,7 +20,7 @@ import urllib.request
 import httpx
 import pytest
 
-from hanzo_iam import oauth
+from hanzo_iam import IAMError, oauth
 
 ISSUER = "https://hanzo.id"
 
@@ -132,7 +132,7 @@ def test_html_response_is_diagnosed_as_a_wrong_path(monkeypatch):
     path. The old client called .json() on it and raised JSONDecodeError,
     hiding a wrong URL behind a parse error."""
     monkeypatch.setattr(httpx, "post", _Capture(content_type="text/html", text="<!doctype html>"))
-    with pytest.raises(oauth.LoginError, match="wrong path"):
+    with pytest.raises(IAMError, match="wrong path"):
         oauth.exchange_code(ISSUER, "hanzo-app", "c", "http://localhost:3000/callback", "v")
 
 
@@ -145,13 +145,13 @@ def test_oauth_error_body_is_surfaced_verbatim(monkeypatch):
             json_body={"error": "invalid_grant", "error_description": "code expired"},
         ),
     )
-    with pytest.raises(oauth.LoginError, match="invalid_grant.*code expired"):
+    with pytest.raises(IAMError, match="invalid_grant.*code expired"):
         oauth.exchange_code(ISSUER, "hanzo-app", "c", "http://localhost:3000/callback", "v")
 
 
 def test_missing_access_token_is_an_error_not_a_silent_success(monkeypatch):
     monkeypatch.setattr(httpx, "post", _Capture(json_body={"token_type": "Bearer"}))
-    with pytest.raises(oauth.LoginError, match="no access_token"):
+    with pytest.raises(IAMError, match="no access_token"):
         oauth.exchange_code(ISSUER, "hanzo-app", "c", "http://localhost:3000/callback", "v")
 
 
@@ -236,7 +236,7 @@ def test_binding_reports_which_ports_were_busy():
             s.listen(1)
             held.append(s)
 
-        with pytest.raises(oauth.LoginError) as e:
+        with pytest.raises(IAMError) as e:
             oauth._bind_registered(uris)
         for uri in uris:
             assert uri in str(e.value)
@@ -331,7 +331,7 @@ def test_login_rejects_a_mismatched_state(monkeypatch, free_redirect):
         raise AssertionError("must not exchange a code with a bad state")
 
     _drive_login(monkeypatch, respond, exchange=never)
-    with pytest.raises(oauth.LoginError, match="state mismatch"):
+    with pytest.raises(IAMError, match="state mismatch"):
         oauth.login(timeout=15, redirect_uris=free_redirect)
     assert exchanged == []
 
@@ -345,14 +345,14 @@ def test_login_surfaces_an_idp_error(monkeypatch, free_redirect):
         ).read()
 
     _drive_login(monkeypatch, respond)
-    with pytest.raises(oauth.LoginError, match="access_denied"):
+    with pytest.raises(IAMError, match="access_denied"):
         oauth.login(timeout=15, redirect_uris=free_redirect)
 
 
 def test_login_gives_up_rather_than_hanging(monkeypatch, free_redirect):
     monkeypatch.setattr(oauth.webbrowser, "open", lambda url: True)
     started = time.monotonic()
-    with pytest.raises(oauth.LoginError, match="no authorization code received"):
+    with pytest.raises(IAMError, match="no authorization code received"):
         oauth.login(timeout=0.5, redirect_uris=free_redirect)
     assert time.monotonic() - started < 10
 
@@ -361,7 +361,7 @@ def test_login_can_hand_the_url_to_the_caller(monkeypatch, free_redirect):
     """For a user whose browser is not on this machine."""
     urls: list[str] = []
     monkeypatch.setattr(oauth.webbrowser, "open", lambda url: True)
-    with pytest.raises(oauth.LoginError):
+    with pytest.raises(IAMError):
         oauth.login(timeout=0.3, open_browser=False, on_url=urls.append,
                     redirect_uris=free_redirect)
     assert urls and urls[0].startswith(f"{ISSUER}/v1/iam/oauth/authorize?")
