@@ -1,0 +1,89 @@
+name: Publish PyPI (GitHub-held token)
+# MANUAL ONLY, and deliberately not tag-triggered. Releases run on our runners —
+# .hanzo/workflows/publish-pypi.yml is the tag-driven path and stays canonical.
+#
+# This exists because of one asymmetry: PYPI_TOKEN and HANZO_AI_PYPI_TOKEN live as
+# GitHub Actions secrets on this repo, where values are WRITE-ONLY. They cannot be
+# read out and copied into KMS, which is where every other publish credential in the
+# fleet lives (hanzoai/extension states that contract). So the native job, which
+# pulls from KMS at hanzo/prod/python-sdk-publish, has nothing to pull: it fails with
+#   KMS returned HTTP 404 for hanzo/prod/python-sdk-publish/PYPI_TOKEN
+# and PyPI kept serving hanzo-iam 1.30.0 — the version whose admin calls hit the
+# legacy verb routes the server is removing.
+#
+# GitHub is the only place that can read those secrets, so this is the only way to
+# ship without a human re-keying the token. Everything else about the release is
+# already proven: with a placeholder seeded, the native job fetched from KMS, built
+# hanzo_iam-1.30.2-py3-none-any.whl, and reached upload.pypi.org — failing 403 on the
+# fake credential and nothing else.
+#
+# RETIRE THIS once the tokens are seeded into KMS at hanzo/prod/python-sdk-publish.
+# Two publish paths is one too many, and the native one is the one we keep.
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Space-separated: package dir names under pkg/, or "hanzoai" for the root package'
+        required: true
+        default: 'hanzo-iam'
+
+concurrency:
+  group: publish-pypi-github
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build tooling
+        run: python -m pip install --quiet --upgrade build twine
+
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: __token__
+          # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
+          # packages, HANZO_AI_PYPI_TOKEN the rest. Each upload tries the primary
+          # then falls back, so a 403 scope-miss on one is covered by the other.
+          PYPI_TOKEN_PRIMARY: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN_FALLBACK: ${{ secrets.HANZO_AI_PYPI_TOKEN }}
+        run: |
+          set -uo pipefail
+          PACKAGES="${{ github.event.inputs.packages }}"
+          [ -z "$PACKAGES" ] && { echo "::error::no packages given"; exit 1; }
+
+          if [ -z "${PYPI_TOKEN_PRIMARY:-}" ] && [ -z "${PYPI_TOKEN_FALLBACK:-}" ]; then
+            echo "::error::Neither PYPI_TOKEN nor HANZO_AI_PYPI_TOKEN is set on this repo." >&2
+            exit 1
+          fi
+
+          rc=0
+          for package in $PACKAGES; do
+            if [ "$package" = "hanzoai" ]; then PKG_DIR="."
+            elif [ -d "pkg/$package" ]; then PKG_DIR="pkg/$package"
+            else echo "::error::no pkg/$package"; rc=1; continue; fi
+
+            echo "── $package ($PKG_DIR)"
+            rm -rf "$PKG_DIR/dist" "$PKG_DIR/build"
+            python -m build "$PKG_DIR" --outdir "$PKG_DIR/dist" || { rc=1; continue; }
+
+            # --skip-existing keeps a re-run idempotent: an already-published
+            # version is not an error, so this is safe to dispatch twice.
+            if ! TWINE_PASSWORD="$PYPI_TOKEN_PRIMARY" python -m twine upload "$PKG_DIR/dist/"* --skip-existing; then
+              if [ -n "${PYPI_TOKEN_FALLBACK:-}" ]; then
+                TWINE_PASSWORD="$PYPI_TOKEN_FALLBACK" python -m twine upload "$PKG_DIR/dist/"* --skip-existing || rc=1
+              else
+                rc=1
+              fi
+            fi
+          done
+          exit $rc
