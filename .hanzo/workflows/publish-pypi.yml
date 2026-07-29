@@ -2,8 +2,8 @@ name: Publish PyPI
 # NATIVE CI. git.hanzo.ai is canonical; this runs on the Hanzo git-runner fleet
 # (`hanzo-build-linux-amd64`). GitHub is a downstream mirror only.
 #
-# This replaces .github/workflows/publish-pypi.yml, which could not be run at
-# all: dispatching it returns
+# This replaces .github/workflows/publish-pypi.yml, which at the time could not
+# be run at all: dispatching it returned
 #   HTTP 422: Actions has been disabled for this user
 # for the `hanzo-dev` account, and a tag push produced no run for the same
 # reason. So `hanzo` 0.4.4 sat tagged and unpublished while PyPI kept serving
@@ -11,6 +11,11 @@ name: Publish PyPI
 # rejects urllib's default User-Agent with `error code: 1010`, so the token
 # exchange 403s AFTER the user has already signed in through the browser.
 # Depending on GitHub to ship a fix for our own CLI was the actual defect.
+#
+# That 422 no longer reproduces — Actions are enabled on hanzoai/python-sdk again
+# and ran green on 2026-07-28. The migration stands on its own terms regardless:
+# releases run on our runners, and GitHub is a mirror. Do not restore the .github
+# job on the strength of the 422 having lifted.
 #
 # Tag -> package mapping is unchanged from the retired workflow, including the
 # `hanzo-*` catch-all that maps `hanzo-v0.4.4` to the `hanzo` package.
@@ -78,21 +83,59 @@ jobs:
           echo "PACKAGES=$PACKAGES" >> "$GITHUB_OUTPUT"
           echo "Publishing: ${PACKAGES:-<none>}"
 
-      - name: Build and publish
+      # Secrets model — KMS ONLY, the same contract hanzoai/extension publishes
+      # under. The single bootstrap credential is the KMS machine identity
+      # (KMS_CLIENT_ID / KMS_CLIENT_SECRET, a git.hanzo.ai Actions secret); the
+      # PyPI tokens are pulled at publish time and never stored in Gitea or
+      # GitHub Actions secrets.
+      #
+      # This step is why hanzo-iam 1.30.2 could not ship. The job read
+      # `secrets.PYPI_TOKEN` off the forge, which by that contract is a secret
+      # that must not exist there — and did not: the hanzoai org carries only
+      # GHCR_TOKEN, GHCR_USER, GH_PAT, KMS_CLIENT_ID, KMS_CLIENT_SECRET,
+      # OCI_TOKEN, OCI_USER, REGISTRY_TOKEN. So the guard below fired on every
+      # release and PyPI stayed on 1.30.0. The tokens do exist as *GitHub* repo
+      # secrets, where values are write-only and cannot be migrated by reading
+      # them; they have to be seeded into KMS once, at
+      # org `hanzo`, env `prod`, path `python-sdk-publish`.
+      - name: Load publish secrets from KMS
         env:
-          TWINE_USERNAME: __token__
+          KMS_CLIENT_ID: ${{ secrets.KMS_CLIENT_ID }}
+          KMS_CLIENT_SECRET: ${{ secrets.KMS_CLIENT_SECRET }}
+        run: |
+          # FAIL, never exit 0. A publish pipeline that skips its upload and goes
+          # green is indistinguishable from a working one — hanzoai/extension lost
+          # v1.9.37 exactly that way, tagged and "successful" while npm stayed put.
+          if [ -z "$KMS_CLIENT_ID" ] || [ -z "$KMS_CLIENT_SECRET" ]; then
+            echo "::error::KMS machine identity absent — cannot pull PyPI creds. Seed KMS_CLIENT_ID/KMS_CLIENT_SECRET as git.hanzo.ai Actions secrets (org or repo scope)." >&2
+            exit 1
+          fi
+          KMS=https://kms.hanzo.ai; ORG=hanzo; ENVN=prod; P=python-sdk-publish
+          TOKEN=$(curl -sf "$KMS/v1/kms/auth/login" -H 'Content-Type: application/json' \
+            -d "{\"clientId\":\"$KMS_CLIENT_ID\",\"clientSecret\":\"$KMS_CLIENT_SECRET\"}" | jq -r .accessToken)
+          [ -n "$TOKEN" ] && [ "$TOKEN" != null ] || { echo "::error::KMS login failed"; exit 1; }
           # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
           # packages, HANZO_AI_PYPI_TOKEN the rest. Each upload tries the primary
           # then falls back, so a 403 scope-miss on one is covered by the other.
-          PYPI_TOKEN_PRIMARY: ${{ secrets.PYPI_TOKEN }}
-          PYPI_TOKEN_FALLBACK: ${{ secrets.HANZO_AI_PYPI_TOKEN }}
+          for KEY in PYPI_TOKEN HANZO_AI_PYPI_TOKEN; do
+            VAL=$(curl -sf "$KMS/v1/kms/orgs/$ORG/secrets/$P/$KEY?env=$ENVN" \
+              -H "Authorization: Bearer $TOKEN" | jq -r '.secret.value // empty')
+            if [ -n "$VAL" ]; then echo "::add-mask::$VAL"; fi
+            echo "$KEY=$VAL" >> "$GITHUB_ENV"
+          done
+
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: __token__
         run: |
           set -uo pipefail
           PACKAGES="${{ steps.pick.outputs.PACKAGES }}"
           [ -z "$PACKAGES" ] && { echo "Nothing to publish."; exit 0; }
 
-          if [ -z "${PYPI_TOKEN_PRIMARY:-}" ] && [ -z "${PYPI_TOKEN_FALLBACK:-}" ]; then
-            echo "::error::No PyPI token on this forge. Add PYPI_TOKEN as a repo/org secret on git.hanzo.ai." >&2
+          PYPI_TOKEN_PRIMARY="${PYPI_TOKEN:-}"
+          PYPI_TOKEN_FALLBACK="${HANZO_AI_PYPI_TOKEN:-}"
+          if [ -z "$PYPI_TOKEN_PRIMARY" ] && [ -z "$PYPI_TOKEN_FALLBACK" ]; then
+            echo "::error::KMS holds no PyPI token at hanzo/prod/python-sdk-publish. Seed PYPI_TOKEN (and HANZO_AI_PYPI_TOKEN) there — not as a forge or GitHub Actions secret." >&2
             exit 1
           fi
 
