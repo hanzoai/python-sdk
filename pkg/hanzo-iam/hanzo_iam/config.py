@@ -32,7 +32,11 @@ class IAMConfig(BaseModel):
     server_url: str = Field(description="IAM server URL (e.g., https://hanzo.id)")
     client_id: str = Field(description="OAuth2 client ID")
     client_secret: str = Field(default="", description="OAuth2 client secret")
-    organization: str = Field(default="hanzo", description="IAM organization name")
+    # No default. A tenant is named by the deployment or not at all: the
+    # previous default was the literal "hanzo", so a Lux or Zoo process that
+    # forgot to set IAM_ORG did not fail — it addressed the hanzo tenant and
+    # reported hanzo's users as its own. There is no safe guess here.
+    organization: str = Field(description="IAM organization name")
     application: str = Field(default="app", description="IAM application name")
     certificate: str = Field(
         default="", description="JWT verification certificate (PEM)"
@@ -51,16 +55,27 @@ class IAMConfig(BaseModel):
             IAM_ENDPOINT - IAM server URL (preferred)
             IAM_CLIENT_ID - OAuth2 client ID
             IAM_CLIENT_SECRET - OAuth2 client secret
-            IAM_ORG - Organization name
+            IAM_ORG - Organization name (REQUIRED)
             IAM_APP - Application name
             IAM_CERT - JWT verification certificate (PEM content or file path)
+
+        Raises:
+            ValueError: If ``{prefix}ORG`` is unset. Refusing is the only safe
+                answer — a process that cannot name its tenant must not fall
+                back to somebody else's.
         """
         p = prefix or cls.ENV_PREFIX
 
         server_url = os.environ.get(f"{p}ENDPOINT", "")
         client_id = os.environ.get(f"{p}CLIENT_ID", "")
         client_secret = os.environ.get(f"{p}CLIENT_SECRET", "")
-        organization = os.environ.get(f"{p}ORG", "hanzo")
+        organization = os.environ.get(f"{p}ORG", "").strip()
+        if not organization:
+            raise ValueError(
+                f"{p}ORG is not set. Name the IAM organization this process "
+                f"serves — there is no default, because defaulting addresses "
+                f"another tenant's data."
+            )
         application = os.environ.get(f"{p}APP", "app")
 
         # Certificate can be content or file path

@@ -1,18 +1,21 @@
 """
-Hanzo IAM Client - Sync OAuth2/OIDC client for Hanzo Identity.
+Hanzo IAM Client - the sync OAuth2/OIDC + admin client for Hanzo Identity.
 
-Supports multiple organizations.
+This is the ONE IAM HTTP client in this package. It talks to the ISSUER
+directly (hanzo.id / zoo.id / lux.id) — token exchange and JWKS must not be
+proxied through an aggregator, because that puts a third party inside a
+credential exchange and re-points the audience.
+
+Judging a token is NOT here: hanzo_iam.tokens.verify is the one verifier.
 """
 
 from __future__ import annotations
 
-import os
+import base64
 import secrets
-from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
 import httpx
-import jwt
 
 from .config import IAMConfig
 from .models import (
@@ -24,15 +27,10 @@ from .models import (
     OIDC_TOKEN_PATH,
     OIDC_USERINFO_PATH,
     Application,
-    JWTClaims,
-    Organization,
     TokenResponse,
     User,
     UserInfo,
 )
-
-if TYPE_CHECKING:
-    from jwt import PyJWKClient
 
 
 class IAMClient:
@@ -42,16 +40,11 @@ class IAMClient:
     Supports:
     - Authorization code flow
     - Client credentials flow (M2M)
-    - Token validation via JWKS
     - Token introspection
     - User management
 
     Example:
-        client = IAMClient(
-            client_id="my-app",
-            client_secret="secret",
-            org=Organization.HANZO,
-        )
+        client = IAMClient(config=IAMConfig.from_env())
 
         # Get authorization URL
         url = client.get_authorization_url(
@@ -62,72 +55,27 @@ class IAMClient:
         # Exchange code for tokens
         tokens = client.exchange_code(code, redirect_uri)
 
-        # Validate token
-        claims = client.validate_token(tokens.access_token)
+        # Judge the token — hanzo_iam.tokens.verify, not the client
+        result = verify(tokens.access_token, jwks_uri=..., issuer=...)
     """
 
-    def __init__(
-        self,
-        client_id: str | None = None,
-        client_secret: str | None = None,
-        org: Organization = Organization.HANZO,
-        config: IAMConfig | None = None,
-        bearer_token: str | None = None,
-    ):
+    def __init__(self, config: IAMConfig, bearer_token: str | None = None):
         """Initialize IAM client.
 
         Args:
-            client_id: OAuth2 client ID (or from env)
-            client_secret: OAuth2 client secret (or from env)
-            org: Organization enum (determines IAM URL)
-            config: Full configuration (overrides other args)
-            bearer_token: Bearer token for admin API auth (alternative to client_id/secret)
+            config: Full configuration. Build it directly, or read the
+                environment with ``IAMConfig.from_env()`` — that is the ONE
+                env reader. This constructor used to accept `client_id`,
+                `client_secret` and `org` as well and merge them over a
+                second, private env reader with different defaults; three
+                ways to say the same thing, disagreeing about the tenant.
+            bearer_token: Bearer token for admin API auth. When present it is
+                the credential; the client_id/secret pair is not sent.
         """
-        if config:
-            self._config = config
-        else:
-            env_config = self._config_from_env(org)
-            self._config = IAMConfig(
-                server_url=env_config.server_url,
-                client_id=client_id or env_config.client_id,
-                client_secret=client_secret or env_config.client_secret,
-                organization=env_config.organization,
-                application=env_config.application,
-                certificate=env_config.certificate,
-            )
-
+        self._config = config
         self._bearer_token = bearer_token
         self._http: httpx.Client | None = None
-        self._jwks_client: PyJWKClient | None = None
         self._openid_config: dict | None = None
-
-    @staticmethod
-    def _config_from_env(org: Organization = Organization.HANZO) -> IAMConfig:
-        """Read configuration from environment variables.
-
-        The canonical contract is ``IAM_*`` only — no upstream-brand
-        aliases, no per-org fallbacks (see ~/work/hanzo/iam/CLAUDE.md
-        "Configuration"). The ``org`` argument seeds the default server
-        URL when ``IAM_ENDPOINT`` is unset and the default organization
-        name when ``IAM_ORG`` is unset; it does not influence which env
-        vars are read.
-
-        Environment variables:
-            IAM_ENDPOINT - IAM server URL (defaults to ``org.iam_url``)
-            IAM_CLIENT_ID - OAuth2 client ID
-            IAM_CLIENT_SECRET - OAuth2 client secret
-            IAM_ORG - Organization name (defaults to ``org.value``)
-            IAM_APP - Application name (defaults to ``app``)
-            IAM_CERT - JWT verification certificate
-        """
-        return IAMConfig(
-            server_url=os.getenv("IAM_ENDPOINT", org.iam_url),
-            client_id=os.getenv("IAM_CLIENT_ID", ""),
-            client_secret=os.getenv("IAM_CLIENT_SECRET", ""),
-            organization=os.getenv("IAM_ORG", org.value),
-            application=os.getenv("IAM_APP", "app"),
-            certificate=os.getenv("IAM_CERT", ""),
-        )
 
     @property
     def http(self) -> httpx.Client:
@@ -309,88 +257,6 @@ class IAMClient:
         response.raise_for_status()
         return TokenResponse.model_validate(response.json())
 
-    # =========================================================================
-    # Token Validation
-    # =========================================================================
-
-    def validate_token(
-        self,
-        token: str,
-        verify_exp: bool = True,
-        verify_aud: bool = True,
-    ) -> JWTClaims:
-        """Validate JWT token using JWKS.
-
-        Args:
-            token: JWT access token or ID token
-            verify_exp: Verify expiration (default: True)
-            verify_aud: Verify audience matches client_id (default: True)
-
-        Returns:
-            JWTClaims with decoded token claims.
-
-        Raises:
-            jwt.InvalidTokenError: If token is invalid or expired.
-        """
-        # Initialize JWKS client if needed
-        if self._jwks_client is None:
-            jwks_url = self._config.jwks_uri
-            self._jwks_client = jwt.PyJWKClient(jwks_url)
-
-        # Get signing key from JWKS
-        signing_key = self._jwks_client.get_signing_key_from_jwt(token)
-
-        # Build verification options
-        options = {
-            "verify_exp": verify_exp,
-            "verify_aud": verify_aud,
-        }
-
-        audience = self._config.client_id if verify_aud else None
-
-        # Decode and validate
-        claims = jwt.decode(
-            token,
-            signing_key.key,
-            algorithms=["RS256", "ES256"],
-            audience=audience,
-            options=options,
-        )
-
-        return JWTClaims.model_validate(claims)
-
-    def validate_token_with_cert(
-        self,
-        token: str,
-        verify_exp: bool = True,
-    ) -> JWTClaims:
-        """Validate JWT token using configured certificate.
-
-        Use this when you have the public certificate configured.
-
-        Args:
-            token: JWT access token or ID token
-            verify_exp: Verify expiration (default: True)
-
-        Returns:
-            JWTClaims with decoded token claims.
-        """
-        if not self._config.certificate:
-            raise ValueError(
-                "Certificate not configured. Use validate_token() with JWKS instead."
-            )
-
-        options = {"verify_exp": verify_exp}
-
-        claims = jwt.decode(
-            token,
-            self._config.certificate,
-            algorithms=["RS256"],
-            options=options,
-        )
-
-        return JWTClaims.model_validate(claims)
-
     def introspect_token(self, token: str) -> dict:
         """Introspect token at IAM server.
 
@@ -440,20 +306,20 @@ class IAMClient:
     # Admin Auth Helpers
     # =========================================================================
 
-    def _admin_params(self) -> dict:
-        """Return query params for admin API auth (empty if using bearer token)."""
-        if self._bearer_token:
-            return {}
-        return {
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
+    def _auth_headers(self) -> dict:
+        """Return the Authorization header for an admin API call.
 
-    def _admin_headers(self) -> dict:
-        """Return extra headers for admin API auth (Authorization if bearer token)."""
+        A bearer token, or the confidential-client pair as RFC 6749 2.3.1
+        client_secret_basic. Never a query parameter: iam's Guard reads a
+        credential from `Authorization` only (Basic resolves the application,
+        Bearer resolves the user), and a secret in a URL is disclosed to every
+        access log and proxy on the path. The previous form was both — it
+        leaked the secret AND did not authenticate.
+        """
         if self._bearer_token:
             return {"Authorization": f"Bearer {self._bearer_token}"}
-        return {}
+        pair = f"{self._config.client_id}:{self._config.client_secret}".encode()
+        return {"Authorization": f"Basic {base64.b64encode(pair).decode()}"}
 
     # =========================================================================
     # User Management (IAM Admin API)
@@ -470,13 +336,12 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{user_id}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-user",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -486,21 +351,29 @@ class IAMClient:
 
         return User.model_validate(data.get("data", data))
 
-    def get_users(self) -> list[User]:
-        """Get all users in organization.
+    def get_users(self, owner: str | None = None) -> list[User]:
+        """Get all users in an organization.
+
+        Args:
+            owner: Organization to read (defaults to config.organization).
+                Its neighbours here all took an owner; this one alone bound
+                the config's org with no way to name a tenant, so the same
+                surface answered "may I name a tenant?" two different ways.
+                iam decides whether the caller may read that owner —
+                a named owner is honoured or refused, never silently
+                reinterpreted.
 
         Returns:
             List of User objects.
         """
         params = {
-            "owner": self._config.organization,
-            **self._admin_params(),
+            "owner": owner or self._config.organization,
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-users",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -519,13 +392,12 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{self._config.application}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-application",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -576,8 +448,7 @@ class IAMClient:
         """Modify user via IAM admin API."""
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/{action}",
-            params=self._admin_params(),
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
@@ -592,21 +463,25 @@ class IAMClient:
     # Organization Management
     # =========================================================================
 
-    def get_organizations(self) -> list[dict]:
+    def get_organizations(self, owner: str = "admin") -> list[dict]:
         """Get all organizations.
+
+        Args:
+            owner: Owner of the organization rows (default: admin, the org
+                that holds them). Named, not pinned — same as get_providers
+                and get_applications.
 
         Returns:
             List of organization dicts.
         """
         params = {
-            "owner": "admin",
-            **self._admin_params(),
+            "owner": owner,
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-organizations",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -627,13 +502,12 @@ class IAMClient:
         """
         params = {
             "id": f"admin/{name}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-organization",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -658,13 +532,12 @@ class IAMClient:
         """
         params = {
             "owner": owner,
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-providers",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -689,13 +562,12 @@ class IAMClient:
         """
         params = {
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-roles",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -736,8 +608,7 @@ class IAMClient:
 
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/set-password",
-            params=self._admin_params(),
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
             json=payload,
         )
         response.raise_for_status()
@@ -763,13 +634,12 @@ class IAMClient:
         """
         params = {
             "owner": owner,
-            **self._admin_params(),
         }
 
         response = self.http.get(
             f"{IAM_ROUTE_PREFIX}/get-applications",
             params=params,
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
         )
         response.raise_for_status()
         data = response.json()
@@ -791,8 +661,7 @@ class IAMClient:
         """
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/update-application",
-            params=self._admin_params(),
-            headers=self._admin_headers(),
+            headers=self._auth_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
@@ -843,296 +712,9 @@ class IAMClient:
         if self._http:
             self._http.close()
             self._http = None
-        self._jwks_client = None
 
     def __enter__(self) -> IAMClient:
         return self
 
     def __exit__(self, *args) -> None:
         self.close()
-
-
-class AsyncIAMClient:
-    """
-    Async OAuth2/OIDC client for Hanzo IAM.
-
-    Same interface as IAMClient but uses async/await.
-    """
-
-    def __init__(
-        self,
-        client_id: str | None = None,
-        client_secret: str | None = None,
-        org: Organization = Organization.HANZO,
-        config: IAMConfig | None = None,
-    ):
-        """Initialize async IAM client."""
-        if config:
-            self._config = config
-        else:
-            env_config = IAMClient._config_from_env(org)
-            self._config = IAMConfig(
-                server_url=env_config.server_url,
-                client_id=client_id or env_config.client_id,
-                client_secret=client_secret or env_config.client_secret,
-                organization=env_config.organization,
-                application=env_config.application,
-                certificate=env_config.certificate,
-            )
-
-        self._http: httpx.AsyncClient | None = None
-        self._jwks_client: PyJWKClient | None = None
-        self._openid_config: dict | None = None
-
-    @property
-    def config(self) -> IAMConfig:
-        """Get client configuration."""
-        return self._config
-
-    async def _get_http(self) -> httpx.AsyncClient:
-        """Get or create async HTTP client."""
-        if self._http is None:
-            self._http = httpx.AsyncClient(
-                base_url=self._config.server_url.rstrip("/"),
-                timeout=30.0,
-                headers={
-                    "User-Agent": "hanzo-iam-python/1.0",
-                    "Content-Type": "application/json",
-                },
-            )
-        return self._http
-
-    async def get_openid_configuration(self) -> dict:
-        """Get OpenID Connect discovery document."""
-        if self._openid_config is None:
-            http = await self._get_http()
-            response = await http.get(OIDC_DISCOVERY_PATH)
-            response.raise_for_status()
-            self._openid_config = response.json()
-        return self._openid_config
-
-    async def get_jwks(self) -> dict:
-        """Get JSON Web Key Set."""
-        http = await self._get_http()
-        response = await http.get(OIDC_JWKS_PATH)
-        response.raise_for_status()
-        return response.json()
-
-    def get_authorization_url(
-        self,
-        redirect_uri: str,
-        state: str | None = None,
-        scope: str = "openid profile email",
-        response_type: str = "code",
-        nonce: str | None = None,
-        code_challenge: str | None = None,
-        code_challenge_method: str | None = None,
-    ) -> str:
-        """Build authorization URL."""
-        if state is None:
-            state = secrets.token_urlsafe(32)
-
-        params = {
-            "client_id": self._config.client_id,
-            "redirect_uri": redirect_uri,
-            "response_type": response_type,
-            "scope": scope,
-            "state": state,
-        }
-
-        if nonce:
-            params["nonce"] = nonce
-        if code_challenge:
-            params["code_challenge"] = code_challenge
-            params["code_challenge_method"] = code_challenge_method or "S256"
-
-        base_url = self._config.server_url.rstrip("/")
-        return f"{base_url}{OIDC_AUTHORIZE_PATH}?{urlencode(params)}"
-
-    async def exchange_code(
-        self,
-        code: str,
-        redirect_uri: str,
-        code_verifier: str | None = None,
-    ) -> TokenResponse:
-        """Exchange authorization code for tokens."""
-        data = {
-            "grant_type": "authorization_code",
-            "client_id": self._config.client_id,
-            "client_secret": self._config.client_secret,
-            "code": code,
-            "redirect_uri": redirect_uri,
-        }
-
-        if code_verifier:
-            data["code_verifier"] = code_verifier
-
-        http = await self._get_http()
-        response = await http.post(
-            OIDC_TOKEN_PATH,
-            data=data,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
-
-    async def refresh_token(self, refresh_token: str) -> TokenResponse:
-        """Refresh access token."""
-        data = {
-            "grant_type": "refresh_token",
-            "client_id": self._config.client_id,
-            "client_secret": self._config.client_secret,
-            "refresh_token": refresh_token,
-        }
-
-        http = await self._get_http()
-        response = await http.post(
-            OIDC_TOKEN_PATH,
-            data=data,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
-
-    async def client_credentials(self, scope: str = "openid") -> TokenResponse:
-        """Get access token using client credentials."""
-        data = {
-            "grant_type": "client_credentials",
-            "client_id": self._config.client_id,
-            "client_secret": self._config.client_secret,
-            "scope": scope,
-        }
-
-        http = await self._get_http()
-        response = await http.post(
-            OIDC_TOKEN_PATH,
-            data=data,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
-
-    def validate_token(
-        self,
-        token: str,
-        verify_exp: bool = True,
-        verify_aud: bool = True,
-    ) -> JWTClaims:
-        """Validate JWT token using JWKS (sync operation)."""
-        if self._jwks_client is None:
-            jwks_url = self._config.jwks_uri
-            self._jwks_client = jwt.PyJWKClient(jwks_url)
-
-        signing_key = self._jwks_client.get_signing_key_from_jwt(token)
-
-        options = {
-            "verify_exp": verify_exp,
-            "verify_aud": verify_aud,
-        }
-
-        audience = self._config.client_id if verify_aud else None
-
-        claims = jwt.decode(
-            token,
-            signing_key.key,
-            algorithms=["RS256", "ES256"],
-            audience=audience,
-            options=options,
-        )
-
-        return JWTClaims.model_validate(claims)
-
-    async def introspect_token(self, token: str) -> dict:
-        """Introspect token at IAM server."""
-        data = {
-            "token": token,
-            "client_id": self._config.client_id,
-            "client_secret": self._config.client_secret,
-        }
-
-        http = await self._get_http()
-        response = await http.post(
-            OIDC_INTROSPECT_PATH,
-            data=data,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        response.raise_for_status()
-        return response.json()
-
-    async def get_user_info(self, access_token: str) -> UserInfo:
-        """Get user info from userinfo endpoint."""
-        http = await self._get_http()
-        response = await http.get(
-            OIDC_USERINFO_PATH,
-            headers={"Authorization": f"Bearer {access_token}"},
-        )
-        response.raise_for_status()
-        return UserInfo.model_validate(response.json())
-
-    async def get_user(self, user_id: str) -> User:
-        """Get user by ID."""
-        params = {
-            "id": f"{self._config.organization}/{user_id}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
-        http = await self._get_http()
-        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-user", params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get user"))
-
-        return User.model_validate(data.get("data", data))
-
-    async def get_users(self) -> list[User]:
-        """Get all users in organization."""
-        params = {
-            "owner": self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
-        http = await self._get_http()
-        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-users", params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get users"))
-
-        users_data = data.get("data", data) or []
-        return [User.model_validate(u) for u in users_data]
-
-    async def get_application(self) -> Application:
-        """Get current application configuration."""
-        params = {
-            "id": f"{self._config.organization}/{self._config.application}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
-        http = await self._get_http()
-        response = await http.get(f"{IAM_ROUTE_PREFIX}/get-application", params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get application"))
-
-        return Application.model_validate(data.get("data", data))
-
-    async def close(self) -> None:
-        """Close HTTP client."""
-        if self._http:
-            await self._http.aclose()
-            self._http = None
-        self._jwks_client = None
-
-    async def __aenter__(self) -> AsyncIAMClient:
-        return self
-
-    async def __aexit__(self, *args) -> None:
-        await self.close()

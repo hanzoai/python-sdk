@@ -4,14 +4,16 @@ Provides FastAPI dependencies for authentication and authorization
 using Hanzo IAM (hanzo.id, zoo.id, lux.id, pars.id).
 
 Usage:
+    from hanzo_iam import IAMConfig
     from hanzo_iam.fastapi import configure, require_auth, get_current_user
 
-    # Configure at startup
-    configure(
+    # Configure at startup — one config object, or from_env() to read IAM_*
+    configure(IAMConfig(
+        server_url="https://hanzo.id",
         client_id="your-client-id",
         client_secret="your-client-secret",
-        org="hanzo",
-    )
+        organization="hanzo",
+    ))
 
     # Use in routes
     @app.get("/protected")
@@ -25,7 +27,6 @@ Usage:
 
 from __future__ import annotations
 
-import os
 from typing import Callable
 
 import httpx
@@ -52,42 +53,29 @@ _bearer_required = HTTPBearer(auto_error=True)
 
 
 def configure(
-    client_id: str | None = None,
-    client_secret: str | None = None,
-    org: str | Organization = Organization.HANZO,
+    config: IAMConfig | None = None,
 ) -> IAMConfig:
-    """Configure the global IAM client.
+    """Configure the module-level IAM config.
 
     Args:
-        client_id: OAuth2 client ID (or IAM_CLIENT_ID env var)
-        client_secret: OAuth2 client secret (or IAM_CLIENT_SECRET env var)
-        org: Organization (hanzo, zoo, lux, pars)
+        config: The config this resource server runs on. Omit it to read the
+            environment through ``IAMConfig.from_env()`` — the ONE env reader.
+            This function used to be a THIRD reader of IAM_ENDPOINT/IAM_ORG
+            with its own defaults, and it seeded the org from
+            ``Organization.HANZO``. For a resource server that default is
+            issuer confusion, not a convenience: a Zoo API that forgot to name
+            its org trusted hanzo.id's JWKS and accepted hanzo-issued tokens
+            as its own users. from_env() refuses an unset IAM_ORG instead.
 
     Returns:
         The configured IAMConfig
 
     Raises:
-        ValueError: If client_id is not provided
+        ValueError: If no config is given and IAM_ORG is unset.
     """
     global _config, _jwks_client
 
-    # Resolve organization
-    if isinstance(org, str):
-        org = Organization(org)
-
-    # Get credentials from args or environment (canonical IAM_* only)
-    resolved_client_id = client_id or os.getenv("IAM_CLIENT_ID", "")
-    resolved_client_secret = client_secret or os.getenv("IAM_CLIENT_SECRET", "")
-
-    if not resolved_client_id:
-        raise ValueError("client_id required (or set IAM_CLIENT_ID)")
-
-    _config = IAMConfig(
-        server_url=os.getenv("IAM_ENDPOINT", org.iam_url),
-        client_id=resolved_client_id,
-        client_secret=resolved_client_secret,
-        organization=os.getenv("IAM_ORG", org.value),
-    )
+    _config = config if config is not None else IAMConfig.from_env()
 
     # Reset JWKS client to pick up new config
     _jwks_client = None
