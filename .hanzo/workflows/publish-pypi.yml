@@ -117,10 +117,23 @@ jobs:
           # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
           # packages, HANZO_AI_PYPI_TOKEN the rest. Each upload tries the primary
           # then falls back, so a 403 scope-miss on one is covered by the other.
+          #
+          # `|| true` on the fetch, deliberately. The step runs under
+          # `bash -e -o pipefail`, where `curl -sf` on an ABSENT path exits 22 and
+          # kills the step instantly — before any message of ours can print. That
+          # is exactly what happened on the first run of this job: the log ended at
+          # `exitcode '22': failure` with no error line, which reads like a broken
+          # network or bad credentials and is neither. It was a 404 for a KMS path
+          # that has not been seeded yet. A missing secret must be diagnosable, so
+          # the HTTP status is captured and reported by the guard below instead.
           for KEY in PYPI_TOKEN HANZO_AI_PYPI_TOKEN; do
-            VAL=$(curl -sf "$KMS/v1/kms/orgs/$ORG/secrets/$P/$KEY?env=$ENVN" \
-              -H "Authorization: Bearer $TOKEN" | jq -r '.secret.value // empty')
-            if [ -n "$VAL" ]; then echo "::add-mask::$VAL"; fi
+            BODY=$(curl -s -w '\n%{http_code}' "$KMS/v1/kms/orgs/$ORG/secrets/$P/$KEY?env=$ENVN" \
+              -H "Authorization: Bearer $TOKEN") || true
+            CODE=$(printf '%s' "$BODY" | tail -1)
+            VAL=$(printf '%s' "$BODY" | sed '$d' | jq -r '.secret.value // empty' 2>/dev/null || true)
+            if [ -n "$VAL" ]; then echo "::add-mask::$VAL"; else
+              echo "note: KMS returned HTTP $CODE for $ORG/$ENVN/$P/$KEY (no value)"
+            fi
             echo "$KEY=$VAL" >> "$GITHUB_ENV"
           done
 
