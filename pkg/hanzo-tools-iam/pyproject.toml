@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tools-iam"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hanzo MCP tool for IAM — identity, access management, users, orgs, roles, and permissions"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -22,6 +22,10 @@ classifiers = [
 dependencies = [
     "hanzo-tools-core>=0.1.0",
     "hanzo-tools-auth>=0.1.0",
+    # The endpoint seam (IAM_ROUTE_PREFIX, IAM_WHOAMI_PATH, OIDC_DISCOVERY_PATH)
+    # is spelled once, in hanzo-iam, and imported -- never re-spelled here.
+    # 1.30.4 is the floor because IAM_WHOAMI_PATH lands there.
+    "hanzo-iam>=1.30.4",
     "httpx>=0.27.0",
 ]
 

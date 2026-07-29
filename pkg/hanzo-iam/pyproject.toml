@@ -1,6 +1,6 @@
 [project]
 name = "hanzo-iam"
-version = "1.30.3"
+version = "1.30.4"
 description = "Hanzo IAM SDK - Identity and Access Management for Python"
 readme = "README.md"
 license = { text = "MIT" }

@@ -34,6 +34,23 @@ OIDC_DEVICE_PATH = f"{IAM_ROUTE_PREFIX}/oauth/device"
 OIDC_JWKS_PATH = f"{IAM_ROUTE_PREFIX}/.well-known/jwks"
 OIDC_DISCOVERY_PATH = "/.well-known/openid-configuration"
 
+# The ONE endpoint that answers "which tenant am I". IAM resolves it from the
+# token SUBJECT to the live user row and reports THAT row's owner -- the exact
+# value its authorization layer pins a request to (internal/authz/authz.go
+# principal(): `Org: u.Owner`). Nothing else may be used to scope a read:
+#
+#   - the `owner` CLAIM names the APPLICATION's organization, not the user's.
+#     IAM refuses to derive authority from it by name ("a token whose owner
+#     claim names admin but whose subject is a tenant user gets the tenant's
+#     authority, not the claim's"), and OIDC userinfo echoes that same claim --
+#     so /oauth/userinfo's `owner` field is the wrong tenant by construction.
+#   - configuration names the tenant a process SERVES, which is a different
+#     question from the tenant a caller BELONGS TO.
+#
+# Public by construction: an anonymous caller gets {"status":"error"}, never a
+# 401, so this is reachable before any org-scoped call is attempted.
+IAM_WHOAMI_PATH = f"{IAM_ROUTE_PREFIX}/whoami"
+
 
 class Organization(str, Enum):
     """Hanzo IAM organizations with their identity domains."""
