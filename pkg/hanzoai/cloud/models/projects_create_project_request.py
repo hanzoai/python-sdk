@@ -21,7 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.projects_create_project_request_repo import ProjectsCreateProjectRequestRepo
+from hanzoai.cloud.models.platform_create_app_req_repo import PlatformCreateAppReqRepo
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -33,7 +33,7 @@ class ProjectsCreateProjectRequest(BaseModel):
     slug: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Org-unique handle; derived from name when omitted.")
     description: Optional[StrictStr] = None
     framework: Optional[StrictStr] = Field(default=None, description="Build hint; defaults to \"static\".")
-    repo: Optional[ProjectsCreateProjectRequestRepo] = None
+    repo: Optional[PlatformCreateAppReqRepo] = None
     __properties: ClassVar[List[str]] = ["name", "slug", "description", "framework", "repo"]
 
     @field_validator('slug')
@@ -114,7 +114,7 @@ class ProjectsCreateProjectRequest(BaseModel):
             "slug": obj.get("slug"),
             "description": obj.get("description"),
             "framework": obj.get("framework"),
-            "repo": ProjectsCreateProjectRequestRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None
+            "repo": PlatformCreateAppReqRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None
         })
         return _obj
 

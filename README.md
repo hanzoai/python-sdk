@@ -50,6 +50,34 @@ Every route is `https://api.hanzo.ai/v1/<service>/*`. Models come from the **Zen
 family (our own models) plus any provider you connect — one typed client, no proxy
 in the middle.
 
+## Examples — the six canonical flows
+
+`examples/` carries one directory per flow. These are the same six in every
+Hanzo SDK, so a reader who knows one language's set can navigate another's.
+
+| flow | what it does | routes |
+|---|---|---|
+| [`hello`](examples/hello) | identity — prove the key works | `GET /v1/ai/account` |
+| [`chat`](examples/chat) | one completion | `POST /v1/chat/completions` |
+| [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` |
+| [`store`](examples/store) | KV round-trip | `PUT`/`GET`/`DELETE /v1/kv/keys/{key}` |
+| [`agent`](examples/agent) | create + run + read | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}` |
+| [`tools`](examples/tools) | MCP `tools/list` | `POST /v1/automations/mcp` |
+
+Each reads `HANZO_API_KEY` from the environment and talks to
+`https://api.hanzo.ai` unless `HANZO_BASE_URL` says otherwise:
+
+```bash
+export HANZO_API_KEY=hk-...
+uv run python -m examples.hello
+```
+
+They import from **`hanzoai.cloud`** — the client generated from the Hanzo
+OpenAPI surface (1519 operations, 779 schemas), which is where new work goes.
+`examples/client.py` is the single place a base URL or an env var is resolved.
+CI imports all six on every push, which is what keeps them from rotting into
+pseudocode.
+
 ## Packages
 
 The workspace splits cleanly by concern. The headline packages:

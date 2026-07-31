@@ -20,6 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_chat_choice import AiChatChoice
 from hanzoai.cloud.models.ai_usage import AiUsage
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,7 +33,7 @@ class AiChatCompletionResponse(BaseModel):
     object: Optional[StrictStr] = None
     created: Optional[StrictInt] = None
     model: Optional[StrictStr] = None
-    choices: Optional[List[Dict[str, Any]]] = None
+    choices: Optional[List[AiChatChoice]] = None
     usage: Optional[AiUsage] = None
     __properties: ClassVar[List[str]] = ["id", "object", "created", "model", "choices", "usage"]
 
@@ -75,6 +76,13 @@ class AiChatCompletionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in choices (list)
+        _items = []
+        if self.choices:
+            for _item_choices in self.choices:
+                if _item_choices:
+                    _items.append(_item_choices.to_dict())
+            _dict['choices'] = _items
         # override the default output from pydantic by calling `to_dict()` of usage
         if self.usage:
             _dict['usage'] = self.usage.to_dict()
@@ -94,7 +102,7 @@ class AiChatCompletionResponse(BaseModel):
             "object": obj.get("object"),
             "created": obj.get("created"),
             "model": obj.get("model"),
-            "choices": obj.get("choices"),
+            "choices": [AiChatChoice.from_dict(_item) for _item in obj["choices"]] if obj.get("choices") is not None else None,
             "usage": AiUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None
         })
         return _obj
